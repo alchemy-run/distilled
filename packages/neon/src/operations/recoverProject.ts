@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const RecoverProjectInput = Schema.Struct({
+export const RecoverProjectInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "POST", path: "/projects/{project_id}/recover" }));
 export type RecoverProjectInput = typeof RecoverProjectInput.Type;
 
 // Output Schema
-export const RecoverProjectOutput = Schema.Struct({
+export const RecoverProjectOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project: Schema.Struct({
     data_storage_bytes_hour: Schema.Number,
     data_transfer_bytes: Schema.Number,

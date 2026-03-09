@@ -18,7 +18,9 @@ import { type DefaultErrors } from "../errors";
 
 export interface ListInsightsRequest {}
 
-export const ListInsightsRequest = Schema.Struct({}).pipe(
+export const ListInsightsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights",
@@ -56,7 +58,7 @@ export type ListInsightsResponse = {
   perPage?: number | null;
 }[];
 
-export const ListInsightsResponse = Schema.Array(
+export const ListInsightsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     issues: Schema.optional(
@@ -158,7 +160,7 @@ export const listInsights: API.OperationMethod<
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInsightsRequest,
   output: ListInsightsResponse,
   errors: [],
@@ -174,7 +176,7 @@ export interface DismissInsightRequest {
   dismiss?: boolean;
 }
 
-export const DismissInsightRequest = Schema.Struct({
+export const DismissInsightRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   issueId: Schema.String.pipe(T.HttpPath("issueId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
@@ -203,61 +205,63 @@ export interface DismissInsightResponse {
   success: true;
 }
 
-export const DismissInsightResponse = Schema.Struct({
-  errors: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+export const DismissInsightResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  messages: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  success: Schema.Literal(true),
-}) as unknown as Schema.Schema<DismissInsightResponse>;
+    success: Schema.Literal(true),
+  },
+) as unknown as Schema.Schema<DismissInsightResponse>;
 
 export type DismissInsightError = DefaultErrors;
 
@@ -266,7 +270,7 @@ export const dismissInsight: API.OperationMethod<
   DismissInsightResponse,
   DismissInsightError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DismissInsightRequest,
   output: DismissInsightResponse,
   errors: [],
@@ -278,7 +282,9 @@ export const dismissInsight: API.OperationMethod<
 
 export interface GetInsightClassRequest {}
 
-export const GetInsightClassRequest = Schema.Struct({}).pipe(
+export const GetInsightClassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights/class",
@@ -290,7 +296,7 @@ export type GetInsightClassResponse = {
   value?: string | null;
 }[];
 
-export const GetInsightClassResponse = Schema.Array(
+export const GetInsightClassResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -304,7 +310,7 @@ export const getInsightClass: API.OperationMethod<
   GetInsightClassResponse,
   GetInsightClassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightClassRequest,
   output: GetInsightClassResponse,
   errors: [],
@@ -316,24 +322,26 @@ export const getInsightClass: API.OperationMethod<
 
 export interface GetInsightSeverityRequest {}
 
-export const GetInsightSeverityRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights/severity",
-  }),
-) as unknown as Schema.Schema<GetInsightSeverityRequest>;
+export const GetInsightSeverityRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights/severity",
+    }),
+  ) as unknown as Schema.Schema<GetInsightSeverityRequest>;
 
 export type GetInsightSeverityResponse = {
   count?: number | null;
   value?: string | null;
 }[];
 
-export const GetInsightSeverityResponse = Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<GetInsightSeverityResponse>;
+export const GetInsightSeverityResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<GetInsightSeverityResponse>;
 
 export type GetInsightSeverityError = DefaultErrors;
 
@@ -342,7 +350,7 @@ export const getInsightSeverity: API.OperationMethod<
   GetInsightSeverityResponse,
   GetInsightSeverityError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightSeverityRequest,
   output: GetInsightSeverityResponse,
   errors: [],
@@ -354,7 +362,9 @@ export const getInsightSeverity: API.OperationMethod<
 
 export interface GetInsightTypeRequest {}
 
-export const GetInsightTypeRequest = Schema.Struct({}).pipe(
+export const GetInsightTypeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/security-center/insights/type",
@@ -366,7 +376,7 @@ export type GetInsightTypeResponse = {
   value?: string | null;
 }[];
 
-export const GetInsightTypeResponse = Schema.Array(
+export const GetInsightTypeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -380,7 +390,7 @@ export const getInsightType: API.OperationMethod<
   GetInsightTypeResponse,
   GetInsightTypeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInsightTypeRequest,
   output: GetInsightTypeResponse,
   errors: [],

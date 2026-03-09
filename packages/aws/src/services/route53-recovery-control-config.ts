@@ -140,19 +140,17 @@ export type __stringMin1Max8096PatternS = string;
 export type __mapOf__stringMin0Max256PatternS = {
   [key: string]: string | undefined;
 };
-export const __mapOf__stringMin0Max256PatternS = S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const __mapOf__stringMin0Max256PatternS =
+  /*@__PURE__*/ /*#__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
-export const NetworkType = S.String;
+export const NetworkType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateClusterRequest {
   ClientToken?: string;
   ClusterName?: string;
   Tags?: { [key: string]: string | undefined };
   NetworkType?: NetworkType;
 }
-export const CreateClusterRequest = S.suspend(() =>
+export const CreateClusterRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ClusterName: S.optional(S.String),
@@ -175,19 +173,20 @@ export interface ClusterEndpoint {
   Endpoint?: string;
   Region?: string;
 }
-export const ClusterEndpoint = S.suspend(() =>
+export const ClusterEndpoint = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Endpoint: S.optional(S.String), Region: S.optional(S.String) }),
 ).annotate({
   identifier: "ClusterEndpoint",
 }) as any as S.Schema<ClusterEndpoint>;
 export type __listOfClusterEndpoint = ClusterEndpoint[];
-export const __listOfClusterEndpoint = S.Array(ClusterEndpoint);
+export const __listOfClusterEndpoint =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ClusterEndpoint);
 export type Status =
   | "PENDING"
   | "DEPLOYED"
   | "PENDING_DELETION"
   | (string & {});
-export const Status = S.String;
+export const Status = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Cluster {
   ClusterArn?: string;
   ClusterEndpoints?: ClusterEndpoint[];
@@ -196,7 +195,7 @@ export interface Cluster {
   Owner?: string;
   NetworkType?: NetworkType;
 }
-export const Cluster = S.suspend(() =>
+export const Cluster = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String),
     ClusterEndpoints: S.optional(__listOfClusterEndpoint),
@@ -209,7 +208,7 @@ export const Cluster = S.suspend(() =>
 export interface CreateClusterResponse {
   Cluster?: Cluster;
 }
-export const CreateClusterResponse = S.suspend(() =>
+export const CreateClusterResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }),
 ).annotate({
   identifier: "CreateClusterResponse",
@@ -220,22 +219,23 @@ export interface CreateControlPanelRequest {
   ControlPanelName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateControlPanelRequest = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ClusterArn: S.optional(S.String),
-    ControlPanelName: S.optional(S.String),
-    Tags: S.optional(__mapOf__stringMin0Max256PatternS),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/controlpanel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateControlPanelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      ClusterArn: S.optional(S.String),
+      ControlPanelName: S.optional(S.String),
+      Tags: S.optional(__mapOf__stringMin0Max256PatternS),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/controlpanel" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateControlPanelRequest",
 }) as any as S.Schema<CreateControlPanelRequest>;
@@ -248,7 +248,7 @@ export interface ControlPanel {
   Status?: Status;
   Owner?: string;
 }
-export const ControlPanel = S.suspend(() =>
+export const ControlPanel = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String),
     ControlPanelArn: S.optional(S.String),
@@ -262,8 +262,8 @@ export const ControlPanel = S.suspend(() =>
 export interface CreateControlPanelResponse {
   ControlPanel?: ControlPanel;
 }
-export const CreateControlPanelResponse = S.suspend(() =>
-  S.Struct({ ControlPanel: S.optional(ControlPanel) }),
+export const CreateControlPanelResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ControlPanel: S.optional(ControlPanel) }),
 ).annotate({
   identifier: "CreateControlPanelResponse",
 }) as any as S.Schema<CreateControlPanelResponse>;
@@ -273,25 +273,26 @@ export interface CreateRoutingControlRequest {
   ControlPanelArn?: string;
   RoutingControlName?: string;
 }
-export const CreateRoutingControlRequest = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ClusterArn: S.optional(S.String),
-    ControlPanelArn: S.optional(S.String),
-    RoutingControlName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/routingcontrol" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateRoutingControlRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      ClusterArn: S.optional(S.String),
+      ControlPanelArn: S.optional(S.String),
+      RoutingControlName: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/routingcontrol" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateRoutingControlRequest",
-}) as any as S.Schema<CreateRoutingControlRequest>;
+  ).annotate({
+    identifier: "CreateRoutingControlRequest",
+  }) as any as S.Schema<CreateRoutingControlRequest>;
 export interface RoutingControl {
   ControlPanelArn?: string;
   Name?: string;
@@ -299,7 +300,7 @@ export interface RoutingControl {
   Status?: Status;
   Owner?: string;
 }
-export const RoutingControl = S.suspend(() =>
+export const RoutingControl = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ControlPanelArn: S.optional(S.String),
     Name: S.optional(S.String),
@@ -311,21 +312,23 @@ export const RoutingControl = S.suspend(() =>
 export interface CreateRoutingControlResponse {
   RoutingControl?: RoutingControl;
 }
-export const CreateRoutingControlResponse = S.suspend(() =>
-  S.Struct({ RoutingControl: S.optional(RoutingControl) }),
-).annotate({
-  identifier: "CreateRoutingControlResponse",
-}) as any as S.Schema<CreateRoutingControlResponse>;
+export const CreateRoutingControlResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RoutingControl: S.optional(RoutingControl) }),
+  ).annotate({
+    identifier: "CreateRoutingControlResponse",
+  }) as any as S.Schema<CreateRoutingControlResponse>;
 export type __listOf__stringMin1Max256PatternAZaZ09 = string[];
-export const __listOf__stringMin1Max256PatternAZaZ09 = S.Array(S.String);
+export const __listOf__stringMin1Max256PatternAZaZ09 =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type RuleType = "ATLEAST" | "AND" | "OR" | (string & {});
-export const RuleType = S.String;
+export const RuleType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RuleConfig {
   Inverted?: boolean;
   Threshold?: number;
   Type?: RuleType;
 }
-export const RuleConfig = S.suspend(() =>
+export const RuleConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Inverted: S.optional(S.Boolean),
     Threshold: S.optional(S.Number),
@@ -339,7 +342,7 @@ export interface NewAssertionRule {
   RuleConfig?: RuleConfig;
   WaitPeriodMs?: number;
 }
-export const NewAssertionRule = S.suspend(() =>
+export const NewAssertionRule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AssertedControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
     ControlPanelArn: S.optional(S.String),
@@ -358,7 +361,7 @@ export interface NewGatingRule {
   TargetControls?: string[];
   WaitPeriodMs?: number;
 }
-export const NewGatingRule = S.suspend(() =>
+export const NewGatingRule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ControlPanelArn: S.optional(S.String),
     GatingControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
@@ -374,22 +377,23 @@ export interface CreateSafetyRuleRequest {
   GatingRule?: NewGatingRule;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateSafetyRuleRequest = S.suspend(() =>
-  S.Struct({
-    AssertionRule: S.optional(NewAssertionRule),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    GatingRule: S.optional(NewGatingRule),
-    Tags: S.optional(__mapOf__stringMin0Max256PatternS),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/safetyrule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateSafetyRuleRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssertionRule: S.optional(NewAssertionRule),
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      GatingRule: S.optional(NewGatingRule),
+      Tags: S.optional(__mapOf__stringMin0Max256PatternS),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/safetyrule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSafetyRuleRequest",
 }) as any as S.Schema<CreateSafetyRuleRequest>;
@@ -403,7 +407,7 @@ export interface AssertionRule {
   WaitPeriodMs?: number;
   Owner?: string;
 }
-export const AssertionRule = S.suspend(() =>
+export const AssertionRule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AssertedControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
     ControlPanelArn: S.optional(S.String),
@@ -426,7 +430,7 @@ export interface GatingRule {
   WaitPeriodMs?: number;
   Owner?: string;
 }
-export const GatingRule = S.suspend(() =>
+export const GatingRule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ControlPanelArn: S.optional(S.String),
     GatingControls: S.optional(__listOf__stringMin1Max256PatternAZaZ09),
@@ -468,18 +472,19 @@ export interface CreateSafetyRuleResponse {
     WaitPeriodMs: number;
   };
 }
-export const CreateSafetyRuleResponse = S.suspend(() =>
-  S.Struct({
-    AssertionRule: S.optional(AssertionRule),
-    GatingRule: S.optional(GatingRule),
-  }),
+export const CreateSafetyRuleResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssertionRule: S.optional(AssertionRule),
+      GatingRule: S.optional(GatingRule),
+    }),
 ).annotate({
   identifier: "CreateSafetyRuleResponse",
 }) as any as S.Schema<CreateSafetyRuleResponse>;
 export interface DeleteClusterRequest {
   ClusterArn: string;
 }
-export const DeleteClusterRequest = S.suspend(() =>
+export const DeleteClusterRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/cluster/{ClusterArn}" }),
@@ -494,173 +499,192 @@ export const DeleteClusterRequest = S.suspend(() =>
   identifier: "DeleteClusterRequest",
 }) as any as S.Schema<DeleteClusterRequest>;
 export interface DeleteClusterResponse {}
-export const DeleteClusterResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteClusterResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
 export interface DeleteControlPanelRequest {
   ControlPanelArn: string;
 }
-export const DeleteControlPanelRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/controlpanel/{ControlPanelArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteControlPanelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/controlpanel/{ControlPanelArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteControlPanelRequest",
 }) as any as S.Schema<DeleteControlPanelRequest>;
 export interface DeleteControlPanelResponse {}
-export const DeleteControlPanelResponse = S.suspend(() =>
-  S.Struct({}),
+export const DeleteControlPanelResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
 ).annotate({
   identifier: "DeleteControlPanelResponse",
 }) as any as S.Schema<DeleteControlPanelResponse>;
 export interface DeleteRoutingControlRequest {
   RoutingControlArn: string;
 }
-export const DeleteRoutingControlRequest = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/routingcontrol/{RoutingControlArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteRoutingControlRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/routingcontrol/{RoutingControlArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteRoutingControlRequest",
-}) as any as S.Schema<DeleteRoutingControlRequest>;
+  ).annotate({
+    identifier: "DeleteRoutingControlRequest",
+  }) as any as S.Schema<DeleteRoutingControlRequest>;
 export interface DeleteRoutingControlResponse {}
-export const DeleteRoutingControlResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRoutingControlResponse",
-}) as any as S.Schema<DeleteRoutingControlResponse>;
+export const DeleteRoutingControlResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteRoutingControlResponse",
+  }) as any as S.Schema<DeleteRoutingControlResponse>;
 export interface DeleteSafetyRuleRequest {
   SafetyRuleArn: string;
 }
-export const DeleteSafetyRuleRequest = S.suspend(() =>
-  S.Struct({ SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/safetyrule/{SafetyRuleArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteSafetyRuleRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/safetyrule/{SafetyRuleArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteSafetyRuleRequest",
 }) as any as S.Schema<DeleteSafetyRuleRequest>;
 export interface DeleteSafetyRuleResponse {}
-export const DeleteSafetyRuleResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteSafetyRuleResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteSafetyRuleResponse",
 }) as any as S.Schema<DeleteSafetyRuleResponse>;
 export interface DescribeClusterRequest {
   ClusterArn: string;
 }
-export const DescribeClusterRequest = S.suspend(() =>
-  S.Struct({ ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{ClusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeClusterRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/cluster/{ClusterArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeClusterRequest",
 }) as any as S.Schema<DescribeClusterRequest>;
 export interface DescribeClusterResponse {
   Cluster?: Cluster;
 }
-export const DescribeClusterResponse = S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }),
+export const DescribeClusterResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Cluster: S.optional(Cluster) }),
 ).annotate({
   identifier: "DescribeClusterResponse",
 }) as any as S.Schema<DescribeClusterResponse>;
 export interface DescribeControlPanelRequest {
   ControlPanelArn: string;
 }
-export const DescribeControlPanelRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/controlpanel/{ControlPanelArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeControlPanelRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/controlpanel/{ControlPanelArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeControlPanelRequest",
-}) as any as S.Schema<DescribeControlPanelRequest>;
+  ).annotate({
+    identifier: "DescribeControlPanelRequest",
+  }) as any as S.Schema<DescribeControlPanelRequest>;
 export interface DescribeControlPanelResponse {
   ControlPanel?: ControlPanel;
 }
-export const DescribeControlPanelResponse = S.suspend(() =>
-  S.Struct({ ControlPanel: S.optional(ControlPanel) }),
-).annotate({
-  identifier: "DescribeControlPanelResponse",
-}) as any as S.Schema<DescribeControlPanelResponse>;
+export const DescribeControlPanelResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ControlPanel: S.optional(ControlPanel) }),
+  ).annotate({
+    identifier: "DescribeControlPanelResponse",
+  }) as any as S.Schema<DescribeControlPanelResponse>;
 export interface DescribeRoutingControlRequest {
   RoutingControlArn: string;
 }
-export const DescribeRoutingControlRequest = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/routingcontrol/{RoutingControlArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeRoutingControlRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/routingcontrol/{RoutingControlArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeRoutingControlRequest",
-}) as any as S.Schema<DescribeRoutingControlRequest>;
+  ).annotate({
+    identifier: "DescribeRoutingControlRequest",
+  }) as any as S.Schema<DescribeRoutingControlRequest>;
 export interface DescribeRoutingControlResponse {
   RoutingControl?: RoutingControl;
 }
-export const DescribeRoutingControlResponse = S.suspend(() =>
-  S.Struct({ RoutingControl: S.optional(RoutingControl) }),
-).annotate({
-  identifier: "DescribeRoutingControlResponse",
-}) as any as S.Schema<DescribeRoutingControlResponse>;
+export const DescribeRoutingControlResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RoutingControl: S.optional(RoutingControl) }),
+  ).annotate({
+    identifier: "DescribeRoutingControlResponse",
+  }) as any as S.Schema<DescribeRoutingControlResponse>;
 export interface DescribeSafetyRuleRequest {
   SafetyRuleArn: string;
 }
-export const DescribeSafetyRuleRequest = S.suspend(() =>
-  S.Struct({ SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/safetyrule/{SafetyRuleArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeSafetyRuleRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/safetyrule/{SafetyRuleArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeSafetyRuleRequest",
 }) as any as S.Schema<DescribeSafetyRuleRequest>;
@@ -693,36 +717,38 @@ export interface DescribeSafetyRuleResponse {
     WaitPeriodMs: number;
   };
 }
-export const DescribeSafetyRuleResponse = S.suspend(() =>
-  S.Struct({
-    AssertionRule: S.optional(AssertionRule),
-    GatingRule: S.optional(GatingRule),
-  }),
+export const DescribeSafetyRuleResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssertionRule: S.optional(AssertionRule),
+      GatingRule: S.optional(GatingRule),
+    }),
 ).annotate({
   identifier: "DescribeSafetyRuleResponse",
 }) as any as S.Schema<DescribeSafetyRuleResponse>;
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
-export const GetResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/resourcePolicy/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetResourcePolicyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/resourcePolicy/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetResourcePolicyRequest",
 }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResponse {
   Policy?: string;
 }
-export const GetResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
+export const GetResourcePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Policy: S.optional(S.String) }),
 ).annotate({
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
@@ -731,46 +757,49 @@ export interface ListAssociatedRoute53HealthChecksRequest {
   NextToken?: string;
   RoutingControlArn: string;
 }
-export const ListAssociatedRoute53HealthChecksRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/routingcontrol/{RoutingControlArn}/associatedRoute53HealthChecks",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAssociatedRoute53HealthChecksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+      RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/routingcontrol/{RoutingControlArn}/associatedRoute53HealthChecks",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAssociatedRoute53HealthChecksRequest",
-}) as any as S.Schema<ListAssociatedRoute53HealthChecksRequest>;
+  ).annotate({
+    identifier: "ListAssociatedRoute53HealthChecksRequest",
+  }) as any as S.Schema<ListAssociatedRoute53HealthChecksRequest>;
 export type __listOf__stringMax36PatternS = string[];
-export const __listOf__stringMax36PatternS = S.Array(S.String);
+export const __listOf__stringMax36PatternS =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListAssociatedRoute53HealthChecksResponse {
   HealthCheckIds?: string[];
   NextToken?: string;
 }
-export const ListAssociatedRoute53HealthChecksResponse = S.suspend(() =>
-  S.Struct({
-    HealthCheckIds: S.optional(__listOf__stringMax36PatternS),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssociatedRoute53HealthChecksResponse",
-}) as any as S.Schema<ListAssociatedRoute53HealthChecksResponse>;
+export const ListAssociatedRoute53HealthChecksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HealthCheckIds: S.optional(__listOf__stringMax36PatternS),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListAssociatedRoute53HealthChecksResponse",
+  }) as any as S.Schema<ListAssociatedRoute53HealthChecksResponse>;
 export interface ListClustersRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListClustersRequest = S.suspend(() =>
+export const ListClustersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -788,12 +817,12 @@ export const ListClustersRequest = S.suspend(() =>
   identifier: "ListClustersRequest",
 }) as any as S.Schema<ListClustersRequest>;
 export type __listOfCluster = Cluster[];
-export const __listOfCluster = S.Array(Cluster);
+export const __listOfCluster = /*@__PURE__*/ /*#__PURE__*/ S.Array(Cluster);
 export interface ListClustersResponse {
   Clusters?: Cluster[];
   NextToken?: string;
 }
-export const ListClustersResponse = S.suspend(() =>
+export const ListClustersResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Clusters: S.optional(__listOfCluster),
     NextToken: S.optional(S.String),
@@ -806,35 +835,38 @@ export interface ListControlPanelsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListControlPanelsRequest = S.suspend(() =>
-  S.Struct({
-    ClusterArn: S.optional(S.String).pipe(T.HttpQuery("ClusterArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/controlpanels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListControlPanelsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClusterArn: S.optional(S.String).pipe(T.HttpQuery("ClusterArn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/controlpanels" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListControlPanelsRequest",
 }) as any as S.Schema<ListControlPanelsRequest>;
 export type __listOfControlPanel = ControlPanel[];
-export const __listOfControlPanel = S.Array(ControlPanel);
+export const __listOfControlPanel =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ControlPanel);
 export interface ListControlPanelsResponse {
   ControlPanels?: ControlPanel[];
   NextToken?: string;
 }
-export const ListControlPanelsResponse = S.suspend(() =>
-  S.Struct({
-    ControlPanels: S.optional(__listOfControlPanel),
-    NextToken: S.optional(S.String),
-  }),
+export const ListControlPanelsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanels: S.optional(__listOfControlPanel),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListControlPanelsResponse",
 }) as any as S.Schema<ListControlPanelsResponse>;
@@ -843,64 +875,68 @@ export interface ListRoutingControlsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRoutingControlsRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/controlpanel/{ControlPanelArn}/routingcontrols",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListRoutingControlsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/controlpanel/{ControlPanelArn}/routingcontrols",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListRoutingControlsRequest",
 }) as any as S.Schema<ListRoutingControlsRequest>;
 export type __listOfRoutingControl = RoutingControl[];
-export const __listOfRoutingControl = S.Array(RoutingControl);
+export const __listOfRoutingControl =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RoutingControl);
 export interface ListRoutingControlsResponse {
   NextToken?: string;
   RoutingControls?: RoutingControl[];
 }
-export const ListRoutingControlsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RoutingControls: S.optional(__listOfRoutingControl),
-  }),
-).annotate({
-  identifier: "ListRoutingControlsResponse",
-}) as any as S.Schema<ListRoutingControlsResponse>;
+export const ListRoutingControlsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      RoutingControls: S.optional(__listOfRoutingControl),
+    }),
+  ).annotate({
+    identifier: "ListRoutingControlsResponse",
+  }) as any as S.Schema<ListRoutingControlsResponse>;
 export interface ListSafetyRulesRequest {
   ControlPanelArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListSafetyRulesRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/controlpanel/{ControlPanelArn}/safetyrules",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListSafetyRulesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/controlpanel/{ControlPanelArn}/safetyrules",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListSafetyRulesRequest",
 }) as any as S.Schema<ListSafetyRulesRequest>;
@@ -908,14 +944,14 @@ export interface Rule {
   ASSERTION?: AssertionRule;
   GATING?: GatingRule;
 }
-export const Rule = S.suspend(() =>
+export const Rule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ASSERTION: S.optional(AssertionRule),
     GATING: S.optional(GatingRule),
   }),
 ).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type __listOfRule = Rule[];
-export const __listOfRule = S.Array(Rule);
+export const __listOfRule = /*@__PURE__*/ /*#__PURE__*/ S.Array(Rule);
 export interface ListSafetyRulesResponse {
   NextToken?: string;
   SafetyRules?: (Rule & {
@@ -948,44 +984,47 @@ export interface ListSafetyRulesResponse {
     };
   })[];
 }
-export const ListSafetyRulesResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SafetyRules: S.optional(__listOfRule),
-  }),
+export const ListSafetyRulesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      SafetyRules: S.optional(__listOfRule),
+    }),
 ).annotate({
   identifier: "ListSafetyRulesResponse",
 }) as any as S.Schema<ListSafetyRulesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__stringMin0Max256PatternS) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(__mapOf__stringMin0Max256PatternS) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(__mapOf__stringMin0Max256PatternS),
@@ -1003,16 +1042,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type __listOf__string = string[];
-export const __listOf__string = S.Array(S.String);
+export const __listOf__string = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("TagKeys")),
@@ -1030,14 +1071,16 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterRequest {
   ClusterArn?: string;
   NetworkType?: NetworkType;
 }
-export const UpdateClusterRequest = S.suspend(() =>
+export const UpdateClusterRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterArn: S.optional(S.String),
     NetworkType: S.optional(NetworkType),
@@ -1057,7 +1100,7 @@ export const UpdateClusterRequest = S.suspend(() =>
 export interface UpdateClusterResponse {
   Cluster?: Cluster;
 }
-export const UpdateClusterResponse = S.suspend(() =>
+export const UpdateClusterResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }),
 ).annotate({
   identifier: "UpdateClusterResponse",
@@ -1066,28 +1109,29 @@ export interface UpdateControlPanelRequest {
   ControlPanelArn?: string;
   ControlPanelName?: string;
 }
-export const UpdateControlPanelRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.optional(S.String),
-    ControlPanelName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/controlpanel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateControlPanelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanelArn: S.optional(S.String),
+      ControlPanelName: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/controlpanel" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateControlPanelRequest",
 }) as any as S.Schema<UpdateControlPanelRequest>;
 export interface UpdateControlPanelResponse {
   ControlPanel?: ControlPanel;
 }
-export const UpdateControlPanelResponse = S.suspend(() =>
-  S.Struct({ ControlPanel: S.optional(ControlPanel) }),
+export const UpdateControlPanelResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ControlPanel: S.optional(ControlPanel) }),
 ).annotate({
   identifier: "UpdateControlPanelResponse",
 }) as any as S.Schema<UpdateControlPanelResponse>;
@@ -1095,37 +1139,39 @@ export interface UpdateRoutingControlRequest {
   RoutingControlArn?: string;
   RoutingControlName?: string;
 }
-export const UpdateRoutingControlRequest = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.optional(S.String),
-    RoutingControlName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/routingcontrol" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateRoutingControlRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.optional(S.String),
+      RoutingControlName: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/routingcontrol" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateRoutingControlRequest",
-}) as any as S.Schema<UpdateRoutingControlRequest>;
+  ).annotate({
+    identifier: "UpdateRoutingControlRequest",
+  }) as any as S.Schema<UpdateRoutingControlRequest>;
 export interface UpdateRoutingControlResponse {
   RoutingControl?: RoutingControl;
 }
-export const UpdateRoutingControlResponse = S.suspend(() =>
-  S.Struct({ RoutingControl: S.optional(RoutingControl) }),
-).annotate({
-  identifier: "UpdateRoutingControlResponse",
-}) as any as S.Schema<UpdateRoutingControlResponse>;
+export const UpdateRoutingControlResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RoutingControl: S.optional(RoutingControl) }),
+  ).annotate({
+    identifier: "UpdateRoutingControlResponse",
+  }) as any as S.Schema<UpdateRoutingControlResponse>;
 export interface AssertionRuleUpdate {
   Name?: string;
   SafetyRuleArn?: string;
   WaitPeriodMs?: number;
 }
-export const AssertionRuleUpdate = S.suspend(() =>
+export const AssertionRuleUpdate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     SafetyRuleArn: S.optional(S.String),
@@ -1139,7 +1185,7 @@ export interface GatingRuleUpdate {
   SafetyRuleArn?: string;
   WaitPeriodMs?: number;
 }
-export const GatingRuleUpdate = S.suspend(() =>
+export const GatingRuleUpdate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     SafetyRuleArn: S.optional(S.String),
@@ -1152,20 +1198,21 @@ export interface UpdateSafetyRuleRequest {
   AssertionRuleUpdate?: AssertionRuleUpdate;
   GatingRuleUpdate?: GatingRuleUpdate;
 }
-export const UpdateSafetyRuleRequest = S.suspend(() =>
-  S.Struct({
-    AssertionRuleUpdate: S.optional(AssertionRuleUpdate),
-    GatingRuleUpdate: S.optional(GatingRuleUpdate),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/safetyrule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateSafetyRuleRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssertionRuleUpdate: S.optional(AssertionRuleUpdate),
+      GatingRuleUpdate: S.optional(GatingRuleUpdate),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/safetyrule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateSafetyRuleRequest",
 }) as any as S.Schema<UpdateSafetyRuleRequest>;
@@ -1198,11 +1245,12 @@ export interface UpdateSafetyRuleResponse {
     WaitPeriodMs: number;
   };
 }
-export const UpdateSafetyRuleResponse = S.suspend(() =>
-  S.Struct({
-    AssertionRule: S.optional(AssertionRule),
-    GatingRule: S.optional(GatingRule),
-  }),
+export const UpdateSafetyRuleResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssertionRule: S.optional(AssertionRule),
+      GatingRule: S.optional(GatingRule),
+    }),
 ).annotate({
   identifier: "UpdateSafetyRuleResponse",
 }) as any as S.Schema<UpdateSafetyRuleResponse>;

@@ -30,7 +30,7 @@ export interface SiteVerificationWebResourceGettokenRequest {
 }
 
 export const SiteVerificationWebResourceGettokenRequest: Schema.Schema<SiteVerificationWebResourceGettokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       site: Schema.optional(
         Schema.Struct({
@@ -54,7 +54,7 @@ export interface SiteVerificationWebResourceResource {
 }
 
 export const SiteVerificationWebResourceResource: Schema.Schema<SiteVerificationWebResourceResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       site: Schema.optional(
         Schema.Struct({
@@ -75,7 +75,7 @@ export interface SiteVerificationWebResourceListResponse {
 }
 
 export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerificationWebResourceListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       items: Schema.optional(Schema.Array(SiteVerificationWebResourceResource)),
     }),
@@ -91,7 +91,7 @@ export interface SiteVerificationWebResourceGettokenResponse {
 }
 
 export const SiteVerificationWebResourceGettokenResponse: Schema.Schema<SiteVerificationWebResourceGettokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
       method: Schema.optional(Schema.String),
@@ -111,16 +111,20 @@ export interface InsertWebResourceRequest {
   body?: SiteVerificationWebResourceResource;
 }
 
-export const InsertWebResourceRequest = Schema.Struct({
-  verificationMethod: Schema.String.pipe(T.HttpQuery("verificationMethod")),
-  body: Schema.optional(SiteVerificationWebResourceResource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "webResource", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertWebResourceRequest>;
+export const InsertWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    verificationMethod: Schema.String.pipe(T.HttpQuery("verificationMethod")),
+    body: Schema.optional(SiteVerificationWebResourceResource).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "webResource", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<InsertWebResourceRequest>;
 
 export type InsertWebResourceResponse = SiteVerificationWebResourceResource;
-export const InsertWebResourceResponse = SiteVerificationWebResourceResource;
+export const InsertWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
 
 export type InsertWebResourceError = DefaultErrors;
 
@@ -130,7 +134,7 @@ export const insertWebResource: API.OperationMethod<
   InsertWebResourceResponse,
   InsertWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertWebResourceRequest,
   output: InsertWebResourceResponse,
   errors: [],
@@ -141,7 +145,7 @@ export interface GetWebResourceRequest {
   id: string;
 }
 
-export const GetWebResourceRequest = Schema.Struct({
+export const GetWebResourceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
   T.Http({ method: "GET", path: "webResource/{id}" }),
@@ -149,7 +153,8 @@ export const GetWebResourceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetWebResourceRequest>;
 
 export type GetWebResourceResponse = SiteVerificationWebResourceResource;
-export const GetWebResourceResponse = SiteVerificationWebResourceResource;
+export const GetWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
 
 export type GetWebResourceError = DefaultErrors;
 
@@ -159,7 +164,7 @@ export const getWebResource: API.OperationMethod<
   GetWebResourceResponse,
   GetWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWebResourceRequest,
   output: GetWebResourceResponse,
   errors: [],
@@ -172,16 +177,20 @@ export interface PatchWebResourceRequest {
   body?: SiteVerificationWebResourceResource;
 }
 
-export const PatchWebResourceRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(SiteVerificationWebResourceResource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "webResource/{id}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchWebResourceRequest>;
+export const PatchWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(SiteVerificationWebResourceResource).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "PATCH", path: "webResource/{id}", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<PatchWebResourceRequest>;
 
 export type PatchWebResourceResponse = SiteVerificationWebResourceResource;
-export const PatchWebResourceResponse = SiteVerificationWebResourceResource;
+export const PatchWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
 
 export type PatchWebResourceError = DefaultErrors;
 
@@ -191,7 +200,7 @@ export const patchWebResource: API.OperationMethod<
   PatchWebResourceResponse,
   PatchWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchWebResourceRequest,
   output: PatchWebResourceResponse,
   errors: [],
@@ -202,16 +211,19 @@ export interface DeleteWebResourceRequest {
   id: string;
 }
 
-export const DeleteWebResourceRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "webResource/{id}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteWebResourceRequest>;
+export const DeleteWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "webResource/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteWebResourceRequest>;
 
 export interface DeleteWebResourceResponse {}
 export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteWebResourceResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteWebResourceResponse>;
 
 export type DeleteWebResourceError = DefaultErrors;
 
@@ -221,7 +233,7 @@ export const deleteWebResource: API.OperationMethod<
   DeleteWebResourceResponse,
   DeleteWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWebResourceRequest,
   output: DeleteWebResourceResponse,
   errors: [],
@@ -234,16 +246,20 @@ export interface UpdateWebResourceRequest {
   body?: SiteVerificationWebResourceResource;
 }
 
-export const UpdateWebResourceRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(SiteVerificationWebResourceResource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PUT", path: "webResource/{id}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateWebResourceRequest>;
+export const UpdateWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(SiteVerificationWebResourceResource).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "PUT", path: "webResource/{id}", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateWebResourceRequest>;
 
 export type UpdateWebResourceResponse = SiteVerificationWebResourceResource;
-export const UpdateWebResourceResponse = SiteVerificationWebResourceResource;
+export const UpdateWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
 
 export type UpdateWebResourceError = DefaultErrors;
 
@@ -253,7 +269,7 @@ export const updateWebResource: API.OperationMethod<
   UpdateWebResourceResponse,
   UpdateWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebResourceRequest,
   output: UpdateWebResourceResponse,
   errors: [],
@@ -264,19 +280,20 @@ export interface GetTokenWebResourceRequest {
   body?: SiteVerificationWebResourceGettokenRequest;
 }
 
-export const GetTokenWebResourceRequest = Schema.Struct({
-  body: Schema.optional(SiteVerificationWebResourceGettokenRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "token", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetTokenWebResourceRequest>;
+export const GetTokenWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(SiteVerificationWebResourceGettokenRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "token", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<GetTokenWebResourceRequest>;
 
 export type GetTokenWebResourceResponse =
   SiteVerificationWebResourceGettokenResponse;
 export const GetTokenWebResourceResponse =
-  SiteVerificationWebResourceGettokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceGettokenResponse;
 
 export type GetTokenWebResourceError = DefaultErrors;
 
@@ -286,7 +303,7 @@ export const getTokenWebResource: API.OperationMethod<
   GetTokenWebResourceResponse,
   GetTokenWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenWebResourceRequest,
   output: GetTokenWebResourceResponse,
   errors: [],
@@ -294,13 +311,16 @@ export const getTokenWebResource: API.OperationMethod<
 
 export interface ListWebResourceRequest {}
 
-export const ListWebResourceRequest = Schema.Struct({}).pipe(
+export const ListWebResourceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "webResource" }),
   svc,
 ) as unknown as Schema.Schema<ListWebResourceRequest>;
 
 export type ListWebResourceResponse = SiteVerificationWebResourceListResponse;
-export const ListWebResourceResponse = SiteVerificationWebResourceListResponse;
+export const ListWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceListResponse;
 
 export type ListWebResourceError = DefaultErrors;
 
@@ -310,7 +330,7 @@ export const listWebResource: API.OperationMethod<
   ListWebResourceResponse,
   ListWebResourceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebResourceRequest,
   output: ListWebResourceResponse,
   errors: [],

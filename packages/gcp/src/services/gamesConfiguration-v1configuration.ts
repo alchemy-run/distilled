@@ -31,16 +31,16 @@ export interface LocalizedString {
   value?: string;
 }
 
-export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(
-  () =>
+export const LocalizedString: Schema.Schema<LocalizedString> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       locale: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LocalizedString",
-}) as any as Schema.Schema<LocalizedString>;
+  ).annotate({
+    identifier: "LocalizedString",
+  }) as any as Schema.Schema<LocalizedString>;
 
 export interface LocalizedStringBundle {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#localizedStringBundle`. */
@@ -50,7 +50,7 @@ export interface LocalizedStringBundle {
 }
 
 export const LocalizedStringBundle: Schema.Schema<LocalizedStringBundle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       translations: Schema.optional(Schema.Array(LocalizedString)),
@@ -75,7 +75,7 @@ export interface AchievementConfigurationDetail {
 }
 
 export const AchievementConfigurationDetail: Schema.Schema<AchievementConfigurationDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       name: Schema.optional(LocalizedStringBundle),
@@ -116,7 +116,7 @@ export interface AchievementConfiguration {
 }
 
 export const AchievementConfiguration: Schema.Schema<AchievementConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       token: Schema.optional(Schema.String),
@@ -141,7 +141,7 @@ export interface AchievementConfigurationListResponse {
 }
 
 export const AchievementConfigurationListResponse: Schema.Schema<AchievementConfigurationListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(AchievementConfiguration)),
@@ -167,7 +167,7 @@ export interface GamesNumberAffixConfiguration {
 }
 
 export const GamesNumberAffixConfiguration: Schema.Schema<GamesNumberAffixConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zero: Schema.optional(LocalizedStringBundle),
       one: Schema.optional(LocalizedStringBundle),
@@ -197,7 +197,7 @@ export interface GamesNumberFormatConfiguration {
 }
 
 export const GamesNumberFormatConfiguration: Schema.Schema<GamesNumberFormatConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numberFormatType: Schema.optional(Schema.String),
       suffix: Schema.optional(GamesNumberAffixConfiguration),
@@ -222,7 +222,7 @@ export interface LeaderboardConfigurationDetail {
 }
 
 export const LeaderboardConfigurationDetail: Schema.Schema<LeaderboardConfigurationDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       name: Schema.optional(LocalizedStringBundle),
@@ -257,7 +257,7 @@ export interface LeaderboardConfiguration {
 }
 
 export const LeaderboardConfiguration: Schema.Schema<LeaderboardConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       token: Schema.optional(Schema.String),
@@ -282,7 +282,7 @@ export interface LeaderboardConfigurationListResponse {
 }
 
 export const LeaderboardConfigurationListResponse: Schema.Schema<LeaderboardConfigurationListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(LeaderboardConfiguration)),
@@ -301,19 +301,20 @@ export interface DeleteAchievementConfigurationsRequest {
   achievementId: string;
 }
 
-export const DeleteAchievementConfigurationsRequest = Schema.Struct({
-  achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "games/v1configuration/achievements/{achievementId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAchievementConfigurationsRequest>;
+export const DeleteAchievementConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "games/v1configuration/achievements/{achievementId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAchievementConfigurationsRequest>;
 
 export interface DeleteAchievementConfigurationsResponse {}
 export const DeleteAchievementConfigurationsResponse: Schema.Schema<DeleteAchievementConfigurationsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAchievementConfigurationsResponse>;
 
@@ -325,7 +326,7 @@ export const deleteAchievementConfigurations: API.OperationMethod<
   DeleteAchievementConfigurationsResponse,
   DeleteAchievementConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAchievementConfigurationsRequest,
   output: DeleteAchievementConfigurationsResponse,
   errors: [],
@@ -336,18 +337,20 @@ export interface GetAchievementConfigurationsRequest {
   achievementId: string;
 }
 
-export const GetAchievementConfigurationsRequest = Schema.Struct({
-  achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "games/v1configuration/achievements/{achievementId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAchievementConfigurationsRequest>;
+export const GetAchievementConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "games/v1configuration/achievements/{achievementId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAchievementConfigurationsRequest>;
 
 export type GetAchievementConfigurationsResponse = AchievementConfiguration;
-export const GetAchievementConfigurationsResponse = AchievementConfiguration;
+export const GetAchievementConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AchievementConfiguration;
 
 export type GetAchievementConfigurationsError = DefaultErrors;
 
@@ -357,7 +360,7 @@ export const getAchievementConfigurations: API.OperationMethod<
   GetAchievementConfigurationsResponse,
   GetAchievementConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAchievementConfigurationsRequest,
   output: GetAchievementConfigurationsResponse,
   errors: [],
@@ -370,20 +373,22 @@ export interface InsertAchievementConfigurationsRequest {
   body?: AchievementConfiguration;
 }
 
-export const InsertAchievementConfigurationsRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  body: Schema.optional(AchievementConfiguration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1configuration/applications/{applicationId}/achievements",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAchievementConfigurationsRequest>;
+export const InsertAchievementConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    body: Schema.optional(AchievementConfiguration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1configuration/applications/{applicationId}/achievements",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAchievementConfigurationsRequest>;
 
 export type InsertAchievementConfigurationsResponse = AchievementConfiguration;
-export const InsertAchievementConfigurationsResponse = AchievementConfiguration;
+export const InsertAchievementConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AchievementConfiguration;
 
 export type InsertAchievementConfigurationsError = DefaultErrors;
 
@@ -393,7 +398,7 @@ export const insertAchievementConfigurations: API.OperationMethod<
   InsertAchievementConfigurationsResponse,
   InsertAchievementConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAchievementConfigurationsRequest,
   output: InsertAchievementConfigurationsResponse,
   errors: [],
@@ -408,22 +413,23 @@ export interface ListAchievementConfigurationsRequest {
   pageToken?: string;
 }
 
-export const ListAchievementConfigurationsRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "games/v1configuration/applications/{applicationId}/achievements",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAchievementConfigurationsRequest>;
+export const ListAchievementConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "games/v1configuration/applications/{applicationId}/achievements",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAchievementConfigurationsRequest>;
 
 export type ListAchievementConfigurationsResponse =
   AchievementConfigurationListResponse;
 export const ListAchievementConfigurationsResponse =
-  AchievementConfigurationListResponse;
+  /*@__PURE__*/ /*#__PURE__*/ AchievementConfigurationListResponse;
 
 export type ListAchievementConfigurationsError = DefaultErrors;
 
@@ -433,7 +439,7 @@ export const listAchievementConfigurations: API.PaginatedOperationMethod<
   ListAchievementConfigurationsResponse,
   ListAchievementConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAchievementConfigurationsRequest,
   output: ListAchievementConfigurationsResponse,
   errors: [],
@@ -451,20 +457,22 @@ export interface UpdateAchievementConfigurationsRequest {
   body?: AchievementConfiguration;
 }
 
-export const UpdateAchievementConfigurationsRequest = Schema.Struct({
-  achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
-  body: Schema.optional(AchievementConfiguration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "games/v1configuration/achievements/{achievementId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAchievementConfigurationsRequest>;
+export const UpdateAchievementConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
+    body: Schema.optional(AchievementConfiguration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "games/v1configuration/achievements/{achievementId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAchievementConfigurationsRequest>;
 
 export type UpdateAchievementConfigurationsResponse = AchievementConfiguration;
-export const UpdateAchievementConfigurationsResponse = AchievementConfiguration;
+export const UpdateAchievementConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AchievementConfiguration;
 
 export type UpdateAchievementConfigurationsError = DefaultErrors;
 
@@ -474,7 +482,7 @@ export const updateAchievementConfigurations: API.OperationMethod<
   UpdateAchievementConfigurationsResponse,
   UpdateAchievementConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAchievementConfigurationsRequest,
   output: UpdateAchievementConfigurationsResponse,
   errors: [],
@@ -485,19 +493,20 @@ export interface DeleteLeaderboardConfigurationsRequest {
   leaderboardId: string;
 }
 
-export const DeleteLeaderboardConfigurationsRequest = Schema.Struct({
-  leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "games/v1configuration/leaderboards/{leaderboardId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteLeaderboardConfigurationsRequest>;
+export const DeleteLeaderboardConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "games/v1configuration/leaderboards/{leaderboardId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteLeaderboardConfigurationsRequest>;
 
 export interface DeleteLeaderboardConfigurationsResponse {}
 export const DeleteLeaderboardConfigurationsResponse: Schema.Schema<DeleteLeaderboardConfigurationsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteLeaderboardConfigurationsResponse>;
 
@@ -509,7 +518,7 @@ export const deleteLeaderboardConfigurations: API.OperationMethod<
   DeleteLeaderboardConfigurationsResponse,
   DeleteLeaderboardConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLeaderboardConfigurationsRequest,
   output: DeleteLeaderboardConfigurationsResponse,
   errors: [],
@@ -520,18 +529,20 @@ export interface GetLeaderboardConfigurationsRequest {
   leaderboardId: string;
 }
 
-export const GetLeaderboardConfigurationsRequest = Schema.Struct({
-  leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "games/v1configuration/leaderboards/{leaderboardId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLeaderboardConfigurationsRequest>;
+export const GetLeaderboardConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "games/v1configuration/leaderboards/{leaderboardId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLeaderboardConfigurationsRequest>;
 
 export type GetLeaderboardConfigurationsResponse = LeaderboardConfiguration;
-export const GetLeaderboardConfigurationsResponse = LeaderboardConfiguration;
+export const GetLeaderboardConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LeaderboardConfiguration;
 
 export type GetLeaderboardConfigurationsError = DefaultErrors;
 
@@ -541,7 +552,7 @@ export const getLeaderboardConfigurations: API.OperationMethod<
   GetLeaderboardConfigurationsResponse,
   GetLeaderboardConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLeaderboardConfigurationsRequest,
   output: GetLeaderboardConfigurationsResponse,
   errors: [],
@@ -554,20 +565,22 @@ export interface InsertLeaderboardConfigurationsRequest {
   body?: LeaderboardConfiguration;
 }
 
-export const InsertLeaderboardConfigurationsRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  body: Schema.optional(LeaderboardConfiguration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1configuration/applications/{applicationId}/leaderboards",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertLeaderboardConfigurationsRequest>;
+export const InsertLeaderboardConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    body: Schema.optional(LeaderboardConfiguration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1configuration/applications/{applicationId}/leaderboards",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertLeaderboardConfigurationsRequest>;
 
 export type InsertLeaderboardConfigurationsResponse = LeaderboardConfiguration;
-export const InsertLeaderboardConfigurationsResponse = LeaderboardConfiguration;
+export const InsertLeaderboardConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LeaderboardConfiguration;
 
 export type InsertLeaderboardConfigurationsError = DefaultErrors;
 
@@ -577,7 +590,7 @@ export const insertLeaderboardConfigurations: API.OperationMethod<
   InsertLeaderboardConfigurationsResponse,
   InsertLeaderboardConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertLeaderboardConfigurationsRequest,
   output: InsertLeaderboardConfigurationsResponse,
   errors: [],
@@ -592,22 +605,23 @@ export interface ListLeaderboardConfigurationsRequest {
   pageToken?: string;
 }
 
-export const ListLeaderboardConfigurationsRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "games/v1configuration/applications/{applicationId}/leaderboards",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListLeaderboardConfigurationsRequest>;
+export const ListLeaderboardConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "games/v1configuration/applications/{applicationId}/leaderboards",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLeaderboardConfigurationsRequest>;
 
 export type ListLeaderboardConfigurationsResponse =
   LeaderboardConfigurationListResponse;
 export const ListLeaderboardConfigurationsResponse =
-  LeaderboardConfigurationListResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LeaderboardConfigurationListResponse;
 
 export type ListLeaderboardConfigurationsError = DefaultErrors;
 
@@ -617,7 +631,7 @@ export const listLeaderboardConfigurations: API.PaginatedOperationMethod<
   ListLeaderboardConfigurationsResponse,
   ListLeaderboardConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLeaderboardConfigurationsRequest,
   output: ListLeaderboardConfigurationsResponse,
   errors: [],
@@ -635,20 +649,22 @@ export interface UpdateLeaderboardConfigurationsRequest {
   body?: LeaderboardConfiguration;
 }
 
-export const UpdateLeaderboardConfigurationsRequest = Schema.Struct({
-  leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
-  body: Schema.optional(LeaderboardConfiguration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "games/v1configuration/leaderboards/{leaderboardId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLeaderboardConfigurationsRequest>;
+export const UpdateLeaderboardConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
+    body: Schema.optional(LeaderboardConfiguration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "games/v1configuration/leaderboards/{leaderboardId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLeaderboardConfigurationsRequest>;
 
 export type UpdateLeaderboardConfigurationsResponse = LeaderboardConfiguration;
-export const UpdateLeaderboardConfigurationsResponse = LeaderboardConfiguration;
+export const UpdateLeaderboardConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LeaderboardConfiguration;
 
 export type UpdateLeaderboardConfigurationsError = DefaultErrors;
 
@@ -658,7 +674,7 @@ export const updateLeaderboardConfigurations: API.OperationMethod<
   UpdateLeaderboardConfigurationsResponse,
   UpdateLeaderboardConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLeaderboardConfigurationsRequest,
   output: UpdateLeaderboardConfigurationsResponse,
   errors: [],

@@ -4,34 +4,36 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ReviewDeployRequestInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  number: Schema.Number.pipe(T.PathParam()),
-  state: Schema.optional(Schema.Literals(["commented", "approved"])),
-  body: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/organizations/{organization}/databases/{database}/deploy-requests/{number}/reviews",
-  }),
-);
+export const ReviewDeployRequestInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    number: Schema.Number.pipe(T.PathParam()),
+    state: Schema.optional(Schema.Literals(["commented", "approved"])),
+    body: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/organizations/{organization}/databases/{database}/deploy-requests/{number}/reviews",
+    }),
+  );
 export type ReviewDeployRequestInput = typeof ReviewDeployRequestInput.Type;
 
 // Output Schema
-export const ReviewDeployRequestOutput = Schema.Struct({
-  id: Schema.String,
-  body: Schema.String,
-  html_body: Schema.String,
-  state: Schema.Literals(["commented", "approved"]),
-  created_at: Schema.String,
-  updated_at: Schema.String,
-  actor: Schema.Struct({
+export const ReviewDeployRequestOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-    display_name: Schema.String,
-    avatar_url: Schema.String,
-  }),
-});
+    body: Schema.String,
+    html_body: Schema.String,
+    state: Schema.Literals(["commented", "approved"]),
+    created_at: Schema.String,
+    updated_at: Schema.String,
+    actor: Schema.Struct({
+      id: Schema.String,
+      display_name: Schema.String,
+      avatar_url: Schema.String,
+    }),
+  });
 export type ReviewDeployRequestOutput = typeof ReviewDeployRequestOutput.Type;
 
 // The operation

@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface UndeleteDatabaseInstanceRequest {}
 
 export const UndeleteDatabaseInstanceRequest: Schema.Schema<UndeleteDatabaseInstanceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteDatabaseInstanceRequest",
   }) as any as Schema.Schema<UndeleteDatabaseInstanceRequest>;
 
@@ -51,8 +51,8 @@ export interface DatabaseInstance {
     | (string & {});
 }
 
-export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(
-  () =>
+export const DatabaseInstance: Schema.Schema<DatabaseInstance> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       project: Schema.optional(Schema.String),
       databaseUrl: Schema.optional(Schema.String),
@@ -60,9 +60,9 @@ export const DatabaseInstance: Schema.Schema<DatabaseInstance> = Schema.suspend(
       type: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DatabaseInstance",
-}) as any as Schema.Schema<DatabaseInstance>;
+  ).annotate({
+    identifier: "DatabaseInstance",
+  }) as any as Schema.Schema<DatabaseInstance>;
 
 export interface ListDatabaseInstancesResponse {
   /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListDatabaseInstances` to find the next group of database instances. Page tokens are short-lived and should not be persisted. */
@@ -72,7 +72,7 @@ export interface ListDatabaseInstancesResponse {
 }
 
 export const ListDatabaseInstancesResponse: Schema.Schema<ListDatabaseInstancesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       instances: Schema.optional(Schema.Array(DatabaseInstance)),
@@ -84,14 +84,14 @@ export const ListDatabaseInstancesResponse: Schema.Schema<ListDatabaseInstancesR
 export interface DisableDatabaseInstanceRequest {}
 
 export const DisableDatabaseInstanceRequest: Schema.Schema<DisableDatabaseInstanceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DisableDatabaseInstanceRequest",
   }) as any as Schema.Schema<DisableDatabaseInstanceRequest>;
 
 export interface ReenableDatabaseInstanceRequest {}
 
 export const ReenableDatabaseInstanceRequest: Schema.Schema<ReenableDatabaseInstanceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ReenableDatabaseInstanceRequest",
   }) as any as Schema.Schema<ReenableDatabaseInstanceRequest>;
 
@@ -110,23 +110,26 @@ export interface ListProjectsLocationsInstancesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsInstancesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
+export const ListProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
 export type ListProjectsLocationsInstancesResponse =
   ListDatabaseInstancesResponse;
 export const ListProjectsLocationsInstancesResponse =
-  ListDatabaseInstancesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDatabaseInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = DefaultErrors;
 
@@ -136,7 +139,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   ListProjectsLocationsInstancesResponse,
   ListProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -151,18 +154,20 @@ export interface DeleteProjectsLocationsInstancesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
+export const DeleteProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
 
 export type DeleteProjectsLocationsInstancesResponse = DatabaseInstance;
-export const DeleteProjectsLocationsInstancesResponse = DatabaseInstance;
+export const DeleteProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type DeleteProjectsLocationsInstancesError = DefaultErrors;
 
@@ -172,7 +177,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   DeleteProjectsLocationsInstancesResponse,
   DeleteProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -185,20 +190,22 @@ export interface UndeleteProjectsLocationsInstancesRequest {
   body?: UndeleteDatabaseInstanceRequest;
 }
 
-export const UndeleteProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndeleteDatabaseInstanceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteProjectsLocationsInstancesRequest>;
+export const UndeleteProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteDatabaseInstanceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteProjectsLocationsInstancesRequest>;
 
 export type UndeleteProjectsLocationsInstancesResponse = DatabaseInstance;
-export const UndeleteProjectsLocationsInstancesResponse = DatabaseInstance;
+export const UndeleteProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type UndeleteProjectsLocationsInstancesError = DefaultErrors;
 
@@ -208,7 +215,7 @@ export const undeleteProjectsLocationsInstances: API.OperationMethod<
   UndeleteProjectsLocationsInstancesResponse,
   UndeleteProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteProjectsLocationsInstancesRequest,
   output: UndeleteProjectsLocationsInstancesResponse,
   errors: [],
@@ -221,20 +228,22 @@ export interface ReenableProjectsLocationsInstancesRequest {
   body?: ReenableDatabaseInstanceRequest;
 }
 
-export const ReenableProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ReenableDatabaseInstanceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReenableProjectsLocationsInstancesRequest>;
+export const ReenableProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ReenableDatabaseInstanceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReenableProjectsLocationsInstancesRequest>;
 
 export type ReenableProjectsLocationsInstancesResponse = DatabaseInstance;
-export const ReenableProjectsLocationsInstancesResponse = DatabaseInstance;
+export const ReenableProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type ReenableProjectsLocationsInstancesError = DefaultErrors;
 
@@ -244,7 +253,7 @@ export const reenableProjectsLocationsInstances: API.OperationMethod<
   ReenableProjectsLocationsInstancesResponse,
   ReenableProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReenableProjectsLocationsInstancesRequest,
   output: ReenableProjectsLocationsInstancesResponse,
   errors: [],
@@ -255,18 +264,20 @@ export interface GetProjectsLocationsInstancesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
+export const GetProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
 export type GetProjectsLocationsInstancesResponse = DatabaseInstance;
-export const GetProjectsLocationsInstancesResponse = DatabaseInstance;
+export const GetProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type GetProjectsLocationsInstancesError = DefaultErrors;
 
@@ -276,7 +287,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GetProjectsLocationsInstancesResponse,
   GetProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
@@ -293,24 +304,26 @@ export interface CreateProjectsLocationsInstancesRequest {
   body?: DatabaseInstance;
 }
 
-export const CreateProjectsLocationsInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
+export const CreateProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
 export type CreateProjectsLocationsInstancesResponse = DatabaseInstance;
-export const CreateProjectsLocationsInstancesResponse = DatabaseInstance;
+export const CreateProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type CreateProjectsLocationsInstancesError = DefaultErrors;
 
@@ -320,7 +333,7 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesResponse,
   CreateProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
@@ -333,20 +346,22 @@ export interface DisableProjectsLocationsInstancesRequest {
   body?: DisableDatabaseInstanceRequest;
 }
 
-export const DisableProjectsLocationsInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DisableDatabaseInstanceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:disable",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DisableProjectsLocationsInstancesRequest>;
+export const DisableProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DisableDatabaseInstanceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:disable",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DisableProjectsLocationsInstancesRequest>;
 
 export type DisableProjectsLocationsInstancesResponse = DatabaseInstance;
-export const DisableProjectsLocationsInstancesResponse = DatabaseInstance;
+export const DisableProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
 export type DisableProjectsLocationsInstancesError = DefaultErrors;
 
@@ -356,7 +371,7 @@ export const disableProjectsLocationsInstances: API.OperationMethod<
   DisableProjectsLocationsInstancesResponse,
   DisableProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableProjectsLocationsInstancesRequest,
   output: DisableProjectsLocationsInstancesResponse,
   errors: [],

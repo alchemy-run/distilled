@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CreateKeyspaceInput = Schema.Struct({
+export const CreateKeyspaceInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -21,7 +21,7 @@ export const CreateKeyspaceInput = Schema.Struct({
 export type CreateKeyspaceInput = typeof CreateKeyspaceInput.Type;
 
 // Output Schema
-export const CreateKeyspaceOutput = Schema.Struct({
+export const CreateKeyspaceOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   shards: Schema.Number,

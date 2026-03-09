@@ -31,13 +31,14 @@ export interface Admob_Date {
   year?: number;
 }
 
-export const Admob_Date: Schema.Schema<Admob_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    day: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
+export const Admob_Date: Schema.Schema<Admob_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      day: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
 
 export interface AdUnit {
   /** AdFormat of the ad unit. Possible values are as follows: "APP_OPEN" - App Open ad format. "BANNER" - Banner ad format. "BANNER_INTERSTITIAL" - Legacy format that can be used as either banner or interstitial. This format can no longer be created but can be targeted by mediation groups. "INTERSTITIAL" - A full screen ad. Supported ad types are "RICH_MEDIA" and "VIDEO". "NATIVE" - Native ad format. "REWARDED" - An ad that, once viewed, gets a callback verifying the view so that a reward can be given to the user. Supported ad types are "RICH_MEDIA" (interactive) and video where video can not be excluded. "REWARDED_INTERSTITIAL" - Rewarded Interstitial ad format. Only supports video ad type. See https://support.google.com/admob/answer/9884467. */
@@ -54,16 +55,17 @@ export interface AdUnit {
   appId?: string;
 }
 
-export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    adFormat: Schema.optional(Schema.String),
-    adUnitId: Schema.optional(Schema.String),
-    adTypes: Schema.optional(Schema.Array(Schema.String)),
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
+export const AdUnit: Schema.Schema<AdUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adFormat: Schema.optional(Schema.String),
+      adUnitId: Schema.optional(Schema.String),
+      adTypes: Schema.optional(Schema.Array(Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      appId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
 
 export interface MediationReportSpecSortCondition {
   /** Sorting order of the dimension or metric. */
@@ -102,7 +104,7 @@ export interface MediationReportSpecSortCondition {
 }
 
 export const MediationReportSpecSortCondition: Schema.Schema<MediationReportSpecSortCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       order: Schema.optional(Schema.String),
       dimension: Schema.optional(Schema.String),
@@ -123,17 +125,17 @@ export interface PublisherAccount {
   publisherId?: string;
 }
 
-export const PublisherAccount: Schema.Schema<PublisherAccount> = Schema.suspend(
-  () =>
+export const PublisherAccount: Schema.Schema<PublisherAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       reportingTimeZone: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
       publisherId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PublisherAccount",
-}) as any as Schema.Schema<PublisherAccount>;
+  ).annotate({
+    identifier: "PublisherAccount",
+  }) as any as Schema.Schema<PublisherAccount>;
 
 export interface NetworkReportSpecSortCondition {
   /** Sort by the specified dimension. */
@@ -171,7 +173,7 @@ export interface NetworkReportSpecSortCondition {
 }
 
 export const NetworkReportSpecSortCondition: Schema.Schema<NetworkReportSpecSortCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimension: Schema.optional(Schema.String),
       metric: Schema.optional(Schema.String),
@@ -194,14 +196,15 @@ export interface ReportWarning {
     | (string & {});
 }
 
-export const ReportWarning: Schema.Schema<ReportWarning> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportWarning",
-}) as any as Schema.Schema<ReportWarning>;
+export const ReportWarning: Schema.Schema<ReportWarning> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportWarning",
+  }) as any as Schema.Schema<ReportWarning>;
 
 export interface ReportFooter {
   /** Warnings associated with generation of the report. */
@@ -210,14 +213,15 @@ export interface ReportFooter {
   matchingRowCount?: string;
 }
 
-export const ReportFooter: Schema.Schema<ReportFooter> = Schema.suspend(() =>
-  Schema.Struct({
-    warnings: Schema.optional(Schema.Array(ReportWarning)),
-    matchingRowCount: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportFooter",
-}) as any as Schema.Schema<ReportFooter>;
+export const ReportFooter: Schema.Schema<ReportFooter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      warnings: Schema.optional(Schema.Array(ReportWarning)),
+      matchingRowCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportFooter",
+  }) as any as Schema.Schema<ReportFooter>;
 
 export interface ReportRowDimensionValue {
   /** Dimension value in the format specified in the report's spec Dimension enum. */
@@ -227,7 +231,7 @@ export interface ReportRowDimensionValue {
 }
 
 export const ReportRowDimensionValue: Schema.Schema<ReportRowDimensionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       displayLabel: Schema.optional(Schema.String),
@@ -241,25 +245,26 @@ export interface AppManualAppInfo {
   displayName?: string;
 }
 
-export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> = Schema.suspend(
-  () =>
+export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AppManualAppInfo",
-}) as any as Schema.Schema<AppManualAppInfo>;
+  ).annotate({
+    identifier: "AppManualAppInfo",
+  }) as any as Schema.Schema<AppManualAppInfo>;
 
 export interface StringList {
   /** The string values. */
   values?: Array<string>;
 }
 
-export const StringList: Schema.Schema<StringList> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "StringList" }) as any as Schema.Schema<StringList>;
+export const StringList: Schema.Schema<StringList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "StringList" }) as any as Schema.Schema<StringList>;
 
 export interface MediationReportSpecDimensionFilter {
   /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
@@ -286,7 +291,7 @@ export interface MediationReportSpecDimensionFilter {
 }
 
 export const MediationReportSpecDimensionFilter: Schema.Schema<MediationReportSpecDimensionFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchesAny: Schema.optional(StringList),
       dimension: Schema.optional(Schema.String),
@@ -302,12 +307,13 @@ export interface DateRange {
   endDate?: Admob_Date;
 }
 
-export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startDate: Schema.optional(Admob_Date),
-    endDate: Schema.optional(Admob_Date),
-  }),
-).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+export const DateRange: Schema.Schema<DateRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startDate: Schema.optional(Admob_Date),
+      endDate: Schema.optional(Admob_Date),
+    }),
+  ).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
 
 export interface LocalizationSettings {
   /** Currency code of the earning related metrics, which is the 3-letter code defined in ISO 4217. The daily average rate is used for the currency conversion. Defaults to the account currency code if unspecified. */
@@ -317,7 +323,7 @@ export interface LocalizationSettings {
 }
 
 export const LocalizationSettings: Schema.Schema<LocalizationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -375,7 +381,7 @@ export interface MediationReportSpec {
 }
 
 export const MediationReportSpec: Schema.Schema<MediationReportSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       metrics: Schema.optional(Schema.Array(Schema.String)),
@@ -400,7 +406,7 @@ export interface GenerateMediationReportRequest {
 }
 
 export const GenerateMediationReportRequest: Schema.Schema<GenerateMediationReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportSpec: Schema.optional(MediationReportSpec),
     }),
@@ -431,7 +437,7 @@ export interface NetworkReportSpecDimensionFilter {
 }
 
 export const NetworkReportSpecDimensionFilter: Schema.Schema<NetworkReportSpecDimensionFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchesAny: Schema.optional(StringList),
       dimension: Schema.optional(Schema.String),
@@ -447,15 +453,15 @@ export interface AppLinkedAppInfo {
   displayName?: string;
 }
 
-export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> = Schema.suspend(
-  () =>
+export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appStoreId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AppLinkedAppInfo",
-}) as any as Schema.Schema<AppLinkedAppInfo>;
+  ).annotate({
+    identifier: "AppLinkedAppInfo",
+  }) as any as Schema.Schema<AppLinkedAppInfo>;
 
 export interface ReportHeader {
   /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
@@ -466,15 +472,16 @@ export interface ReportHeader {
   localizationSettings?: LocalizationSettings;
 }
 
-export const ReportHeader: Schema.Schema<ReportHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingTimeZone: Schema.optional(Schema.String),
-    dateRange: Schema.optional(DateRange),
-    localizationSettings: Schema.optional(LocalizationSettings),
-  }),
-).annotate({
-  identifier: "ReportHeader",
-}) as any as Schema.Schema<ReportHeader>;
+export const ReportHeader: Schema.Schema<ReportHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportingTimeZone: Schema.optional(Schema.String),
+      dateRange: Schema.optional(DateRange),
+      localizationSettings: Schema.optional(LocalizationSettings),
+    }),
+  ).annotate({
+    identifier: "ReportHeader",
+  }) as any as Schema.Schema<ReportHeader>;
 
 export interface NetworkReportSpec {
   /** The date range for which the report is generated. */
@@ -524,7 +531,7 @@ export interface NetworkReportSpec {
 }
 
 export const NetworkReportSpec: Schema.Schema<NetworkReportSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(DateRange),
       dimensions: Schema.optional(Schema.Array(Schema.String)),
@@ -551,7 +558,7 @@ export interface ListAdUnitsResponse {
 }
 
 export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnits: Schema.optional(Schema.Array(AdUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -580,16 +587,17 @@ export interface App {
   manualAppInfo?: AppManualAppInfo;
 }
 
-export const App: Schema.Schema<App> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-    linkedAppInfo: Schema.optional(AppLinkedAppInfo),
-    appApprovalState: Schema.optional(Schema.String),
-    platform: Schema.optional(Schema.String),
-    manualAppInfo: Schema.optional(AppManualAppInfo),
-  }),
-).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
+export const App: Schema.Schema<App> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      appId: Schema.optional(Schema.String),
+      linkedAppInfo: Schema.optional(AppLinkedAppInfo),
+      appApprovalState: Schema.optional(Schema.String),
+      platform: Schema.optional(Schema.String),
+      manualAppInfo: Schema.optional(AppManualAppInfo),
+    }),
+  ).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
 
 export interface ListAppsResponse {
   /** The resulting apps for the requested account. */
@@ -598,15 +606,15 @@ export interface ListAppsResponse {
   nextPageToken?: string;
 }
 
-export const ListAppsResponse: Schema.Schema<ListAppsResponse> = Schema.suspend(
-  () =>
+export const ListAppsResponse: Schema.Schema<ListAppsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apps: Schema.optional(Schema.Array(App)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as Schema.Schema<ListAppsResponse>;
+  ).annotate({
+    identifier: "ListAppsResponse",
+  }) as any as Schema.Schema<ListAppsResponse>;
 
 export interface GenerateNetworkReportRequest {
   /** Network report specification. */
@@ -614,7 +622,7 @@ export interface GenerateNetworkReportRequest {
 }
 
 export const GenerateNetworkReportRequest: Schema.Schema<GenerateNetworkReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportSpec: Schema.optional(NetworkReportSpec),
     }),
@@ -632,7 +640,7 @@ export interface ReportRowMetricValue {
 }
 
 export const ReportRowMetricValue: Schema.Schema<ReportRowMetricValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       doubleValue: Schema.optional(Schema.Number),
       microsValue: Schema.optional(Schema.String),
@@ -650,7 +658,7 @@ export interface ListPublisherAccountsResponse {
 }
 
 export const ListPublisherAccountsResponse: Schema.Schema<ListPublisherAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       account: Schema.optional(Schema.Array(PublisherAccount)),
@@ -666,16 +674,17 @@ export interface ReportRow {
   metricValues?: Record<string, ReportRowMetricValue>;
 }
 
-export const ReportRow: Schema.Schema<ReportRow> = Schema.suspend(() =>
-  Schema.Struct({
-    dimensionValues: Schema.optional(
-      Schema.Record(Schema.String, ReportRowDimensionValue),
-    ),
-    metricValues: Schema.optional(
-      Schema.Record(Schema.String, ReportRowMetricValue),
-    ),
-  }),
-).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
+export const ReportRow: Schema.Schema<ReportRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dimensionValues: Schema.optional(
+        Schema.Record(Schema.String, ReportRowDimensionValue),
+      ),
+      metricValues: Schema.optional(
+        Schema.Record(Schema.String, ReportRowMetricValue),
+      ),
+    }),
+  ).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
 
 export interface GenerateNetworkReportResponse {
   /** Additional information about the generated report, such as warnings about the data. */
@@ -687,7 +696,7 @@ export interface GenerateNetworkReportResponse {
 }
 
 export const GenerateNetworkReportResponse: Schema.Schema<GenerateNetworkReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       footer: Schema.optional(ReportFooter),
       header: Schema.optional(ReportHeader),
@@ -707,7 +716,7 @@ export interface GenerateMediationReportResponse {
 }
 
 export const GenerateMediationReportResponse: Schema.Schema<GenerateMediationReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       header: Schema.optional(ReportHeader),
       row: Schema.optional(ReportRow),
@@ -726,7 +735,7 @@ export interface GetAccountsRequest {
   name: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/accounts/{accountsId}" }),
@@ -734,7 +743,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = PublisherAccount;
-export const GetAccountsResponse = PublisherAccount;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ PublisherAccount;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -744,7 +753,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -757,7 +766,7 @@ export interface ListAccountsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -766,7 +775,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse = ListPublisherAccountsResponse;
-export const ListAccountsResponse = ListPublisherAccountsResponse;
+export const ListAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPublisherAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -776,7 +786,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -793,22 +803,23 @@ export interface GenerateAccountsNetworkReportRequest {
   body?: GenerateNetworkReportRequest;
 }
 
-export const GenerateAccountsNetworkReportRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateNetworkReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/networkReport:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsNetworkReportRequest>;
+export const GenerateAccountsNetworkReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateNetworkReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/networkReport:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsNetworkReportRequest>;
 
 export type GenerateAccountsNetworkReportResponse =
   GenerateNetworkReportResponse;
 export const GenerateAccountsNetworkReportResponse =
-  GenerateNetworkReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateNetworkReportResponse;
 
 export type GenerateAccountsNetworkReportError = DefaultErrors;
 
@@ -818,7 +829,7 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   GenerateAccountsNetworkReportResponse,
   GenerateAccountsNetworkReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsNetworkReportRequest,
   output: GenerateAccountsNetworkReportResponse,
   errors: [],
@@ -831,22 +842,23 @@ export interface GenerateAccountsMediationReportRequest {
   body?: GenerateMediationReportRequest;
 }
 
-export const GenerateAccountsMediationReportRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateMediationReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/mediationReport:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsMediationReportRequest>;
+export const GenerateAccountsMediationReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateMediationReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/mediationReport:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsMediationReportRequest>;
 
 export type GenerateAccountsMediationReportResponse =
   GenerateMediationReportResponse;
 export const GenerateAccountsMediationReportResponse =
-  GenerateMediationReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateMediationReportResponse;
 
 export type GenerateAccountsMediationReportError = DefaultErrors;
 
@@ -856,7 +868,7 @@ export const generateAccountsMediationReport: API.OperationMethod<
   GenerateAccountsMediationReportResponse,
   GenerateAccountsMediationReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsMediationReportRequest,
   output: GenerateAccountsMediationReportResponse,
   errors: [],
@@ -871,17 +883,19 @@ export interface ListAccountsAppsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/apps" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsRequest>;
+export const ListAccountsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/apps" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAppsRequest>;
 
 export type ListAccountsAppsResponse = ListAppsResponse;
-export const ListAccountsAppsResponse = ListAppsResponse;
+export const ListAccountsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAppsResponse;
 
 export type ListAccountsAppsError = DefaultErrors;
 
@@ -891,7 +905,7 @@ export const listAccountsApps: API.PaginatedOperationMethod<
   ListAccountsAppsResponse,
   ListAccountsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAppsRequest,
   output: ListAccountsAppsResponse,
   errors: [],
@@ -910,17 +924,19 @@ export interface ListAccountsAdUnitsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsAdUnitsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/adUnits" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdUnitsRequest>;
+export const ListAccountsAdUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/adUnits" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdUnitsRequest>;
 
 export type ListAccountsAdUnitsResponse = ListAdUnitsResponse;
-export const ListAccountsAdUnitsResponse = ListAdUnitsResponse;
+export const ListAccountsAdUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdUnitsResponse;
 
 export type ListAccountsAdUnitsError = DefaultErrors;
 
@@ -930,7 +946,7 @@ export const listAccountsAdUnits: API.PaginatedOperationMethod<
   ListAccountsAdUnitsResponse,
   ListAccountsAdUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdUnitsRequest,
   output: ListAccountsAdUnitsResponse,
   errors: [],

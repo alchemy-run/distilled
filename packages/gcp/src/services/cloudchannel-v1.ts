@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity {}
 
 export const GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity: Schema.Schema<GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity",
   }) as any as Schema.Schema<GoogleCloudChannelV1RepricingConfigChannelPartnerGranularity>;
 
@@ -47,7 +47,7 @@ export interface GoogleCloudChannelV1CustomerConstraints {
 }
 
 export const GoogleCloudChannelV1CustomerConstraints: Schema.Schema<GoogleCloudChannelV1CustomerConstraints> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotionalOrderTypes: Schema.optional(Schema.Array(Schema.String)),
       allowedRegions: Schema.optional(Schema.Array(Schema.String)),
@@ -63,7 +63,7 @@ export interface GoogleCloudChannelV1Constraints {
 }
 
 export const GoogleCloudChannelV1Constraints: Schema.Schema<GoogleCloudChannelV1Constraints> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerConstraints: Schema.optional(
         GoogleCloudChannelV1CustomerConstraints,
@@ -83,7 +83,7 @@ export interface GoogleCloudChannelV1Media {
 }
 
 export const GoogleCloudChannelV1Media: Schema.Schema<GoogleCloudChannelV1Media> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -103,7 +103,7 @@ export interface GoogleCloudChannelV1MarketingInfo {
 }
 
 export const GoogleCloudChannelV1MarketingInfo: Schema.Schema<GoogleCloudChannelV1MarketingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -126,7 +126,7 @@ export interface GoogleCloudChannelV1Period {
 }
 
 export const GoogleCloudChannelV1Period: Schema.Schema<GoogleCloudChannelV1Period> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duration: Schema.optional(Schema.Number),
       periodType: Schema.optional(Schema.String),
@@ -160,7 +160,7 @@ export interface GoogleCloudChannelV1Plan {
 }
 
 export const GoogleCloudChannelV1Plan: Schema.Schema<GoogleCloudChannelV1Plan> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       paymentCycle: Schema.optional(GoogleCloudChannelV1Period),
       billingAccount: Schema.optional(Schema.String),
@@ -180,7 +180,7 @@ export interface GoogleCloudChannelV1Product {
 }
 
 export const GoogleCloudChannelV1Product: Schema.Schema<GoogleCloudChannelV1Product> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       marketingInfo: Schema.optional(GoogleCloudChannelV1MarketingInfo),
       name: Schema.optional(Schema.String),
@@ -199,7 +199,7 @@ export interface GoogleCloudChannelV1Sku {
 }
 
 export const GoogleCloudChannelV1Sku: Schema.Schema<GoogleCloudChannelV1Sku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       marketingInfo: Schema.optional(GoogleCloudChannelV1MarketingInfo),
       product: Schema.optional(GoogleCloudChannelV1Product),
@@ -218,16 +218,16 @@ export interface GoogleTypeMoney {
   currencyCode?: string;
 }
 
-export const GoogleTypeMoney: Schema.Schema<GoogleTypeMoney> = Schema.suspend(
-  () =>
+export const GoogleTypeMoney: Schema.Schema<GoogleTypeMoney> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       units: Schema.optional(Schema.String),
       nanos: Schema.optional(Schema.Number),
       currencyCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleTypeMoney",
-}) as any as Schema.Schema<GoogleTypeMoney>;
+  ).annotate({
+    identifier: "GoogleTypeMoney",
+  }) as any as Schema.Schema<GoogleTypeMoney>;
 
 export interface GoogleCloudChannelV1DiscountComponent {
   /** Fixed value discount. */
@@ -246,7 +246,7 @@ export interface GoogleCloudChannelV1DiscountComponent {
 }
 
 export const GoogleCloudChannelV1DiscountComponent: Schema.Schema<GoogleCloudChannelV1DiscountComponent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       discountAbsolute: Schema.optional(GoogleTypeMoney),
       discountType: Schema.optional(Schema.String),
@@ -272,7 +272,7 @@ export interface GoogleCloudChannelV1Price {
 }
 
 export const GoogleCloudChannelV1Price: Schema.Schema<GoogleCloudChannelV1Price> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pricePeriod: Schema.optional(GoogleCloudChannelV1Period),
       externalPriceUri: Schema.optional(Schema.String),
@@ -297,7 +297,7 @@ export interface GoogleCloudChannelV1PriceTier {
 }
 
 export const GoogleCloudChannelV1PriceTier: Schema.Schema<GoogleCloudChannelV1PriceTier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastResource: Schema.optional(Schema.Number),
       price: Schema.optional(GoogleCloudChannelV1Price),
@@ -326,7 +326,7 @@ export interface GoogleCloudChannelV1PricePhase {
 }
 
 export const GoogleCloudChannelV1PricePhase: Schema.Schema<GoogleCloudChannelV1PricePhase> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastPeriod: Schema.optional(Schema.Number),
       periodType: Schema.optional(Schema.String),
@@ -357,7 +357,7 @@ export interface GoogleCloudChannelV1PriceByResource {
 }
 
 export const GoogleCloudChannelV1PriceByResource: Schema.Schema<GoogleCloudChannelV1PriceByResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pricePhases: Schema.optional(
         Schema.Array(GoogleCloudChannelV1PricePhase),
@@ -383,7 +383,7 @@ export interface GoogleCloudChannelV1Value {
 }
 
 export const GoogleCloudChannelV1Value: Schema.Schema<GoogleCloudChannelV1Value> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protoValue: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       doubleValue: Schema.optional(Schema.Number),
@@ -417,7 +417,7 @@ export interface GoogleCloudChannelV1ParameterDefinition {
 }
 
 export const GoogleCloudChannelV1ParameterDefinition: Schema.Schema<GoogleCloudChannelV1ParameterDefinition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedValues: Schema.optional(Schema.Array(GoogleCloudChannelV1Value)),
       name: Schema.optional(Schema.String),
@@ -454,7 +454,7 @@ export interface GoogleCloudChannelV1Offer {
 }
 
 export const GoogleCloudChannelV1Offer: Schema.Schema<GoogleCloudChannelV1Offer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dealCode: Schema.optional(Schema.String),
       constraints: Schema.optional(GoogleCloudChannelV1Constraints),
@@ -483,7 +483,7 @@ export interface GoogleCloudChannelV1ListOffersResponse {
 }
 
 export const GoogleCloudChannelV1ListOffersResponse: Schema.Schema<GoogleCloudChannelV1ListOffersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       offers: Schema.optional(Schema.Array(GoogleCloudChannelV1Offer)),
@@ -501,8 +501,8 @@ export interface GoogleRpcStatus {
   code?: number;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       details: Schema.optional(
@@ -510,9 +510,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
       ),
       code: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -528,7 +528,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -550,7 +550,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unreachable: Schema.optional(Schema.Array(Schema.String)),
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
@@ -563,7 +563,7 @@ export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongru
 export interface GoogleLongrunningCancelOperationRequest {}
 
 export const GoogleLongrunningCancelOperationRequest: Schema.Schema<GoogleLongrunningCancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleLongrunningCancelOperationRequest",
   }) as any as Schema.Schema<GoogleLongrunningCancelOperationRequest>;
 
@@ -585,7 +585,7 @@ export interface GoogleCloudChannelV1Column {
 }
 
 export const GoogleCloudChannelV1Column: Schema.Schema<GoogleCloudChannelV1Column> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -607,7 +607,7 @@ export interface GoogleCloudChannelV1Report {
 }
 
 export const GoogleCloudChannelV1Report: Schema.Schema<GoogleCloudChannelV1Report> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columns: Schema.optional(Schema.Array(GoogleCloudChannelV1Column)),
       name: Schema.optional(Schema.String),
@@ -626,7 +626,7 @@ export interface GoogleTypeTimeZone {
 }
 
 export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -657,7 +657,7 @@ export interface GoogleTypeDateTime {
 }
 
 export const GoogleTypeDateTime: Schema.Schema<GoogleTypeDateTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       day: Schema.optional(Schema.Number),
       nanos: Schema.optional(Schema.Number),
@@ -682,16 +682,16 @@ export interface GoogleTypeDate {
   day?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleCloudChannelV1DateRange {
   /** The latest usage date time (exclusive). If you use time groupings (daily, weekly, etc), each group uses midnight to midnight (Pacific time). The usage end date is rounded down to include all usage from the specified date. We recommend that clients pass `usage_start_date_time` in Pacific time. */
@@ -705,7 +705,7 @@ export interface GoogleCloudChannelV1DateRange {
 }
 
 export const GoogleCloudChannelV1DateRange: Schema.Schema<GoogleCloudChannelV1DateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usageEndDateTime: Schema.optional(GoogleTypeDateTime),
       invoiceStartDate: Schema.optional(GoogleTypeDate),
@@ -728,7 +728,7 @@ export interface GoogleCloudChannelV1ReportResultsMetadata {
 }
 
 export const GoogleCloudChannelV1ReportResultsMetadata: Schema.Schema<GoogleCloudChannelV1ReportResultsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       report: Schema.optional(GoogleCloudChannelV1Report),
       rowCount: Schema.optional(Schema.String),
@@ -745,7 +745,7 @@ export interface GoogleTypeDecimal {
 }
 
 export const GoogleTypeDecimal: Schema.Schema<GoogleTypeDecimal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -769,7 +769,7 @@ export interface GoogleCloudChannelV1ReportValue {
 }
 
 export const GoogleCloudChannelV1ReportValue: Schema.Schema<GoogleCloudChannelV1ReportValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateValue: Schema.optional(GoogleTypeDate),
       dateTimeValue: Schema.optional(GoogleTypeDateTime),
@@ -790,7 +790,7 @@ export interface GoogleCloudChannelV1Row {
 }
 
 export const GoogleCloudChannelV1Row: Schema.Schema<GoogleCloudChannelV1Row> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(GoogleCloudChannelV1ReportValue)),
       partitionKey: Schema.optional(Schema.String),
@@ -809,7 +809,7 @@ export interface GoogleCloudChannelV1FetchReportResultsResponse {
 }
 
 export const GoogleCloudChannelV1FetchReportResultsResponse: Schema.Schema<GoogleCloudChannelV1FetchReportResultsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportMetadata: Schema.optional(
         GoogleCloudChannelV1ReportResultsMetadata,
@@ -831,7 +831,7 @@ export interface GoogleCloudChannelV1ProvisionedService {
 }
 
 export const GoogleCloudChannelV1ProvisionedService: Schema.Schema<GoogleCloudChannelV1ProvisionedService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productId: Schema.optional(Schema.String),
       provisioningId: Schema.optional(Schema.String),
@@ -847,7 +847,7 @@ export interface GoogleCloudChannelV1SkuGroupCondition {
 }
 
 export const GoogleCloudChannelV1SkuGroupCondition: Schema.Schema<GoogleCloudChannelV1SkuGroupCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroup: Schema.optional(Schema.String),
     }),
@@ -861,7 +861,7 @@ export interface GoogleCloudChannelV1RepricingCondition {
 }
 
 export const GoogleCloudChannelV1RepricingCondition: Schema.Schema<GoogleCloudChannelV1RepricingCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroupCondition: Schema.optional(GoogleCloudChannelV1SkuGroupCondition),
     }),
@@ -875,7 +875,7 @@ export interface GoogleCloudChannelV1PercentageAdjustment {
 }
 
 export const GoogleCloudChannelV1PercentageAdjustment: Schema.Schema<GoogleCloudChannelV1PercentageAdjustment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentage: Schema.optional(GoogleTypeDecimal),
     }),
@@ -889,7 +889,7 @@ export interface GoogleCloudChannelV1RepricingAdjustment {
 }
 
 export const GoogleCloudChannelV1RepricingAdjustment: Schema.Schema<GoogleCloudChannelV1RepricingAdjustment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentageAdjustment: Schema.optional(
         GoogleCloudChannelV1PercentageAdjustment,
@@ -913,7 +913,7 @@ export interface GoogleCloudChannelV1ConditionalOverride {
 }
 
 export const GoogleCloudChannelV1ConditionalOverride: Schema.Schema<GoogleCloudChannelV1ConditionalOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       repricingCondition: Schema.optional(
         GoogleCloudChannelV1RepricingCondition,
@@ -931,7 +931,7 @@ export interface GoogleCloudChannelV1RepricingConfigEntitlementGranularity {
 }
 
 export const GoogleCloudChannelV1RepricingConfigEntitlementGranularity: Schema.Schema<GoogleCloudChannelV1RepricingConfigEntitlementGranularity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlement: Schema.optional(Schema.String),
     }),
@@ -959,7 +959,7 @@ export interface GoogleCloudChannelV1RepricingConfig {
 }
 
 export const GoogleCloudChannelV1RepricingConfig: Schema.Schema<GoogleCloudChannelV1RepricingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionalOverrides: Schema.optional(
         Schema.Array(GoogleCloudChannelV1ConditionalOverride),
@@ -986,7 +986,7 @@ export interface GoogleCloudChannelV1ListReportsResponse {
 }
 
 export const GoogleCloudChannelV1ListReportsResponse: Schema.Schema<GoogleCloudChannelV1ListReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reports: Schema.optional(Schema.Array(GoogleCloudChannelV1Report)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1021,7 +1021,7 @@ export interface GoogleTypePostalAddress {
 }
 
 export const GoogleTypePostalAddress: Schema.Schema<GoogleTypePostalAddress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
@@ -1062,7 +1062,7 @@ export interface GoogleCloudChannelV1EduData {
 }
 
 export const GoogleCloudChannelV1EduData: Schema.Schema<GoogleCloudChannelV1EduData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instituteSize: Schema.optional(Schema.String),
       instituteType: Schema.optional(Schema.String),
@@ -1096,7 +1096,7 @@ export interface GoogleCloudChannelV1CloudIdentityInfo {
 }
 
 export const GoogleCloudChannelV1CloudIdentityInfo: Schema.Schema<GoogleCloudChannelV1CloudIdentityInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phoneNumber: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -1127,7 +1127,7 @@ export interface GoogleCloudChannelV1ContactInfo {
 }
 
 export const GoogleCloudChannelV1ContactInfo: Schema.Schema<GoogleCloudChannelV1ContactInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -1176,7 +1176,7 @@ export interface GoogleCloudChannelV1Customer {
 }
 
 export const GoogleCloudChannelV1Customer: Schema.Schema<GoogleCloudChannelV1Customer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       orgPostalAddress: Schema.optional(GoogleTypePostalAddress),
@@ -1210,7 +1210,7 @@ export interface GoogleCloudChannelV1alpha1Period {
 }
 
 export const GoogleCloudChannelV1alpha1Period: Schema.Schema<GoogleCloudChannelV1alpha1Period> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duration: Schema.optional(Schema.Number),
       periodType: Schema.optional(Schema.String),
@@ -1248,7 +1248,7 @@ export interface GoogleCloudChannelV1alpha1RenewalSettings {
 }
 
 export const GoogleCloudChannelV1alpha1RenewalSettings: Schema.Schema<GoogleCloudChannelV1alpha1RenewalSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       paymentPlan: Schema.optional(Schema.String),
       resizeUnitCount: Schema.optional(Schema.Boolean),
@@ -1272,7 +1272,7 @@ export interface GoogleCloudChannelV1alpha1ProvisionedService {
 }
 
 export const GoogleCloudChannelV1alpha1ProvisionedService: Schema.Schema<GoogleCloudChannelV1alpha1ProvisionedService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       provisioningId: Schema.optional(Schema.String),
       skuId: Schema.optional(Schema.String),
@@ -1288,7 +1288,7 @@ export interface GoogleCloudChannelV1alpha1AssociationInfo {
 }
 
 export const GoogleCloudChannelV1alpha1AssociationInfo: Schema.Schema<GoogleCloudChannelV1alpha1AssociationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       baseEntitlement: Schema.optional(Schema.String),
     }),
@@ -1312,7 +1312,7 @@ export interface GoogleCloudChannelV1ReportStatus {
 }
 
 export const GoogleCloudChannelV1ReportStatus: Schema.Schema<GoogleCloudChannelV1ReportStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -1332,7 +1332,7 @@ export interface GoogleCloudChannelV1Parameter {
 }
 
 export const GoogleCloudChannelV1Parameter: Schema.Schema<GoogleCloudChannelV1Parameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       editable: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
@@ -1410,7 +1410,7 @@ export interface GoogleCloudChannelV1EntitlementChange {
 }
 
 export const GoogleCloudChannelV1EntitlementChange: Schema.Schema<GoogleCloudChannelV1EntitlementChange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlement: Schema.optional(Schema.String),
       otherChangeReason: Schema.optional(Schema.String),
@@ -1439,7 +1439,7 @@ export interface GoogleCloudChannelV1ListEntitlementChangesResponse {
 }
 
 export const GoogleCloudChannelV1ListEntitlementChangesResponse: Schema.Schema<GoogleCloudChannelV1ListEntitlementChangesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlementChanges: Schema.optional(
         Schema.Array(GoogleCloudChannelV1EntitlementChange),
@@ -1460,7 +1460,7 @@ export interface GoogleCloudChannelV1ChannelPartnerRepricingConfig {
 }
 
 export const GoogleCloudChannelV1ChannelPartnerRepricingConfig: Schema.Schema<GoogleCloudChannelV1ChannelPartnerRepricingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       repricingConfig: Schema.optional(GoogleCloudChannelV1RepricingConfig),
       name: Schema.optional(Schema.String),
@@ -1478,7 +1478,7 @@ export interface GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse 
 }
 
 export const GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse: Schema.Schema<GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       channelPartnerRepricingConfigs: Schema.optional(
@@ -1500,7 +1500,7 @@ export interface GoogleCloudChannelV1ListSubscribersResponse {
 }
 
 export const GoogleCloudChannelV1ListSubscribersResponse: Schema.Schema<GoogleCloudChannelV1ListSubscribersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccounts: Schema.optional(Schema.Array(Schema.String)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1526,7 +1526,7 @@ export interface GoogleCloudChannelV1alpha1ReportStatus {
 }
 
 export const GoogleCloudChannelV1alpha1ReportStatus: Schema.Schema<GoogleCloudChannelV1alpha1ReportStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -1544,7 +1544,7 @@ export interface GoogleCloudChannelV1alpha1ReportJob {
 }
 
 export const GoogleCloudChannelV1alpha1ReportJob: Schema.Schema<GoogleCloudChannelV1alpha1ReportJob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       reportStatus: Schema.optional(GoogleCloudChannelV1alpha1ReportStatus),
@@ -1565,7 +1565,7 @@ export interface GoogleCloudChannelV1alpha1DateRange {
 }
 
 export const GoogleCloudChannelV1alpha1DateRange: Schema.Schema<GoogleCloudChannelV1alpha1DateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usageEndDateTime: Schema.optional(GoogleTypeDateTime),
       invoiceStartDate: Schema.optional(GoogleTypeDate),
@@ -1594,7 +1594,7 @@ export interface GoogleCloudChannelV1alpha1Column {
 }
 
 export const GoogleCloudChannelV1alpha1Column: Schema.Schema<GoogleCloudChannelV1alpha1Column> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1616,7 +1616,7 @@ export interface GoogleCloudChannelV1alpha1Report {
 }
 
 export const GoogleCloudChannelV1alpha1Report: Schema.Schema<GoogleCloudChannelV1alpha1Report> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -1639,7 +1639,7 @@ export interface GoogleCloudChannelV1alpha1ReportResultsMetadata {
 }
 
 export const GoogleCloudChannelV1alpha1ReportResultsMetadata: Schema.Schema<GoogleCloudChannelV1alpha1ReportResultsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(GoogleCloudChannelV1alpha1DateRange),
       precedingDateRange: Schema.optional(GoogleCloudChannelV1alpha1DateRange),
@@ -1658,7 +1658,7 @@ export interface GoogleCloudChannelV1alpha1RunReportJobResponse {
 }
 
 export const GoogleCloudChannelV1alpha1RunReportJobResponse: Schema.Schema<GoogleCloudChannelV1alpha1RunReportJobResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportJob: Schema.optional(GoogleCloudChannelV1alpha1ReportJob),
       reportMetadata: Schema.optional(
@@ -1677,7 +1677,7 @@ export interface GoogleCloudChannelV1TrialSettings {
 }
 
 export const GoogleCloudChannelV1TrialSettings: Schema.Schema<GoogleCloudChannelV1TrialSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trial: Schema.optional(Schema.Boolean),
       endTime: Schema.optional(Schema.String),
@@ -1692,7 +1692,7 @@ export interface GoogleCloudChannelV1AssociationInfo {
 }
 
 export const GoogleCloudChannelV1AssociationInfo: Schema.Schema<GoogleCloudChannelV1AssociationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       baseEntitlement: Schema.optional(Schema.String),
     }),
@@ -1719,7 +1719,7 @@ export interface GoogleCloudChannelV1RenewalSettings {
 }
 
 export const GoogleCloudChannelV1RenewalSettings: Schema.Schema<GoogleCloudChannelV1RenewalSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       paymentPlan: Schema.optional(Schema.String),
       resizeUnitCount: Schema.optional(Schema.Boolean),
@@ -1740,7 +1740,7 @@ export interface GoogleCloudChannelV1CommitmentSettings {
 }
 
 export const GoogleCloudChannelV1CommitmentSettings: Schema.Schema<GoogleCloudChannelV1CommitmentSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -1794,7 +1794,7 @@ export interface GoogleCloudChannelV1Entitlement {
 }
 
 export const GoogleCloudChannelV1Entitlement: Schema.Schema<GoogleCloudChannelV1Entitlement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trialSettings: Schema.optional(GoogleCloudChannelV1TrialSettings),
       purchaseOrderId: Schema.optional(Schema.String),
@@ -1827,7 +1827,7 @@ export interface GoogleCloudChannelV1CreateEntitlementRequest {
 }
 
 export const GoogleCloudChannelV1CreateEntitlementRequest: Schema.Schema<GoogleCloudChannelV1CreateEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       entitlement: Schema.optional(GoogleCloudChannelV1Entitlement),
@@ -1844,7 +1844,7 @@ export interface GoogleCloudChannelV1alpha1TrialSettings {
 }
 
 export const GoogleCloudChannelV1alpha1TrialSettings: Schema.Schema<GoogleCloudChannelV1alpha1TrialSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trial: Schema.optional(Schema.Boolean),
       endTime: Schema.optional(Schema.String),
@@ -1863,7 +1863,7 @@ export interface GoogleCloudChannelV1alpha1CommitmentSettings {
 }
 
 export const GoogleCloudChannelV1alpha1CommitmentSettings: Schema.Schema<GoogleCloudChannelV1alpha1CommitmentSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       renewalSettings: Schema.optional(
         GoogleCloudChannelV1alpha1RenewalSettings,
@@ -1889,7 +1889,7 @@ export interface GoogleCloudChannelV1alpha1Value {
 }
 
 export const GoogleCloudChannelV1alpha1Value: Schema.Schema<GoogleCloudChannelV1alpha1Value> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       int64Value: Schema.optional(Schema.String),
@@ -1911,7 +1911,7 @@ export interface GoogleCloudChannelV1alpha1Parameter {
 }
 
 export const GoogleCloudChannelV1alpha1Parameter: Schema.Schema<GoogleCloudChannelV1alpha1Parameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       editable: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
@@ -1976,7 +1976,7 @@ export interface GoogleCloudChannelV1alpha1Entitlement {
 }
 
 export const GoogleCloudChannelV1alpha1Entitlement: Schema.Schema<GoogleCloudChannelV1alpha1Entitlement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trialSettings: Schema.optional(GoogleCloudChannelV1alpha1TrialSettings),
       numUnits: Schema.optional(Schema.Number),
@@ -2015,7 +2015,7 @@ export interface GoogleCloudChannelV1alpha1TransferEntitlementsResponse {
 }
 
 export const GoogleCloudChannelV1alpha1TransferEntitlementsResponse: Schema.Schema<GoogleCloudChannelV1alpha1TransferEntitlementsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlements: Schema.optional(
         Schema.Array(GoogleCloudChannelV1alpha1Entitlement),
@@ -2035,7 +2035,7 @@ export interface GoogleCloudChannelV1ChangeParametersRequest {
 }
 
 export const GoogleCloudChannelV1ChangeParametersRequest: Schema.Schema<GoogleCloudChannelV1ChangeParametersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       parameters: Schema.optional(Schema.Array(GoogleCloudChannelV1Parameter)),
@@ -2067,7 +2067,7 @@ export interface GoogleCloudChannelV1alpha1EntitlementEvent {
 }
 
 export const GoogleCloudChannelV1alpha1EntitlementEvent: Schema.Schema<GoogleCloudChannelV1alpha1EntitlementEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventType: Schema.optional(Schema.String),
       entitlement: Schema.optional(Schema.String),
@@ -2091,7 +2091,7 @@ export interface GoogleCloudChannelV1alpha1OpportunityEvent {
 }
 
 export const GoogleCloudChannelV1alpha1OpportunityEvent: Schema.Schema<GoogleCloudChannelV1alpha1OpportunityEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       opportunity: Schema.optional(Schema.String),
       eventType: Schema.optional(Schema.String),
@@ -2113,7 +2113,7 @@ export interface GoogleCloudChannelV1alpha1ChannelPartnerEvent {
 }
 
 export const GoogleCloudChannelV1alpha1ChannelPartnerEvent: Schema.Schema<GoogleCloudChannelV1alpha1ChannelPartnerEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelPartner: Schema.optional(Schema.String),
       eventType: Schema.optional(Schema.String),
@@ -2134,7 +2134,7 @@ export interface GoogleCloudChannelV1alpha1CustomerEvent {
 }
 
 export const GoogleCloudChannelV1alpha1CustomerEvent: Schema.Schema<GoogleCloudChannelV1alpha1CustomerEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
       eventType: Schema.optional(Schema.String),
@@ -2155,7 +2155,7 @@ export interface GoogleCloudChannelV1alpha1SubscriberEvent {
 }
 
 export const GoogleCloudChannelV1alpha1SubscriberEvent: Schema.Schema<GoogleCloudChannelV1alpha1SubscriberEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlementEvent: Schema.optional(
         GoogleCloudChannelV1alpha1EntitlementEvent,
@@ -2191,7 +2191,7 @@ export interface GoogleCloudChannelV1OperationMetadata {
 }
 
 export const GoogleCloudChannelV1OperationMetadata: Schema.Schema<GoogleCloudChannelV1OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operationType: Schema.optional(Schema.String),
     }),
@@ -2209,7 +2209,7 @@ export interface GoogleCloudChannelV1RunReportJobRequest {
 }
 
 export const GoogleCloudChannelV1RunReportJobRequest: Schema.Schema<GoogleCloudChannelV1RunReportJobRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(GoogleCloudChannelV1DateRange),
       filter: Schema.optional(Schema.String),
@@ -2239,7 +2239,7 @@ export interface GoogleCloudChannelV1CloudIdentityCustomerAccount {
 }
 
 export const GoogleCloudChannelV1CloudIdentityCustomerAccount: Schema.Schema<GoogleCloudChannelV1CloudIdentityCustomerAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerName: Schema.optional(Schema.String),
       channelPartnerCloudIdentityId: Schema.optional(Schema.String),
@@ -2266,7 +2266,7 @@ export interface GoogleCloudChannelV1BillingAccount {
 }
 
 export const GoogleCloudChannelV1BillingAccount: Schema.Schema<GoogleCloudChannelV1BillingAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2284,7 +2284,7 @@ export interface GoogleCloudChannelV1BillingAccountPurchaseInfo {
 }
 
 export const GoogleCloudChannelV1BillingAccountPurchaseInfo: Schema.Schema<GoogleCloudChannelV1BillingAccountPurchaseInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccount: Schema.optional(GoogleCloudChannelV1BillingAccount),
     }),
@@ -2298,7 +2298,7 @@ export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse {
 }
 
 export const GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse: Schema.Schema<GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudIdentityAccounts: Schema.optional(
         Schema.Array(GoogleCloudChannelV1CloudIdentityCustomerAccount),
@@ -2316,7 +2316,7 @@ export interface GoogleCloudChannelV1ListEntitlementsResponse {
 }
 
 export const GoogleCloudChannelV1ListEntitlementsResponse: Schema.Schema<GoogleCloudChannelV1ListEntitlementsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       entitlements: Schema.optional(
@@ -2339,7 +2339,7 @@ export interface GoogleCloudChannelV1CustomerEvent {
 }
 
 export const GoogleCloudChannelV1CustomerEvent: Schema.Schema<GoogleCloudChannelV1CustomerEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
       eventType: Schema.optional(Schema.String),
@@ -2354,7 +2354,7 @@ export interface GoogleCloudChannelV1CancelEntitlementRequest {
 }
 
 export const GoogleCloudChannelV1CancelEntitlementRequest: Schema.Schema<GoogleCloudChannelV1CancelEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -2370,7 +2370,7 @@ export interface GoogleCloudChannelV1PurchasableOffer {
 }
 
 export const GoogleCloudChannelV1PurchasableOffer: Schema.Schema<GoogleCloudChannelV1PurchasableOffer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offer: Schema.optional(GoogleCloudChannelV1Offer),
       priceReferenceId: Schema.optional(Schema.String),
@@ -2387,7 +2387,7 @@ export interface GoogleCloudChannelV1TransferableOffer {
 }
 
 export const GoogleCloudChannelV1TransferableOffer: Schema.Schema<GoogleCloudChannelV1TransferableOffer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offer: Schema.optional(GoogleCloudChannelV1Offer),
       priceReferenceId: Schema.optional(Schema.String),
@@ -2404,7 +2404,7 @@ export interface GoogleCloudChannelV1ListTransferableOffersResponse {
 }
 
 export const GoogleCloudChannelV1ListTransferableOffersResponse: Schema.Schema<GoogleCloudChannelV1ListTransferableOffersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transferableOffers: Schema.optional(
         Schema.Array(GoogleCloudChannelV1TransferableOffer),
@@ -2421,7 +2421,7 @@ export interface GoogleCloudChannelV1SuspendEntitlementRequest {
 }
 
 export const GoogleCloudChannelV1SuspendEntitlementRequest: Schema.Schema<GoogleCloudChannelV1SuspendEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -2435,7 +2435,7 @@ export interface GoogleCloudChannelV1PurchasableSku {
 }
 
 export const GoogleCloudChannelV1PurchasableSku: Schema.Schema<GoogleCloudChannelV1PurchasableSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sku: Schema.optional(GoogleCloudChannelV1Sku),
     }),
@@ -2451,7 +2451,7 @@ export interface GoogleCloudChannelV1ListCustomersResponse {
 }
 
 export const GoogleCloudChannelV1ListCustomersResponse: Schema.Schema<GoogleCloudChannelV1ListCustomersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customers: Schema.optional(Schema.Array(GoogleCloudChannelV1Customer)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2470,7 +2470,7 @@ export interface GoogleCloudChannelV1CustomerRepricingConfig {
 }
 
 export const GoogleCloudChannelV1CustomerRepricingConfig: Schema.Schema<GoogleCloudChannelV1CustomerRepricingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -2488,7 +2488,7 @@ export interface GoogleCloudChannelV1ListCustomerRepricingConfigsResponse {
 }
 
 export const GoogleCloudChannelV1ListCustomerRepricingConfigsResponse: Schema.Schema<GoogleCloudChannelV1ListCustomerRepricingConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       customerRepricingConfigs: Schema.optional(
@@ -2525,7 +2525,7 @@ export interface GoogleCloudChannelV1ChannelPartnerLink {
 }
 
 export const GoogleCloudChannelV1ChannelPartnerLink: Schema.Schema<GoogleCloudChannelV1ChannelPartnerLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publicId: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -2550,7 +2550,7 @@ export interface GoogleCloudChannelV1ChangeRenewalSettingsRequest {
 }
 
 export const GoogleCloudChannelV1ChangeRenewalSettingsRequest: Schema.Schema<GoogleCloudChannelV1ChangeRenewalSettingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       renewalSettings: Schema.optional(GoogleCloudChannelV1RenewalSettings),
       requestId: Schema.optional(Schema.String),
@@ -2571,7 +2571,7 @@ export interface GoogleCloudChannelV1BillableSku {
 }
 
 export const GoogleCloudChannelV1BillableSku: Schema.Schema<GoogleCloudChannelV1BillableSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sku: Schema.optional(Schema.String),
       service: Schema.optional(Schema.String),
@@ -2590,7 +2590,7 @@ export interface GoogleCloudChannelV1ListSkuGroupBillableSkusResponse {
 }
 
 export const GoogleCloudChannelV1ListSkuGroupBillableSkusResponse: Schema.Schema<GoogleCloudChannelV1ListSkuGroupBillableSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billableSkus: Schema.optional(
         Schema.Array(GoogleCloudChannelV1BillableSku),
@@ -2609,7 +2609,7 @@ export interface GoogleCloudChannelV1SkuGroup {
 }
 
 export const GoogleCloudChannelV1SkuGroup: Schema.Schema<GoogleCloudChannelV1SkuGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2626,7 +2626,7 @@ export interface GoogleCloudChannelV1ListSkuGroupsResponse {
 }
 
 export const GoogleCloudChannelV1ListSkuGroupsResponse: Schema.Schema<GoogleCloudChannelV1ListSkuGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       skuGroups: Schema.optional(Schema.Array(GoogleCloudChannelV1SkuGroup)),
@@ -2641,7 +2641,7 @@ export interface GoogleCloudChannelV1RegisterSubscriberResponse {
 }
 
 export const GoogleCloudChannelV1RegisterSubscriberResponse: Schema.Schema<GoogleCloudChannelV1RegisterSubscriberResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -2667,7 +2667,7 @@ export interface GoogleCloudChannelV1ListTransferableOffersRequest {
 }
 
 export const GoogleCloudChannelV1ListTransferableOffersRequest: Schema.Schema<GoogleCloudChannelV1ListTransferableOffersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       billingAccount: Schema.optional(Schema.String),
@@ -2697,7 +2697,7 @@ export interface GoogleCloudChannelV1ListTransferableSkusRequest {
 }
 
 export const GoogleCloudChannelV1ListTransferableSkusRequest: Schema.Schema<GoogleCloudChannelV1ListTransferableSkusRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudIdentityId: Schema.optional(Schema.String),
       pageSize: Schema.optional(Schema.Number),
@@ -2732,7 +2732,7 @@ export interface GoogleCloudChannelV1alpha1OperationMetadata {
 }
 
 export const GoogleCloudChannelV1alpha1OperationMetadata: Schema.Schema<GoogleCloudChannelV1alpha1OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operationType: Schema.optional(Schema.String),
     }),
@@ -2746,7 +2746,7 @@ export interface GoogleCloudChannelV1ActivateEntitlementRequest {
 }
 
 export const GoogleCloudChannelV1ActivateEntitlementRequest: Schema.Schema<GoogleCloudChannelV1ActivateEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -2770,7 +2770,7 @@ export interface GoogleCloudChannelV1ChangeOfferRequest {
 }
 
 export const GoogleCloudChannelV1ChangeOfferRequest: Schema.Schema<GoogleCloudChannelV1ChangeOfferRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccount: Schema.optional(Schema.String),
       offer: Schema.optional(Schema.String),
@@ -2801,7 +2801,7 @@ export interface GoogleCloudChannelV1ImportCustomerRequest {
 }
 
 export const GoogleCloudChannelV1ImportCustomerRequest: Schema.Schema<GoogleCloudChannelV1ImportCustomerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       authToken: Schema.optional(Schema.String),
@@ -2823,7 +2823,7 @@ export interface GoogleCloudChannelV1ListChannelPartnerLinksResponse {
 }
 
 export const GoogleCloudChannelV1ListChannelPartnerLinksResponse: Schema.Schema<GoogleCloudChannelV1ListChannelPartnerLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       channelPartnerLinks: Schema.optional(
@@ -2850,7 +2850,7 @@ export interface GoogleCloudChannelV1TransferEligibility {
 }
 
 export const GoogleCloudChannelV1TransferEligibility: Schema.Schema<GoogleCloudChannelV1TransferEligibility> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       ineligibilityReason: Schema.optional(Schema.String),
@@ -2870,7 +2870,7 @@ export interface GoogleCloudChannelV1TransferableSku {
 }
 
 export const GoogleCloudChannelV1TransferableSku: Schema.Schema<GoogleCloudChannelV1TransferableSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sku: Schema.optional(GoogleCloudChannelV1Sku),
       legacySku: Schema.optional(GoogleCloudChannelV1Sku),
@@ -2892,7 +2892,7 @@ export interface GoogleCloudChannelV1AdminUser {
 }
 
 export const GoogleCloudChannelV1AdminUser: Schema.Schema<GoogleCloudChannelV1AdminUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       givenName: Schema.optional(Schema.String),
@@ -2912,7 +2912,7 @@ export interface GoogleCloudChannelV1TransferEntitlementsRequest {
 }
 
 export const GoogleCloudChannelV1TransferEntitlementsRequest: Schema.Schema<GoogleCloudChannelV1TransferEntitlementsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       entitlements: Schema.optional(
@@ -2934,7 +2934,7 @@ export interface GoogleCloudChannelV1UnregisterSubscriberRequest {
 }
 
 export const GoogleCloudChannelV1UnregisterSubscriberRequest: Schema.Schema<GoogleCloudChannelV1UnregisterSubscriberRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrator: Schema.optional(Schema.String),
       serviceAccount: Schema.optional(Schema.String),
@@ -2966,7 +2966,7 @@ export interface GoogleCloudChannelV1EntitlementEvent {
 }
 
 export const GoogleCloudChannelV1EntitlementEvent: Schema.Schema<GoogleCloudChannelV1EntitlementEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlement: Schema.optional(Schema.String),
       eventType: Schema.optional(Schema.String),
@@ -2983,7 +2983,7 @@ export interface GoogleCloudChannelV1SubscriberEvent {
 }
 
 export const GoogleCloudChannelV1SubscriberEvent: Schema.Schema<GoogleCloudChannelV1SubscriberEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerEvent: Schema.optional(GoogleCloudChannelV1CustomerEvent),
       entitlementEvent: Schema.optional(GoogleCloudChannelV1EntitlementEvent),
@@ -3000,7 +3000,7 @@ export interface GoogleCloudChannelV1ListPurchasableSkusResponse {
 }
 
 export const GoogleCloudChannelV1ListPurchasableSkusResponse: Schema.Schema<GoogleCloudChannelV1ListPurchasableSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purchasableSkus: Schema.optional(
         Schema.Array(GoogleCloudChannelV1PurchasableSku),
@@ -3019,7 +3019,7 @@ export interface GoogleCloudChannelV1ReportJob {
 }
 
 export const GoogleCloudChannelV1ReportJob: Schema.Schema<GoogleCloudChannelV1ReportJob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       reportStatus: Schema.optional(GoogleCloudChannelV1ReportStatus),
@@ -3036,7 +3036,7 @@ export interface GoogleCloudChannelV1RunReportJobResponse {
 }
 
 export const GoogleCloudChannelV1RunReportJobResponse: Schema.Schema<GoogleCloudChannelV1RunReportJobResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportJob: Schema.optional(GoogleCloudChannelV1ReportJob),
       reportMetadata: Schema.optional(
@@ -3055,7 +3055,7 @@ export interface GoogleCloudChannelV1ListTransferableSkusResponse {
 }
 
 export const GoogleCloudChannelV1ListTransferableSkusResponse: Schema.Schema<GoogleCloudChannelV1ListTransferableSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transferableSkus: Schema.optional(
         Schema.Array(GoogleCloudChannelV1TransferableSku),
@@ -3069,7 +3069,7 @@ export const GoogleCloudChannelV1ListTransferableSkusResponse: Schema.Schema<Goo
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -3081,7 +3081,7 @@ export interface GoogleCloudChannelV1SkuPurchaseGroup {
 }
 
 export const GoogleCloudChannelV1SkuPurchaseGroup: Schema.Schema<GoogleCloudChannelV1SkuPurchaseGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountPurchaseInfos: Schema.optional(
         Schema.Array(GoogleCloudChannelV1BillingAccountPurchaseInfo),
@@ -3098,7 +3098,7 @@ export interface GoogleCloudChannelV1UnregisterSubscriberResponse {
 }
 
 export const GoogleCloudChannelV1UnregisterSubscriberResponse: Schema.Schema<GoogleCloudChannelV1UnregisterSubscriberResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -3114,7 +3114,7 @@ export interface GoogleCloudChannelV1TransferEntitlementsToGoogleRequest {
 }
 
 export const GoogleCloudChannelV1TransferEntitlementsToGoogleRequest: Schema.Schema<GoogleCloudChannelV1TransferEntitlementsToGoogleRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlements: Schema.optional(
         Schema.Array(GoogleCloudChannelV1Entitlement),
@@ -3133,7 +3133,7 @@ export interface GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest {
 }
 
 export const GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest: Schema.Schema<GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       primaryAdminEmail: Schema.optional(Schema.String),
@@ -3150,7 +3150,7 @@ export interface GoogleCloudChannelV1ListPurchasableOffersResponse {
 }
 
 export const GoogleCloudChannelV1ListPurchasableOffersResponse: Schema.Schema<GoogleCloudChannelV1ListPurchasableOffersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purchasableOffers: Schema.optional(
         Schema.Array(GoogleCloudChannelV1PurchasableOffer),
@@ -3169,7 +3169,7 @@ export interface GoogleCloudChannelV1UpdateChannelPartnerLinkRequest {
 }
 
 export const GoogleCloudChannelV1UpdateChannelPartnerLinkRequest: Schema.Schema<GoogleCloudChannelV1UpdateChannelPartnerLinkRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelPartnerLink: Schema.optional(
         GoogleCloudChannelV1ChannelPartnerLink,
@@ -3186,7 +3186,7 @@ export interface GoogleCloudChannelV1TransferEntitlementsResponse {
 }
 
 export const GoogleCloudChannelV1TransferEntitlementsResponse: Schema.Schema<GoogleCloudChannelV1TransferEntitlementsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlements: Schema.optional(
         Schema.Array(GoogleCloudChannelV1Entitlement),
@@ -3204,7 +3204,7 @@ export interface GoogleCloudChannelV1ListSkusResponse {
 }
 
 export const GoogleCloudChannelV1ListSkusResponse: Schema.Schema<GoogleCloudChannelV1ListSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skus: Schema.optional(Schema.Array(GoogleCloudChannelV1Sku)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3223,7 +3223,7 @@ export interface GoogleCloudChannelV1RegisterSubscriberRequest {
 }
 
 export const GoogleCloudChannelV1RegisterSubscriberRequest: Schema.Schema<GoogleCloudChannelV1RegisterSubscriberRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(Schema.String),
       integrator: Schema.optional(Schema.String),
@@ -3239,7 +3239,7 @@ export interface GoogleCloudChannelV1StartPaidServiceRequest {
 }
 
 export const GoogleCloudChannelV1StartPaidServiceRequest: Schema.Schema<GoogleCloudChannelV1StartPaidServiceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -3257,7 +3257,7 @@ export interface GoogleCloudChannelV1FetchReportResultsRequest {
 }
 
 export const GoogleCloudChannelV1FetchReportResultsRequest: Schema.Schema<GoogleCloudChannelV1FetchReportResultsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageSize: Schema.optional(Schema.Number),
       partitionKeys: Schema.optional(Schema.Array(Schema.String)),
@@ -3277,7 +3277,7 @@ export interface GoogleCloudChannelV1ProvisionCloudIdentityRequest {
 }
 
 export const GoogleCloudChannelV1ProvisionCloudIdentityRequest: Schema.Schema<GoogleCloudChannelV1ProvisionCloudIdentityRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       validateOnly: Schema.optional(Schema.Boolean),
       cloudIdentityInfo: Schema.optional(GoogleCloudChannelV1CloudIdentityInfo),
@@ -3295,7 +3295,7 @@ export interface GoogleCloudChannelV1ListProductsResponse {
 }
 
 export const GoogleCloudChannelV1ListProductsResponse: Schema.Schema<GoogleCloudChannelV1ListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       products: Schema.optional(Schema.Array(GoogleCloudChannelV1Product)),
@@ -3310,7 +3310,7 @@ export interface GoogleCloudChannelV1QueryEligibleBillingAccountsResponse {
 }
 
 export const GoogleCloudChannelV1QueryEligibleBillingAccountsResponse: Schema.Schema<GoogleCloudChannelV1QueryEligibleBillingAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuPurchaseGroups: Schema.optional(
         Schema.Array(GoogleCloudChannelV1SkuPurchaseGroup),
@@ -3329,7 +3329,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
@@ -3337,7 +3337,8 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = GoogleLongrunningOperation;
-export const GetOperationsResponse = GoogleLongrunningOperation;
+export const GetOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -3347,7 +3348,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -3360,22 +3361,24 @@ export interface CancelOperationsRequest {
   body?: GoogleLongrunningCancelOperationRequest;
 }
 
-export const CancelOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelOperationsRequest>;
+export const CancelOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
 export type CancelOperationsResponse = GoogleProtobufEmpty;
-export const CancelOperationsResponse = GoogleProtobufEmpty;
+export const CancelOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelOperationsError = DefaultErrors;
 
@@ -3385,7 +3388,7 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsResponse,
   CancelOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -3404,7 +3407,7 @@ export interface ListOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListOperationsRequest = Schema.Struct({
+export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3418,7 +3421,8 @@ export const ListOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
 export type ListOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
+export const ListOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = DefaultErrors;
 
@@ -3428,7 +3432,7 @@ export const listOperations: API.PaginatedOperationMethod<
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -3443,15 +3447,17 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 
-export const DeleteOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOperationsRequest>;
+export const DeleteOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
 export type DeleteOperationsResponse = GoogleProtobufEmpty;
-export const DeleteOperationsResponse = GoogleProtobufEmpty;
+export const DeleteOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOperationsError = DefaultErrors;
 
@@ -3461,7 +3467,7 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsResponse,
   DeleteOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -3478,7 +3484,7 @@ export interface ListProductsRequest {
   pageSize?: number;
 }
 
-export const ListProductsRequest = Schema.Struct({
+export const ListProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   account: Schema.optional(Schema.String).pipe(T.HttpQuery("account")),
   languageCode: Schema.optional(Schema.String).pipe(
@@ -3491,7 +3497,8 @@ export const ListProductsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListProductsRequest>;
 
 export type ListProductsResponse = GoogleCloudChannelV1ListProductsResponse;
-export const ListProductsResponse = GoogleCloudChannelV1ListProductsResponse;
+export const ListProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListProductsResponse;
 
 export type ListProductsError = DefaultErrors;
 
@@ -3501,7 +3508,7 @@ export const listProducts: API.PaginatedOperationMethod<
   ListProductsResponse,
   ListProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProductsRequest,
   output: ListProductsResponse,
   errors: [],
@@ -3524,21 +3531,23 @@ export interface ListProductsSkusRequest {
   languageCode?: string;
 }
 
-export const ListProductsSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  account: Schema.optional(Schema.String).pipe(T.HttpQuery("account")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/products/{productsId}/skus" }),
-  svc,
-) as unknown as Schema.Schema<ListProductsSkusRequest>;
+export const ListProductsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    account: Schema.optional(Schema.String).pipe(T.HttpQuery("account")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/products/{productsId}/skus" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProductsSkusRequest>;
 
 export type ListProductsSkusResponse = GoogleCloudChannelV1ListSkusResponse;
-export const ListProductsSkusResponse = GoogleCloudChannelV1ListSkusResponse;
+export const ListProductsSkusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListSkusResponse;
 
 export type ListProductsSkusError = DefaultErrors;
 
@@ -3548,7 +3557,7 @@ export const listProductsSkus: API.PaginatedOperationMethod<
   ListProductsSkusResponse,
   ListProductsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProductsSkusRequest,
   output: ListProductsSkusResponse,
   errors: [],
@@ -3565,24 +3574,25 @@ export interface UnregisterAccountsRequest {
   body?: GoogleCloudChannelV1UnregisterSubscriberRequest;
 }
 
-export const UnregisterAccountsRequest = Schema.Struct({
-  account: Schema.String.pipe(T.HttpPath("account")),
-  body: Schema.optional(GoogleCloudChannelV1UnregisterSubscriberRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}:unregister",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnregisterAccountsRequest>;
+export const UnregisterAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    account: Schema.String.pipe(T.HttpPath("account")),
+    body: Schema.optional(GoogleCloudChannelV1UnregisterSubscriberRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}:unregister",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnregisterAccountsRequest>;
 
 export type UnregisterAccountsResponse =
   GoogleCloudChannelV1UnregisterSubscriberResponse;
 export const UnregisterAccountsResponse =
-  GoogleCloudChannelV1UnregisterSubscriberResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1UnregisterSubscriberResponse;
 
 export type UnregisterAccountsError = DefaultErrors;
 
@@ -3592,7 +3602,7 @@ export const unregisterAccounts: API.OperationMethod<
   UnregisterAccountsResponse,
   UnregisterAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnregisterAccountsRequest,
   output: UnregisterAccountsResponse,
   errors: [],
@@ -3605,24 +3615,25 @@ export interface RegisterAccountsRequest {
   body?: GoogleCloudChannelV1RegisterSubscriberRequest;
 }
 
-export const RegisterAccountsRequest = Schema.Struct({
-  account: Schema.String.pipe(T.HttpPath("account")),
-  body: Schema.optional(GoogleCloudChannelV1RegisterSubscriberRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}:register",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RegisterAccountsRequest>;
+export const RegisterAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    account: Schema.String.pipe(T.HttpPath("account")),
+    body: Schema.optional(GoogleCloudChannelV1RegisterSubscriberRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}:register",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RegisterAccountsRequest>;
 
 export type RegisterAccountsResponse =
   GoogleCloudChannelV1RegisterSubscriberResponse;
 export const RegisterAccountsResponse =
-  GoogleCloudChannelV1RegisterSubscriberResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1RegisterSubscriberResponse;
 
 export type RegisterAccountsError = DefaultErrors;
 
@@ -3632,7 +3643,7 @@ export const registerAccounts: API.OperationMethod<
   RegisterAccountsResponse,
   RegisterAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterAccountsRequest,
   output: RegisterAccountsResponse,
   errors: [],
@@ -3645,24 +3656,25 @@ export interface ListTransferableSkusAccountsRequest {
   body?: GoogleCloudChannelV1ListTransferableSkusRequest;
 }
 
-export const ListTransferableSkusAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1ListTransferableSkusRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}:listTransferableSkus",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ListTransferableSkusAccountsRequest>;
+export const ListTransferableSkusAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1ListTransferableSkusRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}:listTransferableSkus",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListTransferableSkusAccountsRequest>;
 
 export type ListTransferableSkusAccountsResponse =
   GoogleCloudChannelV1ListTransferableSkusResponse;
 export const ListTransferableSkusAccountsResponse =
-  GoogleCloudChannelV1ListTransferableSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListTransferableSkusResponse;
 
 export type ListTransferableSkusAccountsError = DefaultErrors;
 
@@ -3672,7 +3684,7 @@ export const listTransferableSkusAccounts: API.OperationMethod<
   ListTransferableSkusAccountsResponse,
   ListTransferableSkusAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTransferableSkusAccountsRequest,
   output: ListTransferableSkusAccountsResponse,
   errors: [],
@@ -3685,24 +3697,25 @@ export interface ListTransferableOffersAccountsRequest {
   body?: GoogleCloudChannelV1ListTransferableOffersRequest;
 }
 
-export const ListTransferableOffersAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1ListTransferableOffersRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}:listTransferableOffers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ListTransferableOffersAccountsRequest>;
+export const ListTransferableOffersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudChannelV1ListTransferableOffersRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}:listTransferableOffers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListTransferableOffersAccountsRequest>;
 
 export type ListTransferableOffersAccountsResponse =
   GoogleCloudChannelV1ListTransferableOffersResponse;
 export const ListTransferableOffersAccountsResponse =
-  GoogleCloudChannelV1ListTransferableOffersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListTransferableOffersResponse;
 
 export type ListTransferableOffersAccountsError = DefaultErrors;
 
@@ -3712,7 +3725,7 @@ export const listTransferableOffersAccounts: API.OperationMethod<
   ListTransferableOffersAccountsResponse,
   ListTransferableOffersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTransferableOffersAccountsRequest,
   output: ListTransferableOffersAccountsResponse,
   errors: [],
@@ -3725,24 +3738,25 @@ export interface CheckCloudIdentityAccountsExistAccountsRequest {
   body?: GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest;
 }
 
-export const CheckCloudIdentityAccountsExistAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}:checkCloudIdentityAccountsExist",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckCloudIdentityAccountsExistAccountsRequest>;
+export const CheckCloudIdentityAccountsExistAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudChannelV1CheckCloudIdentityAccountsExistRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}:checkCloudIdentityAccountsExist",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckCloudIdentityAccountsExistAccountsRequest>;
 
 export type CheckCloudIdentityAccountsExistAccountsResponse =
   GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse;
 export const CheckCloudIdentityAccountsExistAccountsResponse =
-  GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse;
 
 export type CheckCloudIdentityAccountsExistAccountsError = DefaultErrors;
 
@@ -3752,7 +3766,7 @@ export const checkCloudIdentityAccountsExistAccounts: API.OperationMethod<
   CheckCloudIdentityAccountsExistAccountsResponse,
   CheckCloudIdentityAccountsExistAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckCloudIdentityAccountsExistAccountsRequest,
   output: CheckCloudIdentityAccountsExistAccountsResponse,
   errors: [],
@@ -3769,20 +3783,21 @@ export interface ListSubscribersAccountsRequest {
   pageSize?: number;
 }
 
-export const ListSubscribersAccountsRequest = Schema.Struct({
-  account: Schema.String.pipe(T.HttpPath("account")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  integrator: Schema.optional(Schema.String).pipe(T.HttpQuery("integrator")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}:listSubscribers" }),
-  svc,
-) as unknown as Schema.Schema<ListSubscribersAccountsRequest>;
+export const ListSubscribersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    account: Schema.String.pipe(T.HttpPath("account")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    integrator: Schema.optional(Schema.String).pipe(T.HttpQuery("integrator")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}:listSubscribers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSubscribersAccountsRequest>;
 
 export type ListSubscribersAccountsResponse =
   GoogleCloudChannelV1ListSubscribersResponse;
 export const ListSubscribersAccountsResponse =
-  GoogleCloudChannelV1ListSubscribersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListSubscribersResponse;
 
 export type ListSubscribersAccountsError = DefaultErrors;
 
@@ -3792,7 +3807,7 @@ export const listSubscribersAccounts: API.PaginatedOperationMethod<
   ListSubscribersAccountsResponse,
   ListSubscribersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSubscribersAccountsRequest,
   output: ListSubscribersAccountsResponse,
   errors: [],
@@ -3809,22 +3824,24 @@ export interface RunAccountsReportsRequest {
   body?: GoogleCloudChannelV1RunReportJobRequest;
 }
 
-export const RunAccountsReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudChannelV1RunReportJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/reports/{reportsId}:run",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunAccountsReportsRequest>;
+export const RunAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudChannelV1RunReportJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/reports/{reportsId}:run",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunAccountsReportsRequest>;
 
 export type RunAccountsReportsResponse = GoogleLongrunningOperation;
-export const RunAccountsReportsResponse = GoogleLongrunningOperation;
+export const RunAccountsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RunAccountsReportsError = DefaultErrors;
 
@@ -3834,7 +3851,7 @@ export const runAccountsReports: API.OperationMethod<
   RunAccountsReportsResponse,
   RunAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAccountsReportsRequest,
   output: RunAccountsReportsResponse,
   errors: [],
@@ -3851,22 +3868,23 @@ export interface ListAccountsReportsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsReportsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/reports" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsReportsRequest>;
+export const ListAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/reports" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsReportsRequest>;
 
 export type ListAccountsReportsResponse =
   GoogleCloudChannelV1ListReportsResponse;
 export const ListAccountsReportsResponse =
-  GoogleCloudChannelV1ListReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListReportsResponse;
 
 export type ListAccountsReportsError = DefaultErrors;
 
@@ -3876,7 +3894,7 @@ export const listAccountsReports: API.PaginatedOperationMethod<
   ListAccountsReportsResponse,
   ListAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsReportsRequest,
   output: ListAccountsReportsResponse,
   errors: [],
@@ -3893,24 +3911,25 @@ export interface FetchReportResultsAccountsReportJobsRequest {
   body?: GoogleCloudChannelV1FetchReportResultsRequest;
 }
 
-export const FetchReportResultsAccountsReportJobsRequest = Schema.Struct({
-  reportJob: Schema.String.pipe(T.HttpPath("reportJob")),
-  body: Schema.optional(GoogleCloudChannelV1FetchReportResultsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/reportJobs/{reportJobsId}:fetchReportResults",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchReportResultsAccountsReportJobsRequest>;
+export const FetchReportResultsAccountsReportJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    reportJob: Schema.String.pipe(T.HttpPath("reportJob")),
+    body: Schema.optional(GoogleCloudChannelV1FetchReportResultsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/reportJobs/{reportJobsId}:fetchReportResults",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchReportResultsAccountsReportJobsRequest>;
 
 export type FetchReportResultsAccountsReportJobsResponse =
   GoogleCloudChannelV1FetchReportResultsResponse;
 export const FetchReportResultsAccountsReportJobsResponse =
-  GoogleCloudChannelV1FetchReportResultsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1FetchReportResultsResponse;
 
 export type FetchReportResultsAccountsReportJobsError = DefaultErrors;
 
@@ -3920,7 +3939,7 @@ export const fetchReportResultsAccountsReportJobs: API.OperationMethod<
   FetchReportResultsAccountsReportJobsResponse,
   FetchReportResultsAccountsReportJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchReportResultsAccountsReportJobsRequest,
   output: FetchReportResultsAccountsReportJobsResponse,
   errors: [],
@@ -3933,21 +3952,22 @@ export interface GetAccountsChannelPartnerLinksRequest {
   view?: "UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
 }
 
-export const GetAccountsChannelPartnerLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsChannelPartnerLinksRequest>;
+export const GetAccountsChannelPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsChannelPartnerLinksRequest>;
 
 export type GetAccountsChannelPartnerLinksResponse =
   GoogleCloudChannelV1ChannelPartnerLink;
 export const GetAccountsChannelPartnerLinksResponse =
-  GoogleCloudChannelV1ChannelPartnerLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerLink;
 
 export type GetAccountsChannelPartnerLinksError = DefaultErrors;
 
@@ -3957,7 +3977,7 @@ export const getAccountsChannelPartnerLinks: API.OperationMethod<
   GetAccountsChannelPartnerLinksResponse,
   GetAccountsChannelPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsChannelPartnerLinksRequest,
   output: GetAccountsChannelPartnerLinksResponse,
   errors: [],
@@ -3970,24 +3990,25 @@ export interface CreateAccountsChannelPartnerLinksRequest {
   body?: GoogleCloudChannelV1ChannelPartnerLink;
 }
 
-export const CreateAccountsChannelPartnerLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1ChannelPartnerLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsChannelPartnerLinksRequest>;
+export const CreateAccountsChannelPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1ChannelPartnerLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsChannelPartnerLinksRequest>;
 
 export type CreateAccountsChannelPartnerLinksResponse =
   GoogleCloudChannelV1ChannelPartnerLink;
 export const CreateAccountsChannelPartnerLinksResponse =
-  GoogleCloudChannelV1ChannelPartnerLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerLink;
 
 export type CreateAccountsChannelPartnerLinksError = DefaultErrors;
 
@@ -3997,7 +4018,7 @@ export const createAccountsChannelPartnerLinks: API.OperationMethod<
   CreateAccountsChannelPartnerLinksResponse,
   CreateAccountsChannelPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsChannelPartnerLinksRequest,
   output: CreateAccountsChannelPartnerLinksResponse,
   errors: [],
@@ -4010,24 +4031,25 @@ export interface PatchAccountsChannelPartnerLinksRequest {
   body?: GoogleCloudChannelV1UpdateChannelPartnerLinkRequest;
 }
 
-export const PatchAccountsChannelPartnerLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudChannelV1UpdateChannelPartnerLinkRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsChannelPartnerLinksRequest>;
+export const PatchAccountsChannelPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudChannelV1UpdateChannelPartnerLinkRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsChannelPartnerLinksRequest>;
 
 export type PatchAccountsChannelPartnerLinksResponse =
   GoogleCloudChannelV1ChannelPartnerLink;
 export const PatchAccountsChannelPartnerLinksResponse =
-  GoogleCloudChannelV1ChannelPartnerLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerLink;
 
 export type PatchAccountsChannelPartnerLinksError = DefaultErrors;
 
@@ -4037,7 +4059,7 @@ export const patchAccountsChannelPartnerLinks: API.OperationMethod<
   PatchAccountsChannelPartnerLinksResponse,
   PatchAccountsChannelPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsChannelPartnerLinksRequest,
   output: PatchAccountsChannelPartnerLinksResponse,
   errors: [],
@@ -4054,23 +4076,24 @@ export interface ListAccountsChannelPartnerLinksRequest {
   pageSize?: number;
 }
 
-export const ListAccountsChannelPartnerLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsChannelPartnerLinksRequest>;
+export const ListAccountsChannelPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsChannelPartnerLinksRequest>;
 
 export type ListAccountsChannelPartnerLinksResponse =
   GoogleCloudChannelV1ListChannelPartnerLinksResponse;
 export const ListAccountsChannelPartnerLinksResponse =
-  GoogleCloudChannelV1ListChannelPartnerLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListChannelPartnerLinksResponse;
 
 export type ListAccountsChannelPartnerLinksError = DefaultErrors;
 
@@ -4080,7 +4103,7 @@ export const listAccountsChannelPartnerLinks: API.PaginatedOperationMethod<
   ListAccountsChannelPartnerLinksResponse,
   ListAccountsChannelPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksRequest,
   output: ListAccountsChannelPartnerLinksResponse,
   errors: [],
@@ -4097,22 +4120,23 @@ export interface CreateAccountsChannelPartnerLinksCustomersRequest {
   body?: GoogleCloudChannelV1Customer;
 }
 
-export const CreateAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsChannelPartnerLinksCustomersRequest>;
+export const CreateAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsChannelPartnerLinksCustomersRequest>;
 
 export type CreateAccountsChannelPartnerLinksCustomersResponse =
   GoogleCloudChannelV1Customer;
 export const CreateAccountsChannelPartnerLinksCustomersResponse =
-  GoogleCloudChannelV1Customer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type CreateAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4122,7 +4146,7 @@ export const createAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   CreateAccountsChannelPartnerLinksCustomersResponse,
   CreateAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsChannelPartnerLinksCustomersRequest,
   output: CreateAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4133,20 +4157,21 @@ export interface GetAccountsChannelPartnerLinksCustomersRequest {
   name: string;
 }
 
-export const GetAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsChannelPartnerLinksCustomersRequest>;
+export const GetAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsChannelPartnerLinksCustomersRequest>;
 
 export type GetAccountsChannelPartnerLinksCustomersResponse =
   GoogleCloudChannelV1Customer;
 export const GetAccountsChannelPartnerLinksCustomersResponse =
-  GoogleCloudChannelV1Customer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type GetAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4156,7 +4181,7 @@ export const getAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   GetAccountsChannelPartnerLinksCustomersResponse,
   GetAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsChannelPartnerLinksCustomersRequest,
   output: GetAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4169,24 +4194,25 @@ export interface ImportAccountsChannelPartnerLinksCustomersRequest {
   body?: GoogleCloudChannelV1ImportCustomerRequest;
 }
 
-export const ImportAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1ImportCustomerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportAccountsChannelPartnerLinksCustomersRequest>;
+export const ImportAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1ImportCustomerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportAccountsChannelPartnerLinksCustomersRequest>;
 
 export type ImportAccountsChannelPartnerLinksCustomersResponse =
   GoogleCloudChannelV1Customer;
 export const ImportAccountsChannelPartnerLinksCustomersResponse =
-  GoogleCloudChannelV1Customer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type ImportAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4196,7 +4222,7 @@ export const importAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   ImportAccountsChannelPartnerLinksCustomersResponse,
   ImportAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportAccountsChannelPartnerLinksCustomersRequest,
   output: ImportAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4211,23 +4237,24 @@ export interface PatchAccountsChannelPartnerLinksCustomersRequest {
   body?: GoogleCloudChannelV1Customer;
 }
 
-export const PatchAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsChannelPartnerLinksCustomersRequest>;
+export const PatchAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsChannelPartnerLinksCustomersRequest>;
 
 export type PatchAccountsChannelPartnerLinksCustomersResponse =
   GoogleCloudChannelV1Customer;
 export const PatchAccountsChannelPartnerLinksCustomersResponse =
-  GoogleCloudChannelV1Customer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type PatchAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4237,7 +4264,7 @@ export const patchAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   PatchAccountsChannelPartnerLinksCustomersResponse,
   PatchAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsChannelPartnerLinksCustomersRequest,
   output: PatchAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4248,20 +4275,21 @@ export interface DeleteAccountsChannelPartnerLinksCustomersRequest {
   name: string;
 }
 
-export const DeleteAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsChannelPartnerLinksCustomersRequest>;
+export const DeleteAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers/{customersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsChannelPartnerLinksCustomersRequest>;
 
 export type DeleteAccountsChannelPartnerLinksCustomersResponse =
   GoogleProtobufEmpty;
 export const DeleteAccountsChannelPartnerLinksCustomersResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4271,7 +4299,7 @@ export const deleteAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   DeleteAccountsChannelPartnerLinksCustomersResponse,
   DeleteAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsChannelPartnerLinksCustomersRequest,
   output: DeleteAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4288,23 +4316,24 @@ export interface ListAccountsChannelPartnerLinksCustomersRequest {
   pageSize?: number;
 }
 
-export const ListAccountsChannelPartnerLinksCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsChannelPartnerLinksCustomersRequest>;
+export const ListAccountsChannelPartnerLinksCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/channelPartnerLinks/{channelPartnerLinksId}/customers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsChannelPartnerLinksCustomersRequest>;
 
 export type ListAccountsChannelPartnerLinksCustomersResponse =
   GoogleCloudChannelV1ListCustomersResponse;
 export const ListAccountsChannelPartnerLinksCustomersResponse =
-  GoogleCloudChannelV1ListCustomersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListCustomersResponse;
 
 export type ListAccountsChannelPartnerLinksCustomersError = DefaultErrors;
 
@@ -4314,7 +4343,7 @@ export const listAccountsChannelPartnerLinksCustomers: API.PaginatedOperationMet
   ListAccountsChannelPartnerLinksCustomersResponse,
   ListAccountsChannelPartnerLinksCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksCustomersRequest,
   output: ListAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -4336,7 +4365,7 @@ export interface ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRe
 }
 
 export const ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -4352,7 +4381,7 @@ export const ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsReques
 export type ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
   GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse;
 export const ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
-  GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse;
 
 export type ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
   DefaultErrors;
@@ -4363,7 +4392,7 @@ export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.
   ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
@@ -4381,7 +4410,7 @@ export interface PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsR
 }
 
 export const PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudChannelV1ChannelPartnerRepricingConfig,
@@ -4398,7 +4427,7 @@ export const PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsReque
 export type PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
   GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 export const PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
-  GoogleCloudChannelV1ChannelPartnerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 
 export type PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
   DefaultErrors;
@@ -4409,7 +4438,7 @@ export const patchAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API
   PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output:
     PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
@@ -4422,7 +4451,7 @@ export interface DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs
 }
 
 export const DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -4435,7 +4464,7 @@ export const DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequ
 export type DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
   DefaultErrors;
@@ -4446,7 +4475,7 @@ export const deleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
   DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output:
     DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
@@ -4461,7 +4490,7 @@ export interface CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigs
 }
 
 export const CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudChannelV1ChannelPartnerRepricingConfig,
@@ -4478,7 +4507,7 @@ export const CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequ
 export type CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
   GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 export const CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
-  GoogleCloudChannelV1ChannelPartnerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 
 export type CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
   DefaultErrors;
@@ -4489,7 +4518,7 @@ export const createAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
   CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output:
     CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
@@ -4502,7 +4531,7 @@ export interface GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsReq
 }
 
 export const GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -4515,7 +4544,7 @@ export const GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest
 export type GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
   GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 export const GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse =
-  GoogleCloudChannelV1ChannelPartnerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ChannelPartnerRepricingConfig;
 
 export type GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
   DefaultErrors;
@@ -4526,7 +4555,7 @@ export const getAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.O
   GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
@@ -4547,25 +4576,26 @@ export interface ListAccountsOffersRequest {
   parent: string;
 }
 
-export const ListAccountsOffersRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  showFutureOffers: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("showFutureOffers"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/offers" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsOffersRequest>;
+export const ListAccountsOffersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    showFutureOffers: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showFutureOffers"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/offers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsOffersRequest>;
 
 export type ListAccountsOffersResponse = GoogleCloudChannelV1ListOffersResponse;
 export const ListAccountsOffersResponse =
-  GoogleCloudChannelV1ListOffersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListOffersResponse;
 
 export type ListAccountsOffersError = DefaultErrors;
 
@@ -4575,7 +4605,7 @@ export const listAccountsOffers: API.PaginatedOperationMethod<
   ListAccountsOffersResponse,
   ListAccountsOffersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsOffersRequest,
   output: ListAccountsOffersResponse,
   errors: [],
@@ -4592,24 +4622,25 @@ export interface ProvisionCloudIdentityAccountsCustomersRequest {
   body?: GoogleCloudChannelV1ProvisionCloudIdentityRequest;
 }
 
-export const ProvisionCloudIdentityAccountsCustomersRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  body: Schema.optional(GoogleCloudChannelV1ProvisionCloudIdentityRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}:provisionCloudIdentity",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionCloudIdentityAccountsCustomersRequest>;
+export const ProvisionCloudIdentityAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    body: Schema.optional(
+      GoogleCloudChannelV1ProvisionCloudIdentityRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}:provisionCloudIdentity",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionCloudIdentityAccountsCustomersRequest>;
 
 export type ProvisionCloudIdentityAccountsCustomersResponse =
   GoogleLongrunningOperation;
 export const ProvisionCloudIdentityAccountsCustomersResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ProvisionCloudIdentityAccountsCustomersError = DefaultErrors;
 
@@ -4619,7 +4650,7 @@ export const provisionCloudIdentityAccountsCustomers: API.OperationMethod<
   ProvisionCloudIdentityAccountsCustomersResponse,
   ProvisionCloudIdentityAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionCloudIdentityAccountsCustomersRequest,
   output: ProvisionCloudIdentityAccountsCustomersResponse,
   errors: [],
@@ -4632,24 +4663,25 @@ export interface TransferEntitlementsAccountsCustomersRequest {
   body?: GoogleCloudChannelV1TransferEntitlementsRequest;
 }
 
-export const TransferEntitlementsAccountsCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1TransferEntitlementsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}:transferEntitlements",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TransferEntitlementsAccountsCustomersRequest>;
+export const TransferEntitlementsAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1TransferEntitlementsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}:transferEntitlements",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TransferEntitlementsAccountsCustomersRequest>;
 
 export type TransferEntitlementsAccountsCustomersResponse =
   GoogleLongrunningOperation;
 export const TransferEntitlementsAccountsCustomersResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TransferEntitlementsAccountsCustomersError = DefaultErrors;
 
@@ -4659,7 +4691,7 @@ export const transferEntitlementsAccountsCustomers: API.OperationMethod<
   TransferEntitlementsAccountsCustomersResponse,
   TransferEntitlementsAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferEntitlementsAccountsCustomersRequest,
   output: TransferEntitlementsAccountsCustomersResponse,
   errors: [],
@@ -4686,34 +4718,35 @@ export interface ListPurchasableSkusAccountsCustomersRequest {
   languageCode?: string;
 }
 
-export const ListPurchasableSkusAccountsCustomersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "changeOfferPurchase.entitlement": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("changeOfferPurchase.entitlement"),
-  ),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  "createEntitlementPurchase.product": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("createEntitlementPurchase.product"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "changeOfferPurchase.changeType": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("changeOfferPurchase.changeType"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}:listPurchasableSkus",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPurchasableSkusAccountsCustomersRequest>;
+export const ListPurchasableSkusAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "changeOfferPurchase.entitlement": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("changeOfferPurchase.entitlement"),
+    ),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    "createEntitlementPurchase.product": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("createEntitlementPurchase.product"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    "changeOfferPurchase.changeType": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("changeOfferPurchase.changeType"),
+    ),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}:listPurchasableSkus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPurchasableSkusAccountsCustomersRequest>;
 
 export type ListPurchasableSkusAccountsCustomersResponse =
   GoogleCloudChannelV1ListPurchasableSkusResponse;
 export const ListPurchasableSkusAccountsCustomersResponse =
-  GoogleCloudChannelV1ListPurchasableSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListPurchasableSkusResponse;
 
 export type ListPurchasableSkusAccountsCustomersError = DefaultErrors;
 
@@ -4723,7 +4756,7 @@ export const listPurchasableSkusAccountsCustomers: API.PaginatedOperationMethod<
   ListPurchasableSkusAccountsCustomersResponse,
   ListPurchasableSkusAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPurchasableSkusAccountsCustomersRequest,
   output: ListPurchasableSkusAccountsCustomersResponse,
   errors: [],
@@ -4738,18 +4771,20 @@ export interface GetAccountsCustomersRequest {
   name: string;
 }
 
-export const GetAccountsCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsCustomersRequest>;
+export const GetAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsCustomersRequest>;
 
 export type GetAccountsCustomersResponse = GoogleCloudChannelV1Customer;
-export const GetAccountsCustomersResponse = GoogleCloudChannelV1Customer;
+export const GetAccountsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type GetAccountsCustomersError = DefaultErrors;
 
@@ -4759,7 +4794,7 @@ export const getAccountsCustomers: API.OperationMethod<
   GetAccountsCustomersResponse,
   GetAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsCustomersRequest,
   output: GetAccountsCustomersResponse,
   errors: [],
@@ -4772,22 +4807,24 @@ export interface ImportAccountsCustomersRequest {
   body?: GoogleCloudChannelV1ImportCustomerRequest;
 }
 
-export const ImportAccountsCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1ImportCustomerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportAccountsCustomersRequest>;
+export const ImportAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1ImportCustomerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportAccountsCustomersRequest>;
 
 export type ImportAccountsCustomersResponse = GoogleCloudChannelV1Customer;
-export const ImportAccountsCustomersResponse = GoogleCloudChannelV1Customer;
+export const ImportAccountsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type ImportAccountsCustomersError = DefaultErrors;
 
@@ -4797,7 +4834,7 @@ export const importAccountsCustomers: API.OperationMethod<
   ImportAccountsCustomersResponse,
   ImportAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportAccountsCustomersRequest,
   output: ImportAccountsCustomersResponse,
   errors: [],
@@ -4812,21 +4849,23 @@ export interface PatchAccountsCustomersRequest {
   body?: GoogleCloudChannelV1Customer;
 }
 
-export const PatchAccountsCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/customers/{customersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsCustomersRequest>;
+export const PatchAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/customers/{customersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsCustomersRequest>;
 
 export type PatchAccountsCustomersResponse = GoogleCloudChannelV1Customer;
-export const PatchAccountsCustomersResponse = GoogleCloudChannelV1Customer;
+export const PatchAccountsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type PatchAccountsCustomersError = DefaultErrors;
 
@@ -4836,7 +4875,7 @@ export const patchAccountsCustomers: API.OperationMethod<
   PatchAccountsCustomersResponse,
   PatchAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsCustomersRequest,
   output: PatchAccountsCustomersResponse,
   errors: [],
@@ -4850,7 +4889,7 @@ export interface TransferEntitlementsToGoogleAccountsCustomersRequest {
 }
 
 export const TransferEntitlementsToGoogleAccountsCustomersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudChannelV1TransferEntitlementsToGoogleRequest,
@@ -4867,7 +4906,7 @@ export const TransferEntitlementsToGoogleAccountsCustomersRequest =
 export type TransferEntitlementsToGoogleAccountsCustomersResponse =
   GoogleLongrunningOperation;
 export const TransferEntitlementsToGoogleAccountsCustomersResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TransferEntitlementsToGoogleAccountsCustomersError = DefaultErrors;
 
@@ -4877,7 +4916,7 @@ export const transferEntitlementsToGoogleAccountsCustomers: API.OperationMethod<
   TransferEntitlementsToGoogleAccountsCustomersResponse,
   TransferEntitlementsToGoogleAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferEntitlementsToGoogleAccountsCustomersRequest,
   output: TransferEntitlementsToGoogleAccountsCustomersResponse,
   errors: [],
@@ -4904,40 +4943,41 @@ export interface ListPurchasableOffersAccountsCustomersRequest {
   "changeOfferPurchase.newSku"?: string;
 }
 
-export const ListPurchasableOffersAccountsCustomersRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  "createEntitlementPurchase.sku": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("createEntitlementPurchase.sku"),
-  ),
-  "changeOfferPurchase.entitlement": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("changeOfferPurchase.entitlement"),
-  ),
-  "changeOfferPurchase.billingAccount": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("changeOfferPurchase.billingAccount"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "createEntitlementPurchase.billingAccount": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("createEntitlementPurchase.billingAccount")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "changeOfferPurchase.newSku": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("changeOfferPurchase.newSku"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}:listPurchasableOffers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPurchasableOffersAccountsCustomersRequest>;
+export const ListPurchasableOffersAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    "createEntitlementPurchase.sku": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("createEntitlementPurchase.sku"),
+    ),
+    "changeOfferPurchase.entitlement": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("changeOfferPurchase.entitlement"),
+    ),
+    "changeOfferPurchase.billingAccount": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("changeOfferPurchase.billingAccount"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    "createEntitlementPurchase.billingAccount": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("createEntitlementPurchase.billingAccount")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "changeOfferPurchase.newSku": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("changeOfferPurchase.newSku"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}:listPurchasableOffers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPurchasableOffersAccountsCustomersRequest>;
 
 export type ListPurchasableOffersAccountsCustomersResponse =
   GoogleCloudChannelV1ListPurchasableOffersResponse;
 export const ListPurchasableOffersAccountsCustomersResponse =
-  GoogleCloudChannelV1ListPurchasableOffersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListPurchasableOffersResponse;
 
 export type ListPurchasableOffersAccountsCustomersError = DefaultErrors;
 
@@ -4947,7 +4987,7 @@ export const listPurchasableOffersAccountsCustomers: API.PaginatedOperationMetho
   ListPurchasableOffersAccountsCustomersResponse,
   ListPurchasableOffersAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPurchasableOffersAccountsCustomersRequest,
   output: ListPurchasableOffersAccountsCustomersResponse,
   errors: [],
@@ -4964,20 +5004,22 @@ export interface CreateAccountsCustomersRequest {
   body?: GoogleCloudChannelV1Customer;
 }
 
-export const CreateAccountsCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsCustomersRequest>;
+export const CreateAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1Customer).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsCustomersRequest>;
 
 export type CreateAccountsCustomersResponse = GoogleCloudChannelV1Customer;
-export const CreateAccountsCustomersResponse = GoogleCloudChannelV1Customer;
+export const CreateAccountsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Customer;
 
 export type CreateAccountsCustomersError = DefaultErrors;
 
@@ -4987,7 +5029,7 @@ export const createAccountsCustomers: API.OperationMethod<
   CreateAccountsCustomersResponse,
   CreateAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsCustomersRequest,
   output: CreateAccountsCustomersResponse,
   errors: [],
@@ -5004,20 +5046,21 @@ export interface ListAccountsCustomersRequest {
   filter?: string;
 }
 
-export const ListAccountsCustomersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/customers" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsCustomersRequest>;
+export const ListAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/customers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsCustomersRequest>;
 
 export type ListAccountsCustomersResponse =
   GoogleCloudChannelV1ListCustomersResponse;
 export const ListAccountsCustomersResponse =
-  GoogleCloudChannelV1ListCustomersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListCustomersResponse;
 
 export type ListAccountsCustomersError = DefaultErrors;
 
@@ -5027,7 +5070,7 @@ export const listAccountsCustomers: API.PaginatedOperationMethod<
   ListAccountsCustomersResponse,
   ListAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCustomersRequest,
   output: ListAccountsCustomersResponse,
   errors: [],
@@ -5045,7 +5088,7 @@ export interface QueryEligibleBillingAccountsAccountsCustomersRequest {
 }
 
 export const QueryEligibleBillingAccountsAccountsCustomersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     customer: Schema.String.pipe(T.HttpPath("customer")),
     skus: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("skus"),
@@ -5061,7 +5104,7 @@ export const QueryEligibleBillingAccountsAccountsCustomersRequest =
 export type QueryEligibleBillingAccountsAccountsCustomersResponse =
   GoogleCloudChannelV1QueryEligibleBillingAccountsResponse;
 export const QueryEligibleBillingAccountsAccountsCustomersResponse =
-  GoogleCloudChannelV1QueryEligibleBillingAccountsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1QueryEligibleBillingAccountsResponse;
 
 export type QueryEligibleBillingAccountsAccountsCustomersError = DefaultErrors;
 
@@ -5071,7 +5114,7 @@ export const queryEligibleBillingAccountsAccountsCustomers: API.OperationMethod<
   QueryEligibleBillingAccountsAccountsCustomersResponse,
   QueryEligibleBillingAccountsAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryEligibleBillingAccountsAccountsCustomersRequest,
   output: QueryEligibleBillingAccountsAccountsCustomersResponse,
   errors: [],
@@ -5082,18 +5125,20 @@ export interface DeleteAccountsCustomersRequest {
   name: string;
 }
 
-export const DeleteAccountsCustomersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accounts/{accountsId}/customers/{customersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsCustomersRequest>;
+export const DeleteAccountsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accounts/{accountsId}/customers/{customersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsCustomersRequest>;
 
 export type DeleteAccountsCustomersResponse = GoogleProtobufEmpty;
-export const DeleteAccountsCustomersResponse = GoogleProtobufEmpty;
+export const DeleteAccountsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsCustomersError = DefaultErrors;
 
@@ -5103,7 +5148,7 @@ export const deleteAccountsCustomers: API.OperationMethod<
   DeleteAccountsCustomersResponse,
   DeleteAccountsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsCustomersRequest,
   output: DeleteAccountsCustomersResponse,
   errors: [],
@@ -5117,7 +5162,7 @@ export interface StartPaidServiceAccountsCustomersEntitlementsRequest {
 }
 
 export const StartPaidServiceAccountsCustomersEntitlementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudChannelV1StartPaidServiceRequest).pipe(
       T.HttpBody(),
@@ -5134,7 +5179,7 @@ export const StartPaidServiceAccountsCustomersEntitlementsRequest =
 export type StartPaidServiceAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const StartPaidServiceAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type StartPaidServiceAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5144,7 +5189,7 @@ export const startPaidServiceAccountsCustomersEntitlements: API.OperationMethod<
   StartPaidServiceAccountsCustomersEntitlementsResponse,
   StartPaidServiceAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartPaidServiceAccountsCustomersEntitlementsRequest,
   output: StartPaidServiceAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5162,7 +5207,7 @@ export interface ListEntitlementChangesAccountsCustomersEntitlementsRequest {
 }
 
 export const ListEntitlementChangesAccountsCustomersEntitlementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5178,7 +5223,7 @@ export const ListEntitlementChangesAccountsCustomersEntitlementsRequest =
 export type ListEntitlementChangesAccountsCustomersEntitlementsResponse =
   GoogleCloudChannelV1ListEntitlementChangesResponse;
 export const ListEntitlementChangesAccountsCustomersEntitlementsResponse =
-  GoogleCloudChannelV1ListEntitlementChangesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListEntitlementChangesResponse;
 
 export type ListEntitlementChangesAccountsCustomersEntitlementsError =
   DefaultErrors;
@@ -5189,7 +5234,7 @@ export const listEntitlementChangesAccountsCustomersEntitlements: API.PaginatedO
   ListEntitlementChangesAccountsCustomersEntitlementsResponse,
   ListEntitlementChangesAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEntitlementChangesAccountsCustomersEntitlementsRequest,
   output: ListEntitlementChangesAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5206,24 +5251,25 @@ export interface ChangeOfferAccountsCustomersEntitlementsRequest {
   body?: GoogleCloudChannelV1ChangeOfferRequest;
 }
 
-export const ChangeOfferAccountsCustomersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudChannelV1ChangeOfferRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:changeOffer",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ChangeOfferAccountsCustomersEntitlementsRequest>;
+export const ChangeOfferAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudChannelV1ChangeOfferRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:changeOffer",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ChangeOfferAccountsCustomersEntitlementsRequest>;
 
 export type ChangeOfferAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const ChangeOfferAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ChangeOfferAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5233,7 +5279,7 @@ export const changeOfferAccountsCustomersEntitlements: API.OperationMethod<
   ChangeOfferAccountsCustomersEntitlementsResponse,
   ChangeOfferAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeOfferAccountsCustomersEntitlementsRequest,
   output: ChangeOfferAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5244,20 +5290,21 @@ export interface LookupOfferAccountsCustomersEntitlementsRequest {
   entitlement: string;
 }
 
-export const LookupOfferAccountsCustomersEntitlementsRequest = Schema.Struct({
-  entitlement: Schema.String.pipe(T.HttpPath("entitlement")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:lookupOffer",
-  }),
-  svc,
-) as unknown as Schema.Schema<LookupOfferAccountsCustomersEntitlementsRequest>;
+export const LookupOfferAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    entitlement: Schema.String.pipe(T.HttpPath("entitlement")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:lookupOffer",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupOfferAccountsCustomersEntitlementsRequest>;
 
 export type LookupOfferAccountsCustomersEntitlementsResponse =
   GoogleCloudChannelV1Offer;
 export const LookupOfferAccountsCustomersEntitlementsResponse =
-  GoogleCloudChannelV1Offer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Offer;
 
 export type LookupOfferAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5267,7 +5314,7 @@ export const lookupOfferAccountsCustomersEntitlements: API.OperationMethod<
   LookupOfferAccountsCustomersEntitlementsResponse,
   LookupOfferAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupOfferAccountsCustomersEntitlementsRequest,
   output: LookupOfferAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5280,24 +5327,25 @@ export interface SuspendAccountsCustomersEntitlementsRequest {
   body?: GoogleCloudChannelV1SuspendEntitlementRequest;
 }
 
-export const SuspendAccountsCustomersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudChannelV1SuspendEntitlementRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:suspend",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SuspendAccountsCustomersEntitlementsRequest>;
+export const SuspendAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudChannelV1SuspendEntitlementRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:suspend",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SuspendAccountsCustomersEntitlementsRequest>;
 
 export type SuspendAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const SuspendAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SuspendAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5307,7 +5355,7 @@ export const suspendAccountsCustomersEntitlements: API.OperationMethod<
   SuspendAccountsCustomersEntitlementsResponse,
   SuspendAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendAccountsCustomersEntitlementsRequest,
   output: SuspendAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5318,20 +5366,21 @@ export interface GetAccountsCustomersEntitlementsRequest {
   name: string;
 }
 
-export const GetAccountsCustomersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsCustomersEntitlementsRequest>;
+export const GetAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsCustomersEntitlementsRequest>;
 
 export type GetAccountsCustomersEntitlementsResponse =
   GoogleCloudChannelV1Entitlement;
 export const GetAccountsCustomersEntitlementsResponse =
-  GoogleCloudChannelV1Entitlement;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1Entitlement;
 
 export type GetAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5341,7 +5390,7 @@ export const getAccountsCustomersEntitlements: API.OperationMethod<
   GetAccountsCustomersEntitlementsResponse,
   GetAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsCustomersEntitlementsRequest,
   output: GetAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5356,22 +5405,23 @@ export interface ListAccountsCustomersEntitlementsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsCustomersEntitlementsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsCustomersEntitlementsRequest>;
+export const ListAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsCustomersEntitlementsRequest>;
 
 export type ListAccountsCustomersEntitlementsResponse =
   GoogleCloudChannelV1ListEntitlementsResponse;
 export const ListAccountsCustomersEntitlementsResponse =
-  GoogleCloudChannelV1ListEntitlementsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListEntitlementsResponse;
 
 export type ListAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5381,7 +5431,7 @@ export const listAccountsCustomersEntitlements: API.PaginatedOperationMethod<
   ListAccountsCustomersEntitlementsResponse,
   ListAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCustomersEntitlementsRequest,
   output: ListAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5398,24 +5448,25 @@ export interface CancelAccountsCustomersEntitlementsRequest {
   body?: GoogleCloudChannelV1CancelEntitlementRequest;
 }
 
-export const CancelAccountsCustomersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudChannelV1CancelEntitlementRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelAccountsCustomersEntitlementsRequest>;
+export const CancelAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudChannelV1CancelEntitlementRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelAccountsCustomersEntitlementsRequest>;
 
 export type CancelAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const CancelAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CancelAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5425,7 +5476,7 @@ export const cancelAccountsCustomersEntitlements: API.OperationMethod<
   CancelAccountsCustomersEntitlementsResponse,
   CancelAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAccountsCustomersEntitlementsRequest,
   output: CancelAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5439,7 +5490,7 @@ export interface ChangeParametersAccountsCustomersEntitlementsRequest {
 }
 
 export const ChangeParametersAccountsCustomersEntitlementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudChannelV1ChangeParametersRequest).pipe(
       T.HttpBody(),
@@ -5456,7 +5507,7 @@ export const ChangeParametersAccountsCustomersEntitlementsRequest =
 export type ChangeParametersAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const ChangeParametersAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ChangeParametersAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5466,7 +5517,7 @@ export const changeParametersAccountsCustomersEntitlements: API.OperationMethod<
   ChangeParametersAccountsCustomersEntitlementsResponse,
   ChangeParametersAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeParametersAccountsCustomersEntitlementsRequest,
   output: ChangeParametersAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5479,24 +5530,25 @@ export interface CreateAccountsCustomersEntitlementsRequest {
   body?: GoogleCloudChannelV1CreateEntitlementRequest;
 }
 
-export const CreateAccountsCustomersEntitlementsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudChannelV1CreateEntitlementRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsCustomersEntitlementsRequest>;
+export const CreateAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudChannelV1CreateEntitlementRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsCustomersEntitlementsRequest>;
 
 export type CreateAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const CreateAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5506,7 +5558,7 @@ export const createAccountsCustomersEntitlements: API.OperationMethod<
   CreateAccountsCustomersEntitlementsResponse,
   CreateAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsCustomersEntitlementsRequest,
   output: CreateAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5520,7 +5572,7 @@ export interface ChangeRenewalSettingsAccountsCustomersEntitlementsRequest {
 }
 
 export const ChangeRenewalSettingsAccountsCustomersEntitlementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudChannelV1ChangeRenewalSettingsRequest,
@@ -5537,7 +5589,7 @@ export const ChangeRenewalSettingsAccountsCustomersEntitlementsRequest =
 export type ChangeRenewalSettingsAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const ChangeRenewalSettingsAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ChangeRenewalSettingsAccountsCustomersEntitlementsError =
   DefaultErrors;
@@ -5548,7 +5600,7 @@ export const changeRenewalSettingsAccountsCustomersEntitlements: API.OperationMe
   ChangeRenewalSettingsAccountsCustomersEntitlementsResponse,
   ChangeRenewalSettingsAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeRenewalSettingsAccountsCustomersEntitlementsRequest,
   output: ChangeRenewalSettingsAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5561,24 +5613,25 @@ export interface ActivateAccountsCustomersEntitlementsRequest {
   body?: GoogleCloudChannelV1ActivateEntitlementRequest;
 }
 
-export const ActivateAccountsCustomersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudChannelV1ActivateEntitlementRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateAccountsCustomersEntitlementsRequest>;
+export const ActivateAccountsCustomersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudChannelV1ActivateEntitlementRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/customers/{customersId}/entitlements/{entitlementsId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateAccountsCustomersEntitlementsRequest>;
 
 export type ActivateAccountsCustomersEntitlementsResponse =
   GoogleLongrunningOperation;
 export const ActivateAccountsCustomersEntitlementsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ActivateAccountsCustomersEntitlementsError = DefaultErrors;
 
@@ -5588,7 +5641,7 @@ export const activateAccountsCustomersEntitlements: API.OperationMethod<
   ActivateAccountsCustomersEntitlementsResponse,
   ActivateAccountsCustomersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateAccountsCustomersEntitlementsRequest,
   output: ActivateAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -5602,7 +5655,7 @@ export interface PatchAccountsCustomersCustomerRepricingConfigsRequest {
 }
 
 export const PatchAccountsCustomersCustomerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudChannelV1CustomerRepricingConfig).pipe(
       T.HttpBody(),
@@ -5619,7 +5672,7 @@ export const PatchAccountsCustomersCustomerRepricingConfigsRequest =
 export type PatchAccountsCustomersCustomerRepricingConfigsResponse =
   GoogleCloudChannelV1CustomerRepricingConfig;
 export const PatchAccountsCustomersCustomerRepricingConfigsResponse =
-  GoogleCloudChannelV1CustomerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1CustomerRepricingConfig;
 
 export type PatchAccountsCustomersCustomerRepricingConfigsError = DefaultErrors;
 
@@ -5629,7 +5682,7 @@ export const patchAccountsCustomersCustomerRepricingConfigs: API.OperationMethod
   PatchAccountsCustomersCustomerRepricingConfigsResponse,
   PatchAccountsCustomersCustomerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsCustomersCustomerRepricingConfigsRequest,
   output: PatchAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -5641,7 +5694,7 @@ export interface DeleteAccountsCustomersCustomerRepricingConfigsRequest {
 }
 
 export const DeleteAccountsCustomersCustomerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5654,7 +5707,7 @@ export const DeleteAccountsCustomersCustomerRepricingConfigsRequest =
 export type DeleteAccountsCustomersCustomerRepricingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteAccountsCustomersCustomerRepricingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsCustomersCustomerRepricingConfigsError =
   DefaultErrors;
@@ -5665,7 +5718,7 @@ export const deleteAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   DeleteAccountsCustomersCustomerRepricingConfigsResponse,
   DeleteAccountsCustomersCustomerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsCustomersCustomerRepricingConfigsRequest,
   output: DeleteAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -5683,7 +5736,7 @@ export interface ListAccountsCustomersCustomerRepricingConfigsRequest {
 }
 
 export const ListAccountsCustomersCustomerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5699,7 +5752,7 @@ export const ListAccountsCustomersCustomerRepricingConfigsRequest =
 export type ListAccountsCustomersCustomerRepricingConfigsResponse =
   GoogleCloudChannelV1ListCustomerRepricingConfigsResponse;
 export const ListAccountsCustomersCustomerRepricingConfigsResponse =
-  GoogleCloudChannelV1ListCustomerRepricingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListCustomerRepricingConfigsResponse;
 
 export type ListAccountsCustomersCustomerRepricingConfigsError = DefaultErrors;
 
@@ -5709,7 +5762,7 @@ export const listAccountsCustomersCustomerRepricingConfigs: API.PaginatedOperati
   ListAccountsCustomersCustomerRepricingConfigsResponse,
   ListAccountsCustomersCustomerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCustomersCustomerRepricingConfigsRequest,
   output: ListAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -5725,7 +5778,7 @@ export interface GetAccountsCustomersCustomerRepricingConfigsRequest {
 }
 
 export const GetAccountsCustomersCustomerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5738,7 +5791,7 @@ export const GetAccountsCustomersCustomerRepricingConfigsRequest =
 export type GetAccountsCustomersCustomerRepricingConfigsResponse =
   GoogleCloudChannelV1CustomerRepricingConfig;
 export const GetAccountsCustomersCustomerRepricingConfigsResponse =
-  GoogleCloudChannelV1CustomerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1CustomerRepricingConfig;
 
 export type GetAccountsCustomersCustomerRepricingConfigsError = DefaultErrors;
 
@@ -5748,7 +5801,7 @@ export const getAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<
   GetAccountsCustomersCustomerRepricingConfigsResponse,
   GetAccountsCustomersCustomerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsCustomersCustomerRepricingConfigsRequest,
   output: GetAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -5762,7 +5815,7 @@ export interface CreateAccountsCustomersCustomerRepricingConfigsRequest {
 }
 
 export const CreateAccountsCustomersCustomerRepricingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudChannelV1CustomerRepricingConfig).pipe(
       T.HttpBody(),
@@ -5779,7 +5832,7 @@ export const CreateAccountsCustomersCustomerRepricingConfigsRequest =
 export type CreateAccountsCustomersCustomerRepricingConfigsResponse =
   GoogleCloudChannelV1CustomerRepricingConfig;
 export const CreateAccountsCustomersCustomerRepricingConfigsResponse =
-  GoogleCloudChannelV1CustomerRepricingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1CustomerRepricingConfig;
 
 export type CreateAccountsCustomersCustomerRepricingConfigsError =
   DefaultErrors;
@@ -5790,7 +5843,7 @@ export const createAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   CreateAccountsCustomersCustomerRepricingConfigsResponse,
   CreateAccountsCustomersCustomerRepricingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsCustomersCustomerRepricingConfigsRequest,
   output: CreateAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -5805,19 +5858,20 @@ export interface ListAccountsSkuGroupsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsSkuGroupsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/skuGroups" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsSkuGroupsRequest>;
+export const ListAccountsSkuGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/skuGroups" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsSkuGroupsRequest>;
 
 export type ListAccountsSkuGroupsResponse =
   GoogleCloudChannelV1ListSkuGroupsResponse;
 export const ListAccountsSkuGroupsResponse =
-  GoogleCloudChannelV1ListSkuGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListSkuGroupsResponse;
 
 export type ListAccountsSkuGroupsError = DefaultErrors;
 
@@ -5827,7 +5881,7 @@ export const listAccountsSkuGroups: API.PaginatedOperationMethod<
   ListAccountsSkuGroupsResponse,
   ListAccountsSkuGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsSkuGroupsRequest,
   output: ListAccountsSkuGroupsResponse,
   errors: [],
@@ -5846,22 +5900,23 @@ export interface ListAccountsSkuGroupsBillableSkusRequest {
   pageSize?: number;
 }
 
-export const ListAccountsSkuGroupsBillableSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/skuGroups/{skuGroupsId}/billableSkus",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsSkuGroupsBillableSkusRequest>;
+export const ListAccountsSkuGroupsBillableSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/skuGroups/{skuGroupsId}/billableSkus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsSkuGroupsBillableSkusRequest>;
 
 export type ListAccountsSkuGroupsBillableSkusResponse =
   GoogleCloudChannelV1ListSkuGroupBillableSkusResponse;
 export const ListAccountsSkuGroupsBillableSkusResponse =
-  GoogleCloudChannelV1ListSkuGroupBillableSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListSkuGroupBillableSkusResponse;
 
 export type ListAccountsSkuGroupsBillableSkusError = DefaultErrors;
 
@@ -5871,7 +5926,7 @@ export const listAccountsSkuGroupsBillableSkus: API.PaginatedOperationMethod<
   ListAccountsSkuGroupsBillableSkusResponse,
   ListAccountsSkuGroupsBillableSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsSkuGroupsBillableSkusRequest,
   output: ListAccountsSkuGroupsBillableSkusResponse,
   errors: [],
@@ -5888,24 +5943,25 @@ export interface RegisterSubscriberIntegratorsRequest {
   body?: GoogleCloudChannelV1RegisterSubscriberRequest;
 }
 
-export const RegisterSubscriberIntegratorsRequest = Schema.Struct({
-  integrator: Schema.String.pipe(T.HttpPath("integrator")),
-  body: Schema.optional(GoogleCloudChannelV1RegisterSubscriberRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/integrators/{integratorsId}:registerSubscriber",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RegisterSubscriberIntegratorsRequest>;
+export const RegisterSubscriberIntegratorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    integrator: Schema.String.pipe(T.HttpPath("integrator")),
+    body: Schema.optional(GoogleCloudChannelV1RegisterSubscriberRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/integrators/{integratorsId}:registerSubscriber",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RegisterSubscriberIntegratorsRequest>;
 
 export type RegisterSubscriberIntegratorsResponse =
   GoogleCloudChannelV1RegisterSubscriberResponse;
 export const RegisterSubscriberIntegratorsResponse =
-  GoogleCloudChannelV1RegisterSubscriberResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1RegisterSubscriberResponse;
 
 export type RegisterSubscriberIntegratorsError = DefaultErrors;
 
@@ -5915,7 +5971,7 @@ export const registerSubscriberIntegrators: API.OperationMethod<
   RegisterSubscriberIntegratorsResponse,
   RegisterSubscriberIntegratorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterSubscriberIntegratorsRequest,
   output: RegisterSubscriberIntegratorsResponse,
   errors: [],
@@ -5928,24 +5984,25 @@ export interface UnregisterSubscriberIntegratorsRequest {
   body?: GoogleCloudChannelV1UnregisterSubscriberRequest;
 }
 
-export const UnregisterSubscriberIntegratorsRequest = Schema.Struct({
-  integrator: Schema.String.pipe(T.HttpPath("integrator")),
-  body: Schema.optional(GoogleCloudChannelV1UnregisterSubscriberRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/integrators/{integratorsId}:unregisterSubscriber",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnregisterSubscriberIntegratorsRequest>;
+export const UnregisterSubscriberIntegratorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    integrator: Schema.String.pipe(T.HttpPath("integrator")),
+    body: Schema.optional(GoogleCloudChannelV1UnregisterSubscriberRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/integrators/{integratorsId}:unregisterSubscriber",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnregisterSubscriberIntegratorsRequest>;
 
 export type UnregisterSubscriberIntegratorsResponse =
   GoogleCloudChannelV1UnregisterSubscriberResponse;
 export const UnregisterSubscriberIntegratorsResponse =
-  GoogleCloudChannelV1UnregisterSubscriberResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1UnregisterSubscriberResponse;
 
 export type UnregisterSubscriberIntegratorsError = DefaultErrors;
 
@@ -5955,7 +6012,7 @@ export const unregisterSubscriberIntegrators: API.OperationMethod<
   UnregisterSubscriberIntegratorsResponse,
   UnregisterSubscriberIntegratorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnregisterSubscriberIntegratorsRequest,
   output: UnregisterSubscriberIntegratorsResponse,
   errors: [],
@@ -5972,23 +6029,24 @@ export interface ListSubscribersIntegratorsRequest {
   integrator: string;
 }
 
-export const ListSubscribersIntegratorsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  account: Schema.optional(Schema.String).pipe(T.HttpQuery("account")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  integrator: Schema.String.pipe(T.HttpPath("integrator")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/integrators/{integratorsId}:listSubscribers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListSubscribersIntegratorsRequest>;
+export const ListSubscribersIntegratorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    account: Schema.optional(Schema.String).pipe(T.HttpQuery("account")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    integrator: Schema.String.pipe(T.HttpPath("integrator")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/integrators/{integratorsId}:listSubscribers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListSubscribersIntegratorsRequest>;
 
 export type ListSubscribersIntegratorsResponse =
   GoogleCloudChannelV1ListSubscribersResponse;
 export const ListSubscribersIntegratorsResponse =
-  GoogleCloudChannelV1ListSubscribersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudChannelV1ListSubscribersResponse;
 
 export type ListSubscribersIntegratorsError = DefaultErrors;
 
@@ -5998,7 +6056,7 @@ export const listSubscribersIntegrators: API.PaginatedOperationMethod<
   ListSubscribersIntegratorsResponse,
   ListSubscribersIntegratorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSubscribersIntegratorsRequest,
   output: ListSubscribersIntegratorsResponse,
   errors: [],

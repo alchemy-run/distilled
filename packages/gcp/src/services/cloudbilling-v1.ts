@@ -37,8 +37,8 @@ export interface BillingAccount {
   currencyCode?: string;
 }
 
-export const BillingAccount: Schema.Schema<BillingAccount> = Schema.suspend(
-  () =>
+export const BillingAccount: Schema.Schema<BillingAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       open: Schema.optional(Schema.Boolean),
@@ -47,9 +47,9 @@ export const BillingAccount: Schema.Schema<BillingAccount> = Schema.suspend(
       parent: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BillingAccount",
-}) as any as Schema.Schema<BillingAccount>;
+  ).annotate({
+    identifier: "BillingAccount",
+  }) as any as Schema.Schema<BillingAccount>;
 
 export interface ListBillingAccountsResponse {
   /** A list of billing accounts. */
@@ -59,7 +59,7 @@ export interface ListBillingAccountsResponse {
 }
 
 export const ListBillingAccountsResponse: Schema.Schema<ListBillingAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccounts: Schema.optional(Schema.Array(BillingAccount)),
       nextPageToken: Schema.optional(Schema.String),
@@ -80,7 +80,7 @@ export interface ProjectBillingInfo {
 }
 
 export const ProjectBillingInfo: Schema.Schema<ProjectBillingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -99,7 +99,7 @@ export interface ListProjectBillingInfoResponse {
 }
 
 export const ListProjectBillingInfoResponse: Schema.Schema<ListProjectBillingInfoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectBillingInfo: Schema.optional(Schema.Array(ProjectBillingInfo)),
       nextPageToken: Schema.optional(Schema.String),
@@ -119,14 +119,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -137,13 +138,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
@@ -157,15 +159,15 @@ export interface AuditLogConfig {
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
-  () =>
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logType: Schema.optional(Schema.String),
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AuditLogConfig",
-}) as any as Schema.Schema<AuditLogConfig>;
+  ).annotate({
+    identifier: "AuditLogConfig",
+  }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -174,12 +176,15 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    service: Schema.optional(Schema.String),
-    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "AuditConfig",
+  }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -192,14 +197,15 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -209,7 +215,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
       updateMask: Schema.optional(Schema.String),
@@ -224,7 +230,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -238,7 +244,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -252,7 +258,7 @@ export interface MoveBillingAccountRequest {
 }
 
 export const MoveBillingAccountRequest: Schema.Schema<MoveBillingAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationParent: Schema.optional(Schema.String),
     }),
@@ -271,14 +277,15 @@ export interface Service {
   businessEntityName?: string;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    serviceId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    businessEntityName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      serviceId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      businessEntityName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface ListServicesResponse {
   /** A list of services. */
@@ -288,7 +295,7 @@ export interface ListServicesResponse {
 }
 
 export const ListServicesResponse: Schema.Schema<ListServicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       services: Schema.optional(Schema.Array(Service)),
       nextPageToken: Schema.optional(Schema.String),
@@ -308,14 +315,15 @@ export interface Category {
   usageType?: string;
 }
 
-export const Category: Schema.Schema<Category> = Schema.suspend(() =>
-  Schema.Struct({
-    serviceDisplayName: Schema.optional(Schema.String),
-    resourceFamily: Schema.optional(Schema.String),
-    resourceGroup: Schema.optional(Schema.String),
-    usageType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
+export const Category: Schema.Schema<Category> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceDisplayName: Schema.optional(Schema.String),
+      resourceFamily: Schema.optional(Schema.String),
+      resourceGroup: Schema.optional(Schema.String),
+      usageType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
 
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
@@ -326,13 +334,14 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface TierRate {
   /** Usage is priced at this rate only after this amount. Example: start_usage_amount of 10 indicates that the usage will be priced at the unit_price after the first 10 usage_units. */
@@ -341,12 +350,13 @@ export interface TierRate {
   unitPrice?: Money;
 }
 
-export const TierRate: Schema.Schema<TierRate> = Schema.suspend(() =>
-  Schema.Struct({
-    startUsageAmount: Schema.optional(Schema.Number),
-    unitPrice: Schema.optional(Money),
-  }),
-).annotate({ identifier: "TierRate" }) as any as Schema.Schema<TierRate>;
+export const TierRate: Schema.Schema<TierRate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startUsageAmount: Schema.optional(Schema.Number),
+      unitPrice: Schema.optional(Money),
+    }),
+  ).annotate({ identifier: "TierRate" }) as any as Schema.Schema<TierRate>;
 
 export interface PricingExpression {
   /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
@@ -366,7 +376,7 @@ export interface PricingExpression {
 }
 
 export const PricingExpression: Schema.Schema<PricingExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usageUnit: Schema.optional(Schema.String),
       displayQuantity: Schema.optional(Schema.Number),
@@ -395,16 +405,16 @@ export interface AggregationInfo {
   aggregationCount?: number;
 }
 
-export const AggregationInfo: Schema.Schema<AggregationInfo> = Schema.suspend(
-  () =>
+export const AggregationInfo: Schema.Schema<AggregationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregationLevel: Schema.optional(Schema.String),
       aggregationInterval: Schema.optional(Schema.String),
       aggregationCount: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "AggregationInfo",
-}) as any as Schema.Schema<AggregationInfo>;
+  ).annotate({
+    identifier: "AggregationInfo",
+  }) as any as Schema.Schema<AggregationInfo>;
 
 export interface PricingInfo {
   /** The timestamp from which this pricing was effective within the requested time range. This is guaranteed to be greater than or equal to the start_time field in the request and less than the end_time field in the request. If a time range was not specified in the request this field will be equivalent to a time within the last 12 hours, indicating the latest pricing info. */
@@ -419,15 +429,18 @@ export interface PricingInfo {
   currencyConversionRate?: number;
 }
 
-export const PricingInfo: Schema.Schema<PricingInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    effectiveTime: Schema.optional(Schema.String),
-    summary: Schema.optional(Schema.String),
-    pricingExpression: Schema.optional(PricingExpression),
-    aggregationInfo: Schema.optional(AggregationInfo),
-    currencyConversionRate: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "PricingInfo" }) as any as Schema.Schema<PricingInfo>;
+export const PricingInfo: Schema.Schema<PricingInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      effectiveTime: Schema.optional(Schema.String),
+      summary: Schema.optional(Schema.String),
+      pricingExpression: Schema.optional(PricingExpression),
+      aggregationInfo: Schema.optional(AggregationInfo),
+      currencyConversionRate: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PricingInfo",
+  }) as any as Schema.Schema<PricingInfo>;
 
 export interface GeoTaxonomy {
   /** The type of Geo Taxonomy: GLOBAL, REGIONAL, or MULTI_REGIONAL. */
@@ -441,12 +454,15 @@ export interface GeoTaxonomy {
   regions?: Array<string>;
 }
 
-export const GeoTaxonomy: Schema.Schema<GeoTaxonomy> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    regions: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "GeoTaxonomy" }) as any as Schema.Schema<GeoTaxonomy>;
+export const GeoTaxonomy: Schema.Schema<GeoTaxonomy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      regions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GeoTaxonomy",
+  }) as any as Schema.Schema<GeoTaxonomy>;
 
 export interface Sku {
   /** The resource name for the SKU. Example: "services/6F81-5844-456A/skus/D041-B8A1-6E0B" */
@@ -467,18 +483,19 @@ export interface Sku {
   geoTaxonomy?: GeoTaxonomy;
 }
 
-export const Sku: Schema.Schema<Sku> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    skuId: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    category: Schema.optional(Category),
-    serviceRegions: Schema.optional(Schema.Array(Schema.String)),
-    pricingInfo: Schema.optional(Schema.Array(PricingInfo)),
-    serviceProviderName: Schema.optional(Schema.String),
-    geoTaxonomy: Schema.optional(GeoTaxonomy),
-  }),
-).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
+export const Sku: Schema.Schema<Sku> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      skuId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      category: Schema.optional(Category),
+      serviceRegions: Schema.optional(Schema.Array(Schema.String)),
+      pricingInfo: Schema.optional(Schema.Array(PricingInfo)),
+      serviceProviderName: Schema.optional(Schema.String),
+      geoTaxonomy: Schema.optional(GeoTaxonomy),
+    }),
+  ).annotate({ identifier: "Sku" }) as any as Schema.Schema<Sku>;
 
 export interface ListSkusResponse {
   /** The list of public SKUs of the given service. */
@@ -487,15 +504,15 @@ export interface ListSkusResponse {
   nextPageToken?: string;
 }
 
-export const ListSkusResponse: Schema.Schema<ListSkusResponse> = Schema.suspend(
-  () =>
+export const ListSkusResponse: Schema.Schema<ListSkusResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skus: Schema.optional(Schema.Array(Sku)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ListSkusResponse",
-}) as any as Schema.Schema<ListSkusResponse>;
+  ).annotate({
+    identifier: "ListSkusResponse",
+  }) as any as Schema.Schema<ListSkusResponse>;
 
 // ==========================================================================
 // Operations
@@ -506,15 +523,17 @@ export interface GetBillingAccountsRequest {
   name: string;
 }
 
-export const GetBillingAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/billingAccounts/{billingAccountsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsRequest>;
+export const GetBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/billingAccounts/{billingAccountsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsRequest>;
 
 export type GetBillingAccountsResponse = BillingAccount;
-export const GetBillingAccountsResponse = BillingAccount;
+export const GetBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type GetBillingAccountsError = DefaultErrors;
 
@@ -524,7 +543,7 @@ export const getBillingAccounts: API.OperationMethod<
   GetBillingAccountsResponse,
   GetBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsRequest,
   output: GetBillingAccountsResponse,
   errors: [],
@@ -541,18 +560,20 @@ export interface ListBillingAccountsRequest {
   parent?: string;
 }
 
-export const ListBillingAccountsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/billingAccounts" }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsRequest>;
+export const ListBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/billingAccounts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsRequest>;
 
 export type ListBillingAccountsResponse_Op = ListBillingAccountsResponse;
-export const ListBillingAccountsResponse_Op = ListBillingAccountsResponse;
+export const ListBillingAccountsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListBillingAccountsResponse;
 
 export type ListBillingAccountsError = DefaultErrors;
 
@@ -562,7 +583,7 @@ export const listBillingAccounts: API.PaginatedOperationMethod<
   ListBillingAccountsResponse_Op,
   ListBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsRequest,
   output: ListBillingAccountsResponse_Op,
   errors: [],
@@ -581,21 +602,23 @@ export interface PatchBillingAccountsRequest {
   body?: BillingAccount;
 }
 
-export const PatchBillingAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/billingAccounts/{billingAccountsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBillingAccountsRequest>;
+export const PatchBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/billingAccounts/{billingAccountsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBillingAccountsRequest>;
 
 export type PatchBillingAccountsResponse = BillingAccount;
-export const PatchBillingAccountsResponse = BillingAccount;
+export const PatchBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type PatchBillingAccountsError = DefaultErrors;
 
@@ -605,7 +628,7 @@ export const patchBillingAccounts: API.OperationMethod<
   PatchBillingAccountsResponse,
   PatchBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBillingAccountsRequest,
   output: PatchBillingAccountsResponse,
   errors: [],
@@ -618,16 +641,18 @@ export interface CreateBillingAccountsRequest {
   body?: BillingAccount;
 }
 
-export const CreateBillingAccountsRequest = Schema.Struct({
-  parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
-  body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/billingAccounts", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateBillingAccountsRequest>;
+export const CreateBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
+    body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/billingAccounts", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBillingAccountsRequest>;
 
 export type CreateBillingAccountsResponse = BillingAccount;
-export const CreateBillingAccountsResponse = BillingAccount;
+export const CreateBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type CreateBillingAccountsError = DefaultErrors;
 
@@ -637,7 +662,7 @@ export const createBillingAccounts: API.OperationMethod<
   CreateBillingAccountsResponse,
   CreateBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingAccountsRequest,
   output: CreateBillingAccountsResponse,
   errors: [],
@@ -650,21 +675,23 @@ export interface GetIamPolicyBillingAccountsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyBillingAccountsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("options.requestedPolicyVersion"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/billingAccounts/{billingAccountsId}:getIamPolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyBillingAccountsRequest>;
+export const GetIamPolicyBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/billingAccounts/{billingAccountsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyBillingAccountsRequest>;
 
 export type GetIamPolicyBillingAccountsResponse = Policy;
-export const GetIamPolicyBillingAccountsResponse = Policy;
+export const GetIamPolicyBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyBillingAccountsError = DefaultErrors;
 
@@ -674,7 +701,7 @@ export const getIamPolicyBillingAccounts: API.OperationMethod<
   GetIamPolicyBillingAccountsResponse,
   GetIamPolicyBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyBillingAccountsRequest,
   output: GetIamPolicyBillingAccountsResponse,
   errors: [],
@@ -687,20 +714,22 @@ export interface SetIamPolicyBillingAccountsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyBillingAccountsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/billingAccounts/{billingAccountsId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyBillingAccountsRequest>;
+export const SetIamPolicyBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/billingAccounts/{billingAccountsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyBillingAccountsRequest>;
 
 export type SetIamPolicyBillingAccountsResponse = Policy;
-export const SetIamPolicyBillingAccountsResponse = Policy;
+export const SetIamPolicyBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyBillingAccountsError = DefaultErrors;
 
@@ -710,7 +739,7 @@ export const setIamPolicyBillingAccounts: API.OperationMethod<
   SetIamPolicyBillingAccountsResponse,
   SetIamPolicyBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyBillingAccountsRequest,
   output: SetIamPolicyBillingAccountsResponse,
   errors: [],
@@ -723,22 +752,23 @@ export interface TestIamPermissionsBillingAccountsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsBillingAccountsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/billingAccounts/{billingAccountsId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsBillingAccountsRequest>;
+export const TestIamPermissionsBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/billingAccounts/{billingAccountsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsBillingAccountsRequest>;
 
 export type TestIamPermissionsBillingAccountsResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsBillingAccountsResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsBillingAccountsError = DefaultErrors;
 
@@ -748,7 +778,7 @@ export const testIamPermissionsBillingAccounts: API.OperationMethod<
   TestIamPermissionsBillingAccountsResponse,
   TestIamPermissionsBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsBillingAccountsRequest,
   output: TestIamPermissionsBillingAccountsResponse,
   errors: [],
@@ -761,20 +791,22 @@ export interface MoveBillingAccountsRequest {
   body?: MoveBillingAccountRequest;
 }
 
-export const MoveBillingAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MoveBillingAccountRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/billingAccounts/{billingAccountsId}:move",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<MoveBillingAccountsRequest>;
+export const MoveBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MoveBillingAccountRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/billingAccounts/{billingAccountsId}:move",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveBillingAccountsRequest>;
 
 export type MoveBillingAccountsResponse = BillingAccount;
-export const MoveBillingAccountsResponse = BillingAccount;
+export const MoveBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type MoveBillingAccountsError = DefaultErrors;
 
@@ -784,7 +816,7 @@ export const moveBillingAccounts: API.OperationMethod<
   MoveBillingAccountsResponse,
   MoveBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveBillingAccountsRequest,
   output: MoveBillingAccountsResponse,
   errors: [],
@@ -801,23 +833,24 @@ export interface ListBillingAccountsSubAccountsRequest {
   filter?: string;
 }
 
-export const ListBillingAccountsSubAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsSubAccountsRequest>;
+export const ListBillingAccountsSubAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsSubAccountsRequest>;
 
 export type ListBillingAccountsSubAccountsResponse =
   ListBillingAccountsResponse;
 export const ListBillingAccountsSubAccountsResponse =
-  ListBillingAccountsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBillingAccountsResponse;
 
 export type ListBillingAccountsSubAccountsError = DefaultErrors;
 
@@ -827,7 +860,7 @@ export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<
   ListBillingAccountsSubAccountsResponse,
   ListBillingAccountsSubAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsSubAccountsRequest,
   output: ListBillingAccountsSubAccountsResponse,
   errors: [],
@@ -844,20 +877,22 @@ export interface CreateBillingAccountsSubAccountsRequest {
   body?: BillingAccount;
 }
 
-export const CreateBillingAccountsSubAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBillingAccountsSubAccountsRequest>;
+export const CreateBillingAccountsSubAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/billingAccounts/{billingAccountsId}/subAccounts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBillingAccountsSubAccountsRequest>;
 
 export type CreateBillingAccountsSubAccountsResponse = BillingAccount;
-export const CreateBillingAccountsSubAccountsResponse = BillingAccount;
+export const CreateBillingAccountsSubAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type CreateBillingAccountsSubAccountsError = DefaultErrors;
 
@@ -867,7 +902,7 @@ export const createBillingAccountsSubAccounts: API.OperationMethod<
   CreateBillingAccountsSubAccountsResponse,
   CreateBillingAccountsSubAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingAccountsSubAccountsRequest,
   output: CreateBillingAccountsSubAccountsResponse,
   errors: [],
@@ -882,22 +917,23 @@ export interface ListBillingAccountsProjectsRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/billingAccounts/{billingAccountsId}/projects",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsProjectsRequest>;
+export const ListBillingAccountsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/billingAccounts/{billingAccountsId}/projects",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsProjectsRequest>;
 
 export type ListBillingAccountsProjectsResponse =
   ListProjectBillingInfoResponse;
 export const ListBillingAccountsProjectsResponse =
-  ListProjectBillingInfoResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListProjectBillingInfoResponse;
 
 export type ListBillingAccountsProjectsError = DefaultErrors;
 
@@ -907,7 +943,7 @@ export const listBillingAccountsProjects: API.PaginatedOperationMethod<
   ListBillingAccountsProjectsResponse,
   ListBillingAccountsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsProjectsRequest,
   output: ListBillingAccountsProjectsResponse,
   errors: [],
@@ -928,23 +964,24 @@ export interface ListOrganizationsBillingAccountsRequest {
   filter?: string;
 }
 
-export const ListOrganizationsBillingAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/billingAccounts",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsBillingAccountsRequest>;
+export const ListOrganizationsBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/billingAccounts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsBillingAccountsRequest>;
 
 export type ListOrganizationsBillingAccountsResponse =
   ListBillingAccountsResponse;
 export const ListOrganizationsBillingAccountsResponse =
-  ListBillingAccountsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBillingAccountsResponse;
 
 export type ListOrganizationsBillingAccountsError = DefaultErrors;
 
@@ -954,7 +991,7 @@ export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<
   ListOrganizationsBillingAccountsResponse,
   ListOrganizationsBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsBillingAccountsRequest,
   output: ListOrganizationsBillingAccountsResponse,
   errors: [],
@@ -971,20 +1008,22 @@ export interface CreateOrganizationsBillingAccountsRequest {
   body?: BillingAccount;
 }
 
-export const CreateOrganizationsBillingAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/organizations/{organizationsId}/billingAccounts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsBillingAccountsRequest>;
+export const CreateOrganizationsBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BillingAccount).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/organizations/{organizationsId}/billingAccounts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsBillingAccountsRequest>;
 
 export type CreateOrganizationsBillingAccountsResponse = BillingAccount;
-export const CreateOrganizationsBillingAccountsResponse = BillingAccount;
+export const CreateOrganizationsBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type CreateOrganizationsBillingAccountsError = DefaultErrors;
 
@@ -994,7 +1033,7 @@ export const createOrganizationsBillingAccounts: API.OperationMethod<
   CreateOrganizationsBillingAccountsResponse,
   CreateOrganizationsBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsBillingAccountsRequest,
   output: CreateOrganizationsBillingAccountsResponse,
   errors: [],
@@ -1007,19 +1046,21 @@ export interface MoveOrganizationsBillingAccountsRequest {
   name: string;
 }
 
-export const MoveOrganizationsBillingAccountsRequest = Schema.Struct({
-  destinationParent: Schema.String.pipe(T.HttpPath("destinationParent")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/billingAccounts/{billingAccountsId}:move",
-  }),
-  svc,
-) as unknown as Schema.Schema<MoveOrganizationsBillingAccountsRequest>;
+export const MoveOrganizationsBillingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destinationParent: Schema.String.pipe(T.HttpPath("destinationParent")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/billingAccounts/{billingAccountsId}:move",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveOrganizationsBillingAccountsRequest>;
 
 export type MoveOrganizationsBillingAccountsResponse = BillingAccount;
-export const MoveOrganizationsBillingAccountsResponse = BillingAccount;
+export const MoveOrganizationsBillingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BillingAccount;
 
 export type MoveOrganizationsBillingAccountsError = DefaultErrors;
 
@@ -1029,7 +1070,7 @@ export const moveOrganizationsBillingAccounts: API.OperationMethod<
   MoveOrganizationsBillingAccountsResponse,
   MoveOrganizationsBillingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveOrganizationsBillingAccountsRequest,
   output: MoveOrganizationsBillingAccountsResponse,
   errors: [],
@@ -1040,15 +1081,17 @@ export interface GetBillingInfoProjectsRequest {
   name: string;
 }
 
-export const GetBillingInfoProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/billingInfo" }),
-  svc,
-) as unknown as Schema.Schema<GetBillingInfoProjectsRequest>;
+export const GetBillingInfoProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/billingInfo" }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingInfoProjectsRequest>;
 
 export type GetBillingInfoProjectsResponse = ProjectBillingInfo;
-export const GetBillingInfoProjectsResponse = ProjectBillingInfo;
+export const GetBillingInfoProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProjectBillingInfo;
 
 export type GetBillingInfoProjectsError = DefaultErrors;
 
@@ -1058,7 +1101,7 @@ export const getBillingInfoProjects: API.OperationMethod<
   GetBillingInfoProjectsResponse,
   GetBillingInfoProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingInfoProjectsRequest,
   output: GetBillingInfoProjectsResponse,
   errors: [],
@@ -1071,20 +1114,22 @@ export interface UpdateBillingInfoProjectsRequest {
   body?: ProjectBillingInfo;
 }
 
-export const UpdateBillingInfoProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ProjectBillingInfo).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/projects/{projectsId}/billingInfo",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateBillingInfoProjectsRequest>;
+export const UpdateBillingInfoProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ProjectBillingInfo).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{projectsId}/billingInfo",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateBillingInfoProjectsRequest>;
 
 export type UpdateBillingInfoProjectsResponse = ProjectBillingInfo;
-export const UpdateBillingInfoProjectsResponse = ProjectBillingInfo;
+export const UpdateBillingInfoProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProjectBillingInfo;
 
 export type UpdateBillingInfoProjectsError = DefaultErrors;
 
@@ -1094,7 +1139,7 @@ export const updateBillingInfoProjects: API.OperationMethod<
   UpdateBillingInfoProjectsResponse,
   UpdateBillingInfoProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBillingInfoProjectsRequest,
   output: UpdateBillingInfoProjectsResponse,
   errors: [],
@@ -1107,7 +1152,7 @@ export interface ListServicesRequest {
   pageToken?: string;
 }
 
-export const ListServicesRequest = Schema.Struct({
+export const ListServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -1116,7 +1161,8 @@ export const ListServicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListServicesRequest>;
 
 export type ListServicesResponse_Op = ListServicesResponse;
-export const ListServicesResponse_Op = ListServicesResponse;
+export const ListServicesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListServicesResponse;
 
 export type ListServicesError = DefaultErrors;
 
@@ -1126,7 +1172,7 @@ export const listServices: API.PaginatedOperationMethod<
   ListServicesResponse_Op,
   ListServicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -1151,22 +1197,24 @@ export interface ListServicesSkusRequest {
   pageToken?: string;
 }
 
-export const ListServicesSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/services/{servicesId}/skus" }),
-  svc,
-) as unknown as Schema.Schema<ListServicesSkusRequest>;
+export const ListServicesSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/services/{servicesId}/skus" }),
+    svc,
+  ) as unknown as Schema.Schema<ListServicesSkusRequest>;
 
 export type ListServicesSkusResponse = ListSkusResponse;
-export const ListServicesSkusResponse = ListSkusResponse;
+export const ListServicesSkusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSkusResponse;
 
 export type ListServicesSkusError = DefaultErrors;
 
@@ -1176,7 +1224,7 @@ export const listServicesSkus: API.PaginatedOperationMethod<
   ListServicesSkusResponse,
   ListServicesSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListServicesSkusRequest,
   output: ListServicesSkusResponse,
   errors: [],

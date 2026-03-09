@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface VerifyTokenResponse {}
 
 export const VerifyTokenResponse: Schema.Schema<VerifyTokenResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "VerifyTokenResponse",
   }) as any as Schema.Schema<VerifyTokenResponse>;
 
@@ -42,15 +42,16 @@ export interface Tag {
   stringValue?: string;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
-  Schema.Struct({
-    int64Value: Schema.optional(Schema.String),
-    booleanValue: Schema.optional(Schema.Boolean),
-    timeValue: Schema.optional(Schema.String),
-    key: Schema.optional(Schema.String),
-    stringValue: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      int64Value: Schema.optional(Schema.String),
+      booleanValue: Schema.optional(Schema.Boolean),
+      timeValue: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+      stringValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface CreateOrUpdateTagsRequest {
   /** Tags to be inserted or updated. */
@@ -58,7 +59,7 @@ export interface CreateOrUpdateTagsRequest {
 }
 
 export const CreateOrUpdateTagsRequest: Schema.Schema<CreateOrUpdateTagsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tags: Schema.optional(Schema.Array(Tag)),
     }),
@@ -72,7 +73,7 @@ export interface VerifyTokenRequest {
 }
 
 export const VerifyTokenRequest: Schema.Schema<VerifyTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       persona: Schema.optional(Schema.String),
     }),
@@ -86,7 +87,7 @@ export interface CreateOrUpdateTagsResponse {
 }
 
 export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tags: Schema.optional(Schema.Array(Tag)),
     }),
@@ -107,21 +108,23 @@ export interface VerifyAppsTokensRequest {
   body?: VerifyTokenRequest;
 }
 
-export const VerifyAppsTokensRequest = Schema.Struct({
-  token: Schema.String.pipe(T.HttpPath("token")),
-  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
-  body: Schema.optional(VerifyTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha1/apps/{appsId}/tokens/{tokensId}:verify",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<VerifyAppsTokensRequest>;
+export const VerifyAppsTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.String.pipe(T.HttpPath("token")),
+    appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
+    body: Schema.optional(VerifyTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha1/apps/{appsId}/tokens/{tokensId}:verify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyAppsTokensRequest>;
 
 export type VerifyAppsTokensResponse = VerifyTokenResponse;
-export const VerifyAppsTokensResponse = VerifyTokenResponse;
+export const VerifyAppsTokensResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyTokenResponse;
 
 export type VerifyAppsTokensError = DefaultErrors;
 
@@ -131,7 +134,7 @@ export const verifyAppsTokens: API.OperationMethod<
   VerifyAppsTokensResponse,
   VerifyAppsTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyAppsTokensRequest,
   output: VerifyAppsTokensResponse,
   errors: [],
@@ -146,21 +149,23 @@ export interface CreateOrUpdateAppsTokensTagsRequest {
   body?: CreateOrUpdateTagsRequest;
 }
 
-export const CreateOrUpdateAppsTokensTagsRequest = Schema.Struct({
-  token: Schema.String.pipe(T.HttpPath("token")),
-  appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
-  body: Schema.optional(CreateOrUpdateTagsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha1/apps/{appsId}/tokens/{tokensId}/tags:createOrUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrUpdateAppsTokensTagsRequest>;
+export const CreateOrUpdateAppsTokensTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.String.pipe(T.HttpPath("token")),
+    appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
+    body: Schema.optional(CreateOrUpdateTagsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha1/apps/{appsId}/tokens/{tokensId}/tags:createOrUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrUpdateAppsTokensTagsRequest>;
 
 export type CreateOrUpdateAppsTokensTagsResponse = CreateOrUpdateTagsResponse;
-export const CreateOrUpdateAppsTokensTagsResponse = CreateOrUpdateTagsResponse;
+export const CreateOrUpdateAppsTokensTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CreateOrUpdateTagsResponse;
 
 export type CreateOrUpdateAppsTokensTagsError = DefaultErrors;
 
@@ -170,7 +175,7 @@ export const createOrUpdateAppsTokensTags: API.OperationMethod<
   CreateOrUpdateAppsTokensTagsResponse,
   CreateOrUpdateAppsTokensTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrUpdateAppsTokensTagsRequest,
   output: CreateOrUpdateAppsTokensTagsResponse,
   errors: [],

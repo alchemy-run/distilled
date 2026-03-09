@@ -30,7 +30,7 @@ export interface GoogleCloudOrgpolicyV2ConstraintListConstraint {
 }
 
 export const GoogleCloudOrgpolicyV2ConstraintListConstraint: Schema.Schema<GoogleCloudOrgpolicyV2ConstraintListConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportsIn: Schema.optional(Schema.Boolean),
       supportsUnder: Schema.optional(Schema.Boolean),
@@ -45,7 +45,7 @@ export interface GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParam
 }
 
 export const GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParameterMetadata: Schema.Schema<GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParameterMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
     }),
@@ -68,7 +68,7 @@ export interface GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParam
 }
 
 export const GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParameter: Schema.Schema<GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinitionParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       defaultValue: Schema.optional(Schema.Unknown),
@@ -108,7 +108,7 @@ export interface GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinition {
 }
 
 export const GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinition: Schema.Schema<GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceTypes: Schema.optional(Schema.Array(Schema.String)),
       methodTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -131,7 +131,7 @@ export interface GoogleCloudOrgpolicyV2ConstraintBooleanConstraint {
 }
 
 export const GoogleCloudOrgpolicyV2ConstraintBooleanConstraint: Schema.Schema<GoogleCloudOrgpolicyV2ConstraintBooleanConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customConstraintDefinition: Schema.optional(
         GoogleCloudOrgpolicyV2ConstraintCustomConstraintDefinition,
@@ -167,7 +167,7 @@ export interface GoogleCloudOrgpolicyV2Constraint {
 }
 
 export const GoogleCloudOrgpolicyV2Constraint: Schema.Schema<GoogleCloudOrgpolicyV2Constraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -195,7 +195,7 @@ export interface GoogleCloudOrgpolicyV2ListConstraintsResponse {
 }
 
 export const GoogleCloudOrgpolicyV2ListConstraintsResponse: Schema.Schema<GoogleCloudOrgpolicyV2ListConstraintsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       constraints: Schema.optional(
         Schema.Array(GoogleCloudOrgpolicyV2Constraint),
@@ -214,7 +214,7 @@ export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues {
 }
 
 export const GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedValues: Schema.optional(Schema.Array(Schema.String)),
       deniedValues: Schema.optional(Schema.Array(Schema.String)),
@@ -234,17 +234,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
-  () =>
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleTypeExpr",
-}) as any as Schema.Schema<GoogleTypeExpr>;
+  ).annotate({
+    identifier: "GoogleTypeExpr",
+  }) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRule {
   /** List of values to be used for this policy rule. This field can be set only in policies for list constraints. */
@@ -262,7 +262,7 @@ export interface GoogleCloudOrgpolicyV2PolicySpecPolicyRule {
 }
 
 export const GoogleCloudOrgpolicyV2PolicySpecPolicyRule: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpecPolicyRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(
         GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues,
@@ -291,7 +291,7 @@ export interface GoogleCloudOrgpolicyV2PolicySpec {
 }
 
 export const GoogleCloudOrgpolicyV2PolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2PolicySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       etag: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -313,7 +313,7 @@ export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
 }
 
 export const GoogleCloudOrgpolicyV2AlternatePolicySpec: Schema.Schema<GoogleCloudOrgpolicyV2AlternatePolicySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       launch: Schema.optional(Schema.String),
       spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
@@ -336,7 +336,7 @@ export interface GoogleCloudOrgpolicyV2Policy {
 }
 
 export const GoogleCloudOrgpolicyV2Policy: Schema.Schema<GoogleCloudOrgpolicyV2Policy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       spec: Schema.optional(GoogleCloudOrgpolicyV2PolicySpec),
@@ -356,7 +356,7 @@ export interface GoogleCloudOrgpolicyV2ListPoliciesResponse {
 }
 
 export const GoogleCloudOrgpolicyV2ListPoliciesResponse: Schema.Schema<GoogleCloudOrgpolicyV2ListPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policies: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV2Policy)),
       nextPageToken: Schema.optional(Schema.String),
@@ -368,7 +368,7 @@ export const GoogleCloudOrgpolicyV2ListPoliciesResponse: Schema.Schema<GoogleClo
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -400,7 +400,7 @@ export interface GoogleCloudOrgpolicyV2CustomConstraint {
 }
 
 export const GoogleCloudOrgpolicyV2CustomConstraint: Schema.Schema<GoogleCloudOrgpolicyV2CustomConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       resourceTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -423,7 +423,7 @@ export interface GoogleCloudOrgpolicyV2ListCustomConstraintsResponse {
 }
 
 export const GoogleCloudOrgpolicyV2ListCustomConstraintsResponse: Schema.Schema<GoogleCloudOrgpolicyV2ListCustomConstraintsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customConstraints: Schema.optional(
         Schema.Array(GoogleCloudOrgpolicyV2CustomConstraint),
@@ -447,19 +447,20 @@ export interface ListProjectsConstraintsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsConstraintsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/constraints" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsConstraintsRequest>;
+export const ListProjectsConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/constraints" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsConstraintsRequest>;
 
 export type ListProjectsConstraintsResponse =
   GoogleCloudOrgpolicyV2ListConstraintsResponse;
 export const ListProjectsConstraintsResponse =
-  GoogleCloudOrgpolicyV2ListConstraintsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListConstraintsResponse;
 
 export type ListProjectsConstraintsError = DefaultErrors;
 
@@ -469,7 +470,7 @@ export const listProjectsConstraints: API.PaginatedOperationMethod<
   ListProjectsConstraintsResponse,
   ListProjectsConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsConstraintsRequest,
   output: ListProjectsConstraintsResponse,
   errors: [],
@@ -488,19 +489,20 @@ export interface ListProjectsPoliciesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/policies" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsPoliciesRequest>;
+export const ListProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/policies" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsPoliciesRequest>;
 
 export type ListProjectsPoliciesResponse =
   GoogleCloudOrgpolicyV2ListPoliciesResponse;
 export const ListProjectsPoliciesResponse =
-  GoogleCloudOrgpolicyV2ListPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListPoliciesResponse;
 
 export type ListProjectsPoliciesError = DefaultErrors;
 
@@ -510,7 +512,7 @@ export const listProjectsPolicies: API.PaginatedOperationMethod<
   ListProjectsPoliciesResponse,
   ListProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsPoliciesRequest,
   output: ListProjectsPoliciesResponse,
   errors: [],
@@ -525,18 +527,20 @@ export interface GetProjectsPoliciesRequest {
   name: string;
 }
 
-export const GetProjectsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsPoliciesRequest>;
+export const GetProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsPoliciesRequest>;
 
 export type GetProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const GetProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const GetProjectsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetProjectsPoliciesError = DefaultErrors;
 
@@ -546,7 +550,7 @@ export const getProjectsPolicies: API.OperationMethod<
   GetProjectsPoliciesResponse,
   GetProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsPoliciesRequest,
   output: GetProjectsPoliciesResponse,
   errors: [],
@@ -557,20 +561,21 @@ export interface GetEffectivePolicyProjectsPoliciesRequest {
   name: string;
 }
 
-export const GetEffectivePolicyProjectsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/policies/{policiesId}:getEffectivePolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEffectivePolicyProjectsPoliciesRequest>;
+export const GetEffectivePolicyProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/policies/{policiesId}:getEffectivePolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEffectivePolicyProjectsPoliciesRequest>;
 
 export type GetEffectivePolicyProjectsPoliciesResponse =
   GoogleCloudOrgpolicyV2Policy;
 export const GetEffectivePolicyProjectsPoliciesResponse =
-  GoogleCloudOrgpolicyV2Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetEffectivePolicyProjectsPoliciesError = DefaultErrors;
 
@@ -580,7 +585,7 @@ export const getEffectivePolicyProjectsPolicies: API.OperationMethod<
   GetEffectivePolicyProjectsPoliciesResponse,
   GetEffectivePolicyProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEffectivePolicyProjectsPoliciesRequest,
   output: GetEffectivePolicyProjectsPoliciesResponse,
   errors: [],
@@ -593,20 +598,22 @@ export interface CreateProjectsPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const CreateProjectsPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/policies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsPoliciesRequest>;
+export const CreateProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/policies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsPoliciesRequest>;
 
 export type CreateProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const CreateProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const CreateProjectsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type CreateProjectsPoliciesError = DefaultErrors;
 
@@ -616,7 +623,7 @@ export const createProjectsPolicies: API.OperationMethod<
   CreateProjectsPoliciesResponse,
   CreateProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsPoliciesRequest,
   output: CreateProjectsPoliciesResponse,
   errors: [],
@@ -631,21 +638,23 @@ export interface PatchProjectsPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const PatchProjectsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/policies/{policiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsPoliciesRequest>;
+export const PatchProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/policies/{policiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsPoliciesRequest>;
 
 export type PatchProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const PatchProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const PatchProjectsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type PatchProjectsPoliciesError = DefaultErrors;
 
@@ -655,7 +664,7 @@ export const patchProjectsPolicies: API.OperationMethod<
   PatchProjectsPoliciesResponse,
   PatchProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsPoliciesRequest,
   output: PatchProjectsPoliciesResponse,
   errors: [],
@@ -668,19 +677,21 @@ export interface DeleteProjectsPoliciesRequest {
   etag?: string;
 }
 
-export const DeleteProjectsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsPoliciesRequest>;
+export const DeleteProjectsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsPoliciesRequest>;
 
 export type DeleteProjectsPoliciesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsPoliciesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsPoliciesError = DefaultErrors;
 
@@ -690,7 +701,7 @@ export const deleteProjectsPolicies: API.OperationMethod<
   DeleteProjectsPoliciesResponse,
   DeleteProjectsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsPoliciesRequest,
   output: DeleteProjectsPoliciesResponse,
   errors: [],
@@ -705,19 +716,20 @@ export interface ListFoldersConstraintsRequest {
   pageToken?: string;
 }
 
-export const ListFoldersConstraintsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/folders/{foldersId}/constraints" }),
-  svc,
-) as unknown as Schema.Schema<ListFoldersConstraintsRequest>;
+export const ListFoldersConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/folders/{foldersId}/constraints" }),
+    svc,
+  ) as unknown as Schema.Schema<ListFoldersConstraintsRequest>;
 
 export type ListFoldersConstraintsResponse =
   GoogleCloudOrgpolicyV2ListConstraintsResponse;
 export const ListFoldersConstraintsResponse =
-  GoogleCloudOrgpolicyV2ListConstraintsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListConstraintsResponse;
 
 export type ListFoldersConstraintsError = DefaultErrors;
 
@@ -727,7 +739,7 @@ export const listFoldersConstraints: API.PaginatedOperationMethod<
   ListFoldersConstraintsResponse,
   ListFoldersConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersConstraintsRequest,
   output: ListFoldersConstraintsResponse,
   errors: [],
@@ -746,19 +758,20 @@ export interface ListFoldersPoliciesRequest {
   pageToken?: string;
 }
 
-export const ListFoldersPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/folders/{foldersId}/policies" }),
-  svc,
-) as unknown as Schema.Schema<ListFoldersPoliciesRequest>;
+export const ListFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/folders/{foldersId}/policies" }),
+    svc,
+  ) as unknown as Schema.Schema<ListFoldersPoliciesRequest>;
 
 export type ListFoldersPoliciesResponse =
   GoogleCloudOrgpolicyV2ListPoliciesResponse;
 export const ListFoldersPoliciesResponse =
-  GoogleCloudOrgpolicyV2ListPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListPoliciesResponse;
 
 export type ListFoldersPoliciesError = DefaultErrors;
 
@@ -768,7 +781,7 @@ export const listFoldersPolicies: API.PaginatedOperationMethod<
   ListFoldersPoliciesResponse,
   ListFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersPoliciesRequest,
   output: ListFoldersPoliciesResponse,
   errors: [],
@@ -783,18 +796,20 @@ export interface GetFoldersPoliciesRequest {
   name: string;
 }
 
-export const GetFoldersPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/folders/{foldersId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersPoliciesRequest>;
+export const GetFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/folders/{foldersId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersPoliciesRequest>;
 
 export type GetFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const GetFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const GetFoldersPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetFoldersPoliciesError = DefaultErrors;
 
@@ -804,7 +819,7 @@ export const getFoldersPolicies: API.OperationMethod<
   GetFoldersPoliciesResponse,
   GetFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoldersPoliciesRequest,
   output: GetFoldersPoliciesResponse,
   errors: [],
@@ -815,20 +830,21 @@ export interface GetEffectivePolicyFoldersPoliciesRequest {
   name: string;
 }
 
-export const GetEffectivePolicyFoldersPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/folders/{foldersId}/policies/{policiesId}:getEffectivePolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEffectivePolicyFoldersPoliciesRequest>;
+export const GetEffectivePolicyFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/folders/{foldersId}/policies/{policiesId}:getEffectivePolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEffectivePolicyFoldersPoliciesRequest>;
 
 export type GetEffectivePolicyFoldersPoliciesResponse =
   GoogleCloudOrgpolicyV2Policy;
 export const GetEffectivePolicyFoldersPoliciesResponse =
-  GoogleCloudOrgpolicyV2Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetEffectivePolicyFoldersPoliciesError = DefaultErrors;
 
@@ -838,7 +854,7 @@ export const getEffectivePolicyFoldersPolicies: API.OperationMethod<
   GetEffectivePolicyFoldersPoliciesResponse,
   GetEffectivePolicyFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEffectivePolicyFoldersPoliciesRequest,
   output: GetEffectivePolicyFoldersPoliciesResponse,
   errors: [],
@@ -851,20 +867,22 @@ export interface CreateFoldersPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const CreateFoldersPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/folders/{foldersId}/policies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateFoldersPoliciesRequest>;
+export const CreateFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/folders/{foldersId}/policies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateFoldersPoliciesRequest>;
 
 export type CreateFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const CreateFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const CreateFoldersPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type CreateFoldersPoliciesError = DefaultErrors;
 
@@ -874,7 +892,7 @@ export const createFoldersPolicies: API.OperationMethod<
   CreateFoldersPoliciesResponse,
   CreateFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFoldersPoliciesRequest,
   output: CreateFoldersPoliciesResponse,
   errors: [],
@@ -889,21 +907,23 @@ export interface PatchFoldersPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const PatchFoldersPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/folders/{foldersId}/policies/{policiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFoldersPoliciesRequest>;
+export const PatchFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/folders/{foldersId}/policies/{policiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFoldersPoliciesRequest>;
 
 export type PatchFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const PatchFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const PatchFoldersPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type PatchFoldersPoliciesError = DefaultErrors;
 
@@ -913,7 +933,7 @@ export const patchFoldersPolicies: API.OperationMethod<
   PatchFoldersPoliciesResponse,
   PatchFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFoldersPoliciesRequest,
   output: PatchFoldersPoliciesResponse,
   errors: [],
@@ -926,19 +946,21 @@ export interface DeleteFoldersPoliciesRequest {
   etag?: string;
 }
 
-export const DeleteFoldersPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/folders/{foldersId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteFoldersPoliciesRequest>;
+export const DeleteFoldersPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/folders/{foldersId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteFoldersPoliciesRequest>;
 
 export type DeleteFoldersPoliciesResponse = GoogleProtobufEmpty;
-export const DeleteFoldersPoliciesResponse = GoogleProtobufEmpty;
+export const DeleteFoldersPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteFoldersPoliciesError = DefaultErrors;
 
@@ -948,7 +970,7 @@ export const deleteFoldersPolicies: API.OperationMethod<
   DeleteFoldersPoliciesResponse,
   DeleteFoldersPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFoldersPoliciesRequest,
   output: DeleteFoldersPoliciesResponse,
   errors: [],
@@ -963,22 +985,23 @@ export interface ListOrganizationsConstraintsRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsConstraintsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/constraints",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsConstraintsRequest>;
+export const ListOrganizationsConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/constraints",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsConstraintsRequest>;
 
 export type ListOrganizationsConstraintsResponse =
   GoogleCloudOrgpolicyV2ListConstraintsResponse;
 export const ListOrganizationsConstraintsResponse =
-  GoogleCloudOrgpolicyV2ListConstraintsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListConstraintsResponse;
 
 export type ListOrganizationsConstraintsError = DefaultErrors;
 
@@ -988,7 +1011,7 @@ export const listOrganizationsConstraints: API.PaginatedOperationMethod<
   ListOrganizationsConstraintsResponse,
   ListOrganizationsConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsConstraintsRequest,
   output: ListOrganizationsConstraintsResponse,
   errors: [],
@@ -1007,22 +1030,23 @@ export interface ListOrganizationsPoliciesRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/policies",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsPoliciesRequest>;
+export const ListOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/policies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsPoliciesRequest>;
 
 export type ListOrganizationsPoliciesResponse =
   GoogleCloudOrgpolicyV2ListPoliciesResponse;
 export const ListOrganizationsPoliciesResponse =
-  GoogleCloudOrgpolicyV2ListPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListPoliciesResponse;
 
 export type ListOrganizationsPoliciesError = DefaultErrors;
 
@@ -1032,7 +1056,7 @@ export const listOrganizationsPolicies: API.PaginatedOperationMethod<
   ListOrganizationsPoliciesResponse,
   ListOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsPoliciesRequest,
   output: ListOrganizationsPoliciesResponse,
   errors: [],
@@ -1047,18 +1071,20 @@ export interface GetOrganizationsPoliciesRequest {
   name: string;
 }
 
-export const GetOrganizationsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsPoliciesRequest>;
+export const GetOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsPoliciesRequest>;
 
 export type GetOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const GetOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const GetOrganizationsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetOrganizationsPoliciesError = DefaultErrors;
 
@@ -1068,7 +1094,7 @@ export const getOrganizationsPolicies: API.OperationMethod<
   GetOrganizationsPoliciesResponse,
   GetOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsPoliciesRequest,
   output: GetOrganizationsPoliciesResponse,
   errors: [],
@@ -1079,20 +1105,21 @@ export interface GetEffectivePolicyOrganizationsPoliciesRequest {
   name: string;
 }
 
-export const GetEffectivePolicyOrganizationsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/policies/{policiesId}:getEffectivePolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEffectivePolicyOrganizationsPoliciesRequest>;
+export const GetEffectivePolicyOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/policies/{policiesId}:getEffectivePolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEffectivePolicyOrganizationsPoliciesRequest>;
 
 export type GetEffectivePolicyOrganizationsPoliciesResponse =
   GoogleCloudOrgpolicyV2Policy;
 export const GetEffectivePolicyOrganizationsPoliciesResponse =
-  GoogleCloudOrgpolicyV2Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type GetEffectivePolicyOrganizationsPoliciesError = DefaultErrors;
 
@@ -1102,7 +1129,7 @@ export const getEffectivePolicyOrganizationsPolicies: API.OperationMethod<
   GetEffectivePolicyOrganizationsPoliciesResponse,
   GetEffectivePolicyOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEffectivePolicyOrganizationsPoliciesRequest,
   output: GetEffectivePolicyOrganizationsPoliciesResponse,
   errors: [],
@@ -1115,20 +1142,22 @@ export interface CreateOrganizationsPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const CreateOrganizationsPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/policies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsPoliciesRequest>;
+export const CreateOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/policies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsPoliciesRequest>;
 
 export type CreateOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const CreateOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const CreateOrganizationsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type CreateOrganizationsPoliciesError = DefaultErrors;
 
@@ -1138,7 +1167,7 @@ export const createOrganizationsPolicies: API.OperationMethod<
   CreateOrganizationsPoliciesResponse,
   CreateOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsPoliciesRequest,
   output: CreateOrganizationsPoliciesResponse,
   errors: [],
@@ -1153,21 +1182,23 @@ export interface PatchOrganizationsPoliciesRequest {
   body?: GoogleCloudOrgpolicyV2Policy;
 }
 
-export const PatchOrganizationsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/policies/{policiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsPoliciesRequest>;
+export const PatchOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/policies/{policiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsPoliciesRequest>;
 
 export type PatchOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
-export const PatchOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
+export const PatchOrganizationsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2Policy;
 
 export type PatchOrganizationsPoliciesError = DefaultErrors;
 
@@ -1177,7 +1208,7 @@ export const patchOrganizationsPolicies: API.OperationMethod<
   PatchOrganizationsPoliciesResponse,
   PatchOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsPoliciesRequest,
   output: PatchOrganizationsPoliciesResponse,
   errors: [],
@@ -1190,19 +1221,21 @@ export interface DeleteOrganizationsPoliciesRequest {
   etag?: string;
 }
 
-export const DeleteOrganizationsPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/policies/{policiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsPoliciesRequest>;
+export const DeleteOrganizationsPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/policies/{policiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsPoliciesRequest>;
 
 export type DeleteOrganizationsPoliciesResponse = GoogleProtobufEmpty;
-export const DeleteOrganizationsPoliciesResponse = GoogleProtobufEmpty;
+export const DeleteOrganizationsPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsPoliciesError = DefaultErrors;
 
@@ -1212,7 +1245,7 @@ export const deleteOrganizationsPolicies: API.OperationMethod<
   DeleteOrganizationsPoliciesResponse,
   DeleteOrganizationsPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsPoliciesRequest,
   output: DeleteOrganizationsPoliciesResponse,
   errors: [],
@@ -1225,24 +1258,25 @@ export interface CreateOrganizationsCustomConstraintsRequest {
   body?: GoogleCloudOrgpolicyV2CustomConstraint;
 }
 
-export const CreateOrganizationsCustomConstraintsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/customConstraints",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsCustomConstraintsRequest>;
+export const CreateOrganizationsCustomConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/customConstraints",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsCustomConstraintsRequest>;
 
 export type CreateOrganizationsCustomConstraintsResponse =
   GoogleCloudOrgpolicyV2CustomConstraint;
 export const CreateOrganizationsCustomConstraintsResponse =
-  GoogleCloudOrgpolicyV2CustomConstraint;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2CustomConstraint;
 
 export type CreateOrganizationsCustomConstraintsError = DefaultErrors;
 
@@ -1252,7 +1286,7 @@ export const createOrganizationsCustomConstraints: API.OperationMethod<
   CreateOrganizationsCustomConstraintsResponse,
   CreateOrganizationsCustomConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsCustomConstraintsRequest,
   output: CreateOrganizationsCustomConstraintsResponse,
   errors: [],
@@ -1265,24 +1299,25 @@ export interface PatchOrganizationsCustomConstraintsRequest {
   body?: GoogleCloudOrgpolicyV2CustomConstraint;
 }
 
-export const PatchOrganizationsCustomConstraintsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsCustomConstraintsRequest>;
+export const PatchOrganizationsCustomConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudOrgpolicyV2CustomConstraint).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsCustomConstraintsRequest>;
 
 export type PatchOrganizationsCustomConstraintsResponse =
   GoogleCloudOrgpolicyV2CustomConstraint;
 export const PatchOrganizationsCustomConstraintsResponse =
-  GoogleCloudOrgpolicyV2CustomConstraint;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2CustomConstraint;
 
 export type PatchOrganizationsCustomConstraintsError = DefaultErrors;
 
@@ -1292,7 +1327,7 @@ export const patchOrganizationsCustomConstraints: API.OperationMethod<
   PatchOrganizationsCustomConstraintsResponse,
   PatchOrganizationsCustomConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsCustomConstraintsRequest,
   output: PatchOrganizationsCustomConstraintsResponse,
   errors: [],
@@ -1303,20 +1338,21 @@ export interface GetOrganizationsCustomConstraintsRequest {
   name: string;
 }
 
-export const GetOrganizationsCustomConstraintsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsCustomConstraintsRequest>;
+export const GetOrganizationsCustomConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsCustomConstraintsRequest>;
 
 export type GetOrganizationsCustomConstraintsResponse =
   GoogleCloudOrgpolicyV2CustomConstraint;
 export const GetOrganizationsCustomConstraintsResponse =
-  GoogleCloudOrgpolicyV2CustomConstraint;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2CustomConstraint;
 
 export type GetOrganizationsCustomConstraintsError = DefaultErrors;
 
@@ -1326,7 +1362,7 @@ export const getOrganizationsCustomConstraints: API.OperationMethod<
   GetOrganizationsCustomConstraintsResponse,
   GetOrganizationsCustomConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsCustomConstraintsRequest,
   output: GetOrganizationsCustomConstraintsResponse,
   errors: [],
@@ -1341,22 +1377,23 @@ export interface ListOrganizationsCustomConstraintsRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsCustomConstraintsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/customConstraints",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsCustomConstraintsRequest>;
+export const ListOrganizationsCustomConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/customConstraints",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsCustomConstraintsRequest>;
 
 export type ListOrganizationsCustomConstraintsResponse =
   GoogleCloudOrgpolicyV2ListCustomConstraintsResponse;
 export const ListOrganizationsCustomConstraintsResponse =
-  GoogleCloudOrgpolicyV2ListCustomConstraintsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOrgpolicyV2ListCustomConstraintsResponse;
 
 export type ListOrganizationsCustomConstraintsError = DefaultErrors;
 
@@ -1366,7 +1403,7 @@ export const listOrganizationsCustomConstraints: API.PaginatedOperationMethod<
   ListOrganizationsCustomConstraintsResponse,
   ListOrganizationsCustomConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsCustomConstraintsRequest,
   output: ListOrganizationsCustomConstraintsResponse,
   errors: [],
@@ -1381,18 +1418,20 @@ export interface DeleteOrganizationsCustomConstraintsRequest {
   name: string;
 }
 
-export const DeleteOrganizationsCustomConstraintsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsCustomConstraintsRequest>;
+export const DeleteOrganizationsCustomConstraintsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/customConstraints/{customConstraintsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsCustomConstraintsRequest>;
 
 export type DeleteOrganizationsCustomConstraintsResponse = GoogleProtobufEmpty;
-export const DeleteOrganizationsCustomConstraintsResponse = GoogleProtobufEmpty;
+export const DeleteOrganizationsCustomConstraintsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsCustomConstraintsError = DefaultErrors;
 
@@ -1402,7 +1441,7 @@ export const deleteOrganizationsCustomConstraints: API.OperationMethod<
   DeleteOrganizationsCustomConstraintsResponse,
   DeleteOrganizationsCustomConstraintsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsCustomConstraintsRequest,
   output: DeleteOrganizationsCustomConstraintsResponse,
   errors: [],

@@ -3,25 +3,27 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetOrganizationMemberInput = Schema.Struct({
-  org_id: Schema.String.pipe(T.PathParam()),
-  member_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/organizations/{org_id}/members/{member_id}",
-  }),
-);
+export const GetOrganizationMemberInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    org_id: Schema.String.pipe(T.PathParam()),
+    member_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{org_id}/members/{member_id}",
+    }),
+  );
 export type GetOrganizationMemberInput = typeof GetOrganizationMemberInput.Type;
 
 // Output Schema
-export const GetOrganizationMemberOutput = Schema.Struct({
-  id: Schema.String,
-  user_id: Schema.String,
-  org_id: Schema.String,
-  role: Schema.Literals(["admin", "member"]),
-  joined_at: Schema.optional(Schema.String),
-});
+export const GetOrganizationMemberOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    user_id: Schema.String,
+    org_id: Schema.String,
+    role: Schema.Literals(["admin", "member"]),
+    joined_at: Schema.optional(Schema.String),
+  });
 export type GetOrganizationMemberOutput =
   typeof GetOrganizationMemberOutput.Type;
 

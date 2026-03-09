@@ -94,7 +94,7 @@ export interface AuditEvent {
   eventData: string;
   eventDataChecksum?: string;
 }
-export const AuditEvent = S.suspend(() =>
+export const AuditEvent = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     eventData: S.String,
@@ -102,13 +102,13 @@ export const AuditEvent = S.suspend(() =>
   }),
 ).annotate({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
 export type AuditEvents = AuditEvent[];
-export const AuditEvents = S.Array(AuditEvent);
+export const AuditEvents = /*@__PURE__*/ /*#__PURE__*/ S.Array(AuditEvent);
 export interface PutAuditEventsRequest {
   auditEvents: AuditEvent[];
   channelArn: string;
   externalId?: string;
 }
-export const PutAuditEventsRequest = S.suspend(() =>
+export const PutAuditEventsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     auditEvents: AuditEvents,
     channelArn: S.String.pipe(T.HttpQuery("channelArn")),
@@ -130,31 +130,38 @@ export interface AuditEventResultEntry {
   id: string;
   eventID: string;
 }
-export const AuditEventResultEntry = S.suspend(() =>
+export const AuditEventResultEntry = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, eventID: S.String }),
 ).annotate({
   identifier: "AuditEventResultEntry",
 }) as any as S.Schema<AuditEventResultEntry>;
 export type AuditEventResultEntries = AuditEventResultEntry[];
-export const AuditEventResultEntries = S.Array(AuditEventResultEntry);
+export const AuditEventResultEntries = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AuditEventResultEntry,
+);
 export interface ResultErrorEntry {
   id: string;
   errorCode: string;
   errorMessage: string;
 }
-export const ResultErrorEntry = S.suspend(() =>
+export const ResultErrorEntry = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
 ).annotate({
   identifier: "ResultErrorEntry",
 }) as any as S.Schema<ResultErrorEntry>;
 export type ResultErrorEntries = ResultErrorEntry[];
-export const ResultErrorEntries = S.Array(ResultErrorEntry);
+export const ResultErrorEntries =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ResultErrorEntry);
 export interface PutAuditEventsResponse {
   successful: AuditEventResultEntry[];
   failed: ResultErrorEntry[];
 }
-export const PutAuditEventsResponse = S.suspend(() =>
-  S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
+export const PutAuditEventsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      successful: AuditEventResultEntries,
+      failed: ResultErrorEntries,
+    }),
 ).annotate({
   identifier: "PutAuditEventsResponse",
 }) as any as S.Schema<PutAuditEventsResponse>;

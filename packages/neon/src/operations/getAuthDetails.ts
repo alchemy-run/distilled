@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetAuthDetailsInput = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/auth" }),
-);
+export const GetAuthDetailsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(T.Http({ method: "GET", path: "/auth" }));
 export type GetAuthDetailsInput = typeof GetAuthDetailsInput.Type;
 
 // Output Schema
-export const GetAuthDetailsOutput = Schema.Struct({
+export const GetAuthDetailsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   account_id: Schema.String,
   auth_method: Schema.Literals([
     "keycloak",

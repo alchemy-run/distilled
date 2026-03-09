@@ -22,7 +22,7 @@ export interface GetAssociationRequest {
   accountId: string;
 }
 
-export const GetAssociationRequest = Schema.Struct({
+export const GetAssociationRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -37,7 +37,7 @@ export type GetAssociationResponse = {
   status?: string | null;
 }[];
 
-export const GetAssociationResponse = Schema.Array(
+export const GetAssociationResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -51,7 +51,7 @@ export const getAssociation: API.OperationMethod<
   GetAssociationResponse,
   GetAssociationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAssociationRequest,
   output: GetAssociationResponse,
   errors: [],
@@ -67,15 +67,16 @@ export interface GetMtlsCertificateRequest {
   accountId: string;
 }
 
-export const GetMtlsCertificateRequest = Schema.Struct({
-  mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}",
-  }),
-) as unknown as Schema.Schema<GetMtlsCertificateRequest>;
+export const GetMtlsCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}",
+    }),
+  ) as unknown as Schema.Schema<GetMtlsCertificateRequest>;
 
 export interface GetMtlsCertificateResponse {
   /** Identifier. */
@@ -98,68 +99,8 @@ export interface GetMtlsCertificateResponse {
   uploadedOn?: string | null;
 }
 
-export const GetMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    ca: "ca",
-    certificates: "certificates",
-    expiresOn: "expires_on",
-    issuer: "issuer",
-    name: "name",
-    serialNumber: "serial_number",
-    signature: "signature",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
-
-export type GetMtlsCertificateError = DefaultErrors;
-
-export const getMtlsCertificate: API.OperationMethod<
-  GetMtlsCertificateRequest,
-  GetMtlsCertificateResponse,
-  GetMtlsCertificateError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetMtlsCertificateRequest,
-  output: GetMtlsCertificateResponse,
-  errors: [],
-}));
-
-export interface ListMtlsCertificatesRequest {
-  /** Identifier. */
-  accountId: string;
-}
-
-export const ListMtlsCertificatesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/mtls_certificates" }),
-) as unknown as Schema.Schema<ListMtlsCertificatesRequest>;
-
-export type ListMtlsCertificatesResponse = {
-  id?: string | null;
-  ca?: boolean | null;
-  certificates?: string | null;
-  expiresOn?: string | null;
-  issuer?: string | null;
-  name?: string | null;
-  serialNumber?: string | null;
-  signature?: string | null;
-  uploadedOn?: string | null;
-}[];
-
-export const ListMtlsCertificatesResponse = Schema.Array(
-  Schema.Struct({
+export const GetMtlsCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -181,8 +122,71 @@ export const ListMtlsCertificatesResponse = Schema.Array(
       signature: "signature",
       uploadedOn: "uploaded_on",
     }),
-  ),
-) as unknown as Schema.Schema<ListMtlsCertificatesResponse>;
+  ) as unknown as Schema.Schema<GetMtlsCertificateResponse>;
+
+export type GetMtlsCertificateError = DefaultErrors;
+
+export const getMtlsCertificate: API.OperationMethod<
+  GetMtlsCertificateRequest,
+  GetMtlsCertificateResponse,
+  GetMtlsCertificateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetMtlsCertificateRequest,
+  output: GetMtlsCertificateResponse,
+  errors: [],
+}));
+
+export interface ListMtlsCertificatesRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListMtlsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/accounts/{account_id}/mtls_certificates" }),
+  ) as unknown as Schema.Schema<ListMtlsCertificatesRequest>;
+
+export type ListMtlsCertificatesResponse = {
+  id?: string | null;
+  ca?: boolean | null;
+  certificates?: string | null;
+  expiresOn?: string | null;
+  issuer?: string | null;
+  name?: string | null;
+  serialNumber?: string | null;
+  signature?: string | null;
+  uploadedOn?: string | null;
+}[];
+
+export const ListMtlsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        ca: "ca",
+        certificates: "certificates",
+        expiresOn: "expires_on",
+        issuer: "issuer",
+        name: "name",
+        serialNumber: "serial_number",
+        signature: "signature",
+        uploadedOn: "uploaded_on",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListMtlsCertificatesResponse>;
 
 export type ListMtlsCertificatesError = DefaultErrors;
 
@@ -191,7 +195,7 @@ export const listMtlsCertificates: API.OperationMethod<
   ListMtlsCertificatesResponse,
   ListMtlsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMtlsCertificatesRequest,
   output: ListMtlsCertificatesResponse,
   errors: [],
@@ -210,21 +214,25 @@ export interface CreateMtlsCertificateRequest {
   privateKey?: string;
 }
 
-export const CreateMtlsCertificateRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  ca: Schema.Boolean,
-  certificates: Schema.String,
-  name: Schema.optional(Schema.String),
-  privateKey: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    ca: "ca",
-    certificates: "certificates",
-    name: "name",
-    privateKey: "private_key",
-  }),
-  T.Http({ method: "POST", path: "/accounts/{account_id}/mtls_certificates" }),
-) as unknown as Schema.Schema<CreateMtlsCertificateRequest>;
+export const CreateMtlsCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    ca: Schema.Boolean,
+    certificates: Schema.String,
+    name: Schema.optional(Schema.String),
+    privateKey: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      ca: "ca",
+      certificates: "certificates",
+      name: "name",
+      privateKey: "private_key",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/mtls_certificates",
+    }),
+  ) as unknown as Schema.Schema<CreateMtlsCertificateRequest>;
 
 export interface CreateMtlsCertificateResponse {
   /** Identifier. */
@@ -249,31 +257,32 @@ export interface CreateMtlsCertificateResponse {
   uploadedOn?: string | null;
 }
 
-export const CreateMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    ca: "ca",
-    certificates: "certificates",
-    expiresOn: "expires_on",
-    issuer: "issuer",
-    name: "name",
-    serialNumber: "serial_number",
-    signature: "signature",
-    updatedAt: "updated_at",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<CreateMtlsCertificateResponse>;
+export const CreateMtlsCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      ca: "ca",
+      certificates: "certificates",
+      expiresOn: "expires_on",
+      issuer: "issuer",
+      name: "name",
+      serialNumber: "serial_number",
+      signature: "signature",
+      updatedAt: "updated_at",
+      uploadedOn: "uploaded_on",
+    }),
+  ) as unknown as Schema.Schema<CreateMtlsCertificateResponse>;
 
 export type CreateMtlsCertificateError = DefaultErrors;
 
@@ -282,7 +291,7 @@ export const createMtlsCertificate: API.OperationMethod<
   CreateMtlsCertificateResponse,
   CreateMtlsCertificateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMtlsCertificateRequest,
   output: CreateMtlsCertificateResponse,
   errors: [],
@@ -294,15 +303,16 @@ export interface DeleteMtlsCertificateRequest {
   accountId: string;
 }
 
-export const DeleteMtlsCertificateRequest = Schema.Struct({
-  mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}",
-  }),
-) as unknown as Schema.Schema<DeleteMtlsCertificateRequest>;
+export const DeleteMtlsCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mtlsCertificateId: Schema.String.pipe(T.HttpPath("mtlsCertificateId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/mtls_certificates/{mtlsCertificateId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteMtlsCertificateRequest>;
 
 export interface DeleteMtlsCertificateResponse {
   /** Identifier. */
@@ -325,29 +335,30 @@ export interface DeleteMtlsCertificateResponse {
   uploadedOn?: string | null;
 }
 
-export const DeleteMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    ca: "ca",
-    certificates: "certificates",
-    expiresOn: "expires_on",
-    issuer: "issuer",
-    name: "name",
-    serialNumber: "serial_number",
-    signature: "signature",
-    uploadedOn: "uploaded_on",
-  }),
-) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;
+export const DeleteMtlsCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      ca: "ca",
+      certificates: "certificates",
+      expiresOn: "expires_on",
+      issuer: "issuer",
+      name: "name",
+      serialNumber: "serial_number",
+      signature: "signature",
+      uploadedOn: "uploaded_on",
+    }),
+  ) as unknown as Schema.Schema<DeleteMtlsCertificateResponse>;
 
 export type DeleteMtlsCertificateError = DefaultErrors;
 
@@ -356,7 +367,7 @@ export const deleteMtlsCertificate: API.OperationMethod<
   DeleteMtlsCertificateResponse,
   DeleteMtlsCertificateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMtlsCertificateRequest,
   output: DeleteMtlsCertificateResponse,
   errors: [],

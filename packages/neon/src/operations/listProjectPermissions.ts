@@ -3,23 +3,27 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListProjectPermissionsInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-}).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/permissions" }));
+export const ListProjectPermissionsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({ method: "GET", path: "/projects/{project_id}/permissions" }),
+  );
 export type ListProjectPermissionsInput =
   typeof ListProjectPermissionsInput.Type;
 
 // Output Schema
-export const ListProjectPermissionsOutput = Schema.Struct({
-  project_permissions: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      granted_to_email: Schema.String,
-      granted_at: Schema.String,
-      revoked_at: Schema.optional(Schema.String),
-    }),
-  ),
-});
+export const ListProjectPermissionsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_permissions: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        granted_to_email: Schema.String,
+        granted_at: Schema.String,
+        revoked_at: Schema.optional(Schema.String),
+      }),
+    ),
+  });
 export type ListProjectPermissionsOutput =
   typeof ListProjectPermissionsOutput.Type;
 

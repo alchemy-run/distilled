@@ -127,27 +127,28 @@ export type LambdaArn = string;
 export interface MetadataCopies {
   copiableAttributes: string | redacted.Redacted<string>;
 }
-export const MetadataCopies = S.suspend(() =>
+export const MetadataCopies = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ copiableAttributes: SensitiveString }),
 ).annotate({ identifier: "MetadataCopies" }) as any as S.Schema<MetadataCopies>;
 export interface CopySourceImageSetInformation {
   latestVersionId: string;
   DICOMCopies?: MetadataCopies;
 }
-export const CopySourceImageSetInformation = S.suspend(() =>
-  S.Struct({
-    latestVersionId: S.String,
-    DICOMCopies: S.optional(MetadataCopies),
-  }),
-).annotate({
-  identifier: "CopySourceImageSetInformation",
-}) as any as S.Schema<CopySourceImageSetInformation>;
+export const CopySourceImageSetInformation =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      latestVersionId: S.String,
+      DICOMCopies: S.optional(MetadataCopies),
+    }),
+  ).annotate({
+    identifier: "CopySourceImageSetInformation",
+  }) as any as S.Schema<CopySourceImageSetInformation>;
 export interface CopyDestinationImageSet {
   imageSetId: string;
   latestVersionId: string;
 }
-export const CopyDestinationImageSet = S.suspend(() =>
-  S.Struct({ imageSetId: S.String, latestVersionId: S.String }),
+export const CopyDestinationImageSet = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ imageSetId: S.String, latestVersionId: S.String }),
 ).annotate({
   identifier: "CopyDestinationImageSet",
 }) as any as S.Schema<CopyDestinationImageSet>;
@@ -155,11 +156,12 @@ export interface CopyImageSetInformation {
   sourceImageSet: CopySourceImageSetInformation;
   destinationImageSet?: CopyDestinationImageSet;
 }
-export const CopyImageSetInformation = S.suspend(() =>
-  S.Struct({
-    sourceImageSet: CopySourceImageSetInformation,
-    destinationImageSet: S.optional(CopyDestinationImageSet),
-  }),
+export const CopyImageSetInformation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sourceImageSet: CopySourceImageSetInformation,
+      destinationImageSet: S.optional(CopyDestinationImageSet),
+    }),
 ).annotate({
   identifier: "CopyImageSetInformation",
 }) as any as S.Schema<CopyImageSetInformation>;
@@ -170,7 +172,7 @@ export interface CopyImageSetRequest {
   force?: boolean;
   promoteToPrimary?: boolean;
 }
-export const CopyImageSetRequest = S.suspend(() =>
+export const CopyImageSetRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     sourceImageSetId: S.String.pipe(T.HttpLabel("sourceImageSetId")),
@@ -198,7 +200,7 @@ export const CopyImageSetRequest = S.suspend(() =>
   identifier: "CopyImageSetRequest",
 }) as any as S.Schema<CopyImageSetRequest>;
 export type ImageSetState = "ACTIVE" | "LOCKED" | "DELETED" | (string & {});
-export const ImageSetState = S.String;
+export const ImageSetState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ImageSetWorkflowStatus =
   | "CREATED"
   | "COPIED"
@@ -214,7 +216,7 @@ export type ImageSetWorkflowStatus =
   | "IMPORTED"
   | "IMPORT_FAILED"
   | (string & {});
-export const ImageSetWorkflowStatus = S.String;
+export const ImageSetWorkflowStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CopySourceImageSetProperties {
   imageSetId: string;
   latestVersionId: string;
@@ -224,19 +226,20 @@ export interface CopySourceImageSetProperties {
   updatedAt?: Date;
   imageSetArn?: string;
 }
-export const CopySourceImageSetProperties = S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: S.optional(ImageSetState),
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    imageSetArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CopySourceImageSetProperties",
-}) as any as S.Schema<CopySourceImageSetProperties>;
+export const CopySourceImageSetProperties =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageSetId: S.String,
+      latestVersionId: S.String,
+      imageSetState: S.optional(ImageSetState),
+      imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
+      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      imageSetArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CopySourceImageSetProperties",
+  }) as any as S.Schema<CopySourceImageSetProperties>;
 export interface CopyDestinationImageSetProperties {
   imageSetId: string;
   latestVersionId: string;
@@ -246,25 +249,26 @@ export interface CopyDestinationImageSetProperties {
   updatedAt?: Date;
   imageSetArn?: string;
 }
-export const CopyDestinationImageSetProperties = S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: S.optional(ImageSetState),
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    imageSetArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CopyDestinationImageSetProperties",
-}) as any as S.Schema<CopyDestinationImageSetProperties>;
+export const CopyDestinationImageSetProperties =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageSetId: S.String,
+      latestVersionId: S.String,
+      imageSetState: S.optional(ImageSetState),
+      imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
+      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      imageSetArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CopyDestinationImageSetProperties",
+  }) as any as S.Schema<CopyDestinationImageSetProperties>;
 export interface CopyImageSetResponse {
   datastoreId: string;
   sourceImageSetProperties: CopySourceImageSetProperties;
   destinationImageSetProperties: CopyDestinationImageSetProperties;
 }
-export const CopyImageSetResponse = S.suspend(() =>
+export const CopyImageSetResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String,
     sourceImageSetProperties: CopySourceImageSetProperties,
@@ -277,7 +281,7 @@ export interface DeleteImageSetRequest {
   datastoreId: string;
   imageSetId: string;
 }
-export const DeleteImageSetRequest = S.suspend(() =>
+export const DeleteImageSetRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
@@ -303,13 +307,14 @@ export interface DeleteImageSetResponse {
   imageSetState: ImageSetState;
   imageSetWorkflowStatus: ImageSetWorkflowStatus;
 }
-export const DeleteImageSetResponse = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    imageSetId: S.String,
-    imageSetState: ImageSetState,
-    imageSetWorkflowStatus: ImageSetWorkflowStatus,
-  }),
+export const DeleteImageSetResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreId: S.String,
+      imageSetId: S.String,
+      imageSetState: ImageSetState,
+      imageSetWorkflowStatus: ImageSetWorkflowStatus,
+    }),
 ).annotate({
   identifier: "DeleteImageSetResponse",
 }) as any as S.Schema<DeleteImageSetResponse>;
@@ -317,23 +322,24 @@ export interface GetDICOMImportJobRequest {
   datastoreId: string;
   jobId: string;
 }
-export const GetDICOMImportJobRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/getDICOMImportJob/datastore/{datastoreId}/job/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDICOMImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      jobId: S.String.pipe(T.HttpLabel("jobId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/getDICOMImportJob/datastore/{datastoreId}/job/{jobId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetDICOMImportJobRequest",
 }) as any as S.Schema<GetDICOMImportJobRequest>;
@@ -343,7 +349,7 @@ export type JobStatus =
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const JobStatus = S.String;
+export const JobStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DICOMImportJobProperties {
   jobId: string;
   jobName: string;
@@ -356,34 +362,35 @@ export interface DICOMImportJobProperties {
   outputS3Uri: string;
   message?: string;
 }
-export const DICOMImportJobProperties = S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    jobName: S.String,
-    jobStatus: JobStatus,
-    datastoreId: S.String,
-    dataAccessRoleArn: S.String,
-    endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    submittedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    inputS3Uri: S.String,
-    outputS3Uri: S.String,
-    message: S.optional(S.String),
-  }),
+export const DICOMImportJobProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      jobId: S.String,
+      jobName: S.String,
+      jobStatus: JobStatus,
+      datastoreId: S.String,
+      dataAccessRoleArn: S.String,
+      endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      submittedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      inputS3Uri: S.String,
+      outputS3Uri: S.String,
+      message: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DICOMImportJobProperties",
 }) as any as S.Schema<DICOMImportJobProperties>;
 export interface GetDICOMImportJobResponse {
   jobProperties: DICOMImportJobProperties;
 }
-export const GetDICOMImportJobResponse = S.suspend(() =>
-  S.Struct({ jobProperties: DICOMImportJobProperties }),
+export const GetDICOMImportJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ jobProperties: DICOMImportJobProperties }),
 ).annotate({
   identifier: "GetDICOMImportJobResponse",
 }) as any as S.Schema<GetDICOMImportJobResponse>;
 export interface ImageFrameInformation {
   imageFrameId: string;
 }
-export const ImageFrameInformation = S.suspend(() =>
+export const ImageFrameInformation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ imageFrameId: S.String }),
 ).annotate({
   identifier: "ImageFrameInformation",
@@ -393,7 +400,7 @@ export interface GetImageFrameRequest {
   imageSetId: string;
   imageFrameInformation: ImageFrameInformation;
 }
-export const GetImageFrameRequest = S.suspend(() =>
+export const GetImageFrameRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
@@ -420,7 +427,7 @@ export interface GetImageFrameResponse {
   imageFrameBlob: T.StreamingOutputBody;
   contentType?: string;
 }
-export const GetImageFrameResponse = S.suspend(() =>
+export const GetImageFrameResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     imageFrameBlob: T.StreamingOutput.pipe(T.HttpPayload()),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -433,7 +440,7 @@ export interface GetImageSetRequest {
   imageSetId: string;
   versionId?: string;
 }
-export const GetImageSetRequest = S.suspend(() =>
+export const GetImageSetRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
@@ -457,14 +464,14 @@ export const GetImageSetRequest = S.suspend(() =>
 export interface Overrides {
   forced?: boolean;
 }
-export const Overrides = S.suspend(() =>
+export const Overrides = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ forced: S.optional(S.Boolean) }),
 ).annotate({ identifier: "Overrides" }) as any as S.Schema<Overrides>;
 export type StorageTier =
   | "FREQUENT_ACCESS"
   | "ARCHIVE_INSTANT_ACCESS"
   | (string & {});
-export const StorageTier = S.String;
+export const StorageTier = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetImageSetResponse {
   datastoreId: string;
   imageSetId: string;
@@ -481,7 +488,7 @@ export interface GetImageSetResponse {
   lastAccessedAt?: Date;
   storageTier?: StorageTier;
 }
-export const GetImageSetResponse = S.suspend(() =>
+export const GetImageSetResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String,
     imageSetId: S.String,
@@ -506,24 +513,25 @@ export interface GetImageSetMetadataRequest {
   imageSetId: string;
   versionId?: string;
 }
-export const GetImageSetMetadataRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/getImageSetMetadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetImageSetMetadataRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
+      versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/getImageSetMetadata",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetImageSetMetadataRequest",
 }) as any as S.Schema<GetImageSetMetadataRequest>;
@@ -532,42 +540,44 @@ export interface GetImageSetMetadataResponse {
   contentType?: string;
   contentEncoding?: string;
 }
-export const GetImageSetMetadataResponse = S.suspend(() =>
-  S.Struct({
-    imageSetMetadataBlob: T.StreamingOutput.pipe(T.HttpPayload()),
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    contentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
-  }),
-).annotate({
-  identifier: "GetImageSetMetadataResponse",
-}) as any as S.Schema<GetImageSetMetadataResponse>;
+export const GetImageSetMetadataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageSetMetadataBlob: T.StreamingOutput.pipe(T.HttpPayload()),
+      contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+      contentEncoding: S.optional(S.String).pipe(
+        T.HttpHeader("Content-Encoding"),
+      ),
+    }),
+  ).annotate({
+    identifier: "GetImageSetMetadataResponse",
+  }) as any as S.Schema<GetImageSetMetadataResponse>;
 export interface ListDICOMImportJobsRequest {
   datastoreId: string;
   jobStatus?: JobStatus;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDICOMImportJobsRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    jobStatus: S.optional(JobStatus).pipe(T.HttpQuery("jobStatus")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/listDICOMImportJobs/datastore/{datastoreId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListDICOMImportJobsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      jobStatus: S.optional(JobStatus).pipe(T.HttpQuery("jobStatus")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/listDICOMImportJobs/datastore/{datastoreId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListDICOMImportJobsRequest",
 }) as any as S.Schema<ListDICOMImportJobsRequest>;
@@ -581,7 +591,7 @@ export interface DICOMImportJobSummary {
   submittedAt?: Date;
   message?: string;
 }
-export const DICOMImportJobSummary = S.suspend(() =>
+export const DICOMImportJobSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     jobId: S.String,
     jobName: S.String,
@@ -596,47 +606,51 @@ export const DICOMImportJobSummary = S.suspend(() =>
   identifier: "DICOMImportJobSummary",
 }) as any as S.Schema<DICOMImportJobSummary>;
 export type DICOMImportJobSummaries = DICOMImportJobSummary[];
-export const DICOMImportJobSummaries = S.Array(DICOMImportJobSummary);
+export const DICOMImportJobSummaries = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DICOMImportJobSummary,
+);
 export interface ListDICOMImportJobsResponse {
   jobSummaries: DICOMImportJobSummary[];
   nextToken?: string;
 }
-export const ListDICOMImportJobsResponse = S.suspend(() =>
-  S.Struct({
-    jobSummaries: DICOMImportJobSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDICOMImportJobsResponse",
-}) as any as S.Schema<ListDICOMImportJobsResponse>;
+export const ListDICOMImportJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      jobSummaries: DICOMImportJobSummaries,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListDICOMImportJobsResponse",
+  }) as any as S.Schema<ListDICOMImportJobsResponse>;
 export interface ListImageSetVersionsRequest {
   datastoreId: string;
   imageSetId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListImageSetVersionsRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/listImageSetVersions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListImageSetVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/listImageSetVersions",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListImageSetVersionsRequest",
-}) as any as S.Schema<ListImageSetVersionsRequest>;
+  ).annotate({
+    identifier: "ListImageSetVersionsRequest",
+  }) as any as S.Schema<ListImageSetVersionsRequest>;
 export interface ImageSetProperties {
   imageSetId: string;
   versionId: string;
@@ -649,7 +663,7 @@ export interface ImageSetProperties {
   overrides?: Overrides;
   isPrimary?: boolean;
 }
-export const ImageSetProperties = S.suspend(() =>
+export const ImageSetProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     imageSetId: S.String,
     versionId: S.String,
@@ -666,51 +680,58 @@ export const ImageSetProperties = S.suspend(() =>
   identifier: "ImageSetProperties",
 }) as any as S.Schema<ImageSetProperties>;
 export type ImageSetPropertiesList = ImageSetProperties[];
-export const ImageSetPropertiesList = S.Array(ImageSetProperties);
+export const ImageSetPropertiesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ImageSetProperties);
 export interface ListImageSetVersionsResponse {
   imageSetPropertiesList: ImageSetProperties[];
   nextToken?: string;
 }
-export const ListImageSetVersionsResponse = S.suspend(() =>
-  S.Struct({
-    imageSetPropertiesList: ImageSetPropertiesList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListImageSetVersionsResponse",
-}) as any as S.Schema<ListImageSetVersionsResponse>;
+export const ListImageSetVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      imageSetPropertiesList: ImageSetPropertiesList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListImageSetVersionsResponse",
+  }) as any as S.Schema<ListImageSetVersionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: TagMap }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: TagMap }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface DICOMStudyDateAndTime {
   DICOMStudyDate: string | redacted.Redacted<string>;
   DICOMStudyTime?: string | redacted.Redacted<string>;
 }
-export const DICOMStudyDateAndTime = S.suspend(() =>
+export const DICOMStudyDateAndTime = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DICOMStudyDate: SensitiveString,
     DICOMStudyTime: S.optional(SensitiveString),
@@ -818,7 +839,7 @@ export type SearchByAttributeValue =
       DICOMStudyDateAndTime?: never;
       isPrimary: boolean;
     };
-export const SearchByAttributeValue = S.Union([
+export const SearchByAttributeValue = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ DICOMPatientId: SensitiveString }),
   S.Struct({ DICOMAccessionNumber: SensitiveString }),
   S.Struct({ DICOMStudyId: SensitiveString }),
@@ -830,38 +851,40 @@ export const SearchByAttributeValue = S.Union([
   S.Struct({ isPrimary: S.Boolean }),
 ]);
 export type SearchByAttributeValues = SearchByAttributeValue[];
-export const SearchByAttributeValues = S.Array(SearchByAttributeValue);
+export const SearchByAttributeValues = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  SearchByAttributeValue,
+);
 export type Operator = "EQUAL" | "BETWEEN" | (string & {});
-export const Operator = S.String;
+export const Operator = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface SearchFilter {
   values: SearchByAttributeValue[];
   operator: Operator;
 }
-export const SearchFilter = S.suspend(() =>
+export const SearchFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ values: SearchByAttributeValues, operator: Operator }),
 ).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export type SearchFilters = SearchFilter[];
-export const SearchFilters = S.Array(SearchFilter);
+export const SearchFilters = /*@__PURE__*/ /*#__PURE__*/ S.Array(SearchFilter);
 export type SortOrder = "ASC" | "DESC" | (string & {});
-export const SortOrder = S.String;
+export const SortOrder = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SortField =
   | "updatedAt"
   | "createdAt"
   | "DICOMStudyDateAndTime"
   | (string & {});
-export const SortField = S.String;
+export const SortField = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Sort {
   sortOrder: SortOrder;
   sortField: SortField;
 }
-export const Sort = S.suspend(() =>
+export const Sort = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ sortOrder: SortOrder, sortField: SortField }),
 ).annotate({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface SearchCriteria {
   filters?: SearchFilter[];
   sort?: Sort;
 }
-export const SearchCriteria = S.suspend(() =>
+export const SearchCriteria = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ filters: S.optional(SearchFilters), sort: S.optional(Sort) }),
 ).annotate({ identifier: "SearchCriteria" }) as any as S.Schema<SearchCriteria>;
 export interface SearchImageSetsRequest {
@@ -870,27 +893,28 @@ export interface SearchImageSetsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const SearchImageSetsRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    searchCriteria: S.optional(SearchCriteria)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "SearchCriteria" }),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/searchImageSets",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SearchImageSetsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      searchCriteria: S.optional(SearchCriteria)
+        .pipe(T.HttpPayload())
+        .annotate({ identifier: "SearchCriteria" }),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datastore/{datastoreId}/searchImageSets",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "SearchImageSetsRequest",
 }) as any as S.Schema<SearchImageSetsRequest>;
@@ -912,7 +936,7 @@ export interface DICOMTags {
   DICOMStudyDate?: string | redacted.Redacted<string>;
   DICOMStudyTime?: string | redacted.Redacted<string>;
 }
-export const DICOMTags = S.suspend(() =>
+export const DICOMTags = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DICOMPatientId: S.optional(SensitiveString),
     DICOMPatientName: S.optional(SensitiveString),
@@ -942,33 +966,39 @@ export interface ImageSetsMetadataSummary {
   DICOMTags?: DICOMTags;
   isPrimary?: boolean;
 }
-export const ImageSetsMetadataSummary = S.suspend(() =>
-  S.Struct({
-    imageSetId: S.String,
-    version: S.optional(S.Number),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastAccessedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    storageTier: S.optional(StorageTier),
-    DICOMTags: S.optional(DICOMTags),
-    isPrimary: S.optional(S.Boolean),
-  }),
+export const ImageSetsMetadataSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      imageSetId: S.String,
+      version: S.optional(S.Number),
+      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      lastAccessedAt: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      storageTier: S.optional(StorageTier),
+      DICOMTags: S.optional(DICOMTags),
+      isPrimary: S.optional(S.Boolean),
+    }),
 ).annotate({
   identifier: "ImageSetsMetadataSummary",
 }) as any as S.Schema<ImageSetsMetadataSummary>;
 export type ImageSetsMetadataSummaries = ImageSetsMetadataSummary[];
-export const ImageSetsMetadataSummaries = S.Array(ImageSetsMetadataSummary);
+export const ImageSetsMetadataSummaries = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ImageSetsMetadataSummary,
+);
 export interface SearchImageSetsResponse {
   imageSetsMetadataSummaries: ImageSetsMetadataSummary[];
   sort?: Sort;
   nextToken?: string;
 }
-export const SearchImageSetsResponse = S.suspend(() =>
-  S.Struct({
-    imageSetsMetadataSummaries: ImageSetsMetadataSummaries,
-    sort: S.optional(Sort),
-    nextToken: S.optional(S.String),
-  }),
+export const SearchImageSetsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      imageSetsMetadataSummaries: ImageSetsMetadataSummaries,
+      sort: S.optional(Sort),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "SearchImageSetsResponse",
 }) as any as S.Schema<SearchImageSetsResponse>;
@@ -981,28 +1011,29 @@ export interface StartDICOMImportJobRequest {
   outputS3Uri: string;
   inputOwnerAccountId?: string;
 }
-export const StartDICOMImportJobRequest = S.suspend(() =>
-  S.Struct({
-    jobName: S.optional(S.String),
-    dataAccessRoleArn: S.String,
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    inputS3Uri: S.String,
-    outputS3Uri: S.String,
-    inputOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/startDICOMImportJob/datastore/{datastoreId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartDICOMImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      jobName: S.optional(S.String),
+      dataAccessRoleArn: S.String,
+      clientToken: S.String.pipe(T.IdempotencyToken()),
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      inputS3Uri: S.String,
+      outputS3Uri: S.String,
+      inputOwnerAccountId: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/startDICOMImportJob/datastore/{datastoreId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartDICOMImportJobRequest",
 }) as any as S.Schema<StartDICOMImportJobRequest>;
@@ -1012,21 +1043,22 @@ export interface StartDICOMImportJobResponse {
   jobStatus: JobStatus;
   submittedAt: Date;
 }
-export const StartDICOMImportJobResponse = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    jobId: S.String,
-    jobStatus: JobStatus,
-    submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "StartDICOMImportJobResponse",
-}) as any as S.Schema<StartDICOMImportJobResponse>;
+export const StartDICOMImportJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datastoreId: S.String,
+      jobId: S.String,
+      jobStatus: JobStatus,
+      submittedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    }),
+  ).annotate({
+    identifier: "StartDICOMImportJobResponse",
+  }) as any as S.Schema<StartDICOMImportJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
@@ -1044,16 +1076,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -1071,14 +1105,16 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface DICOMUpdates {
   removableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
   updatableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const DICOMUpdates = S.suspend(() =>
+export const DICOMUpdates = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     removableAttributes: S.optional(SensitiveBlob),
     updatableAttributes: S.optional(SensitiveBlob),
@@ -1087,7 +1123,7 @@ export const DICOMUpdates = S.suspend(() =>
 export type MetadataUpdates =
   | { DICOMUpdates: DICOMUpdates; revertToVersionId?: never }
   | { DICOMUpdates?: never; revertToVersionId: string };
-export const MetadataUpdates = S.Union([
+export const MetadataUpdates = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ DICOMUpdates: DICOMUpdates }),
   S.Struct({ revertToVersionId: S.String }),
 ]);
@@ -1098,29 +1134,30 @@ export interface UpdateImageSetMetadataRequest {
   force?: boolean;
   updateImageSetMetadataUpdates: MetadataUpdates;
 }
-export const UpdateImageSetMetadataRequest = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
-    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    latestVersionId: S.String.pipe(T.HttpQuery("latestVersion")),
-    force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    updateImageSetMetadataUpdates: MetadataUpdates.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/updateImageSetMetadata",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateImageSetMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+      imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
+      latestVersionId: S.String.pipe(T.HttpQuery("latestVersion")),
+      force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
+      updateImageSetMetadataUpdates: MetadataUpdates.pipe(T.HttpPayload()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/datastore/{datastoreId}/imageSet/{imageSetId}/updateImageSetMetadata",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateImageSetMetadataRequest",
-}) as any as S.Schema<UpdateImageSetMetadataRequest>;
+  ).annotate({
+    identifier: "UpdateImageSetMetadataRequest",
+  }) as any as S.Schema<UpdateImageSetMetadataRequest>;
 export interface UpdateImageSetMetadataResponse {
   datastoreId: string;
   imageSetId: string;
@@ -1131,25 +1168,26 @@ export interface UpdateImageSetMetadataResponse {
   updatedAt?: Date;
   message?: string;
 }
-export const UpdateImageSetMetadataResponse = S.suspend(() =>
-  S.Struct({
-    datastoreId: S.String,
-    imageSetId: S.String,
-    latestVersionId: S.String,
-    imageSetState: ImageSetState,
-    imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateImageSetMetadataResponse",
-}) as any as S.Schema<UpdateImageSetMetadataResponse>;
+export const UpdateImageSetMetadataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      datastoreId: S.String,
+      imageSetId: S.String,
+      latestVersionId: S.String,
+      imageSetState: ImageSetState,
+      imageSetWorkflowStatus: S.optional(ImageSetWorkflowStatus),
+      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateImageSetMetadataResponse",
+  }) as any as S.Schema<UpdateImageSetMetadataResponse>;
 export type LosslessStorageFormat =
   | "HTJ2K"
   | "JPEG_2000_LOSSLESS"
   | (string & {});
-export const LosslessStorageFormat = S.String;
+export const LosslessStorageFormat = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateDatastoreRequest {
   datastoreName?: string;
   clientToken: string;
@@ -1158,24 +1196,25 @@ export interface CreateDatastoreRequest {
   lambdaAuthorizerArn?: string;
   losslessStorageFormat?: LosslessStorageFormat;
 }
-export const CreateDatastoreRequest = S.suspend(() =>
-  S.Struct({
-    datastoreName: S.optional(S.String),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    tags: S.optional(TagMap),
-    kmsKeyArn: S.optional(S.String),
-    lambdaAuthorizerArn: S.optional(S.String),
-    losslessStorageFormat: S.optional(LosslessStorageFormat),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/datastore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDatastoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreName: S.optional(S.String),
+      clientToken: S.String.pipe(T.IdempotencyToken()),
+      tags: S.optional(TagMap),
+      kmsKeyArn: S.optional(S.String),
+      lambdaAuthorizerArn: S.optional(S.String),
+      losslessStorageFormat: S.optional(LosslessStorageFormat),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/datastore" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateDatastoreRequest",
 }) as any as S.Schema<CreateDatastoreRequest>;
@@ -1186,20 +1225,20 @@ export type DatastoreStatus =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const DatastoreStatus = S.String;
+export const DatastoreStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateDatastoreResponse {
   datastoreId: string;
   datastoreStatus: DatastoreStatus;
 }
-export const CreateDatastoreResponse = S.suspend(() =>
-  S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
+export const CreateDatastoreResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
 ).annotate({
   identifier: "CreateDatastoreResponse",
 }) as any as S.Schema<CreateDatastoreResponse>;
 export interface GetDatastoreRequest {
   datastoreId: string;
 }
-export const GetDatastoreRequest = S.suspend(() =>
+export const GetDatastoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }),
@@ -1224,7 +1263,7 @@ export interface DatastoreProperties {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const DatastoreProperties = S.suspend(() =>
+export const DatastoreProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String,
     datastoreName: S.String,
@@ -1242,7 +1281,7 @@ export const DatastoreProperties = S.suspend(() =>
 export interface GetDatastoreResponse {
   datastoreProperties: DatastoreProperties;
 }
-export const GetDatastoreResponse = S.suspend(() =>
+export const GetDatastoreResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ datastoreProperties: DatastoreProperties }),
 ).annotate({
   identifier: "GetDatastoreResponse",
@@ -1250,17 +1289,18 @@ export const GetDatastoreResponse = S.suspend(() =>
 export interface DeleteDatastoreRequest {
   datastoreId: string;
 }
-export const DeleteDatastoreRequest = S.suspend(() =>
-  S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/datastore/{datastoreId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDatastoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/datastore/{datastoreId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteDatastoreRequest",
 }) as any as S.Schema<DeleteDatastoreRequest>;
@@ -1268,8 +1308,8 @@ export interface DeleteDatastoreResponse {
   datastoreId: string;
   datastoreStatus: DatastoreStatus;
 }
-export const DeleteDatastoreResponse = S.suspend(() =>
-  S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
+export const DeleteDatastoreResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ datastoreId: S.String, datastoreStatus: DatastoreStatus }),
 ).annotate({
   identifier: "DeleteDatastoreResponse",
 }) as any as S.Schema<DeleteDatastoreResponse>;
@@ -1278,7 +1318,7 @@ export interface ListDatastoresRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDatastoresRequest = S.suspend(() =>
+export const ListDatastoresRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreStatus: S.optional(DatastoreStatus).pipe(
       T.HttpQuery("datastoreStatus"),
@@ -1306,7 +1346,7 @@ export interface DatastoreSummary {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const DatastoreSummary = S.suspend(() =>
+export const DatastoreSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String,
     datastoreName: S.String,
@@ -1319,16 +1359,18 @@ export const DatastoreSummary = S.suspend(() =>
   identifier: "DatastoreSummary",
 }) as any as S.Schema<DatastoreSummary>;
 export type DatastoreSummaries = DatastoreSummary[];
-export const DatastoreSummaries = S.Array(DatastoreSummary);
+export const DatastoreSummaries =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DatastoreSummary);
 export interface ListDatastoresResponse {
   datastoreSummaries?: DatastoreSummary[];
   nextToken?: string;
 }
-export const ListDatastoresResponse = S.suspend(() =>
-  S.Struct({
-    datastoreSummaries: S.optional(DatastoreSummaries),
-    nextToken: S.optional(S.String),
-  }),
+export const ListDatastoresResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      datastoreSummaries: S.optional(DatastoreSummaries),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListDatastoresResponse",
 }) as any as S.Schema<ListDatastoresResponse>;

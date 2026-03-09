@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListInvoicesInput = Schema.Struct({
+export const ListInvoicesInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   page: Schema.optional(Schema.Number),
   per_page: Schema.optional(Schema.Number),
@@ -14,7 +14,7 @@ export const ListInvoicesInput = Schema.Struct({
 export type ListInvoicesInput = typeof ListInvoicesInput.Type;
 
 // Output Schema
-export const ListInvoicesOutput = Schema.Struct({
+export const ListInvoicesOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   current_page: Schema.Number,
   next_page: Schema.NullOr(Schema.Number),
   next_page_url: Schema.NullOr(Schema.String),

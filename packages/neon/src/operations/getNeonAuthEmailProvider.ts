@@ -3,20 +3,22 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetNeonAuthEmailProviderInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/email_provider",
-  }),
-);
+export const GetNeonAuthEmailProviderInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/email_provider",
+    }),
+  );
 export type GetNeonAuthEmailProviderInput =
   typeof GetNeonAuthEmailProviderInput.Type;
 
 // Output Schema
-export const GetNeonAuthEmailProviderOutput = Schema.Unknown;
+export const GetNeonAuthEmailProviderOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown;
 export type GetNeonAuthEmailProviderOutput =
   typeof GetNeonAuthEmailProviderOutput.Type;
 

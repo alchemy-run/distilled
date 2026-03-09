@@ -30,7 +30,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -45,7 +45,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p2beta1_NormalizedVertex),
@@ -63,7 +63,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -84,7 +84,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top: Schema.optional(Schema.Number),
       bottom: Schema.optional(Schema.Number),
@@ -103,7 +103,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingBox,
@@ -124,7 +124,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_Entity {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityId: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -150,7 +150,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation 
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       segment: Schema.optional(
@@ -180,7 +180,7 @@ export interface GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       left: Schema.optional(Schema.Number),
       right: Schema.optional(Schema.Number),
@@ -199,7 +199,7 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceFrame {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       normalizedBoundingBoxes: Schema.optional(
@@ -218,7 +218,7 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoSegment {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -233,7 +233,7 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceSegment {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1beta2_VideoSegment,
@@ -253,7 +253,7 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_FaceFrame),
@@ -276,8 +276,8 @@ export interface GoogleRpc_Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpc_Status: Schema.Schema<GoogleRpc_Status> = Schema.suspend(
-  () =>
+export const GoogleRpc_Status: Schema.Schema<GoogleRpc_Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -285,9 +285,9 @@ export const GoogleRpc_Status: Schema.Schema<GoogleRpc_Status> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpc_Status",
-}) as any as Schema.Schema<GoogleRpc_Status>;
+  ).annotate({
+    identifier: "GoogleRpc_Status",
+  }) as any as Schema.Schema<GoogleRpc_Status>;
 
 export interface GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus {
   /** Output only. Only set if state is FAILED. */
@@ -297,7 +297,7 @@ export interface GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExportToOutputUriStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleRpc_Status),
       state: Schema.optional(Schema.String),
@@ -335,7 +335,7 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputUri: Schema.optional(Schema.String),
       segment: Schema.optional(
@@ -359,7 +359,7 @@ export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationProgress: Schema.optional(
         Schema.Array(
@@ -379,7 +379,7 @@ export interface GoogleCloudVideointelligenceV1_NormalizedVertex {
 }
 
 export const GoogleCloudVideointelligenceV1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -394,7 +394,7 @@ export interface GoogleCloudVideointelligenceV1_NormalizedBoundingPoly {
 }
 
 export const GoogleCloudVideointelligenceV1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_NormalizedVertex),
@@ -412,7 +412,7 @@ export interface GoogleCloudVideointelligenceV1_TextFrame {
 }
 
 export const GoogleCloudVideointelligenceV1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1_TextFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rotatedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1_NormalizedBoundingPoly,
@@ -433,7 +433,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -455,7 +455,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       left: Schema.optional(Schema.Number),
       right: Schema.optional(Schema.Number),
@@ -474,7 +474,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       y: Schema.optional(Schema.Number),
       x: Schema.optional(Schema.Number),
@@ -493,7 +493,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_DetectedLandmark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       name: Schema.optional(Schema.String),
@@ -517,7 +517,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TimestampedObject {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TimestampedObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributes: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_DetectedAttribute),
@@ -542,7 +542,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -563,7 +563,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Track {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Track> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timestampedObjects: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TimestampedObject),
@@ -590,7 +590,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Celebrity {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_Celebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Celebrity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -608,7 +608,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_RecognizedCelebrity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       celebrity: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_Celebrity,
@@ -627,7 +627,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       faceTrack: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Track),
       celebrities: Schema.optional(
@@ -646,7 +646,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnot
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_CelebrityRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       celebrityTracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_CelebrityTrack),
@@ -666,7 +666,7 @@ export interface GoogleCloudVideointelligenceV1_VideoSegment {
 }
 
 export const GoogleCloudVideointelligenceV1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1_VideoSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -685,7 +685,7 @@ export interface GoogleCloudVideointelligenceV1_DetectedLandmark {
 }
 
 export const GoogleCloudVideointelligenceV1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedLandmark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       point: Schema.optional(GoogleCloudVideointelligenceV1_NormalizedVertex),
       name: Schema.optional(Schema.String),
@@ -707,7 +707,7 @@ export interface GoogleCloudVideointelligenceV1_NormalizedBoundingBox {
 }
 
 export const GoogleCloudVideointelligenceV1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1_NormalizedBoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       left: Schema.optional(Schema.Number),
       right: Schema.optional(Schema.Number),
@@ -728,7 +728,7 @@ export interface GoogleCloudVideointelligenceV1_DetectedAttribute {
 }
 
 export const GoogleCloudVideointelligenceV1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1_DetectedAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       name: Schema.optional(Schema.String),
@@ -750,7 +750,7 @@ export interface GoogleCloudVideointelligenceV1_TimestampedObject {
 }
 
 export const GoogleCloudVideointelligenceV1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1_TimestampedObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       landmarks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_DetectedLandmark),
@@ -779,7 +779,7 @@ export interface GoogleCloudVideointelligenceV1_Track {
 }
 
 export const GoogleCloudVideointelligenceV1_Track: Schema.Schema<GoogleCloudVideointelligenceV1_Track> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
       confidence: Schema.optional(Schema.Number),
@@ -804,7 +804,7 @@ export interface GoogleCloudVideointelligenceV1_FaceDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_Track),
@@ -824,7 +824,7 @@ export interface GoogleCloudVideointelligenceV1_ExportToOutputUriStatus {
 }
 
 export const GoogleCloudVideointelligenceV1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1_ExportToOutputUriStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleRpc_Status),
       state: Schema.optional(Schema.String),
@@ -843,7 +843,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_Entity {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityId: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -861,7 +861,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
@@ -880,7 +880,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -903,7 +903,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
       segments: Schema.optional(
@@ -936,7 +936,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       pornographyLikelihood: Schema.optional(Schema.String),
@@ -953,7 +953,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExplicitContentAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(
@@ -975,7 +975,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingBox,
@@ -1002,7 +1002,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation 
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
@@ -1034,7 +1034,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationR
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingVideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelAnnotations: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_LabelAnnotation),
@@ -1067,7 +1067,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoRes
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_StreamingAnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResultsUri: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpc_Status),
@@ -1086,7 +1086,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
@@ -1104,7 +1104,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       normalizedBoundingBoxes: Schema.optional(
@@ -1127,7 +1127,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceSegment),
@@ -1149,7 +1149,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       status: Schema.optional(GoogleRpc_Status),
@@ -1166,7 +1166,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_VideoSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -1204,7 +1204,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportStatus: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_ExportToOutputUriStatus,
@@ -1228,7 +1228,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
@@ -1246,7 +1246,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExportToOutputUriStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleRpc_Status),
       state: Schema.optional(Schema.String),
@@ -1284,7 +1284,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressPercent: Schema.optional(Schema.Number),
       exportStatus: Schema.optional(
@@ -1310,7 +1310,7 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelSegment {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1beta2_VideoSegment,
@@ -1329,7 +1329,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       y: Schema.optional(Schema.Number),
       x: Schema.optional(Schema.Number),
@@ -1344,7 +1344,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_NormalizedVertex),
@@ -1362,7 +1362,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       rotatedBoundingBox: Schema.optional(
@@ -1383,7 +1383,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
@@ -1405,7 +1405,7 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelFrame {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -1424,7 +1424,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -1444,7 +1444,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_DetectedLandmark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       name: Schema.optional(Schema.String),
@@ -1468,7 +1468,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TimestampedObject {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TimestampedObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributes: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p2beta1_DetectedAttribute),
@@ -1497,7 +1497,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_Track {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_Track> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
@@ -1524,7 +1524,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thumbnail: Schema.optional(Schema.String),
       tracks: Schema.optional(
@@ -1552,7 +1552,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_WordInfo {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_WordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       speakerLabel: Schema.optional(Schema.String),
@@ -1575,7 +1575,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternat
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcript: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -1596,7 +1596,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_SpeechTranscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alternatives: Schema.optional(
         Schema.Array(
@@ -1617,7 +1617,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       normalizedBoundingBoxes: Schema.optional(
@@ -1645,7 +1645,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       pornographyLikelihood: Schema.optional(Schema.String),
@@ -1662,7 +1662,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       frames: Schema.optional(
@@ -1684,7 +1684,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -1701,7 +1701,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
@@ -1726,7 +1726,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p2beta1_LabelFrame),
@@ -1752,7 +1752,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rotatedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_NormalizedBoundingPoly,
@@ -1773,7 +1773,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_VideoSegment,
@@ -1797,7 +1797,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -1817,7 +1817,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p2beta1_Track),
@@ -1839,7 +1839,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p2beta1_FaceSegment),
@@ -1869,7 +1869,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_WordInfo {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_WordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speakerTag: Schema.optional(Schema.Number),
       startTime: Schema.optional(Schema.String),
@@ -1892,7 +1892,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternat
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       words: Schema.optional(
@@ -1913,7 +1913,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       alternatives: Schema.optional(
@@ -1936,7 +1936,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LogoRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(GoogleCloudVideointelligenceV1p2beta1_Entity),
       tracks: Schema.optional(
@@ -1989,7 +1989,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       explicitAnnotation: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_ExplicitContentAnnotation,
@@ -2057,7 +2057,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResults: Schema.optional(
         Schema.Array(
@@ -2077,7 +2077,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_TextDetectionConfig {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_TextDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_TextDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageHints: Schema.optional(Schema.Array(Schema.String)),
       model: Schema.optional(Schema.String),
@@ -2096,7 +2096,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_PersonDetectionConfig {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_PersonDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_PersonDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includePoseLandmarks: Schema.optional(Schema.Boolean),
       includeAttributes: Schema.optional(Schema.Boolean),
@@ -2125,7 +2125,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_LabelDetectionConfig {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_LabelDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_LabelDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelDetectionMode: Schema.optional(Schema.String),
       model: Schema.optional(Schema.String),
@@ -2143,7 +2143,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechContext {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_SpeechContext: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phrases: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2175,7 +2175,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_SpeechTranscriptionConfig
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_SpeechTranscriptionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_SpeechTranscriptionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterProfanity: Schema.optional(Schema.Boolean),
       enableAutomaticPunctuation: Schema.optional(Schema.Boolean),
@@ -2201,7 +2201,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ExplicitContentDetectionC
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ExplicitContentDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ExplicitContentDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -2216,7 +2216,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ShotChangeDetectionConfig
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ShotChangeDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ShotChangeDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -2235,7 +2235,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_FaceDetectionConfig {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_FaceDetectionConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_FaceDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeAttributes: Schema.optional(Schema.Boolean),
       model: Schema.optional(Schema.String),
@@ -2251,7 +2251,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingConfig {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingConfig: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_ObjectTrackingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -2281,7 +2281,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_VideoContext {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_VideoContext: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_VideoContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textDetectionConfig: Schema.optional(
         GoogleCloudVideointelligenceV1p2beta1_TextDetectionConfig,
@@ -2343,7 +2343,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoRequest {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoRequest: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationId: Schema.optional(Schema.String),
       inputContent: Schema.optional(Schema.String),
@@ -2368,7 +2368,7 @@ export interface GoogleCloudVideointelligenceV1beta2_Entity {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_Entity: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -2386,7 +2386,7 @@ export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1beta2_NormalizedBoundingBox,
@@ -2413,7 +2413,7 @@ export interface GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trackId: Schema.optional(Schema.String),
       entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
@@ -2438,7 +2438,7 @@ export interface GoogleCloudVideointelligenceV1beta2_NormalizedVertex {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_NormalizedVertex: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       y: Schema.optional(Schema.Number),
       x: Schema.optional(Schema.Number),
@@ -2457,7 +2457,7 @@ export interface GoogleCloudVideointelligenceV1beta2_DetectedLandmark {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedLandmark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       name: Schema.optional(Schema.String),
@@ -2479,7 +2479,7 @@ export interface GoogleCloudVideointelligenceV1beta2_DetectedAttribute {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1beta2_DetectedAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidence: Schema.optional(Schema.Number),
       name: Schema.optional(Schema.String),
@@ -2501,7 +2501,7 @@ export interface GoogleCloudVideointelligenceV1beta2_TimestampedObject {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TimestampedObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       landmarks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_DetectedLandmark),
@@ -2530,7 +2530,7 @@ export interface GoogleCloudVideointelligenceV1beta2_Track {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_Track: Schema.Schema<GoogleCloudVideointelligenceV1beta2_Track> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timestampedObjects: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_TimestampedObject),
@@ -2557,7 +2557,7 @@ export interface GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_FaceDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       tracks: Schema.optional(
@@ -2584,7 +2584,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       pornographyLikelihood: Schema.optional(Schema.String),
@@ -2601,7 +2601,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(
@@ -2623,7 +2623,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -2642,7 +2642,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_Entity {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityId: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -2660,7 +2660,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
@@ -2685,7 +2685,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LabelAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_LabelFrame),
@@ -2713,7 +2713,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TextAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TextAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       segments: Schema.optional(
@@ -2737,7 +2737,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top: Schema.optional(Schema.Number),
       bottom: Schema.optional(Schema.Number),
@@ -2758,7 +2758,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedLandmark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -2780,7 +2780,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_DetectedAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -2802,7 +2802,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_TimestampedObject {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_TimestampedObject: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_TimestampedObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox,
@@ -2831,7 +2831,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_Track {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_Track: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_Track> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timestampedObjects: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_TimestampedObject),
@@ -2858,7 +2858,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
@@ -2878,7 +2878,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_NormalizedBoundingBox,
@@ -2905,7 +2905,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation 
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_ObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       segment: Schema.optional(
@@ -2931,7 +2931,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_PersonDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
@@ -2959,7 +2959,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_WordInfo {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_WordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       word: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -2982,7 +2982,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternat
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcript: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -3003,7 +3003,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_SpeechTranscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       alternatives: Schema.optional(
@@ -3026,7 +3026,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_LogoRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_Track),
@@ -3047,7 +3047,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_VideoSegment,
@@ -3065,7 +3065,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBoxes: Schema.optional(
         Schema.Array(
@@ -3088,7 +3088,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_FaceAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p1beta1_FaceSegment),
@@ -3140,7 +3140,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_VideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       explicitAnnotation: Schema.optional(
         GoogleCloudVideointelligenceV1p1beta1_ExplicitContentAnnotation,
@@ -3208,7 +3208,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResults: Schema.optional(
         Schema.Array(
@@ -3226,7 +3226,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_NormalizedVertex),
@@ -3244,7 +3244,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextFrame {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       rotatedBoundingBox: Schema.optional(
@@ -3265,7 +3265,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextSegment {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1p3beta1_VideoSegment,
@@ -3289,7 +3289,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_TextAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_TextAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_TextSegment),
@@ -3309,7 +3309,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_ExportToOutputUriStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleRpc_Status),
       state: Schema.optional(Schema.String),
@@ -3348,7 +3348,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       inputUri: Schema.optional(Schema.String),
@@ -3376,7 +3376,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_FaceDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thumbnail: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -3396,7 +3396,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_PersonDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tracks: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_Track),
@@ -3423,7 +3423,7 @@ export interface GoogleCloudVideointelligenceV1_ExplicitContentFrame {
 }
 
 export const GoogleCloudVideointelligenceV1_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       pornographyLikelihood: Schema.optional(Schema.String),
@@ -3440,7 +3440,7 @@ export interface GoogleCloudVideointelligenceV1_ExplicitContentAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ExplicitContentAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       frames: Schema.optional(
@@ -3461,7 +3461,7 @@ export interface GoogleCloudVideointelligenceV1_Entity {
 }
 
 export const GoogleCloudVideointelligenceV1_Entity: Schema.Schema<GoogleCloudVideointelligenceV1_Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -3479,7 +3479,7 @@ export interface GoogleCloudVideointelligenceV1_ObjectTrackingFrame {
 }
 
 export const GoogleCloudVideointelligenceV1_ObjectTrackingFrame: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBox: Schema.optional(
         GoogleCloudVideointelligenceV1_NormalizedBoundingBox,
@@ -3506,7 +3506,7 @@ export interface GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_ObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trackId: Schema.optional(Schema.String),
       entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
@@ -3537,7 +3537,7 @@ export interface GoogleCloudVideointelligenceV1beta2_WordInfo {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1beta2_WordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speakerTag: Schema.optional(Schema.Number),
       startTime: Schema.optional(Schema.String),
@@ -3560,7 +3560,7 @@ export interface GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternativ
 }
 
 export const GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcript: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -3581,7 +3581,7 @@ export interface GoogleCloudVideointelligenceV1beta2_SpeechTranscription {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1beta2_SpeechTranscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alternatives: Schema.optional(
         Schema.Array(
@@ -3604,7 +3604,7 @@ export interface GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LogoRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(GoogleCloudVideointelligenceV1beta2_Entity),
       tracks: Schema.optional(
@@ -3632,7 +3632,7 @@ export interface GoogleCloudVideointelligenceV1beta2_LabelAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_LabelAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       frames: Schema.optional(
@@ -3658,7 +3658,7 @@ export interface GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_PersonDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       tracks: Schema.optional(
@@ -3675,7 +3675,7 @@ export interface GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly: Schema.Schema<GoogleCloudVideointelligenceV1beta2_NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_NormalizedVertex),
@@ -3693,7 +3693,7 @@ export interface GoogleCloudVideointelligenceV1beta2_TextFrame {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_TextFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       rotatedBoundingBox: Schema.optional(
@@ -3714,7 +3714,7 @@ export interface GoogleCloudVideointelligenceV1beta2_TextSegment {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(
         GoogleCloudVideointelligenceV1beta2_VideoSegment,
@@ -3738,7 +3738,7 @@ export interface GoogleCloudVideointelligenceV1beta2_TextAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_TextAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -3765,7 +3765,7 @@ export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       pornographyLikelihood: Schema.optional(Schema.String),
@@ -3782,7 +3782,7 @@ export interface GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1beta2_ExplicitContentAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_ExplicitContentFrame),
@@ -3831,7 +3831,7 @@ export interface GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1beta2_VideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speechTranscriptions: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1beta2_SpeechTranscription),
@@ -3899,7 +3899,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationProgress: Schema.optional(
         Schema.Array(
@@ -3919,7 +3919,7 @@ export interface GoogleCloudVideointelligenceV1_LabelSegment {
 }
 
 export const GoogleCloudVideointelligenceV1_LabelSegment: Schema.Schema<GoogleCloudVideointelligenceV1_LabelSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
       confidence: Schema.optional(Schema.Number),
@@ -3936,7 +3936,7 @@ export interface GoogleCloudVideointelligenceV1_LabelFrame {
 }
 
 export const GoogleCloudVideointelligenceV1_LabelFrame: Schema.Schema<GoogleCloudVideointelligenceV1_LabelFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -3959,7 +3959,7 @@ export interface GoogleCloudVideointelligenceV1_LabelAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_LabelAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LabelAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_LabelSegment),
@@ -3985,7 +3985,7 @@ export interface GoogleCloudVideointelligenceV1_PersonDetectionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_PersonDetectionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_PersonDetectionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       tracks: Schema.optional(
@@ -4004,7 +4004,7 @@ export interface GoogleCloudVideointelligenceV1_FaceFrame {
 }
 
 export const GoogleCloudVideointelligenceV1_FaceFrame: Schema.Schema<GoogleCloudVideointelligenceV1_FaceFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingBoxes: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_NormalizedBoundingBox),
@@ -4021,7 +4021,7 @@ export interface GoogleCloudVideointelligenceV1_FaceSegment {
 }
 
 export const GoogleCloudVideointelligenceV1_FaceSegment: Schema.Schema<GoogleCloudVideointelligenceV1_FaceSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
     }),
@@ -4039,7 +4039,7 @@ export interface GoogleCloudVideointelligenceV1_FaceAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_FaceAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_FaceAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frames: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_FaceFrame),
@@ -4069,7 +4069,7 @@ export interface GoogleCloudVideointelligenceV1_WordInfo {
 }
 
 export const GoogleCloudVideointelligenceV1_WordInfo: Schema.Schema<GoogleCloudVideointelligenceV1_WordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       word: Schema.optional(Schema.String),
@@ -4092,7 +4092,7 @@ export interface GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative {
 }
 
 export const GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcript: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -4112,7 +4112,7 @@ export interface GoogleCloudVideointelligenceV1_SpeechTranscription {
 }
 
 export const GoogleCloudVideointelligenceV1_SpeechTranscription: Schema.Schema<GoogleCloudVideointelligenceV1_SpeechTranscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       alternatives: Schema.optional(
@@ -4135,7 +4135,7 @@ export interface GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_LogoRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(GoogleCloudVideointelligenceV1_Entity),
       tracks: Schema.optional(
@@ -4159,7 +4159,7 @@ export interface GoogleCloudVideointelligenceV1_TextSegment {
 }
 
 export const GoogleCloudVideointelligenceV1_TextSegment: Schema.Schema<GoogleCloudVideointelligenceV1_TextSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segment: Schema.optional(GoogleCloudVideointelligenceV1_VideoSegment),
       confidence: Schema.optional(Schema.Number),
@@ -4181,7 +4181,7 @@ export interface GoogleCloudVideointelligenceV1_TextAnnotation {
 }
 
 export const GoogleCloudVideointelligenceV1_TextAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1_TextAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       segments: Schema.optional(
@@ -4231,7 +4231,7 @@ export interface GoogleCloudVideointelligenceV1_VideoAnnotationResults {
 }
 
 export const GoogleCloudVideointelligenceV1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segmentPresenceLabelAnnotations: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_LabelAnnotation),
@@ -4289,7 +4289,7 @@ export interface GoogleCloudVideointelligenceV1_AnnotateVideoResponse {
 }
 
 export const GoogleCloudVideointelligenceV1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResults: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationResults),
@@ -4309,7 +4309,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_LogoRecognitionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(GoogleCloudVideointelligenceV1p3beta1_Entity),
       tracks: Schema.optional(
@@ -4364,7 +4364,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_VideoAnnotationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       faceAnnotations: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1p3beta1_FaceAnnotation),
@@ -4435,7 +4435,7 @@ export interface GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse {
 }
 
 export const GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1p3beta1_AnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResults: Schema.optional(
         Schema.Array(
@@ -4476,7 +4476,7 @@ export interface GoogleCloudVideointelligenceV1_VideoAnnotationProgress {
 }
 
 export const GoogleCloudVideointelligenceV1_VideoAnnotationProgress: Schema.Schema<GoogleCloudVideointelligenceV1_VideoAnnotationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       feature: Schema.optional(Schema.String),
@@ -4498,7 +4498,7 @@ export interface GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse {
 }
 
 export const GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse: Schema.Schema<GoogleCloudVideointelligenceV1beta2_AnnotateVideoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationResults: Schema.optional(
         Schema.Array(
@@ -4516,7 +4516,7 @@ export interface GoogleCloudVideointelligenceV1_AnnotateVideoProgress {
 }
 
 export const GoogleCloudVideointelligenceV1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1_AnnotateVideoProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationProgress: Schema.optional(
         Schema.Array(GoogleCloudVideointelligenceV1_VideoAnnotationProgress),
@@ -4540,7 +4540,7 @@ export interface GoogleLongrunning_Operation {
 }
 
 export const GoogleLongrunning_Operation: Schema.Schema<GoogleLongrunning_Operation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpc_Status),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -4558,7 +4558,7 @@ export interface GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationProgress: Schema.optional(
         Schema.Array(
@@ -4576,7 +4576,7 @@ export interface GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress {
 }
 
 export const GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress: Schema.Schema<GoogleCloudVideointelligenceV1p1beta1_AnnotateVideoProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationProgress: Schema.optional(
         Schema.Array(
@@ -4597,7 +4597,7 @@ export interface AnnotateVideosRequest {
   body?: GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoRequest;
 }
 
-export const AnnotateVideosRequest = Schema.Struct({
+export const AnnotateVideosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(
     GoogleCloudVideointelligenceV1p2beta1_AnnotateVideoRequest,
   ).pipe(T.HttpBody()),
@@ -4607,7 +4607,8 @@ export const AnnotateVideosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<AnnotateVideosRequest>;
 
 export type AnnotateVideosResponse = GoogleLongrunning_Operation;
-export const AnnotateVideosResponse = GoogleLongrunning_Operation;
+export const AnnotateVideosResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunning_Operation;
 
 export type AnnotateVideosError = DefaultErrors;
 
@@ -4617,7 +4618,7 @@ export const annotateVideos: API.OperationMethod<
   AnnotateVideosResponse,
   AnnotateVideosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnnotateVideosRequest,
   output: AnnotateVideosResponse,
   errors: [],

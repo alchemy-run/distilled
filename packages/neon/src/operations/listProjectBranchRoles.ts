@@ -3,32 +3,34 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListProjectBranchRolesInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/roles",
-  }),
-);
+export const ListProjectBranchRolesInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/roles",
+    }),
+  );
 export type ListProjectBranchRolesInput =
   typeof ListProjectBranchRolesInput.Type;
 
 // Output Schema
-export const ListProjectBranchRolesOutput = Schema.Struct({
-  roles: Schema.Array(
-    Schema.Struct({
-      branch_id: Schema.String,
-      name: Schema.String,
-      password: Schema.optional(Schema.String),
-      protected: Schema.optional(Schema.Boolean),
-      authentication_method: Schema.optional(Schema.String),
-      created_at: Schema.String,
-      updated_at: Schema.String,
-    }),
-  ),
-});
+export const ListProjectBranchRolesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    roles: Schema.Array(
+      Schema.Struct({
+        branch_id: Schema.String,
+        name: Schema.String,
+        password: Schema.optional(Schema.String),
+        protected: Schema.optional(Schema.Boolean),
+        authentication_method: Schema.optional(Schema.String),
+        created_at: Schema.String,
+        updated_at: Schema.String,
+      }),
+    ),
+  });
 export type ListProjectBranchRolesOutput =
   typeof ListProjectBranchRolesOutput.Type;
 

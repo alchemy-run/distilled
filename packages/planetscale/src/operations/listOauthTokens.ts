@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListOauthTokensInput = Schema.Struct({
+export const ListOauthTokensInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   application_id: Schema.String.pipe(T.PathParam()),
   page: Schema.optional(Schema.Number),
@@ -18,7 +18,7 @@ export const ListOauthTokensInput = Schema.Struct({
 export type ListOauthTokensInput = typeof ListOauthTokensInput.Type;
 
 // Output Schema
-export const ListOauthTokensOutput = Schema.Struct({
+export const ListOauthTokensOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   current_page: Schema.Number,
   next_page: Schema.NullOr(Schema.Number),
   next_page_url: Schema.NullOr(Schema.String),

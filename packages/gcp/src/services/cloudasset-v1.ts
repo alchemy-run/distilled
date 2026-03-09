@@ -30,7 +30,7 @@ export interface GoogleCloudAssetV1StringValues {
 }
 
 export const GoogleCloudAssetV1StringValues: Schema.Schema<GoogleCloudAssetV1StringValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deniedValues: Schema.optional(Schema.Array(Schema.String)),
       allowedValues: Schema.optional(Schema.Array(Schema.String)),
@@ -47,7 +47,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcSubNetwork {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcSubNetwork: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
       network: Schema.optional(Schema.String),
@@ -64,7 +64,7 @@ export interface GoogleIdentityAccesscontextmanagerV1MethodSelector {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1MethodSelector: Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       method: Schema.optional(Schema.String),
       permission: Schema.optional(Schema.String),
@@ -81,7 +81,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ApiOperation {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ApiOperation: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceName: Schema.optional(Schema.String),
       methodSelectors: Schema.optional(
@@ -102,7 +102,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressTo {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1ApiOperation),
@@ -122,7 +122,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessLevel: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
@@ -146,7 +146,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressFrom {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressSource),
@@ -168,7 +168,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ingressTo: Schema.optional(GoogleIdentityAccesscontextmanagerV1IngressTo),
       title: Schema.optional(Schema.String),
@@ -188,7 +188,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessLevel: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
@@ -218,7 +218,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressFrom {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressFrom> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1EgressSource),
@@ -243,7 +243,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressTo {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressTo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1ApiOperation),
@@ -266,7 +266,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       egressFrom: Schema.optional(
@@ -286,7 +286,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableRestriction: Schema.optional(Schema.Boolean),
       allowedServices: Schema.optional(Schema.Array(Schema.String)),
@@ -311,7 +311,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ingressPolicies: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressPolicy),
@@ -353,7 +353,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeter {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeter: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spec: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig,
@@ -381,26 +381,28 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface MoveImpact {
   /** User friendly impact detail in a free form message. */
   detail?: string;
 }
 
-export const MoveImpact: Schema.Schema<MoveImpact> = Schema.suspend(() =>
-  Schema.Struct({
-    detail: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MoveImpact" }) as any as Schema.Schema<MoveImpact>;
+export const MoveImpact: Schema.Schema<MoveImpact> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      detail: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "MoveImpact" }) as any as Schema.Schema<MoveImpact>;
 
 export interface MoveAnalysisResult {
   /** Blocking information that would prevent the target resource from moving to the specified destination at runtime. */
@@ -410,7 +412,7 @@ export interface MoveAnalysisResult {
 }
 
 export const MoveAnalysisResult: Schema.Schema<MoveAnalysisResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockers: Schema.optional(Schema.Array(MoveImpact)),
       warnings: Schema.optional(Schema.Array(MoveImpact)),
@@ -428,15 +430,16 @@ export interface MoveAnalysis {
   analysis?: MoveAnalysisResult;
 }
 
-export const MoveAnalysis: Schema.Schema<MoveAnalysis> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    error: Schema.optional(Status),
-    analysis: Schema.optional(MoveAnalysisResult),
-  }),
-).annotate({
-  identifier: "MoveAnalysis",
-}) as any as Schema.Schema<MoveAnalysis>;
+export const MoveAnalysis: Schema.Schema<MoveAnalysis> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      analysis: Schema.optional(MoveAnalysisResult),
+    }),
+  ).annotate({
+    identifier: "MoveAnalysis",
+  }) as any as Schema.Schema<MoveAnalysis>;
 
 export interface AnalyzeMoveResponse {
   /** The list of analyses returned from performing the intended resource move analysis. The analysis is grouped by different Google Cloud services. */
@@ -444,7 +447,7 @@ export interface AnalyzeMoveResponse {
 }
 
 export const AnalyzeMoveResponse: Schema.Schema<AnalyzeMoveResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       moveAnalysis: Schema.optional(Schema.Array(MoveAnalysis)),
     }),
@@ -459,12 +462,13 @@ export interface TimeWindow {
   startTime?: string;
 }
 
-export const TimeWindow: Schema.Schema<TimeWindow> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
+export const TimeWindow: Schema.Schema<TimeWindow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
 
 export interface RelatedAsset {
   /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
@@ -477,16 +481,17 @@ export interface RelatedAsset {
   relationshipType?: string;
 }
 
-export const RelatedAsset: Schema.Schema<RelatedAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    assetType: Schema.optional(Schema.String),
-    asset: Schema.optional(Schema.String),
-    ancestors: Schema.optional(Schema.Array(Schema.String)),
-    relationshipType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "RelatedAsset",
-}) as any as Schema.Schema<RelatedAsset>;
+export const RelatedAsset: Schema.Schema<RelatedAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      assetType: Schema.optional(Schema.String),
+      asset: Schema.optional(Schema.String),
+      ancestors: Schema.optional(Schema.Array(Schema.String)),
+      relationshipType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RelatedAsset",
+  }) as any as Schema.Schema<RelatedAsset>;
 
 export interface RelationshipAttributes {
   /** The source asset type. Example: `compute.googleapis.com/Instance` */
@@ -500,7 +505,7 @@ export interface RelationshipAttributes {
 }
 
 export const RelationshipAttributes: Schema.Schema<RelationshipAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceResourceType: Schema.optional(Schema.String),
       action: Schema.optional(Schema.String),
@@ -518,14 +523,15 @@ export interface RelatedAssets {
   assets?: Array<RelatedAsset>;
 }
 
-export const RelatedAssets: Schema.Schema<RelatedAssets> = Schema.suspend(() =>
-  Schema.Struct({
-    relationshipAttributes: Schema.optional(RelationshipAttributes),
-    assets: Schema.optional(Schema.Array(RelatedAsset)),
-  }),
-).annotate({
-  identifier: "RelatedAssets",
-}) as any as Schema.Schema<RelatedAssets>;
+export const RelatedAssets: Schema.Schema<RelatedAssets> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relationshipAttributes: Schema.optional(RelationshipAttributes),
+      assets: Schema.optional(Schema.Array(RelatedAsset)),
+    }),
+  ).annotate({
+    identifier: "RelatedAssets",
+  }) as any as Schema.Schema<RelatedAssets>;
 
 export interface Resource {
   /** The content of the resource, in which some sensitive fields are removed and may not be present. */
@@ -544,17 +550,18 @@ export interface Resource {
   discoveryDocumentUri?: string;
 }
 
-export const Resource: Schema.Schema<Resource> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    version: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-    discoveryName: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    resourceUrl: Schema.optional(Schema.String),
-    discoveryDocumentUri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+export const Resource: Schema.Schema<Resource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      version: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      discoveryName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      resourceUrl: Schema.optional(Schema.String),
+      discoveryDocumentUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
 
 export interface GoogleIdentityAccesscontextmanagerV1VpcNetworkSource {
   /** Sub-segment ranges of a VPC network. */
@@ -562,7 +569,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcNetworkSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcNetworkSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcNetworkSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vpcSubnetwork: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1VpcSubNetwork,
@@ -590,7 +597,7 @@ export interface GoogleIdentityAccesscontextmanagerV1OsConstraint {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1OsConstraint: Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osType: Schema.optional(Schema.String),
       requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
@@ -624,7 +631,7 @@ export interface GoogleIdentityAccesscontextmanagerV1DevicePolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1DevicePolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedDeviceManagementLevels: Schema.optional(
         Schema.Array(Schema.String),
@@ -659,7 +666,7 @@ export interface GoogleIdentityAccesscontextmanagerV1Condition {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1Condition: Schema.Schema<GoogleIdentityAccesscontextmanagerV1Condition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negate: Schema.optional(Schema.Boolean),
       regions: Schema.optional(Schema.Array(Schema.String)),
@@ -685,7 +692,7 @@ export interface GoogleIdentityAccesscontextmanagerV1BasicLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1BasicLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       combiningFunction: Schema.optional(Schema.String),
       conditions: Schema.optional(
@@ -707,14 +714,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
   /** Required. A Cloud CEL expression evaluating to a boolean. */
@@ -722,7 +730,7 @@ export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1CustomLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expr: Schema.optional(Expr),
     }),
@@ -744,7 +752,7 @@ export interface GoogleIdentityAccesscontextmanagerV1AccessLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1AccessLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basic: Schema.optional(GoogleIdentityAccesscontextmanagerV1BasicLevel),
       name: Schema.optional(Schema.String),
@@ -770,7 +778,7 @@ export interface GoogleIdentityAccesscontextmanagerV1AccessPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1AccessPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -791,16 +799,16 @@ export interface Cloudasset_Date {
   month?: number;
 }
 
-export const Cloudasset_Date: Schema.Schema<Cloudasset_Date> = Schema.suspend(
-  () =>
+export const Cloudasset_Date: Schema.Schema<Cloudasset_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "Cloudasset_Date",
-}) as any as Schema.Schema<Cloudasset_Date>;
+  ).annotate({
+    identifier: "Cloudasset_Date",
+  }) as any as Schema.Schema<Cloudasset_Date>;
 
 export interface WindowsApplication {
   /** The name of the application or product. */
@@ -816,7 +824,7 @@ export interface WindowsApplication {
 }
 
 export const WindowsApplication: Schema.Schema<WindowsApplication> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       installDate: Schema.optional(Cloudasset_Date),
@@ -840,7 +848,7 @@ export interface WindowsQuickFixEngineeringPackage {
 }
 
 export const WindowsQuickFixEngineeringPackage: Schema.Schema<WindowsQuickFixEngineeringPackage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hotFixId: Schema.optional(Schema.String),
       installTime: Schema.optional(Schema.String),
@@ -860,16 +868,16 @@ export interface VersionedPackage {
   architecture?: string;
 }
 
-export const VersionedPackage: Schema.Schema<VersionedPackage> = Schema.suspend(
-  () =>
+export const VersionedPackage: Schema.Schema<VersionedPackage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       packageName: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
       architecture: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "VersionedPackage",
-}) as any as Schema.Schema<VersionedPackage>;
+  ).annotate({
+    identifier: "VersionedPackage",
+  }) as any as Schema.Schema<VersionedPackage>;
 
 export interface WindowsUpdateCategory {
   /** The identifier of the windows update category. */
@@ -879,7 +887,7 @@ export interface WindowsUpdateCategory {
 }
 
 export const WindowsUpdateCategory: Schema.Schema<WindowsUpdateCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -910,7 +918,7 @@ export interface WindowsUpdatePackage {
 }
 
 export const WindowsUpdatePackage: Schema.Schema<WindowsUpdatePackage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       moreInfoUrls: Schema.optional(Schema.Array(Schema.String)),
       lastDeploymentChangeTime: Schema.optional(Schema.String),
@@ -937,14 +945,17 @@ export interface ZypperPatch {
   summary?: string;
 }
 
-export const ZypperPatch: Schema.Schema<ZypperPatch> = Schema.suspend(() =>
-  Schema.Struct({
-    patchName: Schema.optional(Schema.String),
-    category: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-    summary: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ZypperPatch" }) as any as Schema.Schema<ZypperPatch>;
+export const ZypperPatch: Schema.Schema<ZypperPatch> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      patchName: Schema.optional(Schema.String),
+      category: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      summary: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ZypperPatch",
+  }) as any as Schema.Schema<ZypperPatch>;
 
 export interface SoftwarePackage {
   /** Details of Windows Application. */
@@ -967,8 +978,8 @@ export interface SoftwarePackage {
   zypperPatch?: ZypperPatch;
 }
 
-export const SoftwarePackage: Schema.Schema<SoftwarePackage> = Schema.suspend(
-  () =>
+export const SoftwarePackage: Schema.Schema<SoftwarePackage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       windowsApplication: Schema.optional(WindowsApplication),
       qfePackage: Schema.optional(WindowsQuickFixEngineeringPackage),
@@ -980,9 +991,9 @@ export const SoftwarePackage: Schema.Schema<SoftwarePackage> = Schema.suspend(
       googetPackage: Schema.optional(VersionedPackage),
       zypperPatch: Schema.optional(ZypperPatch),
     }),
-).annotate({
-  identifier: "SoftwarePackage",
-}) as any as Schema.Schema<SoftwarePackage>;
+  ).annotate({
+    identifier: "SoftwarePackage",
+  }) as any as Schema.Schema<SoftwarePackage>;
 
 export interface Item {
   /** When this inventory item was last modified. */
@@ -1005,17 +1016,18 @@ export interface Item {
   availablePackage?: SoftwarePackage;
 }
 
-export const Item: Schema.Schema<Item> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    originType: Schema.optional(Schema.String),
-    installedPackage: Schema.optional(SoftwarePackage),
-    id: Schema.optional(Schema.String),
-    availablePackage: Schema.optional(SoftwarePackage),
-  }),
-).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
+export const Item: Schema.Schema<Item> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      originType: Schema.optional(Schema.String),
+      installedPackage: Schema.optional(SoftwarePackage),
+      id: Schema.optional(Schema.String),
+      availablePackage: Schema.optional(SoftwarePackage),
+    }),
+  ).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
 
 export interface OsInfo {
   /** The current version of the OS Config agent running on the VM. */
@@ -1036,18 +1048,19 @@ export interface OsInfo {
   kernelRelease?: string;
 }
 
-export const OsInfo: Schema.Schema<OsInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    osconfigAgentVersion: Schema.optional(Schema.String),
-    longName: Schema.optional(Schema.String),
-    architecture: Schema.optional(Schema.String),
-    kernelVersion: Schema.optional(Schema.String),
-    hostname: Schema.optional(Schema.String),
-    shortName: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    kernelRelease: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "OsInfo" }) as any as Schema.Schema<OsInfo>;
+export const OsInfo: Schema.Schema<OsInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      osconfigAgentVersion: Schema.optional(Schema.String),
+      longName: Schema.optional(Schema.String),
+      architecture: Schema.optional(Schema.String),
+      kernelVersion: Schema.optional(Schema.String),
+      hostname: Schema.optional(Schema.String),
+      shortName: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      kernelRelease: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "OsInfo" }) as any as Schema.Schema<OsInfo>;
 
 export interface Inventory {
   /** Inventory items related to the VM keyed by an opaque unique identifier for each inventory item. The identifier is unique to each distinct and addressable inventory item and will change, when there is a new package version. */
@@ -1060,14 +1073,15 @@ export interface Inventory {
   name?: string;
 }
 
-export const Inventory: Schema.Schema<Inventory> = Schema.suspend(() =>
-  Schema.Struct({
-    items: Schema.optional(Schema.Record(Schema.String, Item)),
-    osInfo: Schema.optional(OsInfo),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Inventory" }) as any as Schema.Schema<Inventory>;
+export const Inventory: Schema.Schema<Inventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Record(Schema.String, Item)),
+      osInfo: Schema.optional(OsInfo),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Inventory" }) as any as Schema.Schema<Inventory>;
 
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
@@ -1081,15 +1095,15 @@ export interface AuditLogConfig {
     | (string & {});
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
-  () =>
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
       logType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AuditLogConfig",
-}) as any as Schema.Schema<AuditLogConfig>;
+  ).annotate({
+    identifier: "AuditLogConfig",
+  }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** The configuration for logging of each type of permission. */
@@ -1098,12 +1112,15 @@ export interface AuditConfig {
   service?: string;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-    service: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+      service: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AuditConfig",
+  }) as any as Schema.Schema<AuditConfig>;
 
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -1114,13 +1131,14 @@ export interface Binding {
   role?: string;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    condition: Schema.optional(Expr),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    role: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      condition: Schema.optional(Expr),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      role: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
@@ -1133,14 +1151,15 @@ export interface Policy {
   version?: number;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    etag: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      etag: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface AssetException {
   /** The type of exception. */
@@ -1149,20 +1168,20 @@ export interface AssetException {
   details?: string;
 }
 
-export const AssetException: Schema.Schema<AssetException> = Schema.suspend(
-  () =>
+export const AssetException: Schema.Schema<AssetException> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exceptionType: Schema.optional(Schema.String),
       details: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AssetException",
-}) as any as Schema.Schema<AssetException>;
+  ).annotate({
+    identifier: "AssetException",
+  }) as any as Schema.Schema<AssetException>;
 
 export interface GoogleCloudOrgpolicyV1RestoreDefault {}
 
 export const GoogleCloudOrgpolicyV1RestoreDefault: Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudOrgpolicyV1RestoreDefault",
   }) as any as Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault>;
 
@@ -1172,7 +1191,7 @@ export interface GoogleCloudOrgpolicyV1BooleanPolicy {
 }
 
 export const GoogleCloudOrgpolicyV1BooleanPolicy: Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enforced: Schema.optional(Schema.Boolean),
     }),
@@ -1194,7 +1213,7 @@ export interface GoogleCloudOrgpolicyV1ListPolicy {
 }
 
 export const GoogleCloudOrgpolicyV1ListPolicy: Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allValues: Schema.optional(Schema.String),
       allowedValues: Schema.optional(Schema.Array(Schema.String)),
@@ -1224,7 +1243,7 @@ export interface GoogleCloudOrgpolicyV1Policy {
 }
 
 export const GoogleCloudOrgpolicyV1Policy: Schema.Schema<GoogleCloudOrgpolicyV1Policy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restoreDefault: Schema.optional(GoogleCloudOrgpolicyV1RestoreDefault),
       booleanPolicy: Schema.optional(GoogleCloudOrgpolicyV1BooleanPolicy),
@@ -1269,30 +1288,31 @@ export interface Asset {
   ancestors?: Array<string>;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
-  Schema.Struct({
-    assetType: Schema.optional(Schema.String),
-    relatedAsset: Schema.optional(RelatedAsset),
-    relatedAssets: Schema.optional(RelatedAssets),
-    resource: Schema.optional(Resource),
-    accessLevel: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1AccessLevel,
-    ),
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    accessPolicy: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1AccessPolicy,
-    ),
-    osInventory: Schema.optional(Inventory),
-    iamPolicy: Schema.optional(Policy),
-    servicePerimeter: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
-    ),
-    assetExceptions: Schema.optional(Schema.Array(AssetException)),
-    orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
-    ancestors: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      assetType: Schema.optional(Schema.String),
+      relatedAsset: Schema.optional(RelatedAsset),
+      relatedAssets: Schema.optional(RelatedAssets),
+      resource: Schema.optional(Resource),
+      accessLevel: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessLevel,
+      ),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      accessPolicy: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessPolicy,
+      ),
+      osInventory: Schema.optional(Inventory),
+      iamPolicy: Schema.optional(Policy),
+      servicePerimeter: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
+      ),
+      assetExceptions: Schema.optional(Schema.Array(AssetException)),
+      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
+      ancestors: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface TemporalAsset {
   /** The time window when the asset data and state was observed. */
@@ -1313,17 +1333,18 @@ export interface TemporalAsset {
     | (string & {});
 }
 
-export const TemporalAsset: Schema.Schema<TemporalAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    window: Schema.optional(TimeWindow),
-    deleted: Schema.optional(Schema.Boolean),
-    priorAsset: Schema.optional(Asset),
-    asset: Schema.optional(Asset),
-    priorAssetState: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TemporalAsset",
-}) as any as Schema.Schema<TemporalAsset>;
+export const TemporalAsset: Schema.Schema<TemporalAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      window: Schema.optional(TimeWindow),
+      deleted: Schema.optional(Schema.Boolean),
+      priorAsset: Schema.optional(Asset),
+      asset: Schema.optional(Asset),
+      priorAssetState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TemporalAsset",
+  }) as any as Schema.Schema<TemporalAsset>;
 
 export interface BatchGetAssetsHistoryResponse {
   /** A list of assets with valid time windows. */
@@ -1331,7 +1352,7 @@ export interface BatchGetAssetsHistoryResponse {
 }
 
 export const BatchGetAssetsHistoryResponse: Schema.Schema<BatchGetAssetsHistoryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assets: Schema.optional(Schema.Array(TemporalAsset)),
     }),
@@ -1345,7 +1366,7 @@ export interface AnalyzeIamPolicyLongrunningMetadata {
 }
 
 export const AnalyzeIamPolicyLongrunningMetadata: Schema.Schema<AnalyzeIamPolicyLongrunningMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
     }),
@@ -1364,14 +1385,15 @@ export interface Tag {
   tagValueId?: string;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
-  Schema.Struct({
-    tagKey: Schema.optional(Schema.String),
-    tagKeyId: Schema.optional(Schema.String),
-    tagValue: Schema.optional(Schema.String),
-    tagValueId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagKey: Schema.optional(Schema.String),
+      tagKeyId: Schema.optional(Schema.String),
+      tagValue: Schema.optional(Schema.String),
+      tagValueId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface EffectiveTagDetails {
   /** The [full resource name](https://cloud.google.com/asset-inventory/docs/resource-name-format) of the ancestor from which effective_tags are inherited, according to [tag inheritance](https://cloud.google.com/resource-manager/docs/tags/tags-overview#inheritance). */
@@ -1381,7 +1403,7 @@ export interface EffectiveTagDetails {
 }
 
 export const EffectiveTagDetails: Schema.Schema<EffectiveTagDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attachedResource: Schema.optional(Schema.String),
       effectiveTags: Schema.optional(Schema.Array(Tag)),
@@ -1408,7 +1430,7 @@ export interface GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGoverne
 }
 
 export const GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedResource: Schema.Schema<GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       project: Schema.optional(Schema.String),
       assetType: Schema.optional(Schema.String),
@@ -1441,7 +1463,7 @@ export interface GoogleCloudAssetV1p7beta1Resource {
 }
 
 export const GoogleCloudAssetV1p7beta1Resource: Schema.Schema<GoogleCloudAssetV1p7beta1Resource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       location: Schema.optional(Schema.String),
@@ -1462,12 +1484,13 @@ export interface PolicyInfo {
   policy?: Policy;
 }
 
-export const PolicyInfo: Schema.Schema<PolicyInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    attachedResource: Schema.optional(Schema.String),
-    policy: Schema.optional(Policy),
-  }),
-).annotate({ identifier: "PolicyInfo" }) as any as Schema.Schema<PolicyInfo>;
+export const PolicyInfo: Schema.Schema<PolicyInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      attachedResource: Schema.optional(Schema.String),
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({ identifier: "PolicyInfo" }) as any as Schema.Schema<PolicyInfo>;
 
 export interface ConditionEvaluation {
   /** The evaluation result. */
@@ -1480,7 +1503,7 @@ export interface ConditionEvaluation {
 }
 
 export const ConditionEvaluation: Schema.Schema<ConditionEvaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationValue: Schema.optional(Schema.String),
     }),
@@ -1504,7 +1527,7 @@ export interface GoogleCloudAssetV1Rule {
 }
 
 export const GoogleCloudAssetV1Rule: Schema.Schema<GoogleCloudAssetV1Rule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAll: Schema.optional(Schema.Boolean),
       conditionEvaluation: Schema.optional(ConditionEvaluation),
@@ -1531,7 +1554,7 @@ export interface AnalyzerOrgPolicy {
 }
 
 export const AnalyzerOrgPolicy: Schema.Schema<AnalyzerOrgPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inheritFromParent: Schema.optional(Schema.Boolean),
       rules: Schema.optional(Schema.Array(GoogleCloudAssetV1Rule)),
@@ -1556,8 +1579,8 @@ export interface OrgPolicyResult {
   policyBundle?: Array<AnalyzerOrgPolicy>;
 }
 
-export const OrgPolicyResult: Schema.Schema<OrgPolicyResult> = Schema.suspend(
-  () =>
+export const OrgPolicyResult: Schema.Schema<OrgPolicyResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       project: Schema.optional(Schema.String),
       organization: Schema.optional(Schema.String),
@@ -1565,14 +1588,14 @@ export const OrgPolicyResult: Schema.Schema<OrgPolicyResult> = Schema.suspend(
       folders: Schema.optional(Schema.Array(Schema.String)),
       policyBundle: Schema.optional(Schema.Array(AnalyzerOrgPolicy)),
     }),
-).annotate({
-  identifier: "OrgPolicyResult",
-}) as any as Schema.Schema<OrgPolicyResult>;
+  ).annotate({
+    identifier: "OrgPolicyResult",
+  }) as any as Schema.Schema<OrgPolicyResult>;
 
 export interface AnalyzeIamPolicyLongrunningResponse {}
 
 export const AnalyzeIamPolicyLongrunningResponse: Schema.Schema<AnalyzeIamPolicyLongrunningResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AnalyzeIamPolicyLongrunningResponse",
   }) as any as Schema.Schema<AnalyzeIamPolicyLongrunningResponse>;
 
@@ -1591,16 +1614,17 @@ export interface Options {
   expandGroups?: boolean;
 }
 
-export const Options: Schema.Schema<Options> = Schema.suspend(() =>
-  Schema.Struct({
-    outputGroupEdges: Schema.optional(Schema.Boolean),
-    analyzeServiceAccountImpersonation: Schema.optional(Schema.Boolean),
-    expandRoles: Schema.optional(Schema.Boolean),
-    expandResources: Schema.optional(Schema.Boolean),
-    outputResourceEdges: Schema.optional(Schema.Boolean),
-    expandGroups: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Options" }) as any as Schema.Schema<Options>;
+export const Options: Schema.Schema<Options> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      outputGroupEdges: Schema.optional(Schema.Boolean),
+      analyzeServiceAccountImpersonation: Schema.optional(Schema.Boolean),
+      expandRoles: Schema.optional(Schema.Boolean),
+      expandResources: Schema.optional(Schema.Boolean),
+      outputResourceEdges: Schema.optional(Schema.Boolean),
+      expandGroups: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Options" }) as any as Schema.Schema<Options>;
 
 export interface GcsDestination {
   /** The URI of the Cloud Storage object. It's the same URI that is used by gsutil. Example: "gs://bucket_name/object_name". See [Viewing and Editing Object Metadata](https://cloud.google.com/storage/docs/viewing-editing-metadata) for more information. If the specified Cloud Storage object already exists and there is no [hold](https://cloud.google.com/storage/docs/object-holds), it will be overwritten with the exported result. */
@@ -1609,15 +1633,15 @@ export interface GcsDestination {
   uriPrefix?: string;
 }
 
-export const GcsDestination: Schema.Schema<GcsDestination> = Schema.suspend(
-  () =>
+export const GcsDestination: Schema.Schema<GcsDestination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       uriPrefix: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GcsDestination",
-}) as any as Schema.Schema<GcsDestination>;
+  ).annotate({
+    identifier: "GcsDestination",
+  }) as any as Schema.Schema<GcsDestination>;
 
 export interface PartitionSpec {
   /** The partition key for BigQuery partitioned table. */
@@ -1628,13 +1652,14 @@ export interface PartitionSpec {
     | (string & {});
 }
 
-export const PartitionSpec: Schema.Schema<PartitionSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    partitionKey: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PartitionSpec",
-}) as any as Schema.Schema<PartitionSpec>;
+export const PartitionSpec: Schema.Schema<PartitionSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      partitionKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PartitionSpec",
+  }) as any as Schema.Schema<PartitionSpec>;
 
 export interface BigQueryDestination {
   /** If this flag is `TRUE`, the snapshot results will be written to one or multiple tables, each of which contains results of one asset type. The [force] and [partition_spec] fields will apply to each of them. Field [table] will be concatenated with "_" and the asset type names (see https://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types) to construct per-asset-type table names, in which all non-alphanumeric characters like "." and "/" will be substituted by "_". Example: if field [table] is "mytable" and snapshot results contain "storage.googleapis.com/Bucket" assets, the corresponding table name will be "mytable_storage_googleapis_com_Bucket". If any of these tables does not exist, a new table with the concatenated name will be created. When [content_type] in the ExportAssetsRequest is `RESOURCE`, the schema of each table will include RECORD-type columns mapped to the nested fields in the Asset.resource.data field of that asset type (up to the 15 nested level BigQuery supports (https://cloud.google.com/bigquery/docs/nested-repeated#limitations)). The fields in >15 nested levels will be stored in JSON format string as a child column of its parent RECORD column. If error occurs when exporting to any table, the whole export call will return an error but the export results that already succeed will persist. Example: if exporting to table_type_A succeeds when exporting to table_type_B fails during one export call, the results in table_type_A will persist and there will not be partial results persisting in a table. */
@@ -1650,7 +1675,7 @@ export interface BigQueryDestination {
 }
 
 export const BigQueryDestination: Schema.Schema<BigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       separateTablesPerAssetType: Schema.optional(Schema.Boolean),
       partitionSpec: Schema.optional(PartitionSpec),
@@ -1669,14 +1694,15 @@ export interface OutputConfig {
   bigqueryDestination?: BigQueryDestination;
 }
 
-export const OutputConfig: Schema.Schema<OutputConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    gcsDestination: Schema.optional(GcsDestination),
-    bigqueryDestination: Schema.optional(BigQueryDestination),
-  }),
-).annotate({
-  identifier: "OutputConfig",
-}) as any as Schema.Schema<OutputConfig>;
+export const OutputConfig: Schema.Schema<OutputConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(GcsDestination),
+      bigqueryDestination: Schema.optional(BigQueryDestination),
+    }),
+  ).annotate({
+    identifier: "OutputConfig",
+  }) as any as Schema.Schema<OutputConfig>;
 
 export interface ExportAssetsRequest {
   /** Asset content type. If not specified, no content but the asset name will be returned. */
@@ -1700,7 +1726,7 @@ export interface ExportAssetsRequest {
 }
 
 export const ExportAssetsRequest: Schema.Schema<ExportAssetsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentType: Schema.optional(Schema.String),
       relationshipTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -1722,7 +1748,7 @@ export interface VersionedResource {
 }
 
 export const VersionedResource: Schema.Schema<VersionedResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetExceptions: Schema.optional(Schema.Array(AssetException)),
       version: Schema.optional(Schema.String),
@@ -1740,7 +1766,7 @@ export interface GoogleCloudAssetV1Edge {
 }
 
 export const GoogleCloudAssetV1Edge: Schema.Schema<GoogleCloudAssetV1Edge> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceNode: Schema.optional(Schema.String),
       targetNode: Schema.optional(Schema.String),
@@ -1756,43 +1782,43 @@ export interface AttachedResource {
   versionedResources?: Array<VersionedResource>;
 }
 
-export const AttachedResource: Schema.Schema<AttachedResource> = Schema.suspend(
-  () =>
+export const AttachedResource: Schema.Schema<AttachedResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetType: Schema.optional(Schema.String),
       versionedResources: Schema.optional(Schema.Array(VersionedResource)),
     }),
-).annotate({
-  identifier: "AttachedResource",
-}) as any as Schema.Schema<AttachedResource>;
+  ).annotate({
+    identifier: "AttachedResource",
+  }) as any as Schema.Schema<AttachedResource>;
 
 export interface ResourceOwners {
   /** List of resource owners. */
   resourceOwners?: Array<string>;
 }
 
-export const ResourceOwners: Schema.Schema<ResourceOwners> = Schema.suspend(
-  () =>
+export const ResourceOwners: Schema.Schema<ResourceOwners> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceOwners: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "ResourceOwners",
-}) as any as Schema.Schema<ResourceOwners>;
+  ).annotate({
+    identifier: "ResourceOwners",
+  }) as any as Schema.Schema<ResourceOwners>;
 
 export interface AssetEnrichment {
   /** The resource owners for a resource. Note that this field only contains the members that have "roles/owner" role in the resource's IAM Policy. */
   resourceOwners?: ResourceOwners;
 }
 
-export const AssetEnrichment: Schema.Schema<AssetEnrichment> = Schema.suspend(
-  () =>
+export const AssetEnrichment: Schema.Schema<AssetEnrichment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceOwners: Schema.optional(ResourceOwners),
     }),
-).annotate({
-  identifier: "AssetEnrichment",
-}) as any as Schema.Schema<AssetEnrichment>;
+  ).annotate({
+    identifier: "AssetEnrichment",
+  }) as any as Schema.Schema<AssetEnrichment>;
 
 export interface RelatedResource {
   /** The type of the asset. Example: `compute.googleapis.com/Instance` */
@@ -1801,29 +1827,29 @@ export interface RelatedResource {
   fullResourceName?: string;
 }
 
-export const RelatedResource: Schema.Schema<RelatedResource> = Schema.suspend(
-  () =>
+export const RelatedResource: Schema.Schema<RelatedResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetType: Schema.optional(Schema.String),
       fullResourceName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RelatedResource",
-}) as any as Schema.Schema<RelatedResource>;
+  ).annotate({
+    identifier: "RelatedResource",
+  }) as any as Schema.Schema<RelatedResource>;
 
 export interface RelatedResources {
   /** The detailed related resources of the primary resource. */
   relatedResources?: Array<RelatedResource>;
 }
 
-export const RelatedResources: Schema.Schema<RelatedResources> = Schema.suspend(
-  () =>
+export const RelatedResources: Schema.Schema<RelatedResources> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedResources: Schema.optional(Schema.Array(RelatedResource)),
     }),
-).annotate({
-  identifier: "RelatedResources",
-}) as any as Schema.Schema<RelatedResources>;
+  ).annotate({
+    identifier: "RelatedResources",
+  }) as any as Schema.Schema<RelatedResources>;
 
 export interface ResourceSearchResult {
   /** The tags directly attached to this resource. To search against the `tags`: * Use a field query. Example: - `tagKeys:"123456789/env*"` - `tagKeys="123456789/env"` - `tagKeys:"env"` - `tagKeyIds="tagKeys/123"` - `tagValues:"env"` - `tagValues:"env/prod"` - `tagValues:"123456789/env/prod*"` - `tagValues="123456789/env/prod"` - `tagValueIds="tagValues/456"` * Use a free text query. Example: - `env/prod` */
@@ -1885,7 +1911,7 @@ export interface ResourceSearchResult {
 }
 
 export const ResourceSearchResult: Schema.Schema<ResourceSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tags: Schema.optional(Schema.Array(Tag)),
       effectiveTags: Schema.optional(Schema.Array(EffectiveTagDetails)),
@@ -1928,14 +1954,15 @@ export const ResourceSearchResult: Schema.Schema<ResourceSearchResult> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GoogleCloudAssetV1BooleanConstraint {}
 
 export const GoogleCloudAssetV1BooleanConstraint: Schema.Schema<GoogleCloudAssetV1BooleanConstraint> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAssetV1BooleanConstraint",
   }) as any as Schema.Schema<GoogleCloudAssetV1BooleanConstraint>;
 
@@ -1947,7 +1974,7 @@ export interface GoogleCloudAssetV1ListConstraint {
 }
 
 export const GoogleCloudAssetV1ListConstraint: Schema.Schema<GoogleCloudAssetV1ListConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportsIn: Schema.optional(Schema.Boolean),
       supportsUnder: Schema.optional(Schema.Boolean),
@@ -1976,7 +2003,7 @@ export interface GoogleCloudAssetV1Constraint {
 }
 
 export const GoogleCloudAssetV1Constraint: Schema.Schema<GoogleCloudAssetV1Constraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       booleanConstraint: Schema.optional(GoogleCloudAssetV1BooleanConstraint),
@@ -2015,7 +2042,7 @@ export interface GoogleCloudAssetV1CustomConstraint {
 }
 
 export const GoogleCloudAssetV1CustomConstraint: Schema.Schema<GoogleCloudAssetV1CustomConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceTypes: Schema.optional(Schema.Array(Schema.String)),
       actionType: Schema.optional(Schema.String),
@@ -2037,7 +2064,7 @@ export interface AnalyzerOrgPolicyConstraint {
 }
 
 export const AnalyzerOrgPolicyConstraint: Schema.Schema<AnalyzerOrgPolicyConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleDefinedConstraint: Schema.optional(GoogleCloudAssetV1Constraint),
       customConstraint: Schema.optional(GoogleCloudAssetV1CustomConstraint),
@@ -2056,7 +2083,7 @@ export interface AnalyzeOrgPoliciesResponse {
 }
 
 export const AnalyzeOrgPoliciesResponse: Schema.Schema<AnalyzeOrgPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       constraint: Schema.optional(AnalyzerOrgPolicyConstraint),
@@ -2086,7 +2113,7 @@ export interface GoogleCloudAssetV1GovernedContainer {
 }
 
 export const GoogleCloudAssetV1GovernedContainer: Schema.Schema<GoogleCloudAssetV1GovernedContainer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       organization: Schema.optional(Schema.String),
       effectiveTags: Schema.optional(Schema.Array(EffectiveTagDetails)),
@@ -2111,7 +2138,7 @@ export interface AnalyzeOrgPolicyGovernedContainersResponse {
 }
 
 export const AnalyzeOrgPolicyGovernedContainersResponse: Schema.Schema<AnalyzeOrgPolicyGovernedContainersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       constraint: Schema.optional(AnalyzerOrgPolicyConstraint),
@@ -2128,14 +2155,14 @@ export interface ResourceSelector {
   fullResourceName?: string;
 }
 
-export const ResourceSelector: Schema.Schema<ResourceSelector> = Schema.suspend(
-  () =>
+export const ResourceSelector: Schema.Schema<ResourceSelector> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullResourceName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ResourceSelector",
-}) as any as Schema.Schema<ResourceSelector>;
+  ).annotate({
+    identifier: "ResourceSelector",
+  }) as any as Schema.Schema<ResourceSelector>;
 
 export interface AccessSelector {
   /** Optional. The permissions to appear in result. */
@@ -2144,43 +2171,43 @@ export interface AccessSelector {
   roles?: Array<string>;
 }
 
-export const AccessSelector: Schema.Schema<AccessSelector> = Schema.suspend(
-  () =>
+export const AccessSelector: Schema.Schema<AccessSelector> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
       roles: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AccessSelector",
-}) as any as Schema.Schema<AccessSelector>;
+  ).annotate({
+    identifier: "AccessSelector",
+  }) as any as Schema.Schema<AccessSelector>;
 
 export interface ConditionContext {
   /** The hypothetical access timestamp to evaluate IAM conditions. Note that this value must not be earlier than the current time; otherwise, an INVALID_ARGUMENT error will be returned. */
   accessTime?: string;
 }
 
-export const ConditionContext: Schema.Schema<ConditionContext> = Schema.suspend(
-  () =>
+export const ConditionContext: Schema.Schema<ConditionContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConditionContext",
-}) as any as Schema.Schema<ConditionContext>;
+  ).annotate({
+    identifier: "ConditionContext",
+  }) as any as Schema.Schema<ConditionContext>;
 
 export interface IdentitySelector {
   /** Required. The identity appear in the form of principals in [IAM policy binding](https://cloud.google.com/iam/reference/rest/v1/Binding). The examples of supported forms are: "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com". Notice that wildcard characters (such as * and ?) are not supported. You must give a specific identity. */
   identity?: string;
 }
 
-export const IdentitySelector: Schema.Schema<IdentitySelector> = Schema.suspend(
-  () =>
+export const IdentitySelector: Schema.Schema<IdentitySelector> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identity: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "IdentitySelector",
-}) as any as Schema.Schema<IdentitySelector>;
+  ).annotate({
+    identifier: "IdentitySelector",
+  }) as any as Schema.Schema<IdentitySelector>;
 
 export interface IamPolicyAnalysisQuery {
   /** Optional. Specifies a resource for analysis. */
@@ -2198,7 +2225,7 @@ export interface IamPolicyAnalysisQuery {
 }
 
 export const IamPolicyAnalysisQuery: Schema.Schema<IamPolicyAnalysisQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceSelector: Schema.optional(ResourceSelector),
       accessSelector: Schema.optional(AccessSelector),
@@ -2237,7 +2264,7 @@ export interface IamPolicyAnalysisState {
 }
 
 export const IamPolicyAnalysisState: Schema.Schema<IamPolicyAnalysisState> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cause: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -2256,7 +2283,7 @@ export interface GoogleCloudAssetV1Access {
 }
 
 export const GoogleCloudAssetV1Access: Schema.Schema<GoogleCloudAssetV1Access> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(Schema.String),
       role: Schema.optional(Schema.String),
@@ -2274,7 +2301,7 @@ export interface GoogleCloudAssetV1Resource {
 }
 
 export const GoogleCloudAssetV1Resource: Schema.Schema<GoogleCloudAssetV1Resource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analysisState: Schema.optional(IamPolicyAnalysisState),
       fullResourceName: Schema.optional(Schema.String),
@@ -2295,7 +2322,7 @@ export interface GoogleCloudAssetV1AccessControlList {
 }
 
 export const GoogleCloudAssetV1AccessControlList: Schema.Schema<GoogleCloudAssetV1AccessControlList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceEdges: Schema.optional(Schema.Array(GoogleCloudAssetV1Edge)),
       conditionEvaluation: Schema.optional(ConditionEvaluation),
@@ -2314,7 +2341,7 @@ export interface GoogleCloudAssetV1Identity {
 }
 
 export const GoogleCloudAssetV1Identity: Schema.Schema<GoogleCloudAssetV1Identity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       analysisState: Schema.optional(IamPolicyAnalysisState),
@@ -2331,7 +2358,7 @@ export interface GoogleCloudAssetV1IdentityList {
 }
 
 export const GoogleCloudAssetV1IdentityList: Schema.Schema<GoogleCloudAssetV1IdentityList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identities: Schema.optional(Schema.Array(GoogleCloudAssetV1Identity)),
       groupEdges: Schema.optional(Schema.Array(GoogleCloudAssetV1Edge)),
@@ -2354,7 +2381,7 @@ export interface IamPolicyAnalysisResult {
 }
 
 export const IamPolicyAnalysisResult: Schema.Schema<IamPolicyAnalysisResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessControlLists: Schema.optional(
         Schema.Array(GoogleCloudAssetV1AccessControlList),
@@ -2378,7 +2405,7 @@ export interface GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination {
 }
 
 export const GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination: Schema.Schema<GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       writeDisposition: Schema.optional(Schema.String),
       table: Schema.optional(Schema.String),
@@ -2394,7 +2421,7 @@ export interface QueryAssetsOutputConfig {
 }
 
 export const QueryAssetsOutputConfig: Schema.Schema<QueryAssetsOutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryDestination: Schema.optional(
         GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination,
@@ -2424,7 +2451,7 @@ export interface QueryAssetsRequest {
 }
 
 export const QueryAssetsRequest: Schema.Schema<QueryAssetsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(QueryAssetsOutputConfig),
       pageToken: Schema.optional(Schema.String),
@@ -2450,28 +2477,31 @@ export interface TableFieldSchema {
   type?: string;
 }
 
-export const TableFieldSchema: Schema.Schema<TableFieldSchema> = Schema.suspend(
-  () =>
+export const TableFieldSchema: Schema.Schema<TableFieldSchema> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       field: Schema.optional(Schema.String),
       fields: Schema.optional(Schema.Array(TableFieldSchema)),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TableFieldSchema",
-}) as any as Schema.Schema<TableFieldSchema>;
+  ).annotate({
+    identifier: "TableFieldSchema",
+  }) as any as Schema.Schema<TableFieldSchema>;
 
 export interface TableSchema {
   /** Describes the fields in a table. */
   fields?: Array<TableFieldSchema>;
 }
 
-export const TableSchema: Schema.Schema<TableSchema> = Schema.suspend(() =>
-  Schema.Struct({
-    fields: Schema.optional(Schema.Array(TableFieldSchema)),
-  }),
-).annotate({ identifier: "TableSchema" }) as any as Schema.Schema<TableSchema>;
+export const TableSchema: Schema.Schema<TableSchema> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(Schema.Array(TableFieldSchema)),
+    }),
+  ).annotate({
+    identifier: "TableSchema",
+  }) as any as Schema.Schema<TableSchema>;
 
 export interface QueryResult {
   /** Describes the format of the [rows]. */
@@ -2484,16 +2514,19 @@ export interface QueryResult {
   nextPageToken?: string;
 }
 
-export const QueryResult: Schema.Schema<QueryResult> = Schema.suspend(() =>
-  Schema.Struct({
-    schema: Schema.optional(TableSchema),
-    totalRows: Schema.optional(Schema.String),
-    rows: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "QueryResult" }) as any as Schema.Schema<QueryResult>;
+export const QueryResult: Schema.Schema<QueryResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      schema: Schema.optional(TableSchema),
+      totalRows: Schema.optional(Schema.String),
+      rows: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryResult",
+  }) as any as Schema.Schema<QueryResult>;
 
 export interface GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedIamPolicy {
   /** The IAM policy directly set on the given resource. */
@@ -2511,7 +2544,7 @@ export interface GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGoverne
 }
 
 export const GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedIamPolicy: Schema.Schema<GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedIamPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
       assetType: Schema.optional(Schema.String),
@@ -2537,7 +2570,7 @@ export interface GoogleCloudAssetV1p7beta1RelationshipAttributes {
 }
 
 export const GoogleCloudAssetV1p7beta1RelationshipAttributes: Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       action: Schema.optional(Schema.String),
@@ -2558,7 +2591,7 @@ export interface GoogleCloudAssetV1p7beta1RelatedAsset {
 }
 
 export const GoogleCloudAssetV1p7beta1RelatedAsset: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetType: Schema.optional(Schema.String),
       ancestors: Schema.optional(Schema.Array(Schema.String)),
@@ -2576,7 +2609,7 @@ export interface GoogleCloudAssetV1p7beta1RelatedAssets {
 }
 
 export const GoogleCloudAssetV1p7beta1RelatedAssets: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relationshipAttributes: Schema.optional(
         GoogleCloudAssetV1p7beta1RelationshipAttributes,
@@ -2595,7 +2628,7 @@ export interface PubsubDestination {
 }
 
 export const PubsubDestination: Schema.Schema<PubsubDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -2608,14 +2641,14 @@ export interface FeedOutputConfig {
   pubsubDestination?: PubsubDestination;
 }
 
-export const FeedOutputConfig: Schema.Schema<FeedOutputConfig> = Schema.suspend(
-  () =>
+export const FeedOutputConfig: Schema.Schema<FeedOutputConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pubsubDestination: Schema.optional(PubsubDestination),
     }),
-).annotate({
-  identifier: "FeedOutputConfig",
-}) as any as Schema.Schema<FeedOutputConfig>;
+  ).annotate({
+    identifier: "FeedOutputConfig",
+  }) as any as Schema.Schema<FeedOutputConfig>;
 
 export interface Feed {
   /** A list of the full names of the assets to receive updates. You must specify either or both of asset_names and asset_types. Only asset updates matching specified asset_names or asset_types are exported to the feed. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. For a list of the full names for supported asset types, see [Resource name format](/asset-inventory/docs/resource-name-format). */
@@ -2642,17 +2675,18 @@ export interface Feed {
   relationshipTypes?: Array<string>;
 }
 
-export const Feed: Schema.Schema<Feed> = Schema.suspend(() =>
-  Schema.Struct({
-    assetNames: Schema.optional(Schema.Array(Schema.String)),
-    contentType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    assetTypes: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-    feedOutputConfig: Schema.optional(FeedOutputConfig),
-    relationshipTypes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Feed" }) as any as Schema.Schema<Feed>;
+export const Feed: Schema.Schema<Feed> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      assetNames: Schema.optional(Schema.Array(Schema.String)),
+      contentType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      assetTypes: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+      feedOutputConfig: Schema.optional(FeedOutputConfig),
+      relationshipTypes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Feed" }) as any as Schema.Schema<Feed>;
 
 export interface ListFeedsResponse {
   /** A list of feeds. */
@@ -2660,7 +2694,7 @@ export interface ListFeedsResponse {
 }
 
 export const ListFeedsResponse: Schema.Schema<ListFeedsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feeds: Schema.optional(Schema.Array(Feed)),
     }),
@@ -2680,7 +2714,7 @@ export interface GoogleCloudAssetV1BigQueryDestination {
 }
 
 export const GoogleCloudAssetV1BigQueryDestination: Schema.Schema<GoogleCloudAssetV1BigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       writeDisposition: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -2697,7 +2731,7 @@ export interface GoogleCloudAssetV1GcsDestination {
 }
 
 export const GoogleCloudAssetV1GcsDestination: Schema.Schema<GoogleCloudAssetV1GcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
     }),
@@ -2713,7 +2747,7 @@ export interface IamPolicyAnalysisOutputConfig {
 }
 
 export const IamPolicyAnalysisOutputConfig: Schema.Schema<IamPolicyAnalysisOutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryDestination: Schema.optional(
         GoogleCloudAssetV1BigQueryDestination,
@@ -2729,24 +2763,30 @@ export interface Permissions {
   permissions?: Array<string>;
 }
 
-export const Permissions: Schema.Schema<Permissions> = Schema.suspend(() =>
-  Schema.Struct({
-    permissions: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Permissions" }) as any as Schema.Schema<Permissions>;
+export const Permissions: Schema.Schema<Permissions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "Permissions",
+  }) as any as Schema.Schema<Permissions>;
 
 export interface Explanation {
   /** The map from roles to their included permissions that match the permission query (i.e., a query containing `policy.role.permissions:`). Example: if query `policy.role.permissions:compute.disk.get` matches a policy binding that contains owner role, the matched_permissions will be `{"roles/owner": ["compute.disk.get"]}`. The roles can also be found in the returned `policy` bindings. Note that the map is populated only for requests with permission queries. */
   matchedPermissions?: Record<string, Permissions>;
 }
 
-export const Explanation: Schema.Schema<Explanation> = Schema.suspend(() =>
-  Schema.Struct({
-    matchedPermissions: Schema.optional(
-      Schema.Record(Schema.String, Permissions),
-    ),
-  }),
-).annotate({ identifier: "Explanation" }) as any as Schema.Schema<Explanation>;
+export const Explanation: Schema.Schema<Explanation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      matchedPermissions: Schema.optional(
+        Schema.Record(Schema.String, Permissions),
+      ),
+    }),
+  ).annotate({
+    identifier: "Explanation",
+  }) as any as Schema.Schema<Explanation>;
 
 export interface IamPolicySearchResult {
   /** The full resource name of the resource associated with this IAM policy. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. See [Cloud Asset Inventory Resource Name Format](https://cloud.google.com/asset-inventory/docs/resource-name-format) for more information. To search against the `resource`: * use a field query. Example: `resource:organizations/123` */
@@ -2766,7 +2806,7 @@ export interface IamPolicySearchResult {
 }
 
 export const IamPolicySearchResult: Schema.Schema<IamPolicySearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(Schema.String),
       explanation: Schema.optional(Explanation),
@@ -2788,7 +2828,7 @@ export interface SearchAllIamPoliciesResponse {
 }
 
 export const SearchAllIamPoliciesResponse: Schema.Schema<SearchAllIamPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       results: Schema.optional(Schema.Array(IamPolicySearchResult)),
@@ -2805,7 +2845,7 @@ export interface CreateFeedRequest {
 }
 
 export const CreateFeedRequest: Schema.Schema<CreateFeedRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feed: Schema.optional(Feed),
       feedId: Schema.optional(Schema.String),
@@ -2822,7 +2862,7 @@ export interface SearchAllResourcesResponse {
 }
 
 export const SearchAllResourcesResponse: Schema.Schema<SearchAllResourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Array(ResourceSearchResult)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2843,7 +2883,7 @@ export interface IamPolicyAnalysis {
 }
 
 export const IamPolicyAnalysis: Schema.Schema<IamPolicyAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullyExplored: Schema.optional(Schema.Boolean),
       analysisResults: Schema.optional(Schema.Array(IamPolicyAnalysisResult)),
@@ -2864,7 +2904,7 @@ export interface AnalyzeIamPolicyResponse {
 }
 
 export const AnalyzeIamPolicyResponse: Schema.Schema<AnalyzeIamPolicyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullyExplored: Schema.optional(Schema.Boolean),
       mainAnalysis: Schema.optional(IamPolicyAnalysis),
@@ -2890,7 +2930,7 @@ export interface QueryAssetsResponse {
 }
 
 export const QueryAssetsResponse: Schema.Schema<QueryAssetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       done: Schema.optional(Schema.Boolean),
       error: Schema.optional(Status),
@@ -2914,7 +2954,7 @@ export interface GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGoverne
 }
 
 export const GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedAsset: Schema.Schema<GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyBundle: Schema.optional(Schema.Array(AnalyzerOrgPolicy)),
       governedResource: Schema.optional(
@@ -2940,7 +2980,7 @@ export interface AnalyzeOrgPolicyGovernedAssetsResponse {
 }
 
 export const AnalyzeOrgPolicyGovernedAssetsResponse: Schema.Schema<AnalyzeOrgPolicyGovernedAssetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       governedAssets: Schema.optional(
@@ -2964,7 +3004,7 @@ export interface AnalyzeIamPolicyLongrunningRequest {
 }
 
 export const AnalyzeIamPolicyLongrunningRequest: Schema.Schema<AnalyzeIamPolicyLongrunningRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analysisQuery: Schema.optional(IamPolicyAnalysisQuery),
       savedAnalysisQuery: Schema.optional(Schema.String),
@@ -2987,15 +3027,16 @@ export interface Operation {
   done?: boolean;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    error: Schema.optional(Status),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-    done: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(Status),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      done: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface EffectiveIamPolicy {
   /** The effective policies for the full_resource_name. These policies include the policy set on the full_resource_name and those set on its parents and ancestors up to the BatchGetEffectiveIamPoliciesRequest.scope. Note that these policies are not filtered according to the resource type of the full_resource_name. These policies are hierarchically ordered by PolicyInfo.attached_resource starting from full_resource_name itself to its parents and ancestors, such that policies[i]'s PolicyInfo.attached_resource is the child of policies[i+1]'s PolicyInfo.attached_resource, if policies[i+1] exists. */
@@ -3005,7 +3046,7 @@ export interface EffectiveIamPolicy {
 }
 
 export const EffectiveIamPolicy: Schema.Schema<EffectiveIamPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policies: Schema.optional(Schema.Array(PolicyInfo)),
       fullResourceName: Schema.optional(Schema.String),
@@ -3040,7 +3081,7 @@ export interface GoogleCloudAssetV1p7beta1Asset {
 }
 
 export const GoogleCloudAssetV1p7beta1Asset: Schema.Schema<GoogleCloudAssetV1p7beta1Asset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedAssets: Schema.optional(GoogleCloudAssetV1p7beta1RelatedAssets),
       ancestors: Schema.optional(Schema.Array(Schema.String)),
@@ -3069,13 +3110,14 @@ export interface QueryContent {
   iamPolicyAnalysisQuery?: IamPolicyAnalysisQuery;
 }
 
-export const QueryContent: Schema.Schema<QueryContent> = Schema.suspend(() =>
-  Schema.Struct({
-    iamPolicyAnalysisQuery: Schema.optional(IamPolicyAnalysisQuery),
-  }),
-).annotate({
-  identifier: "QueryContent",
-}) as any as Schema.Schema<QueryContent>;
+export const QueryContent: Schema.Schema<QueryContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iamPolicyAnalysisQuery: Schema.optional(IamPolicyAnalysisQuery),
+    }),
+  ).annotate({
+    identifier: "QueryContent",
+  }) as any as Schema.Schema<QueryContent>;
 
 export interface SavedQuery {
   /** The description of this saved query. This value should be fewer than 255 characters. */
@@ -3096,18 +3138,19 @@ export interface SavedQuery {
   name?: string;
 }
 
-export const SavedQuery: Schema.Schema<SavedQuery> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    lastUpdateTime: Schema.optional(Schema.String),
-    content: Schema.optional(QueryContent),
-    lastUpdater: Schema.optional(Schema.String),
-    creator: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SavedQuery" }) as any as Schema.Schema<SavedQuery>;
+export const SavedQuery: Schema.Schema<SavedQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      lastUpdateTime: Schema.optional(Schema.String),
+      content: Schema.optional(QueryContent),
+      lastUpdater: Schema.optional(Schema.String),
+      creator: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SavedQuery" }) as any as Schema.Schema<SavedQuery>;
 
 export interface ListSavedQueriesResponse {
   /** A list of savedQueries. */
@@ -3117,7 +3160,7 @@ export interface ListSavedQueriesResponse {
 }
 
 export const ListSavedQueriesResponse: Schema.Schema<ListSavedQueriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       savedQueries: Schema.optional(Schema.Array(SavedQuery)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3134,7 +3177,7 @@ export interface UpdateFeedRequest {
 }
 
 export const UpdateFeedRequest: Schema.Schema<UpdateFeedRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feed: Schema.optional(Feed),
       updateMask: Schema.optional(Schema.String),
@@ -3149,7 +3192,7 @@ export interface BatchGetEffectiveIamPoliciesResponse {
 }
 
 export const BatchGetEffectiveIamPoliciesResponse: Schema.Schema<BatchGetEffectiveIamPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyResults: Schema.optional(Schema.Array(EffectiveIamPolicy)),
     }),
@@ -3167,7 +3210,7 @@ export interface ListAssetsResponse {
 }
 
 export const ListAssetsResponse: Schema.Schema<ListAssetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assets: Schema.optional(Schema.Array(Asset)),
       readTime: Schema.optional(Schema.String),
@@ -3206,7 +3249,7 @@ export interface ListAssetsRequest {
   parent: string;
 }
 
-export const ListAssetsRequest = Schema.Struct({
+export const ListAssetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("assetTypes"),
   ),
@@ -3224,7 +3267,8 @@ export const ListAssetsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAssetsRequest>;
 
 export type ListAssetsResponse_Op = ListAssetsResponse;
-export const ListAssetsResponse_Op = ListAssetsResponse;
+export const ListAssetsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAssetsResponse;
 
 export type ListAssetsError = DefaultErrors;
 
@@ -3234,7 +3278,7 @@ export const listAssets: API.PaginatedOperationMethod<
   ListAssetsResponse_Op,
   ListAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAssetsRequest,
   output: ListAssetsResponse_Op,
   errors: [],
@@ -3259,22 +3303,24 @@ export interface SearchAllIamPoliciesV1Request {
   pageSize?: number;
 }
 
-export const SearchAllIamPoliciesV1Request = Schema.Struct({
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("assetTypes"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:searchAllIamPolicies" }),
-  svc,
-) as unknown as Schema.Schema<SearchAllIamPoliciesV1Request>;
+export const SearchAllIamPoliciesV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("assetTypes"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:searchAllIamPolicies" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchAllIamPoliciesV1Request>;
 
 export type SearchAllIamPoliciesV1Response = SearchAllIamPoliciesResponse;
-export const SearchAllIamPoliciesV1Response = SearchAllIamPoliciesResponse;
+export const SearchAllIamPoliciesV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ SearchAllIamPoliciesResponse;
 
 export type SearchAllIamPoliciesV1Error = DefaultErrors;
 
@@ -3284,7 +3330,7 @@ export const searchAllIamPoliciesV1: API.PaginatedOperationMethod<
   SearchAllIamPoliciesV1Response,
   SearchAllIamPoliciesV1Error,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchAllIamPoliciesV1Request,
   output: SearchAllIamPoliciesV1Response,
   errors: [],
@@ -3303,7 +3349,7 @@ export interface AnalyzeMoveV1Request {
   resource: string;
 }
 
-export const AnalyzeMoveV1Request = Schema.Struct({
+export const AnalyzeMoveV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   destinationParent: Schema.optional(Schema.String).pipe(
     T.HttpQuery("destinationParent"),
@@ -3315,7 +3361,8 @@ export const AnalyzeMoveV1Request = Schema.Struct({
 ) as unknown as Schema.Schema<AnalyzeMoveV1Request>;
 
 export type AnalyzeMoveV1Response = AnalyzeMoveResponse;
-export const AnalyzeMoveV1Response = AnalyzeMoveResponse;
+export const AnalyzeMoveV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeMoveResponse;
 
 export type AnalyzeMoveV1Error = DefaultErrors;
 
@@ -3325,7 +3372,7 @@ export const analyzeMoveV1: API.OperationMethod<
   AnalyzeMoveV1Response,
   AnalyzeMoveV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeMoveV1Request,
   output: AnalyzeMoveV1Response,
   errors: [],
@@ -3338,7 +3385,7 @@ export interface ExportAssetsV1Request {
   body?: ExportAssetsRequest;
 }
 
-export const ExportAssetsV1Request = Schema.Struct({
+export const ExportAssetsV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -3351,7 +3398,7 @@ export const ExportAssetsV1Request = Schema.Struct({
 ) as unknown as Schema.Schema<ExportAssetsV1Request>;
 
 export type ExportAssetsV1Response = Operation;
-export const ExportAssetsV1Response = Operation;
+export const ExportAssetsV1Response = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ExportAssetsV1Error = DefaultErrors;
 
@@ -3361,7 +3408,7 @@ export const exportAssetsV1: API.OperationMethod<
   ExportAssetsV1Response,
   ExportAssetsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAssetsV1Request,
   output: ExportAssetsV1Response,
   errors: [],
@@ -3390,28 +3437,32 @@ export interface BatchGetAssetsHistoryV1Request {
   "readTimeWindow.startTime"?: string;
 }
 
-export const BatchGetAssetsHistoryV1Request = Schema.Struct({
-  assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("assetNames"),
-  ),
-  relationshipTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("relationshipTypes"),
-  ),
-  contentType: Schema.optional(Schema.String).pipe(T.HttpQuery("contentType")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.endTime"),
-  ),
-  "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.startTime"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:batchGetAssetsHistory" }),
-  svc,
-) as unknown as Schema.Schema<BatchGetAssetsHistoryV1Request>;
+export const BatchGetAssetsHistoryV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("assetNames"),
+    ),
+    relationshipTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("relationshipTypes"),
+    ),
+    contentType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentType"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.endTime"),
+    ),
+    "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.startTime"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:batchGetAssetsHistory" }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetAssetsHistoryV1Request>;
 
 export type BatchGetAssetsHistoryV1Response = BatchGetAssetsHistoryResponse;
-export const BatchGetAssetsHistoryV1Response = BatchGetAssetsHistoryResponse;
+export const BatchGetAssetsHistoryV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetAssetsHistoryResponse;
 
 export type BatchGetAssetsHistoryV1Error = DefaultErrors;
 
@@ -3421,7 +3472,7 @@ export const batchGetAssetsHistoryV1: API.OperationMethod<
   BatchGetAssetsHistoryV1Response,
   BatchGetAssetsHistoryV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAssetsHistoryV1Request,
   output: BatchGetAssetsHistoryV1Response,
   errors: [],
@@ -3434,7 +3485,7 @@ export interface QueryAssetsV1Request {
   body?: QueryAssetsRequest;
 }
 
-export const QueryAssetsV1Request = Schema.Struct({
+export const QueryAssetsV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(QueryAssetsRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -3447,7 +3498,8 @@ export const QueryAssetsV1Request = Schema.Struct({
 ) as unknown as Schema.Schema<QueryAssetsV1Request>;
 
 export type QueryAssetsV1Response = QueryAssetsResponse;
-export const QueryAssetsV1Response = QueryAssetsResponse;
+export const QueryAssetsV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ QueryAssetsResponse;
 
 export type QueryAssetsV1Error = DefaultErrors;
 
@@ -3457,7 +3509,7 @@ export const queryAssetsV1: API.OperationMethod<
   QueryAssetsV1Response,
   QueryAssetsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryAssetsV1Request,
   output: QueryAssetsV1Response,
   errors: [],
@@ -3476,24 +3528,25 @@ export interface AnalyzeOrgPolicyGovernedAssetsV1Request {
   scope: string;
 }
 
-export const AnalyzeOrgPolicyGovernedAssetsV1Request = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicyGovernedAssets",
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeOrgPolicyGovernedAssetsV1Request>;
+export const AnalyzeOrgPolicyGovernedAssetsV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicyGovernedAssets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeOrgPolicyGovernedAssetsV1Request>;
 
 export type AnalyzeOrgPolicyGovernedAssetsV1Response =
   AnalyzeOrgPolicyGovernedAssetsResponse;
 export const AnalyzeOrgPolicyGovernedAssetsV1Response =
-  AnalyzeOrgPolicyGovernedAssetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeOrgPolicyGovernedAssetsResponse;
 
 export type AnalyzeOrgPolicyGovernedAssetsV1Error = DefaultErrors;
 
@@ -3503,7 +3556,7 @@ export const analyzeOrgPolicyGovernedAssetsV1: API.PaginatedOperationMethod<
   AnalyzeOrgPolicyGovernedAssetsV1Response,
   AnalyzeOrgPolicyGovernedAssetsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: AnalyzeOrgPolicyGovernedAssetsV1Request,
   output: AnalyzeOrgPolicyGovernedAssetsV1Response,
   errors: [],
@@ -3526,19 +3579,21 @@ export interface AnalyzeOrgPoliciesV1Request {
   constraint?: string;
 }
 
-export const AnalyzeOrgPoliciesV1Request = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicies" }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeOrgPoliciesV1Request>;
+export const AnalyzeOrgPoliciesV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicies" }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeOrgPoliciesV1Request>;
 
 export type AnalyzeOrgPoliciesV1Response = AnalyzeOrgPoliciesResponse;
-export const AnalyzeOrgPoliciesV1Response = AnalyzeOrgPoliciesResponse;
+export const AnalyzeOrgPoliciesV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeOrgPoliciesResponse;
 
 export type AnalyzeOrgPoliciesV1Error = DefaultErrors;
 
@@ -3548,7 +3603,7 @@ export const analyzeOrgPoliciesV1: API.PaginatedOperationMethod<
   AnalyzeOrgPoliciesV1Response,
   AnalyzeOrgPoliciesV1Error,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: AnalyzeOrgPoliciesV1Request,
   output: AnalyzeOrgPoliciesV1Response,
   errors: [],
@@ -3575,23 +3630,25 @@ export interface SearchAllResourcesV1Request {
   pageToken?: string;
 }
 
-export const SearchAllResourcesV1Request = Schema.Struct({
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("assetTypes"),
-  ),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:searchAllResources" }),
-  svc,
-) as unknown as Schema.Schema<SearchAllResourcesV1Request>;
+export const SearchAllResourcesV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("assetTypes"),
+    ),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:searchAllResources" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchAllResourcesV1Request>;
 
 export type SearchAllResourcesV1Response = SearchAllResourcesResponse;
-export const SearchAllResourcesV1Response = SearchAllResourcesResponse;
+export const SearchAllResourcesV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ SearchAllResourcesResponse;
 
 export type SearchAllResourcesV1Error = DefaultErrors;
 
@@ -3601,7 +3658,7 @@ export const searchAllResourcesV1: API.PaginatedOperationMethod<
   SearchAllResourcesV1Response,
   SearchAllResourcesV1Error,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchAllResourcesV1Request,
   output: SearchAllResourcesV1Response,
   errors: [],
@@ -3618,20 +3675,24 @@ export interface AnalyzeIamPolicyLongrunningV1Request {
   body?: AnalyzeIamPolicyLongrunningRequest;
 }
 
-export const AnalyzeIamPolicyLongrunningV1Request = Schema.Struct({
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  body: Schema.optional(AnalyzeIamPolicyLongrunningRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}/{v1Id1}:analyzeIamPolicyLongrunning",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeIamPolicyLongrunningV1Request>;
+export const AnalyzeIamPolicyLongrunningV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    body: Schema.optional(AnalyzeIamPolicyLongrunningRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}/{v1Id1}:analyzeIamPolicyLongrunning",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeIamPolicyLongrunningV1Request>;
 
 export type AnalyzeIamPolicyLongrunningV1Response = Operation;
-export const AnalyzeIamPolicyLongrunningV1Response = Operation;
+export const AnalyzeIamPolicyLongrunningV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AnalyzeIamPolicyLongrunningV1Error = DefaultErrors;
 
@@ -3641,7 +3702,7 @@ export const analyzeIamPolicyLongrunningV1: API.OperationMethod<
   AnalyzeIamPolicyLongrunningV1Response,
   AnalyzeIamPolicyLongrunningV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeIamPolicyLongrunningV1Request,
   output: AnalyzeIamPolicyLongrunningV1Response,
   errors: [],
@@ -3678,56 +3739,58 @@ export interface AnalyzeIamPolicyV1Request {
   "analysisQuery.options.outputGroupEdges"?: boolean;
 }
 
-export const AnalyzeIamPolicyV1Request = Schema.Struct({
-  "analysisQuery.conditionContext.accessTime": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("analysisQuery.conditionContext.accessTime")),
-  "analysisQuery.options.expandResources": Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("analysisQuery.options.expandResources"),
-  ),
-  "analysisQuery.options.expandGroups": Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("analysisQuery.options.expandGroups"),
-  ),
-  "analysisQuery.options.expandRoles": Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("analysisQuery.options.expandRoles"),
-  ),
-  "analysisQuery.options.analyzeServiceAccountImpersonation": Schema.optional(
-    Schema.Boolean,
-  ).pipe(
-    T.HttpQuery("analysisQuery.options.analyzeServiceAccountImpersonation"),
-  ),
-  "analysisQuery.accessSelector.permissions": Schema.optional(
-    Schema.Array(Schema.String),
-  ).pipe(T.HttpQuery("analysisQuery.accessSelector.permissions")),
-  savedAnalysisQuery: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("savedAnalysisQuery"),
-  ),
-  "analysisQuery.options.outputResourceEdges": Schema.optional(
-    Schema.Boolean,
-  ).pipe(T.HttpQuery("analysisQuery.options.outputResourceEdges")),
-  executionTimeout: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("executionTimeout"),
-  ),
-  "analysisQuery.accessSelector.roles": Schema.optional(
-    Schema.Array(Schema.String),
-  ).pipe(T.HttpQuery("analysisQuery.accessSelector.roles")),
-  "analysisQuery.resourceSelector.fullResourceName": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("analysisQuery.resourceSelector.fullResourceName")),
-  "analysisQuery.identitySelector.identity": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("analysisQuery.identitySelector.identity")),
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  "analysisQuery.options.outputGroupEdges": Schema.optional(
-    Schema.Boolean,
-  ).pipe(T.HttpQuery("analysisQuery.options.outputGroupEdges")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:analyzeIamPolicy" }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeIamPolicyV1Request>;
+export const AnalyzeIamPolicyV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "analysisQuery.conditionContext.accessTime": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("analysisQuery.conditionContext.accessTime")),
+    "analysisQuery.options.expandResources": Schema.optional(
+      Schema.Boolean,
+    ).pipe(T.HttpQuery("analysisQuery.options.expandResources")),
+    "analysisQuery.options.expandGroups": Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("analysisQuery.options.expandGroups"),
+    ),
+    "analysisQuery.options.expandRoles": Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("analysisQuery.options.expandRoles"),
+    ),
+    "analysisQuery.options.analyzeServiceAccountImpersonation": Schema.optional(
+      Schema.Boolean,
+    ).pipe(
+      T.HttpQuery("analysisQuery.options.analyzeServiceAccountImpersonation"),
+    ),
+    "analysisQuery.accessSelector.permissions": Schema.optional(
+      Schema.Array(Schema.String),
+    ).pipe(T.HttpQuery("analysisQuery.accessSelector.permissions")),
+    savedAnalysisQuery: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("savedAnalysisQuery"),
+    ),
+    "analysisQuery.options.outputResourceEdges": Schema.optional(
+      Schema.Boolean,
+    ).pipe(T.HttpQuery("analysisQuery.options.outputResourceEdges")),
+    executionTimeout: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("executionTimeout"),
+    ),
+    "analysisQuery.accessSelector.roles": Schema.optional(
+      Schema.Array(Schema.String),
+    ).pipe(T.HttpQuery("analysisQuery.accessSelector.roles")),
+    "analysisQuery.resourceSelector.fullResourceName": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("analysisQuery.resourceSelector.fullResourceName")),
+    "analysisQuery.identitySelector.identity": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("analysisQuery.identitySelector.identity")),
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    "analysisQuery.options.outputGroupEdges": Schema.optional(
+      Schema.Boolean,
+    ).pipe(T.HttpQuery("analysisQuery.options.outputGroupEdges")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}:analyzeIamPolicy" }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeIamPolicyV1Request>;
 
 export type AnalyzeIamPolicyV1Response = AnalyzeIamPolicyResponse;
-export const AnalyzeIamPolicyV1Response = AnalyzeIamPolicyResponse;
+export const AnalyzeIamPolicyV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeIamPolicyResponse;
 
 export type AnalyzeIamPolicyV1Error = DefaultErrors;
 
@@ -3737,7 +3800,7 @@ export const analyzeIamPolicyV1: API.OperationMethod<
   AnalyzeIamPolicyV1Response,
   AnalyzeIamPolicyV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeIamPolicyV1Request,
   output: AnalyzeIamPolicyV1Response,
   errors: [],
@@ -3756,24 +3819,25 @@ export interface AnalyzeOrgPolicyGovernedContainersV1Request {
   constraint?: string;
 }
 
-export const AnalyzeOrgPolicyGovernedContainersV1Request = Schema.Struct({
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicyGovernedContainers",
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeOrgPolicyGovernedContainersV1Request>;
+export const AnalyzeOrgPolicyGovernedContainersV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    constraint: Schema.optional(Schema.String).pipe(T.HttpQuery("constraint")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/{v1Id}/{v1Id1}:analyzeOrgPolicyGovernedContainers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeOrgPolicyGovernedContainersV1Request>;
 
 export type AnalyzeOrgPolicyGovernedContainersV1Response =
   AnalyzeOrgPolicyGovernedContainersResponse;
 export const AnalyzeOrgPolicyGovernedContainersV1Response =
-  AnalyzeOrgPolicyGovernedContainersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeOrgPolicyGovernedContainersResponse;
 
 export type AnalyzeOrgPolicyGovernedContainersV1Error = DefaultErrors;
 
@@ -3783,7 +3847,7 @@ export const analyzeOrgPolicyGovernedContainersV1: API.PaginatedOperationMethod<
   AnalyzeOrgPolicyGovernedContainersV1Response,
   AnalyzeOrgPolicyGovernedContainersV1Error,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: AnalyzeOrgPolicyGovernedContainersV1Request,
   output: AnalyzeOrgPolicyGovernedContainersV1Response,
   errors: [],
@@ -3798,7 +3862,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({
@@ -3809,7 +3873,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -3819,7 +3883,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -3832,23 +3896,24 @@ export interface BatchGetEffectiveIamPoliciesRequest {
   names?: string[];
 }
 
-export const BatchGetEffectiveIamPoliciesRequest = Schema.Struct({
-  scope: Schema.String.pipe(T.HttpPath("scope")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/{v1Id}/{v1Id1}/effectiveIamPolicies:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetEffectiveIamPoliciesRequest>;
+export const BatchGetEffectiveIamPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/{v1Id}/{v1Id1}/effectiveIamPolicies:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetEffectiveIamPoliciesRequest>;
 
 export type BatchGetEffectiveIamPoliciesResponse_Op =
   BatchGetEffectiveIamPoliciesResponse;
 export const BatchGetEffectiveIamPoliciesResponse_Op =
-  BatchGetEffectiveIamPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetEffectiveIamPoliciesResponse;
 
 export type BatchGetEffectiveIamPoliciesError = DefaultErrors;
 
@@ -3858,7 +3923,7 @@ export const batchGetEffectiveIamPolicies: API.OperationMethod<
   BatchGetEffectiveIamPoliciesResponse_Op,
   BatchGetEffectiveIamPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetEffectiveIamPoliciesRequest,
   output: BatchGetEffectiveIamPoliciesResponse_Op,
   errors: [],
@@ -3869,7 +3934,7 @@ export interface ListFeedsRequest {
   parent: string;
 }
 
-export const ListFeedsRequest = Schema.Struct({
+export const ListFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}/feeds" }),
@@ -3877,7 +3942,8 @@ export const ListFeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListFeedsRequest>;
 
 export type ListFeedsResponse_Op = ListFeedsResponse;
-export const ListFeedsResponse_Op = ListFeedsResponse;
+export const ListFeedsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListFeedsResponse;
 
 export type ListFeedsError = DefaultErrors;
 
@@ -3887,7 +3953,7 @@ export const listFeeds: API.OperationMethod<
   ListFeedsResponse_Op,
   ListFeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFeedsRequest,
   output: ListFeedsResponse_Op,
   errors: [],
@@ -3900,7 +3966,7 @@ export interface CreateFeedsRequest {
   body?: CreateFeedRequest;
 }
 
-export const CreateFeedsRequest = Schema.Struct({
+export const CreateFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(CreateFeedRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -3909,7 +3975,7 @@ export const CreateFeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateFeedsRequest>;
 
 export type CreateFeedsResponse = Feed;
-export const CreateFeedsResponse = Feed;
+export const CreateFeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Feed;
 
 export type CreateFeedsError = DefaultErrors;
 
@@ -3919,7 +3985,7 @@ export const createFeeds: API.OperationMethod<
   CreateFeedsResponse,
   CreateFeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFeedsRequest,
   output: CreateFeedsResponse,
   errors: [],
@@ -3930,7 +3996,7 @@ export interface GetFeedsRequest {
   name: string;
 }
 
-export const GetFeedsRequest = Schema.Struct({
+export const GetFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}/feeds/{feedsId}" }),
@@ -3938,7 +4004,7 @@ export const GetFeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetFeedsRequest>;
 
 export type GetFeedsResponse = Feed;
-export const GetFeedsResponse = Feed;
+export const GetFeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Feed;
 
 export type GetFeedsError = DefaultErrors;
 
@@ -3948,7 +4014,7 @@ export const getFeeds: API.OperationMethod<
   GetFeedsResponse,
   GetFeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFeedsRequest,
   output: GetFeedsResponse,
   errors: [],
@@ -3961,7 +4027,7 @@ export interface PatchFeedsRequest {
   body?: UpdateFeedRequest;
 }
 
-export const PatchFeedsRequest = Schema.Struct({
+export const PatchFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UpdateFeedRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -3974,7 +4040,7 @@ export const PatchFeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchFeedsRequest>;
 
 export type PatchFeedsResponse = Feed;
-export const PatchFeedsResponse = Feed;
+export const PatchFeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Feed;
 
 export type PatchFeedsError = DefaultErrors;
 
@@ -3984,7 +4050,7 @@ export const patchFeeds: API.OperationMethod<
   PatchFeedsResponse,
   PatchFeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFeedsRequest,
   output: PatchFeedsResponse,
   errors: [],
@@ -3995,7 +4061,7 @@ export interface DeleteFeedsRequest {
   name: string;
 }
 
-export const DeleteFeedsRequest = Schema.Struct({
+export const DeleteFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/{v1Id}/{v1Id1}/feeds/{feedsId}" }),
@@ -4003,7 +4069,7 @@ export const DeleteFeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteFeedsRequest>;
 
 export type DeleteFeedsResponse = Empty;
-export const DeleteFeedsResponse = Empty;
+export const DeleteFeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteFeedsError = DefaultErrors;
 
@@ -4013,7 +4079,7 @@ export const deleteFeeds: API.OperationMethod<
   DeleteFeedsResponse,
   DeleteFeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFeedsRequest,
   output: DeleteFeedsResponse,
   errors: [],
@@ -4028,21 +4094,22 @@ export interface PatchSavedQueriesRequest {
   body?: SavedQuery;
 }
 
-export const PatchSavedQueriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(SavedQuery).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/{v1Id}/{v1Id1}/savedQueries/{savedQueriesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchSavedQueriesRequest>;
+export const PatchSavedQueriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(SavedQuery).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/{v1Id}/{v1Id1}/savedQueries/{savedQueriesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchSavedQueriesRequest>;
 
 export type PatchSavedQueriesResponse = SavedQuery;
-export const PatchSavedQueriesResponse = SavedQuery;
+export const PatchSavedQueriesResponse = /*@__PURE__*/ /*#__PURE__*/ SavedQuery;
 
 export type PatchSavedQueriesError = DefaultErrors;
 
@@ -4052,7 +4119,7 @@ export const patchSavedQueries: API.OperationMethod<
   PatchSavedQueriesResponse,
   PatchSavedQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSavedQueriesRequest,
   output: PatchSavedQueriesResponse,
   errors: [],
@@ -4067,23 +4134,25 @@ export interface CreateSavedQueriesRequest {
   body?: SavedQuery;
 }
 
-export const CreateSavedQueriesRequest = Schema.Struct({
-  savedQueryId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("savedQueryId"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SavedQuery).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}/{v1Id1}/savedQueries",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateSavedQueriesRequest>;
+export const CreateSavedQueriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    savedQueryId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("savedQueryId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SavedQuery).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}/{v1Id1}/savedQueries",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSavedQueriesRequest>;
 
 export type CreateSavedQueriesResponse = SavedQuery;
-export const CreateSavedQueriesResponse = SavedQuery;
+export const CreateSavedQueriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SavedQuery;
 
 export type CreateSavedQueriesError = DefaultErrors;
 
@@ -4093,7 +4162,7 @@ export const createSavedQueries: API.OperationMethod<
   CreateSavedQueriesResponse,
   CreateSavedQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSavedQueriesRequest,
   output: CreateSavedQueriesResponse,
   errors: [],
@@ -4104,9 +4173,11 @@ export interface GetSavedQueriesRequest {
   name: string;
 }
 
-export const GetSavedQueriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetSavedQueriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "v1/{v1Id}/{v1Id1}/savedQueries/{savedQueriesId}",
@@ -4115,7 +4186,7 @@ export const GetSavedQueriesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSavedQueriesRequest>;
 
 export type GetSavedQueriesResponse = SavedQuery;
-export const GetSavedQueriesResponse = SavedQuery;
+export const GetSavedQueriesResponse = /*@__PURE__*/ /*#__PURE__*/ SavedQuery;
 
 export type GetSavedQueriesError = DefaultErrors;
 
@@ -4125,7 +4196,7 @@ export const getSavedQueries: API.OperationMethod<
   GetSavedQueriesResponse,
   GetSavedQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSavedQueriesRequest,
   output: GetSavedQueriesResponse,
   errors: [],
@@ -4142,18 +4213,20 @@ export interface ListSavedQueriesRequest {
   pageToken?: string;
 }
 
-export const ListSavedQueriesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}/savedQueries" }),
-  svc,
-) as unknown as Schema.Schema<ListSavedQueriesRequest>;
+export const ListSavedQueriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}/{v1Id1}/savedQueries" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSavedQueriesRequest>;
 
 export type ListSavedQueriesResponse_Op = ListSavedQueriesResponse;
-export const ListSavedQueriesResponse_Op = ListSavedQueriesResponse;
+export const ListSavedQueriesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListSavedQueriesResponse;
 
 export type ListSavedQueriesError = DefaultErrors;
 
@@ -4163,7 +4236,7 @@ export const listSavedQueries: API.PaginatedOperationMethod<
   ListSavedQueriesResponse_Op,
   ListSavedQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSavedQueriesRequest,
   output: ListSavedQueriesResponse_Op,
   errors: [],
@@ -4178,18 +4251,19 @@ export interface DeleteSavedQueriesRequest {
   name: string;
 }
 
-export const DeleteSavedQueriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/{v1Id}/{v1Id1}/savedQueries/{savedQueriesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteSavedQueriesRequest>;
+export const DeleteSavedQueriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/{v1Id}/{v1Id1}/savedQueries/{savedQueriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSavedQueriesRequest>;
 
 export type DeleteSavedQueriesResponse = Empty;
-export const DeleteSavedQueriesResponse = Empty;
+export const DeleteSavedQueriesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteSavedQueriesError = DefaultErrors;
 
@@ -4199,7 +4273,7 @@ export const deleteSavedQueries: API.OperationMethod<
   DeleteSavedQueriesResponse,
   DeleteSavedQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSavedQueriesRequest,
   output: DeleteSavedQueriesResponse,
   errors: [],

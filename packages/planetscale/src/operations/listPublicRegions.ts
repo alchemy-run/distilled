@@ -4,31 +4,34 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListPublicRegionsInput = Schema.Struct({
-  page: Schema.optional(Schema.Number),
-  per_page: Schema.optional(Schema.Number),
-}).pipe(T.Http({ method: "GET", path: "/regions" }));
+export const ListPublicRegionsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    page: Schema.optional(Schema.Number),
+    per_page: Schema.optional(Schema.Number),
+  },
+).pipe(T.Http({ method: "GET", path: "/regions" }));
 export type ListPublicRegionsInput = typeof ListPublicRegionsInput.Type;
 
 // Output Schema
-export const ListPublicRegionsOutput = Schema.Struct({
-  current_page: Schema.Number,
-  next_page: Schema.NullOr(Schema.Number),
-  next_page_url: Schema.NullOr(Schema.String),
-  prev_page: Schema.NullOr(Schema.Number),
-  prev_page_url: Schema.NullOr(Schema.String),
-  data: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      provider: Schema.String,
-      enabled: Schema.Boolean,
-      public_ip_addresses: Schema.Array(Schema.String),
-      display_name: Schema.String,
-      location: Schema.String,
-      slug: Schema.String,
-    }),
-  ),
-});
+export const ListPublicRegionsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    current_page: Schema.Number,
+    next_page: Schema.NullOr(Schema.Number),
+    next_page_url: Schema.NullOr(Schema.String),
+    prev_page: Schema.NullOr(Schema.Number),
+    prev_page_url: Schema.NullOr(Schema.String),
+    data: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        provider: Schema.String,
+        enabled: Schema.Boolean,
+        public_ip_addresses: Schema.Array(Schema.String),
+        display_name: Schema.String,
+        location: Schema.String,
+        slug: Schema.String,
+      }),
+    ),
+  });
 export type ListPublicRegionsOutput = typeof ListPublicRegionsOutput.Type;
 
 // The operation

@@ -113,7 +113,7 @@ export interface CreatedArtifact {
   Name: string;
   Description?: string;
 }
-export const CreatedArtifact = S.suspend(() =>
+export const CreatedArtifact = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Description: S.optional(S.String) }),
 ).annotate({
   identifier: "CreatedArtifact",
@@ -124,29 +124,29 @@ export interface AssociateCreatedArtifactRequest {
   CreatedArtifact: CreatedArtifact;
   DryRun?: boolean;
 }
-export const AssociateCreatedArtifactRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    CreatedArtifact: CreatedArtifact,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateCreatedArtifactRequest",
-}) as any as S.Schema<AssociateCreatedArtifactRequest>;
+export const AssociateCreatedArtifactRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      CreatedArtifact: CreatedArtifact,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AssociateCreatedArtifactRequest",
+  }) as any as S.Schema<AssociateCreatedArtifactRequest>;
 export interface AssociateCreatedArtifactResult {}
-export const AssociateCreatedArtifactResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateCreatedArtifactResult",
-}) as any as S.Schema<AssociateCreatedArtifactResult>;
+export const AssociateCreatedArtifactResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "AssociateCreatedArtifactResult",
+  }) as any as S.Schema<AssociateCreatedArtifactResult>;
 export interface DiscoveredResource {
   ConfigurationId: string;
   Description?: string;
 }
-export const DiscoveredResource = S.suspend(() =>
+export const DiscoveredResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigurationId: S.String, Description: S.optional(S.String) }),
 ).annotate({
   identifier: "DiscoveredResource",
@@ -157,30 +157,30 @@ export interface AssociateDiscoveredResourceRequest {
   DiscoveredResource: DiscoveredResource;
   DryRun?: boolean;
 }
-export const AssociateDiscoveredResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    DiscoveredResource: DiscoveredResource,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateDiscoveredResourceRequest",
-}) as any as S.Schema<AssociateDiscoveredResourceRequest>;
+export const AssociateDiscoveredResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      DiscoveredResource: DiscoveredResource,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AssociateDiscoveredResourceRequest",
+  }) as any as S.Schema<AssociateDiscoveredResourceRequest>;
 export interface AssociateDiscoveredResourceResult {}
-export const AssociateDiscoveredResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateDiscoveredResourceResult",
-}) as any as S.Schema<AssociateDiscoveredResourceResult>;
+export const AssociateDiscoveredResourceResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "AssociateDiscoveredResourceResult",
+  }) as any as S.Schema<AssociateDiscoveredResourceResult>;
 export interface SourceResource {
   Name: string;
   Description?: string;
   StatusDetail?: string;
 }
-export const SourceResource = S.suspend(() =>
+export const SourceResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
@@ -193,121 +193,124 @@ export interface AssociateSourceResourceRequest {
   SourceResource: SourceResource;
   DryRun?: boolean;
 }
-export const AssociateSourceResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    SourceResource: SourceResource,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateSourceResourceRequest",
-}) as any as S.Schema<AssociateSourceResourceRequest>;
+export const AssociateSourceResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      SourceResource: SourceResource,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AssociateSourceResourceRequest",
+  }) as any as S.Schema<AssociateSourceResourceRequest>;
 export interface AssociateSourceResourceResult {}
-export const AssociateSourceResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AssociateSourceResourceResult",
-}) as any as S.Schema<AssociateSourceResourceResult>;
+export const AssociateSourceResourceResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "AssociateSourceResourceResult",
+  }) as any as S.Schema<AssociateSourceResourceResult>;
 export interface CreateProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
   DryRun?: boolean;
 }
-export const CreateProgressUpdateStreamRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStreamName: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProgressUpdateStreamRequest",
-}) as any as S.Schema<CreateProgressUpdateStreamRequest>;
+export const CreateProgressUpdateStreamRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStreamName: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateProgressUpdateStreamRequest",
+  }) as any as S.Schema<CreateProgressUpdateStreamRequest>;
 export interface CreateProgressUpdateStreamResult {}
-export const CreateProgressUpdateStreamResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateProgressUpdateStreamResult",
-}) as any as S.Schema<CreateProgressUpdateStreamResult>;
+export const CreateProgressUpdateStreamResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "CreateProgressUpdateStreamResult",
+  }) as any as S.Schema<CreateProgressUpdateStreamResult>;
 export interface DeleteProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
   DryRun?: boolean;
 }
-export const DeleteProgressUpdateStreamRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStreamName: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProgressUpdateStreamRequest",
-}) as any as S.Schema<DeleteProgressUpdateStreamRequest>;
+export const DeleteProgressUpdateStreamRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStreamName: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteProgressUpdateStreamRequest",
+  }) as any as S.Schema<DeleteProgressUpdateStreamRequest>;
 export interface DeleteProgressUpdateStreamResult {}
-export const DeleteProgressUpdateStreamResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteProgressUpdateStreamResult",
-}) as any as S.Schema<DeleteProgressUpdateStreamResult>;
+export const DeleteProgressUpdateStreamResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteProgressUpdateStreamResult",
+  }) as any as S.Schema<DeleteProgressUpdateStreamResult>;
 export interface DescribeApplicationStateRequest {
   ApplicationId: string;
 }
-export const DescribeApplicationStateRequest = S.suspend(() =>
-  S.Struct({ ApplicationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeApplicationStateRequest",
-}) as any as S.Schema<DescribeApplicationStateRequest>;
+export const DescribeApplicationStateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ApplicationId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeApplicationStateRequest",
+  }) as any as S.Schema<DescribeApplicationStateRequest>;
 export type ApplicationStatus =
   | "NOT_STARTED"
   | "IN_PROGRESS"
   | "COMPLETED"
   | (string & {});
-export const ApplicationStatus = S.String;
+export const ApplicationStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DescribeApplicationStateResult {
   ApplicationStatus?: ApplicationStatus;
   LastUpdatedTime?: Date;
 }
-export const DescribeApplicationStateResult = S.suspend(() =>
-  S.Struct({
-    ApplicationStatus: S.optional(ApplicationStatus),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "DescribeApplicationStateResult",
-}) as any as S.Schema<DescribeApplicationStateResult>;
+export const DescribeApplicationStateResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ApplicationStatus: S.optional(ApplicationStatus),
+      LastUpdatedTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
+  ).annotate({
+    identifier: "DescribeApplicationStateResult",
+  }) as any as S.Schema<DescribeApplicationStateResult>;
 export interface DescribeMigrationTaskRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
 }
-export const DescribeMigrationTaskRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeMigrationTaskRequest",
-}) as any as S.Schema<DescribeMigrationTaskRequest>;
+export const DescribeMigrationTaskRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeMigrationTaskRequest",
+  }) as any as S.Schema<DescribeMigrationTaskRequest>;
 export type Status =
   | "NOT_STARTED"
   | "IN_PROGRESS"
   | "FAILED"
   | "COMPLETED"
   | (string & {});
-export const Status = S.String;
+export const Status = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Task {
   Status: Status;
   StatusDetail?: string;
   ProgressPercent?: number;
 }
-export const Task = S.suspend(() =>
+export const Task = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: Status,
     StatusDetail: S.optional(S.String),
@@ -326,18 +329,19 @@ export type ResourceAttributeType =
   | "BIOS_ID"
   | "MOTHERBOARD_SERIAL_NUMBER"
   | (string & {});
-export const ResourceAttributeType = S.String;
+export const ResourceAttributeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ResourceAttribute {
   Type: ResourceAttributeType;
   Value: string;
 }
-export const ResourceAttribute = S.suspend(() =>
+export const ResourceAttribute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Type: ResourceAttributeType, Value: S.String }),
 ).annotate({
   identifier: "ResourceAttribute",
 }) as any as S.Schema<ResourceAttribute>;
 export type LatestResourceAttributeList = ResourceAttribute[];
-export const LatestResourceAttributeList = S.Array(ResourceAttribute);
+export const LatestResourceAttributeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ResourceAttribute);
 export interface MigrationTask {
   ProgressUpdateStream?: string;
   MigrationTaskName?: string;
@@ -345,7 +349,7 @@ export interface MigrationTask {
   UpdateDateTime?: Date;
   ResourceAttributeList?: ResourceAttribute[];
 }
-export const MigrationTask = S.suspend(() =>
+export const MigrationTask = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ProgressUpdateStream: S.optional(S.String),
     MigrationTaskName: S.optional(S.String),
@@ -357,127 +361,132 @@ export const MigrationTask = S.suspend(() =>
 export interface DescribeMigrationTaskResult {
   MigrationTask?: MigrationTask;
 }
-export const DescribeMigrationTaskResult = S.suspend(() =>
-  S.Struct({ MigrationTask: S.optional(MigrationTask) }),
-).annotate({
-  identifier: "DescribeMigrationTaskResult",
-}) as any as S.Schema<DescribeMigrationTaskResult>;
+export const DescribeMigrationTaskResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ MigrationTask: S.optional(MigrationTask) }),
+  ).annotate({
+    identifier: "DescribeMigrationTaskResult",
+  }) as any as S.Schema<DescribeMigrationTaskResult>;
 export interface DisassociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   CreatedArtifactName: string;
   DryRun?: boolean;
 }
-export const DisassociateCreatedArtifactRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    CreatedArtifactName: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateCreatedArtifactRequest",
-}) as any as S.Schema<DisassociateCreatedArtifactRequest>;
+export const DisassociateCreatedArtifactRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      CreatedArtifactName: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DisassociateCreatedArtifactRequest",
+  }) as any as S.Schema<DisassociateCreatedArtifactRequest>;
 export interface DisassociateCreatedArtifactResult {}
-export const DisassociateCreatedArtifactResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateCreatedArtifactResult",
-}) as any as S.Schema<DisassociateCreatedArtifactResult>;
+export const DisassociateCreatedArtifactResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DisassociateCreatedArtifactResult",
+  }) as any as S.Schema<DisassociateCreatedArtifactResult>;
 export interface DisassociateDiscoveredResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ConfigurationId: string;
   DryRun?: boolean;
 }
-export const DisassociateDiscoveredResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    ConfigurationId: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateDiscoveredResourceRequest",
-}) as any as S.Schema<DisassociateDiscoveredResourceRequest>;
+export const DisassociateDiscoveredResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      ConfigurationId: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DisassociateDiscoveredResourceRequest",
+  }) as any as S.Schema<DisassociateDiscoveredResourceRequest>;
 export interface DisassociateDiscoveredResourceResult {}
-export const DisassociateDiscoveredResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateDiscoveredResourceResult",
-}) as any as S.Schema<DisassociateDiscoveredResourceResult>;
+export const DisassociateDiscoveredResourceResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DisassociateDiscoveredResourceResult",
+  }) as any as S.Schema<DisassociateDiscoveredResourceResult>;
 export interface DisassociateSourceResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   SourceResourceName: string;
   DryRun?: boolean;
 }
-export const DisassociateSourceResourceRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    SourceResourceName: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateSourceResourceRequest",
-}) as any as S.Schema<DisassociateSourceResourceRequest>;
+export const DisassociateSourceResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      SourceResourceName: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DisassociateSourceResourceRequest",
+  }) as any as S.Schema<DisassociateSourceResourceRequest>;
 export interface DisassociateSourceResourceResult {}
-export const DisassociateSourceResourceResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateSourceResourceResult",
-}) as any as S.Schema<DisassociateSourceResourceResult>;
+export const DisassociateSourceResourceResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DisassociateSourceResourceResult",
+  }) as any as S.Schema<DisassociateSourceResourceResult>;
 export interface ImportMigrationTaskRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   DryRun?: boolean;
 }
-export const ImportMigrationTaskRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ImportMigrationTaskRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ImportMigrationTaskRequest",
 }) as any as S.Schema<ImportMigrationTaskRequest>;
 export interface ImportMigrationTaskResult {}
-export const ImportMigrationTaskResult = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "ImportMigrationTaskResult" },
-) as any as S.Schema<ImportMigrationTaskResult>;
+export const ImportMigrationTaskResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "ImportMigrationTaskResult",
+}) as any as S.Schema<ImportMigrationTaskResult>;
 export type ApplicationIds = string[];
-export const ApplicationIds = S.Array(S.String);
+export const ApplicationIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListApplicationStatesRequest {
   ApplicationIds?: string[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListApplicationStatesRequest = S.suspend(() =>
-  S.Struct({
-    ApplicationIds: S.optional(ApplicationIds),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListApplicationStatesRequest",
-}) as any as S.Schema<ListApplicationStatesRequest>;
+export const ListApplicationStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ApplicationIds: S.optional(ApplicationIds),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListApplicationStatesRequest",
+  }) as any as S.Schema<ListApplicationStatesRequest>;
 export interface ApplicationState {
   ApplicationId?: string;
   ApplicationStatus?: ApplicationStatus;
   LastUpdatedTime?: Date;
 }
-export const ApplicationState = S.suspend(() =>
+export const ApplicationState = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String),
     ApplicationStatus: S.optional(ApplicationStatus),
@@ -489,48 +498,53 @@ export const ApplicationState = S.suspend(() =>
   identifier: "ApplicationState",
 }) as any as S.Schema<ApplicationState>;
 export type ApplicationStateList = ApplicationState[];
-export const ApplicationStateList = S.Array(ApplicationState);
+export const ApplicationStateList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ApplicationState);
 export interface ListApplicationStatesResult {
   ApplicationStateList?: ApplicationState[];
   NextToken?: string;
 }
-export const ListApplicationStatesResult = S.suspend(() =>
-  S.Struct({
-    ApplicationStateList: S.optional(ApplicationStateList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationStatesResult",
-}) as any as S.Schema<ListApplicationStatesResult>;
+export const ListApplicationStatesResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ApplicationStateList: S.optional(ApplicationStateList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListApplicationStatesResult",
+  }) as any as S.Schema<ListApplicationStatesResult>;
 export interface ListCreatedArtifactsRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListCreatedArtifactsRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCreatedArtifactsRequest",
-}) as any as S.Schema<ListCreatedArtifactsRequest>;
+export const ListCreatedArtifactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCreatedArtifactsRequest",
+  }) as any as S.Schema<ListCreatedArtifactsRequest>;
 export type CreatedArtifactList = CreatedArtifact[];
-export const CreatedArtifactList = S.Array(CreatedArtifact);
+export const CreatedArtifactList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CreatedArtifact);
 export interface ListCreatedArtifactsResult {
   NextToken?: string;
   CreatedArtifactList?: CreatedArtifact[];
 }
-export const ListCreatedArtifactsResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    CreatedArtifactList: S.optional(CreatedArtifactList),
-  }),
+export const ListCreatedArtifactsResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      CreatedArtifactList: S.optional(CreatedArtifactList),
+    }),
 ).annotate({
   identifier: "ListCreatedArtifactsResult",
 }) as any as S.Schema<ListCreatedArtifactsResult>;
@@ -540,45 +554,49 @@ export interface ListDiscoveredResourcesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDiscoveredResourcesRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListDiscoveredResourcesRequest",
-}) as any as S.Schema<ListDiscoveredResourcesRequest>;
+export const ListDiscoveredResourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListDiscoveredResourcesRequest",
+  }) as any as S.Schema<ListDiscoveredResourcesRequest>;
 export type DiscoveredResourceList = DiscoveredResource[];
-export const DiscoveredResourceList = S.Array(DiscoveredResource);
+export const DiscoveredResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DiscoveredResource);
 export interface ListDiscoveredResourcesResult {
   NextToken?: string;
   DiscoveredResourceList?: DiscoveredResource[];
 }
-export const ListDiscoveredResourcesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    DiscoveredResourceList: S.optional(DiscoveredResourceList),
-  }),
-).annotate({
-  identifier: "ListDiscoveredResourcesResult",
-}) as any as S.Schema<ListDiscoveredResourcesResult>;
+export const ListDiscoveredResourcesResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      DiscoveredResourceList: S.optional(DiscoveredResourceList),
+    }),
+  ).annotate({
+    identifier: "ListDiscoveredResourcesResult",
+  }) as any as S.Schema<ListDiscoveredResourcesResult>;
 export interface ListMigrationTasksRequest {
   NextToken?: string;
   MaxResults?: number;
   ResourceName?: string;
 }
-export const ListMigrationTasksRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ResourceName: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListMigrationTasksRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      ResourceName: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListMigrationTasksRequest",
 }) as any as S.Schema<ListMigrationTasksRequest>;
@@ -590,7 +608,7 @@ export interface MigrationTaskSummary {
   StatusDetail?: string;
   UpdateDateTime?: Date;
 }
-export const MigrationTaskSummary = S.suspend(() =>
+export const MigrationTaskSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ProgressUpdateStream: S.optional(S.String),
     MigrationTaskName: S.optional(S.String),
@@ -603,16 +621,18 @@ export const MigrationTaskSummary = S.suspend(() =>
   identifier: "MigrationTaskSummary",
 }) as any as S.Schema<MigrationTaskSummary>;
 export type MigrationTaskSummaryList = MigrationTaskSummary[];
-export const MigrationTaskSummaryList = S.Array(MigrationTaskSummary);
+export const MigrationTaskSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(MigrationTaskSummary);
 export interface ListMigrationTasksResult {
   NextToken?: string;
   MigrationTaskSummaryList?: MigrationTaskSummary[];
 }
-export const ListMigrationTasksResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
-  }),
+export const ListMigrationTasksResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      MigrationTaskSummaryList: S.optional(MigrationTaskSummaryList),
+    }),
 ).annotate({
   identifier: "ListMigrationTasksResult",
 }) as any as S.Schema<ListMigrationTasksResult>;
@@ -622,26 +642,27 @@ export interface ListMigrationTaskUpdatesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListMigrationTaskUpdatesRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListMigrationTaskUpdatesRequest",
-}) as any as S.Schema<ListMigrationTaskUpdatesRequest>;
+export const ListMigrationTaskUpdatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListMigrationTaskUpdatesRequest",
+  }) as any as S.Schema<ListMigrationTaskUpdatesRequest>;
 export type UpdateType = "MIGRATION_TASK_STATE_UPDATED" | (string & {});
-export const UpdateType = S.String;
+export const UpdateType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MigrationTaskUpdate {
   UpdateDateTime?: Date;
   UpdateType?: UpdateType;
   MigrationTaskState?: Task;
 }
-export const MigrationTaskUpdate = S.suspend(() =>
+export const MigrationTaskUpdate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdateType: S.optional(UpdateType),
@@ -651,88 +672,95 @@ export const MigrationTaskUpdate = S.suspend(() =>
   identifier: "MigrationTaskUpdate",
 }) as any as S.Schema<MigrationTaskUpdate>;
 export type MigrationTaskUpdateList = MigrationTaskUpdate[];
-export const MigrationTaskUpdateList = S.Array(MigrationTaskUpdate);
+export const MigrationTaskUpdateList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(MigrationTaskUpdate);
 export interface ListMigrationTaskUpdatesResult {
   NextToken?: string;
   MigrationTaskUpdateList?: MigrationTaskUpdate[];
 }
-export const ListMigrationTaskUpdatesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
-  }),
-).annotate({
-  identifier: "ListMigrationTaskUpdatesResult",
-}) as any as S.Schema<ListMigrationTaskUpdatesResult>;
+export const ListMigrationTaskUpdatesResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      MigrationTaskUpdateList: S.optional(MigrationTaskUpdateList),
+    }),
+  ).annotate({
+    identifier: "ListMigrationTaskUpdatesResult",
+  }) as any as S.Schema<ListMigrationTaskUpdatesResult>;
 export interface ListProgressUpdateStreamsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListProgressUpdateStreamsRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProgressUpdateStreamsRequest",
-}) as any as S.Schema<ListProgressUpdateStreamsRequest>;
+export const ListProgressUpdateStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListProgressUpdateStreamsRequest",
+  }) as any as S.Schema<ListProgressUpdateStreamsRequest>;
 export interface ProgressUpdateStreamSummary {
   ProgressUpdateStreamName?: string;
 }
-export const ProgressUpdateStreamSummary = S.suspend(() =>
-  S.Struct({ ProgressUpdateStreamName: S.optional(S.String) }),
-).annotate({
-  identifier: "ProgressUpdateStreamSummary",
-}) as any as S.Schema<ProgressUpdateStreamSummary>;
+export const ProgressUpdateStreamSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ProgressUpdateStreamName: S.optional(S.String) }),
+  ).annotate({
+    identifier: "ProgressUpdateStreamSummary",
+  }) as any as S.Schema<ProgressUpdateStreamSummary>;
 export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
-export const ProgressUpdateStreamSummaryList = S.Array(
-  ProgressUpdateStreamSummary,
-);
+export const ProgressUpdateStreamSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ProgressUpdateStreamSummary);
 export interface ListProgressUpdateStreamsResult {
   ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
   NextToken?: string;
 }
-export const ListProgressUpdateStreamsResult = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStreamSummaryList: S.optional(
-      ProgressUpdateStreamSummaryList,
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProgressUpdateStreamsResult",
-}) as any as S.Schema<ListProgressUpdateStreamsResult>;
+export const ListProgressUpdateStreamsResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStreamSummaryList: S.optional(
+        ProgressUpdateStreamSummaryList,
+      ),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListProgressUpdateStreamsResult",
+  }) as any as S.Schema<ListProgressUpdateStreamsResult>;
 export interface ListSourceResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListSourceResourcesRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListSourceResourcesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListSourceResourcesRequest",
 }) as any as S.Schema<ListSourceResourcesRequest>;
 export type SourceResourceList = SourceResource[];
-export const SourceResourceList = S.Array(SourceResource);
+export const SourceResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SourceResource);
 export interface ListSourceResourcesResult {
   NextToken?: string;
   SourceResourceList?: SourceResource[];
 }
-export const ListSourceResourcesResult = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SourceResourceList: S.optional(SourceResourceList),
-  }),
+export const ListSourceResourcesResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      SourceResourceList: S.optional(SourceResourceList),
+    }),
 ).annotate({
   identifier: "ListSourceResourcesResult",
 }) as any as S.Schema<ListSourceResourcesResult>;
@@ -742,24 +770,26 @@ export interface NotifyApplicationStateRequest {
   UpdateDateTime?: Date;
   DryRun?: boolean;
 }
-export const NotifyApplicationStateRequest = S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    Status: ApplicationStatus,
-    UpdateDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "NotifyApplicationStateRequest",
-}) as any as S.Schema<NotifyApplicationStateRequest>;
+export const NotifyApplicationStateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ApplicationId: S.String,
+      Status: ApplicationStatus,
+      UpdateDateTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "NotifyApplicationStateRequest",
+  }) as any as S.Schema<NotifyApplicationStateRequest>;
 export interface NotifyApplicationStateResult {}
-export const NotifyApplicationStateResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "NotifyApplicationStateResult",
-}) as any as S.Schema<NotifyApplicationStateResult>;
+export const NotifyApplicationStateResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "NotifyApplicationStateResult",
+  }) as any as S.Schema<NotifyApplicationStateResult>;
 export interface NotifyMigrationTaskStateRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
@@ -768,52 +798,53 @@ export interface NotifyMigrationTaskStateRequest {
   NextUpdateSeconds: number;
   DryRun?: boolean;
 }
-export const NotifyMigrationTaskStateRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    Task: Task,
-    UpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    NextUpdateSeconds: S.Number,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "NotifyMigrationTaskStateRequest",
-}) as any as S.Schema<NotifyMigrationTaskStateRequest>;
+export const NotifyMigrationTaskStateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      Task: Task,
+      UpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      NextUpdateSeconds: S.Number,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "NotifyMigrationTaskStateRequest",
+  }) as any as S.Schema<NotifyMigrationTaskStateRequest>;
 export interface NotifyMigrationTaskStateResult {}
-export const NotifyMigrationTaskStateResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "NotifyMigrationTaskStateResult",
-}) as any as S.Schema<NotifyMigrationTaskStateResult>;
+export const NotifyMigrationTaskStateResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "NotifyMigrationTaskStateResult",
+  }) as any as S.Schema<NotifyMigrationTaskStateResult>;
 export type ResourceAttributeList = ResourceAttribute[];
-export const ResourceAttributeList = S.Array(ResourceAttribute);
+export const ResourceAttributeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ResourceAttribute);
 export interface PutResourceAttributesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ResourceAttributeList: ResourceAttribute[];
   DryRun?: boolean;
 }
-export const PutResourceAttributesRequest = S.suspend(() =>
-  S.Struct({
-    ProgressUpdateStream: S.String,
-    MigrationTaskName: S.String,
-    ResourceAttributeList: ResourceAttributeList,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutResourceAttributesRequest",
-}) as any as S.Schema<PutResourceAttributesRequest>;
+export const PutResourceAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ProgressUpdateStream: S.String,
+      MigrationTaskName: S.String,
+      ResourceAttributeList: ResourceAttributeList,
+      DryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "PutResourceAttributesRequest",
+  }) as any as S.Schema<PutResourceAttributesRequest>;
 export interface PutResourceAttributesResult {}
-export const PutResourceAttributesResult = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutResourceAttributesResult",
-}) as any as S.Schema<PutResourceAttributesResult>;
+export const PutResourceAttributesResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "PutResourceAttributesResult",
+  }) as any as S.Schema<PutResourceAttributesResult>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

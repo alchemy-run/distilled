@@ -22,15 +22,16 @@ export interface GetClientCertificateRequest {
   zoneId: string;
 }
 
-export const GetClientCertificateRequest = Schema.Struct({
-  clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
-  }),
-) as unknown as Schema.Schema<GetClientCertificateRequest>;
+export const GetClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
+    }),
+  ) as unknown as Schema.Schema<GetClientCertificateRequest>;
 
 export interface GetClientCertificateResponse {
   /** Identifier. */
@@ -76,144 +77,8 @@ export interface GetClientCertificateResponse {
   validityDays?: number | null;
 }
 
-export const GetClientCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fingerprintSha256: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizationalUnit: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "active",
-        "pending_reactivation",
-        "pending_revocation",
-        "revoked",
-      ]),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificate: "certificate",
-    certificateAuthority: "certificate_authority",
-    commonName: "common_name",
-    country: "country",
-    csr: "csr",
-    expiresOn: "expires_on",
-    fingerprintSha256: "fingerprint_sha256",
-    issuedOn: "issued_on",
-    location: "location",
-    organization: "organization",
-    organizationalUnit: "organizational_unit",
-    serialNumber: "serial_number",
-    signature: "signature",
-    ski: "ski",
-    state: "state",
-    status: "status",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<GetClientCertificateResponse>;
-
-export type GetClientCertificateError = DefaultErrors;
-
-export const getClientCertificate: API.OperationMethod<
-  GetClientCertificateRequest,
-  GetClientCertificateResponse,
-  GetClientCertificateError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetClientCertificateRequest,
-  output: GetClientCertificateResponse,
-  errors: [],
-}));
-
-export interface ListClientCertificatesRequest {
-  /** Path param: Identifier. */
-  zoneId: string;
-  /** Query param: Limit to the number of records returned. */
-  limit?: number;
-  /** Query param: Offset the results */
-  offset?: number;
-  /** Query param: Client Certitifcate Status to filter results by. */
-  status?:
-    | "all"
-    | "active"
-    | "pending_reactivation"
-    | "pending_revocation"
-    | "revoked";
-}
-
-export const ListClientCertificatesRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
-  status: Schema.optional(
-    Schema.Literals([
-      "all",
-      "active",
-      "pending_reactivation",
-      "pending_revocation",
-      "revoked",
-    ]),
-  ).pipe(T.HttpQuery("status")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/client_certificates" }),
-) as unknown as Schema.Schema<ListClientCertificatesRequest>;
-
-export type ListClientCertificatesResponse = {
-  id?: string | null;
-  certificate?: string | null;
-  certificateAuthority?: { id?: string | null; name?: string | null } | null;
-  commonName?: string | null;
-  country?: string | null;
-  csr?: string | null;
-  expiresOn?: string | null;
-  fingerprintSha256?: string | null;
-  issuedOn?: string | null;
-  location?: string | null;
-  organization?: string | null;
-  organizationalUnit?: string | null;
-  serialNumber?: string | null;
-  signature?: string | null;
-  ski?: string | null;
-  state?: string | null;
-  status?:
-    | "active"
-    | "pending_reactivation"
-    | "pending_revocation"
-    | "revoked"
-    | null;
-  validityDays?: number | null;
-}[];
-
-export const ListClientCertificatesResponse = Schema.Array(
-  Schema.Struct({
+export const GetClientCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     certificateAuthority: Schema.optional(
@@ -275,8 +140,147 @@ export const ListClientCertificatesResponse = Schema.Array(
       status: "status",
       validityDays: "validity_days",
     }),
-  ),
-) as unknown as Schema.Schema<ListClientCertificatesResponse>;
+  ) as unknown as Schema.Schema<GetClientCertificateResponse>;
+
+export type GetClientCertificateError = DefaultErrors;
+
+export const getClientCertificate: API.OperationMethod<
+  GetClientCertificateRequest,
+  GetClientCertificateResponse,
+  GetClientCertificateError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetClientCertificateRequest,
+  output: GetClientCertificateResponse,
+  errors: [],
+}));
+
+export interface ListClientCertificatesRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Limit to the number of records returned. */
+  limit?: number;
+  /** Query param: Offset the results */
+  offset?: number;
+  /** Query param: Client Certitifcate Status to filter results by. */
+  status?:
+    | "all"
+    | "active"
+    | "pending_reactivation"
+    | "pending_revocation"
+    | "revoked";
+}
+
+export const ListClientCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+    status: Schema.optional(
+      Schema.Literals([
+        "all",
+        "active",
+        "pending_reactivation",
+        "pending_revocation",
+        "revoked",
+      ]),
+    ).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/client_certificates" }),
+  ) as unknown as Schema.Schema<ListClientCertificatesRequest>;
+
+export type ListClientCertificatesResponse = {
+  id?: string | null;
+  certificate?: string | null;
+  certificateAuthority?: { id?: string | null; name?: string | null } | null;
+  commonName?: string | null;
+  country?: string | null;
+  csr?: string | null;
+  expiresOn?: string | null;
+  fingerprintSha256?: string | null;
+  issuedOn?: string | null;
+  location?: string | null;
+  organization?: string | null;
+  organizationalUnit?: string | null;
+  serialNumber?: string | null;
+  signature?: string | null;
+  ski?: string | null;
+  state?: string | null;
+  status?:
+    | "active"
+    | "pending_reactivation"
+    | "pending_revocation"
+    | "revoked"
+    | null;
+  validityDays?: number | null;
+}[];
+
+export const ListClientCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      certificateAuthority: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      fingerprintSha256: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      organizationalUnit: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "active",
+            "pending_reactivation",
+            "pending_revocation",
+            "revoked",
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        certificate: "certificate",
+        certificateAuthority: "certificate_authority",
+        commonName: "common_name",
+        country: "country",
+        csr: "csr",
+        expiresOn: "expires_on",
+        fingerprintSha256: "fingerprint_sha256",
+        issuedOn: "issued_on",
+        location: "location",
+        organization: "organization",
+        organizationalUnit: "organizational_unit",
+        serialNumber: "serial_number",
+        signature: "signature",
+        ski: "ski",
+        state: "state",
+        status: "status",
+        validityDays: "validity_days",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListClientCertificatesResponse>;
 
 export type ListClientCertificatesError = DefaultErrors;
 
@@ -285,7 +289,7 @@ export const listClientCertificates: API.OperationMethod<
   ListClientCertificatesResponse,
   ListClientCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListClientCertificatesRequest,
   output: ListClientCertificatesResponse,
   errors: [],
@@ -300,14 +304,15 @@ export interface CreateClientCertificateRequest {
   validityDays: number;
 }
 
-export const CreateClientCertificateRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  csr: Schema.String,
-  validityDays: Schema.Number,
-}).pipe(
-  Schema.encodeKeys({ csr: "csr", validityDays: "validity_days" }),
-  T.Http({ method: "POST", path: "/zones/{zone_id}/client_certificates" }),
-) as unknown as Schema.Schema<CreateClientCertificateRequest>;
+export const CreateClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    csr: Schema.String,
+    validityDays: Schema.Number,
+  }).pipe(
+    Schema.encodeKeys({ csr: "csr", validityDays: "validity_days" }),
+    T.Http({ method: "POST", path: "/zones/{zone_id}/client_certificates" }),
+  ) as unknown as Schema.Schema<CreateClientCertificateRequest>;
 
 export interface CreateClientCertificateResponse {
   /** Identifier. */
@@ -353,69 +358,70 @@ export interface CreateClientCertificateResponse {
   validityDays?: number | null;
 }
 
-export const CreateClientCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fingerprintSha256: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizationalUnit: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "active",
-        "pending_reactivation",
-        "pending_revocation",
-        "revoked",
+export const CreateClientCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificateAuthority: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificate: "certificate",
-    certificateAuthority: "certificate_authority",
-    commonName: "common_name",
-    country: "country",
-    csr: "csr",
-    expiresOn: "expires_on",
-    fingerprintSha256: "fingerprint_sha256",
-    issuedOn: "issued_on",
-    location: "location",
-    organization: "organization",
-    organizationalUnit: "organizational_unit",
-    serialNumber: "serial_number",
-    signature: "signature",
-    ski: "ski",
-    state: "state",
-    status: "status",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<CreateClientCertificateResponse>;
+    ),
+    commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    fingerprintSha256: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organizationalUnit: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "active",
+          "pending_reactivation",
+          "pending_revocation",
+          "revoked",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificate: "certificate",
+      certificateAuthority: "certificate_authority",
+      commonName: "common_name",
+      country: "country",
+      csr: "csr",
+      expiresOn: "expires_on",
+      fingerprintSha256: "fingerprint_sha256",
+      issuedOn: "issued_on",
+      location: "location",
+      organization: "organization",
+      organizationalUnit: "organizational_unit",
+      serialNumber: "serial_number",
+      signature: "signature",
+      ski: "ski",
+      state: "state",
+      status: "status",
+      validityDays: "validity_days",
+    }),
+  ) as unknown as Schema.Schema<CreateClientCertificateResponse>;
 
 export type CreateClientCertificateError = DefaultErrors;
 
@@ -424,7 +430,7 @@ export const createClientCertificate: API.OperationMethod<
   CreateClientCertificateResponse,
   CreateClientCertificateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateClientCertificateRequest,
   output: CreateClientCertificateResponse,
   errors: [],
@@ -438,16 +444,17 @@ export interface PatchClientCertificateRequest {
   reactivate?: boolean;
 }
 
-export const PatchClientCertificateRequest = Schema.Struct({
-  clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  reactivate: Schema.optional(Schema.Boolean),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
-  }),
-) as unknown as Schema.Schema<PatchClientCertificateRequest>;
+export const PatchClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    reactivate: Schema.optional(Schema.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
+    }),
+  ) as unknown as Schema.Schema<PatchClientCertificateRequest>;
 
 export interface PatchClientCertificateResponse {
   /** Identifier. */
@@ -493,69 +500,70 @@ export interface PatchClientCertificateResponse {
   validityDays?: number | null;
 }
 
-export const PatchClientCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fingerprintSha256: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizationalUnit: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "active",
-        "pending_reactivation",
-        "pending_revocation",
-        "revoked",
+export const PatchClientCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificateAuthority: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificate: "certificate",
-    certificateAuthority: "certificate_authority",
-    commonName: "common_name",
-    country: "country",
-    csr: "csr",
-    expiresOn: "expires_on",
-    fingerprintSha256: "fingerprint_sha256",
-    issuedOn: "issued_on",
-    location: "location",
-    organization: "organization",
-    organizationalUnit: "organizational_unit",
-    serialNumber: "serial_number",
-    signature: "signature",
-    ski: "ski",
-    state: "state",
-    status: "status",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<PatchClientCertificateResponse>;
+    ),
+    commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    fingerprintSha256: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organizationalUnit: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "active",
+          "pending_reactivation",
+          "pending_revocation",
+          "revoked",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificate: "certificate",
+      certificateAuthority: "certificate_authority",
+      commonName: "common_name",
+      country: "country",
+      csr: "csr",
+      expiresOn: "expires_on",
+      fingerprintSha256: "fingerprint_sha256",
+      issuedOn: "issued_on",
+      location: "location",
+      organization: "organization",
+      organizationalUnit: "organizational_unit",
+      serialNumber: "serial_number",
+      signature: "signature",
+      ski: "ski",
+      state: "state",
+      status: "status",
+      validityDays: "validity_days",
+    }),
+  ) as unknown as Schema.Schema<PatchClientCertificateResponse>;
 
 export type PatchClientCertificateError = DefaultErrors;
 
@@ -564,7 +572,7 @@ export const patchClientCertificate: API.OperationMethod<
   PatchClientCertificateResponse,
   PatchClientCertificateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchClientCertificateRequest,
   output: PatchClientCertificateResponse,
   errors: [],
@@ -576,15 +584,16 @@ export interface DeleteClientCertificateRequest {
   zoneId: string;
 }
 
-export const DeleteClientCertificateRequest = Schema.Struct({
-  clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
-  }),
-) as unknown as Schema.Schema<DeleteClientCertificateRequest>;
+export const DeleteClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientCertificateId: Schema.String.pipe(T.HttpPath("clientCertificateId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/client_certificates/{clientCertificateId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteClientCertificateRequest>;
 
 export interface DeleteClientCertificateResponse {
   /** Identifier. */
@@ -630,69 +639,70 @@ export interface DeleteClientCertificateResponse {
   validityDays?: number | null;
 }
 
-export const DeleteClientCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  fingerprintSha256: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizationalUnit: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "active",
-        "pending_reactivation",
-        "pending_revocation",
-        "revoked",
+export const DeleteClientCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    certificateAuthority: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificate: "certificate",
-    certificateAuthority: "certificate_authority",
-    commonName: "common_name",
-    country: "country",
-    csr: "csr",
-    expiresOn: "expires_on",
-    fingerprintSha256: "fingerprint_sha256",
-    issuedOn: "issued_on",
-    location: "location",
-    organization: "organization",
-    organizationalUnit: "organizational_unit",
-    serialNumber: "serial_number",
-    signature: "signature",
-    ski: "ski",
-    state: "state",
-    status: "status",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<DeleteClientCertificateResponse>;
+    ),
+    commonName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    csr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    fingerprintSha256: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    location: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organization: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organizationalUnit: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ski: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "active",
+          "pending_reactivation",
+          "pending_revocation",
+          "revoked",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    validityDays: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificate: "certificate",
+      certificateAuthority: "certificate_authority",
+      commonName: "common_name",
+      country: "country",
+      csr: "csr",
+      expiresOn: "expires_on",
+      fingerprintSha256: "fingerprint_sha256",
+      issuedOn: "issued_on",
+      location: "location",
+      organization: "organization",
+      organizationalUnit: "organizational_unit",
+      serialNumber: "serial_number",
+      signature: "signature",
+      ski: "ski",
+      state: "state",
+      status: "status",
+      validityDays: "validity_days",
+    }),
+  ) as unknown as Schema.Schema<DeleteClientCertificateResponse>;
 
 export type DeleteClientCertificateError = DefaultErrors;
 
@@ -701,7 +711,7 @@ export const deleteClientCertificate: API.OperationMethod<
   DeleteClientCertificateResponse,
   DeleteClientCertificateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteClientCertificateRequest,
   output: DeleteClientCertificateResponse,
   errors: [],

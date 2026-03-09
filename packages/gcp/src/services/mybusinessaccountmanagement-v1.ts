@@ -47,23 +47,24 @@ export interface PostalAddress {
   sortingCode?: string;
 }
 
-export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() =>
-  Schema.Struct({
-    locality: Schema.optional(Schema.String),
-    addressLines: Schema.optional(Schema.Array(Schema.String)),
-    organization: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    administrativeArea: Schema.optional(Schema.String),
-    recipients: Schema.optional(Schema.Array(Schema.String)),
-    sublocality: Schema.optional(Schema.String),
-    revision: Schema.optional(Schema.Number),
-    languageCode: Schema.optional(Schema.String),
-    sortingCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PostalAddress",
-}) as any as Schema.Schema<PostalAddress>;
+export const PostalAddress: Schema.Schema<PostalAddress> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locality: Schema.optional(Schema.String),
+      addressLines: Schema.optional(Schema.Array(Schema.String)),
+      organization: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      administrativeArea: Schema.optional(Schema.String),
+      recipients: Schema.optional(Schema.Array(Schema.String)),
+      sublocality: Schema.optional(Schema.String),
+      revision: Schema.optional(Schema.Number),
+      languageCode: Schema.optional(Schema.String),
+      sortingCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PostalAddress",
+  }) as any as Schema.Schema<PostalAddress>;
 
 export interface Admin {
   /** Required. Specifies the role that this admin uses with the specified Account or Location. */
@@ -84,15 +85,16 @@ export interface Admin {
   account?: string;
 }
 
-export const Admin: Schema.Schema<Admin> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    admin: Schema.optional(Schema.String),
-    pendingInvitation: Schema.optional(Schema.Boolean),
-    account: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Admin" }) as any as Schema.Schema<Admin>;
+export const Admin: Schema.Schema<Admin> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      admin: Schema.optional(Schema.String),
+      pendingInvitation: Schema.optional(Schema.Boolean),
+      account: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Admin" }) as any as Schema.Schema<Admin>;
 
 export interface ListAccountAdminsResponse {
   /** A collection of Admin instances. */
@@ -100,7 +102,7 @@ export interface ListAccountAdminsResponse {
 }
 
 export const ListAccountAdminsResponse: Schema.Schema<ListAccountAdminsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountAdmins: Schema.optional(Schema.Array(Admin)),
     }),
@@ -111,7 +113,7 @@ export const ListAccountAdminsResponse: Schema.Schema<ListAccountAdminsResponse>
 export interface DeclineInvitationRequest {}
 
 export const DeclineInvitationRequest: Schema.Schema<DeclineInvitationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeclineInvitationRequest",
   }) as any as Schema.Schema<DeclineInvitationRequest>;
 
@@ -122,15 +124,15 @@ export interface TargetLocation {
   locationName?: string;
 }
 
-export const TargetLocation: Schema.Schema<TargetLocation> = Schema.suspend(
-  () =>
+export const TargetLocation: Schema.Schema<TargetLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       address: Schema.optional(Schema.String),
       locationName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TargetLocation",
-}) as any as Schema.Schema<TargetLocation>;
+  ).annotate({
+    identifier: "TargetLocation",
+  }) as any as Schema.Schema<TargetLocation>;
 
 export interface OrganizationInfo {
   /** Output only. The registered domain for the account. */
@@ -141,16 +143,16 @@ export interface OrganizationInfo {
   phoneNumber?: string;
 }
 
-export const OrganizationInfo: Schema.Schema<OrganizationInfo> = Schema.suspend(
-  () =>
+export const OrganizationInfo: Schema.Schema<OrganizationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       registeredDomain: Schema.optional(Schema.String),
       address: Schema.optional(PostalAddress),
       phoneNumber: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "OrganizationInfo",
-}) as any as Schema.Schema<OrganizationInfo>;
+  ).annotate({
+    identifier: "OrganizationInfo",
+  }) as any as Schema.Schema<OrganizationInfo>;
 
 export interface Account {
   /** Output only. Indicates whether the account is vetted by Google. A vetted account is able to verify locations via the VETTED_PARTNER method. */
@@ -201,20 +203,21 @@ export interface Account {
   organizationInfo?: OrganizationInfo;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    vettedState: Schema.optional(Schema.String),
-    permissionLevel: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    accountNumber: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    primaryOwner: Schema.optional(Schema.String),
-    accountName: Schema.optional(Schema.String),
-    verificationState: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    organizationInfo: Schema.optional(OrganizationInfo),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      vettedState: Schema.optional(Schema.String),
+      permissionLevel: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      accountNumber: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      primaryOwner: Schema.optional(Schema.String),
+      accountName: Schema.optional(Schema.String),
+      verificationState: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      organizationInfo: Schema.optional(OrganizationInfo),
+    }),
+  ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface Invitation {
   /** The target location this invitation is for. */
@@ -239,15 +242,16 @@ export interface Invitation {
   name?: string;
 }
 
-export const Invitation: Schema.Schema<Invitation> = Schema.suspend(() =>
-  Schema.Struct({
-    targetLocation: Schema.optional(TargetLocation),
-    targetAccount: Schema.optional(Account),
-    role: Schema.optional(Schema.String),
-    targetType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Invitation" }) as any as Schema.Schema<Invitation>;
+export const Invitation: Schema.Schema<Invitation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetLocation: Schema.optional(TargetLocation),
+      targetAccount: Schema.optional(Account),
+      role: Schema.optional(Schema.String),
+      targetType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Invitation" }) as any as Schema.Schema<Invitation>;
 
 export interface ListAccountsResponse {
   /** If the number of accounts exceeds the requested page size, this field is populated with a token to fetch the next page of accounts on a subsequent call to `accounts.list`. If there are no more accounts, this field is not present in the response. */
@@ -257,7 +261,7 @@ export interface ListAccountsResponse {
 }
 
 export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       accounts: Schema.optional(Schema.Array(Account)),
@@ -268,9 +272,10 @@ export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListLocationAdminsResponse {
   /** A collection of Admins. */
@@ -278,7 +283,7 @@ export interface ListLocationAdminsResponse {
 }
 
 export const ListLocationAdminsResponse: Schema.Schema<ListLocationAdminsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       admins: Schema.optional(Schema.Array(Admin)),
     }),
@@ -292,7 +297,7 @@ export interface TransferLocationRequest {
 }
 
 export const TransferLocationRequest: Schema.Schema<TransferLocationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationAccount: Schema.optional(Schema.String),
     }),
@@ -306,7 +311,7 @@ export interface ListInvitationsResponse {
 }
 
 export const ListInvitationsResponse: Schema.Schema<ListInvitationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       invitations: Schema.optional(Schema.Array(Invitation)),
     }),
@@ -317,7 +322,7 @@ export const ListInvitationsResponse: Schema.Schema<ListInvitationsResponse> =
 export interface AcceptInvitationRequest {}
 
 export const AcceptInvitationRequest: Schema.Schema<AcceptInvitationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AcceptInvitationRequest",
   }) as any as Schema.Schema<AcceptInvitationRequest>;
 
@@ -336,7 +341,7 @@ export interface ListAccountsRequest {
   parentAccount?: string;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -349,7 +354,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse_Op = ListAccountsResponse;
-export const ListAccountsResponse_Op = ListAccountsResponse;
+export const ListAccountsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -359,7 +365,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse_Op,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -374,7 +380,7 @@ export interface GetAccountsRequest {
   name: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/accounts/{accountsId}" }),
@@ -382,7 +388,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = Account;
-export const GetAccountsResponse = Account;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -392,7 +398,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -403,7 +409,7 @@ export interface CreateAccountsRequest {
   body?: Account;
 }
 
-export const CreateAccountsRequest = Schema.Struct({
+export const CreateAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Account).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/accounts", hasBody: true }),
@@ -411,7 +417,7 @@ export const CreateAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateAccountsRequest>;
 
 export type CreateAccountsResponse = Account;
-export const CreateAccountsResponse = Account;
+export const CreateAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type CreateAccountsError = DefaultErrors;
 
@@ -421,7 +427,7 @@ export const createAccounts: API.OperationMethod<
   CreateAccountsResponse,
   CreateAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsRequest,
   output: CreateAccountsResponse,
   errors: [],
@@ -438,7 +444,7 @@ export interface PatchAccountsRequest {
   body?: Account;
 }
 
-export const PatchAccountsRequest = Schema.Struct({
+export const PatchAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   validateOnly: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("validateOnly"),
@@ -451,7 +457,7 @@ export const PatchAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchAccountsRequest>;
 
 export type PatchAccountsResponse = Account;
-export const PatchAccountsResponse = Account;
+export const PatchAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type PatchAccountsError = DefaultErrors;
 
@@ -461,7 +467,7 @@ export const patchAccounts: API.OperationMethod<
   PatchAccountsResponse,
   PatchAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
@@ -472,18 +478,19 @@ export interface DeleteAccountsAdminsRequest {
   name: string;
 }
 
-export const DeleteAccountsAdminsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accounts/{accountsId}/admins/{adminsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsAdminsRequest>;
+export const DeleteAccountsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accounts/{accountsId}/admins/{adminsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsAdminsRequest>;
 
 export type DeleteAccountsAdminsResponse = Empty;
-export const DeleteAccountsAdminsResponse = Empty;
+export const DeleteAccountsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsAdminsError = DefaultErrors;
 
@@ -493,7 +500,7 @@ export const deleteAccountsAdmins: API.OperationMethod<
   DeleteAccountsAdminsResponse,
   DeleteAccountsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsAdminsRequest,
   output: DeleteAccountsAdminsResponse,
   errors: [],
@@ -508,21 +515,22 @@ export interface PatchAccountsAdminsRequest {
   body?: Admin;
 }
 
-export const PatchAccountsAdminsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Admin).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/admins/{adminsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsAdminsRequest>;
+export const PatchAccountsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Admin).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/admins/{adminsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsAdminsRequest>;
 
 export type PatchAccountsAdminsResponse = Admin;
-export const PatchAccountsAdminsResponse = Admin;
+export const PatchAccountsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Admin;
 
 export type PatchAccountsAdminsError = DefaultErrors;
 
@@ -532,7 +540,7 @@ export const patchAccountsAdmins: API.OperationMethod<
   PatchAccountsAdminsResponse,
   PatchAccountsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsAdminsRequest,
   output: PatchAccountsAdminsResponse,
   errors: [],
@@ -545,20 +553,21 @@ export interface CreateAccountsAdminsRequest {
   body?: Admin;
 }
 
-export const CreateAccountsAdminsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Admin).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/admins",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdminsRequest>;
+export const CreateAccountsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Admin).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/admins",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAdminsRequest>;
 
 export type CreateAccountsAdminsResponse = Admin;
-export const CreateAccountsAdminsResponse = Admin;
+export const CreateAccountsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Admin;
 
 export type CreateAccountsAdminsError = DefaultErrors;
 
@@ -568,7 +577,7 @@ export const createAccountsAdmins: API.OperationMethod<
   CreateAccountsAdminsResponse,
   CreateAccountsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAdminsRequest,
   output: CreateAccountsAdminsResponse,
   errors: [],
@@ -579,15 +588,17 @@ export interface ListAccountsAdminsRequest {
   parent: string;
 }
 
-export const ListAccountsAdminsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/admins" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdminsRequest>;
+export const ListAccountsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/admins" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdminsRequest>;
 
 export type ListAccountsAdminsResponse = ListAccountAdminsResponse;
-export const ListAccountsAdminsResponse = ListAccountAdminsResponse;
+export const ListAccountsAdminsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountAdminsResponse;
 
 export type ListAccountsAdminsError = DefaultErrors;
 
@@ -597,7 +608,7 @@ export const listAccountsAdmins: API.OperationMethod<
   ListAccountsAdminsResponse,
   ListAccountsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsAdminsRequest,
   output: ListAccountsAdminsResponse,
   errors: [],
@@ -610,20 +621,22 @@ export interface DeclineAccountsInvitationsRequest {
   body?: DeclineInvitationRequest;
 }
 
-export const DeclineAccountsInvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeclineInvitationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/invitations/{invitationsId}:decline",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeclineAccountsInvitationsRequest>;
+export const DeclineAccountsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeclineInvitationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/invitations/{invitationsId}:decline",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeclineAccountsInvitationsRequest>;
 
 export type DeclineAccountsInvitationsResponse = Empty;
-export const DeclineAccountsInvitationsResponse = Empty;
+export const DeclineAccountsInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeclineAccountsInvitationsError = DefaultErrors;
 
@@ -633,7 +646,7 @@ export const declineAccountsInvitations: API.OperationMethod<
   DeclineAccountsInvitationsResponse,
   DeclineAccountsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeclineAccountsInvitationsRequest,
   output: DeclineAccountsInvitationsResponse,
   errors: [],
@@ -646,16 +659,18 @@ export interface ListAccountsInvitationsRequest {
   filter?: string;
 }
 
-export const ListAccountsInvitationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/invitations" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsInvitationsRequest>;
+export const ListAccountsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/invitations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsInvitationsRequest>;
 
 export type ListAccountsInvitationsResponse = ListInvitationsResponse;
-export const ListAccountsInvitationsResponse = ListInvitationsResponse;
+export const ListAccountsInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListInvitationsResponse;
 
 export type ListAccountsInvitationsError = DefaultErrors;
 
@@ -665,7 +680,7 @@ export const listAccountsInvitations: API.OperationMethod<
   ListAccountsInvitationsResponse,
   ListAccountsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsInvitationsRequest,
   output: ListAccountsInvitationsResponse,
   errors: [],
@@ -678,20 +693,22 @@ export interface AcceptAccountsInvitationsRequest {
   body?: AcceptInvitationRequest;
 }
 
-export const AcceptAccountsInvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AcceptInvitationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/invitations/{invitationsId}:accept",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcceptAccountsInvitationsRequest>;
+export const AcceptAccountsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AcceptInvitationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/invitations/{invitationsId}:accept",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptAccountsInvitationsRequest>;
 
 export type AcceptAccountsInvitationsResponse = Empty;
-export const AcceptAccountsInvitationsResponse = Empty;
+export const AcceptAccountsInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AcceptAccountsInvitationsError = DefaultErrors;
 
@@ -701,7 +718,7 @@ export const acceptAccountsInvitations: API.OperationMethod<
   AcceptAccountsInvitationsResponse,
   AcceptAccountsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAccountsInvitationsRequest,
   output: AcceptAccountsInvitationsResponse,
   errors: [],
@@ -714,20 +731,21 @@ export interface TransferLocationsRequest {
   body?: TransferLocationRequest;
 }
 
-export const TransferLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(TransferLocationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/locations/{locationsId}:transfer",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TransferLocationsRequest>;
+export const TransferLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(TransferLocationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/locations/{locationsId}:transfer",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TransferLocationsRequest>;
 
 export type TransferLocationsResponse = Empty;
-export const TransferLocationsResponse = Empty;
+export const TransferLocationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type TransferLocationsError = DefaultErrors;
 
@@ -737,7 +755,7 @@ export const transferLocations: API.OperationMethod<
   TransferLocationsResponse,
   TransferLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransferLocationsRequest,
   output: TransferLocationsResponse,
   errors: [],
@@ -750,20 +768,21 @@ export interface CreateLocationsAdminsRequest {
   body?: Admin;
 }
 
-export const CreateLocationsAdminsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Admin).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/locations/{locationsId}/admins",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateLocationsAdminsRequest>;
+export const CreateLocationsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Admin).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/locations/{locationsId}/admins",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateLocationsAdminsRequest>;
 
 export type CreateLocationsAdminsResponse = Admin;
-export const CreateLocationsAdminsResponse = Admin;
+export const CreateLocationsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Admin;
 
 export type CreateLocationsAdminsError = DefaultErrors;
 
@@ -773,7 +792,7 @@ export const createLocationsAdmins: API.OperationMethod<
   CreateLocationsAdminsResponse,
   CreateLocationsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationsAdminsRequest,
   output: CreateLocationsAdminsResponse,
   errors: [],
@@ -784,15 +803,17 @@ export interface ListLocationsAdminsRequest {
   parent: string;
 }
 
-export const ListLocationsAdminsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/locations/{locationsId}/admins" }),
-  svc,
-) as unknown as Schema.Schema<ListLocationsAdminsRequest>;
+export const ListLocationsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/locations/{locationsId}/admins" }),
+    svc,
+  ) as unknown as Schema.Schema<ListLocationsAdminsRequest>;
 
 export type ListLocationsAdminsResponse = ListLocationAdminsResponse;
-export const ListLocationsAdminsResponse = ListLocationAdminsResponse;
+export const ListLocationsAdminsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationAdminsResponse;
 
 export type ListLocationsAdminsError = DefaultErrors;
 
@@ -802,7 +823,7 @@ export const listLocationsAdmins: API.OperationMethod<
   ListLocationsAdminsResponse,
   ListLocationsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLocationsAdminsRequest,
   output: ListLocationsAdminsResponse,
   errors: [],
@@ -813,18 +834,19 @@ export interface DeleteLocationsAdminsRequest {
   name: string;
 }
 
-export const DeleteLocationsAdminsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/locations/{locationsId}/admins/{adminsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteLocationsAdminsRequest>;
+export const DeleteLocationsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/locations/{locationsId}/admins/{adminsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteLocationsAdminsRequest>;
 
 export type DeleteLocationsAdminsResponse = Empty;
-export const DeleteLocationsAdminsResponse = Empty;
+export const DeleteLocationsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteLocationsAdminsError = DefaultErrors;
 
@@ -834,7 +856,7 @@ export const deleteLocationsAdmins: API.OperationMethod<
   DeleteLocationsAdminsResponse,
   DeleteLocationsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationsAdminsRequest,
   output: DeleteLocationsAdminsResponse,
   errors: [],
@@ -849,21 +871,22 @@ export interface PatchLocationsAdminsRequest {
   body?: Admin;
 }
 
-export const PatchLocationsAdminsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Admin).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/locations/{locationsId}/admins/{adminsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchLocationsAdminsRequest>;
+export const PatchLocationsAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Admin).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/locations/{locationsId}/admins/{adminsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchLocationsAdminsRequest>;
 
 export type PatchLocationsAdminsResponse = Admin;
-export const PatchLocationsAdminsResponse = Admin;
+export const PatchLocationsAdminsResponse = /*@__PURE__*/ /*#__PURE__*/ Admin;
 
 export type PatchLocationsAdminsError = DefaultErrors;
 
@@ -873,7 +896,7 @@ export const patchLocationsAdmins: API.OperationMethod<
   PatchLocationsAdminsResponse,
   PatchLocationsAdminsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLocationsAdminsRequest,
   output: PatchLocationsAdminsResponse,
   errors: [],

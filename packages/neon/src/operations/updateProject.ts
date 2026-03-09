@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const UpdateProjectInput = Schema.Struct({
+export const UpdateProjectInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   project: Schema.Struct({
     settings: Schema.optional(
@@ -65,7 +65,7 @@ export const UpdateProjectInput = Schema.Struct({
 export type UpdateProjectInput = typeof UpdateProjectInput.Type;
 
 // Output Schema
-export const UpdateProjectOutput = Schema.Struct({
+export const UpdateProjectOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project: Schema.Struct({
     data_storage_bytes_hour: Schema.Number,
     data_transfer_bytes: Schema.Number,

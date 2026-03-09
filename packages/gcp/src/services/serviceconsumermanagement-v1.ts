@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -86,14 +88,15 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -103,7 +106,7 @@ export interface CreateTenancyUnitRequest {
 }
 
 export const CreateTenancyUnitRequest: Schema.Schema<CreateTenancyUnitRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tenancyUnitId: Schema.optional(Schema.String),
     }),
@@ -129,17 +132,17 @@ export interface TenantResource {
   migratedTenantProject?: string;
 }
 
-export const TenantResource: Schema.Schema<TenantResource> = Schema.suspend(
-  () =>
+export const TenantResource: Schema.Schema<TenantResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
       migratedTenantProject: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TenantResource",
-}) as any as Schema.Schema<TenantResource>;
+  ).annotate({
+    identifier: "TenantResource",
+  }) as any as Schema.Schema<TenantResource>;
 
 export interface TenancyUnit {
   /** Globally unique identifier of this tenancy unit "services/{service}/{collection id}/{resource id}/tenancyUnits/{unit}" */
@@ -154,15 +157,18 @@ export interface TenancyUnit {
   tenantResources?: Array<TenantResource>;
 }
 
-export const TenancyUnit: Schema.Schema<TenancyUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    service: Schema.optional(Schema.String),
-    consumer: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    tenantResources: Schema.optional(Schema.Array(TenantResource)),
-  }),
-).annotate({ identifier: "TenancyUnit" }) as any as Schema.Schema<TenancyUnit>;
+export const TenancyUnit: Schema.Schema<TenancyUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      consumer: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      tenantResources: Schema.optional(Schema.Array(TenantResource)),
+    }),
+  ).annotate({
+    identifier: "TenancyUnit",
+  }) as any as Schema.Schema<TenancyUnit>;
 
 export interface ListTenancyUnitsResponse {
   /** Tenancy units matching the request. */
@@ -172,7 +178,7 @@ export interface ListTenancyUnitsResponse {
 }
 
 export const ListTenancyUnitsResponse: Schema.Schema<ListTenancyUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tenancyUnits: Schema.optional(Schema.Array(TenancyUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -189,7 +195,7 @@ export interface SearchTenancyUnitsResponse {
 }
 
 export const SearchTenancyUnitsResponse: Schema.Schema<SearchTenancyUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tenancyUnits: Schema.optional(Schema.Array(TenancyUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -205,14 +211,15 @@ export interface PolicyBinding {
   members?: Array<string>;
 }
 
-export const PolicyBinding: Schema.Schema<PolicyBinding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "PolicyBinding",
-}) as any as Schema.Schema<PolicyBinding>;
+export const PolicyBinding: Schema.Schema<PolicyBinding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PolicyBinding",
+  }) as any as Schema.Schema<PolicyBinding>;
 
 export interface TenantProjectPolicy {
   /** Policy bindings to be applied to the tenant project, in addition to the 'roles/owner' role granted to the Service Consumer Management service account. */
@@ -220,7 +227,7 @@ export interface TenantProjectPolicy {
 }
 
 export const TenantProjectPolicy: Schema.Schema<TenantProjectPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyBindings: Schema.optional(Schema.Array(PolicyBinding)),
     }),
@@ -233,13 +240,14 @@ export interface BillingConfig {
   billingAccount?: string;
 }
 
-export const BillingConfig: Schema.Schema<BillingConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    billingAccount: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "BillingConfig",
-}) as any as Schema.Schema<BillingConfig>;
+export const BillingConfig: Schema.Schema<BillingConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      billingAccount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BillingConfig",
+  }) as any as Schema.Schema<BillingConfig>;
 
 export interface ServiceAccountConfig {
   /** ID of the IAM service account to be created in tenant project. The email format of the service account is "@.iam.gserviceaccount.com". This account ID must be unique within tenant project and service producers have to guarantee it. The ID must be 6-30 characters long, and match the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])`. */
@@ -249,7 +257,7 @@ export interface ServiceAccountConfig {
 }
 
 export const ServiceAccountConfig: Schema.Schema<ServiceAccountConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       tenantProjectRoles: Schema.optional(Schema.Array(Schema.String)),
@@ -274,7 +282,7 @@ export interface TenantProjectConfig {
 }
 
 export const TenantProjectConfig: Schema.Schema<TenantProjectConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       folder: Schema.optional(Schema.String),
       tenantProjectPolicy: Schema.optional(TenantProjectPolicy),
@@ -295,7 +303,7 @@ export interface AddTenantProjectRequest {
 }
 
 export const AddTenantProjectRequest: Schema.Schema<AddTenantProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       projectConfig: Schema.optional(TenantProjectConfig),
@@ -310,7 +318,7 @@ export interface RemoveTenantProjectRequest {
 }
 
 export const RemoveTenantProjectRequest: Schema.Schema<RemoveTenantProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
     }),
@@ -326,7 +334,7 @@ export interface ApplyTenantProjectConfigRequest {
 }
 
 export const ApplyTenantProjectConfigRequest: Schema.Schema<ApplyTenantProjectConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       projectConfig: Schema.optional(TenantProjectConfig),
@@ -345,7 +353,7 @@ export interface AttachTenantProjectRequest {
 }
 
 export const AttachTenantProjectRequest: Schema.Schema<AttachTenantProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       reservedResource: Schema.optional(Schema.String),
@@ -361,7 +369,7 @@ export interface DeleteTenantProjectRequest {
 }
 
 export const DeleteTenantProjectRequest: Schema.Schema<DeleteTenantProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
     }),
@@ -375,7 +383,7 @@ export interface UndeleteTenantProjectRequest {
 }
 
 export const UndeleteTenantProjectRequest: Schema.Schema<UndeleteTenantProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
     }),
@@ -390,12 +398,13 @@ export interface Option {
   value?: Record<string, unknown>;
 }
 
-export const Option: Schema.Schema<Option> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Option" }) as any as Schema.Schema<Option>;
+export const Option: Schema.Schema<Option> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Option" }) as any as Schema.Schema<Option>;
 
 export interface Method {
   /** The simple name of this method. */
@@ -420,31 +429,33 @@ export interface Method {
   edition?: string;
 }
 
-export const Method: Schema.Schema<Method> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    requestTypeUrl: Schema.optional(Schema.String),
-    requestStreaming: Schema.optional(Schema.Boolean),
-    responseTypeUrl: Schema.optional(Schema.String),
-    responseStreaming: Schema.optional(Schema.Boolean),
-    options: Schema.optional(Schema.Array(Option)),
-    syntax: Schema.optional(Schema.String),
-    edition: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Method" }) as any as Schema.Schema<Method>;
+export const Method: Schema.Schema<Method> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      requestTypeUrl: Schema.optional(Schema.String),
+      requestStreaming: Schema.optional(Schema.Boolean),
+      responseTypeUrl: Schema.optional(Schema.String),
+      responseStreaming: Schema.optional(Schema.Boolean),
+      options: Schema.optional(Schema.Array(Option)),
+      syntax: Schema.optional(Schema.String),
+      edition: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Method" }) as any as Schema.Schema<Method>;
 
 export interface SourceContext {
   /** The path-qualified name of the .proto file that contained the associated protobuf element. For example: `"google/protobuf/source_context.proto"`. */
   fileName?: string;
 }
 
-export const SourceContext: Schema.Schema<SourceContext> = Schema.suspend(() =>
-  Schema.Struct({
-    fileName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SourceContext",
-}) as any as Schema.Schema<SourceContext>;
+export const SourceContext: Schema.Schema<SourceContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SourceContext",
+  }) as any as Schema.Schema<SourceContext>;
 
 export interface Mixin {
   /** The fully qualified name of the interface which is included. */
@@ -453,12 +464,13 @@ export interface Mixin {
   root?: string;
 }
 
-export const Mixin: Schema.Schema<Mixin> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    root: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Mixin" }) as any as Schema.Schema<Mixin>;
+export const Mixin: Schema.Schema<Mixin> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      root: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Mixin" }) as any as Schema.Schema<Mixin>;
 
 export interface Api {
   /** The fully qualified name of this interface, including package name followed by the interface's simple name. */
@@ -483,18 +495,19 @@ export interface Api {
   edition?: string;
 }
 
-export const Api: Schema.Schema<Api> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    methods: Schema.optional(Schema.Array(Method)),
-    options: Schema.optional(Schema.Array(Option)),
-    version: Schema.optional(Schema.String),
-    sourceContext: Schema.optional(SourceContext),
-    mixins: Schema.optional(Schema.Array(Mixin)),
-    syntax: Schema.optional(Schema.String),
-    edition: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Api" }) as any as Schema.Schema<Api>;
+export const Api: Schema.Schema<Api> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      methods: Schema.optional(Schema.Array(Method)),
+      options: Schema.optional(Schema.Array(Option)),
+      version: Schema.optional(Schema.String),
+      sourceContext: Schema.optional(SourceContext),
+      mixins: Schema.optional(Schema.Array(Mixin)),
+      syntax: Schema.optional(Schema.String),
+      edition: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Api" }) as any as Schema.Schema<Api>;
 
 export interface Field {
   /** The field type. */
@@ -544,20 +557,21 @@ export interface Field {
   defaultValue?: string;
 }
 
-export const Field: Schema.Schema<Field> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    cardinality: Schema.optional(Schema.String),
-    number: Schema.optional(Schema.Number),
-    name: Schema.optional(Schema.String),
-    typeUrl: Schema.optional(Schema.String),
-    oneofIndex: Schema.optional(Schema.Number),
-    packed: Schema.optional(Schema.Boolean),
-    options: Schema.optional(Schema.Array(Option)),
-    jsonName: Schema.optional(Schema.String),
-    defaultValue: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Field" }) as any as Schema.Schema<Field>;
+export const Field: Schema.Schema<Field> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      cardinality: Schema.optional(Schema.String),
+      number: Schema.optional(Schema.Number),
+      name: Schema.optional(Schema.String),
+      typeUrl: Schema.optional(Schema.String),
+      oneofIndex: Schema.optional(Schema.Number),
+      packed: Schema.optional(Schema.Boolean),
+      options: Schema.optional(Schema.Array(Option)),
+      jsonName: Schema.optional(Schema.String),
+      defaultValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Field" }) as any as Schema.Schema<Field>;
 
 export interface Type {
   /** The fully qualified message name. */
@@ -580,17 +594,18 @@ export interface Type {
   edition?: string;
 }
 
-export const Type: Schema.Schema<Type> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    fields: Schema.optional(Schema.Array(Field)),
-    oneofs: Schema.optional(Schema.Array(Schema.String)),
-    options: Schema.optional(Schema.Array(Option)),
-    sourceContext: Schema.optional(SourceContext),
-    syntax: Schema.optional(Schema.String),
-    edition: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Type" }) as any as Schema.Schema<Type>;
+export const Type: Schema.Schema<Type> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Array(Field)),
+      oneofs: Schema.optional(Schema.Array(Schema.String)),
+      options: Schema.optional(Schema.Array(Option)),
+      sourceContext: Schema.optional(SourceContext),
+      syntax: Schema.optional(Schema.String),
+      edition: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Type" }) as any as Schema.Schema<Type>;
 
 export interface EnumValue {
   /** Enum value name. */
@@ -601,13 +616,14 @@ export interface EnumValue {
   options?: Array<Option>;
 }
 
-export const EnumValue: Schema.Schema<EnumValue> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    number: Schema.optional(Schema.Number),
-    options: Schema.optional(Schema.Array(Option)),
-  }),
-).annotate({ identifier: "EnumValue" }) as any as Schema.Schema<EnumValue>;
+export const EnumValue: Schema.Schema<EnumValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      number: Schema.optional(Schema.Number),
+      options: Schema.optional(Schema.Array(Option)),
+    }),
+  ).annotate({ identifier: "EnumValue" }) as any as Schema.Schema<EnumValue>;
 
 export interface Enum {
   /** Enum type name. */
@@ -628,16 +644,17 @@ export interface Enum {
   edition?: string;
 }
 
-export const Enum: Schema.Schema<Enum> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    enumvalue: Schema.optional(Schema.Array(EnumValue)),
-    options: Schema.optional(Schema.Array(Option)),
-    sourceContext: Schema.optional(SourceContext),
-    syntax: Schema.optional(Schema.String),
-    edition: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Enum" }) as any as Schema.Schema<Enum>;
+export const Enum: Schema.Schema<Enum> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      enumvalue: Schema.optional(Schema.Array(EnumValue)),
+      options: Schema.optional(Schema.Array(Option)),
+      sourceContext: Schema.optional(SourceContext),
+      syntax: Schema.optional(Schema.String),
+      edition: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Enum" }) as any as Schema.Schema<Enum>;
 
 export interface Page {
   /** The name of the page. It will be used as an identity of the page to generate URI of the page, text of the link to this page in navigation, etc. The full page name (start from the root page name to this page concatenated with `.`) can be used as reference to the page in your documentation. For example: pages: - name: Tutorial content: (== include tutorial.md ==) subpages: - name: Java content: (== include tutorial_java.md ==) You can reference `Java` page using Markdown reference link syntax: `Java`. */
@@ -648,13 +665,14 @@ export interface Page {
   subpages?: Array<Page>;
 }
 
-export const Page: Schema.Schema<Page> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    subpages: Schema.optional(Schema.Array(Page)),
-  }),
-).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
+export const Page: Schema.Schema<Page> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      subpages: Schema.optional(Schema.Array(Page)),
+    }),
+  ).annotate({ identifier: "Page" }) as any as Schema.Schema<Page>;
 
 export interface DocumentationRule {
   /** The selector is a comma-separated list of patterns for any element such as a method, a field, an enum value. Each pattern is a qualified name of the element which may end in "*", indicating a wildcard. Wildcards are only allowed at the end and for a whole component of the qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A wildcard will match one or more components. To specify a default for all applicable elements, the whole pattern "*" is used. */
@@ -668,7 +686,7 @@ export interface DocumentationRule {
 }
 
 export const DocumentationRule: Schema.Schema<DocumentationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selector: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -698,20 +716,21 @@ export interface Documentation {
   sectionOverrides?: Array<Page>;
 }
 
-export const Documentation: Schema.Schema<Documentation> = Schema.suspend(() =>
-  Schema.Struct({
-    summary: Schema.optional(Schema.String),
-    pages: Schema.optional(Schema.Array(Page)),
-    rules: Schema.optional(Schema.Array(DocumentationRule)),
-    documentationRootUrl: Schema.optional(Schema.String),
-    serviceRootUrl: Schema.optional(Schema.String),
-    overview: Schema.optional(Schema.String),
-    additionalIamInfo: Schema.optional(Schema.String),
-    sectionOverrides: Schema.optional(Schema.Array(Page)),
-  }),
-).annotate({
-  identifier: "Documentation",
-}) as any as Schema.Schema<Documentation>;
+export const Documentation: Schema.Schema<Documentation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      summary: Schema.optional(Schema.String),
+      pages: Schema.optional(Schema.Array(Page)),
+      rules: Schema.optional(Schema.Array(DocumentationRule)),
+      documentationRootUrl: Schema.optional(Schema.String),
+      serviceRootUrl: Schema.optional(Schema.String),
+      overview: Schema.optional(Schema.String),
+      additionalIamInfo: Schema.optional(Schema.String),
+      sectionOverrides: Schema.optional(Schema.Array(Page)),
+    }),
+  ).annotate({
+    identifier: "Documentation",
+  }) as any as Schema.Schema<Documentation>;
 
 export interface BackendRule {
   /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
@@ -742,34 +761,38 @@ export interface BackendRule {
   loadBalancingPolicy?: string;
 }
 
-export const BackendRule: Schema.Schema<BackendRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    address: Schema.optional(Schema.String),
-    deadline: Schema.optional(Schema.Number),
-    minDeadline: Schema.optional(Schema.Number),
-    operationDeadline: Schema.optional(Schema.Number),
-    pathTranslation: Schema.optional(Schema.String),
-    jwtAudience: Schema.optional(Schema.String),
-    disableAuth: Schema.optional(Schema.Boolean),
-    protocol: Schema.optional(Schema.String),
-    overridesByRequestProtocol: Schema.optional(
-      Schema.Record(Schema.String, BackendRule),
-    ),
-    loadBalancingPolicy: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "BackendRule" }) as any as Schema.Schema<BackendRule>;
+export const BackendRule: Schema.Schema<BackendRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      deadline: Schema.optional(Schema.Number),
+      minDeadline: Schema.optional(Schema.Number),
+      operationDeadline: Schema.optional(Schema.Number),
+      pathTranslation: Schema.optional(Schema.String),
+      jwtAudience: Schema.optional(Schema.String),
+      disableAuth: Schema.optional(Schema.Boolean),
+      protocol: Schema.optional(Schema.String),
+      overridesByRequestProtocol: Schema.optional(
+        Schema.Record(Schema.String, BackendRule),
+      ),
+      loadBalancingPolicy: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BackendRule",
+  }) as any as Schema.Schema<BackendRule>;
 
 export interface Backend {
   /** A list of API backend rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
   rules?: Array<BackendRule>;
 }
 
-export const Backend: Schema.Schema<Backend> = Schema.suspend(() =>
-  Schema.Struct({
-    rules: Schema.optional(Schema.Array(BackendRule)),
-  }),
-).annotate({ identifier: "Backend" }) as any as Schema.Schema<Backend>;
+export const Backend: Schema.Schema<Backend> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rules: Schema.optional(Schema.Array(BackendRule)),
+    }),
+  ).annotate({ identifier: "Backend" }) as any as Schema.Schema<Backend>;
 
 export interface CustomHttpPattern {
   /** The name of this custom HTTP verb. */
@@ -779,7 +802,7 @@ export interface CustomHttpPattern {
 }
 
 export const CustomHttpPattern: Schema.Schema<CustomHttpPattern> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
@@ -811,20 +834,21 @@ export interface HttpRule {
   additionalBindings?: Array<HttpRule>;
 }
 
-export const HttpRule: Schema.Schema<HttpRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    get: Schema.optional(Schema.String),
-    put: Schema.optional(Schema.String),
-    post: Schema.optional(Schema.String),
-    delete: Schema.optional(Schema.String),
-    patch: Schema.optional(Schema.String),
-    custom: Schema.optional(CustomHttpPattern),
-    body: Schema.optional(Schema.String),
-    responseBody: Schema.optional(Schema.String),
-    additionalBindings: Schema.optional(Schema.Array(HttpRule)),
-  }),
-).annotate({ identifier: "HttpRule" }) as any as Schema.Schema<HttpRule>;
+export const HttpRule: Schema.Schema<HttpRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      get: Schema.optional(Schema.String),
+      put: Schema.optional(Schema.String),
+      post: Schema.optional(Schema.String),
+      delete: Schema.optional(Schema.String),
+      patch: Schema.optional(Schema.String),
+      custom: Schema.optional(CustomHttpPattern),
+      body: Schema.optional(Schema.String),
+      responseBody: Schema.optional(Schema.String),
+      additionalBindings: Schema.optional(Schema.Array(HttpRule)),
+    }),
+  ).annotate({ identifier: "HttpRule" }) as any as Schema.Schema<HttpRule>;
 
 export interface Http {
   /** A list of HTTP configuration rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
@@ -833,12 +857,13 @@ export interface Http {
   fullyDecodeReservedExpansion?: boolean;
 }
 
-export const Http: Schema.Schema<Http> = Schema.suspend(() =>
-  Schema.Struct({
-    rules: Schema.optional(Schema.Array(HttpRule)),
-    fullyDecodeReservedExpansion: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Http" }) as any as Schema.Schema<Http>;
+export const Http: Schema.Schema<Http> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rules: Schema.optional(Schema.Array(HttpRule)),
+      fullyDecodeReservedExpansion: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Http" }) as any as Schema.Schema<Http>;
 
 export interface QuotaLimit {
   /** Name of the quota limit. The name must be provided, and it must be unique within the service. The name can only include alphanumeric characters as well as '-'. The maximum length of the limit name is 64 characters. */
@@ -863,20 +888,21 @@ export interface QuotaLimit {
   displayName?: string;
 }
 
-export const QuotaLimit: Schema.Schema<QuotaLimit> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    defaultLimit: Schema.optional(Schema.String),
-    maxLimit: Schema.optional(Schema.String),
-    freeTier: Schema.optional(Schema.String),
-    duration: Schema.optional(Schema.String),
-    metric: Schema.optional(Schema.String),
-    unit: Schema.optional(Schema.String),
-    values: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "QuotaLimit" }) as any as Schema.Schema<QuotaLimit>;
+export const QuotaLimit: Schema.Schema<QuotaLimit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      defaultLimit: Schema.optional(Schema.String),
+      maxLimit: Schema.optional(Schema.String),
+      freeTier: Schema.optional(Schema.String),
+      duration: Schema.optional(Schema.String),
+      metric: Schema.optional(Schema.String),
+      unit: Schema.optional(Schema.String),
+      values: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "QuotaLimit" }) as any as Schema.Schema<QuotaLimit>;
 
 export interface MetricRule {
   /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
@@ -885,12 +911,13 @@ export interface MetricRule {
   metricCosts?: Record<string, string>;
 }
 
-export const MetricRule: Schema.Schema<MetricRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    metricCosts: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({ identifier: "MetricRule" }) as any as Schema.Schema<MetricRule>;
+export const MetricRule: Schema.Schema<MetricRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      metricCosts: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({ identifier: "MetricRule" }) as any as Schema.Schema<MetricRule>;
 
 export interface Quota {
   /** List of QuotaLimit definitions for the service. */
@@ -899,12 +926,13 @@ export interface Quota {
   metricRules?: Array<MetricRule>;
 }
 
-export const Quota: Schema.Schema<Quota> = Schema.suspend(() =>
-  Schema.Struct({
-    limits: Schema.optional(Schema.Array(QuotaLimit)),
-    metricRules: Schema.optional(Schema.Array(MetricRule)),
-  }),
-).annotate({ identifier: "Quota" }) as any as Schema.Schema<Quota>;
+export const Quota: Schema.Schema<Quota> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      limits: Schema.optional(Schema.Array(QuotaLimit)),
+      metricRules: Schema.optional(Schema.Array(MetricRule)),
+    }),
+  ).annotate({ identifier: "Quota" }) as any as Schema.Schema<Quota>;
 
 export interface OAuthRequirements {
   /** The list of publicly documented OAuth scopes that are allowed access. An OAuth token containing any of these scopes will be accepted. Example: canonical_scopes: https://www.googleapis.com/auth/calendar, https://www.googleapis.com/auth/calendar.read */
@@ -912,7 +940,7 @@ export interface OAuthRequirements {
 }
 
 export const OAuthRequirements: Schema.Schema<OAuthRequirements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       canonicalScopes: Schema.optional(Schema.String),
     }),
@@ -927,15 +955,15 @@ export interface AuthRequirement {
   audiences?: string;
 }
 
-export const AuthRequirement: Schema.Schema<AuthRequirement> = Schema.suspend(
-  () =>
+export const AuthRequirement: Schema.Schema<AuthRequirement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       providerId: Schema.optional(Schema.String),
       audiences: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AuthRequirement",
-}) as any as Schema.Schema<AuthRequirement>;
+  ).annotate({
+    identifier: "AuthRequirement",
+  }) as any as Schema.Schema<AuthRequirement>;
 
 export interface AuthenticationRule {
   /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
@@ -949,7 +977,7 @@ export interface AuthenticationRule {
 }
 
 export const AuthenticationRule: Schema.Schema<AuthenticationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selector: Schema.optional(Schema.String),
       oauth: Schema.optional(OAuthRequirements),
@@ -971,14 +999,17 @@ export interface JwtLocation {
   valuePrefix?: string;
 }
 
-export const JwtLocation: Schema.Schema<JwtLocation> = Schema.suspend(() =>
-  Schema.Struct({
-    header: Schema.optional(Schema.String),
-    query: Schema.optional(Schema.String),
-    cookie: Schema.optional(Schema.String),
-    valuePrefix: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "JwtLocation" }) as any as Schema.Schema<JwtLocation>;
+export const JwtLocation: Schema.Schema<JwtLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      header: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+      cookie: Schema.optional(Schema.String),
+      valuePrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "JwtLocation",
+  }) as any as Schema.Schema<JwtLocation>;
 
 export interface AuthProvider {
   /** The unique identifier of the auth provider. It will be referred to by `AuthRequirement.provider_id`. Example: "bookstore_auth". */
@@ -995,18 +1026,19 @@ export interface AuthProvider {
   jwtLocations?: Array<JwtLocation>;
 }
 
-export const AuthProvider: Schema.Schema<AuthProvider> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    issuer: Schema.optional(Schema.String),
-    jwksUri: Schema.optional(Schema.String),
-    audiences: Schema.optional(Schema.String),
-    authorizationUrl: Schema.optional(Schema.String),
-    jwtLocations: Schema.optional(Schema.Array(JwtLocation)),
-  }),
-).annotate({
-  identifier: "AuthProvider",
-}) as any as Schema.Schema<AuthProvider>;
+export const AuthProvider: Schema.Schema<AuthProvider> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      issuer: Schema.optional(Schema.String),
+      jwksUri: Schema.optional(Schema.String),
+      audiences: Schema.optional(Schema.String),
+      authorizationUrl: Schema.optional(Schema.String),
+      jwtLocations: Schema.optional(Schema.Array(JwtLocation)),
+    }),
+  ).annotate({
+    identifier: "AuthProvider",
+  }) as any as Schema.Schema<AuthProvider>;
 
 export interface Authentication {
   /** A list of authentication rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
@@ -1015,15 +1047,15 @@ export interface Authentication {
   providers?: Array<AuthProvider>;
 }
 
-export const Authentication: Schema.Schema<Authentication> = Schema.suspend(
-  () =>
+export const Authentication: Schema.Schema<Authentication> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rules: Schema.optional(Schema.Array(AuthenticationRule)),
       providers: Schema.optional(Schema.Array(AuthProvider)),
     }),
-).annotate({
-  identifier: "Authentication",
-}) as any as Schema.Schema<Authentication>;
+  ).annotate({
+    identifier: "Authentication",
+  }) as any as Schema.Schema<Authentication>;
 
 export interface ContextRule {
   /** Selects the methods to which this rule applies. Refer to selector for syntax details. */
@@ -1038,26 +1070,30 @@ export interface ContextRule {
   allowedResponseExtensions?: Array<string>;
 }
 
-export const ContextRule: Schema.Schema<ContextRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    requested: Schema.optional(Schema.Array(Schema.String)),
-    provided: Schema.optional(Schema.Array(Schema.String)),
-    allowedRequestExtensions: Schema.optional(Schema.Array(Schema.String)),
-    allowedResponseExtensions: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "ContextRule" }) as any as Schema.Schema<ContextRule>;
+export const ContextRule: Schema.Schema<ContextRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      requested: Schema.optional(Schema.Array(Schema.String)),
+      provided: Schema.optional(Schema.Array(Schema.String)),
+      allowedRequestExtensions: Schema.optional(Schema.Array(Schema.String)),
+      allowedResponseExtensions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ContextRule",
+  }) as any as Schema.Schema<ContextRule>;
 
 export interface Context {
   /** A list of RPC context rules that apply to individual API methods. **NOTE:** All service configuration rules follow "last one wins" order. */
   rules?: Array<ContextRule>;
 }
 
-export const Context: Schema.Schema<Context> = Schema.suspend(() =>
-  Schema.Struct({
-    rules: Schema.optional(Schema.Array(ContextRule)),
-  }),
-).annotate({ identifier: "Context" }) as any as Schema.Schema<Context>;
+export const Context: Schema.Schema<Context> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rules: Schema.optional(Schema.Array(ContextRule)),
+    }),
+  ).annotate({ identifier: "Context" }) as any as Schema.Schema<Context>;
 
 export interface UsageRule {
   /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
@@ -1068,13 +1104,14 @@ export interface UsageRule {
   skipServiceControl?: boolean;
 }
 
-export const UsageRule: Schema.Schema<UsageRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    allowUnregisteredCalls: Schema.optional(Schema.Boolean),
-    skipServiceControl: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "UsageRule" }) as any as Schema.Schema<UsageRule>;
+export const UsageRule: Schema.Schema<UsageRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      allowUnregisteredCalls: Schema.optional(Schema.Boolean),
+      skipServiceControl: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "UsageRule" }) as any as Schema.Schema<UsageRule>;
 
 export interface Usage {
   /** Requirements that must be satisfied before a consumer project can use the service. Each requirement is of the form /; for example 'serviceusage.googleapis.com/billing-enabled'. For Google APIs, a Terms of Service requirement must be included here. Google Cloud APIs must include "serviceusage.googleapis.com/tos/cloud". Other Google APIs should include "serviceusage.googleapis.com/tos/universal". Additional ToS can be included based on the business needs. */
@@ -1085,13 +1122,14 @@ export interface Usage {
   producerNotificationChannel?: string;
 }
 
-export const Usage: Schema.Schema<Usage> = Schema.suspend(() =>
-  Schema.Struct({
-    requirements: Schema.optional(Schema.Array(Schema.String)),
-    rules: Schema.optional(Schema.Array(UsageRule)),
-    producerNotificationChannel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Usage" }) as any as Schema.Schema<Usage>;
+export const Usage: Schema.Schema<Usage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requirements: Schema.optional(Schema.Array(Schema.String)),
+      rules: Schema.optional(Schema.Array(UsageRule)),
+      producerNotificationChannel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Usage" }) as any as Schema.Schema<Usage>;
 
 export interface CustomErrorRule {
   /** Selects messages to which this rule applies. Refer to selector for syntax details. */
@@ -1100,15 +1138,15 @@ export interface CustomErrorRule {
   isErrorType?: boolean;
 }
 
-export const CustomErrorRule: Schema.Schema<CustomErrorRule> = Schema.suspend(
-  () =>
+export const CustomErrorRule: Schema.Schema<CustomErrorRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selector: Schema.optional(Schema.String),
       isErrorType: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "CustomErrorRule",
-}) as any as Schema.Schema<CustomErrorRule>;
+  ).annotate({
+    identifier: "CustomErrorRule",
+  }) as any as Schema.Schema<CustomErrorRule>;
 
 export interface CustomError {
   /** The list of custom error rules that apply to individual API messages. **NOTE:** All service configuration rules follow "last one wins" order. */
@@ -1117,12 +1155,15 @@ export interface CustomError {
   types?: Array<string>;
 }
 
-export const CustomError: Schema.Schema<CustomError> = Schema.suspend(() =>
-  Schema.Struct({
-    rules: Schema.optional(Schema.Array(CustomErrorRule)),
-    types: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "CustomError" }) as any as Schema.Schema<CustomError>;
+export const CustomError: Schema.Schema<CustomError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rules: Schema.optional(Schema.Array(CustomErrorRule)),
+      types: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CustomError",
+  }) as any as Schema.Schema<CustomError>;
 
 export interface Endpoint {
   /** The canonical name of this endpoint. */
@@ -1135,14 +1176,15 @@ export interface Endpoint {
   allowCors?: boolean;
 }
 
-export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    aliases: Schema.optional(Schema.Array(Schema.String)),
-    target: Schema.optional(Schema.String),
-    allowCors: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
+export const Endpoint: Schema.Schema<Endpoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      aliases: Schema.optional(Schema.Array(Schema.String)),
+      target: Schema.optional(Schema.String),
+      allowCors: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
 
 export interface FieldPolicy {
   /** Selects one or more request or response message fields to apply this `FieldPolicy`. When a `FieldPolicy` is used in proto annotation, the selector must be left as empty. The service config generator will automatically fill the correct value. When a `FieldPolicy` is used in service config, the selector must be a comma-separated string with valid request or response field paths, such as "foo.bar" or "foo.bar,foo.baz". */
@@ -1153,13 +1195,16 @@ export interface FieldPolicy {
   resourceType?: string;
 }
 
-export const FieldPolicy: Schema.Schema<FieldPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    resourcePermission: Schema.optional(Schema.String),
-    resourceType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FieldPolicy" }) as any as Schema.Schema<FieldPolicy>;
+export const FieldPolicy: Schema.Schema<FieldPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      resourcePermission: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FieldPolicy",
+  }) as any as Schema.Schema<FieldPolicy>;
 
 export interface MethodPolicy {
   /** Selects a method to which these policies should be enforced, for example, "google.pubsub.v1.Subscriber.CreateSubscription". Refer to selector for syntax details. NOTE: This field must not be set in the proto annotation. It will be automatically filled by the service config compiler . */
@@ -1168,14 +1213,15 @@ export interface MethodPolicy {
   requestPolicies?: Array<FieldPolicy>;
 }
 
-export const MethodPolicy: Schema.Schema<MethodPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    requestPolicies: Schema.optional(Schema.Array(FieldPolicy)),
-  }),
-).annotate({
-  identifier: "MethodPolicy",
-}) as any as Schema.Schema<MethodPolicy>;
+export const MethodPolicy: Schema.Schema<MethodPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      requestPolicies: Schema.optional(Schema.Array(FieldPolicy)),
+    }),
+  ).annotate({
+    identifier: "MethodPolicy",
+  }) as any as Schema.Schema<MethodPolicy>;
 
 export interface Control {
   /** The service controller environment to use. If empty, no control plane features (like quota and billing) will be enabled. The recommended value for most services is servicecontrol.googleapis.com. */
@@ -1184,12 +1230,13 @@ export interface Control {
   methodPolicies?: Array<MethodPolicy>;
 }
 
-export const Control: Schema.Schema<Control> = Schema.suspend(() =>
-  Schema.Struct({
-    environment: Schema.optional(Schema.String),
-    methodPolicies: Schema.optional(Schema.Array(MethodPolicy)),
-  }),
-).annotate({ identifier: "Control" }) as any as Schema.Schema<Control>;
+export const Control: Schema.Schema<Control> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      environment: Schema.optional(Schema.String),
+      methodPolicies: Schema.optional(Schema.Array(MethodPolicy)),
+    }),
+  ).annotate({ identifier: "Control" }) as any as Schema.Schema<Control>;
 
 export interface LabelDescriptor {
   /** The label key. */
@@ -1200,16 +1247,16 @@ export interface LabelDescriptor {
   description?: string;
 }
 
-export const LabelDescriptor: Schema.Schema<LabelDescriptor> = Schema.suspend(
-  () =>
+export const LabelDescriptor: Schema.Schema<LabelDescriptor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       valueType: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LabelDescriptor",
-}) as any as Schema.Schema<LabelDescriptor>;
+  ).annotate({
+    identifier: "LabelDescriptor",
+  }) as any as Schema.Schema<LabelDescriptor>;
 
 export interface LogDescriptor {
   /** The name of the log. It must be less than 512 characters long and can include the following characters: upper- and lower-case alphanumeric characters [A-Za-z0-9], and punctuation characters including slash, underscore, hyphen, period [/_-.]. */
@@ -1222,16 +1269,17 @@ export interface LogDescriptor {
   displayName?: string;
 }
 
-export const LogDescriptor: Schema.Schema<LogDescriptor> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Array(LabelDescriptor)),
-    description: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LogDescriptor",
-}) as any as Schema.Schema<LogDescriptor>;
+export const LogDescriptor: Schema.Schema<LogDescriptor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Array(LabelDescriptor)),
+      description: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LogDescriptor",
+  }) as any as Schema.Schema<LogDescriptor>;
 
 export interface MetricDescriptorMetadata {
   /** Deprecated. Must use the MetricDescriptor.launch_stage instead. */
@@ -1260,7 +1308,7 @@ export interface MetricDescriptorMetadata {
 }
 
 export const MetricDescriptorMetadata: Schema.Schema<MetricDescriptorMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       launchStage: Schema.optional(Schema.String),
       samplePeriod: Schema.optional(Schema.String),
@@ -1320,8 +1368,8 @@ export interface MetricDescriptor {
   monitoredResourceTypes?: Array<string>;
 }
 
-export const MetricDescriptor: Schema.Schema<MetricDescriptor> = Schema.suspend(
-  () =>
+export const MetricDescriptor: Schema.Schema<MetricDescriptor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -1335,9 +1383,9 @@ export const MetricDescriptor: Schema.Schema<MetricDescriptor> = Schema.suspend(
       launchStage: Schema.optional(Schema.String),
       monitoredResourceTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "MetricDescriptor",
-}) as any as Schema.Schema<MetricDescriptor>;
+  ).annotate({
+    identifier: "MetricDescriptor",
+  }) as any as Schema.Schema<MetricDescriptor>;
 
 export interface MonitoredResourceDescriptor {
   /** Optional. The resource name of the monitored resource descriptor: `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where {type} is the value of the `type` field in this object and {project_id} is a project ID that provides API-specific context for accessing the type. APIs that do not use project information can use the resource name format `"monitoredResourceDescriptors/{type}"`. */
@@ -1364,7 +1412,7 @@ export interface MonitoredResourceDescriptor {
 }
 
 export const MonitoredResourceDescriptor: Schema.Schema<MonitoredResourceDescriptor> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -1385,7 +1433,7 @@ export interface BillingDestination {
 }
 
 export const BillingDestination: Schema.Schema<BillingDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       monitoredResource: Schema.optional(Schema.String),
       metrics: Schema.optional(Schema.Array(Schema.String)),
@@ -1399,11 +1447,12 @@ export interface Billing {
   consumerDestinations?: Array<BillingDestination>;
 }
 
-export const Billing: Schema.Schema<Billing> = Schema.suspend(() =>
-  Schema.Struct({
-    consumerDestinations: Schema.optional(Schema.Array(BillingDestination)),
-  }),
-).annotate({ identifier: "Billing" }) as any as Schema.Schema<Billing>;
+export const Billing: Schema.Schema<Billing> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      consumerDestinations: Schema.optional(Schema.Array(BillingDestination)),
+    }),
+  ).annotate({ identifier: "Billing" }) as any as Schema.Schema<Billing>;
 
 export interface LoggingDestination {
   /** The monitored resource type. The type must be defined in the Service.monitored_resources section. */
@@ -1413,7 +1462,7 @@ export interface LoggingDestination {
 }
 
 export const LoggingDestination: Schema.Schema<LoggingDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       monitoredResource: Schema.optional(Schema.String),
       logs: Schema.optional(Schema.Array(Schema.String)),
@@ -1429,12 +1478,13 @@ export interface Logging {
   consumerDestinations?: Array<LoggingDestination>;
 }
 
-export const Logging: Schema.Schema<Logging> = Schema.suspend(() =>
-  Schema.Struct({
-    producerDestinations: Schema.optional(Schema.Array(LoggingDestination)),
-    consumerDestinations: Schema.optional(Schema.Array(LoggingDestination)),
-  }),
-).annotate({ identifier: "Logging" }) as any as Schema.Schema<Logging>;
+export const Logging: Schema.Schema<Logging> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      producerDestinations: Schema.optional(Schema.Array(LoggingDestination)),
+      consumerDestinations: Schema.optional(Schema.Array(LoggingDestination)),
+    }),
+  ).annotate({ identifier: "Logging" }) as any as Schema.Schema<Logging>;
 
 export interface MonitoringDestination {
   /** The monitored resource type. The type must be defined in Service.monitored_resources section. */
@@ -1444,7 +1494,7 @@ export interface MonitoringDestination {
 }
 
 export const MonitoringDestination: Schema.Schema<MonitoringDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       monitoredResource: Schema.optional(Schema.String),
       metrics: Schema.optional(Schema.Array(Schema.String)),
@@ -1460,12 +1510,17 @@ export interface Monitoring {
   consumerDestinations?: Array<MonitoringDestination>;
 }
 
-export const Monitoring: Schema.Schema<Monitoring> = Schema.suspend(() =>
-  Schema.Struct({
-    producerDestinations: Schema.optional(Schema.Array(MonitoringDestination)),
-    consumerDestinations: Schema.optional(Schema.Array(MonitoringDestination)),
-  }),
-).annotate({ identifier: "Monitoring" }) as any as Schema.Schema<Monitoring>;
+export const Monitoring: Schema.Schema<Monitoring> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      producerDestinations: Schema.optional(
+        Schema.Array(MonitoringDestination),
+      ),
+      consumerDestinations: Schema.optional(
+        Schema.Array(MonitoringDestination),
+      ),
+    }),
+  ).annotate({ identifier: "Monitoring" }) as any as Schema.Schema<Monitoring>;
 
 export interface SystemParameter {
   /** Define the name of the parameter, such as "api_key" . It is case sensitive. */
@@ -1476,16 +1531,16 @@ export interface SystemParameter {
   urlQueryParameter?: string;
 }
 
-export const SystemParameter: Schema.Schema<SystemParameter> = Schema.suspend(
-  () =>
+export const SystemParameter: Schema.Schema<SystemParameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       httpHeader: Schema.optional(Schema.String),
       urlQueryParameter: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SystemParameter",
-}) as any as Schema.Schema<SystemParameter>;
+  ).annotate({
+    identifier: "SystemParameter",
+  }) as any as Schema.Schema<SystemParameter>;
 
 export interface SystemParameterRule {
   /** Selects the methods to which this rule applies. Use '*' to indicate all methods in all APIs. Refer to selector for syntax details. */
@@ -1495,7 +1550,7 @@ export interface SystemParameterRule {
 }
 
 export const SystemParameterRule: Schema.Schema<SystemParameterRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selector: Schema.optional(Schema.String),
       parameters: Schema.optional(Schema.Array(SystemParameter)),
@@ -1509,27 +1564,28 @@ export interface SystemParameters {
   rules?: Array<SystemParameterRule>;
 }
 
-export const SystemParameters: Schema.Schema<SystemParameters> = Schema.suspend(
-  () =>
+export const SystemParameters: Schema.Schema<SystemParameters> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rules: Schema.optional(Schema.Array(SystemParameterRule)),
     }),
-).annotate({
-  identifier: "SystemParameters",
-}) as any as Schema.Schema<SystemParameters>;
+  ).annotate({
+    identifier: "SystemParameters",
+  }) as any as Schema.Schema<SystemParameters>;
 
 export interface SourceInfo {
   /** All files used during config generation. */
   sourceFiles?: Array<Record<string, unknown>>;
 }
 
-export const SourceInfo: Schema.Schema<SourceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    sourceFiles: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "SourceInfo" }) as any as Schema.Schema<SourceInfo>;
+export const SourceInfo: Schema.Schema<SourceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sourceFiles: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "SourceInfo" }) as any as Schema.Schema<SourceInfo>;
 
 export interface LongRunning {
   /** Initial delay after which the first poll request will be made. Default value: 5 seconds. */
@@ -1542,14 +1598,17 @@ export interface LongRunning {
   totalPollTimeout?: string;
 }
 
-export const LongRunning: Schema.Schema<LongRunning> = Schema.suspend(() =>
-  Schema.Struct({
-    initialPollDelay: Schema.optional(Schema.String),
-    pollDelayMultiplier: Schema.optional(Schema.Number),
-    maxPollDelay: Schema.optional(Schema.String),
-    totalPollTimeout: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LongRunning" }) as any as Schema.Schema<LongRunning>;
+export const LongRunning: Schema.Schema<LongRunning> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      initialPollDelay: Schema.optional(Schema.String),
+      pollDelayMultiplier: Schema.optional(Schema.Number),
+      maxPollDelay: Schema.optional(Schema.String),
+      totalPollTimeout: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LongRunning",
+  }) as any as Schema.Schema<LongRunning>;
 
 export interface BatchingSettingsProto {
   /** The number of elements of a field collected into a batch which, if exceeded, causes the batch to be sent. */
@@ -1576,7 +1635,7 @@ export interface BatchingSettingsProto {
 }
 
 export const BatchingSettingsProto: Schema.Schema<BatchingSettingsProto> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       elementCountThreshold: Schema.optional(Schema.Number),
       requestByteThreshold: Schema.optional(Schema.String),
@@ -1601,7 +1660,7 @@ export interface BatchingDescriptorProto {
 }
 
 export const BatchingDescriptorProto: Schema.Schema<BatchingDescriptorProto> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchedField: Schema.optional(Schema.String),
       discriminatorFields: Schema.optional(Schema.Array(Schema.String)),
@@ -1619,7 +1678,7 @@ export interface BatchingConfigProto {
 }
 
 export const BatchingConfigProto: Schema.Schema<BatchingConfigProto> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thresholds: Schema.optional(BatchingSettingsProto),
       batchDescriptor: Schema.optional(BatchingDescriptorProto),
@@ -1639,17 +1698,17 @@ export interface MethodSettings {
   batching?: BatchingConfigProto;
 }
 
-export const MethodSettings: Schema.Schema<MethodSettings> = Schema.suspend(
-  () =>
+export const MethodSettings: Schema.Schema<MethodSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selector: Schema.optional(Schema.String),
       longRunning: Schema.optional(LongRunning),
       autoPopulatedFields: Schema.optional(Schema.Array(Schema.String)),
       batching: Schema.optional(BatchingConfigProto),
     }),
-).annotate({
-  identifier: "MethodSettings",
-}) as any as Schema.Schema<MethodSettings>;
+  ).annotate({
+    identifier: "MethodSettings",
+  }) as any as Schema.Schema<MethodSettings>;
 
 export interface SelectiveGapicGeneration {
   /** An allowlist of the fully qualified names of RPCs that should be included on public client surfaces. */
@@ -1659,7 +1718,7 @@ export interface SelectiveGapicGeneration {
 }
 
 export const SelectiveGapicGeneration: Schema.Schema<SelectiveGapicGeneration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       methods: Schema.optional(Schema.Array(Schema.String)),
       generateOmittedAsInternal: Schema.optional(Schema.Boolean),
@@ -1683,7 +1742,7 @@ export interface CommonLanguageSettings {
 }
 
 export const CommonLanguageSettings: Schema.Schema<CommonLanguageSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceDocsUri: Schema.optional(Schema.String),
       destinations: Schema.optional(Schema.Array(Schema.String)),
@@ -1702,28 +1761,32 @@ export interface JavaSettings {
   common?: CommonLanguageSettings;
 }
 
-export const JavaSettings: Schema.Schema<JavaSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    libraryPackage: Schema.optional(Schema.String),
-    serviceClassNames: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-    common: Schema.optional(CommonLanguageSettings),
-  }),
-).annotate({
-  identifier: "JavaSettings",
-}) as any as Schema.Schema<JavaSettings>;
+export const JavaSettings: Schema.Schema<JavaSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      libraryPackage: Schema.optional(Schema.String),
+      serviceClassNames: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      common: Schema.optional(CommonLanguageSettings),
+    }),
+  ).annotate({
+    identifier: "JavaSettings",
+  }) as any as Schema.Schema<JavaSettings>;
 
 export interface CppSettings {
   /** Some settings. */
   common?: CommonLanguageSettings;
 }
 
-export const CppSettings: Schema.Schema<CppSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    common: Schema.optional(CommonLanguageSettings),
-  }),
-).annotate({ identifier: "CppSettings" }) as any as Schema.Schema<CppSettings>;
+export const CppSettings: Schema.Schema<CppSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(CommonLanguageSettings),
+    }),
+  ).annotate({
+    identifier: "CppSettings",
+  }) as any as Schema.Schema<CppSettings>;
 
 export interface PhpSettings {
   /** Some settings. */
@@ -1732,12 +1795,15 @@ export interface PhpSettings {
   libraryPackage?: string;
 }
 
-export const PhpSettings: Schema.Schema<PhpSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    common: Schema.optional(CommonLanguageSettings),
-    libraryPackage: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PhpSettings" }) as any as Schema.Schema<PhpSettings>;
+export const PhpSettings: Schema.Schema<PhpSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(CommonLanguageSettings),
+      libraryPackage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PhpSettings",
+  }) as any as Schema.Schema<PhpSettings>;
 
 export interface ExperimentalFeatures {
   /** Enables generation of asynchronous REST clients if `rest` transport is enabled. By default, asynchronous REST clients will not be generated. This feature will be enabled by default 1 month after launching the feature in preview packages. */
@@ -1749,7 +1815,7 @@ export interface ExperimentalFeatures {
 }
 
 export const ExperimentalFeatures: Schema.Schema<ExperimentalFeatures> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restAsyncIoEnabled: Schema.optional(Schema.Boolean),
       protobufPythonicTypesEnabled: Schema.optional(Schema.Boolean),
@@ -1766,28 +1832,29 @@ export interface PythonSettings {
   experimentalFeatures?: ExperimentalFeatures;
 }
 
-export const PythonSettings: Schema.Schema<PythonSettings> = Schema.suspend(
-  () =>
+export const PythonSettings: Schema.Schema<PythonSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       common: Schema.optional(CommonLanguageSettings),
       experimentalFeatures: Schema.optional(ExperimentalFeatures),
     }),
-).annotate({
-  identifier: "PythonSettings",
-}) as any as Schema.Schema<PythonSettings>;
+  ).annotate({
+    identifier: "PythonSettings",
+  }) as any as Schema.Schema<PythonSettings>;
 
 export interface NodeSettings {
   /** Some settings. */
   common?: CommonLanguageSettings;
 }
 
-export const NodeSettings: Schema.Schema<NodeSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    common: Schema.optional(CommonLanguageSettings),
-  }),
-).annotate({
-  identifier: "NodeSettings",
-}) as any as Schema.Schema<NodeSettings>;
+export const NodeSettings: Schema.Schema<NodeSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(CommonLanguageSettings),
+    }),
+  ).annotate({
+    identifier: "NodeSettings",
+  }) as any as Schema.Schema<NodeSettings>;
 
 export interface DotnetSettings {
   /** Some settings. */
@@ -1804,8 +1871,8 @@ export interface DotnetSettings {
   handwrittenSignatures?: Array<string>;
 }
 
-export const DotnetSettings: Schema.Schema<DotnetSettings> = Schema.suspend(
-  () =>
+export const DotnetSettings: Schema.Schema<DotnetSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       common: Schema.optional(CommonLanguageSettings),
       renamedServices: Schema.optional(
@@ -1818,22 +1885,23 @@ export const DotnetSettings: Schema.Schema<DotnetSettings> = Schema.suspend(
       forcedNamespaceAliases: Schema.optional(Schema.Array(Schema.String)),
       handwrittenSignatures: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "DotnetSettings",
-}) as any as Schema.Schema<DotnetSettings>;
+  ).annotate({
+    identifier: "DotnetSettings",
+  }) as any as Schema.Schema<DotnetSettings>;
 
 export interface RubySettings {
   /** Some settings. */
   common?: CommonLanguageSettings;
 }
 
-export const RubySettings: Schema.Schema<RubySettings> = Schema.suspend(() =>
-  Schema.Struct({
-    common: Schema.optional(CommonLanguageSettings),
-  }),
-).annotate({
-  identifier: "RubySettings",
-}) as any as Schema.Schema<RubySettings>;
+export const RubySettings: Schema.Schema<RubySettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(CommonLanguageSettings),
+    }),
+  ).annotate({
+    identifier: "RubySettings",
+  }) as any as Schema.Schema<RubySettings>;
 
 export interface GoSettings {
   /** Some settings. */
@@ -1842,14 +1910,15 @@ export interface GoSettings {
   renamedServices?: Record<string, string>;
 }
 
-export const GoSettings: Schema.Schema<GoSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    common: Schema.optional(CommonLanguageSettings),
-    renamedServices: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({ identifier: "GoSettings" }) as any as Schema.Schema<GoSettings>;
+export const GoSettings: Schema.Schema<GoSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      common: Schema.optional(CommonLanguageSettings),
+      renamedServices: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({ identifier: "GoSettings" }) as any as Schema.Schema<GoSettings>;
 
 export interface ClientLibrarySettings {
   /** Version of the API to apply these settings to. This is the full protobuf package for the API, ending in the version element. Examples: "google.cloud.speech.v1" and "google.spanner.admin.database.v1". */
@@ -1886,7 +1955,7 @@ export interface ClientLibrarySettings {
 }
 
 export const ClientLibrarySettings: Schema.Schema<ClientLibrarySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       launchStage: Schema.optional(Schema.String),
@@ -1938,21 +2007,22 @@ export interface Publishing {
   restReferenceDocumentationUri?: string;
 }
 
-export const Publishing: Schema.Schema<Publishing> = Schema.suspend(() =>
-  Schema.Struct({
-    methodSettings: Schema.optional(Schema.Array(MethodSettings)),
-    newIssueUri: Schema.optional(Schema.String),
-    documentationUri: Schema.optional(Schema.String),
-    apiShortName: Schema.optional(Schema.String),
-    githubLabel: Schema.optional(Schema.String),
-    codeownerGithubTeams: Schema.optional(Schema.Array(Schema.String)),
-    docTagPrefix: Schema.optional(Schema.String),
-    organization: Schema.optional(Schema.String),
-    librarySettings: Schema.optional(Schema.Array(ClientLibrarySettings)),
-    protoReferenceDocumentationUri: Schema.optional(Schema.String),
-    restReferenceDocumentationUri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Publishing" }) as any as Schema.Schema<Publishing>;
+export const Publishing: Schema.Schema<Publishing> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      methodSettings: Schema.optional(Schema.Array(MethodSettings)),
+      newIssueUri: Schema.optional(Schema.String),
+      documentationUri: Schema.optional(Schema.String),
+      apiShortName: Schema.optional(Schema.String),
+      githubLabel: Schema.optional(Schema.String),
+      codeownerGithubTeams: Schema.optional(Schema.Array(Schema.String)),
+      docTagPrefix: Schema.optional(Schema.String),
+      organization: Schema.optional(Schema.String),
+      librarySettings: Schema.optional(Schema.Array(ClientLibrarySettings)),
+      protoReferenceDocumentationUri: Schema.optional(Schema.String),
+      restReferenceDocumentationUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Publishing" }) as any as Schema.Schema<Publishing>;
 
 export interface AspectRule {
   /** Required. Selects the RPC methods to which this rule applies. Refer to selector for syntax details. */
@@ -1961,12 +2031,13 @@ export interface AspectRule {
   config?: Record<string, unknown>;
 }
 
-export const AspectRule: Schema.Schema<AspectRule> = Schema.suspend(() =>
-  Schema.Struct({
-    selector: Schema.optional(Schema.String),
-    config: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "AspectRule" }) as any as Schema.Schema<AspectRule>;
+export const AspectRule: Schema.Schema<AspectRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selector: Schema.optional(Schema.String),
+      config: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "AspectRule" }) as any as Schema.Schema<AspectRule>;
 
 export interface Aspect {
   /** The type of this aspect configuration. */
@@ -1977,13 +2048,14 @@ export interface Aspect {
   rules?: Array<AspectRule>;
 }
 
-export const Aspect: Schema.Schema<Aspect> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    spec: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    rules: Schema.optional(Schema.Array(AspectRule)),
-  }),
-).annotate({ identifier: "Aspect" }) as any as Schema.Schema<Aspect>;
+export const Aspect: Schema.Schema<Aspect> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      spec: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      rules: Schema.optional(Schema.Array(AspectRule)),
+    }),
+  ).annotate({ identifier: "Aspect" }) as any as Schema.Schema<Aspect>;
 
 export interface Service {
   /** The service name, which is a DNS-like logical identifier for the service, such as `calendar.googleapis.com`. The service name typically goes through DNS verification to make sure the owner of the service also owns the DNS name. */
@@ -2046,41 +2118,42 @@ export interface Service {
   configVersion?: number;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    producerProjectId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    apis: Schema.optional(Schema.Array(Api)),
-    types: Schema.optional(Schema.Array(Type)),
-    enums: Schema.optional(Schema.Array(Enum)),
-    documentation: Schema.optional(Documentation),
-    backend: Schema.optional(Backend),
-    http: Schema.optional(Http),
-    quota: Schema.optional(Quota),
-    authentication: Schema.optional(Authentication),
-    context: Schema.optional(Context),
-    usage: Schema.optional(Usage),
-    customError: Schema.optional(CustomError),
-    endpoints: Schema.optional(Schema.Array(Endpoint)),
-    control: Schema.optional(Control),
-    logs: Schema.optional(Schema.Array(LogDescriptor)),
-    metrics: Schema.optional(Schema.Array(MetricDescriptor)),
-    monitoredResources: Schema.optional(
-      Schema.Array(MonitoredResourceDescriptor),
-    ),
-    billing: Schema.optional(Billing),
-    logging: Schema.optional(Logging),
-    monitoring: Schema.optional(Monitoring),
-    systemParameters: Schema.optional(SystemParameters),
-    sourceInfo: Schema.optional(SourceInfo),
-    publishing: Schema.optional(Publishing),
-    systemTypes: Schema.optional(Schema.Array(Type)),
-    aspects: Schema.optional(Schema.Array(Aspect)),
-    configVersion: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      producerProjectId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      apis: Schema.optional(Schema.Array(Api)),
+      types: Schema.optional(Schema.Array(Type)),
+      enums: Schema.optional(Schema.Array(Enum)),
+      documentation: Schema.optional(Documentation),
+      backend: Schema.optional(Backend),
+      http: Schema.optional(Http),
+      quota: Schema.optional(Quota),
+      authentication: Schema.optional(Authentication),
+      context: Schema.optional(Context),
+      usage: Schema.optional(Usage),
+      customError: Schema.optional(CustomError),
+      endpoints: Schema.optional(Schema.Array(Endpoint)),
+      control: Schema.optional(Control),
+      logs: Schema.optional(Schema.Array(LogDescriptor)),
+      metrics: Schema.optional(Schema.Array(MetricDescriptor)),
+      monitoredResources: Schema.optional(
+        Schema.Array(MonitoredResourceDescriptor),
+      ),
+      billing: Schema.optional(Billing),
+      logging: Schema.optional(Logging),
+      monitoring: Schema.optional(Monitoring),
+      systemParameters: Schema.optional(SystemParameters),
+      sourceInfo: Schema.optional(SourceInfo),
+      publishing: Schema.optional(Publishing),
+      systemTypes: Schema.optional(Schema.Array(Type)),
+      aspects: Schema.optional(Schema.Array(Aspect)),
+      configVersion: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface V1AddVisibilityLabelsResponse {
   /** The updated set of visibility labels for this consumer on this service. */
@@ -2088,7 +2161,7 @@ export interface V1AddVisibilityLabelsResponse {
 }
 
 export const V1AddVisibilityLabelsResponse: Schema.Schema<V1AddVisibilityLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2099,14 +2172,14 @@ export const V1AddVisibilityLabelsResponse: Schema.Schema<V1AddVisibilityLabelsR
 export interface V1DisableConsumerResponse {}
 
 export const V1DisableConsumerResponse: Schema.Schema<V1DisableConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1DisableConsumerResponse",
   }) as any as Schema.Schema<V1DisableConsumerResponse>;
 
 export interface V1EnableConsumerResponse {}
 
 export const V1EnableConsumerResponse: Schema.Schema<V1EnableConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1EnableConsumerResponse",
   }) as any as Schema.Schema<V1EnableConsumerResponse>;
 
@@ -2122,7 +2195,7 @@ export interface V1DefaultIdentity {
 }
 
 export const V1DefaultIdentity: Schema.Schema<V1DefaultIdentity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       uniqueId: Schema.optional(Schema.String),
@@ -2149,7 +2222,7 @@ export interface V1GenerateDefaultIdentityResponse {
 }
 
 export const V1GenerateDefaultIdentityResponse: Schema.Schema<V1GenerateDefaultIdentityResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identity: Schema.optional(V1DefaultIdentity),
       attachStatus: Schema.optional(Schema.String),
@@ -2172,8 +2245,8 @@ export interface V1ServiceAccount {
   tag?: string;
 }
 
-export const V1ServiceAccount: Schema.Schema<V1ServiceAccount> = Schema.suspend(
-  () =>
+export const V1ServiceAccount: Schema.Schema<V1ServiceAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       iamAccountName: Schema.optional(Schema.String),
@@ -2181,9 +2254,9 @@ export const V1ServiceAccount: Schema.Schema<V1ServiceAccount> = Schema.suspend(
       email: Schema.optional(Schema.String),
       tag: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "V1ServiceAccount",
-}) as any as Schema.Schema<V1ServiceAccount>;
+  ).annotate({
+    identifier: "V1ServiceAccount",
+  }) as any as Schema.Schema<V1ServiceAccount>;
 
 export interface V1GenerateServiceAccountResponse {
   /** ServiceAccount that was created or retrieved. */
@@ -2191,7 +2264,7 @@ export interface V1GenerateServiceAccountResponse {
 }
 
 export const V1GenerateServiceAccountResponse: Schema.Schema<V1GenerateServiceAccountResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(V1ServiceAccount),
     }),
@@ -2202,7 +2275,7 @@ export const V1GenerateServiceAccountResponse: Schema.Schema<V1GenerateServiceAc
 export interface V1RefreshConsumerResponse {}
 
 export const V1RefreshConsumerResponse: Schema.Schema<V1RefreshConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1RefreshConsumerResponse",
   }) as any as Schema.Schema<V1RefreshConsumerResponse>;
 
@@ -2212,7 +2285,7 @@ export interface V1RemoveVisibilityLabelsResponse {
 }
 
 export const V1RemoveVisibilityLabelsResponse: Schema.Schema<V1RemoveVisibilityLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2223,14 +2296,14 @@ export const V1RemoveVisibilityLabelsResponse: Schema.Schema<V1RemoveVisibilityL
 export interface V1Beta1DisableConsumerResponse {}
 
 export const V1Beta1DisableConsumerResponse: Schema.Schema<V1Beta1DisableConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1Beta1DisableConsumerResponse",
   }) as any as Schema.Schema<V1Beta1DisableConsumerResponse>;
 
 export interface V1Beta1EnableConsumerResponse {}
 
 export const V1Beta1EnableConsumerResponse: Schema.Schema<V1Beta1EnableConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1Beta1EnableConsumerResponse",
   }) as any as Schema.Schema<V1Beta1EnableConsumerResponse>;
 
@@ -2248,7 +2321,7 @@ export interface V1Beta1ServiceIdentity {
 }
 
 export const V1Beta1ServiceIdentity: Schema.Schema<V1Beta1ServiceIdentity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       uniqueId: Schema.optional(Schema.String),
@@ -2266,7 +2339,7 @@ export interface V1Beta1GenerateServiceIdentityResponse {
 }
 
 export const V1Beta1GenerateServiceIdentityResponse: Schema.Schema<V1Beta1GenerateServiceIdentityResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identity: Schema.optional(V1Beta1ServiceIdentity),
     }),
@@ -2277,7 +2350,7 @@ export const V1Beta1GenerateServiceIdentityResponse: Schema.Schema<V1Beta1Genera
 export interface V1Beta1RefreshConsumerResponse {}
 
 export const V1Beta1RefreshConsumerResponse: Schema.Schema<V1Beta1RefreshConsumerResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "V1Beta1RefreshConsumerResponse",
   }) as any as Schema.Schema<V1Beta1RefreshConsumerResponse>;
 
@@ -2297,7 +2370,7 @@ export interface V1Beta1QuotaOverride {
 }
 
 export const V1Beta1QuotaOverride: Schema.Schema<V1Beta1QuotaOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       metric: Schema.optional(Schema.String),
@@ -2316,7 +2389,7 @@ export interface V1Beta1BatchCreateProducerOverridesResponse {
 }
 
 export const V1Beta1BatchCreateProducerOverridesResponse: Schema.Schema<V1Beta1BatchCreateProducerOverridesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overrides: Schema.optional(Schema.Array(V1Beta1QuotaOverride)),
     }),
@@ -2330,7 +2403,7 @@ export interface V1Beta1ImportProducerOverridesResponse {
 }
 
 export const V1Beta1ImportProducerOverridesResponse: Schema.Schema<V1Beta1ImportProducerOverridesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overrides: Schema.optional(Schema.Array(V1Beta1QuotaOverride)),
     }),
@@ -2354,7 +2427,7 @@ export interface V1Beta1ProducerQuotaPolicy {
 }
 
 export const V1Beta1ProducerQuotaPolicy: Schema.Schema<V1Beta1ProducerQuotaPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       metric: Schema.optional(Schema.String),
@@ -2373,7 +2446,7 @@ export interface V1Beta1ImportProducerQuotaPoliciesResponse {
 }
 
 export const V1Beta1ImportProducerQuotaPoliciesResponse: Schema.Schema<V1Beta1ImportProducerQuotaPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policies: Schema.optional(Schema.Array(V1Beta1ProducerQuotaPolicy)),
     }),
@@ -2398,7 +2471,7 @@ export interface ListOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListOperationsRequest = Schema.Struct({
+export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2412,7 +2485,8 @@ export const ListOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
 export type ListOperationsResponse_Op = ListOperationsResponse;
-export const ListOperationsResponse_Op = ListOperationsResponse;
+export const ListOperationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListOperationsError = DefaultErrors;
 
@@ -2422,7 +2496,7 @@ export const listOperations: API.PaginatedOperationMethod<
   ListOperationsResponse_Op,
   ListOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -2437,7 +2511,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
@@ -2445,7 +2519,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -2455,7 +2529,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -2466,15 +2540,16 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 
-export const DeleteOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOperationsRequest>;
+export const DeleteOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
 export type DeleteOperationsResponse = Empty;
-export const DeleteOperationsResponse = Empty;
+export const DeleteOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteOperationsError = DefaultErrors;
 
@@ -2484,7 +2559,7 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsResponse,
   DeleteOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -2497,20 +2572,21 @@ export interface CancelOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelOperationsRequest>;
+export const CancelOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
 export type CancelOperationsResponse = Empty;
-export const CancelOperationsResponse = Empty;
+export const CancelOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelOperationsError = DefaultErrors;
 
@@ -2520,7 +2596,7 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsResponse,
   CancelOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -2537,7 +2613,7 @@ export interface SearchServicesRequest {
   pageToken?: string;
 }
 
-export const SearchServicesRequest = Schema.Struct({
+export const SearchServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2548,7 +2624,8 @@ export const SearchServicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchServicesRequest>;
 
 export type SearchServicesResponse = SearchTenancyUnitsResponse;
-export const SearchServicesResponse = SearchTenancyUnitsResponse;
+export const SearchServicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchTenancyUnitsResponse;
 
 export type SearchServicesError = DefaultErrors;
 
@@ -2558,7 +2635,7 @@ export const searchServices: API.PaginatedOperationMethod<
   SearchServicesResponse,
   SearchServicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchServicesRequest,
   output: SearchServicesResponse,
   errors: [],
@@ -2575,20 +2652,22 @@ export interface CreateServicesTenancyUnitsRequest {
   body?: CreateTenancyUnitRequest;
 }
 
-export const CreateServicesTenancyUnitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateTenancyUnitRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateServicesTenancyUnitsRequest>;
+export const CreateServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateTenancyUnitRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateServicesTenancyUnitsRequest>;
 
 export type CreateServicesTenancyUnitsResponse = TenancyUnit;
-export const CreateServicesTenancyUnitsResponse = TenancyUnit;
+export const CreateServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TenancyUnit;
 
 export type CreateServicesTenancyUnitsError = DefaultErrors;
 
@@ -2598,7 +2677,7 @@ export const createServicesTenancyUnits: API.OperationMethod<
   CreateServicesTenancyUnitsResponse,
   CreateServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServicesTenancyUnitsRequest,
   output: CreateServicesTenancyUnitsResponse,
   errors: [],
@@ -2609,18 +2688,20 @@ export interface DeleteServicesTenancyUnitsRequest {
   name: string;
 }
 
-export const DeleteServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteServicesTenancyUnitsRequest>;
+export const DeleteServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteServicesTenancyUnitsRequest>;
 
 export type DeleteServicesTenancyUnitsResponse = Operation;
-export const DeleteServicesTenancyUnitsResponse = Operation;
+export const DeleteServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteServicesTenancyUnitsError = DefaultErrors;
 
@@ -2630,7 +2711,7 @@ export const deleteServicesTenancyUnits: API.OperationMethod<
   DeleteServicesTenancyUnitsResponse,
   DeleteServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteServicesTenancyUnitsRequest,
   output: DeleteServicesTenancyUnitsResponse,
   errors: [],
@@ -2647,21 +2728,23 @@ export interface ListServicesTenancyUnitsRequest {
   pageToken?: string;
 }
 
-export const ListServicesTenancyUnitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListServicesTenancyUnitsRequest>;
+export const ListServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListServicesTenancyUnitsRequest>;
 
 export type ListServicesTenancyUnitsResponse = ListTenancyUnitsResponse;
-export const ListServicesTenancyUnitsResponse = ListTenancyUnitsResponse;
+export const ListServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTenancyUnitsResponse;
 
 export type ListServicesTenancyUnitsError = DefaultErrors;
 
@@ -2671,7 +2754,7 @@ export const listServicesTenancyUnits: API.PaginatedOperationMethod<
   ListServicesTenancyUnitsResponse,
   ListServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListServicesTenancyUnitsRequest,
   output: ListServicesTenancyUnitsResponse,
   errors: [],
@@ -2688,20 +2771,22 @@ export interface AddProjectServicesTenancyUnitsRequest {
   body?: AddTenantProjectRequest;
 }
 
-export const AddProjectServicesTenancyUnitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AddTenantProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:addProject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddProjectServicesTenancyUnitsRequest>;
+export const AddProjectServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AddTenantProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:addProject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddProjectServicesTenancyUnitsRequest>;
 
 export type AddProjectServicesTenancyUnitsResponse = Operation;
-export const AddProjectServicesTenancyUnitsResponse = Operation;
+export const AddProjectServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AddProjectServicesTenancyUnitsError = DefaultErrors;
 
@@ -2711,7 +2796,7 @@ export const addProjectServicesTenancyUnits: API.OperationMethod<
   AddProjectServicesTenancyUnitsResponse,
   AddProjectServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddProjectServicesTenancyUnitsRequest,
   output: AddProjectServicesTenancyUnitsResponse,
   errors: [],
@@ -2724,20 +2809,22 @@ export interface RemoveProjectServicesTenancyUnitsRequest {
   body?: RemoveTenantProjectRequest;
 }
 
-export const RemoveProjectServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RemoveTenantProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:removeProject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveProjectServicesTenancyUnitsRequest>;
+export const RemoveProjectServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RemoveTenantProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:removeProject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveProjectServicesTenancyUnitsRequest>;
 
 export type RemoveProjectServicesTenancyUnitsResponse = Operation;
-export const RemoveProjectServicesTenancyUnitsResponse = Operation;
+export const RemoveProjectServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type RemoveProjectServicesTenancyUnitsError = DefaultErrors;
 
@@ -2747,7 +2834,7 @@ export const removeProjectServicesTenancyUnits: API.OperationMethod<
   RemoveProjectServicesTenancyUnitsResponse,
   RemoveProjectServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveProjectServicesTenancyUnitsRequest,
   output: RemoveProjectServicesTenancyUnitsResponse,
   errors: [],
@@ -2760,20 +2847,22 @@ export interface ApplyProjectConfigServicesTenancyUnitsRequest {
   body?: ApplyTenantProjectConfigRequest;
 }
 
-export const ApplyProjectConfigServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ApplyTenantProjectConfigRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:applyProjectConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApplyProjectConfigServicesTenancyUnitsRequest>;
+export const ApplyProjectConfigServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ApplyTenantProjectConfigRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:applyProjectConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApplyProjectConfigServicesTenancyUnitsRequest>;
 
 export type ApplyProjectConfigServicesTenancyUnitsResponse = Operation;
-export const ApplyProjectConfigServicesTenancyUnitsResponse = Operation;
+export const ApplyProjectConfigServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ApplyProjectConfigServicesTenancyUnitsError = DefaultErrors;
 
@@ -2783,7 +2872,7 @@ export const applyProjectConfigServicesTenancyUnits: API.OperationMethod<
   ApplyProjectConfigServicesTenancyUnitsResponse,
   ApplyProjectConfigServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyProjectConfigServicesTenancyUnitsRequest,
   output: ApplyProjectConfigServicesTenancyUnitsResponse,
   errors: [],
@@ -2796,20 +2885,22 @@ export interface AttachProjectServicesTenancyUnitsRequest {
   body?: AttachTenantProjectRequest;
 }
 
-export const AttachProjectServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AttachTenantProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:attachProject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AttachProjectServicesTenancyUnitsRequest>;
+export const AttachProjectServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AttachTenantProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:attachProject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AttachProjectServicesTenancyUnitsRequest>;
 
 export type AttachProjectServicesTenancyUnitsResponse = Operation;
-export const AttachProjectServicesTenancyUnitsResponse = Operation;
+export const AttachProjectServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AttachProjectServicesTenancyUnitsError = DefaultErrors;
 
@@ -2819,7 +2910,7 @@ export const attachProjectServicesTenancyUnits: API.OperationMethod<
   AttachProjectServicesTenancyUnitsResponse,
   AttachProjectServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AttachProjectServicesTenancyUnitsRequest,
   output: AttachProjectServicesTenancyUnitsResponse,
   errors: [],
@@ -2832,20 +2923,22 @@ export interface DeleteProjectServicesTenancyUnitsRequest {
   body?: DeleteTenantProjectRequest;
 }
 
-export const DeleteProjectServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeleteTenantProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:deleteProject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectServicesTenancyUnitsRequest>;
+export const DeleteProjectServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeleteTenantProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:deleteProject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectServicesTenancyUnitsRequest>;
 
 export type DeleteProjectServicesTenancyUnitsResponse = Operation;
-export const DeleteProjectServicesTenancyUnitsResponse = Operation;
+export const DeleteProjectServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectServicesTenancyUnitsError = DefaultErrors;
 
@@ -2855,7 +2948,7 @@ export const deleteProjectServicesTenancyUnits: API.OperationMethod<
   DeleteProjectServicesTenancyUnitsResponse,
   DeleteProjectServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectServicesTenancyUnitsRequest,
   output: DeleteProjectServicesTenancyUnitsResponse,
   errors: [],
@@ -2868,20 +2961,22 @@ export interface UndeleteProjectServicesTenancyUnitsRequest {
   body?: UndeleteTenantProjectRequest;
 }
 
-export const UndeleteProjectServicesTenancyUnitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndeleteTenantProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:undeleteProject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteProjectServicesTenancyUnitsRequest>;
+export const UndeleteProjectServicesTenancyUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteTenantProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/services/{servicesId}/{servicesId1}/{servicesId2}/tenancyUnits/{tenancyUnitsId}:undeleteProject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteProjectServicesTenancyUnitsRequest>;
 
 export type UndeleteProjectServicesTenancyUnitsResponse = Operation;
-export const UndeleteProjectServicesTenancyUnitsResponse = Operation;
+export const UndeleteProjectServicesTenancyUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UndeleteProjectServicesTenancyUnitsError = DefaultErrors;
 
@@ -2891,7 +2986,7 @@ export const undeleteProjectServicesTenancyUnits: API.OperationMethod<
   UndeleteProjectServicesTenancyUnitsResponse,
   UndeleteProjectServicesTenancyUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteProjectServicesTenancyUnitsRequest,
   output: UndeleteProjectServicesTenancyUnitsResponse,
   errors: [],

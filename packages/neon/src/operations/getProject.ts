@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetProjectInput = Schema.Struct({
+export const GetProjectInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/projects/{project_id}" }));
 export type GetProjectInput = typeof GetProjectInput.Type;
 
 // Output Schema
-export const GetProjectOutput = Schema.Struct({
+export const GetProjectOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project: Schema.Struct({
     data_storage_bytes_hour: Schema.Number,
     data_transfer_bytes: Schema.Number,

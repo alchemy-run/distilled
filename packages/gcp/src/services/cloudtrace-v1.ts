@@ -39,17 +39,18 @@ export interface TraceSpan {
   labels?: Record<string, string>;
 }
 
-export const TraceSpan: Schema.Schema<TraceSpan> = Schema.suspend(() =>
-  Schema.Struct({
-    spanId: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    parentSpanId: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({ identifier: "TraceSpan" }) as any as Schema.Schema<TraceSpan>;
+export const TraceSpan: Schema.Schema<TraceSpan> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      spanId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      parentSpanId: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({ identifier: "TraceSpan" }) as any as Schema.Schema<TraceSpan>;
 
 export interface Trace {
   /** Project ID of the Cloud project where the trace data is stored. */
@@ -60,13 +61,14 @@ export interface Trace {
   spans?: Array<TraceSpan>;
 }
 
-export const Trace: Schema.Schema<Trace> = Schema.suspend(() =>
-  Schema.Struct({
-    projectId: Schema.optional(Schema.String),
-    traceId: Schema.optional(Schema.String),
-    spans: Schema.optional(Schema.Array(TraceSpan)),
-  }),
-).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
+export const Trace: Schema.Schema<Trace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+      traceId: Schema.optional(Schema.String),
+      spans: Schema.optional(Schema.Array(TraceSpan)),
+    }),
+  ).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
 
 export interface ListTracesResponse {
   /** List of trace records as specified by the view parameter. */
@@ -76,7 +78,7 @@ export interface ListTracesResponse {
 }
 
 export const ListTracesResponse: Schema.Schema<ListTracesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       traces: Schema.optional(Schema.Array(Trace)),
       nextPageToken: Schema.optional(Schema.String),
@@ -90,17 +92,19 @@ export interface Traces {
   traces?: Array<Trace>;
 }
 
-export const Traces: Schema.Schema<Traces> = Schema.suspend(() =>
-  Schema.Struct({
-    traces: Schema.optional(Schema.Array(Trace)),
-  }),
-).annotate({ identifier: "Traces" }) as any as Schema.Schema<Traces>;
+export const Traces: Schema.Schema<Traces> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      traces: Schema.optional(Schema.Array(Trace)),
+    }),
+  ).annotate({ identifier: "Traces" }) as any as Schema.Schema<Traces>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -113,20 +117,21 @@ export interface PatchTracesProjectsRequest {
   body?: Traces;
 }
 
-export const PatchTracesProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(Traces).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectId}/traces",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchTracesProjectsRequest>;
+export const PatchTracesProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(Traces).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectId}/traces",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchTracesProjectsRequest>;
 
 export type PatchTracesProjectsResponse = Empty;
-export const PatchTracesProjectsResponse = Empty;
+export const PatchTracesProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type PatchTracesProjectsError = DefaultErrors;
 
@@ -136,7 +141,7 @@ export const patchTracesProjects: API.OperationMethod<
   PatchTracesProjectsResponse,
   PatchTracesProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTracesProjectsRequest,
   output: PatchTracesProjectsResponse,
   errors: [],
@@ -166,22 +171,24 @@ export interface ListProjectsTracesRequest {
   orderBy?: string;
 }
 
-export const ListProjectsTracesRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectId}/traces" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTracesRequest>;
+export const ListProjectsTracesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectId}/traces" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTracesRequest>;
 
 export type ListProjectsTracesResponse = ListTracesResponse;
-export const ListProjectsTracesResponse = ListTracesResponse;
+export const ListProjectsTracesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTracesResponse;
 
 export type ListProjectsTracesError = DefaultErrors;
 
@@ -191,7 +198,7 @@ export const listProjectsTraces: API.PaginatedOperationMethod<
   ListProjectsTracesResponse,
   ListProjectsTracesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTracesRequest,
   output: ListProjectsTracesResponse,
   errors: [],
@@ -208,16 +215,17 @@ export interface GetProjectsTracesRequest {
   traceId: string;
 }
 
-export const GetProjectsTracesRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  traceId: Schema.String.pipe(T.HttpPath("traceId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectId}/traces/{traceId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsTracesRequest>;
+export const GetProjectsTracesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    traceId: Schema.String.pipe(T.HttpPath("traceId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectId}/traces/{traceId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsTracesRequest>;
 
 export type GetProjectsTracesResponse = Trace;
-export const GetProjectsTracesResponse = Trace;
+export const GetProjectsTracesResponse = /*@__PURE__*/ /*#__PURE__*/ Trace;
 
 export type GetProjectsTracesError = DefaultErrors;
 
@@ -227,7 +235,7 @@ export const getProjectsTraces: API.OperationMethod<
   GetProjectsTracesResponse,
   GetProjectsTracesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsTracesRequest,
   output: GetProjectsTracesResponse,
   errors: [],

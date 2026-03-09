@@ -29,12 +29,15 @@ export interface BitSequence {
   padding?: number;
 }
 
-export const BitSequence: Schema.Schema<BitSequence> = Schema.suspend(() =>
-  Schema.Struct({
-    bitmap: Schema.optional(Schema.String),
-    padding: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "BitSequence" }) as any as Schema.Schema<BitSequence>;
+export const BitSequence: Schema.Schema<BitSequence> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bitmap: Schema.optional(Schema.String),
+      padding: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "BitSequence",
+  }) as any as Schema.Schema<BitSequence>;
 
 export interface Firestore_Function {
   /** Required. The name of the function to evaluate. **Requires:** * must be in snake case (lower case with underscore separator). */
@@ -46,7 +49,7 @@ export interface Firestore_Function {
 }
 
 export const Firestore_Function: Schema.Schema<Firestore_Function> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       options: Schema.optional(Schema.Record(Schema.String, Value)),
@@ -61,22 +64,24 @@ export interface MapValue {
   fields?: Record<string, Value>;
 }
 
-export const MapValue: Schema.Schema<MapValue> = Schema.suspend(() =>
-  Schema.Struct({
-    fields: Schema.optional(Schema.Record(Schema.String, Value)),
-  }),
-).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
+export const MapValue: Schema.Schema<MapValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(Schema.Record(Schema.String, Value)),
+    }),
+  ).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
 
 export interface ArrayValue {
   /** Values in the array. */
   values?: Array<Value>;
 }
 
-export const ArrayValue: Schema.Schema<ArrayValue> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Value)),
-  }),
-).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
+export const ArrayValue: Schema.Schema<ArrayValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Value)),
+    }),
+  ).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
 
 export interface LatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
@@ -85,12 +90,13 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    longitude: Schema.optional(Schema.Number),
-    latitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      longitude: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface Value {
   /** A value that represents an unevaluated expression. **Requires:** * Not allowed to be used when writing documents. */
@@ -125,25 +131,26 @@ export interface Value {
   timestampValue?: string;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() =>
-  Schema.Struct({
-    functionValue: Schema.optional(Firestore_Function),
-    integerValue: Schema.optional(Schema.String),
-    mapValue: Schema.optional(MapValue),
-    stringValue: Schema.optional(Schema.String),
-    fieldReferenceValue: Schema.optional(Schema.String),
-    nullValue: Schema.optional(Schema.String),
-    variableReferenceValue: Schema.optional(Schema.String),
-    booleanValue: Schema.optional(Schema.Boolean),
-    doubleValue: Schema.optional(Schema.Number),
-    referenceValue: Schema.optional(Schema.String),
-    arrayValue: Schema.optional(ArrayValue),
-    pipelineValue: Schema.optional(Pipeline),
-    geoPointValue: Schema.optional(LatLng),
-    bytesValue: Schema.optional(Schema.String),
-    timestampValue: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      functionValue: Schema.optional(Firestore_Function),
+      integerValue: Schema.optional(Schema.String),
+      mapValue: Schema.optional(MapValue),
+      stringValue: Schema.optional(Schema.String),
+      fieldReferenceValue: Schema.optional(Schema.String),
+      nullValue: Schema.optional(Schema.String),
+      variableReferenceValue: Schema.optional(Schema.String),
+      booleanValue: Schema.optional(Schema.Boolean),
+      doubleValue: Schema.optional(Schema.Number),
+      referenceValue: Schema.optional(Schema.String),
+      arrayValue: Schema.optional(ArrayValue),
+      pipelineValue: Schema.optional(Pipeline),
+      geoPointValue: Schema.optional(LatLng),
+      bytesValue: Schema.optional(Schema.String),
+      timestampValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface Stage {
   /** Optional. Ordered list of arguments the given stage expects. */
@@ -154,24 +161,26 @@ export interface Stage {
   name?: string;
 }
 
-export const Stage: Schema.Schema<Stage> = Schema.suspend(() =>
-  Schema.Struct({
-    args: Schema.optional(Schema.Array(Value)),
-    options: Schema.optional(Schema.Record(Schema.String, Value)),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Stage" }) as any as Schema.Schema<Stage>;
+export const Stage: Schema.Schema<Stage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      args: Schema.optional(Schema.Array(Value)),
+      options: Schema.optional(Schema.Record(Schema.String, Value)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Stage" }) as any as Schema.Schema<Stage>;
 
 export interface Pipeline {
   /** Required. Ordered list of stages to evaluate. */
   stages?: Array<Stage>;
 }
 
-export const Pipeline: Schema.Schema<Pipeline> = Schema.suspend(() =>
-  Schema.Struct({
-    stages: Schema.optional(Schema.Array(Stage)),
-  }),
-).annotate({ identifier: "Pipeline" }) as any as Schema.Schema<Pipeline>;
+export const Pipeline: Schema.Schema<Pipeline> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      stages: Schema.optional(Schema.Array(Stage)),
+    }),
+  ).annotate({ identifier: "Pipeline" }) as any as Schema.Schema<Pipeline>;
 
 export interface StructuredPipeline {
   /** Required. The pipeline query to execute. */
@@ -181,7 +190,7 @@ export interface StructuredPipeline {
 }
 
 export const StructuredPipeline: Schema.Schema<StructuredPipeline> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pipeline: Schema.optional(Pipeline),
       options: Schema.optional(Schema.Record(Schema.String, Value)),
@@ -195,14 +204,14 @@ export interface FieldReference {
   fieldPath?: string;
 }
 
-export const FieldReference: Schema.Schema<FieldReference> = Schema.suspend(
-  () =>
+export const FieldReference: Schema.Schema<FieldReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FieldReference",
-}) as any as Schema.Schema<FieldReference>;
+  ).annotate({
+    identifier: "FieldReference",
+  }) as any as Schema.Schema<FieldReference>;
 
 export interface UnaryFilter {
   /** The unary operator to apply. */
@@ -217,12 +226,15 @@ export interface UnaryFilter {
   field?: FieldReference;
 }
 
-export const UnaryFilter: Schema.Schema<UnaryFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    op: Schema.optional(Schema.String),
-    field: Schema.optional(FieldReference),
-  }),
-).annotate({ identifier: "UnaryFilter" }) as any as Schema.Schema<UnaryFilter>;
+export const UnaryFilter: Schema.Schema<UnaryFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      op: Schema.optional(Schema.String),
+      field: Schema.optional(FieldReference),
+    }),
+  ).annotate({
+    identifier: "UnaryFilter",
+  }) as any as Schema.Schema<UnaryFilter>;
 
 export interface FieldFilter {
   /** The value to compare to. */
@@ -245,13 +257,16 @@ export interface FieldFilter {
     | (string & {});
 }
 
-export const FieldFilter: Schema.Schema<FieldFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Value),
-    field: Schema.optional(FieldReference),
-    op: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FieldFilter" }) as any as Schema.Schema<FieldFilter>;
+export const FieldFilter: Schema.Schema<FieldFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Value),
+      field: Schema.optional(FieldReference),
+      op: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FieldFilter",
+  }) as any as Schema.Schema<FieldFilter>;
 
 export interface Filter {
   /** A filter that takes exactly one argument. */
@@ -262,13 +277,14 @@ export interface Filter {
   fieldFilter?: FieldFilter;
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
-  Schema.Struct({
-    unaryFilter: Schema.optional(UnaryFilter),
-    compositeFilter: Schema.optional(CompositeFilter),
-    fieldFilter: Schema.optional(FieldFilter),
-  }),
-).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unaryFilter: Schema.optional(UnaryFilter),
+      compositeFilter: Schema.optional(CompositeFilter),
+      fieldFilter: Schema.optional(FieldFilter),
+    }),
+  ).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface CompositeFilter {
   /** The operator for combining multiple filters. */
@@ -277,15 +293,15 @@ export interface CompositeFilter {
   filters?: Array<Filter>;
 }
 
-export const CompositeFilter: Schema.Schema<CompositeFilter> = Schema.suspend(
-  () =>
+export const CompositeFilter: Schema.Schema<CompositeFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       op: Schema.optional(Schema.String),
       filters: Schema.optional(Schema.Array(Filter)),
     }),
-).annotate({
-  identifier: "CompositeFilter",
-}) as any as Schema.Schema<CompositeFilter>;
+  ).annotate({
+    identifier: "CompositeFilter",
+  }) as any as Schema.Schema<CompositeFilter>;
 
 export interface Order {
   /** The direction to order by. Defaults to `ASCENDING`. */
@@ -298,12 +314,13 @@ export interface Order {
   field?: FieldReference;
 }
 
-export const Order: Schema.Schema<Order> = Schema.suspend(() =>
-  Schema.Struct({
-    direction: Schema.optional(Schema.String),
-    field: Schema.optional(FieldReference),
-  }),
-).annotate({ identifier: "Order" }) as any as Schema.Schema<Order>;
+export const Order: Schema.Schema<Order> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      direction: Schema.optional(Schema.String),
+      field: Schema.optional(FieldReference),
+    }),
+  ).annotate({ identifier: "Order" }) as any as Schema.Schema<Order>;
 
 export interface FindNearest {
   /** Required. The distance measure to use, required. */
@@ -325,16 +342,19 @@ export interface FindNearest {
   distanceThreshold?: number;
 }
 
-export const FindNearest: Schema.Schema<FindNearest> = Schema.suspend(() =>
-  Schema.Struct({
-    distanceMeasure: Schema.optional(Schema.String),
-    vectorField: Schema.optional(FieldReference),
-    queryVector: Schema.optional(Value),
-    limit: Schema.optional(Schema.Number),
-    distanceResultField: Schema.optional(Schema.String),
-    distanceThreshold: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "FindNearest" }) as any as Schema.Schema<FindNearest>;
+export const FindNearest: Schema.Schema<FindNearest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      distanceMeasure: Schema.optional(Schema.String),
+      vectorField: Schema.optional(FieldReference),
+      queryVector: Schema.optional(Value),
+      limit: Schema.optional(Schema.Number),
+      distanceResultField: Schema.optional(Schema.String),
+      distanceThreshold: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "FindNearest",
+  }) as any as Schema.Schema<FindNearest>;
 
 export interface Cursor {
   /** The values that represent a position, in the order they appear in the order by clause of a query. Can contain fewer values than specified in the order by clause. */
@@ -343,23 +363,25 @@ export interface Cursor {
   before?: boolean;
 }
 
-export const Cursor: Schema.Schema<Cursor> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Value)),
-    before: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Cursor" }) as any as Schema.Schema<Cursor>;
+export const Cursor: Schema.Schema<Cursor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Value)),
+      before: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Cursor" }) as any as Schema.Schema<Cursor>;
 
 export interface Projection {
   /** The fields to return. If empty, all fields are returned. To only return the name of the document, use `['__name__']`. */
   fields?: Array<FieldReference>;
 }
 
-export const Projection: Schema.Schema<Projection> = Schema.suspend(() =>
-  Schema.Struct({
-    fields: Schema.optional(Schema.Array(FieldReference)),
-  }),
-).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
+export const Projection: Schema.Schema<Projection> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(Schema.Array(FieldReference)),
+    }),
+  ).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
 
 export interface CollectionSelector {
   /** The collection ID. When set, selects only collections with this ID. */
@@ -369,7 +391,7 @@ export interface CollectionSelector {
 }
 
 export const CollectionSelector: Schema.Schema<CollectionSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionId: Schema.optional(Schema.String),
       allDescendants: Schema.optional(Schema.Boolean),
@@ -399,8 +421,8 @@ export interface StructuredQuery {
   from?: Array<CollectionSelector>;
 }
 
-export const StructuredQuery: Schema.Schema<StructuredQuery> = Schema.suspend(
-  () =>
+export const StructuredQuery: Schema.Schema<StructuredQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       orderBy: Schema.optional(Schema.Array(Order)),
       findNearest: Schema.optional(FindNearest),
@@ -412,42 +434,45 @@ export const StructuredQuery: Schema.Schema<StructuredQuery> = Schema.suspend(
       limit: Schema.optional(Schema.Number),
       from: Schema.optional(Schema.Array(CollectionSelector)),
     }),
-).annotate({
-  identifier: "StructuredQuery",
-}) as any as Schema.Schema<StructuredQuery>;
+  ).annotate({
+    identifier: "StructuredQuery",
+  }) as any as Schema.Schema<StructuredQuery>;
 
 export interface Count {
   /** Optional. Optional constraint on the maximum number of documents to count. This provides a way to set an upper bound on the number of documents to scan, limiting latency, and cost. Unspecified is interpreted as no bound. High-Level Example: ``` AGGREGATE COUNT_UP_TO(1000) OVER ( SELECT * FROM k ); ``` Requires: * Must be greater than zero when present. */
   upTo?: string;
 }
 
-export const Count: Schema.Schema<Count> = Schema.suspend(() =>
-  Schema.Struct({
-    upTo: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
+export const Count: Schema.Schema<Count> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      upTo: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
 
 export interface Sum {
   /** The field to aggregate on. */
   field?: FieldReference;
 }
 
-export const Sum: Schema.Schema<Sum> = Schema.suspend(() =>
-  Schema.Struct({
-    field: Schema.optional(FieldReference),
-  }),
-).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
+export const Sum: Schema.Schema<Sum> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      field: Schema.optional(FieldReference),
+    }),
+  ).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
 
 export interface Avg {
   /** The field to aggregate on. */
   field?: FieldReference;
 }
 
-export const Avg: Schema.Schema<Avg> = Schema.suspend(() =>
-  Schema.Struct({
-    field: Schema.optional(FieldReference),
-  }),
-).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
+export const Avg: Schema.Schema<Avg> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      field: Schema.optional(FieldReference),
+    }),
+  ).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
 
 export interface Aggregation {
   /** Count aggregator. */
@@ -460,14 +485,17 @@ export interface Aggregation {
   alias?: string;
 }
 
-export const Aggregation: Schema.Schema<Aggregation> = Schema.suspend(() =>
-  Schema.Struct({
-    count: Schema.optional(Count),
-    sum: Schema.optional(Sum),
-    avg: Schema.optional(Avg),
-    alias: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Aggregation" }) as any as Schema.Schema<Aggregation>;
+export const Aggregation: Schema.Schema<Aggregation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Count),
+      sum: Schema.optional(Sum),
+      avg: Schema.optional(Avg),
+      alias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Aggregation",
+  }) as any as Schema.Schema<Aggregation>;
 
 export interface StructuredAggregationQuery {
   /** Nested structured query. */
@@ -477,7 +505,7 @@ export interface StructuredAggregationQuery {
 }
 
 export const StructuredAggregationQuery: Schema.Schema<StructuredAggregationQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structuredQuery: Schema.optional(StructuredQuery),
       aggregations: Schema.optional(Schema.Array(Aggregation)),
@@ -492,7 +520,7 @@ export interface GoogleFirestoreAdminV1beta1ExportDocumentsResponse {
 }
 
 export const GoogleFirestoreAdminV1beta1ExportDocumentsResponse: Schema.Schema<GoogleFirestoreAdminV1beta1ExportDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUriPrefix: Schema.optional(Schema.String),
     }),
@@ -520,8 +548,8 @@ export interface FieldTransform {
   appendMissingElements?: ArrayValue;
 }
 
-export const FieldTransform: Schema.Schema<FieldTransform> = Schema.suspend(
-  () =>
+export const FieldTransform: Schema.Schema<FieldTransform> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
       minimum: Schema.optional(Value),
@@ -531,9 +559,9 @@ export const FieldTransform: Schema.Schema<FieldTransform> = Schema.suspend(
       increment: Schema.optional(Value),
       appendMissingElements: Schema.optional(ArrayValue),
     }),
-).annotate({
-  identifier: "FieldTransform",
-}) as any as Schema.Schema<FieldTransform>;
+  ).annotate({
+    identifier: "FieldTransform",
+  }) as any as Schema.Schema<FieldTransform>;
 
 export interface DocumentTransform {
   /** The name of the document to transform. */
@@ -543,7 +571,7 @@ export interface DocumentTransform {
 }
 
 export const DocumentTransform: Schema.Schema<DocumentTransform> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Schema.String),
       fieldTransforms: Schema.optional(Schema.Array(FieldTransform)),
@@ -557,13 +585,14 @@ export interface DocumentMask {
   fieldPaths?: Array<string>;
 }
 
-export const DocumentMask: Schema.Schema<DocumentMask> = Schema.suspend(() =>
-  Schema.Struct({
-    fieldPaths: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "DocumentMask",
-}) as any as Schema.Schema<DocumentMask>;
+export const DocumentMask: Schema.Schema<DocumentMask> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fieldPaths: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DocumentMask",
+  }) as any as Schema.Schema<DocumentMask>;
 
 export interface Precondition {
   /** When set, the target document must exist and have been last updated at that time. Timestamp must be microsecond aligned. */
@@ -572,14 +601,15 @@ export interface Precondition {
   exists?: boolean;
 }
 
-export const Precondition: Schema.Schema<Precondition> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    exists: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "Precondition",
-}) as any as Schema.Schema<Precondition>;
+export const Precondition: Schema.Schema<Precondition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      exists: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "Precondition",
+  }) as any as Schema.Schema<Precondition>;
 
 export interface Document {
   /** Output only. The time at which the document was created. This value increases monotonically when a document is deleted then recreated. It can also be compared to values from other documents and the `read_time` of a query. */
@@ -592,14 +622,15 @@ export interface Document {
   fields?: Record<string, Value>;
 }
 
-export const Document: Schema.Schema<Document> = Schema.suspend(() =>
-  Schema.Struct({
-    createTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    fields: Schema.optional(Schema.Record(Schema.String, Value)),
-  }),
-).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
+export const Document: Schema.Schema<Document> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Record(Schema.String, Value)),
+    }),
+  ).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
 
 export interface Write {
   /** A document name to delete. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
@@ -616,16 +647,17 @@ export interface Write {
   updateTransforms?: Array<FieldTransform>;
 }
 
-export const Write: Schema.Schema<Write> = Schema.suspend(() =>
-  Schema.Struct({
-    delete: Schema.optional(Schema.String),
-    transform: Schema.optional(DocumentTransform),
-    updateMask: Schema.optional(DocumentMask),
-    currentDocument: Schema.optional(Precondition),
-    update: Schema.optional(Document),
-    updateTransforms: Schema.optional(Schema.Array(FieldTransform)),
-  }),
-).annotate({ identifier: "Write" }) as any as Schema.Schema<Write>;
+export const Write: Schema.Schema<Write> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      delete: Schema.optional(Schema.String),
+      transform: Schema.optional(DocumentTransform),
+      updateMask: Schema.optional(DocumentMask),
+      currentDocument: Schema.optional(Precondition),
+      update: Schema.optional(Document),
+      updateTransforms: Schema.optional(Schema.Array(FieldTransform)),
+    }),
+  ).annotate({ identifier: "Write" }) as any as Schema.Schema<Write>;
 
 export interface WriteRequest {
   /** The ID of the write stream to resume. This may only be set in the first message. When left empty, a new write stream will be created. */
@@ -638,38 +670,41 @@ export interface WriteRequest {
   labels?: Record<string, string>;
 }
 
-export const WriteRequest: Schema.Schema<WriteRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    streamId: Schema.optional(Schema.String),
-    writes: Schema.optional(Schema.Array(Write)),
-    streamToken: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({
-  identifier: "WriteRequest",
-}) as any as Schema.Schema<WriteRequest>;
+export const WriteRequest: Schema.Schema<WriteRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      streamId: Schema.optional(Schema.String),
+      writes: Schema.optional(Schema.Array(Write)),
+      streamToken: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "WriteRequest",
+  }) as any as Schema.Schema<WriteRequest>;
 
 export interface ReadWrite {
   /** An optional transaction to retry. */
   retryTransaction?: string;
 }
 
-export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() =>
-  Schema.Struct({
-    retryTransaction: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
+export const ReadWrite: Schema.Schema<ReadWrite> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      retryTransaction: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
 
 export interface ReadOnly {
   /** Reads documents at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string;
 }
 
-export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() =>
-  Schema.Struct({
-    readTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
+export const ReadOnly: Schema.Schema<ReadOnly> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      readTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
 
 export interface TransactionOptions {
   /** The transaction can be used for both read and write operations. */
@@ -679,7 +714,7 @@ export interface TransactionOptions {
 }
 
 export const TransactionOptions: Schema.Schema<TransactionOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readWrite: Schema.optional(ReadWrite),
       readOnly: Schema.optional(ReadOnly),
@@ -702,7 +737,7 @@ export interface PartitionQueryRequest {
 }
 
 export const PartitionQueryRequest: Schema.Schema<PartitionQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionCount: Schema.optional(Schema.String),
       pageToken: Schema.optional(Schema.String),
@@ -719,14 +754,14 @@ export interface ExplainOptions {
   analyze?: boolean;
 }
 
-export const ExplainOptions: Schema.Schema<ExplainOptions> = Schema.suspend(
-  () =>
+export const ExplainOptions: Schema.Schema<ExplainOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyze: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ExplainOptions",
-}) as any as Schema.Schema<ExplainOptions>;
+  ).annotate({
+    identifier: "ExplainOptions",
+  }) as any as Schema.Schema<ExplainOptions>;
 
 export interface RunQueryRequest {
   /** Reads documents as they were at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
@@ -741,8 +776,8 @@ export interface RunQueryRequest {
   newTransaction?: TransactionOptions;
 }
 
-export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(
-  () =>
+export const RunQueryRequest: Schema.Schema<RunQueryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readTime: Schema.optional(Schema.String),
       explainOptions: Schema.optional(ExplainOptions),
@@ -750,9 +785,9 @@ export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(
       structuredQuery: Schema.optional(StructuredQuery),
       newTransaction: Schema.optional(TransactionOptions),
     }),
-).annotate({
-  identifier: "RunQueryRequest",
-}) as any as Schema.Schema<RunQueryRequest>;
+  ).annotate({
+    identifier: "RunQueryRequest",
+  }) as any as Schema.Schema<RunQueryRequest>;
 
 export interface DocumentChange {
   /** The new state of the Document. If `mask` is set, contains only fields that were updated or added. */
@@ -763,16 +798,16 @@ export interface DocumentChange {
   targetIds?: Array<number>;
 }
 
-export const DocumentChange: Schema.Schema<DocumentChange> = Schema.suspend(
-  () =>
+export const DocumentChange: Schema.Schema<DocumentChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       removedTargetIds: Schema.optional(Schema.Array(Schema.Number)),
       targetIds: Schema.optional(Schema.Array(Schema.Number)),
     }),
-).annotate({
-  identifier: "DocumentChange",
-}) as any as Schema.Schema<DocumentChange>;
+  ).annotate({
+    identifier: "DocumentChange",
+  }) as any as Schema.Schema<DocumentChange>;
 
 export interface BloomFilter {
   /** The number of hashes used by the algorithm. */
@@ -781,12 +816,15 @@ export interface BloomFilter {
   bits?: BitSequence;
 }
 
-export const BloomFilter: Schema.Schema<BloomFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    hashCount: Schema.optional(Schema.Number),
-    bits: Schema.optional(BitSequence),
-  }),
-).annotate({ identifier: "BloomFilter" }) as any as Schema.Schema<BloomFilter>;
+export const BloomFilter: Schema.Schema<BloomFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hashCount: Schema.optional(Schema.Number),
+      bits: Schema.optional(BitSequence),
+    }),
+  ).annotate({
+    identifier: "BloomFilter",
+  }) as any as Schema.Schema<BloomFilter>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -797,28 +835,32 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface PlanSummary {
   /** The indexes selected for the query. For example: [ {"query_scope": "Collection", "properties": "(foo ASC, __name__ ASC)"}, {"query_scope": "Collection", "properties": "(bar ASC, __name__ ASC)"} ] */
   indexesUsed?: Array<Record<string, unknown>>;
 }
 
-export const PlanSummary: Schema.Schema<PlanSummary> = Schema.suspend(() =>
-  Schema.Struct({
-    indexesUsed: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "PlanSummary" }) as any as Schema.Schema<PlanSummary>;
+export const PlanSummary: Schema.Schema<PlanSummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      indexesUsed: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({
+    identifier: "PlanSummary",
+  }) as any as Schema.Schema<PlanSummary>;
 
 export interface ExecutionStats {
   /** Total time to execute the query in the backend. */
@@ -831,17 +873,17 @@ export interface ExecutionStats {
   resultsReturned?: string;
 }
 
-export const ExecutionStats: Schema.Schema<ExecutionStats> = Schema.suspend(
-  () =>
+export const ExecutionStats: Schema.Schema<ExecutionStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionDuration: Schema.optional(Schema.String),
       readOperations: Schema.optional(Schema.String),
       debugStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       resultsReturned: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExecutionStats",
-}) as any as Schema.Schema<ExecutionStats>;
+  ).annotate({
+    identifier: "ExecutionStats",
+  }) as any as Schema.Schema<ExecutionStats>;
 
 export interface ExplainMetrics {
   /** Planning phase information for the query. */
@@ -850,15 +892,15 @@ export interface ExplainMetrics {
   executionStats?: ExecutionStats;
 }
 
-export const ExplainMetrics: Schema.Schema<ExplainMetrics> = Schema.suspend(
-  () =>
+export const ExplainMetrics: Schema.Schema<ExplainMetrics> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       planSummary: Schema.optional(PlanSummary),
       executionStats: Schema.optional(ExecutionStats),
     }),
-).annotate({
-  identifier: "ExplainMetrics",
-}) as any as Schema.Schema<ExplainMetrics>;
+  ).annotate({
+    identifier: "ExplainMetrics",
+  }) as any as Schema.Schema<ExplainMetrics>;
 
 export interface RunQueryResponse {
   /** The time at which the document was read. This may be monotonically increasing; in this case, the previous documents in the result stream are guaranteed not to have changed between their `read_time` and this one. If the query returns no results, a response with `read_time` and no `document` will be sent, and this represents the time at which the query was run. */
@@ -875,8 +917,8 @@ export interface RunQueryResponse {
   done?: boolean;
 }
 
-export const RunQueryResponse: Schema.Schema<RunQueryResponse> = Schema.suspend(
-  () =>
+export const RunQueryResponse: Schema.Schema<RunQueryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readTime: Schema.optional(Schema.String),
       document: Schema.optional(Document),
@@ -885,9 +927,9 @@ export const RunQueryResponse: Schema.Schema<RunQueryResponse> = Schema.suspend(
       transaction: Schema.optional(Schema.String),
       done: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "RunQueryResponse",
-}) as any as Schema.Schema<RunQueryResponse>;
+  ).annotate({
+    identifier: "RunQueryResponse",
+  }) as any as Schema.Schema<RunQueryResponse>;
 
 export interface RunAggregationQueryRequest {
   /** Starts a new transaction as part of the query, defaulting to read-only. The new transaction ID will be returned as the first response in the stream. */
@@ -903,7 +945,7 @@ export interface RunAggregationQueryRequest {
 }
 
 export const RunAggregationQueryRequest: Schema.Schema<RunAggregationQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newTransaction: Schema.optional(TransactionOptions),
       structuredAggregationQuery: Schema.optional(StructuredAggregationQuery),
@@ -918,7 +960,7 @@ export const RunAggregationQueryRequest: Schema.Schema<RunAggregationQueryReques
 export interface GoogleFirestoreAdminV1CreateDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1CreateDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1CreateDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1CreateDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1CreateDatabaseMetadata>;
 
@@ -931,16 +973,16 @@ export interface ExistenceFilter {
   unchangedNames?: BloomFilter;
 }
 
-export const ExistenceFilter: Schema.Schema<ExistenceFilter> = Schema.suspend(
-  () =>
+export const ExistenceFilter: Schema.Schema<ExistenceFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetId: Schema.optional(Schema.Number),
       count: Schema.optional(Schema.Number),
       unchangedNames: Schema.optional(BloomFilter),
     }),
-).annotate({
-  identifier: "ExistenceFilter",
-}) as any as Schema.Schema<ExistenceFilter>;
+  ).annotate({
+    identifier: "ExistenceFilter",
+  }) as any as Schema.Schema<ExistenceFilter>;
 
 export interface WriteResult {
   /** The last update time of the document after applying the write. Not set after a `delete`. If the write did not actually change the document, this will be the previous update_time. */
@@ -949,12 +991,15 @@ export interface WriteResult {
   transformResults?: Array<Value>;
 }
 
-export const WriteResult: Schema.Schema<WriteResult> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    transformResults: Schema.optional(Schema.Array(Value)),
-  }),
-).annotate({ identifier: "WriteResult" }) as any as Schema.Schema<WriteResult>;
+export const WriteResult: Schema.Schema<WriteResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      transformResults: Schema.optional(Schema.Array(Value)),
+    }),
+  ).annotate({
+    identifier: "WriteResult",
+  }) as any as Schema.Schema<WriteResult>;
 
 export interface BatchWriteResponse {
   /** The status of applying the writes. This i-th write status corresponds to the i-th write in the request. */
@@ -964,7 +1009,7 @@ export interface BatchWriteResponse {
 }
 
 export const BatchWriteResponse: Schema.Schema<BatchWriteResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.Array(Status)),
       writeResults: Schema.optional(Schema.Array(WriteResult)),
@@ -981,7 +1026,7 @@ export interface GoogleFirestoreAdminV1beta1Progress {
 }
 
 export const GoogleFirestoreAdminV1beta1Progress: Schema.Schema<GoogleFirestoreAdminV1beta1Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workCompleted: Schema.optional(Schema.String),
       workEstimated: Schema.optional(Schema.String),
@@ -1009,7 +1054,7 @@ export interface GoogleFirestoreAdminV1beta1IndexOperationMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta1IndexOperationMetadata: Schema.Schema<GoogleFirestoreAdminV1beta1IndexOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       index: Schema.optional(Schema.String),
@@ -1031,16 +1076,16 @@ export interface DocumentDelete {
   removedTargetIds?: Array<number>;
 }
 
-export const DocumentDelete: Schema.Schema<DocumentDelete> = Schema.suspend(
-  () =>
+export const DocumentDelete: Schema.Schema<DocumentDelete> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readTime: Schema.optional(Schema.String),
       document: Schema.optional(Schema.String),
       removedTargetIds: Schema.optional(Schema.Array(Schema.Number)),
     }),
-).annotate({
-  identifier: "DocumentDelete",
-}) as any as Schema.Schema<DocumentDelete>;
+  ).annotate({
+    identifier: "DocumentDelete",
+  }) as any as Schema.Schema<DocumentDelete>;
 
 export interface DocumentRemove {
   /** The resource name of the Document that has gone out of view. */
@@ -1051,16 +1096,16 @@ export interface DocumentRemove {
   removedTargetIds?: Array<number>;
 }
 
-export const DocumentRemove: Schema.Schema<DocumentRemove> = Schema.suspend(
-  () =>
+export const DocumentRemove: Schema.Schema<DocumentRemove> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Schema.String),
       readTime: Schema.optional(Schema.String),
       removedTargetIds: Schema.optional(Schema.Array(Schema.Number)),
     }),
-).annotate({
-  identifier: "DocumentRemove",
-}) as any as Schema.Schema<DocumentRemove>;
+  ).annotate({
+    identifier: "DocumentRemove",
+  }) as any as Schema.Schema<DocumentRemove>;
 
 export interface TargetChange {
   /** The target IDs of targets that have changed. If empty, the change applies to all targets. The order of the target IDs is not defined. */
@@ -1081,17 +1126,18 @@ export interface TargetChange {
   readTime?: string;
 }
 
-export const TargetChange: Schema.Schema<TargetChange> = Schema.suspend(() =>
-  Schema.Struct({
-    targetIds: Schema.optional(Schema.Array(Schema.Number)),
-    cause: Schema.optional(Status),
-    resumeToken: Schema.optional(Schema.String),
-    targetChangeType: Schema.optional(Schema.String),
-    readTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TargetChange",
-}) as any as Schema.Schema<TargetChange>;
+export const TargetChange: Schema.Schema<TargetChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetIds: Schema.optional(Schema.Array(Schema.Number)),
+      cause: Schema.optional(Status),
+      resumeToken: Schema.optional(Schema.String),
+      targetChangeType: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TargetChange",
+  }) as any as Schema.Schema<TargetChange>;
 
 export interface ListenResponse {
   /** A Document has been deleted. */
@@ -1106,8 +1152,8 @@ export interface ListenResponse {
   targetChange?: TargetChange;
 }
 
-export const ListenResponse: Schema.Schema<ListenResponse> = Schema.suspend(
-  () =>
+export const ListenResponse: Schema.Schema<ListenResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentDelete: Schema.optional(DocumentDelete),
       documentChange: Schema.optional(DocumentChange),
@@ -1115,9 +1161,9 @@ export const ListenResponse: Schema.Schema<ListenResponse> = Schema.suspend(
       filter: Schema.optional(ExistenceFilter),
       targetChange: Schema.optional(TargetChange),
     }),
-).annotate({
-  identifier: "ListenResponse",
-}) as any as Schema.Schema<ListenResponse>;
+  ).annotate({
+    identifier: "ListenResponse",
+  }) as any as Schema.Schema<ListenResponse>;
 
 export interface GoogleFirestoreAdminV1beta1ExportDocumentsRequest {
   /** Which collection ids to export. Unspecified means all collections. */
@@ -1127,7 +1173,7 @@ export interface GoogleFirestoreAdminV1beta1ExportDocumentsRequest {
 }
 
 export const GoogleFirestoreAdminV1beta1ExportDocumentsRequest: Schema.Schema<GoogleFirestoreAdminV1beta1ExportDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
       outputUriPrefix: Schema.optional(Schema.String),
@@ -1150,7 +1196,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       done: Schema.optional(Schema.Boolean),
@@ -1167,14 +1213,14 @@ export interface RollbackRequest {
   transaction?: string;
 }
 
-export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(
-  () =>
+export const RollbackRequest: Schema.Schema<RollbackRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transaction: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RollbackRequest",
-}) as any as Schema.Schema<RollbackRequest>;
+  ).annotate({
+    identifier: "RollbackRequest",
+  }) as any as Schema.Schema<RollbackRequest>;
 
 export interface GoogleFirestoreAdminV1beta1ImportDocumentsMetadata {
   /** An estimate of the number of documents processed. */
@@ -1203,7 +1249,7 @@ export interface GoogleFirestoreAdminV1beta1ImportDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta1ImportDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1beta1ImportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressDocuments: Schema.optional(GoogleFirestoreAdminV1beta1Progress),
       endTime: Schema.optional(Schema.String),
@@ -1222,14 +1268,14 @@ export interface DocumentsTarget {
   documents?: Array<string>;
 }
 
-export const DocumentsTarget: Schema.Schema<DocumentsTarget> = Schema.suspend(
-  () =>
+export const DocumentsTarget: Schema.Schema<DocumentsTarget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "DocumentsTarget",
-}) as any as Schema.Schema<DocumentsTarget>;
+  ).annotate({
+    identifier: "DocumentsTarget",
+  }) as any as Schema.Schema<DocumentsTarget>;
 
 export interface QueryTarget {
   /** The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
@@ -1238,12 +1284,15 @@ export interface QueryTarget {
   structuredQuery?: StructuredQuery;
 }
 
-export const QueryTarget: Schema.Schema<QueryTarget> = Schema.suspend(() =>
-  Schema.Struct({
-    parent: Schema.optional(Schema.String),
-    structuredQuery: Schema.optional(StructuredQuery),
-  }),
-).annotate({ identifier: "QueryTarget" }) as any as Schema.Schema<QueryTarget>;
+export const QueryTarget: Schema.Schema<QueryTarget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      structuredQuery: Schema.optional(StructuredQuery),
+    }),
+  ).annotate({
+    identifier: "QueryTarget",
+  }) as any as Schema.Schema<QueryTarget>;
 
 export interface Target {
   /** A target specified by a set of document names. */
@@ -1262,17 +1311,18 @@ export interface Target {
   query?: QueryTarget;
 }
 
-export const Target: Schema.Schema<Target> = Schema.suspend(() =>
-  Schema.Struct({
-    documents: Schema.optional(DocumentsTarget),
-    targetId: Schema.optional(Schema.Number),
-    resumeToken: Schema.optional(Schema.String),
-    once: Schema.optional(Schema.Boolean),
-    readTime: Schema.optional(Schema.String),
-    expectedCount: Schema.optional(Schema.Number),
-    query: Schema.optional(QueryTarget),
-  }),
-).annotate({ identifier: "Target" }) as any as Schema.Schema<Target>;
+export const Target: Schema.Schema<Target> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      documents: Schema.optional(DocumentsTarget),
+      targetId: Schema.optional(Schema.Number),
+      resumeToken: Schema.optional(Schema.String),
+      once: Schema.optional(Schema.Boolean),
+      readTime: Schema.optional(Schema.String),
+      expectedCount: Schema.optional(Schema.Number),
+      query: Schema.optional(QueryTarget),
+    }),
+  ).annotate({ identifier: "Target" }) as any as Schema.Schema<Target>;
 
 export interface ExecutePipelineRequest {
   /** Execute the pipeline in a new transaction. The identifier of the newly created transaction will be returned in the first response on the stream. This defaults to a read-only transaction. */
@@ -1286,7 +1336,7 @@ export interface ExecutePipelineRequest {
 }
 
 export const ExecutePipelineRequest: Schema.Schema<ExecutePipelineRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newTransaction: Schema.optional(TransactionOptions),
       transaction: Schema.optional(Schema.String),
@@ -1302,13 +1352,14 @@ export interface ExplainStats {
   data?: Record<string, unknown>;
 }
 
-export const ExplainStats: Schema.Schema<ExplainStats> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({
-  identifier: "ExplainStats",
-}) as any as Schema.Schema<ExplainStats>;
+export const ExplainStats: Schema.Schema<ExplainStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "ExplainStats",
+  }) as any as Schema.Schema<ExplainStats>;
 
 export interface BatchWriteRequest {
   /** The writes to apply. Method does not apply writes atomically and does not guarantee ordering. Each write succeeds or fails independently. You cannot write to the same document more than once per request. */
@@ -1318,7 +1369,7 @@ export interface BatchWriteRequest {
 }
 
 export const BatchWriteRequest: Schema.Schema<BatchWriteRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       writes: Schema.optional(Schema.Array(Write)),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -1335,7 +1386,7 @@ export interface GoogleFirestoreAdminV1Progress {
 }
 
 export const GoogleFirestoreAdminV1Progress: Schema.Schema<GoogleFirestoreAdminV1Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       completedWork: Schema.optional(Schema.String),
       estimatedWork: Schema.optional(Schema.String),
@@ -1354,7 +1405,7 @@ export interface GoogleFirestoreAdminV1PitrSnapshot {
 }
 
 export const GoogleFirestoreAdminV1PitrSnapshot: Schema.Schema<GoogleFirestoreAdminV1PitrSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       database: Schema.optional(Schema.String),
       snapshotTime: Schema.optional(Schema.String),
@@ -1389,7 +1440,7 @@ export interface GoogleFirestoreAdminV1CloneDatabaseMetadata {
 }
 
 export const GoogleFirestoreAdminV1CloneDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1CloneDatabaseMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       operationState: Schema.optional(Schema.String),
@@ -1410,7 +1461,7 @@ export interface ListDocumentsResponse {
 }
 
 export const ListDocumentsResponse: Schema.Schema<ListDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(Schema.Array(Document)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1425,7 +1476,7 @@ export interface BeginTransactionResponse {
 }
 
 export const BeginTransactionResponse: Schema.Schema<BeginTransactionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transaction: Schema.optional(Schema.String),
     }),
@@ -1458,7 +1509,7 @@ export interface GoogleFirestoreAdminV1RestoreDatabaseMetadata {
 }
 
 export const GoogleFirestoreAdminV1RestoreDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1RestoreDatabaseMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       backup: Schema.optional(Schema.String),
       progressPercentage: Schema.optional(GoogleFirestoreAdminV1Progress),
@@ -1484,7 +1535,7 @@ export interface GoogleFirestoreAdminV1beta1IndexField {
 }
 
 export const GoogleFirestoreAdminV1beta1IndexField: Schema.Schema<GoogleFirestoreAdminV1beta1IndexField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
       mode: Schema.optional(Schema.String),
@@ -1501,7 +1552,7 @@ export interface ListCollectionIdsResponse {
 }
 
 export const ListCollectionIdsResponse: Schema.Schema<ListCollectionIdsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1518,7 +1569,7 @@ export interface GoogleFirestoreAdminV1beta1ImportDocumentsRequest {
 }
 
 export const GoogleFirestoreAdminV1beta1ImportDocumentsRequest: Schema.Schema<GoogleFirestoreAdminV1beta1ImportDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputUriPrefix: Schema.optional(Schema.String),
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1536,15 +1587,16 @@ export interface ListenRequest {
   removeTarget?: number;
 }
 
-export const ListenRequest: Schema.Schema<ListenRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    addTarget: Schema.optional(Target),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    removeTarget: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "ListenRequest",
-}) as any as Schema.Schema<ListenRequest>;
+export const ListenRequest: Schema.Schema<ListenRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      addTarget: Schema.optional(Target),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      removeTarget: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListenRequest",
+  }) as any as Schema.Schema<ListenRequest>;
 
 export interface ListCollectionIdsRequest {
   /** A page token. Must be a value from ListCollectionIdsResponse. */
@@ -1556,7 +1608,7 @@ export interface ListCollectionIdsRequest {
 }
 
 export const ListCollectionIdsRequest: Schema.Schema<ListCollectionIdsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageToken: Schema.optional(Schema.String),
       pageSize: Schema.optional(Schema.Number),
@@ -1568,9 +1620,10 @@ export const ListCollectionIdsRequest: Schema.Schema<ListCollectionIdsRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface PartitionQueryResponse {
   /** Partition results. Each partition is a split point that can be used by RunQuery as a starting or end point for the query results. The RunQuery requests must be made with the same query supplied to this PartitionQuery request. The partition cursors will be ordered according to same ordering as the results of the query supplied to PartitionQuery. For example, if a PartitionQuery request returns partition cursors A and B, running the following three queries will return the entire result set of the original query: * query, end_at A * query, start_at A, end_at B * query, start_at B An empty result may indicate that the query has too few results to be partitioned, or that the query is not yet supported for partitioning. */
@@ -1580,7 +1633,7 @@ export interface PartitionQueryResponse {
 }
 
 export const PartitionQueryResponse: Schema.Schema<PartitionQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitions: Schema.optional(Schema.Array(Cursor)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1618,7 +1671,7 @@ export interface GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snapshotTime: Schema.optional(Schema.String),
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1636,7 +1689,7 @@ export const GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata: Schema.Schema<Go
 export interface GoogleFirestoreAdminV1DeleteDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1DeleteDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1DeleteDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1DeleteDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1DeleteDatabaseMetadata>;
 
@@ -1647,19 +1700,20 @@ export interface CommitRequest {
   transaction?: string;
 }
 
-export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    writes: Schema.optional(Schema.Array(Write)),
-    transaction: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CommitRequest",
-}) as any as Schema.Schema<CommitRequest>;
+export const CommitRequest: Schema.Schema<CommitRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      writes: Schema.optional(Schema.Array(Write)),
+      transaction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitRequest",
+  }) as any as Schema.Schema<CommitRequest>;
 
 export interface GoogleFirestoreAdminV1beta1LocationMetadata {}
 
 export const GoogleFirestoreAdminV1beta1LocationMetadata: Schema.Schema<GoogleFirestoreAdminV1beta1LocationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1beta1LocationMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1beta1LocationMetadata>;
 
@@ -1669,7 +1723,7 @@ export interface AggregationResult {
 }
 
 export const AggregationResult: Schema.Schema<AggregationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregateFields: Schema.optional(Schema.Record(Schema.String, Value)),
     }),
@@ -1689,7 +1743,7 @@ export interface RunAggregationQueryResponse {
 }
 
 export const RunAggregationQueryResponse: Schema.Schema<RunAggregationQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(AggregationResult),
       explainMetrics: Schema.optional(ExplainMetrics),
@@ -1727,7 +1781,7 @@ export interface GoogleFirestoreAdminV1beta1ExportDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta1ExportDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1beta1ExportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
       startTime: Schema.optional(Schema.String),
@@ -1744,7 +1798,7 @@ export const GoogleFirestoreAdminV1beta1ExportDocumentsMetadata: Schema.Schema<G
 export interface GoogleFirestoreAdminV1UpdateDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1UpdateDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1UpdateDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1UpdateDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1UpdateDatabaseMetadata>;
 
@@ -1760,7 +1814,7 @@ export interface GoogleFirestoreAdminV1beta1Index {
 }
 
 export const GoogleFirestoreAdminV1beta1Index: Schema.Schema<GoogleFirestoreAdminV1beta1Index> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1785,7 +1839,7 @@ export interface ExecutePipelineResponse {
 }
 
 export const ExecutePipelineResponse: Schema.Schema<ExecutePipelineResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transaction: Schema.optional(Schema.String),
       results: Schema.optional(Schema.Array(Document)),
@@ -1803,15 +1857,15 @@ export interface CommitResponse {
   commitTime?: string;
 }
 
-export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(
-  () =>
+export const CommitResponse: Schema.Schema<CommitResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       writeResults: Schema.optional(Schema.Array(WriteResult)),
       commitTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CommitResponse",
-}) as any as Schema.Schema<CommitResponse>;
+  ).annotate({
+    identifier: "CommitResponse",
+  }) as any as Schema.Schema<CommitResponse>;
 
 export interface GoogleFirestoreAdminV1beta1ListIndexesResponse {
   /** The indexes. */
@@ -1821,7 +1875,7 @@ export interface GoogleFirestoreAdminV1beta1ListIndexesResponse {
 }
 
 export const GoogleFirestoreAdminV1beta1ListIndexesResponse: Schema.Schema<GoogleFirestoreAdminV1beta1ListIndexesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       indexes: Schema.optional(Schema.Array(GoogleFirestoreAdminV1beta1Index)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1842,7 +1896,7 @@ export interface BatchGetDocumentsResponse {
 }
 
 export const BatchGetDocumentsResponse: Schema.Schema<BatchGetDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       missing: Schema.optional(Schema.String),
       found: Schema.optional(Document),
@@ -1864,16 +1918,17 @@ export interface WriteResponse {
   streamToken?: string;
 }
 
-export const WriteResponse: Schema.Schema<WriteResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    writeResults: Schema.optional(Schema.Array(WriteResult)),
-    commitTime: Schema.optional(Schema.String),
-    streamId: Schema.optional(Schema.String),
-    streamToken: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "WriteResponse",
-}) as any as Schema.Schema<WriteResponse>;
+export const WriteResponse: Schema.Schema<WriteResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      writeResults: Schema.optional(Schema.Array(WriteResult)),
+      commitTime: Schema.optional(Schema.String),
+      streamId: Schema.optional(Schema.String),
+      streamToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WriteResponse",
+  }) as any as Schema.Schema<WriteResponse>;
 
 export interface BatchGetDocumentsRequest {
   /** Reads documents as they were at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
@@ -1889,7 +1944,7 @@ export interface BatchGetDocumentsRequest {
 }
 
 export const BatchGetDocumentsRequest: Schema.Schema<BatchGetDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readTime: Schema.optional(Schema.String),
       documents: Schema.optional(Schema.Array(Schema.String)),
@@ -1907,7 +1962,7 @@ export interface BeginTransactionRequest {
 }
 
 export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(TransactionOptions),
     }),
@@ -1926,24 +1981,25 @@ export interface ImportDocumentsProjectsDatabasesRequest {
   body?: GoogleFirestoreAdminV1beta1ImportDocumentsRequest;
 }
 
-export const ImportDocumentsProjectsDatabasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirestoreAdminV1beta1ImportDocumentsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}:importDocuments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportDocumentsProjectsDatabasesRequest>;
+export const ImportDocumentsProjectsDatabasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleFirestoreAdminV1beta1ImportDocumentsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}:importDocuments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportDocumentsProjectsDatabasesRequest>;
 
 export type ImportDocumentsProjectsDatabasesResponse =
   GoogleLongrunningOperation;
 export const ImportDocumentsProjectsDatabasesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportDocumentsProjectsDatabasesError = DefaultErrors;
 
@@ -1953,7 +2009,7 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   ImportDocumentsProjectsDatabasesResponse,
   ImportDocumentsProjectsDatabasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDocumentsProjectsDatabasesRequest,
   output: ImportDocumentsProjectsDatabasesResponse,
   errors: [],
@@ -1966,24 +2022,25 @@ export interface ExportDocumentsProjectsDatabasesRequest {
   body?: GoogleFirestoreAdminV1beta1ExportDocumentsRequest;
 }
 
-export const ExportDocumentsProjectsDatabasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirestoreAdminV1beta1ExportDocumentsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}:exportDocuments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportDocumentsProjectsDatabasesRequest>;
+export const ExportDocumentsProjectsDatabasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleFirestoreAdminV1beta1ExportDocumentsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}:exportDocuments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportDocumentsProjectsDatabasesRequest>;
 
 export type ExportDocumentsProjectsDatabasesResponse =
   GoogleLongrunningOperation;
 export const ExportDocumentsProjectsDatabasesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportDocumentsProjectsDatabasesError = DefaultErrors;
 
@@ -1993,7 +2050,7 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   ExportDocumentsProjectsDatabasesResponse,
   ExportDocumentsProjectsDatabasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportDocumentsProjectsDatabasesRequest,
   output: ExportDocumentsProjectsDatabasesResponse,
   errors: [],
@@ -2004,20 +2061,21 @@ export interface GetProjectsDatabasesIndexesRequest {
   name: string;
 }
 
-export const GetProjectsDatabasesIndexesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes/{indexesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatabasesIndexesRequest>;
+export const GetProjectsDatabasesIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes/{indexesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatabasesIndexesRequest>;
 
 export type GetProjectsDatabasesIndexesResponse =
   GoogleFirestoreAdminV1beta1Index;
 export const GetProjectsDatabasesIndexesResponse =
-  GoogleFirestoreAdminV1beta1Index;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta1Index;
 
 export type GetProjectsDatabasesIndexesError = DefaultErrors;
 
@@ -2027,7 +2085,7 @@ export const getProjectsDatabasesIndexes: API.OperationMethod<
   GetProjectsDatabasesIndexesResponse,
   GetProjectsDatabasesIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatabasesIndexesRequest,
   output: GetProjectsDatabasesIndexesResponse,
   errors: [],
@@ -2043,23 +2101,24 @@ export interface ListProjectsDatabasesIndexesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDatabasesIndexesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatabasesIndexesRequest>;
+export const ListProjectsDatabasesIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatabasesIndexesRequest>;
 
 export type ListProjectsDatabasesIndexesResponse =
   GoogleFirestoreAdminV1beta1ListIndexesResponse;
 export const ListProjectsDatabasesIndexesResponse =
-  GoogleFirestoreAdminV1beta1ListIndexesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta1ListIndexesResponse;
 
 export type ListProjectsDatabasesIndexesError = DefaultErrors;
 
@@ -2069,7 +2128,7 @@ export const listProjectsDatabasesIndexes: API.PaginatedOperationMethod<
   ListProjectsDatabasesIndexesResponse,
   ListProjectsDatabasesIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatabasesIndexesRequest,
   output: ListProjectsDatabasesIndexesResponse,
   errors: [],
@@ -2086,21 +2145,22 @@ export interface CreateProjectsDatabasesIndexesRequest {
   body?: GoogleFirestoreAdminV1beta1Index;
 }
 
-export const CreateProjectsDatabasesIndexesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleFirestoreAdminV1beta1Index).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDatabasesIndexesRequest>;
+export const CreateProjectsDatabasesIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleFirestoreAdminV1beta1Index).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDatabasesIndexesRequest>;
 
 export type CreateProjectsDatabasesIndexesResponse = GoogleLongrunningOperation;
 export const CreateProjectsDatabasesIndexesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsDatabasesIndexesError = DefaultErrors;
 
@@ -2110,7 +2170,7 @@ export const createProjectsDatabasesIndexes: API.OperationMethod<
   CreateProjectsDatabasesIndexesResponse,
   CreateProjectsDatabasesIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDatabasesIndexesRequest,
   output: CreateProjectsDatabasesIndexesResponse,
   errors: [],
@@ -2121,18 +2181,20 @@ export interface DeleteProjectsDatabasesIndexesRequest {
   name: string;
 }
 
-export const DeleteProjectsDatabasesIndexesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes/{indexesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatabasesIndexesRequest>;
+export const DeleteProjectsDatabasesIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/indexes/{indexesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatabasesIndexesRequest>;
 
 export type DeleteProjectsDatabasesIndexesResponse = Empty;
-export const DeleteProjectsDatabasesIndexesResponse = Empty;
+export const DeleteProjectsDatabasesIndexesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsDatabasesIndexesError = DefaultErrors;
 
@@ -2142,7 +2204,7 @@ export const deleteProjectsDatabasesIndexes: API.OperationMethod<
   DeleteProjectsDatabasesIndexesResponse,
   DeleteProjectsDatabasesIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatabasesIndexesRequest,
   output: DeleteProjectsDatabasesIndexesResponse,
   errors: [],
@@ -2156,7 +2218,7 @@ export interface RunAggregationQueryProjectsDatabasesDocumentsRequest {
 }
 
 export const RunAggregationQueryProjectsDatabasesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(RunAggregationQueryRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -2171,7 +2233,7 @@ export const RunAggregationQueryProjectsDatabasesDocumentsRequest =
 export type RunAggregationQueryProjectsDatabasesDocumentsResponse =
   RunAggregationQueryResponse;
 export const RunAggregationQueryProjectsDatabasesDocumentsResponse =
-  RunAggregationQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RunAggregationQueryResponse;
 
 export type RunAggregationQueryProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2181,7 +2243,7 @@ export const runAggregationQueryProjectsDatabasesDocuments: API.OperationMethod<
   RunAggregationQueryProjectsDatabasesDocumentsResponse,
   RunAggregationQueryProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAggregationQueryProjectsDatabasesDocumentsRequest,
   output: RunAggregationQueryProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2194,20 +2256,22 @@ export interface BatchWriteProjectsDatabasesDocumentsRequest {
   body?: BatchWriteRequest;
 }
 
-export const BatchWriteProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(BatchWriteRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:batchWrite",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchWriteProjectsDatabasesDocumentsRequest>;
+export const BatchWriteProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(BatchWriteRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:batchWrite",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchWriteProjectsDatabasesDocumentsRequest>;
 
 export type BatchWriteProjectsDatabasesDocumentsResponse = BatchWriteResponse;
-export const BatchWriteProjectsDatabasesDocumentsResponse = BatchWriteResponse;
+export const BatchWriteProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchWriteResponse;
 
 export type BatchWriteProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2217,7 +2281,7 @@ export const batchWriteProjectsDatabasesDocuments: API.OperationMethod<
   BatchWriteProjectsDatabasesDocumentsResponse,
   BatchWriteProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchWriteProjectsDatabasesDocumentsRequest,
   output: BatchWriteProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2230,22 +2294,23 @@ export interface ExecutePipelineProjectsDatabasesDocumentsRequest {
   body?: ExecutePipelineRequest;
 }
 
-export const ExecutePipelineProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(ExecutePipelineRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:executePipeline",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecutePipelineProjectsDatabasesDocumentsRequest>;
+export const ExecutePipelineProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(ExecutePipelineRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:executePipeline",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecutePipelineProjectsDatabasesDocumentsRequest>;
 
 export type ExecutePipelineProjectsDatabasesDocumentsResponse =
   ExecutePipelineResponse;
 export const ExecutePipelineProjectsDatabasesDocumentsResponse =
-  ExecutePipelineResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ExecutePipelineResponse;
 
 export type ExecutePipelineProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2255,7 +2320,7 @@ export const executePipelineProjectsDatabasesDocuments: API.OperationMethod<
   ExecutePipelineProjectsDatabasesDocumentsResponse,
   ExecutePipelineProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecutePipelineProjectsDatabasesDocumentsRequest,
   output: ExecutePipelineProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2268,20 +2333,22 @@ export interface ListenProjectsDatabasesDocumentsRequest {
   body?: ListenRequest;
 }
 
-export const ListenProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(ListenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:listen",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ListenProjectsDatabasesDocumentsRequest>;
+export const ListenProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(ListenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:listen",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListenProjectsDatabasesDocumentsRequest>;
 
 export type ListenProjectsDatabasesDocumentsResponse = ListenResponse;
-export const ListenProjectsDatabasesDocumentsResponse = ListenResponse;
+export const ListenProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListenResponse;
 
 export type ListenProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2291,7 +2358,7 @@ export const listenProjectsDatabasesDocuments: API.OperationMethod<
   ListenProjectsDatabasesDocumentsResponse,
   ListenProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListenProjectsDatabasesDocumentsRequest,
   output: ListenProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2304,22 +2371,23 @@ export interface PartitionQueryProjectsDatabasesDocumentsRequest {
   body?: PartitionQueryRequest;
 }
 
-export const PartitionQueryProjectsDatabasesDocumentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PartitionQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:partitionQuery",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PartitionQueryProjectsDatabasesDocumentsRequest>;
+export const PartitionQueryProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PartitionQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:partitionQuery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PartitionQueryProjectsDatabasesDocumentsRequest>;
 
 export type PartitionQueryProjectsDatabasesDocumentsResponse =
   PartitionQueryResponse;
 export const PartitionQueryProjectsDatabasesDocumentsResponse =
-  PartitionQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ PartitionQueryResponse;
 
 export type PartitionQueryProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2329,7 +2397,7 @@ export const partitionQueryProjectsDatabasesDocuments: API.OperationMethod<
   PartitionQueryProjectsDatabasesDocumentsResponse,
   PartitionQueryProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PartitionQueryProjectsDatabasesDocumentsRequest,
   output: PartitionQueryProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2342,20 +2410,22 @@ export interface RunQueryProjectsDatabasesDocumentsRequest {
   body?: RunQueryRequest;
 }
 
-export const RunQueryProjectsDatabasesDocumentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(RunQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:runQuery",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunQueryProjectsDatabasesDocumentsRequest>;
+export const RunQueryProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(RunQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:runQuery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunQueryProjectsDatabasesDocumentsRequest>;
 
 export type RunQueryProjectsDatabasesDocumentsResponse = RunQueryResponse;
-export const RunQueryProjectsDatabasesDocumentsResponse = RunQueryResponse;
+export const RunQueryProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunQueryResponse;
 
 export type RunQueryProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2365,7 +2435,7 @@ export const runQueryProjectsDatabasesDocuments: API.OperationMethod<
   RunQueryProjectsDatabasesDocumentsResponse,
   RunQueryProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunQueryProjectsDatabasesDocumentsRequest,
   output: RunQueryProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2378,22 +2448,23 @@ export interface BatchGetProjectsDatabasesDocumentsRequest {
   body?: BatchGetDocumentsRequest;
 }
 
-export const BatchGetProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(BatchGetDocumentsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:batchGet",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsDatabasesDocumentsRequest>;
+export const BatchGetProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(BatchGetDocumentsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:batchGet",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsDatabasesDocumentsRequest>;
 
 export type BatchGetProjectsDatabasesDocumentsResponse =
   BatchGetDocumentsResponse;
 export const BatchGetProjectsDatabasesDocumentsResponse =
-  BatchGetDocumentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetDocumentsResponse;
 
 export type BatchGetProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2403,7 +2474,7 @@ export const batchGetProjectsDatabasesDocuments: API.OperationMethod<
   BatchGetProjectsDatabasesDocumentsResponse,
   BatchGetProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsDatabasesDocumentsRequest,
   output: BatchGetProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2424,32 +2495,34 @@ export interface PatchProjectsDatabasesDocumentsRequest {
   body?: Document;
 }
 
-export const PatchProjectsDatabasesDocumentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("mask.fieldPaths"),
-  ),
-  "updateMask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("updateMask.fieldPaths"),
-  ),
-  "currentDocument.exists": Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("currentDocument.exists"),
-  ),
-  "currentDocument.updateTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currentDocument.updateTime"),
-  ),
-  body: Schema.optional(Document).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsDatabasesDocumentsRequest>;
+export const PatchProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("mask.fieldPaths"),
+    ),
+    "updateMask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("updateMask.fieldPaths"),
+    ),
+    "currentDocument.exists": Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("currentDocument.exists"),
+    ),
+    "currentDocument.updateTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currentDocument.updateTime"),
+    ),
+    body: Schema.optional(Document).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsDatabasesDocumentsRequest>;
 
 export type PatchProjectsDatabasesDocumentsResponse = Document;
-export const PatchProjectsDatabasesDocumentsResponse = Document;
+export const PatchProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Document;
 
 export type PatchProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2459,7 +2532,7 @@ export const patchProjectsDatabasesDocuments: API.OperationMethod<
   PatchProjectsDatabasesDocumentsResponse,
   PatchProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsDatabasesDocumentsRequest,
   output: PatchProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2472,22 +2545,23 @@ export interface BeginTransactionProjectsDatabasesDocumentsRequest {
   body?: BeginTransactionRequest;
 }
 
-export const BeginTransactionProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:beginTransaction",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BeginTransactionProjectsDatabasesDocumentsRequest>;
+export const BeginTransactionProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:beginTransaction",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BeginTransactionProjectsDatabasesDocumentsRequest>;
 
 export type BeginTransactionProjectsDatabasesDocumentsResponse =
   BeginTransactionResponse;
 export const BeginTransactionProjectsDatabasesDocumentsResponse =
-  BeginTransactionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BeginTransactionResponse;
 
 export type BeginTransactionProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2497,7 +2571,7 @@ export const beginTransactionProjectsDatabasesDocuments: API.OperationMethod<
   BeginTransactionProjectsDatabasesDocumentsResponse,
   BeginTransactionProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BeginTransactionProjectsDatabasesDocumentsRequest,
   output: BeginTransactionProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2510,20 +2584,22 @@ export interface RollbackProjectsDatabasesDocumentsRequest {
   body?: RollbackRequest;
 }
 
-export const RollbackProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:rollback",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RollbackProjectsDatabasesDocumentsRequest>;
+export const RollbackProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:rollback",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RollbackProjectsDatabasesDocumentsRequest>;
 
 export type RollbackProjectsDatabasesDocumentsResponse = Empty;
-export const RollbackProjectsDatabasesDocumentsResponse = Empty;
+export const RollbackProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RollbackProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2533,7 +2609,7 @@ export const rollbackProjectsDatabasesDocuments: API.OperationMethod<
   RollbackProjectsDatabasesDocumentsResponse,
   RollbackProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackProjectsDatabasesDocumentsRequest,
   output: RollbackProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2546,20 +2622,22 @@ export interface WriteProjectsDatabasesDocumentsRequest {
   body?: WriteRequest;
 }
 
-export const WriteProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(WriteRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:write",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WriteProjectsDatabasesDocumentsRequest>;
+export const WriteProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(WriteRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:write",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteProjectsDatabasesDocumentsRequest>;
 
 export type WriteProjectsDatabasesDocumentsResponse = WriteResponse;
-export const WriteProjectsDatabasesDocumentsResponse = WriteResponse;
+export const WriteProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WriteResponse;
 
 export type WriteProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2569,7 +2647,7 @@ export const writeProjectsDatabasesDocuments: API.OperationMethod<
   WriteProjectsDatabasesDocumentsResponse,
   WriteProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsDatabasesDocumentsRequest,
   output: WriteProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2588,25 +2666,27 @@ export interface CreateDocumentProjectsDatabasesDocumentsRequest {
   body?: Document;
 }
 
-export const CreateDocumentProjectsDatabasesDocumentsRequest = Schema.Struct({
-  collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
-  "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("mask.fieldPaths"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  documentId: Schema.optional(Schema.String).pipe(T.HttpQuery("documentId")),
-  body: Schema.optional(Document).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{collectionId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateDocumentProjectsDatabasesDocumentsRequest>;
+export const CreateDocumentProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
+    "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("mask.fieldPaths"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    documentId: Schema.optional(Schema.String).pipe(T.HttpQuery("documentId")),
+    body: Schema.optional(Document).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{collectionId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateDocumentProjectsDatabasesDocumentsRequest>;
 
 export type CreateDocumentProjectsDatabasesDocumentsResponse = Document;
-export const CreateDocumentProjectsDatabasesDocumentsResponse = Document;
+export const CreateDocumentProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Document;
 
 export type CreateDocumentProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2616,7 +2696,7 @@ export const createDocumentProjectsDatabasesDocuments: API.OperationMethod<
   CreateDocumentProjectsDatabasesDocumentsResponse,
   CreateDocumentProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDocumentProjectsDatabasesDocumentsRequest,
   output: CreateDocumentProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2643,30 +2723,35 @@ export interface ListDocumentsProjectsDatabasesDocumentsRequest {
   "mask.fieldPaths"?: string[];
 }
 
-export const ListDocumentsProjectsDatabasesDocumentsRequest = Schema.Struct({
-  transaction: Schema.optional(Schema.String).pipe(T.HttpQuery("transaction")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  showMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showMissing")),
-  "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("mask.fieldPaths"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{collectionId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListDocumentsProjectsDatabasesDocumentsRequest>;
+export const ListDocumentsProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    transaction: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("transaction"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    showMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showMissing"),
+    ),
+    "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("mask.fieldPaths"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{collectionId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListDocumentsProjectsDatabasesDocumentsRequest>;
 
 export type ListDocumentsProjectsDatabasesDocumentsResponse =
   ListDocumentsResponse;
 export const ListDocumentsProjectsDatabasesDocumentsResponse =
-  ListDocumentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDocumentsResponse;
 
 export type ListDocumentsProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2676,7 +2761,7 @@ export const listDocumentsProjectsDatabasesDocuments: API.PaginatedOperationMeth
   ListDocumentsProjectsDatabasesDocumentsResponse,
   ListDocumentsProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDocumentsProjectsDatabasesDocumentsRequest,
   output: ListDocumentsProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2695,24 +2780,26 @@ export interface DeleteProjectsDatabasesDocumentsRequest {
   "currentDocument.updateTime"?: string;
 }
 
-export const DeleteProjectsDatabasesDocumentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "currentDocument.exists": Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("currentDocument.exists"),
-  ),
-  "currentDocument.updateTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currentDocument.updateTime"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatabasesDocumentsRequest>;
+export const DeleteProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    "currentDocument.exists": Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("currentDocument.exists"),
+    ),
+    "currentDocument.updateTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currentDocument.updateTime"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatabasesDocumentsRequest>;
 
 export type DeleteProjectsDatabasesDocumentsResponse = Empty;
-export const DeleteProjectsDatabasesDocumentsResponse = Empty;
+export const DeleteProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2722,7 +2809,7 @@ export const deleteProjectsDatabasesDocuments: API.OperationMethod<
   DeleteProjectsDatabasesDocumentsResponse,
   DeleteProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatabasesDocumentsRequest,
   output: DeleteProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2749,28 +2836,34 @@ export interface ListProjectsDatabasesDocumentsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsDatabasesDocumentsRequest = Schema.Struct({
-  collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("mask.fieldPaths"),
-  ),
-  showMissing: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showMissing")),
-  transaction: Schema.optional(Schema.String).pipe(T.HttpQuery("transaction")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}/{collectionId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatabasesDocumentsRequest>;
+export const ListProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("mask.fieldPaths"),
+    ),
+    showMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showMissing"),
+    ),
+    transaction: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("transaction"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}/{collectionId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatabasesDocumentsRequest>;
 
 export type ListProjectsDatabasesDocumentsResponse = ListDocumentsResponse;
-export const ListProjectsDatabasesDocumentsResponse = ListDocumentsResponse;
+export const ListProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDocumentsResponse;
 
 export type ListProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2780,7 +2873,7 @@ export const listProjectsDatabasesDocuments: API.PaginatedOperationMethod<
   ListProjectsDatabasesDocumentsResponse,
   ListProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatabasesDocumentsRequest,
   output: ListProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2797,20 +2890,22 @@ export interface CommitProjectsDatabasesDocumentsRequest {
   body?: CommitRequest;
 }
 
-export const CommitProjectsDatabasesDocumentsRequest = Schema.Struct({
-  database: Schema.String.pipe(T.HttpPath("database")),
-  body: Schema.optional(CommitRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:commit",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CommitProjectsDatabasesDocumentsRequest>;
+export const CommitProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    database: Schema.String.pipe(T.HttpPath("database")),
+    body: Schema.optional(CommitRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents:commit",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CommitProjectsDatabasesDocumentsRequest>;
 
 export type CommitProjectsDatabasesDocumentsResponse = CommitResponse;
-export const CommitProjectsDatabasesDocumentsResponse = CommitResponse;
+export const CommitProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CommitResponse;
 
 export type CommitProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2820,7 +2915,7 @@ export const commitProjectsDatabasesDocuments: API.OperationMethod<
   CommitProjectsDatabasesDocumentsResponse,
   CommitProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitProjectsDatabasesDocumentsRequest,
   output: CommitProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2837,23 +2932,27 @@ export interface GetProjectsDatabasesDocumentsRequest {
   "mask.fieldPaths"?: string[];
 }
 
-export const GetProjectsDatabasesDocumentsRequest = Schema.Struct({
-  transaction: Schema.optional(Schema.String).pipe(T.HttpQuery("transaction")),
-  readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("mask.fieldPaths"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatabasesDocumentsRequest>;
+export const GetProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    transaction: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("transaction"),
+    ),
+    readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    "mask.fieldPaths": Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("mask.fieldPaths"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatabasesDocumentsRequest>;
 
 export type GetProjectsDatabasesDocumentsResponse = Document;
-export const GetProjectsDatabasesDocumentsResponse = Document;
+export const GetProjectsDatabasesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Document;
 
 export type GetProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2863,7 +2962,7 @@ export const getProjectsDatabasesDocuments: API.OperationMethod<
   GetProjectsDatabasesDocumentsResponse,
   GetProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatabasesDocumentsRequest,
   output: GetProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -2876,24 +2975,23 @@ export interface ListCollectionIdsProjectsDatabasesDocumentsRequest {
   body?: ListCollectionIdsRequest;
 }
 
-export const ListCollectionIdsProjectsDatabasesDocumentsRequest = Schema.Struct(
-  {
+export const ListCollectionIdsProjectsDatabasesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(ListCollectionIdsRequest).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:listCollectionIds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCollectionIdsProjectsDatabasesDocumentsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/databases/{databasesId}/documents/{documentsId}/{documentsId1}:listCollectionIds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCollectionIdsProjectsDatabasesDocumentsRequest>;
 
 export type ListCollectionIdsProjectsDatabasesDocumentsResponse =
   ListCollectionIdsResponse;
 export const ListCollectionIdsProjectsDatabasesDocumentsResponse =
-  ListCollectionIdsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCollectionIdsResponse;
 
 export type ListCollectionIdsProjectsDatabasesDocumentsError = DefaultErrors;
 
@@ -2903,7 +3001,7 @@ export const listCollectionIdsProjectsDatabasesDocuments: API.OperationMethod<
   ListCollectionIdsProjectsDatabasesDocumentsResponse,
   ListCollectionIdsProjectsDatabasesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCollectionIdsProjectsDatabasesDocumentsRequest,
   output: ListCollectionIdsProjectsDatabasesDocumentsResponse,
   errors: [],

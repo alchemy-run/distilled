@@ -3,54 +3,56 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetConsumptionHistoryPerProjectV2Input = Schema.Struct({
-  cursor: Schema.optional(Schema.String),
-  limit: Schema.optional(Schema.Number),
-  project_ids: Schema.optional(Schema.String),
-  from: Schema.String,
-  to: Schema.String,
-  granularity: Schema.String,
-  org_id: Schema.String,
-  metrics: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "GET", path: "/consumption_history/v2/projects" }));
+export const GetConsumptionHistoryPerProjectV2Input =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cursor: Schema.optional(Schema.String),
+    limit: Schema.optional(Schema.Number),
+    project_ids: Schema.optional(Schema.String),
+    from: Schema.String,
+    to: Schema.String,
+    granularity: Schema.String,
+    org_id: Schema.String,
+    metrics: Schema.optional(Schema.String),
+  }).pipe(T.Http({ method: "GET", path: "/consumption_history/v2/projects" }));
 export type GetConsumptionHistoryPerProjectV2Input =
   typeof GetConsumptionHistoryPerProjectV2Input.Type;
 
 // Output Schema
-export const GetConsumptionHistoryPerProjectV2Output = Schema.Struct({
-  projects: Schema.Array(
-    Schema.Struct({
-      project_id: Schema.String,
-      periods: Schema.Array(
-        Schema.Struct({
-          period_id: Schema.String,
-          period_plan: Schema.String,
-          period_start: Schema.String,
-          period_end: Schema.optional(Schema.String),
-          consumption: Schema.Array(
-            Schema.Struct({
-              timeframe_start: Schema.optional(Schema.String),
-              timeframe_end: Schema.optional(Schema.String),
-              metrics: Schema.optional(
-                Schema.Array(
-                  Schema.Struct({
-                    metric_name: Schema.String,
-                    value: Schema.Number,
-                  }),
+export const GetConsumptionHistoryPerProjectV2Output =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projects: Schema.Array(
+      Schema.Struct({
+        project_id: Schema.String,
+        periods: Schema.Array(
+          Schema.Struct({
+            period_id: Schema.String,
+            period_plan: Schema.String,
+            period_start: Schema.String,
+            period_end: Schema.optional(Schema.String),
+            consumption: Schema.Array(
+              Schema.Struct({
+                timeframe_start: Schema.optional(Schema.String),
+                timeframe_end: Schema.optional(Schema.String),
+                metrics: Schema.optional(
+                  Schema.Array(
+                    Schema.Struct({
+                      metric_name: Schema.String,
+                      value: Schema.Number,
+                    }),
+                  ),
                 ),
-              ),
-            }),
-          ),
-        }),
-      ),
-    }),
-  ),
-  pagination: Schema.optional(
-    Schema.Struct({
-      cursor: Schema.String,
-    }),
-  ),
-});
+              }),
+            ),
+          }),
+        ),
+      }),
+    ),
+    pagination: Schema.optional(
+      Schema.Struct({
+        cursor: Schema.String,
+      }),
+    ),
+  });
 export type GetConsumptionHistoryPerProjectV2Output =
   typeof GetConsumptionHistoryPerProjectV2Output.Type;
 

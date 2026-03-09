@@ -31,13 +31,14 @@ export interface Color {
   brightness?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    saturation: Schema.optional(Schema.Number),
-    contrast: Schema.optional(Schema.Number),
-    brightness: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      saturation: Schema.optional(Schema.Number),
+      contrast: Schema.optional(Schema.Number),
+      brightness: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface Denoise {
   /** Set strength of the denoise. Enter a value between 0 and 1. The higher the value, the smoother the image. 0 is no denoising. The default is 0. */
@@ -46,12 +47,13 @@ export interface Denoise {
   tune?: string;
 }
 
-export const Denoise: Schema.Schema<Denoise> = Schema.suspend(() =>
-  Schema.Struct({
-    strength: Schema.optional(Schema.Number),
-    tune: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Denoise" }) as any as Schema.Schema<Denoise>;
+export const Denoise: Schema.Schema<Denoise> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      strength: Schema.optional(Schema.Number),
+      tune: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Denoise" }) as any as Schema.Schema<Denoise>;
 
 export interface Deblock {
   /** Set strength of the deblocker. Enter a value between 0 and 1. The higher the value, the stronger the block removal. 0 is no deblocking. The default is 0. */
@@ -60,12 +62,13 @@ export interface Deblock {
   enabled?: boolean;
 }
 
-export const Deblock: Schema.Schema<Deblock> = Schema.suspend(() =>
-  Schema.Struct({
-    strength: Schema.optional(Schema.Number),
-    enabled: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Deblock" }) as any as Schema.Schema<Deblock>;
+export const Deblock: Schema.Schema<Deblock> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      strength: Schema.optional(Schema.Number),
+      enabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Deblock" }) as any as Schema.Schema<Deblock>;
 
 export interface Audio {
   /** Specify audio loudness normalization in loudness units relative to full scale (LUFS). Enter a value between -24 and 0 (the default), where: * -24 is the Advanced Television Systems Committee (ATSC A/85) standard * -23 is the EU R128 broadcast standard * -19 is the prior standard for online mono audio * -18 is the ReplayGain standard * -16 is the prior standard for stereo audio * -14 is the new online audio standard recommended by Spotify, as well as Amazon Echo * 0 disables normalization */
@@ -76,13 +79,14 @@ export interface Audio {
   lowBoost?: boolean;
 }
 
-export const Audio: Schema.Schema<Audio> = Schema.suspend(() =>
-  Schema.Struct({
-    lufs: Schema.optional(Schema.Number),
-    highBoost: Schema.optional(Schema.Boolean),
-    lowBoost: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Audio" }) as any as Schema.Schema<Audio>;
+export const Audio: Schema.Schema<Audio> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      lufs: Schema.optional(Schema.Number),
+      highBoost: Schema.optional(Schema.Boolean),
+      lowBoost: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Audio" }) as any as Schema.Schema<Audio>;
 
 export interface Crop {
   /** The number of pixels to crop from the top. The default is 0. */
@@ -95,14 +99,15 @@ export interface Crop {
   rightPixels?: number;
 }
 
-export const Crop: Schema.Schema<Crop> = Schema.suspend(() =>
-  Schema.Struct({
-    topPixels: Schema.optional(Schema.Number),
-    bottomPixels: Schema.optional(Schema.Number),
-    leftPixels: Schema.optional(Schema.Number),
-    rightPixels: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Crop" }) as any as Schema.Schema<Crop>;
+export const Crop: Schema.Schema<Crop> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      topPixels: Schema.optional(Schema.Number),
+      bottomPixels: Schema.optional(Schema.Number),
+      leftPixels: Schema.optional(Schema.Number),
+      rightPixels: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Crop" }) as any as Schema.Schema<Crop>;
 
 export interface Pad {
   /** The number of pixels to add to the top. The default is 0. */
@@ -115,14 +120,15 @@ export interface Pad {
   rightPixels?: number;
 }
 
-export const Pad: Schema.Schema<Pad> = Schema.suspend(() =>
-  Schema.Struct({
-    topPixels: Schema.optional(Schema.Number),
-    bottomPixels: Schema.optional(Schema.Number),
-    leftPixels: Schema.optional(Schema.Number),
-    rightPixels: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Pad" }) as any as Schema.Schema<Pad>;
+export const Pad: Schema.Schema<Pad> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      topPixels: Schema.optional(Schema.Number),
+      bottomPixels: Schema.optional(Schema.Number),
+      leftPixels: Schema.optional(Schema.Number),
+      rightPixels: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Pad" }) as any as Schema.Schema<Pad>;
 
 export interface YadifConfig {
   /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
@@ -135,14 +141,17 @@ export interface YadifConfig {
   deinterlaceAllFrames?: boolean;
 }
 
-export const YadifConfig: Schema.Schema<YadifConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    mode: Schema.optional(Schema.String),
-    disableSpatialInterlacing: Schema.optional(Schema.Boolean),
-    parity: Schema.optional(Schema.String),
-    deinterlaceAllFrames: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "YadifConfig" }) as any as Schema.Schema<YadifConfig>;
+export const YadifConfig: Schema.Schema<YadifConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mode: Schema.optional(Schema.String),
+      disableSpatialInterlacing: Schema.optional(Schema.Boolean),
+      parity: Schema.optional(Schema.String),
+      deinterlaceAllFrames: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "YadifConfig",
+  }) as any as Schema.Schema<YadifConfig>;
 
 export interface BwdifConfig {
   /** Specifies the deinterlacing mode to adopt. The default is `send_frame`. Supported values: - `send_frame`: Output one frame for each frame - `send_field`: Output one frame for each field */
@@ -153,13 +162,16 @@ export interface BwdifConfig {
   deinterlaceAllFrames?: boolean;
 }
 
-export const BwdifConfig: Schema.Schema<BwdifConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    mode: Schema.optional(Schema.String),
-    parity: Schema.optional(Schema.String),
-    deinterlaceAllFrames: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "BwdifConfig" }) as any as Schema.Schema<BwdifConfig>;
+export const BwdifConfig: Schema.Schema<BwdifConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mode: Schema.optional(Schema.String),
+      parity: Schema.optional(Schema.String),
+      deinterlaceAllFrames: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "BwdifConfig",
+  }) as any as Schema.Schema<BwdifConfig>;
 
 export interface Deinterlace {
   /** Specifies the Yet Another Deinterlacing Filter Configuration. */
@@ -168,12 +180,15 @@ export interface Deinterlace {
   bwdif?: BwdifConfig;
 }
 
-export const Deinterlace: Schema.Schema<Deinterlace> = Schema.suspend(() =>
-  Schema.Struct({
-    yadif: Schema.optional(YadifConfig),
-    bwdif: Schema.optional(BwdifConfig),
-  }),
-).annotate({ identifier: "Deinterlace" }) as any as Schema.Schema<Deinterlace>;
+export const Deinterlace: Schema.Schema<Deinterlace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      yadif: Schema.optional(YadifConfig),
+      bwdif: Schema.optional(BwdifConfig),
+    }),
+  ).annotate({
+    identifier: "Deinterlace",
+  }) as any as Schema.Schema<Deinterlace>;
 
 export interface PreprocessingConfig {
   /** Color preprocessing configuration. */
@@ -193,7 +208,7 @@ export interface PreprocessingConfig {
 }
 
 export const PreprocessingConfig: Schema.Schema<PreprocessingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       color: Schema.optional(Color),
       denoise: Schema.optional(Denoise),
@@ -218,31 +233,31 @@ export interface TrackDefinition {
   detectedLanguages?: Array<string>;
 }
 
-export const TrackDefinition: Schema.Schema<TrackDefinition> = Schema.suspend(
-  () =>
+export const TrackDefinition: Schema.Schema<TrackDefinition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputTrack: Schema.optional(Schema.Number),
       languages: Schema.optional(Schema.Array(Schema.String)),
       detectLanguages: Schema.optional(Schema.Boolean),
       detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "TrackDefinition",
-}) as any as Schema.Schema<TrackDefinition>;
+  ).annotate({
+    identifier: "TrackDefinition",
+  }) as any as Schema.Schema<TrackDefinition>;
 
 export interface InputAttributes {
   /** Optional. A list of track definitions for the input asset. */
   trackDefinitions?: Array<TrackDefinition>;
 }
 
-export const InputAttributes: Schema.Schema<InputAttributes> = Schema.suspend(
-  () =>
+export const InputAttributes: Schema.Schema<InputAttributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trackDefinitions: Schema.optional(Schema.Array(TrackDefinition)),
     }),
-).annotate({
-  identifier: "InputAttributes",
-}) as any as Schema.Schema<InputAttributes>;
+  ).annotate({
+    identifier: "InputAttributes",
+  }) as any as Schema.Schema<InputAttributes>;
 
 export interface Input {
   /** A unique key for this input. Must be specified when using advanced mapping and edit lists. */
@@ -255,14 +270,15 @@ export interface Input {
   attributes?: InputAttributes;
 }
 
-export const Input: Schema.Schema<Input> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(Schema.String),
-    uri: Schema.optional(Schema.String),
-    preprocessingConfig: Schema.optional(PreprocessingConfig),
-    attributes: Schema.optional(InputAttributes),
-  }),
-).annotate({ identifier: "Input" }) as any as Schema.Schema<Input>;
+export const Input: Schema.Schema<Input> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      preprocessingConfig: Schema.optional(PreprocessingConfig),
+      attributes: Schema.optional(InputAttributes),
+    }),
+  ).annotate({ identifier: "Input" }) as any as Schema.Schema<Input>;
 
 export interface EditAtom {
   /** A unique key for this atom. Must be specified when using advanced mapping. */
@@ -275,26 +291,27 @@ export interface EditAtom {
   startTimeOffset?: string;
 }
 
-export const EditAtom: Schema.Schema<EditAtom> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(Schema.String),
-    inputs: Schema.optional(Schema.Array(Schema.String)),
-    endTimeOffset: Schema.optional(Schema.String),
-    startTimeOffset: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "EditAtom" }) as any as Schema.Schema<EditAtom>;
+export const EditAtom: Schema.Schema<EditAtom> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      inputs: Schema.optional(Schema.Array(Schema.String)),
+      endTimeOffset: Schema.optional(Schema.String),
+      startTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "EditAtom" }) as any as Schema.Schema<EditAtom>;
 
 export interface H264ColorFormatSDR {}
 
 export const H264ColorFormatSDR: Schema.Schema<H264ColorFormatSDR> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "H264ColorFormatSDR",
   }) as any as Schema.Schema<H264ColorFormatSDR>;
 
 export interface H264ColorFormatHLG {}
 
 export const H264ColorFormatHLG: Schema.Schema<H264ColorFormatHLG> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "H264ColorFormatHLG",
   }) as any as Schema.Schema<H264ColorFormatHLG>;
 
@@ -352,7 +369,7 @@ export interface H264CodecSettings {
 }
 
 export const H264CodecSettings: Schema.Schema<H264CodecSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       widthPixels: Schema.optional(Schema.Number),
       heightPixels: Schema.optional(Schema.Number),
@@ -385,21 +402,21 @@ export const H264CodecSettings: Schema.Schema<H264CodecSettings> =
 export interface H265ColorFormatSDR {}
 
 export const H265ColorFormatSDR: Schema.Schema<H265ColorFormatSDR> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "H265ColorFormatSDR",
   }) as any as Schema.Schema<H265ColorFormatSDR>;
 
 export interface H265ColorFormatHLG {}
 
 export const H265ColorFormatHLG: Schema.Schema<H265ColorFormatHLG> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "H265ColorFormatHLG",
   }) as any as Schema.Schema<H265ColorFormatHLG>;
 
 export interface H265ColorFormatHDR10 {}
 
 export const H265ColorFormatHDR10: Schema.Schema<H265ColorFormatHDR10> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "H265ColorFormatHDR10",
   }) as any as Schema.Schema<H265ColorFormatHDR10>;
 
@@ -457,7 +474,7 @@ export interface H265CodecSettings {
 }
 
 export const H265CodecSettings: Schema.Schema<H265CodecSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       widthPixels: Schema.optional(Schema.Number),
       heightPixels: Schema.optional(Schema.Number),
@@ -490,14 +507,14 @@ export const H265CodecSettings: Schema.Schema<H265CodecSettings> =
 export interface Vp9ColorFormatSDR {}
 
 export const Vp9ColorFormatSDR: Schema.Schema<Vp9ColorFormatSDR> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "Vp9ColorFormatSDR",
   }) as any as Schema.Schema<Vp9ColorFormatSDR>;
 
 export interface Vp9ColorFormatHLG {}
 
 export const Vp9ColorFormatHLG: Schema.Schema<Vp9ColorFormatHLG> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "Vp9ColorFormatHLG",
   }) as any as Schema.Schema<Vp9ColorFormatHLG>;
 
@@ -534,8 +551,8 @@ export interface Vp9CodecSettings {
   hlg?: Vp9ColorFormatHLG;
 }
 
-export const Vp9CodecSettings: Schema.Schema<Vp9CodecSettings> = Schema.suspend(
-  () =>
+export const Vp9CodecSettings: Schema.Schema<Vp9CodecSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       widthPixels: Schema.optional(Schema.Number),
       heightPixels: Schema.optional(Schema.Number),
@@ -551,9 +568,9 @@ export const Vp9CodecSettings: Schema.Schema<Vp9CodecSettings> = Schema.suspend(
       sdr: Schema.optional(Vp9ColorFormatSDR),
       hlg: Schema.optional(Vp9ColorFormatHLG),
     }),
-).annotate({
-  identifier: "Vp9CodecSettings",
-}) as any as Schema.Schema<Vp9CodecSettings>;
+  ).annotate({
+    identifier: "Vp9CodecSettings",
+  }) as any as Schema.Schema<Vp9CodecSettings>;
 
 export interface VideoStream {
   /** H264 codec settings. */
@@ -564,13 +581,16 @@ export interface VideoStream {
   vp9?: Vp9CodecSettings;
 }
 
-export const VideoStream: Schema.Schema<VideoStream> = Schema.suspend(() =>
-  Schema.Struct({
-    h264: Schema.optional(H264CodecSettings),
-    h265: Schema.optional(H265CodecSettings),
-    vp9: Schema.optional(Vp9CodecSettings),
-  }),
-).annotate({ identifier: "VideoStream" }) as any as Schema.Schema<VideoStream>;
+export const VideoStream: Schema.Schema<VideoStream> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      h264: Schema.optional(H264CodecSettings),
+      h265: Schema.optional(H265CodecSettings),
+      vp9: Schema.optional(Vp9CodecSettings),
+    }),
+  ).annotate({
+    identifier: "VideoStream",
+  }) as any as Schema.Schema<VideoStream>;
 
 export interface AudioMapping {
   /** Required. The EditAtom.key that references the atom with audio inputs in the JobConfig.edit_list. */
@@ -587,18 +607,19 @@ export interface AudioMapping {
   gainDb?: number;
 }
 
-export const AudioMapping: Schema.Schema<AudioMapping> = Schema.suspend(() =>
-  Schema.Struct({
-    atomKey: Schema.optional(Schema.String),
-    inputKey: Schema.optional(Schema.String),
-    inputTrack: Schema.optional(Schema.Number),
-    inputChannel: Schema.optional(Schema.Number),
-    outputChannel: Schema.optional(Schema.Number),
-    gainDb: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "AudioMapping",
-}) as any as Schema.Schema<AudioMapping>;
+export const AudioMapping: Schema.Schema<AudioMapping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      atomKey: Schema.optional(Schema.String),
+      inputKey: Schema.optional(Schema.String),
+      inputTrack: Schema.optional(Schema.Number),
+      inputChannel: Schema.optional(Schema.Number),
+      outputChannel: Schema.optional(Schema.Number),
+      gainDb: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AudioMapping",
+  }) as any as Schema.Schema<AudioMapping>;
 
 export interface AudioStream {
   /** The codec for this audio stream. The default is `aac`. Supported audio codecs: - `aac` - `aac-he` - `aac-he-v2` - `mp3` - `ac3` - `eac3` - `vorbis` */
@@ -619,18 +640,21 @@ export interface AudioStream {
   displayName?: string;
 }
 
-export const AudioStream: Schema.Schema<AudioStream> = Schema.suspend(() =>
-  Schema.Struct({
-    codec: Schema.optional(Schema.String),
-    bitrateBps: Schema.optional(Schema.Number),
-    channelCount: Schema.optional(Schema.Number),
-    channelLayout: Schema.optional(Schema.Array(Schema.String)),
-    mapping: Schema.optional(Schema.Array(AudioMapping)),
-    sampleRateHertz: Schema.optional(Schema.Number),
-    languageCode: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AudioStream" }) as any as Schema.Schema<AudioStream>;
+export const AudioStream: Schema.Schema<AudioStream> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      codec: Schema.optional(Schema.String),
+      bitrateBps: Schema.optional(Schema.Number),
+      channelCount: Schema.optional(Schema.Number),
+      channelLayout: Schema.optional(Schema.Array(Schema.String)),
+      mapping: Schema.optional(Schema.Array(AudioMapping)),
+      sampleRateHertz: Schema.optional(Schema.Number),
+      languageCode: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AudioStream",
+  }) as any as Schema.Schema<AudioStream>;
 
 export interface TextMapping {
   /** Required. The EditAtom.key that references atom with text inputs in the JobConfig.edit_list. */
@@ -641,13 +665,16 @@ export interface TextMapping {
   inputTrack?: number;
 }
 
-export const TextMapping: Schema.Schema<TextMapping> = Schema.suspend(() =>
-  Schema.Struct({
-    atomKey: Schema.optional(Schema.String),
-    inputKey: Schema.optional(Schema.String),
-    inputTrack: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TextMapping" }) as any as Schema.Schema<TextMapping>;
+export const TextMapping: Schema.Schema<TextMapping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      atomKey: Schema.optional(Schema.String),
+      inputKey: Schema.optional(Schema.String),
+      inputTrack: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "TextMapping",
+  }) as any as Schema.Schema<TextMapping>;
 
 export interface TextStream {
   /** The codec for this text stream. The default is `webvtt`. Supported text codecs: - `srt` - `ttml` - `cea608` - `cea708` - `webvtt` */
@@ -660,14 +687,15 @@ export interface TextStream {
   displayName?: string;
 }
 
-export const TextStream: Schema.Schema<TextStream> = Schema.suspend(() =>
-  Schema.Struct({
-    codec: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    mapping: Schema.optional(Schema.Array(TextMapping)),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TextStream" }) as any as Schema.Schema<TextStream>;
+export const TextStream: Schema.Schema<TextStream> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      codec: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      mapping: Schema.optional(Schema.Array(TextMapping)),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TextStream" }) as any as Schema.Schema<TextStream>;
 
 export interface ElementaryStream {
   /** A unique key for this elementary stream. */
@@ -680,17 +708,17 @@ export interface ElementaryStream {
   textStream?: TextStream;
 }
 
-export const ElementaryStream: Schema.Schema<ElementaryStream> = Schema.suspend(
-  () =>
+export const ElementaryStream: Schema.Schema<ElementaryStream> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       videoStream: Schema.optional(VideoStream),
       audioStream: Schema.optional(AudioStream),
       textStream: Schema.optional(TextStream),
     }),
-).annotate({
-  identifier: "ElementaryStream",
-}) as any as Schema.Schema<ElementaryStream>;
+  ).annotate({
+    identifier: "ElementaryStream",
+  }) as any as Schema.Schema<ElementaryStream>;
 
 export interface SegmentSettings {
   /** Duration of the segments in seconds. The default is `6.0s`. Note that `segmentDuration` must be greater than or equal to [`gopDuration`](#videostream), and `segmentDuration` must be divisible by [`gopDuration`](#videostream). */
@@ -699,26 +727,27 @@ export interface SegmentSettings {
   individualSegments?: boolean;
 }
 
-export const SegmentSettings: Schema.Schema<SegmentSettings> = Schema.suspend(
-  () =>
+export const SegmentSettings: Schema.Schema<SegmentSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segmentDuration: Schema.optional(Schema.String),
       individualSegments: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "SegmentSettings",
-}) as any as Schema.Schema<SegmentSettings>;
+  ).annotate({
+    identifier: "SegmentSettings",
+  }) as any as Schema.Schema<SegmentSettings>;
 
 export interface Fmp4Config {
   /** Optional. Specify the codec tag string that will be used in the media bitstream. When not specified, the codec appropriate value is used. Supported H265 codec tags: - `hvc1` (default) - `hev1` */
   codecTag?: string;
 }
 
-export const Fmp4Config: Schema.Schema<Fmp4Config> = Schema.suspend(() =>
-  Schema.Struct({
-    codecTag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Fmp4Config" }) as any as Schema.Schema<Fmp4Config>;
+export const Fmp4Config: Schema.Schema<Fmp4Config> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      codecTag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Fmp4Config" }) as any as Schema.Schema<Fmp4Config>;
 
 export interface MuxStream {
   /** A unique key for this multiplexed stream. */
@@ -737,17 +766,18 @@ export interface MuxStream {
   fmp4?: Fmp4Config;
 }
 
-export const MuxStream: Schema.Schema<MuxStream> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(Schema.String),
-    fileName: Schema.optional(Schema.String),
-    container: Schema.optional(Schema.String),
-    elementaryStreams: Schema.optional(Schema.Array(Schema.String)),
-    segmentSettings: Schema.optional(SegmentSettings),
-    encryptionId: Schema.optional(Schema.String),
-    fmp4: Schema.optional(Fmp4Config),
-  }),
-).annotate({ identifier: "MuxStream" }) as any as Schema.Schema<MuxStream>;
+export const MuxStream: Schema.Schema<MuxStream> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      fileName: Schema.optional(Schema.String),
+      container: Schema.optional(Schema.String),
+      elementaryStreams: Schema.optional(Schema.Array(Schema.String)),
+      segmentSettings: Schema.optional(SegmentSettings),
+      encryptionId: Schema.optional(Schema.String),
+      fmp4: Schema.optional(Fmp4Config),
+    }),
+  ).annotate({ identifier: "MuxStream" }) as any as Schema.Schema<MuxStream>;
 
 export interface DashConfig {
   /** The segment reference scheme for a `DASH` manifest. The default is `SEGMENT_LIST`. */
@@ -758,11 +788,12 @@ export interface DashConfig {
     | (string & {});
 }
 
-export const DashConfig: Schema.Schema<DashConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    segmentReferenceScheme: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DashConfig" }) as any as Schema.Schema<DashConfig>;
+export const DashConfig: Schema.Schema<DashConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      segmentReferenceScheme: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DashConfig" }) as any as Schema.Schema<DashConfig>;
 
 export interface Manifest {
   /** The name of the generated file. The default is `manifest` with the extension suffix corresponding to the Manifest.type. */
@@ -775,36 +806,39 @@ export interface Manifest {
   dash?: DashConfig;
 }
 
-export const Manifest: Schema.Schema<Manifest> = Schema.suspend(() =>
-  Schema.Struct({
-    fileName: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    muxStreams: Schema.optional(Schema.Array(Schema.String)),
-    dash: Schema.optional(DashConfig),
-  }),
-).annotate({ identifier: "Manifest" }) as any as Schema.Schema<Manifest>;
+export const Manifest: Schema.Schema<Manifest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      muxStreams: Schema.optional(Schema.Array(Schema.String)),
+      dash: Schema.optional(DashConfig),
+    }),
+  ).annotate({ identifier: "Manifest" }) as any as Schema.Schema<Manifest>;
 
 export interface Output {
   /** URI for the output file(s). For example, `gs://my-bucket/outputs/`. Must be a directory and not a top-level bucket. If empty, the value is populated from Job.output_uri. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
   uri?: string;
 }
 
-export const Output: Schema.Schema<Output> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Output" }) as any as Schema.Schema<Output>;
+export const Output: Schema.Schema<Output> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Output" }) as any as Schema.Schema<Output>;
 
 export interface AdBreak {
   /** Start time in seconds for the ad break, relative to the output file timeline. The default is `0s`. */
   startTimeOffset?: string;
 }
 
-export const AdBreak: Schema.Schema<AdBreak> = Schema.suspend(() =>
-  Schema.Struct({
-    startTimeOffset: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdBreak" }) as any as Schema.Schema<AdBreak>;
+export const AdBreak: Schema.Schema<AdBreak> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdBreak" }) as any as Schema.Schema<AdBreak>;
 
 export interface PubsubDestination {
   /** The name of the Pub/Sub topic to publish job completion notification to. For example: `projects/{project}/topics/{topic}`. */
@@ -812,7 +846,7 @@ export interface PubsubDestination {
 }
 
 export const PubsubDestination: Schema.Schema<PubsubDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -845,21 +879,24 @@ export interface SpriteSheet {
   quality?: number;
 }
 
-export const SpriteSheet: Schema.Schema<SpriteSheet> = Schema.suspend(() =>
-  Schema.Struct({
-    format: Schema.optional(Schema.String),
-    filePrefix: Schema.optional(Schema.String),
-    spriteWidthPixels: Schema.optional(Schema.Number),
-    spriteHeightPixels: Schema.optional(Schema.Number),
-    columnCount: Schema.optional(Schema.Number),
-    rowCount: Schema.optional(Schema.Number),
-    startTimeOffset: Schema.optional(Schema.String),
-    endTimeOffset: Schema.optional(Schema.String),
-    totalCount: Schema.optional(Schema.Number),
-    interval: Schema.optional(Schema.String),
-    quality: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "SpriteSheet" }) as any as Schema.Schema<SpriteSheet>;
+export const SpriteSheet: Schema.Schema<SpriteSheet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      format: Schema.optional(Schema.String),
+      filePrefix: Schema.optional(Schema.String),
+      spriteWidthPixels: Schema.optional(Schema.Number),
+      spriteHeightPixels: Schema.optional(Schema.Number),
+      columnCount: Schema.optional(Schema.Number),
+      rowCount: Schema.optional(Schema.Number),
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.Number),
+      interval: Schema.optional(Schema.String),
+      quality: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SpriteSheet",
+  }) as any as Schema.Schema<SpriteSheet>;
 
 export interface NormalizedCoordinate {
   /** Normalized x coordinate. */
@@ -869,7 +906,7 @@ export interface NormalizedCoordinate {
 }
 
 export const NormalizedCoordinate: Schema.Schema<NormalizedCoordinate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -887,13 +924,14 @@ export interface Image {
   alpha?: number;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-    resolution: Schema.optional(NormalizedCoordinate),
-    alpha: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+      resolution: Schema.optional(NormalizedCoordinate),
+      alpha: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface AnimationStatic {
   /** Normalized coordinates based on output video resolution. Valid values: `0.0`–`1.0`. `xy` is the upper-left coordinate of the overlay object. For example, use the x and y coordinates {0,0} to position the top-left corner of the overlay animation in the top-left corner of the output video. */
@@ -902,15 +940,15 @@ export interface AnimationStatic {
   startTimeOffset?: string;
 }
 
-export const AnimationStatic: Schema.Schema<AnimationStatic> = Schema.suspend(
-  () =>
+export const AnimationStatic: Schema.Schema<AnimationStatic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       xy: Schema.optional(NormalizedCoordinate),
       startTimeOffset: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AnimationStatic",
-}) as any as Schema.Schema<AnimationStatic>;
+  ).annotate({
+    identifier: "AnimationStatic",
+  }) as any as Schema.Schema<AnimationStatic>;
 
 export interface AnimationFade {
   /** Required. Type of fade animation: `FADE_IN` or `FADE_OUT`. */
@@ -923,29 +961,31 @@ export interface AnimationFade {
   endTimeOffset?: string;
 }
 
-export const AnimationFade: Schema.Schema<AnimationFade> = Schema.suspend(() =>
-  Schema.Struct({
-    fadeType: Schema.optional(Schema.String),
-    xy: Schema.optional(NormalizedCoordinate),
-    startTimeOffset: Schema.optional(Schema.String),
-    endTimeOffset: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AnimationFade",
-}) as any as Schema.Schema<AnimationFade>;
+export const AnimationFade: Schema.Schema<AnimationFade> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fadeType: Schema.optional(Schema.String),
+      xy: Schema.optional(NormalizedCoordinate),
+      startTimeOffset: Schema.optional(Schema.String),
+      endTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AnimationFade",
+  }) as any as Schema.Schema<AnimationFade>;
 
 export interface AnimationEnd {
   /** The time to end overlay object, in seconds. Default: 0 */
   startTimeOffset?: string;
 }
 
-export const AnimationEnd: Schema.Schema<AnimationEnd> = Schema.suspend(() =>
-  Schema.Struct({
-    startTimeOffset: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AnimationEnd",
-}) as any as Schema.Schema<AnimationEnd>;
+export const AnimationEnd: Schema.Schema<AnimationEnd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTimeOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AnimationEnd",
+  }) as any as Schema.Schema<AnimationEnd>;
 
 export interface Animation {
   /** Display static overlay object. */
@@ -956,13 +996,14 @@ export interface Animation {
   animationEnd?: AnimationEnd;
 }
 
-export const Animation: Schema.Schema<Animation> = Schema.suspend(() =>
-  Schema.Struct({
-    animationStatic: Schema.optional(AnimationStatic),
-    animationFade: Schema.optional(AnimationFade),
-    animationEnd: Schema.optional(AnimationEnd),
-  }),
-).annotate({ identifier: "Animation" }) as any as Schema.Schema<Animation>;
+export const Animation: Schema.Schema<Animation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      animationStatic: Schema.optional(AnimationStatic),
+      animationFade: Schema.optional(AnimationFade),
+      animationEnd: Schema.optional(AnimationEnd),
+    }),
+  ).annotate({ identifier: "Animation" }) as any as Schema.Schema<Animation>;
 
 export interface Overlay {
   /** Image overlay. */
@@ -971,25 +1012,25 @@ export interface Overlay {
   animations?: Array<Animation>;
 }
 
-export const Overlay: Schema.Schema<Overlay> = Schema.suspend(() =>
-  Schema.Struct({
-    image: Schema.optional(Image),
-    animations: Schema.optional(Schema.Array(Animation)),
-  }),
-).annotate({ identifier: "Overlay" }) as any as Schema.Schema<Overlay>;
+export const Overlay: Schema.Schema<Overlay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      image: Schema.optional(Image),
+      animations: Schema.optional(Schema.Array(Animation)),
+    }),
+  ).annotate({ identifier: "Overlay" }) as any as Schema.Schema<Overlay>;
 
 export interface Aes128Encryption {}
 
-export const Aes128Encryption: Schema.Schema<Aes128Encryption> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "Aes128Encryption",
-}) as any as Schema.Schema<Aes128Encryption>;
+export const Aes128Encryption: Schema.Schema<Aes128Encryption> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Aes128Encryption",
+  }) as any as Schema.Schema<Aes128Encryption>;
 
 export interface SampleAesEncryption {}
 
 export const SampleAesEncryption: Schema.Schema<SampleAesEncryption> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SampleAesEncryption",
   }) as any as Schema.Schema<SampleAesEncryption>;
 
@@ -999,7 +1040,7 @@ export interface MpegCommonEncryption {
 }
 
 export const MpegCommonEncryption: Schema.Schema<MpegCommonEncryption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scheme: Schema.optional(Schema.String),
     }),
@@ -1013,7 +1054,7 @@ export interface SecretManagerSource {
 }
 
 export const SecretManagerSource: Schema.Schema<SecretManagerSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       secretVersion: Schema.optional(Schema.String),
     }),
@@ -1023,27 +1064,31 @@ export const SecretManagerSource: Schema.Schema<SecretManagerSource> =
 
 export interface Widevine {}
 
-export const Widevine: Schema.Schema<Widevine> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Widevine" }) as any as Schema.Schema<Widevine>;
+export const Widevine: Schema.Schema<Widevine> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Widevine",
+  }) as any as Schema.Schema<Widevine>;
 
 export interface Fairplay {}
 
-export const Fairplay: Schema.Schema<Fairplay> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Fairplay" }) as any as Schema.Schema<Fairplay>;
+export const Fairplay: Schema.Schema<Fairplay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Fairplay",
+  }) as any as Schema.Schema<Fairplay>;
 
 export interface Playready {}
 
-export const Playready: Schema.Schema<Playready> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Playready" }) as any as Schema.Schema<Playready>;
+export const Playready: Schema.Schema<Playready> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Playready",
+  }) as any as Schema.Schema<Playready>;
 
 export interface Clearkey {}
 
-export const Clearkey: Schema.Schema<Clearkey> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Clearkey" }) as any as Schema.Schema<Clearkey>;
+export const Clearkey: Schema.Schema<Clearkey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Clearkey",
+  }) as any as Schema.Schema<Clearkey>;
 
 export interface DrmSystems {
   /** Widevine configuration. */
@@ -1056,14 +1101,15 @@ export interface DrmSystems {
   clearkey?: Clearkey;
 }
 
-export const DrmSystems: Schema.Schema<DrmSystems> = Schema.suspend(() =>
-  Schema.Struct({
-    widevine: Schema.optional(Widevine),
-    fairplay: Schema.optional(Fairplay),
-    playready: Schema.optional(Playready),
-    clearkey: Schema.optional(Clearkey),
-  }),
-).annotate({ identifier: "DrmSystems" }) as any as Schema.Schema<DrmSystems>;
+export const DrmSystems: Schema.Schema<DrmSystems> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      widevine: Schema.optional(Widevine),
+      fairplay: Schema.optional(Fairplay),
+      playready: Schema.optional(Playready),
+      clearkey: Schema.optional(Clearkey),
+    }),
+  ).annotate({ identifier: "DrmSystems" }) as any as Schema.Schema<DrmSystems>;
 
 export interface Encryption {
   /** Required. Identifier for this set of encryption options. */
@@ -1080,16 +1126,17 @@ export interface Encryption {
   drmSystems?: DrmSystems;
 }
 
-export const Encryption: Schema.Schema<Encryption> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    aes128: Schema.optional(Aes128Encryption),
-    sampleAes: Schema.optional(SampleAesEncryption),
-    mpegCenc: Schema.optional(MpegCommonEncryption),
-    secretManagerKeySource: Schema.optional(SecretManagerSource),
-    drmSystems: Schema.optional(DrmSystems),
-  }),
-).annotate({ identifier: "Encryption" }) as any as Schema.Schema<Encryption>;
+export const Encryption: Schema.Schema<Encryption> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      aes128: Schema.optional(Aes128Encryption),
+      sampleAes: Schema.optional(SampleAesEncryption),
+      mpegCenc: Schema.optional(MpegCommonEncryption),
+      secretManagerKeySource: Schema.optional(SecretManagerSource),
+      drmSystems: Schema.optional(DrmSystems),
+    }),
+  ).annotate({ identifier: "Encryption" }) as any as Schema.Schema<Encryption>;
 
 export interface JobConfig {
   /** List of input assets stored in Cloud Storage. */
@@ -1116,21 +1163,22 @@ export interface JobConfig {
   encryptions?: Array<Encryption>;
 }
 
-export const JobConfig: Schema.Schema<JobConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    inputs: Schema.optional(Schema.Array(Input)),
-    editList: Schema.optional(Schema.Array(EditAtom)),
-    elementaryStreams: Schema.optional(Schema.Array(ElementaryStream)),
-    muxStreams: Schema.optional(Schema.Array(MuxStream)),
-    manifests: Schema.optional(Schema.Array(Manifest)),
-    output: Schema.optional(Output),
-    adBreaks: Schema.optional(Schema.Array(AdBreak)),
-    pubsubDestination: Schema.optional(PubsubDestination),
-    spriteSheets: Schema.optional(Schema.Array(SpriteSheet)),
-    overlays: Schema.optional(Schema.Array(Overlay)),
-    encryptions: Schema.optional(Schema.Array(Encryption)),
-  }),
-).annotate({ identifier: "JobConfig" }) as any as Schema.Schema<JobConfig>;
+export const JobConfig: Schema.Schema<JobConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inputs: Schema.optional(Schema.Array(Input)),
+      editList: Schema.optional(Schema.Array(EditAtom)),
+      elementaryStreams: Schema.optional(Schema.Array(ElementaryStream)),
+      muxStreams: Schema.optional(Schema.Array(MuxStream)),
+      manifests: Schema.optional(Schema.Array(Manifest)),
+      output: Schema.optional(Output),
+      adBreaks: Schema.optional(Schema.Array(AdBreak)),
+      pubsubDestination: Schema.optional(PubsubDestination),
+      spriteSheets: Schema.optional(Schema.Array(SpriteSheet)),
+      overlays: Schema.optional(Schema.Array(Overlay)),
+      encryptions: Schema.optional(Schema.Array(Encryption)),
+    }),
+  ).annotate({ identifier: "JobConfig" }) as any as Schema.Schema<JobConfig>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -1141,15 +1189,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Job {
   /** The resource name of the job. Format: `projects/{project_number}/locations/{location}/jobs/{job}` */
@@ -1200,26 +1249,27 @@ export interface Job {
   fillContentGaps?: boolean;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    inputUri: Schema.optional(Schema.String),
-    outputUri: Schema.optional(Schema.String),
-    templateId: Schema.optional(Schema.String),
-    config: Schema.optional(JobConfig),
-    state: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    ttlAfterCompletionDays: Schema.optional(Schema.Number),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    error: Schema.optional(Status),
-    mode: Schema.optional(Schema.String),
-    batchModePriority: Schema.optional(Schema.Number),
-    optimization: Schema.optional(Schema.String),
-    fillContentGaps: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      inputUri: Schema.optional(Schema.String),
+      outputUri: Schema.optional(Schema.String),
+      templateId: Schema.optional(Schema.String),
+      config: Schema.optional(JobConfig),
+      state: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      ttlAfterCompletionDays: Schema.optional(Schema.Number),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      error: Schema.optional(Status),
+      mode: Schema.optional(Schema.String),
+      batchModePriority: Schema.optional(Schema.Number),
+      optimization: Schema.optional(Schema.String),
+      fillContentGaps: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface ListJobsResponse {
   /** List of jobs in the specified region. */
@@ -1230,22 +1280,23 @@ export interface ListJobsResponse {
   unreachable?: Array<string>;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
-  () =>
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobs: Schema.optional(Schema.Array(Job)),
       nextPageToken: Schema.optional(Schema.String),
       unreachable: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as Schema.Schema<ListJobsResponse>;
+  ).annotate({
+    identifier: "ListJobsResponse",
+  }) as any as Schema.Schema<ListJobsResponse>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface JobTemplate {
   /** The resource name of the job template. Format: `projects/{project_number}/locations/{location}/jobTemplates/{job_template}` */
@@ -1256,13 +1307,16 @@ export interface JobTemplate {
   labels?: Record<string, string>;
 }
 
-export const JobTemplate: Schema.Schema<JobTemplate> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    config: Schema.optional(JobConfig),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({ identifier: "JobTemplate" }) as any as Schema.Schema<JobTemplate>;
+export const JobTemplate: Schema.Schema<JobTemplate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      config: Schema.optional(JobConfig),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "JobTemplate",
+  }) as any as Schema.Schema<JobTemplate>;
 
 export interface ListJobTemplatesResponse {
   /** List of job templates in the specified region. */
@@ -1274,7 +1328,7 @@ export interface ListJobTemplatesResponse {
 }
 
 export const ListJobTemplatesResponse: Schema.Schema<ListJobTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobTemplates: Schema.optional(Schema.Array(JobTemplate)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1295,20 +1349,22 @@ export interface CreateProjectsLocationsJobsRequest {
   body?: Job;
 }
 
-export const CreateProjectsLocationsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Job).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsJobsRequest>;
+export const CreateProjectsLocationsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Job).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsJobsRequest>;
 
 export type CreateProjectsLocationsJobsResponse = Job;
-export const CreateProjectsLocationsJobsResponse = Job;
+export const CreateProjectsLocationsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type CreateProjectsLocationsJobsError = DefaultErrors;
 
@@ -1318,7 +1374,7 @@ export const createProjectsLocationsJobs: API.OperationMethod<
   CreateProjectsLocationsJobsResponse,
   CreateProjectsLocationsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
@@ -1337,22 +1393,24 @@ export interface ListProjectsLocationsJobsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsJobsRequest>;
+export const ListProjectsLocationsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsJobsRequest>;
 
 export type ListProjectsLocationsJobsResponse = ListJobsResponse;
-export const ListProjectsLocationsJobsResponse = ListJobsResponse;
+export const ListProjectsLocationsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListJobsResponse;
 
 export type ListProjectsLocationsJobsError = DefaultErrors;
 
@@ -1362,7 +1420,7 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   ListProjectsLocationsJobsResponse,
   ListProjectsLocationsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -1377,18 +1435,19 @@ export interface GetProjectsLocationsJobsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsJobsRequest>;
+export const GetProjectsLocationsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsJobsRequest>;
 
 export type GetProjectsLocationsJobsResponse = Job;
-export const GetProjectsLocationsJobsResponse = Job;
+export const GetProjectsLocationsJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type GetProjectsLocationsJobsError = DefaultErrors;
 
@@ -1398,7 +1457,7 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   GetProjectsLocationsJobsResponse,
   GetProjectsLocationsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
@@ -1411,21 +1470,23 @@ export interface DeleteProjectsLocationsJobsRequest {
   allowMissing?: boolean;
 }
 
-export const DeleteProjectsLocationsJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsJobsRequest>;
+export const DeleteProjectsLocationsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobs/{jobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsJobsRequest>;
 
 export type DeleteProjectsLocationsJobsResponse = Empty;
-export const DeleteProjectsLocationsJobsResponse = Empty;
+export const DeleteProjectsLocationsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsJobsError = DefaultErrors;
 
@@ -1435,7 +1496,7 @@ export const deleteProjectsLocationsJobs: API.OperationMethod<
   DeleteProjectsLocationsJobsResponse,
   DeleteProjectsLocationsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsJobsRequest,
   output: DeleteProjectsLocationsJobsResponse,
   errors: [],
@@ -1450,23 +1511,25 @@ export interface CreateProjectsLocationsJobTemplatesRequest {
   body?: JobTemplate;
 }
 
-export const CreateProjectsLocationsJobTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  jobTemplateId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("jobTemplateId"),
-  ),
-  body: Schema.optional(JobTemplate).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsJobTemplatesRequest>;
+export const CreateProjectsLocationsJobTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    jobTemplateId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("jobTemplateId"),
+    ),
+    body: Schema.optional(JobTemplate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsJobTemplatesRequest>;
 
 export type CreateProjectsLocationsJobTemplatesResponse = JobTemplate;
-export const CreateProjectsLocationsJobTemplatesResponse = JobTemplate;
+export const CreateProjectsLocationsJobTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ JobTemplate;
 
 export type CreateProjectsLocationsJobTemplatesError = DefaultErrors;
 
@@ -1476,7 +1539,7 @@ export const createProjectsLocationsJobTemplates: API.OperationMethod<
   CreateProjectsLocationsJobTemplatesResponse,
   CreateProjectsLocationsJobTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsJobTemplatesRequest,
   output: CreateProjectsLocationsJobTemplatesResponse,
   errors: [],
@@ -1495,24 +1558,25 @@ export interface ListProjectsLocationsJobTemplatesRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsJobTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsJobTemplatesRequest>;
+export const ListProjectsLocationsJobTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsJobTemplatesRequest>;
 
 export type ListProjectsLocationsJobTemplatesResponse =
   ListJobTemplatesResponse;
 export const ListProjectsLocationsJobTemplatesResponse =
-  ListJobTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListJobTemplatesResponse;
 
 export type ListProjectsLocationsJobTemplatesError = DefaultErrors;
 
@@ -1522,7 +1586,7 @@ export const listProjectsLocationsJobTemplates: API.PaginatedOperationMethod<
   ListProjectsLocationsJobTemplatesResponse,
   ListProjectsLocationsJobTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsJobTemplatesRequest,
   output: ListProjectsLocationsJobTemplatesResponse,
   errors: [],
@@ -1537,18 +1601,20 @@ export interface GetProjectsLocationsJobTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsJobTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates/{jobTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsJobTemplatesRequest>;
+export const GetProjectsLocationsJobTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates/{jobTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsJobTemplatesRequest>;
 
 export type GetProjectsLocationsJobTemplatesResponse = JobTemplate;
-export const GetProjectsLocationsJobTemplatesResponse = JobTemplate;
+export const GetProjectsLocationsJobTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ JobTemplate;
 
 export type GetProjectsLocationsJobTemplatesError = DefaultErrors;
 
@@ -1558,7 +1624,7 @@ export const getProjectsLocationsJobTemplates: API.OperationMethod<
   GetProjectsLocationsJobTemplatesResponse,
   GetProjectsLocationsJobTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsJobTemplatesRequest,
   output: GetProjectsLocationsJobTemplatesResponse,
   errors: [],
@@ -1571,21 +1637,23 @@ export interface DeleteProjectsLocationsJobTemplatesRequest {
   allowMissing?: boolean;
 }
 
-export const DeleteProjectsLocationsJobTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates/{jobTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsJobTemplatesRequest>;
+export const DeleteProjectsLocationsJobTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/jobTemplates/{jobTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsJobTemplatesRequest>;
 
 export type DeleteProjectsLocationsJobTemplatesResponse = Empty;
-export const DeleteProjectsLocationsJobTemplatesResponse = Empty;
+export const DeleteProjectsLocationsJobTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsJobTemplatesError = DefaultErrors;
 
@@ -1595,7 +1663,7 @@ export const deleteProjectsLocationsJobTemplates: API.OperationMethod<
   DeleteProjectsLocationsJobTemplatesResponse,
   DeleteProjectsLocationsJobTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsJobTemplatesRequest,
   output: DeleteProjectsLocationsJobTemplatesResponse,
   errors: [],

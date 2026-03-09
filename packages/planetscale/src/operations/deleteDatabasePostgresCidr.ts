@@ -4,21 +4,23 @@ import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
-export const DeleteDatabasePostgresCidrInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/databases/{database}/cidrs/{id}",
-  }),
-);
+export const DeleteDatabasePostgresCidrInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/databases/{database}/cidrs/{id}",
+    }),
+  );
 export type DeleteDatabasePostgresCidrInput =
   typeof DeleteDatabasePostgresCidrInput.Type;
 
 // Output Schema
-export const DeleteDatabasePostgresCidrOutput = Schema.Void;
+export const DeleteDatabasePostgresCidrOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteDatabasePostgresCidrOutput =
   typeof DeleteDatabasePostgresCidrOutput.Type;
 

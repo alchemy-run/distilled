@@ -3,24 +3,29 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListOrganizationVPCEndpointsAllRegionsInput = Schema.Struct({
-  org_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({ method: "GET", path: "/organizations/{org_id}/vpc/vpc_endpoints" }),
-);
+export const ListOrganizationVPCEndpointsAllRegionsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    org_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{org_id}/vpc/vpc_endpoints",
+    }),
+  );
 export type ListOrganizationVPCEndpointsAllRegionsInput =
   typeof ListOrganizationVPCEndpointsAllRegionsInput.Type;
 
 // Output Schema
-export const ListOrganizationVPCEndpointsAllRegionsOutput = Schema.Struct({
-  endpoints: Schema.Array(
-    Schema.Struct({
-      vpc_endpoint_id: Schema.String,
-      label: Schema.String,
-      region_id: Schema.String,
-    }),
-  ),
-});
+export const ListOrganizationVPCEndpointsAllRegionsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    endpoints: Schema.Array(
+      Schema.Struct({
+        vpc_endpoint_id: Schema.String,
+        label: Schema.String,
+        region_id: Schema.String,
+      }),
+    ),
+  });
 export type ListOrganizationVPCEndpointsAllRegionsOutput =
   typeof ListOrganizationVPCEndpointsAllRegionsOutput.Type;
 

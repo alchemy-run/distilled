@@ -34,7 +34,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPatientFilterOperationMetadata
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPatientFilterOperationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPatientFilterOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filtersAddedCount: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -52,7 +52,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerCitationSource {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerCitationSource: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerCitationSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceId: Schema.optional(Schema.String),
     }),
@@ -74,7 +74,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endIndex: Schema.optional(Schema.String),
       startIndex: Schema.optional(Schema.String),
@@ -100,7 +100,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDoc
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       pageIdentifier: Schema.optional(Schema.String),
@@ -126,7 +126,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDoc
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -155,7 +155,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocum
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       title: Schema.optional(Schema.String),
@@ -181,7 +181,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocume
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       pageIdentifier: Schema.optional(Schema.String),
@@ -208,7 +208,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relevanceScore: Schema.optional(Schema.Number),
       content: Schema.optional(Schema.String),
@@ -234,7 +234,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerReference {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerReference: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unstructuredDocumentInfo: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo,
@@ -257,7 +257,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationSo
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceIndex: Schema.optional(Schema.String),
     }),
@@ -276,7 +276,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitation: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startIndex: Schema.optional(Schema.String),
       sources: Schema.optional(
@@ -296,7 +296,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationMe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citations: Schema.optional(
         Schema.Array(
@@ -312,7 +312,7 @@ export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationMetada
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig {}
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig>;
@@ -323,7 +323,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigN
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchConfig: Schema.optional(Schema.String),
     }),
@@ -338,7 +338,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteSessionRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteSessionRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteSessionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -354,7 +354,7 @@ export interface GoogleTypeTimeZone {
 }
 
 export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -385,7 +385,7 @@ export interface GoogleTypeDateTime {
 }
 
 export const GoogleTypeDateTime: Schema.Schema<GoogleTypeDateTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.Number),
       timeZone: Schema.optional(GoogleTypeTimeZone),
@@ -407,7 +407,7 @@ export interface GoogleCloudDiscoveryengineV1EngineChatEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1EngineChatEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1EngineChatEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgent: Schema.optional(Schema.String),
     }),
@@ -424,16 +424,16 @@ export interface GoogleTypeDate {
   year?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
       year: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleCloudDiscoveryengineV1betaCitation {
   /** Output only. Start index into the content. */
@@ -451,7 +451,7 @@ export interface GoogleCloudDiscoveryengineV1betaCitation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCitation: Schema.Schema<GoogleCloudDiscoveryengineV1betaCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startIndex: Schema.optional(Schema.Number),
       uri: Schema.optional(Schema.String),
@@ -470,7 +470,7 @@ export interface GoogleCloudDiscoveryengineV1betaCitationMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCitationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCitationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citations: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaCitation),
@@ -496,7 +496,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGro
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -518,7 +518,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGro
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReference: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentMetadata: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata,
@@ -544,7 +544,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGro
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataSegment: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundingScore: Schema.optional(Schema.Number),
       startIndex: Schema.optional(Schema.String),
@@ -565,7 +565,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGro
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       references: Schema.optional(
         Schema.Array(
@@ -596,7 +596,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantContentCodeExecutionRe
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantContentCodeExecutionResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantContentCodeExecutionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       output: Schema.optional(Schema.String),
       outcome: Schema.optional(Schema.String),
@@ -614,7 +614,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantContentFile {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantContentFile: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantContentFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileId: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -631,7 +631,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantContentBlob {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantContentBlob: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantContentBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       data: Schema.optional(Schema.String),
@@ -646,7 +646,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantContentExecutableCode 
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantContentExecutableCode: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantContentExecutableCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
     }),
@@ -673,7 +673,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantContent {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeExecutionResult: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAssistantContentCodeExecutionResult,
@@ -705,7 +705,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGroundedContent {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGroundedContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGroundedContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citationMetadata: Schema.optional(
         GoogleCloudDiscoveryengineV1betaCitationMetadata,
@@ -727,7 +727,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswerReply {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswerReply: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswerReply> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundedContent: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAssistantGroundedContent,
@@ -743,7 +743,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNo
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Schema.String),
     }),
@@ -758,7 +758,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNo
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveDataProtectionPolicy: Schema.optional(
         GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy,
@@ -779,7 +779,7 @@ export interface GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryOperationM
 }
 
 export const GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryOperationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -798,7 +798,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbe
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVector: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
       vector: Schema.optional(Schema.Array(Schema.Number)),
@@ -822,7 +822,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyModelArm
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyModelArmorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureMode: Schema.optional(Schema.String),
       userPromptTemplate: Schema.optional(Schema.String),
@@ -847,7 +847,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyBannedPh
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyBannedPhrase: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyBannedPhrase> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phrase: Schema.optional(Schema.String),
       matchType: Schema.optional(Schema.String),
@@ -866,7 +866,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArmorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyModelArmorConfig,
@@ -889,7 +889,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantToolInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantToolInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantToolInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolName: Schema.optional(Schema.String),
       toolDisplayName: Schema.optional(Schema.String),
@@ -904,7 +904,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantToolList {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantToolList: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantToolList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolInfo: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaAssistantToolInfo),
@@ -920,7 +920,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGenerationConfigSystem
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGenerationConfigSystemInstruction: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGenerationConfigSystemInstruction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionalSystemInstruction: Schema.optional(Schema.String),
     }),
@@ -941,7 +941,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedModelIds: Schema.optional(Schema.Array(Schema.String)),
       defaultModelId: Schema.optional(Schema.String),
@@ -982,7 +982,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistant {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistant: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       webGroundingType: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1014,7 +1014,7 @@ export interface GoogleCloudDiscoveryengineV1betaListAssistantsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListAssistantsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListAssistantsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assistants: Schema.optional(
@@ -1046,7 +1046,7 @@ export interface GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumn {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumn: Schema.Schema<GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumn> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qualifier: Schema.optional(Schema.String),
       fieldName: Schema.optional(Schema.String),
@@ -1078,7 +1078,7 @@ export interface GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumnFa
 }
 
 export const GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumnFamily: Schema.Schema<GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumnFamily> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encoding: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -1105,7 +1105,7 @@ export interface GoogleCloudDiscoveryengineV1betaBigtableOptions {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBigtableOptions: Schema.Schema<GoogleCloudDiscoveryengineV1betaBigtableOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyFieldName: Schema.optional(Schema.String),
       families: Schema.optional(
@@ -1131,7 +1131,7 @@ export interface GoogleCloudDiscoveryengineV1betaBigtableSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBigtableSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaBigtableSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceId: Schema.optional(Schema.String),
       bigtableOptions: Schema.optional(
@@ -1150,7 +1150,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       embeddingVectors: Schema.optional(
         Schema.Array(
@@ -1168,7 +1168,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -1191,7 +1191,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relevanceThreshold: Schema.optional(Schema.String),
       semanticRelevanceThreshold: Schema.optional(Schema.Number),
@@ -1209,7 +1209,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keywordSearchThreshold: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec,
@@ -1235,7 +1235,7 @@ export interface GoogleCloudDiscoveryengineV1alphaInterval {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaInterval: Schema.Schema<GoogleCloudDiscoveryengineV1alphaInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimum: Schema.optional(Schema.Number),
       maximum: Schema.optional(Schema.Number),
@@ -1264,7 +1264,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictedValues: Schema.optional(Schema.Array(Schema.String)),
       prefixes: Schema.optional(Schema.Array(Schema.String)),
@@ -1293,7 +1293,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableDynamicPosition: Schema.optional(Schema.Boolean),
       facetKey: Schema.optional(
@@ -1317,7 +1317,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
     }),
@@ -1334,7 +1334,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpe
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       pinUnexpandedResults: Schema.optional(Schema.Boolean),
@@ -1350,7 +1350,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageBytes: Schema.optional(Schema.String),
     }),
@@ -1366,7 +1366,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResultPersistenceCount: Schema.optional(Schema.Number),
       queryId: Schema.optional(Schema.String),
@@ -1381,7 +1381,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -1398,7 +1398,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditio
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostAmount: Schema.optional(Schema.Number),
       attributeValue: Schema.optional(Schema.String),
@@ -1427,7 +1427,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditio
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       controlPoints: Schema.optional(
         Schema.Array(
@@ -1453,7 +1453,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditio
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boost: Schema.optional(Schema.Number),
       condition: Schema.optional(Schema.String),
@@ -1472,7 +1472,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionBoostSpecs: Schema.optional(
         Schema.Array(
@@ -1498,7 +1498,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numResults: Schema.optional(Schema.Number),
       boostSpec: Schema.optional(
@@ -1518,7 +1518,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
     }),
@@ -1538,7 +1538,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageSource: Schema.optional(Schema.String),
     }),
@@ -1553,7 +1553,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelPromptSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelPromptSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preamble: Schema.optional(Schema.String),
     }),
@@ -1588,7 +1588,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useSemanticChunks: Schema.optional(Schema.Boolean),
       ignoreLowRelevantContent: Schema.optional(Schema.Boolean),
@@ -1621,7 +1621,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numNextChunks: Schema.optional(Schema.Number),
       numPreviousChunks: Schema.optional(Schema.Number),
@@ -1641,7 +1641,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSnippetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSnippetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnSnippet: Schema.optional(Schema.Boolean),
       maxSnippetCount: Schema.optional(Schema.Number),
@@ -1666,7 +1666,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecExtractiveContentSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecExtractiveContentSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numPreviousSegments: Schema.optional(Schema.Number),
       numNextSegments: Schema.optional(Schema.Number),
@@ -1697,7 +1697,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResultMode: Schema.optional(Schema.String),
       summarySpec: Schema.optional(
@@ -1728,7 +1728,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableKpiPersonalizationAddOn: Schema.optional(Schema.Boolean),
       disableGenerativeAnswerAddOn: Schema.optional(Schema.Boolean),
@@ -1748,7 +1748,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchHighlightingCondition: Schema.optional(Schema.String),
     }),
@@ -1762,7 +1762,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpe
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnRelevanceScore: Schema.optional(Schema.Boolean),
     }),
@@ -1777,7 +1777,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableSearchAdaptor: Schema.optional(Schema.Boolean),
     }),
@@ -1799,7 +1799,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       maxCount: Schema.optional(Schema.Number),
@@ -1819,7 +1819,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUserInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUserInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userAgent: Schema.optional(Schema.String),
       timeZone: Schema.optional(Schema.String),
@@ -1849,7 +1849,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExtractionCondition: Schema.optional(Schema.String),
       extractedFilterBehavior: Schema.optional(Schema.String),
@@ -1963,7 +1963,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       embeddingSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec,
@@ -2058,7 +2058,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQueryS
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleQuerySet: Schema.optional(Schema.String),
     }),
@@ -2075,7 +2075,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchRequest: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaSearchRequest,
@@ -2094,7 +2094,7 @@ export interface GoogleCloudDiscoveryengineV1betaSiteSearchEngine {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSiteSearchEngine: Schema.Schema<GoogleCloudDiscoveryengineV1betaSiteSearchEngine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -2108,7 +2108,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineCommonConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineCommonConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineCommonConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       companyName: Schema.optional(Schema.String),
     }),
@@ -2130,7 +2130,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCount: Schema.optional(Schema.String),
       failureCount: Schema.optional(Schema.String),
@@ -2150,7 +2150,7 @@ export interface GoogleCloudDiscoveryengineV1betaGcsSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaGcsSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSchema: Schema.optional(Schema.String),
       inputUris: Schema.optional(Schema.Array(Schema.String)),
@@ -2165,7 +2165,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepActionSearchAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepActionSearchAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepActionSearchAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
     }),
@@ -2181,7 +2181,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSear
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultSnippetInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultSnippetInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snippet: Schema.optional(Schema.String),
       snippetStatus: Schema.optional(Schema.String),
@@ -2201,7 +2201,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSear
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       relevanceScore: Schema.optional(Schema.Number),
@@ -2228,7 +2228,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSear
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -2256,7 +2256,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepActionObservation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepActionObservation: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepActionObservation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResults: Schema.optional(
         Schema.Array(
@@ -2276,7 +2276,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStepAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStepAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStepAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchAction: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerStepActionSearchAction,
@@ -2306,7 +2306,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerStep {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerStep: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -2335,7 +2335,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageUri: Schema.optional(Schema.String),
       enabled: Schema.optional(Schema.Boolean),
@@ -2357,8 +2357,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -2366,9 +2366,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudDiscoveryengineV1betaDocumentIndexStatus {
   /** Immutable. The message indicates the document index is in progress. If this field is populated, the document index is pending. */
@@ -2380,7 +2380,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentIndexStatus {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentIndexStatus: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentIndexStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pendingMessage: Schema.optional(Schema.String),
       indexTime: Schema.optional(Schema.String),
@@ -2396,7 +2396,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloy
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nlConfigId: Schema.optional(Schema.String),
     }),
@@ -2425,7 +2425,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloy
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       password: Schema.optional(Schema.String),
       authMode: Schema.optional(Schema.String),
@@ -2449,7 +2449,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloy
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigAlloyDbConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnedFields: Schema.optional(Schema.Array(Schema.String)),
       alloydbAiNlConfig: Schema.optional(
@@ -2495,7 +2495,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineSearchEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineSearchEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineSearchEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchTier: Schema.optional(Schema.String),
       searchAddOns: Schema.optional(Schema.Array(Schema.String)),
@@ -2511,7 +2511,7 @@ export interface GoogleCloudDiscoveryengineV1betaSingleRegionKey {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSingleRegionKey: Schema.Schema<GoogleCloudDiscoveryengineV1betaSingleRegionKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kmsKey: Schema.optional(Schema.String),
     }),
@@ -2555,7 +2555,7 @@ export interface GoogleCloudDiscoveryengineV1betaCmekConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCmekConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaCmekConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastRotationTimestampMicros: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -2584,7 +2584,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfigFeatu
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfigFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfigFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disablePrivateKgQueryUnderstanding: Schema.optional(Schema.Boolean),
       disablePrivateKgQueryUiChips: Schema.optional(Schema.Boolean),
@@ -2610,7 +2610,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableCloudKnowledgeGraph: Schema.optional(Schema.Boolean),
       enablePrivateKnowledgeGraph: Schema.optional(Schema.Boolean),
@@ -2636,7 +2636,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineChatEngineConfigAgentCrea
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineChatEngineConfigAgentCreationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineChatEngineConfigAgentCreationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultLanguageCode: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
@@ -2658,7 +2658,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgentToLink: Schema.optional(Schema.String),
       allowCrossRegion: Schema.optional(Schema.Boolean),
@@ -2678,7 +2678,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngine
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetField: Schema.optional(Schema.String),
       targetFieldValueFloat: Schema.optional(Schema.Number),
@@ -2694,7 +2694,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngine
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextEventType: Schema.optional(Schema.String),
     }),
@@ -2709,7 +2709,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngine
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeWindowDays: Schema.optional(Schema.String),
     }),
@@ -2726,7 +2726,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngine
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigEngineFeaturesConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigEngineFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recommendedForYouConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig,
@@ -2758,7 +2758,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngine
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trainingState: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -2783,7 +2783,7 @@ export interface GoogleCloudDiscoveryengineV1betaObservabilityConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaObservabilityConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaObservabilityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveLoggingEnabled: Schema.optional(Schema.Boolean),
       observabilityEnabled: Schema.optional(Schema.Boolean),
@@ -2798,7 +2798,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngineChatEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngineChatEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngineChatEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgent: Schema.optional(Schema.String),
     }),
@@ -2889,7 +2889,7 @@ export interface GoogleCloudDiscoveryengineV1betaEngine {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEngine: Schema.Schema<GoogleCloudDiscoveryengineV1betaEngine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commonConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaEngineCommonConfig,
@@ -2945,7 +2945,7 @@ export interface GoogleCloudDiscoveryengineV1betaListEnginesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListEnginesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListEnginesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       engines: Schema.optional(
@@ -2964,7 +2964,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecCondition
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeValue: Schema.optional(Schema.String),
       boostAmount: Schema.optional(Schema.Number),
@@ -2993,7 +2993,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecCondition
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interpolationType: Schema.optional(Schema.String),
       attributeType: Schema.optional(Schema.String),
@@ -3019,7 +3019,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecCondition
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       boost: Schema.optional(Schema.Number),
@@ -3038,7 +3038,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionBoostSpecs: Schema.optional(
         Schema.Array(
@@ -3064,7 +3064,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numResults: Schema.optional(Schema.Number),
       dataStore: Schema.optional(Schema.String),
@@ -3086,7 +3086,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVer
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVertexAiSearchSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVertexAiSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       dataStoreSpecs: Schema.optional(
@@ -3103,7 +3103,7 @@ export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVertexA
 export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGroundingSpec {}
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGroundingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGroundingSpec> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGroundingSpec",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGroundingSpec>;
@@ -3111,7 +3111,7 @@ export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecWebGrou
 export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGenerationSpec {}
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGenerationSpec> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGenerationSpec",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGenerationSpec>;
@@ -3119,7 +3119,7 @@ export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVideoGe
 export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecImageGenerationSpec {}
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecImageGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecImageGenerationSpec> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecImageGenerationSpec",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecImageGenerationSpec>;
@@ -3136,7 +3136,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertexAiSearchSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpecVertexAiSearchSpec,
@@ -3168,7 +3168,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionR
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outcome: Schema.optional(Schema.String),
       output: Schema.optional(Schema.String),
@@ -3186,7 +3186,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContentBlob {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantContentBlob: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantContentBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -3201,7 +3201,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
     }),
@@ -3218,7 +3218,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContentFile {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantContentFile: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantContentFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       fileId: Schema.optional(Schema.String),
@@ -3245,7 +3245,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContent {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantContent: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeExecutionResult: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResult,
@@ -3302,7 +3302,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSafetyRating {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSafetyRating: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSafetyRating> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       probabilityScore: Schema.optional(Schema.Number),
@@ -3330,7 +3330,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQu
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       positive: Schema.optional(Schema.Boolean),
@@ -3346,7 +3346,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryClassificationInfo: Schema.optional(
         Schema.Array(
@@ -3366,7 +3366,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       data: Schema.optional(Schema.String),
@@ -3387,7 +3387,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob,
@@ -3408,7 +3408,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerCitation {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerCitation: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1alphaAnswerCitationSource),
@@ -3430,7 +3430,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSea
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunk: Schema.optional(Schema.String),
       relevanceScore: Schema.optional(Schema.Number),
@@ -3449,7 +3449,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSea
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snippet: Schema.optional(Schema.String),
       snippetStatus: Schema.optional(Schema.String),
@@ -3475,7 +3475,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSea
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunkInfo: Schema.optional(
         Schema.Array(
@@ -3503,7 +3503,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResults: Schema.optional(
         Schema.Array(
@@ -3521,7 +3521,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
     }),
@@ -3537,7 +3537,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStepAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStepAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStepAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       observation: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation,
@@ -3567,7 +3567,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerStep {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswerStep: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswerStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thought: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -3634,7 +3634,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswer {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAnswer: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundingScore: Schema.optional(Schema.Number),
       groundingSupports: Schema.optional(
@@ -3684,7 +3684,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGr
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegment: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundingScore: Schema.optional(Schema.Number),
       text: Schema.optional(Schema.String),
@@ -3713,7 +3713,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGr
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       domain: Schema.optional(Schema.String),
@@ -3735,7 +3735,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGr
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReference: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       documentMetadata: Schema.optional(
@@ -3755,7 +3755,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGr
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       segments: Schema.optional(
         Schema.Array(
@@ -3789,7 +3789,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCitation {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCitation: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       publicationDate: Schema.optional(GoogleTypeDate),
@@ -3808,7 +3808,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCitationMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCitationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCitationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citations: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1alphaCitation),
@@ -3828,7 +3828,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAssistantContent,
@@ -3852,7 +3852,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerReply {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswerReply: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswerReply> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundedContent: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent,
@@ -3871,7 +3871,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       modelArmorViolation: Schema.optional(Schema.String),
@@ -3887,7 +3887,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bannedPhrases: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3904,7 +3904,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArmorEnforcementResult: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult,
@@ -3926,7 +3926,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verdict: Schema.optional(Schema.String),
       policyResults: Schema.optional(
@@ -3965,7 +3965,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswer {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAssistAnswer: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAssistAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assistSkippedReasons: Schema.optional(Schema.Array(Schema.String)),
       replies: Schema.optional(
@@ -3997,7 +3997,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReferenc
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReference: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationUri: Schema.optional(Schema.String),
       documentName: Schema.optional(Schema.String),
@@ -4027,7 +4027,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlForConnector: Schema.optional(Schema.String),
       fileId: Schema.optional(Schema.String),
@@ -4058,7 +4058,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileId: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -4088,7 +4088,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQueryPart {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQueryPart: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQueryPart> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -4117,7 +4117,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQuery {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQuery: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryId: Schema.optional(Schema.String),
       parts: Schema.optional(
@@ -4143,7 +4143,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSessionTurn {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSessionTurn: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSessionTurn> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedAnswer: Schema.optional(GoogleCloudDiscoveryengineV1alphaAnswer),
       answer: Schema.optional(Schema.String),
@@ -4179,7 +4179,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSession {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSession: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSession> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isPinned: Schema.optional(Schema.Boolean),
       labels: Schema.optional(Schema.Array(Schema.String)),
@@ -4203,7 +4203,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportErrorConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportErrorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportErrorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -4214,7 +4214,7 @@ export const GoogleCloudDiscoveryengineV1alphaImportErrorConfig: Schema.Schema<G
 export interface GoogleCloudDiscoveryengineV1alphaProvisionProjectMetadata {}
 
 export const GoogleCloudDiscoveryengineV1alphaProvisionProjectMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProvisionProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1alphaProvisionProjectMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaProvisionProjectMetadata>;
 
@@ -4230,7 +4230,7 @@ export interface GoogleCloudDiscoveryengineV1betaInterval {
 }
 
 export const GoogleCloudDiscoveryengineV1betaInterval: Schema.Schema<GoogleCloudDiscoveryengineV1betaInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimum: Schema.optional(Schema.Number),
       maximum: Schema.optional(Schema.Number),
@@ -4251,7 +4251,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseFacetFacetValue {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseFacetFacetValue: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseFacetFacetValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       interval: Schema.optional(GoogleCloudDiscoveryengineV1betaInterval),
@@ -4269,7 +4269,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteCollectionMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteCollectionMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteCollectionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -4286,7 +4286,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -4306,7 +4306,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentMetadata: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata,
@@ -4327,7 +4327,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteUserStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteUserStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteUserStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       failureCount: Schema.optional(Schema.String),
@@ -4342,7 +4342,7 @@ export interface GoogleCloudDiscoveryengineV1ControlSynonymsAction {
 }
 
 export const GoogleCloudDiscoveryengineV1ControlSynonymsAction: Schema.Schema<GoogleCloudDiscoveryengineV1ControlSynonymsAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       synonyms: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4356,7 +4356,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeUserEventsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeUserEventsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
     }),
@@ -4376,7 +4376,7 @@ export interface GoogleCloudDiscoveryengineV1betaReplyReference {
 }
 
 export const GoogleCloudDiscoveryengineV1betaReplyReference: Schema.Schema<GoogleCloudDiscoveryengineV1betaReplyReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       start: Schema.optional(Schema.Number),
       end: Schema.optional(Schema.Number),
@@ -4395,7 +4395,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummarySafetyAttr
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummarySafetyAttributes: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummarySafetyAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scores: Schema.optional(Schema.Array(Schema.Number)),
       categories: Schema.optional(Schema.Array(Schema.String)),
@@ -4413,7 +4413,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttach
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttachmentBlob: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttachmentBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -4435,7 +4435,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttach
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttachment: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryBlobAttachment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributionType: Schema.optional(Schema.String),
       data: Schema.optional(
@@ -4457,7 +4457,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceC
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageIdentifier: Schema.optional(Schema.String),
       content: Schema.optional(Schema.String),
@@ -4480,7 +4480,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference 
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       document: Schema.optional(Schema.String),
@@ -4508,7 +4508,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummarySummaryWit
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummarySummaryWithMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummarySummaryWithMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blobAttachments: Schema.optional(
         Schema.Array(
@@ -4555,7 +4555,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSummary {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSummary: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       safetyAttributes: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchResponseSummarySafetyAttributes,
@@ -4580,7 +4580,7 @@ export interface GoogleCloudDiscoveryengineV1betaReply {
 }
 
 export const GoogleCloudDiscoveryengineV1betaReply: Schema.Schema<GoogleCloudDiscoveryengineV1betaReply> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       references: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaReplyReference),
@@ -4602,7 +4602,7 @@ export interface GoogleCloudDiscoveryengineV1betaConversationContext {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConversationContext: Schema.Schema<GoogleCloudDiscoveryengineV1betaConversationContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activeDocument: Schema.optional(Schema.String),
       contextDocuments: Schema.optional(Schema.Array(Schema.String)),
@@ -4619,7 +4619,7 @@ export interface GoogleCloudDiscoveryengineV1betaTextInput {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTextInput: Schema.Schema<GoogleCloudDiscoveryengineV1betaTextInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       input: Schema.optional(Schema.String),
       context: Schema.optional(
@@ -4640,7 +4640,7 @@ export interface GoogleCloudDiscoveryengineV1betaConversationMessage {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConversationMessage: Schema.Schema<GoogleCloudDiscoveryengineV1betaConversationMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       reply: Schema.optional(GoogleCloudDiscoveryengineV1betaReply),
@@ -4666,7 +4666,7 @@ export interface GoogleCloudDiscoveryengineV1betaConversation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConversation: Schema.Schema<GoogleCloudDiscoveryengineV1betaConversation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messages: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaConversationMessage),
@@ -4691,7 +4691,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentContent {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       rawBytes: Schema.optional(Schema.String),
@@ -4711,7 +4711,7 @@ export interface GoogleCloudDiscoveryengineV1betaPrincipal {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPrincipal: Schema.Schema<GoogleCloudDiscoveryengineV1betaPrincipal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalEntityId: Schema.optional(Schema.String),
       groupId: Schema.optional(Schema.String),
@@ -4729,7 +4729,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentAclInfoAccessRestrictio
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentAclInfoAccessRestriction: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentAclInfoAccessRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpWide: Schema.optional(Schema.Boolean),
       principals: Schema.optional(
@@ -4747,7 +4747,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentAclInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentAclInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentAclInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readers: Schema.optional(
         Schema.Array(
@@ -4785,7 +4785,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocument {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocument: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocument> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       indexTime: Schema.optional(Schema.String),
       derivedStructData: Schema.optional(
@@ -4815,7 +4815,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankSignalsCustomSignal: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankSignalsCustomSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.Number),
@@ -4847,7 +4847,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankSignals: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankSignals> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customSignals: Schema.optional(
         Schema.Array(
@@ -4876,7 +4876,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunkChunkMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunkChunkMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunkChunkMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       previousChunks: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaChunk),
@@ -4901,7 +4901,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunkDocumentMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunkDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunkDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       structData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -4925,7 +4925,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunkStructuredContent {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunkStructuredContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunkStructuredContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       structureType: Schema.optional(Schema.String),
@@ -4942,7 +4942,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunkAnnotationMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunkAnnotationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunkAnnotationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structuredContent: Schema.optional(
         GoogleCloudDiscoveryengineV1betaChunkStructuredContent,
@@ -4961,7 +4961,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunkPageSpan {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunkPageSpan: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunkPageSpan> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageStart: Schema.optional(Schema.Number),
       pageEnd: Schema.optional(Schema.Number),
@@ -4996,7 +4996,7 @@ export interface GoogleCloudDiscoveryengineV1betaChunk {
 }
 
 export const GoogleCloudDiscoveryengineV1betaChunk: Schema.Schema<GoogleCloudDiscoveryengineV1betaChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       chunkMetadata: Schema.optional(
@@ -5028,7 +5028,7 @@ export interface GoogleCloudDiscoveryengineV1betaDoubleList {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDoubleList: Schema.Schema<GoogleCloudDiscoveryengineV1betaDoubleList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -5050,7 +5050,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSearchResult {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSearchResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(GoogleCloudDiscoveryengineV1betaDocument),
       rankSignals: Schema.optional(
@@ -5081,7 +5081,7 @@ export interface GoogleCloudDiscoveryengineV1betaConverseConversationResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConverseConversationResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaConverseConversationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(
         GoogleCloudDiscoveryengineV1betaConversation,
@@ -5108,7 +5108,7 @@ export interface GoogleCloudDiscoveryengineV1Tenant {
 }
 
 export const GoogleCloudDiscoveryengineV1Tenant: Schema.Schema<GoogleCloudDiscoveryengineV1Tenant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -5124,7 +5124,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportErrorConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportErrorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportErrorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -5140,7 +5140,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsResp
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorConfig: Schema.optional(
@@ -5165,7 +5165,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfi
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfigStreamingError: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfigStreamingError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       streamingErrorReason: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpcStatus),
@@ -5185,7 +5185,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfi
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       realtimeSyncSecret: Schema.optional(Schema.String),
       streamingError: Schema.optional(
@@ -5206,7 +5206,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetField: Schema.optional(Schema.String),
       targetFieldValueFloat: Schema.optional(Schema.Number),
@@ -5230,7 +5230,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       done: Schema.optional(Schema.Boolean),
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -5250,7 +5250,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -5294,7 +5294,7 @@ export interface GoogleCloudDiscoveryengineV1betaSafetyRating {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSafetyRating: Schema.Schema<GoogleCloudDiscoveryengineV1betaSafetyRating> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blocked: Schema.optional(Schema.Boolean),
       probabilityScore: Schema.optional(Schema.Number),
@@ -5315,7 +5315,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDestinationConfigDestination {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDestinationConfigDestination: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDestinationConfigDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       host: Schema.optional(Schema.String),
       port: Schema.optional(Schema.Number),
@@ -5334,7 +5334,7 @@ export interface GoogleCloudDiscoveryengineV1betaSchema {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSchema: Schema.Schema<GoogleCloudDiscoveryengineV1betaSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structSchema: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -5354,7 +5354,7 @@ export interface GoogleCloudDiscoveryengineV1betaListSchemasResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListSchemasResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListSchemasResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       schemas: Schema.optional(
@@ -5373,7 +5373,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCreateDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCreateDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -5392,7 +5392,7 @@ export interface GoogleApiDistributionExemplar {
 }
 
 export const GoogleApiDistributionExemplar: Schema.Schema<GoogleApiDistributionExemplar> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attachments: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -5414,7 +5414,7 @@ export interface GoogleApiDistributionBucketOptionsExponential {
 }
 
 export const GoogleApiDistributionBucketOptionsExponential: Schema.Schema<GoogleApiDistributionBucketOptionsExponential> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       growthFactor: Schema.optional(Schema.Number),
       scale: Schema.optional(Schema.Number),
@@ -5434,7 +5434,7 @@ export interface GoogleApiDistributionBucketOptionsLinear {
 }
 
 export const GoogleApiDistributionBucketOptionsLinear: Schema.Schema<GoogleApiDistributionBucketOptionsLinear> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numFiniteBuckets: Schema.optional(Schema.Number),
       width: Schema.optional(Schema.Number),
@@ -5450,7 +5450,7 @@ export interface GoogleApiDistributionBucketOptionsExplicit {
 }
 
 export const GoogleApiDistributionBucketOptionsExplicit: Schema.Schema<GoogleApiDistributionBucketOptionsExplicit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bounds: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -5468,7 +5468,7 @@ export interface GoogleApiDistributionBucketOptions {
 }
 
 export const GoogleApiDistributionBucketOptions: Schema.Schema<GoogleApiDistributionBucketOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exponentialBuckets: Schema.optional(
         GoogleApiDistributionBucketOptionsExponential,
@@ -5490,7 +5490,7 @@ export interface GoogleApiDistributionRange {
 }
 
 export const GoogleApiDistributionRange: Schema.Schema<GoogleApiDistributionRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(Schema.Number),
       max: Schema.optional(Schema.Number),
@@ -5517,7 +5517,7 @@ export interface GoogleApiDistribution {
 }
 
 export const GoogleApiDistribution: Schema.Schema<GoogleApiDistribution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketCounts: Schema.optional(Schema.Array(Schema.String)),
       count: Schema.optional(Schema.String),
@@ -5545,7 +5545,7 @@ export interface GoogleMonitoringV3TypedValue {
 }
 
 export const GoogleMonitoringV3TypedValue: Schema.Schema<GoogleMonitoringV3TypedValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       doubleValue: Schema.optional(Schema.Number),
       boolValue: Schema.optional(Schema.Boolean),
@@ -5565,7 +5565,7 @@ export interface GoogleMonitoringV3TimeInterval {
 }
 
 export const GoogleMonitoringV3TimeInterval: Schema.Schema<GoogleMonitoringV3TimeInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5582,7 +5582,7 @@ export interface GoogleMonitoringV3Point {
 }
 
 export const GoogleMonitoringV3Point: Schema.Schema<GoogleMonitoringV3Point> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(GoogleMonitoringV3TypedValue),
       interval: Schema.optional(GoogleMonitoringV3TimeInterval),
@@ -5599,7 +5599,7 @@ export interface GoogleApiMonitoredResource {
 }
 
 export const GoogleApiMonitoredResource: Schema.Schema<GoogleApiMonitoredResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -5615,15 +5615,15 @@ export interface GoogleApiMetric {
   labels?: Record<string, string>;
 }
 
-export const GoogleApiMetric: Schema.Schema<GoogleApiMetric> = Schema.suspend(
-  () =>
+export const GoogleApiMetric: Schema.Schema<GoogleApiMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
-).annotate({
-  identifier: "GoogleApiMetric",
-}) as any as Schema.Schema<GoogleApiMetric>;
+  ).annotate({
+    identifier: "GoogleApiMetric",
+  }) as any as Schema.Schema<GoogleApiMetric>;
 
 export interface GoogleApiMonitoredResourceMetadata {
   /** Output only. Values for predefined system metadata labels. System labels are a kind of metadata extracted by Google, including "machine_image", "vpc", "subnet_id", "security_group", "name", etc. System label values can be only strings, Boolean values, or a list of strings. For example: { "name": "my-test-instance", "security_group": ["a", "b", "c"], "spot_instance": false } */
@@ -5633,7 +5633,7 @@ export interface GoogleApiMonitoredResourceMetadata {
 }
 
 export const GoogleApiMonitoredResourceMetadata: Schema.Schema<GoogleApiMonitoredResourceMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       systemLabels: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -5677,7 +5677,7 @@ export interface GoogleMonitoringV3TimeSeries {
 }
 
 export const GoogleMonitoringV3TimeSeries: Schema.Schema<GoogleMonitoringV3TimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       unit: Schema.optional(Schema.String),
@@ -5698,7 +5698,7 @@ export interface GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qpsTimeSeries: Schema.optional(GoogleMonitoringV3TimeSeries),
     }),
@@ -5720,7 +5720,7 @@ export interface GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentWatchedPercentageThreshold: Schema.optional(Schema.Number),
       contentWatchedSecondsThreshold: Schema.optional(Schema.Number),
@@ -5738,7 +5738,7 @@ export interface GoogleCloudDiscoveryengineV1betaEmbeddingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEmbeddingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaEmbeddingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
     }),
@@ -5760,7 +5760,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecE
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecExtractiveContentSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecExtractiveContentSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnExtractiveSegmentScore: Schema.optional(Schema.Boolean),
       maxExtractiveAnswerCount: Schema.optional(Schema.Number),
@@ -5783,7 +5783,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSnippetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSnippetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceOnly: Schema.optional(Schema.Boolean),
       maxSnippetCount: Schema.optional(Schema.Number),
@@ -5800,7 +5800,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecModelSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
     }),
@@ -5820,7 +5820,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecMultiModalSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecMultiModalSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageSource: Schema.optional(Schema.String),
     }),
@@ -5835,7 +5835,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecModelPromptSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecModelPromptSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preamble: Schema.optional(Schema.String),
     }),
@@ -5870,7 +5870,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecS
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreJailBreakingQuery: Schema.optional(Schema.Boolean),
       modelSpec: Schema.optional(
@@ -5903,7 +5903,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecC
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecChunkSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecChunkSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numPreviousChunks: Schema.optional(Schema.Number),
       numNextChunks: Schema.optional(Schema.Number),
@@ -5931,7 +5931,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec 
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extractiveContentSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecExtractiveContentSpec,
@@ -5958,7 +5958,7 @@ export interface GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentSearchSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec,
@@ -5988,7 +5988,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerGenerationSpecUserDefined
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerGenerationSpecUserDefinedClassifierSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerGenerationSpecUserDefinedClassifierSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topP: Schema.optional(Schema.Number),
       topK: Schema.optional(Schema.String),
@@ -6010,7 +6010,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userDefinedClassifierSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerGenerationSpecUserDefinedClassifierSpec,
@@ -6026,7 +6026,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -6090,7 +6090,7 @@ export interface GoogleCloudDiscoveryengineV1betaServingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaServingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaServingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mediaConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig,
@@ -6137,7 +6137,7 @@ export interface GoogleCloudDiscoveryengineV1betaListServingConfigsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListServingConfigsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListServingConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       servingConfigs: Schema.optional(
@@ -6154,7 +6154,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerat
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecPromptSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecPromptSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preamble: Schema.optional(Schema.String),
     }),
@@ -6166,7 +6166,7 @@ export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationS
 export interface GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest>;
 
@@ -6176,7 +6176,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnfor
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bannedPhrases: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -6193,7 +6193,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataRespon
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDocumentMetadataMatcherValue: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDocumentMetadataMatcherValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       fhirResource: Schema.optional(Schema.String),
@@ -6220,7 +6220,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataRespon
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastRefreshedTime: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -6237,7 +6237,7 @@ export const GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDo
 export interface GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest>;
@@ -6264,7 +6264,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpecSaf
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpecSafetySetting: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpecSafetySetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threshold: Schema.optional(Schema.String),
       category: Schema.optional(Schema.String),
@@ -6282,7 +6282,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       safetySettings: Schema.optional(
         Schema.Array(
@@ -6307,7 +6307,7 @@ export interface GoogleCloudDiscoveryengineV1betaIdentityMappingEntry {
 }
 
 export const GoogleCloudDiscoveryengineV1betaIdentityMappingEntry: Schema.Schema<GoogleCloudDiscoveryengineV1betaIdentityMappingEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userId: Schema.optional(Schema.String),
       groupId: Schema.optional(Schema.String),
@@ -6326,7 +6326,7 @@ export interface GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityMappingEntries: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaIdentityMappingEntry),
@@ -6343,7 +6343,7 @@ export interface GoogleCloudDiscoveryengineV1ControlRedirectAction {
 }
 
 export const GoogleCloudDiscoveryengineV1ControlRedirectAction: Schema.Schema<GoogleCloudDiscoveryengineV1ControlRedirectAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectUri: Schema.optional(Schema.String),
     }),
@@ -6370,7 +6370,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraint: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       comparison: Schema.optional(Schema.String),
@@ -6388,7 +6388,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterOrExpression: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterOrExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(
         Schema.Array(
@@ -6411,7 +6411,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterStringConstraint: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterStringConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
       querySegment: Schema.optional(Schema.String),
@@ -6436,7 +6436,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterGeolocationConstraint: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterGeolocationConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       address: Schema.optional(Schema.String),
       fieldName: Schema.optional(Schema.String),
@@ -6463,7 +6463,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       andExpr: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression,
@@ -6492,7 +6492,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(
         Schema.Array(
@@ -6511,7 +6511,7 @@ export interface GoogleCloudDiscoveryengineLoggingSourceLocation {
 }
 
 export const GoogleCloudDiscoveryengineLoggingSourceLocation: Schema.Schema<GoogleCloudDiscoveryengineLoggingSourceLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -6529,7 +6529,7 @@ export interface GoogleCloudDiscoveryengineV1HealthcareFhirConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1HealthcareFhirConfig: Schema.Schema<GoogleCloudDiscoveryengineV1HealthcareFhirConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableConfigurableSchema: Schema.optional(Schema.Boolean),
       enableStaticIndexingForBatchIngestion: Schema.optional(Schema.Boolean),
@@ -6549,7 +6549,7 @@ export interface GoogleCloudDiscoveryengineV1Schema {
 }
 
 export const GoogleCloudDiscoveryengineV1Schema: Schema.Schema<GoogleCloudDiscoveryengineV1Schema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       jsonSchema: Schema.optional(Schema.String),
@@ -6579,7 +6579,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnectorSourceEntity {
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnectorSourceEntity: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnectorSourceEntity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyPropertyMappings: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -6609,7 +6609,7 @@ export interface GoogleCloudDiscoveryengineV1AlertPolicyConfigAlertEnrollment {
 }
 
 export const GoogleCloudDiscoveryengineV1AlertPolicyConfigAlertEnrollment: Schema.Schema<GoogleCloudDiscoveryengineV1AlertPolicyConfigAlertEnrollment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertId: Schema.optional(Schema.String),
       enrollState: Schema.optional(Schema.String),
@@ -6626,7 +6626,7 @@ export interface GoogleCloudDiscoveryengineV1AlertPolicyConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1AlertPolicyConfig: Schema.Schema<GoogleCloudDiscoveryengineV1AlertPolicyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertPolicyName: Schema.optional(Schema.String),
       alertEnrollments: Schema.optional(
@@ -6649,7 +6649,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnectorFederatedConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnectorFederatedConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnectorFederatedConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionalParams: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -6674,7 +6674,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfigStre
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfigStreamingError: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfigStreamingError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       streamingErrorReason: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpcStatus),
@@ -6694,7 +6694,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnectorRealtimeSyncConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       realtimeSyncSecret: Schema.optional(Schema.String),
       streamingError: Schema.optional(
@@ -6714,7 +6714,7 @@ export interface GoogleCloudDiscoveryengineV1IdentityScheduleConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1IdentityScheduleConfig: Schema.Schema<GoogleCloudDiscoveryengineV1IdentityScheduleConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       refreshInterval: Schema.optional(Schema.String),
       nextSyncTime: Schema.optional(GoogleTypeDateTime),
@@ -6735,7 +6735,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnectorEndUserConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnectorEndUserConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnectorEndUserConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tenant: Schema.optional(GoogleCloudDiscoveryengineV1Tenant),
       authParams: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -6762,7 +6762,7 @@ export interface GoogleCloudDiscoveryengineV1BAPConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1BAPConfig: Schema.Schema<GoogleCloudDiscoveryengineV1BAPConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportedConnectorModes: Schema.optional(Schema.Array(Schema.String)),
       enabledActions: Schema.optional(Schema.Array(Schema.String)),
@@ -6777,7 +6777,7 @@ export interface GoogleCloudDiscoveryengineV1ActionConfigScopeList {
 }
 
 export const GoogleCloudDiscoveryengineV1ActionConfigScopeList: Schema.Schema<GoogleCloudDiscoveryengineV1ActionConfigScopeList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scopes: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -6804,7 +6804,7 @@ export interface GoogleCloudDiscoveryengineV1ActionConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ActionConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ActionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isActionConfigured: Schema.optional(Schema.Boolean),
       useStaticSecrets: Schema.optional(Schema.Boolean),
@@ -6832,7 +6832,7 @@ export interface GoogleCloudDiscoveryengineV1DestinationConfigDestination {
 }
 
 export const GoogleCloudDiscoveryengineV1DestinationConfigDestination: Schema.Schema<GoogleCloudDiscoveryengineV1DestinationConfigDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       port: Schema.optional(Schema.Number),
       host: Schema.optional(Schema.String),
@@ -6853,7 +6853,7 @@ export interface GoogleCloudDiscoveryengineV1DestinationConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DestinationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DestinationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       destinations: Schema.optional(
@@ -7009,7 +7009,7 @@ export interface GoogleCloudDiscoveryengineV1DataConnector {
 }
 
 export const GoogleCloudDiscoveryengineV1DataConnector: Schema.Schema<GoogleCloudDiscoveryengineV1DataConnector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       removeParamKeys: Schema.optional(Schema.Array(Schema.String)),
       alertPolicyConfigs: Schema.optional(
@@ -7079,7 +7079,7 @@ export interface GoogleCloudDiscoveryengineV1betaConditionTimeRange {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConditionTimeRange: Schema.Schema<GoogleCloudDiscoveryengineV1betaConditionTimeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -7108,7 +7108,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableGetProcessedDocument: Schema.optional(Schema.Boolean),
       excludeHtmlIds: Schema.optional(Schema.Array(Schema.String)),
@@ -7130,7 +7130,7 @@ export interface GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpecQuerySe
 }
 
 export const GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpecQuerySetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpecQuerySetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleQuerySet: Schema.optional(Schema.String),
     }),
@@ -7159,7 +7159,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQue
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExtractionCondition: Schema.optional(Schema.String),
       allowedFieldNames: Schema.optional(Schema.Array(Schema.String)),
@@ -7181,7 +7181,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpecEmbed
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpecEmbeddingVector: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpecEmbeddingVector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
       vector: Schema.optional(Schema.Array(Schema.Number)),
@@ -7197,7 +7197,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       embeddingVectors: Schema.optional(
         Schema.Array(
@@ -7215,7 +7215,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageBytes: Schema.optional(Schema.String),
     }),
@@ -7237,7 +7237,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relevanceThreshold: Schema.optional(Schema.String),
       semanticRelevanceThreshold: Schema.optional(Schema.Number),
@@ -7255,7 +7255,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keywordSearchThreshold: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec,
@@ -7275,7 +7275,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -7290,7 +7290,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnRelevanceScore: Schema.optional(Schema.Boolean),
     }),
@@ -7309,7 +7309,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchHighlightingCondition: Schema.optional(Schema.String),
     }),
@@ -7327,7 +7327,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableSemanticAddOn: Schema.optional(Schema.Boolean),
       disableKpiPersonalizationAddOn: Schema.optional(Schema.Boolean),
@@ -7345,7 +7345,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       pinUnexpandedResults: Schema.optional(Schema.Boolean),
@@ -7366,7 +7366,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpe
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
     }),
@@ -7383,7 +7383,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryId: Schema.optional(Schema.String),
       searchResultPersistenceCount: Schema.optional(Schema.Number),
@@ -7402,7 +7402,7 @@ export interface GoogleCloudDiscoveryengineV1betaUserInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUserInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaUserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userId: Schema.optional(Schema.String),
       userAgent: Schema.optional(Schema.String),
@@ -7430,7 +7430,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecFacetKey 
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecFacetKey: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecFacetKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictedValues: Schema.optional(Schema.Array(Schema.String)),
       prefixes: Schema.optional(Schema.Array(Schema.String)),
@@ -7459,7 +7459,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedFilterKeys: Schema.optional(Schema.Array(Schema.String)),
       enableDynamicPosition: Schema.optional(Schema.Boolean),
@@ -7486,7 +7486,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(Schema.String),
       mode: Schema.optional(Schema.String),
@@ -7592,7 +7592,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
       canonicalFilter: Schema.optional(Schema.String),
@@ -7683,7 +7683,7 @@ export interface GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchRequest: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchRequest,
@@ -7708,7 +7708,7 @@ export interface GoogleCloudDiscoveryengineV1betaQualityMetricsTopkMetrics {
 }
 
 export const GoogleCloudDiscoveryengineV1betaQualityMetricsTopkMetrics: Schema.Schema<GoogleCloudDiscoveryengineV1betaQualityMetricsTopkMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top3: Schema.optional(Schema.Number),
       top5: Schema.optional(Schema.Number),
@@ -7733,7 +7733,7 @@ export interface GoogleCloudDiscoveryengineV1betaQualityMetrics {
 }
 
 export const GoogleCloudDiscoveryengineV1betaQualityMetrics: Schema.Schema<GoogleCloudDiscoveryengineV1betaQualityMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageNdcg: Schema.optional(
         GoogleCloudDiscoveryengineV1betaQualityMetricsTopkMetrics,
@@ -7781,7 +7781,7 @@ export interface GoogleCloudDiscoveryengineV1betaEvaluation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaEvaluation: Schema.Schema<GoogleCloudDiscoveryengineV1betaEvaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -7808,7 +7808,7 @@ export interface GoogleCloudDiscoveryengineV1betaLicenseConfigUsageStats {
 }
 
 export const GoogleCloudDiscoveryengineV1betaLicenseConfigUsageStats: Schema.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfigUsageStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usedLicenseCount: Schema.optional(Schema.String),
       licenseConfig: Schema.optional(Schema.String),
@@ -7823,7 +7823,7 @@ export interface GoogleCloudDiscoveryengineLoggingServiceContext {
 }
 
 export const GoogleCloudDiscoveryengineLoggingServiceContext: Schema.Schema<GoogleCloudDiscoveryengineLoggingServiceContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
     }),
@@ -7849,7 +7849,7 @@ export interface GoogleCloudDiscoveryengineLoggingConnectorRunErrorContext {
 }
 
 export const GoogleCloudDiscoveryengineLoggingConnectorRunErrorContext: Schema.Schema<GoogleCloudDiscoveryengineLoggingConnectorRunErrorContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operation: Schema.optional(Schema.String),
       syncType: Schema.optional(Schema.String),
@@ -7877,7 +7877,7 @@ export interface GoogleCloudDiscoveryengineLoggingImportErrorContext {
 }
 
 export const GoogleCloudDiscoveryengineLoggingImportErrorContext: Schema.Schema<GoogleCloudDiscoveryengineLoggingImportErrorContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPath: Schema.optional(Schema.String),
       operation: Schema.optional(Schema.String),
@@ -7895,7 +7895,7 @@ export interface GoogleCloudDiscoveryengineLoggingHttpRequestContext {
 }
 
 export const GoogleCloudDiscoveryengineLoggingHttpRequestContext: Schema.Schema<GoogleCloudDiscoveryengineLoggingHttpRequestContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseStatusCode: Schema.optional(Schema.Number),
     }),
@@ -7911,7 +7911,7 @@ export interface GoogleCloudDiscoveryengineLoggingErrorContext {
 }
 
 export const GoogleCloudDiscoveryengineLoggingErrorContext: Schema.Schema<GoogleCloudDiscoveryengineLoggingErrorContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportLocation: Schema.optional(
         GoogleCloudDiscoveryengineLoggingSourceLocation,
@@ -7944,7 +7944,7 @@ export interface GoogleCloudDiscoveryengineLoggingErrorLog {
 }
 
 export const GoogleCloudDiscoveryengineLoggingErrorLog: Schema.Schema<GoogleCloudDiscoveryengineLoggingErrorLog> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestPayload: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -7981,7 +7981,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocu
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfoChunkContent: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfoChunkContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageIdentifier: Schema.optional(Schema.String),
       relevanceScore: Schema.optional(Schema.Number),
@@ -8007,7 +8007,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocu
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -8034,7 +8034,7 @@ export interface GoogleCloudDiscoveryengineV1betaSitemap {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSitemap: Schema.Schema<GoogleCloudDiscoveryengineV1betaSitemap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -8050,7 +8050,7 @@ export interface GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMet
 }
 
 export const GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sitemap: Schema.optional(GoogleCloudDiscoveryengineV1betaSitemap),
     }),
@@ -8065,7 +8065,7 @@ export interface GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sitemapsMetadata: Schema.optional(
         Schema.Array(
@@ -8080,7 +8080,7 @@ export const GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse: Schema.Schem
 export interface GoogleCloudDiscoveryengineV1betaResumeEngineRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaResumeEngineRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaResumeEngineRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaResumeEngineRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaResumeEngineRequest>;
 
@@ -8096,7 +8096,7 @@ export interface GoogleCloudDiscoveryengineV1betaFhirStoreSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaFhirStoreSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaFhirStoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateFromLatestPredefinedSchema: Schema.optional(Schema.Boolean),
       resourceTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -8113,7 +8113,7 @@ export interface GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest
 }
 
 export const GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crawlRateScope: Schema.optional(Schema.String),
     }),
@@ -8125,7 +8125,7 @@ export const GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest: Sc
 export interface GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataResponse {}
 
 export const GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataResponse>;
@@ -8148,7 +8148,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionValue: Schema.optional(Schema.Number),
       promotionIds: Schema.optional(Schema.Array(Schema.String)),
@@ -8170,7 +8170,7 @@ export interface GoogleCloudDiscoveryengineV1betaMediaInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaMediaInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaMediaInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mediaProgressDuration: Schema.optional(Schema.String),
       mediaProgressPercentage: Schema.optional(Schema.Number),
@@ -8187,7 +8187,7 @@ export interface GoogleCloudDiscoveryengineV1betaCustomAttribute {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCustomAttribute: Schema.Schema<GoogleCloudDiscoveryengineV1betaCustomAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       numbers: Schema.optional(Schema.Array(Schema.Number)),
@@ -8210,7 +8210,7 @@ export interface GoogleCloudDiscoveryengineV1betaPanelInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPanelInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaPanelInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalPanels: Schema.optional(Schema.Number),
       displayName: Schema.optional(Schema.String),
@@ -8234,7 +8234,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       orderBy: Schema.optional(Schema.String),
       searchQuery: Schema.optional(Schema.String),
@@ -8260,7 +8260,7 @@ export interface GoogleCloudDiscoveryengineV1betaTransactionInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTransactionInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaTransactionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tax: Schema.optional(Schema.Number),
       discountValue: Schema.optional(Schema.Number),
@@ -8281,7 +8281,7 @@ export interface GoogleCloudDiscoveryengineV1betaCompletionInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCompletionInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaCompletionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selectedSuggestion: Schema.optional(Schema.String),
       selectedPosition: Schema.optional(Schema.Number),
@@ -8302,7 +8302,7 @@ export interface GoogleCloudDiscoveryengineV1betaPageInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPageInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaPageInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageviewId: Schema.optional(Schema.String),
       referrerUri: Schema.optional(Schema.String),
@@ -8363,7 +8363,7 @@ export interface GoogleCloudDiscoveryengineV1betaUserEvent {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUserEvent: Schema.Schema<GoogleCloudDiscoveryengineV1betaUserEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaDocumentInfo),
@@ -8412,7 +8412,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSo
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvents: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaUserEvent),
@@ -8435,7 +8435,7 @@ export interface GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       autoRefreshCrawlErrorRate: Schema.optional(
         GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries,
@@ -8462,7 +8462,7 @@ export interface GoogleCloudDiscoveryengineV1betaOrganicCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1betaOrganicCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1betaOrganicCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleOrganicCrawlRate: Schema.optional(
         GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries,
@@ -8487,7 +8487,7 @@ export interface GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dedicatedCrawlRateTimeSeries: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries,
@@ -8508,7 +8508,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUndersta
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelType: Schema.optional(Schema.String),
     }),
@@ -8527,7 +8527,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUndersta
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec,
@@ -8554,7 +8554,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUndersta
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -8573,7 +8573,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUndersta
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryRephraserSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec,
@@ -8594,7 +8594,7 @@ export interface GoogleCloudDiscoveryengineV1betaTargetSiteFailureReasonQuotaFai
 }
 
 export const GoogleCloudDiscoveryengineV1betaTargetSiteFailureReasonQuotaFailure: Schema.Schema<GoogleCloudDiscoveryengineV1betaTargetSiteFailureReasonQuotaFailure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalRequiredQuota: Schema.optional(Schema.String),
     }),
@@ -8609,7 +8609,7 @@ export interface GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason: Schema.Schema<GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quotaFailure: Schema.optional(
         GoogleCloudDiscoveryengineV1betaTargetSiteFailureReasonQuotaFailure,
@@ -8632,7 +8632,7 @@ export interface GoogleCloudDiscoveryengineV1betaSiteVerificationInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSiteVerificationInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSiteVerificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteVerificationState: Schema.optional(Schema.String),
       verifyTime: Schema.optional(Schema.String),
@@ -8673,7 +8673,7 @@ export interface GoogleCloudDiscoveryengineV1betaTargetSite {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTargetSite: Schema.Schema<GoogleCloudDiscoveryengineV1betaTargetSite> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generatedUriPattern: Schema.optional(Schema.String),
       exactMatch: Schema.optional(Schema.Boolean),
@@ -8700,7 +8700,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesResponse 
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetSites: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaTargetSite),
@@ -8717,7 +8717,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFa
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalRequiredQuota: Schema.optional(Schema.String),
     }),
@@ -8732,7 +8732,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quotaFailure: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure,
@@ -8748,7 +8748,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeErrorConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeErrorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeErrorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -8768,7 +8768,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReferenceStructuredDocume
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReferenceStructuredDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReferenceStructuredDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -8794,7 +8794,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfoDocumen
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfoDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfoDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       pageIdentifier: Schema.optional(Schema.String),
@@ -8821,7 +8821,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relevanceScore: Schema.optional(Schema.Number),
       blobAttachmentIndexes: Schema.optional(Schema.Array(Schema.String)),
@@ -8847,7 +8847,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerReference {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerReference: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queries: Schema.optional(Schema.Array(Schema.String)),
       structuredDocumentInfo: Schema.optional(
@@ -8870,7 +8870,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerCitationSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerCitationSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerCitationSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceId: Schema.optional(Schema.String),
     }),
@@ -8888,7 +8888,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerCitation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerCitation: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startIndex: Schema.optional(Schema.String),
       endIndex: Schema.optional(Schema.String),
@@ -8914,7 +8914,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerGroundingSupport {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerGroundingSupport: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerGroundingSupport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaAnswerCitationSource),
@@ -8936,7 +8936,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerBlobAttachmentBlob {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerBlobAttachmentBlob: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerBlobAttachmentBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       data: Schema.optional(Schema.String),
@@ -8957,7 +8957,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerBlobAttachment {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerBlobAttachment: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerBlobAttachment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerBlobAttachmentBlob,
@@ -8983,7 +8983,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfoQue
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfoQueryClassificationInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfoQueryClassificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       positive: Schema.optional(Schema.Boolean),
@@ -8999,7 +8999,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryClassificationInfo: Schema.optional(
         Schema.Array(
@@ -9065,7 +9065,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswer {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswer: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       answerSkippedReasons: Schema.optional(Schema.Array(Schema.String)),
@@ -9115,7 +9115,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTrainCustomModelResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTrainCustomModelResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTrainCustomModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metrics: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
       modelStatus: Schema.optional(Schema.String),
@@ -9137,7 +9137,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCreateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCreateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -9154,7 +9154,7 @@ export interface GoogleCloudDiscoveryengineV1ConditionQueryTerm {
 }
 
 export const GoogleCloudDiscoveryengineV1ConditionQueryTerm: Schema.Schema<GoogleCloudDiscoveryengineV1ConditionQueryTerm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       fullMatch: Schema.optional(Schema.Boolean),
@@ -9169,7 +9169,7 @@ export interface GoogleCloudDiscoveryengineV1alphaContactDetails {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaContactDetails: Schema.Schema<GoogleCloudDiscoveryengineV1alphaContactDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
     }),
@@ -9191,7 +9191,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlert
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollment: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notificationParams: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -9218,7 +9218,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertPolicy: Schema.optional(Schema.String),
       contactDetails: Schema.optional(
@@ -9294,7 +9294,7 @@ export interface GoogleCloudDiscoveryengineV1alphaLicenseConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaLicenseConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaLicenseConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       earlyTerminationDate: Schema.optional(GoogleTypeDate),
       subscriptionTerm: Schema.optional(Schema.String),
@@ -9324,7 +9324,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolation
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpecControlPoint: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeValue: Schema.optional(Schema.String),
       boostAmount: Schema.optional(Schema.Number),
@@ -9350,7 +9350,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectConfigurableBillingStatus {
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectConfigurableBillingStatus: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectConfigurableBillingStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       effectiveIndexingCoreThreshold: Schema.optional(Schema.String),
       terminateTime: Schema.optional(Schema.String),
@@ -9371,7 +9371,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResul
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResultRefinementAttribute: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResultRefinementAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeValue: Schema.optional(Schema.String),
       attributeKey: Schema.optional(Schema.String),
@@ -9389,7 +9389,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantToolInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantToolInfo: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantToolInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolName: Schema.optional(Schema.String),
       toolDisplayName: Schema.optional(Schema.String),
@@ -9404,7 +9404,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantToolList {
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantToolList: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantToolList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolInfo: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1AssistantToolInfo),
@@ -9420,7 +9420,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantGenerationConfigSystemInst
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantGenerationConfigSystemInstruction: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantGenerationConfigSystemInstruction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionalSystemInstruction: Schema.optional(Schema.String),
     }),
@@ -9441,7 +9441,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantGenerationConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantGenerationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantGenerationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       systemInstruction: Schema.optional(
         GoogleCloudDiscoveryengineV1AssistantGenerationConfigSystemInstruction,
@@ -9468,7 +9468,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantCustomerPolicyModelArmorCo
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantCustomerPolicyModelArmorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantCustomerPolicyModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPromptTemplate: Schema.optional(Schema.String),
       responseTemplate: Schema.optional(Schema.String),
@@ -9493,7 +9493,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantCustomerPolicyBannedPhrase
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantCustomerPolicyBannedPhrase: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantCustomerPolicyBannedPhrase> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreDiacritics: Schema.optional(Schema.Boolean),
       matchType: Schema.optional(Schema.String),
@@ -9512,7 +9512,7 @@ export interface GoogleCloudDiscoveryengineV1AssistantCustomerPolicy {
 }
 
 export const GoogleCloudDiscoveryengineV1AssistantCustomerPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1AssistantCustomerPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArmorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1AssistantCustomerPolicyModelArmorConfig,
@@ -9552,7 +9552,7 @@ export interface GoogleCloudDiscoveryengineV1Assistant {
 }
 
 export const GoogleCloudDiscoveryengineV1Assistant: Schema.Schema<GoogleCloudDiscoveryengineV1Assistant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabledTools: Schema.optional(
         Schema.Record(
@@ -9582,7 +9582,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeWindowDays: Schema.optional(Schema.String),
     }),
@@ -9613,7 +9613,7 @@ export interface GoogleCloudDiscoveryengineV1WorkspaceConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1WorkspaceConfig: Schema.Schema<GoogleCloudDiscoveryengineV1WorkspaceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       superAdminServiceAccount: Schema.optional(Schema.String),
@@ -9640,7 +9640,7 @@ export interface GoogleCloudDiscoveryengineV1betaCloudSqlSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCloudSqlSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaCloudSqlSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableId: Schema.optional(Schema.String),
       gcsStagingDir: Schema.optional(Schema.String),
@@ -9671,7 +9671,7 @@ export interface GoogleCloudDiscoveryengineV1betaFactChunk {
 }
 
 export const GoogleCloudDiscoveryengineV1betaFactChunk: Schema.Schema<GoogleCloudDiscoveryengineV1betaFactChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -9695,7 +9695,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUpdateCmekConfigMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUpdateCmekConfigMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUpdateCmekConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -9712,7 +9712,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnfor
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       modelArmorViolation: Schema.optional(Schema.String),
@@ -9730,7 +9730,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnfor
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bannedPhraseEnforcementResult: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult,
@@ -9752,7 +9752,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnfor
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyResults: Schema.optional(
         Schema.Array(
@@ -9774,7 +9774,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNo
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPromptTemplate: Schema.optional(Schema.String),
       responseTemplate: Schema.optional(Schema.String),
@@ -9796,7 +9796,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNo
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       observabilityConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaObservabilityConfig,
@@ -9820,7 +9820,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEstimateDataSizeMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEstimateDataSizeMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
     }),
@@ -9844,7 +9844,7 @@ export interface GoogleCloudDiscoveryengineV1betaBigQuerySource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBigQuerySource: Schema.Schema<GoogleCloudDiscoveryengineV1betaBigQuerySource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsStagingDir: Schema.optional(Schema.String),
       datasetId: Schema.optional(Schema.String),
@@ -9867,7 +9867,7 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntryTarget {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntryTarget: Schema.Schema<GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       pageNumbers: Schema.optional(Schema.Array(Schema.Number)),
@@ -9885,7 +9885,7 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry: Schema.Schema<GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targets: Schema.optional(
         Schema.Array(
@@ -9908,7 +9908,7 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQuery {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSampleQuery: Schema.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryEntry: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry,
@@ -9926,7 +9926,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequestInlin
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleQueries: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaSampleQuery),
@@ -9949,7 +9949,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(GoogleCloudDiscoveryengineV1betaGcsSource),
       errorConfig: Schema.optional(
@@ -9978,7 +9978,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportUserEventsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       errorConfig: Schema.optional(
@@ -9999,7 +9999,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteCmekConfigMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteCmekConfigMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteCmekConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -10014,7 +10014,7 @@ export interface GoogleCloudDiscoveryengineV1SingleRegionKey {
 }
 
 export const GoogleCloudDiscoveryengineV1SingleRegionKey: Schema.Schema<GoogleCloudDiscoveryengineV1SingleRegionKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kmsKey: Schema.optional(Schema.String),
     }),
@@ -10058,7 +10058,7 @@ export interface GoogleCloudDiscoveryengineV1CmekConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1CmekConfig: Schema.Schema<GoogleCloudDiscoveryengineV1CmekConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastRotationTimestampMicros: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -10087,7 +10087,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportUserEventsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(GoogleCloudDiscoveryengineV1betaGcsSource),
       errorConfig: Schema.optional(
@@ -10110,7 +10110,7 @@ export interface GoogleCloudDiscoveryengineV1betaIdpConfigExternalIdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaIdpConfigExternalIdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaIdpConfigExternalIdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workforcePoolName: Schema.optional(Schema.String),
     }),
@@ -10126,7 +10126,7 @@ export interface GoogleCloudDiscoveryengineV1betaIdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaIdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaIdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalIdpConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaIdpConfigExternalIdpConfig,
@@ -10145,7 +10145,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecChunk
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecChunkSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecChunkSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numPreviousChunks: Schema.optional(Schema.Number),
       numNextChunks: Schema.optional(Schema.Number),
@@ -10163,7 +10163,7 @@ export interface GoogleCloudDiscoveryengineV1alphaConditionTimeRange {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaConditionTimeRange: Schema.Schema<GoogleCloudDiscoveryengineV1alphaConditionTimeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -10180,7 +10180,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterGroups: Schema.optional(Schema.Array(Schema.String)),
       dataStore: Schema.optional(Schema.String),
@@ -10199,7 +10199,7 @@ export interface GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress 
 }
 
 export const GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress: Schema.Schema<GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCount: Schema.optional(Schema.String),
       currentCount: Schema.optional(Schema.String),
@@ -10256,7 +10256,7 @@ export interface GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun: Schema.Schema<GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scheduledRecordCount: Schema.optional(Schema.String),
       extractedRecordCount: Schema.optional(Schema.String),
@@ -10316,7 +10316,7 @@ export interface GoogleCloudDiscoveryengineV1alphaConnectorRun {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaConnectorRun: Schema.Schema<GoogleCloudDiscoveryengineV1alphaConnectorRun> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       latestPauseTime: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -10340,7 +10340,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSingleRegionKey {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSingleRegionKey: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSingleRegionKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kmsKey: Schema.optional(Schema.String),
     }),
@@ -10366,7 +10366,7 @@ export interface GoogleCloudDiscoveryengineV1betaCompletionSuggestion {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCompletionSuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaCompletionSuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupScore: Schema.optional(Schema.Number),
       groupId: Schema.optional(Schema.String),
@@ -10386,7 +10386,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequ
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestions: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaCompletionSuggestion),
@@ -10409,7 +10409,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequ
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaImportErrorConfig,
@@ -10437,7 +10437,7 @@ export interface GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusRe
 }
 
 export const GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetSites: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaTargetSite),
@@ -10458,7 +10458,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCreateSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCreateSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -10489,7 +10489,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchParams: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStoreSpecs: Schema.optional(
         Schema.Array(
@@ -10520,7 +10520,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContext: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       pageIdentifier: Schema.optional(Schema.String),
@@ -10538,7 +10538,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswer: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageIdentifier: Schema.optional(Schema.String),
       content: Schema.optional(Schema.String),
@@ -10556,7 +10556,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegment: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageIdentifier: Schema.optional(Schema.String),
       content: Schema.optional(Schema.String),
@@ -10582,7 +10582,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentContexts: Schema.optional(
         Schema.Array(
@@ -10616,7 +10616,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unstructuredDocumentInfo: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo,
@@ -10636,7 +10636,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSea
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultList: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResults: Schema.optional(
         Schema.Array(
@@ -10657,7 +10657,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchParams: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchParams,
@@ -10678,7 +10678,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -10697,7 +10697,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseRe
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseRecentSearchSuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseRecentSearchSuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestion: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -10730,7 +10730,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseCo
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseContentSuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseContentSuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       score: Schema.optional(Schema.Number),
       destinationUri: Schema.optional(Schema.String),
@@ -10757,7 +10757,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseQuerySuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseQuerySuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.Array(Schema.String)),
       suggestion: Schema.optional(Schema.String),
@@ -10791,7 +10791,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponsePe
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponsePersonSuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponsePersonSuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       personType: Schema.optional(Schema.String),
       document: Schema.optional(GoogleCloudDiscoveryengineV1betaDocument),
@@ -10820,7 +10820,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recentSearchSuggestions: Schema.optional(
         Schema.Array(
@@ -10856,7 +10856,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCreateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -10873,7 +10873,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolatio
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPoint: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostAmount: Schema.optional(Schema.Number),
       attributeValue: Schema.optional(Schema.String),
@@ -10902,7 +10902,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolatio
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldName: Schema.optional(Schema.String),
       controlPoints: Schema.optional(
@@ -10932,7 +10932,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlBoostAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlBoostAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlBoostAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       boost: Schema.optional(Schema.Number),
@@ -10971,7 +10971,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUserLicense {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUserLicense: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUserLicense> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPrincipal: Schema.optional(Schema.String),
       licenseAssignmentState: Schema.optional(Schema.String),
@@ -10993,7 +10993,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfoFailureReason: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfoFailureReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessage: Schema.optional(Schema.String),
       corpusType: Schema.optional(Schema.String),
@@ -11011,7 +11011,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponseFailureInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureReasons: Schema.optional(
         Schema.Array(
@@ -11033,7 +11033,7 @@ export interface GoogleCloudDiscoveryengineV1alphaExportMetricsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaExportMetricsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaExportMetricsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -11054,7 +11054,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportUserEventsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -11073,7 +11073,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -11098,7 +11098,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       websiteDataSize: Schema.optional(Schema.String),
       structuredDataSize: Schema.optional(Schema.String),
@@ -11119,7 +11119,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteIdentityMappingStoreMeta
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteIdentityMappingStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteIdentityMappingStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -11135,7 +11135,7 @@ export interface GoogleCloudDiscoveryengineV1ImportErrorConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportErrorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ImportErrorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -11151,7 +11151,7 @@ export interface GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsResponse
 }
 
 export const GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1ImportErrorConfig,
@@ -11179,7 +11179,7 @@ export interface GoogleCloudDiscoveryengineV1betaAlloyDbSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAlloyDbSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaAlloyDbSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsStagingDir: Schema.optional(Schema.String),
       clusterId: Schema.optional(Schema.String),
@@ -11200,7 +11200,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -11217,7 +11217,7 @@ export interface GoogleCloudDiscoveryengineV1alphaObservabilityConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaObservabilityConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaObservabilityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveLoggingEnabled: Schema.optional(Schema.Boolean),
       observabilityEnabled: Schema.optional(Schema.Boolean),
@@ -11234,7 +11234,7 @@ export interface GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConf
 }
 
 export const GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigOptimizationObjectiveConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigOptimizationObjectiveConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetFieldValueFloat: Schema.optional(Schema.Number),
       targetField: Schema.optional(Schema.String),
@@ -11252,7 +11252,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResul
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       followUpQuestions: Schema.optional(Schema.Array(Schema.String)),
       refinementAttributes: Schema.optional(
@@ -11272,7 +11272,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebo
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Schema.String),
     }),
@@ -11287,7 +11287,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebo
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveDataProtectionPolicy: Schema.optional(
         GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy,
@@ -11308,7 +11308,7 @@ export interface GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesResp
 }
 
 export const GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       importedEntriesCount: Schema.optional(Schema.String),
       failedEntriesCount: Schema.optional(Schema.String),
@@ -11327,7 +11327,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -11350,7 +11350,7 @@ export interface GoogleCloudDiscoveryengineV1betaUserStore {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUserStore: Schema.Schema<GoogleCloudDiscoveryengineV1betaUserStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -11378,7 +11378,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectConfigurableBillingStatu
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectConfigurableBillingStatus: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectConfigurableBillingStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchQpmThresholdNextUpdateTime: Schema.optional(Schema.String),
       terminateTime: Schema.optional(Schema.String),
@@ -11400,7 +11400,7 @@ export interface GoogleCloudDiscoveryengineV1betaQuery {
 }
 
 export const GoogleCloudDiscoveryengineV1betaQuery: Schema.Schema<GoogleCloudDiscoveryengineV1betaQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       queryId: Schema.optional(Schema.String),
@@ -11421,7 +11421,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCre
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCreationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCreationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Schema.String),
       business: Schema.optional(Schema.String),
@@ -11453,7 +11453,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsing
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableLlmLayoutParsing: Schema.optional(Schema.Boolean),
       enableImageAnnotation: Schema.optional(Schema.Boolean),
@@ -11481,7 +11481,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportUserEventsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportUserEventsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -11502,7 +11502,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunki
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeAncestorHeadings: Schema.optional(Schema.Boolean),
       chunkSize: Schema.optional(Schema.Number),
@@ -11518,7 +11518,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunki
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutBasedChunkingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig,
@@ -11542,7 +11542,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verifyTime: Schema.optional(Schema.String),
       siteVerificationState: Schema.optional(Schema.String),
@@ -11583,7 +11583,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTargetSite {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTargetSite: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTargetSite> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteVerificationInfo: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo,
@@ -11610,7 +11610,7 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesResponse
 }
 
 export const GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetSites: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1alphaTargetSite),
@@ -11643,7 +11643,7 @@ export interface GoogleCloudDiscoveryengineV1alphaWorkspaceConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaWorkspaceConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaWorkspaceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dasherCustomerId: Schema.optional(Schema.String),
       superAdminEmailAddress: Schema.optional(Schema.String),
@@ -11662,7 +11662,7 @@ export interface GoogleCloudDiscoveryengineV1betaConditionQueryTerm {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConditionQueryTerm: Schema.Schema<GoogleCloudDiscoveryengineV1betaConditionQueryTerm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullMatch: Schema.optional(Schema.Boolean),
       value: Schema.optional(Schema.String),
@@ -11679,7 +11679,7 @@ export interface GoogleCloudDiscoveryengineV1betaListConversationsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListConversationsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       conversations: Schema.optional(
@@ -11698,7 +11698,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsMetadata 
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -11716,7 +11716,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateResponse 
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       state: Schema.optional(Schema.String),
@@ -11738,7 +11738,7 @@ export interface GoogleCloudDiscoveryengineV1betaFirestoreSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaFirestoreSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaFirestoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionId: Schema.optional(Schema.String),
       gcsStagingDir: Schema.optional(Schema.String),
@@ -11755,7 +11755,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSour
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -11776,7 +11776,7 @@ export interface GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntry {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntry: Schema.Schema<GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockPhrase: Schema.optional(Schema.String),
       matchOperator: Schema.optional(Schema.String),
@@ -11791,7 +11791,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntry),
@@ -11812,7 +11812,7 @@ export interface GoogleCloudDiscoveryengineV1betaCondition {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCondition: Schema.Schema<GoogleCloudDiscoveryengineV1betaCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activeTimeRange: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaConditionTimeRange),
@@ -11845,7 +11845,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolation
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interpolationType: Schema.optional(Schema.String),
       attributeType: Schema.optional(Schema.String),
@@ -11875,7 +11875,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlBoostAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlBoostAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlBoostAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       interpolationBoostSpec: Schema.optional(
@@ -11895,7 +11895,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlRedirectAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlRedirectAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlRedirectAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectUri: Schema.optional(Schema.String),
     }),
@@ -11909,7 +11909,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlSynonymsAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlSynonymsAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlSynonymsAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       synonyms: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -11925,7 +11925,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlFilterAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlFilterAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlFilterAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -11950,7 +11950,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchLinkPromotion {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchLinkPromotion: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchLinkPromotion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       title: Schema.optional(Schema.String),
@@ -11971,7 +11971,7 @@ export interface GoogleCloudDiscoveryengineV1betaControlPromoteAction {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControlPromoteAction: Schema.Schema<GoogleCloudDiscoveryengineV1betaControlPromoteAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchLinkPromotion: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchLinkPromotion,
@@ -12020,7 +12020,7 @@ export interface GoogleCloudDiscoveryengineV1betaControl {
 }
 
 export const GoogleCloudDiscoveryengineV1betaControl: Schema.Schema<GoogleCloudDiscoveryengineV1betaControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       solutionType: Schema.optional(Schema.String),
       conditions: Schema.optional(
@@ -12058,7 +12058,7 @@ export interface GoogleCloudDiscoveryengineV1betaListControlsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListControlsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListControlsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       controls: Schema.optional(
@@ -12077,7 +12077,7 @@ export interface GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponseEv
 }
 
 export const GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponseEvaluationResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponseEvaluationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qualityMetrics: Schema.optional(
         GoogleCloudDiscoveryengineV1betaQualityMetrics,
@@ -12097,7 +12097,7 @@ export interface GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationResults: Schema.optional(
         Schema.Array(
@@ -12116,7 +12116,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilter: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(
         GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression,
@@ -12130,7 +12130,7 @@ export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryU
 export interface GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchResponse>;
 
@@ -12142,7 +12142,7 @@ export interface GoogleCloudDiscoveryengineV1betaProvisionProjectRequestSaasPara
 }
 
 export const GoogleCloudDiscoveryengineV1betaProvisionProjectRequestSaasParams: Schema.Schema<GoogleCloudDiscoveryengineV1betaProvisionProjectRequestSaasParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       acceptBizQos: Schema.optional(Schema.Boolean),
       isBiz: Schema.optional(Schema.Boolean),
@@ -12162,7 +12162,7 @@ export interface GoogleCloudDiscoveryengineV1betaProvisionProjectRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaProvisionProjectRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaProvisionProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataUseTermsVersion: Schema.optional(Schema.String),
       saasParams: Schema.optional(
@@ -12182,7 +12182,7 @@ export interface GoogleCloudDiscoveryengineV1CreateSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1CreateSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1CreateSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -12199,7 +12199,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -12216,7 +12216,7 @@ export interface GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRespons
 }
 
 export const GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       state: Schema.optional(Schema.String),
@@ -12232,7 +12232,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextEventType: Schema.optional(Schema.String),
     }),
@@ -12249,7 +12249,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mostPopularConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig,
@@ -12281,7 +12281,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       optimizationObjectiveConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig,
@@ -12306,7 +12306,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -12323,7 +12323,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateMetadata 
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -12343,7 +12343,7 @@ export interface GoogleCloudDiscoveryengineV1Sitemap {
 }
 
 export const GoogleCloudDiscoveryengineV1Sitemap: Schema.Schema<GoogleCloudDiscoveryengineV1Sitemap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -12365,7 +12365,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top10: Schema.optional(Schema.Number),
       top5: Schema.optional(Schema.Number),
@@ -12390,7 +12390,7 @@ export interface GoogleCloudDiscoveryengineV1alphaQualityMetrics {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaQualityMetrics: Schema.Schema<GoogleCloudDiscoveryengineV1alphaQualityMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageNdcg: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics,
@@ -12438,7 +12438,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEvaluation {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEvaluation: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEvaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       qualityMetrics: Schema.optional(
@@ -12465,7 +12465,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigThird
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigThirdPartyOauthConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigThirdPartyOauthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appName: Schema.optional(Schema.String),
       instanceName: Schema.optional(Schema.String),
@@ -12481,7 +12481,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigNoteb
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchConfig: Schema.optional(Schema.String),
     }),
@@ -12500,7 +12500,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyOauthConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1DataStoreFederatedSearchConfigThirdPartyOauthConfig,
@@ -12522,7 +12522,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSou
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaDocument),
@@ -12547,7 +12547,7 @@ export interface GoogleCloudDiscoveryengineV1betaSpannerSource {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSpannerSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaSpannerSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceId: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -12597,7 +12597,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportDocumentsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportDocumentsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(
         GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource,
@@ -12640,7 +12640,7 @@ export const GoogleCloudDiscoveryengineV1betaImportDocumentsRequest: Schema.Sche
 export interface GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest>;
@@ -12651,7 +12651,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsResponse
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -12674,7 +12674,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseOneBoxResult {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseOneBoxResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseOneBoxResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       oneBoxType: Schema.optional(Schema.String),
       searchResults: Schema.optional(
@@ -12695,7 +12695,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSampleQueriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSampleQueriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorConfig: Schema.optional(
@@ -12716,7 +12716,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSnipp
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSnippetSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSnippetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxSnippetCount: Schema.optional(Schema.Number),
       returnSnippet: Schema.optional(Schema.Boolean),
@@ -12735,7 +12735,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useNativeText: Schema.optional(Schema.Boolean),
       enhancedDocumentElements: Schema.optional(Schema.Array(Schema.String)),
@@ -12755,7 +12755,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsin
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutParsingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig,
@@ -12778,7 +12778,7 @@ export interface GoogleCloudDiscoveryengineV1NaturalLanguageQueryUnderstandingCo
 }
 
 export const GoogleCloudDiscoveryengineV1NaturalLanguageQueryUnderstandingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1NaturalLanguageQueryUnderstandingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -12793,7 +12793,7 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingResponseCheckGrou
 }
 
 export const GoogleCloudDiscoveryengineV1betaCheckGroundingResponseCheckGroundingFactChunk: Schema.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingResponseCheckGroundingFactChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunkText: Schema.optional(Schema.String),
     }),
@@ -12810,7 +12810,7 @@ export interface GoogleCloudDiscoveryengineV1ObservabilityConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ObservabilityConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ObservabilityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       observabilityEnabled: Schema.optional(Schema.Boolean),
       sensitiveLoggingEnabled: Schema.optional(Schema.Boolean),
@@ -12825,7 +12825,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInl
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityMappingEntries: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaIdentityMappingEntry),
@@ -12846,7 +12846,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(
         GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInlineSource,
@@ -12866,7 +12866,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUpdateSessionRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUpdateSessionRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUpdateSessionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       session: Schema.optional(GoogleCloudDiscoveryengineV1alphaSession),
       updateMask: Schema.optional(Schema.String),
@@ -12887,7 +12887,7 @@ export interface GoogleCloudDiscoveryengineV1betaRankingRecord {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRankingRecord: Schema.Schema<GoogleCloudDiscoveryengineV1betaRankingRecord> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -12912,7 +12912,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecExtra
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecExtractiveContentSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecExtractiveContentSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxExtractiveAnswerCount: Schema.optional(Schema.Number),
       numPreviousSegments: Schema.optional(Schema.Number),
@@ -12931,7 +12931,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSumma
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpecModelSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpecModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
     }),
@@ -12946,7 +12946,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSumma
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpecModelPromptSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpecModelPromptSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preamble: Schema.optional(Schema.String),
     }),
@@ -12979,7 +12979,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSumma
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpecSummarySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreNonSummarySeekingQuery: Schema.optional(Schema.Boolean),
       modelSpec: Schema.optional(
@@ -13019,7 +13019,7 @@ export interface GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpec: Schema.Schema<GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResultMode: Schema.optional(Schema.String),
       snippetSpec: Schema.optional(
@@ -13047,7 +13047,7 @@ export interface GoogleCloudDiscoveryengineV1UpdateCmekConfigMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1UpdateCmekConfigMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1UpdateCmekConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -13064,7 +13064,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchMetad
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -13090,7 +13090,7 @@ export interface GoogleCloudDiscoveryengineV1SearchLinkPromotion {
 }
 
 export const GoogleCloudDiscoveryengineV1SearchLinkPromotion: Schema.Schema<GoogleCloudDiscoveryengineV1SearchLinkPromotion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       enabled: Schema.optional(Schema.Boolean),
@@ -13111,7 +13111,7 @@ export interface GoogleCloudDiscoveryengineV1ControlPromoteAction {
 }
 
 export const GoogleCloudDiscoveryengineV1ControlPromoteAction: Schema.Schema<GoogleCloudDiscoveryengineV1ControlPromoteAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       searchLinkPromotion: Schema.optional(
@@ -13130,7 +13130,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigN
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseTemplate: Schema.optional(Schema.String),
       userPromptTemplate: Schema.optional(Schema.String),
@@ -13146,7 +13146,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreServingConfigDataStore {
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreServingConfigDataStore: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreServingConfigDataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disabledForServing: Schema.optional(Schema.Boolean),
     }),
@@ -13164,7 +13164,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTenant {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTenant: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTenant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -13186,7 +13186,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authParams: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       tenant: Schema.optional(GoogleCloudDiscoveryengineV1alphaTenant),
@@ -13205,7 +13205,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEn
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
     }),
@@ -13222,7 +13222,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEn
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentMetadata: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata,
@@ -13240,7 +13240,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEn
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaData: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunkInfo: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo,
@@ -13257,7 +13257,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endUserMetadata: Schema.optional(
         Schema.Array(
@@ -13283,7 +13283,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -13303,7 +13303,7 @@ export interface GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       filterGroups: Schema.optional(Schema.Array(Schema.String)),
@@ -13322,7 +13322,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseFacet {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseFacet: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseFacet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       dynamicFacet: Schema.optional(Schema.Boolean),
@@ -13344,7 +13344,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoo
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       boost: Schema.optional(Schema.Number),
@@ -13360,7 +13360,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoo
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionBoostSpecs: Schema.optional(
         Schema.Array(
@@ -13379,7 +13379,7 @@ export interface GoogleCloudDiscoveryengineV1IdpConfigExternalIdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1IdpConfigExternalIdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1IdpConfigExternalIdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workforcePoolName: Schema.optional(Schema.String),
     }),
@@ -13395,7 +13395,7 @@ export interface GoogleCloudDiscoveryengineV1IdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1IdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1IdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpType: Schema.optional(Schema.String),
       externalIdpConfig: Schema.optional(
@@ -13412,7 +13412,7 @@ export interface GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstand
 }
 
 export const GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -13427,7 +13427,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nlConfigId: Schema.optional(Schema.String),
     }),
@@ -13456,7 +13456,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instance: Schema.optional(Schema.String),
       user: Schema.optional(Schema.String),
@@ -13480,7 +13480,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alloydbAiNlConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig,
@@ -13505,7 +13505,7 @@ export interface GoogleApiHttpBody {
 }
 
 export const GoogleApiHttpBody: Schema.Schema<GoogleApiHttpBody> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extensions: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -13525,7 +13525,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteIdentityMappingStoreMetadata 
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteIdentityMappingStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteIdentityMappingStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -13543,7 +13543,7 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRespons
 }
 
 export const GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       userLicenses: Schema.optional(
@@ -13575,7 +13575,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigA
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authMode: Schema.optional(Schema.String),
       enablePsvs: Schema.optional(Schema.Boolean),
@@ -13595,7 +13595,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigA
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nlConfigId: Schema.optional(Schema.String),
     }),
@@ -13614,7 +13614,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigA
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alloydbConnectionConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig,
@@ -13635,7 +13635,7 @@ export interface GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsRes
 }
 
 export const GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       licenseConfigUsageStats: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaLicenseConfigUsageStats),
@@ -13660,7 +13660,7 @@ export interface GoogleCloudDiscoveryengineV1alphaBAPConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaBAPConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaBAPConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportedConnectorModes: Schema.optional(Schema.Array(Schema.String)),
       enabledActions: Schema.optional(Schema.Array(Schema.String)),
@@ -13737,7 +13737,7 @@ export interface GoogleCloudDiscoveryengineV1alphaFieldConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaFieldConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaFieldConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       retrievableOption: Schema.optional(Schema.String),
       metatagName: Schema.optional(Schema.String),
@@ -13770,7 +13770,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSchema {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSchema: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jsonSchema: Schema.optional(Schema.String),
       structSchema: Schema.optional(
@@ -13795,7 +13795,7 @@ export interface GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableStaticIndexingForBatchIngestion: Schema.optional(Schema.Boolean),
       enableConfigurableSchema: Schema.optional(Schema.Boolean),
@@ -13823,7 +13823,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntity {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntity: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startingSchema: Schema.optional(GoogleCloudDiscoveryengineV1alphaSchema),
       healthcareFhirConfig: Schema.optional(
@@ -13847,7 +13847,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveD
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Schema.String),
     }),
@@ -13862,7 +13862,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveDataProtectionPolicy: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy,
@@ -13884,7 +13884,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDestinationConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDestinationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDestinationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       key: Schema.optional(Schema.String),
@@ -13905,7 +13905,7 @@ export interface GoogleCloudDiscoveryengineV1alphaActionConfigScopeList {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaActionConfigScopeList: Schema.Schema<GoogleCloudDiscoveryengineV1alphaActionConfigScopeList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scopes: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -13932,7 +13932,7 @@ export interface GoogleCloudDiscoveryengineV1alphaActionConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaActionConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaActionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionParams: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -13964,7 +13964,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollme
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollment: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertId: Schema.optional(Schema.String),
       enrollState: Schema.optional(Schema.String),
@@ -13982,7 +13982,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAlertPolicyConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAlertPolicyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertEnrollments: Schema.optional(
         Schema.Array(
@@ -14003,7 +14003,7 @@ export interface GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextSyncTime: Schema.optional(GoogleTypeDateTime),
       refreshInterval: Schema.optional(Schema.String),
@@ -14022,7 +14022,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authParams: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       additionalParams: Schema.optional(
@@ -14179,7 +14179,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnector {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataConnector: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataConnector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       staticIpEnabled: Schema.optional(Schema.Boolean),
       jsonParams: Schema.optional(Schema.String),
@@ -14254,7 +14254,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestIn
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityMappingEntries: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaIdentityMappingEntry),
@@ -14271,7 +14271,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(
         GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestInlineSource,
@@ -14289,7 +14289,7 @@ export interface GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14301,7 +14301,7 @@ export const GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchMetadata: Schem
 export interface GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchResponse>;
@@ -14320,7 +14320,7 @@ export interface GoogleCloudDiscoveryengineV1ServingConfigMediaConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ServingConfigMediaConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ServingConfigMediaConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentWatchedSecondsThreshold: Schema.optional(Schema.Number),
       contentFreshnessCutoffDays: Schema.optional(Schema.Number),
@@ -14338,7 +14338,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuesti
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enable: Schema.optional(Schema.Boolean),
     }),
@@ -14359,7 +14359,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQu
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       classifiedIntents: Schema.optional(Schema.Array(Schema.String)),
       structuredExtractedFilter: Schema.optional(
@@ -14385,7 +14385,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeGroundingSupports: Schema.optional(Schema.Boolean),
       filteringLevel: Schema.optional(Schema.String),
@@ -14409,7 +14409,7 @@ export interface GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       removeTime: Schema.optional(Schema.String),
       userPseudoId: Schema.optional(Schema.String),
@@ -14433,7 +14433,7 @@ export interface GoogleCloudDiscoveryengineV1ImportUserEventsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportUserEventsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1ImportUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14463,7 +14463,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectServiceTerms {
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectServiceTerms: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectServiceTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -14491,7 +14491,7 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingResponseClaim {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCheckGroundingResponseClaim: Schema.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingResponseClaim> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       claimText: Schema.optional(Schema.String),
       endPos: Schema.optional(Schema.Number),
@@ -14516,7 +14516,7 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCheckGroundingResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citedChunks: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaFactChunk),
@@ -14545,7 +14545,7 @@ export interface GoogleCloudDiscoveryengineV1CreateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1CreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1CreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14562,7 +14562,7 @@ export interface GoogleCloudDiscoveryengineV1betaGroundingFact {
 }
 
 export const GoogleCloudDiscoveryengineV1betaGroundingFact: Schema.Schema<GoogleCloudDiscoveryengineV1betaGroundingFact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       factText: Schema.optional(Schema.String),
       attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -14579,7 +14579,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(GoogleCloudDiscoveryengineV1betaGcsSource),
       inlineSource: Schema.optional(
@@ -14594,7 +14594,7 @@ export const GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequ
 export interface GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchResponse>;
@@ -14624,7 +14624,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistAnswer {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistAnswer: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       customerPolicyEnforcementResult: Schema.optional(
@@ -14654,7 +14654,7 @@ export interface GoogleCloudDiscoveryengineV1betaSessionTurn {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSessionTurn: Schema.Schema<GoogleCloudDiscoveryengineV1betaSessionTurn> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedAnswer: Schema.optional(GoogleCloudDiscoveryengineV1betaAnswer),
       answer: Schema.optional(Schema.String),
@@ -14690,7 +14690,7 @@ export interface GoogleCloudDiscoveryengineV1betaSession {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSession: Schema.Schema<GoogleCloudDiscoveryengineV1betaSession> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       turns: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaSessionTurn),
@@ -14716,7 +14716,7 @@ export interface GoogleCloudDiscoveryengineV1betaListSessionsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListSessionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListSessionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       sessions: Schema.optional(
@@ -14735,7 +14735,7 @@ export interface GoogleCloudDiscoveryengineV1CreateEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1CreateEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1CreateEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14769,7 +14769,7 @@ export interface GoogleCloudDiscoveryengineV1betaUserLicense {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUserLicense: Schema.Schema<GoogleCloudDiscoveryengineV1betaUserLicense> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       licenseConfig: Schema.optional(Schema.String),
       userProfile: Schema.optional(Schema.String),
@@ -14795,7 +14795,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsMet
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14815,7 +14815,7 @@ export interface GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DisableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -14832,7 +14832,7 @@ export interface GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoos
 }
 
 export const GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoostSpecControlPoint: Schema.Schema<GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoostSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostAmount: Schema.optional(Schema.Number),
       attributeValue: Schema.optional(Schema.String),
@@ -14861,7 +14861,7 @@ export interface GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoos
 }
 
 export const GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoostSpec: Schema.Schema<GoogleCloudDiscoveryengineV1ControlBoostActionInterpolationBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interpolationType: Schema.optional(Schema.String),
       fieldName: Schema.optional(Schema.String),
@@ -14885,7 +14885,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -14903,7 +14903,7 @@ export interface GoogleCloudDiscoveryengineV1betaListEvaluationsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListEvaluationsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListEvaluationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluations: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaEvaluation),
@@ -14936,7 +14936,7 @@ export interface GoogleCloudDiscoveryengineV1betaWorkspaceConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaWorkspaceConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaWorkspaceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       superAdminServiceAccount: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -14955,7 +14955,7 @@ export interface GoogleCloudDiscoveryengineV1betaAssistUserMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAssistUserMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaAssistUserMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZone: Schema.optional(Schema.String),
       preferredLanguageCode: Schema.optional(Schema.String),
@@ -14978,7 +14978,7 @@ export interface GoogleCloudDiscoveryengineV1ImportDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1ImportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -15004,7 +15004,7 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTrainCustomModelResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaTrainCustomModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaImportErrorConfig,
@@ -15024,7 +15024,7 @@ export interface GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workforcePoolName: Schema.optional(Schema.String),
     }),
@@ -15040,7 +15040,7 @@ export interface GoogleCloudDiscoveryengineV1alphaIdpConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaIdpConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaIdpConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpType: Schema.optional(Schema.String),
       externalIdpConfig: Schema.optional(
@@ -15057,7 +15057,7 @@ export interface GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConf
 }
 
 export const GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigMostPopularFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigMostPopularFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeWindowDays: Schema.optional(Schema.String),
     }),
@@ -15072,7 +15072,7 @@ export interface GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConf
 }
 
 export const GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextEventType: Schema.optional(Schema.String),
     }),
@@ -15089,7 +15089,7 @@ export interface GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConf
 }
 
 export const GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigEngineFeaturesConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigEngineFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mostPopularConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigMostPopularFeatureConfig,
@@ -15121,7 +15121,7 @@ export interface GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConf
 }
 
 export const GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       engineFeaturesConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1EngineMediaRecommendationEngineConfigEngineFeaturesConfig,
@@ -15169,7 +15169,7 @@ export interface GoogleCloudDiscoveryengineV1EngineSearchEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1EngineSearchEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineSearchEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchTier: Schema.optional(Schema.String),
       requiredSubscriptionTier: Schema.optional(Schema.String),
@@ -15191,7 +15191,7 @@ export interface GoogleCloudDiscoveryengineV1EngineChatEngineConfigAgentCreation
 }
 
 export const GoogleCloudDiscoveryengineV1EngineChatEngineConfigAgentCreationConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineChatEngineConfigAgentCreationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZone: Schema.optional(Schema.String),
       defaultLanguageCode: Schema.optional(Schema.String),
@@ -15213,7 +15213,7 @@ export interface GoogleCloudDiscoveryengineV1EngineChatEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1EngineChatEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineChatEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgentToLink: Schema.optional(Schema.String),
       agentCreationConfig: Schema.optional(
@@ -15231,7 +15231,7 @@ export interface GoogleCloudDiscoveryengineV1EngineCommonConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1EngineCommonConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineCommonConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       companyName: Schema.optional(Schema.String),
     }),
@@ -15251,7 +15251,7 @@ export interface GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfigFeatureCo
 }
 
 export const GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfigFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfigFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disablePrivateKgAutoComplete: Schema.optional(Schema.Boolean),
       disablePrivateKgEnrichment: Schema.optional(Schema.Boolean),
@@ -15277,7 +15277,7 @@ export interface GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfig: Schema.Schema<GoogleCloudDiscoveryengineV1EngineKnowledgeGraphConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privateKnowledgeGraphTypes: Schema.optional(Schema.Array(Schema.String)),
       cloudKnowledgeGraphTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -15374,7 +15374,7 @@ export interface GoogleCloudDiscoveryengineV1Engine {
 }
 
 export const GoogleCloudDiscoveryengineV1Engine: Schema.Schema<GoogleCloudDiscoveryengineV1Engine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       mediaRecommendationEngineConfig: Schema.optional(
@@ -15436,7 +15436,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSampleQueriesMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportSampleQueriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportSampleQueriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -15451,7 +15451,7 @@ export const GoogleCloudDiscoveryengineV1alphaImportSampleQueriesMetadata: Schem
 export interface GoogleLongrunningCancelOperationRequest {}
 
 export const GoogleLongrunningCancelOperationRequest: Schema.Schema<GoogleLongrunningCancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleLongrunningCancelOperationRequest",
   }) as any as Schema.Schema<GoogleLongrunningCancelOperationRequest>;
 
@@ -15467,7 +15467,7 @@ export interface GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       failureCount: Schema.optional(Schema.String),
@@ -15488,7 +15488,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntrie
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failedEntriesCount: Schema.optional(Schema.String),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -15505,7 +15505,7 @@ export interface GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notebooklmConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfigNotebooklmConfig,
@@ -15518,7 +15518,7 @@ export const GoogleCloudDiscoveryengineV1betaProjectCustomerProvidedConfig: Sche
 export interface GoogleCloudDiscoveryengineV1betaTuneEngineRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaTuneEngineRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaTuneEngineRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaTuneEngineRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaTuneEngineRequest>;
 
@@ -15533,7 +15533,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerat
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecMultimodalSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecMultimodalSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageSource: Schema.optional(Schema.String),
     }),
@@ -15561,7 +15561,7 @@ export interface GoogleCloudDiscoveryengineV1betaProject {
 }
 
 export const GoogleCloudDiscoveryengineV1betaProject: Schema.Schema<GoogleCloudDiscoveryengineV1betaProject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       customerProvidedConfig: Schema.optional(
@@ -15589,7 +15589,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlRedirectAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlRedirectAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlRedirectAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectUri: Schema.optional(Schema.String),
     }),
@@ -15603,7 +15603,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigN
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Schema.String),
     }),
@@ -15618,7 +15618,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigN
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveDataProtectionPolicy: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy,
@@ -15641,7 +15641,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigN
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArmorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig,
@@ -15665,7 +15665,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig 
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notebooklmConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig,
@@ -15692,7 +15692,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStat
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatus: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       indexingCoreThresholdNextUpdateTime: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -15725,7 +15725,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectServiceTerms {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProjectServiceTerms: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProjectServiceTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       declineTime: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -15756,7 +15756,7 @@ export interface GoogleCloudDiscoveryengineV1alphaProject {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaProject: Schema.Schema<GoogleCloudDiscoveryengineV1alphaProject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       customerProvidedConfig: Schema.optional(
@@ -15784,7 +15784,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgent: Schema.optional(Schema.String),
     }),
@@ -15800,7 +15800,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesMetad
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -15818,7 +15818,7 @@ export interface GoogleCloudDiscoveryengineV1betaListUserLicensesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListUserLicensesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListUserLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       userLicenses: Schema.optional(
@@ -15837,7 +15837,7 @@ export interface GoogleCloudDiscoveryengineV1ConditionTimeRange {
 }
 
 export const GoogleCloudDiscoveryengineV1ConditionTimeRange: Schema.Schema<GoogleCloudDiscoveryengineV1ConditionTimeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -15854,7 +15854,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorConfig: Schema.optional(
@@ -15873,7 +15873,7 @@ export interface GoogleCloudDiscoveryengineV1AclConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1AclConfig: Schema.Schema<GoogleCloudDiscoveryengineV1AclConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       idpConfig: Schema.optional(GoogleCloudDiscoveryengineV1IdpConfig),
@@ -15890,7 +15890,7 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCheckGroundingSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableClaimLevelScore: Schema.optional(Schema.Boolean),
       citationThreshold: Schema.optional(Schema.Number),
@@ -15919,7 +15919,7 @@ export interface GoogleCloudDiscoveryengineV1betaConverseConversationRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaConverseConversationRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaConverseConversationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       summarySpec: Schema.optional(
@@ -15948,7 +15948,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -15960,7 +15960,7 @@ export const GoogleCloudDiscoveryengineV1betaDeleteSchemaMetadata: Schema.Schema
 export interface GoogleCloudDiscoveryengineV1betaTuneEngineResponse {}
 
 export const GoogleCloudDiscoveryengineV1betaTuneEngineResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaTuneEngineResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaTuneEngineResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaTuneEngineResponse>;
 
@@ -15972,7 +15972,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -15989,7 +15989,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -16018,7 +16018,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConf
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigLayoutParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigLayoutParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludeHtmlIds: Schema.optional(Schema.Array(Schema.String)),
       enableLlmLayoutParsing: Schema.optional(Schema.Boolean),
@@ -16042,7 +16042,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConf
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigOcrParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigOcrParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useNativeText: Schema.optional(Schema.Boolean),
       enhancedDocumentElements: Schema.optional(Schema.Array(Schema.String)),
@@ -16055,7 +16055,7 @@ export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigOc
 export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigDigitalParsingConfig {}
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigDigitalParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigDigitalParsingConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigDigitalParsingConfig",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigDigitalParsingConfig>;
@@ -16070,7 +16070,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConf
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutParsingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1DocumentProcessingConfigParsingConfigLayoutParsingConfig,
@@ -16143,7 +16143,7 @@ export interface GoogleCloudDiscoveryengineV1betaLicenseConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaLicenseConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       licenseCount: Schema.optional(Schema.String),
       autoRenew: Schema.optional(Schema.Boolean),
@@ -16173,17 +16173,17 @@ export interface GoogleTypeExpr {
   title?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
-  () =>
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleTypeExpr",
-}) as any as Schema.Schema<GoogleTypeExpr>;
+  ).annotate({
+    identifier: "GoogleTypeExpr",
+  }) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleIamV1Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -16195,7 +16195,7 @@ export interface GoogleIamV1Binding {
 }
 
 export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(GoogleTypeExpr),
       members: Schema.optional(Schema.Array(Schema.String)),
@@ -16221,7 +16221,7 @@ export interface GoogleCloudDiscoveryengineV1betaRecommendRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRecommendRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaRecommendRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       userEvent: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent),
@@ -16242,7 +16242,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigT
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigThirdPartyOauthConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigThirdPartyOauthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceName: Schema.optional(Schema.String),
       appName: Schema.optional(Schema.String),
@@ -16262,7 +16262,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig 
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyOauthConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigThirdPartyOauthConfig,
@@ -16304,7 +16304,7 @@ export interface GoogleCloudDiscoveryengineV1UserLicense {
 }
 
 export const GoogleCloudDiscoveryengineV1UserLicense: Schema.Schema<GoogleCloudDiscoveryengineV1UserLicense> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPrincipal: Schema.optional(Schema.String),
       lastLoginTime: Schema.optional(Schema.String),
@@ -16326,7 +16326,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsResponse 
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeCompletionSuggestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeSucceeded: Schema.optional(Schema.Boolean),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -16348,7 +16348,7 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrain
 }
 
 export const GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrainingInput: Schema.Schema<GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrainingInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testDataPath: Schema.optional(Schema.String),
       queryDataPath: Schema.optional(Schema.String),
@@ -16366,7 +16366,7 @@ export interface GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandi
 }
 
 export const GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -16395,7 +16395,7 @@ export interface GoogleCloudDiscoveryengineV1AnswerGenerationSpecUserDefinedClas
 }
 
 export const GoogleCloudDiscoveryengineV1AnswerGenerationSpecUserDefinedClassifierSpec: Schema.Schema<GoogleCloudDiscoveryengineV1AnswerGenerationSpecUserDefinedClassifierSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preamble: Schema.optional(Schema.String),
       temperature: Schema.optional(Schema.Number),
@@ -16417,7 +16417,7 @@ export interface GoogleCloudDiscoveryengineV1AnswerGenerationSpec {
 }
 
 export const GoogleCloudDiscoveryengineV1AnswerGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1AnswerGenerationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userDefinedClassifierSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1AnswerGenerationSpecUserDefinedClassifierSpec,
@@ -16433,7 +16433,7 @@ export interface GoogleCloudDiscoveryengineV1ServingConfigGenericConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ServingConfigGenericConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ServingConfigGenericConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentSearchSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1SearchRequestContentSearchSpec,
@@ -16494,7 +16494,7 @@ export interface GoogleCloudDiscoveryengineV1ServingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ServingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ServingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostControlIds: Schema.optional(Schema.Array(Schema.String)),
       answerGenerationSpec: Schema.optional(
@@ -16530,7 +16530,7 @@ export const GoogleCloudDiscoveryengineV1ServingConfig: Schema.Schema<GoogleClou
 export interface GoogleCloudDiscoveryengineV1betaCreateEvaluationMetadata {}
 
 export const GoogleCloudDiscoveryengineV1betaCreateEvaluationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateEvaluationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaCreateEvaluationMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateEvaluationMetadata>;
 
@@ -16540,7 +16540,7 @@ export interface GoogleCloudDiscoveryengineV1betaTuneEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTuneEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaTuneEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       engine: Schema.optional(Schema.String),
     }),
@@ -16560,7 +16560,7 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesMetadat
 }
 
 export const GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -16580,7 +16580,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkin
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunkSize: Schema.optional(Schema.Number),
       includeAncestorHeadings: Schema.optional(Schema.Boolean),
@@ -16602,7 +16602,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportUserEventsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportUserEventsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -16621,7 +16621,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesM
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -16639,7 +16639,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUpdateCollectionMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUpdateCollectionMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUpdateCollectionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -16656,7 +16656,7 @@ export interface GoogleCloudDiscoveryengineV1alphaListSessionsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaListSessionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaListSessionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       sessions: Schema.optional(
@@ -16675,7 +16675,7 @@ export interface GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1BatchUpdateUserLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       userLicenses: Schema.optional(
@@ -16694,7 +16694,7 @@ export interface GoogleCloudDiscoveryengineV1alphaConditionQueryTerm {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaConditionQueryTerm: Schema.Schema<GoogleCloudDiscoveryengineV1alphaConditionQueryTerm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullMatch: Schema.optional(Schema.Boolean),
       value: Schema.optional(Schema.String),
@@ -16713,7 +16713,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCondition {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCondition: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activeTimeRange: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1alphaConditionTimeRange),
@@ -16735,7 +16735,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -16747,7 +16747,7 @@ export const GoogleCloudDiscoveryengineV1betaCreateEngineMetadata: Schema.Schema
 export interface GoogleCloudDiscoveryengineV1alphaCreateEvaluationMetadata {}
 
 export const GoogleCloudDiscoveryengineV1alphaCreateEvaluationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateEvaluationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1alphaCreateEvaluationMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateEvaluationMetadata>;
 
@@ -16759,7 +16759,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestI
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestInlineSource: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLicenses: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaUserLicense),
@@ -16777,7 +16777,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disabledForServing: Schema.optional(Schema.Boolean),
     }),
@@ -16798,7 +16798,7 @@ export interface GoogleCloudDiscoveryengineV1alphaLanguageInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaLanguageInfo: Schema.Schema<GoogleCloudDiscoveryengineV1alphaLanguageInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       normalizedLanguageCode: Schema.optional(Schema.String),
@@ -16821,7 +16821,7 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCheckGroundingRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       facts: Schema.optional(
@@ -16839,7 +16839,7 @@ export const GoogleCloudDiscoveryengineV1betaCheckGroundingRequest: Schema.Schem
 export interface GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchResponse>;
@@ -16854,7 +16854,7 @@ export interface GoogleCloudDiscoveryengineV1IdentityMappingEntryOperationMetada
 }
 
 export const GoogleCloudDiscoveryengineV1IdentityMappingEntryOperationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1IdentityMappingEntryOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCount: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -16877,7 +16877,7 @@ export interface GoogleCloudDiscoveryengineV1betaLanguageInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaLanguageInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaLanguageInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedLanguageCode: Schema.optional(Schema.String),
       region: Schema.optional(Schema.String),
@@ -16896,7 +16896,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebo
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPromptTemplate: Schema.optional(Schema.String),
       responseTemplate: Schema.optional(Schema.String),
@@ -16912,7 +16912,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSp
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelId: Schema.optional(Schema.String),
     }),
@@ -16929,7 +16929,7 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTrainCustomModelMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaTrainCustomModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -16941,7 +16941,7 @@ export const GoogleCloudDiscoveryengineV1betaTrainCustomModelMetadata: Schema.Sc
 export interface GoogleCloudDiscoveryengineV1ProvisionProjectMetadata {}
 
 export const GoogleCloudDiscoveryengineV1ProvisionProjectMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1ProvisionProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1ProvisionProjectMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1ProvisionProjectMetadata>;
 
@@ -16951,7 +16951,7 @@ export interface GoogleCloudDiscoveryengineV1TargetSiteFailureReasonQuotaFailure
 }
 
 export const GoogleCloudDiscoveryengineV1TargetSiteFailureReasonQuotaFailure: Schema.Schema<GoogleCloudDiscoveryengineV1TargetSiteFailureReasonQuotaFailure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalRequiredQuota: Schema.optional(Schema.String),
     }),
@@ -16974,7 +16974,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       gcsSource: Schema.optional(GoogleCloudDiscoveryengineV1betaGcsSource),
@@ -16998,7 +16998,7 @@ export interface GoogleCloudDiscoveryengineV1BatchCreateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1BatchCreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1BatchCreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -17015,7 +17015,7 @@ export interface GoogleCloudDiscoveryengineV1ImportDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1ImportDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1ImportErrorConfig,
@@ -17032,7 +17032,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTuneEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTuneEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTuneEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       engine: Schema.optional(Schema.String),
     }),
@@ -17048,7 +17048,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesR
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       purgeCount: Schema.optional(Schema.String),
@@ -17064,7 +17064,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qpsTimeSeries: Schema.optional(GoogleMonitoringV3TimeSeries),
     }),
@@ -17084,7 +17084,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userTriggeredCrawlRate: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries,
@@ -17111,7 +17111,7 @@ export interface GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries: Schema.Schema<GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleOrganicCrawlRate: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries,
@@ -17136,7 +17136,7 @@ export interface GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dedicatedCrawlRateTimeSeries: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries,
@@ -17159,7 +17159,7 @@ export interface GoogleCloudDiscoveryengineV1betaListDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaDocument),
@@ -17176,7 +17176,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
     }),
@@ -17192,7 +17192,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteIdentityMappingStoreMetad
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteIdentityMappingStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteIdentityMappingStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -17210,7 +17210,7 @@ export interface GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       state: Schema.optional(Schema.String),
@@ -17227,7 +17227,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseGeoSearchDebugInf
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseGeoSearchDebugInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseGeoSearchDebugInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessage: Schema.optional(Schema.String),
       originalAddressQuery: Schema.optional(Schema.String),
@@ -17245,7 +17245,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseQueryExpansionInf
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseQueryExpansionInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseQueryExpansionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pinnedResultCount: Schema.optional(Schema.String),
       expandedQuery: Schema.optional(Schema.Boolean),
@@ -17263,7 +17263,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponseSessionInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponseSessionInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponseSessionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       queryId: Schema.optional(Schema.String),
@@ -17315,7 +17315,7 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalSize: Schema.optional(Schema.Number),
       geoSearchDebugInfo: Schema.optional(
@@ -17374,7 +17374,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaImportErrorConfig,
@@ -17393,7 +17393,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -17405,7 +17405,7 @@ export const GoogleCloudDiscoveryengineV1DeleteTargetSiteMetadata: Schema.Schema
 export interface GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest>;
@@ -17422,7 +17422,7 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQuerySet {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSampleQuerySet: Schema.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -17441,7 +17441,7 @@ export interface GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleQuerySets: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaSampleQuerySet),
@@ -17458,7 +17458,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerat
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecModelSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpecModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelVersion: Schema.optional(Schema.String),
     }),
@@ -17489,7 +17489,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerat
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreJailBreakingQuery: Schema.optional(Schema.Boolean),
       ignoreAdversarialQuery: Schema.optional(Schema.Boolean),
@@ -17540,7 +17540,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedQuestionsSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec,
@@ -17581,7 +17581,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingCon
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeAncestorHeadings: Schema.optional(Schema.Boolean),
       chunkSize: Schema.optional(Schema.Number),
@@ -17597,7 +17597,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingCon
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutBasedChunkingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig,
@@ -17611,7 +17611,7 @@ export const GoogleCloudDiscoveryengineV1DocumentProcessingConfigChunkingConfig:
 export interface GoogleCloudDiscoveryengineV1SetUpDataConnectorMetadata {}
 
 export const GoogleCloudDiscoveryengineV1SetUpDataConnectorMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1SetUpDataConnectorMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1SetUpDataConnectorMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1SetUpDataConnectorMetadata>;
 
@@ -17623,7 +17623,7 @@ export interface GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteCredential: Schema.optional(Schema.String),
       uris: Schema.optional(Schema.Array(Schema.String)),
@@ -17640,7 +17640,7 @@ export interface GoogleCloudDiscoveryengineV1betaDeleteEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDeleteEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDeleteEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -17659,7 +17659,7 @@ export interface GoogleIamV1Policy {
 }
 
 export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
       version: Schema.optional(Schema.Number),
@@ -17675,7 +17675,7 @@ export interface GoogleIamV1SetIamPolicyRequest {
 }
 
 export const GoogleIamV1SetIamPolicyRequest: Schema.Schema<GoogleIamV1SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(GoogleIamV1Policy),
     }),
@@ -17691,7 +17691,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -17708,7 +17708,7 @@ export interface GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -17729,7 +17729,7 @@ export interface GoogleCloudDiscoveryengineV1ImportUserEventsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportUserEventsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1ImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       errorConfig: Schema.optional(
@@ -17756,7 +17756,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       failureCount: Schema.optional(Schema.String),
@@ -17782,7 +17782,7 @@ export interface GoogleCloudDiscoveryengineV1alphaListSessionsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaListSessionsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaListSessionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageSize: Schema.optional(Schema.Number),
       orderBy: Schema.optional(Schema.String),
@@ -17804,7 +17804,7 @@ export interface GoogleCloudDiscoveryengineV1betaIdentityMappingEntryOperationMe
 }
 
 export const GoogleCloudDiscoveryengineV1betaIdentityMappingEntryOperationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaIdentityMappingEntryOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       totalCount: Schema.optional(Schema.String),
@@ -17821,7 +17821,7 @@ export interface GoogleCloudDiscoveryengineV1betaRankResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRankResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaRankResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       records: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaRankingRecord),
@@ -17839,7 +17839,7 @@ export interface GoogleCloudDiscoveryengineV1alphaGetSessionRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaGetSessionRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaGetSessionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeAnswerDetails: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
@@ -17856,7 +17856,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -17873,7 +17873,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataMetad
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -17891,7 +17891,7 @@ export interface GoogleCloudDiscoveryengineV1betaCompleteQueryResponseQuerySugge
 }
 
 export const GoogleCloudDiscoveryengineV1betaCompleteQueryResponseQuerySuggestion: Schema.Schema<GoogleCloudDiscoveryengineV1betaCompleteQueryResponseQuerySuggestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       completableFieldPaths: Schema.optional(Schema.Array(Schema.String)),
       suggestion: Schema.optional(Schema.String),
@@ -17913,7 +17913,7 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsTrainingInput: Schema.optional(
         GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrainingInput,
@@ -17940,7 +17940,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeUserEventsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeUserEventsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -17967,7 +17967,7 @@ export interface GoogleCloudDiscoveryengineV1betaRankRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRankRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaRankRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLabels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       records: Schema.optional(
@@ -17990,7 +17990,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesRespo
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -18003,7 +18003,7 @@ export const GoogleCloudDiscoveryengineV1PurgeSuggestionDenyListEntriesResponse:
 export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig {}
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigDigitalParsingConfig>;
@@ -18016,7 +18016,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchMetada
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18055,7 +18055,7 @@ export interface GoogleCloudDiscoveryengineV1betaCustomTuningModel {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCustomTuningModel: Schema.Schema<GoogleCloudDiscoveryengineV1betaCustomTuningModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       errorMessage: Schema.optional(Schema.String),
@@ -18076,7 +18076,7 @@ export interface GoogleCloudDiscoveryengineV1betaListCustomModelsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListCustomModelsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListCustomModelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       models: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaCustomTuningModel),
@@ -18094,7 +18094,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteCollectionMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteCollectionMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteCollectionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -18117,7 +18117,7 @@ export interface GoogleCloudDiscoveryengineV1TrainCustomModelResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1TrainCustomModelResponse: Schema.Schema<GoogleCloudDiscoveryengineV1TrainCustomModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
       errorConfig: Schema.optional(
@@ -18139,7 +18139,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUpdateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUpdateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUpdateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -18154,7 +18154,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkin
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutBasedChunkingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig,
@@ -18173,7 +18173,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsing
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigOcrParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useNativeText: Schema.optional(Schema.Boolean),
       enhancedDocumentElements: Schema.optional(Schema.Array(Schema.String)),
@@ -18193,7 +18193,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsing
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layoutParsingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig,
@@ -18225,7 +18225,7 @@ export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chunkingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig,
@@ -18253,7 +18253,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableAutomaticRefresh: Schema.optional(Schema.Boolean),
       disableInitialIndex: Schema.optional(Schema.Boolean),
@@ -18272,7 +18272,7 @@ export interface GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableConfigurableSchema: Schema.optional(Schema.Boolean),
       enableStaticIndexingForBatchIngestion: Schema.optional(Schema.Boolean),
@@ -18357,7 +18357,7 @@ export interface GoogleCloudDiscoveryengineV1betaDataStore {
 }
 
 export const GoogleCloudDiscoveryengineV1betaDataStore: Schema.Schema<GoogleCloudDiscoveryengineV1betaDataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configurableBillingApproach: Schema.optional(Schema.String),
       solutionTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -18414,7 +18414,7 @@ export interface GoogleCloudDiscoveryengineV1betaListDataStoresResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListDataStoresResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListDataStoresResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStores: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaDataStore),
@@ -18440,7 +18440,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSug
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypeSpec: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypeSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestionType: Schema.optional(Schema.String),
       maxSuggestions: Schema.optional(Schema.Number),
@@ -18456,7 +18456,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlSynonymsAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlSynonymsAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlSynonymsAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       synonyms: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -18467,7 +18467,7 @@ export const GoogleCloudDiscoveryengineV1alphaControlSynonymsAction: Schema.Sche
 export interface GoogleCloudDiscoveryengineV1betaProvisionProjectMetadata {}
 
 export const GoogleCloudDiscoveryengineV1betaProvisionProjectMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaProvisionProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaProvisionProjectMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaProvisionProjectMetadata>;
 
@@ -18499,7 +18499,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRecrawlUrisMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRecrawlUrisMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.Number),
       noindexUris: Schema.optional(Schema.Array(Schema.String)),
@@ -18526,7 +18526,7 @@ export interface GoogleCloudDiscoveryengineV1ControlFilterAction {
 }
 
 export const GoogleCloudDiscoveryengineV1ControlFilterAction: Schema.Schema<GoogleCloudDiscoveryengineV1ControlFilterAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -18543,7 +18543,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRes
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaImportErrorConfig,
@@ -18563,7 +18563,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18580,7 +18580,7 @@ export interface GoogleCloudDiscoveryengineV1DeleteDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1DeleteDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1DeleteDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -18599,7 +18599,7 @@ export interface GoogleCloudDiscoveryengineV1Condition {
 }
 
 export const GoogleCloudDiscoveryengineV1Condition: Schema.Schema<GoogleCloudDiscoveryengineV1Condition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryTerms: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1ConditionQueryTerm),
@@ -18627,7 +18627,7 @@ export interface GoogleCloudDiscoveryengineV1ControlBoostAction {
 }
 
 export const GoogleCloudDiscoveryengineV1ControlBoostAction: Schema.Schema<GoogleCloudDiscoveryengineV1ControlBoostAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       dataStore: Schema.optional(Schema.String),
@@ -18679,7 +18679,7 @@ export interface GoogleCloudDiscoveryengineV1Control {
 }
 
 export const GoogleCloudDiscoveryengineV1Control: Schema.Schema<GoogleCloudDiscoveryengineV1Control> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useCases: Schema.optional(Schema.Array(Schema.String)),
       displayName: Schema.optional(Schema.String),
@@ -18721,7 +18721,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebo
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataProtectionPolicy: Schema.optional(
         GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy,
@@ -18745,7 +18745,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfig: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notebooklmConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1ProjectCustomerProvidedConfigNotebooklmConfig,
@@ -18763,7 +18763,7 @@ export interface GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchMetada
 }
 
 export const GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18785,7 +18785,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeat
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disablePrivateKgAutoComplete: Schema.optional(Schema.Boolean),
       disablePrivateKgQueryUiChips: Schema.optional(Schema.Boolean),
@@ -18800,7 +18800,7 @@ export const GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureC
 export interface GoogleCloudDiscoveryengineV1betaPauseEngineRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaPauseEngineRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPauseEngineRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaPauseEngineRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaPauseEngineRequest>;
 
@@ -18814,7 +18814,7 @@ export interface GoogleCloudDiscoveryengineV1Collection {
 }
 
 export const GoogleCloudDiscoveryengineV1Collection: Schema.Schema<GoogleCloudDiscoveryengineV1Collection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18847,7 +18847,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastTrainTime: Schema.optional(Schema.String),
       dataState: Schema.optional(Schema.String),
@@ -18865,7 +18865,7 @@ export interface GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cmekConfigs: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaCmekConfig),
@@ -18883,7 +18883,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18903,7 +18903,7 @@ export interface GoogleCloudDiscoveryengineV1alphaSitemap {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaSitemap: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSitemap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -18932,7 +18932,7 @@ export interface GoogleCloudDiscoveryengineV1ProjectServiceTerms {
 }
 
 export const GoogleCloudDiscoveryengineV1ProjectServiceTerms: Schema.Schema<GoogleCloudDiscoveryengineV1ProjectServiceTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -18963,7 +18963,7 @@ export interface GoogleCloudDiscoveryengineV1Project {
 }
 
 export const GoogleCloudDiscoveryengineV1Project: Schema.Schema<GoogleCloudDiscoveryengineV1Project> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -18999,7 +18999,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSampleQueriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSampleQueriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       totalCount: Schema.optional(Schema.String),
@@ -19019,7 +19019,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -19041,7 +19041,7 @@ export interface GoogleCloudDiscoveryengineV1SiteVerificationInfo {
 }
 
 export const GoogleCloudDiscoveryengineV1SiteVerificationInfo: Schema.Schema<GoogleCloudDiscoveryengineV1SiteVerificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteVerificationState: Schema.optional(Schema.String),
       verifyTime: Schema.optional(Schema.String),
@@ -19056,7 +19056,7 @@ export interface GoogleCloudDiscoveryengineV1TargetSiteFailureReason {
 }
 
 export const GoogleCloudDiscoveryengineV1TargetSiteFailureReason: Schema.Schema<GoogleCloudDiscoveryengineV1TargetSiteFailureReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quotaFailure: Schema.optional(
         GoogleCloudDiscoveryengineV1TargetSiteFailureReasonQuotaFailure,
@@ -19098,7 +19098,7 @@ export interface GoogleCloudDiscoveryengineV1TargetSite {
 }
 
 export const GoogleCloudDiscoveryengineV1TargetSite: Schema.Schema<GoogleCloudDiscoveryengineV1TargetSite> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteVerificationInfo: Schema.optional(
         GoogleCloudDiscoveryengineV1SiteVerificationInfo,
@@ -19125,7 +19125,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineCommonConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineCommonConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineCommonConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       companyName: Schema.optional(Schema.String),
     }),
@@ -19136,7 +19136,7 @@ export const GoogleCloudDiscoveryengineV1alphaEngineCommonConfig: Schema.Schema<
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -19148,7 +19148,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -19165,7 +19165,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRespon
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpcStatus),
@@ -19183,7 +19183,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEstimateDataSizeResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEstimateDataSizeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentCount: Schema.optional(Schema.String),
       dataSizeBytes: Schema.optional(Schema.String),
@@ -19200,7 +19200,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesResponse
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLicenses: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaUserLicense),
@@ -19220,7 +19220,7 @@ export interface GoogleCloudDiscoveryengineV1alphaTrainCustomModelMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaTrainCustomModelMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTrainCustomModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -19243,7 +19243,7 @@ export interface GoogleCloudDiscoveryengineV1UserStore {
 }
 
 export const GoogleCloudDiscoveryengineV1UserStore: Schema.Schema<GoogleCloudDiscoveryengineV1UserStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableExpiredLicenseAutoUpdate: Schema.optional(Schema.Boolean),
       defaultLicenseConfig: Schema.optional(Schema.String),
@@ -19271,7 +19271,7 @@ export interface GoogleCloudDiscoveryengineV1DataStoreBillingEstimation {
 }
 
 export const GoogleCloudDiscoveryengineV1DataStoreBillingEstimation: Schema.Schema<GoogleCloudDiscoveryengineV1DataStoreBillingEstimation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       websiteDataUpdateTime: Schema.optional(Schema.String),
       websiteDataSize: Schema.optional(Schema.String),
@@ -19292,7 +19292,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlPromoteAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlPromoteAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlPromoteAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchLinkPromotion: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion,
@@ -19311,7 +19311,7 @@ export interface GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesMeta
 }
 
 export const GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1ImportSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -19329,7 +19329,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControlFilterAction {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControlFilterAction: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControlFilterAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       dataStore: Schema.optional(Schema.String),
@@ -19344,7 +19344,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataRespon
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentsMetadata: Schema.optional(
         Schema.Array(
@@ -19365,7 +19365,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigThirdPartyOauthConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigThirdPartyOauthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceName: Schema.optional(Schema.String),
       appName: Schema.optional(Schema.String),
@@ -19383,7 +19383,7 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       force: Schema.optional(Schema.Boolean),
@@ -19402,7 +19402,7 @@ export interface GoogleCloudDiscoveryengineV1betaListTargetSitesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListTargetSitesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListTargetSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetSites: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaTargetSite),
@@ -19428,7 +19428,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privateKnowledgeGraphTypes: Schema.optional(Schema.Array(Schema.String)),
       enableCloudKnowledgeGraph: Schema.optional(Schema.Boolean),
@@ -19457,7 +19457,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultParsingConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig,
@@ -19507,7 +19507,7 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestionTypeSpecs: Schema.optional(
         Schema.Array(
@@ -19537,7 +19537,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteAgentMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteAgentMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteAgentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -19562,7 +19562,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       websiteDataSize: Schema.optional(Schema.String),
       unstructuredDataUpdateTime: Schema.optional(Schema.String),
@@ -19581,7 +19581,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStor
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStore: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disabledForServing: Schema.optional(Schema.Boolean),
     }),
@@ -19626,7 +19626,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCmekConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCmekConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCmekConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isDefault: Schema.optional(Schema.Boolean),
       state: Schema.optional(Schema.String),
@@ -19651,7 +19651,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableInitialIndex: Schema.optional(Schema.Boolean),
       disableAutomaticRefresh: Schema.optional(Schema.Boolean),
@@ -19666,7 +19666,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigNotebooklmConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigNotebooklmConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchConfig: Schema.optional(Schema.String),
     }),
@@ -19685,7 +19685,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alloyDbConfig: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig,
@@ -19779,7 +19779,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDataStore {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDataStore: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aclEnabled: Schema.optional(Schema.Boolean),
       configurableBillingApproachUpdateTime: Schema.optional(Schema.String),
@@ -19832,7 +19832,7 @@ export const GoogleCloudDiscoveryengineV1alphaDataStore: Schema.Schema<GoogleClo
 export interface GoogleCloudDiscoveryengineV1alphaExportMetricsResponse {}
 
 export const GoogleCloudDiscoveryengineV1alphaExportMetricsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaExportMetricsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1alphaExportMetricsResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaExportMetricsResponse>;
 
@@ -19844,7 +19844,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntrie
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -19910,7 +19910,7 @@ export interface GoogleCloudDiscoveryengineV1LicenseConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1LicenseConfig: Schema.Schema<GoogleCloudDiscoveryengineV1LicenseConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       freeTrial: Schema.optional(Schema.Boolean),
@@ -19932,14 +19932,14 @@ export const GoogleCloudDiscoveryengineV1LicenseConfig: Schema.Schema<GoogleClou
 export interface GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorMetadata {}
 
 export const GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorMetadata",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorMetadata>;
 
 export interface GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaDisableAdvancedSiteSearchResponse>;
@@ -19958,7 +19958,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCount: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -19978,7 +19978,7 @@ export interface GoogleCloudDiscoveryengineV1UpdateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1UpdateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1UpdateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -19995,7 +19995,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateMetada
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20013,7 +20013,7 @@ export interface GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSiteMetadata 
 }
 
 export const GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20026,7 +20026,7 @@ export const GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSiteMetadata: Sch
 export interface GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchResponse {}
 
 export const GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchResponse: Schema.Schema<GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1EnableAdvancedSiteSearchResponse>;
 
@@ -20038,7 +20038,7 @@ export interface GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateMetadat
 }
 
 export const GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20056,7 +20056,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsMeta
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20074,7 +20074,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteCmekConfigMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteCmekConfigMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteCmekConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20091,7 +20091,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateSitemapMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateSitemapMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateSitemapMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20131,7 +20131,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchTier: Schema.optional(Schema.String),
       searchAddOns: Schema.optional(Schema.Array(Schema.String)),
@@ -20151,7 +20151,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowAgentToLink: Schema.optional(Schema.String),
       agentCreationConfig: Schema.optional(
@@ -20166,7 +20166,7 @@ export const GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig: Schema.Sch
 export interface GoogleCloudDiscoveryengineV1alphaEngineSimilarDocumentsEngineConfig {}
 
 export const GoogleCloudDiscoveryengineV1alphaEngineSimilarDocumentsEngineConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineSimilarDocumentsEngineConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1alphaEngineSimilarDocumentsEngineConfig",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngineSimilarDocumentsEngineConfig>;
@@ -20258,7 +20258,7 @@ export interface GoogleCloudDiscoveryengineV1alphaEngine {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaEngine: Schema.Schema<GoogleCloudDiscoveryengineV1alphaEngine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recommendationMetadata: Schema.optional(
         GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata,
@@ -20320,7 +20320,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest 
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(
         GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestInlineSource,
@@ -20335,7 +20335,7 @@ export const GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest: Sch
 export interface GoogleCloudDiscoveryengineV1alphaTuneEngineResponse {}
 
 export const GoogleCloudDiscoveryengineV1alphaTuneEngineResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaTuneEngineResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1alphaTuneEngineResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1alphaTuneEngineResponse>;
 
@@ -20347,7 +20347,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsResp
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeSucceeded: Schema.optional(Schema.Boolean),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -20365,7 +20365,7 @@ export interface GoogleCloudDiscoveryengineV1betaUpdateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUpdateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaUpdateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20382,7 +20382,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20399,7 +20399,7 @@ export interface GoogleCloudDiscoveryengineV1CreateDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1CreateDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1CreateDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20423,7 +20423,7 @@ export interface GoogleCloudDiscoveryengineV1DocumentProcessingConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1DocumentProcessingConfig: Schema.Schema<GoogleCloudDiscoveryengineV1DocumentProcessingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       defaultParsingConfig: Schema.optional(
@@ -20451,7 +20451,7 @@ export interface GoogleCloudDiscoveryengineV1AdvancedSiteSearchConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1AdvancedSiteSearchConfig: Schema.Schema<GoogleCloudDiscoveryengineV1AdvancedSiteSearchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableAutomaticRefresh: Schema.optional(Schema.Boolean),
       disableInitialIndex: Schema.optional(Schema.Boolean),
@@ -20533,7 +20533,7 @@ export interface GoogleCloudDiscoveryengineV1DataStore {
 }
 
 export const GoogleCloudDiscoveryengineV1DataStore: Schema.Schema<GoogleCloudDiscoveryengineV1DataStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigDataStore: Schema.optional(
         GoogleCloudDiscoveryengineV1DataStoreServingConfigDataStore,
@@ -20593,7 +20593,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeDocumentsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20613,7 +20613,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCreateEngineMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCreateEngineMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCreateEngineMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20632,7 +20632,7 @@ export interface GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendation
 }
 
 export const GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendationResult: Schema.Schema<GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(GoogleCloudDiscoveryengineV1betaDocument),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -20655,7 +20655,7 @@ export interface GoogleCloudDiscoveryengineV1betaRecommendResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaRecommendResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaRecommendResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributionToken: Schema.optional(Schema.String),
       validateOnly: Schema.optional(Schema.Boolean),
@@ -20673,7 +20673,7 @@ export const GoogleCloudDiscoveryengineV1betaRecommendResponse: Schema.Schema<Go
 export interface GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse {}
 
 export const GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse>;
 
@@ -20685,7 +20685,7 @@ export interface GoogleCloudDiscoveryengineV1alphaImportSampleQueriesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaImportSampleQueriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaImportSampleQueriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorConfig: Schema.optional(
@@ -20704,7 +20704,7 @@ export interface GoogleCloudDiscoveryengineV1alphaUpdateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaUpdateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaUpdateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20721,7 +20721,7 @@ export interface GoogleCloudDiscoveryengineV1betaUpdateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaUpdateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaUpdateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20738,7 +20738,7 @@ export interface GoogleCloudDiscoveryengineV1CreateSchemaMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1CreateSchemaMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1CreateSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -20785,7 +20785,7 @@ export interface GoogleCloudDiscoveryengineV1alphaControl {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaControl: Schema.Schema<GoogleCloudDiscoveryengineV1alphaControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       associatedServingConfigIds: Schema.optional(Schema.Array(Schema.String)),
       promoteAction: Schema.optional(
@@ -20823,7 +20823,7 @@ export interface GoogleCloudDiscoveryengineV1UpdateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1UpdateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1UpdateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20840,7 +20840,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRecrawlUrisResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failedUris: Schema.optional(Schema.Array(Schema.String)),
       failureSamples: Schema.optional(
@@ -20863,7 +20863,7 @@ export interface GoogleCloudDiscoveryengineV1betaIdentityMappingStore {
 }
 
 export const GoogleCloudDiscoveryengineV1betaIdentityMappingStore: Schema.Schema<GoogleCloudDiscoveryengineV1betaIdentityMappingStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       cmekConfig: Schema.optional(GoogleCloudDiscoveryengineV1betaCmekConfig),
@@ -20881,7 +20881,7 @@ export interface GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresRespon
 }
 
 export const GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityMappingStores: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaIdentityMappingStore),
@@ -20901,7 +20901,7 @@ export interface GoogleCloudDiscoveryengineV1betaAclConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAclConfig: Schema.Schema<GoogleCloudDiscoveryengineV1betaAclConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpConfig: Schema.optional(GoogleCloudDiscoveryengineV1betaIdpConfig),
       name: Schema.optional(Schema.String),
@@ -20918,7 +20918,7 @@ export interface GoogleCloudDiscoveryengineV1alphaAclConfig {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaAclConfig: Schema.Schema<GoogleCloudDiscoveryengineV1alphaAclConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpConfig: Schema.optional(GoogleCloudDiscoveryengineV1alphaIdpConfig),
       name: Schema.optional(Schema.String),
@@ -20935,7 +20935,7 @@ export interface GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       targetSite: Schema.optional(GoogleCloudDiscoveryengineV1betaTargetSite),
@@ -20950,7 +20950,7 @@ export interface GoogleCloudDiscoveryengineV1alphaGetUriPatternDocumentDataRespo
 }
 
 export const GoogleCloudDiscoveryengineV1alphaGetUriPatternDocumentDataResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaGetUriPatternDocumentDataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentDataMap: Schema.optional(
         Schema.Record(
@@ -20972,7 +20972,7 @@ export interface GoogleCloudDiscoveryengineV1alphaDeleteDataStoreMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaDeleteDataStoreMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1alphaDeleteDataStoreMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -20993,7 +20993,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsMeta
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -21019,7 +21019,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generationSpec: Schema.optional(
         GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSpec,
@@ -21047,7 +21047,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failedEntriesCount: Schema.optional(Schema.String),
       importedEntriesCount: Schema.optional(Schema.String),
@@ -21066,7 +21066,7 @@ export interface GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       sampleQueries: Schema.optional(
@@ -21085,7 +21085,7 @@ export interface GoogleCloudDiscoveryengineV1betaCompleteQueryResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaCompleteQueryResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaCompleteQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       querySuggestions: Schema.optional(
         Schema.Array(
@@ -21106,7 +21106,7 @@ export interface GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest: Schema.Schema<GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterGroups: Schema.optional(Schema.Array(Schema.String)),
       dataStore: Schema.optional(Schema.String),
@@ -21123,7 +21123,7 @@ export interface GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntries
 }
 
 export const GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntriesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -21141,7 +21141,7 @@ export interface GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchMetadat
 }
 
 export const GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -21163,7 +21163,7 @@ export interface GoogleCloudDiscoveryengineV1alphaCollection {
 }
 
 export const GoogleCloudDiscoveryengineV1alphaCollection: Schema.Schema<GoogleCloudDiscoveryengineV1alphaCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       dataConnector: Schema.optional(
@@ -21188,7 +21188,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesMetadata
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -21210,7 +21210,7 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaAnswerQueryResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(GoogleCloudDiscoveryengineV1betaAnswer),
       session: Schema.optional(GoogleCloudDiscoveryengineV1betaSession),
@@ -21226,7 +21226,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistResponseSessionInfo
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistResponseSessionInfo: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistResponseSessionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       session: Schema.optional(Schema.String),
     }),
@@ -21247,7 +21247,7 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1betaStreamAssistResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       invocationTools: Schema.optional(Schema.Array(Schema.String)),
       answer: Schema.optional(GoogleCloudDiscoveryengineV1betaAssistAnswer),
@@ -21268,7 +21268,7 @@ export interface GoogleCloudDiscoveryengineV1PurgeDocumentsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1PurgeDocumentsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1PurgeDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -21283,7 +21283,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest),
@@ -21299,7 +21299,7 @@ export interface GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crawlRateScope: Schema.optional(Schema.String),
     }),
@@ -21313,7 +21313,7 @@ export interface GoogleCloudDiscoveryengineV1betaImportIdentityMappingsResponse 
 }
 
 export const GoogleCloudDiscoveryengineV1betaImportIdentityMappingsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1betaImportIdentityMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -21330,7 +21330,7 @@ export interface GoogleCloudDiscoveryengineV1TrainCustomModelMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1TrainCustomModelMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1TrainCustomModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -21351,7 +21351,7 @@ export interface GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsMetadata
 }
 
 export const GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1ImportCompletionSuggestionsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       successCount: Schema.optional(Schema.String),
@@ -21373,7 +21373,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       unreachable: Schema.optional(Schema.Array(Schema.String)),
@@ -21389,7 +21389,7 @@ export interface GoogleCloudDiscoveryengineV1BatchCreateTargetSitesResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1BatchCreateTargetSitesResponse: Schema.Schema<GoogleCloudDiscoveryengineV1BatchCreateTargetSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetSites: Schema.optional(
         Schema.Array(GoogleCloudDiscoveryengineV1TargetSite),
@@ -21415,7 +21415,7 @@ export interface GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest {
 }
 
 export const GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crawlRate: Schema.optional(Schema.Number),
       crawlRateScope: Schema.optional(Schema.String),
@@ -21434,7 +21434,7 @@ export interface GoogleCloudDiscoveryengineV1betaBatchCreateTargetSiteMetadata {
 }
 
 export const GoogleCloudDiscoveryengineV1betaBatchCreateTargetSiteMetadata: Schema.Schema<GoogleCloudDiscoveryengineV1betaBatchCreateTargetSiteMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -21446,7 +21446,7 @@ export const GoogleCloudDiscoveryengineV1betaBatchCreateTargetSiteMetadata: Sche
 export interface GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest {}
 
 export const GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest: Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest",
   }) as any as Schema.Schema<GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest>;
@@ -21457,7 +21457,7 @@ export interface GoogleCloudDiscoveryengineV1ImportIdentityMappingsResponse {
 }
 
 export const GoogleCloudDiscoveryengineV1ImportIdentityMappingsResponse: Schema.Schema<GoogleCloudDiscoveryengineV1ImportIdentityMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -21476,22 +21476,24 @@ export interface ProvisionProjectsRequest {
   body?: GoogleCloudDiscoveryengineV1betaProvisionProjectRequest;
 }
 
-export const ProvisionProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaProvisionProjectRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}:provision",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionProjectsRequest>;
+export const ProvisionProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaProvisionProjectRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}:provision",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionProjectsRequest>;
 
 export type ProvisionProjectsResponse = GoogleLongrunningOperation;
-export const ProvisionProjectsResponse = GoogleLongrunningOperation;
+export const ProvisionProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ProvisionProjectsError = DefaultErrors;
 
@@ -21501,7 +21503,7 @@ export const provisionProjects: API.OperationMethod<
   ProvisionProjectsResponse,
   ProvisionProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionProjectsRequest,
   output: ProvisionProjectsResponse,
   errors: [],
@@ -21512,18 +21514,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -21533,7 +21537,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -21552,23 +21556,24 @@ export interface ListProjectsOperationsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsOperationsRequest = Schema.Struct({
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
+export const ListProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/operations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
 export type ListProjectsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsOperationsError = DefaultErrors;
 
@@ -21578,7 +21583,7 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   ListProjectsOperationsResponse,
   ListProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -21597,25 +21602,26 @@ export interface UpdateCmekConfigProjectsLocationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaCmekConfig;
 }
 
-export const UpdateCmekConfigProjectsLocationsRequest = Schema.Struct({
-  setDefault: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("setDefault")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaCmekConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateCmekConfigProjectsLocationsRequest>;
+export const UpdateCmekConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    setDefault: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("setDefault")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaCmekConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateCmekConfigProjectsLocationsRequest>;
 
 export type UpdateCmekConfigProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const UpdateCmekConfigProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type UpdateCmekConfigProjectsLocationsError = DefaultErrors;
 
@@ -21625,7 +21631,7 @@ export const updateCmekConfigProjectsLocations: API.OperationMethod<
   UpdateCmekConfigProjectsLocationsResponse,
   UpdateCmekConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCmekConfigProjectsLocationsRequest,
   output: UpdateCmekConfigProjectsLocationsResponse,
   errors: [],
@@ -21638,24 +21644,25 @@ export interface ObtainCrawlRateProjectsLocationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest;
 }
 
-export const ObtainCrawlRateProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}:obtainCrawlRate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ObtainCrawlRateProjectsLocationsRequest>;
+export const ObtainCrawlRateProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}:obtainCrawlRate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ObtainCrawlRateProjectsLocationsRequest>;
 
 export type ObtainCrawlRateProjectsLocationsResponse =
   GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse;
 export const ObtainCrawlRateProjectsLocationsResponse =
-  GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse;
 
 export type ObtainCrawlRateProjectsLocationsError = DefaultErrors;
 
@@ -21665,7 +21672,7 @@ export const obtainCrawlRateProjectsLocations: API.OperationMethod<
   ObtainCrawlRateProjectsLocationsResponse,
   ObtainCrawlRateProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ObtainCrawlRateProjectsLocationsRequest,
   output: ObtainCrawlRateProjectsLocationsResponse,
   errors: [],
@@ -21678,24 +21685,25 @@ export interface RemoveDedicatedCrawlRateProjectsLocationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest;
 }
 
-export const RemoveDedicatedCrawlRateProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}:removeDedicatedCrawlRate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveDedicatedCrawlRateProjectsLocationsRequest>;
+export const RemoveDedicatedCrawlRateProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}:removeDedicatedCrawlRate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveDedicatedCrawlRateProjectsLocationsRequest>;
 
 export type RemoveDedicatedCrawlRateProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const RemoveDedicatedCrawlRateProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RemoveDedicatedCrawlRateProjectsLocationsError = DefaultErrors;
 
@@ -21705,7 +21713,7 @@ export const removeDedicatedCrawlRateProjectsLocations: API.OperationMethod<
   RemoveDedicatedCrawlRateProjectsLocationsResponse,
   RemoveDedicatedCrawlRateProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveDedicatedCrawlRateProjectsLocationsRequest,
   output: RemoveDedicatedCrawlRateProjectsLocationsResponse,
   errors: [],
@@ -21716,20 +21724,21 @@ export interface GetCmekConfigProjectsLocationsRequest {
   name: string;
 }
 
-export const GetCmekConfigProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCmekConfigProjectsLocationsRequest>;
+export const GetCmekConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCmekConfigProjectsLocationsRequest>;
 
 export type GetCmekConfigProjectsLocationsResponse =
   GoogleCloudDiscoveryengineV1betaCmekConfig;
 export const GetCmekConfigProjectsLocationsResponse =
-  GoogleCloudDiscoveryengineV1betaCmekConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaCmekConfig;
 
 export type GetCmekConfigProjectsLocationsError = DefaultErrors;
 
@@ -21739,7 +21748,7 @@ export const getCmekConfigProjectsLocations: API.OperationMethod<
   GetCmekConfigProjectsLocationsResponse,
   GetCmekConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCmekConfigProjectsLocationsRequest,
   output: GetCmekConfigProjectsLocationsResponse,
   errors: [],
@@ -21752,24 +21761,25 @@ export interface SetDedicatedCrawlRateProjectsLocationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest;
 }
 
-export const SetDedicatedCrawlRateProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}:setDedicatedCrawlRate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetDedicatedCrawlRateProjectsLocationsRequest>;
+export const SetDedicatedCrawlRateProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}:setDedicatedCrawlRate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetDedicatedCrawlRateProjectsLocationsRequest>;
 
 export type SetDedicatedCrawlRateProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const SetDedicatedCrawlRateProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SetDedicatedCrawlRateProjectsLocationsError = DefaultErrors;
 
@@ -21779,7 +21789,7 @@ export const setDedicatedCrawlRateProjectsLocations: API.OperationMethod<
   SetDedicatedCrawlRateProjectsLocationsResponse,
   SetDedicatedCrawlRateProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDedicatedCrawlRateProjectsLocationsRequest,
   output: SetDedicatedCrawlRateProjectsLocationsResponse,
   errors: [],
@@ -21792,24 +21802,25 @@ export interface UpdateAclConfigProjectsLocationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaAclConfig;
 }
 
-export const UpdateAclConfigProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaAclConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/aclConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAclConfigProjectsLocationsRequest>;
+export const UpdateAclConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaAclConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/aclConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAclConfigProjectsLocationsRequest>;
 
 export type UpdateAclConfigProjectsLocationsResponse =
   GoogleCloudDiscoveryengineV1betaAclConfig;
 export const UpdateAclConfigProjectsLocationsResponse =
-  GoogleCloudDiscoveryengineV1betaAclConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAclConfig;
 
 export type UpdateAclConfigProjectsLocationsError = DefaultErrors;
 
@@ -21819,7 +21830,7 @@ export const updateAclConfigProjectsLocations: API.OperationMethod<
   UpdateAclConfigProjectsLocationsResponse,
   UpdateAclConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAclConfigProjectsLocationsRequest,
   output: UpdateAclConfigProjectsLocationsResponse,
   errors: [],
@@ -21830,20 +21841,21 @@ export interface GetAclConfigProjectsLocationsRequest {
   name: string;
 }
 
-export const GetAclConfigProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/aclConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAclConfigProjectsLocationsRequest>;
+export const GetAclConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/aclConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAclConfigProjectsLocationsRequest>;
 
 export type GetAclConfigProjectsLocationsResponse =
   GoogleCloudDiscoveryengineV1betaAclConfig;
 export const GetAclConfigProjectsLocationsResponse =
-  GoogleCloudDiscoveryengineV1betaAclConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAclConfig;
 
 export type GetAclConfigProjectsLocationsError = DefaultErrors;
 
@@ -21853,7 +21865,7 @@ export const getAclConfigProjectsLocations: API.OperationMethod<
   GetAclConfigProjectsLocationsResponse,
   GetAclConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAclConfigProjectsLocationsRequest,
   output: GetAclConfigProjectsLocationsResponse,
   errors: [],
@@ -21866,24 +21878,25 @@ export interface CreateProjectsLocationsEvaluationsRequest {
   body?: GoogleCloudDiscoveryengineV1betaEvaluation;
 }
 
-export const CreateProjectsLocationsEvaluationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaEvaluation).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEvaluationsRequest>;
+export const CreateProjectsLocationsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaEvaluation).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEvaluationsRequest>;
 
 export type CreateProjectsLocationsEvaluationsResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsEvaluationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsEvaluationsError = DefaultErrors;
 
@@ -21893,7 +21906,7 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   CreateProjectsLocationsEvaluationsResponse,
   CreateProjectsLocationsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEvaluationsRequest,
   output: CreateProjectsLocationsEvaluationsResponse,
   errors: [],
@@ -21908,22 +21921,23 @@ export interface ListResultsProjectsLocationsEvaluationsRequest {
   pageSize?: number;
 }
 
-export const ListResultsProjectsLocationsEvaluationsRequest = Schema.Struct({
-  evaluation: Schema.String.pipe(T.HttpPath("evaluation")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}:listResults",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListResultsProjectsLocationsEvaluationsRequest>;
+export const ListResultsProjectsLocationsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    evaluation: Schema.String.pipe(T.HttpPath("evaluation")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}:listResults",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListResultsProjectsLocationsEvaluationsRequest>;
 
 export type ListResultsProjectsLocationsEvaluationsResponse =
   GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse;
 export const ListResultsProjectsLocationsEvaluationsResponse =
-  GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse;
 
 export type ListResultsProjectsLocationsEvaluationsError = DefaultErrors;
 
@@ -21933,7 +21947,7 @@ export const listResultsProjectsLocationsEvaluations: API.PaginatedOperationMeth
   ListResultsProjectsLocationsEvaluationsResponse,
   ListResultsProjectsLocationsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListResultsProjectsLocationsEvaluationsRequest,
   output: ListResultsProjectsLocationsEvaluationsResponse,
   errors: [],
@@ -21948,20 +21962,21 @@ export interface GetProjectsLocationsEvaluationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsEvaluationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEvaluationsRequest>;
+export const GetProjectsLocationsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEvaluationsRequest>;
 
 export type GetProjectsLocationsEvaluationsResponse =
   GoogleCloudDiscoveryengineV1betaEvaluation;
 export const GetProjectsLocationsEvaluationsResponse =
-  GoogleCloudDiscoveryengineV1betaEvaluation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaEvaluation;
 
 export type GetProjectsLocationsEvaluationsError = DefaultErrors;
 
@@ -21971,7 +21986,7 @@ export const getProjectsLocationsEvaluations: API.OperationMethod<
   GetProjectsLocationsEvaluationsResponse,
   GetProjectsLocationsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsEvaluationsRequest,
   output: GetProjectsLocationsEvaluationsResponse,
   errors: [],
@@ -21986,22 +22001,23 @@ export interface ListProjectsLocationsEvaluationsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEvaluationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEvaluationsRequest>;
+export const ListProjectsLocationsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEvaluationsRequest>;
 
 export type ListProjectsLocationsEvaluationsResponse =
   GoogleCloudDiscoveryengineV1betaListEvaluationsResponse;
 export const ListProjectsLocationsEvaluationsResponse =
-  GoogleCloudDiscoveryengineV1betaListEvaluationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListEvaluationsResponse;
 
 export type ListProjectsLocationsEvaluationsError = DefaultErrors;
 
@@ -22011,7 +22027,7 @@ export const listProjectsLocationsEvaluations: API.PaginatedOperationMethod<
   ListProjectsLocationsEvaluationsResponse,
   ListProjectsLocationsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEvaluationsRequest,
   output: ListProjectsLocationsEvaluationsResponse,
   errors: [],
@@ -22026,20 +22042,21 @@ export interface GetProjectsLocationsEvaluationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsEvaluationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEvaluationsOperationsRequest>;
+export const GetProjectsLocationsEvaluationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/evaluations/{evaluationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEvaluationsOperationsRequest>;
 
 export type GetProjectsLocationsEvaluationsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsEvaluationsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsEvaluationsOperationsError = DefaultErrors;
 
@@ -22049,7 +22066,7 @@ export const getProjectsLocationsEvaluationsOperations: API.OperationMethod<
   GetProjectsLocationsEvaluationsOperationsResponse,
   GetProjectsLocationsEvaluationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsEvaluationsOperationsRequest,
   output: GetProjectsLocationsEvaluationsOperationsResponse,
   errors: [],
@@ -22061,7 +22078,7 @@ export interface GetSiteSearchEngineProjectsLocationsDataStoresRequest {
 }
 
 export const GetSiteSearchEngineProjectsLocationsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -22074,7 +22091,7 @@ export const GetSiteSearchEngineProjectsLocationsDataStoresRequest =
 export type GetSiteSearchEngineProjectsLocationsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
 export const GetSiteSearchEngineProjectsLocationsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
 
 export type GetSiteSearchEngineProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22084,7 +22101,7 @@ export const getSiteSearchEngineProjectsLocationsDataStores: API.OperationMethod
   GetSiteSearchEngineProjectsLocationsDataStoresResponse,
   GetSiteSearchEngineProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteSearchEngineProjectsLocationsDataStoresRequest,
   output: GetSiteSearchEngineProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22107,35 +22124,40 @@ export interface CreateProjectsLocationsDataStoresRequest {
   body?: GoogleCloudDiscoveryengineV1betaDataStore;
 }
 
-export const CreateProjectsLocationsDataStoresRequest = Schema.Struct({
-  cmekConfigName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("cmekConfigName"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  skipDefaultSchemaCreation: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("skipDefaultSchemaCreation"),
-  ),
-  disableCmek: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("disableCmek")),
-  createAdvancedSiteSearch: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("createAdvancedSiteSearch"),
-  ),
-  dataStoreId: Schema.optional(Schema.String).pipe(T.HttpQuery("dataStoreId")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaDataStore).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresRequest>;
+export const CreateProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cmekConfigName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("cmekConfigName"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    skipDefaultSchemaCreation: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("skipDefaultSchemaCreation"),
+    ),
+    disableCmek: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("disableCmek"),
+    ),
+    createAdvancedSiteSearch: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("createAdvancedSiteSearch"),
+    ),
+    dataStoreId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dataStoreId"),
+    ),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaDataStore).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresRequest>;
 
 export type CreateProjectsLocationsDataStoresResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsDataStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22145,7 +22167,7 @@ export const createProjectsLocationsDataStores: API.OperationMethod<
   CreateProjectsLocationsDataStoresResponse,
   CreateProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresRequest,
   output: CreateProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22156,20 +22178,21 @@ export interface DeleteProjectsLocationsDataStoresRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDataStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresRequest>;
+export const DeleteProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresRequest>;
 
 export type DeleteProjectsLocationsDataStoresResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsDataStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22179,7 +22202,7 @@ export const deleteProjectsLocationsDataStores: API.OperationMethod<
   DeleteProjectsLocationsDataStoresResponse,
   DeleteProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresRequest,
   output: DeleteProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22190,20 +22213,21 @@ export interface GetProjectsLocationsDataStoresRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresRequest>;
+export const GetProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresRequest>;
 
 export type GetProjectsLocationsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaDataStore;
 export const GetProjectsLocationsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaDataStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDataStore;
 
 export type GetProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22213,7 +22237,7 @@ export const getProjectsLocationsDataStores: API.OperationMethod<
   GetProjectsLocationsDataStoresResponse,
   GetProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresRequest,
   output: GetProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22230,23 +22254,24 @@ export interface ListProjectsLocationsDataStoresRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsDataStoresRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataStoresRequest>;
+export const ListProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataStoresRequest>;
 
 export type ListProjectsLocationsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
 export const ListProjectsLocationsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
 
 export type ListProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22256,7 +22281,7 @@ export const listProjectsLocationsDataStores: API.PaginatedOperationMethod<
   ListProjectsLocationsDataStoresResponse,
   ListProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresRequest,
   output: ListProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22279,28 +22304,29 @@ export interface CompleteQueryProjectsLocationsDataStoresRequest {
   query?: string;
 }
 
-export const CompleteQueryProjectsLocationsDataStoresRequest = Schema.Struct({
-  userPseudoId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("userPseudoId"),
-  ),
-  includeTailSuggestions: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeTailSuggestions"),
-  ),
-  dataStore: Schema.String.pipe(T.HttpPath("dataStore")),
-  queryModel: Schema.optional(Schema.String).pipe(T.HttpQuery("queryModel")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}:completeQuery",
-  }),
-  svc,
-) as unknown as Schema.Schema<CompleteQueryProjectsLocationsDataStoresRequest>;
+export const CompleteQueryProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userPseudoId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("userPseudoId"),
+    ),
+    includeTailSuggestions: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeTailSuggestions"),
+    ),
+    dataStore: Schema.String.pipe(T.HttpPath("dataStore")),
+    queryModel: Schema.optional(Schema.String).pipe(T.HttpQuery("queryModel")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}:completeQuery",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CompleteQueryProjectsLocationsDataStoresRequest>;
 
 export type CompleteQueryProjectsLocationsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22310,7 +22336,7 @@ export const completeQueryProjectsLocationsDataStores: API.OperationMethod<
   CompleteQueryProjectsLocationsDataStoresResponse,
   CompleteQueryProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteQueryProjectsLocationsDataStoresRequest,
   output: CompleteQueryProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22325,25 +22351,26 @@ export interface PatchProjectsLocationsDataStoresRequest {
   body?: GoogleCloudDiscoveryengineV1betaDataStore;
 }
 
-export const PatchProjectsLocationsDataStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaDataStore).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresRequest>;
+export const PatchProjectsLocationsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaDataStore).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresRequest>;
 
 export type PatchProjectsLocationsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaDataStore;
 export const PatchProjectsLocationsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaDataStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDataStore;
 
 export type PatchProjectsLocationsDataStoresError = DefaultErrors;
 
@@ -22353,7 +22380,7 @@ export const patchProjectsLocationsDataStores: API.OperationMethod<
   PatchProjectsLocationsDataStoresResponse,
   PatchProjectsLocationsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresRequest,
   output: PatchProjectsLocationsDataStoresResponse,
   errors: [],
@@ -22367,7 +22394,7 @@ export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest
 }
 
 export const CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     completionConfig: Schema.String.pipe(T.HttpPath("completionConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest,
@@ -22384,7 +22411,7 @@ export const CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest =
 export type CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse =
   GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse =
-  GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsDataStoresCompletionConfigError =
   DefaultErrors;
@@ -22395,7 +22422,7 @@ export const completeQueryProjectsLocationsDataStoresCompletionConfig: API.Opera
   CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse,
   CompleteQueryProjectsLocationsDataStoresCompletionConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest,
   output: CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse,
   errors: [],
@@ -22409,7 +22436,7 @@ export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const AnswerProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -22426,7 +22453,7 @@ export const AnswerProjectsLocationsDataStoresServingConfigsRequest =
 export type AnswerProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const AnswerProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type AnswerProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22437,7 +22464,7 @@ export const answerProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   AnswerProjectsLocationsDataStoresServingConfigsResponse,
   AnswerProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnswerProjectsLocationsDataStoresServingConfigsRequest,
   output: AnswerProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22451,7 +22478,7 @@ export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const StreamAnswerProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -22468,7 +22495,7 @@ export const StreamAnswerProjectsLocationsDataStoresServingConfigsRequest =
 export type StreamAnswerProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const StreamAnswerProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type StreamAnswerProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22479,7 +22506,7 @@ export const streamAnswerProjectsLocationsDataStoresServingConfigs: API.Operatio
   StreamAnswerProjectsLocationsDataStoresServingConfigsResponse,
   StreamAnswerProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StreamAnswerProjectsLocationsDataStoresServingConfigsRequest,
   output: StreamAnswerProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22493,7 +22520,7 @@ export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const SearchProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -22510,7 +22537,7 @@ export const SearchProjectsLocationsDataStoresServingConfigsRequest =
 export type SearchProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22521,7 +22548,7 @@ export const searchProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   SearchProjectsLocationsDataStoresServingConfigsResponse,
   SearchProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsDataStoresServingConfigsRequest,
   output: SearchProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22537,7 +22564,7 @@ export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const PatchProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaServingConfig).pipe(
@@ -22555,7 +22582,7 @@ export const PatchProjectsLocationsDataStoresServingConfigsRequest =
 export type PatchProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const PatchProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type PatchProjectsLocationsDataStoresServingConfigsError = DefaultErrors;
 
@@ -22565,7 +22592,7 @@ export const patchProjectsLocationsDataStoresServingConfigs: API.OperationMethod
   PatchProjectsLocationsDataStoresServingConfigsResponse,
   PatchProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresServingConfigsRequest,
   output: PatchProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22579,7 +22606,7 @@ export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const SearchLiteProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -22596,7 +22623,7 @@ export const SearchLiteProjectsLocationsDataStoresServingConfigsRequest =
 export type SearchLiteProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchLiteProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchLiteProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22607,7 +22634,7 @@ export const searchLiteProjectsLocationsDataStoresServingConfigs: API.OperationM
   SearchLiteProjectsLocationsDataStoresServingConfigsResponse,
   SearchLiteProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchLiteProjectsLocationsDataStoresServingConfigsRequest,
   output: SearchLiteProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22619,7 +22646,7 @@ export interface DeleteProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const DeleteProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -22632,7 +22659,7 @@ export const DeleteProjectsLocationsDataStoresServingConfigsRequest =
 export type DeleteProjectsLocationsDataStoresServingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22643,7 +22670,7 @@ export const deleteProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   DeleteProjectsLocationsDataStoresServingConfigsResponse,
   DeleteProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresServingConfigsRequest,
   output: DeleteProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22657,7 +22684,7 @@ export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const RecommendProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRecommendRequest,
@@ -22674,7 +22701,7 @@ export const RecommendProjectsLocationsDataStoresServingConfigsRequest =
 export type RecommendProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaRecommendResponse;
 export const RecommendProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaRecommendResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaRecommendResponse;
 
 export type RecommendProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22685,7 +22712,7 @@ export const recommendProjectsLocationsDataStoresServingConfigs: API.OperationMe
   RecommendProjectsLocationsDataStoresServingConfigsResponse,
   RecommendProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecommendProjectsLocationsDataStoresServingConfigsRequest,
   output: RecommendProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22701,7 +22728,7 @@ export interface ListProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const ListProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -22716,7 +22743,7 @@ export const ListProjectsLocationsDataStoresServingConfigsRequest =
 export type ListProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 export const ListProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 
 export type ListProjectsLocationsDataStoresServingConfigsError = DefaultErrors;
 
@@ -22726,7 +22753,7 @@ export const listProjectsLocationsDataStoresServingConfigs: API.PaginatedOperati
   ListProjectsLocationsDataStoresServingConfigsResponse,
   ListProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresServingConfigsRequest,
   output: ListProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22746,7 +22773,7 @@ export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const CreateProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfigId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("servingConfigId"),
     ),
@@ -22766,7 +22793,7 @@ export const CreateProjectsLocationsDataStoresServingConfigsRequest =
 export type CreateProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const CreateProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type CreateProjectsLocationsDataStoresServingConfigsError =
   DefaultErrors;
@@ -22777,7 +22804,7 @@ export const createProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   CreateProjectsLocationsDataStoresServingConfigsResponse,
   CreateProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresServingConfigsRequest,
   output: CreateProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22789,7 +22816,7 @@ export interface GetProjectsLocationsDataStoresServingConfigsRequest {
 }
 
 export const GetProjectsLocationsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -22802,7 +22829,7 @@ export const GetProjectsLocationsDataStoresServingConfigsRequest =
 export type GetProjectsLocationsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const GetProjectsLocationsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type GetProjectsLocationsDataStoresServingConfigsError = DefaultErrors;
 
@@ -22812,7 +22839,7 @@ export const getProjectsLocationsDataStoresServingConfigs: API.OperationMethod<
   GetProjectsLocationsDataStoresServingConfigsResponse,
   GetProjectsLocationsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresServingConfigsRequest,
   output: GetProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -22827,22 +22854,23 @@ export interface ListProjectsLocationsDataStoresSchemasRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsDataStoresSchemasRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataStoresSchemasRequest>;
+export const ListProjectsLocationsDataStoresSchemasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataStoresSchemasRequest>;
 
 export type ListProjectsLocationsDataStoresSchemasResponse =
   GoogleCloudDiscoveryengineV1betaListSchemasResponse;
 export const ListProjectsLocationsDataStoresSchemasResponse =
-  GoogleCloudDiscoveryengineV1betaListSchemasResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSchemasResponse;
 
 export type ListProjectsLocationsDataStoresSchemasError = DefaultErrors;
 
@@ -22852,7 +22880,7 @@ export const listProjectsLocationsDataStoresSchemas: API.PaginatedOperationMetho
   ListProjectsLocationsDataStoresSchemasResponse,
   ListProjectsLocationsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSchemasRequest,
   output: ListProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -22867,20 +22895,21 @@ export interface DeleteProjectsLocationsDataStoresSchemasRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDataStoresSchemasRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresSchemasRequest>;
+export const DeleteProjectsLocationsDataStoresSchemasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresSchemasRequest>;
 
 export type DeleteProjectsLocationsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsDataStoresSchemasError = DefaultErrors;
 
@@ -22890,7 +22919,7 @@ export const deleteProjectsLocationsDataStoresSchemas: API.OperationMethod<
   DeleteProjectsLocationsDataStoresSchemasResponse,
   DeleteProjectsLocationsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSchemasRequest,
   output: DeleteProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -22905,27 +22934,28 @@ export interface PatchProjectsLocationsDataStoresSchemasRequest {
   body?: GoogleCloudDiscoveryengineV1betaSchema;
 }
 
-export const PatchProjectsLocationsDataStoresSchemasRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSchema).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresSchemasRequest>;
+export const PatchProjectsLocationsDataStoresSchemasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSchema).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresSchemasRequest>;
 
 export type PatchProjectsLocationsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsDataStoresSchemasError = DefaultErrors;
 
@@ -22935,7 +22965,7 @@ export const patchProjectsLocationsDataStoresSchemas: API.OperationMethod<
   PatchProjectsLocationsDataStoresSchemasResponse,
   PatchProjectsLocationsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresSchemasRequest,
   output: PatchProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -22950,25 +22980,26 @@ export interface CreateProjectsLocationsDataStoresSchemasRequest {
   body?: GoogleCloudDiscoveryengineV1betaSchema;
 }
 
-export const CreateProjectsLocationsDataStoresSchemasRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  schemaId: Schema.optional(Schema.String).pipe(T.HttpQuery("schemaId")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSchema).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresSchemasRequest>;
+export const CreateProjectsLocationsDataStoresSchemasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    schemaId: Schema.optional(Schema.String).pipe(T.HttpQuery("schemaId")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSchema).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresSchemasRequest>;
 
 export type CreateProjectsLocationsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsDataStoresSchemasError = DefaultErrors;
 
@@ -22978,7 +23009,7 @@ export const createProjectsLocationsDataStoresSchemas: API.OperationMethod<
   CreateProjectsLocationsDataStoresSchemasResponse,
   CreateProjectsLocationsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresSchemasRequest,
   output: CreateProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -22989,20 +23020,21 @@ export interface GetProjectsLocationsDataStoresSchemasRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataStoresSchemasRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresSchemasRequest>;
+export const GetProjectsLocationsDataStoresSchemasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/schemas/{schemasId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresSchemasRequest>;
 
 export type GetProjectsLocationsDataStoresSchemasResponse =
   GoogleCloudDiscoveryengineV1betaSchema;
 export const GetProjectsLocationsDataStoresSchemasResponse =
-  GoogleCloudDiscoveryengineV1betaSchema;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSchema;
 
 export type GetProjectsLocationsDataStoresSchemasError = DefaultErrors;
 
@@ -23012,7 +23044,7 @@ export const getProjectsLocationsDataStoresSchemas: API.OperationMethod<
   GetProjectsLocationsDataStoresSchemasResponse,
   GetProjectsLocationsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresSchemasRequest,
   output: GetProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -23024,7 +23056,7 @@ export interface GetProjectsLocationsDataStoresModelsOperationsRequest {
 }
 
 export const GetProjectsLocationsDataStoresModelsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -23037,7 +23069,7 @@ export const GetProjectsLocationsDataStoresModelsOperationsRequest =
 export type GetProjectsLocationsDataStoresModelsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsDataStoresModelsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsDataStoresModelsOperationsError = DefaultErrors;
 
@@ -23047,7 +23079,7 @@ export const getProjectsLocationsDataStoresModelsOperations: API.OperationMethod
   GetProjectsLocationsDataStoresModelsOperationsResponse,
   GetProjectsLocationsDataStoresModelsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresModelsOperationsRequest,
   output: GetProjectsLocationsDataStoresModelsOperationsResponse,
   errors: [],
@@ -23067,7 +23099,7 @@ export interface ListProjectsLocationsDataStoresModelsOperationsRequest {
 }
 
 export const ListProjectsLocationsDataStoresModelsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
@@ -23086,7 +23118,7 @@ export const ListProjectsLocationsDataStoresModelsOperationsRequest =
 export type ListProjectsLocationsDataStoresModelsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsDataStoresModelsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsDataStoresModelsOperationsError =
   DefaultErrors;
@@ -23097,7 +23129,7 @@ export const listProjectsLocationsDataStoresModelsOperations: API.PaginatedOpera
   ListProjectsLocationsDataStoresModelsOperationsResponse,
   ListProjectsLocationsDataStoresModelsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresModelsOperationsRequest,
   output: ListProjectsLocationsDataStoresModelsOperationsResponse,
   errors: [],
@@ -23115,7 +23147,7 @@ export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesReques
 }
 
 export const PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest,
@@ -23132,7 +23164,7 @@ export const PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest =
 export type PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesError =
   DefaultErrors;
@@ -23143,7 +23175,7 @@ export const purgeProjectsLocationsDataStoresSuggestionDenyListEntries: API.Oper
   PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest,
   output: PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
@@ -23157,7 +23189,7 @@ export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesReque
 }
 
 export const ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest,
@@ -23174,7 +23206,7 @@ export const ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest =
 export type ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsDataStoresSuggestionDenyListEntriesError =
   DefaultErrors;
@@ -23185,7 +23217,7 @@ export const importProjectsLocationsDataStoresSuggestionDenyListEntries: API.Ope
   ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   ImportProjectsLocationsDataStoresSuggestionDenyListEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest,
   output: ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
@@ -23199,7 +23231,7 @@ export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
 }
 
 export const ImportProjectsLocationsDataStoresCompletionSuggestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest,
@@ -23216,7 +23248,7 @@ export const ImportProjectsLocationsDataStoresCompletionSuggestionsRequest =
 export type ImportProjectsLocationsDataStoresCompletionSuggestionsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsDataStoresCompletionSuggestionsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsDataStoresCompletionSuggestionsError =
   DefaultErrors;
@@ -23227,7 +23259,7 @@ export const importProjectsLocationsDataStoresCompletionSuggestions: API.Operati
   ImportProjectsLocationsDataStoresCompletionSuggestionsResponse,
   ImportProjectsLocationsDataStoresCompletionSuggestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsDataStoresCompletionSuggestionsRequest,
   output: ImportProjectsLocationsDataStoresCompletionSuggestionsResponse,
   errors: [],
@@ -23241,7 +23273,7 @@ export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
 }
 
 export const PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest,
@@ -23258,7 +23290,7 @@ export const PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest =
 export type PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsDataStoresCompletionSuggestionsError =
   DefaultErrors;
@@ -23269,7 +23301,7 @@ export const purgeProjectsLocationsDataStoresCompletionSuggestions: API.Operatio
   PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse,
   PurgeProjectsLocationsDataStoresCompletionSuggestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest,
   output: PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse,
   errors: [],
@@ -23283,7 +23315,7 @@ export interface DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchE
 }
 
 export const DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest,
@@ -23300,7 +23332,7 @@ export const DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngin
 export type DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -23311,7 +23343,7 @@ export const disableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngin
   DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse,
   DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest,
   output:
@@ -23327,7 +23359,7 @@ export interface EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEn
 }
 
 export const EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest,
@@ -23344,7 +23376,7 @@ export const EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine
 export type EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -23355,7 +23387,7 @@ export const enableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine
   EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse,
   EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest,
   output:
@@ -23371,7 +23403,7 @@ export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
 }
 
 export const RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest,
@@ -23388,7 +23420,7 @@ export const RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest =
 export type RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -23399,7 +23431,7 @@ export const recrawlUrisProjectsLocationsDataStoresSiteSearchEngine: API.Operati
   RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse,
   RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest,
   output: RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse,
   errors: [],
@@ -23413,7 +23445,7 @@ export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesReq
 }
 
 export const CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaTargetSite).pipe(
       T.HttpBody(),
@@ -23430,7 +23462,7 @@ export const CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest
 export type CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23441,7 +23473,7 @@ export const createProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.O
   CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -23457,7 +23489,7 @@ export interface ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesReque
 }
 
 export const ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -23472,7 +23504,7 @@ export const ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
 export type ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
 export const ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
 
 export type ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23483,7 +23515,7 @@ export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Pag
   ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -23499,7 +23531,7 @@ export interface GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesReques
 }
 
 export const GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -23512,7 +23544,7 @@ export const GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
 export type GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleCloudDiscoveryengineV1betaTargetSite;
 export const GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleCloudDiscoveryengineV1betaTargetSite;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaTargetSite;
 
 export type GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23523,7 +23555,7 @@ export const getProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Oper
   GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -23537,7 +23569,7 @@ export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequ
 }
 
 export const PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaTargetSite).pipe(
       T.HttpBody(),
@@ -23554,7 +23586,7 @@ export const PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest 
 export type PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23565,7 +23597,7 @@ export const patchProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Op
   PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -23577,7 +23609,7 @@ export interface DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesReq
 }
 
 export const DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -23590,7 +23622,7 @@ export const DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23601,7 +23633,7 @@ export const deleteProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.O
   DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -23615,7 +23647,7 @@ export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSit
 }
 
 export const BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest,
@@ -23632,7 +23664,7 @@ export const BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRe
 export type BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -23643,7 +23675,7 @@ export const batchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites: 
   BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -23659,7 +23691,7 @@ export interface FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest
 }
 
 export const FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "matcher.urisMatcher.uris": Schema.optional(
       Schema.Array(Schema.String),
     ).pipe(T.HttpQuery("matcher.urisMatcher.uris")),
@@ -23675,7 +23707,7 @@ export const FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
 export type FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
 export const FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
 
 export type FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -23686,7 +23718,7 @@ export const fetchProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Opera
   FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
@@ -23700,7 +23732,7 @@ export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsReques
 }
 
 export const CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSitemap).pipe(
       T.HttpBody(),
@@ -23717,7 +23749,7 @@ export const CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
 export type CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -23728,7 +23760,7 @@ export const createProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Oper
   CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
@@ -23740,7 +23772,7 @@ export interface DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsReques
 }
 
 export const DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -23753,7 +23785,7 @@ export const DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest =
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -23764,7 +23796,7 @@ export const deleteProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Oper
   DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
@@ -23777,24 +23809,25 @@ export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
   body?: GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest;
 }
 
-export const PurgeProjectsLocationsDataStoresUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:purge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PurgeProjectsLocationsDataStoresUserEventsRequest>;
+export const PurgeProjectsLocationsDataStoresUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:purge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PurgeProjectsLocationsDataStoresUserEventsRequest>;
 
 export type PurgeProjectsLocationsDataStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsDataStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsDataStoresUserEventsError = DefaultErrors;
 
@@ -23804,7 +23837,7 @@ export const purgeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   PurgeProjectsLocationsDataStoresUserEventsResponse,
   PurgeProjectsLocationsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsDataStoresUserEventsRequest,
   output: PurgeProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
@@ -23817,26 +23850,25 @@ export interface ImportProjectsLocationsDataStoresUserEventsRequest {
   body?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequest;
 }
 
-export const ImportProjectsLocationsDataStoresUserEventsRequest = Schema.Struct(
-  {
+export const ImportProjectsLocationsDataStoresUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportUserEventsRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsDataStoresUserEventsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsDataStoresUserEventsRequest>;
 
 export type ImportProjectsLocationsDataStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsDataStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsDataStoresUserEventsError = DefaultErrors;
 
@@ -23846,7 +23878,7 @@ export const importProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   ImportProjectsLocationsDataStoresUserEventsResponse,
   ImportProjectsLocationsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsDataStoresUserEventsRequest,
   output: ImportProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
@@ -23861,25 +23893,26 @@ export interface WriteProjectsLocationsDataStoresUserEventsRequest {
   body?: GoogleCloudDiscoveryengineV1betaUserEvent;
 }
 
-export const WriteProjectsLocationsDataStoresUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:write",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WriteProjectsLocationsDataStoresUserEventsRequest>;
+export const WriteProjectsLocationsDataStoresUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/userEvents:write",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteProjectsLocationsDataStoresUserEventsRequest>;
 
 export type WriteProjectsLocationsDataStoresUserEventsResponse =
   GoogleCloudDiscoveryengineV1betaUserEvent;
 export const WriteProjectsLocationsDataStoresUserEventsResponse =
-  GoogleCloudDiscoveryengineV1betaUserEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserEvent;
 
 export type WriteProjectsLocationsDataStoresUserEventsError = DefaultErrors;
 
@@ -23889,7 +23922,7 @@ export const writeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   WriteProjectsLocationsDataStoresUserEventsResponse,
   WriteProjectsLocationsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsLocationsDataStoresUserEventsRequest,
   output: WriteProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
@@ -23907,7 +23940,7 @@ export interface CollectProjectsLocationsDataStoresUserEventsRequest {
 }
 
 export const CollectProjectsLocationsDataStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     userEvent: Schema.optional(Schema.String).pipe(T.HttpQuery("userEvent")),
     ets: Schema.optional(Schema.String).pipe(T.HttpQuery("ets")),
     uri: Schema.optional(Schema.String).pipe(T.HttpQuery("uri")),
@@ -23923,7 +23956,7 @@ export const CollectProjectsLocationsDataStoresUserEventsRequest =
 export type CollectProjectsLocationsDataStoresUserEventsResponse =
   GoogleApiHttpBody;
 export const CollectProjectsLocationsDataStoresUserEventsResponse =
-  GoogleApiHttpBody;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleApiHttpBody;
 
 export type CollectProjectsLocationsDataStoresUserEventsError = DefaultErrors;
 
@@ -23933,7 +23966,7 @@ export const collectProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   CollectProjectsLocationsDataStoresUserEventsResponse,
   CollectProjectsLocationsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CollectProjectsLocationsDataStoresUserEventsRequest,
   output: CollectProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
@@ -23952,24 +23985,25 @@ export interface ListProjectsLocationsDataStoresSessionsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsDataStoresSessionsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataStoresSessionsRequest>;
+export const ListProjectsLocationsDataStoresSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataStoresSessionsRequest>;
 
 export type ListProjectsLocationsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 export const ListProjectsLocationsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaListSessionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 
 export type ListProjectsLocationsDataStoresSessionsError = DefaultErrors;
 
@@ -23979,7 +24013,7 @@ export const listProjectsLocationsDataStoresSessions: API.PaginatedOperationMeth
   ListProjectsLocationsDataStoresSessionsResponse,
   ListProjectsLocationsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSessionsRequest,
   output: ListProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -23994,20 +24028,21 @@ export interface DeleteProjectsLocationsDataStoresSessionsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDataStoresSessionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresSessionsRequest>;
+export const DeleteProjectsLocationsDataStoresSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresSessionsRequest>;
 
 export type DeleteProjectsLocationsDataStoresSessionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDataStoresSessionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDataStoresSessionsError = DefaultErrors;
 
@@ -24017,7 +24052,7 @@ export const deleteProjectsLocationsDataStoresSessions: API.OperationMethod<
   DeleteProjectsLocationsDataStoresSessionsResponse,
   DeleteProjectsLocationsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSessionsRequest,
   output: DeleteProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -24030,24 +24065,25 @@ export interface CreateProjectsLocationsDataStoresSessionsRequest {
   body?: GoogleCloudDiscoveryengineV1betaSession;
 }
 
-export const CreateProjectsLocationsDataStoresSessionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresSessionsRequest>;
+export const CreateProjectsLocationsDataStoresSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresSessionsRequest>;
 
 export type CreateProjectsLocationsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const CreateProjectsLocationsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type CreateProjectsLocationsDataStoresSessionsError = DefaultErrors;
 
@@ -24057,7 +24093,7 @@ export const createProjectsLocationsDataStoresSessions: API.OperationMethod<
   CreateProjectsLocationsDataStoresSessionsResponse,
   CreateProjectsLocationsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresSessionsRequest,
   output: CreateProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -24072,25 +24108,26 @@ export interface PatchProjectsLocationsDataStoresSessionsRequest {
   body?: GoogleCloudDiscoveryengineV1betaSession;
 }
 
-export const PatchProjectsLocationsDataStoresSessionsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresSessionsRequest>;
+export const PatchProjectsLocationsDataStoresSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresSessionsRequest>;
 
 export type PatchProjectsLocationsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const PatchProjectsLocationsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type PatchProjectsLocationsDataStoresSessionsError = DefaultErrors;
 
@@ -24100,7 +24137,7 @@ export const patchProjectsLocationsDataStoresSessions: API.OperationMethod<
   PatchProjectsLocationsDataStoresSessionsResponse,
   PatchProjectsLocationsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresSessionsRequest,
   output: PatchProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -24113,23 +24150,24 @@ export interface GetProjectsLocationsDataStoresSessionsRequest {
   includeAnswerDetails?: boolean;
 }
 
-export const GetProjectsLocationsDataStoresSessionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  includeAnswerDetails: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeAnswerDetails"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresSessionsRequest>;
+export const GetProjectsLocationsDataStoresSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    includeAnswerDetails: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeAnswerDetails"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/sessions/{sessionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresSessionsRequest>;
 
 export type GetProjectsLocationsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const GetProjectsLocationsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type GetProjectsLocationsDataStoresSessionsError = DefaultErrors;
 
@@ -24139,7 +24177,7 @@ export const getProjectsLocationsDataStoresSessions: API.OperationMethod<
   GetProjectsLocationsDataStoresSessionsResponse,
   GetProjectsLocationsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresSessionsRequest,
   output: GetProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -24151,7 +24189,7 @@ export interface GetProjectsLocationsDataStoresSessionsAnswersRequest {
 }
 
 export const GetProjectsLocationsDataStoresSessionsAnswersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -24164,7 +24202,7 @@ export const GetProjectsLocationsDataStoresSessionsAnswersRequest =
 export type GetProjectsLocationsDataStoresSessionsAnswersResponse =
   GoogleCloudDiscoveryengineV1betaAnswer;
 export const GetProjectsLocationsDataStoresSessionsAnswersResponse =
-  GoogleCloudDiscoveryengineV1betaAnswer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswer;
 
 export type GetProjectsLocationsDataStoresSessionsAnswersError = DefaultErrors;
 
@@ -24174,7 +24212,7 @@ export const getProjectsLocationsDataStoresSessionsAnswers: API.OperationMethod<
   GetProjectsLocationsDataStoresSessionsAnswersResponse,
   GetProjectsLocationsDataStoresSessionsAnswersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresSessionsAnswersRequest,
   output: GetProjectsLocationsDataStoresSessionsAnswersResponse,
   errors: [],
@@ -24185,20 +24223,21 @@ export interface GetProjectsLocationsDataStoresOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataStoresOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresOperationsRequest>;
+export const GetProjectsLocationsDataStoresOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresOperationsRequest>;
 
 export type GetProjectsLocationsDataStoresOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsDataStoresOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsDataStoresOperationsError = DefaultErrors;
 
@@ -24208,7 +24247,7 @@ export const getProjectsLocationsDataStoresOperations: API.OperationMethod<
   GetProjectsLocationsDataStoresOperationsResponse,
   GetProjectsLocationsDataStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresOperationsRequest,
   output: GetProjectsLocationsDataStoresOperationsResponse,
   errors: [],
@@ -24227,26 +24266,27 @@ export interface ListProjectsLocationsDataStoresOperationsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsDataStoresOperationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataStoresOperationsRequest>;
+export const ListProjectsLocationsDataStoresOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataStoresOperationsRequest>;
 
 export type ListProjectsLocationsDataStoresOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsDataStoresOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsDataStoresOperationsError = DefaultErrors;
 
@@ -24256,7 +24296,7 @@ export const listProjectsLocationsDataStoresOperations: API.PaginatedOperationMe
   ListProjectsLocationsDataStoresOperationsResponse,
   ListProjectsLocationsDataStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresOperationsRequest,
   output: ListProjectsLocationsDataStoresOperationsResponse,
   errors: [],
@@ -24280,7 +24320,7 @@ export interface ListProjectsLocationsDataStoresConversationsRequest {
 }
 
 export const ListProjectsLocationsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -24297,7 +24337,7 @@ export const ListProjectsLocationsDataStoresConversationsRequest =
 export type ListProjectsLocationsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 export const ListProjectsLocationsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 
 export type ListProjectsLocationsDataStoresConversationsError = DefaultErrors;
 
@@ -24307,7 +24347,7 @@ export const listProjectsLocationsDataStoresConversations: API.PaginatedOperatio
   ListProjectsLocationsDataStoresConversationsResponse,
   ListProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresConversationsRequest,
   output: ListProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24323,7 +24363,7 @@ export interface DeleteProjectsLocationsDataStoresConversationsRequest {
 }
 
 export const DeleteProjectsLocationsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -24336,7 +24376,7 @@ export const DeleteProjectsLocationsDataStoresConversationsRequest =
 export type DeleteProjectsLocationsDataStoresConversationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDataStoresConversationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDataStoresConversationsError = DefaultErrors;
 
@@ -24346,7 +24386,7 @@ export const deleteProjectsLocationsDataStoresConversations: API.OperationMethod
   DeleteProjectsLocationsDataStoresConversationsResponse,
   DeleteProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresConversationsRequest,
   output: DeleteProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24360,7 +24400,7 @@ export interface CreateProjectsLocationsDataStoresConversationsRequest {
 }
 
 export const CreateProjectsLocationsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
       T.HttpBody(),
@@ -24377,7 +24417,7 @@ export const CreateProjectsLocationsDataStoresConversationsRequest =
 export type CreateProjectsLocationsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const CreateProjectsLocationsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type CreateProjectsLocationsDataStoresConversationsError = DefaultErrors;
 
@@ -24387,7 +24427,7 @@ export const createProjectsLocationsDataStoresConversations: API.OperationMethod
   CreateProjectsLocationsDataStoresConversationsResponse,
   CreateProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresConversationsRequest,
   output: CreateProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24403,7 +24443,7 @@ export interface PatchProjectsLocationsDataStoresConversationsRequest {
 }
 
 export const PatchProjectsLocationsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
@@ -24421,7 +24461,7 @@ export const PatchProjectsLocationsDataStoresConversationsRequest =
 export type PatchProjectsLocationsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const PatchProjectsLocationsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type PatchProjectsLocationsDataStoresConversationsError = DefaultErrors;
 
@@ -24431,7 +24471,7 @@ export const patchProjectsLocationsDataStoresConversations: API.OperationMethod<
   PatchProjectsLocationsDataStoresConversationsResponse,
   PatchProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresConversationsRequest,
   output: PatchProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24442,22 +24482,21 @@ export interface GetProjectsLocationsDataStoresConversationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataStoresConversationsRequest = Schema.Struct(
-  {
+export const GetProjectsLocationsDataStoresConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresConversationsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresConversationsRequest>;
 
 export type GetProjectsLocationsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const GetProjectsLocationsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type GetProjectsLocationsDataStoresConversationsError = DefaultErrors;
 
@@ -24467,7 +24506,7 @@ export const getProjectsLocationsDataStoresConversations: API.OperationMethod<
   GetProjectsLocationsDataStoresConversationsResponse,
   GetProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresConversationsRequest,
   output: GetProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24481,7 +24520,7 @@ export interface ConverseProjectsLocationsDataStoresConversationsRequest {
 }
 
 export const ConverseProjectsLocationsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaConverseConversationRequest,
@@ -24498,7 +24537,7 @@ export const ConverseProjectsLocationsDataStoresConversationsRequest =
 export type ConverseProjectsLocationsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 export const ConverseProjectsLocationsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 
 export type ConverseProjectsLocationsDataStoresConversationsError =
   DefaultErrors;
@@ -24509,7 +24548,7 @@ export const converseProjectsLocationsDataStoresConversations: API.OperationMeth
   ConverseProjectsLocationsDataStoresConversationsResponse,
   ConverseProjectsLocationsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseProjectsLocationsDataStoresConversationsRequest,
   output: ConverseProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -24520,20 +24559,21 @@ export interface GetProjectsLocationsDataStoresControlsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataStoresControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataStoresControlsRequest>;
+export const GetProjectsLocationsDataStoresControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataStoresControlsRequest>;
 
 export type GetProjectsLocationsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const GetProjectsLocationsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type GetProjectsLocationsDataStoresControlsError = DefaultErrors;
 
@@ -24543,7 +24583,7 @@ export const getProjectsLocationsDataStoresControls: API.OperationMethod<
   GetProjectsLocationsDataStoresControlsResponse,
   GetProjectsLocationsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresControlsRequest,
   output: GetProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -24554,20 +24594,21 @@ export interface DeleteProjectsLocationsDataStoresControlsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDataStoresControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresControlsRequest>;
+export const DeleteProjectsLocationsDataStoresControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDataStoresControlsRequest>;
 
 export type DeleteProjectsLocationsDataStoresControlsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDataStoresControlsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDataStoresControlsError = DefaultErrors;
 
@@ -24577,7 +24618,7 @@ export const deleteProjectsLocationsDataStoresControls: API.OperationMethod<
   DeleteProjectsLocationsDataStoresControlsResponse,
   DeleteProjectsLocationsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresControlsRequest,
   output: DeleteProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -24594,23 +24635,24 @@ export interface ListProjectsLocationsDataStoresControlsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsDataStoresControlsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataStoresControlsRequest>;
+export const ListProjectsLocationsDataStoresControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataStoresControlsRequest>;
 
 export type ListProjectsLocationsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaListControlsResponse;
 export const ListProjectsLocationsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaListControlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListControlsResponse;
 
 export type ListProjectsLocationsDataStoresControlsError = DefaultErrors;
 
@@ -24620,7 +24662,7 @@ export const listProjectsLocationsDataStoresControls: API.PaginatedOperationMeth
   ListProjectsLocationsDataStoresControlsResponse,
   ListProjectsLocationsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresControlsRequest,
   output: ListProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -24639,25 +24681,26 @@ export interface CreateProjectsLocationsDataStoresControlsRequest {
   body?: GoogleCloudDiscoveryengineV1betaControl;
 }
 
-export const CreateProjectsLocationsDataStoresControlsRequest = Schema.Struct({
-  controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresControlsRequest>;
+export const CreateProjectsLocationsDataStoresControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDataStoresControlsRequest>;
 
 export type CreateProjectsLocationsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const CreateProjectsLocationsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type CreateProjectsLocationsDataStoresControlsError = DefaultErrors;
 
@@ -24667,7 +24710,7 @@ export const createProjectsLocationsDataStoresControls: API.OperationMethod<
   CreateProjectsLocationsDataStoresControlsResponse,
   CreateProjectsLocationsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresControlsRequest,
   output: CreateProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -24682,25 +24725,26 @@ export interface PatchProjectsLocationsDataStoresControlsRequest {
   body?: GoogleCloudDiscoveryengineV1betaControl;
 }
 
-export const PatchProjectsLocationsDataStoresControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresControlsRequest>;
+export const PatchProjectsLocationsDataStoresControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/dataStores/{dataStoresId}/controls/{controlsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDataStoresControlsRequest>;
 
 export type PatchProjectsLocationsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const PatchProjectsLocationsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type PatchProjectsLocationsDataStoresControlsError = DefaultErrors;
 
@@ -24710,7 +24754,7 @@ export const patchProjectsLocationsDataStoresControls: API.OperationMethod<
   PatchProjectsLocationsDataStoresControlsResponse,
   PatchProjectsLocationsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresControlsRequest,
   output: PatchProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -24726,7 +24770,7 @@ export interface BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesReq
 }
 
 export const BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "matcher.fhirMatcher.fhirResources": Schema.optional(
       Schema.Array(Schema.String),
     ).pipe(T.HttpQuery("matcher.fhirMatcher.fhirResources")),
@@ -24745,7 +24789,7 @@ export const BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest
 export type BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse =
   GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
 export const BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse =
-  GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
 
 export type BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesError =
   DefaultErrors;
@@ -24756,7 +24800,7 @@ export const batchGetDocumentsMetadataProjectsLocationsDataStoresBranches: API.O
   BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse,
   BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest,
   output: BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse,
   errors: [],
@@ -24768,7 +24812,7 @@ export interface DeleteProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const DeleteProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -24781,7 +24825,7 @@ export const DeleteProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type DeleteProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -24792,7 +24836,7 @@ export const deleteProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   DeleteProjectsLocationsDataStoresBranchesDocumentsResponse,
   DeleteProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: DeleteProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -24806,7 +24850,7 @@ export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const PurgeProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest,
@@ -24823,7 +24867,7 @@ export const PurgeProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type PurgeProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -24834,7 +24878,7 @@ export const purgeProjectsLocationsDataStoresBranchesDocuments: API.OperationMet
   PurgeProjectsLocationsDataStoresBranchesDocumentsResponse,
   PurgeProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: PurgeProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -24852,7 +24896,7 @@ export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const PatchProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     allowMissing: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("allowMissing"),
     ),
@@ -24873,7 +24917,7 @@ export const PatchProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type PatchProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const PatchProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type PatchProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -24884,7 +24928,7 @@ export const patchProjectsLocationsDataStoresBranchesDocuments: API.OperationMet
   PatchProjectsLocationsDataStoresBranchesDocumentsResponse,
   PatchProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: PatchProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -24896,7 +24940,7 @@ export interface GetProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const GetProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -24909,7 +24953,7 @@ export const GetProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type GetProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const GetProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type GetProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -24920,7 +24964,7 @@ export const getProjectsLocationsDataStoresBranchesDocuments: API.OperationMetho
   GetProjectsLocationsDataStoresBranchesDocumentsResponse,
   GetProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: GetProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -24936,7 +24980,7 @@ export interface ListProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const ListProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -24951,7 +24995,7 @@ export const ListProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type ListProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
 export const ListProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
 
 export type ListProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -24962,7 +25006,7 @@ export const listProjectsLocationsDataStoresBranchesDocuments: API.PaginatedOper
   ListProjectsLocationsDataStoresBranchesDocumentsResponse,
   ListProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: ListProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -24980,7 +25024,7 @@ export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const ImportProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportDocumentsRequest,
@@ -24997,7 +25041,7 @@ export const ImportProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type ImportProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -25008,7 +25052,7 @@ export const importProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   ImportProjectsLocationsDataStoresBranchesDocumentsResponse,
   ImportProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: ImportProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -25024,7 +25068,7 @@ export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
 }
 
 export const CreateProjectsLocationsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     documentId: Schema.optional(Schema.String).pipe(T.HttpQuery("documentId")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaDocument).pipe(
@@ -25042,7 +25086,7 @@ export const CreateProjectsLocationsDataStoresBranchesDocumentsRequest =
 export type CreateProjectsLocationsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const CreateProjectsLocationsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type CreateProjectsLocationsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -25053,7 +25097,7 @@ export const createProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   CreateProjectsLocationsDataStoresBranchesDocumentsResponse,
   CreateProjectsLocationsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: CreateProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -25073,7 +25117,7 @@ export interface ListProjectsLocationsDataStoresBranchesOperationsRequest {
 }
 
 export const ListProjectsLocationsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
     ),
@@ -25092,7 +25136,7 @@ export const ListProjectsLocationsDataStoresBranchesOperationsRequest =
 export type ListProjectsLocationsDataStoresBranchesOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsDataStoresBranchesOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -25103,7 +25147,7 @@ export const listProjectsLocationsDataStoresBranchesOperations: API.PaginatedOpe
   ListProjectsLocationsDataStoresBranchesOperationsResponse,
   ListProjectsLocationsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresBranchesOperationsRequest,
   output: ListProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -25119,7 +25163,7 @@ export interface GetProjectsLocationsDataStoresBranchesOperationsRequest {
 }
 
 export const GetProjectsLocationsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -25132,7 +25176,7 @@ export const GetProjectsLocationsDataStoresBranchesOperationsRequest =
 export type GetProjectsLocationsDataStoresBranchesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsDataStoresBranchesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -25143,7 +25187,7 @@ export const getProjectsLocationsDataStoresBranchesOperations: API.OperationMeth
   GetProjectsLocationsDataStoresBranchesOperationsResponse,
   GetProjectsLocationsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataStoresBranchesOperationsRequest,
   output: GetProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -25157,7 +25201,7 @@ export interface CancelProjectsLocationsDataStoresBranchesOperationsRequest {
 }
 
 export const CancelProjectsLocationsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
       T.HttpBody(),
@@ -25174,7 +25218,7 @@ export const CancelProjectsLocationsDataStoresBranchesOperationsRequest =
 export type CancelProjectsLocationsDataStoresBranchesOperationsResponse =
   GoogleProtobufEmpty;
 export const CancelProjectsLocationsDataStoresBranchesOperationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -25185,7 +25229,7 @@ export const cancelProjectsLocationsDataStoresBranchesOperations: API.OperationM
   CancelProjectsLocationsDataStoresBranchesOperationsResponse,
   CancelProjectsLocationsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsDataStoresBranchesOperationsRequest,
   output: CancelProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -25196,20 +25240,21 @@ export interface ListProjectsLocationsCmekConfigsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsCmekConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCmekConfigsRequest>;
+export const ListProjectsLocationsCmekConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCmekConfigsRequest>;
 
 export type ListProjectsLocationsCmekConfigsResponse =
   GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse;
 export const ListProjectsLocationsCmekConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse;
 
 export type ListProjectsLocationsCmekConfigsError = DefaultErrors;
 
@@ -25219,7 +25264,7 @@ export const listProjectsLocationsCmekConfigs: API.OperationMethod<
   ListProjectsLocationsCmekConfigsResponse,
   ListProjectsLocationsCmekConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsCmekConfigsRequest,
   output: ListProjectsLocationsCmekConfigsResponse,
   errors: [],
@@ -25230,20 +25275,21 @@ export interface DeleteProjectsLocationsCmekConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCmekConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCmekConfigsRequest>;
+export const DeleteProjectsLocationsCmekConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCmekConfigsRequest>;
 
 export type DeleteProjectsLocationsCmekConfigsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCmekConfigsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCmekConfigsError = DefaultErrors;
 
@@ -25253,7 +25299,7 @@ export const deleteProjectsLocationsCmekConfigs: API.OperationMethod<
   DeleteProjectsLocationsCmekConfigsResponse,
   DeleteProjectsLocationsCmekConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCmekConfigsRequest,
   output: DeleteProjectsLocationsCmekConfigsResponse,
   errors: [],
@@ -25268,25 +25314,26 @@ export interface PatchProjectsLocationsCmekConfigsRequest {
   body?: GoogleCloudDiscoveryengineV1betaCmekConfig;
 }
 
-export const PatchProjectsLocationsCmekConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  setDefault: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("setDefault")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaCmekConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCmekConfigsRequest>;
+export const PatchProjectsLocationsCmekConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    setDefault: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("setDefault")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaCmekConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCmekConfigsRequest>;
 
 export type PatchProjectsLocationsCmekConfigsResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsCmekConfigsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsCmekConfigsError = DefaultErrors;
 
@@ -25296,7 +25343,7 @@ export const patchProjectsLocationsCmekConfigs: API.OperationMethod<
   PatchProjectsLocationsCmekConfigsResponse,
   PatchProjectsLocationsCmekConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCmekConfigsRequest,
   output: PatchProjectsLocationsCmekConfigsResponse,
   errors: [],
@@ -25307,20 +25354,21 @@ export interface GetProjectsLocationsCmekConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCmekConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCmekConfigsRequest>;
+export const GetProjectsLocationsCmekConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/cmekConfigs/{cmekConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCmekConfigsRequest>;
 
 export type GetProjectsLocationsCmekConfigsResponse =
   GoogleCloudDiscoveryengineV1betaCmekConfig;
 export const GetProjectsLocationsCmekConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaCmekConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaCmekConfig;
 
 export type GetProjectsLocationsCmekConfigsError = DefaultErrors;
 
@@ -25330,7 +25378,7 @@ export const getProjectsLocationsCmekConfigs: API.OperationMethod<
   GetProjectsLocationsCmekConfigsResponse,
   GetProjectsLocationsCmekConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCmekConfigsRequest,
   output: GetProjectsLocationsCmekConfigsResponse,
   errors: [],
@@ -25344,7 +25392,7 @@ export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresReq
 }
 
 export const ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     identityMappingStore: Schema.String.pipe(
       T.HttpPath("identityMappingStore"),
     ),
@@ -25363,7 +25411,7 @@ export const ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest
 export type ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
   GoogleLongrunningOperation;
 export const ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportIdentityMappingsProjectsLocationsIdentityMappingStoresError =
   DefaultErrors;
@@ -25374,7 +25422,7 @@ export const importIdentityMappingsProjectsLocationsIdentityMappingStores: API.O
   ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   ImportIdentityMappingsProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25394,7 +25442,7 @@ export interface CreateProjectsLocationsIdentityMappingStoresRequest {
 }
 
 export const CreateProjectsLocationsIdentityMappingStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     disableCmek: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("disableCmek"),
     ),
@@ -25420,7 +25468,7 @@ export const CreateProjectsLocationsIdentityMappingStoresRequest =
 export type CreateProjectsLocationsIdentityMappingStoresResponse =
   GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
 export const CreateProjectsLocationsIdentityMappingStoresResponse =
-  GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
 
 export type CreateProjectsLocationsIdentityMappingStoresError = DefaultErrors;
 
@@ -25430,7 +25478,7 @@ export const createProjectsLocationsIdentityMappingStores: API.OperationMethod<
   CreateProjectsLocationsIdentityMappingStoresResponse,
   CreateProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsIdentityMappingStoresRequest,
   output: CreateProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25441,20 +25489,21 @@ export interface GetProjectsLocationsIdentityMappingStoresRequest {
   name: string;
 }
 
-export const GetProjectsLocationsIdentityMappingStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/identityMappingStores/{identityMappingStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsIdentityMappingStoresRequest>;
+export const GetProjectsLocationsIdentityMappingStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/identityMappingStores/{identityMappingStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsIdentityMappingStoresRequest>;
 
 export type GetProjectsLocationsIdentityMappingStoresResponse =
   GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
 export const GetProjectsLocationsIdentityMappingStoresResponse =
-  GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaIdentityMappingStore;
 
 export type GetProjectsLocationsIdentityMappingStoresError = DefaultErrors;
 
@@ -25464,7 +25513,7 @@ export const getProjectsLocationsIdentityMappingStores: API.OperationMethod<
   GetProjectsLocationsIdentityMappingStoresResponse,
   GetProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIdentityMappingStoresRequest,
   output: GetProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25478,7 +25527,7 @@ export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequ
 }
 
 export const PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     identityMappingStore: Schema.String.pipe(
       T.HttpPath("identityMappingStore"),
     ),
@@ -25497,7 +25546,7 @@ export const PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest 
 export type PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
   GoogleLongrunningOperation;
 export const PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresError =
   DefaultErrors;
@@ -25508,7 +25557,7 @@ export const purgeIdentityMappingsProjectsLocationsIdentityMappingStores: API.Op
   PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25520,7 +25569,7 @@ export interface DeleteProjectsLocationsIdentityMappingStoresRequest {
 }
 
 export const DeleteProjectsLocationsIdentityMappingStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -25533,7 +25582,7 @@ export const DeleteProjectsLocationsIdentityMappingStoresRequest =
 export type DeleteProjectsLocationsIdentityMappingStoresResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsIdentityMappingStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsIdentityMappingStoresError = DefaultErrors;
 
@@ -25543,7 +25592,7 @@ export const deleteProjectsLocationsIdentityMappingStores: API.OperationMethod<
   DeleteProjectsLocationsIdentityMappingStoresResponse,
   DeleteProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIdentityMappingStoresRequest,
   output: DeleteProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25559,7 +25608,7 @@ export interface ListIdentityMappingsProjectsLocationsIdentityMappingStoresReque
 }
 
 export const ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     identityMappingStore: Schema.String.pipe(
       T.HttpPath("identityMappingStore"),
     ),
@@ -25576,7 +25625,7 @@ export const ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest =
 export type ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
   GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse;
 export const ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse =
-  GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse;
 
 export type ListIdentityMappingsProjectsLocationsIdentityMappingStoresError =
   DefaultErrors;
@@ -25587,7 +25636,7 @@ export const listIdentityMappingsProjectsLocationsIdentityMappingStores: API.Pag
   ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   ListIdentityMappingsProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25606,22 +25655,23 @@ export interface ListProjectsLocationsIdentityMappingStoresRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsIdentityMappingStoresRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/identityMappingStores",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIdentityMappingStoresRequest>;
+export const ListProjectsLocationsIdentityMappingStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/identityMappingStores",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIdentityMappingStoresRequest>;
 
 export type ListProjectsLocationsIdentityMappingStoresResponse =
   GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse;
 export const ListProjectsLocationsIdentityMappingStoresResponse =
-  GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse;
 
 export type ListProjectsLocationsIdentityMappingStoresError = DefaultErrors;
 
@@ -25631,7 +25681,7 @@ export const listProjectsLocationsIdentityMappingStores: API.PaginatedOperationM
   ListProjectsLocationsIdentityMappingStoresResponse,
   ListProjectsLocationsIdentityMappingStoresError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIdentityMappingStoresRequest,
   output: ListProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -25655,7 +25705,7 @@ export interface ListProjectsLocationsIdentityMappingStoresOperationsRequest {
 }
 
 export const ListProjectsLocationsIdentityMappingStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
@@ -25674,7 +25724,7 @@ export const ListProjectsLocationsIdentityMappingStoresOperationsRequest =
 export type ListProjectsLocationsIdentityMappingStoresOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsIdentityMappingStoresOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsIdentityMappingStoresOperationsError =
   DefaultErrors;
@@ -25685,7 +25735,7 @@ export const listProjectsLocationsIdentityMappingStoresOperations: API.Paginated
   ListProjectsLocationsIdentityMappingStoresOperationsResponse,
   ListProjectsLocationsIdentityMappingStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIdentityMappingStoresOperationsRequest,
   output: ListProjectsLocationsIdentityMappingStoresOperationsResponse,
   errors: [],
@@ -25701,7 +25751,7 @@ export interface GetProjectsLocationsIdentityMappingStoresOperationsRequest {
 }
 
 export const GetProjectsLocationsIdentityMappingStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -25714,7 +25764,7 @@ export const GetProjectsLocationsIdentityMappingStoresOperationsRequest =
 export type GetProjectsLocationsIdentityMappingStoresOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsIdentityMappingStoresOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsIdentityMappingStoresOperationsError =
   DefaultErrors;
@@ -25725,7 +25775,7 @@ export const getProjectsLocationsIdentityMappingStoresOperations: API.OperationM
   GetProjectsLocationsIdentityMappingStoresOperationsResponse,
   GetProjectsLocationsIdentityMappingStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIdentityMappingStoresOperationsRequest,
   output: GetProjectsLocationsIdentityMappingStoresOperationsResponse,
   errors: [],
@@ -25740,25 +25790,26 @@ export interface PatchProjectsLocationsSampleQuerySetsRequest {
   body?: GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 }
 
-export const PatchProjectsLocationsSampleQuerySetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSampleQuerySet).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsSampleQuerySetsRequest>;
+export const PatchProjectsLocationsSampleQuerySetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSampleQuerySet).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsSampleQuerySetsRequest>;
 
 export type PatchProjectsLocationsSampleQuerySetsResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 export const PatchProjectsLocationsSampleQuerySetsResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuerySet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 
 export type PatchProjectsLocationsSampleQuerySetsError = DefaultErrors;
 
@@ -25768,7 +25819,7 @@ export const patchProjectsLocationsSampleQuerySets: API.OperationMethod<
   PatchProjectsLocationsSampleQuerySetsResponse,
   PatchProjectsLocationsSampleQuerySetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsSampleQuerySetsRequest,
   output: PatchProjectsLocationsSampleQuerySetsResponse,
   errors: [],
@@ -25783,22 +25834,23 @@ export interface ListProjectsLocationsSampleQuerySetsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsSampleQuerySetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsSampleQuerySetsRequest>;
+export const ListProjectsLocationsSampleQuerySetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsSampleQuerySetsRequest>;
 
 export type ListProjectsLocationsSampleQuerySetsResponse =
   GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse;
 export const ListProjectsLocationsSampleQuerySetsResponse =
-  GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse;
 
 export type ListProjectsLocationsSampleQuerySetsError = DefaultErrors;
 
@@ -25808,7 +25860,7 @@ export const listProjectsLocationsSampleQuerySets: API.PaginatedOperationMethod<
   ListProjectsLocationsSampleQuerySetsResponse,
   ListProjectsLocationsSampleQuerySetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsSampleQuerySetsRequest,
   output: ListProjectsLocationsSampleQuerySetsResponse,
   errors: [],
@@ -25827,27 +25879,28 @@ export interface CreateProjectsLocationsSampleQuerySetsRequest {
   body?: GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 }
 
-export const CreateProjectsLocationsSampleQuerySetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  sampleQuerySetId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("sampleQuerySetId"),
-  ),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaSampleQuerySet).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsSampleQuerySetsRequest>;
+export const CreateProjectsLocationsSampleQuerySetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    sampleQuerySetId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("sampleQuerySetId"),
+    ),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaSampleQuerySet).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsSampleQuerySetsRequest>;
 
 export type CreateProjectsLocationsSampleQuerySetsResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 export const CreateProjectsLocationsSampleQuerySetsResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuerySet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 
 export type CreateProjectsLocationsSampleQuerySetsError = DefaultErrors;
 
@@ -25857,7 +25910,7 @@ export const createProjectsLocationsSampleQuerySets: API.OperationMethod<
   CreateProjectsLocationsSampleQuerySetsResponse,
   CreateProjectsLocationsSampleQuerySetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSampleQuerySetsRequest,
   output: CreateProjectsLocationsSampleQuerySetsResponse,
   errors: [],
@@ -25868,20 +25921,21 @@ export interface GetProjectsLocationsSampleQuerySetsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsSampleQuerySetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsSampleQuerySetsRequest>;
+export const GetProjectsLocationsSampleQuerySetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsSampleQuerySetsRequest>;
 
 export type GetProjectsLocationsSampleQuerySetsResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 export const GetProjectsLocationsSampleQuerySetsResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuerySet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuerySet;
 
 export type GetProjectsLocationsSampleQuerySetsError = DefaultErrors;
 
@@ -25891,7 +25945,7 @@ export const getProjectsLocationsSampleQuerySets: API.OperationMethod<
   GetProjectsLocationsSampleQuerySetsResponse,
   GetProjectsLocationsSampleQuerySetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSampleQuerySetsRequest,
   output: GetProjectsLocationsSampleQuerySetsResponse,
   errors: [],
@@ -25902,20 +25956,21 @@ export interface DeleteProjectsLocationsSampleQuerySetsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsSampleQuerySetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsSampleQuerySetsRequest>;
+export const DeleteProjectsLocationsSampleQuerySetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/sampleQuerySets/{sampleQuerySetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsSampleQuerySetsRequest>;
 
 export type DeleteProjectsLocationsSampleQuerySetsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsSampleQuerySetsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSampleQuerySetsError = DefaultErrors;
 
@@ -25925,7 +25980,7 @@ export const deleteProjectsLocationsSampleQuerySets: API.OperationMethod<
   DeleteProjectsLocationsSampleQuerySetsResponse,
   DeleteProjectsLocationsSampleQuerySetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSampleQuerySetsRequest,
   output: DeleteProjectsLocationsSampleQuerySetsResponse,
   errors: [],
@@ -25937,7 +25992,7 @@ export interface GetProjectsLocationsSampleQuerySetsOperationsRequest {
 }
 
 export const GetProjectsLocationsSampleQuerySetsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -25950,7 +26005,7 @@ export const GetProjectsLocationsSampleQuerySetsOperationsRequest =
 export type GetProjectsLocationsSampleQuerySetsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsSampleQuerySetsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsSampleQuerySetsOperationsError = DefaultErrors;
 
@@ -25960,7 +26015,7 @@ export const getProjectsLocationsSampleQuerySetsOperations: API.OperationMethod<
   GetProjectsLocationsSampleQuerySetsOperationsResponse,
   GetProjectsLocationsSampleQuerySetsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSampleQuerySetsOperationsRequest,
   output: GetProjectsLocationsSampleQuerySetsOperationsResponse,
   errors: [],
@@ -25974,7 +26029,7 @@ export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest,
@@ -25991,7 +26046,7 @@ export const ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type ImportProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26002,7 +26057,7 @@ export const importProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   ImportProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   ImportProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: ImportProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26014,7 +26069,7 @@ export interface DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -26027,7 +26082,7 @@ export const DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type DeleteProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26038,7 +26093,7 @@ export const deleteProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   DeleteProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   DeleteProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: DeleteProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26054,7 +26109,7 @@ export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     sampleQueryId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("sampleQueryId"),
@@ -26074,7 +26129,7 @@ export const CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type CreateProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuery;
 export const CreateProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuery;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuery;
 
 export type CreateProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26085,7 +26140,7 @@ export const createProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   CreateProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   CreateProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: CreateProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26101,7 +26156,7 @@ export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSampleQuery).pipe(
@@ -26119,7 +26174,7 @@ export const PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type PatchProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuery;
 export const PatchProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuery;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuery;
 
 export type PatchProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26130,7 +26185,7 @@ export const patchProjectsLocationsSampleQuerySetsSampleQueries: API.OperationMe
   PatchProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   PatchProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: PatchProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26146,7 +26201,7 @@ export interface ListProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const ListProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -26161,7 +26216,7 @@ export const ListProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type ListProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse;
 export const ListProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse;
 
 export type ListProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26172,7 +26227,7 @@ export const listProjectsLocationsSampleQuerySetsSampleQueries: API.PaginatedOpe
   ListProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   ListProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: ListProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26188,7 +26243,7 @@ export interface GetProjectsLocationsSampleQuerySetsSampleQueriesRequest {
 }
 
 export const GetProjectsLocationsSampleQuerySetsSampleQueriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -26201,7 +26256,7 @@ export const GetProjectsLocationsSampleQuerySetsSampleQueriesRequest =
 export type GetProjectsLocationsSampleQuerySetsSampleQueriesResponse =
   GoogleCloudDiscoveryengineV1betaSampleQuery;
 export const GetProjectsLocationsSampleQuerySetsSampleQueriesResponse =
-  GoogleCloudDiscoveryengineV1betaSampleQuery;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSampleQuery;
 
 export type GetProjectsLocationsSampleQuerySetsSampleQueriesError =
   DefaultErrors;
@@ -26212,7 +26267,7 @@ export const getProjectsLocationsSampleQuerySetsSampleQueries: API.OperationMeth
   GetProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   GetProjectsLocationsSampleQuerySetsSampleQueriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSampleQuerySetsSampleQueriesRequest,
   output: GetProjectsLocationsSampleQuerySetsSampleQueriesResponse,
   errors: [],
@@ -26231,26 +26286,27 @@ export interface ListProjectsLocationsOperationsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -26260,7 +26316,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -26275,19 +26331,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation;
 export const GetProjectsLocationsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -26297,7 +26354,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -26310,24 +26367,25 @@ export interface CheckProjectsLocationsGroundingConfigsRequest {
   body?: GoogleCloudDiscoveryengineV1betaCheckGroundingRequest;
 }
 
-export const CheckProjectsLocationsGroundingConfigsRequest = Schema.Struct({
-  groundingConfig: Schema.String.pipe(T.HttpPath("groundingConfig")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaCheckGroundingRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/groundingConfigs/{groundingConfigsId}:check",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckProjectsLocationsGroundingConfigsRequest>;
+export const CheckProjectsLocationsGroundingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    groundingConfig: Schema.String.pipe(T.HttpPath("groundingConfig")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaCheckGroundingRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/groundingConfigs/{groundingConfigsId}:check",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckProjectsLocationsGroundingConfigsRequest>;
 
 export type CheckProjectsLocationsGroundingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaCheckGroundingResponse;
 export const CheckProjectsLocationsGroundingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaCheckGroundingResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaCheckGroundingResponse;
 
 export type CheckProjectsLocationsGroundingConfigsError = DefaultErrors;
 
@@ -26337,7 +26395,7 @@ export const checkProjectsLocationsGroundingConfigs: API.OperationMethod<
   CheckProjectsLocationsGroundingConfigsResponse,
   CheckProjectsLocationsGroundingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckProjectsLocationsGroundingConfigsRequest,
   output: CheckProjectsLocationsGroundingConfigsResponse,
   errors: [],
@@ -26356,26 +26414,27 @@ export interface ListProjectsLocationsCollectionsOperationsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsCollectionsOperationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCollectionsOperationsRequest>;
+export const ListProjectsLocationsCollectionsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCollectionsOperationsRequest>;
 
 export type ListProjectsLocationsCollectionsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsOperationsError = DefaultErrors;
 
@@ -26385,7 +26444,7 @@ export const listProjectsLocationsCollectionsOperations: API.PaginatedOperationM
   ListProjectsLocationsCollectionsOperationsResponse,
   ListProjectsLocationsCollectionsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsOperationsRequest,
   output: ListProjectsLocationsCollectionsOperationsResponse,
   errors: [],
@@ -26400,20 +26459,21 @@ export interface GetProjectsLocationsCollectionsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCollectionsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCollectionsOperationsRequest>;
+export const GetProjectsLocationsCollectionsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCollectionsOperationsRequest>;
 
 export type GetProjectsLocationsCollectionsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsOperationsError = DefaultErrors;
 
@@ -26423,7 +26483,7 @@ export const getProjectsLocationsCollectionsOperations: API.OperationMethod<
   GetProjectsLocationsCollectionsOperationsResponse,
   GetProjectsLocationsCollectionsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsOperationsRequest,
   output: GetProjectsLocationsCollectionsOperationsResponse,
   errors: [],
@@ -26436,24 +26496,25 @@ export interface TuneProjectsLocationsCollectionsEnginesRequest {
   body?: GoogleCloudDiscoveryengineV1betaTuneEngineRequest;
 }
 
-export const TuneProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaTuneEngineRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:tune",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TuneProjectsLocationsCollectionsEnginesRequest>;
+export const TuneProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaTuneEngineRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:tune",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TuneProjectsLocationsCollectionsEnginesRequest>;
 
 export type TuneProjectsLocationsCollectionsEnginesResponse =
   GoogleLongrunningOperation;
 export const TuneProjectsLocationsCollectionsEnginesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TuneProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26463,7 +26524,7 @@ export const tuneProjectsLocationsCollectionsEngines: API.OperationMethod<
   TuneProjectsLocationsCollectionsEnginesResponse,
   TuneProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TuneProjectsLocationsCollectionsEnginesRequest,
   output: TuneProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26476,24 +26537,25 @@ export interface ResumeProjectsLocationsCollectionsEnginesRequest {
   body?: GoogleCloudDiscoveryengineV1betaResumeEngineRequest;
 }
 
-export const ResumeProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaResumeEngineRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeProjectsLocationsCollectionsEnginesRequest>;
+export const ResumeProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaResumeEngineRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeProjectsLocationsCollectionsEnginesRequest>;
 
 export type ResumeProjectsLocationsCollectionsEnginesResponse =
   GoogleCloudDiscoveryengineV1betaEngine;
 export const ResumeProjectsLocationsCollectionsEnginesResponse =
-  GoogleCloudDiscoveryengineV1betaEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaEngine;
 
 export type ResumeProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26503,7 +26565,7 @@ export const resumeProjectsLocationsCollectionsEngines: API.OperationMethod<
   ResumeProjectsLocationsCollectionsEnginesResponse,
   ResumeProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeProjectsLocationsCollectionsEnginesRequest,
   output: ResumeProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26514,20 +26576,21 @@ export interface DeleteProjectsLocationsCollectionsEnginesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCollectionsEnginesRequest>;
+export const DeleteProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCollectionsEnginesRequest>;
 
 export type DeleteProjectsLocationsCollectionsEnginesResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCollectionsEnginesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26537,7 +26600,7 @@ export const deleteProjectsLocationsCollectionsEngines: API.OperationMethod<
   DeleteProjectsLocationsCollectionsEnginesResponse,
   DeleteProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesRequest,
   output: DeleteProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26552,25 +26615,26 @@ export interface CreateProjectsLocationsCollectionsEnginesRequest {
   body?: GoogleCloudDiscoveryengineV1betaEngine;
 }
 
-export const CreateProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  engineId: Schema.optional(Schema.String).pipe(T.HttpQuery("engineId")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaEngine).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCollectionsEnginesRequest>;
+export const CreateProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    engineId: Schema.optional(Schema.String).pipe(T.HttpQuery("engineId")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaEngine).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCollectionsEnginesRequest>;
 
 export type CreateProjectsLocationsCollectionsEnginesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCollectionsEnginesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26580,7 +26644,7 @@ export const createProjectsLocationsCollectionsEngines: API.OperationMethod<
   CreateProjectsLocationsCollectionsEnginesResponse,
   CreateProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesRequest,
   output: CreateProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26591,20 +26655,21 @@ export interface GetProjectsLocationsCollectionsEnginesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCollectionsEnginesRequest>;
+export const GetProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCollectionsEnginesRequest>;
 
 export type GetProjectsLocationsCollectionsEnginesResponse =
   GoogleCloudDiscoveryengineV1betaEngine;
 export const GetProjectsLocationsCollectionsEnginesResponse =
-  GoogleCloudDiscoveryengineV1betaEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaEngine;
 
 export type GetProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26614,7 +26679,7 @@ export const getProjectsLocationsCollectionsEngines: API.OperationMethod<
   GetProjectsLocationsCollectionsEnginesResponse,
   GetProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesRequest,
   output: GetProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26629,25 +26694,26 @@ export interface PatchProjectsLocationsCollectionsEnginesRequest {
   body?: GoogleCloudDiscoveryengineV1betaEngine;
 }
 
-export const PatchProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaEngine).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCollectionsEnginesRequest>;
+export const PatchProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaEngine).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCollectionsEnginesRequest>;
 
 export type PatchProjectsLocationsCollectionsEnginesResponse =
   GoogleCloudDiscoveryengineV1betaEngine;
 export const PatchProjectsLocationsCollectionsEnginesResponse =
-  GoogleCloudDiscoveryengineV1betaEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaEngine;
 
 export type PatchProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26657,7 +26723,7 @@ export const patchProjectsLocationsCollectionsEngines: API.OperationMethod<
   PatchProjectsLocationsCollectionsEnginesResponse,
   PatchProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesRequest,
   output: PatchProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26671,7 +26737,7 @@ export interface GetIamPolicyProjectsLocationsCollectionsEnginesRequest {
 }
 
 export const GetIamPolicyProjectsLocationsCollectionsEnginesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
       T.HttpQuery("options.requestedPolicyVersion"),
@@ -26687,7 +26753,7 @@ export const GetIamPolicyProjectsLocationsCollectionsEnginesRequest =
 export type GetIamPolicyProjectsLocationsCollectionsEnginesResponse =
   GoogleIamV1Policy;
 export const GetIamPolicyProjectsLocationsCollectionsEnginesResponse =
-  GoogleIamV1Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIamV1Policy;
 
 export type GetIamPolicyProjectsLocationsCollectionsEnginesError =
   DefaultErrors;
@@ -26698,7 +26764,7 @@ export const getIamPolicyProjectsLocationsCollectionsEngines: API.OperationMetho
   GetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   GetIamPolicyProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsCollectionsEnginesRequest,
   output: GetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26715,23 +26781,24 @@ export interface ListProjectsLocationsCollectionsEnginesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCollectionsEnginesRequest>;
+export const ListProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCollectionsEnginesRequest>;
 
 export type ListProjectsLocationsCollectionsEnginesResponse =
   GoogleCloudDiscoveryengineV1betaListEnginesResponse;
 export const ListProjectsLocationsCollectionsEnginesResponse =
-  GoogleCloudDiscoveryengineV1betaListEnginesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListEnginesResponse;
 
 export type ListProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26741,7 +26808,7 @@ export const listProjectsLocationsCollectionsEngines: API.PaginatedOperationMeth
   ListProjectsLocationsCollectionsEnginesResponse,
   ListProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesRequest,
   output: ListProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26758,24 +26825,25 @@ export interface PauseProjectsLocationsCollectionsEnginesRequest {
   body?: GoogleCloudDiscoveryengineV1betaPauseEngineRequest;
 }
 
-export const PauseProjectsLocationsCollectionsEnginesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaPauseEngineRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseProjectsLocationsCollectionsEnginesRequest>;
+export const PauseProjectsLocationsCollectionsEnginesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaPauseEngineRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/engines/{enginesId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseProjectsLocationsCollectionsEnginesRequest>;
 
 export type PauseProjectsLocationsCollectionsEnginesResponse =
   GoogleCloudDiscoveryengineV1betaEngine;
 export const PauseProjectsLocationsCollectionsEnginesResponse =
-  GoogleCloudDiscoveryengineV1betaEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaEngine;
 
 export type PauseProjectsLocationsCollectionsEnginesError = DefaultErrors;
 
@@ -26785,7 +26853,7 @@ export const pauseProjectsLocationsCollectionsEngines: API.OperationMethod<
   PauseProjectsLocationsCollectionsEnginesResponse,
   PauseProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseProjectsLocationsCollectionsEnginesRequest,
   output: PauseProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26799,7 +26867,7 @@ export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
 }
 
 export const SetIamPolicyProjectsLocationsCollectionsEnginesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GoogleIamV1SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -26814,7 +26882,7 @@ export const SetIamPolicyProjectsLocationsCollectionsEnginesRequest =
 export type SetIamPolicyProjectsLocationsCollectionsEnginesResponse =
   GoogleIamV1Policy;
 export const SetIamPolicyProjectsLocationsCollectionsEnginesResponse =
-  GoogleIamV1Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIamV1Policy;
 
 export type SetIamPolicyProjectsLocationsCollectionsEnginesError =
   DefaultErrors;
@@ -26825,7 +26893,7 @@ export const setIamPolicyProjectsLocationsCollectionsEngines: API.OperationMetho
   SetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   SetIamPolicyProjectsLocationsCollectionsEnginesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsCollectionsEnginesRequest,
   output: SetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -26839,7 +26907,7 @@ export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest 
 }
 
 export const SearchProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -26856,7 +26924,7 @@ export const SearchProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type SearchProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -26867,7 +26935,7 @@ export const searchProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   SearchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   SearchProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: SearchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -26879,7 +26947,7 @@ export interface GetProjectsLocationsCollectionsEnginesServingConfigsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -26892,7 +26960,7 @@ export const GetProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type GetProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const GetProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type GetProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -26903,7 +26971,7 @@ export const getProjectsLocationsCollectionsEnginesServingConfigs: API.Operation
   GetProjectsLocationsCollectionsEnginesServingConfigsResponse,
   GetProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: GetProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -26919,7 +26987,7 @@ export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaServingConfig).pipe(
@@ -26937,7 +27005,7 @@ export const PatchProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type PatchProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const PatchProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type PatchProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -26948,7 +27016,7 @@ export const patchProjectsLocationsCollectionsEnginesServingConfigs: API.Operati
   PatchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   PatchProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: PatchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -26964,7 +27032,7 @@ export interface ListProjectsLocationsCollectionsEnginesServingConfigsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -26979,7 +27047,7 @@ export const ListProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type ListProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 export const ListProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -26990,7 +27058,7 @@ export const listProjectsLocationsCollectionsEnginesServingConfigs: API.Paginate
   ListProjectsLocationsCollectionsEnginesServingConfigsResponse,
   ListProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: ListProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27006,7 +27074,7 @@ export interface DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest 
 }
 
 export const DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27019,7 +27087,7 @@ export const DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27030,7 +27098,7 @@ export const deleteProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   DeleteProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27044,7 +27112,7 @@ export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsReque
 }
 
 export const RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRecommendRequest,
@@ -27061,7 +27129,7 @@ export const RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaRecommendResponse;
 export const RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaRecommendResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaRecommendResponse;
 
 export type RecommendProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27072,7 +27140,7 @@ export const recommendProjectsLocationsCollectionsEnginesServingConfigs: API.Ope
   RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse,
   RecommendProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27086,7 +27154,7 @@ export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequ
 }
 
 export const SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -27103,7 +27171,7 @@ export const SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest 
 export type SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchLiteProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27114,7 +27182,7 @@ export const searchLiteProjectsLocationsCollectionsEnginesServingConfigs: API.Op
   SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   SearchLiteProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27128,7 +27196,7 @@ export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest 
 }
 
 export const AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -27145,7 +27213,7 @@ export const AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type AnswerProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27156,7 +27224,7 @@ export const answerProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   AnswerProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27170,7 +27238,7 @@ export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRe
 }
 
 export const StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -27187,7 +27255,7 @@ export const StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsReques
 export type StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27198,7 +27266,7 @@ export const streamAnswerProjectsLocationsCollectionsEnginesServingConfigs: API.
   StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27214,7 +27282,7 @@ export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest 
 }
 
 export const CreateProjectsLocationsCollectionsEnginesServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     servingConfigId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("servingConfigId"),
@@ -27234,7 +27302,7 @@ export const CreateProjectsLocationsCollectionsEnginesServingConfigsRequest =
 export type CreateProjectsLocationsCollectionsEnginesServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const CreateProjectsLocationsCollectionsEnginesServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type CreateProjectsLocationsCollectionsEnginesServingConfigsError =
   DefaultErrors;
@@ -27245,7 +27313,7 @@ export const createProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   CreateProjectsLocationsCollectionsEnginesServingConfigsResponse,
   CreateProjectsLocationsCollectionsEnginesServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: CreateProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -27259,7 +27327,7 @@ export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionCo
 }
 
 export const RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     completionConfig: Schema.String.pipe(T.HttpPath("completionConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest,
@@ -27276,7 +27344,7 @@ export const RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfig
 export type RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigResponse =
   GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse;
 export const RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigResponse =
-  GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse;
 
 export type RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigError =
   DefaultErrors;
@@ -27287,7 +27355,7 @@ export const removeSuggestionProjectsLocationsCollectionsEnginesCompletionConfig
   RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigResponse,
   RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest,
   output:
@@ -27303,7 +27371,7 @@ export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfi
 }
 
 export const CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     completionConfig: Schema.String.pipe(T.HttpPath("completionConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest,
@@ -27320,7 +27388,7 @@ export const CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigReq
 export type CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigResponse =
   GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigResponse =
-  GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigError =
   DefaultErrors;
@@ -27331,7 +27399,7 @@ export const completeQueryProjectsLocationsCollectionsEnginesCompletionConfig: A
   CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigResponse,
   CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest,
   output:
@@ -27351,7 +27419,7 @@ export interface ListProjectsLocationsCollectionsEnginesControlsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -27367,7 +27435,7 @@ export const ListProjectsLocationsCollectionsEnginesControlsRequest =
 export type ListProjectsLocationsCollectionsEnginesControlsResponse =
   GoogleCloudDiscoveryengineV1betaListControlsResponse;
 export const ListProjectsLocationsCollectionsEnginesControlsResponse =
-  GoogleCloudDiscoveryengineV1betaListControlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListControlsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesControlsError =
   DefaultErrors;
@@ -27378,7 +27446,7 @@ export const listProjectsLocationsCollectionsEnginesControls: API.PaginatedOpera
   ListProjectsLocationsCollectionsEnginesControlsResponse,
   ListProjectsLocationsCollectionsEnginesControlsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesControlsRequest,
   output: ListProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -27398,7 +27466,7 @@ export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsEnginesControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
@@ -27416,7 +27484,7 @@ export const CreateProjectsLocationsCollectionsEnginesControlsRequest =
 export type CreateProjectsLocationsCollectionsEnginesControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const CreateProjectsLocationsCollectionsEnginesControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type CreateProjectsLocationsCollectionsEnginesControlsError =
   DefaultErrors;
@@ -27427,7 +27495,7 @@ export const createProjectsLocationsCollectionsEnginesControls: API.OperationMet
   CreateProjectsLocationsCollectionsEnginesControlsResponse,
   CreateProjectsLocationsCollectionsEnginesControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesControlsRequest,
   output: CreateProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -27439,7 +27507,7 @@ export interface GetProjectsLocationsCollectionsEnginesControlsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27452,7 +27520,7 @@ export const GetProjectsLocationsCollectionsEnginesControlsRequest =
 export type GetProjectsLocationsCollectionsEnginesControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const GetProjectsLocationsCollectionsEnginesControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type GetProjectsLocationsCollectionsEnginesControlsError = DefaultErrors;
 
@@ -27462,7 +27530,7 @@ export const getProjectsLocationsCollectionsEnginesControls: API.OperationMethod
   GetProjectsLocationsCollectionsEnginesControlsResponse,
   GetProjectsLocationsCollectionsEnginesControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesControlsRequest,
   output: GetProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -27478,7 +27546,7 @@ export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsEnginesControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
@@ -27496,7 +27564,7 @@ export const PatchProjectsLocationsCollectionsEnginesControlsRequest =
 export type PatchProjectsLocationsCollectionsEnginesControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const PatchProjectsLocationsCollectionsEnginesControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type PatchProjectsLocationsCollectionsEnginesControlsError =
   DefaultErrors;
@@ -27507,7 +27575,7 @@ export const patchProjectsLocationsCollectionsEnginesControls: API.OperationMeth
   PatchProjectsLocationsCollectionsEnginesControlsResponse,
   PatchProjectsLocationsCollectionsEnginesControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesControlsRequest,
   output: PatchProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -27519,7 +27587,7 @@ export interface DeleteProjectsLocationsCollectionsEnginesControlsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsEnginesControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27532,7 +27600,7 @@ export const DeleteProjectsLocationsCollectionsEnginesControlsRequest =
 export type DeleteProjectsLocationsCollectionsEnginesControlsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsEnginesControlsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsEnginesControlsError =
   DefaultErrors;
@@ -27543,7 +27611,7 @@ export const deleteProjectsLocationsCollectionsEnginesControls: API.OperationMet
   DeleteProjectsLocationsCollectionsEnginesControlsResponse,
   DeleteProjectsLocationsCollectionsEnginesControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesControlsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -27555,7 +27623,7 @@ export interface GetProjectsLocationsCollectionsEnginesOperationsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27568,7 +27636,7 @@ export const GetProjectsLocationsCollectionsEnginesOperationsRequest =
 export type GetProjectsLocationsCollectionsEnginesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsEnginesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsEnginesOperationsError =
   DefaultErrors;
@@ -27579,7 +27647,7 @@ export const getProjectsLocationsCollectionsEnginesOperations: API.OperationMeth
   GetProjectsLocationsCollectionsEnginesOperationsResponse,
   GetProjectsLocationsCollectionsEnginesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesOperationsRequest,
   output: GetProjectsLocationsCollectionsEnginesOperationsResponse,
   errors: [],
@@ -27599,7 +27667,7 @@ export interface ListProjectsLocationsCollectionsEnginesOperationsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     name: Schema.String.pipe(T.HttpPath("name")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
@@ -27618,7 +27686,7 @@ export const ListProjectsLocationsCollectionsEnginesOperationsRequest =
 export type ListProjectsLocationsCollectionsEnginesOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsEnginesOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesOperationsError =
   DefaultErrors;
@@ -27629,7 +27697,7 @@ export const listProjectsLocationsCollectionsEnginesOperations: API.PaginatedOpe
   ListProjectsLocationsCollectionsEnginesOperationsResponse,
   ListProjectsLocationsCollectionsEnginesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesOperationsRequest,
   output: ListProjectsLocationsCollectionsEnginesOperationsResponse,
   errors: [],
@@ -27645,7 +27713,7 @@ export interface GetProjectsLocationsCollectionsEnginesConversationsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27658,7 +27726,7 @@ export const GetProjectsLocationsCollectionsEnginesConversationsRequest =
 export type GetProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const GetProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type GetProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27669,7 +27737,7 @@ export const getProjectsLocationsCollectionsEnginesConversations: API.OperationM
   GetProjectsLocationsCollectionsEnginesConversationsResponse,
   GetProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesConversationsRequest,
   output: GetProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27681,7 +27749,7 @@ export interface DeleteProjectsLocationsCollectionsEnginesConversationsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -27694,7 +27762,7 @@ export const DeleteProjectsLocationsCollectionsEnginesConversationsRequest =
 export type DeleteProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27705,7 +27773,7 @@ export const deleteProjectsLocationsCollectionsEnginesConversations: API.Operati
   DeleteProjectsLocationsCollectionsEnginesConversationsResponse,
   DeleteProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesConversationsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27725,7 +27793,7 @@ export interface ListProjectsLocationsCollectionsEnginesConversationsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -27742,7 +27810,7 @@ export const ListProjectsLocationsCollectionsEnginesConversationsRequest =
 export type ListProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 export const ListProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27753,7 +27821,7 @@ export const listProjectsLocationsCollectionsEnginesConversations: API.Paginated
   ListProjectsLocationsCollectionsEnginesConversationsResponse,
   ListProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesConversationsRequest,
   output: ListProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27771,7 +27839,7 @@ export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest
 }
 
 export const ConverseProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaConverseConversationRequest,
@@ -27788,7 +27856,7 @@ export const ConverseProjectsLocationsCollectionsEnginesConversationsRequest =
 export type ConverseProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 export const ConverseProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 
 export type ConverseProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27799,7 +27867,7 @@ export const converseProjectsLocationsCollectionsEnginesConversations: API.Opera
   ConverseProjectsLocationsCollectionsEnginesConversationsResponse,
   ConverseProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseProjectsLocationsCollectionsEnginesConversationsRequest,
   output: ConverseProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27813,7 +27881,7 @@ export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
       T.HttpBody(),
@@ -27830,7 +27898,7 @@ export const CreateProjectsLocationsCollectionsEnginesConversationsRequest =
 export type CreateProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const CreateProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type CreateProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27841,7 +27909,7 @@ export const createProjectsLocationsCollectionsEnginesConversations: API.Operati
   CreateProjectsLocationsCollectionsEnginesConversationsResponse,
   CreateProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesConversationsRequest,
   output: CreateProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27857,7 +27925,7 @@ export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsEnginesConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
@@ -27875,7 +27943,7 @@ export const PatchProjectsLocationsCollectionsEnginesConversationsRequest =
 export type PatchProjectsLocationsCollectionsEnginesConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const PatchProjectsLocationsCollectionsEnginesConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type PatchProjectsLocationsCollectionsEnginesConversationsError =
   DefaultErrors;
@@ -27886,7 +27954,7 @@ export const patchProjectsLocationsCollectionsEnginesConversations: API.Operatio
   PatchProjectsLocationsCollectionsEnginesConversationsResponse,
   PatchProjectsLocationsCollectionsEnginesConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesConversationsRequest,
   output: PatchProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -27900,7 +27968,7 @@ export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsEnginesSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
       T.HttpBody(),
@@ -27917,7 +27985,7 @@ export const CreateProjectsLocationsCollectionsEnginesSessionsRequest =
 export type CreateProjectsLocationsCollectionsEnginesSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const CreateProjectsLocationsCollectionsEnginesSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type CreateProjectsLocationsCollectionsEnginesSessionsError =
   DefaultErrors;
@@ -27928,7 +27996,7 @@ export const createProjectsLocationsCollectionsEnginesSessions: API.OperationMet
   CreateProjectsLocationsCollectionsEnginesSessionsResponse,
   CreateProjectsLocationsCollectionsEnginesSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesSessionsRequest,
   output: CreateProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -27948,7 +28016,7 @@ export interface ListProjectsLocationsCollectionsEnginesSessionsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -27965,7 +28033,7 @@ export const ListProjectsLocationsCollectionsEnginesSessionsRequest =
 export type ListProjectsLocationsCollectionsEnginesSessionsResponse =
   GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 export const ListProjectsLocationsCollectionsEnginesSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaListSessionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesSessionsError =
   DefaultErrors;
@@ -27976,7 +28044,7 @@ export const listProjectsLocationsCollectionsEnginesSessions: API.PaginatedOpera
   ListProjectsLocationsCollectionsEnginesSessionsResponse,
   ListProjectsLocationsCollectionsEnginesSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesSessionsRequest,
   output: ListProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -27996,7 +28064,7 @@ export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsEnginesSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
@@ -28014,7 +28082,7 @@ export const PatchProjectsLocationsCollectionsEnginesSessionsRequest =
 export type PatchProjectsLocationsCollectionsEnginesSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const PatchProjectsLocationsCollectionsEnginesSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type PatchProjectsLocationsCollectionsEnginesSessionsError =
   DefaultErrors;
@@ -28025,7 +28093,7 @@ export const patchProjectsLocationsCollectionsEnginesSessions: API.OperationMeth
   PatchProjectsLocationsCollectionsEnginesSessionsResponse,
   PatchProjectsLocationsCollectionsEnginesSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesSessionsRequest,
   output: PatchProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -28037,7 +28105,7 @@ export interface DeleteProjectsLocationsCollectionsEnginesSessionsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsEnginesSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28050,7 +28118,7 @@ export const DeleteProjectsLocationsCollectionsEnginesSessionsRequest =
 export type DeleteProjectsLocationsCollectionsEnginesSessionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsEnginesSessionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsEnginesSessionsError =
   DefaultErrors;
@@ -28061,7 +28129,7 @@ export const deleteProjectsLocationsCollectionsEnginesSessions: API.OperationMet
   DeleteProjectsLocationsCollectionsEnginesSessionsResponse,
   DeleteProjectsLocationsCollectionsEnginesSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesSessionsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -28075,7 +28143,7 @@ export interface GetProjectsLocationsCollectionsEnginesSessionsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     includeAnswerDetails: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("includeAnswerDetails"),
     ),
@@ -28091,7 +28159,7 @@ export const GetProjectsLocationsCollectionsEnginesSessionsRequest =
 export type GetProjectsLocationsCollectionsEnginesSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const GetProjectsLocationsCollectionsEnginesSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type GetProjectsLocationsCollectionsEnginesSessionsError = DefaultErrors;
 
@@ -28101,7 +28169,7 @@ export const getProjectsLocationsCollectionsEnginesSessions: API.OperationMethod
   GetProjectsLocationsCollectionsEnginesSessionsResponse,
   GetProjectsLocationsCollectionsEnginesSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesSessionsRequest,
   output: GetProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -28113,7 +28181,7 @@ export interface GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28126,7 +28194,7 @@ export const GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest =
 export type GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse =
   GoogleCloudDiscoveryengineV1betaAnswer;
 export const GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse =
-  GoogleCloudDiscoveryengineV1betaAnswer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswer;
 
 export type GetProjectsLocationsCollectionsEnginesSessionsAnswersError =
   DefaultErrors;
@@ -28137,7 +28205,7 @@ export const getProjectsLocationsCollectionsEnginesSessionsAnswers: API.Operatio
   GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse,
   GetProjectsLocationsCollectionsEnginesSessionsAnswersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest,
   output: GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse,
   errors: [],
@@ -28153,7 +28221,7 @@ export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     assistantId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("assistantId"),
@@ -28173,7 +28241,7 @@ export const CreateProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type CreateProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleCloudDiscoveryengineV1betaAssistant;
 export const CreateProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleCloudDiscoveryengineV1betaAssistant;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAssistant;
 
 export type CreateProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28184,7 +28252,7 @@ export const createProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   CreateProjectsLocationsCollectionsEnginesAssistantsResponse,
   CreateProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: CreateProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28198,7 +28266,7 @@ export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsReques
 }
 
 export const StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaStreamAssistRequest,
@@ -28215,7 +28283,7 @@ export const StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleCloudDiscoveryengineV1betaStreamAssistResponse;
 export const StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleCloudDiscoveryengineV1betaStreamAssistResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaStreamAssistResponse;
 
 export type StreamAssistProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28226,7 +28294,7 @@ export const streamAssistProjectsLocationsCollectionsEnginesAssistants: API.Oper
   StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse,
   StreamAssistProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28242,7 +28310,7 @@ export interface ListProjectsLocationsCollectionsEnginesAssistantsRequest {
 }
 
 export const ListProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -28257,7 +28325,7 @@ export const ListProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type ListProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleCloudDiscoveryengineV1betaListAssistantsResponse;
 export const ListProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleCloudDiscoveryengineV1betaListAssistantsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListAssistantsResponse;
 
 export type ListProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28268,7 +28336,7 @@ export const listProjectsLocationsCollectionsEnginesAssistants: API.PaginatedOpe
   ListProjectsLocationsCollectionsEnginesAssistantsResponse,
   ListProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: ListProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28284,7 +28352,7 @@ export interface GetProjectsLocationsCollectionsEnginesAssistantsRequest {
 }
 
 export const GetProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28297,7 +28365,7 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type GetProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleCloudDiscoveryengineV1betaAssistant;
 export const GetProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleCloudDiscoveryengineV1betaAssistant;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAssistant;
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28308,7 +28376,7 @@ export const getProjectsLocationsCollectionsEnginesAssistants: API.OperationMeth
   GetProjectsLocationsCollectionsEnginesAssistantsResponse,
   GetProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: GetProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28324,7 +28392,7 @@ export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaAssistant).pipe(
@@ -28342,7 +28410,7 @@ export const PatchProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type PatchProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleCloudDiscoveryengineV1betaAssistant;
 export const PatchProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleCloudDiscoveryengineV1betaAssistant;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAssistant;
 
 export type PatchProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28353,7 +28421,7 @@ export const patchProjectsLocationsCollectionsEnginesAssistants: API.OperationMe
   PatchProjectsLocationsCollectionsEnginesAssistantsResponse,
   PatchProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: PatchProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28365,7 +28433,7 @@ export interface DeleteProjectsLocationsCollectionsEnginesAssistantsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsEnginesAssistantsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28378,7 +28446,7 @@ export const DeleteProjectsLocationsCollectionsEnginesAssistantsRequest =
 export type DeleteProjectsLocationsCollectionsEnginesAssistantsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsEnginesAssistantsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsEnginesAssistantsError =
   DefaultErrors;
@@ -28389,7 +28457,7 @@ export const deleteProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   DeleteProjectsLocationsCollectionsEnginesAssistantsResponse,
   DeleteProjectsLocationsCollectionsEnginesAssistantsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -28401,7 +28469,7 @@ export interface GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperation
 }
 
 export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28414,7 +28482,7 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsReq
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsError =
   DefaultErrors;
@@ -28425,7 +28493,7 @@ export const getProjectsLocationsCollectionsEnginesAssistantsAgentsOperations: A
   GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsResponse,
   GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest,
   output:
@@ -28447,7 +28515,7 @@ export interface ListProjectsLocationsCollectionsDataConnectorOperationsRequest 
 }
 
 export const ListProjectsLocationsCollectionsDataConnectorOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
@@ -28466,7 +28534,7 @@ export const ListProjectsLocationsCollectionsDataConnectorOperationsRequest =
 export type ListProjectsLocationsCollectionsDataConnectorOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataConnectorOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataConnectorOperationsError =
   DefaultErrors;
@@ -28477,7 +28545,7 @@ export const listProjectsLocationsCollectionsDataConnectorOperations: API.Pagina
   ListProjectsLocationsCollectionsDataConnectorOperationsResponse,
   ListProjectsLocationsCollectionsDataConnectorOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataConnectorOperationsRequest,
   output: ListProjectsLocationsCollectionsDataConnectorOperationsResponse,
   errors: [],
@@ -28493,7 +28561,7 @@ export interface GetProjectsLocationsCollectionsDataConnectorOperationsRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataConnectorOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28506,7 +28574,7 @@ export const GetProjectsLocationsCollectionsDataConnectorOperationsRequest =
 export type GetProjectsLocationsCollectionsDataConnectorOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataConnectorOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataConnectorOperationsError =
   DefaultErrors;
@@ -28517,7 +28585,7 @@ export const getProjectsLocationsCollectionsDataConnectorOperations: API.Operati
   GetProjectsLocationsCollectionsDataConnectorOperationsResponse,
   GetProjectsLocationsCollectionsDataConnectorOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataConnectorOperationsRequest,
   output: GetProjectsLocationsCollectionsDataConnectorOperationsResponse,
   errors: [],
@@ -28534,23 +28602,24 @@ export interface ListProjectsLocationsCollectionsDataStoresRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsCollectionsDataStoresRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCollectionsDataStoresRequest>;
+export const ListProjectsLocationsCollectionsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCollectionsDataStoresRequest>;
 
 export type ListProjectsLocationsCollectionsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
 export const ListProjectsLocationsCollectionsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListDataStoresResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresError = DefaultErrors;
 
@@ -28560,7 +28629,7 @@ export const listProjectsLocationsCollectionsDataStores: API.PaginatedOperationM
   ListProjectsLocationsCollectionsDataStoresResponse,
   ListProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresRequest,
   output: ListProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28578,7 +28647,7 @@ export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
 }
 
 export const TrainCustomModelProjectsLocationsCollectionsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     dataStore: Schema.String.pipe(T.HttpPath("dataStore")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest,
@@ -28595,7 +28664,7 @@ export const TrainCustomModelProjectsLocationsCollectionsDataStoresRequest =
 export type TrainCustomModelProjectsLocationsCollectionsDataStoresResponse =
   GoogleLongrunningOperation;
 export const TrainCustomModelProjectsLocationsCollectionsDataStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TrainCustomModelProjectsLocationsCollectionsDataStoresError =
   DefaultErrors;
@@ -28606,7 +28675,7 @@ export const trainCustomModelProjectsLocationsCollectionsDataStores: API.Operati
   TrainCustomModelProjectsLocationsCollectionsDataStoresResponse,
   TrainCustomModelProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TrainCustomModelProjectsLocationsCollectionsDataStoresRequest,
   output: TrainCustomModelProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28618,7 +28687,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28631,7 +28700,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCollectionsDataStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCollectionsDataStoresError = DefaultErrors;
 
@@ -28641,7 +28710,7 @@ export const deleteProjectsLocationsCollectionsDataStores: API.OperationMethod<
   DeleteProjectsLocationsCollectionsDataStoresResponse,
   DeleteProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28656,27 +28725,26 @@ export interface PatchProjectsLocationsCollectionsDataStoresRequest {
   body?: GoogleCloudDiscoveryengineV1betaDataStore;
 }
 
-export const PatchProjectsLocationsCollectionsDataStoresRequest = Schema.Struct(
-  {
+export const PatchProjectsLocationsCollectionsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaDataStore).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores/{dataStoresId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCollectionsDataStoresRequest>;
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores/{dataStoresId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCollectionsDataStoresRequest>;
 
 export type PatchProjectsLocationsCollectionsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaDataStore;
 export const PatchProjectsLocationsCollectionsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaDataStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDataStore;
 
 export type PatchProjectsLocationsCollectionsDataStoresError = DefaultErrors;
 
@@ -28686,7 +28754,7 @@ export const patchProjectsLocationsCollectionsDataStores: API.OperationMethod<
   PatchProjectsLocationsCollectionsDataStoresResponse,
   PatchProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresRequest,
   output: PatchProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28697,20 +28765,21 @@ export interface GetProjectsLocationsCollectionsDataStoresRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCollectionsDataStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores/{dataStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCollectionsDataStoresRequest>;
+export const GetProjectsLocationsCollectionsDataStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/collections/{collectionsId}/dataStores/{dataStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCollectionsDataStoresRequest>;
 
 export type GetProjectsLocationsCollectionsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaDataStore;
 export const GetProjectsLocationsCollectionsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaDataStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDataStore;
 
 export type GetProjectsLocationsCollectionsDataStoresError = DefaultErrors;
 
@@ -28720,7 +28789,7 @@ export const getProjectsLocationsCollectionsDataStores: API.OperationMethod<
   GetProjectsLocationsCollectionsDataStoresResponse,
   GetProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresRequest,
   output: GetProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28744,7 +28813,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresRequest {
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     dataStoreId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("dataStoreId"),
     ),
@@ -28776,7 +28845,7 @@ export const CreateProjectsLocationsCollectionsDataStoresRequest =
 export type CreateProjectsLocationsCollectionsDataStoresResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCollectionsDataStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCollectionsDataStoresError = DefaultErrors;
 
@@ -28786,7 +28855,7 @@ export const createProjectsLocationsCollectionsDataStores: API.OperationMethod<
   CreateProjectsLocationsCollectionsDataStoresResponse,
   CreateProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresRequest,
   output: CreateProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28806,7 +28875,7 @@ export interface CompleteQueryProjectsLocationsCollectionsDataStoresRequest {
 }
 
 export const CompleteQueryProjectsLocationsCollectionsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     userPseudoId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("userPseudoId"),
     ),
@@ -28827,7 +28896,7 @@ export const CompleteQueryProjectsLocationsCollectionsDataStoresRequest =
 export type CompleteQueryProjectsLocationsCollectionsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsCollectionsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresError =
   DefaultErrors;
@@ -28838,7 +28907,7 @@ export const completeQueryProjectsLocationsCollectionsDataStores: API.OperationM
   CompleteQueryProjectsLocationsCollectionsDataStoresResponse,
   CompleteQueryProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteQueryProjectsLocationsCollectionsDataStoresRequest,
   output: CompleteQueryProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28850,7 +28919,7 @@ export interface GetSiteSearchEngineProjectsLocationsCollectionsDataStoresReques
 }
 
 export const GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -28863,7 +28932,7 @@ export const GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest =
 export type GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse =
   GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
 export const GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse =
-  GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSiteSearchEngine;
 
 export type GetSiteSearchEngineProjectsLocationsCollectionsDataStoresError =
   DefaultErrors;
@@ -28874,7 +28943,7 @@ export const getSiteSearchEngineProjectsLocationsCollectionsDataStores: API.Oper
   GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse,
   GetSiteSearchEngineProjectsLocationsCollectionsDataStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest,
   output: GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -28888,7 +28957,7 @@ export interface PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEn
 }
 
 export const PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeSuggestionDenyListEntriesRequest,
@@ -28905,7 +28974,7 @@ export const PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntrie
 export type PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError =
   DefaultErrors;
@@ -28916,7 +28985,7 @@ export const purgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntrie
   PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse,
   PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest,
   output:
@@ -28932,7 +29001,7 @@ export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListE
 }
 
 export const ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest,
@@ -28949,7 +29018,7 @@ export const ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntri
 export type ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError =
   DefaultErrors;
@@ -28960,7 +29029,7 @@ export const importProjectsLocationsCollectionsDataStoresSuggestionDenyListEntri
   ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse,
   ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest,
   output:
@@ -28976,7 +29045,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresConversationsReques
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
       T.HttpBody(),
@@ -28993,7 +29062,7 @@ export const CreateProjectsLocationsCollectionsDataStoresConversationsRequest =
 export type CreateProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const CreateProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type CreateProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29004,7 +29073,7 @@ export const createProjectsLocationsCollectionsDataStoresConversations: API.Oper
   CreateProjectsLocationsCollectionsDataStoresConversationsResponse,
   CreateProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29016,7 +29085,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresConversationsReques
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29029,7 +29098,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresConversationsRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29040,7 +29109,7 @@ export const deleteProjectsLocationsCollectionsDataStoresConversations: API.Oper
   DeleteProjectsLocationsCollectionsDataStoresConversationsResponse,
   DeleteProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29056,7 +29125,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaConversation).pipe(
@@ -29074,7 +29143,7 @@ export const PatchProjectsLocationsCollectionsDataStoresConversationsRequest =
 export type PatchProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const PatchProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type PatchProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29085,7 +29154,7 @@ export const patchProjectsLocationsCollectionsDataStoresConversations: API.Opera
   PatchProjectsLocationsCollectionsDataStoresConversationsResponse,
   PatchProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29099,7 +29168,7 @@ export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequ
 }
 
 export const ConverseProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaConverseConversationRequest,
@@ -29116,7 +29185,7 @@ export const ConverseProjectsLocationsCollectionsDataStoresConversationsRequest 
 export type ConverseProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 export const ConverseProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConverseConversationResponse;
 
 export type ConverseProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29127,7 +29196,7 @@ export const converseProjectsLocationsCollectionsDataStoresConversations: API.Op
   ConverseProjectsLocationsCollectionsDataStoresConversationsResponse,
   ConverseProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConverseProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: ConverseProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29147,7 +29216,7 @@ export interface ListProjectsLocationsCollectionsDataStoresConversationsRequest 
 }
 
 export const ListProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -29164,7 +29233,7 @@ export const ListProjectsLocationsCollectionsDataStoresConversationsRequest =
 export type ListProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListConversationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29175,7 +29244,7 @@ export const listProjectsLocationsCollectionsDataStoresConversations: API.Pagina
   ListProjectsLocationsCollectionsDataStoresConversationsResponse,
   ListProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29191,7 +29260,7 @@ export interface GetProjectsLocationsCollectionsDataStoresConversationsRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataStoresConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29204,7 +29273,7 @@ export const GetProjectsLocationsCollectionsDataStoresConversationsRequest =
 export type GetProjectsLocationsCollectionsDataStoresConversationsResponse =
   GoogleCloudDiscoveryengineV1betaConversation;
 export const GetProjectsLocationsCollectionsDataStoresConversationsResponse =
-  GoogleCloudDiscoveryengineV1betaConversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaConversation;
 
 export type GetProjectsLocationsCollectionsDataStoresConversationsError =
   DefaultErrors;
@@ -29215,7 +29284,7 @@ export const getProjectsLocationsCollectionsDataStoresConversations: API.Operati
   GetProjectsLocationsCollectionsDataStoresConversationsResponse,
   GetProjectsLocationsCollectionsDataStoresConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -29227,7 +29296,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresServingConfigsReque
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29240,7 +29309,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29251,7 +29320,7 @@ export const deleteProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   DeleteProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29265,7 +29334,7 @@ export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsR
 }
 
 export const SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -29282,7 +29351,7 @@ export const SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsReque
 export type SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29293,7 +29362,7 @@ export const searchLiteProjectsLocationsCollectionsDataStoresServingConfigs: API
   SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output:
     SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
@@ -29310,7 +29379,7 @@ export interface ListProjectsLocationsCollectionsDataStoresServingConfigsRequest
 }
 
 export const ListProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -29325,7 +29394,7 @@ export const ListProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type ListProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 export const ListProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListServingConfigsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29336,7 +29405,7 @@ export const listProjectsLocationsCollectionsDataStoresServingConfigs: API.Pagin
   ListProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   ListProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: ListProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29354,7 +29423,7 @@ export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsReque
 }
 
 export const AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -29371,7 +29440,7 @@ export const AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type AnswerProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29382,7 +29451,7 @@ export const answerProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   AnswerProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29396,7 +29465,7 @@ export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfig
 }
 
 export const StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAnswerQueryRequest,
@@ -29413,7 +29482,7 @@ export const StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsReq
 export type StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 export const StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswerQueryResponse;
 
 export type StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29424,7 +29493,7 @@ export const streamAnswerProjectsLocationsCollectionsDataStoresServingConfigs: A
   StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output:
@@ -29438,7 +29507,7 @@ export interface GetProjectsLocationsCollectionsDataStoresServingConfigsRequest 
 }
 
 export const GetProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29451,7 +29520,7 @@ export const GetProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type GetProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const GetProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type GetProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29462,7 +29531,7 @@ export const getProjectsLocationsCollectionsDataStoresServingConfigs: API.Operat
   GetProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   GetProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: GetProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29478,7 +29547,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsReques
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaServingConfig).pipe(
@@ -29496,7 +29565,7 @@ export const PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type PatchProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29507,7 +29576,7 @@ export const patchProjectsLocationsCollectionsDataStoresServingConfigs: API.Oper
   PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   PatchProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29521,7 +29590,7 @@ export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsReque
 }
 
 export const SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSearchRequest).pipe(
       T.HttpBody(),
@@ -29538,7 +29607,7 @@ export const SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaSearchResponse;
 export const SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSearchResponse;
 
 export type SearchProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29549,7 +29618,7 @@ export const searchProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   SearchProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29565,7 +29634,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsReque
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     servingConfigId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("servingConfigId"),
@@ -29585,7 +29654,7 @@ export const CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest =
 export type CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaServingConfig;
 export const CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaServingConfig;
 
 export type CreateProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29596,7 +29665,7 @@ export const createProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   CreateProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29610,7 +29679,7 @@ export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRe
 }
 
 export const RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRecommendRequest,
@@ -29627,7 +29696,7 @@ export const RecommendProjectsLocationsCollectionsDataStoresServingConfigsReques
 export type RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaRecommendResponse;
 export const RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaRecommendResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaRecommendResponse;
 
 export type RecommendProjectsLocationsCollectionsDataStoresServingConfigsError =
   DefaultErrors;
@@ -29638,7 +29707,7 @@ export const recommendProjectsLocationsCollectionsDataStoresServingConfigs: API.
   RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   RecommendProjectsLocationsCollectionsDataStoresServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -29650,7 +29719,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresControlsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29663,7 +29732,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresControlsRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresControlsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsDataStoresControlsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsDataStoresControlsError =
   DefaultErrors;
@@ -29674,7 +29743,7 @@ export const deleteProjectsLocationsCollectionsDataStoresControls: API.Operation
   DeleteProjectsLocationsCollectionsDataStoresControlsResponse,
   DeleteProjectsLocationsCollectionsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresControlsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -29686,7 +29755,7 @@ export interface GetProjectsLocationsCollectionsDataStoresControlsRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataStoresControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29699,7 +29768,7 @@ export const GetProjectsLocationsCollectionsDataStoresControlsRequest =
 export type GetProjectsLocationsCollectionsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const GetProjectsLocationsCollectionsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type GetProjectsLocationsCollectionsDataStoresControlsError =
   DefaultErrors;
@@ -29710,7 +29779,7 @@ export const getProjectsLocationsCollectionsDataStoresControls: API.OperationMet
   GetProjectsLocationsCollectionsDataStoresControlsResponse,
   GetProjectsLocationsCollectionsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresControlsRequest,
   output: GetProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -29728,7 +29797,7 @@ export interface ListProjectsLocationsCollectionsDataStoresControlsRequest {
 }
 
 export const ListProjectsLocationsCollectionsDataStoresControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -29744,7 +29813,7 @@ export const ListProjectsLocationsCollectionsDataStoresControlsRequest =
 export type ListProjectsLocationsCollectionsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaListControlsResponse;
 export const ListProjectsLocationsCollectionsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaListControlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListControlsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresControlsError =
   DefaultErrors;
@@ -29755,7 +29824,7 @@ export const listProjectsLocationsCollectionsDataStoresControls: API.PaginatedOp
   ListProjectsLocationsCollectionsDataStoresControlsResponse,
   ListProjectsLocationsCollectionsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresControlsRequest,
   output: ListProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -29775,7 +29844,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
@@ -29793,7 +29862,7 @@ export const CreateProjectsLocationsCollectionsDataStoresControlsRequest =
 export type CreateProjectsLocationsCollectionsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const CreateProjectsLocationsCollectionsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type CreateProjectsLocationsCollectionsDataStoresControlsError =
   DefaultErrors;
@@ -29804,7 +29873,7 @@ export const createProjectsLocationsCollectionsDataStoresControls: API.Operation
   CreateProjectsLocationsCollectionsDataStoresControlsResponse,
   CreateProjectsLocationsCollectionsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresControlsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -29820,7 +29889,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresControlsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaControl).pipe(
@@ -29838,7 +29907,7 @@ export const PatchProjectsLocationsCollectionsDataStoresControlsRequest =
 export type PatchProjectsLocationsCollectionsDataStoresControlsResponse =
   GoogleCloudDiscoveryengineV1betaControl;
 export const PatchProjectsLocationsCollectionsDataStoresControlsResponse =
-  GoogleCloudDiscoveryengineV1betaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaControl;
 
 export type PatchProjectsLocationsCollectionsDataStoresControlsError =
   DefaultErrors;
@@ -29849,7 +29918,7 @@ export const patchProjectsLocationsCollectionsDataStoresControls: API.OperationM
   PatchProjectsLocationsCollectionsDataStoresControlsResponse,
   PatchProjectsLocationsCollectionsDataStoresControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresControlsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -29861,7 +29930,7 @@ export interface GetProjectsLocationsCollectionsDataStoresModelsOperationsReques
 }
 
 export const GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -29874,7 +29943,7 @@ export const GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest =
 export type GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresModelsOperationsError =
   DefaultErrors;
@@ -29885,7 +29954,7 @@ export const getProjectsLocationsCollectionsDataStoresModelsOperations: API.Oper
   GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresModelsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   errors: [],
@@ -29905,7 +29974,7 @@ export interface ListProjectsLocationsCollectionsDataStoresModelsOperationsReque
 }
 
 export const ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -29924,7 +29993,7 @@ export const ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest =
 export type ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresModelsOperationsError =
   DefaultErrors;
@@ -29935,7 +30004,7 @@ export const listProjectsLocationsCollectionsDataStoresModelsOperations: API.Pag
   ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresModelsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   errors: [],
@@ -29955,7 +30024,7 @@ export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStores
 }
 
 export const BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "matcher.fhirMatcher.fhirResources": Schema.optional(
       Schema.Array(Schema.String),
     ).pipe(T.HttpQuery("matcher.fhirMatcher.fhirResources")),
@@ -29974,7 +30043,7 @@ export const BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBran
 export type BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesResponse =
   GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
 export const BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesResponse =
-  GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse;
 
 export type BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesError =
   DefaultErrors;
@@ -29985,7 +30054,7 @@ export const batchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBran
   BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesResponse,
   BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest,
   output:
@@ -29999,7 +30068,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRe
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30012,7 +30081,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsReques
 export type DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30023,7 +30092,7 @@ export const deleteProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30037,7 +30106,7 @@ export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsReq
 }
 
 export const PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest,
@@ -30054,7 +30123,7 @@ export const PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest
 export type PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30065,7 +30134,7 @@ export const purgeProjectsLocationsCollectionsDataStoresBranchesDocuments: API.O
   PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30081,7 +30150,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRe
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     documentId: Schema.optional(Schema.String).pipe(T.HttpQuery("documentId")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaDocument).pipe(
@@ -30099,7 +30168,7 @@ export const CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsReques
 export type CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30110,7 +30179,7 @@ export const createProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30122,7 +30191,7 @@ export interface GetProjectsLocationsCollectionsDataStoresBranchesDocumentsReque
 }
 
 export const GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30135,7 +30204,7 @@ export const GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
 export type GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30146,7 +30215,7 @@ export const getProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Ope
   GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   GetProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30162,7 +30231,7 @@ export interface ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequ
 }
 
 export const ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -30177,7 +30246,7 @@ export const ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest 
 export type ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
 export const ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListDocumentsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30188,7 +30257,7 @@ export const listProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Pa
   ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   ListProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30206,7 +30275,7 @@ export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRe
 }
 
 export const ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportDocumentsRequest,
@@ -30223,7 +30292,7 @@ export const ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsReques
 export type ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30234,7 +30303,7 @@ export const importProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30252,7 +30321,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsReq
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     allowMissing: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("allowMissing"),
     ),
@@ -30273,7 +30342,7 @@ export const PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest
 export type PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
   GoogleCloudDiscoveryengineV1betaDocument;
 export const PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse =
-  GoogleCloudDiscoveryengineV1betaDocument;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaDocument;
 
 export type PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
   DefaultErrors;
@@ -30284,7 +30353,7 @@ export const patchProjectsLocationsCollectionsDataStoresBranchesDocuments: API.O
   PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -30298,7 +30367,7 @@ export interface CancelProjectsLocationsCollectionsDataStoresBranchesOperationsR
 }
 
 export const CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
       T.HttpBody(),
@@ -30315,7 +30384,7 @@ export const CancelProjectsLocationsCollectionsDataStoresBranchesOperationsReque
 export type CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
   GoogleProtobufEmpty;
 export const CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsCollectionsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -30326,7 +30395,7 @@ export const cancelProjectsLocationsCollectionsDataStoresBranchesOperations: API
   CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   CancelProjectsLocationsCollectionsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output:
     CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
@@ -30339,7 +30408,7 @@ export interface GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequ
 }
 
 export const GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30352,7 +30421,7 @@ export const GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest 
 export type GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -30363,7 +30432,7 @@ export const getProjectsLocationsCollectionsDataStoresBranchesOperations: API.Op
   GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -30383,7 +30452,7 @@ export interface ListProjectsLocationsCollectionsDataStoresBranchesOperationsReq
 }
 
 export const ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
     ),
@@ -30402,7 +30471,7 @@ export const ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest
 export type ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresBranchesOperationsError =
   DefaultErrors;
@@ -30413,7 +30482,7 @@ export const listProjectsLocationsCollectionsDataStoresBranchesOperations: API.P
   ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -30429,7 +30498,7 @@ export interface ListProjectsLocationsCollectionsDataStoresCustomModelsRequest {
 }
 
 export const ListProjectsLocationsCollectionsDataStoresCustomModelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     dataStore: Schema.String.pipe(T.HttpPath("dataStore")),
   }).pipe(
     T.Http({
@@ -30442,7 +30511,7 @@ export const ListProjectsLocationsCollectionsDataStoresCustomModelsRequest =
 export type ListProjectsLocationsCollectionsDataStoresCustomModelsResponse =
   GoogleCloudDiscoveryengineV1betaListCustomModelsResponse;
 export const ListProjectsLocationsCollectionsDataStoresCustomModelsResponse =
-  GoogleCloudDiscoveryengineV1betaListCustomModelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListCustomModelsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresCustomModelsError =
   DefaultErrors;
@@ -30453,7 +30522,7 @@ export const listProjectsLocationsCollectionsDataStoresCustomModels: API.Operati
   ListProjectsLocationsCollectionsDataStoresCustomModelsResponse,
   ListProjectsLocationsCollectionsDataStoresCustomModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsCollectionsDataStoresCustomModelsRequest,
   output: ListProjectsLocationsCollectionsDataStoresCustomModelsResponse,
   errors: [],
@@ -30467,7 +30536,7 @@ export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
 }
 
 export const PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest,
@@ -30484,7 +30553,7 @@ export const PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest =
 export type PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCollectionsDataStoresUserEventsError =
   DefaultErrors;
@@ -30495,7 +30564,7 @@ export const purgeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse,
   PurgeProjectsLocationsCollectionsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
@@ -30509,7 +30578,7 @@ export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
 }
 
 export const ImportProjectsLocationsCollectionsDataStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportUserEventsRequest,
@@ -30526,7 +30595,7 @@ export const ImportProjectsLocationsCollectionsDataStoresUserEventsRequest =
 export type ImportProjectsLocationsCollectionsDataStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCollectionsDataStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCollectionsDataStoresUserEventsError =
   DefaultErrors;
@@ -30537,7 +30606,7 @@ export const importProjectsLocationsCollectionsDataStoresUserEvents: API.Operati
   ImportProjectsLocationsCollectionsDataStoresUserEventsResponse,
   ImportProjectsLocationsCollectionsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: ImportProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
@@ -30553,7 +30622,7 @@ export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
 }
 
 export const WriteProjectsLocationsCollectionsDataStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent).pipe(
@@ -30571,7 +30640,7 @@ export const WriteProjectsLocationsCollectionsDataStoresUserEventsRequest =
 export type WriteProjectsLocationsCollectionsDataStoresUserEventsResponse =
   GoogleCloudDiscoveryengineV1betaUserEvent;
 export const WriteProjectsLocationsCollectionsDataStoresUserEventsResponse =
-  GoogleCloudDiscoveryengineV1betaUserEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserEvent;
 
 export type WriteProjectsLocationsCollectionsDataStoresUserEventsError =
   DefaultErrors;
@@ -30582,7 +30651,7 @@ export const writeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   WriteProjectsLocationsCollectionsDataStoresUserEventsResponse,
   WriteProjectsLocationsCollectionsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: WriteProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
@@ -30600,7 +30669,7 @@ export interface CollectProjectsLocationsCollectionsDataStoresUserEventsRequest 
 }
 
 export const CollectProjectsLocationsCollectionsDataStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ets: Schema.optional(Schema.String).pipe(T.HttpQuery("ets")),
     uri: Schema.optional(Schema.String).pipe(T.HttpQuery("uri")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -30616,7 +30685,7 @@ export const CollectProjectsLocationsCollectionsDataStoresUserEventsRequest =
 export type CollectProjectsLocationsCollectionsDataStoresUserEventsResponse =
   GoogleApiHttpBody;
 export const CollectProjectsLocationsCollectionsDataStoresUserEventsResponse =
-  GoogleApiHttpBody;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleApiHttpBody;
 
 export type CollectProjectsLocationsCollectionsDataStoresUserEventsError =
   DefaultErrors;
@@ -30627,7 +30696,7 @@ export const collectProjectsLocationsCollectionsDataStoresUserEvents: API.Operat
   CollectProjectsLocationsCollectionsDataStoresUserEventsResponse,
   CollectProjectsLocationsCollectionsDataStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CollectProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: CollectProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
@@ -30641,7 +30710,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSessionsRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     includeAnswerDetails: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("includeAnswerDetails"),
     ),
@@ -30657,7 +30726,7 @@ export const GetProjectsLocationsCollectionsDataStoresSessionsRequest =
 export type GetProjectsLocationsCollectionsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const GetProjectsLocationsCollectionsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsError =
   DefaultErrors;
@@ -30668,7 +30737,7 @@ export const getProjectsLocationsCollectionsDataStoresSessions: API.OperationMet
   GetProjectsLocationsCollectionsDataStoresSessionsResponse,
   GetProjectsLocationsCollectionsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -30684,7 +30753,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
@@ -30702,7 +30771,7 @@ export const PatchProjectsLocationsCollectionsDataStoresSessionsRequest =
 export type PatchProjectsLocationsCollectionsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const PatchProjectsLocationsCollectionsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type PatchProjectsLocationsCollectionsDataStoresSessionsError =
   DefaultErrors;
@@ -30713,7 +30782,7 @@ export const patchProjectsLocationsCollectionsDataStoresSessions: API.OperationM
   PatchProjectsLocationsCollectionsDataStoresSessionsResponse,
   PatchProjectsLocationsCollectionsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -30733,7 +30802,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSessionsRequest {
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -30750,7 +30819,7 @@ export const ListProjectsLocationsCollectionsDataStoresSessionsRequest =
 export type ListProjectsLocationsCollectionsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 export const ListProjectsLocationsCollectionsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaListSessionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSessionsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSessionsError =
   DefaultErrors;
@@ -30761,7 +30830,7 @@ export const listProjectsLocationsCollectionsDataStoresSessions: API.PaginatedOp
   ListProjectsLocationsCollectionsDataStoresSessionsResponse,
   ListProjectsLocationsCollectionsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -30779,7 +30848,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSession).pipe(
       T.HttpBody(),
@@ -30796,7 +30865,7 @@ export const CreateProjectsLocationsCollectionsDataStoresSessionsRequest =
 export type CreateProjectsLocationsCollectionsDataStoresSessionsResponse =
   GoogleCloudDiscoveryengineV1betaSession;
 export const CreateProjectsLocationsCollectionsDataStoresSessionsResponse =
-  GoogleCloudDiscoveryengineV1betaSession;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSession;
 
 export type CreateProjectsLocationsCollectionsDataStoresSessionsError =
   DefaultErrors;
@@ -30807,7 +30876,7 @@ export const createProjectsLocationsCollectionsDataStoresSessions: API.Operation
   CreateProjectsLocationsCollectionsDataStoresSessionsResponse,
   CreateProjectsLocationsCollectionsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -30819,7 +30888,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresSessionsRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30832,7 +30901,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresSessionsRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresSessionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCollectionsDataStoresSessionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCollectionsDataStoresSessionsError =
   DefaultErrors;
@@ -30843,7 +30912,7 @@ export const deleteProjectsLocationsCollectionsDataStoresSessions: API.Operation
   DeleteProjectsLocationsCollectionsDataStoresSessionsResponse,
   DeleteProjectsLocationsCollectionsDataStoresSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -30855,7 +30924,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30868,7 +30937,7 @@ export const GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest =
 export type GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse =
   GoogleCloudDiscoveryengineV1betaAnswer;
 export const GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse =
-  GoogleCloudDiscoveryengineV1betaAnswer;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAnswer;
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsAnswersError =
   DefaultErrors;
@@ -30879,7 +30948,7 @@ export const getProjectsLocationsCollectionsDataStoresSessionsAnswers: API.Opera
   GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse,
   GetProjectsLocationsCollectionsDataStoresSessionsAnswersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest,
   output: GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse,
   errors: [],
@@ -30891,7 +30960,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresSchemasRequest {
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30904,7 +30973,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresSchemasRequest =
 export type DeleteProjectsLocationsCollectionsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCollectionsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCollectionsDataStoresSchemasError =
   DefaultErrors;
@@ -30915,7 +30984,7 @@ export const deleteProjectsLocationsCollectionsDataStoresSchemas: API.OperationM
   DeleteProjectsLocationsCollectionsDataStoresSchemasResponse,
   DeleteProjectsLocationsCollectionsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -30931,7 +31000,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     schemaId: Schema.optional(Schema.String).pipe(T.HttpQuery("schemaId")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSchema).pipe(
@@ -30949,7 +31018,7 @@ export const CreateProjectsLocationsCollectionsDataStoresSchemasRequest =
 export type CreateProjectsLocationsCollectionsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCollectionsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCollectionsDataStoresSchemasError =
   DefaultErrors;
@@ -30960,7 +31029,7 @@ export const createProjectsLocationsCollectionsDataStoresSchemas: API.OperationM
   CreateProjectsLocationsCollectionsDataStoresSchemasResponse,
   CreateProjectsLocationsCollectionsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -30972,7 +31041,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSchemasRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -30985,7 +31054,7 @@ export const GetProjectsLocationsCollectionsDataStoresSchemasRequest =
 export type GetProjectsLocationsCollectionsDataStoresSchemasResponse =
   GoogleCloudDiscoveryengineV1betaSchema;
 export const GetProjectsLocationsCollectionsDataStoresSchemasResponse =
-  GoogleCloudDiscoveryengineV1betaSchema;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaSchema;
 
 export type GetProjectsLocationsCollectionsDataStoresSchemasError =
   DefaultErrors;
@@ -30996,7 +31065,7 @@ export const getProjectsLocationsCollectionsDataStoresSchemas: API.OperationMeth
   GetProjectsLocationsCollectionsDataStoresSchemasResponse,
   GetProjectsLocationsCollectionsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: GetProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -31012,7 +31081,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     allowMissing: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("allowMissing"),
@@ -31032,7 +31101,7 @@ export const PatchProjectsLocationsCollectionsDataStoresSchemasRequest =
 export type PatchProjectsLocationsCollectionsDataStoresSchemasResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsCollectionsDataStoresSchemasResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsCollectionsDataStoresSchemasError =
   DefaultErrors;
@@ -31043,7 +31112,7 @@ export const patchProjectsLocationsCollectionsDataStoresSchemas: API.OperationMe
   PatchProjectsLocationsCollectionsDataStoresSchemasResponse,
   PatchProjectsLocationsCollectionsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: PatchProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -31059,7 +31128,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSchemasRequest {
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -31074,7 +31143,7 @@ export const ListProjectsLocationsCollectionsDataStoresSchemasRequest =
 export type ListProjectsLocationsCollectionsDataStoresSchemasResponse =
   GoogleCloudDiscoveryengineV1betaListSchemasResponse;
 export const ListProjectsLocationsCollectionsDataStoresSchemasResponse =
-  GoogleCloudDiscoveryengineV1betaListSchemasResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListSchemasResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSchemasError =
   DefaultErrors;
@@ -31085,7 +31154,7 @@ export const listProjectsLocationsCollectionsDataStoresSchemas: API.PaginatedOpe
   ListProjectsLocationsCollectionsDataStoresSchemasResponse,
   ListProjectsLocationsCollectionsDataStoresSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: ListProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -31109,7 +31178,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequ
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
@@ -31128,7 +31197,7 @@ export const ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest 
 export type ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSchemasOperationsError =
   DefaultErrors;
@@ -31139,7 +31208,7 @@ export const listProjectsLocationsCollectionsDataStoresSchemasOperations: API.Pa
   ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresSchemasOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   errors: [],
@@ -31155,7 +31224,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSchemasOperationsReque
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31168,7 +31237,7 @@ export const GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest =
 export type GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresSchemasOperationsError =
   DefaultErrors;
@@ -31179,7 +31248,7 @@ export const getProjectsLocationsCollectionsDataStoresSchemasOperations: API.Ope
   GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresSchemasOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   errors: [],
@@ -31193,7 +31262,7 @@ export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionCo
 }
 
 export const CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     completionConfig: Schema.String.pipe(T.HttpPath("completionConfig")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest,
@@ -31210,7 +31279,7 @@ export const CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfig
 export type CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigResponse =
   GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigResponse =
-  GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigError =
   DefaultErrors;
@@ -31221,7 +31290,7 @@ export const completeQueryProjectsLocationsCollectionsDataStoresCompletionConfig
   CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigResponse,
   CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest,
   output:
@@ -31235,7 +31304,7 @@ export interface GetProjectsLocationsCollectionsDataStoresOperationsRequest {
 }
 
 export const GetProjectsLocationsCollectionsDataStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31248,7 +31317,7 @@ export const GetProjectsLocationsCollectionsDataStoresOperationsRequest =
 export type GetProjectsLocationsCollectionsDataStoresOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresOperationsError =
   DefaultErrors;
@@ -31259,7 +31328,7 @@ export const getProjectsLocationsCollectionsDataStoresOperations: API.OperationM
   GetProjectsLocationsCollectionsDataStoresOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresOperationsResponse,
   errors: [],
@@ -31279,7 +31348,7 @@ export interface ListProjectsLocationsCollectionsDataStoresOperationsRequest {
 }
 
 export const ListProjectsLocationsCollectionsDataStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
@@ -31298,7 +31367,7 @@ export const ListProjectsLocationsCollectionsDataStoresOperationsRequest =
 export type ListProjectsLocationsCollectionsDataStoresOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresOperationsError =
   DefaultErrors;
@@ -31309,7 +31378,7 @@ export const listProjectsLocationsCollectionsDataStoresOperations: API.Paginated
   ListProjectsLocationsCollectionsDataStoresOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresOperationsResponse,
   errors: [],
@@ -31327,7 +31396,7 @@ export interface DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStores
 }
 
 export const DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaDisableAdvancedSiteSearchRequest,
@@ -31344,7 +31413,7 @@ export const DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSite
 export type DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -31355,7 +31424,7 @@ export const disableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSite
   DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output:
@@ -31371,7 +31440,7 @@ export interface BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSit
 }
 
 export const BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest,
@@ -31388,7 +31457,7 @@ export const BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSea
 export type BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -31399,7 +31468,7 @@ export const batchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSea
   BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output:
@@ -31417,7 +31486,7 @@ export interface FetchDomainVerificationStatusProjectsLocationsCollectionsDataSt
 }
 
 export const FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -31432,7 +31501,7 @@ export const FetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
 export type FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
   GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse;
 export const FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
-  GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse;
 
 export type FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -31443,7 +31512,7 @@ export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
   FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output:
@@ -31463,7 +31532,7 @@ export interface EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresS
 }
 
 export const EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaEnableAdvancedSiteSearchRequest,
@@ -31480,7 +31549,7 @@ export const EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteS
 export type EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -31491,7 +31560,7 @@ export const enableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteS
   EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output:
@@ -31507,7 +31576,7 @@ export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngi
 }
 
 export const RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     siteSearchEngine: Schema.String.pipe(T.HttpPath("siteSearchEngine")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest,
@@ -31524,7 +31593,7 @@ export const RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRe
 export type RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
   GoogleLongrunningOperation;
 export const RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
   DefaultErrors;
@@ -31535,7 +31604,7 @@ export const recrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngine: 
   RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output:
@@ -31551,7 +31620,7 @@ export interface FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSite
 }
 
 export const FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "matcher.urisMatcher.uris": Schema.optional(
       Schema.Array(Schema.String),
     ).pipe(T.HttpQuery("matcher.urisMatcher.uris")),
@@ -31567,7 +31636,7 @@ export const FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps
 export type FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
 export const FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse;
 
 export type FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -31578,7 +31647,7 @@ export const fetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps
   FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output:
@@ -31592,7 +31661,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSit
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31605,7 +31674,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -31616,7 +31685,7 @@ export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
   DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output:
@@ -31632,7 +31701,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSit
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaSitemap).pipe(
       T.HttpBody(),
@@ -31649,7 +31718,7 @@ export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError =
   DefaultErrors;
@@ -31660,7 +31729,7 @@ export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
   CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output:
@@ -31674,7 +31743,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperat
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31687,7 +31756,7 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError =
   DefaultErrors;
@@ -31698,7 +31767,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest,
   output:
@@ -31720,7 +31789,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOpera
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -31739,7 +31808,7 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperation
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError =
   DefaultErrors;
@@ -31750,7 +31819,7 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineOperation
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest,
   output:
@@ -31772,7 +31841,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTarge
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -31787,7 +31856,7 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListTargetSitesResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -31798,7 +31867,7 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -31818,7 +31887,7 @@ export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTarg
 }
 
 export const PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaTargetSite).pipe(
       T.HttpBody(),
@@ -31835,7 +31904,7 @@ export const PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSi
 export type PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -31846,7 +31915,7 @@ export const patchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSi
   PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -31860,7 +31929,7 @@ export interface DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTar
 }
 
 export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31873,7 +31942,7 @@ export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -31884,7 +31953,7 @@ export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
   DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -31900,7 +31969,7 @@ export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngi
 }
 
 export const BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest,
@@ -31917,7 +31986,7 @@ export const BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTa
 export type BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -31928,7 +31997,7 @@ export const batchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTa
   BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -31942,7 +32011,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTarget
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -31955,7 +32024,7 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleCloudDiscoveryengineV1betaTargetSite;
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleCloudDiscoveryengineV1betaTargetSite;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaTargetSite;
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -31966,7 +32035,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -31982,7 +32051,7 @@ export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTar
 }
 
 export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDiscoveryengineV1betaTargetSite).pipe(
       T.HttpBody(),
@@ -31999,7 +32068,7 @@ export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
   DefaultErrors;
@@ -32010,7 +32079,7 @@ export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
   CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output:
@@ -32032,7 +32101,7 @@ export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTarge
 }
 
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
@@ -32051,7 +32120,7 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError =
   DefaultErrors;
@@ -32062,7 +32131,7 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse,
   ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest,
   output:
@@ -32080,7 +32149,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTarget
 }
 
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -32093,7 +32162,7 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError =
   DefaultErrors;
@@ -32104,7 +32173,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse,
   GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest,
   output:
@@ -32120,7 +32189,7 @@ export interface PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestion
 }
 
 export const PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest,
@@ -32137,7 +32206,7 @@ export const PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsReq
 export type PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsError =
   DefaultErrors;
@@ -32148,7 +32217,7 @@ export const purgeProjectsLocationsCollectionsDataStoresCompletionSuggestions: A
   PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse,
   PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest,
   output:
@@ -32164,7 +32233,7 @@ export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestio
 }
 
 export const ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest,
@@ -32181,7 +32250,7 @@ export const ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRe
 export type ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsError =
   DefaultErrors;
@@ -32192,7 +32261,7 @@ export const importProjectsLocationsCollectionsDataStoresCompletionSuggestions: 
   ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse,
   ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest,
   output:
@@ -32209,25 +32278,26 @@ export interface PatchProjectsLocationsLicenseConfigsRequest {
   body?: GoogleCloudDiscoveryengineV1betaLicenseConfig;
 }
 
-export const PatchProjectsLocationsLicenseConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaLicenseConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs/{licenseConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsLicenseConfigsRequest>;
+export const PatchProjectsLocationsLicenseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaLicenseConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs/{licenseConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsLicenseConfigsRequest>;
 
 export type PatchProjectsLocationsLicenseConfigsResponse =
   GoogleCloudDiscoveryengineV1betaLicenseConfig;
 export const PatchProjectsLocationsLicenseConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaLicenseConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaLicenseConfig;
 
 export type PatchProjectsLocationsLicenseConfigsError = DefaultErrors;
 
@@ -32237,7 +32307,7 @@ export const patchProjectsLocationsLicenseConfigs: API.OperationMethod<
   PatchProjectsLocationsLicenseConfigsResponse,
   PatchProjectsLocationsLicenseConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsLicenseConfigsRequest,
   output: PatchProjectsLocationsLicenseConfigsResponse,
   errors: [],
@@ -32248,20 +32318,21 @@ export interface GetProjectsLocationsLicenseConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsLicenseConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs/{licenseConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsLicenseConfigsRequest>;
+export const GetProjectsLocationsLicenseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs/{licenseConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsLicenseConfigsRequest>;
 
 export type GetProjectsLocationsLicenseConfigsResponse =
   GoogleCloudDiscoveryengineV1betaLicenseConfig;
 export const GetProjectsLocationsLicenseConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaLicenseConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaLicenseConfig;
 
 export type GetProjectsLocationsLicenseConfigsError = DefaultErrors;
 
@@ -32271,7 +32342,7 @@ export const getProjectsLocationsLicenseConfigs: API.OperationMethod<
   GetProjectsLocationsLicenseConfigsResponse,
   GetProjectsLocationsLicenseConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsLicenseConfigsRequest,
   output: GetProjectsLocationsLicenseConfigsResponse,
   errors: [],
@@ -32286,27 +32357,28 @@ export interface CreateProjectsLocationsLicenseConfigsRequest {
   body?: GoogleCloudDiscoveryengineV1betaLicenseConfig;
 }
 
-export const CreateProjectsLocationsLicenseConfigsRequest = Schema.Struct({
-  licenseConfigId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("licenseConfigId"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaLicenseConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsLicenseConfigsRequest>;
+export const CreateProjectsLocationsLicenseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    licenseConfigId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("licenseConfigId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaLicenseConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/licenseConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsLicenseConfigsRequest>;
 
 export type CreateProjectsLocationsLicenseConfigsResponse =
   GoogleCloudDiscoveryengineV1betaLicenseConfig;
 export const CreateProjectsLocationsLicenseConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaLicenseConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaLicenseConfig;
 
 export type CreateProjectsLocationsLicenseConfigsError = DefaultErrors;
 
@@ -32316,7 +32388,7 @@ export const createProjectsLocationsLicenseConfigs: API.OperationMethod<
   CreateProjectsLocationsLicenseConfigsResponse,
   CreateProjectsLocationsLicenseConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsLicenseConfigsRequest,
   output: CreateProjectsLocationsLicenseConfigsResponse,
   errors: [],
@@ -32327,20 +32399,21 @@ export interface GetProjectsLocationsPodcastsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPodcastsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/podcasts/{podcastsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPodcastsOperationsRequest>;
+export const GetProjectsLocationsPodcastsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/podcasts/{podcastsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPodcastsOperationsRequest>;
 
 export type GetProjectsLocationsPodcastsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsPodcastsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsPodcastsOperationsError = DefaultErrors;
 
@@ -32350,7 +32423,7 @@ export const getProjectsLocationsPodcastsOperations: API.OperationMethod<
   GetProjectsLocationsPodcastsOperationsResponse,
   GetProjectsLocationsPodcastsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsPodcastsOperationsRequest,
   output: GetProjectsLocationsPodcastsOperationsResponse,
   errors: [],
@@ -32365,25 +32438,26 @@ export interface WriteProjectsLocationsUserEventsRequest {
   body?: GoogleCloudDiscoveryengineV1betaUserEvent;
 }
 
-export const WriteProjectsLocationsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:write",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WriteProjectsLocationsUserEventsRequest>;
+export const WriteProjectsLocationsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:write",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteProjectsLocationsUserEventsRequest>;
 
 export type WriteProjectsLocationsUserEventsResponse =
   GoogleCloudDiscoveryengineV1betaUserEvent;
 export const WriteProjectsLocationsUserEventsResponse =
-  GoogleCloudDiscoveryengineV1betaUserEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserEvent;
 
 export type WriteProjectsLocationsUserEventsError = DefaultErrors;
 
@@ -32393,7 +32467,7 @@ export const writeProjectsLocationsUserEvents: API.OperationMethod<
   WriteProjectsLocationsUserEventsResponse,
   WriteProjectsLocationsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsLocationsUserEventsRequest,
   output: WriteProjectsLocationsUserEventsResponse,
   errors: [],
@@ -32406,24 +32480,25 @@ export interface ImportProjectsLocationsUserEventsRequest {
   body?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequest;
 }
 
-export const ImportProjectsLocationsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDiscoveryengineV1betaImportUserEventsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsUserEventsRequest>;
+export const ImportProjectsLocationsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDiscoveryengineV1betaImportUserEventsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsUserEventsRequest>;
 
 export type ImportProjectsLocationsUserEventsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsUserEventsError = DefaultErrors;
 
@@ -32433,7 +32508,7 @@ export const importProjectsLocationsUserEvents: API.OperationMethod<
   ImportProjectsLocationsUserEventsResponse,
   ImportProjectsLocationsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsUserEventsRequest,
   output: ImportProjectsLocationsUserEventsResponse,
   errors: [],
@@ -32450,21 +32525,23 @@ export interface CollectProjectsLocationsUserEventsRequest {
   userEvent?: string;
 }
 
-export const CollectProjectsLocationsUserEventsRequest = Schema.Struct({
-  uri: Schema.optional(Schema.String).pipe(T.HttpQuery("uri")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  ets: Schema.optional(Schema.String).pipe(T.HttpQuery("ets")),
-  userEvent: Schema.optional(Schema.String).pipe(T.HttpQuery("userEvent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:collect",
-  }),
-  svc,
-) as unknown as Schema.Schema<CollectProjectsLocationsUserEventsRequest>;
+export const CollectProjectsLocationsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    uri: Schema.optional(Schema.String).pipe(T.HttpQuery("uri")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    ets: Schema.optional(Schema.String).pipe(T.HttpQuery("ets")),
+    userEvent: Schema.optional(Schema.String).pipe(T.HttpQuery("userEvent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userEvents:collect",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CollectProjectsLocationsUserEventsRequest>;
 
 export type CollectProjectsLocationsUserEventsResponse = GoogleApiHttpBody;
-export const CollectProjectsLocationsUserEventsResponse = GoogleApiHttpBody;
+export const CollectProjectsLocationsUserEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleApiHttpBody;
 
 export type CollectProjectsLocationsUserEventsError = DefaultErrors;
 
@@ -32474,7 +32551,7 @@ export const collectProjectsLocationsUserEvents: API.OperationMethod<
   CollectProjectsLocationsUserEventsResponse,
   CollectProjectsLocationsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CollectProjectsLocationsUserEventsRequest,
   output: CollectProjectsLocationsUserEventsResponse,
   errors: [],
@@ -32488,7 +32565,7 @@ export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
 }
 
 export const BatchUpdateUserLicensesProjectsLocationsUserStoresRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest,
@@ -32505,7 +32582,7 @@ export const BatchUpdateUserLicensesProjectsLocationsUserStoresRequest =
 export type BatchUpdateUserLicensesProjectsLocationsUserStoresResponse =
   GoogleLongrunningOperation;
 export const BatchUpdateUserLicensesProjectsLocationsUserStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BatchUpdateUserLicensesProjectsLocationsUserStoresError =
   DefaultErrors;
@@ -32516,7 +32593,7 @@ export const batchUpdateUserLicensesProjectsLocationsUserStores: API.OperationMe
   BatchUpdateUserLicensesProjectsLocationsUserStoresResponse,
   BatchUpdateUserLicensesProjectsLocationsUserStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateUserLicensesProjectsLocationsUserStoresRequest,
   output: BatchUpdateUserLicensesProjectsLocationsUserStoresResponse,
   errors: [],
@@ -32531,25 +32608,26 @@ export interface PatchProjectsLocationsUserStoresRequest {
   body?: GoogleCloudDiscoveryengineV1betaUserStore;
 }
 
-export const PatchProjectsLocationsUserStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserStore).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsUserStoresRequest>;
+export const PatchProjectsLocationsUserStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserStore).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsUserStoresRequest>;
 
 export type PatchProjectsLocationsUserStoresResponse =
   GoogleCloudDiscoveryengineV1betaUserStore;
 export const PatchProjectsLocationsUserStoresResponse =
-  GoogleCloudDiscoveryengineV1betaUserStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserStore;
 
 export type PatchProjectsLocationsUserStoresError = DefaultErrors;
 
@@ -32559,7 +32637,7 @@ export const patchProjectsLocationsUserStores: API.OperationMethod<
   PatchProjectsLocationsUserStoresResponse,
   PatchProjectsLocationsUserStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsUserStoresRequest,
   output: PatchProjectsLocationsUserStoresResponse,
   errors: [],
@@ -32570,20 +32648,21 @@ export interface DeleteProjectsLocationsUserStoresRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsUserStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsUserStoresRequest>;
+export const DeleteProjectsLocationsUserStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsUserStoresRequest>;
 
 export type DeleteProjectsLocationsUserStoresResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsUserStoresResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsUserStoresError = DefaultErrors;
 
@@ -32593,7 +32672,7 @@ export const deleteProjectsLocationsUserStores: API.OperationMethod<
   DeleteProjectsLocationsUserStoresResponse,
   DeleteProjectsLocationsUserStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsUserStoresRequest,
   output: DeleteProjectsLocationsUserStoresResponse,
   errors: [],
@@ -32604,20 +32683,21 @@ export interface GetProjectsLocationsUserStoresRequest {
   name: string;
 }
 
-export const GetProjectsLocationsUserStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsUserStoresRequest>;
+export const GetProjectsLocationsUserStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsUserStoresRequest>;
 
 export type GetProjectsLocationsUserStoresResponse =
   GoogleCloudDiscoveryengineV1betaUserStore;
 export const GetProjectsLocationsUserStoresResponse =
-  GoogleCloudDiscoveryengineV1betaUserStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserStore;
 
 export type GetProjectsLocationsUserStoresError = DefaultErrors;
 
@@ -32627,7 +32707,7 @@ export const getProjectsLocationsUserStores: API.OperationMethod<
   GetProjectsLocationsUserStoresResponse,
   GetProjectsLocationsUserStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsUserStoresRequest,
   output: GetProjectsLocationsUserStoresResponse,
   errors: [],
@@ -32642,25 +32722,28 @@ export interface CreateProjectsLocationsUserStoresRequest {
   body?: GoogleCloudDiscoveryengineV1betaUserStore;
 }
 
-export const CreateProjectsLocationsUserStoresRequest = Schema.Struct({
-  userStoreId: Schema.optional(Schema.String).pipe(T.HttpQuery("userStoreId")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserStore).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsUserStoresRequest>;
+export const CreateProjectsLocationsUserStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userStoreId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("userStoreId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaUserStore).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsUserStoresRequest>;
 
 export type CreateProjectsLocationsUserStoresResponse =
   GoogleCloudDiscoveryengineV1betaUserStore;
 export const CreateProjectsLocationsUserStoresResponse =
-  GoogleCloudDiscoveryengineV1betaUserStore;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaUserStore;
 
 export type CreateProjectsLocationsUserStoresError = DefaultErrors;
 
@@ -32670,7 +32753,7 @@ export const createProjectsLocationsUserStores: API.OperationMethod<
   CreateProjectsLocationsUserStoresResponse,
   CreateProjectsLocationsUserStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsUserStoresRequest,
   output: CreateProjectsLocationsUserStoresResponse,
   errors: [],
@@ -32687,25 +32770,24 @@ export interface ListProjectsLocationsUserStoresUserLicensesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsUserStoresUserLicensesRequest = Schema.Struct(
-  {
+export const ListProjectsLocationsUserStoresUserLicensesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}/userLicenses",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsUserStoresUserLicensesRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/userStores/{userStoresId}/userLicenses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsUserStoresUserLicensesRequest>;
 
 export type ListProjectsLocationsUserStoresUserLicensesResponse =
   GoogleCloudDiscoveryengineV1betaListUserLicensesResponse;
 export const ListProjectsLocationsUserStoresUserLicensesResponse =
-  GoogleCloudDiscoveryengineV1betaListUserLicensesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListUserLicensesResponse;
 
 export type ListProjectsLocationsUserStoresUserLicensesError = DefaultErrors;
 
@@ -32715,7 +32797,7 @@ export const listProjectsLocationsUserStoresUserLicenses: API.PaginatedOperation
   ListProjectsLocationsUserStoresUserLicensesResponse,
   ListProjectsLocationsUserStoresUserLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsUserStoresUserLicensesRequest,
   output: ListProjectsLocationsUserStoresUserLicensesResponse,
   errors: [],
@@ -32731,7 +32813,7 @@ export interface ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest 
 }
 
 export const ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
@@ -32744,7 +32826,7 @@ export const ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest =
 export type ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse =
   GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse;
 export const ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse =
-  GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse;
 
 export type ListProjectsLocationsUserStoresLicenseConfigsUsageStatsError =
   DefaultErrors;
@@ -32755,7 +32837,7 @@ export const listProjectsLocationsUserStoresLicenseConfigsUsageStats: API.Operat
   ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse,
   ListProjectsLocationsUserStoresLicenseConfigsUsageStatsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest,
   output: ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse,
   errors: [],
@@ -32768,24 +32850,25 @@ export interface RankProjectsLocationsRankingConfigsRequest {
   body?: GoogleCloudDiscoveryengineV1betaRankRequest;
 }
 
-export const RankProjectsLocationsRankingConfigsRequest = Schema.Struct({
-  rankingConfig: Schema.String.pipe(T.HttpPath("rankingConfig")),
-  body: Schema.optional(GoogleCloudDiscoveryengineV1betaRankRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/rankingConfigs/{rankingConfigsId}:rank",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RankProjectsLocationsRankingConfigsRequest>;
+export const RankProjectsLocationsRankingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    rankingConfig: Schema.String.pipe(T.HttpPath("rankingConfig")),
+    body: Schema.optional(GoogleCloudDiscoveryengineV1betaRankRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/rankingConfigs/{rankingConfigsId}:rank",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RankProjectsLocationsRankingConfigsRequest>;
 
 export type RankProjectsLocationsRankingConfigsResponse =
   GoogleCloudDiscoveryengineV1betaRankResponse;
 export const RankProjectsLocationsRankingConfigsResponse =
-  GoogleCloudDiscoveryengineV1betaRankResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDiscoveryengineV1betaRankResponse;
 
 export type RankProjectsLocationsRankingConfigsError = DefaultErrors;
 
@@ -32795,7 +32878,7 @@ export const rankProjectsLocationsRankingConfigs: API.OperationMethod<
   RankProjectsLocationsRankingConfigsResponse,
   RankProjectsLocationsRankingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RankProjectsLocationsRankingConfigsRequest,
   output: RankProjectsLocationsRankingConfigsResponse,
   errors: [],

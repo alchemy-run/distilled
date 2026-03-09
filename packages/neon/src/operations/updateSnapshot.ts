@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const UpdateSnapshotInput = Schema.Struct({
+export const UpdateSnapshotInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   snapshot_id: Schema.String.pipe(T.PathParam()),
   snapshot: Schema.Struct({
@@ -18,7 +18,7 @@ export const UpdateSnapshotInput = Schema.Struct({
 export type UpdateSnapshotInput = typeof UpdateSnapshotInput.Type;
 
 // Output Schema
-export const UpdateSnapshotOutput = Schema.Struct({
+export const UpdateSnapshotOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   snapshot: Schema.Struct({
     id: Schema.String,
     name: Schema.String,

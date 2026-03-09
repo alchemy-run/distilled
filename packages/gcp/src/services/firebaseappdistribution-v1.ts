@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -35,7 +35,7 @@ export interface GoogleFirebaseAppdistroV1ReleaseNotes {
 }
 
 export const GoogleFirebaseAppdistroV1ReleaseNotes: Schema.Schema<GoogleFirebaseAppdistroV1ReleaseNotes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -67,7 +67,7 @@ export interface GoogleFirebaseAppdistroV1Release {
 }
 
 export const GoogleFirebaseAppdistroV1Release: Schema.Schema<GoogleFirebaseAppdistroV1Release> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buildVersion: Schema.optional(Schema.String),
       firebaseConsoleUri: Schema.optional(Schema.String),
@@ -87,7 +87,7 @@ export const GoogleFirebaseAppdistroV1Release: Schema.Schema<GoogleFirebaseAppdi
 export interface GoogleFirebaseAppdistroV1UploadReleaseMetadata {}
 
 export const GoogleFirebaseAppdistroV1UploadReleaseMetadata: Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1UploadReleaseMetadata",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseMetadata>;
 
@@ -97,7 +97,7 @@ export interface GoogleFirebaseAppdistroV1BatchLeaveGroupRequest {
 }
 
 export const GoogleFirebaseAppdistroV1BatchLeaveGroupRequest: Schema.Schema<GoogleFirebaseAppdistroV1BatchLeaveGroupRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emails: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -115,7 +115,7 @@ export interface GoogleFirebaseAppdistroV1TestCertificate {
 }
 
 export const GoogleFirebaseAppdistroV1TestCertificate: Schema.Schema<GoogleFirebaseAppdistroV1TestCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hashSha1: Schema.optional(Schema.String),
       hashSha256: Schema.optional(Schema.String),
@@ -143,7 +143,7 @@ export interface GoogleFirebaseAppdistroV1AabInfo {
 }
 
 export const GoogleFirebaseAppdistroV1AabInfo: Schema.Schema<GoogleFirebaseAppdistroV1AabInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       integrationState: Schema.optional(Schema.String),
@@ -173,7 +173,7 @@ export interface GdataBlobstore2Info {
 }
 
 export const GdataBlobstore2Info: Schema.Schema<GdataBlobstore2Info> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadReadHandle: Schema.optional(Schema.String),
       blobId: Schema.optional(Schema.String),
@@ -196,15 +196,16 @@ export interface GdataObjectId {
   generation?: string;
 }
 
-export const GdataObjectId: Schema.Schema<GdataObjectId> = Schema.suspend(() =>
-  Schema.Struct({
-    bucketName: Schema.optional(Schema.String),
-    objectName: Schema.optional(Schema.String),
-    generation: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GdataObjectId",
-}) as any as Schema.Schema<GdataObjectId>;
+export const GdataObjectId: Schema.Schema<GdataObjectId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bucketName: Schema.optional(Schema.String),
+      objectName: Schema.optional(Schema.String),
+      generation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GdataObjectId",
+  }) as any as Schema.Schema<GdataObjectId>;
 
 export interface GdataCompositeMedia {
   /** Describes what the field reference contains. */
@@ -238,7 +239,7 @@ export interface GdataCompositeMedia {
 }
 
 export const GdataCompositeMedia: Schema.Schema<GdataCompositeMedia> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceType: Schema.optional(Schema.String),
       crc32cHash: Schema.optional(Schema.Number),
@@ -262,7 +263,7 @@ export interface GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest {
 }
 
 export const GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest: Schema.Schema<GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -273,7 +274,7 @@ export const GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest: Schema.Schema<
 export interface GoogleLongrunningCancelOperationRequest {}
 
 export const GoogleLongrunningCancelOperationRequest: Schema.Schema<GoogleLongrunningCancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleLongrunningCancelOperationRequest",
   }) as any as Schema.Schema<GoogleLongrunningCancelOperationRequest>;
 
@@ -283,7 +284,7 @@ export interface GdataDiffDownloadResponse {
 }
 
 export const GdataDiffDownloadResponse: Schema.Schema<GdataDiffDownloadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectLocation: Schema.optional(GdataCompositeMedia),
     }),
@@ -305,7 +306,7 @@ export interface GdataContentTypeInfo {
 }
 
 export const GdataContentTypeInfo: Schema.Schema<GdataContentTypeInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bestGuess: Schema.optional(Schema.String),
       fromHeader: Schema.optional(Schema.String),
@@ -325,7 +326,7 @@ export interface GdataDiffVersionResponse {
 }
 
 export const GdataDiffVersionResponse: Schema.Schema<GdataDiffVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       objectSizeBytes: Schema.optional(Schema.String),
@@ -348,7 +349,7 @@ export interface GdataDiffChecksumsResponse {
 }
 
 export const GdataDiffChecksumsResponse: Schema.Schema<GdataDiffChecksumsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       chunkSizeBytes: Schema.optional(Schema.String),
@@ -368,7 +369,7 @@ export interface GdataDiffUploadResponse {
 }
 
 export const GdataDiffUploadResponse: Schema.Schema<GdataDiffUploadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       originalObject: Schema.optional(GdataCompositeMedia),
@@ -385,7 +386,7 @@ export interface GdataDownloadParameters {
 }
 
 export const GdataDownloadParameters: Schema.Schema<GdataDownloadParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowGzipCompression: Schema.optional(Schema.Boolean),
       ignoreRange: Schema.optional(Schema.Boolean),
@@ -404,7 +405,7 @@ export interface GdataDiffUploadRequest {
 }
 
 export const GdataDiffUploadRequest: Schema.Schema<GdataDiffUploadRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       checksumsInfo: Schema.optional(GdataCompositeMedia),
       objectVersion: Schema.optional(Schema.String),
@@ -491,40 +492,41 @@ export interface GdataMedia {
   diffUploadRequest?: GdataDiffUploadRequest;
 }
 
-export const GdataMedia: Schema.Schema<GdataMedia> = Schema.suspend(() =>
-  Schema.Struct({
-    timestamp: Schema.optional(Schema.String),
-    diffDownloadResponse: Schema.optional(GdataDiffDownloadResponse),
-    path: Schema.optional(Schema.String),
-    compositeMedia: Schema.optional(Schema.Array(GdataCompositeMedia)),
-    algorithm: Schema.optional(Schema.String),
-    length: Schema.optional(Schema.String),
-    referenceType: Schema.optional(Schema.String),
-    contentType: Schema.optional(Schema.String),
-    sha1Hash: Schema.optional(Schema.String),
-    cosmoBinaryReference: Schema.optional(Schema.String),
-    blobRef: Schema.optional(Schema.String),
-    inline: Schema.optional(Schema.String),
-    crc32cHash: Schema.optional(Schema.Number),
-    hashVerified: Schema.optional(Schema.Boolean),
-    contentTypeInfo: Schema.optional(GdataContentTypeInfo),
-    md5Hash: Schema.optional(Schema.String),
-    mediaId: Schema.optional(Schema.String),
-    bigstoreObjectRef: Schema.optional(Schema.String),
-    diffVersionResponse: Schema.optional(GdataDiffVersionResponse),
-    objectId: Schema.optional(GdataObjectId),
-    token: Schema.optional(Schema.String),
-    isPotentialRetry: Schema.optional(Schema.Boolean),
-    blobstore2Info: Schema.optional(GdataBlobstore2Info),
-    filename: Schema.optional(Schema.String),
-    diffChecksumsResponse: Schema.optional(GdataDiffChecksumsResponse),
-    diffUploadResponse: Schema.optional(GdataDiffUploadResponse),
-    downloadParameters: Schema.optional(GdataDownloadParameters),
-    hash: Schema.optional(Schema.String),
-    sha256Hash: Schema.optional(Schema.String),
-    diffUploadRequest: Schema.optional(GdataDiffUploadRequest),
-  }),
-).annotate({ identifier: "GdataMedia" }) as any as Schema.Schema<GdataMedia>;
+export const GdataMedia: Schema.Schema<GdataMedia> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timestamp: Schema.optional(Schema.String),
+      diffDownloadResponse: Schema.optional(GdataDiffDownloadResponse),
+      path: Schema.optional(Schema.String),
+      compositeMedia: Schema.optional(Schema.Array(GdataCompositeMedia)),
+      algorithm: Schema.optional(Schema.String),
+      length: Schema.optional(Schema.String),
+      referenceType: Schema.optional(Schema.String),
+      contentType: Schema.optional(Schema.String),
+      sha1Hash: Schema.optional(Schema.String),
+      cosmoBinaryReference: Schema.optional(Schema.String),
+      blobRef: Schema.optional(Schema.String),
+      inline: Schema.optional(Schema.String),
+      crc32cHash: Schema.optional(Schema.Number),
+      hashVerified: Schema.optional(Schema.Boolean),
+      contentTypeInfo: Schema.optional(GdataContentTypeInfo),
+      md5Hash: Schema.optional(Schema.String),
+      mediaId: Schema.optional(Schema.String),
+      bigstoreObjectRef: Schema.optional(Schema.String),
+      diffVersionResponse: Schema.optional(GdataDiffVersionResponse),
+      objectId: Schema.optional(GdataObjectId),
+      token: Schema.optional(Schema.String),
+      isPotentialRetry: Schema.optional(Schema.Boolean),
+      blobstore2Info: Schema.optional(GdataBlobstore2Info),
+      filename: Schema.optional(Schema.String),
+      diffChecksumsResponse: Schema.optional(GdataDiffChecksumsResponse),
+      diffUploadResponse: Schema.optional(GdataDiffUploadResponse),
+      downloadParameters: Schema.optional(GdataDownloadParameters),
+      hash: Schema.optional(Schema.String),
+      sha256Hash: Schema.optional(Schema.String),
+      diffUploadRequest: Schema.optional(GdataDiffUploadRequest),
+    }),
+  ).annotate({ identifier: "GdataMedia" }) as any as Schema.Schema<GdataMedia>;
 
 export interface GoogleFirebaseAppdistroV1UploadReleaseRequest {
   /** Binary to upload */
@@ -532,7 +534,7 @@ export interface GoogleFirebaseAppdistroV1UploadReleaseRequest {
 }
 
 export const GoogleFirebaseAppdistroV1UploadReleaseRequest: Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blob: Schema.optional(GdataMedia),
     }),
@@ -548,7 +550,7 @@ export interface GoogleFirebaseAppdistroV1ListReleasesResponse {
 }
 
 export const GoogleFirebaseAppdistroV1ListReleasesResponse: Schema.Schema<GoogleFirebaseAppdistroV1ListReleasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       releases: Schema.optional(Schema.Array(GoogleFirebaseAppdistroV1Release)),
@@ -570,7 +572,7 @@ export interface GoogleFirebaseAppdistroV1UploadReleaseResponse {
 }
 
 export const GoogleFirebaseAppdistroV1UploadReleaseResponse: Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(Schema.String),
       release: Schema.optional(GoogleFirebaseAppdistroV1Release),
@@ -591,7 +593,7 @@ export interface GoogleFirebaseAppdistroV1Tester {
 }
 
 export const GoogleFirebaseAppdistroV1Tester: Schema.Schema<GoogleFirebaseAppdistroV1Tester> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groups: Schema.optional(Schema.Array(Schema.String)),
       displayName: Schema.optional(Schema.String),
@@ -610,7 +612,7 @@ export interface GoogleFirebaseAppdistroV1ListTestersResponse {
 }
 
 export const GoogleFirebaseAppdistroV1ListTestersResponse: Schema.Schema<GoogleFirebaseAppdistroV1ListTestersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       testers: Schema.optional(Schema.Array(GoogleFirebaseAppdistroV1Tester)),
@@ -627,7 +629,7 @@ export interface GoogleFirebaseAppdistroV1DistributeReleaseRequest {
 }
 
 export const GoogleFirebaseAppdistroV1DistributeReleaseRequest: Schema.Schema<GoogleFirebaseAppdistroV1DistributeReleaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testerEmails: Schema.optional(Schema.Array(Schema.String)),
       groupAliases: Schema.optional(Schema.Array(Schema.String)),
@@ -645,8 +647,8 @@ export interface GoogleRpcStatus {
   code?: number;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       details: Schema.optional(
@@ -654,9 +656,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
       ),
       code: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -672,7 +674,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       done: Schema.optional(Schema.Boolean),
@@ -694,7 +696,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
@@ -710,7 +712,7 @@ export interface GoogleLongrunningWaitOperationRequest {
 }
 
 export const GoogleLongrunningWaitOperationRequest: Schema.Schema<GoogleLongrunningWaitOperationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeout: Schema.optional(Schema.String),
     }),
@@ -726,7 +728,7 @@ export interface GoogleFirebaseAppdistroV1BatchJoinGroupRequest {
 }
 
 export const GoogleFirebaseAppdistroV1BatchJoinGroupRequest: Schema.Schema<GoogleFirebaseAppdistroV1BatchJoinGroupRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emails: Schema.optional(Schema.Array(Schema.String)),
       createMissingTesters: Schema.optional(Schema.Boolean),
@@ -741,7 +743,7 @@ export interface GoogleFirebaseAppdistroV1BatchRemoveTestersRequest {
 }
 
 export const GoogleFirebaseAppdistroV1BatchRemoveTestersRequest: Schema.Schema<GoogleFirebaseAppdistroV1BatchRemoveTestersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emails: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -765,7 +767,7 @@ export interface GoogleFirebaseAppdistroV1FeedbackReport {
 }
 
 export const GoogleFirebaseAppdistroV1FeedbackReport: Schema.Schema<GoogleFirebaseAppdistroV1FeedbackReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tester: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -786,7 +788,7 @@ export interface GoogleFirebaseAppdistroV1ListFeedbackReportsResponse {
 }
 
 export const GoogleFirebaseAppdistroV1ListFeedbackReportsResponse: Schema.Schema<GoogleFirebaseAppdistroV1ListFeedbackReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackReports: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1FeedbackReport),
@@ -803,7 +805,7 @@ export interface GoogleFirebaseAppdistroV1BatchAddTestersResponse {
 }
 
 export const GoogleFirebaseAppdistroV1BatchAddTestersResponse: Schema.Schema<GoogleFirebaseAppdistroV1BatchAddTestersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testers: Schema.optional(Schema.Array(GoogleFirebaseAppdistroV1Tester)),
     }),
@@ -814,7 +816,7 @@ export const GoogleFirebaseAppdistroV1BatchAddTestersResponse: Schema.Schema<Goo
 export interface GoogleFirebaseAppdistroV1DistributeReleaseResponse {}
 
 export const GoogleFirebaseAppdistroV1DistributeReleaseResponse: Schema.Schema<GoogleFirebaseAppdistroV1DistributeReleaseResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1DistributeReleaseResponse",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1DistributeReleaseResponse>;
 
@@ -824,7 +826,7 @@ export interface GoogleFirebaseAppdistroV1BatchAddTestersRequest {
 }
 
 export const GoogleFirebaseAppdistroV1BatchAddTestersRequest: Schema.Schema<GoogleFirebaseAppdistroV1BatchAddTestersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emails: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -846,7 +848,7 @@ export interface GoogleFirebaseAppdistroV1Group {
 }
 
 export const GoogleFirebaseAppdistroV1Group: Schema.Schema<GoogleFirebaseAppdistroV1Group> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testerCount: Schema.optional(Schema.Number),
       inviteLinkCount: Schema.optional(Schema.Number),
@@ -866,7 +868,7 @@ export interface GoogleFirebaseAppdistroV1ListGroupsResponse {
 }
 
 export const GoogleFirebaseAppdistroV1ListGroupsResponse: Schema.Schema<GoogleFirebaseAppdistroV1ListGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groups: Schema.optional(Schema.Array(GoogleFirebaseAppdistroV1Group)),
       nextPageToken: Schema.optional(Schema.String),
@@ -881,7 +883,7 @@ export interface GoogleFirebaseAppdistroV1BatchRemoveTestersResponse {
 }
 
 export const GoogleFirebaseAppdistroV1BatchRemoveTestersResponse: Schema.Schema<GoogleFirebaseAppdistroV1BatchRemoveTestersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emails: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -900,24 +902,25 @@ export interface BatchAddProjectsTestersRequest {
   body?: GoogleFirebaseAppdistroV1BatchAddTestersRequest;
 }
 
-export const BatchAddProjectsTestersRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1BatchAddTestersRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/testers:batchAdd",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchAddProjectsTestersRequest>;
+export const BatchAddProjectsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1BatchAddTestersRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/testers:batchAdd",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchAddProjectsTestersRequest>;
 
 export type BatchAddProjectsTestersResponse =
   GoogleFirebaseAppdistroV1BatchAddTestersResponse;
 export const BatchAddProjectsTestersResponse =
-  GoogleFirebaseAppdistroV1BatchAddTestersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1BatchAddTestersResponse;
 
 export type BatchAddProjectsTestersError = DefaultErrors;
 
@@ -927,7 +930,7 @@ export const batchAddProjectsTesters: API.OperationMethod<
   BatchAddProjectsTestersResponse,
   BatchAddProjectsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchAddProjectsTestersRequest,
   output: BatchAddProjectsTestersResponse,
   errors: [],
@@ -942,21 +945,23 @@ export interface PatchProjectsTestersRequest {
   body?: GoogleFirebaseAppdistroV1Tester;
 }
 
-export const PatchProjectsTestersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1Tester).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/testers/{testersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsTestersRequest>;
+export const PatchProjectsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1Tester).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/testers/{testersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsTestersRequest>;
 
 export type PatchProjectsTestersResponse = GoogleFirebaseAppdistroV1Tester;
-export const PatchProjectsTestersResponse = GoogleFirebaseAppdistroV1Tester;
+export const PatchProjectsTestersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Tester;
 
 export type PatchProjectsTestersError = DefaultErrors;
 
@@ -966,7 +971,7 @@ export const patchProjectsTesters: API.OperationMethod<
   PatchProjectsTestersResponse,
   PatchProjectsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsTestersRequest,
   output: PatchProjectsTestersResponse,
   errors: [],
@@ -983,20 +988,21 @@ export interface ListProjectsTestersRequest {
   pageSize?: number;
 }
 
-export const ListProjectsTestersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/testers" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTestersRequest>;
+export const ListProjectsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/testers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTestersRequest>;
 
 export type ListProjectsTestersResponse =
   GoogleFirebaseAppdistroV1ListTestersResponse;
 export const ListProjectsTestersResponse =
-  GoogleFirebaseAppdistroV1ListTestersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1ListTestersResponse;
 
 export type ListProjectsTestersError = DefaultErrors;
 
@@ -1006,7 +1012,7 @@ export const listProjectsTesters: API.PaginatedOperationMethod<
   ListProjectsTestersResponse,
   ListProjectsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTestersRequest,
   output: ListProjectsTestersResponse,
   errors: [],
@@ -1023,24 +1029,25 @@ export interface BatchRemoveProjectsTestersRequest {
   body?: GoogleFirebaseAppdistroV1BatchRemoveTestersRequest;
 }
 
-export const BatchRemoveProjectsTestersRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1BatchRemoveTestersRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/testers:batchRemove",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchRemoveProjectsTestersRequest>;
+export const BatchRemoveProjectsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1BatchRemoveTestersRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/testers:batchRemove",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchRemoveProjectsTestersRequest>;
 
 export type BatchRemoveProjectsTestersResponse =
   GoogleFirebaseAppdistroV1BatchRemoveTestersResponse;
 export const BatchRemoveProjectsTestersResponse =
-  GoogleFirebaseAppdistroV1BatchRemoveTestersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1BatchRemoveTestersResponse;
 
 export type BatchRemoveProjectsTestersError = DefaultErrors;
 
@@ -1050,7 +1057,7 @@ export const batchRemoveProjectsTesters: API.OperationMethod<
   BatchRemoveProjectsTestersResponse,
   BatchRemoveProjectsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRemoveProjectsTestersRequest,
   output: BatchRemoveProjectsTestersResponse,
   errors: [],
@@ -1065,21 +1072,23 @@ export interface CreateProjectsGroupsRequest {
   body?: GoogleFirebaseAppdistroV1Group;
 }
 
-export const CreateProjectsGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1Group).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/groups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsGroupsRequest>;
+export const CreateProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1Group).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/groups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsGroupsRequest>;
 
 export type CreateProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
-export const CreateProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
+export const CreateProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Group;
 
 export type CreateProjectsGroupsError = DefaultErrors;
 
@@ -1089,7 +1098,7 @@ export const createProjectsGroups: API.OperationMethod<
   CreateProjectsGroupsResponse,
   CreateProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsGroupsRequest,
   output: CreateProjectsGroupsResponse,
   errors: [],
@@ -1104,21 +1113,23 @@ export interface PatchProjectsGroupsRequest {
   body?: GoogleFirebaseAppdistroV1Group;
 }
 
-export const PatchProjectsGroupsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1Group).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/groups/{groupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsGroupsRequest>;
+export const PatchProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1Group).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/groups/{groupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsGroupsRequest>;
 
 export type PatchProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
-export const PatchProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
+export const PatchProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Group;
 
 export type PatchProjectsGroupsError = DefaultErrors;
 
@@ -1128,7 +1139,7 @@ export const patchProjectsGroups: API.OperationMethod<
   PatchProjectsGroupsResponse,
   PatchProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsGroupsRequest,
   output: PatchProjectsGroupsResponse,
   errors: [],
@@ -1143,19 +1154,20 @@ export interface ListProjectsGroupsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/groups" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsGroupsRequest>;
+export const ListProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/groups" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsGroupsRequest>;
 
 export type ListProjectsGroupsResponse =
   GoogleFirebaseAppdistroV1ListGroupsResponse;
 export const ListProjectsGroupsResponse =
-  GoogleFirebaseAppdistroV1ListGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1ListGroupsResponse;
 
 export type ListProjectsGroupsError = DefaultErrors;
 
@@ -1165,7 +1177,7 @@ export const listProjectsGroups: API.PaginatedOperationMethod<
   ListProjectsGroupsResponse,
   ListProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsGroupsRequest,
   output: ListProjectsGroupsResponse,
   errors: [],
@@ -1182,22 +1194,24 @@ export interface BatchLeaveProjectsGroupsRequest {
   body?: GoogleFirebaseAppdistroV1BatchLeaveGroupRequest;
 }
 
-export const BatchLeaveProjectsGroupsRequest = Schema.Struct({
-  group: Schema.String.pipe(T.HttpPath("group")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1BatchLeaveGroupRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/groups/{groupsId}:batchLeave",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchLeaveProjectsGroupsRequest>;
+export const BatchLeaveProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    group: Schema.String.pipe(T.HttpPath("group")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1BatchLeaveGroupRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/groups/{groupsId}:batchLeave",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchLeaveProjectsGroupsRequest>;
 
 export type BatchLeaveProjectsGroupsResponse = GoogleProtobufEmpty;
-export const BatchLeaveProjectsGroupsResponse = GoogleProtobufEmpty;
+export const BatchLeaveProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchLeaveProjectsGroupsError = DefaultErrors;
 
@@ -1207,7 +1221,7 @@ export const batchLeaveProjectsGroups: API.OperationMethod<
   BatchLeaveProjectsGroupsResponse,
   BatchLeaveProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchLeaveProjectsGroupsRequest,
   output: BatchLeaveProjectsGroupsResponse,
   errors: [],
@@ -1220,22 +1234,24 @@ export interface BatchJoinProjectsGroupsRequest {
   body?: GoogleFirebaseAppdistroV1BatchJoinGroupRequest;
 }
 
-export const BatchJoinProjectsGroupsRequest = Schema.Struct({
-  group: Schema.String.pipe(T.HttpPath("group")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1BatchJoinGroupRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/groups/{groupsId}:batchJoin",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchJoinProjectsGroupsRequest>;
+export const BatchJoinProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    group: Schema.String.pipe(T.HttpPath("group")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1BatchJoinGroupRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/groups/{groupsId}:batchJoin",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchJoinProjectsGroupsRequest>;
 
 export type BatchJoinProjectsGroupsResponse = GoogleProtobufEmpty;
-export const BatchJoinProjectsGroupsResponse = GoogleProtobufEmpty;
+export const BatchJoinProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchJoinProjectsGroupsError = DefaultErrors;
 
@@ -1245,7 +1261,7 @@ export const batchJoinProjectsGroups: API.OperationMethod<
   BatchJoinProjectsGroupsResponse,
   BatchJoinProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchJoinProjectsGroupsRequest,
   output: BatchJoinProjectsGroupsResponse,
   errors: [],
@@ -1256,15 +1272,20 @@ export interface GetProjectsGroupsRequest {
   name: string;
 }
 
-export const GetProjectsGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/groups/{groupsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsGroupsRequest>;
+export const GetProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/groups/{groupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsGroupsRequest>;
 
 export type GetProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
-export const GetProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
+export const GetProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Group;
 
 export type GetProjectsGroupsError = DefaultErrors;
 
@@ -1274,7 +1295,7 @@ export const getProjectsGroups: API.OperationMethod<
   GetProjectsGroupsResponse,
   GetProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsGroupsRequest,
   output: GetProjectsGroupsResponse,
   errors: [],
@@ -1285,18 +1306,20 @@ export interface DeleteProjectsGroupsRequest {
   name: string;
 }
 
-export const DeleteProjectsGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/groups/{groupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsGroupsRequest>;
+export const DeleteProjectsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/groups/{groupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsGroupsRequest>;
 
 export type DeleteProjectsGroupsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsGroupsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsGroupsError = DefaultErrors;
 
@@ -1306,7 +1329,7 @@ export const deleteProjectsGroups: API.OperationMethod<
   DeleteProjectsGroupsResponse,
   DeleteProjectsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsGroupsRequest,
   output: DeleteProjectsGroupsResponse,
   errors: [],
@@ -1317,18 +1340,20 @@ export interface GetAabInfoProjectsAppsRequest {
   name: string;
 }
 
-export const GetAabInfoProjectsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/aabInfo",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAabInfoProjectsAppsRequest>;
+export const GetAabInfoProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/aabInfo",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAabInfoProjectsAppsRequest>;
 
 export type GetAabInfoProjectsAppsResponse = GoogleFirebaseAppdistroV1AabInfo;
-export const GetAabInfoProjectsAppsResponse = GoogleFirebaseAppdistroV1AabInfo;
+export const GetAabInfoProjectsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1AabInfo;
 
 export type GetAabInfoProjectsAppsError = DefaultErrors;
 
@@ -1338,7 +1363,7 @@ export const getAabInfoProjectsApps: API.OperationMethod<
   GetAabInfoProjectsAppsResponse,
   GetAabInfoProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAabInfoProjectsAppsRequest,
   output: GetAabInfoProjectsAppsResponse,
   errors: [],
@@ -1349,18 +1374,20 @@ export interface GetProjectsAppsReleasesRequest {
   name: string;
 }
 
-export const GetProjectsAppsReleasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsReleasesRequest>;
+export const GetProjectsAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsReleasesRequest>;
 
 export type GetProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1Release;
-export const GetProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1Release;
+export const GetProjectsAppsReleasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Release;
 
 export type GetProjectsAppsReleasesError = DefaultErrors;
 
@@ -1370,7 +1397,7 @@ export const getProjectsAppsReleases: API.OperationMethod<
   GetProjectsAppsReleasesResponse,
   GetProjectsAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsReleasesRequest,
   output: GetProjectsAppsReleasesResponse,
   errors: [],
@@ -1389,24 +1416,25 @@ export interface ListProjectsAppsReleasesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsAppsReleasesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsReleasesRequest>;
+export const ListProjectsAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsReleasesRequest>;
 
 export type ListProjectsAppsReleasesResponse =
   GoogleFirebaseAppdistroV1ListReleasesResponse;
 export const ListProjectsAppsReleasesResponse =
-  GoogleFirebaseAppdistroV1ListReleasesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1ListReleasesResponse;
 
 export type ListProjectsAppsReleasesError = DefaultErrors;
 
@@ -1416,7 +1444,7 @@ export const listProjectsAppsReleases: API.PaginatedOperationMethod<
   ListProjectsAppsReleasesResponse,
   ListProjectsAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsReleasesRequest,
   output: ListProjectsAppsReleasesResponse,
   errors: [],
@@ -1433,24 +1461,25 @@ export interface DistributeProjectsAppsReleasesRequest {
   body?: GoogleFirebaseAppdistroV1DistributeReleaseRequest;
 }
 
-export const DistributeProjectsAppsReleasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1DistributeReleaseRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}:distribute",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DistributeProjectsAppsReleasesRequest>;
+export const DistributeProjectsAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1DistributeReleaseRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}:distribute",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DistributeProjectsAppsReleasesRequest>;
 
 export type DistributeProjectsAppsReleasesResponse =
   GoogleFirebaseAppdistroV1DistributeReleaseResponse;
 export const DistributeProjectsAppsReleasesResponse =
-  GoogleFirebaseAppdistroV1DistributeReleaseResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1DistributeReleaseResponse;
 
 export type DistributeProjectsAppsReleasesError = DefaultErrors;
 
@@ -1460,7 +1489,7 @@ export const distributeProjectsAppsReleases: API.OperationMethod<
   DistributeProjectsAppsReleasesResponse,
   DistributeProjectsAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DistributeProjectsAppsReleasesRequest,
   output: DistributeProjectsAppsReleasesResponse,
   errors: [],
@@ -1473,22 +1502,24 @@ export interface BatchDeleteProjectsAppsReleasesRequest {
   body?: GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest;
 }
 
-export const BatchDeleteProjectsAppsReleasesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeleteProjectsAppsReleasesRequest>;
+export const BatchDeleteProjectsAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeleteProjectsAppsReleasesRequest>;
 
 export type BatchDeleteProjectsAppsReleasesResponse = GoogleProtobufEmpty;
-export const BatchDeleteProjectsAppsReleasesResponse = GoogleProtobufEmpty;
+export const BatchDeleteProjectsAppsReleasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchDeleteProjectsAppsReleasesError = DefaultErrors;
 
@@ -1498,7 +1529,7 @@ export const batchDeleteProjectsAppsReleases: API.OperationMethod<
   BatchDeleteProjectsAppsReleasesResponse,
   BatchDeleteProjectsAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteProjectsAppsReleasesRequest,
   output: BatchDeleteProjectsAppsReleasesResponse,
   errors: [],
@@ -1513,23 +1544,24 @@ export interface PatchProjectsAppsReleasesRequest {
   body?: GoogleFirebaseAppdistroV1Release;
 }
 
-export const PatchProjectsAppsReleasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1Release).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsReleasesRequest>;
+export const PatchProjectsAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1Release).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsReleasesRequest>;
 
 export type PatchProjectsAppsReleasesResponse =
   GoogleFirebaseAppdistroV1Release;
 export const PatchProjectsAppsReleasesResponse =
-  GoogleFirebaseAppdistroV1Release;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1Release;
 
 export type PatchProjectsAppsReleasesError = DefaultErrors;
 
@@ -1539,7 +1571,7 @@ export const patchProjectsAppsReleases: API.OperationMethod<
   PatchProjectsAppsReleasesResponse,
   PatchProjectsAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsReleasesRequest,
   output: PatchProjectsAppsReleasesResponse,
   errors: [],
@@ -1550,20 +1582,21 @@ export interface GetProjectsAppsReleasesOperationsRequest {
   name: string;
 }
 
-export const GetProjectsAppsReleasesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsReleasesOperationsRequest>;
+export const GetProjectsAppsReleasesOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsReleasesOperationsRequest>;
 
 export type GetProjectsAppsReleasesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsAppsReleasesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsAppsReleasesOperationsError = DefaultErrors;
 
@@ -1573,7 +1606,7 @@ export const getProjectsAppsReleasesOperations: API.OperationMethod<
   GetProjectsAppsReleasesOperationsResponse,
   GetProjectsAppsReleasesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsReleasesOperationsRequest,
   output: GetProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -1584,18 +1617,20 @@ export interface DeleteProjectsAppsReleasesOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsAppsReleasesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAppsReleasesOperationsRequest>;
+export const DeleteProjectsAppsReleasesOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAppsReleasesOperationsRequest>;
 
 export type DeleteProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsAppsReleasesOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsReleasesOperationsError = DefaultErrors;
 
@@ -1605,7 +1640,7 @@ export const deleteProjectsAppsReleasesOperations: API.OperationMethod<
   DeleteProjectsAppsReleasesOperationsResponse,
   DeleteProjectsAppsReleasesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAppsReleasesOperationsRequest,
   output: DeleteProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -1618,24 +1653,25 @@ export interface WaitProjectsAppsReleasesOperationsRequest {
   body?: GoogleLongrunningWaitOperationRequest;
 }
 
-export const WaitProjectsAppsReleasesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleLongrunningWaitOperationRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}:wait",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WaitProjectsAppsReleasesOperationsRequest>;
+export const WaitProjectsAppsReleasesOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleLongrunningWaitOperationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}:wait",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WaitProjectsAppsReleasesOperationsRequest>;
 
 export type WaitProjectsAppsReleasesOperationsResponse =
   GoogleLongrunningOperation;
 export const WaitProjectsAppsReleasesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type WaitProjectsAppsReleasesOperationsError = DefaultErrors;
 
@@ -1645,7 +1681,7 @@ export const waitProjectsAppsReleasesOperations: API.OperationMethod<
   WaitProjectsAppsReleasesOperationsResponse,
   WaitProjectsAppsReleasesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WaitProjectsAppsReleasesOperationsRequest,
   output: WaitProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -1664,26 +1700,27 @@ export interface ListProjectsAppsReleasesOperationsRequest {
   filter?: string;
 }
 
-export const ListProjectsAppsReleasesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsReleasesOperationsRequest>;
+export const ListProjectsAppsReleasesOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsReleasesOperationsRequest>;
 
 export type ListProjectsAppsReleasesOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsAppsReleasesOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsAppsReleasesOperationsError = DefaultErrors;
 
@@ -1693,7 +1730,7 @@ export const listProjectsAppsReleasesOperations: API.PaginatedOperationMethod<
   ListProjectsAppsReleasesOperationsResponse,
   ListProjectsAppsReleasesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsReleasesOperationsRequest,
   output: ListProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -1710,22 +1747,24 @@ export interface CancelProjectsAppsReleasesOperationsRequest {
   body?: GoogleLongrunningCancelOperationRequest;
 }
 
-export const CancelProjectsAppsReleasesOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsAppsReleasesOperationsRequest>;
+export const CancelProjectsAppsReleasesOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsAppsReleasesOperationsRequest>;
 
 export type CancelProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
-export const CancelProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
+export const CancelProjectsAppsReleasesOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsAppsReleasesOperationsError = DefaultErrors;
 
@@ -1735,7 +1774,7 @@ export const cancelProjectsAppsReleasesOperations: API.OperationMethod<
   CancelProjectsAppsReleasesOperationsResponse,
   CancelProjectsAppsReleasesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsAppsReleasesOperationsRequest,
   output: CancelProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -1750,22 +1789,23 @@ export interface ListProjectsAppsReleasesFeedbackReportsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsAppsReleasesFeedbackReportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsReleasesFeedbackReportsRequest>;
+export const ListProjectsAppsReleasesFeedbackReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsReleasesFeedbackReportsRequest>;
 
 export type ListProjectsAppsReleasesFeedbackReportsResponse =
   GoogleFirebaseAppdistroV1ListFeedbackReportsResponse;
 export const ListProjectsAppsReleasesFeedbackReportsResponse =
-  GoogleFirebaseAppdistroV1ListFeedbackReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1ListFeedbackReportsResponse;
 
 export type ListProjectsAppsReleasesFeedbackReportsError = DefaultErrors;
 
@@ -1775,7 +1815,7 @@ export const listProjectsAppsReleasesFeedbackReports: API.PaginatedOperationMeth
   ListProjectsAppsReleasesFeedbackReportsResponse,
   ListProjectsAppsReleasesFeedbackReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsReleasesFeedbackReportsRequest,
   output: ListProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
@@ -1790,20 +1830,21 @@ export interface GetProjectsAppsReleasesFeedbackReportsRequest {
   name: string;
 }
 
-export const GetProjectsAppsReleasesFeedbackReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports/{feedbackReportsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsReleasesFeedbackReportsRequest>;
+export const GetProjectsAppsReleasesFeedbackReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports/{feedbackReportsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsReleasesFeedbackReportsRequest>;
 
 export type GetProjectsAppsReleasesFeedbackReportsResponse =
   GoogleFirebaseAppdistroV1FeedbackReport;
 export const GetProjectsAppsReleasesFeedbackReportsResponse =
-  GoogleFirebaseAppdistroV1FeedbackReport;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1FeedbackReport;
 
 export type GetProjectsAppsReleasesFeedbackReportsError = DefaultErrors;
 
@@ -1813,7 +1854,7 @@ export const getProjectsAppsReleasesFeedbackReports: API.OperationMethod<
   GetProjectsAppsReleasesFeedbackReportsResponse,
   GetProjectsAppsReleasesFeedbackReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsReleasesFeedbackReportsRequest,
   output: GetProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
@@ -1824,20 +1865,21 @@ export interface DeleteProjectsAppsReleasesFeedbackReportsRequest {
   name: string;
 }
 
-export const DeleteProjectsAppsReleasesFeedbackReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports/{feedbackReportsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAppsReleasesFeedbackReportsRequest>;
+export const DeleteProjectsAppsReleasesFeedbackReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/feedbackReports/{feedbackReportsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAppsReleasesFeedbackReportsRequest>;
 
 export type DeleteProjectsAppsReleasesFeedbackReportsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsAppsReleasesFeedbackReportsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsReleasesFeedbackReportsError = DefaultErrors;
 
@@ -1847,7 +1889,7 @@ export const deleteProjectsAppsReleasesFeedbackReports: API.OperationMethod<
   DeleteProjectsAppsReleasesFeedbackReportsResponse,
   DeleteProjectsAppsReleasesFeedbackReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAppsReleasesFeedbackReportsRequest,
   output: DeleteProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
@@ -1860,7 +1902,7 @@ export interface UploadMediaRequest {
   body?: GoogleFirebaseAppdistroV1UploadReleaseRequest;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   app: Schema.String.pipe(T.HttpPath("app")),
   body: Schema.optional(GoogleFirebaseAppdistroV1UploadReleaseRequest).pipe(
     T.HttpBody(),
@@ -1875,7 +1917,8 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = GoogleLongrunningOperation;
-export const UploadMediaResponse = GoogleLongrunningOperation;
+export const UploadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -1885,7 +1928,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],

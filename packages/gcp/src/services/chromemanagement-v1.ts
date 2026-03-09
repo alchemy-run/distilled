@@ -36,7 +36,7 @@ export interface GoogleChromeManagementV1HttpsLatencyRoutineData {
 }
 
 export const GoogleChromeManagementV1HttpsLatencyRoutineData: Schema.Schema<GoogleChromeManagementV1HttpsLatencyRoutineData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       problem: Schema.optional(Schema.String),
       latency: Schema.optional(Schema.String),
@@ -53,7 +53,7 @@ export interface GoogleChromeManagementV1NetworkDiagnosticsReport {
 }
 
 export const GoogleChromeManagementV1NetworkDiagnosticsReport: Schema.Schema<GoogleChromeManagementV1NetworkDiagnosticsReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       httpsLatencyData: Schema.optional(
@@ -84,7 +84,7 @@ export interface GoogleChromeManagementV1UsbPeripheralReport {
 }
 
 export const GoogleChromeManagementV1UsbPeripheralReport: Schema.Schema<GoogleChromeManagementV1UsbPeripheralReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firmwareVersion: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -105,7 +105,7 @@ export interface GoogleChromeManagementVersionsV1UploadCertificateRequest {
 }
 
 export const GoogleChromeManagementVersionsV1UploadCertificateRequest: Schema.Schema<GoogleChromeManagementVersionsV1UploadCertificateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificatePem: Schema.optional(Schema.String),
     }),
@@ -121,7 +121,7 @@ export interface GoogleChromeManagementV1Device {
 }
 
 export const GoogleChromeManagementV1Device: Schema.Schema<GoogleChromeManagementV1Device> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       machine: Schema.optional(Schema.String),
       deviceId: Schema.optional(Schema.String),
@@ -153,7 +153,7 @@ export interface GoogleChromeManagementV1TelemetryEventNotificationFilter {
 }
 
 export const GoogleChromeManagementV1TelemetryEventNotificationFilter: Schema.Schema<GoogleChromeManagementV1TelemetryEventNotificationFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -175,7 +175,7 @@ export interface GoogleChromeManagementV1TelemetryNotificationFilter {
 }
 
 export const GoogleChromeManagementV1TelemetryNotificationFilter: Schema.Schema<GoogleChromeManagementV1TelemetryNotificationFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userOrgUnitId: Schema.optional(Schema.String),
       deviceId: Schema.optional(Schema.String),
@@ -202,7 +202,7 @@ export interface GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyD
 }
 
 export const GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyData: Schema.Schema<GoogleChromeManagementVersionsV1ReportingDataConflictingPolicyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Schema.String),
     }),
@@ -232,7 +232,7 @@ export interface GoogleChromeManagementVersionsV1ReportingDataPolicyData {
 }
 
 export const GoogleChromeManagementVersionsV1ReportingDataPolicyData: Schema.Schema<GoogleChromeManagementVersionsV1ReportingDataPolicyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -258,7 +258,7 @@ export interface GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyDat
 }
 
 export const GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyData: Schema.Schema<GoogleChromeManagementVersionsV1ReportingDataExtensionPolicyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extensionName: Schema.optional(Schema.String),
       policyData: Schema.optional(
@@ -311,7 +311,7 @@ export interface GoogleChromeManagementVersionsV1ReportingDataExtensionData {
 }
 
 export const GoogleChromeManagementVersionsV1ReportingDataExtensionData: Schema.Schema<GoogleChromeManagementVersionsV1ReportingDataExtensionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
       extensionId: Schema.optional(Schema.String),
@@ -345,7 +345,7 @@ export interface GoogleChromeManagementVersionsV1ReportingData {
 }
 
 export const GoogleChromeManagementVersionsV1ReportingData: Schema.Schema<GoogleChromeManagementVersionsV1ReportingData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyData: Schema.optional(
         Schema.Array(GoogleChromeManagementVersionsV1ReportingDataPolicyData),
@@ -382,7 +382,7 @@ export interface GoogleChromeManagementVersionsV1SubjectAltName {
 }
 
 export const GoogleChromeManagementVersionsV1SubjectAltName: Schema.Schema<GoogleChromeManagementVersionsV1SubjectAltName> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -418,7 +418,7 @@ export interface GoogleChromeManagementVersionsV1ScepProfile {
 }
 
 export const GoogleChromeManagementVersionsV1ScepProfile: Schema.Schema<GoogleChromeManagementVersionsV1ScepProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       subjectCommonName: Schema.optional(Schema.String),
@@ -442,7 +442,7 @@ export interface GoogleChromeManagementVersionsV1ScepCaConnection {
 }
 
 export const GoogleChromeManagementVersionsV1ScepCaConnection: Schema.Schema<GoogleChromeManagementVersionsV1ScepCaConnection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caConnectionAdapterConfigReference: Schema.optional(Schema.String),
     }),
@@ -456,7 +456,7 @@ export interface GoogleChromeManagementVersionsV1GenericProfile {
 }
 
 export const GoogleChromeManagementVersionsV1GenericProfile: Schema.Schema<GoogleChromeManagementVersionsV1GenericProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       profileAdapterConfigReference: Schema.optional(Schema.String),
     }),
@@ -472,7 +472,7 @@ export interface GoogleChromeManagementVersionsV1ChromeOsDevice {
 }
 
 export const GoogleChromeManagementVersionsV1ChromeOsDevice: Schema.Schema<GoogleChromeManagementVersionsV1ChromeOsDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceDirectoryApiId: Schema.optional(Schema.String),
       serialNumber: Schema.optional(Schema.String),
@@ -491,7 +491,7 @@ export interface GoogleChromeManagementVersionsV1ChromeOsUserSession {
 }
 
 export const GoogleChromeManagementVersionsV1ChromeOsUserSession: Schema.Schema<GoogleChromeManagementVersionsV1ChromeOsUserSession> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPrimaryEmail: Schema.optional(Schema.String),
       userDirectoryApiId: Schema.optional(Schema.String),
@@ -509,7 +509,7 @@ export interface GoogleChromeManagementVersionsV1GenericCaConnection {
 }
 
 export const GoogleChromeManagementVersionsV1GenericCaConnection: Schema.Schema<GoogleChromeManagementVersionsV1GenericCaConnection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caConnectionAdapterConfigReference: Schema.optional(Schema.String),
     }),
@@ -555,7 +555,7 @@ export interface GoogleChromeManagementVersionsV1CertificateProvisioningProcess 
 }
 
 export const GoogleChromeManagementVersionsV1CertificateProvisioningProcess: Schema.Schema<GoogleChromeManagementVersionsV1CertificateProvisioningProcess> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scepProfile: Schema.optional(GoogleChromeManagementVersionsV1ScepProfile),
       signature: Schema.optional(Schema.String),
@@ -606,7 +606,7 @@ export interface GoogleChromeManagementV1ChromeAppRequest {
 }
 
 export const GoogleChromeManagementV1ChromeAppRequest: Schema.Schema<GoogleChromeManagementV1ChromeAppRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appDetails: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -628,7 +628,7 @@ export interface GoogleChromeManagementV1PeripheralsReport {
 }
 
 export const GoogleChromeManagementV1PeripheralsReport: Schema.Schema<GoogleChromeManagementV1PeripheralsReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       usbPeripheralReport: Schema.optional(
@@ -669,7 +669,7 @@ export interface GoogleChromeManagementV1DiskInfo {
 }
 
 export const GoogleChromeManagementV1DiskInfo: Schema.Schema<GoogleChromeManagementV1DiskInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       sizeBytes: Schema.optional(Schema.String),
@@ -697,7 +697,7 @@ export interface GoogleChromeManagementV1NetworkBandwidthReport {
 }
 
 export const GoogleChromeManagementV1NetworkBandwidthReport: Schema.Schema<GoogleChromeManagementV1NetworkBandwidthReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadSpeedKbps: Schema.optional(Schema.String),
       reportTime: Schema.optional(Schema.String),
@@ -721,7 +721,7 @@ export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandComm
 }
 
 export const GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult: Schema.Schema<GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientExecutionTime: Schema.optional(Schema.String),
       resultCode: Schema.optional(Schema.String),
@@ -755,7 +755,7 @@ export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand {
 }
 
 export const GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand: Schema.Schema<GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       validDuration: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -780,16 +780,16 @@ export interface GoogleTypeDate {
   month?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCount {
   /** Total count of crash events. */
@@ -801,7 +801,7 @@ export interface GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEven
 }
 
 export const GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCount: Schema.Schema<GoogleChromeManagementV1CountChromeCrashEventsResponseCrashEventCount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.String),
       date: Schema.optional(GoogleTypeDate),
@@ -818,7 +818,7 @@ export interface GoogleChromeManagementV1CountChromeCrashEventsResponse {
 }
 
 export const GoogleChromeManagementV1CountChromeCrashEventsResponse: Schema.Schema<GoogleChromeManagementV1CountChromeCrashEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crashEventCounts: Schema.optional(
         Schema.Array(
@@ -833,7 +833,7 @@ export const GoogleChromeManagementV1CountChromeCrashEventsResponse: Schema.Sche
 export interface GoogleChromeManagementVersionsV1UploadCertificateResponse {}
 
 export const GoogleChromeManagementVersionsV1UploadCertificateResponse: Schema.Schema<GoogleChromeManagementVersionsV1UploadCertificateResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleChromeManagementVersionsV1UploadCertificateResponse",
   }) as any as Schema.Schema<GoogleChromeManagementVersionsV1UploadCertificateResponse>;
 
@@ -847,7 +847,7 @@ export interface GoogleChromeManagementV1CountDevicesPerBootTypeResponse {
 }
 
 export const GoogleChromeManagementV1CountDevicesPerBootTypeResponse: Schema.Schema<GoogleChromeManagementV1CountDevicesPerBootTypeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devBootTypeCount: Schema.optional(Schema.String),
       verifiedBootTypeCount: Schema.optional(Schema.String),
@@ -873,7 +873,7 @@ export interface GoogleChromeManagementVersionsV1AttestationCredential {
 }
 
 export const GoogleChromeManagementVersionsV1AttestationCredential: Schema.Schema<GoogleChromeManagementVersionsV1AttestationCredential> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyType: Schema.optional(Schema.String),
       keyTrustLevel: Schema.optional(Schema.String),
@@ -896,7 +896,7 @@ export interface GoogleChromeManagementVersionsV1DeviceInfo {
 }
 
 export const GoogleChromeManagementVersionsV1DeviceInfo: Schema.Schema<GoogleChromeManagementVersionsV1DeviceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       machine: Schema.optional(Schema.String),
       hostname: Schema.optional(Schema.String),
@@ -976,7 +976,7 @@ export interface GoogleChromeManagementVersionsV1ChromeBrowserProfile {
 }
 
 export const GoogleChromeManagementVersionsV1ChromeBrowserProfile: Schema.Schema<GoogleChromeManagementVersionsV1ChromeBrowserProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userId: Schema.optional(Schema.String),
       userEmail: Schema.optional(Schema.String),
@@ -1024,7 +1024,7 @@ export interface GoogleChromeManagementVersionsV1ListChromeBrowserProfilesRespon
 }
 
 export const GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse: Schema.Schema<GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chromeBrowserProfiles: Schema.optional(
         Schema.Array(GoogleChromeManagementVersionsV1ChromeBrowserProfile),
@@ -1047,7 +1047,7 @@ export interface GoogleChromeManagementV1RiskAssessment {
 }
 
 export const GoogleChromeManagementV1RiskAssessment: Schema.Schema<GoogleChromeManagementV1RiskAssessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       detailsUrl: Schema.optional(Schema.String),
@@ -1078,7 +1078,7 @@ export interface GoogleChromeManagementV1RiskAssessmentEntry {
 }
 
 export const GoogleChromeManagementV1RiskAssessmentEntry: Schema.Schema<GoogleChromeManagementV1RiskAssessmentEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       riskLevel: Schema.optional(Schema.String),
       riskAssessment: Schema.optional(GoogleChromeManagementV1RiskAssessment),
@@ -1101,7 +1101,7 @@ export interface GoogleChromeManagementV1RiskAssessmentData {
 }
 
 export const GoogleChromeManagementV1RiskAssessmentData: Schema.Schema<GoogleChromeManagementV1RiskAssessmentData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overallRiskLevel: Schema.optional(Schema.String),
       entries: Schema.optional(
@@ -1121,8 +1121,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       code: Schema.optional(Schema.Number),
@@ -1130,9 +1130,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
@@ -1148,7 +1148,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -1170,7 +1170,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1190,7 +1190,7 @@ export interface GoogleChromeManagementV1ChromeAppPermission {
 }
 
 export const GoogleChromeManagementV1ChromeAppPermission: Schema.Schema<GoogleChromeManagementV1ChromeAppPermission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       accessUserData: Schema.optional(Schema.Boolean),
@@ -1218,7 +1218,7 @@ export interface GoogleChromeManagementV1AudioStatusReport {
 }
 
 export const GoogleChromeManagementV1AudioStatusReport: Schema.Schema<GoogleChromeManagementV1AudioStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputGain: Schema.optional(Schema.Number),
       inputDevice: Schema.optional(Schema.String),
@@ -1252,7 +1252,7 @@ export interface GoogleChromeManagementV1TelemetryOsCrashEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryOsCrashEvent: Schema.Schema<GoogleChromeManagementV1TelemetryOsCrashEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crashType: Schema.optional(Schema.String),
       sessionType: Schema.optional(Schema.String),
@@ -1268,7 +1268,7 @@ export interface GoogleChromeManagementV1TelemetryUsbPeripheralsEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryUsbPeripheralsEvent: Schema.Schema<GoogleChromeManagementV1TelemetryUsbPeripheralsEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usbPeripheralReport: Schema.optional(
         Schema.Array(GoogleChromeManagementV1UsbPeripheralReport),
@@ -1331,7 +1331,7 @@ export interface GoogleChromeManagementV1TelemetryAppInstallEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryAppInstallEvent: Schema.Schema<GoogleChromeManagementV1TelemetryAppInstallEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appId: Schema.optional(Schema.String),
       appInstallSource: Schema.optional(Schema.String),
@@ -1355,7 +1355,7 @@ export interface GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent: Schema.Schema<GoogleChromeManagementV1TelemetryHttpsLatencyChangeEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       httpsLatencyRoutineData: Schema.optional(
         GoogleChromeManagementV1HttpsLatencyRoutineData,
@@ -1381,7 +1381,7 @@ export interface GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEv
 }
 
 export const GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent: Schema.Schema<GoogleChromeManagementV1TelemetryNetworkConnectionStateChangeEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guid: Schema.optional(Schema.String),
       connectionState: Schema.optional(Schema.String),
@@ -1399,7 +1399,7 @@ export interface GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent: Schema.Schema<GoogleChromeManagementV1TelemetryNetworkSignalStrengthEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guid: Schema.optional(Schema.String),
       signalStrengthDbm: Schema.optional(Schema.Number),
@@ -1441,7 +1441,7 @@ export interface GoogleChromeManagementV1TelemetryAppUninstallEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryAppUninstallEvent: Schema.Schema<GoogleChromeManagementV1TelemetryAppUninstallEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appType: Schema.optional(Schema.String),
       appUninstallSource: Schema.optional(Schema.String),
@@ -1467,7 +1467,7 @@ export interface GoogleChromeManagementV1TelemetryExternalDisplayData {
 }
 
 export const GoogleChromeManagementV1TelemetryExternalDisplayData: Schema.Schema<GoogleChromeManagementV1TelemetryExternalDisplayData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resolutionVertical: Schema.optional(Schema.Number),
       refreshRate: Schema.optional(Schema.String),
@@ -1486,7 +1486,7 @@ export interface GoogleChromeManagementV1TelemetryExternalDisplayEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryExternalDisplayEvent: Schema.Schema<GoogleChromeManagementV1TelemetryExternalDisplayEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalDisplayData: Schema.optional(
         Schema.Array(GoogleChromeManagementV1TelemetryExternalDisplayData),
@@ -1568,7 +1568,7 @@ export interface GoogleChromeManagementV1TelemetryAppLaunchEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryAppLaunchEvent: Schema.Schema<GoogleChromeManagementV1TelemetryAppLaunchEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appType: Schema.optional(Schema.String),
       appLaunchSource: Schema.optional(Schema.String),
@@ -1586,7 +1586,7 @@ export interface GoogleChromeManagementV1TelemetryDeviceInfo {
 }
 
 export const GoogleChromeManagementV1TelemetryDeviceInfo: Schema.Schema<GoogleChromeManagementV1TelemetryDeviceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceId: Schema.optional(Schema.String),
       orgUnitId: Schema.optional(Schema.String),
@@ -1603,7 +1603,7 @@ export interface GoogleChromeManagementV1TelemetryUserInfo {
 }
 
 export const GoogleChromeManagementV1TelemetryUserInfo: Schema.Schema<GoogleChromeManagementV1TelemetryUserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       orgUnitId: Schema.optional(Schema.String),
@@ -1615,7 +1615,7 @@ export const GoogleChromeManagementV1TelemetryUserInfo: Schema.Schema<GoogleChro
 export interface GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent {}
 
 export const GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent: Schema.Schema<GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent",
   }) as any as Schema.Schema<GoogleChromeManagementV1TelemetryAudioSevereUnderrunEvent>;
 
@@ -1671,7 +1671,7 @@ export interface GoogleChromeManagementV1TelemetryEvent {
 }
 
 export const GoogleChromeManagementV1TelemetryEvent: Schema.Schema<GoogleChromeManagementV1TelemetryEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osCrashEvent: Schema.optional(
         GoogleChromeManagementV1TelemetryOsCrashEvent,
@@ -1724,7 +1724,7 @@ export interface GoogleChromeManagementV1ListTelemetryEventsResponse {
 }
 
 export const GoogleChromeManagementV1ListTelemetryEventsResponse: Schema.Schema<GoogleChromeManagementV1ListTelemetryEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       telemetryEvents: Schema.optional(
         Schema.Array(GoogleChromeManagementV1TelemetryEvent),
@@ -1743,7 +1743,7 @@ export interface GoogleChromeManagementV1UserRequestingExtensionDetails {
 }
 
 export const GoogleChromeManagementV1UserRequestingExtensionDetails: Schema.Schema<GoogleChromeManagementV1UserRequestingExtensionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       justification: Schema.optional(Schema.String),
@@ -1762,7 +1762,7 @@ export interface GoogleChromeManagementV1FetchUsersRequestingExtensionResponse {
 }
 
 export const GoogleChromeManagementV1FetchUsersRequestingExtensionResponse: Schema.Schema<GoogleChromeManagementV1FetchUsersRequestingExtensionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userDetails: Schema.optional(
         Schema.Array(GoogleChromeManagementV1UserRequestingExtensionDetails),
@@ -1790,7 +1790,7 @@ export interface GoogleChromeManagementV1PrinterReport {
 }
 
 export const GoogleChromeManagementV1PrinterReport: Schema.Schema<GoogleChromeManagementV1PrinterReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceCount: Schema.optional(Schema.String),
       printerModel: Schema.optional(Schema.String),
@@ -1813,7 +1813,7 @@ export interface GoogleChromeManagementV1CountPrintJobsByPrinterResponse {
 }
 
 export const GoogleChromeManagementV1CountPrintJobsByPrinterResponse: Schema.Schema<GoogleChromeManagementV1CountPrintJobsByPrinterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       printerReports: Schema.optional(
         Schema.Array(GoogleChromeManagementV1PrinterReport),
@@ -1831,7 +1831,7 @@ export interface GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserReques
 }
 
 export const GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest: Schema.Schema<GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationOrgUnit: Schema.optional(Schema.String),
     }),
@@ -1860,7 +1860,7 @@ export interface GoogleChromeManagementV1BatterySampleReport {
 }
 
 export const GoogleChromeManagementV1BatterySampleReport: Schema.Schema<GoogleChromeManagementV1BatterySampleReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chargeRate: Schema.optional(Schema.Number),
       remainingCapacity: Schema.optional(Schema.String),
@@ -1896,7 +1896,7 @@ export interface GoogleChromeManagementV1BatteryStatusReport {
 }
 
 export const GoogleChromeManagementV1BatteryStatusReport: Schema.Schema<GoogleChromeManagementV1BatteryStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serialNumber: Schema.optional(Schema.String),
       fullChargeCapacity: Schema.optional(Schema.String),
@@ -1940,7 +1940,7 @@ export interface GoogleChromeManagementV1BrowserVersion {
 }
 
 export const GoogleChromeManagementV1BrowserVersion: Schema.Schema<GoogleChromeManagementV1BrowserVersion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.String),
       system: Schema.optional(Schema.String),
@@ -1962,7 +1962,7 @@ export interface GoogleChromeManagementV1FindInstalledAppDevicesResponse {
 }
 
 export const GoogleChromeManagementV1FindInstalledAppDevicesResponse: Schema.Schema<GoogleChromeManagementV1FindInstalledAppDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(Schema.Array(GoogleChromeManagementV1Device)),
       totalSize: Schema.optional(Schema.Number),
@@ -1982,7 +1982,7 @@ export interface GoogleChromeManagementV1GraphicsAdapterInfo {
 }
 
 export const GoogleChromeManagementV1GraphicsAdapterInfo: Schema.Schema<GoogleChromeManagementV1GraphicsAdapterInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceId: Schema.optional(Schema.String),
       adapter: Schema.optional(Schema.String),
@@ -2014,7 +2014,7 @@ export interface GoogleChromeManagementV1BootPerformanceReport {
 }
 
 export const GoogleChromeManagementV1BootPerformanceReport: Schema.Schema<GoogleChromeManagementV1BootPerformanceReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bootUpDuration: Schema.optional(Schema.String),
       shutdownTime: Schema.optional(Schema.String),
@@ -2048,7 +2048,7 @@ export interface GoogleChromeManagementV1OsUpdateStatus {
 }
 
 export const GoogleChromeManagementV1OsUpdateStatus: Schema.Schema<GoogleChromeManagementV1OsUpdateStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastUpdateTime: Schema.optional(Schema.String),
       lastUpdateCheckTime: Schema.optional(Schema.String),
@@ -2074,7 +2074,7 @@ export interface GoogleChromeManagementV1DeviceActivityReport {
 }
 
 export const GoogleChromeManagementV1DeviceActivityReport: Schema.Schema<GoogleChromeManagementV1DeviceActivityReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       deviceActivityState: Schema.optional(Schema.String),
@@ -2112,7 +2112,7 @@ export interface GoogleChromeManagementV1AppUsageData {
 }
 
 export const GoogleChromeManagementV1AppUsageData: Schema.Schema<GoogleChromeManagementV1AppUsageData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runningDuration: Schema.optional(Schema.String),
       appType: Schema.optional(Schema.String),
@@ -2131,7 +2131,7 @@ export interface GoogleChromeManagementV1AppReport {
 }
 
 export const GoogleChromeManagementV1AppReport: Schema.Schema<GoogleChromeManagementV1AppReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       usageData: Schema.optional(
@@ -2158,7 +2158,7 @@ export interface GoogleChromeManagementV1TelemetryUserDevice {
 }
 
 export const GoogleChromeManagementV1TelemetryUserDevice: Schema.Schema<GoogleChromeManagementV1TelemetryUserDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceActivityReport: Schema.optional(
         Schema.Array(GoogleChromeManagementV1DeviceActivityReport),
@@ -2189,7 +2189,7 @@ export interface GoogleChromeManagementVersionsV1ThirdPartyProfileUser {
 }
 
 export const GoogleChromeManagementVersionsV1ThirdPartyProfileUser: Schema.Schema<GoogleChromeManagementVersionsV1ThirdPartyProfileUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       orgUnitId: Schema.optional(Schema.String),
@@ -2204,7 +2204,7 @@ export interface GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRespon
 }
 
 export const GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse: Schema.Schema<GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyProfileUser: Schema.optional(
         GoogleChromeManagementVersionsV1ThirdPartyProfileUser,
@@ -2259,7 +2259,7 @@ export interface GoogleChromeManagementV1PrintJob {
 }
 
 export const GoogleChromeManagementV1PrintJob: Schema.Schema<GoogleChromeManagementV1PrintJob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentPageCount: Schema.optional(Schema.Number),
       completeTime: Schema.optional(Schema.String),
@@ -2293,7 +2293,7 @@ export interface GoogleChromeManagementV1CpuInfo {
 }
 
 export const GoogleChromeManagementV1CpuInfo: Schema.Schema<GoogleChromeManagementV1CpuInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       architecture: Schema.optional(Schema.String),
       keylockerSupported: Schema.optional(Schema.Boolean),
@@ -2352,7 +2352,7 @@ export interface GoogleChromeManagementV1InstalledApp {
 }
 
 export const GoogleChromeManagementV1InstalledApp: Schema.Schema<GoogleChromeManagementV1InstalledApp> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disabled: Schema.optional(Schema.Boolean),
       appSource: Schema.optional(Schema.String),
@@ -2383,7 +2383,7 @@ export interface GoogleChromeManagementV1CountInstalledAppsResponse {
 }
 
 export const GoogleChromeManagementV1CountInstalledAppsResponse: Schema.Schema<GoogleChromeManagementV1CountInstalledAppsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       installedApps: Schema.optional(
         Schema.Array(GoogleChromeManagementV1InstalledApp),
@@ -2398,7 +2398,7 @@ export const GoogleChromeManagementV1CountInstalledAppsResponse: Schema.Schema<G
 export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse {}
 
 export const GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse: Schema.Schema<GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse",
   }) as any as Schema.Schema<GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse>;
@@ -2411,7 +2411,7 @@ export interface GoogleChromeManagementV1CountActiveDevicesResponse {
 }
 
 export const GoogleChromeManagementV1CountActiveDevicesResponse: Schema.Schema<GoogleChromeManagementV1CountActiveDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sevenDaysCount: Schema.optional(Schema.String),
       thirtyDaysCount: Schema.optional(Schema.String),
@@ -2430,7 +2430,7 @@ export interface GoogleChromeManagementV1KioskAppStatusReport {
 }
 
 export const GoogleChromeManagementV1KioskAppStatusReport: Schema.Schema<GoogleChromeManagementV1KioskAppStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       appId: Schema.optional(Schema.String),
@@ -2460,7 +2460,7 @@ export interface GoogleChromeManagementV1DisplayInfo {
 }
 
 export const GoogleChromeManagementV1DisplayInfo: Schema.Schema<GoogleChromeManagementV1DisplayInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceId: Schema.optional(Schema.String),
       resolutionHeight: Schema.optional(Schema.Number),
@@ -2483,7 +2483,7 @@ export interface GoogleChromeManagementV1GraphicsStatusReport {
 }
 
 export const GoogleChromeManagementV1GraphicsStatusReport: Schema.Schema<GoogleChromeManagementV1GraphicsStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       displays: Schema.optional(
@@ -2497,7 +2497,7 @@ export const GoogleChromeManagementV1GraphicsStatusReport: Schema.Schema<GoogleC
 export interface GoogleLongrunningCancelOperationRequest {}
 
 export const GoogleLongrunningCancelOperationRequest: Schema.Schema<GoogleLongrunningCancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleLongrunningCancelOperationRequest",
   }) as any as Schema.Schema<GoogleLongrunningCancelOperationRequest>;
 
@@ -2513,7 +2513,7 @@ export interface GoogleChromeManagementV1TelemetryNotificationConfig {
 }
 
 export const GoogleChromeManagementV1TelemetryNotificationConfig: Schema.Schema<GoogleChromeManagementV1TelemetryNotificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       customer: Schema.optional(Schema.String),
@@ -2534,7 +2534,7 @@ export interface GoogleChromeManagementV1ListTelemetryNotificationConfigsRespons
 }
 
 export const GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse: Schema.Schema<GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       telemetryNotificationConfigs: Schema.optional(
@@ -2554,7 +2554,7 @@ export interface GoogleChromeManagementV1DeviceRequestingExtensionDetails {
 }
 
 export const GoogleChromeManagementV1DeviceRequestingExtensionDetails: Schema.Schema<GoogleChromeManagementV1DeviceRequestingExtensionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceName: Schema.optional(Schema.String),
       justification: Schema.optional(Schema.String),
@@ -2573,7 +2573,7 @@ export interface GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse
 }
 
 export const GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse: Schema.Schema<GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       totalSize: Schema.optional(Schema.Number),
@@ -2600,7 +2600,7 @@ export interface GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResp
 }
 
 export const GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse: Schema.Schema<GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       noRecentPolicySyncCount: Schema.optional(Schema.String),
       osVersionNotCompliantCount: Schema.optional(Schema.String),
@@ -2623,7 +2623,7 @@ export interface GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResp
 }
 
 export const GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse: Schema.Schema<GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recentlyEnrolledCount: Schema.optional(Schema.String),
       pendingBrowserUpdateCount: Schema.optional(Schema.String),
@@ -2642,7 +2642,7 @@ export interface GoogleChromeManagementV1DeviceHardwareCountReport {
 }
 
 export const GoogleChromeManagementV1DeviceHardwareCountReport: Schema.Schema<GoogleChromeManagementV1DeviceHardwareCountReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
       count: Schema.optional(Schema.String),
@@ -2665,7 +2665,7 @@ export interface GoogleChromeManagementV1ThunderboltInfo {
 }
 
 export const GoogleChromeManagementV1ThunderboltInfo: Schema.Schema<GoogleChromeManagementV1ThunderboltInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       securityLevel: Schema.optional(Schema.String),
     }),
@@ -2681,7 +2681,7 @@ export interface GoogleChromeManagementV1StorageStatusReport {
 }
 
 export const GoogleChromeManagementV1StorageStatusReport: Schema.Schema<GoogleChromeManagementV1StorageStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       disk: Schema.optional(Schema.Array(GoogleChromeManagementV1DiskInfo)),
@@ -2718,7 +2718,7 @@ export interface GoogleChromeManagementV1DeviceAueCountReport {
 }
 
 export const GoogleChromeManagementV1DeviceAueCountReport: Schema.Schema<GoogleChromeManagementV1DeviceAueCountReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expired: Schema.optional(Schema.Boolean),
       model: Schema.optional(Schema.String),
@@ -2746,7 +2746,7 @@ export interface GoogleChromeManagementV1TelemetryUser {
 }
 
 export const GoogleChromeManagementV1TelemetryUser: Schema.Schema<GoogleChromeManagementV1TelemetryUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       userId: Schema.optional(Schema.String),
@@ -2764,7 +2764,7 @@ export const GoogleChromeManagementV1TelemetryUser: Schema.Schema<GoogleChromeMa
 export interface GoogleChromeManagementVersionsV1SetFailureResponse {}
 
 export const GoogleChromeManagementVersionsV1SetFailureResponse: Schema.Schema<GoogleChromeManagementVersionsV1SetFailureResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleChromeManagementVersionsV1SetFailureResponse",
   }) as any as Schema.Schema<GoogleChromeManagementVersionsV1SetFailureResponse>;
 
@@ -2776,7 +2776,7 @@ export interface GoogleChromeManagementV1CpuTemperatureInfo {
 }
 
 export const GoogleChromeManagementV1CpuTemperatureInfo: Schema.Schema<GoogleChromeManagementV1CpuTemperatureInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       temperatureCelsius: Schema.optional(Schema.Number),
       label: Schema.optional(Schema.String),
@@ -2799,7 +2799,7 @@ export interface GoogleChromeManagementV1UserPrintReport {
 }
 
 export const GoogleChromeManagementV1UserPrintReport: Schema.Schema<GoogleChromeManagementV1UserPrintReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       printerCount: Schema.optional(Schema.String),
       deviceCount: Schema.optional(Schema.String),
@@ -2821,7 +2821,7 @@ export interface GoogleChromeManagementV1CountPrintJobsByUserResponse {
 }
 
 export const GoogleChromeManagementV1CountPrintJobsByUserResponse: Schema.Schema<GoogleChromeManagementV1CountPrintJobsByUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalSize: Schema.optional(Schema.String),
       userPrintReports: Schema.optional(
@@ -2839,7 +2839,7 @@ export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningPro
 }
 
 export const GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest: Schema.Schema<GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callerInstanceId: Schema.optional(Schema.String),
     }),
@@ -2858,7 +2858,7 @@ export interface GoogleChromeManagementV1CountChromeVersionsResponse {
 }
 
 export const GoogleChromeManagementV1CountChromeVersionsResponse: Schema.Schema<GoogleChromeManagementV1CountChromeVersionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       browserVersions: Schema.optional(
         Schema.Array(GoogleChromeManagementV1BrowserVersion),
@@ -2873,7 +2873,7 @@ export const GoogleChromeManagementV1CountChromeVersionsResponse: Schema.Schema<
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -2893,7 +2893,7 @@ export interface GoogleChromeManagementV1BatteryInfo {
 }
 
 export const GoogleChromeManagementV1BatteryInfo: Schema.Schema<GoogleChromeManagementV1BatteryInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       designMinVoltage: Schema.optional(Schema.Number),
       serialNumber: Schema.optional(Schema.String),
@@ -2927,7 +2927,7 @@ export interface GoogleChromeManagementV1NetworkDevice {
 }
 
 export const GoogleChromeManagementV1NetworkDevice: Schema.Schema<GoogleChromeManagementV1NetworkDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mdn: Schema.optional(Schema.String),
       macAddress: Schema.optional(Schema.String),
@@ -2946,7 +2946,7 @@ export interface GoogleChromeManagementV1NetworkInfo {
 }
 
 export const GoogleChromeManagementV1NetworkInfo: Schema.Schema<GoogleChromeManagementV1NetworkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       networkDevices: Schema.optional(
         Schema.Array(GoogleChromeManagementV1NetworkDevice),
@@ -2966,7 +2966,7 @@ export interface GoogleChromeManagementV1StorageInfoDiskVolume {
 }
 
 export const GoogleChromeManagementV1StorageInfoDiskVolume: Schema.Schema<GoogleChromeManagementV1StorageInfoDiskVolume> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       volumeId: Schema.optional(Schema.String),
       storageFreeBytes: Schema.optional(Schema.String),
@@ -2986,7 +2986,7 @@ export interface GoogleChromeManagementV1StorageInfo {
 }
 
 export const GoogleChromeManagementV1StorageInfo: Schema.Schema<GoogleChromeManagementV1StorageInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availableDiskBytes: Schema.optional(Schema.String),
       volume: Schema.optional(
@@ -3052,7 +3052,7 @@ export interface GoogleChromeManagementV1NetworkStatusReport {
 }
 
 export const GoogleChromeManagementV1NetworkStatusReport: Schema.Schema<GoogleChromeManagementV1NetworkStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connectionType: Schema.optional(Schema.String),
       lanIpAddress: Schema.optional(Schema.String),
@@ -3089,7 +3089,7 @@ export interface GoogleChromeManagementV1MemoryStatusReport {
 }
 
 export const GoogleChromeManagementV1MemoryStatusReport: Schema.Schema<GoogleChromeManagementV1MemoryStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportTime: Schema.optional(Schema.String),
       systemRamFreeBytes: Schema.optional(Schema.String),
@@ -3110,7 +3110,7 @@ export interface GoogleChromeManagementV1TouchScreenDevice {
 }
 
 export const GoogleChromeManagementV1TouchScreenDevice: Schema.Schema<GoogleChromeManagementV1TouchScreenDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       touchPointCount: Schema.optional(Schema.Number),
@@ -3128,7 +3128,7 @@ export interface GoogleChromeManagementV1TouchScreenInfo {
 }
 
 export const GoogleChromeManagementV1TouchScreenInfo: Schema.Schema<GoogleChromeManagementV1TouchScreenInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       touchpadLibrary: Schema.optional(Schema.String),
       devices: Schema.optional(
@@ -3161,7 +3161,7 @@ export interface GoogleChromeManagementV1DisplayDevice {
 }
 
 export const GoogleChromeManagementV1DisplayDevice: Schema.Schema<GoogleChromeManagementV1DisplayDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayHeightMm: Schema.optional(Schema.Number),
       manufactureYear: Schema.optional(Schema.Number),
@@ -3189,7 +3189,7 @@ export interface GoogleChromeManagementV1GraphicsInfo {
 }
 
 export const GoogleChromeManagementV1GraphicsInfo: Schema.Schema<GoogleChromeManagementV1GraphicsInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       touchScreenInfo: Schema.optional(GoogleChromeManagementV1TouchScreenInfo),
       adapterInfo: Schema.optional(GoogleChromeManagementV1GraphicsAdapterInfo),
@@ -3225,7 +3225,7 @@ export interface GoogleChromeManagementV1TotalMemoryEncryptionInfo {
 }
 
 export const GoogleChromeManagementV1TotalMemoryEncryptionInfo: Schema.Schema<GoogleChromeManagementV1TotalMemoryEncryptionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxKeys: Schema.optional(Schema.String),
       encryptionAlgorithm: Schema.optional(Schema.String),
@@ -3246,7 +3246,7 @@ export interface GoogleChromeManagementV1MemoryInfo {
 }
 
 export const GoogleChromeManagementV1MemoryInfo: Schema.Schema<GoogleChromeManagementV1MemoryInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availableRamBytes: Schema.optional(Schema.String),
       totalRamBytes: Schema.optional(Schema.String),
@@ -3270,7 +3270,7 @@ export interface GoogleChromeManagementV1CpuStatusReport {
 }
 
 export const GoogleChromeManagementV1CpuStatusReport: Schema.Schema<GoogleChromeManagementV1CpuStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleFrequency: Schema.optional(Schema.String),
       cpuUtilizationPct: Schema.optional(Schema.Number),
@@ -3297,7 +3297,7 @@ export interface GoogleChromeManagementV1RuntimeCountersReport {
 }
 
 export const GoogleChromeManagementV1RuntimeCountersReport: Schema.Schema<GoogleChromeManagementV1RuntimeCountersReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enterSleepCount: Schema.optional(Schema.String),
       enterPoweroffCount: Schema.optional(Schema.String),
@@ -3323,7 +3323,7 @@ export interface GoogleChromeManagementV1HeartbeatStatusReport {
 }
 
 export const GoogleChromeManagementV1HeartbeatStatusReport: Schema.Schema<GoogleChromeManagementV1HeartbeatStatusReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       reportTime: Schema.optional(Schema.String),
@@ -3392,7 +3392,7 @@ export interface GoogleChromeManagementV1TelemetryDevice {
 }
 
 export const GoogleChromeManagementV1TelemetryDevice: Schema.Schema<GoogleChromeManagementV1TelemetryDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       networkInfo: Schema.optional(GoogleChromeManagementV1NetworkInfo),
       customer: Schema.optional(Schema.String),
@@ -3469,7 +3469,7 @@ export interface GoogleChromeManagementV1ChromeAppSiteAccess {
 }
 
 export const GoogleChromeManagementV1ChromeAppSiteAccess: Schema.Schema<GoogleChromeManagementV1ChromeAppSiteAccess> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hostMatch: Schema.optional(Schema.String),
     }),
@@ -3505,7 +3505,7 @@ export interface GoogleChromeManagementV1ChromeAppInfo {
 }
 
 export const GoogleChromeManagementV1ChromeAppInfo: Schema.Schema<GoogleChromeManagementV1ChromeAppInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isTheme: Schema.optional(Schema.Boolean),
       supportEnabled: Schema.optional(Schema.Boolean),
@@ -3538,7 +3538,7 @@ export interface GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommand
 }
 
 export const GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse: Schema.Schema<GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chromeBrowserProfileCommands: Schema.optional(
         Schema.Array(
@@ -3565,7 +3565,7 @@ export interface GoogleChromeManagementVersionsV1SignDataRequest {
 }
 
 export const GoogleChromeManagementVersionsV1SignDataRequest: Schema.Schema<GoogleChromeManagementVersionsV1SignDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signData: Schema.optional(Schema.String),
       signatureAlgorithm: Schema.optional(Schema.String),
@@ -3580,7 +3580,7 @@ export interface GoogleChromeManagementV1AndroidAppPermission {
 }
 
 export const GoogleChromeManagementV1AndroidAppPermission: Schema.Schema<GoogleChromeManagementV1AndroidAppPermission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -3594,7 +3594,7 @@ export interface GoogleChromeManagementV1AndroidAppInfo {
 }
 
 export const GoogleChromeManagementV1AndroidAppInfo: Schema.Schema<GoogleChromeManagementV1AndroidAppInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(
         Schema.Array(GoogleChromeManagementV1AndroidAppPermission),
@@ -3651,7 +3651,7 @@ export interface GoogleChromeManagementV1AppDetails {
 }
 
 export const GoogleChromeManagementV1AppDetails: Schema.Schema<GoogleChromeManagementV1AppDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       homepageUri: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -3697,7 +3697,7 @@ export interface GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse {
 }
 
 export const GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse: Schema.Schema<GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unsupportedChannelCount: Schema.optional(Schema.String),
       unreportedChannelCount: Schema.optional(Schema.String),
@@ -3724,7 +3724,7 @@ export interface GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse
 }
 
 export const GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse: Schema.Schema<GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelReports: Schema.optional(
         Schema.Array(GoogleChromeManagementV1DeviceHardwareCountReport),
@@ -3750,7 +3750,7 @@ export interface GoogleChromeManagementV1CountChromeDevicesReachingAutoExpiratio
 }
 
 export const GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse: Schema.Schema<GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceAueCountReports: Schema.optional(
         Schema.Array(GoogleChromeManagementV1DeviceAueCountReport),
@@ -3771,7 +3771,7 @@ export interface GoogleChromeManagementV1CountChromeAppRequestsResponse {
 }
 
 export const GoogleChromeManagementV1CountChromeAppRequestsResponse: Schema.Schema<GoogleChromeManagementV1CountChromeAppRequestsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedApps: Schema.optional(
         Schema.Array(GoogleChromeManagementV1ChromeAppRequest),
@@ -3789,7 +3789,7 @@ export interface GoogleChromeManagementVersionsV1SignDataMetadata {
 }
 
 export const GoogleChromeManagementVersionsV1SignDataMetadata: Schema.Schema<GoogleChromeManagementVersionsV1SignDataMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
     }),
@@ -3807,7 +3807,7 @@ export interface GoogleChromeManagementV1EnumeratePrintJobsResponse {
 }
 
 export const GoogleChromeManagementV1EnumeratePrintJobsResponse: Schema.Schema<GoogleChromeManagementV1EnumeratePrintJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       printJobs: Schema.optional(
         Schema.Array(GoogleChromeManagementV1PrintJob),
@@ -3825,7 +3825,7 @@ export interface GoogleChromeManagementVersionsV1SetFailureRequest {
 }
 
 export const GoogleChromeManagementVersionsV1SetFailureRequest: Schema.Schema<GoogleChromeManagementVersionsV1SetFailureRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessage: Schema.optional(Schema.String),
     }),
@@ -3839,7 +3839,7 @@ export interface GoogleChromeManagementVersionsV1SignDataResponse {
 }
 
 export const GoogleChromeManagementVersionsV1SignDataResponse: Schema.Schema<GoogleChromeManagementVersionsV1SignDataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateProvisioningProcess: Schema.optional(
         GoogleChromeManagementVersionsV1CertificateProvisioningProcess,
@@ -3857,7 +3857,7 @@ export interface GoogleChromeManagementV1ListTelemetryDevicesResponse {
 }
 
 export const GoogleChromeManagementV1ListTelemetryDevicesResponse: Schema.Schema<GoogleChromeManagementV1ListTelemetryDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(
         Schema.Array(GoogleChromeManagementV1TelemetryDevice),
@@ -3876,7 +3876,7 @@ export interface GoogleChromeManagementV1ListTelemetryUsersResponse {
 }
 
 export const GoogleChromeManagementV1ListTelemetryUsersResponse: Schema.Schema<GoogleChromeManagementV1ListTelemetryUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       telemetryUsers: Schema.optional(
@@ -3896,18 +3896,20 @@ export interface DeleteCustomersProfilesRequest {
   name: string;
 }
 
-export const DeleteCustomersProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/customers/{customersId}/profiles/{profilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCustomersProfilesRequest>;
+export const DeleteCustomersProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/customers/{customersId}/profiles/{profilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCustomersProfilesRequest>;
 
 export type DeleteCustomersProfilesResponse = GoogleProtobufEmpty;
-export const DeleteCustomersProfilesResponse = GoogleProtobufEmpty;
+export const DeleteCustomersProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteCustomersProfilesError = DefaultErrors;
 
@@ -3917,7 +3919,7 @@ export const deleteCustomersProfiles: API.OperationMethod<
   DeleteCustomersProfilesResponse,
   DeleteCustomersProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomersProfilesRequest,
   output: DeleteCustomersProfilesResponse,
   errors: [],
@@ -3928,20 +3930,21 @@ export interface GetCustomersProfilesRequest {
   name: string;
 }
 
-export const GetCustomersProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/profiles/{profilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersProfilesRequest>;
+export const GetCustomersProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/profiles/{profilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersProfilesRequest>;
 
 export type GetCustomersProfilesResponse =
   GoogleChromeManagementVersionsV1ChromeBrowserProfile;
 export const GetCustomersProfilesResponse =
-  GoogleChromeManagementVersionsV1ChromeBrowserProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ChromeBrowserProfile;
 
 export type GetCustomersProfilesError = DefaultErrors;
 
@@ -3951,7 +3954,7 @@ export const getCustomersProfiles: API.OperationMethod<
   GetCustomersProfilesResponse,
   GetCustomersProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersProfilesRequest,
   output: GetCustomersProfilesResponse,
   errors: [],
@@ -3970,21 +3973,22 @@ export interface ListCustomersProfilesRequest {
   filter?: string;
 }
 
-export const ListCustomersProfilesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/profiles" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersProfilesRequest>;
+export const ListCustomersProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/customers/{customersId}/profiles" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersProfilesRequest>;
 
 export type ListCustomersProfilesResponse =
   GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse;
 export const ListCustomersProfilesResponse =
-  GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ListChromeBrowserProfilesResponse;
 
 export type ListCustomersProfilesError = DefaultErrors;
 
@@ -3994,7 +3998,7 @@ export const listCustomersProfiles: API.PaginatedOperationMethod<
   ListCustomersProfilesResponse,
   ListCustomersProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersProfilesRequest,
   output: ListCustomersProfilesResponse,
   errors: [],
@@ -4011,24 +4015,25 @@ export interface CreateCustomersProfilesCommandsRequest {
   body?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
 }
 
-export const CreateCustomersProfilesCommandsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/profiles/{profilesId}/commands",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomersProfilesCommandsRequest>;
+export const CreateCustomersProfilesCommandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/profiles/{profilesId}/commands",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomersProfilesCommandsRequest>;
 
 export type CreateCustomersProfilesCommandsResponse =
   GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
 export const CreateCustomersProfilesCommandsResponse =
-  GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
 
 export type CreateCustomersProfilesCommandsError = DefaultErrors;
 
@@ -4038,7 +4043,7 @@ export const createCustomersProfilesCommands: API.OperationMethod<
   CreateCustomersProfilesCommandsResponse,
   CreateCustomersProfilesCommandsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomersProfilesCommandsRequest,
   output: CreateCustomersProfilesCommandsResponse,
   errors: [],
@@ -4049,20 +4054,21 @@ export interface GetCustomersProfilesCommandsRequest {
   name: string;
 }
 
-export const GetCustomersProfilesCommandsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/profiles/{profilesId}/commands/{commandsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersProfilesCommandsRequest>;
+export const GetCustomersProfilesCommandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/profiles/{profilesId}/commands/{commandsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersProfilesCommandsRequest>;
 
 export type GetCustomersProfilesCommandsResponse =
   GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
 export const GetCustomersProfilesCommandsResponse =
-  GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand;
 
 export type GetCustomersProfilesCommandsError = DefaultErrors;
 
@@ -4072,7 +4078,7 @@ export const getCustomersProfilesCommands: API.OperationMethod<
   GetCustomersProfilesCommandsResponse,
   GetCustomersProfilesCommandsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersProfilesCommandsRequest,
   output: GetCustomersProfilesCommandsResponse,
   errors: [],
@@ -4087,22 +4093,23 @@ export interface ListCustomersProfilesCommandsRequest {
   parent: string;
 }
 
-export const ListCustomersProfilesCommandsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/profiles/{profilesId}/commands",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersProfilesCommandsRequest>;
+export const ListCustomersProfilesCommandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/profiles/{profilesId}/commands",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersProfilesCommandsRequest>;
 
 export type ListCustomersProfilesCommandsResponse =
   GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse;
 export const ListCustomersProfilesCommandsResponse =
-  GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ListChromeBrowserProfileCommandsResponse;
 
 export type ListCustomersProfilesCommandsError = DefaultErrors;
 
@@ -4112,7 +4119,7 @@ export const listCustomersProfilesCommands: API.PaginatedOperationMethod<
   ListCustomersProfilesCommandsResponse,
   ListCustomersProfilesCommandsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersProfilesCommandsRequest,
   output: ListCustomersProfilesCommandsResponse,
   errors: [],
@@ -4130,7 +4137,7 @@ export interface SignDataCustomersCertificateProvisioningProcessesRequest {
 }
 
 export const SignDataCustomersCertificateProvisioningProcessesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleChromeManagementVersionsV1SignDataRequest).pipe(
       T.HttpBody(),
@@ -4147,7 +4154,7 @@ export const SignDataCustomersCertificateProvisioningProcessesRequest =
 export type SignDataCustomersCertificateProvisioningProcessesResponse =
   GoogleLongrunningOperation;
 export const SignDataCustomersCertificateProvisioningProcessesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SignDataCustomersCertificateProvisioningProcessesError =
   DefaultErrors;
@@ -4158,7 +4165,7 @@ export const signDataCustomersCertificateProvisioningProcesses: API.OperationMet
   SignDataCustomersCertificateProvisioningProcessesResponse,
   SignDataCustomersCertificateProvisioningProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignDataCustomersCertificateProvisioningProcessesRequest,
   output: SignDataCustomersCertificateProvisioningProcessesResponse,
   errors: [],
@@ -4170,7 +4177,7 @@ export interface GetCustomersCertificateProvisioningProcessesRequest {
 }
 
 export const GetCustomersCertificateProvisioningProcessesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -4183,7 +4190,7 @@ export const GetCustomersCertificateProvisioningProcessesRequest =
 export type GetCustomersCertificateProvisioningProcessesResponse =
   GoogleChromeManagementVersionsV1CertificateProvisioningProcess;
 export const GetCustomersCertificateProvisioningProcessesResponse =
-  GoogleChromeManagementVersionsV1CertificateProvisioningProcess;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1CertificateProvisioningProcess;
 
 export type GetCustomersCertificateProvisioningProcessesError = DefaultErrors;
 
@@ -4193,7 +4200,7 @@ export const getCustomersCertificateProvisioningProcesses: API.OperationMethod<
   GetCustomersCertificateProvisioningProcessesResponse,
   GetCustomersCertificateProvisioningProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersCertificateProvisioningProcessesRequest,
   output: GetCustomersCertificateProvisioningProcessesResponse,
   errors: [],
@@ -4207,7 +4214,7 @@ export interface UploadCertificateCustomersCertificateProvisioningProcessesReque
 }
 
 export const UploadCertificateCustomersCertificateProvisioningProcessesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleChromeManagementVersionsV1UploadCertificateRequest,
@@ -4224,7 +4231,7 @@ export const UploadCertificateCustomersCertificateProvisioningProcessesRequest =
 export type UploadCertificateCustomersCertificateProvisioningProcessesResponse =
   GoogleChromeManagementVersionsV1UploadCertificateResponse;
 export const UploadCertificateCustomersCertificateProvisioningProcessesResponse =
-  GoogleChromeManagementVersionsV1UploadCertificateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1UploadCertificateResponse;
 
 export type UploadCertificateCustomersCertificateProvisioningProcessesError =
   DefaultErrors;
@@ -4235,7 +4242,7 @@ export const uploadCertificateCustomersCertificateProvisioningProcesses: API.Ope
   UploadCertificateCustomersCertificateProvisioningProcessesResponse,
   UploadCertificateCustomersCertificateProvisioningProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadCertificateCustomersCertificateProvisioningProcessesRequest,
   output: UploadCertificateCustomersCertificateProvisioningProcessesResponse,
   errors: [],
@@ -4249,7 +4256,7 @@ export interface SetFailureCustomersCertificateProvisioningProcessesRequest {
 }
 
 export const SetFailureCustomersCertificateProvisioningProcessesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleChromeManagementVersionsV1SetFailureRequest,
@@ -4266,7 +4273,7 @@ export const SetFailureCustomersCertificateProvisioningProcessesRequest =
 export type SetFailureCustomersCertificateProvisioningProcessesResponse =
   GoogleChromeManagementVersionsV1SetFailureResponse;
 export const SetFailureCustomersCertificateProvisioningProcessesResponse =
-  GoogleChromeManagementVersionsV1SetFailureResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1SetFailureResponse;
 
 export type SetFailureCustomersCertificateProvisioningProcessesError =
   DefaultErrors;
@@ -4277,7 +4284,7 @@ export const setFailureCustomersCertificateProvisioningProcesses: API.OperationM
   SetFailureCustomersCertificateProvisioningProcessesResponse,
   SetFailureCustomersCertificateProvisioningProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetFailureCustomersCertificateProvisioningProcessesRequest,
   output: SetFailureCustomersCertificateProvisioningProcessesResponse,
   errors: [],
@@ -4291,7 +4298,7 @@ export interface ClaimCustomersCertificateProvisioningProcessesRequest {
 }
 
 export const ClaimCustomersCertificateProvisioningProcessesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest,
@@ -4308,7 +4315,7 @@ export const ClaimCustomersCertificateProvisioningProcessesRequest =
 export type ClaimCustomersCertificateProvisioningProcessesResponse =
   GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse;
 export const ClaimCustomersCertificateProvisioningProcessesResponse =
-  GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse;
 
 export type ClaimCustomersCertificateProvisioningProcessesError = DefaultErrors;
 
@@ -4318,7 +4325,7 @@ export const claimCustomersCertificateProvisioningProcesses: API.OperationMethod
   ClaimCustomersCertificateProvisioningProcessesResponse,
   ClaimCustomersCertificateProvisioningProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimCustomersCertificateProvisioningProcessesRequest,
   output: ClaimCustomersCertificateProvisioningProcessesResponse,
   errors: [],
@@ -4330,7 +4337,7 @@ export interface GetCustomersCertificateProvisioningProcessesOperationsRequest {
 }
 
 export const GetCustomersCertificateProvisioningProcessesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -4343,7 +4350,7 @@ export const GetCustomersCertificateProvisioningProcessesOperationsRequest =
 export type GetCustomersCertificateProvisioningProcessesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetCustomersCertificateProvisioningProcessesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetCustomersCertificateProvisioningProcessesOperationsError =
   DefaultErrors;
@@ -4354,7 +4361,7 @@ export const getCustomersCertificateProvisioningProcessesOperations: API.Operati
   GetCustomersCertificateProvisioningProcessesOperationsResponse,
   GetCustomersCertificateProvisioningProcessesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersCertificateProvisioningProcessesOperationsRequest,
   output: GetCustomersCertificateProvisioningProcessesOperationsResponse,
   errors: [],
@@ -4375,27 +4382,28 @@ export interface EnumeratePrintJobsCustomersReportsRequest {
   filter?: string;
 }
 
-export const EnumeratePrintJobsCustomersReportsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  printerOrgUnitId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("printerOrgUnitId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:enumeratePrintJobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<EnumeratePrintJobsCustomersReportsRequest>;
+export const EnumeratePrintJobsCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    printerOrgUnitId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("printerOrgUnitId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:enumeratePrintJobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnumeratePrintJobsCustomersReportsRequest>;
 
 export type EnumeratePrintJobsCustomersReportsResponse =
   GoogleChromeManagementV1EnumeratePrintJobsResponse;
 export const EnumeratePrintJobsCustomersReportsResponse =
-  GoogleChromeManagementV1EnumeratePrintJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1EnumeratePrintJobsResponse;
 
 export type EnumeratePrintJobsCustomersReportsError = DefaultErrors;
 
@@ -4405,7 +4413,7 @@ export const enumeratePrintJobsCustomersReports: API.PaginatedOperationMethod<
   EnumeratePrintJobsCustomersReportsResponse,
   EnumeratePrintJobsCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: EnumeratePrintJobsCustomersReportsRequest,
   output: EnumeratePrintJobsCustomersReportsResponse,
   errors: [],
@@ -4426,23 +4434,24 @@ export interface CountChromeCrashEventsCustomersReportsRequest {
   customer: string;
 }
 
-export const CountChromeCrashEventsCustomersReportsRequest = Schema.Struct({
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countChromeCrashEvents",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountChromeCrashEventsCustomersReportsRequest>;
+export const CountChromeCrashEventsCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countChromeCrashEvents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountChromeCrashEventsCustomersReportsRequest>;
 
 export type CountChromeCrashEventsCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeCrashEventsResponse;
 export const CountChromeCrashEventsCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeCrashEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeCrashEventsResponse;
 
 export type CountChromeCrashEventsCustomersReportsError = DefaultErrors;
 
@@ -4452,7 +4461,7 @@ export const countChromeCrashEventsCustomersReports: API.OperationMethod<
   CountChromeCrashEventsCustomersReportsResponse,
   CountChromeCrashEventsCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountChromeCrashEventsCustomersReportsRequest,
   output: CountChromeCrashEventsCustomersReportsResponse,
   errors: [],
@@ -4470,7 +4479,7 @@ export interface CountDevicesPerReleaseChannelCustomersReportsRequest {
 }
 
 export const CountDevicesPerReleaseChannelCustomersReportsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "date.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.year")),
     "date.month": Schema.optional(Schema.Number).pipe(
       T.HttpQuery("date.month"),
@@ -4488,7 +4497,7 @@ export const CountDevicesPerReleaseChannelCustomersReportsRequest =
 export type CountDevicesPerReleaseChannelCustomersReportsResponse =
   GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse;
 export const CountDevicesPerReleaseChannelCustomersReportsResponse =
-  GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountDevicesPerReleaseChannelResponse;
 
 export type CountDevicesPerReleaseChannelCustomersReportsError = DefaultErrors;
 
@@ -4498,7 +4507,7 @@ export const countDevicesPerReleaseChannelCustomersReports: API.OperationMethod<
   CountDevicesPerReleaseChannelCustomersReportsResponse,
   CountDevicesPerReleaseChannelCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountDevicesPerReleaseChannelCustomersReportsRequest,
   output: CountDevicesPerReleaseChannelCustomersReportsResponse,
   errors: [],
@@ -4514,7 +4523,7 @@ export interface CountChromeHardwareFleetDevicesCustomersReportsRequest {
 }
 
 export const CountChromeHardwareFleetDevicesCustomersReportsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
     customer: Schema.String.pipe(T.HttpPath("customer")),
@@ -4529,7 +4538,7 @@ export const CountChromeHardwareFleetDevicesCustomersReportsRequest =
 export type CountChromeHardwareFleetDevicesCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse;
 export const CountChromeHardwareFleetDevicesCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse;
 
 export type CountChromeHardwareFleetDevicesCustomersReportsError =
   DefaultErrors;
@@ -4540,7 +4549,7 @@ export const countChromeHardwareFleetDevicesCustomersReports: API.OperationMetho
   CountChromeHardwareFleetDevicesCustomersReportsResponse,
   CountChromeHardwareFleetDevicesCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountChromeHardwareFleetDevicesCustomersReportsRequest,
   output: CountChromeHardwareFleetDevicesCustomersReportsResponse,
   errors: [],
@@ -4554,7 +4563,7 @@ export interface CountChromeBrowsersNeedingAttentionCustomersReportsRequest {
 }
 
 export const CountChromeBrowsersNeedingAttentionCustomersReportsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
     customer: Schema.String.pipe(T.HttpPath("customer")),
   }).pipe(
@@ -4568,7 +4577,7 @@ export const CountChromeBrowsersNeedingAttentionCustomersReportsRequest =
 export type CountChromeBrowsersNeedingAttentionCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse;
 export const CountChromeBrowsersNeedingAttentionCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeBrowsersNeedingAttentionResponse;
 
 export type CountChromeBrowsersNeedingAttentionCustomersReportsError =
   DefaultErrors;
@@ -4579,7 +4588,7 @@ export const countChromeBrowsersNeedingAttentionCustomersReports: API.OperationM
   CountChromeBrowsersNeedingAttentionCustomersReportsResponse,
   CountChromeBrowsersNeedingAttentionCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountChromeBrowsersNeedingAttentionCustomersReportsRequest,
   output: CountChromeBrowsersNeedingAttentionCustomersReportsResponse,
   errors: [],
@@ -4600,27 +4609,28 @@ export interface CountPrintJobsByUserCustomersReportsRequest {
   filter?: string;
 }
 
-export const CountPrintJobsByUserCustomersReportsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  printerOrgUnitId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("printerOrgUnitId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countPrintJobsByUser",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountPrintJobsByUserCustomersReportsRequest>;
+export const CountPrintJobsByUserCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    printerOrgUnitId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("printerOrgUnitId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countPrintJobsByUser",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountPrintJobsByUserCustomersReportsRequest>;
 
 export type CountPrintJobsByUserCustomersReportsResponse =
   GoogleChromeManagementV1CountPrintJobsByUserResponse;
 export const CountPrintJobsByUserCustomersReportsResponse =
-  GoogleChromeManagementV1CountPrintJobsByUserResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountPrintJobsByUserResponse;
 
 export type CountPrintJobsByUserCustomersReportsError = DefaultErrors;
 
@@ -4630,7 +4640,7 @@ export const countPrintJobsByUserCustomersReports: API.PaginatedOperationMethod<
   CountPrintJobsByUserCustomersReportsResponse,
   CountPrintJobsByUserCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CountPrintJobsByUserCustomersReportsRequest,
   output: CountPrintJobsByUserCustomersReportsResponse,
   errors: [],
@@ -4655,25 +4665,26 @@ export interface CountInstalledAppsCustomersReportsRequest {
   filter?: string;
 }
 
-export const CountInstalledAppsCustomersReportsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countInstalledApps",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountInstalledAppsCustomersReportsRequest>;
+export const CountInstalledAppsCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countInstalledApps",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountInstalledAppsCustomersReportsRequest>;
 
 export type CountInstalledAppsCustomersReportsResponse =
   GoogleChromeManagementV1CountInstalledAppsResponse;
 export const CountInstalledAppsCustomersReportsResponse =
-  GoogleChromeManagementV1CountInstalledAppsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountInstalledAppsResponse;
 
 export type CountInstalledAppsCustomersReportsError = DefaultErrors;
 
@@ -4683,7 +4694,7 @@ export const countInstalledAppsCustomersReports: API.PaginatedOperationMethod<
   CountInstalledAppsCustomersReportsResponse,
   CountInstalledAppsCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CountInstalledAppsCustomersReportsRequest,
   output: CountInstalledAppsCustomersReportsResponse,
   errors: [],
@@ -4708,27 +4719,28 @@ export interface CountPrintJobsByPrinterCustomersReportsRequest {
   orderBy?: string;
 }
 
-export const CountPrintJobsByPrinterCustomersReportsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  printerOrgUnitId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("printerOrgUnitId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countPrintJobsByPrinter",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountPrintJobsByPrinterCustomersReportsRequest>;
+export const CountPrintJobsByPrinterCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    printerOrgUnitId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("printerOrgUnitId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countPrintJobsByPrinter",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountPrintJobsByPrinterCustomersReportsRequest>;
 
 export type CountPrintJobsByPrinterCustomersReportsResponse =
   GoogleChromeManagementV1CountPrintJobsByPrinterResponse;
 export const CountPrintJobsByPrinterCustomersReportsResponse =
-  GoogleChromeManagementV1CountPrintJobsByPrinterResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountPrintJobsByPrinterResponse;
 
 export type CountPrintJobsByPrinterCustomersReportsError = DefaultErrors;
 
@@ -4738,7 +4750,7 @@ export const countPrintJobsByPrinterCustomersReports: API.PaginatedOperationMeth
   CountPrintJobsByPrinterCustomersReportsResponse,
   CountPrintJobsByPrinterCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CountPrintJobsByPrinterCustomersReportsRequest,
   output: CountPrintJobsByPrinterCustomersReportsResponse,
   errors: [],
@@ -4761,24 +4773,25 @@ export interface CountChromeVersionsCustomersReportsRequest {
   orgUnitId?: string;
 }
 
-export const CountChromeVersionsCustomersReportsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countChromeVersions",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountChromeVersionsCustomersReportsRequest>;
+export const CountChromeVersionsCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countChromeVersions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountChromeVersionsCustomersReportsRequest>;
 
 export type CountChromeVersionsCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeVersionsResponse;
 export const CountChromeVersionsCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeVersionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeVersionsResponse;
 
 export type CountChromeVersionsCustomersReportsError = DefaultErrors;
 
@@ -4788,7 +4801,7 @@ export const countChromeVersionsCustomersReports: API.PaginatedOperationMethod<
   CountChromeVersionsCustomersReportsResponse,
   CountChromeVersionsCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CountChromeVersionsCustomersReportsRequest,
   output: CountChromeVersionsCustomersReportsResponse,
   errors: [],
@@ -4809,23 +4822,26 @@ export interface CountDevicesPerBootTypeCustomersReportsRequest {
   "date.year"?: number;
 }
 
-export const CountDevicesPerBootTypeCustomersReportsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  "date.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.month")),
-  "date.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.day")),
-  "date.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.year")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countDevicesPerBootType",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountDevicesPerBootTypeCustomersReportsRequest>;
+export const CountDevicesPerBootTypeCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    "date.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("date.month"),
+    ),
+    "date.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.day")),
+    "date.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.year")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countDevicesPerBootType",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountDevicesPerBootTypeCustomersReportsRequest>;
 
 export type CountDevicesPerBootTypeCustomersReportsResponse =
   GoogleChromeManagementV1CountDevicesPerBootTypeResponse;
 export const CountDevicesPerBootTypeCustomersReportsResponse =
-  GoogleChromeManagementV1CountDevicesPerBootTypeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountDevicesPerBootTypeResponse;
 
 export type CountDevicesPerBootTypeCustomersReportsError = DefaultErrors;
 
@@ -4835,7 +4851,7 @@ export const countDevicesPerBootTypeCustomersReports: API.OperationMethod<
   CountDevicesPerBootTypeCustomersReportsResponse,
   CountDevicesPerBootTypeCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountDevicesPerBootTypeCustomersReportsRequest,
   output: CountDevicesPerBootTypeCustomersReportsResponse,
   errors: [],
@@ -4853,7 +4869,7 @@ export interface CountChromeDevicesReachingAutoExpirationDateCustomersReportsReq
 }
 
 export const CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     customer: Schema.String.pipe(T.HttpPath("customer")),
     minAueDate: Schema.optional(Schema.String).pipe(T.HttpQuery("minAueDate")),
     maxAueDate: Schema.optional(Schema.String).pipe(T.HttpQuery("maxAueDate")),
@@ -4869,7 +4885,7 @@ export const CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest
 export type CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse;
 export const CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateResponse;
 
 export type CountChromeDevicesReachingAutoExpirationDateCustomersReportsError =
   DefaultErrors;
@@ -4880,7 +4896,7 @@ export const countChromeDevicesReachingAutoExpirationDateCustomersReports: API.O
   CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse,
   CountChromeDevicesReachingAutoExpirationDateCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest,
   output: CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse,
   errors: [],
@@ -4897,23 +4913,26 @@ export interface CountActiveDevicesCustomersReportsRequest {
   "date.day"?: number;
 }
 
-export const CountActiveDevicesCustomersReportsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  "date.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.year")),
-  "date.month": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.month")),
-  "date.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.day")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:countActiveDevices",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountActiveDevicesCustomersReportsRequest>;
+export const CountActiveDevicesCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    "date.year": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.year")),
+    "date.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("date.month"),
+    ),
+    "date.day": Schema.optional(Schema.Number).pipe(T.HttpQuery("date.day")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:countActiveDevices",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountActiveDevicesCustomersReportsRequest>;
 
 export type CountActiveDevicesCustomersReportsResponse =
   GoogleChromeManagementV1CountActiveDevicesResponse;
 export const CountActiveDevicesCustomersReportsResponse =
-  GoogleChromeManagementV1CountActiveDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountActiveDevicesResponse;
 
 export type CountActiveDevicesCustomersReportsError = DefaultErrors;
 
@@ -4923,7 +4942,7 @@ export const countActiveDevicesCustomersReports: API.OperationMethod<
   CountActiveDevicesCustomersReportsResponse,
   CountActiveDevicesCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountActiveDevicesCustomersReportsRequest,
   output: CountActiveDevicesCustomersReportsResponse,
   errors: [],
@@ -4955,27 +4974,28 @@ export interface FindInstalledAppDevicesCustomersReportsRequest {
   pageSize?: number;
 }
 
-export const FindInstalledAppDevicesCustomersReportsRequest = Schema.Struct({
-  appId: Schema.optional(Schema.String).pipe(T.HttpQuery("appId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  appType: Schema.optional(Schema.String).pipe(T.HttpQuery("appType")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/reports:findInstalledAppDevices",
-  }),
-  svc,
-) as unknown as Schema.Schema<FindInstalledAppDevicesCustomersReportsRequest>;
+export const FindInstalledAppDevicesCustomersReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    appId: Schema.optional(Schema.String).pipe(T.HttpQuery("appId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    appType: Schema.optional(Schema.String).pipe(T.HttpQuery("appType")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/reports:findInstalledAppDevices",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FindInstalledAppDevicesCustomersReportsRequest>;
 
 export type FindInstalledAppDevicesCustomersReportsResponse =
   GoogleChromeManagementV1FindInstalledAppDevicesResponse;
 export const FindInstalledAppDevicesCustomersReportsResponse =
-  GoogleChromeManagementV1FindInstalledAppDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1FindInstalledAppDevicesResponse;
 
 export type FindInstalledAppDevicesCustomersReportsError = DefaultErrors;
 
@@ -4985,7 +5005,7 @@ export const findInstalledAppDevicesCustomersReports: API.PaginatedOperationMeth
   FindInstalledAppDevicesCustomersReportsResponse,
   FindInstalledAppDevicesCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: FindInstalledAppDevicesCustomersReportsRequest,
   output: FindInstalledAppDevicesCustomersReportsResponse,
   errors: [],
@@ -5005,7 +5025,7 @@ export interface CountChromeDevicesThatNeedAttentionCustomersReportsRequest {
 }
 
 export const CountChromeDevicesThatNeedAttentionCustomersReportsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
     customer: Schema.String.pipe(T.HttpPath("customer")),
@@ -5020,7 +5040,7 @@ export const CountChromeDevicesThatNeedAttentionCustomersReportsRequest =
 export type CountChromeDevicesThatNeedAttentionCustomersReportsResponse =
   GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse;
 export const CountChromeDevicesThatNeedAttentionCustomersReportsResponse =
-  GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeDevicesThatNeedAttentionResponse;
 
 export type CountChromeDevicesThatNeedAttentionCustomersReportsError =
   DefaultErrors;
@@ -5031,7 +5051,7 @@ export const countChromeDevicesThatNeedAttentionCustomersReports: API.OperationM
   CountChromeDevicesThatNeedAttentionCustomersReportsResponse,
   CountChromeDevicesThatNeedAttentionCustomersReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountChromeDevicesThatNeedAttentionCustomersReportsRequest,
   output: CountChromeDevicesThatNeedAttentionCustomersReportsResponse,
   errors: [],
@@ -5050,24 +5070,25 @@ export interface CountChromeAppRequestsCustomersAppsRequest {
   orderBy?: string;
 }
 
-export const CountChromeAppRequestsCustomersAppsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/apps:countChromeAppRequests",
-  }),
-  svc,
-) as unknown as Schema.Schema<CountChromeAppRequestsCustomersAppsRequest>;
+export const CountChromeAppRequestsCustomersAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/apps:countChromeAppRequests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CountChromeAppRequestsCustomersAppsRequest>;
 
 export type CountChromeAppRequestsCustomersAppsResponse =
   GoogleChromeManagementV1CountChromeAppRequestsResponse;
 export const CountChromeAppRequestsCustomersAppsResponse =
-  GoogleChromeManagementV1CountChromeAppRequestsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1CountChromeAppRequestsResponse;
 
 export type CountChromeAppRequestsCustomersAppsError = DefaultErrors;
 
@@ -5077,7 +5098,7 @@ export const countChromeAppRequestsCustomersApps: API.PaginatedOperationMethod<
   CountChromeAppRequestsCustomersAppsResponse,
   CountChromeAppRequestsCustomersAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CountChromeAppRequestsCustomersAppsRequest,
   output: CountChromeAppRequestsCustomersAppsResponse,
   errors: [],
@@ -5101,7 +5122,7 @@ export interface FetchDevicesRequestingExtensionCustomersAppsRequest {
 }
 
 export const FetchDevicesRequestingExtensionCustomersAppsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
     extensionId: Schema.optional(Schema.String).pipe(
@@ -5120,7 +5141,7 @@ export const FetchDevicesRequestingExtensionCustomersAppsRequest =
 export type FetchDevicesRequestingExtensionCustomersAppsResponse =
   GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse;
 export const FetchDevicesRequestingExtensionCustomersAppsResponse =
-  GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1FetchDevicesRequestingExtensionResponse;
 
 export type FetchDevicesRequestingExtensionCustomersAppsError = DefaultErrors;
 
@@ -5130,7 +5151,7 @@ export const fetchDevicesRequestingExtensionCustomersApps: API.PaginatedOperatio
   FetchDevicesRequestingExtensionCustomersAppsResponse,
   FetchDevicesRequestingExtensionCustomersAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: FetchDevicesRequestingExtensionCustomersAppsRequest,
   output: FetchDevicesRequestingExtensionCustomersAppsResponse,
   errors: [],
@@ -5153,24 +5174,27 @@ export interface FetchUsersRequestingExtensionCustomersAppsRequest {
   pageToken?: string;
 }
 
-export const FetchUsersRequestingExtensionCustomersAppsRequest = Schema.Struct({
-  customer: Schema.String.pipe(T.HttpPath("customer")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
-  extensionId: Schema.optional(Schema.String).pipe(T.HttpQuery("extensionId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/apps:fetchUsersRequestingExtension",
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchUsersRequestingExtensionCustomersAppsRequest>;
+export const FetchUsersRequestingExtensionCustomersAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.String.pipe(T.HttpPath("customer")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orgUnitId: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitId")),
+    extensionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("extensionId"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/apps:fetchUsersRequestingExtension",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchUsersRequestingExtensionCustomersAppsRequest>;
 
 export type FetchUsersRequestingExtensionCustomersAppsResponse =
   GoogleChromeManagementV1FetchUsersRequestingExtensionResponse;
 export const FetchUsersRequestingExtensionCustomersAppsResponse =
-  GoogleChromeManagementV1FetchUsersRequestingExtensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1FetchUsersRequestingExtensionResponse;
 
 export type FetchUsersRequestingExtensionCustomersAppsError = DefaultErrors;
 
@@ -5180,7 +5204,7 @@ export const fetchUsersRequestingExtensionCustomersApps: API.PaginatedOperationM
   FetchUsersRequestingExtensionCustomersAppsResponse,
   FetchUsersRequestingExtensionCustomersAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: FetchUsersRequestingExtensionCustomersAppsRequest,
   output: FetchUsersRequestingExtensionCustomersAppsResponse,
   errors: [],
@@ -5195,19 +5219,20 @@ export interface GetCustomersAppsChromeRequest {
   name: string;
 }
 
-export const GetCustomersAppsChromeRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/apps/chrome/{chromeId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersAppsChromeRequest>;
+export const GetCustomersAppsChromeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/apps/chrome/{chromeId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersAppsChromeRequest>;
 
 export type GetCustomersAppsChromeResponse = GoogleChromeManagementV1AppDetails;
 export const GetCustomersAppsChromeResponse =
-  GoogleChromeManagementV1AppDetails;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1AppDetails;
 
 export type GetCustomersAppsChromeError = DefaultErrors;
 
@@ -5217,7 +5242,7 @@ export const getCustomersAppsChrome: API.OperationMethod<
   GetCustomersAppsChromeResponse,
   GetCustomersAppsChromeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersAppsChromeRequest,
   output: GetCustomersAppsChromeResponse,
   errors: [],
@@ -5228,18 +5253,20 @@ export interface GetCustomersAppsWebRequest {
   name: string;
 }
 
-export const GetCustomersAppsWebRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/apps/web/{webId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersAppsWebRequest>;
+export const GetCustomersAppsWebRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/apps/web/{webId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersAppsWebRequest>;
 
 export type GetCustomersAppsWebResponse = GoogleChromeManagementV1AppDetails;
-export const GetCustomersAppsWebResponse = GoogleChromeManagementV1AppDetails;
+export const GetCustomersAppsWebResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1AppDetails;
 
 export type GetCustomersAppsWebError = DefaultErrors;
 
@@ -5249,7 +5276,7 @@ export const getCustomersAppsWeb: API.OperationMethod<
   GetCustomersAppsWebResponse,
   GetCustomersAppsWebError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersAppsWebRequest,
   output: GetCustomersAppsWebResponse,
   errors: [],
@@ -5260,20 +5287,21 @@ export interface GetCustomersAppsAndroidRequest {
   name: string;
 }
 
-export const GetCustomersAppsAndroidRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/apps/android/{androidId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersAppsAndroidRequest>;
+export const GetCustomersAppsAndroidRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/apps/android/{androidId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersAppsAndroidRequest>;
 
 export type GetCustomersAppsAndroidResponse =
   GoogleChromeManagementV1AppDetails;
 export const GetCustomersAppsAndroidResponse =
-  GoogleChromeManagementV1AppDetails;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1AppDetails;
 
 export type GetCustomersAppsAndroidError = DefaultErrors;
 
@@ -5283,7 +5311,7 @@ export const getCustomersAppsAndroid: API.OperationMethod<
   GetCustomersAppsAndroidResponse,
   GetCustomersAppsAndroidError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersAppsAndroidRequest,
   output: GetCustomersAppsAndroidResponse,
   errors: [],
@@ -5296,24 +5324,25 @@ export interface MoveCustomersThirdPartyProfileUsersRequest {
   body?: GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest;
 }
 
-export const MoveCustomersThirdPartyProfileUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/thirdPartyProfileUsers/{thirdPartyProfileUsersId}:move",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<MoveCustomersThirdPartyProfileUsersRequest>;
+export const MoveCustomersThirdPartyProfileUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/thirdPartyProfileUsers/{thirdPartyProfileUsersId}:move",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveCustomersThirdPartyProfileUsersRequest>;
 
 export type MoveCustomersThirdPartyProfileUsersResponse =
   GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse;
 export const MoveCustomersThirdPartyProfileUsersResponse =
-  GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse;
 
 export type MoveCustomersThirdPartyProfileUsersError = DefaultErrors;
 
@@ -5323,7 +5352,7 @@ export const moveCustomersThirdPartyProfileUsers: API.OperationMethod<
   MoveCustomersThirdPartyProfileUsersResponse,
   MoveCustomersThirdPartyProfileUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveCustomersThirdPartyProfileUsersRequest,
   output: MoveCustomersThirdPartyProfileUsersResponse,
   errors: [],
@@ -5342,21 +5371,25 @@ export interface ListCustomersTelemetryUsersRequest {
   readMask?: string;
 }
 
-export const ListCustomersTelemetryUsersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/telemetry/users" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersTelemetryUsersRequest>;
+export const ListCustomersTelemetryUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/users",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersTelemetryUsersRequest>;
 
 export type ListCustomersTelemetryUsersResponse =
   GoogleChromeManagementV1ListTelemetryUsersResponse;
 export const ListCustomersTelemetryUsersResponse =
-  GoogleChromeManagementV1ListTelemetryUsersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1ListTelemetryUsersResponse;
 
 export type ListCustomersTelemetryUsersError = DefaultErrors;
 
@@ -5366,7 +5399,7 @@ export const listCustomersTelemetryUsers: API.PaginatedOperationMethod<
   ListCustomersTelemetryUsersResponse,
   ListCustomersTelemetryUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersTelemetryUsersRequest,
   output: ListCustomersTelemetryUsersResponse,
   errors: [],
@@ -5383,21 +5416,22 @@ export interface GetCustomersTelemetryUsersRequest {
   name: string;
 }
 
-export const GetCustomersTelemetryUsersRequest = Schema.Struct({
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/telemetry/users/{usersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersTelemetryUsersRequest>;
+export const GetCustomersTelemetryUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/users/{usersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersTelemetryUsersRequest>;
 
 export type GetCustomersTelemetryUsersResponse =
   GoogleChromeManagementV1TelemetryUser;
 export const GetCustomersTelemetryUsersResponse =
-  GoogleChromeManagementV1TelemetryUser;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1TelemetryUser;
 
 export type GetCustomersTelemetryUsersError = DefaultErrors;
 
@@ -5407,7 +5441,7 @@ export const getCustomersTelemetryUsers: API.OperationMethod<
   GetCustomersTelemetryUsersResponse,
   GetCustomersTelemetryUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersTelemetryUsersRequest,
   output: GetCustomersTelemetryUsersResponse,
   errors: [],
@@ -5426,24 +5460,25 @@ export interface ListCustomersTelemetryEventsRequest {
   readMask?: string;
 }
 
-export const ListCustomersTelemetryEventsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/telemetry/events",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersTelemetryEventsRequest>;
+export const ListCustomersTelemetryEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/events",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersTelemetryEventsRequest>;
 
 export type ListCustomersTelemetryEventsResponse =
   GoogleChromeManagementV1ListTelemetryEventsResponse;
 export const ListCustomersTelemetryEventsResponse =
-  GoogleChromeManagementV1ListTelemetryEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1ListTelemetryEventsResponse;
 
 export type ListCustomersTelemetryEventsError = DefaultErrors;
 
@@ -5453,7 +5488,7 @@ export const listCustomersTelemetryEvents: API.PaginatedOperationMethod<
   ListCustomersTelemetryEventsResponse,
   ListCustomersTelemetryEventsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersTelemetryEventsRequest,
   output: ListCustomersTelemetryEventsResponse,
   errors: [],
@@ -5468,22 +5503,21 @@ export interface DeleteCustomersTelemetryNotificationConfigsRequest {
   name: string;
 }
 
-export const DeleteCustomersTelemetryNotificationConfigsRequest = Schema.Struct(
-  {
+export const DeleteCustomersTelemetryNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/customers/{customersId}/telemetry/notificationConfigs/{notificationConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCustomersTelemetryNotificationConfigsRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/customers/{customersId}/telemetry/notificationConfigs/{notificationConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCustomersTelemetryNotificationConfigsRequest>;
 
 export type DeleteCustomersTelemetryNotificationConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteCustomersTelemetryNotificationConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteCustomersTelemetryNotificationConfigsError = DefaultErrors;
 
@@ -5493,7 +5527,7 @@ export const deleteCustomersTelemetryNotificationConfigs: API.OperationMethod<
   DeleteCustomersTelemetryNotificationConfigsResponse,
   DeleteCustomersTelemetryNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomersTelemetryNotificationConfigsRequest,
   output: DeleteCustomersTelemetryNotificationConfigsResponse,
   errors: [],
@@ -5508,22 +5542,23 @@ export interface ListCustomersTelemetryNotificationConfigsRequest {
   parent: string;
 }
 
-export const ListCustomersTelemetryNotificationConfigsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/telemetry/notificationConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersTelemetryNotificationConfigsRequest>;
+export const ListCustomersTelemetryNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/notificationConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersTelemetryNotificationConfigsRequest>;
 
 export type ListCustomersTelemetryNotificationConfigsResponse =
   GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse;
 export const ListCustomersTelemetryNotificationConfigsResponse =
-  GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1ListTelemetryNotificationConfigsResponse;
 
 export type ListCustomersTelemetryNotificationConfigsError = DefaultErrors;
 
@@ -5533,7 +5568,7 @@ export const listCustomersTelemetryNotificationConfigs: API.PaginatedOperationMe
   ListCustomersTelemetryNotificationConfigsResponse,
   ListCustomersTelemetryNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersTelemetryNotificationConfigsRequest,
   output: ListCustomersTelemetryNotificationConfigsResponse,
   errors: [],
@@ -5550,26 +5585,25 @@ export interface CreateCustomersTelemetryNotificationConfigsRequest {
   body?: GoogleChromeManagementV1TelemetryNotificationConfig;
 }
 
-export const CreateCustomersTelemetryNotificationConfigsRequest = Schema.Struct(
-  {
+export const CreateCustomersTelemetryNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleChromeManagementV1TelemetryNotificationConfig,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/telemetry/notificationConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomersTelemetryNotificationConfigsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/telemetry/notificationConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomersTelemetryNotificationConfigsRequest>;
 
 export type CreateCustomersTelemetryNotificationConfigsResponse =
   GoogleChromeManagementV1TelemetryNotificationConfig;
 export const CreateCustomersTelemetryNotificationConfigsResponse =
-  GoogleChromeManagementV1TelemetryNotificationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1TelemetryNotificationConfig;
 
 export type CreateCustomersTelemetryNotificationConfigsError = DefaultErrors;
 
@@ -5579,7 +5613,7 @@ export const createCustomersTelemetryNotificationConfigs: API.OperationMethod<
   CreateCustomersTelemetryNotificationConfigsResponse,
   CreateCustomersTelemetryNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomersTelemetryNotificationConfigsRequest,
   output: CreateCustomersTelemetryNotificationConfigsResponse,
   errors: [],
@@ -5598,24 +5632,25 @@ export interface ListCustomersTelemetryDevicesRequest {
   pageToken?: string;
 }
 
-export const ListCustomersTelemetryDevicesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/telemetry/devices",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersTelemetryDevicesRequest>;
+export const ListCustomersTelemetryDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/devices",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersTelemetryDevicesRequest>;
 
 export type ListCustomersTelemetryDevicesResponse =
   GoogleChromeManagementV1ListTelemetryDevicesResponse;
 export const ListCustomersTelemetryDevicesResponse =
-  GoogleChromeManagementV1ListTelemetryDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1ListTelemetryDevicesResponse;
 
 export type ListCustomersTelemetryDevicesError = DefaultErrors;
 
@@ -5625,7 +5660,7 @@ export const listCustomersTelemetryDevices: API.PaginatedOperationMethod<
   ListCustomersTelemetryDevicesResponse,
   ListCustomersTelemetryDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersTelemetryDevicesRequest,
   output: ListCustomersTelemetryDevicesResponse,
   errors: [],
@@ -5642,21 +5677,22 @@ export interface GetCustomersTelemetryDevicesRequest {
   readMask?: string;
 }
 
-export const GetCustomersTelemetryDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/telemetry/devices/{devicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersTelemetryDevicesRequest>;
+export const GetCustomersTelemetryDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/telemetry/devices/{devicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersTelemetryDevicesRequest>;
 
 export type GetCustomersTelemetryDevicesResponse =
   GoogleChromeManagementV1TelemetryDevice;
 export const GetCustomersTelemetryDevicesResponse =
-  GoogleChromeManagementV1TelemetryDevice;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChromeManagementV1TelemetryDevice;
 
 export type GetCustomersTelemetryDevicesError = DefaultErrors;
 
@@ -5666,7 +5702,7 @@ export const getCustomersTelemetryDevices: API.OperationMethod<
   GetCustomersTelemetryDevicesResponse,
   GetCustomersTelemetryDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersTelemetryDevicesRequest,
   output: GetCustomersTelemetryDevicesResponse,
   errors: [],
@@ -5677,15 +5713,17 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 
-export const DeleteOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOperationsRequest>;
+export const DeleteOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
 export type DeleteOperationsResponse = GoogleProtobufEmpty;
-export const DeleteOperationsResponse = GoogleProtobufEmpty;
+export const DeleteOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOperationsError = DefaultErrors;
 
@@ -5695,7 +5733,7 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsResponse,
   DeleteOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -5714,7 +5752,7 @@ export interface ListOperationsRequest {
   filter?: string;
 }
 
-export const ListOperationsRequest = Schema.Struct({
+export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   name: Schema.String.pipe(T.HttpPath("name")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5728,7 +5766,8 @@ export const ListOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
 export type ListOperationsResponse = GoogleLongrunningListOperationsResponse;
-export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
+export const ListOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = DefaultErrors;
 
@@ -5738,7 +5777,7 @@ export const listOperations: API.PaginatedOperationMethod<
   ListOperationsResponse,
   ListOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -5755,22 +5794,24 @@ export interface CancelOperationsRequest {
   body?: GoogleLongrunningCancelOperationRequest;
 }
 
-export const CancelOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelOperationsRequest>;
+export const CancelOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleLongrunningCancelOperationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
 export type CancelOperationsResponse = GoogleProtobufEmpty;
-export const CancelOperationsResponse = GoogleProtobufEmpty;
+export const CancelOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelOperationsError = DefaultErrors;
 
@@ -5780,7 +5821,7 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsResponse,
   CancelOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],

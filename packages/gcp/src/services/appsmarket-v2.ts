@@ -31,13 +31,14 @@ export interface Editions {
   assignedSeats?: number;
 }
 
-export const Editions: Schema.Schema<Editions> = Schema.suspend(() =>
-  Schema.Struct({
-    editionId: Schema.optional(Schema.String),
-    seatCount: Schema.optional(Schema.Number),
-    assignedSeats: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Editions" }) as any as Schema.Schema<Editions>;
+export const Editions: Schema.Schema<Editions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      editionId: Schema.optional(Schema.String),
+      seatCount: Schema.optional(Schema.Number),
+      assignedSeats: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Editions" }) as any as Schema.Schema<Editions>;
 
 export interface CustomerLicense {
   /** The type of API resource. This is always `appsmarket#customerLicense`. */
@@ -54,8 +55,8 @@ export interface CustomerLicense {
   customerId?: string;
 }
 
-export const CustomerLicense: Schema.Schema<CustomerLicense> = Schema.suspend(
-  () =>
+export const CustomerLicense: Schema.Schema<CustomerLicense> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -64,9 +65,9 @@ export const CustomerLicense: Schema.Schema<CustomerLicense> = Schema.suspend(
       id: Schema.optional(Schema.String),
       customerId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomerLicense",
-}) as any as Schema.Schema<CustomerLicense>;
+  ).annotate({
+    identifier: "CustomerLicense",
+  }) as any as Schema.Schema<CustomerLicense>;
 
 export interface UserLicense {
   /** The type of API resource. This is always `appsmarket#userLicense`. */
@@ -87,18 +88,21 @@ export interface UserLicense {
   userId?: string;
 }
 
-export const UserLicense: Schema.Schema<UserLicense> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    state: Schema.optional(Schema.String),
-    editionId: Schema.optional(Schema.String),
-    customerId: Schema.optional(Schema.String),
-    applicationId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserLicense" }) as any as Schema.Schema<UserLicense>;
+export const UserLicense: Schema.Schema<UserLicense> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      state: Schema.optional(Schema.String),
+      editionId: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
+      applicationId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserLicense",
+  }) as any as Schema.Schema<UserLicense>;
 
 // ==========================================================================
 // Operations
@@ -111,19 +115,21 @@ export interface GetCustomerLicenseRequest {
   customerId: string;
 }
 
-export const GetCustomerLicenseRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  customerId: Schema.String.pipe(T.HttpPath("customerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "appsmarket/v2/customerLicense/{applicationId}/{customerId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomerLicenseRequest>;
+export const GetCustomerLicenseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    customerId: Schema.String.pipe(T.HttpPath("customerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "appsmarket/v2/customerLicense/{applicationId}/{customerId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomerLicenseRequest>;
 
 export type GetCustomerLicenseResponse = CustomerLicense;
-export const GetCustomerLicenseResponse = CustomerLicense;
+export const GetCustomerLicenseResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomerLicense;
 
 export type GetCustomerLicenseError = DefaultErrors;
 
@@ -133,7 +139,7 @@ export const getCustomerLicense: API.OperationMethod<
   GetCustomerLicenseResponse,
   GetCustomerLicenseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomerLicenseRequest,
   output: GetCustomerLicenseResponse,
   errors: [],
@@ -146,7 +152,7 @@ export interface GetUserLicenseRequest {
   userId: string;
 }
 
-export const GetUserLicenseRequest = Schema.Struct({
+export const GetUserLicenseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
@@ -158,7 +164,7 @@ export const GetUserLicenseRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetUserLicenseRequest>;
 
 export type GetUserLicenseResponse = UserLicense;
-export const GetUserLicenseResponse = UserLicense;
+export const GetUserLicenseResponse = /*@__PURE__*/ /*#__PURE__*/ UserLicense;
 
 export type GetUserLicenseError = DefaultErrors;
 
@@ -168,7 +174,7 @@ export const getUserLicense: API.OperationMethod<
   GetUserLicenseResponse,
   GetUserLicenseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserLicenseRequest,
   output: GetUserLicenseResponse,
   errors: [],

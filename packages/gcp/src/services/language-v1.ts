@@ -33,14 +33,15 @@ export interface Document {
   language?: string;
 }
 
-export const Document: Schema.Schema<Document> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    gcsContentUri: Schema.optional(Schema.String),
-    language: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
+export const Document: Schema.Schema<Document> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      gcsContentUri: Schema.optional(Schema.String),
+      language: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
 
 export interface AnalyzeSentimentRequest {
   /** Required. Input document. */
@@ -50,7 +51,7 @@ export interface AnalyzeSentimentRequest {
 }
 
 export const AnalyzeSentimentRequest: Schema.Schema<AnalyzeSentimentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       encodingType: Schema.optional(Schema.String),
@@ -66,12 +67,13 @@ export interface Sentiment {
   score?: number;
 }
 
-export const Sentiment: Schema.Schema<Sentiment> = Schema.suspend(() =>
-  Schema.Struct({
-    magnitude: Schema.optional(Schema.Number),
-    score: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Sentiment" }) as any as Schema.Schema<Sentiment>;
+export const Sentiment: Schema.Schema<Sentiment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      magnitude: Schema.optional(Schema.Number),
+      score: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Sentiment" }) as any as Schema.Schema<Sentiment>;
 
 export interface TextSpan {
   /** The content of the text span, which is a substring of the document. */
@@ -80,12 +82,13 @@ export interface TextSpan {
   beginOffset?: number;
 }
 
-export const TextSpan: Schema.Schema<TextSpan> = Schema.suspend(() =>
-  Schema.Struct({
-    content: Schema.optional(Schema.String),
-    beginOffset: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TextSpan" }) as any as Schema.Schema<TextSpan>;
+export const TextSpan: Schema.Schema<TextSpan> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      content: Schema.optional(Schema.String),
+      beginOffset: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TextSpan" }) as any as Schema.Schema<TextSpan>;
 
 export interface Sentence {
   /** The sentence text. */
@@ -94,12 +97,13 @@ export interface Sentence {
   sentiment?: Sentiment;
 }
 
-export const Sentence: Schema.Schema<Sentence> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(TextSpan),
-    sentiment: Schema.optional(Sentiment),
-  }),
-).annotate({ identifier: "Sentence" }) as any as Schema.Schema<Sentence>;
+export const Sentence: Schema.Schema<Sentence> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(TextSpan),
+      sentiment: Schema.optional(Sentiment),
+    }),
+  ).annotate({ identifier: "Sentence" }) as any as Schema.Schema<Sentence>;
 
 export interface AnalyzeSentimentResponse {
   /** The overall sentiment of the input document. */
@@ -111,7 +115,7 @@ export interface AnalyzeSentimentResponse {
 }
 
 export const AnalyzeSentimentResponse: Schema.Schema<AnalyzeSentimentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentSentiment: Schema.optional(Sentiment),
       language: Schema.optional(Schema.String),
@@ -129,7 +133,7 @@ export interface AnalyzeEntitiesRequest {
 }
 
 export const AnalyzeEntitiesRequest: Schema.Schema<AnalyzeEntitiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       encodingType: Schema.optional(Schema.String),
@@ -147,15 +151,16 @@ export interface EntityMention {
   sentiment?: Sentiment;
 }
 
-export const EntityMention: Schema.Schema<EntityMention> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(TextSpan),
-    type: Schema.optional(Schema.String),
-    sentiment: Schema.optional(Sentiment),
-  }),
-).annotate({
-  identifier: "EntityMention",
-}) as any as Schema.Schema<EntityMention>;
+export const EntityMention: Schema.Schema<EntityMention> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(TextSpan),
+      type: Schema.optional(Schema.String),
+      sentiment: Schema.optional(Sentiment),
+    }),
+  ).annotate({
+    identifier: "EntityMention",
+  }) as any as Schema.Schema<EntityMention>;
 
 export interface Entity {
   /** The representative name for the entity. */
@@ -186,16 +191,17 @@ export interface Entity {
   sentiment?: Sentiment;
 }
 
-export const Entity: Schema.Schema<Entity> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    salience: Schema.optional(Schema.Number),
-    mentions: Schema.optional(Schema.Array(EntityMention)),
-    sentiment: Schema.optional(Sentiment),
-  }),
-).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+export const Entity: Schema.Schema<Entity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      salience: Schema.optional(Schema.Number),
+      mentions: Schema.optional(Schema.Array(EntityMention)),
+      sentiment: Schema.optional(Sentiment),
+    }),
+  ).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
 
 export interface AnalyzeEntitiesResponse {
   /** The recognized entities in the input document. */
@@ -205,7 +211,7 @@ export interface AnalyzeEntitiesResponse {
 }
 
 export const AnalyzeEntitiesResponse: Schema.Schema<AnalyzeEntitiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entities: Schema.optional(Schema.Array(Entity)),
       language: Schema.optional(Schema.String),
@@ -222,7 +228,7 @@ export interface AnalyzeEntitySentimentRequest {
 }
 
 export const AnalyzeEntitySentimentRequest: Schema.Schema<AnalyzeEntitySentimentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       encodingType: Schema.optional(Schema.String),
@@ -239,7 +245,7 @@ export interface AnalyzeEntitySentimentResponse {
 }
 
 export const AnalyzeEntitySentimentResponse: Schema.Schema<AnalyzeEntitySentimentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entities: Schema.optional(Schema.Array(Entity)),
       language: Schema.optional(Schema.String),
@@ -256,7 +262,7 @@ export interface AnalyzeSyntaxRequest {
 }
 
 export const AnalyzeSyntaxRequest: Schema.Schema<AnalyzeSyntaxRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       encodingType: Schema.optional(Schema.String),
@@ -372,24 +378,25 @@ export interface PartOfSpeech {
   voice?: "VOICE_UNKNOWN" | "ACTIVE" | "CAUSATIVE" | "PASSIVE" | (string & {});
 }
 
-export const PartOfSpeech: Schema.Schema<PartOfSpeech> = Schema.suspend(() =>
-  Schema.Struct({
-    tag: Schema.optional(Schema.String),
-    aspect: Schema.optional(Schema.String),
-    case: Schema.optional(Schema.String),
-    form: Schema.optional(Schema.String),
-    gender: Schema.optional(Schema.String),
-    mood: Schema.optional(Schema.String),
-    number: Schema.optional(Schema.String),
-    person: Schema.optional(Schema.String),
-    proper: Schema.optional(Schema.String),
-    reciprocity: Schema.optional(Schema.String),
-    tense: Schema.optional(Schema.String),
-    voice: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PartOfSpeech",
-}) as any as Schema.Schema<PartOfSpeech>;
+export const PartOfSpeech: Schema.Schema<PartOfSpeech> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tag: Schema.optional(Schema.String),
+      aspect: Schema.optional(Schema.String),
+      case: Schema.optional(Schema.String),
+      form: Schema.optional(Schema.String),
+      gender: Schema.optional(Schema.String),
+      mood: Schema.optional(Schema.String),
+      number: Schema.optional(Schema.String),
+      person: Schema.optional(Schema.String),
+      proper: Schema.optional(Schema.String),
+      reciprocity: Schema.optional(Schema.String),
+      tense: Schema.optional(Schema.String),
+      voice: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PartOfSpeech",
+  }) as any as Schema.Schema<PartOfSpeech>;
 
 export interface DependencyEdge {
   /** Represents the head of this token in the dependency tree. This is the index of the token which has an arc going to this token. The index is the position of the token in the array of tokens returned by the API method. If this token is a root token, then the `head_token_index` is its own index. */
@@ -482,15 +489,15 @@ export interface DependencyEdge {
     | (string & {});
 }
 
-export const DependencyEdge: Schema.Schema<DependencyEdge> = Schema.suspend(
-  () =>
+export const DependencyEdge: Schema.Schema<DependencyEdge> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headTokenIndex: Schema.optional(Schema.Number),
       label: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DependencyEdge",
-}) as any as Schema.Schema<DependencyEdge>;
+  ).annotate({
+    identifier: "DependencyEdge",
+  }) as any as Schema.Schema<DependencyEdge>;
 
 export interface Token {
   /** The token text. */
@@ -503,14 +510,15 @@ export interface Token {
   lemma?: string;
 }
 
-export const Token: Schema.Schema<Token> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(TextSpan),
-    partOfSpeech: Schema.optional(PartOfSpeech),
-    dependencyEdge: Schema.optional(DependencyEdge),
-    lemma: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Token" }) as any as Schema.Schema<Token>;
+export const Token: Schema.Schema<Token> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(TextSpan),
+      partOfSpeech: Schema.optional(PartOfSpeech),
+      dependencyEdge: Schema.optional(DependencyEdge),
+      lemma: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Token" }) as any as Schema.Schema<Token>;
 
 export interface AnalyzeSyntaxResponse {
   /** Sentences in the input document. */
@@ -522,7 +530,7 @@ export interface AnalyzeSyntaxResponse {
 }
 
 export const AnalyzeSyntaxResponse: Schema.Schema<AnalyzeSyntaxResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sentences: Schema.optional(Schema.Array(Sentence)),
       tokens: Schema.optional(Schema.Array(Token)),
@@ -535,7 +543,7 @@ export const AnalyzeSyntaxResponse: Schema.Schema<AnalyzeSyntaxResponse> =
 export interface ClassificationModelOptionsV1Model {}
 
 export const ClassificationModelOptionsV1Model: Schema.Schema<ClassificationModelOptionsV1Model> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ClassificationModelOptionsV1Model",
   }) as any as Schema.Schema<ClassificationModelOptionsV1Model>;
 
@@ -549,7 +557,7 @@ export interface ClassificationModelOptionsV2Model {
 }
 
 export const ClassificationModelOptionsV2Model: Schema.Schema<ClassificationModelOptionsV2Model> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentCategoriesVersion: Schema.optional(Schema.String),
     }),
@@ -565,7 +573,7 @@ export interface ClassificationModelOptions {
 }
 
 export const ClassificationModelOptions: Schema.Schema<ClassificationModelOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       v1Model: Schema.optional(ClassificationModelOptionsV1Model),
       v2Model: Schema.optional(ClassificationModelOptionsV2Model),
@@ -582,7 +590,7 @@ export interface ClassifyTextRequest {
 }
 
 export const ClassifyTextRequest: Schema.Schema<ClassifyTextRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       classificationModelOptions: Schema.optional(ClassificationModelOptions),
@@ -599,7 +607,7 @@ export interface ClassificationCategory {
 }
 
 export const ClassificationCategory: Schema.Schema<ClassificationCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -614,7 +622,7 @@ export interface ClassifyTextResponse {
 }
 
 export const ClassifyTextResponse: Schema.Schema<ClassifyTextResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       categories: Schema.optional(Schema.Array(ClassificationCategory)),
     }),
@@ -628,7 +636,7 @@ export interface ModerateTextRequest {
 }
 
 export const ModerateTextRequest: Schema.Schema<ModerateTextRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
     }),
@@ -642,7 +650,7 @@ export interface ModerateTextResponse {
 }
 
 export const ModerateTextResponse: Schema.Schema<ModerateTextResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       moderationCategories: Schema.optional(
         Schema.Array(ClassificationCategory),
@@ -670,7 +678,7 @@ export interface AnnotateTextRequestFeatures {
 }
 
 export const AnnotateTextRequestFeatures: Schema.Schema<AnnotateTextRequestFeatures> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extractSyntax: Schema.optional(Schema.Boolean),
       extractEntities: Schema.optional(Schema.Boolean),
@@ -694,7 +702,7 @@ export interface AnnotateTextRequest {
 }
 
 export const AnnotateTextRequest: Schema.Schema<AnnotateTextRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       document: Schema.optional(Document),
       features: Schema.optional(AnnotateTextRequestFeatures),
@@ -722,7 +730,7 @@ export interface AnnotateTextResponse {
 }
 
 export const AnnotateTextResponse: Schema.Schema<AnnotateTextResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sentences: Schema.optional(Schema.Array(Sentence)),
       tokens: Schema.optional(Schema.Array(Token)),
@@ -747,15 +755,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface XPSFileSpec {
   fileFormat?:
@@ -774,14 +783,17 @@ export interface XPSFileSpec {
   fileSpec?: string;
 }
 
-export const XPSFileSpec: Schema.Schema<XPSFileSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    fileFormat: Schema.optional(Schema.String),
-    directoryPath: Schema.optional(Schema.String),
-    singleFilePath: Schema.optional(Schema.String),
-    fileSpec: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "XPSFileSpec" }) as any as Schema.Schema<XPSFileSpec>;
+export const XPSFileSpec: Schema.Schema<XPSFileSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileFormat: Schema.optional(Schema.String),
+      directoryPath: Schema.optional(Schema.String),
+      singleFilePath: Schema.optional(Schema.String),
+      fileSpec: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "XPSFileSpec",
+  }) as any as Schema.Schema<XPSFileSpec>;
 
 export interface XPSExampleSet {
   /** File spec of the examples or input sources. */
@@ -794,16 +806,17 @@ export interface XPSExampleSet {
   fingerprint?: string;
 }
 
-export const XPSExampleSet: Schema.Schema<XPSExampleSet> = Schema.suspend(() =>
-  Schema.Struct({
-    fileSpec: Schema.optional(XPSFileSpec),
-    numExamples: Schema.optional(Schema.String),
-    numInputSources: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "XPSExampleSet",
-}) as any as Schema.Schema<XPSExampleSet>;
+export const XPSExampleSet: Schema.Schema<XPSExampleSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileSpec: Schema.optional(XPSFileSpec),
+      numExamples: Schema.optional(Schema.String),
+      numInputSources: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "XPSExampleSet",
+  }) as any as Schema.Schema<XPSExampleSet>;
 
 export interface XPSBatchPredictResponse {
   /** Examples for batch prediction result. Under full API implementation, results are stored in shared RecordIO of AnnotatedExample protobufs, the annotations field of which is populated by XPS backend. */
@@ -811,7 +824,7 @@ export interface XPSBatchPredictResponse {
 }
 
 export const XPSBatchPredictResponse: Schema.Schema<XPSBatchPredictResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleSet: Schema.optional(XPSExampleSet),
     }),
@@ -832,14 +845,15 @@ export interface XPSDataErrors {
   count?: number;
 }
 
-export const XPSDataErrors: Schema.Schema<XPSDataErrors> = Schema.suspend(() =>
-  Schema.Struct({
-    errorType: Schema.optional(Schema.String),
-    count: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "XPSDataErrors",
-}) as any as Schema.Schema<XPSDataErrors>;
+export const XPSDataErrors: Schema.Schema<XPSDataErrors> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errorType: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "XPSDataErrors",
+  }) as any as Schema.Schema<XPSDataErrors>;
 
 export interface XPSSpeechPreprocessStats {
   /** The number of examples labeled as TRAIN by Speech xps server. */
@@ -865,7 +879,7 @@ export interface XPSSpeechPreprocessStats {
 }
 
 export const XPSSpeechPreprocessStats: Schema.Schema<XPSSpeechPreprocessStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trainExamplesCount: Schema.optional(Schema.Number),
       testExamplesCount: Schema.optional(Schema.Number),
@@ -907,7 +921,7 @@ export interface XPSSpeechEvaluationMetricsSubModelEvaluationMetric {
 }
 
 export const XPSSpeechEvaluationMetricsSubModelEvaluationMetric: Schema.Schema<XPSSpeechEvaluationMetricsSubModelEvaluationMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wer: Schema.optional(Schema.Number),
       numWords: Schema.optional(Schema.Number),
@@ -929,7 +943,7 @@ export interface XPSSpeechEvaluationMetrics {
 }
 
 export const XPSSpeechEvaluationMetrics: Schema.Schema<XPSSpeechEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subModelEvaluationMetrics: Schema.optional(
         Schema.Array(XPSSpeechEvaluationMetricsSubModelEvaluationMetric),
@@ -951,7 +965,7 @@ export interface XPSSpeechPreprocessResponse {
 }
 
 export const XPSSpeechPreprocessResponse: Schema.Schema<XPSSpeechPreprocessResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speechPreprocessStats: Schema.optional(XPSSpeechPreprocessStats),
       cnsTrainDataPath: Schema.optional(Schema.String),
@@ -972,7 +986,7 @@ export interface XPSTranslationPreprocessResponse {
 }
 
 export const XPSTranslationPreprocessResponse: Schema.Schema<XPSTranslationPreprocessResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parsedExampleCount: Schema.optional(Schema.String),
       validExampleCount: Schema.optional(Schema.String),
@@ -986,13 +1000,14 @@ export interface XPSStructType {
   fields?: Record<string, XPSDataType>;
 }
 
-export const XPSStructType: Schema.Schema<XPSStructType> = Schema.suspend(() =>
-  Schema.Struct({
-    fields: Schema.optional(Schema.Record(Schema.String, XPSDataType)),
-  }),
-).annotate({
-  identifier: "XPSStructType",
-}) as any as Schema.Schema<XPSStructType>;
+export const XPSStructType: Schema.Schema<XPSStructType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(Schema.Record(Schema.String, XPSDataType)),
+    }),
+  ).annotate({
+    identifier: "XPSStructType",
+  }) as any as Schema.Schema<XPSStructType>;
 
 export interface XPSDataType {
   /** Required. The TypeCode for this type. */
@@ -1017,16 +1032,19 @@ export interface XPSDataType {
   compatibleDataTypes?: Array<XPSDataType>;
 }
 
-export const XPSDataType: Schema.Schema<XPSDataType> = Schema.suspend(() =>
-  Schema.Struct({
-    typeCode: Schema.optional(Schema.String),
-    nullable: Schema.optional(Schema.Boolean),
-    listElementType: Schema.optional(XPSDataType),
-    structType: Schema.optional(XPSStructType),
-    timeFormat: Schema.optional(Schema.String),
-    compatibleDataTypes: Schema.optional(Schema.Array(XPSDataType)),
-  }),
-).annotate({ identifier: "XPSDataType" }) as any as Schema.Schema<XPSDataType>;
+export const XPSDataType: Schema.Schema<XPSDataType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      typeCode: Schema.optional(Schema.String),
+      nullable: Schema.optional(Schema.Boolean),
+      listElementType: Schema.optional(XPSDataType),
+      structType: Schema.optional(XPSStructType),
+      timeFormat: Schema.optional(Schema.String),
+      compatibleDataTypes: Schema.optional(Schema.Array(XPSDataType)),
+    }),
+  ).annotate({
+    identifier: "XPSDataType",
+  }) as any as Schema.Schema<XPSDataType>;
 
 export interface XPSFloat64StatsHistogramBucket {
   /** The minimum value of the bucket, inclusive. */
@@ -1038,7 +1056,7 @@ export interface XPSFloat64StatsHistogramBucket {
 }
 
 export const XPSFloat64StatsHistogramBucket: Schema.Schema<XPSFloat64StatsHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(Schema.Number),
       max: Schema.optional(Schema.Number),
@@ -1054,16 +1072,16 @@ export interface XPSCommonStats {
   nullValueCount?: string;
 }
 
-export const XPSCommonStats: Schema.Schema<XPSCommonStats> = Schema.suspend(
-  () =>
+export const XPSCommonStats: Schema.Schema<XPSCommonStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       distinctValueCount: Schema.optional(Schema.String),
       validValueCount: Schema.optional(Schema.String),
       nullValueCount: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "XPSCommonStats",
-}) as any as Schema.Schema<XPSCommonStats>;
+  ).annotate({
+    identifier: "XPSCommonStats",
+  }) as any as Schema.Schema<XPSCommonStats>;
 
 export interface XPSFloat64Stats {
   /** The mean of the series. */
@@ -1077,8 +1095,8 @@ export interface XPSFloat64Stats {
   commonStats?: XPSCommonStats;
 }
 
-export const XPSFloat64Stats: Schema.Schema<XPSFloat64Stats> = Schema.suspend(
-  () =>
+export const XPSFloat64Stats: Schema.Schema<XPSFloat64Stats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mean: Schema.optional(Schema.Number),
       standardDeviation: Schema.optional(Schema.Number),
@@ -1088,9 +1106,9 @@ export const XPSFloat64Stats: Schema.Schema<XPSFloat64Stats> = Schema.suspend(
       ),
       commonStats: Schema.optional(XPSCommonStats),
     }),
-).annotate({
-  identifier: "XPSFloat64Stats",
-}) as any as Schema.Schema<XPSFloat64Stats>;
+  ).annotate({
+    identifier: "XPSFloat64Stats",
+  }) as any as Schema.Schema<XPSFloat64Stats>;
 
 export interface XPSStringStatsUnigramStats {
   /** The unigram. */
@@ -1100,7 +1118,7 @@ export interface XPSStringStatsUnigramStats {
 }
 
 export const XPSStringStatsUnigramStats: Schema.Schema<XPSStringStatsUnigramStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       count: Schema.optional(Schema.String),
@@ -1115,17 +1133,17 @@ export interface XPSStringStats {
   commonStats?: XPSCommonStats;
 }
 
-export const XPSStringStats: Schema.Schema<XPSStringStats> = Schema.suspend(
-  () =>
+export const XPSStringStats: Schema.Schema<XPSStringStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topUnigramStats: Schema.optional(
         Schema.Array(XPSStringStatsUnigramStats),
       ),
       commonStats: Schema.optional(XPSCommonStats),
     }),
-).annotate({
-  identifier: "XPSStringStats",
-}) as any as Schema.Schema<XPSStringStats>;
+  ).annotate({
+    identifier: "XPSStringStats",
+  }) as any as Schema.Schema<XPSStringStats>;
 
 export interface XPSTimestampStatsGranularStats {
   /** A map from granularity key to example count for that key. E.g. for hour_of_day `13` means 1pm, or for month_of_year `5` means May). */
@@ -1133,7 +1151,7 @@ export interface XPSTimestampStatsGranularStats {
 }
 
 export const XPSTimestampStatsGranularStats: Schema.Schema<XPSTimestampStatsGranularStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buckets: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
@@ -1149,7 +1167,7 @@ export interface XPSTimestampStats {
 }
 
 export const XPSTimestampStats: Schema.Schema<XPSTimestampStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       granularStats: Schema.optional(
         Schema.Record(Schema.String, XPSTimestampStatsGranularStats),
@@ -1167,14 +1185,15 @@ export interface XPSArrayStats {
   commonStats?: XPSCommonStats;
 }
 
-export const XPSArrayStats: Schema.Schema<XPSArrayStats> = Schema.suspend(() =>
-  Schema.Struct({
-    memberStats: Schema.optional(XPSDataStats),
-    commonStats: Schema.optional(XPSCommonStats),
-  }),
-).annotate({
-  identifier: "XPSArrayStats",
-}) as any as Schema.Schema<XPSArrayStats>;
+export const XPSArrayStats: Schema.Schema<XPSArrayStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      memberStats: Schema.optional(XPSDataStats),
+      commonStats: Schema.optional(XPSCommonStats),
+    }),
+  ).annotate({
+    identifier: "XPSArrayStats",
+  }) as any as Schema.Schema<XPSArrayStats>;
 
 export interface XPSStructStats {
   /** Map from a field name of the struct to data stats aggregated over series of all data in that field across all the structs. */
@@ -1182,15 +1201,15 @@ export interface XPSStructStats {
   commonStats?: XPSCommonStats;
 }
 
-export const XPSStructStats: Schema.Schema<XPSStructStats> = Schema.suspend(
-  () =>
+export const XPSStructStats: Schema.Schema<XPSStructStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldStats: Schema.optional(Schema.Record(Schema.String, XPSDataStats)),
       commonStats: Schema.optional(XPSCommonStats),
     }),
-).annotate({
-  identifier: "XPSStructStats",
-}) as any as Schema.Schema<XPSStructStats>;
+  ).annotate({
+    identifier: "XPSStructStats",
+  }) as any as Schema.Schema<XPSStructStats>;
 
 export interface XPSCategoryStatsSingleCategoryStats {
   /** The CATEGORY value. */
@@ -1200,7 +1219,7 @@ export interface XPSCategoryStatsSingleCategoryStats {
 }
 
 export const XPSCategoryStatsSingleCategoryStats: Schema.Schema<XPSCategoryStatsSingleCategoryStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       count: Schema.optional(Schema.String),
@@ -1215,17 +1234,17 @@ export interface XPSCategoryStats {
   commonStats?: XPSCommonStats;
 }
 
-export const XPSCategoryStats: Schema.Schema<XPSCategoryStats> = Schema.suspend(
-  () =>
+export const XPSCategoryStats: Schema.Schema<XPSCategoryStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topCategoryStats: Schema.optional(
         Schema.Array(XPSCategoryStatsSingleCategoryStats),
       ),
       commonStats: Schema.optional(XPSCommonStats),
     }),
-).annotate({
-  identifier: "XPSCategoryStats",
-}) as any as Schema.Schema<XPSCategoryStats>;
+  ).annotate({
+    identifier: "XPSCategoryStats",
+  }) as any as Schema.Schema<XPSCategoryStats>;
 
 export interface XPSDataStats {
   /** The number of distinct values. */
@@ -1248,21 +1267,22 @@ export interface XPSDataStats {
   categoryStats?: XPSCategoryStats;
 }
 
-export const XPSDataStats: Schema.Schema<XPSDataStats> = Schema.suspend(() =>
-  Schema.Struct({
-    distinctValueCount: Schema.optional(Schema.String),
-    nullValueCount: Schema.optional(Schema.String),
-    validValueCount: Schema.optional(Schema.String),
-    float64Stats: Schema.optional(XPSFloat64Stats),
-    stringStats: Schema.optional(XPSStringStats),
-    timestampStats: Schema.optional(XPSTimestampStats),
-    arrayStats: Schema.optional(XPSArrayStats),
-    structStats: Schema.optional(XPSStructStats),
-    categoryStats: Schema.optional(XPSCategoryStats),
-  }),
-).annotate({
-  identifier: "XPSDataStats",
-}) as any as Schema.Schema<XPSDataStats>;
+export const XPSDataStats: Schema.Schema<XPSDataStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      distinctValueCount: Schema.optional(Schema.String),
+      nullValueCount: Schema.optional(Schema.String),
+      validValueCount: Schema.optional(Schema.String),
+      float64Stats: Schema.optional(XPSFloat64Stats),
+      stringStats: Schema.optional(XPSStringStats),
+      timestampStats: Schema.optional(XPSTimestampStats),
+      arrayStats: Schema.optional(XPSArrayStats),
+      structStats: Schema.optional(XPSStructStats),
+      categoryStats: Schema.optional(XPSCategoryStats),
+    }),
+  ).annotate({
+    identifier: "XPSDataStats",
+  }) as any as Schema.Schema<XPSDataStats>;
 
 export interface XPSCorrelationStats {
   /** The correlation value using the Cramer's V measure. */
@@ -1270,7 +1290,7 @@ export interface XPSCorrelationStats {
 }
 
 export const XPSCorrelationStats: Schema.Schema<XPSCorrelationStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cramersV: Schema.optional(Schema.Number),
     }),
@@ -1284,7 +1304,7 @@ export interface XPSColumnSpecCorrelatedColumn {
 }
 
 export const XPSColumnSpecCorrelatedColumn: Schema.Schema<XPSColumnSpecCorrelatedColumn> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnId: Schema.optional(Schema.Number),
       correlationStats: Schema.optional(XPSCorrelationStats),
@@ -1305,7 +1325,7 @@ export interface XPSColumnSpecForecastingMetadata {
 }
 
 export const XPSColumnSpecForecastingMetadata: Schema.Schema<XPSColumnSpecForecastingMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnType: Schema.optional(Schema.String),
     }),
@@ -1327,20 +1347,21 @@ export interface XPSColumnSpec {
   forecastingMetadata?: XPSColumnSpecForecastingMetadata;
 }
 
-export const XPSColumnSpec: Schema.Schema<XPSColumnSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    columnId: Schema.optional(Schema.Number),
-    displayName: Schema.optional(Schema.String),
-    dataType: Schema.optional(XPSDataType),
-    dataStats: Schema.optional(XPSDataStats),
-    topCorrelatedColumns: Schema.optional(
-      Schema.Array(XPSColumnSpecCorrelatedColumn),
-    ),
-    forecastingMetadata: Schema.optional(XPSColumnSpecForecastingMetadata),
-  }),
-).annotate({
-  identifier: "XPSColumnSpec",
-}) as any as Schema.Schema<XPSColumnSpec>;
+export const XPSColumnSpec: Schema.Schema<XPSColumnSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columnId: Schema.optional(Schema.Number),
+      displayName: Schema.optional(Schema.String),
+      dataType: Schema.optional(XPSDataType),
+      dataStats: Schema.optional(XPSDataStats),
+      topCorrelatedColumns: Schema.optional(
+        Schema.Array(XPSColumnSpecCorrelatedColumn),
+      ),
+      forecastingMetadata: Schema.optional(XPSColumnSpecForecastingMetadata),
+    }),
+  ).annotate({
+    identifier: "XPSColumnSpec",
+  }) as any as Schema.Schema<XPSColumnSpec>;
 
 export interface XPSTableSpec {
   /** The id of the time column. */
@@ -1355,17 +1376,18 @@ export interface XPSTableSpec {
   importedDataSizeInBytes?: string;
 }
 
-export const XPSTableSpec: Schema.Schema<XPSTableSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    timeColumnId: Schema.optional(Schema.Number),
-    rowCount: Schema.optional(Schema.String),
-    validRowCount: Schema.optional(Schema.String),
-    columnSpecs: Schema.optional(Schema.Record(Schema.String, XPSColumnSpec)),
-    importedDataSizeInBytes: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "XPSTableSpec",
-}) as any as Schema.Schema<XPSTableSpec>;
+export const XPSTableSpec: Schema.Schema<XPSTableSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeColumnId: Schema.optional(Schema.Number),
+      rowCount: Schema.optional(Schema.String),
+      validRowCount: Schema.optional(Schema.String),
+      columnSpecs: Schema.optional(Schema.Record(Schema.String, XPSColumnSpec)),
+      importedDataSizeInBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "XPSTableSpec",
+  }) as any as Schema.Schema<XPSTableSpec>;
 
 export interface XPSTablesDatasetMetadata {
   /** Primary table. */
@@ -1381,7 +1403,7 @@ export interface XPSTablesDatasetMetadata {
 }
 
 export const XPSTablesDatasetMetadata: Schema.Schema<XPSTablesDatasetMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryTableSpec: Schema.optional(XPSTableSpec),
       targetColumnId: Schema.optional(Schema.Number),
@@ -1401,7 +1423,7 @@ export interface XPSTablesPreprocessResponse {
 }
 
 export const XPSTablesPreprocessResponse: Schema.Schema<XPSTablesPreprocessResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tablesDatasetMetadata: Schema.optional(XPSTablesDatasetMetadata),
     }),
@@ -1418,7 +1440,7 @@ export interface XPSPreprocessResponse {
 }
 
 export const XPSPreprocessResponse: Schema.Schema<XPSPreprocessResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputExampleSet: Schema.optional(XPSExampleSet),
       speechPreprocessResp: Schema.optional(XPSSpeechPreprocessResponse),
@@ -1449,7 +1471,7 @@ export interface XPSSpeechModelSpecSubModelSpec {
 }
 
 export const XPSSpeechModelSpecSubModelSpec: Schema.Schema<XPSSpeechModelSpecSubModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientId: Schema.optional(Schema.String),
       contextId: Schema.optional(Schema.String),
@@ -1469,7 +1491,7 @@ export interface XPSSpeechModelSpec {
 }
 
 export const XPSSpeechModelSpec: Schema.Schema<XPSSpeechModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subModelSpecs: Schema.optional(
         Schema.Array(XPSSpeechModelSpecSubModelSpec),
@@ -1489,7 +1511,7 @@ export interface XPSTablesModelColumnInfo {
 }
 
 export const XPSTablesModelColumnInfo: Schema.Schema<XPSTablesModelColumnInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnId: Schema.optional(Schema.Number),
       featureImportance: Schema.optional(Schema.Number),
@@ -1505,12 +1527,13 @@ export interface XPSRow {
   values?: Array<unknown>;
 }
 
-export const XPSRow: Schema.Schema<XPSRow> = Schema.suspend(() =>
-  Schema.Struct({
-    columnIds: Schema.optional(Schema.Array(Schema.Number)),
-    values: Schema.optional(Schema.Array(Schema.Unknown)),
-  }),
-).annotate({ identifier: "XPSRow" }) as any as Schema.Schema<XPSRow>;
+export const XPSRow: Schema.Schema<XPSRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columnIds: Schema.optional(Schema.Array(Schema.Number)),
+      values: Schema.optional(Schema.Array(Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "XPSRow" }) as any as Schema.Schema<XPSRow>;
 
 export interface XPSTablesModelStructureModelParametersParameter {
   /** Parameter name. */
@@ -1524,7 +1547,7 @@ export interface XPSTablesModelStructureModelParametersParameter {
 }
 
 export const XPSTablesModelStructureModelParametersParameter: Schema.Schema<XPSTablesModelStructureModelParametersParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       floatValue: Schema.optional(Schema.Number),
@@ -1540,7 +1563,7 @@ export interface XPSTablesModelStructureModelParameters {
 }
 
 export const XPSTablesModelStructureModelParameters: Schema.Schema<XPSTablesModelStructureModelParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hyperparameters: Schema.optional(
         Schema.Array(XPSTablesModelStructureModelParametersParameter),
@@ -1556,7 +1579,7 @@ export interface XPSTablesModelStructure {
 }
 
 export const XPSTablesModelStructure: Schema.Schema<XPSTablesModelStructure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelParameters: Schema.optional(
         Schema.Array(XPSTablesModelStructureModelParameters),
@@ -1577,7 +1600,7 @@ export interface XPSTablesTrainResponse {
 }
 
 export const XPSTablesTrainResponse: Schema.Schema<XPSTablesTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tablesModelColumnInfo: Schema.optional(
         Schema.Array(XPSTablesModelColumnInfo),
@@ -1626,7 +1649,7 @@ export interface XPSImageModelServingSpecModelThroughputEstimation {
 }
 
 export const XPSImageModelServingSpecModelThroughputEstimation: Schema.Schema<XPSImageModelServingSpecModelThroughputEstimation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nodeQps: Schema.optional(Schema.Number),
       latencyInMilliseconds: Schema.optional(Schema.Number),
@@ -1647,7 +1670,7 @@ export interface XPSImageModelServingSpec {
 }
 
 export const XPSImageModelServingSpec: Schema.Schema<XPSImageModelServingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nodeQps: Schema.optional(Schema.Number),
       tfRuntimeVersion: Schema.optional(Schema.String),
@@ -1661,23 +1684,22 @@ export const XPSImageModelServingSpec: Schema.Schema<XPSImageModelServingSpec> =
 
 export interface XPSTfLiteFormat {}
 
-export const XPSTfLiteFormat: Schema.Schema<XPSTfLiteFormat> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "XPSTfLiteFormat",
-}) as any as Schema.Schema<XPSTfLiteFormat>;
+export const XPSTfLiteFormat: Schema.Schema<XPSTfLiteFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "XPSTfLiteFormat",
+  }) as any as Schema.Schema<XPSTfLiteFormat>;
 
 export interface XPSEdgeTpuTfLiteFormat {}
 
 export const XPSEdgeTpuTfLiteFormat: Schema.Schema<XPSEdgeTpuTfLiteFormat> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "XPSEdgeTpuTfLiteFormat",
   }) as any as Schema.Schema<XPSEdgeTpuTfLiteFormat>;
 
 export interface XPSTfSavedModelFormat {}
 
 export const XPSTfSavedModelFormat: Schema.Schema<XPSTfSavedModelFormat> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "XPSTfSavedModelFormat",
   }) as any as Schema.Schema<XPSTfSavedModelFormat>;
 
@@ -1694,31 +1716,29 @@ export interface XPSDockerFormat {
     | (string & {});
 }
 
-export const XPSDockerFormat: Schema.Schema<XPSDockerFormat> = Schema.suspend(
-  () =>
+export const XPSDockerFormat: Schema.Schema<XPSDockerFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cpuArchitecture: Schema.optional(Schema.String),
       gpuArchitecture: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "XPSDockerFormat",
-}) as any as Schema.Schema<XPSDockerFormat>;
+  ).annotate({
+    identifier: "XPSDockerFormat",
+  }) as any as Schema.Schema<XPSDockerFormat>;
 
 export interface XPSCoreMlFormat {}
 
-export const XPSCoreMlFormat: Schema.Schema<XPSCoreMlFormat> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "XPSCoreMlFormat",
-}) as any as Schema.Schema<XPSCoreMlFormat>;
+export const XPSCoreMlFormat: Schema.Schema<XPSCoreMlFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "XPSCoreMlFormat",
+  }) as any as Schema.Schema<XPSCoreMlFormat>;
 
 export interface XPSTfJsFormat {}
 
-export const XPSTfJsFormat: Schema.Schema<XPSTfJsFormat> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({
-  identifier: "XPSTfJsFormat",
-}) as any as Schema.Schema<XPSTfJsFormat>;
+export const XPSTfJsFormat: Schema.Schema<XPSTfJsFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "XPSTfJsFormat",
+  }) as any as Schema.Schema<XPSTfJsFormat>;
 
 export interface XPSExportModelOutputConfig {
   /** The Google Cloud Storage directory where XPS will output the exported models and related files. Format: gs://bucket/directory */
@@ -1736,7 +1756,7 @@ export interface XPSExportModelOutputConfig {
 }
 
 export const XPSExportModelOutputConfig: Schema.Schema<XPSExportModelOutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputGcsUri: Schema.optional(Schema.String),
       outputGcrUri: Schema.optional(Schema.String),
@@ -1758,7 +1778,7 @@ export interface XPSImageExportModelSpec {
 }
 
 export const XPSImageExportModelSpec: Schema.Schema<XPSImageExportModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportModelOutputConfig: Schema.optional(
         Schema.Array(XPSExportModelOutputConfig),
@@ -1784,7 +1804,7 @@ export interface XPSModelArtifactItem {
 }
 
 export const XPSModelArtifactItem: Schema.Schema<XPSModelArtifactItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifactFormat: Schema.optional(Schema.String),
       gcsUri: Schema.optional(Schema.String),
@@ -1809,7 +1829,7 @@ export interface XPSImageModelArtifactSpec {
 }
 
 export const XPSImageModelArtifactSpec: Schema.Schema<XPSImageModelArtifactSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       checkpointArtifact: Schema.optional(XPSModelArtifactItem),
       servingArtifact: Schema.optional(XPSModelArtifactItem),
@@ -1843,7 +1863,7 @@ export interface XPSImageObjectDetectionModelSpec {
 }
 
 export const XPSImageObjectDetectionModelSpec: Schema.Schema<XPSImageObjectDetectionModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelServingSpec: Schema.optional(XPSImageModelServingSpec),
       exportModelSpec: Schema.optional(XPSImageExportModelSpec),
@@ -1860,7 +1880,7 @@ export const XPSImageObjectDetectionModelSpec: Schema.Schema<XPSImageObjectDetec
 export interface XPSTextToSpeechTrainResponse {}
 
 export const XPSTextToSpeechTrainResponse: Schema.Schema<XPSTextToSpeechTrainResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "XPSTextToSpeechTrainResponse",
   }) as any as Schema.Schema<XPSTextToSpeechTrainResponse>;
 
@@ -1870,7 +1890,7 @@ export interface XPSVideoExportModelSpec {
 }
 
 export const XPSVideoExportModelSpec: Schema.Schema<XPSVideoExportModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportModelOutputConfig: Schema.optional(
         Schema.Array(XPSExportModelOutputConfig),
@@ -1888,7 +1908,7 @@ export interface XPSVideoModelArtifactSpec {
 }
 
 export const XPSVideoModelArtifactSpec: Schema.Schema<XPSVideoModelArtifactSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingArtifact: Schema.optional(XPSModelArtifactItem),
       exportArtifact: Schema.optional(Schema.Array(XPSModelArtifactItem)),
@@ -1907,7 +1927,7 @@ export interface XPSVideoObjectTrackingTrainResponse {
 }
 
 export const XPSVideoObjectTrackingTrainResponse: Schema.Schema<XPSVideoObjectTrackingTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportModelSpec: Schema.optional(XPSVideoExportModelSpec),
       modelArtifactSpec: Schema.optional(XPSVideoModelArtifactSpec),
@@ -1925,7 +1945,7 @@ export interface XPSVideoClassificationTrainResponse {
 }
 
 export const XPSVideoClassificationTrainResponse: Schema.Schema<XPSVideoClassificationTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArtifactSpec: Schema.optional(XPSVideoModelArtifactSpec),
       trainCostNodeSeconds: Schema.optional(Schema.String),
@@ -1942,7 +1962,7 @@ export interface XPSVideoActionRecognitionTrainResponse {
 }
 
 export const XPSVideoActionRecognitionTrainResponse: Schema.Schema<XPSVideoActionRecognitionTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelArtifactSpec: Schema.optional(XPSVideoModelArtifactSpec),
       trainCostNodeSeconds: Schema.optional(Schema.String),
@@ -1973,7 +1993,7 @@ export interface XPSImageClassificationTrainResponse {
 }
 
 export const XPSImageClassificationTrainResponse: Schema.Schema<XPSImageClassificationTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trainCostInNodeTime: Schema.optional(Schema.String),
       trainCostNodeSeconds: Schema.optional(Schema.String),
@@ -1993,7 +2013,7 @@ export interface XPSTranslationTrainResponse {
 }
 
 export const XPSTranslationTrainResponse: Schema.Schema<XPSTranslationTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelType: Schema.optional(Schema.String),
     }),
@@ -2012,14 +2032,15 @@ export interface Color {
   alpha?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-    blue: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+      blue: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface XPSColorMapIntColor {
   /** The value should be in range of [0, 255]. */
@@ -2031,7 +2052,7 @@ export interface XPSColorMapIntColor {
 }
 
 export const XPSColorMapIntColor: Schema.Schema<XPSColorMapIntColor> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       red: Schema.optional(Schema.Number),
       green: Schema.optional(Schema.Number),
@@ -2051,14 +2072,17 @@ export interface XPSColorMap {
   annotationSpecIdToken?: string;
 }
 
-export const XPSColorMap: Schema.Schema<XPSColorMap> = Schema.suspend(() =>
-  Schema.Struct({
-    color: Schema.optional(Color),
-    intColor: Schema.optional(XPSColorMapIntColor),
-    displayName: Schema.optional(Schema.String),
-    annotationSpecIdToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "XPSColorMap" }) as any as Schema.Schema<XPSColorMap>;
+export const XPSColorMap: Schema.Schema<XPSColorMap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      color: Schema.optional(Color),
+      intColor: Schema.optional(XPSColorMapIntColor),
+      displayName: Schema.optional(Schema.String),
+      annotationSpecIdToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "XPSColorMap",
+  }) as any as Schema.Schema<XPSColorMap>;
 
 export interface XPSImageSegmentationTrainResponse {
   modelServingSpec?: XPSImageModelServingSpec;
@@ -2080,7 +2104,7 @@ export interface XPSImageSegmentationTrainResponse {
 }
 
 export const XPSImageSegmentationTrainResponse: Schema.Schema<XPSImageSegmentationTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelServingSpec: Schema.optional(XPSImageModelServingSpec),
       exportModelSpec: Schema.optional(XPSImageExportModelSpec),
@@ -2136,7 +2160,7 @@ export interface XPSTextComponentModel {
 }
 
 export const XPSTextComponentModel: Schema.Schema<XPSTextComponentModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       submodelName: Schema.optional(Schema.String),
       submodelType: Schema.optional(Schema.String),
@@ -2158,7 +2182,7 @@ export interface XPSTextTrainResponse {
 }
 
 export const XPSTextTrainResponse: Schema.Schema<XPSTextTrainResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       componentModel: Schema.optional(Schema.Array(XPSTextComponentModel)),
     }),
@@ -2198,7 +2222,7 @@ export interface XPSConfidenceMetricsEntry {
 }
 
 export const XPSConfidenceMetricsEntry: Schema.Schema<XPSConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       positionThreshold: Schema.optional(Schema.Number),
@@ -2227,7 +2251,7 @@ export interface XPSConfusionMatrixRow {
 }
 
 export const XPSConfusionMatrixRow: Schema.Schema<XPSConfusionMatrixRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(Schema.Array(Schema.Number)),
       count: Schema.optional(Schema.Array(Schema.String)),
@@ -2248,7 +2272,7 @@ export interface XPSConfusionMatrix {
 }
 
 export const XPSConfusionMatrix: Schema.Schema<XPSConfusionMatrix> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecIdToken: Schema.optional(Schema.Array(Schema.String)),
       sentimentLabel: Schema.optional(Schema.Array(Schema.Number)),
@@ -2277,7 +2301,7 @@ export interface XPSClassificationEvaluationMetrics {
 }
 
 export const XPSClassificationEvaluationMetrics: Schema.Schema<XPSClassificationEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       auPrc: Schema.optional(Schema.Number),
       baseAuPrc: Schema.optional(Schema.Number),
@@ -2305,7 +2329,7 @@ export interface XPSBoundingBoxMetricsEntryConfidenceMetricsEntry {
 }
 
 export const XPSBoundingBoxMetricsEntryConfidenceMetricsEntry: Schema.Schema<XPSBoundingBoxMetricsEntryConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       recall: Schema.optional(Schema.Number),
@@ -2326,7 +2350,7 @@ export interface XPSBoundingBoxMetricsEntry {
 }
 
 export const XPSBoundingBoxMetricsEntry: Schema.Schema<XPSBoundingBoxMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iouThreshold: Schema.optional(Schema.Number),
       meanAveragePrecision: Schema.optional(Schema.Number),
@@ -2348,7 +2372,7 @@ export interface XPSImageObjectDetectionEvaluationMetrics {
 }
 
 export const XPSImageObjectDetectionEvaluationMetrics: Schema.Schema<XPSImageObjectDetectionEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluatedBoundingBoxCount: Schema.optional(Schema.Number),
       boundingBoxMetricsEntries: Schema.optional(
@@ -2372,7 +2396,7 @@ export interface XPSTextExtractionEvaluationMetrics {
 }
 
 export const XPSTextExtractionEvaluationMetrics: Schema.Schema<XPSTextExtractionEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceMetricsEntries: Schema.optional(
         Schema.Array(XPSConfidenceMetricsEntry),
@@ -2401,7 +2425,7 @@ export interface XPSTrackMetricsEntryConfidenceMetricsEntry {
 }
 
 export const XPSTrackMetricsEntryConfidenceMetricsEntry: Schema.Schema<XPSTrackMetricsEntryConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       trackingPrecision: Schema.optional(Schema.Number),
@@ -2427,7 +2451,7 @@ export interface XPSTrackMetricsEntry {
 }
 
 export const XPSTrackMetricsEntry: Schema.Schema<XPSTrackMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iouThreshold: Schema.optional(Schema.Number),
       meanTrackingAveragePrecision: Schema.optional(Schema.Number),
@@ -2463,7 +2487,7 @@ export interface XPSVideoObjectTrackingEvaluationMetrics {
 }
 
 export const XPSVideoObjectTrackingEvaluationMetrics: Schema.Schema<XPSVideoObjectTrackingEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluatedFrameCount: Schema.optional(Schema.Number),
       evaluatedBoundingboxCount: Schema.optional(Schema.Number),
@@ -2505,7 +2529,7 @@ export interface XPSTablesConfidenceMetricsEntry {
 }
 
 export const XPSTablesConfidenceMetricsEntry: Schema.Schema<XPSTablesConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       falsePositiveRate: Schema.optional(Schema.Number),
@@ -2538,7 +2562,7 @@ export interface XPSTablesClassificationMetricsCurveMetrics {
 }
 
 export const XPSTablesClassificationMetricsCurveMetrics: Schema.Schema<XPSTablesClassificationMetricsCurveMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       positionThreshold: Schema.optional(Schema.Number),
@@ -2559,7 +2583,7 @@ export interface XPSTablesClassificationMetrics {
 }
 
 export const XPSTablesClassificationMetrics: Schema.Schema<XPSTablesClassificationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       curveMetrics: Schema.optional(
         Schema.Array(XPSTablesClassificationMetricsCurveMetrics),
@@ -2577,7 +2601,7 @@ export interface XPSRegressionMetricsEntry {
 }
 
 export const XPSRegressionMetricsEntry: Schema.Schema<XPSRegressionMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trueValue: Schema.optional(Schema.Number),
       predictedValue: Schema.optional(Schema.Number),
@@ -2602,7 +2626,7 @@ export interface XPSTablesRegressionMetrics {
 }
 
 export const XPSTablesRegressionMetrics: Schema.Schema<XPSTablesRegressionMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rootMeanSquaredError: Schema.optional(Schema.Number),
       meanAbsoluteError: Schema.optional(Schema.Number),
@@ -2625,7 +2649,7 @@ export interface XPSTablesEvaluationMetrics {
 }
 
 export const XPSTablesEvaluationMetrics: Schema.Schema<XPSTablesEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       classificationMetrics: Schema.optional(XPSTablesClassificationMetrics),
       regressionMetrics: Schema.optional(XPSTablesRegressionMetrics),
@@ -2650,7 +2674,7 @@ export interface XPSRegressionEvaluationMetrics {
 }
 
 export const XPSRegressionEvaluationMetrics: Schema.Schema<XPSRegressionEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rootMeanSquaredError: Schema.optional(Schema.Number),
       meanAbsoluteError: Schema.optional(Schema.Number),
@@ -2677,7 +2701,7 @@ export interface XPSVideoActionMetricsEntryConfidenceMetricsEntry {
 }
 
 export const XPSVideoActionMetricsEntryConfidenceMetricsEntry: Schema.Schema<XPSVideoActionMetricsEntryConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       recall: Schema.optional(Schema.Number),
@@ -2698,7 +2722,7 @@ export interface XPSVideoActionMetricsEntry {
 }
 
 export const XPSVideoActionMetricsEntry: Schema.Schema<XPSVideoActionMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       precisionWindowLength: Schema.optional(Schema.String),
       meanAveragePrecision: Schema.optional(Schema.Number),
@@ -2718,7 +2742,7 @@ export interface XPSVideoActionRecognitionEvaluationMetrics {
 }
 
 export const XPSVideoActionRecognitionEvaluationMetrics: Schema.Schema<XPSVideoActionRecognitionEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluatedActionCount: Schema.optional(Schema.Number),
       videoActionMetricsEntries: Schema.optional(
@@ -2737,7 +2761,7 @@ export interface XPSTranslationEvaluationMetrics {
 }
 
 export const XPSTranslationEvaluationMetrics: Schema.Schema<XPSTranslationEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bleuScore: Schema.optional(Schema.Number),
       baseBleuScore: Schema.optional(Schema.Number),
@@ -2762,7 +2786,7 @@ export interface XPSImageSegmentationEvaluationMetricsConfidenceMetricsEntry {
 }
 
 export const XPSImageSegmentationEvaluationMetricsConfidenceMetricsEntry: Schema.Schema<XPSImageSegmentationEvaluationMetricsConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceThreshold: Schema.optional(Schema.Number),
       recall: Schema.optional(Schema.Number),
@@ -2781,7 +2805,7 @@ export interface XPSImageSegmentationEvaluationMetrics {
 }
 
 export const XPSImageSegmentationEvaluationMetrics: Schema.Schema<XPSImageSegmentationEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceMetricsEntries: Schema.optional(
         Schema.Array(
@@ -2813,7 +2837,7 @@ export interface XPSTextSentimentEvaluationMetrics {
 }
 
 export const XPSTextSentimentEvaluationMetrics: Schema.Schema<XPSTextSentimentEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       precision: Schema.optional(Schema.Number),
       recall: Schema.optional(Schema.Number),
@@ -2853,7 +2877,7 @@ export interface XPSEvaluationMetrics {
 }
 
 export const XPSEvaluationMetrics: Schema.Schema<XPSEvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecIdToken: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -2907,7 +2931,7 @@ export interface XPSEvaluationMetricsSet {
 }
 
 export const XPSEvaluationMetricsSet: Schema.Schema<XPSEvaluationMetricsSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationMetrics: Schema.optional(Schema.Array(XPSEvaluationMetrics)),
       fileSpec: Schema.optional(XPSFileSpec),
@@ -2923,7 +2947,7 @@ export interface XPSIntegratedGradientsAttribution {
 }
 
 export const XPSIntegratedGradientsAttribution: Schema.Schema<XPSIntegratedGradientsAttribution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stepCount: Schema.optional(Schema.Number),
     }),
@@ -2937,7 +2961,7 @@ export interface XPSXraiAttribution {
 }
 
 export const XPSXraiAttribution: Schema.Schema<XPSXraiAttribution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stepCount: Schema.optional(Schema.Number),
     }),
@@ -2953,7 +2977,7 @@ export interface XPSResponseExplanationParameters {
 }
 
 export const XPSResponseExplanationParameters: Schema.Schema<XPSResponseExplanationParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integratedGradientsAttribution: Schema.optional(
         XPSIntegratedGradientsAttribution,
@@ -2998,8 +3022,8 @@ export interface XPSVisualization {
     | (string & {});
 }
 
-export const XPSVisualization: Schema.Schema<XPSVisualization> = Schema.suspend(
-  () =>
+export const XPSVisualization: Schema.Schema<XPSVisualization> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       polarity: Schema.optional(Schema.String),
@@ -3008,9 +3032,9 @@ export const XPSVisualization: Schema.Schema<XPSVisualization> = Schema.suspend(
       clipPercentLowerbound: Schema.optional(Schema.Number),
       overlayType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "XPSVisualization",
-}) as any as Schema.Schema<XPSVisualization>;
+  ).annotate({
+    identifier: "XPSVisualization",
+  }) as any as Schema.Schema<XPSVisualization>;
 
 export interface XPSResponseExplanationMetadataInputMetadata {
   /** Visualization configurations for image explanation. */
@@ -3027,7 +3051,7 @@ export interface XPSResponseExplanationMetadataInputMetadata {
 }
 
 export const XPSResponseExplanationMetadataInputMetadata: Schema.Schema<XPSResponseExplanationMetadataInputMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       visualizationConfig: Schema.optional(XPSVisualization),
       inputTensorName: Schema.optional(Schema.String),
@@ -3043,7 +3067,7 @@ export interface XPSResponseExplanationMetadataOutputMetadata {
 }
 
 export const XPSResponseExplanationMetadataOutputMetadata: Schema.Schema<XPSResponseExplanationMetadataOutputMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputTensorName: Schema.optional(Schema.String),
     }),
@@ -3059,7 +3083,7 @@ export interface XPSResponseExplanationMetadata {
 }
 
 export const XPSResponseExplanationMetadata: Schema.Schema<XPSResponseExplanationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputs: Schema.optional(
         Schema.Record(
@@ -3088,7 +3112,7 @@ export interface XPSResponseExplanationSpec {
 }
 
 export const XPSResponseExplanationSpec: Schema.Schema<XPSResponseExplanationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       explanationType: Schema.optional(Schema.String),
       parameters: Schema.optional(XPSResponseExplanationParameters),
@@ -3111,7 +3135,7 @@ export interface XPSVisionErrorAnalysisConfig {
 }
 
 export const XPSVisionErrorAnalysisConfig: Schema.Schema<XPSVisionErrorAnalysisConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(Schema.Number),
       queryType: Schema.optional(Schema.String),
@@ -3147,8 +3171,8 @@ export interface XPSTrainResponse {
   errorAnalysisConfigs?: Array<XPSVisionErrorAnalysisConfig>;
 }
 
-export const XPSTrainResponse: Schema.Schema<XPSTrainResponse> = Schema.suspend(
-  () =>
+export const XPSTrainResponse: Schema.Schema<XPSTrainResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelToken: Schema.optional(Schema.String),
       speechTrainResp: Schema.optional(XPSSpeechModelSpec),
@@ -3184,9 +3208,9 @@ export const XPSTrainResponse: Schema.Schema<XPSTrainResponse> = Schema.suspend(
         Schema.Array(XPSVisionErrorAnalysisConfig),
       ),
     }),
-).annotate({
-  identifier: "XPSTrainResponse",
-}) as any as Schema.Schema<XPSTrainResponse>;
+  ).annotate({
+    identifier: "XPSTrainResponse",
+  }) as any as Schema.Schema<XPSTrainResponse>;
 
 export interface XPSMetricEntryLabel {
   /** The name of the label. */
@@ -3196,7 +3220,7 @@ export interface XPSMetricEntryLabel {
 }
 
 export const XPSMetricEntryLabel: Schema.Schema<XPSMetricEntryLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelName: Schema.optional(Schema.String),
       labelValue: Schema.optional(Schema.String),
@@ -3218,8 +3242,8 @@ export interface XPSMetricEntry {
   systemLabels?: Array<XPSMetricEntryLabel>;
 }
 
-export const XPSMetricEntry: Schema.Schema<XPSMetricEntry> = Schema.suspend(
-  () =>
+export const XPSMetricEntry: Schema.Schema<XPSMetricEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricName: Schema.optional(Schema.String),
       argentumMetricId: Schema.optional(Schema.String),
@@ -3227,9 +3251,9 @@ export const XPSMetricEntry: Schema.Schema<XPSMetricEntry> = Schema.suspend(
       doubleValue: Schema.optional(Schema.Number),
       systemLabels: Schema.optional(Schema.Array(XPSMetricEntryLabel)),
     }),
-).annotate({
-  identifier: "XPSMetricEntry",
-}) as any as Schema.Schema<XPSMetricEntry>;
+  ).annotate({
+    identifier: "XPSMetricEntry",
+  }) as any as Schema.Schema<XPSMetricEntry>;
 
 export interface XPSReportingMetrics {
   /** One entry per metric name. The values must be aggregated per metric name. */
@@ -3239,7 +3263,7 @@ export interface XPSReportingMetrics {
 }
 
 export const XPSReportingMetrics: Schema.Schema<XPSReportingMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricEntries: Schema.optional(Schema.Array(XPSMetricEntry)),
       effectiveTrainingDuration: Schema.optional(Schema.String),
@@ -3256,7 +3280,7 @@ export interface XPSTrainingObjectivePoint {
 }
 
 export const XPSTrainingObjectivePoint: Schema.Schema<XPSTrainingObjectivePoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       createTime: Schema.optional(Schema.String),
@@ -3272,15 +3296,15 @@ export interface XPSTuningTrial {
   trainingObjectivePoint?: XPSTrainingObjectivePoint;
 }
 
-export const XPSTuningTrial: Schema.Schema<XPSTuningTrial> = Schema.suspend(
-  () =>
+export const XPSTuningTrial: Schema.Schema<XPSTuningTrial> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelStructure: Schema.optional(XPSTablesModelStructure),
       trainingObjectivePoint: Schema.optional(XPSTrainingObjectivePoint),
     }),
-).annotate({
-  identifier: "XPSTuningTrial",
-}) as any as Schema.Schema<XPSTuningTrial>;
+  ).annotate({
+    identifier: "XPSTuningTrial",
+  }) as any as Schema.Schema<XPSTuningTrial>;
 
 export interface XPSTablesTrainingOperationMetadata {
   /** This field is for training. When the operation is terminated successfully, AutoML Backend post this field to operation metadata in spanner. If the metadata has no trials returned, the training operation is supposed to be a failure. */
@@ -3304,7 +3328,7 @@ export interface XPSTablesTrainingOperationMetadata {
 }
 
 export const XPSTablesTrainingOperationMetadata: Schema.Schema<XPSTablesTrainingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topTrials: Schema.optional(Schema.Array(XPSTuningTrial)),
       trainingObjectivePoints: Schema.optional(
@@ -3325,7 +3349,7 @@ export interface XPSVideoTrainingOperationMetadata {
 }
 
 export const XPSVideoTrainingOperationMetadata: Schema.Schema<XPSVideoTrainingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trainCostMilliNodeHour: Schema.optional(Schema.String),
     }),
@@ -3339,7 +3363,7 @@ export interface XPSVideoBatchPredictOperationMetadata {
 }
 
 export const XPSVideoBatchPredictOperationMetadata: Schema.Schema<XPSVideoBatchPredictOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputExamples: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3654,17 +3678,18 @@ export interface CpuMetric {
   trackingLabels?: Record<string, string>;
 }
 
-export const CpuMetric: Schema.Schema<CpuMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    cpuType: Schema.optional(Schema.String),
-    coreSec: Schema.optional(Schema.String),
-    coreNumber: Schema.optional(Schema.String),
-    machineSpec: Schema.optional(Schema.String),
-    trackingLabels: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({ identifier: "CpuMetric" }) as any as Schema.Schema<CpuMetric>;
+export const CpuMetric: Schema.Schema<CpuMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cpuType: Schema.optional(Schema.String),
+      coreSec: Schema.optional(Schema.String),
+      coreNumber: Schema.optional(Schema.String),
+      machineSpec: Schema.optional(Schema.String),
+      trackingLabels: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({ identifier: "CpuMetric" }) as any as Schema.Schema<CpuMetric>;
 
 export interface RamMetric {
   /** Required. Type of ram. */
@@ -3973,17 +3998,18 @@ export interface RamMetric {
   trackingLabels?: Record<string, string>;
 }
 
-export const RamMetric: Schema.Schema<RamMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    ramType: Schema.optional(Schema.String),
-    gibSec: Schema.optional(Schema.String),
-    memories: Schema.optional(Schema.Number),
-    machineSpec: Schema.optional(Schema.String),
-    trackingLabels: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({ identifier: "RamMetric" }) as any as Schema.Schema<RamMetric>;
+export const RamMetric: Schema.Schema<RamMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ramType: Schema.optional(Schema.String),
+      gibSec: Schema.optional(Schema.String),
+      memories: Schema.optional(Schema.Number),
+      machineSpec: Schema.optional(Schema.String),
+      trackingLabels: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({ identifier: "RamMetric" }) as any as Schema.Schema<RamMetric>;
 
 export interface GpuMetric {
   /** Required. Type of GPU, e.g. NVIDIA_TESLA_V100. */
@@ -4282,16 +4308,17 @@ export interface GpuMetric {
   trackingLabels?: Record<string, string>;
 }
 
-export const GpuMetric: Schema.Schema<GpuMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    gpuType: Schema.optional(Schema.String),
-    gpuSec: Schema.optional(Schema.String),
-    machineSpec: Schema.optional(Schema.String),
-    trackingLabels: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({ identifier: "GpuMetric" }) as any as Schema.Schema<GpuMetric>;
+export const GpuMetric: Schema.Schema<GpuMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gpuType: Schema.optional(Schema.String),
+      gpuSec: Schema.optional(Schema.String),
+      machineSpec: Schema.optional(Schema.String),
+      trackingLabels: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({ identifier: "GpuMetric" }) as any as Schema.Schema<GpuMetric>;
 
 export interface TpuMetric {
   /** Required. Type of TPU, e.g. TPU_V2, TPU_V3_POD. */
@@ -4307,12 +4334,13 @@ export interface TpuMetric {
   tpuSec?: string;
 }
 
-export const TpuMetric: Schema.Schema<TpuMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    tpuType: Schema.optional(Schema.String),
-    tpuSec: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TpuMetric" }) as any as Schema.Schema<TpuMetric>;
+export const TpuMetric: Schema.Schema<TpuMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tpuType: Schema.optional(Schema.String),
+      tpuSec: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TpuMetric" }) as any as Schema.Schema<TpuMetric>;
 
 export interface DiskMetric {
   /** Required. Type of Disk, e.g. REGIONAL_SSD. */
@@ -4328,12 +4356,13 @@ export interface DiskMetric {
   gibSec?: string;
 }
 
-export const DiskMetric: Schema.Schema<DiskMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    diskType: Schema.optional(Schema.String),
-    gibSec: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DiskMetric" }) as any as Schema.Schema<DiskMetric>;
+export const DiskMetric: Schema.Schema<DiskMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      diskType: Schema.optional(Schema.String),
+      gibSec: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DiskMetric" }) as any as Schema.Schema<DiskMetric>;
 
 export interface InfraUsage {
   /** Aggregated core metrics since requested start_time. */
@@ -4348,15 +4377,16 @@ export interface InfraUsage {
   diskMetrics?: Array<DiskMetric>;
 }
 
-export const InfraUsage: Schema.Schema<InfraUsage> = Schema.suspend(() =>
-  Schema.Struct({
-    cpuMetrics: Schema.optional(Schema.Array(CpuMetric)),
-    ramMetrics: Schema.optional(Schema.Array(RamMetric)),
-    gpuMetrics: Schema.optional(Schema.Array(GpuMetric)),
-    tpuMetrics: Schema.optional(Schema.Array(TpuMetric)),
-    diskMetrics: Schema.optional(Schema.Array(DiskMetric)),
-  }),
-).annotate({ identifier: "InfraUsage" }) as any as Schema.Schema<InfraUsage>;
+export const InfraUsage: Schema.Schema<InfraUsage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cpuMetrics: Schema.optional(Schema.Array(CpuMetric)),
+      ramMetrics: Schema.optional(Schema.Array(RamMetric)),
+      gpuMetrics: Schema.optional(Schema.Array(GpuMetric)),
+      tpuMetrics: Schema.optional(Schema.Array(TpuMetric)),
+      diskMetrics: Schema.optional(Schema.Array(DiskMetric)),
+    }),
+  ).annotate({ identifier: "InfraUsage" }) as any as Schema.Schema<InfraUsage>;
 
 export interface XPSVisionTrainingOperationMetadata {
   /** Aggregated infra usage within certain time period, for billing report purpose if XAI is enable in training request. */
@@ -4364,7 +4394,7 @@ export interface XPSVisionTrainingOperationMetadata {
 }
 
 export const XPSVisionTrainingOperationMetadata: Schema.Schema<XPSVisionTrainingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       explanationUsage: Schema.optional(InfraUsage),
     }),
@@ -4384,7 +4414,7 @@ export interface XPSXpsOperationMetadata {
 }
 
 export const XPSXpsOperationMetadata: Schema.Schema<XPSXpsOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportingMetrics: Schema.optional(XPSReportingMetrics),
       exampleCount: Schema.optional(Schema.String),
@@ -4414,19 +4444,21 @@ export interface AnalyzeSentimentDocumentsRequest {
   body?: AnalyzeSentimentRequest;
 }
 
-export const AnalyzeSentimentDocumentsRequest = Schema.Struct({
-  body: Schema.optional(AnalyzeSentimentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/documents:analyzeSentiment",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeSentimentDocumentsRequest>;
+export const AnalyzeSentimentDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AnalyzeSentimentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:analyzeSentiment",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeSentimentDocumentsRequest>;
 
 export type AnalyzeSentimentDocumentsResponse = AnalyzeSentimentResponse;
-export const AnalyzeSentimentDocumentsResponse = AnalyzeSentimentResponse;
+export const AnalyzeSentimentDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeSentimentResponse;
 
 export type AnalyzeSentimentDocumentsError = DefaultErrors;
 
@@ -4436,7 +4468,7 @@ export const analyzeSentimentDocuments: API.OperationMethod<
   AnalyzeSentimentDocumentsResponse,
   AnalyzeSentimentDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeSentimentDocumentsRequest,
   output: AnalyzeSentimentDocumentsResponse,
   errors: [],
@@ -4447,19 +4479,21 @@ export interface AnalyzeEntitiesDocumentsRequest {
   body?: AnalyzeEntitiesRequest;
 }
 
-export const AnalyzeEntitiesDocumentsRequest = Schema.Struct({
-  body: Schema.optional(AnalyzeEntitiesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/documents:analyzeEntities",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeEntitiesDocumentsRequest>;
+export const AnalyzeEntitiesDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AnalyzeEntitiesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:analyzeEntities",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeEntitiesDocumentsRequest>;
 
 export type AnalyzeEntitiesDocumentsResponse = AnalyzeEntitiesResponse;
-export const AnalyzeEntitiesDocumentsResponse = AnalyzeEntitiesResponse;
+export const AnalyzeEntitiesDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeEntitiesResponse;
 
 export type AnalyzeEntitiesDocumentsError = DefaultErrors;
 
@@ -4469,7 +4503,7 @@ export const analyzeEntitiesDocuments: API.OperationMethod<
   AnalyzeEntitiesDocumentsResponse,
   AnalyzeEntitiesDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeEntitiesDocumentsRequest,
   output: AnalyzeEntitiesDocumentsResponse,
   errors: [],
@@ -4480,21 +4514,22 @@ export interface AnalyzeEntitySentimentDocumentsRequest {
   body?: AnalyzeEntitySentimentRequest;
 }
 
-export const AnalyzeEntitySentimentDocumentsRequest = Schema.Struct({
-  body: Schema.optional(AnalyzeEntitySentimentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/documents:analyzeEntitySentiment",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeEntitySentimentDocumentsRequest>;
+export const AnalyzeEntitySentimentDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AnalyzeEntitySentimentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:analyzeEntitySentiment",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeEntitySentimentDocumentsRequest>;
 
 export type AnalyzeEntitySentimentDocumentsResponse =
   AnalyzeEntitySentimentResponse;
 export const AnalyzeEntitySentimentDocumentsResponse =
-  AnalyzeEntitySentimentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeEntitySentimentResponse;
 
 export type AnalyzeEntitySentimentDocumentsError = DefaultErrors;
 
@@ -4504,7 +4539,7 @@ export const analyzeEntitySentimentDocuments: API.OperationMethod<
   AnalyzeEntitySentimentDocumentsResponse,
   AnalyzeEntitySentimentDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeEntitySentimentDocumentsRequest,
   output: AnalyzeEntitySentimentDocumentsResponse,
   errors: [],
@@ -4515,15 +4550,21 @@ export interface AnalyzeSyntaxDocumentsRequest {
   body?: AnalyzeSyntaxRequest;
 }
 
-export const AnalyzeSyntaxDocumentsRequest = Schema.Struct({
-  body: Schema.optional(AnalyzeSyntaxRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/documents:analyzeSyntax", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AnalyzeSyntaxDocumentsRequest>;
+export const AnalyzeSyntaxDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AnalyzeSyntaxRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:analyzeSyntax",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnalyzeSyntaxDocumentsRequest>;
 
 export type AnalyzeSyntaxDocumentsResponse = AnalyzeSyntaxResponse;
-export const AnalyzeSyntaxDocumentsResponse = AnalyzeSyntaxResponse;
+export const AnalyzeSyntaxDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AnalyzeSyntaxResponse;
 
 export type AnalyzeSyntaxDocumentsError = DefaultErrors;
 
@@ -4533,7 +4574,7 @@ export const analyzeSyntaxDocuments: API.OperationMethod<
   AnalyzeSyntaxDocumentsResponse,
   AnalyzeSyntaxDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnalyzeSyntaxDocumentsRequest,
   output: AnalyzeSyntaxDocumentsResponse,
   errors: [],
@@ -4544,15 +4585,21 @@ export interface ClassifyTextDocumentsRequest {
   body?: ClassifyTextRequest;
 }
 
-export const ClassifyTextDocumentsRequest = Schema.Struct({
-  body: Schema.optional(ClassifyTextRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/documents:classifyText", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ClassifyTextDocumentsRequest>;
+export const ClassifyTextDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ClassifyTextRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:classifyText",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClassifyTextDocumentsRequest>;
 
 export type ClassifyTextDocumentsResponse = ClassifyTextResponse;
-export const ClassifyTextDocumentsResponse = ClassifyTextResponse;
+export const ClassifyTextDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClassifyTextResponse;
 
 export type ClassifyTextDocumentsError = DefaultErrors;
 
@@ -4562,7 +4609,7 @@ export const classifyTextDocuments: API.OperationMethod<
   ClassifyTextDocumentsResponse,
   ClassifyTextDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClassifyTextDocumentsRequest,
   output: ClassifyTextDocumentsResponse,
   errors: [],
@@ -4573,15 +4620,21 @@ export interface ModerateTextDocumentsRequest {
   body?: ModerateTextRequest;
 }
 
-export const ModerateTextDocumentsRequest = Schema.Struct({
-  body: Schema.optional(ModerateTextRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/documents:moderateText", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ModerateTextDocumentsRequest>;
+export const ModerateTextDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ModerateTextRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:moderateText",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModerateTextDocumentsRequest>;
 
 export type ModerateTextDocumentsResponse = ModerateTextResponse;
-export const ModerateTextDocumentsResponse = ModerateTextResponse;
+export const ModerateTextDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ModerateTextResponse;
 
 export type ModerateTextDocumentsError = DefaultErrors;
 
@@ -4591,7 +4644,7 @@ export const moderateTextDocuments: API.OperationMethod<
   ModerateTextDocumentsResponse,
   ModerateTextDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModerateTextDocumentsRequest,
   output: ModerateTextDocumentsResponse,
   errors: [],
@@ -4602,15 +4655,21 @@ export interface AnnotateTextDocumentsRequest {
   body?: AnnotateTextRequest;
 }
 
-export const AnnotateTextDocumentsRequest = Schema.Struct({
-  body: Schema.optional(AnnotateTextRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/documents:annotateText", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AnnotateTextDocumentsRequest>;
+export const AnnotateTextDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AnnotateTextRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/documents:annotateText",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnnotateTextDocumentsRequest>;
 
 export type AnnotateTextDocumentsResponse = AnnotateTextResponse;
-export const AnnotateTextDocumentsResponse = AnnotateTextResponse;
+export const AnnotateTextDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AnnotateTextResponse;
 
 export type AnnotateTextDocumentsError = DefaultErrors;
 
@@ -4620,7 +4679,7 @@ export const annotateTextDocuments: API.OperationMethod<
   AnnotateTextDocumentsResponse,
   AnnotateTextDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnnotateTextDocumentsRequest,
   output: AnnotateTextDocumentsResponse,
   errors: [],

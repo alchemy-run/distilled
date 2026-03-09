@@ -29,12 +29,13 @@ export interface EntityKey {
   id?: string;
 }
 
-export const EntityKey: Schema.Schema<EntityKey> = Schema.suspend(() =>
-  Schema.Struct({
-    namespace: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "EntityKey" }) as any as Schema.Schema<EntityKey>;
+export const EntityKey: Schema.Schema<EntityKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      namespace: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "EntityKey" }) as any as Schema.Schema<EntityKey>;
 
 export interface TransitiveMembershipRole {
   /** TransitiveMembershipRole in string format. Currently supported TransitiveMembershipRoles: `"MEMBER"`, `"OWNER"`, and `"MANAGER"`. */
@@ -42,7 +43,7 @@ export interface TransitiveMembershipRole {
 }
 
 export const TransitiveMembershipRole: Schema.Schema<TransitiveMembershipRole> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       role: Schema.optional(Schema.String),
     }),
@@ -70,18 +71,19 @@ export interface GroupRelation {
   labels?: Record<string, string>;
 }
 
-export const GroupRelation: Schema.Schema<GroupRelation> = Schema.suspend(() =>
-  Schema.Struct({
-    groupKey: Schema.optional(EntityKey),
-    displayName: Schema.optional(Schema.String),
-    roles: Schema.optional(Schema.Array(TransitiveMembershipRole)),
-    relationType: Schema.optional(Schema.String),
-    group: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({
-  identifier: "GroupRelation",
-}) as any as Schema.Schema<GroupRelation>;
+export const GroupRelation: Schema.Schema<GroupRelation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      groupKey: Schema.optional(EntityKey),
+      displayName: Schema.optional(Schema.String),
+      roles: Schema.optional(Schema.Array(TransitiveMembershipRole)),
+      relationType: Schema.optional(Schema.String),
+      group: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GroupRelation",
+  }) as any as Schema.Schema<GroupRelation>;
 
 export interface MemberRelation {
   /** Resource name for this member. */
@@ -99,17 +101,17 @@ export interface MemberRelation {
     | (string & {});
 }
 
-export const MemberRelation: Schema.Schema<MemberRelation> = Schema.suspend(
-  () =>
+export const MemberRelation: Schema.Schema<MemberRelation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       member: Schema.optional(Schema.String),
       preferredMemberKey: Schema.optional(Schema.Array(EntityKey)),
       roles: Schema.optional(Schema.Array(TransitiveMembershipRole)),
       relationType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "MemberRelation",
-}) as any as Schema.Schema<MemberRelation>;
+  ).annotate({
+    identifier: "MemberRelation",
+  }) as any as Schema.Schema<MemberRelation>;
 
 export interface SearchTransitiveMembershipsResponse {
   /** List of transitive members satisfying the query. */
@@ -119,7 +121,7 @@ export interface SearchTransitiveMembershipsResponse {
 }
 
 export const SearchTransitiveMembershipsResponse: Schema.Schema<SearchTransitiveMembershipsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(MemberRelation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -136,7 +138,7 @@ export interface DynamicGroupQuery {
 }
 
 export const DynamicGroupQuery: Schema.Schema<DynamicGroupQuery> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceType: Schema.optional(Schema.String),
       query: Schema.optional(Schema.String),
@@ -150,13 +152,14 @@ export interface ExpiryDetail {
   expireTime?: string;
 }
 
-export const ExpiryDetail: Schema.Schema<ExpiryDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    expireTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ExpiryDetail",
-}) as any as Schema.Schema<ExpiryDetail>;
+export const ExpiryDetail: Schema.Schema<ExpiryDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ExpiryDetail",
+  }) as any as Schema.Schema<ExpiryDetail>;
 
 export interface MembershipRoleRestrictionEvaluation {
   /** Output only. The current state of the restriction */
@@ -170,7 +173,7 @@ export interface MembershipRoleRestrictionEvaluation {
 }
 
 export const MembershipRoleRestrictionEvaluation: Schema.Schema<MembershipRoleRestrictionEvaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -184,7 +187,7 @@ export interface RestrictionEvaluations {
 }
 
 export const RestrictionEvaluations: Schema.Schema<RestrictionEvaluations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberRestrictionEvaluation: Schema.optional(
         MembershipRoleRestrictionEvaluation,
@@ -203,16 +206,16 @@ export interface MembershipRole {
   restrictionEvaluations?: RestrictionEvaluations;
 }
 
-export const MembershipRole: Schema.Schema<MembershipRole> = Schema.suspend(
-  () =>
+export const MembershipRole: Schema.Schema<MembershipRole> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       expiryDetail: Schema.optional(ExpiryDetail),
       restrictionEvaluations: Schema.optional(RestrictionEvaluations),
     }),
-).annotate({
-  identifier: "MembershipRole",
-}) as any as Schema.Schema<MembershipRole>;
+  ).annotate({
+    identifier: "MembershipRole",
+  }) as any as Schema.Schema<MembershipRole>;
 
 export interface Membership {
   /** Output only. The type of the membership. */
@@ -246,17 +249,18 @@ export interface Membership {
     | (string & {});
 }
 
-export const Membership: Schema.Schema<Membership> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    preferredMemberKey: Schema.optional(EntityKey),
-    roles: Schema.optional(Schema.Array(MembershipRole)),
-    deliverySetting: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
+export const Membership: Schema.Schema<Membership> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      preferredMemberKey: Schema.optional(EntityKey),
+      roles: Schema.optional(Schema.Array(MembershipRole)),
+      deliverySetting: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
 
 export interface ListMembershipsResponse {
   /** The `Membership`s under the specified `parent`. */
@@ -266,7 +270,7 @@ export interface ListMembershipsResponse {
 }
 
 export const ListMembershipsResponse: Schema.Schema<ListMembershipsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(Membership)),
       nextPageToken: Schema.optional(Schema.String),
@@ -284,15 +288,16 @@ export interface OidcRpConfig {
   clientSecret?: string;
 }
 
-export const OidcRpConfig: Schema.Schema<OidcRpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    clientId: Schema.optional(Schema.String),
-    redirectUris: Schema.optional(Schema.Array(Schema.String)),
-    clientSecret: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "OidcRpConfig",
-}) as any as Schema.Schema<OidcRpConfig>;
+export const OidcRpConfig: Schema.Schema<OidcRpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+      redirectUris: Schema.optional(Schema.Array(Schema.String)),
+      clientSecret: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OidcRpConfig",
+  }) as any as Schema.Schema<OidcRpConfig>;
 
 export interface OidcIdpConfig {
   /** Required. The Issuer identifier for the IdP. Must be a URL. The discovery URL will be derived from this as described in Section 4 of [the OIDC specification](https://openid.net/specs/openid-connect-discovery-1_0.html). */
@@ -301,14 +306,15 @@ export interface OidcIdpConfig {
   changePasswordUri?: string;
 }
 
-export const OidcIdpConfig: Schema.Schema<OidcIdpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    issuerUri: Schema.optional(Schema.String),
-    changePasswordUri: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "OidcIdpConfig",
-}) as any as Schema.Schema<OidcIdpConfig>;
+export const OidcIdpConfig: Schema.Schema<OidcIdpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      issuerUri: Schema.optional(Schema.String),
+      changePasswordUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OidcIdpConfig",
+  }) as any as Schema.Schema<OidcIdpConfig>;
 
 export interface InboundOidcSsoProfile {
   /** OIDC relying party (RP) configuration for this OIDC SSO profile. These are the RP details provided by Google that should be configured on the corresponding identity provider. */
@@ -324,7 +330,7 @@ export interface InboundOidcSsoProfile {
 }
 
 export const InboundOidcSsoProfile: Schema.Schema<InboundOidcSsoProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rpConfig: Schema.optional(OidcRpConfig),
       displayName: Schema.optional(Schema.String),
@@ -344,7 +350,7 @@ export interface ListInboundOidcSsoProfilesResponse {
 }
 
 export const ListInboundOidcSsoProfilesResponse: Schema.Schema<ListInboundOidcSsoProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inboundOidcSsoProfiles: Schema.optional(
         Schema.Array(InboundOidcSsoProfile),
@@ -361,7 +367,7 @@ export interface CheckTransitiveMembershipResponse {
 }
 
 export const CheckTransitiveMembershipResponse: Schema.Schema<CheckTransitiveMembershipResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hasMembership: Schema.optional(Schema.Boolean),
     }),
@@ -377,7 +383,7 @@ export interface GoogleAppsCloudidentityDevicesV1WipeDeviceRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       removeResetLock: Schema.optional(Schema.Boolean),
       customer: Schema.optional(Schema.String),
@@ -391,28 +397,28 @@ export interface RsaPublicKeyInfo {
   keySize?: number;
 }
 
-export const RsaPublicKeyInfo: Schema.Schema<RsaPublicKeyInfo> = Schema.suspend(
-  () =>
+export const RsaPublicKeyInfo: Schema.Schema<RsaPublicKeyInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keySize: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "RsaPublicKeyInfo",
-}) as any as Schema.Schema<RsaPublicKeyInfo>;
+  ).annotate({
+    identifier: "RsaPublicKeyInfo",
+  }) as any as Schema.Schema<RsaPublicKeyInfo>;
 
 export interface DsaPublicKeyInfo {
   /** Key size in bits (size of parameter P). */
   keySize?: number;
 }
 
-export const DsaPublicKeyInfo: Schema.Schema<DsaPublicKeyInfo> = Schema.suspend(
-  () =>
+export const DsaPublicKeyInfo: Schema.Schema<DsaPublicKeyInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keySize: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "DsaPublicKeyInfo",
-}) as any as Schema.Schema<DsaPublicKeyInfo>;
+  ).annotate({
+    identifier: "DsaPublicKeyInfo",
+  }) as any as Schema.Schema<DsaPublicKeyInfo>;
 
 export interface IdpCredential {
   /** Output only. Information of a RSA public key. */
@@ -425,16 +431,17 @@ export interface IdpCredential {
   name?: string;
 }
 
-export const IdpCredential: Schema.Schema<IdpCredential> = Schema.suspend(() =>
-  Schema.Struct({
-    rsaKeyInfo: Schema.optional(RsaPublicKeyInfo),
-    dsaKeyInfo: Schema.optional(DsaPublicKeyInfo),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "IdpCredential",
-}) as any as Schema.Schema<IdpCredential>;
+export const IdpCredential: Schema.Schema<IdpCredential> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rsaKeyInfo: Schema.optional(RsaPublicKeyInfo),
+      dsaKeyInfo: Schema.optional(DsaPublicKeyInfo),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IdpCredential",
+  }) as any as Schema.Schema<IdpCredential>;
 
 export interface GoogleAppsCloudidentityDevicesV1AndroidAttributes {
   /** Whether the device passes Android CTS compliance. */
@@ -461,7 +468,7 @@ export interface GoogleAppsCloudidentityDevicesV1AndroidAttributes {
 }
 
 export const GoogleAppsCloudidentityDevicesV1AndroidAttributes: Schema.Schema<GoogleAppsCloudidentityDevicesV1AndroidAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ctsProfileMatch: Schema.optional(Schema.Boolean),
       enabledUnknownSources: Schema.optional(Schema.Boolean),
@@ -486,7 +493,7 @@ export interface GoogleAppsCloudidentityDevicesV1CertificateTemplate {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CertificateTemplate: Schema.Schema<GoogleAppsCloudidentityDevicesV1CertificateTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       majorVersion: Schema.optional(Schema.Number),
@@ -522,7 +529,7 @@ export interface GoogleAppsCloudidentityDevicesV1CertificateAttributes {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CertificateAttributes: Schema.Schema<GoogleAppsCloudidentityDevicesV1CertificateAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       validityExpirationTime: Schema.optional(Schema.String),
       subject: Schema.optional(Schema.String),
@@ -588,7 +595,7 @@ export interface GoogleAppsCloudidentityDevicesV1BrowserInfo {
 }
 
 export const GoogleAppsCloudidentityDevicesV1BrowserInfo: Schema.Schema<GoogleAppsCloudidentityDevicesV1BrowserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       browserVersion: Schema.optional(Schema.String),
       isThirdPartyBlockingEnabled: Schema.optional(Schema.Boolean),
@@ -619,7 +626,7 @@ export interface GoogleAppsCloudidentityDevicesV1BrowserAttributes {
 }
 
 export const GoogleAppsCloudidentityDevicesV1BrowserAttributes: Schema.Schema<GoogleAppsCloudidentityDevicesV1BrowserAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chromeBrowserInfo: Schema.optional(
         GoogleAppsCloudidentityDevicesV1BrowserInfo,
@@ -641,7 +648,7 @@ export interface GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAtt
 }
 
 export const GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes: Schema.Schema<GoogleAppsCloudidentityDevicesV1EndpointVerificationSpecificAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionalSignals: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -756,7 +763,7 @@ export interface GoogleAppsCloudidentityDevicesV1Device {
 }
 
 export const GoogleAppsCloudidentityDevicesV1Device: Schema.Schema<GoogleAppsCloudidentityDevicesV1Device> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ownerType: Schema.optional(Schema.String),
       enabledDeveloperOptions: Schema.optional(Schema.Boolean),
@@ -805,7 +812,7 @@ export interface GoogleAppsCloudidentityDevicesV1WipeDeviceResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       device: Schema.optional(GoogleAppsCloudidentityDevicesV1Device),
     }),
@@ -816,7 +823,7 @@ export const GoogleAppsCloudidentityDevicesV1WipeDeviceResponse: Schema.Schema<G
 export interface UpdateGroupMetadata {}
 
 export const UpdateGroupMetadata: Schema.Schema<UpdateGroupMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateGroupMetadata",
   }) as any as Schema.Schema<UpdateGroupMetadata>;
 
@@ -826,7 +833,7 @@ export interface ModifyMembershipRolesResponse {
 }
 
 export const ModifyMembershipRolesResponse: Schema.Schema<ModifyMembershipRolesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       membership: Schema.optional(Membership),
     }),
@@ -845,14 +852,17 @@ export interface PolicyQuery {
   group?: string;
 }
 
-export const PolicyQuery: Schema.Schema<PolicyQuery> = Schema.suspend(() =>
-  Schema.Struct({
-    sortOrder: Schema.optional(Schema.Number),
-    orgUnit: Schema.optional(Schema.String),
-    query: Schema.optional(Schema.String),
-    group: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PolicyQuery" }) as any as Schema.Schema<PolicyQuery>;
+export const PolicyQuery: Schema.Schema<PolicyQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sortOrder: Schema.optional(Schema.Number),
+      orgUnit: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+      group: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PolicyQuery",
+  }) as any as Schema.Schema<PolicyQuery>;
 
 export interface Setting {
   /** Required. The value of the Setting. */
@@ -861,12 +871,13 @@ export interface Setting {
   type?: string;
 }
 
-export const Setting: Schema.Schema<Setting> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Setting" }) as any as Schema.Schema<Setting>;
+export const Setting: Schema.Schema<Setting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Setting" }) as any as Schema.Schema<Setting>;
 
 export interface Policy {
   /** Required. The PolicyQuery the Setting applies to. */
@@ -881,15 +892,16 @@ export interface Policy {
   setting?: Setting;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    policyQuery: Schema.optional(PolicyQuery),
-    type: Schema.optional(Schema.String),
-    customer: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    setting: Schema.optional(Setting),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      policyQuery: Schema.optional(PolicyQuery),
+      type: Schema.optional(Schema.String),
+      customer: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      setting: Schema.optional(Setting),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface ListPoliciesResponse {
   /** The results */
@@ -899,7 +911,7 @@ export interface ListPoliciesResponse {
 }
 
 export const ListPoliciesResponse: Schema.Schema<ListPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policies: Schema.optional(Schema.Array(Policy)),
       nextPageToken: Schema.optional(Schema.String),
@@ -920,7 +932,7 @@ export interface RestrictionEvaluation {
 }
 
 export const RestrictionEvaluation: Schema.Schema<RestrictionEvaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -936,7 +948,7 @@ export interface MemberRestriction {
 }
 
 export const MemberRestriction: Schema.Schema<MemberRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       evaluation: Schema.optional(RestrictionEvaluation),
@@ -952,20 +964,20 @@ export interface SecuritySettings {
   memberRestriction?: MemberRestriction;
 }
 
-export const SecuritySettings: Schema.Schema<SecuritySettings> = Schema.suspend(
-  () =>
+export const SecuritySettings: Schema.Schema<SecuritySettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       memberRestriction: Schema.optional(MemberRestriction),
     }),
-).annotate({
-  identifier: "SecuritySettings",
-}) as any as Schema.Schema<SecuritySettings>;
+  ).annotate({
+    identifier: "SecuritySettings",
+  }) as any as Schema.Schema<SecuritySettings>;
 
 export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1CancelWipeDeviceMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceMetadata>;
 
@@ -979,7 +991,7 @@ export interface GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
       nextPageToken: Schema.optional(Schema.String),
@@ -994,23 +1006,26 @@ export interface OidcSsoInfo {
   inboundOidcSsoProfile?: string;
 }
 
-export const OidcSsoInfo: Schema.Schema<OidcSsoInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    inboundOidcSsoProfile: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "OidcSsoInfo" }) as any as Schema.Schema<OidcSsoInfo>;
+export const OidcSsoInfo: Schema.Schema<OidcSsoInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inboundOidcSsoProfile: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OidcSsoInfo",
+  }) as any as Schema.Schema<OidcSsoInfo>;
 
 export interface GoogleAppsCloudidentityDevicesV1DeleteDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1DeleteDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1DeleteDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1DeleteDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1DeleteDeviceUserMetadata>;
 
 export interface UpdateInboundSsoAssignmentOperationMetadata {}
 
 export const UpdateInboundSsoAssignmentOperationMetadata: Schema.Schema<UpdateInboundSsoAssignmentOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateInboundSsoAssignmentOperationMetadata",
   }) as any as Schema.Schema<UpdateInboundSsoAssignmentOperationMetadata>;
 
@@ -1020,7 +1035,7 @@ export interface UpdateInboundOidcSsoProfileOperationMetadata {
 }
 
 export const UpdateInboundOidcSsoProfileOperationMetadata: Schema.Schema<UpdateInboundOidcSsoProfileOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -1037,15 +1052,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -1060,27 +1076,28 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface GoogleAppsCloudidentityDevicesV1BlockDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1BlockDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1BlockDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1BlockDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1BlockDeviceUserMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1WipeDeviceMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1WipeDeviceMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceMetadata>;
 
@@ -1097,7 +1114,7 @@ export interface DynamicGroupStatus {
 }
 
 export const DynamicGroupStatus: Schema.Schema<DynamicGroupStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.String),
       statusTime: Schema.optional(Schema.String),
@@ -1114,7 +1131,7 @@ export interface DynamicGroupMetadata {
 }
 
 export const DynamicGroupMetadata: Schema.Schema<DynamicGroupMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(DynamicGroupStatus),
       queries: Schema.optional(Schema.Array(DynamicGroupQuery)),
@@ -1146,20 +1163,21 @@ export interface Group {
   additionalGroupKeys?: Array<EntityKey>;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    dynamicGroupMetadata: Schema.optional(DynamicGroupMetadata),
-    displayName: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    createTime: Schema.optional(Schema.String),
-    groupKey: Schema.optional(EntityKey),
-    description: Schema.optional(Schema.String),
-    additionalGroupKeys: Schema.optional(Schema.Array(EntityKey)),
-  }),
-).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      dynamicGroupMetadata: Schema.optional(DynamicGroupMetadata),
+      displayName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      groupKey: Schema.optional(EntityKey),
+      description: Schema.optional(Schema.String),
+      additionalGroupKeys: Schema.optional(Schema.Array(EntityKey)),
+    }),
+  ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface SignInBehavior {
   /** When to redirect sign-ins to the IdP. */
@@ -1169,25 +1187,28 @@ export interface SignInBehavior {
     | (string & {});
 }
 
-export const SignInBehavior: Schema.Schema<SignInBehavior> = Schema.suspend(
-  () =>
+export const SignInBehavior: Schema.Schema<SignInBehavior> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectCondition: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SignInBehavior",
-}) as any as Schema.Schema<SignInBehavior>;
+  ).annotate({
+    identifier: "SignInBehavior",
+  }) as any as Schema.Schema<SignInBehavior>;
 
 export interface SamlSsoInfo {
   /** Required. Name of the `InboundSamlSsoProfile` to use. Must be of the form `inboundSamlSsoProfiles/{inbound_saml_sso_profile}`. */
   inboundSamlSsoProfile?: string;
 }
 
-export const SamlSsoInfo: Schema.Schema<SamlSsoInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    inboundSamlSsoProfile: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SamlSsoInfo" }) as any as Schema.Schema<SamlSsoInfo>;
+export const SamlSsoInfo: Schema.Schema<SamlSsoInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inboundSamlSsoProfile: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SamlSsoInfo",
+  }) as any as Schema.Schema<SamlSsoInfo>;
 
 export interface InboundSsoAssignment {
   /** Assertions about users assigned to an IdP will always be accepted from that IdP. This controls whether/when Google should redirect a user to the IdP. Unset (defaults) is the recommended configuration. */
@@ -1217,7 +1238,7 @@ export interface InboundSsoAssignment {
 }
 
 export const InboundSsoAssignment: Schema.Schema<InboundSsoAssignment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signInBehavior: Schema.optional(SignInBehavior),
       oidcSsoInfo: Schema.optional(OidcSsoInfo),
@@ -1239,7 +1260,7 @@ export interface GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
     }),
@@ -1250,7 +1271,7 @@ export const GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest: Schema.Sc
 export interface DeleteInboundSamlSsoProfileOperationMetadata {}
 
 export const DeleteInboundSamlSsoProfileOperationMetadata: Schema.Schema<DeleteInboundSamlSsoProfileOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteInboundSamlSsoProfileOperationMetadata",
   }) as any as Schema.Schema<DeleteInboundSamlSsoProfileOperationMetadata>;
 
@@ -1262,7 +1283,7 @@ export interface MembershipAdjacencyList {
 }
 
 export const MembershipAdjacencyList: Schema.Schema<MembershipAdjacencyList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       group: Schema.optional(Schema.String),
       edges: Schema.optional(Schema.Array(Membership)),
@@ -1279,7 +1300,7 @@ export interface GetMembershipGraphResponse {
 }
 
 export const GetMembershipGraphResponse: Schema.Schema<GetMembershipGraphResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adjacencyList: Schema.optional(Schema.Array(MembershipAdjacencyList)),
       groups: Schema.optional(Schema.Array(Group)),
@@ -1305,17 +1326,17 @@ export interface UserInvitation {
   name?: string;
 }
 
-export const UserInvitation: Schema.Schema<UserInvitation> = Schema.suspend(
-  () =>
+export const UserInvitation: Schema.Schema<UserInvitation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
       mailsSentCount: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "UserInvitation",
-}) as any as Schema.Schema<UserInvitation>;
+  ).annotate({
+    identifier: "UserInvitation",
+  }) as any as Schema.Schema<UserInvitation>;
 
 export interface UpdateInboundSamlSsoProfileOperationMetadata {
   /** State of this Operation Will be "awaiting-multi-party-approval" when the operation is deferred due to the target customer having enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448). */
@@ -1323,7 +1344,7 @@ export interface UpdateInboundSamlSsoProfileOperationMetadata {
 }
 
 export const UpdateInboundSamlSsoProfileOperationMetadata: Schema.Schema<UpdateInboundSamlSsoProfileOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -1337,7 +1358,7 @@ export interface IsInvitableUserResponse {
 }
 
 export const IsInvitableUserResponse: Schema.Schema<IsInvitableUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isInvitableUser: Schema.optional(Schema.Boolean),
     }),
@@ -1351,7 +1372,7 @@ export interface CreateInboundSamlSsoProfileOperationMetadata {
 }
 
 export const CreateInboundSamlSsoProfileOperationMetadata: Schema.Schema<CreateInboundSamlSsoProfileOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -1367,7 +1388,7 @@ export interface ListGroupsResponse {
 }
 
 export const ListGroupsResponse: Schema.Schema<ListGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       groups: Schema.optional(Schema.Array(Group)),
@@ -1416,7 +1437,7 @@ export interface GoogleAppsCloudidentityDevicesV1DeviceUser {
 }
 
 export const GoogleAppsCloudidentityDevicesV1DeviceUser: Schema.Schema<GoogleAppsCloudidentityDevicesV1DeviceUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       passwordState: Schema.optional(Schema.String),
       lastSyncTime: Schema.optional(Schema.String),
@@ -1439,7 +1460,7 @@ export interface GoogleAppsCloudidentityDevicesV1BlockDeviceUserResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1BlockDeviceUserResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1BlockDeviceUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceUser: Schema.optional(GoogleAppsCloudidentityDevicesV1DeviceUser),
     }),
@@ -1458,21 +1479,22 @@ export interface SamlIdpConfig {
   singleSignOnServiceUri?: string;
 }
 
-export const SamlIdpConfig: Schema.Schema<SamlIdpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    logoutRedirectUri: Schema.optional(Schema.String),
-    changePasswordUri: Schema.optional(Schema.String),
-    entityId: Schema.optional(Schema.String),
-    singleSignOnServiceUri: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SamlIdpConfig",
-}) as any as Schema.Schema<SamlIdpConfig>;
+export const SamlIdpConfig: Schema.Schema<SamlIdpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      logoutRedirectUri: Schema.optional(Schema.String),
+      changePasswordUri: Schema.optional(Schema.String),
+      entityId: Schema.optional(Schema.String),
+      singleSignOnServiceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SamlIdpConfig",
+  }) as any as Schema.Schema<SamlIdpConfig>;
 
 export interface SendUserInvitationRequest {}
 
 export const SendUserInvitationRequest: Schema.Schema<SendUserInvitationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SendUserInvitationRequest",
   }) as any as Schema.Schema<SendUserInvitationRequest>;
 
@@ -1482,7 +1504,7 @@ export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
     }),
@@ -1498,7 +1520,7 @@ export interface UpdateMembershipRolesParams {
 }
 
 export const UpdateMembershipRolesParams: Schema.Schema<UpdateMembershipRolesParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       membershipRole: Schema.optional(MembershipRole),
       fieldMask: Schema.optional(Schema.String),
@@ -1517,7 +1539,7 @@ export interface ModifyMembershipRolesRequest {
 }
 
 export const ModifyMembershipRolesRequest: Schema.Schema<ModifyMembershipRolesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateRolesParams: Schema.optional(
         Schema.Array(UpdateMembershipRolesParams),
@@ -1535,7 +1557,7 @@ export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       device: Schema.optional(GoogleAppsCloudidentityDevicesV1Device),
     }),
@@ -1546,7 +1568,7 @@ export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceResponse: Schema.Sc
 export interface DeleteGroupMetadata {}
 
 export const DeleteGroupMetadata: Schema.Schema<DeleteGroupMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteGroupMetadata",
   }) as any as Schema.Schema<DeleteGroupMetadata>;
 
@@ -1556,7 +1578,7 @@ export interface AddIdpCredentialRequest {
 }
 
 export const AddIdpCredentialRequest: Schema.Schema<AddIdpCredentialRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pemData: Schema.optional(Schema.String),
     }),
@@ -1567,7 +1589,7 @@ export const AddIdpCredentialRequest: Schema.Schema<AddIdpCredentialRequest> =
 export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserMetadata>;
 
@@ -1577,7 +1599,7 @@ export interface GoogleAppsCloudidentityDevicesV1ApproveDeviceUserResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ApproveDeviceUserResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1ApproveDeviceUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceUser: Schema.optional(GoogleAppsCloudidentityDevicesV1DeviceUser),
     }),
@@ -1588,7 +1610,7 @@ export const GoogleAppsCloudidentityDevicesV1ApproveDeviceUserResponse: Schema.S
 export interface GetMembershipGraphMetadata {}
 
 export const GetMembershipGraphMetadata: Schema.Schema<GetMembershipGraphMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GetMembershipGraphMetadata",
   }) as any as Schema.Schema<GetMembershipGraphMetadata>;
 
@@ -1610,7 +1632,7 @@ export interface MembershipRelation {
 }
 
 export const MembershipRelation: Schema.Schema<MembershipRelation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       roles: Schema.optional(Schema.Array(MembershipRole)),
       group: Schema.optional(Schema.String),
@@ -1632,7 +1654,7 @@ export interface SearchDirectGroupsResponse {
 }
 
 export const SearchDirectGroupsResponse: Schema.Schema<SearchDirectGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(MembershipRelation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1644,7 +1666,7 @@ export const SearchDirectGroupsResponse: Schema.Schema<SearchDirectGroupsRespons
 export interface GoogleAppsCloudidentityDevicesV1UpdateDeviceMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1UpdateDeviceMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1UpdateDeviceMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1UpdateDeviceMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1UpdateDeviceMetadata>;
 
@@ -1654,7 +1676,7 @@ export interface CreateInboundOidcSsoProfileOperationMetadata {
 }
 
 export const CreateInboundOidcSsoProfileOperationMetadata: Schema.Schema<CreateInboundOidcSsoProfileOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -1670,7 +1692,7 @@ export interface ListInboundSsoAssignmentsResponse {
 }
 
 export const ListInboundSsoAssignmentsResponse: Schema.Schema<ListInboundSsoAssignmentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inboundSsoAssignments: Schema.optional(
         Schema.Array(InboundSsoAssignment),
@@ -1691,7 +1713,7 @@ export interface GoogleAppsCloudidentityDevicesV1CustomAttributeValue {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CustomAttributeValue: Schema.Schema<GoogleAppsCloudidentityDevicesV1CustomAttributeValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boolValue: Schema.optional(Schema.Boolean),
       stringValue: Schema.optional(Schema.String),
@@ -1704,7 +1726,7 @@ export const GoogleAppsCloudidentityDevicesV1CustomAttributeValue: Schema.Schema
 export interface CreateGroupMetadata {}
 
 export const CreateGroupMetadata: Schema.Schema<CreateGroupMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateGroupMetadata",
   }) as any as Schema.Schema<CreateGroupMetadata>;
 
@@ -1715,14 +1737,15 @@ export interface SamlSpConfig {
   assertionConsumerServiceUri?: string;
 }
 
-export const SamlSpConfig: Schema.Schema<SamlSpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    entityId: Schema.optional(Schema.String),
-    assertionConsumerServiceUri: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SamlSpConfig",
-}) as any as Schema.Schema<SamlSpConfig>;
+export const SamlSpConfig: Schema.Schema<SamlSpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entityId: Schema.optional(Schema.String),
+      assertionConsumerServiceUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SamlSpConfig",
+  }) as any as Schema.Schema<SamlSpConfig>;
 
 export interface InboundSamlSsoProfile {
   /** Human-readable name of the SAML SSO profile. */
@@ -1738,7 +1761,7 @@ export interface InboundSamlSsoProfile {
 }
 
 export const InboundSamlSsoProfile: Schema.Schema<InboundSamlSsoProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1758,7 +1781,7 @@ export interface ListInboundSamlSsoProfilesResponse {
 }
 
 export const ListInboundSamlSsoProfilesResponse: Schema.Schema<ListInboundSamlSsoProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inboundSamlSsoProfiles: Schema.optional(
         Schema.Array(InboundSamlSsoProfile),
@@ -1775,7 +1798,7 @@ export interface AddIdpCredentialOperationMetadata {
 }
 
 export const AddIdpCredentialOperationMetadata: Schema.Schema<AddIdpCredentialOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -1789,7 +1812,7 @@ export interface GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
     }),
@@ -1847,7 +1870,7 @@ export interface GoogleAppsCloudidentityDevicesV1ClientState {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ClientState: Schema.Schema<GoogleAppsCloudidentityDevicesV1ClientState> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       ownerType: Schema.optional(Schema.String),
@@ -1879,7 +1902,7 @@ export interface GoogleAppsCloudidentityDevicesV1ListClientStatesResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ListClientStatesResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1ListClientStatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientStates: Schema.optional(
         Schema.Array(GoogleAppsCloudidentityDevicesV1ClientState),
@@ -1893,7 +1916,7 @@ export const GoogleAppsCloudidentityDevicesV1ListClientStatesResponse: Schema.Sc
 export interface GoogleAppsCloudidentityDevicesV1WipeDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1WipeDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceUserMetadata>;
 
@@ -1903,7 +1926,7 @@ export interface LookupMembershipNameResponse {
 }
 
 export const LookupMembershipNameResponse: Schema.Schema<LookupMembershipNameResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -1919,7 +1942,7 @@ export interface GoogleAppsCloudidentityDevicesV1ListDevicesResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ListDevicesResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1ListDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(
         Schema.Array(GoogleAppsCloudidentityDevicesV1Device),
@@ -1938,7 +1961,7 @@ export interface ListIdpCredentialsResponse {
 }
 
 export const ListIdpCredentialsResponse: Schema.Schema<ListIdpCredentialsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idpCredentials: Schema.optional(Schema.Array(IdpCredential)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1953,7 +1976,7 @@ export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
     }),
@@ -1969,7 +1992,7 @@ export interface SearchGroupsResponse {
 }
 
 export const SearchGroupsResponse: Schema.Schema<SearchGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       groups: Schema.optional(Schema.Array(Group)),
@@ -1986,7 +2009,7 @@ export interface ListUserInvitationsResponse {
 }
 
 export const ListUserInvitationsResponse: Schema.Schema<ListUserInvitationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       userInvitations: Schema.optional(Schema.Array(UserInvitation)),
@@ -2003,7 +2026,7 @@ export interface SearchTransitiveGroupsResponse {
 }
 
 export const SearchTransitiveGroupsResponse: Schema.Schema<SearchTransitiveGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(GroupRelation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2015,35 +2038,35 @@ export const SearchTransitiveGroupsResponse: Schema.Schema<SearchTransitiveGroup
 export interface CancelUserInvitationRequest {}
 
 export const CancelUserInvitationRequest: Schema.Schema<CancelUserInvitationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelUserInvitationRequest",
   }) as any as Schema.Schema<CancelUserInvitationRequest>;
 
 export interface DeleteInboundOidcSsoProfileOperationMetadata {}
 
 export const DeleteInboundOidcSsoProfileOperationMetadata: Schema.Schema<DeleteInboundOidcSsoProfileOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteInboundOidcSsoProfileOperationMetadata",
   }) as any as Schema.Schema<DeleteInboundOidcSsoProfileOperationMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1CreateDeviceMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1CreateDeviceMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1CreateDeviceMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1CreateDeviceMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1CreateDeviceMetadata>;
 
 export interface DeleteMembershipMetadata {}
 
 export const DeleteMembershipMetadata: Schema.Schema<DeleteMembershipMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteMembershipMetadata",
   }) as any as Schema.Schema<DeleteMembershipMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1DeleteDeviceMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1DeleteDeviceMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1DeleteDeviceMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1DeleteDeviceMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1DeleteDeviceMetadata>;
 
@@ -2053,7 +2076,7 @@ export interface GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceUser: Schema.optional(GoogleAppsCloudidentityDevicesV1DeviceUser),
     }),
@@ -2064,7 +2087,7 @@ export const GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserResponse: Schem
 export interface GoogleAppsCloudidentityDevicesV1SignoutDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1SignoutDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1SignoutDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1SignoutDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1SignoutDeviceUserMetadata>;
 
@@ -2074,7 +2097,7 @@ export interface GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest {
 }
 
 export const GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest: Schema.Schema<GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Schema.String),
     }),
@@ -2085,7 +2108,7 @@ export const GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest: Schema.Sche
 export interface DeleteInboundSsoAssignmentOperationMetadata {}
 
 export const DeleteInboundSsoAssignmentOperationMetadata: Schema.Schema<DeleteInboundSsoAssignmentOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteInboundSsoAssignmentOperationMetadata",
   }) as any as Schema.Schema<DeleteInboundSsoAssignmentOperationMetadata>;
 
@@ -2095,7 +2118,7 @@ export interface GoogleAppsCloudidentityDevicesV1WipeDeviceUserResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1WipeDeviceUserResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1WipeDeviceUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceUser: Schema.optional(GoogleAppsCloudidentityDevicesV1DeviceUser),
     }),
@@ -2106,7 +2129,7 @@ export const GoogleAppsCloudidentityDevicesV1WipeDeviceUserResponse: Schema.Sche
 export interface DeleteIdpCredentialOperationMetadata {}
 
 export const DeleteIdpCredentialOperationMetadata: Schema.Schema<DeleteIdpCredentialOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteIdpCredentialOperationMetadata",
   }) as any as Schema.Schema<DeleteIdpCredentialOperationMetadata>;
 
@@ -2118,7 +2141,7 @@ export interface GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse {
 }
 
 export const GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse: Schema.Schema<GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       deviceUsers: Schema.optional(
@@ -2132,42 +2155,42 @@ export const GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse: Schema.Sch
 export interface CreateMembershipMetadata {}
 
 export const CreateMembershipMetadata: Schema.Schema<CreateMembershipMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateMembershipMetadata",
   }) as any as Schema.Schema<CreateMembershipMetadata>;
 
 export interface CreateInboundSsoAssignmentOperationMetadata {}
 
 export const CreateInboundSsoAssignmentOperationMetadata: Schema.Schema<CreateInboundSsoAssignmentOperationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateInboundSsoAssignmentOperationMetadata",
   }) as any as Schema.Schema<CreateInboundSsoAssignmentOperationMetadata>;
 
 export interface UpdateMembershipMetadata {}
 
 export const UpdateMembershipMetadata: Schema.Schema<UpdateMembershipMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateMembershipMetadata",
   }) as any as Schema.Schema<UpdateMembershipMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1ListEndpointAppsMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1ListEndpointAppsMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1ListEndpointAppsMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1ListEndpointAppsMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1ListEndpointAppsMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1UpdateClientStateMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1UpdateClientStateMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1UpdateClientStateMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1UpdateClientStateMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1UpdateClientStateMetadata>;
 
 export interface GoogleAppsCloudidentityDevicesV1ApproveDeviceUserMetadata {}
 
 export const GoogleAppsCloudidentityDevicesV1ApproveDeviceUserMetadata: Schema.Schema<GoogleAppsCloudidentityDevicesV1ApproveDeviceUserMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCloudidentityDevicesV1ApproveDeviceUserMetadata",
   }) as any as Schema.Schema<GoogleAppsCloudidentityDevicesV1ApproveDeviceUserMetadata>;
 
@@ -2177,7 +2200,7 @@ export interface LookupGroupNameResponse {
 }
 
 export const LookupGroupNameResponse: Schema.Schema<LookupGroupNameResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -2194,18 +2217,20 @@ export interface DeleteInboundOidcSsoProfilesRequest {
   name: string;
 }
 
-export const DeleteInboundOidcSsoProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteInboundOidcSsoProfilesRequest>;
+export const DeleteInboundOidcSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInboundOidcSsoProfilesRequest>;
 
 export type DeleteInboundOidcSsoProfilesResponse = Operation;
-export const DeleteInboundOidcSsoProfilesResponse = Operation;
+export const DeleteInboundOidcSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteInboundOidcSsoProfilesError = DefaultErrors;
 
@@ -2215,7 +2240,7 @@ export const deleteInboundOidcSsoProfiles: API.OperationMethod<
   DeleteInboundOidcSsoProfilesResponse,
   DeleteInboundOidcSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundOidcSsoProfilesRequest,
   output: DeleteInboundOidcSsoProfilesResponse,
   errors: [],
@@ -2226,18 +2251,20 @@ export interface GetInboundOidcSsoProfilesRequest {
   name: string;
 }
 
-export const GetInboundOidcSsoProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetInboundOidcSsoProfilesRequest>;
+export const GetInboundOidcSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetInboundOidcSsoProfilesRequest>;
 
 export type GetInboundOidcSsoProfilesResponse = InboundOidcSsoProfile;
-export const GetInboundOidcSsoProfilesResponse = InboundOidcSsoProfile;
+export const GetInboundOidcSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InboundOidcSsoProfile;
 
 export type GetInboundOidcSsoProfilesError = DefaultErrors;
 
@@ -2247,7 +2274,7 @@ export const getInboundOidcSsoProfiles: API.OperationMethod<
   GetInboundOidcSsoProfilesResponse,
   GetInboundOidcSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInboundOidcSsoProfilesRequest,
   output: GetInboundOidcSsoProfilesResponse,
   errors: [],
@@ -2262,19 +2289,20 @@ export interface ListInboundOidcSsoProfilesRequest {
   pageSize?: number;
 }
 
-export const ListInboundOidcSsoProfilesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/inboundOidcSsoProfiles" }),
-  svc,
-) as unknown as Schema.Schema<ListInboundOidcSsoProfilesRequest>;
+export const ListInboundOidcSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/inboundOidcSsoProfiles" }),
+    svc,
+  ) as unknown as Schema.Schema<ListInboundOidcSsoProfilesRequest>;
 
 export type ListInboundOidcSsoProfilesResponse_Op =
   ListInboundOidcSsoProfilesResponse;
 export const ListInboundOidcSsoProfilesResponse_Op =
-  ListInboundOidcSsoProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListInboundOidcSsoProfilesResponse;
 
 export type ListInboundOidcSsoProfilesError = DefaultErrors;
 
@@ -2284,7 +2312,7 @@ export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
   ListInboundOidcSsoProfilesResponse_Op,
   ListInboundOidcSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInboundOidcSsoProfilesRequest,
   output: ListInboundOidcSsoProfilesResponse_Op,
   errors: [],
@@ -2303,21 +2331,23 @@ export interface PatchInboundOidcSsoProfilesRequest {
   body?: InboundOidcSsoProfile;
 }
 
-export const PatchInboundOidcSsoProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(InboundOidcSsoProfile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchInboundOidcSsoProfilesRequest>;
+export const PatchInboundOidcSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(InboundOidcSsoProfile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/inboundOidcSsoProfiles/{inboundOidcSsoProfilesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchInboundOidcSsoProfilesRequest>;
 
 export type PatchInboundOidcSsoProfilesResponse = Operation;
-export const PatchInboundOidcSsoProfilesResponse = Operation;
+export const PatchInboundOidcSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchInboundOidcSsoProfilesError = DefaultErrors;
 
@@ -2327,7 +2357,7 @@ export const patchInboundOidcSsoProfiles: API.OperationMethod<
   PatchInboundOidcSsoProfilesResponse,
   PatchInboundOidcSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInboundOidcSsoProfilesRequest,
   output: PatchInboundOidcSsoProfilesResponse,
   errors: [],
@@ -2338,15 +2368,21 @@ export interface CreateInboundOidcSsoProfilesRequest {
   body?: InboundOidcSsoProfile;
 }
 
-export const CreateInboundOidcSsoProfilesRequest = Schema.Struct({
-  body: Schema.optional(InboundOidcSsoProfile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/inboundOidcSsoProfiles", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInboundOidcSsoProfilesRequest>;
+export const CreateInboundOidcSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(InboundOidcSsoProfile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/inboundOidcSsoProfiles",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInboundOidcSsoProfilesRequest>;
 
 export type CreateInboundOidcSsoProfilesResponse = Operation;
-export const CreateInboundOidcSsoProfilesResponse = Operation;
+export const CreateInboundOidcSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateInboundOidcSsoProfilesError = DefaultErrors;
 
@@ -2356,7 +2392,7 @@ export const createInboundOidcSsoProfiles: API.OperationMethod<
   CreateInboundOidcSsoProfilesResponse,
   CreateInboundOidcSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInboundOidcSsoProfilesRequest,
   output: CreateInboundOidcSsoProfilesResponse,
   errors: [],
@@ -2371,21 +2407,23 @@ export interface PatchInboundSsoAssignmentsRequest {
   body?: InboundSsoAssignment;
 }
 
-export const PatchInboundSsoAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(InboundSsoAssignment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchInboundSsoAssignmentsRequest>;
+export const PatchInboundSsoAssignmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(InboundSsoAssignment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchInboundSsoAssignmentsRequest>;
 
 export type PatchInboundSsoAssignmentsResponse = Operation;
-export const PatchInboundSsoAssignmentsResponse = Operation;
+export const PatchInboundSsoAssignmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchInboundSsoAssignmentsError = DefaultErrors;
 
@@ -2395,7 +2433,7 @@ export const patchInboundSsoAssignments: API.OperationMethod<
   PatchInboundSsoAssignmentsResponse,
   PatchInboundSsoAssignmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInboundSsoAssignmentsRequest,
   output: PatchInboundSsoAssignmentsResponse,
   errors: [],
@@ -2406,15 +2444,17 @@ export interface CreateInboundSsoAssignmentsRequest {
   body?: InboundSsoAssignment;
 }
 
-export const CreateInboundSsoAssignmentsRequest = Schema.Struct({
-  body: Schema.optional(InboundSsoAssignment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/inboundSsoAssignments", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInboundSsoAssignmentsRequest>;
+export const CreateInboundSsoAssignmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(InboundSsoAssignment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/inboundSsoAssignments", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInboundSsoAssignmentsRequest>;
 
 export type CreateInboundSsoAssignmentsResponse = Operation;
-export const CreateInboundSsoAssignmentsResponse = Operation;
+export const CreateInboundSsoAssignmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateInboundSsoAssignmentsError = DefaultErrors;
 
@@ -2424,7 +2464,7 @@ export const createInboundSsoAssignments: API.OperationMethod<
   CreateInboundSsoAssignmentsResponse,
   CreateInboundSsoAssignmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInboundSsoAssignmentsRequest,
   output: CreateInboundSsoAssignmentsResponse,
   errors: [],
@@ -2435,18 +2475,20 @@ export interface GetInboundSsoAssignmentsRequest {
   name: string;
 }
 
-export const GetInboundSsoAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetInboundSsoAssignmentsRequest>;
+export const GetInboundSsoAssignmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetInboundSsoAssignmentsRequest>;
 
 export type GetInboundSsoAssignmentsResponse = InboundSsoAssignment;
-export const GetInboundSsoAssignmentsResponse = InboundSsoAssignment;
+export const GetInboundSsoAssignmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InboundSsoAssignment;
 
 export type GetInboundSsoAssignmentsError = DefaultErrors;
 
@@ -2456,7 +2498,7 @@ export const getInboundSsoAssignments: API.OperationMethod<
   GetInboundSsoAssignmentsResponse,
   GetInboundSsoAssignmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInboundSsoAssignmentsRequest,
   output: GetInboundSsoAssignmentsResponse,
   errors: [],
@@ -2467,18 +2509,20 @@ export interface DeleteInboundSsoAssignmentsRequest {
   name: string;
 }
 
-export const DeleteInboundSsoAssignmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteInboundSsoAssignmentsRequest>;
+export const DeleteInboundSsoAssignmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/inboundSsoAssignments/{inboundSsoAssignmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInboundSsoAssignmentsRequest>;
 
 export type DeleteInboundSsoAssignmentsResponse = Operation;
-export const DeleteInboundSsoAssignmentsResponse = Operation;
+export const DeleteInboundSsoAssignmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteInboundSsoAssignmentsError = DefaultErrors;
 
@@ -2488,7 +2532,7 @@ export const deleteInboundSsoAssignments: API.OperationMethod<
   DeleteInboundSsoAssignmentsResponse,
   DeleteInboundSsoAssignmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundSsoAssignmentsRequest,
   output: DeleteInboundSsoAssignmentsResponse,
   errors: [],
@@ -2503,19 +2547,20 @@ export interface ListInboundSsoAssignmentsRequest {
   pageToken?: string;
 }
 
-export const ListInboundSsoAssignmentsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/inboundSsoAssignments" }),
-  svc,
-) as unknown as Schema.Schema<ListInboundSsoAssignmentsRequest>;
+export const ListInboundSsoAssignmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/inboundSsoAssignments" }),
+    svc,
+  ) as unknown as Schema.Schema<ListInboundSsoAssignmentsRequest>;
 
 export type ListInboundSsoAssignmentsResponse_Op =
   ListInboundSsoAssignmentsResponse;
 export const ListInboundSsoAssignmentsResponse_Op =
-  ListInboundSsoAssignmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListInboundSsoAssignmentsResponse;
 
 export type ListInboundSsoAssignmentsError = DefaultErrors;
 
@@ -2525,7 +2570,7 @@ export const listInboundSsoAssignments: API.PaginatedOperationMethod<
   ListInboundSsoAssignmentsResponse_Op,
   ListInboundSsoAssignmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSsoAssignmentsRequest,
   output: ListInboundSsoAssignmentsResponse_Op,
   errors: [],
@@ -2540,7 +2585,7 @@ export interface GetPoliciesRequest {
   name: string;
 }
 
-export const GetPoliciesRequest = Schema.Struct({
+export const GetPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/policies/{policiesId}" }),
@@ -2548,7 +2593,7 @@ export const GetPoliciesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPoliciesRequest>;
 
 export type GetPoliciesResponse = Policy;
-export const GetPoliciesResponse = Policy;
+export const GetPoliciesResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetPoliciesError = DefaultErrors;
 
@@ -2558,7 +2603,7 @@ export const getPolicies: API.OperationMethod<
   GetPoliciesResponse,
   GetPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
@@ -2573,7 +2618,7 @@ export interface ListPoliciesRequest {
   pageToken?: string;
 }
 
-export const ListPoliciesRequest = Schema.Struct({
+export const ListPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -2583,7 +2628,8 @@ export const ListPoliciesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPoliciesRequest>;
 
 export type ListPoliciesResponse_Op = ListPoliciesResponse;
-export const ListPoliciesResponse_Op = ListPoliciesResponse;
+export const ListPoliciesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListPoliciesResponse;
 
 export type ListPoliciesError = DefaultErrors;
 
@@ -2593,7 +2639,7 @@ export const listPolicies: API.PaginatedOperationMethod<
   ListPoliciesResponse_Op,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse_Op,
   errors: [],
@@ -2608,7 +2654,7 @@ export interface GetGroupsRequest {
   name: string;
 }
 
-export const GetGroupsRequest = Schema.Struct({
+export const GetGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/groups/{groupsId}" }),
@@ -2616,7 +2662,7 @@ export const GetGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetGroupsRequest>;
 
 export type GetGroupsResponse = Group;
-export const GetGroupsResponse = Group;
+export const GetGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Group;
 
 export type GetGroupsError = DefaultErrors;
 
@@ -2626,7 +2672,7 @@ export const getGroups: API.OperationMethod<
   GetGroupsResponse,
   GetGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResponse,
   errors: [],
@@ -2641,7 +2687,7 @@ export interface PatchGroupsRequest {
   body?: Group;
 }
 
-export const PatchGroupsRequest = Schema.Struct({
+export const PatchGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Group).pipe(T.HttpBody()),
@@ -2651,7 +2697,7 @@ export const PatchGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchGroupsRequest>;
 
 export type PatchGroupsResponse = Operation;
-export const PatchGroupsResponse = Operation;
+export const PatchGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchGroupsError = DefaultErrors;
 
@@ -2661,7 +2707,7 @@ export const patchGroups: API.OperationMethod<
   PatchGroupsResponse,
   PatchGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGroupsRequest,
   output: PatchGroupsResponse,
   errors: [],
@@ -2674,16 +2720,18 @@ export interface GetSecuritySettingsGroupsRequest {
   readMask?: string;
 }
 
-export const GetSecuritySettingsGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/groups/{groupsId}/securitySettings" }),
-  svc,
-) as unknown as Schema.Schema<GetSecuritySettingsGroupsRequest>;
+export const GetSecuritySettingsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/groups/{groupsId}/securitySettings" }),
+    svc,
+  ) as unknown as Schema.Schema<GetSecuritySettingsGroupsRequest>;
 
 export type GetSecuritySettingsGroupsResponse = SecuritySettings;
-export const GetSecuritySettingsGroupsResponse = SecuritySettings;
+export const GetSecuritySettingsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SecuritySettings;
 
 export type GetSecuritySettingsGroupsError = DefaultErrors;
 
@@ -2693,7 +2741,7 @@ export const getSecuritySettingsGroups: API.OperationMethod<
   GetSecuritySettingsGroupsResponse,
   GetSecuritySettingsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSecuritySettingsGroupsRequest,
   output: GetSecuritySettingsGroupsResponse,
   errors: [],
@@ -2704,7 +2752,7 @@ export interface DeleteGroupsRequest {
   name: string;
 }
 
-export const DeleteGroupsRequest = Schema.Struct({
+export const DeleteGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/groups/{groupsId}" }),
@@ -2712,7 +2760,7 @@ export const DeleteGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteGroupsRequest>;
 
 export type DeleteGroupsResponse = Operation;
-export const DeleteGroupsResponse = Operation;
+export const DeleteGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteGroupsError = DefaultErrors;
 
@@ -2722,7 +2770,7 @@ export const deleteGroups: API.OperationMethod<
   DeleteGroupsResponse,
   DeleteGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupsRequest,
   output: DeleteGroupsResponse,
   errors: [],
@@ -2739,7 +2787,7 @@ export interface ListGroupsRequest {
   pageToken?: string;
 }
 
-export const ListGroupsRequest = Schema.Struct({
+export const ListGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
@@ -2750,7 +2798,8 @@ export const ListGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponse_Op = ListGroupsResponse;
-export const ListGroupsResponse_Op = ListGroupsResponse;
+export const ListGroupsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListGroupsResponse;
 
 export type ListGroupsError = DefaultErrors;
 
@@ -2760,7 +2809,7 @@ export const listGroups: API.PaginatedOperationMethod<
   ListGroupsResponse_Op,
   ListGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse_Op,
   errors: [],
@@ -2781,7 +2830,7 @@ export interface SearchGroupsRequest {
   pageSize?: number;
 }
 
-export const SearchGroupsRequest = Schema.Struct({
+export const SearchGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
@@ -2792,7 +2841,8 @@ export const SearchGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchGroupsRequest>;
 
 export type SearchGroupsResponse_Op = SearchGroupsResponse;
-export const SearchGroupsResponse_Op = SearchGroupsResponse;
+export const SearchGroupsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchGroupsResponse;
 
 export type SearchGroupsError = DefaultErrors;
 
@@ -2802,7 +2852,7 @@ export const searchGroups: API.PaginatedOperationMethod<
   SearchGroupsResponse_Op,
   SearchGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchGroupsRequest,
   output: SearchGroupsResponse_Op,
   errors: [],
@@ -2823,7 +2873,7 @@ export interface CreateGroupsRequest {
   body?: Group;
 }
 
-export const CreateGroupsRequest = Schema.Struct({
+export const CreateGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   initialGroupConfig: Schema.optional(Schema.String).pipe(
     T.HttpQuery("initialGroupConfig"),
   ),
@@ -2834,7 +2884,7 @@ export const CreateGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateGroupsRequest>;
 
 export type CreateGroupsResponse = Operation;
-export const CreateGroupsResponse = Operation;
+export const CreateGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateGroupsError = DefaultErrors;
 
@@ -2844,7 +2894,7 @@ export const createGroups: API.OperationMethod<
   CreateGroupsResponse,
   CreateGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupsRequest,
   output: CreateGroupsResponse,
   errors: [],
@@ -2859,21 +2909,23 @@ export interface UpdateSecuritySettingsGroupsRequest {
   body?: SecuritySettings;
 }
 
-export const UpdateSecuritySettingsGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(SecuritySettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/groups/{groupsId}/securitySettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSecuritySettingsGroupsRequest>;
+export const UpdateSecuritySettingsGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(SecuritySettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/groups/{groupsId}/securitySettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSecuritySettingsGroupsRequest>;
 
 export type UpdateSecuritySettingsGroupsResponse = Operation;
-export const UpdateSecuritySettingsGroupsResponse = Operation;
+export const UpdateSecuritySettingsGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UpdateSecuritySettingsGroupsError = DefaultErrors;
 
@@ -2883,7 +2935,7 @@ export const updateSecuritySettingsGroups: API.OperationMethod<
   UpdateSecuritySettingsGroupsResponse,
   UpdateSecuritySettingsGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSecuritySettingsGroupsRequest,
   output: UpdateSecuritySettingsGroupsResponse,
   errors: [],
@@ -2896,7 +2948,7 @@ export interface LookupGroupsRequest {
   "groupKey.namespace"?: string;
 }
 
-export const LookupGroupsRequest = Schema.Struct({
+export const LookupGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   "groupKey.id": Schema.optional(Schema.String).pipe(
     T.HttpQuery("groupKey.id"),
   ),
@@ -2909,7 +2961,8 @@ export const LookupGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<LookupGroupsRequest>;
 
 export type LookupGroupsResponse = LookupGroupNameResponse;
-export const LookupGroupsResponse = LookupGroupNameResponse;
+export const LookupGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LookupGroupNameResponse;
 
 export type LookupGroupsError = DefaultErrors;
 
@@ -2919,7 +2972,7 @@ export const lookupGroups: API.OperationMethod<
   LookupGroupsResponse,
   LookupGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupGroupsRequest,
   output: LookupGroupsResponse,
   errors: [],
@@ -2938,24 +2991,25 @@ export interface SearchDirectGroupsGroupsMembershipsRequest {
   pageToken?: string;
 }
 
-export const SearchDirectGroupsGroupsMembershipsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/groups/{groupsId}/memberships:searchDirectGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchDirectGroupsGroupsMembershipsRequest>;
+export const SearchDirectGroupsGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/groups/{groupsId}/memberships:searchDirectGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchDirectGroupsGroupsMembershipsRequest>;
 
 export type SearchDirectGroupsGroupsMembershipsResponse =
   SearchDirectGroupsResponse;
 export const SearchDirectGroupsGroupsMembershipsResponse =
-  SearchDirectGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchDirectGroupsResponse;
 
 export type SearchDirectGroupsGroupsMembershipsError = DefaultErrors;
 
@@ -2965,7 +3019,7 @@ export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
   SearchDirectGroupsGroupsMembershipsResponse,
   SearchDirectGroupsGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchDirectGroupsGroupsMembershipsRequest,
   output: SearchDirectGroupsGroupsMembershipsResponse,
   errors: [],
@@ -2980,18 +3034,20 @@ export interface DeleteGroupsMembershipsRequest {
   name: string;
 }
 
-export const DeleteGroupsMembershipsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/groups/{groupsId}/memberships/{membershipsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteGroupsMembershipsRequest>;
+export const DeleteGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/groups/{groupsId}/memberships/{membershipsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteGroupsMembershipsRequest>;
 
 export type DeleteGroupsMembershipsResponse = Operation;
-export const DeleteGroupsMembershipsResponse = Operation;
+export const DeleteGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteGroupsMembershipsError = DefaultErrors;
 
@@ -3001,7 +3057,7 @@ export const deleteGroupsMemberships: API.OperationMethod<
   DeleteGroupsMembershipsResponse,
   DeleteGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupsMembershipsRequest,
   output: DeleteGroupsMembershipsResponse,
   errors: [],
@@ -3018,18 +3074,20 @@ export interface ListGroupsMembershipsRequest {
   pageSize?: number;
 }
 
-export const ListGroupsMembershipsRequest = Schema.Struct({
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/groups/{groupsId}/memberships" }),
-  svc,
-) as unknown as Schema.Schema<ListGroupsMembershipsRequest>;
+export const ListGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/groups/{groupsId}/memberships" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGroupsMembershipsRequest>;
 
 export type ListGroupsMembershipsResponse = ListMembershipsResponse;
-export const ListGroupsMembershipsResponse = ListMembershipsResponse;
+export const ListGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListMembershipsResponse;
 
 export type ListGroupsMembershipsError = DefaultErrors;
 
@@ -3039,7 +3097,7 @@ export const listGroupsMemberships: API.PaginatedOperationMethod<
   ListGroupsMembershipsResponse,
   ListGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsMembershipsRequest,
   output: ListGroupsMembershipsResponse,
   errors: [],
@@ -3056,20 +3114,22 @@ export interface CreateGroupsMembershipsRequest {
   body?: Membership;
 }
 
-export const CreateGroupsMembershipsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Membership).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/groups/{groupsId}/memberships",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateGroupsMembershipsRequest>;
+export const CreateGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Membership).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/groups/{groupsId}/memberships",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateGroupsMembershipsRequest>;
 
 export type CreateGroupsMembershipsResponse = Operation;
-export const CreateGroupsMembershipsResponse = Operation;
+export const CreateGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateGroupsMembershipsError = DefaultErrors;
 
@@ -3079,7 +3139,7 @@ export const createGroupsMemberships: API.OperationMethod<
   CreateGroupsMembershipsResponse,
   CreateGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGroupsMembershipsRequest,
   output: CreateGroupsMembershipsResponse,
   errors: [],
@@ -3092,21 +3152,22 @@ export interface CheckTransitiveMembershipGroupsMembershipsRequest {
   query?: string;
 }
 
-export const CheckTransitiveMembershipGroupsMembershipsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/groups/{groupsId}/memberships:checkTransitiveMembership",
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckTransitiveMembershipGroupsMembershipsRequest>;
+export const CheckTransitiveMembershipGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/groups/{groupsId}/memberships:checkTransitiveMembership",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckTransitiveMembershipGroupsMembershipsRequest>;
 
 export type CheckTransitiveMembershipGroupsMembershipsResponse =
   CheckTransitiveMembershipResponse;
 export const CheckTransitiveMembershipGroupsMembershipsResponse =
-  CheckTransitiveMembershipResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CheckTransitiveMembershipResponse;
 
 export type CheckTransitiveMembershipGroupsMembershipsError = DefaultErrors;
 
@@ -3116,7 +3177,7 @@ export const checkTransitiveMembershipGroupsMemberships: API.OperationMethod<
   CheckTransitiveMembershipGroupsMembershipsResponse,
   CheckTransitiveMembershipGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckTransitiveMembershipGroupsMembershipsRequest,
   output: CheckTransitiveMembershipGroupsMembershipsResponse,
   errors: [],
@@ -3131,21 +3192,23 @@ export interface LookupGroupsMembershipsRequest {
   "memberKey.namespace"?: string;
 }
 
-export const LookupGroupsMembershipsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  "memberKey.id": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("memberKey.id"),
-  ),
-  "memberKey.namespace": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("memberKey.namespace"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/groups/{groupsId}/memberships:lookup" }),
-  svc,
-) as unknown as Schema.Schema<LookupGroupsMembershipsRequest>;
+export const LookupGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    "memberKey.id": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("memberKey.id"),
+    ),
+    "memberKey.namespace": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("memberKey.namespace"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/groups/{groupsId}/memberships:lookup" }),
+    svc,
+  ) as unknown as Schema.Schema<LookupGroupsMembershipsRequest>;
 
 export type LookupGroupsMembershipsResponse = LookupMembershipNameResponse;
-export const LookupGroupsMembershipsResponse = LookupMembershipNameResponse;
+export const LookupGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LookupMembershipNameResponse;
 
 export type LookupGroupsMembershipsError = DefaultErrors;
 
@@ -3155,7 +3218,7 @@ export const lookupGroupsMemberships: API.OperationMethod<
   LookupGroupsMembershipsResponse,
   LookupGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupGroupsMembershipsRequest,
   output: LookupGroupsMembershipsResponse,
   errors: [],
@@ -3171,7 +3234,7 @@ export interface SearchTransitiveMembershipsGroupsMembershipsRequest {
 }
 
 export const SearchTransitiveMembershipsGroupsMembershipsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -3186,7 +3249,7 @@ export const SearchTransitiveMembershipsGroupsMembershipsRequest =
 export type SearchTransitiveMembershipsGroupsMembershipsResponse =
   SearchTransitiveMembershipsResponse;
 export const SearchTransitiveMembershipsGroupsMembershipsResponse =
-  SearchTransitiveMembershipsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchTransitiveMembershipsResponse;
 
 export type SearchTransitiveMembershipsGroupsMembershipsError = DefaultErrors;
 
@@ -3196,7 +3259,7 @@ export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperatio
   SearchTransitiveMembershipsGroupsMembershipsResponse,
   SearchTransitiveMembershipsGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchTransitiveMembershipsGroupsMembershipsRequest,
   output: SearchTransitiveMembershipsGroupsMembershipsResponse,
   errors: [],
@@ -3213,19 +3276,21 @@ export interface GetMembershipGraphGroupsMembershipsRequest {
   query?: string;
 }
 
-export const GetMembershipGraphGroupsMembershipsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/groups/{groupsId}/memberships:getMembershipGraph",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetMembershipGraphGroupsMembershipsRequest>;
+export const GetMembershipGraphGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/groups/{groupsId}/memberships:getMembershipGraph",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetMembershipGraphGroupsMembershipsRequest>;
 
 export type GetMembershipGraphGroupsMembershipsResponse = Operation;
-export const GetMembershipGraphGroupsMembershipsResponse = Operation;
+export const GetMembershipGraphGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetMembershipGraphGroupsMembershipsError = DefaultErrors;
 
@@ -3235,7 +3300,7 @@ export const getMembershipGraphGroupsMemberships: API.OperationMethod<
   GetMembershipGraphGroupsMembershipsResponse,
   GetMembershipGraphGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembershipGraphGroupsMembershipsRequest,
   output: GetMembershipGraphGroupsMembershipsResponse,
   errors: [],
@@ -3248,22 +3313,23 @@ export interface ModifyMembershipRolesGroupsMembershipsRequest {
   body?: ModifyMembershipRolesRequest;
 }
 
-export const ModifyMembershipRolesGroupsMembershipsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ModifyMembershipRolesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/groups/{groupsId}/memberships/{membershipsId}:modifyMembershipRoles",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyMembershipRolesGroupsMembershipsRequest>;
+export const ModifyMembershipRolesGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ModifyMembershipRolesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/groups/{groupsId}/memberships/{membershipsId}:modifyMembershipRoles",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyMembershipRolesGroupsMembershipsRequest>;
 
 export type ModifyMembershipRolesGroupsMembershipsResponse =
   ModifyMembershipRolesResponse;
 export const ModifyMembershipRolesGroupsMembershipsResponse =
-  ModifyMembershipRolesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ModifyMembershipRolesResponse;
 
 export type ModifyMembershipRolesGroupsMembershipsError = DefaultErrors;
 
@@ -3273,7 +3339,7 @@ export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<
   ModifyMembershipRolesGroupsMembershipsResponse,
   ModifyMembershipRolesGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyMembershipRolesGroupsMembershipsRequest,
   output: ModifyMembershipRolesGroupsMembershipsResponse,
   errors: [],
@@ -3284,18 +3350,20 @@ export interface GetGroupsMembershipsRequest {
   name: string;
 }
 
-export const GetGroupsMembershipsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/groups/{groupsId}/memberships/{membershipsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGroupsMembershipsRequest>;
+export const GetGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/groups/{groupsId}/memberships/{membershipsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGroupsMembershipsRequest>;
 
 export type GetGroupsMembershipsResponse = Membership;
-export const GetGroupsMembershipsResponse = Membership;
+export const GetGroupsMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Membership;
 
 export type GetGroupsMembershipsError = DefaultErrors;
 
@@ -3305,7 +3373,7 @@ export const getGroupsMemberships: API.OperationMethod<
   GetGroupsMembershipsResponse,
   GetGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGroupsMembershipsRequest,
   output: GetGroupsMembershipsResponse,
   errors: [],
@@ -3322,23 +3390,24 @@ export interface SearchTransitiveGroupsGroupsMembershipsRequest {
   pageToken?: string;
 }
 
-export const SearchTransitiveGroupsGroupsMembershipsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/groups/{groupsId}/memberships:searchTransitiveGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchTransitiveGroupsGroupsMembershipsRequest>;
+export const SearchTransitiveGroupsGroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/groups/{groupsId}/memberships:searchTransitiveGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchTransitiveGroupsGroupsMembershipsRequest>;
 
 export type SearchTransitiveGroupsGroupsMembershipsResponse =
   SearchTransitiveGroupsResponse;
 export const SearchTransitiveGroupsGroupsMembershipsResponse =
-  SearchTransitiveGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchTransitiveGroupsResponse;
 
 export type SearchTransitiveGroupsGroupsMembershipsError = DefaultErrors;
 
@@ -3348,7 +3417,7 @@ export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMeth
   SearchTransitiveGroupsGroupsMembershipsResponse,
   SearchTransitiveGroupsGroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchTransitiveGroupsGroupsMembershipsRequest,
   output: SearchTransitiveGroupsGroupsMembershipsResponse,
   errors: [],
@@ -3363,18 +3432,20 @@ export interface DeleteInboundSamlSsoProfilesRequest {
   name: string;
 }
 
-export const DeleteInboundSamlSsoProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesRequest>;
+export const DeleteInboundSamlSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesRequest>;
 
 export type DeleteInboundSamlSsoProfilesResponse = Operation;
-export const DeleteInboundSamlSsoProfilesResponse = Operation;
+export const DeleteInboundSamlSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteInboundSamlSsoProfilesError = DefaultErrors;
 
@@ -3384,7 +3455,7 @@ export const deleteInboundSamlSsoProfiles: API.OperationMethod<
   DeleteInboundSamlSsoProfilesResponse,
   DeleteInboundSamlSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundSamlSsoProfilesRequest,
   output: DeleteInboundSamlSsoProfilesResponse,
   errors: [],
@@ -3395,18 +3466,20 @@ export interface GetInboundSamlSsoProfilesRequest {
   name: string;
 }
 
-export const GetInboundSamlSsoProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetInboundSamlSsoProfilesRequest>;
+export const GetInboundSamlSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetInboundSamlSsoProfilesRequest>;
 
 export type GetInboundSamlSsoProfilesResponse = InboundSamlSsoProfile;
-export const GetInboundSamlSsoProfilesResponse = InboundSamlSsoProfile;
+export const GetInboundSamlSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InboundSamlSsoProfile;
 
 export type GetInboundSamlSsoProfilesError = DefaultErrors;
 
@@ -3416,7 +3489,7 @@ export const getInboundSamlSsoProfiles: API.OperationMethod<
   GetInboundSamlSsoProfilesResponse,
   GetInboundSamlSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInboundSamlSsoProfilesRequest,
   output: GetInboundSamlSsoProfilesResponse,
   errors: [],
@@ -3431,19 +3504,20 @@ export interface ListInboundSamlSsoProfilesRequest {
   pageToken?: string;
 }
 
-export const ListInboundSamlSsoProfilesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/inboundSamlSsoProfiles" }),
-  svc,
-) as unknown as Schema.Schema<ListInboundSamlSsoProfilesRequest>;
+export const ListInboundSamlSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/inboundSamlSsoProfiles" }),
+    svc,
+  ) as unknown as Schema.Schema<ListInboundSamlSsoProfilesRequest>;
 
 export type ListInboundSamlSsoProfilesResponse_Op =
   ListInboundSamlSsoProfilesResponse;
 export const ListInboundSamlSsoProfilesResponse_Op =
-  ListInboundSamlSsoProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListInboundSamlSsoProfilesResponse;
 
 export type ListInboundSamlSsoProfilesError = DefaultErrors;
 
@@ -3453,7 +3527,7 @@ export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
   ListInboundSamlSsoProfilesResponse_Op,
   ListInboundSamlSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesRequest,
   output: ListInboundSamlSsoProfilesResponse_Op,
   errors: [],
@@ -3472,21 +3546,23 @@ export interface PatchInboundSamlSsoProfilesRequest {
   body?: InboundSamlSsoProfile;
 }
 
-export const PatchInboundSamlSsoProfilesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(InboundSamlSsoProfile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchInboundSamlSsoProfilesRequest>;
+export const PatchInboundSamlSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(InboundSamlSsoProfile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchInboundSamlSsoProfilesRequest>;
 
 export type PatchInboundSamlSsoProfilesResponse = Operation;
-export const PatchInboundSamlSsoProfilesResponse = Operation;
+export const PatchInboundSamlSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchInboundSamlSsoProfilesError = DefaultErrors;
 
@@ -3496,7 +3572,7 @@ export const patchInboundSamlSsoProfiles: API.OperationMethod<
   PatchInboundSamlSsoProfilesResponse,
   PatchInboundSamlSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInboundSamlSsoProfilesRequest,
   output: PatchInboundSamlSsoProfilesResponse,
   errors: [],
@@ -3507,15 +3583,21 @@ export interface CreateInboundSamlSsoProfilesRequest {
   body?: InboundSamlSsoProfile;
 }
 
-export const CreateInboundSamlSsoProfilesRequest = Schema.Struct({
-  body: Schema.optional(InboundSamlSsoProfile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/inboundSamlSsoProfiles", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInboundSamlSsoProfilesRequest>;
+export const CreateInboundSamlSsoProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(InboundSamlSsoProfile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/inboundSamlSsoProfiles",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInboundSamlSsoProfilesRequest>;
 
 export type CreateInboundSamlSsoProfilesResponse = Operation;
-export const CreateInboundSamlSsoProfilesResponse = Operation;
+export const CreateInboundSamlSsoProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateInboundSamlSsoProfilesError = DefaultErrors;
 
@@ -3525,7 +3607,7 @@ export const createInboundSamlSsoProfiles: API.OperationMethod<
   CreateInboundSamlSsoProfilesResponse,
   CreateInboundSamlSsoProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInboundSamlSsoProfilesRequest,
   output: CreateInboundSamlSsoProfilesResponse,
   errors: [],
@@ -3538,20 +3620,22 @@ export interface AddInboundSamlSsoProfilesIdpCredentialsRequest {
   body?: AddIdpCredentialRequest;
 }
 
-export const AddInboundSamlSsoProfilesIdpCredentialsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AddIdpCredentialRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials:add",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddInboundSamlSsoProfilesIdpCredentialsRequest>;
+export const AddInboundSamlSsoProfilesIdpCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AddIdpCredentialRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials:add",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddInboundSamlSsoProfilesIdpCredentialsRequest>;
 
 export type AddInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
-export const AddInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
+export const AddInboundSamlSsoProfilesIdpCredentialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AddInboundSamlSsoProfilesIdpCredentialsError = DefaultErrors;
 
@@ -3561,7 +3645,7 @@ export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   AddInboundSamlSsoProfilesIdpCredentialsResponse,
   AddInboundSamlSsoProfilesIdpCredentialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddInboundSamlSsoProfilesIdpCredentialsRequest,
   output: AddInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
@@ -3572,18 +3656,20 @@ export interface DeleteInboundSamlSsoProfilesIdpCredentialsRequest {
   name: string;
 }
 
-export const DeleteInboundSamlSsoProfilesIdpCredentialsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials/{idpCredentialsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesIdpCredentialsRequest>;
+export const DeleteInboundSamlSsoProfilesIdpCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials/{idpCredentialsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesIdpCredentialsRequest>;
 
 export type DeleteInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
-export const DeleteInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
+export const DeleteInboundSamlSsoProfilesIdpCredentialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteInboundSamlSsoProfilesIdpCredentialsError = DefaultErrors;
 
@@ -3593,7 +3679,7 @@ export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   DeleteInboundSamlSsoProfilesIdpCredentialsResponse,
   DeleteInboundSamlSsoProfilesIdpCredentialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInboundSamlSsoProfilesIdpCredentialsRequest,
   output: DeleteInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
@@ -3604,18 +3690,20 @@ export interface GetInboundSamlSsoProfilesIdpCredentialsRequest {
   name: string;
 }
 
-export const GetInboundSamlSsoProfilesIdpCredentialsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials/{idpCredentialsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetInboundSamlSsoProfilesIdpCredentialsRequest>;
+export const GetInboundSamlSsoProfilesIdpCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials/{idpCredentialsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetInboundSamlSsoProfilesIdpCredentialsRequest>;
 
 export type GetInboundSamlSsoProfilesIdpCredentialsResponse = IdpCredential;
-export const GetInboundSamlSsoProfilesIdpCredentialsResponse = IdpCredential;
+export const GetInboundSamlSsoProfilesIdpCredentialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IdpCredential;
 
 export type GetInboundSamlSsoProfilesIdpCredentialsError = DefaultErrors;
 
@@ -3625,7 +3713,7 @@ export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   GetInboundSamlSsoProfilesIdpCredentialsResponse,
   GetInboundSamlSsoProfilesIdpCredentialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInboundSamlSsoProfilesIdpCredentialsRequest,
   output: GetInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
@@ -3640,22 +3728,23 @@ export interface ListInboundSamlSsoProfilesIdpCredentialsRequest {
   pageToken?: string;
 }
 
-export const ListInboundSamlSsoProfilesIdpCredentialsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListInboundSamlSsoProfilesIdpCredentialsRequest>;
+export const ListInboundSamlSsoProfilesIdpCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/inboundSamlSsoProfiles/{inboundSamlSsoProfilesId}/idpCredentials",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListInboundSamlSsoProfilesIdpCredentialsRequest>;
 
 export type ListInboundSamlSsoProfilesIdpCredentialsResponse =
   ListIdpCredentialsResponse;
 export const ListInboundSamlSsoProfilesIdpCredentialsResponse =
-  ListIdpCredentialsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListIdpCredentialsResponse;
 
 export type ListInboundSamlSsoProfilesIdpCredentialsError = DefaultErrors;
 
@@ -3665,7 +3754,7 @@ export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMet
   ListInboundSamlSsoProfilesIdpCredentialsResponse,
   ListInboundSamlSsoProfilesIdpCredentialsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesIdpCredentialsRequest,
   output: ListInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
@@ -3682,22 +3771,23 @@ export interface CancelWipeDevicesRequest {
   body?: GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest;
 }
 
-export const CancelWipeDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/devices/{devicesId}:cancelWipe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelWipeDevicesRequest>;
+export const CancelWipeDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/devices/{devicesId}:cancelWipe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelWipeDevicesRequest>;
 
 export type CancelWipeDevicesResponse = Operation;
-export const CancelWipeDevicesResponse = Operation;
+export const CancelWipeDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CancelWipeDevicesError = DefaultErrors;
 
@@ -3707,7 +3797,7 @@ export const cancelWipeDevices: API.OperationMethod<
   CancelWipeDevicesResponse,
   CancelWipeDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelWipeDevicesRequest,
   output: CancelWipeDevicesResponse,
   errors: [],
@@ -3720,7 +3810,7 @@ export interface WipeDevicesRequest {
   body?: GoogleAppsCloudidentityDevicesV1WipeDeviceRequest;
 }
 
-export const WipeDevicesRequest = Schema.Struct({
+export const WipeDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GoogleAppsCloudidentityDevicesV1WipeDeviceRequest).pipe(
     T.HttpBody(),
@@ -3735,7 +3825,7 @@ export const WipeDevicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<WipeDevicesRequest>;
 
 export type WipeDevicesResponse = Operation;
-export const WipeDevicesResponse = Operation;
+export const WipeDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type WipeDevicesError = DefaultErrors;
 
@@ -3745,7 +3835,7 @@ export const wipeDevices: API.OperationMethod<
   WipeDevicesResponse,
   WipeDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WipeDevicesRequest,
   output: WipeDevicesResponse,
   errors: [],
@@ -3758,7 +3848,7 @@ export interface GetDevicesRequest {
   name: string;
 }
 
-export const GetDevicesRequest = Schema.Struct({
+export const GetDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
@@ -3767,7 +3857,8 @@ export const GetDevicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetDevicesRequest>;
 
 export type GetDevicesResponse = GoogleAppsCloudidentityDevicesV1Device;
-export const GetDevicesResponse = GoogleAppsCloudidentityDevicesV1Device;
+export const GetDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1Device;
 
 export type GetDevicesError = DefaultErrors;
 
@@ -3777,7 +3868,7 @@ export const getDevices: API.OperationMethod<
   GetDevicesResponse,
   GetDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicesRequest,
   output: GetDevicesResponse,
   errors: [],
@@ -3802,7 +3893,7 @@ export interface ListDevicesRequest {
   orderBy?: string;
 }
 
-export const ListDevicesRequest = Schema.Struct({
+export const ListDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -3817,7 +3908,7 @@ export const ListDevicesRequest = Schema.Struct({
 export type ListDevicesResponse =
   GoogleAppsCloudidentityDevicesV1ListDevicesResponse;
 export const ListDevicesResponse =
-  GoogleAppsCloudidentityDevicesV1ListDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1ListDevicesResponse;
 
 export type ListDevicesError = DefaultErrors;
 
@@ -3827,7 +3918,7 @@ export const listDevices: API.PaginatedOperationMethod<
   ListDevicesResponse,
   ListDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesRequest,
   output: ListDevicesResponse,
   errors: [],
@@ -3844,7 +3935,7 @@ export interface DeleteDevicesRequest {
   customer?: string;
 }
 
-export const DeleteDevicesRequest = Schema.Struct({
+export const DeleteDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
 }).pipe(
@@ -3853,7 +3944,7 @@ export const DeleteDevicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteDevicesRequest>;
 
 export type DeleteDevicesResponse = Operation;
-export const DeleteDevicesResponse = Operation;
+export const DeleteDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteDevicesError = DefaultErrors;
 
@@ -3863,7 +3954,7 @@ export const deleteDevices: API.OperationMethod<
   DeleteDevicesResponse,
   DeleteDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevicesRequest,
   output: DeleteDevicesResponse,
   errors: [],
@@ -3876,7 +3967,7 @@ export interface CreateDevicesRequest {
   body?: GoogleAppsCloudidentityDevicesV1Device;
 }
 
-export const CreateDevicesRequest = Schema.Struct({
+export const CreateDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   body: Schema.optional(GoogleAppsCloudidentityDevicesV1Device).pipe(
     T.HttpBody(),
@@ -3887,7 +3978,7 @@ export const CreateDevicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateDevicesRequest>;
 
 export type CreateDevicesResponse = Operation;
-export const CreateDevicesResponse = Operation;
+export const CreateDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateDevicesError = DefaultErrors;
 
@@ -3897,7 +3988,7 @@ export const createDevices: API.OperationMethod<
   CreateDevicesResponse,
   CreateDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDevicesRequest,
   output: CreateDevicesResponse,
   errors: [],
@@ -3910,22 +4001,24 @@ export interface WipeDevicesDeviceUsersRequest {
   body?: GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest;
 }
 
-export const WipeDevicesDeviceUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:wipe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WipeDevicesDeviceUsersRequest>;
+export const WipeDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAppsCloudidentityDevicesV1WipeDeviceUserRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:wipe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WipeDevicesDeviceUsersRequest>;
 
 export type WipeDevicesDeviceUsersResponse = Operation;
-export const WipeDevicesDeviceUsersResponse = Operation;
+export const WipeDevicesDeviceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type WipeDevicesDeviceUsersError = DefaultErrors;
 
@@ -3935,7 +4028,7 @@ export const wipeDevicesDeviceUsers: API.OperationMethod<
   WipeDevicesDeviceUsersResponse,
   WipeDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WipeDevicesDeviceUsersRequest,
   output: WipeDevicesDeviceUsersResponse,
   errors: [],
@@ -3960,26 +4053,32 @@ export interface LookupDevicesDeviceUsersRequest {
   rawResourceId?: string;
 }
 
-export const LookupDevicesDeviceUsersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  partner: Schema.optional(Schema.String).pipe(T.HttpQuery("partner")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
-  userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
-  iosDeviceId: Schema.optional(Schema.String).pipe(T.HttpQuery("iosDeviceId")),
-  rawResourceId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("rawResourceId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/devices/{devicesId}/deviceUsers:lookup" }),
-  svc,
-) as unknown as Schema.Schema<LookupDevicesDeviceUsersRequest>;
+export const LookupDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    partner: Schema.optional(Schema.String).pipe(T.HttpQuery("partner")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
+    userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
+    iosDeviceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("iosDeviceId"),
+    ),
+    rawResourceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("rawResourceId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/devices/{devicesId}/deviceUsers:lookup",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupDevicesDeviceUsersRequest>;
 
 export type LookupDevicesDeviceUsersResponse =
   GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse;
 export const LookupDevicesDeviceUsersResponse =
-  GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1LookupSelfDeviceUsersResponse;
 
 export type LookupDevicesDeviceUsersError = DefaultErrors;
 
@@ -3989,7 +4088,7 @@ export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
   LookupDevicesDeviceUsersResponse,
   LookupDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: LookupDevicesDeviceUsersRequest,
   output: LookupDevicesDeviceUsersResponse,
   errors: [],
@@ -4006,22 +4105,24 @@ export interface CancelWipeDevicesDeviceUsersRequest {
   body?: GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest;
 }
 
-export const CancelWipeDevicesDeviceUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:cancelWipe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelWipeDevicesDeviceUsersRequest>;
+export const CancelWipeDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:cancelWipe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelWipeDevicesDeviceUsersRequest>;
 
 export type CancelWipeDevicesDeviceUsersResponse = Operation;
-export const CancelWipeDevicesDeviceUsersResponse = Operation;
+export const CancelWipeDevicesDeviceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CancelWipeDevicesDeviceUsersError = DefaultErrors;
 
@@ -4031,7 +4132,7 @@ export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
   CancelWipeDevicesDeviceUsersResponse,
   CancelWipeDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelWipeDevicesDeviceUsersRequest,
   output: CancelWipeDevicesDeviceUsersResponse,
   errors: [],
@@ -4044,22 +4145,24 @@ export interface ApproveDevicesDeviceUsersRequest {
   body?: GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest;
 }
 
-export const ApproveDevicesDeviceUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:approve",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApproveDevicesDeviceUsersRequest>;
+export const ApproveDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAppsCloudidentityDevicesV1ApproveDeviceUserRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:approve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApproveDevicesDeviceUsersRequest>;
 
 export type ApproveDevicesDeviceUsersResponse = Operation;
-export const ApproveDevicesDeviceUsersResponse = Operation;
+export const ApproveDevicesDeviceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ApproveDevicesDeviceUsersError = DefaultErrors;
 
@@ -4069,7 +4172,7 @@ export const approveDevicesDeviceUsers: API.OperationMethod<
   ApproveDevicesDeviceUsersResponse,
   ApproveDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApproveDevicesDeviceUsersRequest,
   output: ApproveDevicesDeviceUsersResponse,
   errors: [],
@@ -4082,21 +4185,22 @@ export interface GetDevicesDeviceUsersRequest {
   name: string;
 }
 
-export const GetDevicesDeviceUsersRequest = Schema.Struct({
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDevicesDeviceUsersRequest>;
+export const GetDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDevicesDeviceUsersRequest>;
 
 export type GetDevicesDeviceUsersResponse =
   GoogleAppsCloudidentityDevicesV1DeviceUser;
 export const GetDevicesDeviceUsersResponse =
-  GoogleAppsCloudidentityDevicesV1DeviceUser;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1DeviceUser;
 
 export type GetDevicesDeviceUsersError = DefaultErrors;
 
@@ -4106,7 +4210,7 @@ export const getDevicesDeviceUsers: API.OperationMethod<
   GetDevicesDeviceUsersResponse,
   GetDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicesDeviceUsersRequest,
   output: GetDevicesDeviceUsersResponse,
   errors: [],
@@ -4127,22 +4231,23 @@ export interface ListDevicesDeviceUsersRequest {
   pageSize?: number;
 }
 
-export const ListDevicesDeviceUsersRequest = Schema.Struct({
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/devices/{devicesId}/deviceUsers" }),
-  svc,
-) as unknown as Schema.Schema<ListDevicesDeviceUsersRequest>;
+export const ListDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/devices/{devicesId}/deviceUsers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListDevicesDeviceUsersRequest>;
 
 export type ListDevicesDeviceUsersResponse =
   GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse;
 export const ListDevicesDeviceUsersResponse =
-  GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse;
 
 export type ListDevicesDeviceUsersError = DefaultErrors;
 
@@ -4152,7 +4257,7 @@ export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
   ListDevicesDeviceUsersResponse,
   ListDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesDeviceUsersRequest,
   output: ListDevicesDeviceUsersResponse,
   errors: [],
@@ -4169,19 +4274,21 @@ export interface DeleteDevicesDeviceUsersRequest {
   name: string;
 }
 
-export const DeleteDevicesDeviceUsersRequest = Schema.Struct({
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteDevicesDeviceUsersRequest>;
+export const DeleteDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteDevicesDeviceUsersRequest>;
 
 export type DeleteDevicesDeviceUsersResponse = Operation;
-export const DeleteDevicesDeviceUsersResponse = Operation;
+export const DeleteDevicesDeviceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteDevicesDeviceUsersError = DefaultErrors;
 
@@ -4191,7 +4298,7 @@ export const deleteDevicesDeviceUsers: API.OperationMethod<
   DeleteDevicesDeviceUsersResponse,
   DeleteDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDevicesDeviceUsersRequest,
   output: DeleteDevicesDeviceUsersResponse,
   errors: [],
@@ -4204,22 +4311,24 @@ export interface BlockDevicesDeviceUsersRequest {
   body?: GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest;
 }
 
-export const BlockDevicesDeviceUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:block",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BlockDevicesDeviceUsersRequest>;
+export const BlockDevicesDeviceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAppsCloudidentityDevicesV1BlockDeviceUserRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}:block",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BlockDevicesDeviceUsersRequest>;
 
 export type BlockDevicesDeviceUsersResponse = Operation;
-export const BlockDevicesDeviceUsersResponse = Operation;
+export const BlockDevicesDeviceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type BlockDevicesDeviceUsersError = DefaultErrors;
 
@@ -4229,7 +4338,7 @@ export const blockDevicesDeviceUsers: API.OperationMethod<
   BlockDevicesDeviceUsersResponse,
   BlockDevicesDeviceUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BlockDevicesDeviceUsersRequest,
   output: BlockDevicesDeviceUsersResponse,
   errors: [],
@@ -4242,21 +4351,22 @@ export interface GetDevicesDeviceUsersClientStatesRequest {
   name: string;
 }
 
-export const GetDevicesDeviceUsersClientStatesRequest = Schema.Struct({
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates/{clientStatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDevicesDeviceUsersClientStatesRequest>;
+export const GetDevicesDeviceUsersClientStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates/{clientStatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDevicesDeviceUsersClientStatesRequest>;
 
 export type GetDevicesDeviceUsersClientStatesResponse =
   GoogleAppsCloudidentityDevicesV1ClientState;
 export const GetDevicesDeviceUsersClientStatesResponse =
-  GoogleAppsCloudidentityDevicesV1ClientState;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1ClientState;
 
 export type GetDevicesDeviceUsersClientStatesError = DefaultErrors;
 
@@ -4266,7 +4376,7 @@ export const getDevicesDeviceUsersClientStates: API.OperationMethod<
   GetDevicesDeviceUsersClientStatesResponse,
   GetDevicesDeviceUsersClientStatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDevicesDeviceUsersClientStatesRequest,
   output: GetDevicesDeviceUsersClientStatesResponse,
   errors: [],
@@ -4285,24 +4395,25 @@ export interface ListDevicesDeviceUsersClientStatesRequest {
   pageToken?: string;
 }
 
-export const ListDevicesDeviceUsersClientStatesRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListDevicesDeviceUsersClientStatesRequest>;
+export const ListDevicesDeviceUsersClientStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListDevicesDeviceUsersClientStatesRequest>;
 
 export type ListDevicesDeviceUsersClientStatesResponse =
   GoogleAppsCloudidentityDevicesV1ListClientStatesResponse;
 export const ListDevicesDeviceUsersClientStatesResponse =
-  GoogleAppsCloudidentityDevicesV1ListClientStatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAppsCloudidentityDevicesV1ListClientStatesResponse;
 
 export type ListDevicesDeviceUsersClientStatesError = DefaultErrors;
 
@@ -4312,7 +4423,7 @@ export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<
   ListDevicesDeviceUsersClientStatesResponse,
   ListDevicesDeviceUsersClientStatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDevicesDeviceUsersClientStatesRequest,
   output: ListDevicesDeviceUsersClientStatesResponse,
   errors: [],
@@ -4333,24 +4444,26 @@ export interface PatchDevicesDeviceUsersClientStatesRequest {
   body?: GoogleAppsCloudidentityDevicesV1ClientState;
 }
 
-export const PatchDevicesDeviceUsersClientStatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAppsCloudidentityDevicesV1ClientState).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates/{clientStatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchDevicesDeviceUsersClientStatesRequest>;
+export const PatchDevicesDeviceUsersClientStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAppsCloudidentityDevicesV1ClientState).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/devices/{devicesId}/deviceUsers/{deviceUsersId}/clientStates/{clientStatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchDevicesDeviceUsersClientStatesRequest>;
 
 export type PatchDevicesDeviceUsersClientStatesResponse = Operation;
-export const PatchDevicesDeviceUsersClientStatesResponse = Operation;
+export const PatchDevicesDeviceUsersClientStatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchDevicesDeviceUsersClientStatesError = DefaultErrors;
 
@@ -4360,7 +4473,7 @@ export const patchDevicesDeviceUsersClientStates: API.OperationMethod<
   PatchDevicesDeviceUsersClientStatesResponse,
   PatchDevicesDeviceUsersClientStatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchDevicesDeviceUsersClientStatesRequest,
   output: PatchDevicesDeviceUsersClientStatesResponse,
   errors: [],
@@ -4371,18 +4484,20 @@ export interface GetCustomersUserinvitationsRequest {
   name: string;
 }
 
-export const GetCustomersUserinvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersUserinvitationsRequest>;
+export const GetCustomersUserinvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersUserinvitationsRequest>;
 
 export type GetCustomersUserinvitationsResponse = UserInvitation;
-export const GetCustomersUserinvitationsResponse = UserInvitation;
+export const GetCustomersUserinvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserInvitation;
 
 export type GetCustomersUserinvitationsError = DefaultErrors;
 
@@ -4392,7 +4507,7 @@ export const getCustomersUserinvitations: API.OperationMethod<
   GetCustomersUserinvitationsResponse,
   GetCustomersUserinvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersUserinvitationsRequest,
   output: GetCustomersUserinvitationsResponse,
   errors: [],
@@ -4411,19 +4526,24 @@ export interface ListCustomersUserinvitationsRequest {
   pageSize?: number;
 }
 
-export const ListCustomersUserinvitationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/userinvitations" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersUserinvitationsRequest>;
+export const ListCustomersUserinvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/userinvitations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersUserinvitationsRequest>;
 
 export type ListCustomersUserinvitationsResponse = ListUserInvitationsResponse;
-export const ListCustomersUserinvitationsResponse = ListUserInvitationsResponse;
+export const ListCustomersUserinvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserInvitationsResponse;
 
 export type ListCustomersUserinvitationsError = DefaultErrors;
 
@@ -4433,7 +4553,7 @@ export const listCustomersUserinvitations: API.PaginatedOperationMethod<
   ListCustomersUserinvitationsResponse,
   ListCustomersUserinvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersUserinvitationsRequest,
   output: ListCustomersUserinvitationsResponse,
   errors: [],
@@ -4448,20 +4568,21 @@ export interface IsInvitableUserCustomersUserinvitationsRequest {
   name: string;
 }
 
-export const IsInvitableUserCustomersUserinvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:isInvitableUser",
-  }),
-  svc,
-) as unknown as Schema.Schema<IsInvitableUserCustomersUserinvitationsRequest>;
+export const IsInvitableUserCustomersUserinvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:isInvitableUser",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<IsInvitableUserCustomersUserinvitationsRequest>;
 
 export type IsInvitableUserCustomersUserinvitationsResponse =
   IsInvitableUserResponse;
 export const IsInvitableUserCustomersUserinvitationsResponse =
-  IsInvitableUserResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IsInvitableUserResponse;
 
 export type IsInvitableUserCustomersUserinvitationsError = DefaultErrors;
 
@@ -4471,7 +4592,7 @@ export const isInvitableUserCustomersUserinvitations: API.OperationMethod<
   IsInvitableUserCustomersUserinvitationsResponse,
   IsInvitableUserCustomersUserinvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IsInvitableUserCustomersUserinvitationsRequest,
   output: IsInvitableUserCustomersUserinvitationsResponse,
   errors: [],
@@ -4484,20 +4605,22 @@ export interface CancelCustomersUserinvitationsRequest {
   body?: CancelUserInvitationRequest;
 }
 
-export const CancelCustomersUserinvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelUserInvitationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelCustomersUserinvitationsRequest>;
+export const CancelCustomersUserinvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelUserInvitationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelCustomersUserinvitationsRequest>;
 
 export type CancelCustomersUserinvitationsResponse = Operation;
-export const CancelCustomersUserinvitationsResponse = Operation;
+export const CancelCustomersUserinvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CancelCustomersUserinvitationsError = DefaultErrors;
 
@@ -4507,7 +4630,7 @@ export const cancelCustomersUserinvitations: API.OperationMethod<
   CancelCustomersUserinvitationsResponse,
   CancelCustomersUserinvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelCustomersUserinvitationsRequest,
   output: CancelCustomersUserinvitationsResponse,
   errors: [],
@@ -4520,20 +4643,22 @@ export interface SendCustomersUserinvitationsRequest {
   body?: SendUserInvitationRequest;
 }
 
-export const SendCustomersUserinvitationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SendUserInvitationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:send",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendCustomersUserinvitationsRequest>;
+export const SendCustomersUserinvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SendUserInvitationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/userinvitations/{userinvitationsId}:send",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendCustomersUserinvitationsRequest>;
 
 export type SendCustomersUserinvitationsResponse = Operation;
-export const SendCustomersUserinvitationsResponse = Operation;
+export const SendCustomersUserinvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type SendCustomersUserinvitationsError = DefaultErrors;
 
@@ -4543,7 +4668,7 @@ export const sendCustomersUserinvitations: API.OperationMethod<
   SendCustomersUserinvitationsResponse,
   SendCustomersUserinvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendCustomersUserinvitationsRequest,
   output: SendCustomersUserinvitationsResponse,
   errors: [],

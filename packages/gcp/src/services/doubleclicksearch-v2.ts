@@ -29,14 +29,15 @@ export interface CustomMetric {
   value?: number;
 }
 
-export const CustomMetric: Schema.Schema<CustomMetric> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "CustomMetric",
-}) as any as Schema.Schema<CustomMetric>;
+export const CustomMetric: Schema.Schema<CustomMetric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CustomMetric",
+  }) as any as Schema.Schema<CustomMetric>;
 
 export interface CustomDimension {
   /** Custom dimension name. */
@@ -45,15 +46,15 @@ export interface CustomDimension {
   value?: string;
 }
 
-export const CustomDimension: Schema.Schema<CustomDimension> = Schema.suspend(
-  () =>
+export const CustomDimension: Schema.Schema<CustomDimension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomDimension",
-}) as any as Schema.Schema<CustomDimension>;
+  ).annotate({
+    identifier: "CustomDimension",
+  }) as any as Schema.Schema<CustomDimension>;
 
 export interface Conversion {
   /** DS agency ID. */
@@ -128,45 +129,46 @@ export interface Conversion {
   channel?: string;
 }
 
-export const Conversion: Schema.Schema<Conversion> = Schema.suspend(() =>
-  Schema.Struct({
-    agencyId: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    engineAccountId: Schema.optional(Schema.String),
-    campaignId: Schema.optional(Schema.String),
-    adGroupId: Schema.optional(Schema.String),
-    criterionId: Schema.optional(Schema.String),
-    adId: Schema.optional(Schema.String),
-    dsConversionId: Schema.optional(Schema.String),
-    conversionId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    revenueMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-    quantityMillis: Schema.optional(Schema.String),
-    segmentationType: Schema.optional(Schema.String),
-    segmentationId: Schema.optional(Schema.String),
-    segmentationName: Schema.optional(Schema.String),
-    conversionTimestamp: Schema.optional(Schema.String),
-    conversionModifiedTimestamp: Schema.optional(Schema.String),
-    clickId: Schema.optional(Schema.String),
-    floodlightOrderId: Schema.optional(Schema.String),
-    customMetric: Schema.optional(Schema.Array(CustomMetric)),
-    customDimension: Schema.optional(Schema.Array(CustomDimension)),
-    productGroupId: Schema.optional(Schema.String),
-    countMillis: Schema.optional(Schema.String),
-    attributionModel: Schema.optional(Schema.String),
-    deviceType: Schema.optional(Schema.String),
-    customerId: Schema.optional(Schema.String),
-    adUserDataConsent: Schema.optional(Schema.String),
-    inventoryAccountId: Schema.optional(Schema.String),
-    productId: Schema.optional(Schema.String),
-    productCountry: Schema.optional(Schema.String),
-    productLanguage: Schema.optional(Schema.String),
-    storeId: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Conversion" }) as any as Schema.Schema<Conversion>;
+export const Conversion: Schema.Schema<Conversion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      agencyId: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      engineAccountId: Schema.optional(Schema.String),
+      campaignId: Schema.optional(Schema.String),
+      adGroupId: Schema.optional(Schema.String),
+      criterionId: Schema.optional(Schema.String),
+      adId: Schema.optional(Schema.String),
+      dsConversionId: Schema.optional(Schema.String),
+      conversionId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      revenueMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      quantityMillis: Schema.optional(Schema.String),
+      segmentationType: Schema.optional(Schema.String),
+      segmentationId: Schema.optional(Schema.String),
+      segmentationName: Schema.optional(Schema.String),
+      conversionTimestamp: Schema.optional(Schema.String),
+      conversionModifiedTimestamp: Schema.optional(Schema.String),
+      clickId: Schema.optional(Schema.String),
+      floodlightOrderId: Schema.optional(Schema.String),
+      customMetric: Schema.optional(Schema.Array(CustomMetric)),
+      customDimension: Schema.optional(Schema.Array(CustomDimension)),
+      productGroupId: Schema.optional(Schema.String),
+      countMillis: Schema.optional(Schema.String),
+      attributionModel: Schema.optional(Schema.String),
+      deviceType: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
+      adUserDataConsent: Schema.optional(Schema.String),
+      inventoryAccountId: Schema.optional(Schema.String),
+      productId: Schema.optional(Schema.String),
+      productCountry: Schema.optional(Schema.String),
+      productLanguage: Schema.optional(Schema.String),
+      storeId: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Conversion" }) as any as Schema.Schema<Conversion>;
 
 export interface ConversionList {
   /** The conversions being requested. */
@@ -175,15 +177,15 @@ export interface ConversionList {
   kind?: string;
 }
 
-export const ConversionList: Schema.Schema<ConversionList> = Schema.suspend(
-  () =>
+export const ConversionList: Schema.Schema<ConversionList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversion: Schema.optional(Schema.Array(Conversion)),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConversionList",
-}) as any as Schema.Schema<ConversionList>;
+  ).annotate({
+    identifier: "ConversionList",
+  }) as any as Schema.Schema<ConversionList>;
 
 export interface Availability {
   /** DS agency ID. */
@@ -202,19 +204,20 @@ export interface Availability {
   customerId?: string;
 }
 
-export const Availability: Schema.Schema<Availability> = Schema.suspend(() =>
-  Schema.Struct({
-    agencyId: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    segmentationType: Schema.optional(Schema.String),
-    segmentationId: Schema.optional(Schema.String),
-    segmentationName: Schema.optional(Schema.String),
-    availabilityTimestamp: Schema.optional(Schema.String),
-    customerId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Availability",
-}) as any as Schema.Schema<Availability>;
+export const Availability: Schema.Schema<Availability> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      agencyId: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      segmentationType: Schema.optional(Schema.String),
+      segmentationId: Schema.optional(Schema.String),
+      segmentationName: Schema.optional(Schema.String),
+      availabilityTimestamp: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Availability",
+  }) as any as Schema.Schema<Availability>;
 
 export interface UpdateAvailabilityRequest {
   /** The availabilities being requested. */
@@ -222,7 +225,7 @@ export interface UpdateAvailabilityRequest {
 }
 
 export const UpdateAvailabilityRequest: Schema.Schema<UpdateAvailabilityRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availabilities: Schema.optional(Schema.Array(Availability)),
     }),
@@ -236,7 +239,7 @@ export interface UpdateAvailabilityResponse {
 }
 
 export const UpdateAvailabilityResponse: Schema.Schema<UpdateAvailabilityResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availabilities: Schema.optional(Schema.Array(Availability)),
     }),
@@ -268,7 +271,7 @@ export interface ReportApiColumnSpec {
 }
 
 export const ReportApiColumnSpec: Schema.Schema<ReportApiColumnSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnName: Schema.optional(Schema.String),
       savedColumnName: Schema.optional(Schema.String),
@@ -333,64 +336,66 @@ export interface ReportRequest {
   };
 }
 
-export const ReportRequest: Schema.Schema<ReportRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    reportType: Schema.optional(Schema.String),
-    columns: Schema.optional(Schema.Array(ReportApiColumnSpec)),
-    filters: Schema.optional(
-      Schema.Array(
+export const ReportRequest: Schema.Schema<ReportRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportType: Schema.optional(Schema.String),
+      columns: Schema.optional(Schema.Array(ReportApiColumnSpec)),
+      filters: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            column: Schema.optional(ReportApiColumnSpec),
+            operator: Schema.optional(Schema.String),
+            values: Schema.optional(Schema.Array(Schema.Unknown)),
+          }),
+        ),
+      ),
+      orderBy: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            column: Schema.optional(ReportApiColumnSpec),
+            sortOrder: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      includeRemovedEntities: Schema.optional(Schema.Boolean),
+      downloadFormat: Schema.optional(Schema.String),
+      statisticsCurrency: Schema.optional(Schema.String),
+      startRow: Schema.optional(Schema.Number),
+      rowCount: Schema.optional(Schema.Number),
+      maxRowsPerFile: Schema.optional(Schema.Number),
+      verifySingleTimeZone: Schema.optional(Schema.Boolean),
+      includeDeletedEntities: Schema.optional(Schema.Boolean),
+      reportScope: Schema.optional(
         Schema.Struct({
-          column: Schema.optional(ReportApiColumnSpec),
-          operator: Schema.optional(Schema.String),
-          values: Schema.optional(Schema.Array(Schema.Unknown)),
+          agencyId: Schema.optional(Schema.String),
+          advertiserId: Schema.optional(Schema.String),
+          engineAccountId: Schema.optional(Schema.String),
+          campaignId: Schema.optional(Schema.String),
+          adGroupId: Schema.optional(Schema.String),
+          keywordId: Schema.optional(Schema.String),
+          adId: Schema.optional(Schema.String),
         }),
       ),
-    ),
-    orderBy: Schema.optional(
-      Schema.Array(
+      timeRange: Schema.optional(
         Schema.Struct({
-          column: Schema.optional(ReportApiColumnSpec),
-          sortOrder: Schema.optional(Schema.String),
+          changedMetricsSinceTimestamp: Schema.optional(Schema.String),
+          changedAttributesSinceTimestamp: Schema.optional(Schema.String),
+          startDate: Schema.optional(Schema.String),
+          endDate: Schema.optional(Schema.String),
         }),
       ),
-    ),
-    includeRemovedEntities: Schema.optional(Schema.Boolean),
-    downloadFormat: Schema.optional(Schema.String),
-    statisticsCurrency: Schema.optional(Schema.String),
-    startRow: Schema.optional(Schema.Number),
-    rowCount: Schema.optional(Schema.Number),
-    maxRowsPerFile: Schema.optional(Schema.Number),
-    verifySingleTimeZone: Schema.optional(Schema.Boolean),
-    includeDeletedEntities: Schema.optional(Schema.Boolean),
-    reportScope: Schema.optional(
-      Schema.Struct({
-        agencyId: Schema.optional(Schema.String),
-        advertiserId: Schema.optional(Schema.String),
-        engineAccountId: Schema.optional(Schema.String),
-        campaignId: Schema.optional(Schema.String),
-        adGroupId: Schema.optional(Schema.String),
-        keywordId: Schema.optional(Schema.String),
-        adId: Schema.optional(Schema.String),
-      }),
-    ),
-    timeRange: Schema.optional(
-      Schema.Struct({
-        changedMetricsSinceTimestamp: Schema.optional(Schema.String),
-        changedAttributesSinceTimestamp: Schema.optional(Schema.String),
-        startDate: Schema.optional(Schema.String),
-        endDate: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({
-  identifier: "ReportRequest",
-}) as any as Schema.Schema<ReportRequest>;
+    }),
+  ).annotate({
+    identifier: "ReportRequest",
+  }) as any as Schema.Schema<ReportRequest>;
 
 export type ReportRow = Record<string, unknown>;
-export const ReportRow: Schema.Schema<ReportRow> = Schema.Record(
-  Schema.String,
-  Schema.Unknown,
-) as any as Schema.Schema<ReportRow>;
+export const ReportRow: Schema.Schema<ReportRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Record(
+    Schema.String,
+    Schema.Unknown,
+  ) as any as Schema.Schema<ReportRow>;
 
 export interface Report {
   /** Asynchronous report only. Id of the report. */
@@ -413,34 +418,34 @@ export interface Report {
   kind?: string;
 }
 
-export const Report: Schema.Schema<Report> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    request: Schema.optional(ReportRequest),
-    rows: Schema.optional(Schema.Array(ReportRow)),
-    files: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          url: Schema.optional(Schema.String),
-          byteCount: Schema.optional(Schema.String),
-        }),
+export const Report: Schema.Schema<Report> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      request: Schema.optional(ReportRequest),
+      rows: Schema.optional(Schema.Array(ReportRow)),
+      files: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            url: Schema.optional(Schema.String),
+            byteCount: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    rowCount: Schema.optional(Schema.Number),
-    statisticsCurrencyCode: Schema.optional(Schema.String),
-    statisticsTimeZone: Schema.optional(Schema.String),
-    isReportReady: Schema.optional(Schema.Boolean),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Report" }) as any as Schema.Schema<Report>;
+      rowCount: Schema.optional(Schema.Number),
+      statisticsCurrencyCode: Schema.optional(Schema.String),
+      statisticsTimeZone: Schema.optional(Schema.String),
+      isReportReady: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Report" }) as any as Schema.Schema<Report>;
 
 export interface IdMappingFile {}
 
-export const IdMappingFile: Schema.Schema<IdMappingFile> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({
-  identifier: "IdMappingFile",
-}) as any as Schema.Schema<IdMappingFile>;
+export const IdMappingFile: Schema.Schema<IdMappingFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "IdMappingFile",
+  }) as any as Schema.Schema<IdMappingFile>;
 
 export interface SavedColumn {
   /** The name of the saved column. */
@@ -451,13 +456,16 @@ export interface SavedColumn {
   kind?: string;
 }
 
-export const SavedColumn: Schema.Schema<SavedColumn> = Schema.suspend(() =>
-  Schema.Struct({
-    savedColumnName: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SavedColumn" }) as any as Schema.Schema<SavedColumn>;
+export const SavedColumn: Schema.Schema<SavedColumn> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      savedColumnName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SavedColumn",
+  }) as any as Schema.Schema<SavedColumn>;
 
 export interface SavedColumnList {
   /** Identifies this as a SavedColumnList resource. Value: the fixed string doubleclicksearch#savedColumnList. */
@@ -466,15 +474,15 @@ export interface SavedColumnList {
   items?: Array<SavedColumn>;
 }
 
-export const SavedColumnList: Schema.Schema<SavedColumnList> = Schema.suspend(
-  () =>
+export const SavedColumnList: Schema.Schema<SavedColumnList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(SavedColumn)),
     }),
-).annotate({
-  identifier: "SavedColumnList",
-}) as any as Schema.Schema<SavedColumnList>;
+  ).annotate({
+    identifier: "SavedColumnList",
+  }) as any as Schema.Schema<SavedColumnList>;
 
 // ==========================================================================
 // Operations
@@ -507,7 +515,7 @@ export interface GetConversionRequest {
   customerId?: string;
 }
 
-export const GetConversionRequest = Schema.Struct({
+export const GetConversionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   agencyId: Schema.String.pipe(T.HttpPath("agencyId")),
   advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
   engineAccountId: Schema.String.pipe(T.HttpPath("engineAccountId")),
@@ -529,7 +537,7 @@ export const GetConversionRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetConversionRequest>;
 
 export type GetConversionResponse = ConversionList;
-export const GetConversionResponse = ConversionList;
+export const GetConversionResponse = /*@__PURE__*/ /*#__PURE__*/ ConversionList;
 
 export type GetConversionError = DefaultErrors;
 
@@ -539,7 +547,7 @@ export const getConversion: API.OperationMethod<
   GetConversionResponse,
   GetConversionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConversionRequest,
   output: GetConversionResponse,
   errors: [],
@@ -572,33 +580,37 @@ export interface GetByCustomerIdConversionRequest {
   startRow: number;
 }
 
-export const GetByCustomerIdConversionRequest = Schema.Struct({
-  customerId: Schema.String.pipe(T.HttpPath("customerId")),
-  adGroupId: Schema.optional(Schema.String).pipe(T.HttpQuery("adGroupId")),
-  adId: Schema.optional(Schema.String).pipe(T.HttpQuery("adId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  agencyId: Schema.optional(Schema.String).pipe(T.HttpQuery("agencyId")),
-  campaignId: Schema.optional(Schema.String).pipe(T.HttpQuery("campaignId")),
-  criterionId: Schema.optional(Schema.String).pipe(T.HttpQuery("criterionId")),
-  endDate: Schema.Number.pipe(T.HttpQuery("endDate")),
-  engineAccountId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("engineAccountId"),
-  ),
-  rowCount: Schema.Number.pipe(T.HttpQuery("rowCount")),
-  startDate: Schema.Number.pipe(T.HttpQuery("startDate")),
-  startRow: Schema.Number.pipe(T.HttpQuery("startRow")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "doubleclicksearch/v2/customer/{customerId}/conversion",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetByCustomerIdConversionRequest>;
+export const GetByCustomerIdConversionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customerId: Schema.String.pipe(T.HttpPath("customerId")),
+    adGroupId: Schema.optional(Schema.String).pipe(T.HttpQuery("adGroupId")),
+    adId: Schema.optional(Schema.String).pipe(T.HttpQuery("adId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    agencyId: Schema.optional(Schema.String).pipe(T.HttpQuery("agencyId")),
+    campaignId: Schema.optional(Schema.String).pipe(T.HttpQuery("campaignId")),
+    criterionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("criterionId"),
+    ),
+    endDate: Schema.Number.pipe(T.HttpQuery("endDate")),
+    engineAccountId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("engineAccountId"),
+    ),
+    rowCount: Schema.Number.pipe(T.HttpQuery("rowCount")),
+    startDate: Schema.Number.pipe(T.HttpQuery("startDate")),
+    startRow: Schema.Number.pipe(T.HttpQuery("startRow")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "doubleclicksearch/v2/customer/{customerId}/conversion",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetByCustomerIdConversionRequest>;
 
 export type GetByCustomerIdConversionResponse = ConversionList;
-export const GetByCustomerIdConversionResponse = ConversionList;
+export const GetByCustomerIdConversionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionList;
 
 export type GetByCustomerIdConversionError = DefaultErrors;
 
@@ -608,7 +620,7 @@ export const getByCustomerIdConversion: API.OperationMethod<
   GetByCustomerIdConversionResponse,
   GetByCustomerIdConversionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetByCustomerIdConversionRequest,
   output: GetByCustomerIdConversionResponse,
   errors: [],
@@ -619,19 +631,21 @@ export interface InsertConversionRequest {
   body?: ConversionList;
 }
 
-export const InsertConversionRequest = Schema.Struct({
-  body: Schema.optional(ConversionList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "doubleclicksearch/v2/conversion",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertConversionRequest>;
+export const InsertConversionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ConversionList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "doubleclicksearch/v2/conversion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertConversionRequest>;
 
 export type InsertConversionResponse = ConversionList;
-export const InsertConversionResponse = ConversionList;
+export const InsertConversionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionList;
 
 export type InsertConversionError = DefaultErrors;
 
@@ -641,7 +655,7 @@ export const insertConversion: API.OperationMethod<
   InsertConversionResponse,
   InsertConversionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertConversionRequest,
   output: InsertConversionResponse,
   errors: [],
@@ -652,19 +666,21 @@ export interface UpdateConversionRequest {
   body?: ConversionList;
 }
 
-export const UpdateConversionRequest = Schema.Struct({
-  body: Schema.optional(ConversionList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "doubleclicksearch/v2/conversion",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateConversionRequest>;
+export const UpdateConversionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ConversionList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "doubleclicksearch/v2/conversion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateConversionRequest>;
 
 export type UpdateConversionResponse = ConversionList;
-export const UpdateConversionResponse = ConversionList;
+export const UpdateConversionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionList;
 
 export type UpdateConversionError = DefaultErrors;
 
@@ -674,7 +690,7 @@ export const updateConversion: API.OperationMethod<
   UpdateConversionResponse,
   UpdateConversionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConversionRequest,
   output: UpdateConversionResponse,
   errors: [],
@@ -685,19 +701,21 @@ export interface UpdateAvailabilityConversionRequest {
   body?: UpdateAvailabilityRequest;
 }
 
-export const UpdateAvailabilityConversionRequest = Schema.Struct({
-  body: Schema.optional(UpdateAvailabilityRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "doubleclicksearch/v2/conversion/updateAvailability",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAvailabilityConversionRequest>;
+export const UpdateAvailabilityConversionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(UpdateAvailabilityRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "doubleclicksearch/v2/conversion/updateAvailability",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAvailabilityConversionRequest>;
 
 export type UpdateAvailabilityConversionResponse = UpdateAvailabilityResponse;
-export const UpdateAvailabilityConversionResponse = UpdateAvailabilityResponse;
+export const UpdateAvailabilityConversionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UpdateAvailabilityResponse;
 
 export type UpdateAvailabilityConversionError = DefaultErrors;
 
@@ -707,7 +725,7 @@ export const updateAvailabilityConversion: API.OperationMethod<
   UpdateAvailabilityConversionResponse,
   UpdateAvailabilityConversionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAvailabilityConversionRequest,
   output: UpdateAvailabilityConversionResponse,
   errors: [],
@@ -718,9 +736,11 @@ export interface GenerateReportsRequest {
   body?: ReportRequest;
 }
 
-export const GenerateReportsRequest = Schema.Struct({
-  body: Schema.optional(ReportRequest).pipe(T.HttpBody()),
-}).pipe(
+export const GenerateReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(ReportRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "POST",
     path: "doubleclicksearch/v2/reports/generate",
@@ -730,7 +750,7 @@ export const GenerateReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GenerateReportsRequest>;
 
 export type GenerateReportsResponse = Report;
-export const GenerateReportsResponse = Report;
+export const GenerateReportsResponse = /*@__PURE__*/ /*#__PURE__*/ Report;
 
 export type GenerateReportsError = DefaultErrors;
 
@@ -740,7 +760,7 @@ export const generateReports: API.OperationMethod<
   GenerateReportsResponse,
   GenerateReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateReportsRequest,
   output: GenerateReportsResponse,
   errors: [],
@@ -751,7 +771,7 @@ export interface GetReportsRequest {
   reportId: string;
 }
 
-export const GetReportsRequest = Schema.Struct({
+export const GetReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   reportId: Schema.String.pipe(T.HttpPath("reportId")),
 }).pipe(
   T.Http({ method: "GET", path: "doubleclicksearch/v2/reports/{reportId}" }),
@@ -759,7 +779,7 @@ export const GetReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetReportsRequest>;
 
 export type GetReportsResponse = Report;
-export const GetReportsResponse = Report;
+export const GetReportsResponse = /*@__PURE__*/ /*#__PURE__*/ Report;
 
 export type GetReportsError = DefaultErrors;
 
@@ -769,7 +789,7 @@ export const getReports: API.OperationMethod<
   GetReportsResponse,
   GetReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportsRequest,
   output: GetReportsResponse,
   errors: [],
@@ -782,7 +802,7 @@ export interface GetFileReportsRequest {
   reportFragment: number;
 }
 
-export const GetFileReportsRequest = Schema.Struct({
+export const GetFileReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   reportId: Schema.String.pipe(T.HttpPath("reportId")),
   reportFragment: Schema.Number.pipe(T.HttpPath("reportFragment")),
 }).pipe(
@@ -795,7 +815,9 @@ export const GetFileReportsRequest = Schema.Struct({
 
 export interface GetFileReportsResponse {}
 export const GetFileReportsResponse: Schema.Schema<GetFileReportsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<GetFileReportsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<GetFileReportsResponse>;
 
 export type GetFileReportsError = DefaultErrors;
 
@@ -805,7 +827,7 @@ export const getFileReports: API.OperationMethod<
   GetFileReportsResponse,
   GetFileReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFileReportsRequest,
   output: GetFileReportsResponse,
   errors: [],
@@ -818,19 +840,21 @@ export interface GetIdMappingFileReportsRequest {
   advertiserId: string;
 }
 
-export const GetIdMappingFileReportsRequest = Schema.Struct({
-  agencyId: Schema.String.pipe(T.HttpPath("agencyId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "doubleclicksearch/v2/agency/{agencyId}/advertiser/{advertiserId}/idmapping",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIdMappingFileReportsRequest>;
+export const GetIdMappingFileReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    agencyId: Schema.String.pipe(T.HttpPath("agencyId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "doubleclicksearch/v2/agency/{agencyId}/advertiser/{advertiserId}/idmapping",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIdMappingFileReportsRequest>;
 
 export type GetIdMappingFileReportsResponse = IdMappingFile;
-export const GetIdMappingFileReportsResponse = IdMappingFile;
+export const GetIdMappingFileReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IdMappingFile;
 
 export type GetIdMappingFileReportsError = DefaultErrors;
 
@@ -840,7 +864,7 @@ export const getIdMappingFileReports: API.OperationMethod<
   GetIdMappingFileReportsResponse,
   GetIdMappingFileReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdMappingFileReportsRequest,
   output: GetIdMappingFileReportsResponse,
   errors: [],
@@ -851,7 +875,7 @@ export interface RequestReportsRequest {
   body?: ReportRequest;
 }
 
-export const RequestReportsRequest = Schema.Struct({
+export const RequestReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(ReportRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -863,7 +887,7 @@ export const RequestReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<RequestReportsRequest>;
 
 export type RequestReportsResponse = Report;
-export const RequestReportsResponse = Report;
+export const RequestReportsResponse = /*@__PURE__*/ /*#__PURE__*/ Report;
 
 export type RequestReportsError = DefaultErrors;
 
@@ -873,7 +897,7 @@ export const requestReports: API.OperationMethod<
   RequestReportsResponse,
   RequestReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestReportsRequest,
   output: RequestReportsResponse,
   errors: [],
@@ -886,19 +910,21 @@ export interface ListSavedColumnsRequest {
   advertiserId: string;
 }
 
-export const ListSavedColumnsRequest = Schema.Struct({
-  agencyId: Schema.String.pipe(T.HttpPath("agencyId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "doubleclicksearch/v2/agency/{agencyId}/advertiser/{advertiserId}/savedcolumns",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListSavedColumnsRequest>;
+export const ListSavedColumnsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    agencyId: Schema.String.pipe(T.HttpPath("agencyId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "doubleclicksearch/v2/agency/{agencyId}/advertiser/{advertiserId}/savedcolumns",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListSavedColumnsRequest>;
 
 export type ListSavedColumnsResponse = SavedColumnList;
-export const ListSavedColumnsResponse = SavedColumnList;
+export const ListSavedColumnsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SavedColumnList;
 
 export type ListSavedColumnsError = DefaultErrors;
 
@@ -908,7 +934,7 @@ export const listSavedColumns: API.OperationMethod<
   ListSavedColumnsResponse,
   ListSavedColumnsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSavedColumnsRequest,
   output: ListSavedColumnsResponse,
   errors: [],

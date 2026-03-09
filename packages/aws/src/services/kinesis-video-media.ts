@@ -99,14 +99,14 @@ export type StartSelectorType =
   | "EARLIEST"
   | "CONTINUATION_TOKEN"
   | (string & {});
-export const StartSelectorType = S.String;
+export const StartSelectorType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface StartSelector {
   StartSelectorType: StartSelectorType;
   AfterFragmentNumber?: string;
   StartTimestamp?: Date;
   ContinuationToken?: string;
 }
-export const StartSelector = S.suspend(() =>
+export const StartSelector = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     StartSelectorType: StartSelectorType,
     AfterFragmentNumber: S.optional(S.String),
@@ -119,7 +119,7 @@ export interface GetMediaInput {
   StreamARN?: string;
   StartSelector: StartSelector;
 }
-export const GetMediaInput = S.suspend(() =>
+export const GetMediaInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
@@ -139,7 +139,7 @@ export interface GetMediaOutput {
   ContentType?: string;
   Payload?: T.StreamingOutputBody;
 }
-export const GetMediaOutput = S.suspend(() =>
+export const GetMediaOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),

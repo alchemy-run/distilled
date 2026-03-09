@@ -31,13 +31,14 @@ export interface Deployment {
   labels?: Record<string, string>;
 }
 
-export const Deployment: Schema.Schema<Deployment> = Schema.suspend(() =>
-  Schema.Struct({
-    projectId: Schema.optional(Schema.String),
-    target: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
+export const Deployment: Schema.Schema<Deployment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      projectId: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
 
 export interface CreateProfileRequest {
   /** Deployment details. */
@@ -57,7 +58,7 @@ export interface CreateProfileRequest {
 }
 
 export const CreateProfileRequest: Schema.Schema<CreateProfileRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deployment: Schema.optional(Deployment),
       profileType: Schema.optional(Schema.Array(Schema.String)),
@@ -92,17 +93,18 @@ export interface Profile {
   startTime?: string;
 }
 
-export const Profile: Schema.Schema<Profile> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    profileType: Schema.optional(Schema.String),
-    deployment: Schema.optional(Deployment),
-    duration: Schema.optional(Schema.String),
-    profileBytes: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
+export const Profile: Schema.Schema<Profile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      profileType: Schema.optional(Schema.String),
+      deployment: Schema.optional(Deployment),
+      duration: Schema.optional(Schema.String),
+      profileBytes: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
 
 export interface ListProfilesResponse {
   /** List of profiles fetched. */
@@ -114,7 +116,7 @@ export interface ListProfilesResponse {
 }
 
 export const ListProfilesResponse: Schema.Schema<ListProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       profiles: Schema.optional(Schema.Array(Profile)),
       nextPageToken: Schema.optional(Schema.String),
@@ -135,20 +137,22 @@ export interface CreateProjectsProfilesRequest {
   body?: CreateProfileRequest;
 }
 
-export const CreateProjectsProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateProfileRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/profiles",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsProfilesRequest>;
+export const CreateProjectsProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateProfileRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/profiles",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsProfilesRequest>;
 
 export type CreateProjectsProfilesResponse = Profile;
-export const CreateProjectsProfilesResponse = Profile;
+export const CreateProjectsProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Profile;
 
 export type CreateProjectsProfilesError = DefaultErrors;
 
@@ -158,7 +162,7 @@ export const createProjectsProfiles: API.OperationMethod<
   CreateProjectsProfilesResponse,
   CreateProjectsProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsProfilesRequest,
   output: CreateProjectsProfilesResponse,
   errors: [],
@@ -171,20 +175,22 @@ export interface CreateOfflineProjectsProfilesRequest {
   body?: Profile;
 }
 
-export const CreateOfflineProjectsProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Profile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/profiles:createOffline",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOfflineProjectsProfilesRequest>;
+export const CreateOfflineProjectsProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Profile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/profiles:createOffline",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOfflineProjectsProfilesRequest>;
 
 export type CreateOfflineProjectsProfilesResponse = Profile;
-export const CreateOfflineProjectsProfilesResponse = Profile;
+export const CreateOfflineProjectsProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Profile;
 
 export type CreateOfflineProjectsProfilesError = DefaultErrors;
 
@@ -194,7 +200,7 @@ export const createOfflineProjectsProfiles: API.OperationMethod<
   CreateOfflineProjectsProfilesResponse,
   CreateOfflineProjectsProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOfflineProjectsProfilesRequest,
   output: CreateOfflineProjectsProfilesResponse,
   errors: [],
@@ -209,21 +215,23 @@ export interface PatchProjectsProfilesRequest {
   body?: Profile;
 }
 
-export const PatchProjectsProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Profile).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/profiles/{profilesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsProfilesRequest>;
+export const PatchProjectsProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Profile).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/profiles/{profilesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsProfilesRequest>;
 
 export type PatchProjectsProfilesResponse = Profile;
-export const PatchProjectsProfilesResponse = Profile;
+export const PatchProjectsProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Profile;
 
 export type PatchProjectsProfilesError = DefaultErrors;
 
@@ -233,7 +241,7 @@ export const patchProjectsProfiles: API.OperationMethod<
   PatchProjectsProfilesResponse,
   PatchProjectsProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsProfilesRequest,
   output: PatchProjectsProfilesResponse,
   errors: [],
@@ -248,17 +256,19 @@ export interface ListProjectsProfilesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/profiles" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsProfilesRequest>;
+export const ListProjectsProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/profiles" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsProfilesRequest>;
 
 export type ListProjectsProfilesResponse = ListProfilesResponse;
-export const ListProjectsProfilesResponse = ListProfilesResponse;
+export const ListProjectsProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProfilesResponse;
 
 export type ListProjectsProfilesError = DefaultErrors;
 
@@ -268,7 +278,7 @@ export const listProjectsProfiles: API.PaginatedOperationMethod<
   ListProjectsProfilesResponse,
   ListProjectsProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsProfilesRequest,
   output: ListProjectsProfilesResponse,
   errors: [],

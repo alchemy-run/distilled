@@ -54,16 +54,17 @@ export interface ProductChange {
   regionCode?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface MethodDetails {
   /** Output only. The path for the method such as `products/v1/productInputs.insert` */
@@ -76,16 +77,17 @@ export interface MethodDetails {
   subapi?: string;
 }
 
-export const MethodDetails: Schema.Schema<MethodDetails> = Schema.suspend(() =>
-  Schema.Struct({
-    path: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.String),
-    subapi: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MethodDetails",
-}) as any as Schema.Schema<MethodDetails>;
+export const MethodDetails: Schema.Schema<MethodDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
+      subapi: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MethodDetails",
+  }) as any as Schema.Schema<MethodDetails>;
 
 export interface QuotaGroup {
   /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at at 12:00 PM midday UTC. */
@@ -100,15 +102,16 @@ export interface QuotaGroup {
   methodDetails?: Array<MethodDetails>;
 }
 
-export const QuotaGroup: Schema.Schema<QuotaGroup> = Schema.suspend(() =>
-  Schema.Struct({
-    quotaUsage: Schema.optional(Schema.String),
-    quotaMinuteLimit: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    quotaLimit: Schema.optional(Schema.String),
-    methodDetails: Schema.optional(Schema.Array(MethodDetails)),
-  }),
-).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
+export const QuotaGroup: Schema.Schema<QuotaGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      quotaUsage: Schema.optional(Schema.String),
+      quotaMinuteLimit: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      quotaLimit: Schema.optional(Schema.String),
+      methodDetails: Schema.optional(Schema.Array(MethodDetails)),
+    }),
+  ).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
 
 export interface ListQuotaGroupsResponse {
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
@@ -118,7 +121,7 @@ export interface ListQuotaGroupsResponse {
 }
 
 export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quotaGroups: Schema.optional(Schema.Array(QuotaGroup)),
       nextPageToken: Schema.optional(Schema.String),
@@ -149,7 +152,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(Schema.String),
       managingAccount: Schema.optional(Schema.String),
@@ -178,17 +181,22 @@ export interface ListAccountsQuotasRequest {
   pageToken?: string;
 }
 
-export const ListAccountsQuotasRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "quota/v1beta/accounts/{accountsId}/quotas" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsQuotasRequest>;
+export const ListAccountsQuotasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "quota/v1beta/accounts/{accountsId}/quotas",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsQuotasRequest>;
 
 export type ListAccountsQuotasResponse = ListQuotaGroupsResponse;
-export const ListAccountsQuotasResponse = ListQuotaGroupsResponse;
+export const ListAccountsQuotasResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListQuotaGroupsResponse;
 
 export type ListAccountsQuotasError = DefaultErrors;
 
@@ -198,7 +206,7 @@ export const listAccountsQuotas: API.PaginatedOperationMethod<
   ListAccountsQuotasResponse,
   ListAccountsQuotasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsQuotasRequest,
   output: ListAccountsQuotasResponse,
   errors: [],

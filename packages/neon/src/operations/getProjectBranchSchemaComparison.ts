@@ -3,28 +3,30 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetProjectBranchSchemaComparisonInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  base_branch_id: Schema.optional(Schema.String),
-  db_name: Schema.String,
-  lsn: Schema.optional(Schema.String),
-  timestamp: Schema.optional(Schema.String),
-  base_lsn: Schema.optional(Schema.String),
-  base_timestamp: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/compare_schema",
-  }),
-);
+export const GetProjectBranchSchemaComparisonInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    base_branch_id: Schema.optional(Schema.String),
+    db_name: Schema.String,
+    lsn: Schema.optional(Schema.String),
+    timestamp: Schema.optional(Schema.String),
+    base_lsn: Schema.optional(Schema.String),
+    base_timestamp: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/compare_schema",
+    }),
+  );
 export type GetProjectBranchSchemaComparisonInput =
   typeof GetProjectBranchSchemaComparisonInput.Type;
 
 // Output Schema
-export const GetProjectBranchSchemaComparisonOutput = Schema.Struct({
-  diff: Schema.optional(Schema.String),
-});
+export const GetProjectBranchSchemaComparisonOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    diff: Schema.optional(Schema.String),
+  });
 export type GetProjectBranchSchemaComparisonOutput =
   typeof GetProjectBranchSchemaComparisonOutput.Type;
 

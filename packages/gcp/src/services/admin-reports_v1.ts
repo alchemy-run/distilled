@@ -39,8 +39,8 @@ export interface NestedParameter {
   multiBoolValue?: Array<boolean>;
 }
 
-export const NestedParameter: Schema.Schema<NestedParameter> = Schema.suspend(
-  () =>
+export const NestedParameter: Schema.Schema<NestedParameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -50,9 +50,9 @@ export const NestedParameter: Schema.Schema<NestedParameter> = Schema.suspend(
       boolValue: Schema.optional(Schema.Boolean),
       multiBoolValue: Schema.optional(Schema.Array(Schema.Boolean)),
     }),
-).annotate({
-  identifier: "NestedParameter",
-}) as any as Schema.Schema<NestedParameter>;
+  ).annotate({
+    identifier: "NestedParameter",
+  }) as any as Schema.Schema<NestedParameter>;
 
 export interface ActivityEventsStatus {
   /** Status code of the event. Note: Field can be empty. */
@@ -66,7 +66,7 @@ export interface ActivityEventsStatus {
 }
 
 export const ActivityEventsStatus: Schema.Schema<ActivityEventsStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       httpStatusCode: Schema.optional(Schema.Number),
       eventStatus: Schema.optional(Schema.String),
@@ -87,7 +87,7 @@ export interface ActivityNetworkInfo {
 }
 
 export const ActivityNetworkInfo: Schema.Schema<ActivityNetworkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipAsn: Schema.optional(Schema.Array(Schema.Number)),
       regionCode: Schema.optional(Schema.String),
@@ -103,7 +103,7 @@ export interface FieldValueTextListValue {
 }
 
 export const FieldValueTextListValue: Schema.Schema<FieldValueTextListValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -121,7 +121,7 @@ export interface FieldValueSelectionValue {
 }
 
 export const FieldValueSelectionValue: Schema.Schema<FieldValueSelectionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -137,7 +137,7 @@ export interface FieldValueSelectionListValue {
 }
 
 export const FieldValueSelectionListValue: Schema.Schema<FieldValueSelectionListValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(FieldValueSelectionValue)),
     }),
@@ -151,7 +151,7 @@ export interface FieldValueUserValue {
 }
 
 export const FieldValueUserValue: Schema.Schema<FieldValueUserValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
     }),
@@ -165,7 +165,7 @@ export interface FieldValueUserListValue {
 }
 
 export const FieldValueUserListValue: Schema.Schema<FieldValueUserListValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(FieldValueUserValue)),
     }),
@@ -182,24 +182,26 @@ export interface Admin_Date {
   day?: number;
 }
 
-export const Admin_Date: Schema.Schema<Admin_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    year: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Admin_Date" }) as any as Schema.Schema<Admin_Date>;
+export const Admin_Date: Schema.Schema<Admin_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Admin_Date" }) as any as Schema.Schema<Admin_Date>;
 
 export interface Reason {
   /** The type of the reason. */
   reasonType?: string;
 }
 
-export const Reason: Schema.Schema<Reason> = Schema.suspend(() =>
-  Schema.Struct({
-    reasonType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
+export const Reason: Schema.Schema<Reason> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reasonType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Reason" }) as any as Schema.Schema<Reason>;
 
 export interface FieldValue {
   /** Identifier of the field */
@@ -232,24 +234,25 @@ export interface FieldValue {
   reason?: Reason;
 }
 
-export const FieldValue: Schema.Schema<FieldValue> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    unsetValue: Schema.optional(Schema.Boolean),
-    longTextValue: Schema.optional(Schema.String),
-    textValue: Schema.optional(Schema.String),
-    textListValue: Schema.optional(FieldValueTextListValue),
-    selectionValue: Schema.optional(FieldValueSelectionValue),
-    selectionListValue: Schema.optional(FieldValueSelectionListValue),
-    integerValue: Schema.optional(Schema.String),
-    userValue: Schema.optional(FieldValueUserValue),
-    userListValue: Schema.optional(FieldValueUserListValue),
-    dateValue: Schema.optional(Admin_Date),
-    reason: Schema.optional(Reason),
-  }),
-).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
+export const FieldValue: Schema.Schema<FieldValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      unsetValue: Schema.optional(Schema.Boolean),
+      longTextValue: Schema.optional(Schema.String),
+      textValue: Schema.optional(Schema.String),
+      textListValue: Schema.optional(FieldValueTextListValue),
+      selectionValue: Schema.optional(FieldValueSelectionValue),
+      selectionListValue: Schema.optional(FieldValueSelectionListValue),
+      integerValue: Schema.optional(Schema.String),
+      userValue: Schema.optional(FieldValueUserValue),
+      userListValue: Schema.optional(FieldValueUserListValue),
+      dateValue: Schema.optional(Admin_Date),
+      reason: Schema.optional(Reason),
+    }),
+  ).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
 
 export interface AppliedLabel {
   /** Identifier of the label - Only the label id, not the full OnePlatform resource name. */
@@ -262,16 +265,17 @@ export interface AppliedLabel {
   reason?: Reason;
 }
 
-export const AppliedLabel: Schema.Schema<AppliedLabel> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    fieldValues: Schema.optional(Schema.Array(FieldValue)),
-    reason: Schema.optional(Reason),
-  }),
-).annotate({
-  identifier: "AppliedLabel",
-}) as any as Schema.Schema<AppliedLabel>;
+export const AppliedLabel: Schema.Schema<AppliedLabel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      fieldValues: Schema.optional(Schema.Array(FieldValue)),
+      reason: Schema.optional(Reason),
+    }),
+  ).annotate({
+    identifier: "AppliedLabel",
+  }) as any as Schema.Schema<AppliedLabel>;
 
 export interface ResourceDetails {
   /** Identifier of the resource. */
@@ -286,8 +290,8 @@ export interface ResourceDetails {
   relation?: string;
 }
 
-export const ResourceDetails: Schema.Schema<ResourceDetails> = Schema.suspend(
-  () =>
+export const ResourceDetails: Schema.Schema<ResourceDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -295,9 +299,9 @@ export const ResourceDetails: Schema.Schema<ResourceDetails> = Schema.suspend(
       appliedLabels: Schema.optional(Schema.Array(AppliedLabel)),
       relation: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ResourceDetails",
-}) as any as Schema.Schema<ResourceDetails>;
+  ).annotate({
+    identifier: "ResourceDetails",
+  }) as any as Schema.Schema<ResourceDetails>;
 
 export interface Activity {
   /** The type of API resource. For an activity report, the value is `audit#activity`. */
@@ -350,73 +354,76 @@ export interface Activity {
   resourceDetails?: Array<ResourceDetails>;
 }
 
-export const Activity: Schema.Schema<Activity> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    ownerDomain: Schema.optional(Schema.String),
-    ipAddress: Schema.optional(Schema.String),
-    events: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          type: Schema.optional(Schema.String),
-          name: Schema.optional(Schema.String),
-          parameters: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                messageValue: Schema.optional(
-                  Schema.Struct({
-                    parameter: Schema.optional(Schema.Array(NestedParameter)),
-                  }),
-                ),
-                name: Schema.optional(Schema.String),
-                value: Schema.optional(Schema.String),
-                multiValue: Schema.optional(Schema.Array(Schema.String)),
-                intValue: Schema.optional(Schema.String),
-                multiIntValue: Schema.optional(Schema.Array(Schema.String)),
-                boolValue: Schema.optional(Schema.Boolean),
-                multiMessageValue: Schema.optional(
-                  Schema.Array(
+export const Activity: Schema.Schema<Activity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      ownerDomain: Schema.optional(Schema.String),
+      ipAddress: Schema.optional(Schema.String),
+      events: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.optional(Schema.String),
+            name: Schema.optional(Schema.String),
+            parameters: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  messageValue: Schema.optional(
                     Schema.Struct({
                       parameter: Schema.optional(Schema.Array(NestedParameter)),
                     }),
                   ),
-                ),
-              }),
+                  name: Schema.optional(Schema.String),
+                  value: Schema.optional(Schema.String),
+                  multiValue: Schema.optional(Schema.Array(Schema.String)),
+                  intValue: Schema.optional(Schema.String),
+                  multiIntValue: Schema.optional(Schema.Array(Schema.String)),
+                  boolValue: Schema.optional(Schema.Boolean),
+                  multiMessageValue: Schema.optional(
+                    Schema.Array(
+                      Schema.Struct({
+                        parameter: Schema.optional(
+                          Schema.Array(NestedParameter),
+                        ),
+                      }),
+                    ),
+                  ),
+                }),
+              ),
             ),
-          ),
-          resourceIds: Schema.optional(Schema.Array(Schema.String)),
-          status: Schema.optional(ActivityEventsStatus),
-        }),
-      ),
-    ),
-    id: Schema.optional(
-      Schema.Struct({
-        time: Schema.optional(Schema.String),
-        uniqueQualifier: Schema.optional(Schema.String),
-        applicationName: Schema.optional(Schema.String),
-        customerId: Schema.optional(Schema.String),
-      }),
-    ),
-    actor: Schema.optional(
-      Schema.Struct({
-        profileId: Schema.optional(Schema.String),
-        email: Schema.optional(Schema.String),
-        callerType: Schema.optional(Schema.String),
-        key: Schema.optional(Schema.String),
-        applicationInfo: Schema.optional(
-          Schema.Struct({
-            oauthClientId: Schema.optional(Schema.String),
-            applicationName: Schema.optional(Schema.String),
-            impersonation: Schema.optional(Schema.Boolean),
+            resourceIds: Schema.optional(Schema.Array(Schema.String)),
+            status: Schema.optional(ActivityEventsStatus),
           }),
         ),
-      }),
-    ),
-    networkInfo: Schema.optional(ActivityNetworkInfo),
-    resourceDetails: Schema.optional(Schema.Array(ResourceDetails)),
-  }),
-).annotate({ identifier: "Activity" }) as any as Schema.Schema<Activity>;
+      ),
+      id: Schema.optional(
+        Schema.Struct({
+          time: Schema.optional(Schema.String),
+          uniqueQualifier: Schema.optional(Schema.String),
+          applicationName: Schema.optional(Schema.String),
+          customerId: Schema.optional(Schema.String),
+        }),
+      ),
+      actor: Schema.optional(
+        Schema.Struct({
+          profileId: Schema.optional(Schema.String),
+          email: Schema.optional(Schema.String),
+          callerType: Schema.optional(Schema.String),
+          key: Schema.optional(Schema.String),
+          applicationInfo: Schema.optional(
+            Schema.Struct({
+              oauthClientId: Schema.optional(Schema.String),
+              applicationName: Schema.optional(Schema.String),
+              impersonation: Schema.optional(Schema.Boolean),
+            }),
+          ),
+        }),
+      ),
+      networkInfo: Schema.optional(ActivityNetworkInfo),
+      resourceDetails: Schema.optional(Schema.Array(ResourceDetails)),
+    }),
+  ).annotate({ identifier: "Activity" }) as any as Schema.Schema<Activity>;
 
 export interface Activities {
   /** The type of API resource. For an activity report, the value is `reports#activities`. */
@@ -429,14 +436,15 @@ export interface Activities {
   nextPageToken?: string;
 }
 
-export const Activities: Schema.Schema<Activities> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Activity)),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
+export const Activities: Schema.Schema<Activities> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Activity)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
 
 export interface Channel {
   /** A UUID or similar unique string that identifies this channel. */
@@ -461,20 +469,21 @@ export interface Channel {
   kind?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    token: Schema.optional(Schema.String),
-    expiration: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    address: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.Boolean),
-    params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    resourceId: Schema.optional(Schema.String),
-    resourceUri: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      expiration: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      payload: Schema.optional(Schema.Boolean),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      resourceId: Schema.optional(Schema.String),
+      resourceUri: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface UsageReport {
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReport`. */
@@ -502,36 +511,39 @@ export interface UsageReport {
   };
 }
 
-export const UsageReport: Schema.Schema<UsageReport> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    date: Schema.optional(Schema.String),
-    parameters: Schema.optional(
-      Schema.Array(
+export const UsageReport: Schema.Schema<UsageReport> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      date: Schema.optional(Schema.String),
+      parameters: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            intValue: Schema.optional(Schema.String),
+            name: Schema.optional(Schema.String),
+            stringValue: Schema.optional(Schema.String),
+            datetimeValue: Schema.optional(Schema.String),
+            boolValue: Schema.optional(Schema.Boolean),
+            msgValue: Schema.optional(
+              Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+            ),
+          }),
+        ),
+      ),
+      etag: Schema.optional(Schema.String),
+      entity: Schema.optional(
         Schema.Struct({
-          intValue: Schema.optional(Schema.String),
-          name: Schema.optional(Schema.String),
-          stringValue: Schema.optional(Schema.String),
-          datetimeValue: Schema.optional(Schema.String),
-          boolValue: Schema.optional(Schema.Boolean),
-          msgValue: Schema.optional(
-            Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-          ),
+          customerId: Schema.optional(Schema.String),
+          userEmail: Schema.optional(Schema.String),
+          profileId: Schema.optional(Schema.String),
+          entityId: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
         }),
       ),
-    ),
-    etag: Schema.optional(Schema.String),
-    entity: Schema.optional(
-      Schema.Struct({
-        customerId: Schema.optional(Schema.String),
-        userEmail: Schema.optional(Schema.String),
-        profileId: Schema.optional(Schema.String),
-        entityId: Schema.optional(Schema.String),
-        type: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({ identifier: "UsageReport" }) as any as Schema.Schema<UsageReport>;
+    }),
+  ).annotate({
+    identifier: "UsageReport",
+  }) as any as Schema.Schema<UsageReport>;
 
 export interface UsageReports {
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReports`. */
@@ -550,32 +562,33 @@ export interface UsageReports {
   nextPageToken?: string;
 }
 
-export const UsageReports: Schema.Schema<UsageReports> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    warnings: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          code: Schema.optional(Schema.String),
-          message: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                key: Schema.optional(Schema.String),
-                value: Schema.optional(Schema.String),
-              }),
+export const UsageReports: Schema.Schema<UsageReports> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      warnings: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            code: Schema.optional(Schema.String),
+            message: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  key: Schema.optional(Schema.String),
+                  value: Schema.optional(Schema.String),
+                }),
+              ),
             ),
-          ),
-        }),
+          }),
+        ),
       ),
-    ),
-    usageReports: Schema.optional(Schema.Array(UsageReport)),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "UsageReports",
-}) as any as Schema.Schema<UsageReports>;
+      usageReports: Schema.optional(Schema.Array(UsageReport)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UsageReports",
+  }) as any as Schema.Schema<UsageReports>;
 
 // ==========================================================================
 // Operations
@@ -655,7 +668,7 @@ export interface ListActivitiesRequest {
   applicationInfoFilter?: string;
 }
 
-export const ListActivitiesRequest = Schema.Struct({
+export const ListActivitiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userKey: Schema.String.pipe(T.HttpPath("userKey")),
   applicationName: Schema.String.pipe(T.HttpPath("applicationName")),
   actorIpAddress: Schema.optional(Schema.String).pipe(
@@ -693,7 +706,7 @@ export const ListActivitiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListActivitiesRequest>;
 
 export type ListActivitiesResponse = Activities;
-export const ListActivitiesResponse = Activities;
+export const ListActivitiesResponse = /*@__PURE__*/ /*#__PURE__*/ Activities;
 
 export type ListActivitiesError = DefaultErrors;
 
@@ -703,7 +716,7 @@ export const listActivities: API.PaginatedOperationMethod<
   ListActivitiesResponse,
   ListActivitiesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListActivitiesRequest,
   output: ListActivitiesResponse,
   errors: [],
@@ -766,25 +779,27 @@ export interface WatchActivitiesRequest {
   body?: Channel;
 }
 
-export const WatchActivitiesRequest = Schema.Struct({
-  userKey: Schema.String.pipe(T.HttpPath("userKey")),
-  applicationName: Schema.String.pipe(T.HttpPath("applicationName")),
-  actorIpAddress: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("actorIpAddress"),
-  ),
-  customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
-  endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  eventName: Schema.optional(Schema.String).pipe(T.HttpQuery("eventName")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-  groupIdFilter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("groupIdFilter"),
-  ),
-  body: Schema.optional(Channel).pipe(T.HttpBody()),
-}).pipe(
+export const WatchActivitiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    userKey: Schema.String.pipe(T.HttpPath("userKey")),
+    applicationName: Schema.String.pipe(T.HttpPath("applicationName")),
+    actorIpAddress: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("actorIpAddress"),
+    ),
+    customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
+    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
+    eventName: Schema.optional(Schema.String).pipe(T.HttpQuery("eventName")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+    groupIdFilter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("groupIdFilter"),
+    ),
+    body: Schema.optional(Channel).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "POST",
     path: "admin/reports/v1/activity/users/{userKey}/applications/{applicationName}/watch",
@@ -794,7 +809,7 @@ export const WatchActivitiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<WatchActivitiesRequest>;
 
 export type WatchActivitiesResponse = Channel;
-export const WatchActivitiesResponse = Channel;
+export const WatchActivitiesResponse = /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type WatchActivitiesError = DefaultErrors;
 
@@ -804,7 +819,7 @@ export const watchActivities: API.OperationMethod<
   WatchActivitiesResponse,
   WatchActivitiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WatchActivitiesRequest,
   output: WatchActivitiesResponse,
   errors: [],
@@ -815,7 +830,7 @@ export interface StopChannelsRequest {
   body?: Channel;
 }
 
-export const StopChannelsRequest = Schema.Struct({
+export const StopChannelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
@@ -828,7 +843,9 @@ export const StopChannelsRequest = Schema.Struct({
 
 export interface StopChannelsResponse {}
 export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<StopChannelsResponse>;
 
 export type StopChannelsError = DefaultErrors;
 
@@ -838,7 +855,7 @@ export const stopChannels: API.OperationMethod<
   StopChannelsResponse,
   StopChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
@@ -855,18 +872,20 @@ export interface GetCustomerUsageReportsRequest {
   parameters?: string;
 }
 
-export const GetCustomerUsageReportsRequest = Schema.Struct({
-  date: Schema.String.pipe(T.HttpPath("date")),
-  customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
-}).pipe(
-  T.Http({ method: "GET", path: "admin/reports/v1/usage/dates/{date}" }),
-  svc,
-) as unknown as Schema.Schema<GetCustomerUsageReportsRequest>;
+export const GetCustomerUsageReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    date: Schema.String.pipe(T.HttpPath("date")),
+    customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
+  }).pipe(
+    T.Http({ method: "GET", path: "admin/reports/v1/usage/dates/{date}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomerUsageReportsRequest>;
 
 export type GetCustomerUsageReportsResponse = UsageReports;
-export const GetCustomerUsageReportsResponse = UsageReports;
+export const GetCustomerUsageReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UsageReports;
 
 export type GetCustomerUsageReportsError = DefaultErrors;
 
@@ -876,7 +895,7 @@ export const getCustomerUsageReports: API.PaginatedOperationMethod<
   GetCustomerUsageReportsResponse,
   GetCustomerUsageReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetCustomerUsageReportsRequest,
   output: GetCustomerUsageReportsResponse,
   errors: [],
@@ -905,25 +924,27 @@ export interface GetEntityUsageReportsRequest {
   parameters?: string;
 }
 
-export const GetEntityUsageReportsRequest = Schema.Struct({
-  entityType: Schema.String.pipe(T.HttpPath("entityType")),
-  entityKey: Schema.String.pipe(T.HttpPath("entityKey")),
-  date: Schema.String.pipe(T.HttpPath("date")),
-  customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "admin/reports/v1/usage/{entityType}/{entityKey}/dates/{date}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEntityUsageReportsRequest>;
+export const GetEntityUsageReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    entityType: Schema.String.pipe(T.HttpPath("entityType")),
+    entityKey: Schema.String.pipe(T.HttpPath("entityKey")),
+    date: Schema.String.pipe(T.HttpPath("date")),
+    customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "admin/reports/v1/usage/{entityType}/{entityKey}/dates/{date}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEntityUsageReportsRequest>;
 
 export type GetEntityUsageReportsResponse = UsageReports;
-export const GetEntityUsageReportsResponse = UsageReports;
+export const GetEntityUsageReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UsageReports;
 
 export type GetEntityUsageReportsError = DefaultErrors;
 
@@ -933,7 +954,7 @@ export const getEntityUsageReports: API.PaginatedOperationMethod<
   GetEntityUsageReportsResponse,
   GetEntityUsageReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetEntityUsageReportsRequest,
   output: GetEntityUsageReportsResponse,
   errors: [],
@@ -964,28 +985,30 @@ export interface GetUserUsageReportRequest {
   groupIdFilter?: string;
 }
 
-export const GetUserUsageReportRequest = Schema.Struct({
-  userKey: Schema.String.pipe(T.HttpPath("userKey")),
-  date: Schema.String.pipe(T.HttpPath("date")),
-  customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
-  groupIdFilter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("groupIdFilter"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "admin/reports/v1/usage/users/{userKey}/dates/{date}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUserUsageReportRequest>;
+export const GetUserUsageReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userKey: Schema.String.pipe(T.HttpPath("userKey")),
+    date: Schema.String.pipe(T.HttpPath("date")),
+    customerId: Schema.optional(Schema.String).pipe(T.HttpQuery("customerId")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    orgUnitID: Schema.optional(Schema.String).pipe(T.HttpQuery("orgUnitID")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parameters: Schema.optional(Schema.String).pipe(T.HttpQuery("parameters")),
+    groupIdFilter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("groupIdFilter"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "admin/reports/v1/usage/users/{userKey}/dates/{date}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUserUsageReportRequest>;
 
 export type GetUserUsageReportResponse = UsageReports;
-export const GetUserUsageReportResponse = UsageReports;
+export const GetUserUsageReportResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UsageReports;
 
 export type GetUserUsageReportError = DefaultErrors;
 
@@ -995,7 +1018,7 @@ export const getUserUsageReport: API.PaginatedOperationMethod<
   GetUserUsageReportResponse,
   GetUserUsageReportError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetUserUsageReportRequest,
   output: GetUserUsageReportResponse,
   errors: [],

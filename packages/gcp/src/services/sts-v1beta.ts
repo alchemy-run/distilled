@@ -40,7 +40,7 @@ export interface GoogleIdentityStsV1betaExchangeTokenRequest {
 }
 
 export const GoogleIdentityStsV1betaExchangeTokenRequest: Schema.Schema<GoogleIdentityStsV1betaExchangeTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       grantType: Schema.optional(Schema.String),
       audience: Schema.optional(Schema.String),
@@ -66,7 +66,7 @@ export interface GoogleIdentityStsV1betaExchangeTokenResponse {
 }
 
 export const GoogleIdentityStsV1betaExchangeTokenResponse: Schema.Schema<GoogleIdentityStsV1betaExchangeTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       access_token: Schema.optional(Schema.String),
       issued_token_type: Schema.optional(Schema.String),
@@ -88,17 +88,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
-  () =>
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleTypeExpr",
-}) as any as Schema.Schema<GoogleTypeExpr>;
+  ).annotate({
+    identifier: "GoogleTypeExpr",
+  }) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -110,7 +110,7 @@ export interface GoogleIamV1Binding {
 }
 
 export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       role: Schema.optional(Schema.String),
       members: Schema.optional(Schema.Array(Schema.String)),
@@ -130,7 +130,7 @@ export interface GoogleIdentityStsV1AccessBoundaryRule {
 }
 
 export const GoogleIdentityStsV1AccessBoundaryRule: Schema.Schema<GoogleIdentityStsV1AccessBoundaryRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availableResource: Schema.optional(Schema.String),
       availablePermissions: Schema.optional(Schema.Array(Schema.String)),
@@ -146,7 +146,7 @@ export interface GoogleIdentityStsV1AccessBoundary {
 }
 
 export const GoogleIdentityStsV1AccessBoundary: Schema.Schema<GoogleIdentityStsV1AccessBoundary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBoundaryRules: Schema.optional(
         Schema.Array(GoogleIdentityStsV1AccessBoundaryRule),
@@ -166,7 +166,7 @@ export interface GoogleIdentityStsV1Options {
 }
 
 export const GoogleIdentityStsV1Options: Schema.Schema<GoogleIdentityStsV1Options> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBoundary: Schema.optional(GoogleIdentityStsV1AccessBoundary),
       userProject: Schema.optional(Schema.String),
@@ -186,7 +186,7 @@ export interface GoogleIdentityStsV1betaAccessBoundaryRule {
 }
 
 export const GoogleIdentityStsV1betaAccessBoundaryRule: Schema.Schema<GoogleIdentityStsV1betaAccessBoundaryRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       availableResource: Schema.optional(Schema.String),
       availablePermissions: Schema.optional(Schema.Array(Schema.String)),
@@ -202,7 +202,7 @@ export interface GoogleIdentityStsV1betaAccessBoundary {
 }
 
 export const GoogleIdentityStsV1betaAccessBoundary: Schema.Schema<GoogleIdentityStsV1betaAccessBoundary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBoundaryRules: Schema.optional(
         Schema.Array(GoogleIdentityStsV1betaAccessBoundaryRule),
@@ -220,7 +220,7 @@ export interface GoogleIdentityStsV1betaOptions {
 }
 
 export const GoogleIdentityStsV1betaOptions: Schema.Schema<GoogleIdentityStsV1betaOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBoundary: Schema.optional(GoogleIdentityStsV1betaAccessBoundary),
       userProject: Schema.optional(Schema.String),
@@ -238,7 +238,7 @@ export interface TokenV1betaRequest {
   body?: GoogleIdentityStsV1betaExchangeTokenRequest;
 }
 
-export const TokenV1betaRequest = Schema.Struct({
+export const TokenV1betaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(GoogleIdentityStsV1betaExchangeTokenRequest).pipe(
     T.HttpBody(),
   ),
@@ -248,7 +248,8 @@ export const TokenV1betaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<TokenV1betaRequest>;
 
 export type TokenV1betaResponse = GoogleIdentityStsV1betaExchangeTokenResponse;
-export const TokenV1betaResponse = GoogleIdentityStsV1betaExchangeTokenResponse;
+export const TokenV1betaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIdentityStsV1betaExchangeTokenResponse;
 
 export type TokenV1betaError = DefaultErrors;
 
@@ -258,7 +259,7 @@ export const tokenV1beta: API.OperationMethod<
   TokenV1betaResponse,
   TokenV1betaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TokenV1betaRequest,
   output: TokenV1betaResponse,
   errors: [],

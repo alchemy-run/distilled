@@ -22,7 +22,7 @@ export interface GetHealthcheckRequest {
   zoneId: string;
 }
 
-export const GetHealthcheckRequest = Schema.Struct({
+export const GetHealthcheckRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -98,100 +98,109 @@ export interface GetHealthcheckResponse {
   type?: string | null;
 }
 
-export const GetHealthcheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  consecutiveSuccesses: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+export const GetHealthcheckResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
         ),
-        expectedBody: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    consecutiveSuccesses: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          expectedBody: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(
+            Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
+          ),
+          path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
         ),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        followRedirects: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(
-          Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
-        ),
-        path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
+        Schema.Null,
+      ]),
+    ),
+    suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(
+            Schema.Union([
+              Schema.Literal("connection_established"),
+              Schema.Null,
+            ]),
+          ),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
-      Schema.Null,
-    ]),
-  ),
-  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(
-          Schema.Union([Schema.Literal("connection_established"), Schema.Null]),
-        ),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     address: "address",
@@ -221,7 +230,7 @@ export const getHealthcheck: API.OperationMethod<
   GetHealthcheckResponse,
   GetHealthcheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHealthcheckRequest,
   output: GetHealthcheckResponse,
   errors: [],
@@ -232,11 +241,12 @@ export interface ListHealthchecksRequest {
   zoneId: string;
 }
 
-export const ListHealthchecksRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/healthchecks" }),
-) as unknown as Schema.Schema<ListHealthchecksRequest>;
+export const ListHealthchecksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/healthchecks" }),
+  ) as unknown as Schema.Schema<ListHealthchecksRequest>;
 
 export type ListHealthchecksResponse = {
   id?: string | null;
@@ -288,8 +298,366 @@ export type ListHealthchecksResponse = {
   type?: string | null;
 }[];
 
-export const ListHealthchecksResponse = Schema.Array(
-  Schema.Struct({
+export const ListHealthchecksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      checkRegions: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "WNAM",
+              "ENAM",
+              "WEU",
+              "EEU",
+              "NSAM",
+              "SSAM",
+              "OC",
+              "ME",
+              "NAF",
+              "SAF",
+              "IN",
+              "SEAS",
+              "NEAS",
+              "ALL_REGIONS",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      consecutiveFails: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      consecutiveSuccesses: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      failureReason: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      httpConfig: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            allowInsecure: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            expectedBody: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            expectedCodes: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            followRedirects: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            header: Schema.optional(
+              Schema.Union([Schema.Struct({}), Schema.Null]),
+            ),
+            method: Schema.optional(
+              Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
+            ),
+            path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          }).pipe(
+            Schema.encodeKeys({
+              allowInsecure: "allow_insecure",
+              expectedBody: "expected_body",
+              expectedCodes: "expected_codes",
+              followRedirects: "follow_redirects",
+              header: "header",
+              method: "method",
+              path: "path",
+              port: "port",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
+          Schema.Null,
+        ]),
+      ),
+      suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      tcpConfig: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            method: Schema.optional(
+              Schema.Union([
+                Schema.Literal("connection_established"),
+                Schema.Null,
+              ]),
+            ),
+            port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        address: "address",
+        checkRegions: "check_regions",
+        consecutiveFails: "consecutive_fails",
+        consecutiveSuccesses: "consecutive_successes",
+        createdOn: "created_on",
+        description: "description",
+        failureReason: "failure_reason",
+        httpConfig: "http_config",
+        interval: "interval",
+        modifiedOn: "modified_on",
+        name: "name",
+        retries: "retries",
+        status: "status",
+        suspended: "suspended",
+        tcpConfig: "tcp_config",
+        timeout: "timeout",
+        type: "type",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListHealthchecksResponse>;
+
+export type ListHealthchecksError = DefaultErrors;
+
+export const listHealthchecks: API.OperationMethod<
+  ListHealthchecksRequest,
+  ListHealthchecksResponse,
+  ListHealthchecksError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListHealthchecksRequest,
+  output: ListHealthchecksResponse,
+  errors: [],
+}));
+
+export interface CreateHealthcheckRequest {
+  /** Path param: Identifier */
+  zoneId: string;
+  /** Body param: The hostname or IP address of the origin server to run health checks on. */
+  address: string;
+  /** Body param: A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name: string;
+  /** Body param: A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?:
+    | (
+        | "WNAM"
+        | "ENAM"
+        | "WEU"
+        | "EEU"
+        | "NSAM"
+        | "SSAM"
+        | "OC"
+        | "ME"
+        | "NAF"
+        | "SAF"
+        | "IN"
+        | "SEAS"
+        | "NEAS"
+        | "ALL_REGIONS"
+      )[]
+    | null;
+  /** Body param: The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number;
+  /** Body param: The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number;
+  /** Body param: A human-readable description of the health check. */
+  description?: string;
+  /** Body param: Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: {
+    allowInsecure?: boolean;
+    expectedBody?: string;
+    expectedCodes?: string[] | null;
+    followRedirects?: boolean;
+    header?: Record<string, unknown> | null;
+    method?: "GET" | "HEAD";
+    path?: string;
+    port?: number;
+  } | null;
+  /** Body param: The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locati */
+  interval?: number;
+  /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number;
+  /** Body param: If suspended, no health checks are sent to the origin. */
+  suspended?: boolean;
+  /** Body param: Parameters specific to TCP health check. */
+  tcpConfig?: { method?: "connection_established"; port?: number } | null;
+  /** Body param: The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number;
+  /** Body param: The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string;
+}
+
+export const CreateHealthcheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    address: Schema.String,
+    name: Schema.String,
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(Schema.Number),
+    consecutiveSuccesses: Schema.optional(Schema.Number),
+    description: Schema.optional(Schema.String),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(Schema.Boolean),
+          expectedBody: Schema.optional(Schema.String),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(Schema.Boolean),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
+          path: Schema.optional(Schema.String),
+          port: Schema.optional(Schema.Number),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Number),
+    retries: Schema.optional(Schema.Number),
+    suspended: Schema.optional(Schema.Boolean),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(Schema.Literal("connection_established")),
+          port: Schema.optional(Schema.Number),
+        }),
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Number),
+    type: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      address: "address",
+      name: "name",
+      checkRegions: "check_regions",
+      consecutiveFails: "consecutive_fails",
+      consecutiveSuccesses: "consecutive_successes",
+      description: "description",
+      httpConfig: "http_config",
+      interval: "interval",
+      retries: "retries",
+      suspended: "suspended",
+      tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
+    }),
+    T.Http({ method: "POST", path: "/zones/{zone_id}/healthchecks" }),
+  ) as unknown as Schema.Schema<CreateHealthcheckRequest>;
+
+export interface CreateHealthcheckResponse {
+  /** Identifier */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?:
+    | (
+        | "WNAM"
+        | "ENAM"
+        | "WEU"
+        | "EEU"
+        | "NSAM"
+        | "SSAM"
+        | "OC"
+        | "ME"
+        | "NAF"
+        | "SAF"
+        | "IN"
+        | "SEAS"
+        | "NEAS"
+        | "ALL_REGIONS"
+      )[]
+    | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: {
+    allowInsecure?: boolean | null;
+    expectedBody?: string | null;
+    expectedCodes?: string[] | null;
+    followRedirects?: boolean | null;
+    header?: Record<string, unknown> | null;
+    method?: "GET" | "HEAD" | null;
+    path?: string | null;
+    port?: number | null;
+  } | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: "unknown" | "healthy" | "unhealthy" | "suspended" | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: {
+    method?: "connection_established" | null;
+    port?: number | null;
+  } | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+
+export const CreateHealthcheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     checkRegions: Schema.optional(
@@ -410,351 +778,7 @@ export const ListHealthchecksResponse = Schema.Array(
       timeout: "timeout",
       type: "type",
     }),
-  ),
-) as unknown as Schema.Schema<ListHealthchecksResponse>;
-
-export type ListHealthchecksError = DefaultErrors;
-
-export const listHealthchecks: API.OperationMethod<
-  ListHealthchecksRequest,
-  ListHealthchecksResponse,
-  ListHealthchecksError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ListHealthchecksRequest,
-  output: ListHealthchecksResponse,
-  errors: [],
-}));
-
-export interface CreateHealthcheckRequest {
-  /** Path param: Identifier */
-  zoneId: string;
-  /** Body param: The hostname or IP address of the origin server to run health checks on. */
-  address: string;
-  /** Body param: A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name: string;
-  /** Body param: A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?:
-    | (
-        | "WNAM"
-        | "ENAM"
-        | "WEU"
-        | "EEU"
-        | "NSAM"
-        | "SSAM"
-        | "OC"
-        | "ME"
-        | "NAF"
-        | "SAF"
-        | "IN"
-        | "SEAS"
-        | "NEAS"
-        | "ALL_REGIONS"
-      )[]
-    | null;
-  /** Body param: The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number;
-  /** Body param: The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number;
-  /** Body param: A human-readable description of the health check. */
-  description?: string;
-  /** Body param: Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: {
-    allowInsecure?: boolean;
-    expectedBody?: string;
-    expectedCodes?: string[] | null;
-    followRedirects?: boolean;
-    header?: Record<string, unknown> | null;
-    method?: "GET" | "HEAD";
-    path?: string;
-    port?: number;
-  } | null;
-  /** Body param: The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locati */
-  interval?: number;
-  /** Body param: The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number;
-  /** Body param: If suspended, no health checks are sent to the origin. */
-  suspended?: boolean;
-  /** Body param: Parameters specific to TCP health check. */
-  tcpConfig?: { method?: "connection_established"; port?: number } | null;
-  /** Body param: The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number;
-  /** Body param: The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string;
-}
-
-export const CreateHealthcheckRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  address: Schema.String,
-  name: Schema.String,
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Number),
-  consecutiveSuccesses: Schema.optional(Schema.Number),
-  description: Schema.optional(Schema.String),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(Schema.Boolean),
-        expectedBody: Schema.optional(Schema.String),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        followRedirects: Schema.optional(Schema.Boolean),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
-        path: Schema.optional(Schema.String),
-        port: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Number),
-  retries: Schema.optional(Schema.Number),
-  suspended: Schema.optional(Schema.Boolean),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(Schema.Literal("connection_established")),
-        port: Schema.optional(Schema.Number),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    address: "address",
-    name: "name",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    description: "description",
-    httpConfig: "http_config",
-    interval: "interval",
-    retries: "retries",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-  T.Http({ method: "POST", path: "/zones/{zone_id}/healthchecks" }),
-) as unknown as Schema.Schema<CreateHealthcheckRequest>;
-
-export interface CreateHealthcheckResponse {
-  /** Identifier */
-  id?: string | null;
-  /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
-  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?:
-    | (
-        | "WNAM"
-        | "ENAM"
-        | "WEU"
-        | "EEU"
-        | "NSAM"
-        | "SSAM"
-        | "OC"
-        | "ME"
-        | "NAF"
-        | "SAF"
-        | "IN"
-        | "SEAS"
-        | "NEAS"
-        | "ALL_REGIONS"
-      )[]
-    | null;
-  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
-  /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
-  /** A human-readable description of the health check. */
-  description?: string | null;
-  /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
-  /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: {
-    allowInsecure?: boolean | null;
-    expectedBody?: string | null;
-    expectedCodes?: string[] | null;
-    followRedirects?: boolean | null;
-    header?: Record<string, unknown> | null;
-    method?: "GET" | "HEAD" | null;
-    path?: string | null;
-    port?: number | null;
-  } | null;
-  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
-  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
-  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
-  /** The current status of the origin server according to the health check. */
-  status?: "unknown" | "healthy" | "unhealthy" | "suspended" | null;
-  /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
-  /** Parameters specific to TCP health check. */
-  tcpConfig?: {
-    method?: "connection_established" | null;
-    port?: number | null;
-  } | null;
-  /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
-  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
-}
-
-export const CreateHealthcheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  consecutiveSuccesses: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        expectedBody: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        followRedirects: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(
-          Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
-        ),
-        path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
-      Schema.Null,
-    ]),
-  ),
-  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(
-          Schema.Union([Schema.Literal("connection_established"), Schema.Null]),
-        ),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    address: "address",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    createdOn: "created_on",
-    description: "description",
-    failureReason: "failure_reason",
-    httpConfig: "http_config",
-    interval: "interval",
-    modifiedOn: "modified_on",
-    name: "name",
-    retries: "retries",
-    status: "status",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<CreateHealthcheckResponse>;
+  ) as unknown as Schema.Schema<CreateHealthcheckResponse>;
 
 export type CreateHealthcheckError = DefaultErrors;
 
@@ -763,7 +787,7 @@ export const createHealthcheck: API.OperationMethod<
   CreateHealthcheckResponse,
   CreateHealthcheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateHealthcheckRequest,
   output: CreateHealthcheckResponse,
   errors: [],
@@ -827,100 +851,103 @@ export interface UpdateHealthcheckRequest {
   type?: string;
 }
 
-export const UpdateHealthcheckRequest = Schema.Struct({
-  healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  address: Schema.String,
-  name: Schema.String,
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Number),
-  consecutiveSuccesses: Schema.optional(Schema.Number),
-  description: Schema.optional(Schema.String),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(Schema.Boolean),
-        expectedBody: Schema.optional(Schema.String),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+export const UpdateHealthcheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    address: Schema.String,
+    name: Schema.String,
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
         ),
-        followRedirects: Schema.optional(Schema.Boolean),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
-        path: Schema.optional(Schema.String),
-        port: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(Schema.Number),
+    consecutiveSuccesses: Schema.optional(Schema.Number),
+    description: Schema.optional(Schema.String),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(Schema.Boolean),
+          expectedBody: Schema.optional(Schema.String),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(Schema.Boolean),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
+          path: Schema.optional(Schema.String),
+          port: Schema.optional(Schema.Number),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Number),
+    retries: Schema.optional(Schema.Number),
+    suspended: Schema.optional(Schema.Boolean),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(Schema.Literal("connection_established")),
+          port: Schema.optional(Schema.Number),
         }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Number),
-  retries: Schema.optional(Schema.Number),
-  suspended: Schema.optional(Schema.Boolean),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(Schema.Literal("connection_established")),
-        port: Schema.optional(Schema.Number),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    address: "address",
-    name: "name",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    description: "description",
-    httpConfig: "http_config",
-    interval: "interval",
-    retries: "retries",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-  T.Http({
-    method: "PUT",
-    path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
-  }),
-) as unknown as Schema.Schema<UpdateHealthcheckRequest>;
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Number),
+    type: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      address: "address",
+      name: "name",
+      checkRegions: "check_regions",
+      consecutiveFails: "consecutive_fails",
+      consecutiveSuccesses: "consecutive_successes",
+      description: "description",
+      httpConfig: "http_config",
+      interval: "interval",
+      retries: "retries",
+      suspended: "suspended",
+      tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
+    }),
+    T.Http({
+      method: "PUT",
+      path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
+    }),
+  ) as unknown as Schema.Schema<UpdateHealthcheckRequest>;
 
 export interface UpdateHealthcheckResponse {
   /** Identifier */
@@ -988,121 +1015,129 @@ export interface UpdateHealthcheckResponse {
   type?: string | null;
 }
 
-export const UpdateHealthcheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  consecutiveSuccesses: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+export const UpdateHealthcheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
         ),
-        expectedBody: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    consecutiveSuccesses: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          expectedBody: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(
+            Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
+          ),
+          path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
         ),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        followRedirects: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(
-          Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
-        ),
-        path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
+        Schema.Null,
+      ]),
+    ),
+    suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(
+            Schema.Union([
+              Schema.Literal("connection_established"),
+              Schema.Null,
+            ]),
+          ),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
-      Schema.Null,
-    ]),
-  ),
-  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(
-          Schema.Union([Schema.Literal("connection_established"), Schema.Null]),
-        ),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    address: "address",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    createdOn: "created_on",
-    description: "description",
-    failureReason: "failure_reason",
-    httpConfig: "http_config",
-    interval: "interval",
-    modifiedOn: "modified_on",
-    name: "name",
-    retries: "retries",
-    status: "status",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<UpdateHealthcheckResponse>;
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      address: "address",
+      checkRegions: "check_regions",
+      consecutiveFails: "consecutive_fails",
+      consecutiveSuccesses: "consecutive_successes",
+      createdOn: "created_on",
+      description: "description",
+      failureReason: "failure_reason",
+      httpConfig: "http_config",
+      interval: "interval",
+      modifiedOn: "modified_on",
+      name: "name",
+      retries: "retries",
+      status: "status",
+      suspended: "suspended",
+      tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
+    }),
+  ) as unknown as Schema.Schema<UpdateHealthcheckResponse>;
 
 export type UpdateHealthcheckError = DefaultErrors;
 
@@ -1111,7 +1146,7 @@ export const updateHealthcheck: API.OperationMethod<
   UpdateHealthcheckResponse,
   UpdateHealthcheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateHealthcheckRequest,
   output: UpdateHealthcheckResponse,
   errors: [],
@@ -1175,100 +1210,103 @@ export interface PatchHealthcheckRequest {
   type?: string;
 }
 
-export const PatchHealthcheckRequest = Schema.Struct({
-  healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  address: Schema.String,
-  name: Schema.String,
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Number),
-  consecutiveSuccesses: Schema.optional(Schema.Number),
-  description: Schema.optional(Schema.String),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(Schema.Boolean),
-        expectedBody: Schema.optional(Schema.String),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+export const PatchHealthcheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    address: Schema.String,
+    name: Schema.String,
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
         ),
-        followRedirects: Schema.optional(Schema.Boolean),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
-        path: Schema.optional(Schema.String),
-        port: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(Schema.Number),
+    consecutiveSuccesses: Schema.optional(Schema.Number),
+    description: Schema.optional(Schema.String),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(Schema.Boolean),
+          expectedBody: Schema.optional(Schema.String),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(Schema.Boolean),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(Schema.Literals(["GET", "HEAD"])),
+          path: Schema.optional(Schema.String),
+          port: Schema.optional(Schema.Number),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Number),
+    retries: Schema.optional(Schema.Number),
+    suspended: Schema.optional(Schema.Boolean),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(Schema.Literal("connection_established")),
+          port: Schema.optional(Schema.Number),
         }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Number),
-  retries: Schema.optional(Schema.Number),
-  suspended: Schema.optional(Schema.Boolean),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(Schema.Literal("connection_established")),
-        port: Schema.optional(Schema.Number),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Number),
-  type: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    address: "address",
-    name: "name",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    description: "description",
-    httpConfig: "http_config",
-    interval: "interval",
-    retries: "retries",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
-  }),
-) as unknown as Schema.Schema<PatchHealthcheckRequest>;
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Number),
+    type: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      address: "address",
+      name: "name",
+      checkRegions: "check_regions",
+      consecutiveFails: "consecutive_fails",
+      consecutiveSuccesses: "consecutive_successes",
+      description: "description",
+      httpConfig: "http_config",
+      interval: "interval",
+      retries: "retries",
+      suspended: "suspended",
+      tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
+    }),
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
+    }),
+  ) as unknown as Schema.Schema<PatchHealthcheckRequest>;
 
 export interface PatchHealthcheckResponse {
   /** Identifier */
@@ -1336,121 +1374,129 @@ export interface PatchHealthcheckResponse {
   type?: string | null;
 }
 
-export const PatchHealthcheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkRegions: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Literals([
-          "WNAM",
-          "ENAM",
-          "WEU",
-          "EEU",
-          "NSAM",
-          "SSAM",
-          "OC",
-          "ME",
-          "NAF",
-          "SAF",
-          "IN",
-          "SEAS",
-          "NEAS",
-          "ALL_REGIONS",
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  consecutiveFails: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  consecutiveSuccesses: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  httpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allowInsecure: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+export const PatchHealthcheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkRegions: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "WNAM",
+            "ENAM",
+            "WEU",
+            "EEU",
+            "NSAM",
+            "SSAM",
+            "OC",
+            "ME",
+            "NAF",
+            "SAF",
+            "IN",
+            "SEAS",
+            "NEAS",
+            "ALL_REGIONS",
+          ]),
         ),
-        expectedBody: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+        Schema.Null,
+      ]),
+    ),
+    consecutiveFails: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    consecutiveSuccesses: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    failureReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    httpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allowInsecure: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          expectedBody: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          expectedCodes: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          followRedirects: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          header: Schema.optional(
+            Schema.Union([Schema.Struct({}), Schema.Null]),
+          ),
+          method: Schema.optional(
+            Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
+          ),
+          path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            allowInsecure: "allow_insecure",
+            expectedBody: "expected_body",
+            expectedCodes: "expected_codes",
+            followRedirects: "follow_redirects",
+            header: "header",
+            method: "method",
+            path: "path",
+            port: "port",
+          }),
         ),
-        expectedCodes: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        followRedirects: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-        method: Schema.optional(
-          Schema.Union([Schema.Literals(["GET", "HEAD"]), Schema.Null]),
-        ),
-        path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          allowInsecure: "allow_insecure",
-          expectedBody: "expected_body",
-          expectedCodes: "expected_codes",
-          followRedirects: "follow_redirects",
-          header: "header",
-          method: "method",
-          path: "path",
-          port: "port",
+        Schema.Null,
+      ]),
+    ),
+    interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
+        Schema.Null,
+      ]),
+    ),
+    suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    tcpConfig: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          method: Schema.optional(
+            Schema.Union([
+              Schema.Literal("connection_established"),
+              Schema.Null,
+            ]),
+          ),
+          port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["unknown", "healthy", "unhealthy", "suspended"]),
-      Schema.Null,
-    ]),
-  ),
-  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  tcpConfig: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        method: Schema.optional(
-          Schema.Union([Schema.Literal("connection_established"), Schema.Null]),
-        ),
-        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-  timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    address: "address",
-    checkRegions: "check_regions",
-    consecutiveFails: "consecutive_fails",
-    consecutiveSuccesses: "consecutive_successes",
-    createdOn: "created_on",
-    description: "description",
-    failureReason: "failure_reason",
-    httpConfig: "http_config",
-    interval: "interval",
-    modifiedOn: "modified_on",
-    name: "name",
-    retries: "retries",
-    status: "status",
-    suspended: "suspended",
-    tcpConfig: "tcp_config",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<PatchHealthcheckResponse>;
+        Schema.Null,
+      ]),
+    ),
+    timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      address: "address",
+      checkRegions: "check_regions",
+      consecutiveFails: "consecutive_fails",
+      consecutiveSuccesses: "consecutive_successes",
+      createdOn: "created_on",
+      description: "description",
+      failureReason: "failure_reason",
+      httpConfig: "http_config",
+      interval: "interval",
+      modifiedOn: "modified_on",
+      name: "name",
+      retries: "retries",
+      status: "status",
+      suspended: "suspended",
+      tcpConfig: "tcp_config",
+      timeout: "timeout",
+      type: "type",
+    }),
+  ) as unknown as Schema.Schema<PatchHealthcheckResponse>;
 
 export type PatchHealthcheckError = DefaultErrors;
 
@@ -1459,7 +1505,7 @@ export const patchHealthcheck: API.OperationMethod<
   PatchHealthcheckResponse,
   PatchHealthcheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchHealthcheckRequest,
   output: PatchHealthcheckResponse,
   errors: [],
@@ -1471,24 +1517,26 @@ export interface DeleteHealthcheckRequest {
   zoneId: string;
 }
 
-export const DeleteHealthcheckRequest = Schema.Struct({
-  healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
-  }),
-) as unknown as Schema.Schema<DeleteHealthcheckRequest>;
+export const DeleteHealthcheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/healthchecks/{healthcheckId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteHealthcheckRequest>;
 
 export interface DeleteHealthcheckResponse {
   /** Identifier */
   id?: string | null;
 }
 
-export const DeleteHealthcheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteHealthcheckResponse>;
+export const DeleteHealthcheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteHealthcheckResponse>;
 
 export type DeleteHealthcheckError = DefaultErrors;
 
@@ -1497,7 +1545,7 @@ export const deleteHealthcheck: API.OperationMethod<
   DeleteHealthcheckResponse,
   DeleteHealthcheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteHealthcheckRequest,
   output: DeleteHealthcheckResponse,
   errors: [],
@@ -1513,7 +1561,7 @@ export interface GetPreviewRequest {
   zoneId: string;
 }
 
-export const GetPreviewRequest = Schema.Struct({
+export const GetPreviewRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -1526,7 +1574,7 @@ export const GetPreviewRequest = Schema.Struct({
 export type GetPreviewResponse = unknown;
 
 export const GetPreviewResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetPreviewResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetPreviewResponse>;
 
 export type GetPreviewError = DefaultErrors;
 
@@ -1535,7 +1583,7 @@ export const getPreview: API.OperationMethod<
   GetPreviewResponse,
   GetPreviewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPreviewRequest,
   output: GetPreviewResponse,
   errors: [],
@@ -1589,7 +1637,7 @@ export interface CreatePreviewRequest {
   type?: string;
 }
 
-export const CreatePreviewRequest = Schema.Struct({
+export const CreatePreviewRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   address: Schema.String,
   name: Schema.String,
@@ -1648,7 +1696,7 @@ export const CreatePreviewRequest = Schema.Struct({
 export type CreatePreviewResponse = unknown;
 
 export const CreatePreviewResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreatePreviewResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreatePreviewResponse>;
 
 export type CreatePreviewError = DefaultErrors;
 
@@ -1657,7 +1705,7 @@ export const createPreview: API.OperationMethod<
   CreatePreviewResponse,
   CreatePreviewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePreviewRequest,
   output: CreatePreviewResponse,
   errors: [],
@@ -1669,7 +1717,7 @@ export interface DeletePreviewRequest {
   zoneId: string;
 }
 
-export const DeletePreviewRequest = Schema.Struct({
+export const DeletePreviewRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   healthcheckId: Schema.String.pipe(T.HttpPath("healthcheckId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -1684,7 +1732,7 @@ export interface DeletePreviewResponse {
   id?: string | null;
 }
 
-export const DeletePreviewResponse = Schema.Struct({
+export const DeletePreviewResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeletePreviewResponse>;
 
@@ -1695,7 +1743,7 @@ export const deletePreview: API.OperationMethod<
   DeletePreviewResponse,
   DeletePreviewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePreviewRequest,
   output: DeletePreviewResponse,
   errors: [],

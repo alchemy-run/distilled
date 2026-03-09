@@ -44,37 +44,38 @@ export interface DirectoryList {
   kind?: string;
 }
 
-export const DirectoryList: Schema.Schema<DirectoryList> = Schema.suspend(() =>
-  Schema.Struct({
-    discoveryVersion: Schema.optional(Schema.String),
-    items: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          description: Schema.optional(Schema.String),
-          discoveryLink: Schema.optional(Schema.String),
-          discoveryRestUrl: Schema.optional(Schema.String),
-          documentationLink: Schema.optional(Schema.String),
-          icons: Schema.optional(
-            Schema.Struct({
-              x16: Schema.optional(Schema.String),
-              x32: Schema.optional(Schema.String),
-            }),
-          ),
-          id: Schema.optional(Schema.String),
-          kind: Schema.optional(Schema.String),
-          labels: Schema.optional(Schema.Array(Schema.String)),
-          name: Schema.optional(Schema.String),
-          preferred: Schema.optional(Schema.Boolean),
-          title: Schema.optional(Schema.String),
-          version: Schema.optional(Schema.String),
-        }),
+export const DirectoryList: Schema.Schema<DirectoryList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      discoveryVersion: Schema.optional(Schema.String),
+      items: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            description: Schema.optional(Schema.String),
+            discoveryLink: Schema.optional(Schema.String),
+            discoveryRestUrl: Schema.optional(Schema.String),
+            documentationLink: Schema.optional(Schema.String),
+            icons: Schema.optional(
+              Schema.Struct({
+                x16: Schema.optional(Schema.String),
+                x32: Schema.optional(Schema.String),
+              }),
+            ),
+            id: Schema.optional(Schema.String),
+            kind: Schema.optional(Schema.String),
+            labels: Schema.optional(Schema.Array(Schema.String)),
+            name: Schema.optional(Schema.String),
+            preferred: Schema.optional(Schema.Boolean),
+            title: Schema.optional(Schema.String),
+            version: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DirectoryList",
-}) as any as Schema.Schema<DirectoryList>;
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryList",
+  }) as any as Schema.Schema<DirectoryList>;
 
 export interface JsonSchema {
   /** A reference to another schema. The value of this property is the "id" of another schema. */
@@ -126,46 +127,49 @@ export interface JsonSchema {
   };
 }
 
-export const JsonSchema: Schema.Schema<JsonSchema> = Schema.suspend(() =>
-  Schema.Struct({
-    $ref: Schema.optional(Schema.String),
-    additionalProperties: Schema.optional(JsonSchema),
-    annotations: Schema.optional(
-      Schema.Struct({ required: Schema.optional(Schema.Array(Schema.String)) }),
-    ),
-    default: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enum: Schema.optional(Schema.Array(Schema.String)),
-    enumDescriptions: Schema.optional(Schema.Array(Schema.String)),
-    enumDeprecated: Schema.optional(Schema.Array(Schema.Boolean)),
-    format: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    items: Schema.optional(JsonSchema),
-    location: Schema.optional(Schema.String),
-    maximum: Schema.optional(Schema.String),
-    minimum: Schema.optional(Schema.String),
-    pattern: Schema.optional(Schema.String),
-    properties: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-    readOnly: Schema.optional(Schema.Boolean),
-    repeated: Schema.optional(Schema.Boolean),
-    required: Schema.optional(Schema.Boolean),
-    deprecated: Schema.optional(Schema.Boolean),
-    type: Schema.optional(Schema.String),
-    variant: Schema.optional(
-      Schema.Struct({
-        discriminant: Schema.optional(Schema.String),
-        map: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              $ref: Schema.optional(Schema.String),
-              type_value: Schema.optional(Schema.String),
-            }),
+export const JsonSchema: Schema.Schema<JsonSchema> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      $ref: Schema.optional(Schema.String),
+      additionalProperties: Schema.optional(JsonSchema),
+      annotations: Schema.optional(
+        Schema.Struct({
+          required: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+      default: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      enum: Schema.optional(Schema.Array(Schema.String)),
+      enumDescriptions: Schema.optional(Schema.Array(Schema.String)),
+      enumDeprecated: Schema.optional(Schema.Array(Schema.Boolean)),
+      format: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      items: Schema.optional(JsonSchema),
+      location: Schema.optional(Schema.String),
+      maximum: Schema.optional(Schema.String),
+      minimum: Schema.optional(Schema.String),
+      pattern: Schema.optional(Schema.String),
+      properties: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+      readOnly: Schema.optional(Schema.Boolean),
+      repeated: Schema.optional(Schema.Boolean),
+      required: Schema.optional(Schema.Boolean),
+      deprecated: Schema.optional(Schema.Boolean),
+      type: Schema.optional(Schema.String),
+      variant: Schema.optional(
+        Schema.Struct({
+          discriminant: Schema.optional(Schema.String),
+          map: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                $ref: Schema.optional(Schema.String),
+                type_value: Schema.optional(Schema.String),
+              }),
+            ),
           ),
-        ),
-      }),
-    ),
-  }),
-).annotate({ identifier: "JsonSchema" }) as any as Schema.Schema<JsonSchema>;
+        }),
+      ),
+    }),
+  ).annotate({ identifier: "JsonSchema" }) as any as Schema.Schema<JsonSchema>;
 
 export interface RestMethod {
   /** Description of this method. */
@@ -213,56 +217,57 @@ export interface RestMethod {
   deprecated?: boolean;
 }
 
-export const RestMethod: Schema.Schema<RestMethod> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    etagRequired: Schema.optional(Schema.Boolean),
-    httpMethod: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    apiVersion: Schema.optional(Schema.String),
-    mediaUpload: Schema.optional(
-      Schema.Struct({
-        accept: Schema.optional(Schema.Array(Schema.String)),
-        maxSize: Schema.optional(Schema.String),
-        protocols: Schema.optional(
-          Schema.Struct({
-            resumable: Schema.optional(
-              Schema.Struct({
-                multipart: Schema.optional(Schema.Boolean),
-                path: Schema.optional(Schema.String),
-              }),
-            ),
-            simple: Schema.optional(
-              Schema.Struct({
-                multipart: Schema.optional(Schema.Boolean),
-                path: Schema.optional(Schema.String),
-              }),
-            ),
-          }),
-        ),
-      }),
-    ),
-    parameterOrder: Schema.optional(Schema.Array(Schema.String)),
-    parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
-    path: Schema.optional(Schema.String),
-    flatPath: Schema.optional(Schema.String),
-    request: Schema.optional(
-      Schema.Struct({
-        $ref: Schema.optional(Schema.String),
-        parameterName: Schema.optional(Schema.String),
-      }),
-    ),
-    response: Schema.optional(
-      Schema.Struct({ $ref: Schema.optional(Schema.String) }),
-    ),
-    scopes: Schema.optional(Schema.Array(Schema.String)),
-    supportsMediaDownload: Schema.optional(Schema.Boolean),
-    supportsMediaUpload: Schema.optional(Schema.Boolean),
-    supportsSubscription: Schema.optional(Schema.Boolean),
-    useMediaDownloadService: Schema.optional(Schema.Boolean),
-    deprecated: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "RestMethod" }) as any as Schema.Schema<RestMethod>;
+export const RestMethod: Schema.Schema<RestMethod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      etagRequired: Schema.optional(Schema.Boolean),
+      httpMethod: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      mediaUpload: Schema.optional(
+        Schema.Struct({
+          accept: Schema.optional(Schema.Array(Schema.String)),
+          maxSize: Schema.optional(Schema.String),
+          protocols: Schema.optional(
+            Schema.Struct({
+              resumable: Schema.optional(
+                Schema.Struct({
+                  multipart: Schema.optional(Schema.Boolean),
+                  path: Schema.optional(Schema.String),
+                }),
+              ),
+              simple: Schema.optional(
+                Schema.Struct({
+                  multipart: Schema.optional(Schema.Boolean),
+                  path: Schema.optional(Schema.String),
+                }),
+              ),
+            }),
+          ),
+        }),
+      ),
+      parameterOrder: Schema.optional(Schema.Array(Schema.String)),
+      parameters: Schema.optional(Schema.Record(Schema.String, JsonSchema)),
+      path: Schema.optional(Schema.String),
+      flatPath: Schema.optional(Schema.String),
+      request: Schema.optional(
+        Schema.Struct({
+          $ref: Schema.optional(Schema.String),
+          parameterName: Schema.optional(Schema.String),
+        }),
+      ),
+      response: Schema.optional(
+        Schema.Struct({ $ref: Schema.optional(Schema.String) }),
+      ),
+      scopes: Schema.optional(Schema.Array(Schema.String)),
+      supportsMediaDownload: Schema.optional(Schema.Boolean),
+      supportsMediaUpload: Schema.optional(Schema.Boolean),
+      supportsSubscription: Schema.optional(Schema.Boolean),
+      useMediaDownloadService: Schema.optional(Schema.Boolean),
+      deprecated: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "RestMethod" }) as any as Schema.Schema<RestMethod>;
 
 export interface RestResource {
   /** Methods on this resource. */
@@ -273,15 +278,16 @@ export interface RestResource {
   deprecated?: boolean;
 }
 
-export const RestResource: Schema.Schema<RestResource> = Schema.suspend(() =>
-  Schema.Struct({
-    methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
-    resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
-    deprecated: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "RestResource",
-}) as any as Schema.Schema<RestResource>;
+export const RestResource: Schema.Schema<RestResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      methods: Schema.optional(Schema.Record(Schema.String, RestMethod)),
+      resources: Schema.optional(Schema.Record(Schema.String, RestResource)),
+      deprecated: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RestResource",
+  }) as any as Schema.Schema<RestResource>;
 
 export interface RestDescription {
   /** Authentication information. */
@@ -352,8 +358,8 @@ export interface RestDescription {
   }>;
 }
 
-export const RestDescription: Schema.Schema<RestDescription> = Schema.suspend(
-  () =>
+export const RestDescription: Schema.Schema<RestDescription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       auth: Schema.optional(
         Schema.Struct({
@@ -416,9 +422,9 @@ export const RestDescription: Schema.Schema<RestDescription> = Schema.suspend(
         ),
       ),
     }),
-).annotate({
-  identifier: "RestDescription",
-}) as any as Schema.Schema<RestDescription>;
+  ).annotate({
+    identifier: "RestDescription",
+  }) as any as Schema.Schema<RestDescription>;
 
 // ==========================================================================
 // Operations
@@ -431,7 +437,7 @@ export interface GetRestApisRequest {
   version: string;
 }
 
-export const GetRestApisRequest = Schema.Struct({
+export const GetRestApisRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   api: Schema.String.pipe(T.HttpPath("api")),
   version: Schema.String.pipe(T.HttpPath("version")),
 }).pipe(
@@ -440,7 +446,7 @@ export const GetRestApisRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetRestApisRequest>;
 
 export type GetRestApisResponse = RestDescription;
-export const GetRestApisResponse = RestDescription;
+export const GetRestApisResponse = /*@__PURE__*/ /*#__PURE__*/ RestDescription;
 
 export type GetRestApisError = DefaultErrors;
 
@@ -450,7 +456,7 @@ export const getRestApis: API.OperationMethod<
   GetRestApisResponse,
   GetRestApisError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRestApisRequest,
   output: GetRestApisResponse,
   errors: [],
@@ -463,7 +469,7 @@ export interface ListApisRequest {
   preferred?: boolean;
 }
 
-export const ListApisRequest = Schema.Struct({
+export const ListApisRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
   preferred: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("preferred")),
 }).pipe(
@@ -472,7 +478,7 @@ export const ListApisRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListApisRequest>;
 
 export type ListApisResponse = DirectoryList;
-export const ListApisResponse = DirectoryList;
+export const ListApisResponse = /*@__PURE__*/ /*#__PURE__*/ DirectoryList;
 
 export type ListApisError = DefaultErrors;
 
@@ -482,7 +488,7 @@ export const listApis: API.OperationMethod<
   ListApisResponse,
   ListApisError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListApisRequest,
   output: ListApisResponse,
   errors: [],

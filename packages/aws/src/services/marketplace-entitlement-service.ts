@@ -130,13 +130,13 @@ export type GetEntitlementFilterName =
   | "CUSTOMER_AWS_ACCOUNT_ID"
   | "LICENSE_ARN"
   | (string & {});
-export const GetEntitlementFilterName = S.String;
+export const GetEntitlementFilterName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FilterValueList = string[];
-export const FilterValueList = S.Array(S.String);
+export const FilterValueList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type GetEntitlementFilters = {
   [key in GetEntitlementFilterName]?: string[];
 };
-export const GetEntitlementFilters = S.Record(
+export const GetEntitlementFilters = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   GetEntitlementFilterName,
   FilterValueList.pipe(S.optional),
 );
@@ -146,15 +146,16 @@ export interface GetEntitlementsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const GetEntitlementsRequest = S.suspend(() =>
-  S.Struct({
-    ProductCode: S.String,
-    Filter: S.optional(GetEntitlementFilters),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const GetEntitlementsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ProductCode: S.String,
+      Filter: S.optional(GetEntitlementFilters),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "GetEntitlementsRequest",
 }) as any as S.Schema<GetEntitlementsRequest>;
@@ -164,7 +165,7 @@ export interface EntitlementValue {
   BooleanValue?: boolean;
   StringValue?: string;
 }
-export const EntitlementValue = S.suspend(() =>
+export const EntitlementValue = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     IntegerValue: S.optional(S.Number),
     DoubleValue: S.optional(S.Number),
@@ -183,7 +184,7 @@ export interface Entitlement {
   ExpirationDate?: Date;
   LicenseArn?: string;
 }
-export const Entitlement = S.suspend(() =>
+export const Entitlement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ProductCode: S.optional(S.String),
     Dimension: S.optional(S.String),
@@ -195,12 +196,12 @@ export const Entitlement = S.suspend(() =>
   }),
 ).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
 export type EntitlementList = Entitlement[];
-export const EntitlementList = S.Array(Entitlement);
+export const EntitlementList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Entitlement);
 export interface GetEntitlementsResult {
   Entitlements?: Entitlement[];
   NextToken?: string;
 }
-export const GetEntitlementsResult = S.suspend(() =>
+export const GetEntitlementsResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Entitlements: S.optional(EntitlementList),
     NextToken: S.optional(S.String),

@@ -45,16 +45,16 @@ export interface ProductAccount {
     | (string & {});
 }
 
-export const ProductAccount: Schema.Schema<ProductAccount> = Schema.suspend(
-  () =>
+export const ProductAccount: Schema.Schema<ProductAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       product: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
       accountType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ProductAccount",
-}) as any as Schema.Schema<ProductAccount>;
+  ).annotate({
+    identifier: "ProductAccount",
+  }) as any as Schema.Schema<ProductAccount>;
 
 export interface Destination {
   /** Optional. ID for this `Destination` resource, unique within the request. Use to reference this `Destination` in the IngestEventsRequest and IngestAudienceMembersRequest. */
@@ -69,15 +69,18 @@ export interface Destination {
   productDestinationId?: string;
 }
 
-export const Destination: Schema.Schema<Destination> = Schema.suspend(() =>
-  Schema.Struct({
-    reference: Schema.optional(Schema.String),
-    loginAccount: Schema.optional(ProductAccount),
-    linkedAccount: Schema.optional(ProductAccount),
-    operatingAccount: Schema.optional(ProductAccount),
-    productDestinationId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Destination" }) as any as Schema.Schema<Destination>;
+export const Destination: Schema.Schema<Destination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reference: Schema.optional(Schema.String),
+      loginAccount: Schema.optional(ProductAccount),
+      linkedAccount: Schema.optional(ProductAccount),
+      operatingAccount: Schema.optional(ProductAccount),
+      productDestinationId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Destination",
+  }) as any as Schema.Schema<Destination>;
 
 export interface AddressInfo {
   /** Required. Given (first) name of the user, all lowercase, with no punctuation, no leading or trailing whitespace, and hashed as SHA-256. */
@@ -90,14 +93,17 @@ export interface AddressInfo {
   postalCode?: string;
 }
 
-export const AddressInfo: Schema.Schema<AddressInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    givenName: Schema.optional(Schema.String),
-    familyName: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AddressInfo" }) as any as Schema.Schema<AddressInfo>;
+export const AddressInfo: Schema.Schema<AddressInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      givenName: Schema.optional(Schema.String),
+      familyName: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddressInfo",
+  }) as any as Schema.Schema<AddressInfo>;
 
 export interface UserIdentifier {
   /** Hashed email address using SHA-256 hash function after normalization. */
@@ -108,71 +114,76 @@ export interface UserIdentifier {
   address?: AddressInfo;
 }
 
-export const UserIdentifier: Schema.Schema<UserIdentifier> = Schema.suspend(
-  () =>
+export const UserIdentifier: Schema.Schema<UserIdentifier> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
       phoneNumber: Schema.optional(Schema.String),
       address: Schema.optional(AddressInfo),
     }),
-).annotate({
-  identifier: "UserIdentifier",
-}) as any as Schema.Schema<UserIdentifier>;
+  ).annotate({
+    identifier: "UserIdentifier",
+  }) as any as Schema.Schema<UserIdentifier>;
 
 export interface UserData {
   /** Required. The identifiers for the user. It's possible to provide multiple instances of the same type of data (for example, multiple email addresses). To increase the likelihood of a match, provide as many identifiers as possible. At most 10 `userIdentifiers` can be provided in a single AudienceMember or Event. */
   userIdentifiers?: Array<UserIdentifier>;
 }
 
-export const UserData: Schema.Schema<UserData> = Schema.suspend(() =>
-  Schema.Struct({
-    userIdentifiers: Schema.optional(Schema.Array(UserIdentifier)),
-  }),
-).annotate({ identifier: "UserData" }) as any as Schema.Schema<UserData>;
+export const UserData: Schema.Schema<UserData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userIdentifiers: Schema.optional(Schema.Array(UserIdentifier)),
+    }),
+  ).annotate({ identifier: "UserData" }) as any as Schema.Schema<UserData>;
 
 export interface PairData {
   /** Required. Cleanroom-provided PII data, hashed with SHA256, and encrypted with an EC commutative cipher using publisher key for the [PAIR]((//support.google.com/admanager/answer/15067908)) user list. At most 10 `pairIds` can be provided in a single AudienceMember. */
   pairIds?: Array<string>;
 }
 
-export const PairData: Schema.Schema<PairData> = Schema.suspend(() =>
-  Schema.Struct({
-    pairIds: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "PairData" }) as any as Schema.Schema<PairData>;
+export const PairData: Schema.Schema<PairData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pairIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "PairData" }) as any as Schema.Schema<PairData>;
 
 export interface MobileData {
   /** Required. The list of mobile device IDs (advertising ID/IDFA). At most 10 `mobileIds` can be provided in a single AudienceMember. */
   mobileIds?: Array<string>;
 }
 
-export const MobileData: Schema.Schema<MobileData> = Schema.suspend(() =>
-  Schema.Struct({
-    mobileIds: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "MobileData" }) as any as Schema.Schema<MobileData>;
+export const MobileData: Schema.Schema<MobileData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mobileIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "MobileData" }) as any as Schema.Schema<MobileData>;
 
 export interface UserIdData {
   /** Required. A unique identifier for a user, as defined by the advertiser. */
   userId?: string;
 }
 
-export const UserIdData: Schema.Schema<UserIdData> = Schema.suspend(() =>
-  Schema.Struct({
-    userId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserIdData" }) as any as Schema.Schema<UserIdData>;
+export const UserIdData: Schema.Schema<UserIdData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "UserIdData" }) as any as Schema.Schema<UserIdData>;
 
 export interface PpidData {
   /** Required. The list of publisher provided identifiers for a user. */
   ppids?: Array<string>;
 }
 
-export const PpidData: Schema.Schema<PpidData> = Schema.suspend(() =>
-  Schema.Struct({
-    ppids: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "PpidData" }) as any as Schema.Schema<PpidData>;
+export const PpidData: Schema.Schema<PpidData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ppids: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "PpidData" }) as any as Schema.Schema<PpidData>;
 
 export interface Consent {
   /** Optional. Represents if the user consents to ad user data. */
@@ -189,12 +200,13 @@ export interface Consent {
     | (string & {});
 }
 
-export const Consent: Schema.Schema<Consent> = Schema.suspend(() =>
-  Schema.Struct({
-    adUserData: Schema.optional(Schema.String),
-    adPersonalization: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Consent" }) as any as Schema.Schema<Consent>;
+export const Consent: Schema.Schema<Consent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adUserData: Schema.optional(Schema.String),
+      adPersonalization: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Consent" }) as any as Schema.Schema<Consent>;
 
 export interface AudienceMember {
   /** Optional. Defines which Destination to send the audience member to. */
@@ -213,8 +225,8 @@ export interface AudienceMember {
   consent?: Consent;
 }
 
-export const AudienceMember: Schema.Schema<AudienceMember> = Schema.suspend(
-  () =>
+export const AudienceMember: Schema.Schema<AudienceMember> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationReferences: Schema.optional(Schema.Array(Schema.String)),
       userData: Schema.optional(UserData),
@@ -224,9 +236,9 @@ export const AudienceMember: Schema.Schema<AudienceMember> = Schema.suspend(
       ppidData: Schema.optional(PpidData),
       consent: Schema.optional(Consent),
     }),
-).annotate({
-  identifier: "AudienceMember",
-}) as any as Schema.Schema<AudienceMember>;
+  ).annotate({
+    identifier: "AudienceMember",
+  }) as any as Schema.Schema<AudienceMember>;
 
 export interface GcpWrappedKeyInfo {
   /** Required. The type of algorithm used to encrypt the data. */
@@ -240,7 +252,7 @@ export interface GcpWrappedKeyInfo {
 }
 
 export const GcpWrappedKeyInfo: Schema.Schema<GcpWrappedKeyInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyType: Schema.optional(Schema.String),
       wipProvider: Schema.optional(Schema.String),
@@ -263,7 +275,7 @@ export interface AwsWrappedKeyInfo {
 }
 
 export const AwsWrappedKeyInfo: Schema.Schema<AwsWrappedKeyInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyType: Schema.optional(Schema.String),
       roleArn: Schema.optional(Schema.String),
@@ -281,15 +293,15 @@ export interface EncryptionInfo {
   awsWrappedKeyInfo?: AwsWrappedKeyInfo;
 }
 
-export const EncryptionInfo: Schema.Schema<EncryptionInfo> = Schema.suspend(
-  () =>
+export const EncryptionInfo: Schema.Schema<EncryptionInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcpWrappedKeyInfo: Schema.optional(GcpWrappedKeyInfo),
       awsWrappedKeyInfo: Schema.optional(AwsWrappedKeyInfo),
     }),
-).annotate({
-  identifier: "EncryptionInfo",
-}) as any as Schema.Schema<EncryptionInfo>;
+  ).annotate({
+    identifier: "EncryptionInfo",
+  }) as any as Schema.Schema<EncryptionInfo>;
 
 export interface TermsOfService {
   /** Optional. The Customer Match terms of service: https://support.google.com/adspolicy/answer/6299717. This must be accepted when ingesting UserData or MobileData. This field is not required for Partner Match User list. */
@@ -300,14 +312,14 @@ export interface TermsOfService {
     | (string & {});
 }
 
-export const TermsOfService: Schema.Schema<TermsOfService> = Schema.suspend(
-  () =>
+export const TermsOfService: Schema.Schema<TermsOfService> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerMatchTermsOfServiceStatus: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TermsOfService",
-}) as any as Schema.Schema<TermsOfService>;
+  ).annotate({
+    identifier: "TermsOfService",
+  }) as any as Schema.Schema<TermsOfService>;
 
 export interface IngestAudienceMembersRequest {
   /** Required. The list of destinations to send the audience members to. */
@@ -327,7 +339,7 @@ export interface IngestAudienceMembersRequest {
 }
 
 export const IngestAudienceMembersRequest: Schema.Schema<IngestAudienceMembersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinations: Schema.optional(Schema.Array(Destination)),
       audienceMembers: Schema.optional(Schema.Array(AudienceMember)),
@@ -347,7 +359,7 @@ export interface IngestAudienceMembersResponse {
 }
 
 export const IngestAudienceMembersResponse: Schema.Schema<IngestAudienceMembersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -369,7 +381,7 @@ export interface RemoveAudienceMembersRequest {
 }
 
 export const RemoveAudienceMembersRequest: Schema.Schema<RemoveAudienceMembersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinations: Schema.optional(Schema.Array(Destination)),
       audienceMembers: Schema.optional(Schema.Array(AudienceMember)),
@@ -387,7 +399,7 @@ export interface RemoveAudienceMembersResponse {
 }
 
 export const RemoveAudienceMembersResponse: Schema.Schema<RemoveAudienceMembersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -402,12 +414,13 @@ export interface DeviceInfo {
   ipAddress?: string;
 }
 
-export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    userAgent: Schema.optional(Schema.String),
-    ipAddress: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
+export const DeviceInfo: Schema.Schema<DeviceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userAgent: Schema.optional(Schema.String),
+      ipAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
 
 export interface AdIdentifiers {
   /** Optional. Session attributes for event attribution and modeling. */
@@ -422,17 +435,18 @@ export interface AdIdentifiers {
   landingPageDeviceInfo?: DeviceInfo;
 }
 
-export const AdIdentifiers: Schema.Schema<AdIdentifiers> = Schema.suspend(() =>
-  Schema.Struct({
-    sessionAttributes: Schema.optional(Schema.String),
-    gclid: Schema.optional(Schema.String),
-    gbraid: Schema.optional(Schema.String),
-    wbraid: Schema.optional(Schema.String),
-    landingPageDeviceInfo: Schema.optional(DeviceInfo),
-  }),
-).annotate({
-  identifier: "AdIdentifiers",
-}) as any as Schema.Schema<AdIdentifiers>;
+export const AdIdentifiers: Schema.Schema<AdIdentifiers> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sessionAttributes: Schema.optional(Schema.String),
+      gclid: Schema.optional(Schema.String),
+      gbraid: Schema.optional(Schema.String),
+      wbraid: Schema.optional(Schema.String),
+      landingPageDeviceInfo: Schema.optional(DeviceInfo),
+    }),
+  ).annotate({
+    identifier: "AdIdentifiers",
+  }) as any as Schema.Schema<AdIdentifiers>;
 
 export interface ItemParameter {
   /** Required. The name of the parameter to use. */
@@ -441,14 +455,15 @@ export interface ItemParameter {
   value?: string;
 }
 
-export const ItemParameter: Schema.Schema<ItemParameter> = Schema.suspend(() =>
-  Schema.Struct({
-    parameterName: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ItemParameter",
-}) as any as Schema.Schema<ItemParameter>;
+export const ItemParameter: Schema.Schema<ItemParameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      parameterName: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ItemParameter",
+  }) as any as Schema.Schema<ItemParameter>;
 
 export interface Item {
   /** Optional. The product ID within the Merchant Center account. */
@@ -463,15 +478,16 @@ export interface Item {
   additionalItemParameters?: Array<ItemParameter>;
 }
 
-export const Item: Schema.Schema<Item> = Schema.suspend(() =>
-  Schema.Struct({
-    merchantProductId: Schema.optional(Schema.String),
-    quantity: Schema.optional(Schema.String),
-    unitPrice: Schema.optional(Schema.Number),
-    itemId: Schema.optional(Schema.String),
-    additionalItemParameters: Schema.optional(Schema.Array(ItemParameter)),
-  }),
-).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
+export const Item: Schema.Schema<Item> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      merchantProductId: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      unitPrice: Schema.optional(Schema.Number),
+      itemId: Schema.optional(Schema.String),
+      additionalItemParameters: Schema.optional(Schema.Array(ItemParameter)),
+    }),
+  ).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
 
 export interface CartData {
   /** Optional. The Merchant Center ID associated with the items. */
@@ -486,15 +502,16 @@ export interface CartData {
   items?: Array<Item>;
 }
 
-export const CartData: Schema.Schema<CartData> = Schema.suspend(() =>
-  Schema.Struct({
-    merchantId: Schema.optional(Schema.String),
-    merchantFeedLabel: Schema.optional(Schema.String),
-    merchantFeedLanguageCode: Schema.optional(Schema.String),
-    transactionDiscount: Schema.optional(Schema.Number),
-    items: Schema.optional(Schema.Array(Item)),
-  }),
-).annotate({ identifier: "CartData" }) as any as Schema.Schema<CartData>;
+export const CartData: Schema.Schema<CartData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      merchantId: Schema.optional(Schema.String),
+      merchantFeedLabel: Schema.optional(Schema.String),
+      merchantFeedLanguageCode: Schema.optional(Schema.String),
+      transactionDiscount: Schema.optional(Schema.Number),
+      items: Schema.optional(Schema.Array(Item)),
+    }),
+  ).annotate({ identifier: "CartData" }) as any as Schema.Schema<CartData>;
 
 export interface CustomVariable {
   /** Optional. The name of the custom variable to set. If the variable is not found for the given destination, it will be ignored. */
@@ -505,16 +522,16 @@ export interface CustomVariable {
   destinationReferences?: Array<string>;
 }
 
-export const CustomVariable: Schema.Schema<CustomVariable> = Schema.suspend(
-  () =>
+export const CustomVariable: Schema.Schema<CustomVariable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       variable: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
       destinationReferences: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "CustomVariable",
-}) as any as Schema.Schema<CustomVariable>;
+  ).annotate({
+    identifier: "CustomVariable",
+  }) as any as Schema.Schema<CustomVariable>;
 
 export interface ExperimentalField {
   /** Optional. The name of the field to use. */
@@ -524,7 +541,7 @@ export interface ExperimentalField {
 }
 
 export const ExperimentalField: Schema.Schema<ExperimentalField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -540,14 +557,15 @@ export interface UserProperty {
   value?: string;
 }
 
-export const UserProperty: Schema.Schema<UserProperty> = Schema.suspend(() =>
-  Schema.Struct({
-    propertyName: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "UserProperty",
-}) as any as Schema.Schema<UserProperty>;
+export const UserProperty: Schema.Schema<UserProperty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      propertyName: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserProperty",
+  }) as any as Schema.Schema<UserProperty>;
 
 export interface UserProperties {
   /** Optional. Type of the customer associated with the event. */
@@ -568,16 +586,16 @@ export interface UserProperties {
   additionalUserProperties?: Array<UserProperty>;
 }
 
-export const UserProperties: Schema.Schema<UserProperties> = Schema.suspend(
-  () =>
+export const UserProperties: Schema.Schema<UserProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerType: Schema.optional(Schema.String),
       customerValueBucket: Schema.optional(Schema.String),
       additionalUserProperties: Schema.optional(Schema.Array(UserProperty)),
     }),
-).annotate({
-  identifier: "UserProperties",
-}) as any as Schema.Schema<UserProperties>;
+  ).annotate({
+    identifier: "UserProperties",
+  }) as any as Schema.Schema<UserProperties>;
 
 export interface EventParameter {
   /** Required. The name of the parameter to use. */
@@ -586,15 +604,15 @@ export interface EventParameter {
   value?: string;
 }
 
-export const EventParameter: Schema.Schema<EventParameter> = Schema.suspend(
-  () =>
+export const EventParameter: Schema.Schema<EventParameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameterName: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "EventParameter",
-}) as any as Schema.Schema<EventParameter>;
+  ).annotate({
+    identifier: "EventParameter",
+  }) as any as Schema.Schema<EventParameter>;
 
 export interface Event {
   /** Optional. Reference string used to determine the destination. If empty, the event will be sent to all destinations in the request. */
@@ -644,29 +662,30 @@ export interface Event {
   additionalEventParameters?: Array<EventParameter>;
 }
 
-export const Event: Schema.Schema<Event> = Schema.suspend(() =>
-  Schema.Struct({
-    destinationReferences: Schema.optional(Schema.Array(Schema.String)),
-    transactionId: Schema.optional(Schema.String),
-    eventTimestamp: Schema.optional(Schema.String),
-    lastUpdatedTimestamp: Schema.optional(Schema.String),
-    userData: Schema.optional(UserData),
-    consent: Schema.optional(Consent),
-    adIdentifiers: Schema.optional(AdIdentifiers),
-    currency: Schema.optional(Schema.String),
-    conversionValue: Schema.optional(Schema.Number),
-    eventSource: Schema.optional(Schema.String),
-    eventDeviceInfo: Schema.optional(DeviceInfo),
-    cartData: Schema.optional(CartData),
-    customVariables: Schema.optional(Schema.Array(CustomVariable)),
-    experimentalFields: Schema.optional(Schema.Array(ExperimentalField)),
-    userProperties: Schema.optional(UserProperties),
-    eventName: Schema.optional(Schema.String),
-    clientId: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    additionalEventParameters: Schema.optional(Schema.Array(EventParameter)),
-  }),
-).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
+export const Event: Schema.Schema<Event> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destinationReferences: Schema.optional(Schema.Array(Schema.String)),
+      transactionId: Schema.optional(Schema.String),
+      eventTimestamp: Schema.optional(Schema.String),
+      lastUpdatedTimestamp: Schema.optional(Schema.String),
+      userData: Schema.optional(UserData),
+      consent: Schema.optional(Consent),
+      adIdentifiers: Schema.optional(AdIdentifiers),
+      currency: Schema.optional(Schema.String),
+      conversionValue: Schema.optional(Schema.Number),
+      eventSource: Schema.optional(Schema.String),
+      eventDeviceInfo: Schema.optional(DeviceInfo),
+      cartData: Schema.optional(CartData),
+      customVariables: Schema.optional(Schema.Array(CustomVariable)),
+      experimentalFields: Schema.optional(Schema.Array(ExperimentalField)),
+      userProperties: Schema.optional(UserProperties),
+      eventName: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      additionalEventParameters: Schema.optional(Schema.Array(EventParameter)),
+    }),
+  ).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
 
 export interface IngestEventsRequest {
   /** Required. The list of destinations to send the events to. */
@@ -684,7 +703,7 @@ export interface IngestEventsRequest {
 }
 
 export const IngestEventsRequest: Schema.Schema<IngestEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinations: Schema.optional(Schema.Array(Destination)),
       events: Schema.optional(Schema.Array(Event)),
@@ -703,7 +722,7 @@ export interface IngestEventsResponse {
 }
 
 export const IngestEventsResponse: Schema.Schema<IngestEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
@@ -747,23 +766,25 @@ export interface ErrorCount {
     | (string & {});
 }
 
-export const ErrorCount: Schema.Schema<ErrorCount> = Schema.suspend(() =>
-  Schema.Struct({
-    recordCount: Schema.optional(Schema.String),
-    reason: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ErrorCount" }) as any as Schema.Schema<ErrorCount>;
+export const ErrorCount: Schema.Schema<ErrorCount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      recordCount: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ErrorCount" }) as any as Schema.Schema<ErrorCount>;
 
 export interface ErrorInfo {
   /** A list of errors and counts per error reason. May not be populated in all cases. */
   errorCounts?: Array<ErrorCount>;
 }
 
-export const ErrorInfo: Schema.Schema<ErrorInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    errorCounts: Schema.optional(Schema.Array(ErrorCount)),
-  }),
-).annotate({ identifier: "ErrorInfo" }) as any as Schema.Schema<ErrorInfo>;
+export const ErrorInfo: Schema.Schema<ErrorInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errorCounts: Schema.optional(Schema.Array(ErrorCount)),
+    }),
+  ).annotate({ identifier: "ErrorInfo" }) as any as Schema.Schema<ErrorInfo>;
 
 export interface WarningCount {
   /** The count of records that have a warning. */
@@ -783,25 +804,29 @@ export interface WarningCount {
     | (string & {});
 }
 
-export const WarningCount: Schema.Schema<WarningCount> = Schema.suspend(() =>
-  Schema.Struct({
-    recordCount: Schema.optional(Schema.String),
-    reason: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "WarningCount",
-}) as any as Schema.Schema<WarningCount>;
+export const WarningCount: Schema.Schema<WarningCount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      recordCount: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WarningCount",
+  }) as any as Schema.Schema<WarningCount>;
 
 export interface WarningInfo {
   /** A list of warnings and counts per warning reason. */
   warningCounts?: Array<WarningCount>;
 }
 
-export const WarningInfo: Schema.Schema<WarningInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    warningCounts: Schema.optional(Schema.Array(WarningCount)),
-  }),
-).annotate({ identifier: "WarningInfo" }) as any as Schema.Schema<WarningInfo>;
+export const WarningInfo: Schema.Schema<WarningInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      warningCounts: Schema.optional(Schema.Array(WarningCount)),
+    }),
+  ).annotate({
+    identifier: "WarningInfo",
+  }) as any as Schema.Schema<WarningInfo>;
 
 export interface IngestUserDataStatus {
   /** The total count of audience members sent in the upload request for the destination. Includes all audience members in the request, regardless of whether they were successfully ingested or not. */
@@ -825,7 +850,7 @@ export interface IngestUserDataStatus {
 }
 
 export const IngestUserDataStatus: Schema.Schema<IngestUserDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       userIdentifierCount: Schema.optional(Schema.String),
@@ -843,7 +868,7 @@ export interface IngestMobileDataStatus {
 }
 
 export const IngestMobileDataStatus: Schema.Schema<IngestMobileDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       mobileIdCount: Schema.optional(Schema.String),
@@ -860,7 +885,7 @@ export interface IngestPairDataStatus {
 }
 
 export const IngestPairDataStatus: Schema.Schema<IngestPairDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       pairIdCount: Schema.optional(Schema.String),
@@ -877,7 +902,7 @@ export interface IngestUserIdDataStatus {
 }
 
 export const IngestUserIdDataStatus: Schema.Schema<IngestUserIdDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       userIdCount: Schema.optional(Schema.String),
@@ -894,7 +919,7 @@ export interface IngestPpidDataStatus {
 }
 
 export const IngestPpidDataStatus: Schema.Schema<IngestPpidDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       ppidCount: Schema.optional(Schema.String),
@@ -917,7 +942,7 @@ export interface IngestAudienceMembersStatus {
 }
 
 export const IngestAudienceMembersStatus: Schema.Schema<IngestAudienceMembersStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userDataIngestionStatus: Schema.optional(IngestUserDataStatus),
       mobileDataIngestionStatus: Schema.optional(IngestMobileDataStatus),
@@ -935,7 +960,7 @@ export interface IngestEventsStatus {
 }
 
 export const IngestEventsStatus: Schema.Schema<IngestEventsStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
     }),
@@ -951,7 +976,7 @@ export interface RemoveUserDataStatus {
 }
 
 export const RemoveUserDataStatus: Schema.Schema<RemoveUserDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       userIdentifierCount: Schema.optional(Schema.String),
@@ -968,7 +993,7 @@ export interface RemoveMobileDataStatus {
 }
 
 export const RemoveMobileDataStatus: Schema.Schema<RemoveMobileDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       mobileIdCount: Schema.optional(Schema.String),
@@ -985,7 +1010,7 @@ export interface RemovePairDataStatus {
 }
 
 export const RemovePairDataStatus: Schema.Schema<RemovePairDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       pairIdCount: Schema.optional(Schema.String),
@@ -1002,7 +1027,7 @@ export interface RemoveUserIdDataStatus {
 }
 
 export const RemoveUserIdDataStatus: Schema.Schema<RemoveUserIdDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       userIdCount: Schema.optional(Schema.String),
@@ -1019,7 +1044,7 @@ export interface RemovePpidDataStatus {
 }
 
 export const RemovePpidDataStatus: Schema.Schema<RemovePpidDataStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordCount: Schema.optional(Schema.String),
       ppidCount: Schema.optional(Schema.String),
@@ -1042,7 +1067,7 @@ export interface RemoveAudienceMembersStatus {
 }
 
 export const RemoveAudienceMembersStatus: Schema.Schema<RemoveAudienceMembersStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userDataRemovalStatus: Schema.optional(RemoveUserDataStatus),
       mobileDataRemovalStatus: Schema.optional(RemoveMobileDataStatus),
@@ -1078,7 +1103,7 @@ export interface RequestStatusPerDestination {
 }
 
 export const RequestStatusPerDestination: Schema.Schema<RequestStatusPerDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Destination),
       requestStatus: Schema.optional(Schema.String),
@@ -1102,7 +1127,7 @@ export interface RetrieveRequestStatusResponse {
 }
 
 export const RetrieveRequestStatusResponse: Schema.Schema<RetrieveRequestStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestStatusPerDestination: Schema.optional(
         Schema.Array(RequestStatusPerDestination),
@@ -1117,11 +1142,12 @@ export interface Location {
   regionCodes?: Array<string>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    regionCodes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regionCodes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface Baseline {
   /** The baseline location of the request. Baseline location is an OR-list of the requested regions. */
@@ -1130,12 +1156,13 @@ export interface Baseline {
   locationAutoDetectionEnabled?: boolean;
 }
 
-export const Baseline: Schema.Schema<Baseline> = Schema.suspend(() =>
-  Schema.Struct({
-    baselineLocation: Schema.optional(Location),
-    locationAutoDetectionEnabled: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Baseline" }) as any as Schema.Schema<Baseline>;
+export const Baseline: Schema.Schema<Baseline> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      baselineLocation: Schema.optional(Location),
+      locationAutoDetectionEnabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Baseline" }) as any as Schema.Schema<Baseline>;
 
 export interface RetrieveInsightsRequest {
   /** Required. Baseline for the insights requested. */
@@ -1145,7 +1172,7 @@ export interface RetrieveInsightsRequest {
 }
 
 export const RetrieveInsightsRequest: Schema.Schema<RetrieveInsightsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       baseline: Schema.optional(Baseline),
       userListId: Schema.optional(Schema.String),
@@ -1180,7 +1207,7 @@ export interface MarketingDataInsightsAttribute {
 }
 
 export const MarketingDataInsightsAttribute: Schema.Schema<MarketingDataInsightsAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userInterestId: Schema.optional(Schema.String),
       lift: Schema.optional(Schema.Number),
@@ -1206,7 +1233,7 @@ export interface MarketingDataInsight {
 }
 
 export const MarketingDataInsight: Schema.Schema<MarketingDataInsight> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimension: Schema.optional(Schema.String),
       attributes: Schema.optional(Schema.Array(MarketingDataInsightsAttribute)),
@@ -1221,7 +1248,7 @@ export interface RetrieveInsightsResponse {
 }
 
 export const RetrieveInsightsResponse: Schema.Schema<RetrieveInsightsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       marketingDataInsights: Schema.optional(
         Schema.Array(MarketingDataInsight),
@@ -1242,20 +1269,24 @@ export interface PartnerLink {
   partnerAccount?: ProductAccount;
 }
 
-export const PartnerLink: Schema.Schema<PartnerLink> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    partnerLinkId: Schema.optional(Schema.String),
-    owningAccount: Schema.optional(ProductAccount),
-    partnerAccount: Schema.optional(ProductAccount),
-  }),
-).annotate({ identifier: "PartnerLink" }) as any as Schema.Schema<PartnerLink>;
+export const PartnerLink: Schema.Schema<PartnerLink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      partnerLinkId: Schema.optional(Schema.String),
+      owningAccount: Schema.optional(ProductAccount),
+      partnerAccount: Schema.optional(ProductAccount),
+    }),
+  ).annotate({
+    identifier: "PartnerLink",
+  }) as any as Schema.Schema<PartnerLink>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface SearchPartnerLinksResponse {
   /** The partner links for the given account. */
@@ -1265,7 +1296,7 @@ export interface SearchPartnerLinksResponse {
 }
 
 export const SearchPartnerLinksResponse: Schema.Schema<SearchPartnerLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerLinks: Schema.optional(Schema.Array(PartnerLink)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1306,7 +1337,7 @@ export interface UserListLicensePricing {
 }
 
 export const UserListLicensePricing: Schema.Schema<UserListLicensePricing> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pricingId: Schema.optional(Schema.String),
       costMicros: Schema.optional(Schema.String),
@@ -1336,7 +1367,7 @@ export interface UserListLicenseMetrics {
 }
 
 export const UserListLicenseMetrics: Schema.Schema<UserListLicenseMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clickCount: Schema.optional(Schema.String),
       impressionCount: Schema.optional(Schema.String),
@@ -1382,7 +1413,7 @@ export interface UserListDirectLicense {
 }
 
 export const UserListDirectLicense: Schema.Schema<UserListDirectLicense> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       userListId: Schema.optional(Schema.String),
@@ -1407,7 +1438,7 @@ export interface ListUserListDirectLicensesResponse {
 }
 
 export const ListUserListDirectLicensesResponse: Schema.Schema<ListUserListDirectLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userListDirectLicenses: Schema.optional(
         Schema.Array(UserListDirectLicense),
@@ -1447,7 +1478,7 @@ export interface UserListGlobalLicense {
 }
 
 export const UserListGlobalLicense: Schema.Schema<UserListGlobalLicense> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       userListId: Schema.optional(Schema.String),
@@ -1470,7 +1501,7 @@ export interface ListUserListGlobalLicensesResponse {
 }
 
 export const ListUserListGlobalLicensesResponse: Schema.Schema<ListUserListGlobalLicensesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userListGlobalLicenses: Schema.optional(
         Schema.Array(UserListGlobalLicense),
@@ -1522,7 +1553,7 @@ export interface UserListGlobalLicenseCustomerInfo {
 }
 
 export const UserListGlobalLicenseCustomerInfo: Schema.Schema<UserListGlobalLicenseCustomerInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       userListId: Schema.optional(Schema.String),
@@ -1548,7 +1579,7 @@ export interface ListUserListGlobalLicenseCustomerInfosResponse {
 }
 
 export const ListUserListGlobalLicenseCustomerInfosResponse: Schema.Schema<ListUserListGlobalLicenseCustomerInfosResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userListGlobalLicenseCustomerInfos: Schema.optional(
         Schema.Array(UserListGlobalLicenseCustomerInfo),
@@ -1566,12 +1597,13 @@ export interface SizeInfo {
   searchNetworkMembersCount?: string;
 }
 
-export const SizeInfo: Schema.Schema<SizeInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    displayNetworkMembersCount: Schema.optional(Schema.String),
-    searchNetworkMembersCount: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SizeInfo" }) as any as Schema.Schema<SizeInfo>;
+export const SizeInfo: Schema.Schema<SizeInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayNetworkMembersCount: Schema.optional(Schema.String),
+      searchNetworkMembersCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SizeInfo" }) as any as Schema.Schema<SizeInfo>;
 
 export interface TargetNetworkInfo {
   /** Output only. Indicates this user list is eligible for Google Display Network. */
@@ -1581,7 +1613,7 @@ export interface TargetNetworkInfo {
 }
 
 export const TargetNetworkInfo: Schema.Schema<TargetNetworkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eligibleForDisplay: Schema.optional(Schema.Boolean),
       eligibleForSearch: Schema.optional(Schema.Boolean),
@@ -1603,14 +1635,15 @@ export interface ContactIdInfo {
   matchRatePercentage?: number;
 }
 
-export const ContactIdInfo: Schema.Schema<ContactIdInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    dataSourceType: Schema.optional(Schema.String),
-    matchRatePercentage: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "ContactIdInfo",
-}) as any as Schema.Schema<ContactIdInfo>;
+export const ContactIdInfo: Schema.Schema<ContactIdInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceType: Schema.optional(Schema.String),
+      matchRatePercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ContactIdInfo",
+  }) as any as Schema.Schema<ContactIdInfo>;
 
 export interface MobileIdInfo {
   /** Optional. Immutable. Source of the upload data. */
@@ -1627,15 +1660,16 @@ export interface MobileIdInfo {
   appId?: string;
 }
 
-export const MobileIdInfo: Schema.Schema<MobileIdInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    dataSourceType: Schema.optional(Schema.String),
-    keySpace: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MobileIdInfo",
-}) as any as Schema.Schema<MobileIdInfo>;
+export const MobileIdInfo: Schema.Schema<MobileIdInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceType: Schema.optional(Schema.String),
+      keySpace: Schema.optional(Schema.String),
+      appId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MobileIdInfo",
+  }) as any as Schema.Schema<MobileIdInfo>;
 
 export interface UserIdInfo {
   /** Optional. Immutable. Source of the upload data. */
@@ -1648,11 +1682,12 @@ export interface UserIdInfo {
     | (string & {});
 }
 
-export const UserIdInfo: Schema.Schema<UserIdInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    dataSourceType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserIdInfo" }) as any as Schema.Schema<UserIdInfo>;
+export const UserIdInfo: Schema.Schema<UserIdInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "UserIdInfo" }) as any as Schema.Schema<UserIdInfo>;
 
 export interface PairIdInfo {
   /** Required. Immutable. Identifies the publisher that the Publisher Advertiser Identity Reconciliation user list is reconciled with. This field is provided by the cleanroom provider and is only unique in the scope of that cleanroom. This cannot be used as a global identifier across multiple cleanrooms. */
@@ -1667,15 +1702,16 @@ export interface PairIdInfo {
   cleanRoomIdentifier?: string;
 }
 
-export const PairIdInfo: Schema.Schema<PairIdInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    publisherId: Schema.optional(Schema.String),
-    publisherName: Schema.optional(Schema.String),
-    matchRatePercentage: Schema.optional(Schema.Number),
-    advertiserIdentifierCount: Schema.optional(Schema.String),
-    cleanRoomIdentifier: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PairIdInfo" }) as any as Schema.Schema<PairIdInfo>;
+export const PairIdInfo: Schema.Schema<PairIdInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publisherId: Schema.optional(Schema.String),
+      publisherName: Schema.optional(Schema.String),
+      matchRatePercentage: Schema.optional(Schema.Number),
+      advertiserIdentifierCount: Schema.optional(Schema.String),
+      cleanRoomIdentifier: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PairIdInfo" }) as any as Schema.Schema<PairIdInfo>;
 
 export interface PseudonymousIdInfo {
   /** Output only. Sync status of the user list. */
@@ -1690,7 +1726,7 @@ export interface PseudonymousIdInfo {
 }
 
 export const PseudonymousIdInfo: Schema.Schema<PseudonymousIdInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       syncStatus: Schema.optional(Schema.String),
       billableRecordCount: Schema.optional(Schema.String),
@@ -1712,7 +1748,7 @@ export interface PartnerAudienceInfo {
 }
 
 export const PartnerAudienceInfo: Schema.Schema<PartnerAudienceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerAudienceSource: Schema.optional(Schema.String),
       commercePartner: Schema.optional(Schema.String),
@@ -1747,7 +1783,7 @@ export interface IngestedUserListInfo {
 }
 
 export const IngestedUserListInfo: Schema.Schema<IngestedUserListInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uploadKeyTypes: Schema.optional(Schema.Array(Schema.String)),
       contactIdInfo: Schema.optional(ContactIdInfo),
@@ -1807,24 +1843,25 @@ export interface UserList {
   ingestedUserListInfo?: IngestedUserListInfo;
 }
 
-export const UserList: Schema.Schema<UserList> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    readOnly: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    membershipStatus: Schema.optional(Schema.String),
-    integrationCode: Schema.optional(Schema.String),
-    membershipDuration: Schema.optional(Schema.String),
-    closingReason: Schema.optional(Schema.String),
-    accessReason: Schema.optional(Schema.String),
-    accountAccessStatus: Schema.optional(Schema.String),
-    sizeInfo: Schema.optional(SizeInfo),
-    targetNetworkInfo: Schema.optional(TargetNetworkInfo),
-    ingestedUserListInfo: Schema.optional(IngestedUserListInfo),
-  }),
-).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
+export const UserList: Schema.Schema<UserList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      readOnly: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      membershipStatus: Schema.optional(Schema.String),
+      integrationCode: Schema.optional(Schema.String),
+      membershipDuration: Schema.optional(Schema.String),
+      closingReason: Schema.optional(Schema.String),
+      accessReason: Schema.optional(Schema.String),
+      accountAccessStatus: Schema.optional(Schema.String),
+      sizeInfo: Schema.optional(SizeInfo),
+      targetNetworkInfo: Schema.optional(TargetNetworkInfo),
+      ingestedUserListInfo: Schema.optional(IngestedUserListInfo),
+    }),
+  ).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
 
 export interface ListUserListsResponse {
   /** The user lists from the specified account. */
@@ -1834,7 +1871,7 @@ export interface ListUserListsResponse {
 }
 
 export const ListUserListsResponse: Schema.Schema<ListUserListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLists: Schema.optional(Schema.Array(UserList)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1852,15 +1889,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 // ==========================================================================
 // Operations
@@ -1871,15 +1909,21 @@ export interface IngestAudienceMembersRequest_Op {
   body?: IngestAudienceMembersRequest;
 }
 
-export const IngestAudienceMembersRequest_Op = Schema.Struct({
-  body: Schema.optional(IngestAudienceMembersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/audienceMembers:ingest", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<IngestAudienceMembersRequest_Op>;
+export const IngestAudienceMembersRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IngestAudienceMembersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/audienceMembers:ingest",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<IngestAudienceMembersRequest_Op>;
 
 export type IngestAudienceMembersResponse_Op = IngestAudienceMembersResponse;
-export const IngestAudienceMembersResponse_Op = IngestAudienceMembersResponse;
+export const IngestAudienceMembersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ IngestAudienceMembersResponse;
 
 export type IngestAudienceMembersError = DefaultErrors;
 
@@ -1889,7 +1933,7 @@ export const ingestAudienceMembers: API.OperationMethod<
   IngestAudienceMembersResponse_Op,
   IngestAudienceMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IngestAudienceMembersRequest_Op,
   output: IngestAudienceMembersResponse_Op,
   errors: [],
@@ -1900,15 +1944,21 @@ export interface RemoveAudienceMembersRequest_Op {
   body?: RemoveAudienceMembersRequest;
 }
 
-export const RemoveAudienceMembersRequest_Op = Schema.Struct({
-  body: Schema.optional(RemoveAudienceMembersRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/audienceMembers:remove", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RemoveAudienceMembersRequest_Op>;
+export const RemoveAudienceMembersRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(RemoveAudienceMembersRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/audienceMembers:remove",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveAudienceMembersRequest_Op>;
 
 export type RemoveAudienceMembersResponse_Op = RemoveAudienceMembersResponse;
-export const RemoveAudienceMembersResponse_Op = RemoveAudienceMembersResponse;
+export const RemoveAudienceMembersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ RemoveAudienceMembersResponse;
 
 export type RemoveAudienceMembersError = DefaultErrors;
 
@@ -1918,7 +1968,7 @@ export const removeAudienceMembers: API.OperationMethod<
   RemoveAudienceMembersResponse_Op,
   RemoveAudienceMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAudienceMembersRequest_Op,
   output: RemoveAudienceMembersResponse_Op,
   errors: [],
@@ -1929,15 +1979,18 @@ export interface IngestEventsRequest_Op {
   body?: IngestEventsRequest;
 }
 
-export const IngestEventsRequest_Op = Schema.Struct({
-  body: Schema.optional(IngestEventsRequest).pipe(T.HttpBody()),
-}).pipe(
+export const IngestEventsRequest_Op = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(IngestEventsRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v1/events:ingest", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<IngestEventsRequest_Op>;
 
 export type IngestEventsResponse_Op = IngestEventsResponse;
-export const IngestEventsResponse_Op = IngestEventsResponse;
+export const IngestEventsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ IngestEventsResponse;
 
 export type IngestEventsError = DefaultErrors;
 
@@ -1947,7 +2000,7 @@ export const ingestEvents: API.OperationMethod<
   IngestEventsResponse_Op,
   IngestEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IngestEventsRequest_Op,
   output: IngestEventsResponse_Op,
   errors: [],
@@ -1958,15 +2011,17 @@ export interface RetrieveRequestStatusRequest {
   requestId?: string;
 }
 
-export const RetrieveRequestStatusRequest = Schema.Struct({
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/requestStatus:retrieve" }),
-  svc,
-) as unknown as Schema.Schema<RetrieveRequestStatusRequest>;
+export const RetrieveRequestStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/requestStatus:retrieve" }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveRequestStatusRequest>;
 
 export type RetrieveRequestStatusResponse_Op = RetrieveRequestStatusResponse;
-export const RetrieveRequestStatusResponse_Op = RetrieveRequestStatusResponse;
+export const RetrieveRequestStatusResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ RetrieveRequestStatusResponse;
 
 export type RetrieveRequestStatusError = DefaultErrors;
 
@@ -1976,7 +2031,7 @@ export const retrieveRequestStatus: API.OperationMethod<
   RetrieveRequestStatusResponse_Op,
   RetrieveRequestStatusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveRequestStatusRequest,
   output: RetrieveRequestStatusResponse_Op,
   errors: [],
@@ -1989,22 +2044,23 @@ export interface RetrieveAccountTypesAccountsInsightsRequest {
   body?: RetrieveInsightsRequest;
 }
 
-export const RetrieveAccountTypesAccountsInsightsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(RetrieveInsightsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/insights:retrieve",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RetrieveAccountTypesAccountsInsightsRequest>;
+export const RetrieveAccountTypesAccountsInsightsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(RetrieveInsightsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/insights:retrieve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveAccountTypesAccountsInsightsRequest>;
 
 export type RetrieveAccountTypesAccountsInsightsResponse =
   RetrieveInsightsResponse;
 export const RetrieveAccountTypesAccountsInsightsResponse =
-  RetrieveInsightsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RetrieveInsightsResponse;
 
 export type RetrieveAccountTypesAccountsInsightsError = DefaultErrors;
 
@@ -2014,7 +2070,7 @@ export const retrieveAccountTypesAccountsInsights: API.OperationMethod<
   RetrieveAccountTypesAccountsInsightsResponse,
   RetrieveAccountTypesAccountsInsightsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveAccountTypesAccountsInsightsRequest,
   output: RetrieveAccountTypesAccountsInsightsResponse,
   errors: [],
@@ -2027,20 +2083,22 @@ export interface CreateAccountTypesAccountsPartnerLinksRequest {
   body?: PartnerLink;
 }
 
-export const CreateAccountTypesAccountsPartnerLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PartnerLink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountTypesAccountsPartnerLinksRequest>;
+export const CreateAccountTypesAccountsPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PartnerLink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountTypesAccountsPartnerLinksRequest>;
 
 export type CreateAccountTypesAccountsPartnerLinksResponse = PartnerLink;
-export const CreateAccountTypesAccountsPartnerLinksResponse = PartnerLink;
+export const CreateAccountTypesAccountsPartnerLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PartnerLink;
 
 export type CreateAccountTypesAccountsPartnerLinksError = DefaultErrors;
 
@@ -2050,7 +2108,7 @@ export const createAccountTypesAccountsPartnerLinks: API.OperationMethod<
   CreateAccountTypesAccountsPartnerLinksResponse,
   CreateAccountTypesAccountsPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountTypesAccountsPartnerLinksRequest,
   output: CreateAccountTypesAccountsPartnerLinksResponse,
   errors: [],
@@ -2061,18 +2119,20 @@ export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   name: string;
 }
 
-export const DeleteAccountTypesAccountsPartnerLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks/{partnerLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountTypesAccountsPartnerLinksRequest>;
+export const DeleteAccountTypesAccountsPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks/{partnerLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountTypesAccountsPartnerLinksRequest>;
 
 export type DeleteAccountTypesAccountsPartnerLinksResponse = Empty;
-export const DeleteAccountTypesAccountsPartnerLinksResponse = Empty;
+export const DeleteAccountTypesAccountsPartnerLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountTypesAccountsPartnerLinksError = DefaultErrors;
 
@@ -2082,7 +2142,7 @@ export const deleteAccountTypesAccountsPartnerLinks: API.OperationMethod<
   DeleteAccountTypesAccountsPartnerLinksResponse,
   DeleteAccountTypesAccountsPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountTypesAccountsPartnerLinksRequest,
   output: DeleteAccountTypesAccountsPartnerLinksResponse,
   errors: [],
@@ -2099,23 +2159,24 @@ export interface SearchAccountTypesAccountsPartnerLinksRequest {
   filter?: string;
 }
 
-export const SearchAccountTypesAccountsPartnerLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchAccountTypesAccountsPartnerLinksRequest>;
+export const SearchAccountTypesAccountsPartnerLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/partnerLinks:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchAccountTypesAccountsPartnerLinksRequest>;
 
 export type SearchAccountTypesAccountsPartnerLinksResponse =
   SearchPartnerLinksResponse;
 export const SearchAccountTypesAccountsPartnerLinksResponse =
-  SearchPartnerLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchPartnerLinksResponse;
 
 export type SearchAccountTypesAccountsPartnerLinksError = DefaultErrors;
 
@@ -2125,7 +2186,7 @@ export const searchAccountTypesAccountsPartnerLinks: API.PaginatedOperationMetho
   SearchAccountTypesAccountsPartnerLinksResponse,
   SearchAccountTypesAccountsPartnerLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchAccountTypesAccountsPartnerLinksRequest,
   output: SearchAccountTypesAccountsPartnerLinksResponse,
   errors: [],
@@ -2143,7 +2204,7 @@ export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
 }
 
 export const CreateAccountTypesAccountsUserListDirectLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(UserListDirectLicense).pipe(T.HttpBody()),
   }).pipe(
@@ -2158,7 +2219,7 @@ export const CreateAccountTypesAccountsUserListDirectLicensesRequest =
 export type CreateAccountTypesAccountsUserListDirectLicensesResponse =
   UserListDirectLicense;
 export const CreateAccountTypesAccountsUserListDirectLicensesResponse =
-  UserListDirectLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListDirectLicense;
 
 export type CreateAccountTypesAccountsUserListDirectLicensesError =
   DefaultErrors;
@@ -2169,7 +2230,7 @@ export const createAccountTypesAccountsUserListDirectLicenses: API.OperationMeth
   CreateAccountTypesAccountsUserListDirectLicensesResponse,
   CreateAccountTypesAccountsUserListDirectLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountTypesAccountsUserListDirectLicensesRequest,
   output: CreateAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
@@ -2181,7 +2242,7 @@ export interface GetAccountTypesAccountsUserListDirectLicensesRequest {
 }
 
 export const GetAccountTypesAccountsUserListDirectLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -2194,7 +2255,7 @@ export const GetAccountTypesAccountsUserListDirectLicensesRequest =
 export type GetAccountTypesAccountsUserListDirectLicensesResponse =
   UserListDirectLicense;
 export const GetAccountTypesAccountsUserListDirectLicensesResponse =
-  UserListDirectLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListDirectLicense;
 
 export type GetAccountTypesAccountsUserListDirectLicensesError = DefaultErrors;
 
@@ -2204,7 +2265,7 @@ export const getAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<
   GetAccountTypesAccountsUserListDirectLicensesResponse,
   GetAccountTypesAccountsUserListDirectLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountTypesAccountsUserListDirectLicensesRequest,
   output: GetAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
@@ -2220,7 +2281,7 @@ export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
 }
 
 export const PatchAccountTypesAccountsUserListDirectLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(UserListDirectLicense).pipe(T.HttpBody()),
@@ -2236,7 +2297,7 @@ export const PatchAccountTypesAccountsUserListDirectLicensesRequest =
 export type PatchAccountTypesAccountsUserListDirectLicensesResponse =
   UserListDirectLicense;
 export const PatchAccountTypesAccountsUserListDirectLicensesResponse =
-  UserListDirectLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListDirectLicense;
 
 export type PatchAccountTypesAccountsUserListDirectLicensesError =
   DefaultErrors;
@@ -2247,7 +2308,7 @@ export const patchAccountTypesAccountsUserListDirectLicenses: API.OperationMetho
   PatchAccountTypesAccountsUserListDirectLicensesResponse,
   PatchAccountTypesAccountsUserListDirectLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountTypesAccountsUserListDirectLicensesRequest,
   output: PatchAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
@@ -2265,7 +2326,7 @@ export interface ListAccountTypesAccountsUserListDirectLicensesRequest {
 }
 
 export const ListAccountTypesAccountsUserListDirectLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2281,7 +2342,7 @@ export const ListAccountTypesAccountsUserListDirectLicensesRequest =
 export type ListAccountTypesAccountsUserListDirectLicensesResponse =
   ListUserListDirectLicensesResponse;
 export const ListAccountTypesAccountsUserListDirectLicensesResponse =
-  ListUserListDirectLicensesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListUserListDirectLicensesResponse;
 
 export type ListAccountTypesAccountsUserListDirectLicensesError = DefaultErrors;
 
@@ -2291,7 +2352,7 @@ export const listAccountTypesAccountsUserListDirectLicenses: API.PaginatedOperat
   ListAccountTypesAccountsUserListDirectLicensesResponse,
   ListAccountTypesAccountsUserListDirectLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListDirectLicensesRequest,
   output: ListAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
@@ -2309,7 +2370,7 @@ export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
 }
 
 export const CreateAccountTypesAccountsUserListGlobalLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(UserListGlobalLicense).pipe(T.HttpBody()),
   }).pipe(
@@ -2324,7 +2385,7 @@ export const CreateAccountTypesAccountsUserListGlobalLicensesRequest =
 export type CreateAccountTypesAccountsUserListGlobalLicensesResponse =
   UserListGlobalLicense;
 export const CreateAccountTypesAccountsUserListGlobalLicensesResponse =
-  UserListGlobalLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListGlobalLicense;
 
 export type CreateAccountTypesAccountsUserListGlobalLicensesError =
   DefaultErrors;
@@ -2335,7 +2396,7 @@ export const createAccountTypesAccountsUserListGlobalLicenses: API.OperationMeth
   CreateAccountTypesAccountsUserListGlobalLicensesResponse,
   CreateAccountTypesAccountsUserListGlobalLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountTypesAccountsUserListGlobalLicensesRequest,
   output: CreateAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
@@ -2351,7 +2412,7 @@ export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
 }
 
 export const PatchAccountTypesAccountsUserListGlobalLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(UserListGlobalLicense).pipe(T.HttpBody()),
@@ -2367,7 +2428,7 @@ export const PatchAccountTypesAccountsUserListGlobalLicensesRequest =
 export type PatchAccountTypesAccountsUserListGlobalLicensesResponse =
   UserListGlobalLicense;
 export const PatchAccountTypesAccountsUserListGlobalLicensesResponse =
-  UserListGlobalLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListGlobalLicense;
 
 export type PatchAccountTypesAccountsUserListGlobalLicensesError =
   DefaultErrors;
@@ -2378,7 +2439,7 @@ export const patchAccountTypesAccountsUserListGlobalLicenses: API.OperationMetho
   PatchAccountTypesAccountsUserListGlobalLicensesResponse,
   PatchAccountTypesAccountsUserListGlobalLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountTypesAccountsUserListGlobalLicensesRequest,
   output: PatchAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
@@ -2390,7 +2451,7 @@ export interface GetAccountTypesAccountsUserListGlobalLicensesRequest {
 }
 
 export const GetAccountTypesAccountsUserListGlobalLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -2403,7 +2464,7 @@ export const GetAccountTypesAccountsUserListGlobalLicensesRequest =
 export type GetAccountTypesAccountsUserListGlobalLicensesResponse =
   UserListGlobalLicense;
 export const GetAccountTypesAccountsUserListGlobalLicensesResponse =
-  UserListGlobalLicense;
+  /*@__PURE__*/ /*#__PURE__*/ UserListGlobalLicense;
 
 export type GetAccountTypesAccountsUserListGlobalLicensesError = DefaultErrors;
 
@@ -2413,7 +2474,7 @@ export const getAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<
   GetAccountTypesAccountsUserListGlobalLicensesResponse,
   GetAccountTypesAccountsUserListGlobalLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountTypesAccountsUserListGlobalLicensesRequest,
   output: GetAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
@@ -2431,7 +2492,7 @@ export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
 }
 
 export const ListAccountTypesAccountsUserListGlobalLicensesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2447,7 +2508,7 @@ export const ListAccountTypesAccountsUserListGlobalLicensesRequest =
 export type ListAccountTypesAccountsUserListGlobalLicensesResponse =
   ListUserListGlobalLicensesResponse;
 export const ListAccountTypesAccountsUserListGlobalLicensesResponse =
-  ListUserListGlobalLicensesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListUserListGlobalLicensesResponse;
 
 export type ListAccountTypesAccountsUserListGlobalLicensesError = DefaultErrors;
 
@@ -2457,7 +2518,7 @@ export const listAccountTypesAccountsUserListGlobalLicenses: API.PaginatedOperat
   ListAccountTypesAccountsUserListGlobalLicensesResponse,
   ListAccountTypesAccountsUserListGlobalLicensesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListGlobalLicensesRequest,
   output: ListAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
@@ -2479,7 +2540,7 @@ export interface ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLic
 }
 
 export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2495,7 +2556,7 @@ export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
 export type ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosResponse =
   ListUserListGlobalLicenseCustomerInfosResponse;
 export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosResponse =
-  ListUserListGlobalLicenseCustomerInfosResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListUserListGlobalLicenseCustomerInfosResponse;
 
 export type ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosError =
   DefaultErrors;
@@ -2506,7 +2567,7 @@ export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
   ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosResponse,
   ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest,
   output:
@@ -2523,18 +2584,20 @@ export interface GetAccountTypesAccountsUserListsRequest {
   name: string;
 }
 
-export const GetAccountTypesAccountsUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountTypesAccountsUserListsRequest>;
+export const GetAccountTypesAccountsUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountTypesAccountsUserListsRequest>;
 
 export type GetAccountTypesAccountsUserListsResponse = UserList;
-export const GetAccountTypesAccountsUserListsResponse = UserList;
+export const GetAccountTypesAccountsUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type GetAccountTypesAccountsUserListsError = DefaultErrors;
 
@@ -2544,7 +2607,7 @@ export const getAccountTypesAccountsUserLists: API.OperationMethod<
   GetAccountTypesAccountsUserListsResponse,
   GetAccountTypesAccountsUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountTypesAccountsUserListsRequest,
   output: GetAccountTypesAccountsUserListsResponse,
   errors: [],
@@ -2561,21 +2624,23 @@ export interface ListAccountTypesAccountsUserListsRequest {
   filter?: string;
 }
 
-export const ListAccountTypesAccountsUserListsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountTypesAccountsUserListsRequest>;
+export const ListAccountTypesAccountsUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountTypesAccountsUserListsRequest>;
 
 export type ListAccountTypesAccountsUserListsResponse = ListUserListsResponse;
-export const ListAccountTypesAccountsUserListsResponse = ListUserListsResponse;
+export const ListAccountTypesAccountsUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserListsResponse;
 
 export type ListAccountTypesAccountsUserListsError = DefaultErrors;
 
@@ -2585,7 +2650,7 @@ export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<
   ListAccountTypesAccountsUserListsResponse,
   ListAccountTypesAccountsUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListsRequest,
   output: ListAccountTypesAccountsUserListsResponse,
   errors: [],
@@ -2604,23 +2669,25 @@ export interface CreateAccountTypesAccountsUserListsRequest {
   body?: UserList;
 }
 
-export const CreateAccountTypesAccountsUserListsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(UserList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountTypesAccountsUserListsRequest>;
+export const CreateAccountTypesAccountsUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(UserList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountTypesAccountsUserListsRequest>;
 
 export type CreateAccountTypesAccountsUserListsResponse = UserList;
-export const CreateAccountTypesAccountsUserListsResponse = UserList;
+export const CreateAccountTypesAccountsUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type CreateAccountTypesAccountsUserListsError = DefaultErrors;
 
@@ -2630,7 +2697,7 @@ export const createAccountTypesAccountsUserLists: API.OperationMethod<
   CreateAccountTypesAccountsUserListsResponse,
   CreateAccountTypesAccountsUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountTypesAccountsUserListsRequest,
   output: CreateAccountTypesAccountsUserListsResponse,
   errors: [],
@@ -2647,24 +2714,26 @@ export interface PatchAccountTypesAccountsUserListsRequest {
   body?: UserList;
 }
 
-export const PatchAccountTypesAccountsUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(UserList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountTypesAccountsUserListsRequest>;
+export const PatchAccountTypesAccountsUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(UserList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountTypesAccountsUserListsRequest>;
 
 export type PatchAccountTypesAccountsUserListsResponse = UserList;
-export const PatchAccountTypesAccountsUserListsResponse = UserList;
+export const PatchAccountTypesAccountsUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type PatchAccountTypesAccountsUserListsError = DefaultErrors;
 
@@ -2674,7 +2743,7 @@ export const patchAccountTypesAccountsUserLists: API.OperationMethod<
   PatchAccountTypesAccountsUserListsResponse,
   PatchAccountTypesAccountsUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountTypesAccountsUserListsRequest,
   output: PatchAccountTypesAccountsUserListsResponse,
   errors: [],
@@ -2687,21 +2756,23 @@ export interface DeleteAccountTypesAccountsUserListsRequest {
   validateOnly?: boolean;
 }
 
-export const DeleteAccountTypesAccountsUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountTypesAccountsUserListsRequest>;
+export const DeleteAccountTypesAccountsUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accountTypes/{accountTypesId}/accounts/{accountsId}/userLists/{userListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountTypesAccountsUserListsRequest>;
 
 export type DeleteAccountTypesAccountsUserListsResponse = Empty;
-export const DeleteAccountTypesAccountsUserListsResponse = Empty;
+export const DeleteAccountTypesAccountsUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountTypesAccountsUserListsError = DefaultErrors;
 
@@ -2711,7 +2782,7 @@ export const deleteAccountTypesAccountsUserLists: API.OperationMethod<
   DeleteAccountTypesAccountsUserListsResponse,
   DeleteAccountTypesAccountsUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountTypesAccountsUserListsRequest,
   output: DeleteAccountTypesAccountsUserListsResponse,
   errors: [],

@@ -62,7 +62,7 @@ export interface GoogleCloudDatapipelinesV1RuntimeEnvironment {
 }
 
 export const GoogleCloudDatapipelinesV1RuntimeEnvironment: Schema.Schema<GoogleCloudDatapipelinesV1RuntimeEnvironment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numWorkers: Schema.optional(Schema.Number),
       maxWorkers: Schema.optional(Schema.Number),
@@ -101,7 +101,7 @@ export interface GoogleCloudDatapipelinesV1LaunchTemplateParameters {
 }
 
 export const GoogleCloudDatapipelinesV1LaunchTemplateParameters: Schema.Schema<GoogleCloudDatapipelinesV1LaunchTemplateParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobName: Schema.optional(Schema.String),
       parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -131,7 +131,7 @@ export interface GoogleCloudDatapipelinesV1LaunchTemplateRequest {
 }
 
 export const GoogleCloudDatapipelinesV1LaunchTemplateRequest: Schema.Schema<GoogleCloudDatapipelinesV1LaunchTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       validateOnly: Schema.optional(Schema.Boolean),
@@ -189,7 +189,7 @@ export interface GoogleCloudDatapipelinesV1FlexTemplateRuntimeEnvironment {
 }
 
 export const GoogleCloudDatapipelinesV1FlexTemplateRuntimeEnvironment: Schema.Schema<GoogleCloudDatapipelinesV1FlexTemplateRuntimeEnvironment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numWorkers: Schema.optional(Schema.Number),
       maxWorkers: Schema.optional(Schema.Number),
@@ -232,7 +232,7 @@ export interface GoogleCloudDatapipelinesV1LaunchFlexTemplateParameter {
 }
 
 export const GoogleCloudDatapipelinesV1LaunchFlexTemplateParameter: Schema.Schema<GoogleCloudDatapipelinesV1LaunchFlexTemplateParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobName: Schema.optional(Schema.String),
       containerSpecGcsPath: Schema.optional(Schema.String),
@@ -264,7 +264,7 @@ export interface GoogleCloudDatapipelinesV1LaunchFlexTemplateRequest {
 }
 
 export const GoogleCloudDatapipelinesV1LaunchFlexTemplateRequest: Schema.Schema<GoogleCloudDatapipelinesV1LaunchFlexTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       launchParameter: Schema.optional(
@@ -285,7 +285,7 @@ export interface GoogleCloudDatapipelinesV1Workload {
 }
 
 export const GoogleCloudDatapipelinesV1Workload: Schema.Schema<GoogleCloudDatapipelinesV1Workload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataflowLaunchTemplateRequest: Schema.optional(
         GoogleCloudDatapipelinesV1LaunchTemplateRequest,
@@ -308,7 +308,7 @@ export interface GoogleCloudDatapipelinesV1ScheduleSpec {
 }
 
 export const GoogleCloudDatapipelinesV1ScheduleSpec: Schema.Schema<GoogleCloudDatapipelinesV1ScheduleSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schedule: Schema.optional(Schema.String),
       timeZone: Schema.optional(Schema.String),
@@ -355,7 +355,7 @@ export interface GoogleCloudDatapipelinesV1Pipeline {
 }
 
 export const GoogleCloudDatapipelinesV1Pipeline: Schema.Schema<GoogleCloudDatapipelinesV1Pipeline> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -378,7 +378,7 @@ export const GoogleCloudDatapipelinesV1Pipeline: Schema.Schema<GoogleCloudDatapi
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -390,7 +390,7 @@ export interface GoogleCloudDatapipelinesV1ListPipelinesResponse {
 }
 
 export const GoogleCloudDatapipelinesV1ListPipelinesResponse: Schema.Schema<GoogleCloudDatapipelinesV1ListPipelinesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pipelines: Schema.optional(
         Schema.Array(GoogleCloudDatapipelinesV1Pipeline),
@@ -404,14 +404,14 @@ export const GoogleCloudDatapipelinesV1ListPipelinesResponse: Schema.Schema<Goog
 export interface GoogleCloudDatapipelinesV1StopPipelineRequest {}
 
 export const GoogleCloudDatapipelinesV1StopPipelineRequest: Schema.Schema<GoogleCloudDatapipelinesV1StopPipelineRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatapipelinesV1StopPipelineRequest",
   }) as any as Schema.Schema<GoogleCloudDatapipelinesV1StopPipelineRequest>;
 
 export interface GoogleCloudDatapipelinesV1RunPipelineRequest {}
 
 export const GoogleCloudDatapipelinesV1RunPipelineRequest: Schema.Schema<GoogleCloudDatapipelinesV1RunPipelineRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatapipelinesV1RunPipelineRequest",
   }) as any as Schema.Schema<GoogleCloudDatapipelinesV1RunPipelineRequest>;
 
@@ -424,8 +424,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -433,9 +433,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudDatapipelinesV1SdkVersion {
   /** The version of the SDK used to run the job. */
@@ -453,7 +453,7 @@ export interface GoogleCloudDatapipelinesV1SdkVersion {
 }
 
 export const GoogleCloudDatapipelinesV1SdkVersion: Schema.Schema<GoogleCloudDatapipelinesV1SdkVersion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       versionDisplayName: Schema.optional(Schema.String),
@@ -473,7 +473,7 @@ export interface GoogleCloudDatapipelinesV1DataflowJobDetails {
 }
 
 export const GoogleCloudDatapipelinesV1DataflowJobDetails: Schema.Schema<GoogleCloudDatapipelinesV1DataflowJobDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdkVersion: Schema.optional(GoogleCloudDatapipelinesV1SdkVersion),
       currentWorkers: Schema.optional(Schema.Number),
@@ -510,7 +510,7 @@ export interface GoogleCloudDatapipelinesV1Job {
 }
 
 export const GoogleCloudDatapipelinesV1Job: Schema.Schema<GoogleCloudDatapipelinesV1Job> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -532,7 +532,7 @@ export interface GoogleCloudDatapipelinesV1RunPipelineResponse {
 }
 
 export const GoogleCloudDatapipelinesV1RunPipelineResponse: Schema.Schema<GoogleCloudDatapipelinesV1RunPipelineResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       job: Schema.optional(GoogleCloudDatapipelinesV1Job),
     }),
@@ -548,7 +548,7 @@ export interface GoogleCloudDatapipelinesV1ListJobsResponse {
 }
 
 export const GoogleCloudDatapipelinesV1ListJobsResponse: Schema.Schema<GoogleCloudDatapipelinesV1ListJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobs: Schema.optional(Schema.Array(GoogleCloudDatapipelinesV1Job)),
       nextPageToken: Schema.optional(Schema.String),
@@ -568,22 +568,25 @@ export interface CreateProjectsLocationsPipelinesRequest {
   body?: GoogleCloudDatapipelinesV1Pipeline;
 }
 
-export const CreateProjectsLocationsPipelinesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatapipelinesV1Pipeline).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPipelinesRequest>;
+export const CreateProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatapipelinesV1Pipeline).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPipelinesRequest>;
 
 export type CreateProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1Pipeline;
 export const CreateProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1Pipeline;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1Pipeline;
 
 export type CreateProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -593,7 +596,7 @@ export const createProjectsLocationsPipelines: API.OperationMethod<
   CreateProjectsLocationsPipelinesResponse,
   CreateProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsPipelinesRequest,
   output: CreateProjectsLocationsPipelinesResponse,
   errors: [],
@@ -608,23 +611,26 @@ export interface PatchProjectsLocationsPipelinesRequest {
   body?: GoogleCloudDatapipelinesV1Pipeline;
 }
 
-export const PatchProjectsLocationsPipelinesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatapipelinesV1Pipeline).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPipelinesRequest>;
+export const PatchProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatapipelinesV1Pipeline).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPipelinesRequest>;
 
 export type PatchProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1Pipeline;
 export const PatchProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1Pipeline;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1Pipeline;
 
 export type PatchProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -634,7 +640,7 @@ export const patchProjectsLocationsPipelines: API.OperationMethod<
   PatchProjectsLocationsPipelinesResponse,
   PatchProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsPipelinesRequest,
   output: PatchProjectsLocationsPipelinesResponse,
   errors: [],
@@ -645,18 +651,20 @@ export interface DeleteProjectsLocationsPipelinesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsPipelinesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPipelinesRequest>;
+export const DeleteProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPipelinesRequest>;
 
 export type DeleteProjectsLocationsPipelinesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsPipelinesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsPipelinesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -666,7 +674,7 @@ export const deleteProjectsLocationsPipelines: API.OperationMethod<
   DeleteProjectsLocationsPipelinesResponse,
   DeleteProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsPipelinesRequest,
   output: DeleteProjectsLocationsPipelinesResponse,
   errors: [],
@@ -683,23 +691,24 @@ export interface ListProjectsLocationsPipelinesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPipelinesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPipelinesRequest>;
+export const ListProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPipelinesRequest>;
 
 export type ListProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1ListPipelinesResponse;
 export const ListProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1ListPipelinesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1ListPipelinesResponse;
 
 export type ListProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -709,7 +718,7 @@ export const listProjectsLocationsPipelines: API.PaginatedOperationMethod<
   ListProjectsLocationsPipelinesResponse,
   ListProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsPipelinesRequest,
   output: ListProjectsLocationsPipelinesResponse,
   errors: [],
@@ -724,20 +733,21 @@ export interface GetProjectsLocationsPipelinesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPipelinesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPipelinesRequest>;
+export const GetProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPipelinesRequest>;
 
 export type GetProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1Pipeline;
 export const GetProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1Pipeline;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1Pipeline;
 
 export type GetProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -747,7 +757,7 @@ export const getProjectsLocationsPipelines: API.OperationMethod<
   GetProjectsLocationsPipelinesResponse,
   GetProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsPipelinesRequest,
   output: GetProjectsLocationsPipelinesResponse,
   errors: [],
@@ -760,24 +770,25 @@ export interface StopProjectsLocationsPipelinesRequest {
   body?: GoogleCloudDatapipelinesV1StopPipelineRequest;
 }
 
-export const StopProjectsLocationsPipelinesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatapipelinesV1StopPipelineRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}:stop",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StopProjectsLocationsPipelinesRequest>;
+export const StopProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDatapipelinesV1StopPipelineRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}:stop",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StopProjectsLocationsPipelinesRequest>;
 
 export type StopProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1Pipeline;
 export const StopProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1Pipeline;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1Pipeline;
 
 export type StopProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -787,7 +798,7 @@ export const stopProjectsLocationsPipelines: API.OperationMethod<
   StopProjectsLocationsPipelinesResponse,
   StopProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopProjectsLocationsPipelinesRequest,
   output: StopProjectsLocationsPipelinesResponse,
   errors: [],
@@ -800,24 +811,25 @@ export interface RunProjectsLocationsPipelinesRequest {
   body?: GoogleCloudDatapipelinesV1RunPipelineRequest;
 }
 
-export const RunProjectsLocationsPipelinesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatapipelinesV1RunPipelineRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}:run",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunProjectsLocationsPipelinesRequest>;
+export const RunProjectsLocationsPipelinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDatapipelinesV1RunPipelineRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}:run",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunProjectsLocationsPipelinesRequest>;
 
 export type RunProjectsLocationsPipelinesResponse =
   GoogleCloudDatapipelinesV1RunPipelineResponse;
 export const RunProjectsLocationsPipelinesResponse =
-  GoogleCloudDatapipelinesV1RunPipelineResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1RunPipelineResponse;
 
 export type RunProjectsLocationsPipelinesError = DefaultErrors;
 
@@ -827,7 +839,7 @@ export const runProjectsLocationsPipelines: API.OperationMethod<
   RunProjectsLocationsPipelinesResponse,
   RunProjectsLocationsPipelinesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunProjectsLocationsPipelinesRequest,
   output: RunProjectsLocationsPipelinesResponse,
   errors: [],
@@ -842,22 +854,23 @@ export interface ListProjectsLocationsPipelinesJobsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPipelinesJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}/jobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPipelinesJobsRequest>;
+export const ListProjectsLocationsPipelinesJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/pipelines/{pipelinesId}/jobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPipelinesJobsRequest>;
 
 export type ListProjectsLocationsPipelinesJobsResponse =
   GoogleCloudDatapipelinesV1ListJobsResponse;
 export const ListProjectsLocationsPipelinesJobsResponse =
-  GoogleCloudDatapipelinesV1ListJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatapipelinesV1ListJobsResponse;
 
 export type ListProjectsLocationsPipelinesJobsError = DefaultErrors;
 
@@ -867,7 +880,7 @@ export const listProjectsLocationsPipelinesJobs: API.PaginatedOperationMethod<
   ListProjectsLocationsPipelinesJobsResponse,
   ListProjectsLocationsPipelinesJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsPipelinesJobsRequest,
   output: ListProjectsLocationsPipelinesJobsResponse,
   errors: [],

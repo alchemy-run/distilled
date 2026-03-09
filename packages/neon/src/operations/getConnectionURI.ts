@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetConnectionURIInput = Schema.Struct({
+export const GetConnectionURIInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.optional(Schema.String),
   endpoint_id: Schema.optional(Schema.String),
@@ -16,9 +16,11 @@ export const GetConnectionURIInput = Schema.Struct({
 export type GetConnectionURIInput = typeof GetConnectionURIInput.Type;
 
 // Output Schema
-export const GetConnectionURIOutput = Schema.Struct({
-  uri: Schema.String,
-});
+export const GetConnectionURIOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    uri: Schema.String,
+  },
+);
 export type GetConnectionURIOutput = typeof GetConnectionURIOutput.Type;
 
 // The operation

@@ -30,7 +30,7 @@ export interface LocalInventoryDataSource {
 }
 
 export const LocalInventoryDataSource: Schema.Schema<LocalInventoryDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedLabel: Schema.optional(Schema.String),
       contentLanguage: Schema.optional(Schema.String),
@@ -71,16 +71,17 @@ export interface ProductChange {
   regionCode?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    oldValue: Schema.optional(Schema.String),
-    newValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oldValue: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The attribute in the resource that changed, in this case it will be always `Status`. */
@@ -104,7 +105,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attribute: Schema.optional(Schema.String),
       changes: Schema.optional(Schema.Array(ProductChange)),
@@ -123,14 +124,14 @@ export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessag
 export interface ProductReviewDataSource {}
 
 export const ProductReviewDataSource: Schema.Schema<ProductReviewDataSource> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ProductReviewDataSource",
   }) as any as Schema.Schema<ProductReviewDataSource>;
 
 export interface FetchDataSourceRequest {}
 
 export const FetchDataSourceRequest: Schema.Schema<FetchDataSourceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "FetchDataSourceRequest",
   }) as any as Schema.Schema<FetchDataSourceRequest>;
 
@@ -142,7 +143,7 @@ export interface RegionalInventoryDataSource {
 }
 
 export const RegionalInventoryDataSource: Schema.Schema<RegionalInventoryDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedLabel: Schema.optional(Schema.String),
       contentLanguage: Schema.optional(Schema.String),
@@ -161,7 +162,7 @@ export interface DataSourceReference {
 }
 
 export const DataSourceReference: Schema.Schema<DataSourceReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       self: Schema.optional(Schema.Boolean),
       primaryDataSourceName: Schema.optional(Schema.String),
@@ -176,11 +177,14 @@ export interface DefaultRule {
   takeFromDataSources?: Array<DataSourceReference>;
 }
 
-export const DefaultRule: Schema.Schema<DefaultRule> = Schema.suspend(() =>
-  Schema.Struct({
-    takeFromDataSources: Schema.optional(Schema.Array(DataSourceReference)),
-  }),
-).annotate({ identifier: "DefaultRule" }) as any as Schema.Schema<DefaultRule>;
+export const DefaultRule: Schema.Schema<DefaultRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      takeFromDataSources: Schema.optional(Schema.Array(DataSourceReference)),
+    }),
+  ).annotate({
+    identifier: "DefaultRule",
+  }) as any as Schema.Schema<DefaultRule>;
 
 export interface SupplementalProductDataSource {
   /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept produts without that restriction. */
@@ -192,7 +196,7 @@ export interface SupplementalProductDataSource {
 }
 
 export const SupplementalProductDataSource: Schema.Schema<SupplementalProductDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentLanguage: Schema.optional(Schema.String),
       referencingPrimaryDataSources: Schema.optional(
@@ -212,7 +216,7 @@ export interface PromotionDataSource {
 }
 
 export const PromotionDataSource: Schema.Schema<PromotionDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetCountry: Schema.optional(Schema.String),
       contentLanguage: Schema.optional(Schema.String),
@@ -232,14 +236,15 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    seconds: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      seconds: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface FetchSettings {
   /** Required. The frequency describing fetch schedule. */
@@ -276,21 +281,22 @@ export interface FetchSettings {
   password?: string;
 }
 
-export const FetchSettings: Schema.Schema<FetchSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    frequency: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    dayOfMonth: Schema.optional(Schema.Number),
-    timeZone: Schema.optional(Schema.String),
-    fetchUri: Schema.optional(Schema.String),
-    timeOfDay: Schema.optional(TimeOfDay),
-    dayOfWeek: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
-    password: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FetchSettings",
-}) as any as Schema.Schema<FetchSettings>;
+export const FetchSettings: Schema.Schema<FetchSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      frequency: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      dayOfMonth: Schema.optional(Schema.Number),
+      timeZone: Schema.optional(Schema.String),
+      fetchUri: Schema.optional(Schema.String),
+      timeOfDay: Schema.optional(TimeOfDay),
+      dayOfWeek: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchSettings",
+  }) as any as Schema.Schema<FetchSettings>;
 
 export interface FileInput {
   /** Optional. Fetch details to deliver the data source. It contains settings for `FETCH` and `GOOGLE_SHEETS` file input types. The required fields vary based on the frequency of fetching. */
@@ -306,18 +312,19 @@ export interface FileInput {
     | (string & {});
 }
 
-export const FileInput: Schema.Schema<FileInput> = Schema.suspend(() =>
-  Schema.Struct({
-    fetchSettings: Schema.optional(FetchSettings),
-    fileName: Schema.optional(Schema.String),
-    fileInputType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FileInput" }) as any as Schema.Schema<FileInput>;
+export const FileInput: Schema.Schema<FileInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fetchSettings: Schema.optional(FetchSettings),
+      fileName: Schema.optional(Schema.String),
+      fileInputType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FileInput" }) as any as Schema.Schema<FileInput>;
 
 export interface MerchantReviewDataSource {}
 
 export const MerchantReviewDataSource: Schema.Schema<MerchantReviewDataSource> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MerchantReviewDataSource",
   }) as any as Schema.Schema<MerchantReviewDataSource>;
 
@@ -342,12 +349,15 @@ export interface Destination {
     | (string & {});
 }
 
-export const Destination: Schema.Schema<Destination> = Schema.suspend(() =>
-  Schema.Struct({
-    state: Schema.optional(Schema.String),
-    destination: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Destination" }) as any as Schema.Schema<Destination>;
+export const Destination: Schema.Schema<Destination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      destination: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Destination",
+  }) as any as Schema.Schema<Destination>;
 
 export interface PrimaryProductDataSource {
   /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). For more information about feed label, see [Create a primary data source for products](https://developers.google.com/merchant/api/guides/data-sources/api-sources#create-primary-data-source). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
@@ -365,7 +375,7 @@ export interface PrimaryProductDataSource {
 }
 
 export const PrimaryProductDataSource: Schema.Schema<PrimaryProductDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedLabel: Schema.optional(Schema.String),
       destinations: Schema.optional(Schema.Array(Destination)),
@@ -411,30 +421,32 @@ export interface DataSource {
     | (string & {});
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
-  Schema.Struct({
-    promotionDataSource: Schema.optional(PromotionDataSource),
-    supplementalProductDataSource: Schema.optional(
-      SupplementalProductDataSource,
-    ),
-    fileInput: Schema.optional(FileInput),
-    merchantReviewDataSource: Schema.optional(MerchantReviewDataSource),
-    regionalInventoryDataSource: Schema.optional(RegionalInventoryDataSource),
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    primaryProductDataSource: Schema.optional(PrimaryProductDataSource),
-    productReviewDataSource: Schema.optional(ProductReviewDataSource),
-    localInventoryDataSource: Schema.optional(LocalInventoryDataSource),
-    dataSourceId: Schema.optional(Schema.String),
-    input: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      promotionDataSource: Schema.optional(PromotionDataSource),
+      supplementalProductDataSource: Schema.optional(
+        SupplementalProductDataSource,
+      ),
+      fileInput: Schema.optional(FileInput),
+      merchantReviewDataSource: Schema.optional(MerchantReviewDataSource),
+      regionalInventoryDataSource: Schema.optional(RegionalInventoryDataSource),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      primaryProductDataSource: Schema.optional(PrimaryProductDataSource),
+      productReviewDataSource: Schema.optional(ProductReviewDataSource),
+      localInventoryDataSource: Schema.optional(LocalInventoryDataSource),
+      dataSourceId: Schema.optional(Schema.String),
+      input: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Issue {
   /** Output only. Link to the documentation explaining the issue in more details, if available. */
@@ -451,16 +463,17 @@ export interface Issue {
   severity?: "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR" | (string & {});
 }
 
-export const Issue: Schema.Schema<Issue> = Schema.suspend(() =>
-  Schema.Struct({
-    documentationUri: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    count: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
+export const Issue: Schema.Schema<Issue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      documentationUri: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
 
 export interface ListDataSourcesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -470,7 +483,7 @@ export interface ListDataSourcesResponse {
 }
 
 export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       dataSources: Schema.optional(Schema.Array(DataSource)),
@@ -503,18 +516,19 @@ export interface FileUpload {
   uploadTime?: string;
 }
 
-export const FileUpload: Schema.Schema<FileUpload> = Schema.suspend(() =>
-  Schema.Struct({
-    processingState: Schema.optional(Schema.String),
-    itemsCreated: Schema.optional(Schema.String),
-    itemsTotal: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-    issues: Schema.optional(Schema.Array(Issue)),
-    itemsUpdated: Schema.optional(Schema.String),
-    uploadTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FileUpload" }) as any as Schema.Schema<FileUpload>;
+export const FileUpload: Schema.Schema<FileUpload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      processingState: Schema.optional(Schema.String),
+      itemsCreated: Schema.optional(Schema.String),
+      itemsTotal: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+      issues: Schema.optional(Schema.Array(Issue)),
+      itemsUpdated: Schema.optional(Schema.String),
+      uploadTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FileUpload" }) as any as Schema.Schema<FileUpload>;
 
 // ==========================================================================
 // Operations
@@ -529,21 +543,23 @@ export interface PatchAccountsDataSourcesRequest {
   body?: DataSource;
 }
 
-export const PatchAccountsDataSourcesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DataSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsDataSourcesRequest>;
+export const PatchAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DataSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsDataSourcesRequest>;
 
 export type PatchAccountsDataSourcesResponse = DataSource;
-export const PatchAccountsDataSourcesResponse = DataSource;
+export const PatchAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type PatchAccountsDataSourcesError = DefaultErrors;
 
@@ -553,7 +569,7 @@ export const patchAccountsDataSources: API.OperationMethod<
   PatchAccountsDataSourcesResponse,
   PatchAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsDataSourcesRequest,
   output: PatchAccountsDataSourcesResponse,
   errors: [],
@@ -566,20 +582,22 @@ export interface FetchAccountsDataSourcesRequest {
   body?: FetchDataSourceRequest;
 }
 
-export const FetchAccountsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(FetchDataSourceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}:fetch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchAccountsDataSourcesRequest>;
+export const FetchAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(FetchDataSourceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}:fetch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchAccountsDataSourcesRequest>;
 
 export type FetchAccountsDataSourcesResponse = Empty;
-export const FetchAccountsDataSourcesResponse = Empty;
+export const FetchAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type FetchAccountsDataSourcesError = DefaultErrors;
 
@@ -589,7 +607,7 @@ export const fetchAccountsDataSources: API.OperationMethod<
   FetchAccountsDataSourcesResponse,
   FetchAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchAccountsDataSourcesRequest,
   output: FetchAccountsDataSourcesResponse,
   errors: [],
@@ -602,20 +620,22 @@ export interface CreateAccountsDataSourcesRequest {
   body?: DataSource;
 }
 
-export const CreateAccountsDataSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(DataSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "datasources/v1/accounts/{accountsId}/dataSources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsDataSourcesRequest>;
+export const CreateAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(DataSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "datasources/v1/accounts/{accountsId}/dataSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsDataSourcesRequest>;
 
 export type CreateAccountsDataSourcesResponse = DataSource;
-export const CreateAccountsDataSourcesResponse = DataSource;
+export const CreateAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type CreateAccountsDataSourcesError = DefaultErrors;
 
@@ -625,7 +645,7 @@ export const createAccountsDataSources: API.OperationMethod<
   CreateAccountsDataSourcesResponse,
   CreateAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsDataSourcesRequest,
   output: CreateAccountsDataSourcesResponse,
   errors: [],
@@ -636,18 +656,20 @@ export interface DeleteAccountsDataSourcesRequest {
   name: string;
 }
 
-export const DeleteAccountsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsDataSourcesRequest>;
+export const DeleteAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsDataSourcesRequest>;
 
 export type DeleteAccountsDataSourcesResponse = Empty;
-export const DeleteAccountsDataSourcesResponse = Empty;
+export const DeleteAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsDataSourcesError = DefaultErrors;
 
@@ -657,7 +679,7 @@ export const deleteAccountsDataSources: API.OperationMethod<
   DeleteAccountsDataSourcesResponse,
   DeleteAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsDataSourcesRequest,
   output: DeleteAccountsDataSourcesResponse,
   errors: [],
@@ -672,20 +694,22 @@ export interface ListAccountsDataSourcesRequest {
   pageToken?: string;
 }
 
-export const ListAccountsDataSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "datasources/v1/accounts/{accountsId}/dataSources",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsDataSourcesRequest>;
+export const ListAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "datasources/v1/accounts/{accountsId}/dataSources",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsDataSourcesRequest>;
 
 export type ListAccountsDataSourcesResponse = ListDataSourcesResponse;
-export const ListAccountsDataSourcesResponse = ListDataSourcesResponse;
+export const ListAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
 
 export type ListAccountsDataSourcesError = DefaultErrors;
 
@@ -695,7 +719,7 @@ export const listAccountsDataSources: API.PaginatedOperationMethod<
   ListAccountsDataSourcesResponse,
   ListAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsDataSourcesRequest,
   output: ListAccountsDataSourcesResponse,
   errors: [],
@@ -710,18 +734,20 @@ export interface GetAccountsDataSourcesRequest {
   name: string;
 }
 
-export const GetAccountsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsDataSourcesRequest>;
+export const GetAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsDataSourcesRequest>;
 
 export type GetAccountsDataSourcesResponse = DataSource;
-export const GetAccountsDataSourcesResponse = DataSource;
+export const GetAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type GetAccountsDataSourcesError = DefaultErrors;
 
@@ -731,7 +757,7 @@ export const getAccountsDataSources: API.OperationMethod<
   GetAccountsDataSourcesResponse,
   GetAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsDataSourcesRequest,
   output: GetAccountsDataSourcesResponse,
   errors: [],
@@ -742,18 +768,20 @@ export interface GetAccountsDataSourcesFileUploadsRequest {
   name: string;
 }
 
-export const GetAccountsDataSourcesFileUploadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}/fileUploads/{fileUploadsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsDataSourcesFileUploadsRequest>;
+export const GetAccountsDataSourcesFileUploadsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "datasources/v1/accounts/{accountsId}/dataSources/{dataSourcesId}/fileUploads/{fileUploadsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsDataSourcesFileUploadsRequest>;
 
 export type GetAccountsDataSourcesFileUploadsResponse = FileUpload;
-export const GetAccountsDataSourcesFileUploadsResponse = FileUpload;
+export const GetAccountsDataSourcesFileUploadsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FileUpload;
 
 export type GetAccountsDataSourcesFileUploadsError = DefaultErrors;
 
@@ -763,7 +791,7 @@ export const getAccountsDataSourcesFileUploads: API.OperationMethod<
   GetAccountsDataSourcesFileUploadsResponse,
   GetAccountsDataSourcesFileUploadsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsDataSourcesFileUploadsRequest,
   output: GetAccountsDataSourcesFileUploadsResponse,
   errors: [],

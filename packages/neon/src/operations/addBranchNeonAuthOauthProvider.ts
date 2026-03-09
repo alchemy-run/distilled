@@ -3,29 +3,31 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const AddBranchNeonAuthOauthProviderInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
-  client_id: Schema.optional(Schema.String),
-  client_secret: Schema.optional(Schema.String),
-  microsoft_tenant_id: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
-  }),
-);
+export const AddBranchNeonAuthOauthProviderInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
+    client_id: Schema.optional(Schema.String),
+    client_secret: Schema.optional(Schema.String),
+    microsoft_tenant_id: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
+    }),
+  );
 export type AddBranchNeonAuthOauthProviderInput =
   typeof AddBranchNeonAuthOauthProviderInput.Type;
 
 // Output Schema
-export const AddBranchNeonAuthOauthProviderOutput = Schema.Struct({
-  id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
-  type: Schema.Literals(["standard", "shared"]),
-  client_id: Schema.optional(Schema.String),
-  client_secret: Schema.optional(Schema.String),
-});
+export const AddBranchNeonAuthOauthProviderOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
+    type: Schema.Literals(["standard", "shared"]),
+    client_id: Schema.optional(Schema.String),
+    client_secret: Schema.optional(Schema.String),
+  });
 export type AddBranchNeonAuthOauthProviderOutput =
   typeof AddBranchNeonAuthOauthProviderOutput.Type;
 

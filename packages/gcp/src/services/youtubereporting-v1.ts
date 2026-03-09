@@ -37,16 +37,17 @@ export interface Job {
   reportTypeId?: string;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() =>
-  Schema.Struct({
-    expireTime: Schema.optional(Schema.String),
-    systemManaged: Schema.optional(Schema.Boolean),
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    reportTypeId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expireTime: Schema.optional(Schema.String),
+      systemManaged: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      reportTypeId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface ListJobsResponse {
   /** A token to retrieve next page of results. Pass this value in the ListJobsRequest.page_token field in the subsequent call to `ListJobs` method to retrieve the next page of results. */
@@ -55,21 +56,22 @@ export interface ListJobsResponse {
   jobs?: Array<Job>;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
-  () =>
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       jobs: Schema.optional(Schema.Array(Job)),
     }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as Schema.Schema<ListJobsResponse>;
+  ).annotate({
+    identifier: "ListJobsResponse",
+  }) as any as Schema.Schema<ListJobsResponse>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GdataObjectId {
   /** gdata */
@@ -80,15 +82,16 @@ export interface GdataObjectId {
   objectName?: string;
 }
 
-export const GdataObjectId: Schema.Schema<GdataObjectId> = Schema.suspend(() =>
-  Schema.Struct({
-    generation: Schema.optional(Schema.String),
-    bucketName: Schema.optional(Schema.String),
-    objectName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GdataObjectId",
-}) as any as Schema.Schema<GdataObjectId>;
+export const GdataObjectId: Schema.Schema<GdataObjectId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      generation: Schema.optional(Schema.String),
+      bucketName: Schema.optional(Schema.String),
+      objectName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GdataObjectId",
+  }) as any as Schema.Schema<GdataObjectId>;
 
 export interface GdataBlobstore2Info {
   /** gdata */
@@ -108,7 +111,7 @@ export interface GdataBlobstore2Info {
 }
 
 export const GdataBlobstore2Info: Schema.Schema<GdataBlobstore2Info> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadReadHandle: Schema.optional(Schema.String),
       downloadExternalReadToken: Schema.optional(Schema.String),
@@ -154,7 +157,7 @@ export interface GdataCompositeMedia {
 }
 
 export const GdataCompositeMedia: Schema.Schema<GdataCompositeMedia> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inline: Schema.optional(Schema.String),
       objectId: Schema.optional(GdataObjectId),
@@ -182,7 +185,7 @@ export interface GdataDiffUploadRequest {
 }
 
 export const GdataDiffUploadRequest: Schema.Schema<GdataDiffUploadRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       objectInfo: Schema.optional(GdataCompositeMedia),
@@ -198,7 +201,7 @@ export interface GdataDiffDownloadResponse {
 }
 
 export const GdataDiffDownloadResponse: Schema.Schema<GdataDiffDownloadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectLocation: Schema.optional(GdataCompositeMedia),
     }),
@@ -214,7 +217,7 @@ export interface GdataDiffUploadResponse {
 }
 
 export const GdataDiffUploadResponse: Schema.Schema<GdataDiffUploadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       originalObject: Schema.optional(GdataCompositeMedia),
@@ -240,17 +243,18 @@ export interface Report {
   createTime?: string;
 }
 
-export const Report: Schema.Schema<Report> = Schema.suspend(() =>
-  Schema.Struct({
-    jobExpireTime: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    downloadUrl: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    jobId: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Report" }) as any as Schema.Schema<Report>;
+export const Report: Schema.Schema<Report> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      jobExpireTime: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      downloadUrl: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      jobId: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Report" }) as any as Schema.Schema<Report>;
 
 export interface ListReportsResponse {
   /** The list of report types. */
@@ -260,7 +264,7 @@ export interface ListReportsResponse {
 }
 
 export const ListReportsResponse: Schema.Schema<ListReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reports: Schema.optional(Schema.Array(Report)),
       nextPageToken: Schema.optional(Schema.String),
@@ -283,7 +287,7 @@ export interface GdataContentTypeInfo {
 }
 
 export const GdataContentTypeInfo: Schema.Schema<GdataContentTypeInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fromHeader: Schema.optional(Schema.String),
       fromBytes: Schema.optional(Schema.String),
@@ -309,7 +313,7 @@ export interface GdataDiffChecksumsResponse {
 }
 
 export const GdataDiffChecksumsResponse: Schema.Schema<GdataDiffChecksumsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectLocation: Schema.optional(GdataCompositeMedia),
       checksumsLocation: Schema.optional(GdataCompositeMedia),
@@ -329,7 +333,7 @@ export interface GdataDownloadParameters {
 }
 
 export const GdataDownloadParameters: Schema.Schema<GdataDownloadParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreRange: Schema.optional(Schema.Boolean),
       allowGzipCompression: Schema.optional(Schema.Boolean),
@@ -346,7 +350,7 @@ export interface GdataDiffVersionResponse {
 }
 
 export const GdataDiffVersionResponse: Schema.Schema<GdataDiffVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectSizeBytes: Schema.optional(Schema.String),
       objectVersion: Schema.optional(Schema.String),
@@ -432,40 +436,41 @@ export interface GdataMedia {
   blobstore2Info?: GdataBlobstore2Info;
 }
 
-export const GdataMedia: Schema.Schema<GdataMedia> = Schema.suspend(() =>
-  Schema.Struct({
-    contentType: Schema.optional(Schema.String),
-    md5Hash: Schema.optional(Schema.String),
-    sha1Hash: Schema.optional(Schema.String),
-    diffChecksumsResponse: Schema.optional(GdataDiffChecksumsResponse),
-    diffVersionResponse: Schema.optional(GdataDiffVersionResponse),
-    inline: Schema.optional(Schema.String),
-    token: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    algorithm: Schema.optional(Schema.String),
-    mediaId: Schema.optional(Schema.String),
-    hashVerified: Schema.optional(Schema.Boolean),
-    filename: Schema.optional(Schema.String),
-    diffDownloadResponse: Schema.optional(GdataDiffDownloadResponse),
-    diffUploadRequest: Schema.optional(GdataDiffUploadRequest),
-    objectId: Schema.optional(GdataObjectId),
-    contentTypeInfo: Schema.optional(GdataContentTypeInfo),
-    crc32cHash: Schema.optional(Schema.Number),
-    compositeMedia: Schema.optional(Schema.Array(GdataCompositeMedia)),
-    length: Schema.optional(Schema.String),
-    downloadParameters: Schema.optional(GdataDownloadParameters),
-    diffUploadResponse: Schema.optional(GdataDiffUploadResponse),
-    bigstoreObjectRef: Schema.optional(Schema.String),
-    sha256Hash: Schema.optional(Schema.String),
-    blobRef: Schema.optional(Schema.String),
-    cosmoBinaryReference: Schema.optional(Schema.String),
-    isPotentialRetry: Schema.optional(Schema.Boolean),
-    referenceType: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    hash: Schema.optional(Schema.String),
-    blobstore2Info: Schema.optional(GdataBlobstore2Info),
-  }),
-).annotate({ identifier: "GdataMedia" }) as any as Schema.Schema<GdataMedia>;
+export const GdataMedia: Schema.Schema<GdataMedia> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentType: Schema.optional(Schema.String),
+      md5Hash: Schema.optional(Schema.String),
+      sha1Hash: Schema.optional(Schema.String),
+      diffChecksumsResponse: Schema.optional(GdataDiffChecksumsResponse),
+      diffVersionResponse: Schema.optional(GdataDiffVersionResponse),
+      inline: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      mediaId: Schema.optional(Schema.String),
+      hashVerified: Schema.optional(Schema.Boolean),
+      filename: Schema.optional(Schema.String),
+      diffDownloadResponse: Schema.optional(GdataDiffDownloadResponse),
+      diffUploadRequest: Schema.optional(GdataDiffUploadRequest),
+      objectId: Schema.optional(GdataObjectId),
+      contentTypeInfo: Schema.optional(GdataContentTypeInfo),
+      crc32cHash: Schema.optional(Schema.Number),
+      compositeMedia: Schema.optional(Schema.Array(GdataCompositeMedia)),
+      length: Schema.optional(Schema.String),
+      downloadParameters: Schema.optional(GdataDownloadParameters),
+      diffUploadResponse: Schema.optional(GdataDiffUploadResponse),
+      bigstoreObjectRef: Schema.optional(Schema.String),
+      sha256Hash: Schema.optional(Schema.String),
+      blobRef: Schema.optional(Schema.String),
+      cosmoBinaryReference: Schema.optional(Schema.String),
+      isPotentialRetry: Schema.optional(Schema.Boolean),
+      referenceType: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      hash: Schema.optional(Schema.String),
+      blobstore2Info: Schema.optional(GdataBlobstore2Info),
+    }),
+  ).annotate({ identifier: "GdataMedia" }) as any as Schema.Schema<GdataMedia>;
 
 export interface ReportType {
   /** The date/time when this report type was/will be deprecated. */
@@ -478,14 +483,15 @@ export interface ReportType {
   id?: string;
 }
 
-export const ReportType: Schema.Schema<ReportType> = Schema.suspend(() =>
-  Schema.Struct({
-    deprecateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    systemManaged: Schema.optional(Schema.Boolean),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ReportType" }) as any as Schema.Schema<ReportType>;
+export const ReportType: Schema.Schema<ReportType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deprecateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      systemManaged: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ReportType" }) as any as Schema.Schema<ReportType>;
 
 export interface ListReportTypesResponse {
   /** A token to retrieve next page of results. Pass this value in the ListReportTypesRequest.page_token field in the subsequent call to `ListReportTypes` method to retrieve the next page of results. */
@@ -495,7 +501,7 @@ export interface ListReportTypesResponse {
 }
 
 export const ListReportTypesResponse: Schema.Schema<ListReportTypesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       reportTypes: Schema.optional(Schema.Array(ReportType)),
@@ -519,22 +525,25 @@ export interface ListReportTypesRequest {
   includeSystemManaged?: boolean;
 }
 
-export const ListReportTypesRequest = Schema.Struct({
-  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("onBehalfOfContentOwner"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  includeSystemManaged: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeSystemManaged"),
-  ),
-}).pipe(
+export const ListReportTypesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("onBehalfOfContentOwner"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    includeSystemManaged: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeSystemManaged"),
+    ),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/reportTypes" }),
   svc,
 ) as unknown as Schema.Schema<ListReportTypesRequest>;
 
 export type ListReportTypesResponse_Op = ListReportTypesResponse;
-export const ListReportTypesResponse_Op = ListReportTypesResponse;
+export const ListReportTypesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListReportTypesResponse;
 
 export type ListReportTypesError = DefaultErrors;
 
@@ -544,7 +553,7 @@ export const listReportTypes: API.PaginatedOperationMethod<
   ListReportTypesResponse_Op,
   ListReportTypesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListReportTypesRequest,
   output: ListReportTypesResponse_Op,
   errors: [],
@@ -559,7 +568,7 @@ export interface DownloadMediaRequest {
   resourceName: string;
 }
 
-export const DownloadMediaRequest = Schema.Struct({
+export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/media/{mediaId}" }),
@@ -567,7 +576,7 @@ export const DownloadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
 export type DownloadMediaResponse = GdataMedia;
-export const DownloadMediaResponse = GdataMedia;
+export const DownloadMediaResponse = /*@__PURE__*/ /*#__PURE__*/ GdataMedia;
 
 export type DownloadMediaError = DefaultErrors;
 
@@ -577,7 +586,7 @@ export const downloadMedia: API.OperationMethod<
   DownloadMediaResponse,
   DownloadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -594,7 +603,7 @@ export interface ListJobsRequest {
   includeSystemManaged?: boolean;
 }
 
-export const ListJobsRequest = Schema.Struct({
+export const ListJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
@@ -609,7 +618,7 @@ export const ListJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListJobsRequest>;
 
 export type ListJobsResponse_Op = ListJobsResponse;
-export const ListJobsResponse_Op = ListJobsResponse;
+export const ListJobsResponse_Op = /*@__PURE__*/ /*#__PURE__*/ ListJobsResponse;
 
 export type ListJobsError = DefaultErrors;
 
@@ -619,7 +628,7 @@ export const listJobs: API.PaginatedOperationMethod<
   ListJobsResponse_Op,
   ListJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse_Op,
   errors: [],
@@ -636,7 +645,7 @@ export interface GetJobsRequest {
   onBehalfOfContentOwner?: string;
 }
 
-export const GetJobsRequest = Schema.Struct({
+export const GetJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jobId: Schema.String.pipe(T.HttpPath("jobId")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
@@ -647,7 +656,7 @@ export const GetJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetJobsRequest>;
 
 export type GetJobsResponse = Job;
-export const GetJobsResponse = Job;
+export const GetJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type GetJobsError = DefaultErrors;
 
@@ -657,7 +666,7 @@ export const getJobs: API.OperationMethod<
   GetJobsResponse,
   GetJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobsRequest,
   output: GetJobsResponse,
   errors: [],
@@ -670,7 +679,7 @@ export interface CreateJobsRequest {
   body?: Job;
 }
 
-export const CreateJobsRequest = Schema.Struct({
+export const CreateJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
@@ -681,7 +690,7 @@ export const CreateJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateJobsRequest>;
 
 export type CreateJobsResponse = Job;
-export const CreateJobsResponse = Job;
+export const CreateJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type CreateJobsError = DefaultErrors;
 
@@ -691,7 +700,7 @@ export const createJobs: API.OperationMethod<
   CreateJobsResponse,
   CreateJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobsRequest,
   output: CreateJobsResponse,
   errors: [],
@@ -704,7 +713,7 @@ export interface DeleteJobsRequest {
   onBehalfOfContentOwner?: string;
 }
 
-export const DeleteJobsRequest = Schema.Struct({
+export const DeleteJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jobId: Schema.String.pipe(T.HttpPath("jobId")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
@@ -715,7 +724,7 @@ export const DeleteJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteJobsRequest>;
 
 export type DeleteJobsResponse = Empty;
-export const DeleteJobsResponse = Empty;
+export const DeleteJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteJobsError = DefaultErrors;
 
@@ -725,7 +734,7 @@ export const deleteJobs: API.OperationMethod<
   DeleteJobsResponse,
   DeleteJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobsRequest,
   output: DeleteJobsResponse,
   errors: [],
@@ -748,29 +757,32 @@ export interface ListJobsReportsRequest {
   startTimeBefore?: string;
 }
 
-export const ListJobsReportsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  createdAfter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("createdAfter"),
-  ),
-  jobId: Schema.String.pipe(T.HttpPath("jobId")),
-  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("onBehalfOfContentOwner"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  startTimeAtOrAfter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("startTimeAtOrAfter"),
-  ),
-  startTimeBefore: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("startTimeBefore"),
-  ),
-}).pipe(
+export const ListJobsReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    createdAfter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("createdAfter"),
+    ),
+    jobId: Schema.String.pipe(T.HttpPath("jobId")),
+    onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("onBehalfOfContentOwner"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    startTimeAtOrAfter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("startTimeAtOrAfter"),
+    ),
+    startTimeBefore: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("startTimeBefore"),
+    ),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/jobs/{jobId}/reports" }),
   svc,
 ) as unknown as Schema.Schema<ListJobsReportsRequest>;
 
 export type ListJobsReportsResponse = ListReportsResponse;
-export const ListJobsReportsResponse = ListReportsResponse;
+export const ListJobsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListReportsResponse;
 
 export type ListJobsReportsError = DefaultErrors;
 
@@ -780,7 +792,7 @@ export const listJobsReports: API.PaginatedOperationMethod<
   ListJobsReportsResponse,
   ListJobsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListJobsReportsRequest,
   output: ListJobsReportsResponse,
   errors: [],
@@ -799,7 +811,7 @@ export interface GetJobsReportsRequest {
   onBehalfOfContentOwner?: string;
 }
 
-export const GetJobsReportsRequest = Schema.Struct({
+export const GetJobsReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   reportId: Schema.String.pipe(T.HttpPath("reportId")),
   jobId: Schema.String.pipe(T.HttpPath("jobId")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
@@ -811,7 +823,7 @@ export const GetJobsReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetJobsReportsRequest>;
 
 export type GetJobsReportsResponse = Report;
-export const GetJobsReportsResponse = Report;
+export const GetJobsReportsResponse = /*@__PURE__*/ /*#__PURE__*/ Report;
 
 export type GetJobsReportsError = DefaultErrors;
 
@@ -821,7 +833,7 @@ export const getJobsReports: API.OperationMethod<
   GetJobsReportsResponse,
   GetJobsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobsReportsRequest,
   output: GetJobsReportsResponse,
   errors: [],

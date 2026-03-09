@@ -25,14 +25,14 @@ const svc = T.Service({
 export interface DeactivateDataSegmentRequest {}
 
 export const DeactivateDataSegmentRequest: Schema.Schema<DeactivateDataSegmentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeactivateDataSegmentRequest",
   }) as any as Schema.Schema<DeactivateDataSegmentRequest>;
 
 export interface ActivateDataSegmentRequest {}
 
 export const ActivateDataSegmentRequest: Schema.Schema<ActivateDataSegmentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ActivateDataSegmentRequest",
   }) as any as Schema.Schema<ActivateDataSegmentRequest>;
 
@@ -44,7 +44,7 @@ export interface TaxonomyTargeting {
 }
 
 export const TaxonomyTargeting: Schema.Schema<TaxonomyTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedTaxonomyIds: Schema.optional(Schema.Array(Schema.String)),
       excludedTaxonomyIds: Schema.optional(Schema.Array(Schema.String)),
@@ -65,7 +65,7 @@ export interface StringTargetingDimension {
 }
 
 export const StringTargetingDimension: Schema.Schema<StringTargetingDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selectionType: Schema.optional(Schema.String),
       values: Schema.optional(Schema.Array(Schema.String)),
@@ -84,7 +84,7 @@ export interface PackagePublisherProvidedSignalsTargeting {
 }
 
 export const PackagePublisherProvidedSignalsTargeting: Schema.Schema<PackagePublisherProvidedSignalsTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audienceTargeting: Schema.optional(TaxonomyTargeting),
       contentTargeting: Schema.optional(TaxonomyTargeting),
@@ -97,7 +97,7 @@ export const PackagePublisherProvidedSignalsTargeting: Schema.Schema<PackagePubl
 export interface ActivateCuratedPackageRequest {}
 
 export const ActivateCuratedPackageRequest: Schema.Schema<ActivateCuratedPackageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ActivateCuratedPackageRequest",
   }) as any as Schema.Schema<ActivateCuratedPackageRequest>;
 
@@ -110,13 +110,14 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface VideoPlayerSizeTargeting {
   /** Required. The minimum width of the video player in pixels. */
@@ -126,7 +127,7 @@ export interface VideoPlayerSizeTargeting {
 }
 
 export const VideoPlayerSizeTargeting: Schema.Schema<VideoPlayerSizeTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimumWidth: Schema.optional(Schema.String),
       minimumHeight: Schema.optional(Schema.String),
@@ -150,13 +151,14 @@ export interface AdSize {
     | (string & {});
 }
 
-export const AdSize: Schema.Schema<AdSize> = Schema.suspend(() =>
-  Schema.Struct({
-    width: Schema.optional(Schema.String),
-    height: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
+export const AdSize: Schema.Schema<AdSize> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
 
 export interface PackagePlacementTargeting {
   /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
@@ -168,7 +170,7 @@ export interface PackagePlacementTargeting {
 }
 
 export const PackagePlacementTargeting: Schema.Schema<PackagePlacementTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mobileAppTargeting: Schema.optional(StringTargetingDimension),
       uriTargeting: Schema.optional(StringTargetingDimension),
@@ -199,7 +201,7 @@ export interface VideoPlcmtTargeting {
 }
 
 export const VideoPlcmtTargeting: Schema.Schema<VideoPlcmtTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selectionType: Schema.optional(Schema.String),
       videoPlcmtTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -261,7 +263,7 @@ export interface PackageVideoTargeting {
 }
 
 export const PackageVideoTargeting: Schema.Schema<PackageVideoTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimumPredictedCompletionRatePercentage: Schema.optional(Schema.String),
       includedPlayerSizeTargeting: Schema.optional(VideoPlayerSizeTargeting),
@@ -284,7 +286,7 @@ export interface CriteriaTargeting {
 }
 
 export const CriteriaTargeting: Schema.Schema<CriteriaTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
       excludedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
@@ -380,8 +382,8 @@ export interface PackageTargeting {
   minimumPredictedClickThroughRatePercentageMillis?: string;
 }
 
-export const PackageTargeting: Schema.Schema<PackageTargeting> = Schema.suspend(
-  () =>
+export const PackageTargeting: Schema.Schema<PackageTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimumPredictedViewabilityPercentage: Schema.optional(Schema.String),
       includedAdSizes: Schema.optional(Schema.Array(AdSize)),
@@ -416,9 +418,9 @@ export const PackageTargeting: Schema.Schema<PackageTargeting> = Schema.suspend(
         Schema.String,
       ),
     }),
-).annotate({
-  identifier: "PackageTargeting",
-}) as any as Schema.Schema<PackageTargeting>;
+  ).annotate({
+    identifier: "PackageTargeting",
+  }) as any as Schema.Schema<PackageTargeting>;
 
 export interface DataSegment {
   /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
@@ -433,15 +435,18 @@ export interface DataSegment {
   state?: "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | (string & {});
 }
 
-export const DataSegment: Schema.Schema<DataSegment> = Schema.suspend(() =>
-  Schema.Struct({
-    cpmFee: Schema.optional(Money),
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataSegment" }) as any as Schema.Schema<DataSegment>;
+export const DataSegment: Schema.Schema<DataSegment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cpmFee: Schema.optional(Money),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataSegment",
+  }) as any as Schema.Schema<DataSegment>;
 
 export interface AccessControlSettings {
   /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
@@ -449,7 +454,7 @@ export interface AccessControlSettings {
 }
 
 export const AccessControlSettings: Schema.Schema<AccessControlSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowlistedMediaPlanners: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -480,8 +485,8 @@ export interface CuratedPackage {
   updateTime?: string;
 }
 
-export const CuratedPackage: Schema.Schema<CuratedPackage> = Schema.suspend(
-  () =>
+export const CuratedPackage: Schema.Schema<CuratedPackage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feeCpm: Schema.optional(Money),
       accessSettings: Schema.optional(AccessControlSettings),
@@ -494,9 +499,9 @@ export const CuratedPackage: Schema.Schema<CuratedPackage> = Schema.suspend(
       name: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CuratedPackage",
-}) as any as Schema.Schema<CuratedPackage>;
+  ).annotate({
+    identifier: "CuratedPackage",
+  }) as any as Schema.Schema<CuratedPackage>;
 
 export interface ListCuratedPackagesResponse {
   /** The list of curated packages. */
@@ -506,7 +511,7 @@ export interface ListCuratedPackagesResponse {
 }
 
 export const ListCuratedPackagesResponse: Schema.Schema<ListCuratedPackagesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       curatedPackages: Schema.optional(Schema.Array(CuratedPackage)),
       nextPageToken: Schema.optional(Schema.String),
@@ -526,16 +531,17 @@ export interface MediaPlanner {
   ancestorNames?: Array<string>;
 }
 
-export const MediaPlanner: Schema.Schema<MediaPlanner> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    ancestorNames: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "MediaPlanner",
-}) as any as Schema.Schema<MediaPlanner>;
+export const MediaPlanner: Schema.Schema<MediaPlanner> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      ancestorNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "MediaPlanner",
+  }) as any as Schema.Schema<MediaPlanner>;
 
 export interface ListMediaPlannersResponse {
   /** List of media planners. */
@@ -545,7 +551,7 @@ export interface ListMediaPlannersResponse {
 }
 
 export const ListMediaPlannersResponse: Schema.Schema<ListMediaPlannersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mediaPlanners: Schema.optional(Schema.Array(MediaPlanner)),
       nextPageToken: Schema.optional(Schema.String),
@@ -557,7 +563,7 @@ export const ListMediaPlannersResponse: Schema.Schema<ListMediaPlannersResponse>
 export interface DeactivateCuratedPackageRequest {}
 
 export const DeactivateCuratedPackageRequest: Schema.Schema<DeactivateCuratedPackageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeactivateCuratedPackageRequest",
   }) as any as Schema.Schema<DeactivateCuratedPackageRequest>;
 
@@ -569,7 +575,7 @@ export interface ListDataSegmentsResponse {
 }
 
 export const ListDataSegmentsResponse: Schema.Schema<ListDataSegmentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSegments: Schema.optional(Schema.Array(DataSegment)),
       nextPageToken: Schema.optional(Schema.String),
@@ -587,18 +593,20 @@ export interface GetCuratorsDataSegmentsRequest {
   name: string;
 }
 
-export const GetCuratorsDataSegmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCuratorsDataSegmentsRequest>;
+export const GetCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCuratorsDataSegmentsRequest>;
 
 export type GetCuratorsDataSegmentsResponse = DataSegment;
-export const GetCuratorsDataSegmentsResponse = DataSegment;
+export const GetCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSegment;
 
 export type GetCuratorsDataSegmentsError = DefaultErrors;
 
@@ -608,7 +616,7 @@ export const getCuratorsDataSegments: API.OperationMethod<
   GetCuratorsDataSegmentsResponse,
   GetCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCuratorsDataSegmentsRequest,
   output: GetCuratorsDataSegmentsResponse,
   errors: [],
@@ -623,17 +631,22 @@ export interface ListCuratorsDataSegmentsRequest {
   pageToken?: string;
 }
 
-export const ListCuratorsDataSegmentsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/curators/{curatorsId}/dataSegments" }),
-  svc,
-) as unknown as Schema.Schema<ListCuratorsDataSegmentsRequest>;
+export const ListCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/curators/{curatorsId}/dataSegments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCuratorsDataSegmentsRequest>;
 
 export type ListCuratorsDataSegmentsResponse = ListDataSegmentsResponse;
-export const ListCuratorsDataSegmentsResponse = ListDataSegmentsResponse;
+export const ListCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSegmentsResponse;
 
 export type ListCuratorsDataSegmentsError = DefaultErrors;
 
@@ -643,7 +656,7 @@ export const listCuratorsDataSegments: API.PaginatedOperationMethod<
   ListCuratorsDataSegmentsResponse,
   ListCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCuratorsDataSegmentsRequest,
   output: ListCuratorsDataSegmentsResponse,
   errors: [],
@@ -662,21 +675,23 @@ export interface PatchCuratorsDataSegmentsRequest {
   body?: DataSegment;
 }
 
-export const PatchCuratorsDataSegmentsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DataSegment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCuratorsDataSegmentsRequest>;
+export const PatchCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DataSegment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCuratorsDataSegmentsRequest>;
 
 export type PatchCuratorsDataSegmentsResponse = DataSegment;
-export const PatchCuratorsDataSegmentsResponse = DataSegment;
+export const PatchCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSegment;
 
 export type PatchCuratorsDataSegmentsError = DefaultErrors;
 
@@ -686,7 +701,7 @@ export const patchCuratorsDataSegments: API.OperationMethod<
   PatchCuratorsDataSegmentsResponse,
   PatchCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCuratorsDataSegmentsRequest,
   output: PatchCuratorsDataSegmentsResponse,
   errors: [],
@@ -699,20 +714,22 @@ export interface ActivateCuratorsDataSegmentsRequest {
   body?: ActivateDataSegmentRequest;
 }
 
-export const ActivateCuratorsDataSegmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ActivateDataSegmentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateCuratorsDataSegmentsRequest>;
+export const ActivateCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ActivateDataSegmentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateCuratorsDataSegmentsRequest>;
 
 export type ActivateCuratorsDataSegmentsResponse = DataSegment;
-export const ActivateCuratorsDataSegmentsResponse = DataSegment;
+export const ActivateCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSegment;
 
 export type ActivateCuratorsDataSegmentsError = DefaultErrors;
 
@@ -722,7 +739,7 @@ export const activateCuratorsDataSegments: API.OperationMethod<
   ActivateCuratorsDataSegmentsResponse,
   ActivateCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateCuratorsDataSegmentsRequest,
   output: ActivateCuratorsDataSegmentsResponse,
   errors: [],
@@ -735,20 +752,22 @@ export interface CreateCuratorsDataSegmentsRequest {
   body?: DataSegment;
 }
 
-export const CreateCuratorsDataSegmentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(DataSegment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/dataSegments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCuratorsDataSegmentsRequest>;
+export const CreateCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(DataSegment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/dataSegments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCuratorsDataSegmentsRequest>;
 
 export type CreateCuratorsDataSegmentsResponse = DataSegment;
-export const CreateCuratorsDataSegmentsResponse = DataSegment;
+export const CreateCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSegment;
 
 export type CreateCuratorsDataSegmentsError = DefaultErrors;
 
@@ -758,7 +777,7 @@ export const createCuratorsDataSegments: API.OperationMethod<
   CreateCuratorsDataSegmentsResponse,
   CreateCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCuratorsDataSegmentsRequest,
   output: CreateCuratorsDataSegmentsResponse,
   errors: [],
@@ -771,20 +790,22 @@ export interface DeactivateCuratorsDataSegmentsRequest {
   body?: DeactivateDataSegmentRequest;
 }
 
-export const DeactivateCuratorsDataSegmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeactivateDataSegmentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}:deactivate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeactivateCuratorsDataSegmentsRequest>;
+export const DeactivateCuratorsDataSegmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeactivateDataSegmentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/dataSegments/{dataSegmentsId}:deactivate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeactivateCuratorsDataSegmentsRequest>;
 
 export type DeactivateCuratorsDataSegmentsResponse = DataSegment;
-export const DeactivateCuratorsDataSegmentsResponse = DataSegment;
+export const DeactivateCuratorsDataSegmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSegment;
 
 export type DeactivateCuratorsDataSegmentsError = DefaultErrors;
 
@@ -794,7 +815,7 @@ export const deactivateCuratorsDataSegments: API.OperationMethod<
   DeactivateCuratorsDataSegmentsResponse,
   DeactivateCuratorsDataSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateCuratorsDataSegmentsRequest,
   output: DeactivateCuratorsDataSegmentsResponse,
   errors: [],
@@ -807,20 +828,22 @@ export interface DeactivateCuratorsCuratedPackagesRequest {
   body?: DeactivateCuratedPackageRequest;
 }
 
-export const DeactivateCuratorsCuratedPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeactivateCuratedPackageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}:deactivate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeactivateCuratorsCuratedPackagesRequest>;
+export const DeactivateCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeactivateCuratedPackageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}:deactivate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeactivateCuratorsCuratedPackagesRequest>;
 
 export type DeactivateCuratorsCuratedPackagesResponse = CuratedPackage;
-export const DeactivateCuratorsCuratedPackagesResponse = CuratedPackage;
+export const DeactivateCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CuratedPackage;
 
 export type DeactivateCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -830,7 +853,7 @@ export const deactivateCuratorsCuratedPackages: API.OperationMethod<
   DeactivateCuratorsCuratedPackagesResponse,
   DeactivateCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateCuratorsCuratedPackagesRequest,
   output: DeactivateCuratorsCuratedPackagesResponse,
   errors: [],
@@ -843,20 +866,22 @@ export interface CreateCuratorsCuratedPackagesRequest {
   body?: CuratedPackage;
 }
 
-export const CreateCuratorsCuratedPackagesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CuratedPackage).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/curatedPackages",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCuratorsCuratedPackagesRequest>;
+export const CreateCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CuratedPackage).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/curatedPackages",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCuratorsCuratedPackagesRequest>;
 
 export type CreateCuratorsCuratedPackagesResponse = CuratedPackage;
-export const CreateCuratorsCuratedPackagesResponse = CuratedPackage;
+export const CreateCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CuratedPackage;
 
 export type CreateCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -866,7 +891,7 @@ export const createCuratorsCuratedPackages: API.OperationMethod<
   CreateCuratorsCuratedPackagesResponse,
   CreateCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCuratorsCuratedPackagesRequest,
   output: CreateCuratorsCuratedPackagesResponse,
   errors: [],
@@ -881,21 +906,23 @@ export interface PatchCuratorsCuratedPackagesRequest {
   body?: CuratedPackage;
 }
 
-export const PatchCuratorsCuratedPackagesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CuratedPackage).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCuratorsCuratedPackagesRequest>;
+export const PatchCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CuratedPackage).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCuratorsCuratedPackagesRequest>;
 
 export type PatchCuratorsCuratedPackagesResponse = CuratedPackage;
-export const PatchCuratorsCuratedPackagesResponse = CuratedPackage;
+export const PatchCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CuratedPackage;
 
 export type PatchCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -905,7 +932,7 @@ export const patchCuratorsCuratedPackages: API.OperationMethod<
   PatchCuratorsCuratedPackagesResponse,
   PatchCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCuratorsCuratedPackagesRequest,
   output: PatchCuratorsCuratedPackagesResponse,
   errors: [],
@@ -918,20 +945,22 @@ export interface ActivateCuratorsCuratedPackagesRequest {
   body?: ActivateCuratedPackageRequest;
 }
 
-export const ActivateCuratorsCuratedPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ActivateCuratedPackageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateCuratorsCuratedPackagesRequest>;
+export const ActivateCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ActivateCuratedPackageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateCuratorsCuratedPackagesRequest>;
 
 export type ActivateCuratorsCuratedPackagesResponse = CuratedPackage;
-export const ActivateCuratorsCuratedPackagesResponse = CuratedPackage;
+export const ActivateCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CuratedPackage;
 
 export type ActivateCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -941,7 +970,7 @@ export const activateCuratorsCuratedPackages: API.OperationMethod<
   ActivateCuratorsCuratedPackagesResponse,
   ActivateCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateCuratorsCuratedPackagesRequest,
   output: ActivateCuratorsCuratedPackagesResponse,
   errors: [],
@@ -952,18 +981,20 @@ export interface GetCuratorsCuratedPackagesRequest {
   name: string;
 }
 
-export const GetCuratorsCuratedPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCuratorsCuratedPackagesRequest>;
+export const GetCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/curators/{curatorsId}/curatedPackages/{curatedPackagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCuratorsCuratedPackagesRequest>;
 
 export type GetCuratorsCuratedPackagesResponse = CuratedPackage;
-export const GetCuratorsCuratedPackagesResponse = CuratedPackage;
+export const GetCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CuratedPackage;
 
 export type GetCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -973,7 +1004,7 @@ export const getCuratorsCuratedPackages: API.OperationMethod<
   GetCuratorsCuratedPackagesResponse,
   GetCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCuratorsCuratedPackagesRequest,
   output: GetCuratorsCuratedPackagesResponse,
   errors: [],
@@ -990,21 +1021,23 @@ export interface ListCuratorsCuratedPackagesRequest {
   pageToken?: string;
 }
 
-export const ListCuratorsCuratedPackagesRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/curators/{curatorsId}/curatedPackages",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCuratorsCuratedPackagesRequest>;
+export const ListCuratorsCuratedPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/curators/{curatorsId}/curatedPackages",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCuratorsCuratedPackagesRequest>;
 
 export type ListCuratorsCuratedPackagesResponse = ListCuratedPackagesResponse;
-export const ListCuratorsCuratedPackagesResponse = ListCuratedPackagesResponse;
+export const ListCuratorsCuratedPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCuratedPackagesResponse;
 
 export type ListCuratorsCuratedPackagesError = DefaultErrors;
 
@@ -1014,7 +1047,7 @@ export const listCuratorsCuratedPackages: API.PaginatedOperationMethod<
   ListCuratorsCuratedPackagesResponse,
   ListCuratorsCuratedPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCuratorsCuratedPackagesRequest,
   output: ListCuratorsCuratedPackagesResponse,
   errors: [],
@@ -1033,17 +1066,19 @@ export interface ListMediaPlannersRequest {
   pageToken?: string;
 }
 
-export const ListMediaPlannersRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/mediaPlanners" }),
-  svc,
-) as unknown as Schema.Schema<ListMediaPlannersRequest>;
+export const ListMediaPlannersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/mediaPlanners" }),
+    svc,
+  ) as unknown as Schema.Schema<ListMediaPlannersRequest>;
 
 export type ListMediaPlannersResponse_Op = ListMediaPlannersResponse;
-export const ListMediaPlannersResponse_Op = ListMediaPlannersResponse;
+export const ListMediaPlannersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListMediaPlannersResponse;
 
 export type ListMediaPlannersError = DefaultErrors;
 
@@ -1053,7 +1088,7 @@ export const listMediaPlanners: API.PaginatedOperationMethod<
   ListMediaPlannersResponse_Op,
   ListMediaPlannersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMediaPlannersRequest,
   output: ListMediaPlannersResponse_Op,
   errors: [],

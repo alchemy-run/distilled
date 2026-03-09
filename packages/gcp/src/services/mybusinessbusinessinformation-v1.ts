@@ -29,12 +29,15 @@ export interface ServiceType {
   displayName?: string;
 }
 
-export const ServiceType: Schema.Schema<ServiceType> = Schema.suspend(() =>
-  Schema.Struct({
-    serviceTypeId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ServiceType" }) as any as Schema.Schema<ServiceType>;
+export const ServiceType: Schema.Schema<ServiceType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceTypeId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServiceType",
+  }) as any as Schema.Schema<ServiceType>;
 
 export interface MoreHoursType {
   /** Output only. A stable ID provided by Google for this hours type. */
@@ -45,15 +48,16 @@ export interface MoreHoursType {
   localizedDisplayName?: string;
 }
 
-export const MoreHoursType: Schema.Schema<MoreHoursType> = Schema.suspend(() =>
-  Schema.Struct({
-    hoursTypeId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    localizedDisplayName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MoreHoursType",
-}) as any as Schema.Schema<MoreHoursType>;
+export const MoreHoursType: Schema.Schema<MoreHoursType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hoursTypeId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      localizedDisplayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoreHoursType",
+  }) as any as Schema.Schema<MoreHoursType>;
 
 export interface Category {
   /** Required. A stable ID (provided by Google) for this category. The value must be specified when modifying the category (when creating or updating a location). */
@@ -66,14 +70,15 @@ export interface Category {
   moreHoursTypes?: Array<MoreHoursType>;
 }
 
-export const Category: Schema.Schema<Category> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    serviceTypes: Schema.optional(Schema.Array(ServiceType)),
-    displayName: Schema.optional(Schema.String),
-    moreHoursTypes: Schema.optional(Schema.Array(MoreHoursType)),
-  }),
-).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
+export const Category: Schema.Schema<Category> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      serviceTypes: Schema.optional(Schema.Array(ServiceType)),
+      displayName: Schema.optional(Schema.String),
+      moreHoursTypes: Schema.optional(Schema.Array(MoreHoursType)),
+    }),
+  ).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
 
 export interface StructuredServiceItem {
   /** Required. The `service_type_id` field is a Google provided unique ID that can be found in `ServiceType`. This information is provided by `BatchGetCategories` rpc service. */
@@ -83,7 +88,7 @@ export interface StructuredServiceItem {
 }
 
 export const StructuredServiceItem: Schema.Schema<StructuredServiceItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceTypeId: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -101,13 +106,14 @@ export interface Label {
   languageCode?: string;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface FreeFormServiceItem {
   /** Required. This field represents the category name (i.e. the category's stable ID). The `category` and `service_type_id` should match the possible combinations provided in the `Category` message. */
@@ -117,7 +123,7 @@ export interface FreeFormServiceItem {
 }
 
 export const FreeFormServiceItem: Schema.Schema<FreeFormServiceItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
       label: Schema.optional(Label),
@@ -135,13 +141,14 @@ export interface Money {
   units?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    nanos: Schema.optional(Schema.Number),
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nanos: Schema.optional(Schema.Number),
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface ServiceItem {
   /** Optional. This field will be set case of structured services data. */
@@ -152,13 +159,16 @@ export interface ServiceItem {
   price?: Money;
 }
 
-export const ServiceItem: Schema.Schema<ServiceItem> = Schema.suspend(() =>
-  Schema.Struct({
-    structuredServiceItem: Schema.optional(StructuredServiceItem),
-    freeFormServiceItem: Schema.optional(FreeFormServiceItem),
-    price: Schema.optional(Money),
-  }),
-).annotate({ identifier: "ServiceItem" }) as any as Schema.Schema<ServiceItem>;
+export const ServiceItem: Schema.Schema<ServiceItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      structuredServiceItem: Schema.optional(StructuredServiceItem),
+      freeFormServiceItem: Schema.optional(FreeFormServiceItem),
+      price: Schema.optional(Money),
+    }),
+  ).annotate({
+    identifier: "ServiceItem",
+  }) as any as Schema.Schema<ServiceItem>;
 
 export interface ListCategoriesResponse {
   /** The matching categories based on the requested parameters. */
@@ -168,7 +178,7 @@ export interface ListCategoriesResponse {
 }
 
 export const ListCategoriesResponse: Schema.Schema<ListCategoriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       categories: Schema.optional(Schema.Array(Category)),
       nextPageToken: Schema.optional(Schema.String),
@@ -188,15 +198,15 @@ export interface RelevantLocation {
     | (string & {});
 }
 
-export const RelevantLocation: Schema.Schema<RelevantLocation> = Schema.suspend(
-  () =>
+export const RelevantLocation: Schema.Schema<RelevantLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeId: Schema.optional(Schema.String),
       relationType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RelevantLocation",
-}) as any as Schema.Schema<RelevantLocation>;
+  ).annotate({
+    identifier: "RelevantLocation",
+  }) as any as Schema.Schema<RelevantLocation>;
 
 export interface PhoneNumbers {
   /** Required. A phone number that connects to your individual business location as directly as possible. Use a local phone number instead of a central, call center helpline number whenever possible. */
@@ -205,14 +215,15 @@ export interface PhoneNumbers {
   additionalPhones?: Array<string>;
 }
 
-export const PhoneNumbers: Schema.Schema<PhoneNumbers> = Schema.suspend(() =>
-  Schema.Struct({
-    primaryPhone: Schema.optional(Schema.String),
-    additionalPhones: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "PhoneNumbers",
-}) as any as Schema.Schema<PhoneNumbers>;
+export const PhoneNumbers: Schema.Schema<PhoneNumbers> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      primaryPhone: Schema.optional(Schema.String),
+      additionalPhones: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PhoneNumbers",
+  }) as any as Schema.Schema<PhoneNumbers>;
 
 export interface PlaceInfo {
   /** Required. The localized name of the place. For example, `Scottsdale, AZ`. */
@@ -221,23 +232,25 @@ export interface PlaceInfo {
   placeId?: string;
 }
 
-export const PlaceInfo: Schema.Schema<PlaceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    placeName: Schema.optional(Schema.String),
-    placeId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PlaceInfo" }) as any as Schema.Schema<PlaceInfo>;
+export const PlaceInfo: Schema.Schema<PlaceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      placeName: Schema.optional(Schema.String),
+      placeId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PlaceInfo" }) as any as Schema.Schema<PlaceInfo>;
 
 export interface Places {
   /** The areas represented by place IDs. Limited to a maximum of 20 places. */
   placeInfos?: Array<PlaceInfo>;
 }
 
-export const Places: Schema.Schema<Places> = Schema.suspend(() =>
-  Schema.Struct({
-    placeInfos: Schema.optional(Schema.Array(PlaceInfo)),
-  }),
-).annotate({ identifier: "Places" }) as any as Schema.Schema<Places>;
+export const Places: Schema.Schema<Places> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      placeInfos: Schema.optional(Schema.Array(PlaceInfo)),
+    }),
+  ).annotate({ identifier: "Places" }) as any as Schema.Schema<Places>;
 
 export interface ServiceAreaBusiness {
   /** Immutable. CLDR region code of the country/region that this service area business is based in. See http://cldr.unicode.org/ and http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. This field is required for CUSTOMER_LOCATION_ONLY businesses, and is ignored otherwise. The region specified here can be different from regions for the areas that this business serves (e.g. service area businesses that provide services in regions other than the one that they are based in). If this location requires verification after creation, the address provided for verification purposes *must* be located within this region, and the business owner or their authorized representative *must* be able to receive postal mail at the provided verification address. */
@@ -253,7 +266,7 @@ export interface ServiceAreaBusiness {
 }
 
 export const ServiceAreaBusiness: Schema.Schema<ServiceAreaBusiness> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
       businessType: Schema.optional(Schema.String),
@@ -274,14 +287,15 @@ export interface TimeOfDay {
   hours?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    minutes: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minutes: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface TimePeriod {
   /** Required. Valid values are 00:00-24:00, where 24:00 represents midnight at the end of the specified day field. */
@@ -312,14 +326,15 @@ export interface TimePeriod {
     | (string & {});
 }
 
-export const TimePeriod: Schema.Schema<TimePeriod> = Schema.suspend(() =>
-  Schema.Struct({
-    closeTime: Schema.optional(TimeOfDay),
-    openDay: Schema.optional(Schema.String),
-    openTime: Schema.optional(TimeOfDay),
-    closeDay: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
+export const TimePeriod: Schema.Schema<TimePeriod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      closeTime: Schema.optional(TimeOfDay),
+      openDay: Schema.optional(Schema.String),
+      openTime: Schema.optional(TimeOfDay),
+      closeDay: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
 
 export interface MoreHours {
   /** Required. Type of hours. Clients should call {#link businessCategories:BatchGet} to get supported hours types for categories of their locations. */
@@ -328,12 +343,13 @@ export interface MoreHours {
   periods?: Array<TimePeriod>;
 }
 
-export const MoreHours: Schema.Schema<MoreHours> = Schema.suspend(() =>
-  Schema.Struct({
-    hoursTypeId: Schema.optional(Schema.String),
-    periods: Schema.optional(Schema.Array(TimePeriod)),
-  }),
-).annotate({ identifier: "MoreHours" }) as any as Schema.Schema<MoreHours>;
+export const MoreHours: Schema.Schema<MoreHours> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hoursTypeId: Schema.optional(Schema.String),
+      periods: Schema.optional(Schema.Array(TimePeriod)),
+    }),
+  ).annotate({ identifier: "MoreHours" }) as any as Schema.Schema<MoreHours>;
 
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
@@ -342,12 +358,13 @@ export interface LatLng {
   longitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    latitude: Schema.optional(Schema.Number),
-    longitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      latitude: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface Metadata {
   /** Output only. Indicates if the listing is eligible for business calls. */
@@ -382,36 +399,38 @@ export interface Metadata {
   hasVoiceOfMerchant?: boolean;
 }
 
-export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() =>
-  Schema.Struct({
-    canHaveBusinessCalls: Schema.optional(Schema.Boolean),
-    canOperateLocalPost: Schema.optional(Schema.Boolean),
-    canModifyServiceList: Schema.optional(Schema.Boolean),
-    canOperateHealthData: Schema.optional(Schema.Boolean),
-    duplicateLocation: Schema.optional(Schema.String),
-    canDelete: Schema.optional(Schema.Boolean),
-    canHaveFoodMenus: Schema.optional(Schema.Boolean),
-    hasGoogleUpdated: Schema.optional(Schema.Boolean),
-    placeId: Schema.optional(Schema.String),
-    mapsUri: Schema.optional(Schema.String),
-    isParticularlyPersonalPlace: Schema.optional(Schema.Boolean),
-    newReviewUri: Schema.optional(Schema.String),
-    hasPendingEdits: Schema.optional(Schema.Boolean),
-    canOperateLodgingData: Schema.optional(Schema.Boolean),
-    hasVoiceOfMerchant: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
+export const Metadata: Schema.Schema<Metadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      canHaveBusinessCalls: Schema.optional(Schema.Boolean),
+      canOperateLocalPost: Schema.optional(Schema.Boolean),
+      canModifyServiceList: Schema.optional(Schema.Boolean),
+      canOperateHealthData: Schema.optional(Schema.Boolean),
+      duplicateLocation: Schema.optional(Schema.String),
+      canDelete: Schema.optional(Schema.Boolean),
+      canHaveFoodMenus: Schema.optional(Schema.Boolean),
+      hasGoogleUpdated: Schema.optional(Schema.Boolean),
+      placeId: Schema.optional(Schema.String),
+      mapsUri: Schema.optional(Schema.String),
+      isParticularlyPersonalPlace: Schema.optional(Schema.Boolean),
+      newReviewUri: Schema.optional(Schema.String),
+      hasPendingEdits: Schema.optional(Schema.Boolean),
+      canOperateLodgingData: Schema.optional(Schema.Boolean),
+      hasVoiceOfMerchant: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
 
 export interface Profile {
   /** Required. Description of the location in your own voice, not editable by anyone else. */
   description?: string;
 }
 
-export const Profile: Schema.Schema<Profile> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
+export const Profile: Schema.Schema<Profile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Profile" }) as any as Schema.Schema<Profile>;
 
 export interface RelationshipData {
   /** The parent location that this location has relations with. */
@@ -422,29 +441,30 @@ export interface RelationshipData {
   parentChain?: string;
 }
 
-export const RelationshipData: Schema.Schema<RelationshipData> = Schema.suspend(
-  () =>
+export const RelationshipData: Schema.Schema<RelationshipData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parentLocation: Schema.optional(RelevantLocation),
       childrenLocations: Schema.optional(Schema.Array(RelevantLocation)),
       parentChain: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RelationshipData",
-}) as any as Schema.Schema<RelationshipData>;
+  ).annotate({
+    identifier: "RelationshipData",
+  }) as any as Schema.Schema<RelationshipData>;
 
 export interface BusinessHours {
   /** Required. A collection of times that this location is open for business. Each period represents a range of hours when the location is open during the week. */
   periods?: Array<TimePeriod>;
 }
 
-export const BusinessHours: Schema.Schema<BusinessHours> = Schema.suspend(() =>
-  Schema.Struct({
-    periods: Schema.optional(Schema.Array(TimePeriod)),
-  }),
-).annotate({
-  identifier: "BusinessHours",
-}) as any as Schema.Schema<BusinessHours>;
+export const BusinessHours: Schema.Schema<BusinessHours> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      periods: Schema.optional(Schema.Array(TimePeriod)),
+    }),
+  ).annotate({
+    identifier: "BusinessHours",
+  }) as any as Schema.Schema<BusinessHours>;
 
 export interface Mybusinessbusinessinformation_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -456,7 +476,7 @@ export interface Mybusinessbusinessinformation_Date {
 }
 
 export const Mybusinessbusinessinformation_Date: Schema.Schema<Mybusinessbusinessinformation_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
@@ -480,7 +500,7 @@ export interface SpecialHourPeriod {
 }
 
 export const SpecialHourPeriod: Schema.Schema<SpecialHourPeriod> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startDate: Schema.optional(Mybusinessbusinessinformation_Date),
       endDate: Schema.optional(Mybusinessbusinessinformation_Date),
@@ -497,13 +517,14 @@ export interface SpecialHours {
   specialHourPeriods?: Array<SpecialHourPeriod>;
 }
 
-export const SpecialHours: Schema.Schema<SpecialHours> = Schema.suspend(() =>
-  Schema.Struct({
-    specialHourPeriods: Schema.optional(Schema.Array(SpecialHourPeriod)),
-  }),
-).annotate({
-  identifier: "SpecialHours",
-}) as any as Schema.Schema<SpecialHours>;
+export const SpecialHours: Schema.Schema<SpecialHours> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      specialHourPeriods: Schema.optional(Schema.Array(SpecialHourPeriod)),
+    }),
+  ).annotate({
+    identifier: "SpecialHours",
+  }) as any as Schema.Schema<SpecialHours>;
 
 export interface Categories {
   /** Required. Category that best describes the core business this location engages in. */
@@ -512,12 +533,13 @@ export interface Categories {
   additionalCategories?: Array<Category>;
 }
 
-export const Categories: Schema.Schema<Categories> = Schema.suspend(() =>
-  Schema.Struct({
-    primaryCategory: Schema.optional(Category),
-    additionalCategories: Schema.optional(Schema.Array(Category)),
-  }),
-).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
+export const Categories: Schema.Schema<Categories> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      primaryCategory: Schema.optional(Category),
+      additionalCategories: Schema.optional(Schema.Array(Category)),
+    }),
+  ).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
 
 export interface OpenInfo {
   /** Required. Indicates whether or not the Location is currently open for business. All locations are open by default, unless updated to be closed. */
@@ -533,13 +555,14 @@ export interface OpenInfo {
   openingDate?: Mybusinessbusinessinformation_Date;
 }
 
-export const OpenInfo: Schema.Schema<OpenInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    status: Schema.optional(Schema.String),
-    canReopen: Schema.optional(Schema.Boolean),
-    openingDate: Schema.optional(Mybusinessbusinessinformation_Date),
-  }),
-).annotate({ identifier: "OpenInfo" }) as any as Schema.Schema<OpenInfo>;
+export const OpenInfo: Schema.Schema<OpenInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Schema.String),
+      canReopen: Schema.optional(Schema.Boolean),
+      openingDate: Schema.optional(Mybusinessbusinessinformation_Date),
+    }),
+  ).annotate({ identifier: "OpenInfo" }) as any as Schema.Schema<OpenInfo>;
 
 export interface AdWordsLocationExtensions {
   /** Required. An alternate phone number to display on AdWords location extensions instead of the location's primary phone number. */
@@ -547,7 +570,7 @@ export interface AdWordsLocationExtensions {
 }
 
 export const AdWordsLocationExtensions: Schema.Schema<AdWordsLocationExtensions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adPhone: Schema.optional(Schema.String),
     }),
@@ -580,23 +603,24 @@ export interface PostalAddress {
   sublocality?: string;
 }
 
-export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() =>
-  Schema.Struct({
-    addressLines: Schema.optional(Schema.Array(Schema.String)),
-    sortingCode: Schema.optional(Schema.String),
-    administrativeArea: Schema.optional(Schema.String),
-    revision: Schema.optional(Schema.Number),
-    recipients: Schema.optional(Schema.Array(Schema.String)),
-    locality: Schema.optional(Schema.String),
-    organization: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    sublocality: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PostalAddress",
-}) as any as Schema.Schema<PostalAddress>;
+export const PostalAddress: Schema.Schema<PostalAddress> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      addressLines: Schema.optional(Schema.Array(Schema.String)),
+      sortingCode: Schema.optional(Schema.String),
+      administrativeArea: Schema.optional(Schema.String),
+      revision: Schema.optional(Schema.Number),
+      recipients: Schema.optional(Schema.Array(Schema.String)),
+      locality: Schema.optional(Schema.String),
+      organization: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      sublocality: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PostalAddress",
+  }) as any as Schema.Schema<PostalAddress>;
 
 export interface Location {
   /** Google identifier for this location in the form: `locations/{location_id}`. */
@@ -641,30 +665,31 @@ export interface Location {
   storefrontAddress?: PostalAddress;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    serviceArea: Schema.optional(ServiceAreaBusiness),
-    moreHours: Schema.optional(Schema.Array(MoreHours)),
-    storeCode: Schema.optional(Schema.String),
-    serviceItems: Schema.optional(Schema.Array(ServiceItem)),
-    websiteUri: Schema.optional(Schema.String),
-    latlng: Schema.optional(LatLng),
-    metadata: Schema.optional(Metadata),
-    profile: Schema.optional(Profile),
-    relationshipData: Schema.optional(RelationshipData),
-    phoneNumbers: Schema.optional(PhoneNumbers),
-    regularHours: Schema.optional(BusinessHours),
-    labels: Schema.optional(Schema.Array(Schema.String)),
-    languageCode: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    specialHours: Schema.optional(SpecialHours),
-    categories: Schema.optional(Categories),
-    openInfo: Schema.optional(OpenInfo),
-    adWordsLocationExtensions: Schema.optional(AdWordsLocationExtensions),
-    storefrontAddress: Schema.optional(PostalAddress),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      serviceArea: Schema.optional(ServiceAreaBusiness),
+      moreHours: Schema.optional(Schema.Array(MoreHours)),
+      storeCode: Schema.optional(Schema.String),
+      serviceItems: Schema.optional(Schema.Array(ServiceItem)),
+      websiteUri: Schema.optional(Schema.String),
+      latlng: Schema.optional(LatLng),
+      metadata: Schema.optional(Metadata),
+      profile: Schema.optional(Profile),
+      relationshipData: Schema.optional(RelationshipData),
+      phoneNumbers: Schema.optional(PhoneNumbers),
+      regularHours: Schema.optional(BusinessHours),
+      labels: Schema.optional(Schema.Array(Schema.String)),
+      languageCode: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      specialHours: Schema.optional(SpecialHours),
+      categories: Schema.optional(Categories),
+      openInfo: Schema.optional(OpenInfo),
+      adWordsLocationExtensions: Schema.optional(AdWordsLocationExtensions),
+      storefrontAddress: Schema.optional(PostalAddress),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface GoogleLocation {
   /** The sparsely populated Location information. This field can be re-used in CreateLocation if it is not currently claimed by a user. */
@@ -675,16 +700,16 @@ export interface GoogleLocation {
   name?: string;
 }
 
-export const GoogleLocation: Schema.Schema<GoogleLocation> = Schema.suspend(
-  () =>
+export const GoogleLocation: Schema.Schema<GoogleLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Location),
       requestAdminRightsUri: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleLocation",
-}) as any as Schema.Schema<GoogleLocation>;
+  ).annotate({
+    identifier: "GoogleLocation",
+  }) as any as Schema.Schema<GoogleLocation>;
 
 export interface SearchGoogleLocationsResponse {
   /** A collection of GoogleLocations that are potential matches to the specified request, listed in order from most to least accuracy. */
@@ -692,7 +717,7 @@ export interface SearchGoogleLocationsResponse {
 }
 
 export const SearchGoogleLocationsResponse: Schema.Schema<SearchGoogleLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleLocations: Schema.optional(Schema.Array(GoogleLocation)),
     }),
@@ -708,7 +733,7 @@ export interface AttributeValueMetadata {
 }
 
 export const AttributeValueMetadata: Schema.Schema<AttributeValueMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Unknown),
       displayName: Schema.optional(Schema.String),
@@ -741,7 +766,7 @@ export interface AttributeMetadata {
 }
 
 export const AttributeMetadata: Schema.Schema<AttributeMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       repeatable: Schema.optional(Schema.Boolean),
       groupDisplayName: Schema.optional(Schema.String),
@@ -765,7 +790,7 @@ export interface SearchGoogleLocationsRequest {
 }
 
 export const SearchGoogleLocationsRequest: Schema.Schema<SearchGoogleLocationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Location),
       pageSize: Schema.optional(Schema.Number),
@@ -785,7 +810,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       locations: Schema.optional(Schema.Array(Location)),
@@ -805,7 +830,7 @@ export interface GoogleUpdatedLocation {
 }
 
 export const GoogleUpdatedLocation: Schema.Schema<GoogleUpdatedLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       diffMask: Schema.optional(Schema.String),
       pendingMask: Schema.optional(Schema.String),
@@ -822,23 +847,25 @@ export interface ChainName {
   languageCode?: string;
 }
 
-export const ChainName: Schema.Schema<ChainName> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ChainName" }) as any as Schema.Schema<ChainName>;
+export const ChainName: Schema.Schema<ChainName> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ChainName" }) as any as Schema.Schema<ChainName>;
 
 export interface ChainUri {
   /** The uri for this chain. */
   uri?: string;
 }
 
-export const ChainUri: Schema.Schema<ChainUri> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ChainUri" }) as any as Schema.Schema<ChainUri>;
+export const ChainUri: Schema.Schema<ChainUri> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ChainUri" }) as any as Schema.Schema<ChainUri>;
 
 export interface Chain {
   /** Required. The chain's resource name, in the format `chains/{chain_id}`. */
@@ -851,14 +878,15 @@ export interface Chain {
   websites?: Array<ChainUri>;
 }
 
-export const Chain: Schema.Schema<Chain> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationCount: Schema.optional(Schema.Number),
-    chainNames: Schema.optional(Schema.Array(ChainName)),
-    websites: Schema.optional(Schema.Array(ChainUri)),
-  }),
-).annotate({ identifier: "Chain" }) as any as Schema.Schema<Chain>;
+export const Chain: Schema.Schema<Chain> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationCount: Schema.optional(Schema.Number),
+      chainNames: Schema.optional(Schema.Array(ChainName)),
+      websites: Schema.optional(Schema.Array(ChainUri)),
+    }),
+  ).annotate({ identifier: "Chain" }) as any as Schema.Schema<Chain>;
 
 export interface RepeatedEnumAttributeValue {
   /** Enum values that are set. */
@@ -868,7 +896,7 @@ export interface RepeatedEnumAttributeValue {
 }
 
 export const RepeatedEnumAttributeValue: Schema.Schema<RepeatedEnumAttributeValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       setValues: Schema.optional(Schema.Array(Schema.String)),
       unsetValues: Schema.optional(Schema.Array(Schema.String)),
@@ -883,7 +911,7 @@ export interface UriAttributeValue {
 }
 
 export const UriAttributeValue: Schema.Schema<UriAttributeValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
     }),
@@ -910,15 +938,16 @@ export interface Attribute {
   uriValues?: Array<UriAttributeValue>;
 }
 
-export const Attribute: Schema.Schema<Attribute> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Schema.Unknown)),
-    valueType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    repeatedEnumValue: Schema.optional(RepeatedEnumAttributeValue),
-    uriValues: Schema.optional(Schema.Array(UriAttributeValue)),
-  }),
-).annotate({ identifier: "Attribute" }) as any as Schema.Schema<Attribute>;
+export const Attribute: Schema.Schema<Attribute> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.Unknown)),
+      valueType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      repeatedEnumValue: Schema.optional(RepeatedEnumAttributeValue),
+      uriValues: Schema.optional(Schema.Array(UriAttributeValue)),
+    }),
+  ).annotate({ identifier: "Attribute" }) as any as Schema.Schema<Attribute>;
 
 export interface Attributes {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
@@ -927,12 +956,13 @@ export interface Attributes {
   attributes?: Array<Attribute>;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    attributes: Schema.optional(Schema.Array(Attribute)),
-  }),
-).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      attributes: Schema.optional(Schema.Array(Attribute)),
+    }),
+  ).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface BatchGetCategoriesResponse {
   /** Categories that match the GConcept ids provided in the request. They will not come in the same order as category ids in the request. */
@@ -940,7 +970,7 @@ export interface BatchGetCategoriesResponse {
 }
 
 export const BatchGetCategoriesResponse: Schema.Schema<BatchGetCategoriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       categories: Schema.optional(Schema.Array(Category)),
     }),
@@ -954,7 +984,7 @@ export interface SearchChainsResponse {
 }
 
 export const SearchChainsResponse: Schema.Schema<SearchChainsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chains: Schema.optional(Schema.Array(Chain)),
     }),
@@ -964,9 +994,10 @@ export const SearchChainsResponse: Schema.Schema<SearchChainsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListAttributeMetadataResponse {
   /** A collection of attribute metadata for the available attributes. */
@@ -976,7 +1007,7 @@ export interface ListAttributeMetadataResponse {
 }
 
 export const ListAttributeMetadataResponse: Schema.Schema<ListAttributeMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeMetadata: Schema.optional(Schema.Array(AttributeMetadata)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1006,7 +1037,7 @@ export interface ListAttributesRequest {
   pageToken?: string;
 }
 
-export const ListAttributesRequest = Schema.Struct({
+export const ListAttributesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   regionCode: Schema.optional(Schema.String).pipe(T.HttpQuery("regionCode")),
   languageCode: Schema.optional(Schema.String).pipe(
@@ -1024,7 +1055,8 @@ export const ListAttributesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAttributesRequest>;
 
 export type ListAttributesResponse = ListAttributeMetadataResponse;
-export const ListAttributesResponse = ListAttributeMetadataResponse;
+export const ListAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAttributeMetadataResponse;
 
 export type ListAttributesError = DefaultErrors;
 
@@ -1034,7 +1066,7 @@ export const listAttributes: API.PaginatedOperationMethod<
   ListAttributesResponse,
   ListAttributesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAttributesRequest,
   output: ListAttributesResponse,
   errors: [],
@@ -1051,7 +1083,7 @@ export interface GetLocationsRequest {
   readMask?: string;
 }
 
-export const GetLocationsRequest = Schema.Struct({
+export const GetLocationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
 }).pipe(
@@ -1060,7 +1092,7 @@ export const GetLocationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetLocationsRequest>;
 
 export type GetLocationsResponse = Location;
-export const GetLocationsResponse = Location;
+export const GetLocationsResponse = /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetLocationsError = DefaultErrors;
 
@@ -1070,7 +1102,7 @@ export const getLocations: API.OperationMethod<
   GetLocationsResponse,
   GetLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLocationsRequest,
   output: GetLocationsResponse,
   errors: [],
@@ -1081,15 +1113,17 @@ export interface GetAttributesLocationsRequest {
   name: string;
 }
 
-export const GetAttributesLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/locations/{locationsId}/attributes" }),
-  svc,
-) as unknown as Schema.Schema<GetAttributesLocationsRequest>;
+export const GetAttributesLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/locations/{locationsId}/attributes" }),
+    svc,
+  ) as unknown as Schema.Schema<GetAttributesLocationsRequest>;
 
 export type GetAttributesLocationsResponse = Attributes;
-export const GetAttributesLocationsResponse = Attributes;
+export const GetAttributesLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attributes;
 
 export type GetAttributesLocationsError = DefaultErrors;
 
@@ -1099,7 +1133,7 @@ export const getAttributesLocations: API.OperationMethod<
   GetAttributesLocationsResponse,
   GetAttributesLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributesLocationsRequest,
   output: GetAttributesLocationsResponse,
   errors: [],
@@ -1116,7 +1150,7 @@ export interface PatchLocationsRequest {
   body?: Location;
 }
 
-export const PatchLocationsRequest = Schema.Struct({
+export const PatchLocationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   validateOnly: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("validateOnly"),
@@ -1133,7 +1167,7 @@ export const PatchLocationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchLocationsRequest>;
 
 export type PatchLocationsResponse = Location;
-export const PatchLocationsResponse = Location;
+export const PatchLocationsResponse = /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type PatchLocationsError = DefaultErrors;
 
@@ -1143,7 +1177,7 @@ export const patchLocations: API.OperationMethod<
   PatchLocationsResponse,
   PatchLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLocationsRequest,
   output: PatchLocationsResponse,
   errors: [],
@@ -1154,15 +1188,17 @@ export interface DeleteLocationsRequest {
   name: string;
 }
 
-export const DeleteLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const DeleteLocationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "v1/locations/{locationsId}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteLocationsRequest>;
 
 export type DeleteLocationsResponse = Empty;
-export const DeleteLocationsResponse = Empty;
+export const DeleteLocationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteLocationsError = DefaultErrors;
 
@@ -1172,7 +1208,7 @@ export const deleteLocations: API.OperationMethod<
   DeleteLocationsResponse,
   DeleteLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationsRequest,
   output: DeleteLocationsResponse,
   errors: [],
@@ -1187,23 +1223,25 @@ export interface UpdateAttributesLocationsRequest {
   body?: Attributes;
 }
 
-export const UpdateAttributesLocationsRequest = Schema.Struct({
-  attributeMask: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("attributeMask"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Attributes).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/locations/{locationsId}/attributes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAttributesLocationsRequest>;
+export const UpdateAttributesLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    attributeMask: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("attributeMask"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Attributes).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/locations/{locationsId}/attributes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAttributesLocationsRequest>;
 
 export type UpdateAttributesLocationsResponse = Attributes;
-export const UpdateAttributesLocationsResponse = Attributes;
+export const UpdateAttributesLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attributes;
 
 export type UpdateAttributesLocationsError = DefaultErrors;
 
@@ -1213,7 +1251,7 @@ export const updateAttributesLocations: API.OperationMethod<
   UpdateAttributesLocationsResponse,
   UpdateAttributesLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAttributesLocationsRequest,
   output: UpdateAttributesLocationsResponse,
   errors: [],
@@ -1226,19 +1264,21 @@ export interface GetGoogleUpdatedLocationsRequest {
   readMask?: string;
 }
 
-export const GetGoogleUpdatedLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}:getGoogleUpdated",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGoogleUpdatedLocationsRequest>;
+export const GetGoogleUpdatedLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}:getGoogleUpdated",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGoogleUpdatedLocationsRequest>;
 
 export type GetGoogleUpdatedLocationsResponse = GoogleUpdatedLocation;
-export const GetGoogleUpdatedLocationsResponse = GoogleUpdatedLocation;
+export const GetGoogleUpdatedLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleUpdatedLocation;
 
 export type GetGoogleUpdatedLocationsError = DefaultErrors;
 
@@ -1248,7 +1288,7 @@ export const getGoogleUpdatedLocations: API.OperationMethod<
   GetGoogleUpdatedLocationsResponse,
   GetGoogleUpdatedLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGoogleUpdatedLocationsRequest,
   output: GetGoogleUpdatedLocationsResponse,
   errors: [],
@@ -1259,18 +1299,20 @@ export interface GetGoogleUpdatedLocationsAttributesRequest {
   name: string;
 }
 
-export const GetGoogleUpdatedLocationsAttributesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}/attributes:getGoogleUpdated",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGoogleUpdatedLocationsAttributesRequest>;
+export const GetGoogleUpdatedLocationsAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}/attributes:getGoogleUpdated",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGoogleUpdatedLocationsAttributesRequest>;
 
 export type GetGoogleUpdatedLocationsAttributesResponse = Attributes;
-export const GetGoogleUpdatedLocationsAttributesResponse = Attributes;
+export const GetGoogleUpdatedLocationsAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attributes;
 
 export type GetGoogleUpdatedLocationsAttributesError = DefaultErrors;
 
@@ -1280,7 +1322,7 @@ export const getGoogleUpdatedLocationsAttributes: API.OperationMethod<
   GetGoogleUpdatedLocationsAttributesResponse,
   GetGoogleUpdatedLocationsAttributesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGoogleUpdatedLocationsAttributesRequest,
   output: GetGoogleUpdatedLocationsAttributesResponse,
   errors: [],
@@ -1301,7 +1343,7 @@ export interface ListCategoriesRequest {
   pageSize?: number;
 }
 
-export const ListCategoriesRequest = Schema.Struct({
+export const ListCategoriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
@@ -1316,7 +1358,8 @@ export const ListCategoriesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCategoriesRequest>;
 
 export type ListCategoriesResponse_Op = ListCategoriesResponse;
-export const ListCategoriesResponse_Op = ListCategoriesResponse;
+export const ListCategoriesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCategoriesResponse;
 
 export type ListCategoriesError = DefaultErrors;
 
@@ -1326,7 +1369,7 @@ export const listCategories: API.PaginatedOperationMethod<
   ListCategoriesResponse_Op,
   ListCategoriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCategoriesRequest,
   output: ListCategoriesResponse_Op,
   errors: [],
@@ -1347,22 +1390,24 @@ export interface BatchGetCategoriesRequest {
   regionCode?: string;
 }
 
-export const BatchGetCategoriesRequest = Schema.Struct({
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  regionCode: Schema.optional(Schema.String).pipe(T.HttpQuery("regionCode")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/categories:batchGet" }),
-  svc,
-) as unknown as Schema.Schema<BatchGetCategoriesRequest>;
+export const BatchGetCategoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    regionCode: Schema.optional(Schema.String).pipe(T.HttpQuery("regionCode")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/categories:batchGet" }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetCategoriesRequest>;
 
 export type BatchGetCategoriesResponse_Op = BatchGetCategoriesResponse;
-export const BatchGetCategoriesResponse_Op = BatchGetCategoriesResponse;
+export const BatchGetCategoriesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetCategoriesResponse;
 
 export type BatchGetCategoriesError = DefaultErrors;
 
@@ -1372,7 +1417,7 @@ export const batchGetCategories: API.OperationMethod<
   BatchGetCategoriesResponse_Op,
   BatchGetCategoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetCategoriesRequest,
   output: BatchGetCategoriesResponse_Op,
   errors: [],
@@ -1383,15 +1428,21 @@ export interface SearchGoogleLocationsRequest_Op {
   body?: SearchGoogleLocationsRequest;
 }
 
-export const SearchGoogleLocationsRequest_Op = Schema.Struct({
-  body: Schema.optional(SearchGoogleLocationsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/googleLocations:search", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SearchGoogleLocationsRequest_Op>;
+export const SearchGoogleLocationsRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(SearchGoogleLocationsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/googleLocations:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchGoogleLocationsRequest_Op>;
 
 export type SearchGoogleLocationsResponse_Op = SearchGoogleLocationsResponse;
-export const SearchGoogleLocationsResponse_Op = SearchGoogleLocationsResponse;
+export const SearchGoogleLocationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchGoogleLocationsResponse;
 
 export type SearchGoogleLocationsError = DefaultErrors;
 
@@ -1401,7 +1452,7 @@ export const searchGoogleLocations: API.OperationMethod<
   SearchGoogleLocationsResponse_Op,
   SearchGoogleLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchGoogleLocationsRequest_Op,
   output: SearchGoogleLocationsResponse_Op,
   errors: [],
@@ -1422,20 +1473,22 @@ export interface ListAccountsLocationsRequest {
   readMask?: string;
 }
 
-export const ListAccountsLocationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsLocationsRequest>;
+export const ListAccountsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsLocationsRequest>;
 
 export type ListAccountsLocationsResponse = ListLocationsResponse;
-export const ListAccountsLocationsResponse = ListLocationsResponse;
+export const ListAccountsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListAccountsLocationsError = DefaultErrors;
 
@@ -1445,7 +1498,7 @@ export const listAccountsLocations: API.PaginatedOperationMethod<
   ListAccountsLocationsResponse,
   ListAccountsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsLocationsRequest,
   output: ListAccountsLocationsResponse,
   errors: [],
@@ -1466,24 +1519,26 @@ export interface CreateAccountsLocationsRequest {
   body?: Location;
 }
 
-export const CreateAccountsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(Location).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/accounts/{accountsId}/locations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsLocationsRequest>;
+export const CreateAccountsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(Location).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/accounts/{accountsId}/locations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsLocationsRequest>;
 
 export type CreateAccountsLocationsResponse = Location;
-export const CreateAccountsLocationsResponse = Location;
+export const CreateAccountsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type CreateAccountsLocationsError = DefaultErrors;
 
@@ -1493,7 +1548,7 @@ export const createAccountsLocations: API.OperationMethod<
   CreateAccountsLocationsResponse,
   CreateAccountsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsLocationsRequest,
   output: CreateAccountsLocationsResponse,
   errors: [],
@@ -1504,7 +1559,7 @@ export interface GetChainsRequest {
   name: string;
 }
 
-export const GetChainsRequest = Schema.Struct({
+export const GetChainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/chains/{chainsId}" }),
@@ -1512,7 +1567,7 @@ export const GetChainsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetChainsRequest>;
 
 export type GetChainsResponse = Chain;
-export const GetChainsResponse = Chain;
+export const GetChainsResponse = /*@__PURE__*/ /*#__PURE__*/ Chain;
 
 export type GetChainsError = DefaultErrors;
 
@@ -1522,7 +1577,7 @@ export const getChains: API.OperationMethod<
   GetChainsResponse,
   GetChainsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChainsRequest,
   output: GetChainsResponse,
   errors: [],
@@ -1535,7 +1590,7 @@ export interface SearchChainsRequest {
   pageSize?: number;
 }
 
-export const SearchChainsRequest = Schema.Struct({
+export const SearchChainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   chainName: Schema.optional(Schema.String).pipe(T.HttpQuery("chainName")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
@@ -1544,7 +1599,8 @@ export const SearchChainsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchChainsRequest>;
 
 export type SearchChainsResponse_Op = SearchChainsResponse;
-export const SearchChainsResponse_Op = SearchChainsResponse;
+export const SearchChainsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchChainsResponse;
 
 export type SearchChainsError = DefaultErrors;
 
@@ -1554,7 +1610,7 @@ export const searchChains: API.OperationMethod<
   SearchChainsResponse_Op,
   SearchChainsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchChainsRequest,
   output: SearchChainsResponse_Op,
   errors: [],

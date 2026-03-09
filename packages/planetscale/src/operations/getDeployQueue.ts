@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetDeployQueueInput = Schema.Struct({
+export const GetDeployQueueInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
 }).pipe(
@@ -16,7 +16,7 @@ export const GetDeployQueueInput = Schema.Struct({
 export type GetDeployQueueInput = typeof GetDeployQueueInput.Type;
 
 // Output Schema
-export const GetDeployQueueOutput = Schema.Struct({
+export const GetDeployQueueOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   current_page: Schema.Number,
   next_page: Schema.NullOr(Schema.Number),
   next_page_url: Schema.NullOr(Schema.String),

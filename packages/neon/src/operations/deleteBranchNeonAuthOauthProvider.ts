@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteBranchNeonAuthOauthProviderInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  oauth_provider_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
-  }),
-);
+export const DeleteBranchNeonAuthOauthProviderInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    oauth_provider_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
+    }),
+  );
 export type DeleteBranchNeonAuthOauthProviderInput =
   typeof DeleteBranchNeonAuthOauthProviderInput.Type;
 
 // Output Schema
-export const DeleteBranchNeonAuthOauthProviderOutput = Schema.Void;
+export const DeleteBranchNeonAuthOauthProviderOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteBranchNeonAuthOauthProviderOutput =
   typeof DeleteBranchNeonAuthOauthProviderOutput.Type;
 

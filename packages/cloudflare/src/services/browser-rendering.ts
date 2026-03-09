@@ -141,7 +141,7 @@ export interface CreateContentRequest {
   waitForTimeout?: number;
 }
 
-export const CreateContentRequest = Schema.Struct({
+export const CreateContentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   url: Schema.String,
@@ -299,7 +299,7 @@ export const CreateContentRequest = Schema.Struct({
 export type CreateContentResponse = string;
 
 export const CreateContentResponse =
-  Schema.String as unknown as Schema.Schema<CreateContentResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateContentResponse>;
 
 export type CreateContentError = DefaultErrors;
 
@@ -308,7 +308,7 @@ export const createContent: API.OperationMethod<
   CreateContentResponse,
   CreateContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateContentRequest,
   output: CreateContentResponse,
   errors: [],
@@ -452,7 +452,7 @@ export interface CreateJsonRequest {
   waitForTimeout?: number;
 }
 
-export const CreateJsonRequest = Schema.Struct({
+export const CreateJsonRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   html: Schema.String,
@@ -650,7 +650,7 @@ export const CreateJsonRequest = Schema.Struct({
 
 export type CreateJsonResponse = Record<string, unknown>;
 
-export const CreateJsonResponse = Schema.Struct(
+export const CreateJsonResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {},
 ) as unknown as Schema.Schema<CreateJsonResponse>;
 
@@ -661,7 +661,7 @@ export const createJson: API.OperationMethod<
   CreateJsonResponse,
   CreateJsonError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJsonRequest,
   output: CreateJsonResponse,
   errors: [],
@@ -800,7 +800,7 @@ export interface CreateLinkRequest {
   waitForTimeout?: number;
 }
 
-export const CreateLinkRequest = Schema.Struct({
+export const CreateLinkRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   html: Schema.String,
@@ -959,7 +959,7 @@ export const CreateLinkRequest = Schema.Struct({
 
 export type CreateLinkResponse = string[];
 
-export const CreateLinkResponse = Schema.Array(
+export const CreateLinkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.String,
 ) as unknown as Schema.Schema<CreateLinkResponse>;
 
@@ -970,7 +970,7 @@ export const createLink: API.OperationMethod<
   CreateLinkResponse,
   CreateLinkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLinkRequest,
   output: CreateLinkResponse,
   errors: [],
@@ -1105,7 +1105,7 @@ export interface CreateMarkdownRequest {
   waitForTimeout?: number;
 }
 
-export const CreateMarkdownRequest = Schema.Struct({
+export const CreateMarkdownRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   url: Schema.String,
@@ -1263,7 +1263,7 @@ export const CreateMarkdownRequest = Schema.Struct({
 export type CreateMarkdownResponse = string;
 
 export const CreateMarkdownResponse =
-  Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
 
 export type CreateMarkdownError = DefaultErrors;
 
@@ -1272,7 +1272,7 @@ export const createMarkdown: API.OperationMethod<
   CreateMarkdownResponse,
   CreateMarkdownError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMarkdownRequest,
   output: CreateMarkdownResponse,
   errors: [],
@@ -1442,7 +1442,7 @@ export interface CreatePdfRequest {
   waitForTimeout?: number;
 }
 
-export const CreatePdfRequest = Schema.Struct({
+export const CreatePdfRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   html: Schema.String,
@@ -1641,7 +1641,7 @@ export const CreatePdfRequest = Schema.Struct({
 export type CreatePdfResponse = unknown;
 
 export const CreatePdfResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreatePdfResponse>;
 
 export type CreatePdfError = DefaultErrors;
 
@@ -1650,7 +1650,7 @@ export const createPdf: API.OperationMethod<
   CreatePdfResponse,
   CreatePdfError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePdfRequest,
   output: CreatePdfResponse,
   errors: [],
@@ -1787,7 +1787,7 @@ export interface CreateScrapeRequest {
   waitForTimeout?: number;
 }
 
-export const CreateScrapeRequest = Schema.Struct({
+export const CreateScrapeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   elements: Schema.Array(
@@ -1960,7 +1960,7 @@ export type CreateScrapeResponse = {
   selector: string;
 }[];
 
-export const CreateScrapeResponse = Schema.Array(
+export const CreateScrapeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     results: Schema.Struct({
       attributes: Schema.Array(
@@ -1987,7 +1987,7 @@ export const createScrape: API.OperationMethod<
   CreateScrapeResponse,
   CreateScrapeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScrapeRequest,
   output: CreateScrapeResponse,
   errors: [],
@@ -2144,183 +2144,184 @@ export interface CreateScreenshotRequest {
   waitForTimeout?: number;
 }
 
-export const CreateScreenshotRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
-  html: Schema.String,
-  actionTimeout: Schema.optional(Schema.Number),
-  addScriptTag: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        content: Schema.optional(Schema.String),
-        type: Schema.optional(Schema.String),
-        url: Schema.optional(Schema.String),
-      }),
-    ),
-  ),
-  addStyleTag: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        content: Schema.optional(Schema.String),
-        url: Schema.optional(Schema.String),
-      }),
-    ),
-  ),
-  allowRequestPattern: Schema.optional(Schema.Array(Schema.String)),
-  allowResourceTypes: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "document",
-        "stylesheet",
-        "image",
-        "media",
-        "font",
-        "script",
-        "texttrack",
-        "xhr",
-        "fetch",
-        "prefetch",
-        "eventsource",
-        "websocket",
-        "manifest",
-        "signedexchange",
-        "ping",
-        "cspviolationreport",
-        "preflight",
-        "other",
-      ]),
-    ),
-  ),
-  authenticate: Schema.optional(
-    Schema.Struct({
-      password: Schema.String,
-      username: Schema.String,
-    }),
-  ),
-  bestAttempt: Schema.optional(Schema.Boolean),
-  cookies: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        value: Schema.String,
-        domain: Schema.optional(Schema.String),
-        expires: Schema.optional(Schema.Number),
-        httpOnly: Schema.optional(Schema.Boolean),
-        partitionKey: Schema.optional(Schema.String),
-        path: Schema.optional(Schema.String),
-        priority: Schema.optional(Schema.Literals(["Low", "Medium", "High"])),
-        sameParty: Schema.optional(Schema.Boolean),
-        sameSite: Schema.optional(Schema.Literals(["Strict", "Lax", "None"])),
-        secure: Schema.optional(Schema.Boolean),
-        sourcePort: Schema.optional(Schema.Number),
-        sourceScheme: Schema.optional(
-          Schema.Literals(["Unset", "NonSecure", "Secure"]),
-        ),
-        url: Schema.optional(Schema.String),
-      }),
-    ),
-  ),
-  emulateMediaType: Schema.optional(Schema.String),
-  gotoOptions: Schema.optional(
-    Schema.Struct({
-      referer: Schema.optional(Schema.String),
-      referrerPolicy: Schema.optional(Schema.String),
-      timeout: Schema.optional(Schema.Number),
-      waitUntil: Schema.optional(
-        Schema.Union([
-          Schema.Literal("load"),
-          Schema.Literal("domcontentloaded"),
-          Schema.Literal("networkidle0"),
-          Schema.Literal("networkidle2"),
-          Schema.Array(
-            Schema.Literals([
-              "load",
-              "domcontentloaded",
-              "networkidle0",
-              "networkidle2",
-            ]),
-          ),
-        ]),
-      ),
-    }),
-  ),
-  rejectRequestPattern: Schema.optional(Schema.Array(Schema.String)),
-  rejectResourceTypes: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "document",
-        "stylesheet",
-        "image",
-        "media",
-        "font",
-        "script",
-        "texttrack",
-        "xhr",
-        "fetch",
-        "prefetch",
-        "eventsource",
-        "websocket",
-        "manifest",
-        "signedexchange",
-        "ping",
-        "cspviolationreport",
-        "preflight",
-        "other",
-      ]),
-    ),
-  ),
-  screenshotOptions: Schema.optional(
-    Schema.Struct({
-      captureBeyondViewport: Schema.optional(Schema.Boolean),
-      clip: Schema.optional(
+export const CreateScreenshotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
+    html: Schema.String,
+    actionTimeout: Schema.optional(Schema.Number),
+    addScriptTag: Schema.optional(
+      Schema.Array(
         Schema.Struct({
-          height: Schema.Number,
-          width: Schema.Number,
-          x: Schema.Number,
-          y: Schema.Number,
-          scale: Schema.optional(Schema.Number),
+          id: Schema.optional(Schema.String),
+          content: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
+          url: Schema.optional(Schema.String),
         }),
       ),
-      encoding: Schema.optional(Schema.Literals(["binary", "base64"])),
-      fromSurface: Schema.optional(Schema.Boolean),
-      fullPage: Schema.optional(Schema.Boolean),
-      omitBackground: Schema.optional(Schema.Boolean),
-      optimizeForSpeed: Schema.optional(Schema.Boolean),
-      quality: Schema.optional(Schema.Number),
-      type: Schema.optional(Schema.Literals(["png", "jpeg", "webp"])),
+    ),
+    addStyleTag: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          content: Schema.optional(Schema.String),
+          url: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    allowRequestPattern: Schema.optional(Schema.Array(Schema.String)),
+    allowResourceTypes: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "document",
+          "stylesheet",
+          "image",
+          "media",
+          "font",
+          "script",
+          "texttrack",
+          "xhr",
+          "fetch",
+          "prefetch",
+          "eventsource",
+          "websocket",
+          "manifest",
+          "signedexchange",
+          "ping",
+          "cspviolationreport",
+          "preflight",
+          "other",
+        ]),
+      ),
+    ),
+    authenticate: Schema.optional(
+      Schema.Struct({
+        password: Schema.String,
+        username: Schema.String,
+      }),
+    ),
+    bestAttempt: Schema.optional(Schema.Boolean),
+    cookies: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          name: Schema.String,
+          value: Schema.String,
+          domain: Schema.optional(Schema.String),
+          expires: Schema.optional(Schema.Number),
+          httpOnly: Schema.optional(Schema.Boolean),
+          partitionKey: Schema.optional(Schema.String),
+          path: Schema.optional(Schema.String),
+          priority: Schema.optional(Schema.Literals(["Low", "Medium", "High"])),
+          sameParty: Schema.optional(Schema.Boolean),
+          sameSite: Schema.optional(Schema.Literals(["Strict", "Lax", "None"])),
+          secure: Schema.optional(Schema.Boolean),
+          sourcePort: Schema.optional(Schema.Number),
+          sourceScheme: Schema.optional(
+            Schema.Literals(["Unset", "NonSecure", "Secure"]),
+          ),
+          url: Schema.optional(Schema.String),
+        }),
+      ),
+    ),
+    emulateMediaType: Schema.optional(Schema.String),
+    gotoOptions: Schema.optional(
+      Schema.Struct({
+        referer: Schema.optional(Schema.String),
+        referrerPolicy: Schema.optional(Schema.String),
+        timeout: Schema.optional(Schema.Number),
+        waitUntil: Schema.optional(
+          Schema.Union([
+            Schema.Literal("load"),
+            Schema.Literal("domcontentloaded"),
+            Schema.Literal("networkidle0"),
+            Schema.Literal("networkidle2"),
+            Schema.Array(
+              Schema.Literals([
+                "load",
+                "domcontentloaded",
+                "networkidle0",
+                "networkidle2",
+              ]),
+            ),
+          ]),
+        ),
+      }),
+    ),
+    rejectRequestPattern: Schema.optional(Schema.Array(Schema.String)),
+    rejectResourceTypes: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "document",
+          "stylesheet",
+          "image",
+          "media",
+          "font",
+          "script",
+          "texttrack",
+          "xhr",
+          "fetch",
+          "prefetch",
+          "eventsource",
+          "websocket",
+          "manifest",
+          "signedexchange",
+          "ping",
+          "cspviolationreport",
+          "preflight",
+          "other",
+        ]),
+      ),
+    ),
+    screenshotOptions: Schema.optional(
+      Schema.Struct({
+        captureBeyondViewport: Schema.optional(Schema.Boolean),
+        clip: Schema.optional(
+          Schema.Struct({
+            height: Schema.Number,
+            width: Schema.Number,
+            x: Schema.Number,
+            y: Schema.Number,
+            scale: Schema.optional(Schema.Number),
+          }),
+        ),
+        encoding: Schema.optional(Schema.Literals(["binary", "base64"])),
+        fromSurface: Schema.optional(Schema.Boolean),
+        fullPage: Schema.optional(Schema.Boolean),
+        omitBackground: Schema.optional(Schema.Boolean),
+        optimizeForSpeed: Schema.optional(Schema.Boolean),
+        quality: Schema.optional(Schema.Number),
+        type: Schema.optional(Schema.Literals(["png", "jpeg", "webp"])),
+      }),
+    ),
+    scrollPage: Schema.optional(Schema.Boolean),
+    selector: Schema.optional(Schema.String),
+    setExtraHTTPHeaders: Schema.optional(Schema.Struct({})),
+    setJavaScriptEnabled: Schema.optional(Schema.Boolean),
+    userAgent: Schema.optional(Schema.String),
+    viewport: Schema.optional(
+      Schema.Struct({
+        height: Schema.Number,
+        width: Schema.Number,
+        deviceScaleFactor: Schema.optional(Schema.Number),
+        hasTouch: Schema.optional(Schema.Boolean),
+        isLandscape: Schema.optional(Schema.Boolean),
+        isMobile: Schema.optional(Schema.Boolean),
+      }),
+    ),
+    waitForSelector: Schema.optional(
+      Schema.Struct({
+        selector: Schema.String,
+        hidden: Schema.optional(Schema.Literal(true)),
+        timeout: Schema.optional(Schema.Number),
+        visible: Schema.optional(Schema.Literal(true)),
+      }),
+    ),
+    waitForTimeout: Schema.optional(Schema.Number),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/browser-rendering/screenshot",
     }),
-  ),
-  scrollPage: Schema.optional(Schema.Boolean),
-  selector: Schema.optional(Schema.String),
-  setExtraHTTPHeaders: Schema.optional(Schema.Struct({})),
-  setJavaScriptEnabled: Schema.optional(Schema.Boolean),
-  userAgent: Schema.optional(Schema.String),
-  viewport: Schema.optional(
-    Schema.Struct({
-      height: Schema.Number,
-      width: Schema.Number,
-      deviceScaleFactor: Schema.optional(Schema.Number),
-      hasTouch: Schema.optional(Schema.Boolean),
-      isLandscape: Schema.optional(Schema.Boolean),
-      isMobile: Schema.optional(Schema.Boolean),
-    }),
-  ),
-  waitForSelector: Schema.optional(
-    Schema.Struct({
-      selector: Schema.String,
-      hidden: Schema.optional(Schema.Literal(true)),
-      timeout: Schema.optional(Schema.Number),
-      visible: Schema.optional(Schema.Literal(true)),
-    }),
-  ),
-  waitForTimeout: Schema.optional(Schema.Number),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/browser-rendering/screenshot",
-  }),
-) as unknown as Schema.Schema<CreateScreenshotRequest>;
+  ) as unknown as Schema.Schema<CreateScreenshotRequest>;
 
 export interface CreateScreenshotResponse {
   /** Response status */
@@ -2328,20 +2329,21 @@ export interface CreateScreenshotResponse {
   errors?: { code: number; message: string }[] | null;
 }
 
-export const CreateScreenshotResponse = Schema.Struct({
-  success: Schema.Boolean,
-  errors: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          code: Schema.Number,
-          message: Schema.String,
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-}) as unknown as Schema.Schema<CreateScreenshotResponse>;
+export const CreateScreenshotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    success: Schema.Boolean,
+    errors: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            code: Schema.Number,
+            message: Schema.String,
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }) as unknown as Schema.Schema<CreateScreenshotResponse>;
 
 export type CreateScreenshotError = DefaultErrors;
 
@@ -2350,7 +2352,7 @@ export const createScreenshot: API.OperationMethod<
   CreateScreenshotResponse,
   CreateScreenshotError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScreenshotRequest,
   output: CreateScreenshotResponse,
   errors: [],
@@ -2502,7 +2504,7 @@ export interface CreateSnapshotRequest {
   waitForTimeout?: number;
 }
 
-export const CreateSnapshotRequest = Schema.Struct({
+export const CreateSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cacheTTL: Schema.optional(Schema.Number).pipe(T.HttpQuery("cacheTTL")),
   html: Schema.String,
@@ -2684,10 +2686,12 @@ export interface CreateSnapshotResponse {
   screenshot: string;
 }
 
-export const CreateSnapshotResponse = Schema.Struct({
-  content: Schema.String,
-  screenshot: Schema.String,
-}) as unknown as Schema.Schema<CreateSnapshotResponse>;
+export const CreateSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    content: Schema.String,
+    screenshot: Schema.String,
+  },
+) as unknown as Schema.Schema<CreateSnapshotResponse>;
 
 export type CreateSnapshotError = DefaultErrors;
 
@@ -2696,7 +2700,7 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSnapshotRequest,
   output: CreateSnapshotResponse,
   errors: [],

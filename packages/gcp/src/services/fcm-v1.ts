@@ -31,15 +31,16 @@ export interface Notification {
   image?: string;
 }
 
-export const Notification: Schema.Schema<Notification> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    image: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Notification",
-}) as any as Schema.Schema<Notification>;
+export const Notification: Schema.Schema<Notification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      image: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Notification",
+  }) as any as Schema.Schema<Notification>;
 
 export interface Color {
   /** The amount of red in the color as a value in the interval [0, 1]. */
@@ -52,14 +53,15 @@ export interface Color {
   alpha?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-    blue: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+      blue: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface LightSettings {
   /** Required. Set `color` of the LED with [google.type.Color](https://github.com/googleapis/googleapis/blob/master/google/type/color.proto). */
@@ -70,15 +72,16 @@ export interface LightSettings {
   lightOffDuration?: string;
 }
 
-export const LightSettings: Schema.Schema<LightSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    color: Schema.optional(Color),
-    lightOnDuration: Schema.optional(Schema.String),
-    lightOffDuration: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LightSettings",
-}) as any as Schema.Schema<LightSettings>;
+export const LightSettings: Schema.Schema<LightSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      color: Schema.optional(Color),
+      lightOnDuration: Schema.optional(Schema.String),
+      lightOffDuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LightSettings",
+  }) as any as Schema.Schema<LightSettings>;
 
 export interface AndroidNotification {
   /** The notification's title. If present, it will override google.firebase.fcm.v1.Notification.title. */
@@ -155,7 +158,7 @@ export interface AndroidNotification {
 }
 
 export const AndroidNotification: Schema.Schema<AndroidNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       body: Schema.optional(Schema.String),
@@ -195,7 +198,7 @@ export interface AndroidFcmOptions {
 }
 
 export const AndroidFcmOptions: Schema.Schema<AndroidFcmOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyticsLabel: Schema.optional(Schema.String),
     }),
@@ -226,22 +229,23 @@ export interface AndroidConfig {
   restrictedSatelliteOk?: boolean;
 }
 
-export const AndroidConfig: Schema.Schema<AndroidConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    collapseKey: Schema.optional(Schema.String),
-    priority: Schema.optional(Schema.String),
-    ttl: Schema.optional(Schema.String),
-    restrictedPackageName: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    notification: Schema.optional(AndroidNotification),
-    fcmOptions: Schema.optional(AndroidFcmOptions),
-    directBootOk: Schema.optional(Schema.Boolean),
-    bandwidthConstrainedOk: Schema.optional(Schema.Boolean),
-    restrictedSatelliteOk: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "AndroidConfig",
-}) as any as Schema.Schema<AndroidConfig>;
+export const AndroidConfig: Schema.Schema<AndroidConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      collapseKey: Schema.optional(Schema.String),
+      priority: Schema.optional(Schema.String),
+      ttl: Schema.optional(Schema.String),
+      restrictedPackageName: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      notification: Schema.optional(AndroidNotification),
+      fcmOptions: Schema.optional(AndroidFcmOptions),
+      directBootOk: Schema.optional(Schema.Boolean),
+      bandwidthConstrainedOk: Schema.optional(Schema.Boolean),
+      restrictedSatelliteOk: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AndroidConfig",
+  }) as any as Schema.Schema<AndroidConfig>;
 
 export interface WebpushFcmOptions {
   /** The link to open when the user clicks on the notification. For all URL values, HTTPS is required. */
@@ -251,7 +255,7 @@ export interface WebpushFcmOptions {
 }
 
 export const WebpushFcmOptions: Schema.Schema<WebpushFcmOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       link: Schema.optional(Schema.String),
       analyticsLabel: Schema.optional(Schema.String),
@@ -271,16 +275,19 @@ export interface WebpushConfig {
   fcmOptions?: WebpushFcmOptions;
 }
 
-export const WebpushConfig: Schema.Schema<WebpushConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    notification: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    fcmOptions: Schema.optional(WebpushFcmOptions),
-  }),
-).annotate({
-  identifier: "WebpushConfig",
-}) as any as Schema.Schema<WebpushConfig>;
+export const WebpushConfig: Schema.Schema<WebpushConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      notification: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      fcmOptions: Schema.optional(WebpushFcmOptions),
+    }),
+  ).annotate({
+    identifier: "WebpushConfig",
+  }) as any as Schema.Schema<WebpushConfig>;
 
 export interface ApnsFcmOptions {
   /** Label associated with the message's analytics data. */
@@ -289,15 +296,15 @@ export interface ApnsFcmOptions {
   image?: string;
 }
 
-export const ApnsFcmOptions: Schema.Schema<ApnsFcmOptions> = Schema.suspend(
-  () =>
+export const ApnsFcmOptions: Schema.Schema<ApnsFcmOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyticsLabel: Schema.optional(Schema.String),
       image: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ApnsFcmOptions",
-}) as any as Schema.Schema<ApnsFcmOptions>;
+  ).annotate({
+    identifier: "ApnsFcmOptions",
+  }) as any as Schema.Schema<ApnsFcmOptions>;
 
 export interface ApnsConfig {
   /** HTTP request headers defined in Apple Push Notification Service. Refer to [APNs request headers](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns) for supported headers such as `apns-expiration` and `apns-priority`. The backend sets a default value for `apns-expiration` of 30 days and a default value for `apns-priority` of 10 if not explicitly set. */
@@ -310,25 +317,27 @@ export interface ApnsConfig {
   liveActivityToken?: string;
 }
 
-export const ApnsConfig: Schema.Schema<ApnsConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    fcmOptions: Schema.optional(ApnsFcmOptions),
-    liveActivityToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ApnsConfig" }) as any as Schema.Schema<ApnsConfig>;
+export const ApnsConfig: Schema.Schema<ApnsConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      fcmOptions: Schema.optional(ApnsFcmOptions),
+      liveActivityToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ApnsConfig" }) as any as Schema.Schema<ApnsConfig>;
 
 export interface FcmOptions {
   /** Label associated with the message's analytics data. */
   analyticsLabel?: string;
 }
 
-export const FcmOptions: Schema.Schema<FcmOptions> = Schema.suspend(() =>
-  Schema.Struct({
-    analyticsLabel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FcmOptions" }) as any as Schema.Schema<FcmOptions>;
+export const FcmOptions: Schema.Schema<FcmOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      analyticsLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FcmOptions" }) as any as Schema.Schema<FcmOptions>;
 
 export interface Message {
   /** Output Only. The identifier of the message sent, in the format of `projects/* /messages/{message_id}`. */
@@ -353,20 +362,21 @@ export interface Message {
   fcmOptions?: FcmOptions;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    token: Schema.optional(Schema.String),
-    topic: Schema.optional(Schema.String),
-    condition: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    notification: Schema.optional(Notification),
-    android: Schema.optional(AndroidConfig),
-    webpush: Schema.optional(WebpushConfig),
-    apns: Schema.optional(ApnsConfig),
-    fcmOptions: Schema.optional(FcmOptions),
-  }),
-).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      topic: Schema.optional(Schema.String),
+      condition: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      notification: Schema.optional(Notification),
+      android: Schema.optional(AndroidConfig),
+      webpush: Schema.optional(WebpushConfig),
+      apns: Schema.optional(ApnsConfig),
+      fcmOptions: Schema.optional(FcmOptions),
+    }),
+  ).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface SendMessageRequest {
   /** Flag for testing the request without actually delivering the message. */
@@ -376,7 +386,7 @@ export interface SendMessageRequest {
 }
 
 export const SendMessageRequest: Schema.Schema<SendMessageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       validateOnly: Schema.optional(Schema.Boolean),
       message: Schema.optional(Message),
@@ -396,20 +406,21 @@ export interface SendProjectsMessagesRequest {
   body?: SendMessageRequest;
 }
 
-export const SendProjectsMessagesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SendMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/messages:send",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendProjectsMessagesRequest>;
+export const SendProjectsMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SendMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/messages:send",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendProjectsMessagesRequest>;
 
 export type SendProjectsMessagesResponse = Message;
-export const SendProjectsMessagesResponse = Message;
+export const SendProjectsMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Message;
 
 export type SendProjectsMessagesError = DefaultErrors;
 
@@ -419,7 +430,7 @@ export const sendProjectsMessages: API.OperationMethod<
   SendProjectsMessagesResponse,
   SendProjectsMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendProjectsMessagesRequest,
   output: SendProjectsMessagesResponse,
   errors: [],

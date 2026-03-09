@@ -3,26 +3,33 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteBranchNeonAuthTrustedDomainInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
-  domains: Schema.Array(
-    Schema.Struct({
-      domain: Schema.String,
+export const DeleteBranchNeonAuthTrustedDomainInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    auth_provider: Schema.Literals([
+      "mock",
+      "stack",
+      "stack_v2",
+      "better_auth",
+    ]),
+    domains: Schema.Array(
+      Schema.Struct({
+        domain: Schema.String,
+      }),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/domains",
     }),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/domains",
-  }),
-);
+  );
 export type DeleteBranchNeonAuthTrustedDomainInput =
   typeof DeleteBranchNeonAuthTrustedDomainInput.Type;
 
 // Output Schema
-export const DeleteBranchNeonAuthTrustedDomainOutput = Schema.Void;
+export const DeleteBranchNeonAuthTrustedDomainOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteBranchNeonAuthTrustedDomainOutput =
   typeof DeleteBranchNeonAuthTrustedDomainOutput.Type;
 

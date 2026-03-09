@@ -34,7 +34,7 @@ export interface AchievementResetResponse {
 }
 
 export const AchievementResetResponse: Schema.Schema<AchievementResetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       definitionId: Schema.optional(Schema.String),
@@ -53,7 +53,7 @@ export interface AchievementResetAllResponse {
 }
 
 export const AchievementResetAllResponse: Schema.Schema<AchievementResetAllResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       results: Schema.optional(Schema.Array(AchievementResetResponse)),
@@ -70,7 +70,7 @@ export interface AchievementResetMultipleForAllRequest {
 }
 
 export const AchievementResetMultipleForAllRequest: Schema.Schema<AchievementResetMultipleForAllRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       achievement_ids: Schema.optional(Schema.Array(Schema.String)),
@@ -87,7 +87,7 @@ export interface EventsResetMultipleForAllRequest {
 }
 
 export const EventsResetMultipleForAllRequest: Schema.Schema<EventsResetMultipleForAllRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       event_ids: Schema.optional(Schema.Array(Schema.String)),
@@ -102,15 +102,15 @@ export interface ProfileSettings {
   profileVisible?: boolean;
 }
 
-export const ProfileSettings: Schema.Schema<ProfileSettings> = Schema.suspend(
-  () =>
+export const ProfileSettings: Schema.Schema<ProfileSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       profileVisible: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ProfileSettings",
-}) as any as Schema.Schema<ProfileSettings>;
+  ).annotate({
+    identifier: "ProfileSettings",
+  }) as any as Schema.Schema<ProfileSettings>;
 
 export interface GamesPlayerLevelResource {
   /** The level for the user. */
@@ -122,7 +122,7 @@ export interface GamesPlayerLevelResource {
 }
 
 export const GamesPlayerLevelResource: Schema.Schema<GamesPlayerLevelResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       level: Schema.optional(Schema.Number),
       minExperiencePoints: Schema.optional(Schema.String),
@@ -144,7 +144,7 @@ export interface GamesPlayerExperienceInfoResource {
 }
 
 export const GamesPlayerExperienceInfoResource: Schema.Schema<GamesPlayerExperienceInfoResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currentExperiencePoints: Schema.optional(Schema.String),
       lastLevelUpTimestampMillis: Schema.optional(Schema.String),
@@ -180,26 +180,27 @@ export interface Player {
   originalPlayerId?: string;
 }
 
-export const Player: Schema.Schema<Player> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    playerId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    avatarImageUrl: Schema.optional(Schema.String),
-    bannerUrlPortrait: Schema.optional(Schema.String),
-    bannerUrlLandscape: Schema.optional(Schema.String),
-    profileSettings: Schema.optional(ProfileSettings),
-    name: Schema.optional(
-      Schema.Struct({
-        givenName: Schema.optional(Schema.String),
-        familyName: Schema.optional(Schema.String),
-      }),
-    ),
-    experienceInfo: Schema.optional(GamesPlayerExperienceInfoResource),
-    title: Schema.optional(Schema.String),
-    originalPlayerId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Player" }) as any as Schema.Schema<Player>;
+export const Player: Schema.Schema<Player> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      playerId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      avatarImageUrl: Schema.optional(Schema.String),
+      bannerUrlPortrait: Schema.optional(Schema.String),
+      bannerUrlLandscape: Schema.optional(Schema.String),
+      profileSettings: Schema.optional(ProfileSettings),
+      name: Schema.optional(
+        Schema.Struct({
+          givenName: Schema.optional(Schema.String),
+          familyName: Schema.optional(Schema.String),
+        }),
+      ),
+      experienceInfo: Schema.optional(GamesPlayerExperienceInfoResource),
+      title: Schema.optional(Schema.String),
+      originalPlayerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Player" }) as any as Schema.Schema<Player>;
 
 export interface HiddenPlayer {
   /** Output only. Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#hiddenPlayer`. */
@@ -210,15 +211,16 @@ export interface HiddenPlayer {
   hiddenTimeMillis?: string;
 }
 
-export const HiddenPlayer: Schema.Schema<HiddenPlayer> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    player: Schema.optional(Player),
-    hiddenTimeMillis: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "HiddenPlayer",
-}) as any as Schema.Schema<HiddenPlayer>;
+export const HiddenPlayer: Schema.Schema<HiddenPlayer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      player: Schema.optional(Player),
+      hiddenTimeMillis: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HiddenPlayer",
+  }) as any as Schema.Schema<HiddenPlayer>;
 
 export interface HiddenPlayerList {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#hiddenPlayerList`. */
@@ -229,16 +231,16 @@ export interface HiddenPlayerList {
   nextPageToken?: string;
 }
 
-export const HiddenPlayerList: Schema.Schema<HiddenPlayerList> = Schema.suspend(
-  () =>
+export const HiddenPlayerList: Schema.Schema<HiddenPlayerList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(HiddenPlayer)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "HiddenPlayerList",
-}) as any as Schema.Schema<HiddenPlayerList>;
+  ).annotate({
+    identifier: "HiddenPlayerList",
+  }) as any as Schema.Schema<HiddenPlayerList>;
 
 export interface PlayerScoreResetResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#playerScoreResetResponse`. */
@@ -250,7 +252,7 @@ export interface PlayerScoreResetResponse {
 }
 
 export const PlayerScoreResetResponse: Schema.Schema<PlayerScoreResetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       definitionId: Schema.optional(Schema.String),
@@ -268,7 +270,7 @@ export interface PlayerScoreResetAllResponse {
 }
 
 export const PlayerScoreResetAllResponse: Schema.Schema<PlayerScoreResetAllResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       results: Schema.optional(Schema.Array(PlayerScoreResetResponse)),
@@ -285,7 +287,7 @@ export interface ScoresResetMultipleForAllRequest {
 }
 
 export const ScoresResetMultipleForAllRequest: Schema.Schema<ScoresResetMultipleForAllRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       leaderboard_ids: Schema.optional(Schema.Array(Schema.String)),
@@ -303,19 +305,21 @@ export interface ResetAchievementsRequest {
   achievementId: string;
 }
 
-export const ResetAchievementsRequest = Schema.Struct({
-  achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/achievements/{achievementId}/reset",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetAchievementsRequest>;
+export const ResetAchievementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/achievements/{achievementId}/reset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAchievementsRequest>;
 
 export type ResetAchievementsResponse = AchievementResetResponse;
-export const ResetAchievementsResponse = AchievementResetResponse;
+export const ResetAchievementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AchievementResetResponse;
 
 export type ResetAchievementsError = DefaultErrors;
 
@@ -325,7 +329,7 @@ export const resetAchievements: API.OperationMethod<
   ResetAchievementsResponse,
   ResetAchievementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAchievementsRequest,
   output: ResetAchievementsResponse,
   errors: [],
@@ -333,17 +337,19 @@ export const resetAchievements: API.OperationMethod<
 
 export interface ResetAllAchievementsRequest {}
 
-export const ResetAllAchievementsRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/achievements/reset",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetAllAchievementsRequest>;
+export const ResetAllAchievementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/achievements/reset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAllAchievementsRequest>;
 
 export type ResetAllAchievementsResponse = AchievementResetAllResponse;
-export const ResetAllAchievementsResponse = AchievementResetAllResponse;
+export const ResetAllAchievementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AchievementResetAllResponse;
 
 export type ResetAllAchievementsError = DefaultErrors;
 
@@ -353,7 +359,7 @@ export const resetAllAchievements: API.OperationMethod<
   ResetAllAchievementsResponse,
   ResetAllAchievementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllAchievementsRequest,
   output: ResetAllAchievementsResponse,
   errors: [],
@@ -361,18 +367,19 @@ export const resetAllAchievements: API.OperationMethod<
 
 export interface ResetAllForAllPlayersAchievementsRequest {}
 
-export const ResetAllForAllPlayersAchievementsRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/achievements/resetAllForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetAllForAllPlayersAchievementsRequest>;
+export const ResetAllForAllPlayersAchievementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/achievements/resetAllForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAllForAllPlayersAchievementsRequest>;
 
 export interface ResetAllForAllPlayersAchievementsResponse {}
 export const ResetAllForAllPlayersAchievementsResponse: Schema.Schema<ResetAllForAllPlayersAchievementsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetAllForAllPlayersAchievementsResponse>;
 
@@ -384,7 +391,7 @@ export const resetAllForAllPlayersAchievements: API.OperationMethod<
   ResetAllForAllPlayersAchievementsResponse,
   ResetAllForAllPlayersAchievementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllForAllPlayersAchievementsRequest,
   output: ResetAllForAllPlayersAchievementsResponse,
   errors: [],
@@ -395,20 +402,21 @@ export interface ResetForAllPlayersAchievementsRequest {
   achievementId: string;
 }
 
-export const ResetForAllPlayersAchievementsRequest = Schema.Struct({
-  achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/achievements/{achievementId}/resetForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetForAllPlayersAchievementsRequest>;
+export const ResetForAllPlayersAchievementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    achievementId: Schema.String.pipe(T.HttpPath("achievementId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/achievements/{achievementId}/resetForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetForAllPlayersAchievementsRequest>;
 
 export interface ResetForAllPlayersAchievementsResponse {}
 export const ResetForAllPlayersAchievementsResponse: Schema.Schema<ResetForAllPlayersAchievementsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetForAllPlayersAchievementsResponse>;
 
@@ -420,7 +428,7 @@ export const resetForAllPlayersAchievements: API.OperationMethod<
   ResetForAllPlayersAchievementsResponse,
   ResetForAllPlayersAchievementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetForAllPlayersAchievementsRequest,
   output: ResetForAllPlayersAchievementsResponse,
   errors: [],
@@ -431,22 +439,23 @@ export interface ResetMultipleForAllPlayersAchievementsRequest {
   body?: AchievementResetMultipleForAllRequest;
 }
 
-export const ResetMultipleForAllPlayersAchievementsRequest = Schema.Struct({
-  body: Schema.optional(AchievementResetMultipleForAllRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/achievements/resetMultipleForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetMultipleForAllPlayersAchievementsRequest>;
+export const ResetMultipleForAllPlayersAchievementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AchievementResetMultipleForAllRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/achievements/resetMultipleForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetMultipleForAllPlayersAchievementsRequest>;
 
 export interface ResetMultipleForAllPlayersAchievementsResponse {}
 export const ResetMultipleForAllPlayersAchievementsResponse: Schema.Schema<ResetMultipleForAllPlayersAchievementsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetMultipleForAllPlayersAchievementsResponse>;
 
@@ -458,7 +467,7 @@ export const resetMultipleForAllPlayersAchievements: API.OperationMethod<
   ResetMultipleForAllPlayersAchievementsResponse,
   ResetMultipleForAllPlayersAchievementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetMultipleForAllPlayersAchievementsRequest,
   output: ResetMultipleForAllPlayersAchievementsResponse,
   errors: [],
@@ -469,7 +478,7 @@ export interface ResetEventsRequest {
   eventId: string;
 }
 
-export const ResetEventsRequest = Schema.Struct({
+export const ResetEventsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   eventId: Schema.String.pipe(T.HttpPath("eventId")),
 }).pipe(
   T.Http({
@@ -482,7 +491,9 @@ export const ResetEventsRequest = Schema.Struct({
 
 export interface ResetEventsResponse {}
 export const ResetEventsResponse: Schema.Schema<ResetEventsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ResetEventsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ResetEventsResponse>;
 
 export type ResetEventsError = DefaultErrors;
 
@@ -492,7 +503,7 @@ export const resetEvents: API.OperationMethod<
   ResetEventsResponse,
   ResetEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetEventsRequest,
   output: ResetEventsResponse,
   errors: [],
@@ -500,7 +511,9 @@ export const resetEvents: API.OperationMethod<
 
 export interface ResetAllEventsRequest {}
 
-export const ResetAllEventsRequest = Schema.Struct({}).pipe(
+export const ResetAllEventsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "POST",
     path: "games/v1management/events/reset",
@@ -511,7 +524,9 @@ export const ResetAllEventsRequest = Schema.Struct({}).pipe(
 
 export interface ResetAllEventsResponse {}
 export const ResetAllEventsResponse: Schema.Schema<ResetAllEventsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ResetAllEventsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ResetAllEventsResponse>;
 
 export type ResetAllEventsError = DefaultErrors;
 
@@ -521,7 +536,7 @@ export const resetAllEvents: API.OperationMethod<
   ResetAllEventsResponse,
   ResetAllEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllEventsRequest,
   output: ResetAllEventsResponse,
   errors: [],
@@ -529,18 +544,19 @@ export const resetAllEvents: API.OperationMethod<
 
 export interface ResetAllForAllPlayersEventsRequest {}
 
-export const ResetAllForAllPlayersEventsRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/events/resetAllForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetAllForAllPlayersEventsRequest>;
+export const ResetAllForAllPlayersEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/events/resetAllForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAllForAllPlayersEventsRequest>;
 
 export interface ResetAllForAllPlayersEventsResponse {}
 export const ResetAllForAllPlayersEventsResponse: Schema.Schema<ResetAllForAllPlayersEventsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetAllForAllPlayersEventsResponse>;
 
@@ -552,7 +568,7 @@ export const resetAllForAllPlayersEvents: API.OperationMethod<
   ResetAllForAllPlayersEventsResponse,
   ResetAllForAllPlayersEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllForAllPlayersEventsRequest,
   output: ResetAllForAllPlayersEventsResponse,
   errors: [],
@@ -563,20 +579,23 @@ export interface ResetForAllPlayersEventsRequest {
   eventId: string;
 }
 
-export const ResetForAllPlayersEventsRequest = Schema.Struct({
-  eventId: Schema.String.pipe(T.HttpPath("eventId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/events/{eventId}/resetForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetForAllPlayersEventsRequest>;
+export const ResetForAllPlayersEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    eventId: Schema.String.pipe(T.HttpPath("eventId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/events/{eventId}/resetForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetForAllPlayersEventsRequest>;
 
 export interface ResetForAllPlayersEventsResponse {}
 export const ResetForAllPlayersEventsResponse: Schema.Schema<ResetForAllPlayersEventsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ResetForAllPlayersEventsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ResetForAllPlayersEventsResponse>;
 
 export type ResetForAllPlayersEventsError = DefaultErrors;
 
@@ -586,7 +605,7 @@ export const resetForAllPlayersEvents: API.OperationMethod<
   ResetForAllPlayersEventsResponse,
   ResetForAllPlayersEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetForAllPlayersEventsRequest,
   output: ResetForAllPlayersEventsResponse,
   errors: [],
@@ -597,20 +616,21 @@ export interface ResetMultipleForAllPlayersEventsRequest {
   body?: EventsResetMultipleForAllRequest;
 }
 
-export const ResetMultipleForAllPlayersEventsRequest = Schema.Struct({
-  body: Schema.optional(EventsResetMultipleForAllRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/events/resetMultipleForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetMultipleForAllPlayersEventsRequest>;
+export const ResetMultipleForAllPlayersEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(EventsResetMultipleForAllRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/events/resetMultipleForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetMultipleForAllPlayersEventsRequest>;
 
 export interface ResetMultipleForAllPlayersEventsResponse {}
 export const ResetMultipleForAllPlayersEventsResponse: Schema.Schema<ResetMultipleForAllPlayersEventsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetMultipleForAllPlayersEventsResponse>;
 
@@ -622,7 +642,7 @@ export const resetMultipleForAllPlayersEvents: API.OperationMethod<
   ResetMultipleForAllPlayersEventsResponse,
   ResetMultipleForAllPlayersEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetMultipleForAllPlayersEventsRequest,
   output: ResetMultipleForAllPlayersEventsResponse,
   errors: [],
@@ -635,7 +655,7 @@ export interface HidePlayersRequest {
   playerId: string;
 }
 
-export const HidePlayersRequest = Schema.Struct({
+export const HidePlayersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   playerId: Schema.String.pipe(T.HttpPath("playerId")),
 }).pipe(
@@ -649,7 +669,9 @@ export const HidePlayersRequest = Schema.Struct({
 
 export interface HidePlayersResponse {}
 export const HidePlayersResponse: Schema.Schema<HidePlayersResponse> =
-  Schema.Struct({}) as any as Schema.Schema<HidePlayersResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<HidePlayersResponse>;
 
 export type HidePlayersError = DefaultErrors;
 
@@ -659,7 +681,7 @@ export const hidePlayers: API.OperationMethod<
   HidePlayersResponse,
   HidePlayersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HidePlayersRequest,
   output: HidePlayersResponse,
   errors: [],
@@ -672,7 +694,7 @@ export interface UnhidePlayersRequest {
   playerId: string;
 }
 
-export const UnhidePlayersRequest = Schema.Struct({
+export const UnhidePlayersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
   playerId: Schema.String.pipe(T.HttpPath("playerId")),
 }).pipe(
@@ -685,7 +707,9 @@ export const UnhidePlayersRequest = Schema.Struct({
 
 export interface UnhidePlayersResponse {}
 export const UnhidePlayersResponse: Schema.Schema<UnhidePlayersResponse> =
-  Schema.Struct({}) as any as Schema.Schema<UnhidePlayersResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<UnhidePlayersResponse>;
 
 export type UnhidePlayersError = DefaultErrors;
 
@@ -695,7 +719,7 @@ export const unhidePlayers: API.OperationMethod<
   UnhidePlayersResponse,
   UnhidePlayersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnhidePlayersRequest,
   output: UnhidePlayersResponse,
   errors: [],
@@ -710,20 +734,22 @@ export interface ListHiddenApplicationsRequest {
   pageToken?: string;
 }
 
-export const ListHiddenApplicationsRequest = Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "games/v1management/applications/{applicationId}/players/hidden",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListHiddenApplicationsRequest>;
+export const ListHiddenApplicationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "games/v1management/applications/{applicationId}/players/hidden",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListHiddenApplicationsRequest>;
 
 export type ListHiddenApplicationsResponse = HiddenPlayerList;
-export const ListHiddenApplicationsResponse = HiddenPlayerList;
+export const ListHiddenApplicationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ HiddenPlayerList;
 
 export type ListHiddenApplicationsError = DefaultErrors;
 
@@ -733,7 +759,7 @@ export const listHiddenApplications: API.PaginatedOperationMethod<
   ListHiddenApplicationsResponse,
   ListHiddenApplicationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListHiddenApplicationsRequest,
   output: ListHiddenApplicationsResponse,
   errors: [],
@@ -749,7 +775,7 @@ export interface ResetScoresRequest {
   leaderboardId: string;
 }
 
-export const ResetScoresRequest = Schema.Struct({
+export const ResetScoresRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
 }).pipe(
   T.Http({
@@ -761,7 +787,8 @@ export const ResetScoresRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ResetScoresRequest>;
 
 export type ResetScoresResponse = PlayerScoreResetResponse;
-export const ResetScoresResponse = PlayerScoreResetResponse;
+export const ResetScoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PlayerScoreResetResponse;
 
 export type ResetScoresError = DefaultErrors;
 
@@ -771,7 +798,7 @@ export const resetScores: API.OperationMethod<
   ResetScoresResponse,
   ResetScoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetScoresRequest,
   output: ResetScoresResponse,
   errors: [],
@@ -779,7 +806,9 @@ export const resetScores: API.OperationMethod<
 
 export interface ResetAllScoresRequest {}
 
-export const ResetAllScoresRequest = Schema.Struct({}).pipe(
+export const ResetAllScoresRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "POST",
     path: "games/v1management/scores/reset",
@@ -789,7 +818,8 @@ export const ResetAllScoresRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ResetAllScoresRequest>;
 
 export type ResetAllScoresResponse = PlayerScoreResetAllResponse;
-export const ResetAllScoresResponse = PlayerScoreResetAllResponse;
+export const ResetAllScoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PlayerScoreResetAllResponse;
 
 export type ResetAllScoresError = DefaultErrors;
 
@@ -799,7 +829,7 @@ export const resetAllScores: API.OperationMethod<
   ResetAllScoresResponse,
   ResetAllScoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllScoresRequest,
   output: ResetAllScoresResponse,
   errors: [],
@@ -807,18 +837,19 @@ export const resetAllScores: API.OperationMethod<
 
 export interface ResetAllForAllPlayersScoresRequest {}
 
-export const ResetAllForAllPlayersScoresRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/scores/resetAllForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetAllForAllPlayersScoresRequest>;
+export const ResetAllForAllPlayersScoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/scores/resetAllForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAllForAllPlayersScoresRequest>;
 
 export interface ResetAllForAllPlayersScoresResponse {}
 export const ResetAllForAllPlayersScoresResponse: Schema.Schema<ResetAllForAllPlayersScoresResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetAllForAllPlayersScoresResponse>;
 
@@ -830,7 +861,7 @@ export const resetAllForAllPlayersScores: API.OperationMethod<
   ResetAllForAllPlayersScoresResponse,
   ResetAllForAllPlayersScoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAllForAllPlayersScoresRequest,
   output: ResetAllForAllPlayersScoresResponse,
   errors: [],
@@ -841,20 +872,23 @@ export interface ResetForAllPlayersScoresRequest {
   leaderboardId: string;
 }
 
-export const ResetForAllPlayersScoresRequest = Schema.Struct({
-  leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/leaderboards/{leaderboardId}/scores/resetForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetForAllPlayersScoresRequest>;
+export const ResetForAllPlayersScoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    leaderboardId: Schema.String.pipe(T.HttpPath("leaderboardId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/leaderboards/{leaderboardId}/scores/resetForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetForAllPlayersScoresRequest>;
 
 export interface ResetForAllPlayersScoresResponse {}
 export const ResetForAllPlayersScoresResponse: Schema.Schema<ResetForAllPlayersScoresResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ResetForAllPlayersScoresResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ResetForAllPlayersScoresResponse>;
 
 export type ResetForAllPlayersScoresError = DefaultErrors;
 
@@ -864,7 +898,7 @@ export const resetForAllPlayersScores: API.OperationMethod<
   ResetForAllPlayersScoresResponse,
   ResetForAllPlayersScoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetForAllPlayersScoresRequest,
   output: ResetForAllPlayersScoresResponse,
   errors: [],
@@ -875,20 +909,21 @@ export interface ResetMultipleForAllPlayersScoresRequest {
   body?: ScoresResetMultipleForAllRequest;
 }
 
-export const ResetMultipleForAllPlayersScoresRequest = Schema.Struct({
-  body: Schema.optional(ScoresResetMultipleForAllRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "games/v1management/scores/resetMultipleForAllPlayers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetMultipleForAllPlayersScoresRequest>;
+export const ResetMultipleForAllPlayersScoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ScoresResetMultipleForAllRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "games/v1management/scores/resetMultipleForAllPlayers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetMultipleForAllPlayersScoresRequest>;
 
 export interface ResetMultipleForAllPlayersScoresResponse {}
 export const ResetMultipleForAllPlayersScoresResponse: Schema.Schema<ResetMultipleForAllPlayersScoresResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ResetMultipleForAllPlayersScoresResponse>;
 
@@ -900,7 +935,7 @@ export const resetMultipleForAllPlayersScores: API.OperationMethod<
   ResetMultipleForAllPlayersScoresResponse,
   ResetMultipleForAllPlayersScoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetMultipleForAllPlayersScoresRequest,
   output: ResetMultipleForAllPlayersScoresResponse,
   errors: [],

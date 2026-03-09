@@ -71,29 +71,30 @@ export interface Ces_Schema {
     | (string & {});
 }
 
-export const Ces_Schema: Schema.Schema<Ces_Schema> = Schema.suspend(() =>
-  Schema.Struct({
-    minItems: Schema.optional(Schema.String),
-    ref: Schema.optional(Schema.String),
-    nullable: Schema.optional(Schema.Boolean),
-    minimum: Schema.optional(Schema.Number),
-    uniqueItems: Schema.optional(Schema.Boolean),
-    enum: Schema.optional(Schema.Array(Schema.String)),
-    maxItems: Schema.optional(Schema.String),
-    required: Schema.optional(Schema.Array(Schema.String)),
-    prefixItems: Schema.optional(Schema.Array(Ces_Schema)),
-    defs: Schema.optional(Schema.Record(Schema.String, Ces_Schema)),
-    title: Schema.optional(Schema.String),
-    properties: Schema.optional(Schema.Record(Schema.String, Ces_Schema)),
-    default: Schema.optional(Schema.Unknown),
-    anyOf: Schema.optional(Schema.Array(Ces_Schema)),
-    description: Schema.optional(Schema.String),
-    maximum: Schema.optional(Schema.Number),
-    additionalProperties: Schema.optional(Ces_Schema),
-    items: Schema.optional(Ces_Schema),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Ces_Schema" }) as any as Schema.Schema<Ces_Schema>;
+export const Ces_Schema: Schema.Schema<Ces_Schema> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minItems: Schema.optional(Schema.String),
+      ref: Schema.optional(Schema.String),
+      nullable: Schema.optional(Schema.Boolean),
+      minimum: Schema.optional(Schema.Number),
+      uniqueItems: Schema.optional(Schema.Boolean),
+      enum: Schema.optional(Schema.Array(Schema.String)),
+      maxItems: Schema.optional(Schema.String),
+      required: Schema.optional(Schema.Array(Schema.String)),
+      prefixItems: Schema.optional(Schema.Array(Ces_Schema)),
+      defs: Schema.optional(Schema.Record(Schema.String, Ces_Schema)),
+      title: Schema.optional(Schema.String),
+      properties: Schema.optional(Schema.Record(Schema.String, Ces_Schema)),
+      default: Schema.optional(Schema.Unknown),
+      anyOf: Schema.optional(Schema.Array(Ces_Schema)),
+      description: Schema.optional(Schema.String),
+      maximum: Schema.optional(Schema.Number),
+      additionalProperties: Schema.optional(Ces_Schema),
+      items: Schema.optional(Ces_Schema),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Ces_Schema" }) as any as Schema.Schema<Ces_Schema>;
 
 export interface ClientFunction {
   /** Optional. The schema of the function parameters. */
@@ -106,17 +107,17 @@ export interface ClientFunction {
   response?: Ces_Schema;
 }
 
-export const ClientFunction: Schema.Schema<ClientFunction> = Schema.suspend(
-  () =>
+export const ClientFunction: Schema.Schema<ClientFunction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(Ces_Schema),
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       response: Schema.optional(Ces_Schema),
     }),
-).annotate({
-  identifier: "ClientFunction",
-}) as any as Schema.Schema<ClientFunction>;
+  ).annotate({
+    identifier: "ClientFunction",
+  }) as any as Schema.Schema<ClientFunction>;
 
 export interface DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint {
   /** Optional. The value between -1 to 1 by which to boost the score if the attribute_value evaluates to the value specified above. */
@@ -126,7 +127,7 @@ export interface DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControl
 }
 
 export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint: Schema.Schema<DataStoreToolBoostSpecConditionBoostSpecBoostControlSpecControlPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostAmount: Schema.optional(Schema.Number),
       attributeValue: Schema.optional(Schema.String),
@@ -155,7 +156,7 @@ export interface DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec {
 }
 
 export const DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec: Schema.Schema<DataStoreToolBoostSpecConditionBoostSpecBoostControlSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       controlPoints: Schema.optional(
         Schema.Array(
@@ -180,7 +181,7 @@ export interface DataStoreToolBoostSpecConditionBoostSpec {
 }
 
 export const DataStoreToolBoostSpecConditionBoostSpec: Schema.Schema<DataStoreToolBoostSpecConditionBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boost: Schema.optional(Schema.Number),
       boostControlSpec: Schema.optional(
@@ -198,7 +199,7 @@ export interface DataStoreToolBoostSpec {
 }
 
 export const DataStoreToolBoostSpec: Schema.Schema<DataStoreToolBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionBoostSpecs: Schema.optional(
         Schema.Array(DataStoreToolBoostSpecConditionBoostSpec),
@@ -216,7 +217,7 @@ export interface TriggerActionResponse {
 }
 
 export const TriggerActionResponse: Schema.Schema<TriggerActionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       disabled: Schema.optional(Schema.Boolean),
@@ -231,7 +232,7 @@ export interface TriggerActionRespondImmediately {
 }
 
 export const TriggerActionRespondImmediately: Schema.Schema<TriggerActionRespondImmediately> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responses: Schema.optional(Schema.Array(TriggerActionResponse)),
     }),
@@ -245,7 +246,7 @@ export interface ServiceDirectoryConfig {
 }
 
 export const ServiceDirectoryConfig: Schema.Schema<ServiceDirectoryConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
     }),
@@ -256,7 +257,7 @@ export const ServiceDirectoryConfig: Schema.Schema<ServiceDirectoryConfig> =
 export interface ServiceAgentIdTokenAuthConfig {}
 
 export const ServiceAgentIdTokenAuthConfig: Schema.Schema<ServiceAgentIdTokenAuthConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ServiceAgentIdTokenAuthConfig",
   }) as any as Schema.Schema<ServiceAgentIdTokenAuthConfig>;
 
@@ -266,7 +267,7 @@ export interface BearerTokenConfig {
 }
 
 export const BearerTokenConfig: Schema.Schema<BearerTokenConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
     }),
@@ -282,7 +283,7 @@ export interface ServiceAccountAuthConfig {
 }
 
 export const ServiceAccountAuthConfig: Schema.Schema<ServiceAccountAuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccount: Schema.optional(Schema.String),
       scopes: Schema.optional(Schema.Array(Schema.String)),
@@ -307,15 +308,18 @@ export interface OAuthConfig {
   scopes?: Array<string>;
 }
 
-export const OAuthConfig: Schema.Schema<OAuthConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    clientId: Schema.optional(Schema.String),
-    oauthGrantType: Schema.optional(Schema.String),
-    tokenEndpoint: Schema.optional(Schema.String),
-    clientSecretVersion: Schema.optional(Schema.String),
-    scopes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "OAuthConfig" }) as any as Schema.Schema<OAuthConfig>;
+export const OAuthConfig: Schema.Schema<OAuthConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+      oauthGrantType: Schema.optional(Schema.String),
+      tokenEndpoint: Schema.optional(Schema.String),
+      clientSecretVersion: Schema.optional(Schema.String),
+      scopes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "OAuthConfig",
+  }) as any as Schema.Schema<OAuthConfig>;
 
 export interface ApiKeyConfig {
   /** Required. The parameter name or the header name of the API key. E.g., If the API request is "https://example.com/act?X-Api-Key=", "X-Api-Key" would be the parameter name. */
@@ -330,15 +334,16 @@ export interface ApiKeyConfig {
   apiKeySecretVersion?: string;
 }
 
-export const ApiKeyConfig: Schema.Schema<ApiKeyConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    keyName: Schema.optional(Schema.String),
-    requestLocation: Schema.optional(Schema.String),
-    apiKeySecretVersion: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ApiKeyConfig",
-}) as any as Schema.Schema<ApiKeyConfig>;
+export const ApiKeyConfig: Schema.Schema<ApiKeyConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      keyName: Schema.optional(Schema.String),
+      requestLocation: Schema.optional(Schema.String),
+      apiKeySecretVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ApiKeyConfig",
+  }) as any as Schema.Schema<ApiKeyConfig>;
 
 export interface ApiAuthentication {
   /** Optional. Config for ID token auth generated from CES service agent. */
@@ -354,7 +359,7 @@ export interface ApiAuthentication {
 }
 
 export const ApiAuthentication: Schema.Schema<ApiAuthentication> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAgentIdTokenAuthConfig: Schema.optional(
         ServiceAgentIdTokenAuthConfig,
@@ -375,26 +380,27 @@ export interface TlsConfigCaCert {
   cert?: string;
 }
 
-export const TlsConfigCaCert: Schema.Schema<TlsConfigCaCert> = Schema.suspend(
-  () =>
+export const TlsConfigCaCert: Schema.Schema<TlsConfigCaCert> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       cert: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TlsConfigCaCert",
-}) as any as Schema.Schema<TlsConfigCaCert>;
+  ).annotate({
+    identifier: "TlsConfigCaCert",
+  }) as any as Schema.Schema<TlsConfigCaCert>;
 
 export interface TlsConfig {
   /** Required. Specifies a list of allowed custom CA certificates for HTTPS verification. */
   caCerts?: Array<TlsConfigCaCert>;
 }
 
-export const TlsConfig: Schema.Schema<TlsConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    caCerts: Schema.optional(Schema.Array(TlsConfigCaCert)),
-  }),
-).annotate({ identifier: "TlsConfig" }) as any as Schema.Schema<TlsConfig>;
+export const TlsConfig: Schema.Schema<TlsConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      caCerts: Schema.optional(Schema.Array(TlsConfigCaCert)),
+    }),
+  ).annotate({ identifier: "TlsConfig" }) as any as Schema.Schema<TlsConfig>;
 
 export interface OpenApiToolset {
   /** Optional. Service Directory configuration. */
@@ -411,8 +417,8 @@ export interface OpenApiToolset {
   tlsConfig?: TlsConfig;
 }
 
-export const OpenApiToolset: Schema.Schema<OpenApiToolset> = Schema.suspend(
-  () =>
+export const OpenApiToolset: Schema.Schema<OpenApiToolset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
       apiAuthentication: Schema.optional(ApiAuthentication),
@@ -421,20 +427,21 @@ export const OpenApiToolset: Schema.Schema<OpenApiToolset> = Schema.suspend(
       openApiSchema: Schema.optional(Schema.String),
       tlsConfig: Schema.optional(TlsConfig),
     }),
-).annotate({
-  identifier: "OpenApiToolset",
-}) as any as Schema.Schema<OpenApiToolset>;
+  ).annotate({
+    identifier: "OpenApiToolset",
+  }) as any as Schema.Schema<OpenApiToolset>;
 
 export interface CodeBlock {
   /** Required. Python code which will be invoked in tool fake mode. Expected Python function signature - To catch all tool calls: def fake_tool_call(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: To catch a specific tool call: def fake_{tool_id}(tool: Tool, input: dict[str, Any], callback_context: CallbackContext) -> Optional[dict[str, Any]]: If the function returns None, the real tool will be invoked instead. */
   pythonCode?: string;
 }
 
-export const CodeBlock: Schema.Schema<CodeBlock> = Schema.suspend(() =>
-  Schema.Struct({
-    pythonCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CodeBlock" }) as any as Schema.Schema<CodeBlock>;
+export const CodeBlock: Schema.Schema<CodeBlock> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pythonCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "CodeBlock" }) as any as Schema.Schema<CodeBlock>;
 
 export interface ToolFakeConfig {
   /** Optional. Whether the tool is using fake mode. */
@@ -443,15 +450,15 @@ export interface ToolFakeConfig {
   codeBlock?: CodeBlock;
 }
 
-export const ToolFakeConfig: Schema.Schema<ToolFakeConfig> = Schema.suspend(
-  () =>
+export const ToolFakeConfig: Schema.Schema<ToolFakeConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableFakeMode: Schema.optional(Schema.Boolean),
       codeBlock: Schema.optional(CodeBlock),
     }),
-).annotate({
-  identifier: "ToolFakeConfig",
-}) as any as Schema.Schema<ToolFakeConfig>;
+  ).annotate({
+    identifier: "ToolFakeConfig",
+  }) as any as Schema.Schema<ToolFakeConfig>;
 
 export interface ActionEntityOperation {
   /** Required. ID of the entity. */
@@ -468,7 +475,7 @@ export interface ActionEntityOperation {
 }
 
 export const ActionEntityOperation: Schema.Schema<ActionEntityOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityId: Schema.optional(Schema.String),
       operation: Schema.optional(Schema.String),
@@ -488,14 +495,15 @@ export interface Action {
   entityOperation?: ActionEntityOperation;
 }
 
-export const Action: Schema.Schema<Action> = Schema.suspend(() =>
-  Schema.Struct({
-    outputFields: Schema.optional(Schema.Array(Schema.String)),
-    inputFields: Schema.optional(Schema.Array(Schema.String)),
-    connectionActionId: Schema.optional(Schema.String),
-    entityOperation: Schema.optional(ActionEntityOperation),
-  }),
-).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
+export const Action: Schema.Schema<Action> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      outputFields: Schema.optional(Schema.Array(Schema.String)),
+      inputFields: Schema.optional(Schema.Array(Schema.String)),
+      connectionActionId: Schema.optional(Schema.String),
+      entityOperation: Schema.optional(ActionEntityOperation),
+    }),
+  ).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
 
 export interface EndUserAuthConfigOauth2JwtBearerConfig {
   /** Required. Subject parameter name to pass through. Must be in the format `$context.variables.`. */
@@ -507,7 +515,7 @@ export interface EndUserAuthConfigOauth2JwtBearerConfig {
 }
 
 export const EndUserAuthConfigOauth2JwtBearerConfig: Schema.Schema<EndUserAuthConfigOauth2JwtBearerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subject: Schema.optional(Schema.String),
       issuer: Schema.optional(Schema.String),
@@ -523,7 +531,7 @@ export interface EndUserAuthConfigOauth2AuthCodeConfig {
 }
 
 export const EndUserAuthConfigOauth2AuthCodeConfig: Schema.Schema<EndUserAuthConfigOauth2AuthCodeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       oauthToken: Schema.optional(Schema.String),
     }),
@@ -539,7 +547,7 @@ export interface EndUserAuthConfig {
 }
 
 export const EndUserAuthConfig: Schema.Schema<EndUserAuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       oauth2JwtBearerConfig: Schema.optional(
         EndUserAuthConfigOauth2JwtBearerConfig,
@@ -561,16 +569,16 @@ export interface ConnectorToolset {
   authConfig?: EndUserAuthConfig;
 }
 
-export const ConnectorToolset: Schema.Schema<ConnectorToolset> = Schema.suspend(
-  () =>
+export const ConnectorToolset: Schema.Schema<ConnectorToolset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connectorActions: Schema.optional(Schema.Array(Action)),
       connection: Schema.optional(Schema.String),
       authConfig: Schema.optional(EndUserAuthConfig),
     }),
-).annotate({
-  identifier: "ConnectorToolset",
-}) as any as Schema.Schema<ConnectorToolset>;
+  ).annotate({
+    identifier: "ConnectorToolset",
+  }) as any as Schema.Schema<ConnectorToolset>;
 
 export interface McpToolset {
   /** Optional. Service Directory configuration for VPC-SC, used to resolve service names within a perimeter. */
@@ -583,14 +591,15 @@ export interface McpToolset {
   serverAddress?: string;
 }
 
-export const McpToolset: Schema.Schema<McpToolset> = Schema.suspend(() =>
-  Schema.Struct({
-    serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
-    tlsConfig: Schema.optional(TlsConfig),
-    apiAuthentication: Schema.optional(ApiAuthentication),
-    serverAddress: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "McpToolset" }) as any as Schema.Schema<McpToolset>;
+export const McpToolset: Schema.Schema<McpToolset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
+      tlsConfig: Schema.optional(TlsConfig),
+      apiAuthentication: Schema.optional(ApiAuthentication),
+      serverAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "McpToolset" }) as any as Schema.Schema<McpToolset>;
 
 export interface Toolset {
   /** Optional. A toolset that contains a list of tools that are defined by an OpenAPI schema. */
@@ -621,21 +630,22 @@ export interface Toolset {
   mcpToolset?: McpToolset;
 }
 
-export const Toolset: Schema.Schema<Toolset> = Schema.suspend(() =>
-  Schema.Struct({
-    openApiToolset: Schema.optional(OpenApiToolset),
-    toolFakeConfig: Schema.optional(ToolFakeConfig),
-    createTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    executionType: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    connectorToolset: Schema.optional(ConnectorToolset),
-    mcpToolset: Schema.optional(McpToolset),
-  }),
-).annotate({ identifier: "Toolset" }) as any as Schema.Schema<Toolset>;
+export const Toolset: Schema.Schema<Toolset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      openApiToolset: Schema.optional(OpenApiToolset),
+      toolFakeConfig: Schema.optional(ToolFakeConfig),
+      createTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      executionType: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      connectorToolset: Schema.optional(ConnectorToolset),
+      mcpToolset: Schema.optional(McpToolset),
+    }),
+  ).annotate({ identifier: "Toolset" }) as any as Schema.Schema<Toolset>;
 
 export interface FileSearchTool {
   /** Optional. The tool description. */
@@ -652,17 +662,17 @@ export interface FileSearchTool {
   name?: string;
 }
 
-export const FileSearchTool: Schema.Schema<FileSearchTool> = Schema.suspend(
-  () =>
+export const FileSearchTool: Schema.Schema<FileSearchTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       fileCorpus: Schema.optional(Schema.String),
       corpusType: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FileSearchTool",
-}) as any as Schema.Schema<FileSearchTool>;
+  ).annotate({
+    identifier: "FileSearchTool",
+  }) as any as Schema.Schema<FileSearchTool>;
 
 export interface PythonFunction {
   /** Output only. The description of the Python function, parsed from the python code's docstring. */
@@ -673,16 +683,16 @@ export interface PythonFunction {
   name?: string;
 }
 
-export const PythonFunction: Schema.Schema<PythonFunction> = Schema.suspend(
-  () =>
+export const PythonFunction: Schema.Schema<PythonFunction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       pythonCode: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PythonFunction",
-}) as any as Schema.Schema<PythonFunction>;
+  ).annotate({
+    identifier: "PythonFunction",
+  }) as any as Schema.Schema<PythonFunction>;
 
 export interface DataStoreConnectorConfig {
   /** Display name of the collection the data store belongs to. */
@@ -694,7 +704,7 @@ export interface DataStoreConnectorConfig {
 }
 
 export const DataStoreConnectorConfig: Schema.Schema<DataStoreConnectorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionDisplayName: Schema.optional(Schema.String),
       dataSource: Schema.optional(Schema.String),
@@ -729,16 +739,17 @@ export interface DataStore {
   displayName?: string;
 }
 
-export const DataStore: Schema.Schema<DataStore> = Schema.suspend(() =>
-  Schema.Struct({
-    createTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    connectorConfig: Schema.optional(DataStoreConnectorConfig),
-    type: Schema.optional(Schema.String),
-    documentProcessingMode: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataStore" }) as any as Schema.Schema<DataStore>;
+export const DataStore: Schema.Schema<DataStore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      connectorConfig: Schema.optional(DataStoreConnectorConfig),
+      type: Schema.optional(Schema.String),
+      documentProcessingMode: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DataStore" }) as any as Schema.Schema<DataStore>;
 
 export interface DataStoreToolDataStoreSource {
   /** Optional. Filter specification for the DataStore. See: https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata */
@@ -748,7 +759,7 @@ export interface DataStoreToolDataStoreSource {
 }
 
 export const DataStoreToolDataStoreSource: Schema.Schema<DataStoreToolDataStoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       dataStore: Schema.optional(DataStore),
@@ -765,7 +776,7 @@ export interface DataStoreToolGroundingConfig {
 }
 
 export const DataStoreToolGroundingConfig: Schema.Schema<DataStoreToolGroundingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundingLevel: Schema.optional(Schema.Number),
       disabled: Schema.optional(Schema.Boolean),
@@ -781,14 +792,15 @@ export interface ModelSettings {
   temperature?: number;
 }
 
-export const ModelSettings: Schema.Schema<ModelSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    model: Schema.optional(Schema.String),
-    temperature: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "ModelSettings",
-}) as any as Schema.Schema<ModelSettings>;
+export const ModelSettings: Schema.Schema<ModelSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+      temperature: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ModelSettings",
+  }) as any as Schema.Schema<ModelSettings>;
 
 export interface DataStoreToolSummarizationConfig {
   /** Optional. The prompt definition. If not set, default prompt will be used. */
@@ -800,7 +812,7 @@ export interface DataStoreToolSummarizationConfig {
 }
 
 export const DataStoreToolSummarizationConfig: Schema.Schema<DataStoreToolSummarizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prompt: Schema.optional(Schema.String),
       disabled: Schema.optional(Schema.Boolean),
@@ -820,7 +832,7 @@ export interface DataStoreToolRewriterConfig {
 }
 
 export const DataStoreToolRewriterConfig: Schema.Schema<DataStoreToolRewriterConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelSettings: Schema.optional(ModelSettings),
       disabled: Schema.optional(Schema.Boolean),
@@ -842,7 +854,7 @@ export interface DataStoreToolModalityConfig {
 }
 
 export const DataStoreToolModalityConfig: Schema.Schema<DataStoreToolModalityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundingConfig: Schema.optional(DataStoreToolGroundingConfig),
       summarizationConfig: Schema.optional(DataStoreToolSummarizationConfig),
@@ -863,7 +875,7 @@ export interface DataStoreToolEngineSource {
 }
 
 export const DataStoreToolEngineSource: Schema.Schema<DataStoreToolEngineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStoreSources: Schema.optional(
         Schema.Array(DataStoreToolDataStoreSource),
@@ -883,7 +895,7 @@ export interface DataStoreToolBoostSpecs {
 }
 
 export const DataStoreToolBoostSpecs: Schema.Schema<DataStoreToolBoostSpecs> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spec: Schema.optional(Schema.Array(DataStoreToolBoostSpec)),
       dataStores: Schema.optional(Schema.Array(Schema.String)),
@@ -913,19 +925,22 @@ export interface DataStoreTool {
   boostSpecs?: Array<DataStoreToolBoostSpecs>;
 }
 
-export const DataStoreTool: Schema.Schema<DataStoreTool> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    dataStoreSource: Schema.optional(DataStoreToolDataStoreSource),
-    filterParameterBehavior: Schema.optional(Schema.String),
-    modalityConfigs: Schema.optional(Schema.Array(DataStoreToolModalityConfig)),
-    engineSource: Schema.optional(DataStoreToolEngineSource),
-    boostSpecs: Schema.optional(Schema.Array(DataStoreToolBoostSpecs)),
-  }),
-).annotate({
-  identifier: "DataStoreTool",
-}) as any as Schema.Schema<DataStoreTool>;
+export const DataStoreTool: Schema.Schema<DataStoreTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      dataStoreSource: Schema.optional(DataStoreToolDataStoreSource),
+      filterParameterBehavior: Schema.optional(Schema.String),
+      modalityConfigs: Schema.optional(
+        Schema.Array(DataStoreToolModalityConfig),
+      ),
+      engineSource: Schema.optional(DataStoreToolEngineSource),
+      boostSpecs: Schema.optional(Schema.Array(DataStoreToolBoostSpecs)),
+    }),
+  ).annotate({
+    identifier: "DataStoreTool",
+  }) as any as Schema.Schema<DataStoreTool>;
 
 export interface SystemTool {
   /** Output only. The description of the system tool. */
@@ -934,12 +949,13 @@ export interface SystemTool {
   name?: string;
 }
 
-export const SystemTool: Schema.Schema<SystemTool> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SystemTool" }) as any as Schema.Schema<SystemTool>;
+export const SystemTool: Schema.Schema<SystemTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SystemTool" }) as any as Schema.Schema<SystemTool>;
 
 export interface ConnectorTool {
   /** Optional. Configures how authentication is handled in Integration Connectors. By default, an admin authentication is passed in the Integration Connectors API requests. You can override it with a different end-user authentication config. **Note**: The Connection must have authentication override enabled in order to specify an EUC configuration here - otherwise, the ConnectorTool creation will fail. See https://cloud.google.com/application-integration/docs/configure-connectors-task#configure-authentication-override for details. */
@@ -954,17 +970,18 @@ export interface ConnectorTool {
   name?: string;
 }
 
-export const ConnectorTool: Schema.Schema<ConnectorTool> = Schema.suspend(() =>
-  Schema.Struct({
-    authConfig: Schema.optional(EndUserAuthConfig),
-    description: Schema.optional(Schema.String),
-    connection: Schema.optional(Schema.String),
-    action: Schema.optional(Action),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ConnectorTool",
-}) as any as Schema.Schema<ConnectorTool>;
+export const ConnectorTool: Schema.Schema<ConnectorTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      authConfig: Schema.optional(EndUserAuthConfig),
+      description: Schema.optional(Schema.String),
+      connection: Schema.optional(Schema.String),
+      action: Schema.optional(Action),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ConnectorTool",
+  }) as any as Schema.Schema<ConnectorTool>;
 
 export interface GoogleSearchToolPromptConfig {
   /** Optional. Defines the prompt used for the system instructions when interacting with the agent in chat conversations. If not set, default prompt will be used. */
@@ -974,7 +991,7 @@ export interface GoogleSearchToolPromptConfig {
 }
 
 export const GoogleSearchToolPromptConfig: Schema.Schema<GoogleSearchToolPromptConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textPrompt: Schema.optional(Schema.String),
       voicePrompt: Schema.optional(Schema.String),
@@ -998,8 +1015,8 @@ export interface GoogleSearchTool {
   contextUrls?: Array<string>;
 }
 
-export const GoogleSearchTool: Schema.Schema<GoogleSearchTool> = Schema.suspend(
-  () =>
+export const GoogleSearchTool: Schema.Schema<GoogleSearchTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       preferredDomains: Schema.optional(Schema.Array(Schema.String)),
@@ -1008,9 +1025,9 @@ export const GoogleSearchTool: Schema.Schema<GoogleSearchTool> = Schema.suspend(
       name: Schema.optional(Schema.String),
       contextUrls: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "GoogleSearchTool",
-}) as any as Schema.Schema<GoogleSearchTool>;
+  ).annotate({
+    identifier: "GoogleSearchTool",
+  }) as any as Schema.Schema<GoogleSearchTool>;
 
 export interface OpenApiTool {
   /** Optional. The description of the tool. If not provided, the description of the tool will be derived from the OpenAPI schema, from `operation.description` or `operation.summary`. */
@@ -1031,18 +1048,21 @@ export interface OpenApiTool {
   tlsConfig?: TlsConfig;
 }
 
-export const OpenApiTool: Schema.Schema<OpenApiTool> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    apiAuthentication: Schema.optional(ApiAuthentication),
-    serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
-    ignoreUnknownFields: Schema.optional(Schema.Boolean),
-    url: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    openApiSchema: Schema.optional(Schema.String),
-    tlsConfig: Schema.optional(TlsConfig),
-  }),
-).annotate({ identifier: "OpenApiTool" }) as any as Schema.Schema<OpenApiTool>;
+export const OpenApiTool: Schema.Schema<OpenApiTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      apiAuthentication: Schema.optional(ApiAuthentication),
+      serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
+      ignoreUnknownFields: Schema.optional(Schema.Boolean),
+      url: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      openApiSchema: Schema.optional(Schema.String),
+      tlsConfig: Schema.optional(TlsConfig),
+    }),
+  ).annotate({
+    identifier: "OpenApiTool",
+  }) as any as Schema.Schema<OpenApiTool>;
 
 export interface WidgetTool {
   /** Optional. The type of the widget tool. If not specified, the default type will be CUSTOMIZED. */
@@ -1069,14 +1089,15 @@ export interface WidgetTool {
   parameters?: Ces_Schema;
 }
 
-export const WidgetTool: Schema.Schema<WidgetTool> = Schema.suspend(() =>
-  Schema.Struct({
-    widgetType: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    parameters: Schema.optional(Ces_Schema),
-  }),
-).annotate({ identifier: "WidgetTool" }) as any as Schema.Schema<WidgetTool>;
+export const WidgetTool: Schema.Schema<WidgetTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      widgetType: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      parameters: Schema.optional(Ces_Schema),
+    }),
+  ).annotate({ identifier: "WidgetTool" }) as any as Schema.Schema<WidgetTool>;
 
 export interface McpTool {
   /** Optional. The schema of the input arguments of the MCP tool. */
@@ -1097,18 +1118,19 @@ export interface McpTool {
   apiAuthentication?: ApiAuthentication;
 }
 
-export const McpTool: Schema.Schema<McpTool> = Schema.suspend(() =>
-  Schema.Struct({
-    inputSchema: Schema.optional(Ces_Schema),
-    serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
-    description: Schema.optional(Schema.String),
-    serverAddress: Schema.optional(Schema.String),
-    tlsConfig: Schema.optional(TlsConfig),
-    outputSchema: Schema.optional(Ces_Schema),
-    name: Schema.optional(Schema.String),
-    apiAuthentication: Schema.optional(ApiAuthentication),
-  }),
-).annotate({ identifier: "McpTool" }) as any as Schema.Schema<McpTool>;
+export const McpTool: Schema.Schema<McpTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inputSchema: Schema.optional(Ces_Schema),
+      serviceDirectoryConfig: Schema.optional(ServiceDirectoryConfig),
+      description: Schema.optional(Schema.String),
+      serverAddress: Schema.optional(Schema.String),
+      tlsConfig: Schema.optional(TlsConfig),
+      outputSchema: Schema.optional(Ces_Schema),
+      name: Schema.optional(Schema.String),
+      apiAuthentication: Schema.optional(ApiAuthentication),
+    }),
+  ).annotate({ identifier: "McpTool" }) as any as Schema.Schema<McpTool>;
 
 export interface Tool {
   /** Optional. The file search tool. */
@@ -1153,28 +1175,29 @@ export interface Tool {
   clientFunction?: ClientFunction;
 }
 
-export const Tool: Schema.Schema<Tool> = Schema.suspend(() =>
-  Schema.Struct({
-    fileSearchTool: Schema.optional(FileSearchTool),
-    pythonFunction: Schema.optional(PythonFunction),
-    createTime: Schema.optional(Schema.String),
-    dataStoreTool: Schema.optional(DataStoreTool),
-    toolFakeConfig: Schema.optional(ToolFakeConfig),
-    etag: Schema.optional(Schema.String),
-    systemTool: Schema.optional(SystemTool),
-    connectorTool: Schema.optional(ConnectorTool),
-    googleSearchTool: Schema.optional(GoogleSearchTool),
-    name: Schema.optional(Schema.String),
-    openApiTool: Schema.optional(OpenApiTool),
-    updateTime: Schema.optional(Schema.String),
-    widgetTool: Schema.optional(WidgetTool),
-    generatedSummary: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    executionType: Schema.optional(Schema.String),
-    mcpTool: Schema.optional(McpTool),
-    clientFunction: Schema.optional(ClientFunction),
-  }),
-).annotate({ identifier: "Tool" }) as any as Schema.Schema<Tool>;
+export const Tool: Schema.Schema<Tool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileSearchTool: Schema.optional(FileSearchTool),
+      pythonFunction: Schema.optional(PythonFunction),
+      createTime: Schema.optional(Schema.String),
+      dataStoreTool: Schema.optional(DataStoreTool),
+      toolFakeConfig: Schema.optional(ToolFakeConfig),
+      etag: Schema.optional(Schema.String),
+      systemTool: Schema.optional(SystemTool),
+      connectorTool: Schema.optional(ConnectorTool),
+      googleSearchTool: Schema.optional(GoogleSearchTool),
+      name: Schema.optional(Schema.String),
+      openApiTool: Schema.optional(OpenApiTool),
+      updateTime: Schema.optional(Schema.String),
+      widgetTool: Schema.optional(WidgetTool),
+      generatedSummary: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      executionType: Schema.optional(Schema.String),
+      mcpTool: Schema.optional(McpTool),
+      clientFunction: Schema.optional(ClientFunction),
+    }),
+  ).annotate({ identifier: "Tool" }) as any as Schema.Schema<Tool>;
 
 export interface AppVariableDeclaration {
   /** Required. The description of the variable. */
@@ -1186,7 +1209,7 @@ export interface AppVariableDeclaration {
 }
 
 export const AppVariableDeclaration: Schema.Schema<AppVariableDeclaration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       schema: Schema.optional(Ces_Schema),
@@ -1206,7 +1229,7 @@ export interface ErrorHandlingSettings {
 }
 
 export const ErrorHandlingSettings: Schema.Schema<ErrorHandlingSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorHandlingStrategy: Schema.optional(Schema.String),
     }),
@@ -1220,7 +1243,7 @@ export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExp
 }
 
 export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds: Schema.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolInvocationParameterCorrectnessThreshold: Schema.optional(
         Schema.Number,
@@ -1245,7 +1268,7 @@ export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTur
 }
 
 export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds: Schema.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsTurnLevelMetricsThresholds> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       semanticSimilaritySuccessThreshold: Schema.optional(Schema.Number),
       overallToolInvocationCorrectnessThreshold: Schema.optional(Schema.Number),
@@ -1266,7 +1289,7 @@ export interface EvaluationMetricsThresholdsToolMatchingSettings {
 }
 
 export const EvaluationMetricsThresholdsToolMatchingSettings: Schema.Schema<EvaluationMetricsThresholdsToolMatchingSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extraToolCallBehavior: Schema.optional(Schema.String),
     }),
@@ -1284,7 +1307,7 @@ export interface EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds {
 }
 
 export const EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds: Schema.Schema<EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholds> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expectationLevelMetricsThresholds: Schema.optional(
         EvaluationMetricsThresholdsGoldenEvaluationMetricsThresholdsExpectationLevelMetricsThresholds,
@@ -1324,7 +1347,7 @@ export interface EvaluationMetricsThresholds {
 }
 
 export const EvaluationMetricsThresholds: Schema.Schema<EvaluationMetricsThresholds> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       goldenHallucinationMetricBehavior: Schema.optional(Schema.String),
       hallucinationMetricBehavior: Schema.optional(Schema.String),
@@ -1354,7 +1377,7 @@ export interface AmbientSoundConfig {
 }
 
 export const AmbientSoundConfig: Schema.Schema<AmbientSoundConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prebuiltAmbientNoise: Schema.optional(Schema.String),
       prebuiltAmbientSound: Schema.optional(Schema.String),
@@ -1373,7 +1396,7 @@ export interface SynthesizeSpeechConfig {
 }
 
 export const SynthesizeSpeechConfig: Schema.Schema<SynthesizeSpeechConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voice: Schema.optional(Schema.String),
       speakingRate: Schema.optional(Schema.Number),
@@ -1389,14 +1412,15 @@ export interface BargeInConfig {
   bargeInAwareness?: boolean;
 }
 
-export const BargeInConfig: Schema.Schema<BargeInConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    disableBargeIn: Schema.optional(Schema.Boolean),
-    bargeInAwareness: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "BargeInConfig",
-}) as any as Schema.Schema<BargeInConfig>;
+export const BargeInConfig: Schema.Schema<BargeInConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      disableBargeIn: Schema.optional(Schema.Boolean),
+      bargeInAwareness: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "BargeInConfig",
+  }) as any as Schema.Schema<BargeInConfig>;
 
 export interface AudioProcessingConfig {
   /** Optional. Configuration for the ambient sound to be played with the synthesized agent response, to enhance the naturalness of the conversation. */
@@ -1410,7 +1434,7 @@ export interface AudioProcessingConfig {
 }
 
 export const AudioProcessingConfig: Schema.Schema<AudioProcessingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ambientSoundConfig: Schema.optional(AmbientSoundConfig),
       inactivityTimeout: Schema.optional(Schema.String),
@@ -1428,14 +1452,14 @@ export interface TimeZoneSettings {
   timeZone?: string;
 }
 
-export const TimeZoneSettings: Schema.Schema<TimeZoneSettings> = Schema.suspend(
-  () =>
+export const TimeZoneSettings: Schema.Schema<TimeZoneSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZone: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TimeZoneSettings",
-}) as any as Schema.Schema<TimeZoneSettings>;
+  ).annotate({
+    identifier: "TimeZoneSettings",
+  }) as any as Schema.Schema<TimeZoneSettings>;
 
 export interface ClientCertificateSettings {
   /** Optional. The name of the SecretManager secret version resource storing the passphrase to decrypt the private key. Should be left unset if the private key is not encrypted. Format: `projects/{project}/secrets/{secret}/versions/{version}` */
@@ -1447,7 +1471,7 @@ export interface ClientCertificateSettings {
 }
 
 export const ClientCertificateSettings: Schema.Schema<ClientCertificateSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       passphrase: Schema.optional(Schema.String),
       privateKey: Schema.optional(Schema.String),
@@ -1468,17 +1492,17 @@ export interface LanguageSettings {
   defaultLanguageCode?: string;
 }
 
-export const LanguageSettings: Schema.Schema<LanguageSettings> = Schema.suspend(
-  () =>
+export const LanguageSettings: Schema.Schema<LanguageSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportedLanguageCodes: Schema.optional(Schema.Array(Schema.String)),
       fallbackAction: Schema.optional(Schema.String),
       enableMultilingualSupport: Schema.optional(Schema.Boolean),
       defaultLanguageCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LanguageSettings",
-}) as any as Schema.Schema<LanguageSettings>;
+  ).annotate({
+    identifier: "LanguageSettings",
+  }) as any as Schema.Schema<LanguageSettings>;
 
 export interface AudioRecordingConfig {
   /** Optional. The [Cloud Storage](https://cloud.google.com/storage) bucket to store the session audio recordings. The URI must start with "gs://". Please choose a bucket location that meets your data residency requirements. Note: If the Cloud Storage bucket is in a different project from the app, you should grant `storage.objects.create` permission to the CES service agent `service-@gcp-sa-ces.iam.gserviceaccount.com`. */
@@ -1488,7 +1512,7 @@ export interface AudioRecordingConfig {
 }
 
 export const AudioRecordingConfig: Schema.Schema<AudioRecordingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsBucket: Schema.optional(Schema.String),
       gcsPathPrefix: Schema.optional(Schema.String),
@@ -1506,16 +1530,16 @@ export interface RedactionConfig {
   deidentifyTemplate?: string;
 }
 
-export const RedactionConfig: Schema.Schema<RedactionConfig> = Schema.suspend(
-  () =>
+export const RedactionConfig: Schema.Schema<RedactionConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectTemplate: Schema.optional(Schema.String),
       enableRedaction: Schema.optional(Schema.Boolean),
       deidentifyTemplate: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RedactionConfig",
-}) as any as Schema.Schema<RedactionConfig>;
+  ).annotate({
+    identifier: "RedactionConfig",
+  }) as any as Schema.Schema<RedactionConfig>;
 
 export interface BigQueryExportSettings {
   /** Optional. Indicates whether the BigQuery export is enabled. */
@@ -1527,7 +1551,7 @@ export interface BigQueryExportSettings {
 }
 
 export const BigQueryExportSettings: Schema.Schema<BigQueryExportSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       project: Schema.optional(Schema.String),
@@ -1543,7 +1567,7 @@ export interface ConversationLoggingSettings {
 }
 
 export const ConversationLoggingSettings: Schema.Schema<ConversationLoggingSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableConversationLogging: Schema.optional(Schema.Boolean),
     }),
@@ -1557,7 +1581,7 @@ export interface MetricAnalysisSettings {
 }
 
 export const MetricAnalysisSettings: Schema.Schema<MetricAnalysisSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       llmMetricsOptedOut: Schema.optional(Schema.Boolean),
     }),
@@ -1571,7 +1595,7 @@ export interface CloudLoggingSettings {
 }
 
 export const CloudLoggingSettings: Schema.Schema<CloudLoggingSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableCloudLogging: Schema.optional(Schema.Boolean),
     }),
@@ -1596,8 +1620,8 @@ export interface LoggingSettings {
   cloudLoggingSettings?: CloudLoggingSettings;
 }
 
-export const LoggingSettings: Schema.Schema<LoggingSettings> = Schema.suspend(
-  () =>
+export const LoggingSettings: Schema.Schema<LoggingSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationAudioRecordingConfig: Schema.optional(AudioRecordingConfig),
       redactionConfig: Schema.optional(RedactionConfig),
@@ -1607,9 +1631,9 @@ export const LoggingSettings: Schema.Schema<LoggingSettings> = Schema.suspend(
       metricAnalysisSettings: Schema.optional(MetricAnalysisSettings),
       cloudLoggingSettings: Schema.optional(CloudLoggingSettings),
     }),
-).annotate({
-  identifier: "LoggingSettings",
-}) as any as Schema.Schema<LoggingSettings>;
+  ).annotate({
+    identifier: "LoggingSettings",
+  }) as any as Schema.Schema<LoggingSettings>;
 
 export interface DataStoreSettingsEngine {
   /** Output only. The type of the engine. */
@@ -1623,7 +1647,7 @@ export interface DataStoreSettingsEngine {
 }
 
 export const DataStoreSettingsEngine: Schema.Schema<DataStoreSettingsEngine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1638,7 +1662,7 @@ export interface DataStoreSettings {
 }
 
 export const DataStoreSettings: Schema.Schema<DataStoreSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       engines: Schema.optional(Schema.Array(DataStoreSettingsEngine)),
     }),
@@ -1652,7 +1676,7 @@ export interface ChannelProfilePersonaProperty {
 }
 
 export const ChannelProfilePersonaProperty: Schema.Schema<ChannelProfilePersonaProperty> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       persona: Schema.optional(Schema.String),
     }),
@@ -1672,7 +1696,7 @@ export interface ChannelProfileWebWidgetConfigSecuritySettings {
 }
 
 export const ChannelProfileWebWidgetConfigSecuritySettings: Schema.Schema<ChannelProfileWebWidgetConfigSecuritySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enablePublicAccess: Schema.optional(Schema.Boolean),
       allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
@@ -1700,7 +1724,7 @@ export interface ChannelProfileWebWidgetConfig {
 }
 
 export const ChannelProfileWebWidgetConfig: Schema.Schema<ChannelProfileWebWidgetConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modality: Schema.optional(Schema.String),
       webWidgetTitle: Schema.optional(Schema.String),
@@ -1739,8 +1763,8 @@ export interface ChannelProfile {
     | (string & {});
 }
 
-export const ChannelProfile: Schema.Schema<ChannelProfile> = Schema.suspend(
-  () =>
+export const ChannelProfile: Schema.Schema<ChannelProfile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       profileId: Schema.optional(Schema.String),
       noiseSuppressionLevel: Schema.optional(Schema.String),
@@ -1750,9 +1774,9 @@ export const ChannelProfile: Schema.Schema<ChannelProfile> = Schema.suspend(
       webWidgetConfig: Schema.optional(ChannelProfileWebWidgetConfig),
       channelType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ChannelProfile",
-}) as any as Schema.Schema<ChannelProfile>;
+  ).annotate({
+    identifier: "ChannelProfile",
+  }) as any as Schema.Schema<ChannelProfile>;
 
 export interface App {
   /** Optional. Metadata about the app. This field can be used to store additional information relevant to the app's details or intended usages. */
@@ -1813,38 +1837,41 @@ export interface App {
   defaultChannelProfile?: ChannelProfile;
 }
 
-export const App: Schema.Schema<App> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    pinned: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-    rootAgent: Schema.optional(Schema.String),
-    globalInstruction: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    guardrails: Schema.optional(Schema.Array(Schema.String)),
-    updateTime: Schema.optional(Schema.String),
-    predefinedVariableDeclarations: Schema.optional(
-      Schema.Array(AppVariableDeclaration),
-    ),
-    errorHandlingSettings: Schema.optional(ErrorHandlingSettings),
-    evaluationMetricsThresholds: Schema.optional(EvaluationMetricsThresholds),
-    locked: Schema.optional(Schema.Boolean),
-    audioProcessingConfig: Schema.optional(AudioProcessingConfig),
-    createTime: Schema.optional(Schema.String),
-    modelSettings: Schema.optional(ModelSettings),
-    timeZoneSettings: Schema.optional(TimeZoneSettings),
-    clientCertificateSettings: Schema.optional(ClientCertificateSettings),
-    variableDeclarations: Schema.optional(Schema.Array(AppVariableDeclaration)),
-    languageSettings: Schema.optional(LanguageSettings),
-    toolExecutionMode: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    loggingSettings: Schema.optional(LoggingSettings),
-    etag: Schema.optional(Schema.String),
-    deploymentCount: Schema.optional(Schema.Number),
-    dataStoreSettings: Schema.optional(DataStoreSettings),
-    defaultChannelProfile: Schema.optional(ChannelProfile),
-  }),
-).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
+export const App: Schema.Schema<App> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      pinned: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      rootAgent: Schema.optional(Schema.String),
+      globalInstruction: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      guardrails: Schema.optional(Schema.Array(Schema.String)),
+      updateTime: Schema.optional(Schema.String),
+      predefinedVariableDeclarations: Schema.optional(
+        Schema.Array(AppVariableDeclaration),
+      ),
+      errorHandlingSettings: Schema.optional(ErrorHandlingSettings),
+      evaluationMetricsThresholds: Schema.optional(EvaluationMetricsThresholds),
+      locked: Schema.optional(Schema.Boolean),
+      audioProcessingConfig: Schema.optional(AudioProcessingConfig),
+      createTime: Schema.optional(Schema.String),
+      modelSettings: Schema.optional(ModelSettings),
+      timeZoneSettings: Schema.optional(TimeZoneSettings),
+      clientCertificateSettings: Schema.optional(ClientCertificateSettings),
+      variableDeclarations: Schema.optional(
+        Schema.Array(AppVariableDeclaration),
+      ),
+      languageSettings: Schema.optional(LanguageSettings),
+      toolExecutionMode: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      loggingSettings: Schema.optional(LoggingSettings),
+      etag: Schema.optional(Schema.String),
+      deploymentCount: Schema.optional(Schema.Number),
+      dataStoreSettings: Schema.optional(DataStoreSettings),
+      defaultChannelProfile: Schema.optional(ChannelProfile),
+    }),
+  ).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
 
 export interface GuardrailLlmPromptSecurityDefaultSecuritySettings {
   /** Output only. The default prompt template used by the system. This field is for display purposes to show the user what prompt the system uses by default. It is OUTPUT_ONLY. */
@@ -1852,7 +1879,7 @@ export interface GuardrailLlmPromptSecurityDefaultSecuritySettings {
 }
 
 export const GuardrailLlmPromptSecurityDefaultSecuritySettings: Schema.Schema<GuardrailLlmPromptSecurityDefaultSecuritySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultPromptTemplate: Schema.optional(Schema.String),
     }),
@@ -1881,7 +1908,7 @@ export interface GuardrailLlmPolicy {
 }
 
 export const GuardrailLlmPolicy: Schema.Schema<GuardrailLlmPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failOpen: Schema.optional(Schema.Boolean),
       allowShortUtterance: Schema.optional(Schema.Boolean),
@@ -1904,7 +1931,7 @@ export interface GuardrailLlmPromptSecurity {
 }
 
 export const GuardrailLlmPromptSecurity: Schema.Schema<GuardrailLlmPromptSecurity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failOpen: Schema.optional(Schema.Boolean),
       defaultSettings: Schema.optional(
@@ -1937,7 +1964,7 @@ export interface GuardrailModelSafetySafetySetting {
 }
 
 export const GuardrailModelSafetySafetySetting: Schema.Schema<GuardrailModelSafetySafetySetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threshold: Schema.optional(Schema.String),
       category: Schema.optional(Schema.String),
@@ -1952,7 +1979,7 @@ export interface GuardrailModelSafety {
 }
 
 export const GuardrailModelSafety: Schema.Schema<GuardrailModelSafety> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       safetySettings: Schema.optional(
         Schema.Array(GuardrailModelSafetySafetySetting),
@@ -1981,7 +2008,7 @@ export interface GuardrailContentFilter {
 }
 
 export const GuardrailContentFilter: Schema.Schema<GuardrailContentFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bannedContentsInAgentResponse: Schema.optional(
         Schema.Array(Schema.String),
@@ -2006,14 +2033,15 @@ export interface Callback {
   pythonCode?: string;
 }
 
-export const Callback: Schema.Schema<Callback> = Schema.suspend(() =>
-  Schema.Struct({
-    proactiveExecutionEnabled: Schema.optional(Schema.Boolean),
-    description: Schema.optional(Schema.String),
-    disabled: Schema.optional(Schema.Boolean),
-    pythonCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Callback" }) as any as Schema.Schema<Callback>;
+export const Callback: Schema.Schema<Callback> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      proactiveExecutionEnabled: Schema.optional(Schema.Boolean),
+      description: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      pythonCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Callback" }) as any as Schema.Schema<Callback>;
 
 export interface GuardrailCodeCallback {
   /** Optional. The callback to execute after the agent is called. Each callback function is expected to return a structure (e.g., a dict or object) containing at least: - 'decision': Either 'OK' or 'TRIGGER'. - 'reason': A string explaining the decision. A 'TRIGGER' decision may halt further processing. */
@@ -2027,7 +2055,7 @@ export interface GuardrailCodeCallback {
 }
 
 export const GuardrailCodeCallback: Schema.Schema<GuardrailCodeCallback> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       afterAgentCallback: Schema.optional(Callback),
       afterModelCallback: Schema.optional(Callback),
@@ -2044,7 +2072,7 @@ export interface TriggerActionTransferAgent {
 }
 
 export const TriggerActionTransferAgent: Schema.Schema<TriggerActionTransferAgent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agent: Schema.optional(Schema.String),
     }),
@@ -2058,7 +2086,7 @@ export interface TriggerActionGenerativeAnswer {
 }
 
 export const TriggerActionGenerativeAnswer: Schema.Schema<TriggerActionGenerativeAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prompt: Schema.optional(Schema.String),
     }),
@@ -2075,15 +2103,16 @@ export interface TriggerAction {
   generativeAnswer?: TriggerActionGenerativeAnswer;
 }
 
-export const TriggerAction: Schema.Schema<TriggerAction> = Schema.suspend(() =>
-  Schema.Struct({
-    respondImmediately: Schema.optional(TriggerActionRespondImmediately),
-    transferAgent: Schema.optional(TriggerActionTransferAgent),
-    generativeAnswer: Schema.optional(TriggerActionGenerativeAnswer),
-  }),
-).annotate({
-  identifier: "TriggerAction",
-}) as any as Schema.Schema<TriggerAction>;
+export const TriggerAction: Schema.Schema<TriggerAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      respondImmediately: Schema.optional(TriggerActionRespondImmediately),
+      transferAgent: Schema.optional(TriggerActionTransferAgent),
+      generativeAnswer: Schema.optional(TriggerActionGenerativeAnswer),
+    }),
+  ).annotate({
+    identifier: "TriggerAction",
+  }) as any as Schema.Schema<TriggerAction>;
 
 export interface Guardrail {
   /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
@@ -2114,23 +2143,24 @@ export interface Guardrail {
   displayName?: string;
 }
 
-export const Guardrail: Schema.Schema<Guardrail> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    llmPromptSecurity: Schema.optional(GuardrailLlmPromptSecurity),
-    modelSafety: Schema.optional(GuardrailModelSafety),
-    description: Schema.optional(Schema.String),
-    contentFilter: Schema.optional(GuardrailContentFilter),
-    llmPolicy: Schema.optional(GuardrailLlmPolicy),
-    codeCallback: Schema.optional(GuardrailCodeCallback),
-    etag: Schema.optional(Schema.String),
-    action: Schema.optional(TriggerAction),
-    enabled: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Guardrail" }) as any as Schema.Schema<Guardrail>;
+export const Guardrail: Schema.Schema<Guardrail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      llmPromptSecurity: Schema.optional(GuardrailLlmPromptSecurity),
+      modelSafety: Schema.optional(GuardrailModelSafety),
+      description: Schema.optional(Schema.String),
+      contentFilter: Schema.optional(GuardrailContentFilter),
+      llmPolicy: Schema.optional(GuardrailLlmPolicy),
+      codeCallback: Schema.optional(GuardrailCodeCallback),
+      etag: Schema.optional(Schema.String),
+      action: Schema.optional(TriggerAction),
+      enabled: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Guardrail" }) as any as Schema.Schema<Guardrail>;
 
 export interface AgentAgentToolset {
   /** Optional. The tools IDs to filter the toolset. */
@@ -2140,7 +2170,7 @@ export interface AgentAgentToolset {
 }
 
 export const AgentAgentToolset: Schema.Schema<AgentAgentToolset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolIds: Schema.optional(Schema.Array(Schema.String)),
       toolset: Schema.optional(Schema.String),
@@ -2165,7 +2195,7 @@ export interface AgentRemoteDialogflowAgent {
 }
 
 export const AgentRemoteDialogflowAgent: Schema.Schema<AgentRemoteDialogflowAgent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environmentId: Schema.optional(Schema.String),
       agent: Schema.optional(Schema.String),
@@ -2184,11 +2214,10 @@ export const AgentRemoteDialogflowAgent: Schema.Schema<AgentRemoteDialogflowAgen
 
 export interface AgentLlmAgent {}
 
-export const AgentLlmAgent: Schema.Schema<AgentLlmAgent> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({
-  identifier: "AgentLlmAgent",
-}) as any as Schema.Schema<AgentLlmAgent>;
+export const AgentLlmAgent: Schema.Schema<AgentLlmAgent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AgentLlmAgent",
+  }) as any as Schema.Schema<AgentLlmAgent>;
 
 export interface ExpressionCondition {
   /** Required. The string representation of cloud.api.Expression condition. */
@@ -2196,7 +2225,7 @@ export interface ExpressionCondition {
 }
 
 export const ExpressionCondition: Schema.Schema<ExpressionCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
     }),
@@ -2210,7 +2239,7 @@ export interface TransferRuleDisablePlannerTransfer {
 }
 
 export const TransferRuleDisablePlannerTransfer: Schema.Schema<TransferRuleDisablePlannerTransfer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressionCondition: Schema.optional(ExpressionCondition),
     }),
@@ -2224,7 +2253,7 @@ export interface PythonCodeCondition {
 }
 
 export const PythonCodeCondition: Schema.Schema<PythonCodeCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pythonCode: Schema.optional(Schema.String),
     }),
@@ -2240,7 +2269,7 @@ export interface TransferRuleDeterministicTransfer {
 }
 
 export const TransferRuleDeterministicTransfer: Schema.Schema<TransferRuleDeterministicTransfer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pythonCodeCondition: Schema.optional(PythonCodeCondition),
       expressionCondition: Schema.optional(ExpressionCondition),
@@ -2264,16 +2293,19 @@ export interface TransferRule {
   deterministicTransfer?: TransferRuleDeterministicTransfer;
 }
 
-export const TransferRule: Schema.Schema<TransferRule> = Schema.suspend(() =>
-  Schema.Struct({
-    direction: Schema.optional(Schema.String),
-    childAgent: Schema.optional(Schema.String),
-    disablePlannerTransfer: Schema.optional(TransferRuleDisablePlannerTransfer),
-    deterministicTransfer: Schema.optional(TransferRuleDeterministicTransfer),
-  }),
-).annotate({
-  identifier: "TransferRule",
-}) as any as Schema.Schema<TransferRule>;
+export const TransferRule: Schema.Schema<TransferRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      direction: Schema.optional(Schema.String),
+      childAgent: Schema.optional(Schema.String),
+      disablePlannerTransfer: Schema.optional(
+        TransferRuleDisablePlannerTransfer,
+      ),
+      deterministicTransfer: Schema.optional(TransferRuleDeterministicTransfer),
+    }),
+  ).annotate({
+    identifier: "TransferRule",
+  }) as any as Schema.Schema<TransferRule>;
 
 export interface Agent {
   /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
@@ -2322,32 +2354,33 @@ export interface Agent {
   transferRules?: Array<TransferRule>;
 }
 
-export const Agent: Schema.Schema<Agent> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    generatedSummary: Schema.optional(Schema.String),
-    afterAgentCallbacks: Schema.optional(Schema.Array(Callback)),
-    beforeToolCallbacks: Schema.optional(Schema.Array(Callback)),
-    tools: Schema.optional(Schema.Array(Schema.String)),
-    instruction: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    guardrails: Schema.optional(Schema.Array(Schema.String)),
-    toolsets: Schema.optional(Schema.Array(AgentAgentToolset)),
-    afterModelCallbacks: Schema.optional(Schema.Array(Callback)),
-    beforeModelCallbacks: Schema.optional(Schema.Array(Callback)),
-    afterToolCallbacks: Schema.optional(Schema.Array(Callback)),
-    etag: Schema.optional(Schema.String),
-    remoteDialogflowAgent: Schema.optional(AgentRemoteDialogflowAgent),
-    description: Schema.optional(Schema.String),
-    childAgents: Schema.optional(Schema.Array(Schema.String)),
-    modelSettings: Schema.optional(ModelSettings),
-    llmAgent: Schema.optional(AgentLlmAgent),
-    beforeAgentCallbacks: Schema.optional(Schema.Array(Callback)),
-    transferRules: Schema.optional(Schema.Array(TransferRule)),
-  }),
-).annotate({ identifier: "Agent" }) as any as Schema.Schema<Agent>;
+export const Agent: Schema.Schema<Agent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      generatedSummary: Schema.optional(Schema.String),
+      afterAgentCallbacks: Schema.optional(Schema.Array(Callback)),
+      beforeToolCallbacks: Schema.optional(Schema.Array(Callback)),
+      tools: Schema.optional(Schema.Array(Schema.String)),
+      instruction: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      guardrails: Schema.optional(Schema.Array(Schema.String)),
+      toolsets: Schema.optional(Schema.Array(AgentAgentToolset)),
+      afterModelCallbacks: Schema.optional(Schema.Array(Callback)),
+      beforeModelCallbacks: Schema.optional(Schema.Array(Callback)),
+      afterToolCallbacks: Schema.optional(Schema.Array(Callback)),
+      etag: Schema.optional(Schema.String),
+      remoteDialogflowAgent: Schema.optional(AgentRemoteDialogflowAgent),
+      description: Schema.optional(Schema.String),
+      childAgents: Schema.optional(Schema.Array(Schema.String)),
+      modelSettings: Schema.optional(ModelSettings),
+      llmAgent: Schema.optional(AgentLlmAgent),
+      beforeAgentCallbacks: Schema.optional(Schema.Array(Callback)),
+      transferRules: Schema.optional(Schema.Array(TransferRule)),
+    }),
+  ).annotate({ identifier: "Agent" }) as any as Schema.Schema<Agent>;
 
 export interface Image {
   /** Required. The IANA standard MIME type of the source data. Supported image types includes: * image/png * image/jpeg * image/webp */
@@ -2356,12 +2389,13 @@ export interface Image {
   data?: string;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface ToolsetTool {
   /** Optional. The tool ID to filter the tools to retrieve the schema for. */
@@ -2370,12 +2404,15 @@ export interface ToolsetTool {
   toolset?: string;
 }
 
-export const ToolsetTool: Schema.Schema<ToolsetTool> = Schema.suspend(() =>
-  Schema.Struct({
-    toolId: Schema.optional(Schema.String),
-    toolset: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ToolsetTool" }) as any as Schema.Schema<ToolsetTool>;
+export const ToolsetTool: Schema.Schema<ToolsetTool> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toolId: Schema.optional(Schema.String),
+      toolset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ToolsetTool",
+  }) as any as Schema.Schema<ToolsetTool>;
 
 export interface ToolResponse {
   /** Output only. Display name of the tool. */
@@ -2390,17 +2427,18 @@ export interface ToolResponse {
   id?: string;
 }
 
-export const ToolResponse: Schema.Schema<ToolResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    tool: Schema.optional(Schema.String),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    toolsetTool: Schema.optional(ToolsetTool),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ToolResponse",
-}) as any as Schema.Schema<ToolResponse>;
+export const ToolResponse: Schema.Schema<ToolResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      tool: Schema.optional(Schema.String),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      toolsetTool: Schema.optional(ToolsetTool),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ToolResponse",
+  }) as any as Schema.Schema<ToolResponse>;
 
 export interface ToolCall {
   /** Optional. The unique identifier of the tool call. If populated, the client should return the execution result with the matching ID in ToolResponse. */
@@ -2415,15 +2453,16 @@ export interface ToolCall {
   tool?: string;
 }
 
-export const ToolCall: Schema.Schema<ToolCall> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    toolsetTool: Schema.optional(ToolsetTool),
-    displayName: Schema.optional(Schema.String),
-    args: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    tool: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ToolCall" }) as any as Schema.Schema<ToolCall>;
+export const ToolCall: Schema.Schema<ToolCall> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      toolsetTool: Schema.optional(ToolsetTool),
+      displayName: Schema.optional(Schema.String),
+      args: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      tool: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ToolCall" }) as any as Schema.Schema<ToolCall>;
 
 export interface Blob {
   /** Required. The IANA standard MIME type of the source data. */
@@ -2432,12 +2471,13 @@ export interface Blob {
   data?: string;
 }
 
-export const Blob: Schema.Schema<Blob> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Blob" }) as any as Schema.Schema<Blob>;
+export const Blob: Schema.Schema<Blob> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Blob" }) as any as Schema.Schema<Blob>;
 
 export interface AgentTransfer {
   /** Output only. Display name of the agent. */
@@ -2446,14 +2486,15 @@ export interface AgentTransfer {
   targetAgent?: string;
 }
 
-export const AgentTransfer: Schema.Schema<AgentTransfer> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    targetAgent: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AgentTransfer",
-}) as any as Schema.Schema<AgentTransfer>;
+export const AgentTransfer: Schema.Schema<AgentTransfer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      targetAgent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AgentTransfer",
+  }) as any as Schema.Schema<AgentTransfer>;
 
 export interface Chunk {
   /** A struct represents variables that were updated in the conversation, keyed by variable names. */
@@ -2478,24 +2519,25 @@ export interface Chunk {
   payload?: Record<string, unknown>;
 }
 
-export const Chunk: Schema.Schema<Chunk> = Schema.suspend(() =>
-  Schema.Struct({
-    updatedVariables: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    defaultVariables: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    transcript: Schema.optional(Schema.String),
-    image: Schema.optional(Image),
-    toolResponse: Schema.optional(ToolResponse),
-    toolCall: Schema.optional(ToolCall),
-    text: Schema.optional(Schema.String),
-    blob: Schema.optional(Blob),
-    agentTransfer: Schema.optional(AgentTransfer),
-    payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Chunk" }) as any as Schema.Schema<Chunk>;
+export const Chunk: Schema.Schema<Chunk> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updatedVariables: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      defaultVariables: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      transcript: Schema.optional(Schema.String),
+      image: Schema.optional(Image),
+      toolResponse: Schema.optional(ToolResponse),
+      toolCall: Schema.optional(ToolCall),
+      text: Schema.optional(Schema.String),
+      blob: Schema.optional(Blob),
+      agentTransfer: Schema.optional(AgentTransfer),
+      payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Chunk" }) as any as Schema.Schema<Chunk>;
 
 export interface Message {
   /** Optional. Timestamp when the message was sent or received. Should not be used if the message is part of an example. */
@@ -2506,13 +2548,14 @@ export interface Message {
   chunks?: Array<Chunk>;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() =>
-  Schema.Struct({
-    eventTime: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    chunks: Schema.optional(Schema.Array(Chunk)),
-  }),
-).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      eventTime: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      chunks: Schema.optional(Schema.Array(Chunk)),
+    }),
+  ).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface Example {
   /** Optional. The collection of messages that make up the conversation. */
@@ -2535,19 +2578,20 @@ export interface Example {
   createTime?: string;
 }
 
-export const Example: Schema.Schema<Example> = Schema.suspend(() =>
-  Schema.Struct({
-    messages: Schema.optional(Schema.Array(Message)),
-    description: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    entryAgent: Schema.optional(Schema.String),
-    invalid: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Example" }) as any as Schema.Schema<Example>;
+export const Example: Schema.Schema<Example> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      messages: Schema.optional(Schema.Array(Message)),
+      description: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      entryAgent: Schema.optional(Schema.String),
+      invalid: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Example" }) as any as Schema.Schema<Example>;
 
 export interface AppSnapshot {
   /** Optional. List of toolsets in the app. */
@@ -2564,16 +2608,19 @@ export interface AppSnapshot {
   examples?: Array<Example>;
 }
 
-export const AppSnapshot: Schema.Schema<AppSnapshot> = Schema.suspend(() =>
-  Schema.Struct({
-    toolsets: Schema.optional(Schema.Array(Toolset)),
-    tools: Schema.optional(Schema.Array(Tool)),
-    app: Schema.optional(App),
-    guardrails: Schema.optional(Schema.Array(Guardrail)),
-    agents: Schema.optional(Schema.Array(Agent)),
-    examples: Schema.optional(Schema.Array(Example)),
-  }),
-).annotate({ identifier: "AppSnapshot" }) as any as Schema.Schema<AppSnapshot>;
+export const AppSnapshot: Schema.Schema<AppSnapshot> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toolsets: Schema.optional(Schema.Array(Toolset)),
+      tools: Schema.optional(Schema.Array(Tool)),
+      app: Schema.optional(App),
+      guardrails: Schema.optional(Schema.Array(Guardrail)),
+      agents: Schema.optional(Schema.Array(Agent)),
+      examples: Schema.optional(Schema.Array(Example)),
+    }),
+  ).annotate({
+    identifier: "AppSnapshot",
+  }) as any as Schema.Schema<AppSnapshot>;
 
 export interface ExportAppRequest {
   /** Optional. The [Google Cloud Storage](https://cloud.google.com/storage/docs/) URI to which to export the app. The format of this URI must be `gs:///`. The exported app archive will be written directly to the specified GCS object. */
@@ -2582,15 +2629,15 @@ export interface ExportAppRequest {
   exportFormat?: "EXPORT_FORMAT_UNSPECIFIED" | "JSON" | "YAML" | (string & {});
 }
 
-export const ExportAppRequest: Schema.Schema<ExportAppRequest> = Schema.suspend(
-  () =>
+export const ExportAppRequest: Schema.Schema<ExportAppRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsUri: Schema.optional(Schema.String),
       exportFormat: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExportAppRequest",
-}) as any as Schema.Schema<ExportAppRequest>;
+  ).annotate({
+    identifier: "ExportAppRequest",
+  }) as any as Schema.Schema<ExportAppRequest>;
 
 export interface Span {
   /** Output only. The end time of the span. */
@@ -2607,16 +2654,17 @@ export interface Span {
   startTime?: string;
 }
 
-export const Span: Schema.Schema<Span> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    childSpans: Schema.optional(Schema.Array(Span)),
-    duration: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Span" }) as any as Schema.Schema<Span>;
+export const Span: Schema.Schema<Span> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      childSpans: Schema.optional(Schema.Array(Span)),
+      duration: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Span" }) as any as Schema.Schema<Span>;
 
 export interface InputAudioConfig {
   /** Required. The sample rate (in Hertz) of the input audio data. */
@@ -2632,16 +2680,16 @@ export interface InputAudioConfig {
   noiseSuppressionLevel?: string;
 }
 
-export const InputAudioConfig: Schema.Schema<InputAudioConfig> = Schema.suspend(
-  () =>
+export const InputAudioConfig: Schema.Schema<InputAudioConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleRateHertz: Schema.optional(Schema.Number),
       audioEncoding: Schema.optional(Schema.String),
       noiseSuppressionLevel: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "InputAudioConfig",
-}) as any as Schema.Schema<InputAudioConfig>;
+  ).annotate({
+    identifier: "InputAudioConfig",
+  }) as any as Schema.Schema<InputAudioConfig>;
 
 export interface GenerateChatTokenRequest {
   /** Required. The deployment of the app to use for the session. Format: projects/{project}/locations/{location}/apps/{app}/deployments/{deployment} */
@@ -2651,7 +2699,7 @@ export interface GenerateChatTokenRequest {
 }
 
 export const GenerateChatTokenRequest: Schema.Schema<GenerateChatTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deployment: Schema.optional(Schema.String),
       recaptchaToken: Schema.optional(Schema.String),
@@ -2662,33 +2710,36 @@ export const GenerateChatTokenRequest: Schema.Schema<GenerateChatTokenRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ToolResponses {
   /** Optional. The list of tool execution results. */
   toolResponses?: Array<ToolResponse>;
 }
 
-export const ToolResponses: Schema.Schema<ToolResponses> = Schema.suspend(() =>
-  Schema.Struct({
-    toolResponses: Schema.optional(Schema.Array(ToolResponse)),
-  }),
-).annotate({
-  identifier: "ToolResponses",
-}) as any as Schema.Schema<ToolResponses>;
+export const ToolResponses: Schema.Schema<ToolResponses> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toolResponses: Schema.optional(Schema.Array(ToolResponse)),
+    }),
+  ).annotate({
+    identifier: "ToolResponses",
+  }) as any as Schema.Schema<ToolResponses>;
 
 export interface Event {
   /** Required. The name of the event. */
   event?: string;
 }
 
-export const Event: Schema.Schema<Event> = Schema.suspend(() =>
-  Schema.Struct({
-    event: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
+export const Event: Schema.Schema<Event> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      event: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Event" }) as any as Schema.Schema<Event>;
 
 export interface SessionInput {
   /** Optional. A flag to indicate if the current message is a fragment of a larger input in the bidi streaming session. When set to `true`, the agent defers processing until it receives a subsequent message where `will_continue` is `false`, or until the system detects an endpoint in the audio input. NOTE: This field does not apply to audio and DTMF inputs, as they are always processed automatically based on the endpointing signal. */
@@ -2711,21 +2762,22 @@ export interface SessionInput {
   blob?: Blob;
 }
 
-export const SessionInput: Schema.Schema<SessionInput> = Schema.suspend(() =>
-  Schema.Struct({
-    willContinue: Schema.optional(Schema.Boolean),
-    audio: Schema.optional(Schema.String),
-    variables: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    image: Schema.optional(Image),
-    toolResponses: Schema.optional(ToolResponses),
-    event: Schema.optional(Event),
-    dtmf: Schema.optional(Schema.String),
-    text: Schema.optional(Schema.String),
-    blob: Schema.optional(Blob),
-  }),
-).annotate({
-  identifier: "SessionInput",
-}) as any as Schema.Schema<SessionInput>;
+export const SessionInput: Schema.Schema<SessionInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      willContinue: Schema.optional(Schema.Boolean),
+      audio: Schema.optional(Schema.String),
+      variables: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      image: Schema.optional(Image),
+      toolResponses: Schema.optional(ToolResponses),
+      event: Schema.optional(Event),
+      dtmf: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      blob: Schema.optional(Blob),
+    }),
+  ).annotate({
+    identifier: "SessionInput",
+  }) as any as Schema.Schema<SessionInput>;
 
 export interface ConversationTurn {
   /** Optional. The root span of the action processing. */
@@ -2734,15 +2786,15 @@ export interface ConversationTurn {
   messages?: Array<Message>;
 }
 
-export const ConversationTurn: Schema.Schema<ConversationTurn> = Schema.suspend(
-  () =>
+export const ConversationTurn: Schema.Schema<ConversationTurn> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rootSpan: Schema.optional(Span),
       messages: Schema.optional(Schema.Array(Message)),
     }),
-).annotate({
-  identifier: "ConversationTurn",
-}) as any as Schema.Schema<ConversationTurn>;
+  ).annotate({
+    identifier: "ConversationTurn",
+  }) as any as Schema.Schema<ConversationTurn>;
 
 export interface Conversation {
   /** Output only. Timestamp when the conversation was completed. */
@@ -2787,25 +2839,26 @@ export interface Conversation {
   name?: string;
 }
 
-export const Conversation: Schema.Schema<Conversation> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    appVersion: Schema.optional(Schema.String),
-    inputTypes: Schema.optional(Schema.Array(Schema.String)),
-    turnCount: Schema.optional(Schema.Number),
-    entryAgent: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-    startTime: Schema.optional(Schema.String),
-    channelType: Schema.optional(Schema.String),
-    deployment: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.String),
-    turns: Schema.optional(Schema.Array(ConversationTurn)),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Conversation",
-}) as any as Schema.Schema<Conversation>;
+export const Conversation: Schema.Schema<Conversation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      appVersion: Schema.optional(Schema.String),
+      inputTypes: Schema.optional(Schema.Array(Schema.String)),
+      turnCount: Schema.optional(Schema.Number),
+      entryAgent: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+      startTime: Schema.optional(Schema.String),
+      channelType: Schema.optional(Schema.String),
+      deployment: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+      turns: Schema.optional(Schema.Array(ConversationTurn)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Conversation",
+  }) as any as Schema.Schema<Conversation>;
 
 export interface OmnichannelIntegrationConfigWhatsappConfig {
   /** The customer's WhatsApp Business Account (WABA) ID. */
@@ -2823,7 +2876,7 @@ export interface OmnichannelIntegrationConfigWhatsappConfig {
 }
 
 export const OmnichannelIntegrationConfigWhatsappConfig: Schema.Schema<OmnichannelIntegrationConfigWhatsappConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       whatsappBusinessAccountId: Schema.optional(Schema.String),
       webhookVerifyToken: Schema.optional(Schema.String),
@@ -2848,7 +2901,7 @@ export interface EndpointControlPolicy {
 }
 
 export const EndpointControlPolicy: Schema.Schema<EndpointControlPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enforcementScope: Schema.optional(Schema.String),
       allowedOrigins: Schema.optional(Schema.Array(Schema.String)),
@@ -2870,8 +2923,8 @@ export interface SecuritySettings {
   name?: string;
 }
 
-export const SecuritySettings: Schema.Schema<SecuritySettings> = Schema.suspend(
-  () =>
+export const SecuritySettings: Schema.Schema<SecuritySettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpointControlPolicy: Schema.optional(EndpointControlPolicy),
       createTime: Schema.optional(Schema.String),
@@ -2879,9 +2932,9 @@ export const SecuritySettings: Schema.Schema<SecuritySettings> = Schema.suspend(
       etag: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SecuritySettings",
-}) as any as Schema.Schema<SecuritySettings>;
+  ).annotate({
+    identifier: "SecuritySettings",
+  }) as any as Schema.Schema<SecuritySettings>;
 
 export interface OmnichannelIntegrationConfigChannelConfig {
   /** WhatsApp config. */
@@ -2889,7 +2942,7 @@ export interface OmnichannelIntegrationConfigChannelConfig {
 }
 
 export const OmnichannelIntegrationConfigChannelConfig: Schema.Schema<OmnichannelIntegrationConfigChannelConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       whatsappConfig: Schema.optional(
         OmnichannelIntegrationConfigWhatsappConfig,
@@ -2905,7 +2958,7 @@ export interface OmnichannelIntegrationConfigRoutingConfig {
 }
 
 export const OmnichannelIntegrationConfigRoutingConfig: Schema.Schema<OmnichannelIntegrationConfigRoutingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscriberKey: Schema.optional(Schema.String),
     }),
@@ -2919,7 +2972,7 @@ export interface OmnichannelIntegrationConfigCesAppConfig {
 }
 
 export const OmnichannelIntegrationConfigCesAppConfig: Schema.Schema<OmnichannelIntegrationConfigCesAppConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       app: Schema.optional(Schema.String),
     }),
@@ -2933,7 +2986,7 @@ export interface OmnichannelIntegrationConfigSubscriberConfig {
 }
 
 export const OmnichannelIntegrationConfigSubscriberConfig: Schema.Schema<OmnichannelIntegrationConfigSubscriberConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cesAppConfig: Schema.optional(OmnichannelIntegrationConfigCesAppConfig),
     }),
@@ -2954,7 +3007,7 @@ export interface OmnichannelIntegrationConfig {
 }
 
 export const OmnichannelIntegrationConfig: Schema.Schema<OmnichannelIntegrationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelConfigs: Schema.optional(
         Schema.Record(Schema.String, OmnichannelIntegrationConfigChannelConfig),
@@ -2990,28 +3043,32 @@ export interface Omnichannel {
   displayName?: string;
 }
 
-export const Omnichannel: Schema.Schema<Omnichannel> = Schema.suspend(() =>
-  Schema.Struct({
-    integrationConfig: Schema.optional(OmnichannelIntegrationConfig),
-    updateTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Omnichannel" }) as any as Schema.Schema<Omnichannel>;
+export const Omnichannel: Schema.Schema<Omnichannel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      integrationConfig: Schema.optional(OmnichannelIntegrationConfig),
+      updateTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Omnichannel",
+  }) as any as Schema.Schema<Omnichannel>;
 
 export interface EndSession {
   /** Optional. Provides additional information about the end session signal, such as the reason for ending the session. */
   metadata?: Record<string, unknown>;
 }
 
-export const EndSession: Schema.Schema<EndSession> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "EndSession" }) as any as Schema.Schema<EndSession>;
+export const EndSession: Schema.Schema<EndSession> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "EndSession" }) as any as Schema.Schema<EndSession>;
 
 export interface OmnichannelOperationMetadata {
   /** Output only. Identifies whether the user has requested cancellation of the operation. */
@@ -3025,7 +3082,7 @@ export interface OmnichannelOperationMetadata {
 }
 
 export const OmnichannelOperationMetadata: Schema.Schema<OmnichannelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedCancellation: Schema.optional(Schema.Boolean),
       statusMessage: Schema.optional(Schema.String),
@@ -3048,7 +3105,7 @@ export interface ExecuteToolResponse {
 }
 
 export const ExecuteToolResponse: Schema.Schema<ExecuteToolResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       variables: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -3071,7 +3128,7 @@ export interface OperationMetadata {
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       statusMessage: Schema.optional(Schema.String),
@@ -3092,7 +3149,7 @@ export interface ImportAppRequestImportOptions {
 }
 
 export const ImportAppRequestImportOptions: Schema.Schema<ImportAppRequestImportOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conflictResolutionStrategy: Schema.optional(Schema.String),
     }),
@@ -3108,7 +3165,7 @@ export interface ImportAppResponse {
 }
 
 export const ImportAppResponse: Schema.Schema<ImportAppResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       warnings: Schema.optional(Schema.Array(Schema.String)),
@@ -3125,7 +3182,7 @@ export interface ExportAppResponse {
 }
 
 export const ExportAppResponse: Schema.Schema<ExportAppResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appUri: Schema.optional(Schema.String),
       appContent: Schema.optional(Schema.String),
@@ -3151,17 +3208,18 @@ export interface AppVersion {
   createTime?: string;
 }
 
-export const AppVersion: Schema.Schema<AppVersion> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    snapshot: Schema.optional(AppSnapshot),
-    etag: Schema.optional(Schema.String),
-    creator: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AppVersion" }) as any as Schema.Schema<AppVersion>;
+export const AppVersion: Schema.Schema<AppVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      snapshot: Schema.optional(AppSnapshot),
+      etag: Schema.optional(Schema.String),
+      creator: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AppVersion" }) as any as Schema.Schema<AppVersion>;
 
 export interface ListAppVersionsResponse {
   /** A token that can be sent as ListAppVersionsRequest.page_token to retrieve the next page. Absence of this field indicates there are no subsequent pages. */
@@ -3171,7 +3229,7 @@ export interface ListAppVersionsResponse {
 }
 
 export const ListAppVersionsResponse: Schema.Schema<ListAppVersionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       appVersions: Schema.optional(Schema.Array(AppVersion)),
@@ -3188,7 +3246,7 @@ export interface ListAgentsResponse {
 }
 
 export const ListAgentsResponse: Schema.Schema<ListAgentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agents: Schema.optional(Schema.Array(Agent)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3205,7 +3263,7 @@ export interface ListConversationsResponse {
 }
 
 export const ListConversationsResponse: Schema.Schema<ListConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       conversations: Schema.optional(Schema.Array(Conversation)),
@@ -3222,7 +3280,7 @@ export interface SessionOutputDiagnosticInfo {
 }
 
 export const SessionOutputDiagnosticInfo: Schema.Schema<SessionOutputDiagnosticInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rootSpan: Schema.optional(Span),
       messages: Schema.optional(Schema.Array(Message)),
@@ -3244,15 +3302,16 @@ export interface Location {
   displayName?: string;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface Deployment {
   /** Required. The channel profile used in the deployment. */
@@ -3271,17 +3330,18 @@ export interface Deployment {
   createTime?: string;
 }
 
-export const Deployment: Schema.Schema<Deployment> = Schema.suspend(() =>
-  Schema.Struct({
-    channelProfile: Schema.optional(ChannelProfile),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    appVersion: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
+export const Deployment: Schema.Schema<Deployment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      channelProfile: Schema.optional(ChannelProfile),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      appVersion: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
 
 export interface ListDeploymentsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -3291,7 +3351,7 @@ export interface ListDeploymentsResponse {
 }
 
 export const ListDeploymentsResponse: Schema.Schema<ListDeploymentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       deployments: Schema.optional(Schema.Array(Deployment)),
@@ -3310,7 +3370,7 @@ export interface CitationsCitedChunk {
 }
 
 export const CitationsCitedChunk: Schema.Schema<CitationsCitedChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -3325,11 +3385,12 @@ export interface Citations {
   citedChunks?: Array<CitationsCitedChunk>;
 }
 
-export const Citations: Schema.Schema<Citations> = Schema.suspend(() =>
-  Schema.Struct({
-    citedChunks: Schema.optional(Schema.Array(CitationsCitedChunk)),
-  }),
-).annotate({ identifier: "Citations" }) as any as Schema.Schema<Citations>;
+export const Citations: Schema.Schema<Citations> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      citedChunks: Schema.optional(Schema.Array(CitationsCitedChunk)),
+    }),
+  ).annotate({ identifier: "Citations" }) as any as Schema.Schema<Citations>;
 
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
@@ -3340,15 +3401,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
@@ -3363,15 +3425,16 @@ export interface Operation {
   done?: boolean;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    error: Schema.optional(Status),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(Status),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
@@ -3383,7 +3446,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unreachable: Schema.optional(Schema.Array(Schema.String)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3399,7 +3462,7 @@ export interface BatchDeleteConversationsRequest {
 }
 
 export const BatchDeleteConversationsRequest: Schema.Schema<BatchDeleteConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversations: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3434,37 +3497,41 @@ export interface Changelog {
   name?: string;
 }
 
-export const Changelog: Schema.Schema<Changelog> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    sequenceNumber: Schema.optional(Schema.String),
-    action: Schema.optional(Schema.String),
-    newResource: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    description: Schema.optional(Schema.String),
-    dependentResources: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    resourceType: Schema.optional(Schema.String),
-    author: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    originalResource: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    resource: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Changelog" }) as any as Schema.Schema<Changelog>;
+export const Changelog: Schema.Schema<Changelog> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      sequenceNumber: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+      newResource: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      description: Schema.optional(Schema.String),
+      dependentResources: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      resourceType: Schema.optional(Schema.String),
+      author: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      originalResource: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      resource: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Changelog" }) as any as Schema.Schema<Changelog>;
 
 export interface ToolCalls {
   /** Optional. The list of tool calls to execute. */
   toolCalls?: Array<ToolCall>;
 }
 
-export const ToolCalls: Schema.Schema<ToolCalls> = Schema.suspend(() =>
-  Schema.Struct({
-    toolCalls: Schema.optional(Schema.Array(ToolCall)),
-  }),
-).annotate({ identifier: "ToolCalls" }) as any as Schema.Schema<ToolCalls>;
+export const ToolCalls: Schema.Schema<ToolCalls> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toolCalls: Schema.optional(Schema.Array(ToolCall)),
+    }),
+  ).annotate({ identifier: "ToolCalls" }) as any as Schema.Schema<ToolCalls>;
 
 export interface WebSearchQuery {
   /** The search query text. */
@@ -3473,15 +3540,15 @@ export interface WebSearchQuery {
   uri?: string;
 }
 
-export const WebSearchQuery: Schema.Schema<WebSearchQuery> = Schema.suspend(
-  () =>
+export const WebSearchQuery: Schema.Schema<WebSearchQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "WebSearchQuery",
-}) as any as Schema.Schema<WebSearchQuery>;
+  ).annotate({
+    identifier: "WebSearchQuery",
+  }) as any as Schema.Schema<WebSearchQuery>;
 
 export interface GoogleSearchSuggestions {
   /** Compliant HTML and CSS styling for search suggestions. The provided HTML and CSS automatically adapts to your device settings, displaying in either light or dark mode indicated by `@media(prefers-color-scheme)`. */
@@ -3491,7 +3558,7 @@ export interface GoogleSearchSuggestions {
 }
 
 export const GoogleSearchSuggestions: Schema.Schema<GoogleSearchSuggestions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       htmls: Schema.optional(Schema.Array(Schema.String)),
       webSearchQueries: Schema.optional(Schema.Array(WebSearchQuery)),
@@ -3523,22 +3590,23 @@ export interface SessionOutput {
   diagnosticInfo?: SessionOutputDiagnosticInfo;
 }
 
-export const SessionOutput: Schema.Schema<SessionOutput> = Schema.suspend(() =>
-  Schema.Struct({
-    toolCalls: Schema.optional(ToolCalls),
-    turnIndex: Schema.optional(Schema.Number),
-    text: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    endSession: Schema.optional(EndSession),
-    turnCompleted: Schema.optional(Schema.Boolean),
-    citations: Schema.optional(Citations),
-    audio: Schema.optional(Schema.String),
-    googleSearchSuggestions: Schema.optional(GoogleSearchSuggestions),
-    diagnosticInfo: Schema.optional(SessionOutputDiagnosticInfo),
-  }),
-).annotate({
-  identifier: "SessionOutput",
-}) as any as Schema.Schema<SessionOutput>;
+export const SessionOutput: Schema.Schema<SessionOutput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toolCalls: Schema.optional(ToolCalls),
+      turnIndex: Schema.optional(Schema.Number),
+      text: Schema.optional(Schema.String),
+      payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      endSession: Schema.optional(EndSession),
+      turnCompleted: Schema.optional(Schema.Boolean),
+      citations: Schema.optional(Citations),
+      audio: Schema.optional(Schema.String),
+      googleSearchSuggestions: Schema.optional(GoogleSearchSuggestions),
+      diagnosticInfo: Schema.optional(SessionOutputDiagnosticInfo),
+    }),
+  ).annotate({
+    identifier: "SessionOutput",
+  }) as any as Schema.Schema<SessionOutput>;
 
 export interface RunSessionResponse {
   /** Outputs for the session. */
@@ -3546,7 +3614,7 @@ export interface RunSessionResponse {
 }
 
 export const RunSessionResponse: Schema.Schema<RunSessionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputs: Schema.optional(Schema.Array(SessionOutput)),
     }),
@@ -3562,7 +3630,7 @@ export interface ListChangelogsResponse {
 }
 
 export const ListChangelogsResponse: Schema.Schema<ListChangelogsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       changelogs: Schema.optional(Schema.Array(Changelog)),
@@ -3581,7 +3649,7 @@ export interface SessionConfigRemoteDialogflowQueryParameters {
 }
 
 export const SessionConfigRemoteDialogflowQueryParameters: Schema.Schema<SessionConfigRemoteDialogflowQueryParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       payload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       endUserMetadata: Schema.optional(
@@ -3604,16 +3672,16 @@ export interface ListAppsResponse {
   nextPageToken?: string;
 }
 
-export const ListAppsResponse: Schema.Schema<ListAppsResponse> = Schema.suspend(
-  () =>
+export const ListAppsResponse: Schema.Schema<ListAppsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unreachable: Schema.optional(Schema.Array(Schema.String)),
       apps: Schema.optional(Schema.Array(App)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as Schema.Schema<ListAppsResponse>;
+  ).annotate({
+    identifier: "ListAppsResponse",
+  }) as any as Schema.Schema<ListAppsResponse>;
 
 export interface RetrieveToolsRequest {
   /** Optional. The identifiers of the tools to retrieve from the toolset. If empty, all tools in the toolset will be returned. */
@@ -3621,7 +3689,7 @@ export interface RetrieveToolsRequest {
 }
 
 export const RetrieveToolsRequest: Schema.Schema<RetrieveToolsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3637,7 +3705,7 @@ export interface GenerateChatTokenResponse {
 }
 
 export const GenerateChatTokenResponse: Schema.Schema<GenerateChatTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expireTime: Schema.optional(Schema.String),
       chatToken: Schema.optional(Schema.String),
@@ -3659,7 +3727,7 @@ export interface OutputAudioConfig {
 }
 
 export const OutputAudioConfig: Schema.Schema<OutputAudioConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampleRateHertz: Schema.optional(Schema.Number),
       audioEncoding: Schema.optional(Schema.String),
@@ -3687,22 +3755,23 @@ export interface SessionConfig {
   entryAgent?: string;
 }
 
-export const SessionConfig: Schema.Schema<SessionConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    historicalContexts: Schema.optional(Schema.Array(Message)),
-    inputAudioConfig: Schema.optional(InputAudioConfig),
-    timeZone: Schema.optional(Schema.String),
-    deployment: Schema.optional(Schema.String),
-    useToolFakes: Schema.optional(Schema.Boolean),
-    remoteDialogflowQueryParameters: Schema.optional(
-      SessionConfigRemoteDialogflowQueryParameters,
-    ),
-    outputAudioConfig: Schema.optional(OutputAudioConfig),
-    entryAgent: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SessionConfig",
-}) as any as Schema.Schema<SessionConfig>;
+export const SessionConfig: Schema.Schema<SessionConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      historicalContexts: Schema.optional(Schema.Array(Message)),
+      inputAudioConfig: Schema.optional(InputAudioConfig),
+      timeZone: Schema.optional(Schema.String),
+      deployment: Schema.optional(Schema.String),
+      useToolFakes: Schema.optional(Schema.Boolean),
+      remoteDialogflowQueryParameters: Schema.optional(
+        SessionConfigRemoteDialogflowQueryParameters,
+      ),
+      outputAudioConfig: Schema.optional(OutputAudioConfig),
+      entryAgent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SessionConfig",
+  }) as any as Schema.Schema<SessionConfig>;
 
 export interface RunSessionRequest {
   /** Required. Inputs for the session. */
@@ -3712,7 +3781,7 @@ export interface RunSessionRequest {
 }
 
 export const RunSessionRequest: Schema.Schema<RunSessionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputs: Schema.optional(Schema.Array(SessionInput)),
       config: Schema.optional(SessionConfig),
@@ -3736,8 +3805,8 @@ export interface ImportAppRequest {
   displayName?: string;
 }
 
-export const ImportAppRequest: Schema.Schema<ImportAppRequest> = Schema.suspend(
-  () =>
+export const ImportAppRequest: Schema.Schema<ImportAppRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsUri: Schema.optional(Schema.String),
       ignoreAppLock: Schema.optional(Schema.Boolean),
@@ -3746,9 +3815,9 @@ export const ImportAppRequest: Schema.Schema<ImportAppRequest> = Schema.suspend(
       importOptions: Schema.optional(ImportAppRequestImportOptions),
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ImportAppRequest",
-}) as any as Schema.Schema<ImportAppRequest>;
+  ).annotate({
+    identifier: "ImportAppRequest",
+  }) as any as Schema.Schema<ImportAppRequest>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -3758,7 +3827,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3770,7 +3839,7 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
 export interface RestoreAppVersionRequest {}
 
 export const RestoreAppVersionRequest: Schema.Schema<RestoreAppVersionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "RestoreAppVersionRequest",
   }) as any as Schema.Schema<RestoreAppVersionRequest>;
 
@@ -3780,7 +3849,7 @@ export interface RetrieveToolsResponse {
 }
 
 export const RetrieveToolsResponse: Schema.Schema<RetrieveToolsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tools: Schema.optional(Schema.Array(Tool)),
     }),
@@ -3791,7 +3860,7 @@ export const RetrieveToolsResponse: Schema.Schema<RetrieveToolsResponse> =
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -3803,7 +3872,7 @@ export interface ListToolsResponse {
 }
 
 export const ListToolsResponse: Schema.Schema<ListToolsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       tools: Schema.optional(Schema.Array(Tool)),
@@ -3820,7 +3889,7 @@ export interface RetrieveToolSchemaRequest {
 }
 
 export const RetrieveToolSchemaRequest: Schema.Schema<RetrieveToolSchemaRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolsetTool: Schema.optional(ToolsetTool),
       tool: Schema.optional(Schema.String),
@@ -3837,7 +3906,7 @@ export interface ListGuardrailsResponse {
 }
 
 export const ListGuardrailsResponse: Schema.Schema<ListGuardrailsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guardrails: Schema.optional(Schema.Array(Guardrail)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3860,7 +3929,7 @@ export interface ExecuteToolRequest {
 }
 
 export const ExecuteToolRequest: Schema.Schema<ExecuteToolRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       context: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       variables: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -3880,7 +3949,7 @@ export interface ListExamplesResponse {
 }
 
 export const ListExamplesResponse: Schema.Schema<ListExamplesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       examples: Schema.optional(Schema.Array(Example)),
@@ -3901,7 +3970,7 @@ export interface RetrieveToolSchemaResponse {
 }
 
 export const RetrieveToolSchemaResponse: Schema.Schema<RetrieveToolSchemaResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tool: Schema.optional(Schema.String),
       inputSchema: Schema.optional(Ces_Schema),
@@ -3920,7 +3989,7 @@ export interface ListToolsetsResponse {
 }
 
 export const ListToolsetsResponse: Schema.Schema<ListToolsetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       toolsets: Schema.optional(Schema.Array(Toolset)),
@@ -3938,18 +4007,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -3959,7 +4030,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -3978,21 +4049,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -4002,7 +4075,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -4017,18 +4090,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -4038,7 +4113,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -4057,24 +4132,26 @@ export interface ListProjectsLocationsOperationsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -4084,7 +4161,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -4099,18 +4176,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export type DeleteProjectsLocationsOperationsResponse = Empty;
-export const DeleteProjectsLocationsOperationsResponse = Empty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
@@ -4120,7 +4199,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsResponse,
   DeleteProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -4133,20 +4212,22 @@ export interface CancelProjectsLocationsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export type CancelProjectsLocationsOperationsResponse = Empty;
-export const CancelProjectsLocationsOperationsResponse = Empty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
@@ -4156,7 +4237,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsResponse,
   CancelProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -4171,21 +4252,23 @@ export interface PatchProjectsLocationsAppsRequest {
   body?: App;
 }
 
-export const PatchProjectsLocationsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(App).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsRequest>;
+export const PatchProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(App).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsRequest>;
 
 export type PatchProjectsLocationsAppsResponse = App;
-export const PatchProjectsLocationsAppsResponse = App;
+export const PatchProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ App;
 
 export type PatchProjectsLocationsAppsError = DefaultErrors;
 
@@ -4195,7 +4278,7 @@ export const patchProjectsLocationsApps: API.OperationMethod<
   PatchProjectsLocationsAppsResponse,
   PatchProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsRequest,
   output: PatchProjectsLocationsAppsResponse,
   errors: [],
@@ -4208,19 +4291,21 @@ export interface DeleteProjectsLocationsAppsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsRequest = Schema.Struct({
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsRequest>;
+export const DeleteProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsRequest>;
 
 export type DeleteProjectsLocationsAppsResponse = Operation;
-export const DeleteProjectsLocationsAppsResponse = Operation;
+export const DeleteProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsAppsError = DefaultErrors;
 
@@ -4230,7 +4315,7 @@ export const deleteProjectsLocationsApps: API.OperationMethod<
   DeleteProjectsLocationsAppsResponse,
   DeleteProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsRequest,
   output: DeleteProjectsLocationsAppsResponse,
   errors: [],
@@ -4241,18 +4326,19 @@ export interface GetProjectsLocationsAppsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsRequest>;
+export const GetProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsRequest>;
 
 export type GetProjectsLocationsAppsResponse = App;
-export const GetProjectsLocationsAppsResponse = App;
+export const GetProjectsLocationsAppsResponse = /*@__PURE__*/ /*#__PURE__*/ App;
 
 export type GetProjectsLocationsAppsError = DefaultErrors;
 
@@ -4262,7 +4348,7 @@ export const getProjectsLocationsApps: API.OperationMethod<
   GetProjectsLocationsAppsResponse,
   GetProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsRequest,
   output: GetProjectsLocationsAppsResponse,
   errors: [],
@@ -4275,22 +4361,23 @@ export interface RetrieveToolSchemaProjectsLocationsAppsRequest {
   body?: RetrieveToolSchemaRequest;
 }
 
-export const RetrieveToolSchemaProjectsLocationsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(RetrieveToolSchemaRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:retrieveToolSchema",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RetrieveToolSchemaProjectsLocationsAppsRequest>;
+export const RetrieveToolSchemaProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(RetrieveToolSchemaRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:retrieveToolSchema",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveToolSchemaProjectsLocationsAppsRequest>;
 
 export type RetrieveToolSchemaProjectsLocationsAppsResponse =
   RetrieveToolSchemaResponse;
 export const RetrieveToolSchemaProjectsLocationsAppsResponse =
-  RetrieveToolSchemaResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RetrieveToolSchemaResponse;
 
 export type RetrieveToolSchemaProjectsLocationsAppsError = DefaultErrors;
 
@@ -4300,7 +4387,7 @@ export const retrieveToolSchemaProjectsLocationsApps: API.OperationMethod<
   RetrieveToolSchemaProjectsLocationsAppsResponse,
   RetrieveToolSchemaProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveToolSchemaProjectsLocationsAppsRequest,
   output: RetrieveToolSchemaProjectsLocationsAppsResponse,
   errors: [],
@@ -4313,20 +4400,22 @@ export interface ImportAppProjectsLocationsAppsRequest {
   body?: ImportAppRequest;
 }
 
-export const ImportAppProjectsLocationsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ImportAppRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps:importApp",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportAppProjectsLocationsAppsRequest>;
+export const ImportAppProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ImportAppRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps:importApp",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportAppProjectsLocationsAppsRequest>;
 
 export type ImportAppProjectsLocationsAppsResponse = Operation;
-export const ImportAppProjectsLocationsAppsResponse = Operation;
+export const ImportAppProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ImportAppProjectsLocationsAppsError = DefaultErrors;
 
@@ -4336,7 +4425,7 @@ export const importAppProjectsLocationsApps: API.OperationMethod<
   ImportAppProjectsLocationsAppsResponse,
   ImportAppProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportAppProjectsLocationsAppsRequest,
   output: ImportAppProjectsLocationsAppsResponse,
   errors: [],
@@ -4355,22 +4444,24 @@ export interface ListProjectsLocationsAppsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsAppsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsRequest>;
+export const ListProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsRequest>;
 
 export type ListProjectsLocationsAppsResponse = ListAppsResponse;
-export const ListProjectsLocationsAppsResponse = ListAppsResponse;
+export const ListProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAppsResponse;
 
 export type ListProjectsLocationsAppsError = DefaultErrors;
 
@@ -4380,7 +4471,7 @@ export const listProjectsLocationsApps: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsResponse,
   ListProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsRequest,
   output: ListProjectsLocationsAppsResponse,
   errors: [],
@@ -4399,21 +4490,23 @@ export interface CreateProjectsLocationsAppsRequest {
   body?: App;
 }
 
-export const CreateProjectsLocationsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  appId: Schema.optional(Schema.String).pipe(T.HttpQuery("appId")),
-  body: Schema.optional(App).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsRequest>;
+export const CreateProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    appId: Schema.optional(Schema.String).pipe(T.HttpQuery("appId")),
+    body: Schema.optional(App).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsRequest>;
 
 export type CreateProjectsLocationsAppsResponse = Operation;
-export const CreateProjectsLocationsAppsResponse = Operation;
+export const CreateProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsAppsError = DefaultErrors;
 
@@ -4423,7 +4516,7 @@ export const createProjectsLocationsApps: API.OperationMethod<
   CreateProjectsLocationsAppsResponse,
   CreateProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsRequest,
   output: CreateProjectsLocationsAppsResponse,
   errors: [],
@@ -4436,20 +4529,22 @@ export interface ExecuteToolProjectsLocationsAppsRequest {
   body?: ExecuteToolRequest;
 }
 
-export const ExecuteToolProjectsLocationsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExecuteToolRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:executeTool",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecuteToolProjectsLocationsAppsRequest>;
+export const ExecuteToolProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExecuteToolRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:executeTool",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteToolProjectsLocationsAppsRequest>;
 
 export type ExecuteToolProjectsLocationsAppsResponse = ExecuteToolResponse;
-export const ExecuteToolProjectsLocationsAppsResponse = ExecuteToolResponse;
+export const ExecuteToolProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ExecuteToolResponse;
 
 export type ExecuteToolProjectsLocationsAppsError = DefaultErrors;
 
@@ -4459,7 +4554,7 @@ export const executeToolProjectsLocationsApps: API.OperationMethod<
   ExecuteToolProjectsLocationsAppsResponse,
   ExecuteToolProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteToolProjectsLocationsAppsRequest,
   output: ExecuteToolProjectsLocationsAppsResponse,
   errors: [],
@@ -4472,20 +4567,22 @@ export interface ExportAppProjectsLocationsAppsRequest {
   body?: ExportAppRequest;
 }
 
-export const ExportAppProjectsLocationsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ExportAppRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:exportApp",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportAppProjectsLocationsAppsRequest>;
+export const ExportAppProjectsLocationsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ExportAppRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}:exportApp",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportAppProjectsLocationsAppsRequest>;
 
 export type ExportAppProjectsLocationsAppsResponse = Operation;
-export const ExportAppProjectsLocationsAppsResponse = Operation;
+export const ExportAppProjectsLocationsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ExportAppProjectsLocationsAppsError = DefaultErrors;
 
@@ -4495,7 +4592,7 @@ export const exportAppProjectsLocationsApps: API.OperationMethod<
   ExportAppProjectsLocationsAppsResponse,
   ExportAppProjectsLocationsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAppProjectsLocationsAppsRequest,
   output: ExportAppProjectsLocationsAppsResponse,
   errors: [],
@@ -4510,21 +4607,23 @@ export interface PatchProjectsLocationsAppsDeploymentsRequest {
   body?: Deployment;
 }
 
-export const PatchProjectsLocationsAppsDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Deployment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsDeploymentsRequest>;
+export const PatchProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Deployment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsDeploymentsRequest>;
 
 export type PatchProjectsLocationsAppsDeploymentsResponse = Deployment;
-export const PatchProjectsLocationsAppsDeploymentsResponse = Deployment;
+export const PatchProjectsLocationsAppsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type PatchProjectsLocationsAppsDeploymentsError = DefaultErrors;
 
@@ -4534,7 +4633,7 @@ export const patchProjectsLocationsAppsDeployments: API.OperationMethod<
   PatchProjectsLocationsAppsDeploymentsResponse,
   PatchProjectsLocationsAppsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsDeploymentsRequest,
   output: PatchProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4547,19 +4646,21 @@ export interface DeleteProjectsLocationsAppsDeploymentsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsDeploymentsRequest = Schema.Struct({
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsDeploymentsRequest>;
+export const DeleteProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsDeploymentsRequest>;
 
 export type DeleteProjectsLocationsAppsDeploymentsResponse = Empty;
-export const DeleteProjectsLocationsAppsDeploymentsResponse = Empty;
+export const DeleteProjectsLocationsAppsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsDeploymentsError = DefaultErrors;
 
@@ -4569,7 +4670,7 @@ export const deleteProjectsLocationsAppsDeployments: API.OperationMethod<
   DeleteProjectsLocationsAppsDeploymentsResponse,
   DeleteProjectsLocationsAppsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsDeploymentsRequest,
   output: DeleteProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4584,23 +4685,25 @@ export interface CreateProjectsLocationsAppsDeploymentsRequest {
   body?: Deployment;
 }
 
-export const CreateProjectsLocationsAppsDeploymentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  deploymentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("deploymentId"),
-  ),
-  body: Schema.optional(Deployment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsDeploymentsRequest>;
+export const CreateProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    deploymentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("deploymentId"),
+    ),
+    body: Schema.optional(Deployment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsDeploymentsRequest>;
 
 export type CreateProjectsLocationsAppsDeploymentsResponse = Deployment;
-export const CreateProjectsLocationsAppsDeploymentsResponse = Deployment;
+export const CreateProjectsLocationsAppsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type CreateProjectsLocationsAppsDeploymentsError = DefaultErrors;
 
@@ -4610,7 +4713,7 @@ export const createProjectsLocationsAppsDeployments: API.OperationMethod<
   CreateProjectsLocationsAppsDeploymentsResponse,
   CreateProjectsLocationsAppsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsDeploymentsRequest,
   output: CreateProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4627,23 +4730,24 @@ export interface ListProjectsLocationsAppsDeploymentsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsAppsDeploymentsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsDeploymentsRequest>;
+export const ListProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsDeploymentsRequest>;
 
 export type ListProjectsLocationsAppsDeploymentsResponse =
   ListDeploymentsResponse;
 export const ListProjectsLocationsAppsDeploymentsResponse =
-  ListDeploymentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDeploymentsResponse;
 
 export type ListProjectsLocationsAppsDeploymentsError = DefaultErrors;
 
@@ -4653,7 +4757,7 @@ export const listProjectsLocationsAppsDeployments: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsDeploymentsResponse,
   ListProjectsLocationsAppsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsDeploymentsRequest,
   output: ListProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4668,18 +4772,20 @@ export interface GetProjectsLocationsAppsDeploymentsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsDeploymentsRequest>;
+export const GetProjectsLocationsAppsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/deployments/{deploymentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsDeploymentsRequest>;
 
 export type GetProjectsLocationsAppsDeploymentsResponse = Deployment;
-export const GetProjectsLocationsAppsDeploymentsResponse = Deployment;
+export const GetProjectsLocationsAppsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type GetProjectsLocationsAppsDeploymentsError = DefaultErrors;
 
@@ -4689,7 +4795,7 @@ export const getProjectsLocationsAppsDeployments: API.OperationMethod<
   GetProjectsLocationsAppsDeploymentsResponse,
   GetProjectsLocationsAppsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsDeploymentsRequest,
   output: GetProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4700,18 +4806,20 @@ export interface GetProjectsLocationsAppsExamplesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsExamplesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsExamplesRequest>;
+export const GetProjectsLocationsAppsExamplesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsExamplesRequest>;
 
 export type GetProjectsLocationsAppsExamplesResponse = Example;
-export const GetProjectsLocationsAppsExamplesResponse = Example;
+export const GetProjectsLocationsAppsExamplesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Example;
 
 export type GetProjectsLocationsAppsExamplesError = DefaultErrors;
 
@@ -4721,7 +4829,7 @@ export const getProjectsLocationsAppsExamples: API.OperationMethod<
   GetProjectsLocationsAppsExamplesResponse,
   GetProjectsLocationsAppsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsExamplesRequest,
   output: GetProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -4736,21 +4844,23 @@ export interface CreateProjectsLocationsAppsExamplesRequest {
   body?: Example;
 }
 
-export const CreateProjectsLocationsAppsExamplesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  exampleId: Schema.optional(Schema.String).pipe(T.HttpQuery("exampleId")),
-  body: Schema.optional(Example).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsExamplesRequest>;
+export const CreateProjectsLocationsAppsExamplesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    exampleId: Schema.optional(Schema.String).pipe(T.HttpQuery("exampleId")),
+    body: Schema.optional(Example).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsExamplesRequest>;
 
 export type CreateProjectsLocationsAppsExamplesResponse = Example;
-export const CreateProjectsLocationsAppsExamplesResponse = Example;
+export const CreateProjectsLocationsAppsExamplesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Example;
 
 export type CreateProjectsLocationsAppsExamplesError = DefaultErrors;
 
@@ -4760,7 +4870,7 @@ export const createProjectsLocationsAppsExamples: API.OperationMethod<
   CreateProjectsLocationsAppsExamplesResponse,
   CreateProjectsLocationsAppsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsExamplesRequest,
   output: CreateProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -4779,22 +4889,24 @@ export interface ListProjectsLocationsAppsExamplesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAppsExamplesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsExamplesRequest>;
+export const ListProjectsLocationsAppsExamplesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsExamplesRequest>;
 
 export type ListProjectsLocationsAppsExamplesResponse = ListExamplesResponse;
-export const ListProjectsLocationsAppsExamplesResponse = ListExamplesResponse;
+export const ListProjectsLocationsAppsExamplesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListExamplesResponse;
 
 export type ListProjectsLocationsAppsExamplesError = DefaultErrors;
 
@@ -4804,7 +4916,7 @@ export const listProjectsLocationsAppsExamples: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsExamplesResponse,
   ListProjectsLocationsAppsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsExamplesRequest,
   output: ListProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -4823,21 +4935,23 @@ export interface PatchProjectsLocationsAppsExamplesRequest {
   body?: Example;
 }
 
-export const PatchProjectsLocationsAppsExamplesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Example).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsExamplesRequest>;
+export const PatchProjectsLocationsAppsExamplesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Example).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsExamplesRequest>;
 
 export type PatchProjectsLocationsAppsExamplesResponse = Example;
-export const PatchProjectsLocationsAppsExamplesResponse = Example;
+export const PatchProjectsLocationsAppsExamplesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Example;
 
 export type PatchProjectsLocationsAppsExamplesError = DefaultErrors;
 
@@ -4847,7 +4961,7 @@ export const patchProjectsLocationsAppsExamples: API.OperationMethod<
   PatchProjectsLocationsAppsExamplesResponse,
   PatchProjectsLocationsAppsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsExamplesRequest,
   output: PatchProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -4860,19 +4974,21 @@ export interface DeleteProjectsLocationsAppsExamplesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsExamplesRequest = Schema.Struct({
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsExamplesRequest>;
+export const DeleteProjectsLocationsAppsExamplesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/examples/{examplesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsExamplesRequest>;
 
 export type DeleteProjectsLocationsAppsExamplesResponse = Empty;
-export const DeleteProjectsLocationsAppsExamplesResponse = Empty;
+export const DeleteProjectsLocationsAppsExamplesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsExamplesError = DefaultErrors;
 
@@ -4882,7 +4998,7 @@ export const deleteProjectsLocationsAppsExamples: API.OperationMethod<
   DeleteProjectsLocationsAppsExamplesResponse,
   DeleteProjectsLocationsAppsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsExamplesRequest,
   output: DeleteProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -4893,18 +5009,20 @@ export interface GetProjectsLocationsAppsToolsetsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsToolsetsRequest>;
+export const GetProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsToolsetsRequest>;
 
 export type GetProjectsLocationsAppsToolsetsResponse = Toolset;
-export const GetProjectsLocationsAppsToolsetsResponse = Toolset;
+export const GetProjectsLocationsAppsToolsetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Toolset;
 
 export type GetProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -4914,7 +5032,7 @@ export const getProjectsLocationsAppsToolsets: API.OperationMethod<
   GetProjectsLocationsAppsToolsetsResponse,
   GetProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsToolsetsRequest,
   output: GetProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -4929,21 +5047,23 @@ export interface PatchProjectsLocationsAppsToolsetsRequest {
   body?: Toolset;
 }
 
-export const PatchProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Toolset).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsToolsetsRequest>;
+export const PatchProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Toolset).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsToolsetsRequest>;
 
 export type PatchProjectsLocationsAppsToolsetsResponse = Toolset;
-export const PatchProjectsLocationsAppsToolsetsResponse = Toolset;
+export const PatchProjectsLocationsAppsToolsetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Toolset;
 
 export type PatchProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -4953,7 +5073,7 @@ export const patchProjectsLocationsAppsToolsets: API.OperationMethod<
   PatchProjectsLocationsAppsToolsetsResponse,
   PatchProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsToolsetsRequest,
   output: PatchProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -4966,22 +5086,23 @@ export interface RetrieveToolsProjectsLocationsAppsToolsetsRequest {
   body?: RetrieveToolsRequest;
 }
 
-export const RetrieveToolsProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  toolset: Schema.String.pipe(T.HttpPath("toolset")),
-  body: Schema.optional(RetrieveToolsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}:retrieveTools",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RetrieveToolsProjectsLocationsAppsToolsetsRequest>;
+export const RetrieveToolsProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    toolset: Schema.String.pipe(T.HttpPath("toolset")),
+    body: Schema.optional(RetrieveToolsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}:retrieveTools",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveToolsProjectsLocationsAppsToolsetsRequest>;
 
 export type RetrieveToolsProjectsLocationsAppsToolsetsResponse =
   RetrieveToolsResponse;
 export const RetrieveToolsProjectsLocationsAppsToolsetsResponse =
-  RetrieveToolsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RetrieveToolsResponse;
 
 export type RetrieveToolsProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -4991,7 +5112,7 @@ export const retrieveToolsProjectsLocationsAppsToolsets: API.OperationMethod<
   RetrieveToolsProjectsLocationsAppsToolsetsResponse,
   RetrieveToolsProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveToolsProjectsLocationsAppsToolsetsRequest,
   output: RetrieveToolsProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -5006,20 +5127,22 @@ export interface DeleteProjectsLocationsAppsToolsetsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsToolsetsRequest>;
+export const DeleteProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets/{toolsetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsToolsetsRequest>;
 
 export type DeleteProjectsLocationsAppsToolsetsResponse = Empty;
-export const DeleteProjectsLocationsAppsToolsetsResponse = Empty;
+export const DeleteProjectsLocationsAppsToolsetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -5029,7 +5152,7 @@ export const deleteProjectsLocationsAppsToolsets: API.OperationMethod<
   DeleteProjectsLocationsAppsToolsetsResponse,
   DeleteProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsToolsetsRequest,
   output: DeleteProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -5044,21 +5167,23 @@ export interface CreateProjectsLocationsAppsToolsetsRequest {
   body?: Toolset;
 }
 
-export const CreateProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  toolsetId: Schema.optional(Schema.String).pipe(T.HttpQuery("toolsetId")),
-  body: Schema.optional(Toolset).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsToolsetsRequest>;
+export const CreateProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    toolsetId: Schema.optional(Schema.String).pipe(T.HttpQuery("toolsetId")),
+    body: Schema.optional(Toolset).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsToolsetsRequest>;
 
 export type CreateProjectsLocationsAppsToolsetsResponse = Toolset;
-export const CreateProjectsLocationsAppsToolsetsResponse = Toolset;
+export const CreateProjectsLocationsAppsToolsetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Toolset;
 
 export type CreateProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -5068,7 +5193,7 @@ export const createProjectsLocationsAppsToolsets: API.OperationMethod<
   CreateProjectsLocationsAppsToolsetsResponse,
   CreateProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsToolsetsRequest,
   output: CreateProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -5087,22 +5212,24 @@ export interface ListProjectsLocationsAppsToolsetsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsAppsToolsetsRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsToolsetsRequest>;
+export const ListProjectsLocationsAppsToolsetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/toolsets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsToolsetsRequest>;
 
 export type ListProjectsLocationsAppsToolsetsResponse = ListToolsetsResponse;
-export const ListProjectsLocationsAppsToolsetsResponse = ListToolsetsResponse;
+export const ListProjectsLocationsAppsToolsetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListToolsetsResponse;
 
 export type ListProjectsLocationsAppsToolsetsError = DefaultErrors;
 
@@ -5112,7 +5239,7 @@ export const listProjectsLocationsAppsToolsets: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsToolsetsResponse,
   ListProjectsLocationsAppsToolsetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsToolsetsRequest,
   output: ListProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -5131,20 +5258,22 @@ export interface DeleteProjectsLocationsAppsToolsRequest {
   etag?: string;
 }
 
-export const DeleteProjectsLocationsAppsToolsRequest = Schema.Struct({
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsToolsRequest>;
+export const DeleteProjectsLocationsAppsToolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsToolsRequest>;
 
 export type DeleteProjectsLocationsAppsToolsResponse = Empty;
-export const DeleteProjectsLocationsAppsToolsResponse = Empty;
+export const DeleteProjectsLocationsAppsToolsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsToolsError = DefaultErrors;
 
@@ -5154,7 +5283,7 @@ export const deleteProjectsLocationsAppsTools: API.OperationMethod<
   DeleteProjectsLocationsAppsToolsResponse,
   DeleteProjectsLocationsAppsToolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsToolsRequest,
   output: DeleteProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -5169,21 +5298,23 @@ export interface PatchProjectsLocationsAppsToolsRequest {
   body?: Tool;
 }
 
-export const PatchProjectsLocationsAppsToolsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Tool).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsToolsRequest>;
+export const PatchProjectsLocationsAppsToolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Tool).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsToolsRequest>;
 
 export type PatchProjectsLocationsAppsToolsResponse = Tool;
-export const PatchProjectsLocationsAppsToolsResponse = Tool;
+export const PatchProjectsLocationsAppsToolsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tool;
 
 export type PatchProjectsLocationsAppsToolsError = DefaultErrors;
 
@@ -5193,7 +5324,7 @@ export const patchProjectsLocationsAppsTools: API.OperationMethod<
   PatchProjectsLocationsAppsToolsResponse,
   PatchProjectsLocationsAppsToolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsToolsRequest,
   output: PatchProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -5204,18 +5335,20 @@ export interface GetProjectsLocationsAppsToolsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsToolsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsToolsRequest>;
+export const GetProjectsLocationsAppsToolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools/{toolsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsToolsRequest>;
 
 export type GetProjectsLocationsAppsToolsResponse = Tool;
-export const GetProjectsLocationsAppsToolsResponse = Tool;
+export const GetProjectsLocationsAppsToolsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tool;
 
 export type GetProjectsLocationsAppsToolsError = DefaultErrors;
 
@@ -5225,7 +5358,7 @@ export const getProjectsLocationsAppsTools: API.OperationMethod<
   GetProjectsLocationsAppsToolsResponse,
   GetProjectsLocationsAppsToolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsToolsRequest,
   output: GetProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -5240,21 +5373,23 @@ export interface CreateProjectsLocationsAppsToolsRequest {
   body?: Tool;
 }
 
-export const CreateProjectsLocationsAppsToolsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  toolId: Schema.optional(Schema.String).pipe(T.HttpQuery("toolId")),
-  body: Schema.optional(Tool).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsToolsRequest>;
+export const CreateProjectsLocationsAppsToolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    toolId: Schema.optional(Schema.String).pipe(T.HttpQuery("toolId")),
+    body: Schema.optional(Tool).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsToolsRequest>;
 
 export type CreateProjectsLocationsAppsToolsResponse = Tool;
-export const CreateProjectsLocationsAppsToolsResponse = Tool;
+export const CreateProjectsLocationsAppsToolsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tool;
 
 export type CreateProjectsLocationsAppsToolsError = DefaultErrors;
 
@@ -5264,7 +5399,7 @@ export const createProjectsLocationsAppsTools: API.OperationMethod<
   CreateProjectsLocationsAppsToolsResponse,
   CreateProjectsLocationsAppsToolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsToolsRequest,
   output: CreateProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -5283,22 +5418,24 @@ export interface ListProjectsLocationsAppsToolsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsAppsToolsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsToolsRequest>;
+export const ListProjectsLocationsAppsToolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/tools",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsToolsRequest>;
 
 export type ListProjectsLocationsAppsToolsResponse = ListToolsResponse;
-export const ListProjectsLocationsAppsToolsResponse = ListToolsResponse;
+export const ListProjectsLocationsAppsToolsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListToolsResponse;
 
 export type ListProjectsLocationsAppsToolsError = DefaultErrors;
 
@@ -5308,7 +5445,7 @@ export const listProjectsLocationsAppsTools: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsToolsResponse,
   ListProjectsLocationsAppsToolsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsToolsRequest,
   output: ListProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -5326,7 +5463,7 @@ export interface BatchDeleteProjectsLocationsAppsConversationsRequest {
 }
 
 export const BatchDeleteProjectsLocationsAppsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(BatchDeleteConversationsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -5339,7 +5476,8 @@ export const BatchDeleteProjectsLocationsAppsConversationsRequest =
   ) as unknown as Schema.Schema<BatchDeleteProjectsLocationsAppsConversationsRequest>;
 
 export type BatchDeleteProjectsLocationsAppsConversationsResponse = Operation;
-export const BatchDeleteProjectsLocationsAppsConversationsResponse = Operation;
+export const BatchDeleteProjectsLocationsAppsConversationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type BatchDeleteProjectsLocationsAppsConversationsError = DefaultErrors;
 
@@ -5349,7 +5487,7 @@ export const batchDeleteProjectsLocationsAppsConversations: API.OperationMethod<
   BatchDeleteProjectsLocationsAppsConversationsResponse,
   BatchDeleteProjectsLocationsAppsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteProjectsLocationsAppsConversationsRequest,
   output: BatchDeleteProjectsLocationsAppsConversationsResponse,
   errors: [],
@@ -5375,27 +5513,28 @@ export interface ListProjectsLocationsAppsConversationsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsAppsConversationsRequest = Schema.Struct({
-  sources: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("sources"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsConversationsRequest>;
+export const ListProjectsLocationsAppsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    sources: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("sources"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsConversationsRequest>;
 
 export type ListProjectsLocationsAppsConversationsResponse =
   ListConversationsResponse;
 export const ListProjectsLocationsAppsConversationsResponse =
-  ListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListConversationsResponse;
 
 export type ListProjectsLocationsAppsConversationsError = DefaultErrors;
 
@@ -5405,7 +5544,7 @@ export const listProjectsLocationsAppsConversations: API.PaginatedOperationMetho
   ListProjectsLocationsAppsConversationsResponse,
   ListProjectsLocationsAppsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsConversationsRequest,
   output: ListProjectsLocationsAppsConversationsResponse,
   errors: [],
@@ -5422,19 +5561,21 @@ export interface GetProjectsLocationsAppsConversationsRequest {
   source?: "SOURCE_UNSPECIFIED" | "LIVE" | "SIMULATOR" | "EVAL" | (string & {});
 }
 
-export const GetProjectsLocationsAppsConversationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsConversationsRequest>;
+export const GetProjectsLocationsAppsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsConversationsRequest>;
 
 export type GetProjectsLocationsAppsConversationsResponse = Conversation;
-export const GetProjectsLocationsAppsConversationsResponse = Conversation;
+export const GetProjectsLocationsAppsConversationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Conversation;
 
 export type GetProjectsLocationsAppsConversationsError = DefaultErrors;
 
@@ -5444,7 +5585,7 @@ export const getProjectsLocationsAppsConversations: API.OperationMethod<
   GetProjectsLocationsAppsConversationsResponse,
   GetProjectsLocationsAppsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsConversationsRequest,
   output: GetProjectsLocationsAppsConversationsResponse,
   errors: [],
@@ -5457,19 +5598,21 @@ export interface DeleteProjectsLocationsAppsConversationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsConversationsRequest = Schema.Struct({
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsConversationsRequest>;
+export const DeleteProjectsLocationsAppsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsConversationsRequest>;
 
 export type DeleteProjectsLocationsAppsConversationsResponse = Empty;
-export const DeleteProjectsLocationsAppsConversationsResponse = Empty;
+export const DeleteProjectsLocationsAppsConversationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsConversationsError = DefaultErrors;
 
@@ -5479,7 +5622,7 @@ export const deleteProjectsLocationsAppsConversations: API.OperationMethod<
   DeleteProjectsLocationsAppsConversationsResponse,
   DeleteProjectsLocationsAppsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsConversationsRequest,
   output: DeleteProjectsLocationsAppsConversationsResponse,
   errors: [],
@@ -5494,20 +5637,22 @@ export interface DeleteProjectsLocationsAppsAgentsRequest {
   etag?: string;
 }
 
-export const DeleteProjectsLocationsAppsAgentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsAgentsRequest>;
+export const DeleteProjectsLocationsAppsAgentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsAgentsRequest>;
 
 export type DeleteProjectsLocationsAppsAgentsResponse = Empty;
-export const DeleteProjectsLocationsAppsAgentsResponse = Empty;
+export const DeleteProjectsLocationsAppsAgentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsAgentsError = DefaultErrors;
 
@@ -5517,7 +5662,7 @@ export const deleteProjectsLocationsAppsAgents: API.OperationMethod<
   DeleteProjectsLocationsAppsAgentsResponse,
   DeleteProjectsLocationsAppsAgentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsAgentsRequest,
   output: DeleteProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -5536,22 +5681,24 @@ export interface ListProjectsLocationsAppsAgentsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAppsAgentsRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsAgentsRequest>;
+export const ListProjectsLocationsAppsAgentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsAgentsRequest>;
 
 export type ListProjectsLocationsAppsAgentsResponse = ListAgentsResponse;
-export const ListProjectsLocationsAppsAgentsResponse = ListAgentsResponse;
+export const ListProjectsLocationsAppsAgentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAgentsResponse;
 
 export type ListProjectsLocationsAppsAgentsError = DefaultErrors;
 
@@ -5561,7 +5708,7 @@ export const listProjectsLocationsAppsAgents: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsAgentsResponse,
   ListProjectsLocationsAppsAgentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsAgentsRequest,
   output: ListProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -5580,21 +5727,23 @@ export interface CreateProjectsLocationsAppsAgentsRequest {
   body?: Agent;
 }
 
-export const CreateProjectsLocationsAppsAgentsRequest = Schema.Struct({
-  agentId: Schema.optional(Schema.String).pipe(T.HttpQuery("agentId")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Agent).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsAgentsRequest>;
+export const CreateProjectsLocationsAppsAgentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    agentId: Schema.optional(Schema.String).pipe(T.HttpQuery("agentId")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Agent).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsAgentsRequest>;
 
 export type CreateProjectsLocationsAppsAgentsResponse = Agent;
-export const CreateProjectsLocationsAppsAgentsResponse = Agent;
+export const CreateProjectsLocationsAppsAgentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Agent;
 
 export type CreateProjectsLocationsAppsAgentsError = DefaultErrors;
 
@@ -5604,7 +5753,7 @@ export const createProjectsLocationsAppsAgents: API.OperationMethod<
   CreateProjectsLocationsAppsAgentsResponse,
   CreateProjectsLocationsAppsAgentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsAgentsRequest,
   output: CreateProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -5619,21 +5768,23 @@ export interface PatchProjectsLocationsAppsAgentsRequest {
   body?: Agent;
 }
 
-export const PatchProjectsLocationsAppsAgentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Agent).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsAgentsRequest>;
+export const PatchProjectsLocationsAppsAgentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Agent).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsAgentsRequest>;
 
 export type PatchProjectsLocationsAppsAgentsResponse = Agent;
-export const PatchProjectsLocationsAppsAgentsResponse = Agent;
+export const PatchProjectsLocationsAppsAgentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Agent;
 
 export type PatchProjectsLocationsAppsAgentsError = DefaultErrors;
 
@@ -5643,7 +5794,7 @@ export const patchProjectsLocationsAppsAgents: API.OperationMethod<
   PatchProjectsLocationsAppsAgentsResponse,
   PatchProjectsLocationsAppsAgentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsAgentsRequest,
   output: PatchProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -5654,18 +5805,20 @@ export interface GetProjectsLocationsAppsAgentsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsAgentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsAgentsRequest>;
+export const GetProjectsLocationsAppsAgentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/agents/{agentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsAgentsRequest>;
 
 export type GetProjectsLocationsAppsAgentsResponse = Agent;
-export const GetProjectsLocationsAppsAgentsResponse = Agent;
+export const GetProjectsLocationsAppsAgentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Agent;
 
 export type GetProjectsLocationsAppsAgentsError = DefaultErrors;
 
@@ -5675,7 +5828,7 @@ export const getProjectsLocationsAppsAgents: API.OperationMethod<
   GetProjectsLocationsAppsAgentsResponse,
   GetProjectsLocationsAppsAgentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsAgentsRequest,
   output: GetProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -5694,23 +5847,24 @@ export interface ListProjectsLocationsAppsVersionsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAppsVersionsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsVersionsRequest>;
+export const ListProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsVersionsRequest>;
 
 export type ListProjectsLocationsAppsVersionsResponse = ListAppVersionsResponse;
 export const ListProjectsLocationsAppsVersionsResponse =
-  ListAppVersionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAppVersionsResponse;
 
 export type ListProjectsLocationsAppsVersionsError = DefaultErrors;
 
@@ -5720,7 +5874,7 @@ export const listProjectsLocationsAppsVersions: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsVersionsResponse,
   ListProjectsLocationsAppsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsVersionsRequest,
   output: ListProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -5735,18 +5889,20 @@ export interface GetProjectsLocationsAppsVersionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsVersionsRequest>;
+export const GetProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsVersionsRequest>;
 
 export type GetProjectsLocationsAppsVersionsResponse = AppVersion;
-export const GetProjectsLocationsAppsVersionsResponse = AppVersion;
+export const GetProjectsLocationsAppsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AppVersion;
 
 export type GetProjectsLocationsAppsVersionsError = DefaultErrors;
 
@@ -5756,7 +5912,7 @@ export const getProjectsLocationsAppsVersions: API.OperationMethod<
   GetProjectsLocationsAppsVersionsResponse,
   GetProjectsLocationsAppsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsVersionsRequest,
   output: GetProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -5771,23 +5927,25 @@ export interface CreateProjectsLocationsAppsVersionsRequest {
   body?: AppVersion;
 }
 
-export const CreateProjectsLocationsAppsVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  appVersionId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("appVersionId"),
-  ),
-  body: Schema.optional(AppVersion).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsVersionsRequest>;
+export const CreateProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    appVersionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("appVersionId"),
+    ),
+    body: Schema.optional(AppVersion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsVersionsRequest>;
 
 export type CreateProjectsLocationsAppsVersionsResponse = AppVersion;
-export const CreateProjectsLocationsAppsVersionsResponse = AppVersion;
+export const CreateProjectsLocationsAppsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AppVersion;
 
 export type CreateProjectsLocationsAppsVersionsError = DefaultErrors;
 
@@ -5797,7 +5955,7 @@ export const createProjectsLocationsAppsVersions: API.OperationMethod<
   CreateProjectsLocationsAppsVersionsResponse,
   CreateProjectsLocationsAppsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsVersionsRequest,
   output: CreateProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -5810,20 +5968,22 @@ export interface RestoreProjectsLocationsAppsVersionsRequest {
   body?: RestoreAppVersionRequest;
 }
 
-export const RestoreProjectsLocationsAppsVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RestoreAppVersionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}:restore",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RestoreProjectsLocationsAppsVersionsRequest>;
+export const RestoreProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RestoreAppVersionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}:restore",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RestoreProjectsLocationsAppsVersionsRequest>;
 
 export type RestoreProjectsLocationsAppsVersionsResponse = Operation;
-export const RestoreProjectsLocationsAppsVersionsResponse = Operation;
+export const RestoreProjectsLocationsAppsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type RestoreProjectsLocationsAppsVersionsError = DefaultErrors;
 
@@ -5833,7 +5993,7 @@ export const restoreProjectsLocationsAppsVersions: API.OperationMethod<
   RestoreProjectsLocationsAppsVersionsResponse,
   RestoreProjectsLocationsAppsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreProjectsLocationsAppsVersionsRequest,
   output: RestoreProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -5846,19 +6006,21 @@ export interface DeleteProjectsLocationsAppsVersionsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsVersionsRequest = Schema.Struct({
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsVersionsRequest>;
+export const DeleteProjectsLocationsAppsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsVersionsRequest>;
 
 export type DeleteProjectsLocationsAppsVersionsResponse = Empty;
-export const DeleteProjectsLocationsAppsVersionsResponse = Empty;
+export const DeleteProjectsLocationsAppsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsVersionsError = DefaultErrors;
 
@@ -5868,7 +6030,7 @@ export const deleteProjectsLocationsAppsVersions: API.OperationMethod<
   DeleteProjectsLocationsAppsVersionsResponse,
   DeleteProjectsLocationsAppsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsVersionsRequest,
   output: DeleteProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -5879,18 +6041,20 @@ export interface GetProjectsLocationsAppsChangelogsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsChangelogsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/changelogs/{changelogsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsChangelogsRequest>;
+export const GetProjectsLocationsAppsChangelogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/changelogs/{changelogsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsChangelogsRequest>;
 
 export type GetProjectsLocationsAppsChangelogsResponse = Changelog;
-export const GetProjectsLocationsAppsChangelogsResponse = Changelog;
+export const GetProjectsLocationsAppsChangelogsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Changelog;
 
 export type GetProjectsLocationsAppsChangelogsError = DefaultErrors;
 
@@ -5900,7 +6064,7 @@ export const getProjectsLocationsAppsChangelogs: API.OperationMethod<
   GetProjectsLocationsAppsChangelogsResponse,
   GetProjectsLocationsAppsChangelogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsChangelogsRequest,
   output: GetProjectsLocationsAppsChangelogsResponse,
   errors: [],
@@ -5919,24 +6083,25 @@ export interface ListProjectsLocationsAppsChangelogsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsAppsChangelogsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/changelogs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsChangelogsRequest>;
+export const ListProjectsLocationsAppsChangelogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/changelogs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsChangelogsRequest>;
 
 export type ListProjectsLocationsAppsChangelogsResponse =
   ListChangelogsResponse;
 export const ListProjectsLocationsAppsChangelogsResponse =
-  ListChangelogsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListChangelogsResponse;
 
 export type ListProjectsLocationsAppsChangelogsError = DefaultErrors;
 
@@ -5946,7 +6111,7 @@ export const listProjectsLocationsAppsChangelogs: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsChangelogsResponse,
   ListProjectsLocationsAppsChangelogsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsChangelogsRequest,
   output: ListProjectsLocationsAppsChangelogsResponse,
   errors: [],
@@ -5964,7 +6129,7 @@ export interface GenerateChatTokenProjectsLocationsAppsSessionsRequest {
 }
 
 export const GenerateChatTokenProjectsLocationsAppsSessionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GenerateChatTokenRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -5979,7 +6144,7 @@ export const GenerateChatTokenProjectsLocationsAppsSessionsRequest =
 export type GenerateChatTokenProjectsLocationsAppsSessionsResponse =
   GenerateChatTokenResponse;
 export const GenerateChatTokenProjectsLocationsAppsSessionsResponse =
-  GenerateChatTokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateChatTokenResponse;
 
 export type GenerateChatTokenProjectsLocationsAppsSessionsError = DefaultErrors;
 
@@ -5989,7 +6154,7 @@ export const generateChatTokenProjectsLocationsAppsSessions: API.OperationMethod
   GenerateChatTokenProjectsLocationsAppsSessionsResponse,
   GenerateChatTokenProjectsLocationsAppsSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateChatTokenProjectsLocationsAppsSessionsRequest,
   output: GenerateChatTokenProjectsLocationsAppsSessionsResponse,
   errors: [],
@@ -6002,22 +6167,23 @@ export interface RunSessionProjectsLocationsAppsSessionsRequest {
   body?: RunSessionRequest;
 }
 
-export const RunSessionProjectsLocationsAppsSessionsRequest = Schema.Struct({
-  session: Schema.String.pipe(T.HttpPath("session")),
-  body: Schema.optional(RunSessionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/sessions/{sessionsId}:runSession",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunSessionProjectsLocationsAppsSessionsRequest>;
+export const RunSessionProjectsLocationsAppsSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    session: Schema.String.pipe(T.HttpPath("session")),
+    body: Schema.optional(RunSessionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/sessions/{sessionsId}:runSession",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunSessionProjectsLocationsAppsSessionsRequest>;
 
 export type RunSessionProjectsLocationsAppsSessionsResponse =
   RunSessionResponse;
 export const RunSessionProjectsLocationsAppsSessionsResponse =
-  RunSessionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RunSessionResponse;
 
 export type RunSessionProjectsLocationsAppsSessionsError = DefaultErrors;
 
@@ -6027,7 +6193,7 @@ export const runSessionProjectsLocationsAppsSessions: API.OperationMethod<
   RunSessionProjectsLocationsAppsSessionsResponse,
   RunSessionProjectsLocationsAppsSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunSessionProjectsLocationsAppsSessionsRequest,
   output: RunSessionProjectsLocationsAppsSessionsResponse,
   errors: [],
@@ -6042,21 +6208,23 @@ export interface PatchProjectsLocationsAppsGuardrailsRequest {
   body?: Guardrail;
 }
 
-export const PatchProjectsLocationsAppsGuardrailsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Guardrail).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAppsGuardrailsRequest>;
+export const PatchProjectsLocationsAppsGuardrailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Guardrail).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAppsGuardrailsRequest>;
 
 export type PatchProjectsLocationsAppsGuardrailsResponse = Guardrail;
-export const PatchProjectsLocationsAppsGuardrailsResponse = Guardrail;
+export const PatchProjectsLocationsAppsGuardrailsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Guardrail;
 
 export type PatchProjectsLocationsAppsGuardrailsError = DefaultErrors;
 
@@ -6066,7 +6234,7 @@ export const patchProjectsLocationsAppsGuardrails: API.OperationMethod<
   PatchProjectsLocationsAppsGuardrailsResponse,
   PatchProjectsLocationsAppsGuardrailsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAppsGuardrailsRequest,
   output: PatchProjectsLocationsAppsGuardrailsResponse,
   errors: [],
@@ -6081,20 +6249,22 @@ export interface DeleteProjectsLocationsAppsGuardrailsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAppsGuardrailsRequest = Schema.Struct({
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAppsGuardrailsRequest>;
+export const DeleteProjectsLocationsAppsGuardrailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAppsGuardrailsRequest>;
 
 export type DeleteProjectsLocationsAppsGuardrailsResponse = Empty;
-export const DeleteProjectsLocationsAppsGuardrailsResponse = Empty;
+export const DeleteProjectsLocationsAppsGuardrailsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsAppsGuardrailsError = DefaultErrors;
 
@@ -6104,7 +6274,7 @@ export const deleteProjectsLocationsAppsGuardrails: API.OperationMethod<
   DeleteProjectsLocationsAppsGuardrailsResponse,
   DeleteProjectsLocationsAppsGuardrailsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAppsGuardrailsRequest,
   output: DeleteProjectsLocationsAppsGuardrailsResponse,
   errors: [],
@@ -6123,24 +6293,25 @@ export interface ListProjectsLocationsAppsGuardrailsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsAppsGuardrailsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAppsGuardrailsRequest>;
+export const ListProjectsLocationsAppsGuardrailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAppsGuardrailsRequest>;
 
 export type ListProjectsLocationsAppsGuardrailsResponse =
   ListGuardrailsResponse;
 export const ListProjectsLocationsAppsGuardrailsResponse =
-  ListGuardrailsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListGuardrailsResponse;
 
 export type ListProjectsLocationsAppsGuardrailsError = DefaultErrors;
 
@@ -6150,7 +6321,7 @@ export const listProjectsLocationsAppsGuardrails: API.PaginatedOperationMethod<
   ListProjectsLocationsAppsGuardrailsResponse,
   ListProjectsLocationsAppsGuardrailsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAppsGuardrailsRequest,
   output: ListProjectsLocationsAppsGuardrailsResponse,
   errors: [],
@@ -6169,21 +6340,25 @@ export interface CreateProjectsLocationsAppsGuardrailsRequest {
   body?: Guardrail;
 }
 
-export const CreateProjectsLocationsAppsGuardrailsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  guardrailId: Schema.optional(Schema.String).pipe(T.HttpQuery("guardrailId")),
-  body: Schema.optional(Guardrail).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsGuardrailsRequest>;
+export const CreateProjectsLocationsAppsGuardrailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    guardrailId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("guardrailId"),
+    ),
+    body: Schema.optional(Guardrail).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsGuardrailsRequest>;
 
 export type CreateProjectsLocationsAppsGuardrailsResponse = Guardrail;
-export const CreateProjectsLocationsAppsGuardrailsResponse = Guardrail;
+export const CreateProjectsLocationsAppsGuardrailsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Guardrail;
 
 export type CreateProjectsLocationsAppsGuardrailsError = DefaultErrors;
 
@@ -6193,7 +6368,7 @@ export const createProjectsLocationsAppsGuardrails: API.OperationMethod<
   CreateProjectsLocationsAppsGuardrailsResponse,
   CreateProjectsLocationsAppsGuardrailsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsGuardrailsRequest,
   output: CreateProjectsLocationsAppsGuardrailsResponse,
   errors: [],
@@ -6204,18 +6379,20 @@ export interface GetProjectsLocationsAppsGuardrailsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAppsGuardrailsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAppsGuardrailsRequest>;
+export const GetProjectsLocationsAppsGuardrailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/apps/{appsId}/guardrails/{guardrailsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAppsGuardrailsRequest>;
 
 export type GetProjectsLocationsAppsGuardrailsResponse = Guardrail;
-export const GetProjectsLocationsAppsGuardrailsResponse = Guardrail;
+export const GetProjectsLocationsAppsGuardrailsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Guardrail;
 
 export type GetProjectsLocationsAppsGuardrailsError = DefaultErrors;
 
@@ -6225,7 +6402,7 @@ export const getProjectsLocationsAppsGuardrails: API.OperationMethod<
   GetProjectsLocationsAppsGuardrailsResponse,
   GetProjectsLocationsAppsGuardrailsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAppsGuardrailsRequest,
   output: GetProjectsLocationsAppsGuardrailsResponse,
   errors: [],

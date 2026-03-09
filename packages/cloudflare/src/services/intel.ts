@@ -21,7 +21,7 @@ export interface GetAsnRequest {
   accountId: string;
 }
 
-export const GetAsnRequest = Schema.Struct({
+export const GetAsnRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/asn/{asn}" }),
@@ -30,7 +30,7 @@ export const GetAsnRequest = Schema.Struct({
 export type GetAsnResponse = unknown;
 
 export const GetAsnResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetAsnResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetAsnResponse>;
 
 export type GetAsnError = DefaultErrors;
 
@@ -39,7 +39,7 @@ export const getAsn: API.OperationMethod<
   GetAsnResponse,
   GetAsnError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAsnRequest,
   output: GetAsnResponse,
   errors: [],
@@ -54,7 +54,7 @@ export interface GetAsnSubnetRequest {
   accountId: string;
 }
 
-export const GetAsnSubnetRequest = Schema.Struct({
+export const GetAsnSubnetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({
@@ -75,7 +75,7 @@ export interface GetAsnSubnetResponse {
   subnets?: string[] | null;
 }
 
-export const GetAsnSubnetResponse = Schema.Struct({
+export const GetAsnSubnetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   ipCountTotal: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
@@ -102,7 +102,7 @@ export const getAsnSubnet: API.OperationMethod<
   GetAsnSubnetResponse,
   GetAsnSubnetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAsnSubnetRequest,
   output: GetAsnSubnetResponse,
   errors: [],
@@ -153,63 +153,64 @@ export interface ListAttackSurfaceReportIssuesRequest {
   subjectNeq?: string[];
 }
 
-export const ListAttackSurfaceReportIssuesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class"),
-  ),
-  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class~neq"),
-  ),
-  issueType: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+export const ListAttackSurfaceReportIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
+    issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class"),
     ),
-  ).pipe(T.HttpQuery("issue_type")),
-  issueTypeNeq: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+    issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class~neq"),
     ),
-  ).pipe(T.HttpQuery("issue_type~neq")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product"),
-  ),
-  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product~neq"),
-  ),
-  severity: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity")),
-  severityNeq: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity~neq")),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject"),
-  ),
-  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject~neq"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/attack-surface-report/issues",
-  }),
-) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesRequest>;
+    issueType: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type")),
+    issueTypeNeq: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type~neq")),
+    product: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product"),
+    ),
+    productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product~neq"),
+    ),
+    severity: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity")),
+    severityNeq: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity~neq")),
+    subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject"),
+    ),
+    subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject~neq"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/attack-surface-report/issues",
+    }),
+  ) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesRequest>;
 
 export type ListAttackSurfaceReportIssuesResponse = {
   count?: number | null;
@@ -242,100 +243,103 @@ export type ListAttackSurfaceReportIssuesResponse = {
   perPage?: number | null;
 }[];
 
-export const ListAttackSurfaceReportIssuesResponse = Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    issues: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            dismissed: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-            issueClass: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            issueType: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "compliance_violation",
-                  "email_security",
-                  "exposed_infrastructure",
-                  "insecure_configuration",
-                  "weak_authentication",
-                  "configuration_suggestion",
+export const ListAttackSurfaceReportIssuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      issues: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              dismissed: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              issueClass: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              issueType: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "compliance_violation",
+                    "email_security",
+                    "exposed_infrastructure",
+                    "insecure_configuration",
+                    "weak_authentication",
+                    "configuration_suggestion",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-            payload: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  detectionMethod: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
+              ),
+              payload: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    detectionMethod: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    zoneTag: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      detectionMethod: "detection_method",
+                      zoneTag: "zone_tag",
+                    }),
                   ),
-                  zoneTag: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }).pipe(
-                  Schema.encodeKeys({
-                    detectionMethod: "detection_method",
-                    zoneTag: "zone_tag",
-                  }),
-                ),
-                Schema.Null,
-              ]),
+                  Schema.Null,
+                ]),
+              ),
+              resolveLink: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              resolveText: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              severity: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["Low", "Moderate", "Critical"]),
+                  Schema.Null,
+                ]),
+              ),
+              since: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              subject: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              timestamp: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                id: "id",
+                dismissed: "dismissed",
+                issueClass: "issue_class",
+                issueType: "issue_type",
+                payload: "payload",
+                resolveLink: "resolve_link",
+                resolveText: "resolve_text",
+                severity: "severity",
+                since: "since",
+                subject: "subject",
+                timestamp: "timestamp",
+              }),
             ),
-            resolveLink: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            resolveText: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            severity: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["Low", "Moderate", "Critical"]),
-                Schema.Null,
-              ]),
-            ),
-            since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            subject: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            timestamp: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              id: "id",
-              dismissed: "dismissed",
-              issueClass: "issue_class",
-              issueType: "issue_type",
-              payload: "payload",
-              resolveLink: "resolve_link",
-              resolveText: "resolve_text",
-              severity: "severity",
-              since: "since",
-              subject: "subject",
-              timestamp: "timestamp",
-            }),
           ),
-        ),
-        Schema.Null,
-      ]),
+          Schema.Null,
+        ]),
+      ),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        issues: "issues",
+        page: "page",
+        perPage: "per_page",
+      }),
     ),
-    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      count: "count",
-      issues: "issues",
-      page: "page",
-      perPage: "per_page",
-    }),
-  ),
-) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesResponse>;
+  ) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesResponse>;
 
 export type ListAttackSurfaceReportIssuesError = DefaultErrors;
 
@@ -344,7 +348,7 @@ export const listAttackSurfaceReportIssues: API.OperationMethod<
   ListAttackSurfaceReportIssuesResponse,
   ListAttackSurfaceReportIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAttackSurfaceReportIssuesRequest,
   output: ListAttackSurfaceReportIssuesResponse,
   errors: [],
@@ -391,75 +395,77 @@ export interface ClassAttackSurfaceReportIssueRequest {
   subjectNeq?: string[];
 }
 
-export const ClassAttackSurfaceReportIssueRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class"),
-  ),
-  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class~neq"),
-  ),
-  issueType: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+export const ClassAttackSurfaceReportIssueRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
+    issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class"),
     ),
-  ).pipe(T.HttpQuery("issue_type")),
-  issueTypeNeq: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+    issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class~neq"),
     ),
-  ).pipe(T.HttpQuery("issue_type~neq")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product"),
-  ),
-  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product~neq"),
-  ),
-  severity: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity")),
-  severityNeq: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity~neq")),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject"),
-  ),
-  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject~neq"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/attack-surface-report/issues/class",
-  }),
-) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueRequest>;
+    issueType: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type")),
+    issueTypeNeq: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type~neq")),
+    product: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product"),
+    ),
+    productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product~neq"),
+    ),
+    severity: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity")),
+    severityNeq: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity~neq")),
+    subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject"),
+    ),
+    subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject~neq"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/attack-surface-report/issues/class",
+    }),
+  ) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueRequest>;
 
 export type ClassAttackSurfaceReportIssueResponse = {
   count?: number | null;
   value?: string | null;
 }[];
 
-export const ClassAttackSurfaceReportIssueResponse = Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueResponse>;
+export const ClassAttackSurfaceReportIssueResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueResponse>;
 
 export type ClassAttackSurfaceReportIssueError = DefaultErrors;
 
@@ -468,7 +474,7 @@ export const classAttackSurfaceReportIssue: API.OperationMethod<
   ClassAttackSurfaceReportIssueResponse,
   ClassAttackSurfaceReportIssueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClassAttackSurfaceReportIssueRequest,
   output: ClassAttackSurfaceReportIssueResponse,
   errors: [],
@@ -482,16 +488,17 @@ export interface DismissAttackSurfaceReportIssueRequest {
   dismiss?: boolean;
 }
 
-export const DismissAttackSurfaceReportIssueRequest = Schema.Struct({
-  issueId: Schema.String.pipe(T.HttpPath("issueId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dismiss: Schema.optional(Schema.Boolean),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/intel/attack-surface-report/{issueId}/dismiss",
-  }),
-) as unknown as Schema.Schema<DismissAttackSurfaceReportIssueRequest>;
+export const DismissAttackSurfaceReportIssueRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    issueId: Schema.String.pipe(T.HttpPath("issueId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dismiss: Schema.optional(Schema.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/intel/attack-surface-report/{issueId}/dismiss",
+    }),
+  ) as unknown as Schema.Schema<DismissAttackSurfaceReportIssueRequest>;
 
 export interface DismissAttackSurfaceReportIssueResponse {
   errors: {
@@ -510,61 +517,62 @@ export interface DismissAttackSurfaceReportIssueResponse {
   success: true;
 }
 
-export const DismissAttackSurfaceReportIssueResponse = Schema.Struct({
-  errors: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+export const DismissAttackSurfaceReportIssueResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  messages: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  success: Schema.Literal(true),
-}) as unknown as Schema.Schema<DismissAttackSurfaceReportIssueResponse>;
+    success: Schema.Literal(true),
+  }) as unknown as Schema.Schema<DismissAttackSurfaceReportIssueResponse>;
 
 export type DismissAttackSurfaceReportIssueError = DefaultErrors;
 
@@ -573,7 +581,7 @@ export const dismissAttackSurfaceReportIssue: API.OperationMethod<
   DismissAttackSurfaceReportIssueResponse,
   DismissAttackSurfaceReportIssueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DismissAttackSurfaceReportIssueRequest,
   output: DismissAttackSurfaceReportIssueResponse,
   errors: [],
@@ -620,75 +628,77 @@ export interface SeverityAttackSurfaceReportIssueRequest {
   subjectNeq?: string[];
 }
 
-export const SeverityAttackSurfaceReportIssueRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class"),
-  ),
-  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class~neq"),
-  ),
-  issueType: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+export const SeverityAttackSurfaceReportIssueRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
+    issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class"),
     ),
-  ).pipe(T.HttpQuery("issue_type")),
-  issueTypeNeq: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+    issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class~neq"),
     ),
-  ).pipe(T.HttpQuery("issue_type~neq")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product"),
-  ),
-  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product~neq"),
-  ),
-  severity: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity")),
-  severityNeq: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity~neq")),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject"),
-  ),
-  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject~neq"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/attack-surface-report/issues/severity",
-  }),
-) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueRequest>;
+    issueType: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type")),
+    issueTypeNeq: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type~neq")),
+    product: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product"),
+    ),
+    productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product~neq"),
+    ),
+    severity: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity")),
+    severityNeq: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity~neq")),
+    subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject"),
+    ),
+    subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject~neq"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/attack-surface-report/issues/severity",
+    }),
+  ) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueRequest>;
 
 export type SeverityAttackSurfaceReportIssueResponse = {
   count?: number | null;
   value?: string | null;
 }[];
 
-export const SeverityAttackSurfaceReportIssueResponse = Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueResponse>;
+export const SeverityAttackSurfaceReportIssueResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueResponse>;
 
 export type SeverityAttackSurfaceReportIssueError = DefaultErrors;
 
@@ -697,7 +707,7 @@ export const severityAttackSurfaceReportIssue: API.OperationMethod<
   SeverityAttackSurfaceReportIssueResponse,
   SeverityAttackSurfaceReportIssueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SeverityAttackSurfaceReportIssueRequest,
   output: SeverityAttackSurfaceReportIssueResponse,
   errors: [],
@@ -744,75 +754,77 @@ export interface TypeAttackSurfaceReportIssueRequest {
   subjectNeq?: string[];
 }
 
-export const TypeAttackSurfaceReportIssueRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
-  issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class"),
-  ),
-  issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("issue_class~neq"),
-  ),
-  issueType: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+export const TypeAttackSurfaceReportIssueRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dismissed: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dismissed")),
+    issueClass: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class"),
     ),
-  ).pipe(T.HttpQuery("issue_type")),
-  issueTypeNeq: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "compliance_violation",
-        "email_security",
-        "exposed_infrastructure",
-        "insecure_configuration",
-        "weak_authentication",
-        "configuration_suggestion",
-      ]),
+    issueClassNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("issue_class~neq"),
     ),
-  ).pipe(T.HttpQuery("issue_type~neq")),
-  product: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product"),
-  ),
-  productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("product~neq"),
-  ),
-  severity: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity")),
-  severityNeq: Schema.optional(
-    Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
-  ).pipe(T.HttpQuery("severity~neq")),
-  subject: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject"),
-  ),
-  subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("subject~neq"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/attack-surface-report/issues/type",
-  }),
-) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueRequest>;
+    issueType: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type")),
+    issueTypeNeq: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "compliance_violation",
+          "email_security",
+          "exposed_infrastructure",
+          "insecure_configuration",
+          "weak_authentication",
+          "configuration_suggestion",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("issue_type~neq")),
+    product: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product"),
+    ),
+    productNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("product~neq"),
+    ),
+    severity: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity")),
+    severityNeq: Schema.optional(
+      Schema.Array(Schema.Literals(["low", "moderate", "critical"])),
+    ).pipe(T.HttpQuery("severity~neq")),
+    subject: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject"),
+    ),
+    subjectNeq: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("subject~neq"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/attack-surface-report/issues/type",
+    }),
+  ) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueRequest>;
 
 export type TypeAttackSurfaceReportIssueResponse = {
   count?: number | null;
   value?: string | null;
 }[];
 
-export const TypeAttackSurfaceReportIssueResponse = Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueResponse>;
+export const TypeAttackSurfaceReportIssueResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueResponse>;
 
 export type TypeAttackSurfaceReportIssueError = DefaultErrors;
 
@@ -821,7 +833,7 @@ export const typeAttackSurfaceReportIssue: API.OperationMethod<
   TypeAttackSurfaceReportIssueResponse,
   TypeAttackSurfaceReportIssueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TypeAttackSurfaceReportIssueRequest,
   output: TypeAttackSurfaceReportIssueResponse,
   errors: [],
@@ -836,20 +848,22 @@ export interface GetAttackSurfaceReportIssueTypeRequest {
   accountId: string;
 }
 
-export const GetAttackSurfaceReportIssueTypeRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/attack-surface-report/issue-types",
-  }),
-) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeRequest>;
+export const GetAttackSurfaceReportIssueTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/attack-surface-report/issue-types",
+    }),
+  ) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeRequest>;
 
 export type GetAttackSurfaceReportIssueTypeResponse = string[];
 
-export const GetAttackSurfaceReportIssueTypeResponse = Schema.Array(
-  Schema.String,
-) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeResponse>;
+export const GetAttackSurfaceReportIssueTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.String,
+  ) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeResponse>;
 
 export type GetAttackSurfaceReportIssueTypeError = DefaultErrors;
 
@@ -858,7 +872,7 @@ export const getAttackSurfaceReportIssueType: API.OperationMethod<
   GetAttackSurfaceReportIssueTypeResponse,
   GetAttackSurfaceReportIssueTypeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttackSurfaceReportIssueTypeRequest,
   output: GetAttackSurfaceReportIssueTypeResponse,
   errors: [],
@@ -877,7 +891,7 @@ export interface ListDnsRequest {
   startEndParams?: { end?: string; start?: string };
 }
 
-export const ListDnsRequest = Schema.Struct({
+export const ListDnsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   ipv4: Schema.optional(Schema.String).pipe(T.HttpQuery("ipv4")),
   startEndParams: Schema.optional(
@@ -903,7 +917,7 @@ export type ListDnsResponse = {
     | null;
 }[];
 
-export const ListDnsResponse = Schema.Array(
+export const ListDnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
@@ -949,7 +963,7 @@ export const listDns: API.OperationMethod<
   ListDnsResponse,
   ListDnsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDnsRequest,
   output: ListDnsResponse,
   errors: [],
@@ -966,7 +980,7 @@ export interface GetDomainRequest {
   domain?: string;
 }
 
-export const GetDomainRequest = Schema.Struct({
+export const GetDomainRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
 }).pipe(
@@ -1017,7 +1031,7 @@ export interface GetDomainResponse {
     | null;
 }
 
-export const GetDomainResponse = Schema.Struct({
+export const GetDomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   additionalInformation: Schema.optional(
     Schema.Union([
       Schema.Struct({
@@ -1159,7 +1173,7 @@ export const getDomain: API.OperationMethod<
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResponse,
   errors: [],
@@ -1176,7 +1190,7 @@ export interface GetDomainBulkRequest {
   domain?: string[];
 }
 
-export const GetDomainBulkRequest = Schema.Struct({
+export const GetDomainBulkRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   domain: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("domain"),
@@ -1222,7 +1236,7 @@ export type GetDomainBulkResponse = {
     | null;
 }[];
 
-export const GetDomainBulkResponse = Schema.Array(
+export const GetDomainBulkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     additionalInformation: Schema.optional(
       Schema.Union([
@@ -1354,7 +1368,7 @@ export const getDomainBulk: API.OperationMethod<
   GetDomainBulkResponse,
   GetDomainBulkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainBulkRequest,
   output: GetDomainBulkResponse,
   errors: [],
@@ -1371,15 +1385,16 @@ export interface GetDomainHistoryRequest {
   domain?: string;
 }
 
-export const GetDomainHistoryRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/domain-history",
-  }),
-) as unknown as Schema.Schema<GetDomainHistoryRequest>;
+export const GetDomainHistoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/domain-history",
+    }),
+  ) as unknown as Schema.Schema<GetDomainHistoryRequest>;
 
 export type GetDomainHistoryResponse = {
   categorizations?:
@@ -1392,37 +1407,40 @@ export type GetDomainHistoryResponse = {
   domain?: string | null;
 }[];
 
-export const GetDomainHistoryResponse = Schema.Array(
-  Schema.Struct({
-    categorizations: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            categories: Schema.optional(
-              Schema.Union([
-                Schema.Array(
-                  Schema.Struct({
-                    id: Schema.optional(
-                      Schema.Union([Schema.Number, Schema.Null]),
-                    ),
-                    name: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                  }),
-                ),
-                Schema.Null,
-              ]),
-            ),
-            end: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            start: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    domain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<GetDomainHistoryResponse>;
+export const GetDomainHistoryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      categorizations: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              categories: Schema.optional(
+                Schema.Union([
+                  Schema.Array(
+                    Schema.Struct({
+                      id: Schema.optional(
+                        Schema.Union([Schema.Number, Schema.Null]),
+                      ),
+                      name: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+              end: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              start: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      domain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<GetDomainHistoryResponse>;
 
 export type GetDomainHistoryError = DefaultErrors;
 
@@ -1431,7 +1449,7 @@ export const getDomainHistory: API.OperationMethod<
   GetDomainHistoryResponse,
   GetDomainHistoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainHistoryRequest,
   output: GetDomainHistoryResponse,
   errors: [],
@@ -1447,15 +1465,16 @@ export interface GetIndicatorFeedRequest {
   accountId: string;
 }
 
-export const GetIndicatorFeedRequest = Schema.Struct({
-  feedId: Schema.Number.pipe(T.HttpPath("feedId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
-  }),
-) as unknown as Schema.Schema<GetIndicatorFeedRequest>;
+export const GetIndicatorFeedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    feedId: Schema.Number.pipe(T.HttpPath("feedId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
+    }),
+  ) as unknown as Schema.Schema<GetIndicatorFeedRequest>;
 
 export interface GetIndicatorFeedResponse {
   /** The unique identifier for the indicator feed */
@@ -1489,45 +1508,50 @@ export interface GetIndicatorFeedResponse {
   providerName?: string | null;
 }
 
-export const GetIndicatorFeedResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isAttributable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isDownloadable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  latestUploadStatus: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "Mirroring",
-        "Unifying",
-        "Loading",
-        "Provisioning",
-        "Complete",
-        "Error",
+export const GetIndicatorFeedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isAttributable: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    isDownloadable: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    latestUploadStatus: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "Mirroring",
+          "Unifying",
+          "Loading",
+          "Provisioning",
+          "Complete",
+          "Error",
+        ]),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  providerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  providerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    isAttributable: "is_attributable",
-    isDownloadable: "is_downloadable",
-    isPublic: "is_public",
-    latestUploadStatus: "latest_upload_status",
-    modifiedOn: "modified_on",
-    name: "name",
-    providerId: "provider_id",
-    providerName: "provider_name",
-  }),
-) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
+    ),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    providerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    providerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      isAttributable: "is_attributable",
+      isDownloadable: "is_downloadable",
+      isPublic: "is_public",
+      latestUploadStatus: "latest_upload_status",
+      modifiedOn: "modified_on",
+      name: "name",
+      providerId: "provider_id",
+      providerName: "provider_name",
+    }),
+  ) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
 
 export type GetIndicatorFeedError = DefaultErrors;
 
@@ -1536,7 +1560,7 @@ export const getIndicatorFeed: API.OperationMethod<
   GetIndicatorFeedResponse,
   GetIndicatorFeedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIndicatorFeedRequest,
   output: GetIndicatorFeedResponse,
   errors: [],
@@ -1547,14 +1571,15 @@ export interface ListIndicatorFeedsRequest {
   accountId: string;
 }
 
-export const ListIndicatorFeedsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/indicator-feeds",
-  }),
-) as unknown as Schema.Schema<ListIndicatorFeedsRequest>;
+export const ListIndicatorFeedsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/indicator-feeds",
+    }),
+  ) as unknown as Schema.Schema<ListIndicatorFeedsRequest>;
 
 export type ListIndicatorFeedsResponse = {
   id?: number | null;
@@ -1567,8 +1592,90 @@ export type ListIndicatorFeedsResponse = {
   name?: string | null;
 }[];
 
-export const ListIndicatorFeedsResponse = Schema.Array(
-  Schema.Struct({
+export const ListIndicatorFeedsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      isAttributable: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      isDownloadable: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        description: "description",
+        isAttributable: "is_attributable",
+        isDownloadable: "is_downloadable",
+        isPublic: "is_public",
+        modifiedOn: "modified_on",
+        name: "name",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListIndicatorFeedsResponse>;
+
+export type ListIndicatorFeedsError = DefaultErrors;
+
+export const listIndicatorFeeds: API.OperationMethod<
+  ListIndicatorFeedsRequest,
+  ListIndicatorFeedsResponse,
+  ListIndicatorFeedsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListIndicatorFeedsRequest,
+  output: ListIndicatorFeedsResponse,
+  errors: [],
+}));
+
+export interface CreateIndicatorFeedRequest {
+  /** Path param: Identifier */
+  accountId: string;
+  /** Body param: The description of the example test */
+  description?: string;
+  /** Body param: The name of the indicator feed */
+  name?: string;
+}
+
+export const CreateIndicatorFeedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    description: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/intel/indicator-feeds",
+    }),
+  ) as unknown as Schema.Schema<CreateIndicatorFeedRequest>;
+
+export interface CreateIndicatorFeedResponse {
+  /** The unique identifier for the indicator feed */
+  id?: number | null;
+  /** The date and time when the data entry was created */
+  createdOn?: string | null;
+  /** The description of the example test */
+  description?: string | null;
+  /** Whether the indicator feed can be attributed to a provider */
+  isAttributable?: boolean | null;
+  /** Whether the indicator feed can be downloaded */
+  isDownloadable?: boolean | null;
+  /** Whether the indicator feed is exposed to customers */
+  isPublic?: boolean | null;
+  /** The date and time when the data entry was last modified */
+  modifiedOn?: string | null;
+  /** The name of the indicator feed */
+  name?: string | null;
+}
+
+export const CreateIndicatorFeedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1592,82 +1699,7 @@ export const ListIndicatorFeedsResponse = Schema.Array(
       modifiedOn: "modified_on",
       name: "name",
     }),
-  ),
-) as unknown as Schema.Schema<ListIndicatorFeedsResponse>;
-
-export type ListIndicatorFeedsError = DefaultErrors;
-
-export const listIndicatorFeeds: API.OperationMethod<
-  ListIndicatorFeedsRequest,
-  ListIndicatorFeedsResponse,
-  ListIndicatorFeedsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ListIndicatorFeedsRequest,
-  output: ListIndicatorFeedsResponse,
-  errors: [],
-}));
-
-export interface CreateIndicatorFeedRequest {
-  /** Path param: Identifier */
-  accountId: string;
-  /** Body param: The description of the example test */
-  description?: string;
-  /** Body param: The name of the indicator feed */
-  name?: string;
-}
-
-export const CreateIndicatorFeedRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  description: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/intel/indicator-feeds",
-  }),
-) as unknown as Schema.Schema<CreateIndicatorFeedRequest>;
-
-export interface CreateIndicatorFeedResponse {
-  /** The unique identifier for the indicator feed */
-  id?: number | null;
-  /** The date and time when the data entry was created */
-  createdOn?: string | null;
-  /** The description of the example test */
-  description?: string | null;
-  /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
-  /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
-  /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
-  /** The date and time when the data entry was last modified */
-  modifiedOn?: string | null;
-  /** The name of the indicator feed */
-  name?: string | null;
-}
-
-export const CreateIndicatorFeedResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isAttributable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isDownloadable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    isAttributable: "is_attributable",
-    isDownloadable: "is_downloadable",
-    isPublic: "is_public",
-    modifiedOn: "modified_on",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<CreateIndicatorFeedResponse>;
+  ) as unknown as Schema.Schema<CreateIndicatorFeedResponse>;
 
 export type CreateIndicatorFeedError = DefaultErrors;
 
@@ -1676,7 +1708,7 @@ export const createIndicatorFeed: API.OperationMethod<
   CreateIndicatorFeedResponse,
   CreateIndicatorFeedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndicatorFeedRequest,
   output: CreateIndicatorFeedResponse,
   errors: [],
@@ -1698,27 +1730,28 @@ export interface UpdateIndicatorFeedRequest {
   name?: string;
 }
 
-export const UpdateIndicatorFeedRequest = Schema.Struct({
-  feedId: Schema.Number.pipe(T.HttpPath("feedId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  description: Schema.optional(Schema.String),
-  isAttributable: Schema.optional(Schema.Boolean),
-  isDownloadable: Schema.optional(Schema.Boolean),
-  isPublic: Schema.optional(Schema.Boolean),
-  name: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    description: "description",
-    isAttributable: "is_attributable",
-    isDownloadable: "is_downloadable",
-    isPublic: "is_public",
-    name: "name",
-  }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
-  }),
-) as unknown as Schema.Schema<UpdateIndicatorFeedRequest>;
+export const UpdateIndicatorFeedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    feedId: Schema.Number.pipe(T.HttpPath("feedId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    description: Schema.optional(Schema.String),
+    isAttributable: Schema.optional(Schema.Boolean),
+    isDownloadable: Schema.optional(Schema.Boolean),
+    isPublic: Schema.optional(Schema.Boolean),
+    name: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      description: "description",
+      isAttributable: "is_attributable",
+      isDownloadable: "is_downloadable",
+      isPublic: "is_public",
+      name: "name",
+    }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}",
+    }),
+  ) as unknown as Schema.Schema<UpdateIndicatorFeedRequest>;
 
 export interface UpdateIndicatorFeedResponse {
   /** The unique identifier for the indicator feed */
@@ -1739,27 +1772,32 @@ export interface UpdateIndicatorFeedResponse {
   name?: string | null;
 }
 
-export const UpdateIndicatorFeedResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isAttributable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isDownloadable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    isAttributable: "is_attributable",
-    isDownloadable: "is_downloadable",
-    isPublic: "is_public",
-    modifiedOn: "modified_on",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<UpdateIndicatorFeedResponse>;
+export const UpdateIndicatorFeedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isAttributable: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    isDownloadable: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      isAttributable: "is_attributable",
+      isDownloadable: "is_downloadable",
+      isPublic: "is_public",
+      modifiedOn: "modified_on",
+      name: "name",
+    }),
+  ) as unknown as Schema.Schema<UpdateIndicatorFeedResponse>;
 
 export type UpdateIndicatorFeedError = DefaultErrors;
 
@@ -1768,7 +1806,7 @@ export const updateIndicatorFeed: API.OperationMethod<
   UpdateIndicatorFeedResponse,
   UpdateIndicatorFeedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIndicatorFeedRequest,
   output: UpdateIndicatorFeedResponse,
   errors: [],
@@ -1780,20 +1818,21 @@ export interface DataIndicatorFeedRequest {
   accountId: string;
 }
 
-export const DataIndicatorFeedRequest = Schema.Struct({
-  feedId: Schema.Number.pipe(T.HttpPath("feedId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/data",
-  }),
-) as unknown as Schema.Schema<DataIndicatorFeedRequest>;
+export const DataIndicatorFeedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    feedId: Schema.Number.pipe(T.HttpPath("feedId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/data",
+    }),
+  ) as unknown as Schema.Schema<DataIndicatorFeedRequest>;
 
 export type DataIndicatorFeedResponse = unknown;
 
 export const DataIndicatorFeedResponse =
-  Schema.Unknown as unknown as Schema.Schema<DataIndicatorFeedResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DataIndicatorFeedResponse>;
 
 export type DataIndicatorFeedError = DefaultErrors;
 
@@ -1802,7 +1841,7 @@ export const dataIndicatorFeed: API.OperationMethod<
   DataIndicatorFeedResponse,
   DataIndicatorFeedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DataIndicatorFeedRequest,
   output: DataIndicatorFeedResponse,
   errors: [],
@@ -1817,14 +1856,15 @@ export interface ListIndicatorFeedPermissionsRequest {
   accountId: string;
 }
 
-export const ListIndicatorFeedPermissionsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/intel/indicator-feeds/permissions/view",
-  }),
-) as unknown as Schema.Schema<ListIndicatorFeedPermissionsRequest>;
+export const ListIndicatorFeedPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/intel/indicator-feeds/permissions/view",
+    }),
+  ) as unknown as Schema.Schema<ListIndicatorFeedPermissionsRequest>;
 
 export type ListIndicatorFeedPermissionsResponse = {
   id?: number | null;
@@ -1835,29 +1875,30 @@ export type ListIndicatorFeedPermissionsResponse = {
   name?: string | null;
 }[];
 
-export const ListIndicatorFeedPermissionsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    isAttributable: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
+export const ListIndicatorFeedPermissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      isAttributable: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      isDownloadable: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        isAttributable: "is_attributable",
+        isDownloadable: "is_downloadable",
+        isPublic: "is_public",
+        name: "name",
+      }),
     ),
-    isDownloadable: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
-    ),
-    isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      isAttributable: "is_attributable",
-      isDownloadable: "is_downloadable",
-      isPublic: "is_public",
-      name: "name",
-    }),
-  ),
-) as unknown as Schema.Schema<ListIndicatorFeedPermissionsResponse>;
+  ) as unknown as Schema.Schema<ListIndicatorFeedPermissionsResponse>;
 
 export type ListIndicatorFeedPermissionsError = DefaultErrors;
 
@@ -1866,7 +1907,7 @@ export const listIndicatorFeedPermissions: API.OperationMethod<
   ListIndicatorFeedPermissionsResponse,
   ListIndicatorFeedPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIndicatorFeedPermissionsRequest,
   output: ListIndicatorFeedPermissionsResponse,
   errors: [],
@@ -1881,26 +1922,28 @@ export interface CreateIndicatorFeedPermissionRequest {
   feedId?: number;
 }
 
-export const CreateIndicatorFeedPermissionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  accountTag: Schema.optional(Schema.String),
-  feedId: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({ accountTag: "account_tag", feedId: "feed_id" }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/intel/indicator-feeds/permissions/add",
-  }),
-) as unknown as Schema.Schema<CreateIndicatorFeedPermissionRequest>;
+export const CreateIndicatorFeedPermissionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    accountTag: Schema.optional(Schema.String),
+    feedId: Schema.optional(Schema.Number),
+  }).pipe(
+    Schema.encodeKeys({ accountTag: "account_tag", feedId: "feed_id" }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/intel/indicator-feeds/permissions/add",
+    }),
+  ) as unknown as Schema.Schema<CreateIndicatorFeedPermissionRequest>;
 
 export interface CreateIndicatorFeedPermissionResponse {
   /** Whether the update succeeded or not */
   success?: boolean | null;
 }
 
-export const CreateIndicatorFeedPermissionResponse = Schema.Struct({
-  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<CreateIndicatorFeedPermissionResponse>;
+export const CreateIndicatorFeedPermissionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<CreateIndicatorFeedPermissionResponse>;
 
 export type CreateIndicatorFeedPermissionError = DefaultErrors;
 
@@ -1909,7 +1952,7 @@ export const createIndicatorFeedPermission: API.OperationMethod<
   CreateIndicatorFeedPermissionResponse,
   CreateIndicatorFeedPermissionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateIndicatorFeedPermissionRequest,
   output: CreateIndicatorFeedPermissionResponse,
   errors: [],
@@ -1924,26 +1967,28 @@ export interface DeleteIndicatorFeedPermissionRequest {
   feedId?: number;
 }
 
-export const DeleteIndicatorFeedPermissionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  accountTag: Schema.optional(Schema.String),
-  feedId: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({ accountTag: "account_tag", feedId: "feed_id" }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/intel/indicator-feeds/permissions/remove",
-  }),
-) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionRequest>;
+export const DeleteIndicatorFeedPermissionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    accountTag: Schema.optional(Schema.String),
+    feedId: Schema.optional(Schema.Number),
+  }).pipe(
+    Schema.encodeKeys({ accountTag: "account_tag", feedId: "feed_id" }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/intel/indicator-feeds/permissions/remove",
+    }),
+  ) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionRequest>;
 
 export interface DeleteIndicatorFeedPermissionResponse {
   /** Whether the update succeeded or not */
   success?: boolean | null;
 }
 
-export const DeleteIndicatorFeedPermissionResponse = Schema.Struct({
-  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionResponse>;
+export const DeleteIndicatorFeedPermissionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionResponse>;
 
 export type DeleteIndicatorFeedPermissionError = DefaultErrors;
 
@@ -1952,7 +1997,7 @@ export const deleteIndicatorFeedPermission: API.OperationMethod<
   DeleteIndicatorFeedPermissionResponse,
   DeleteIndicatorFeedPermissionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteIndicatorFeedPermissionRequest,
   output: DeleteIndicatorFeedPermissionResponse,
   errors: [],
@@ -1970,17 +2015,18 @@ export interface PutIndicatorFeedSnapshotRequest {
   source?: string;
 }
 
-export const PutIndicatorFeedSnapshotRequest = Schema.Struct({
-  feedId: Schema.Number.pipe(T.HttpPath("feedId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  source: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/snapshot",
-    contentType: "multipart",
-  }),
-) as unknown as Schema.Schema<PutIndicatorFeedSnapshotRequest>;
+export const PutIndicatorFeedSnapshotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    feedId: Schema.Number.pipe(T.HttpPath("feedId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    source: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/intel/indicator-feeds/{feedId}/snapshot",
+      contentType: "multipart",
+    }),
+  ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotRequest>;
 
 export interface PutIndicatorFeedSnapshotResponse {
   /** Feed id */
@@ -1991,17 +2037,18 @@ export interface PutIndicatorFeedSnapshotResponse {
   status?: string | null;
 }
 
-export const PutIndicatorFeedSnapshotResponse = Schema.Struct({
-  fileId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    fileId: "file_id",
-    filename: "filename",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<PutIndicatorFeedSnapshotResponse>;
+export const PutIndicatorFeedSnapshotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      fileId: "file_id",
+      filename: "filename",
+      status: "status",
+    }),
+  ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotResponse>;
 
 export type PutIndicatorFeedSnapshotError = DefaultErrors;
 
@@ -2010,7 +2057,7 @@ export const putIndicatorFeedSnapshot: API.OperationMethod<
   PutIndicatorFeedSnapshotResponse,
   PutIndicatorFeedSnapshotError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutIndicatorFeedSnapshotRequest,
   output: PutIndicatorFeedSnapshotResponse,
   errors: [],
@@ -2029,7 +2076,7 @@ export interface GetIpRequest {
   ipv6?: string;
 }
 
-export const GetIpRequest = Schema.Struct({
+export const GetIpRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   ipv4: Schema.optional(Schema.String).pipe(T.HttpQuery("ipv4")),
   ipv6: Schema.optional(Schema.String).pipe(T.HttpQuery("ipv6")),
@@ -2055,7 +2102,7 @@ export type GetIpResponse = {
     | null;
 }[];
 
-export const GetIpResponse = Schema.Array(
+export const GetIpResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     belongsToRef: Schema.optional(
       Schema.Union([
@@ -2113,7 +2160,7 @@ export const getIp: API.OperationMethod<
   GetIpResponse,
   GetIpError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIpRequest,
   output: GetIpResponse,
   errors: [],
@@ -2128,7 +2175,7 @@ export interface GetIpListRequest {
   accountId: string;
 }
 
-export const GetIpListRequest = Schema.Struct({
+export const GetIpListRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/ip-list" }),
@@ -2140,7 +2187,7 @@ export type GetIpListResponse = {
   name?: string | null;
 }[];
 
-export const GetIpListResponse = Schema.Array(
+export const GetIpListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2155,7 +2202,7 @@ export const getIpList: API.OperationMethod<
   GetIpListResponse,
   GetIpListError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIpListRequest,
   output: GetIpListResponse,
   errors: [],
@@ -2184,32 +2231,33 @@ export interface CreateMiscategorizationRequest {
   url?: string;
 }
 
-export const CreateMiscategorizationRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  contentAdds: Schema.optional(Schema.Array(Schema.Number)),
-  contentRemoves: Schema.optional(Schema.Array(Schema.Number)),
-  indicatorType: Schema.optional(
-    Schema.Literals(["domain", "ipv4", "ipv6", "url"]),
-  ),
-  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  securityAdds: Schema.optional(Schema.Array(Schema.Number)),
-  securityRemoves: Schema.optional(Schema.Array(Schema.Number)),
-  url: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    contentAdds: "content_adds",
-    contentRemoves: "content_removes",
-    indicatorType: "indicator_type",
-    ip: "ip",
-    securityAdds: "security_adds",
-    securityRemoves: "security_removes",
-    url: "url",
-  }),
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/intel/miscategorization",
-  }),
-) as unknown as Schema.Schema<CreateMiscategorizationRequest>;
+export const CreateMiscategorizationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    contentAdds: Schema.optional(Schema.Array(Schema.Number)),
+    contentRemoves: Schema.optional(Schema.Array(Schema.Number)),
+    indicatorType: Schema.optional(
+      Schema.Literals(["domain", "ipv4", "ipv6", "url"]),
+    ),
+    ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    securityAdds: Schema.optional(Schema.Array(Schema.Number)),
+    securityRemoves: Schema.optional(Schema.Array(Schema.Number)),
+    url: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      contentAdds: "content_adds",
+      contentRemoves: "content_removes",
+      indicatorType: "indicator_type",
+      ip: "ip",
+      securityAdds: "security_adds",
+      securityRemoves: "security_removes",
+      url: "url",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/intel/miscategorization",
+    }),
+  ) as unknown as Schema.Schema<CreateMiscategorizationRequest>;
 
 export interface CreateMiscategorizationResponse {
   errors: {
@@ -2228,61 +2276,62 @@ export interface CreateMiscategorizationResponse {
   success: true;
 }
 
-export const CreateMiscategorizationResponse = Schema.Struct({
-  errors: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+export const CreateMiscategorizationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  messages: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  success: Schema.Literal(true),
-}) as unknown as Schema.Schema<CreateMiscategorizationResponse>;
+    success: Schema.Literal(true),
+  }) as unknown as Schema.Schema<CreateMiscategorizationResponse>;
 
 export type CreateMiscategorizationError = DefaultErrors;
 
@@ -2291,7 +2340,7 @@ export const createMiscategorization: API.OperationMethod<
   CreateMiscategorizationResponse,
   CreateMiscategorizationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMiscategorizationRequest,
   output: CreateMiscategorizationResponse,
   errors: [],
@@ -2306,7 +2355,7 @@ export interface ListSinkholesRequest {
   accountId: string;
 }
 
-export const ListSinkholesRequest = Schema.Struct({
+export const ListSinkholesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/sinkholes" }),
@@ -2322,7 +2371,7 @@ export type ListSinkholesResponse = {
   r2Id?: string | null;
 }[];
 
-export const ListSinkholesResponse = Schema.Array(
+export const ListSinkholesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2351,7 +2400,7 @@ export const listSinkholes: API.OperationMethod<
   ListSinkholesResponse,
   ListSinkholesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSinkholesRequest,
   output: ListSinkholesResponse,
   errors: [],
@@ -2368,7 +2417,7 @@ export interface GetWhoiRequest {
   domain?: string;
 }
 
-export const GetWhoiRequest = Schema.Struct({
+export const GetWhoiRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   domain: Schema.optional(Schema.String).pipe(T.HttpQuery("domain")),
 }).pipe(
@@ -2465,7 +2514,7 @@ export interface GetWhoiResponse {
   whoisServer?: string | null;
 }
 
-export const GetWhoiResponse = Schema.Struct({
+export const GetWhoiResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnssec: Schema.Boolean,
   domain: Schema.String,
   extension: Schema.String,
@@ -2712,7 +2761,7 @@ export const getWhoi: API.OperationMethod<
   GetWhoiResponse,
   GetWhoiError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWhoiRequest,
   output: GetWhoiResponse,
   errors: [],

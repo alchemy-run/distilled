@@ -31,13 +31,14 @@ export interface Position {
   column?: string;
 }
 
-export const Position: Schema.Schema<Position> = Schema.suspend(() =>
-  Schema.Struct({
-    length: Schema.optional(Schema.String),
-    line: Schema.optional(Schema.String),
-    column: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
+export const Position: Schema.Schema<Position> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      length: Schema.optional(Schema.String),
+      line: Schema.optional(Schema.String),
+      column: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Position" }) as any as Schema.Schema<Position>;
 
 export interface StackTraceElement {
   /** The routine where the error occurred. */
@@ -49,7 +50,7 @@ export interface StackTraceElement {
 }
 
 export const StackTraceElement: Schema.Schema<StackTraceElement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       routine: Schema.optional(Schema.String),
       position: Schema.optional(Position),
@@ -64,11 +65,12 @@ export interface StackTrace {
   elements?: Array<StackTraceElement>;
 }
 
-export const StackTrace: Schema.Schema<StackTrace> = Schema.suspend(() =>
-  Schema.Struct({
-    elements: Schema.optional(Schema.Array(StackTraceElement)),
-  }),
-).annotate({ identifier: "StackTrace" }) as any as Schema.Schema<StackTrace>;
+export const StackTrace: Schema.Schema<StackTrace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      elements: Schema.optional(Schema.Array(StackTraceElement)),
+    }),
+  ).annotate({ identifier: "StackTrace" }) as any as Schema.Schema<StackTrace>;
 
 export interface Workflowexecutions_Error {
   /** Error message and data returned represented as a JSON string. */
@@ -80,7 +82,7 @@ export interface Workflowexecutions_Error {
 }
 
 export const Workflowexecutions_Error: Schema.Schema<Workflowexecutions_Error> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       payload: Schema.optional(Schema.String),
       context: Schema.optional(Schema.String),
@@ -93,7 +95,7 @@ export const Workflowexecutions_Error: Schema.Schema<Workflowexecutions_Error> =
 export interface CancelExecutionRequest {}
 
 export const CancelExecutionRequest: Schema.Schema<CancelExecutionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelExecutionRequest",
   }) as any as Schema.Schema<CancelExecutionRequest>;
 
@@ -104,23 +106,25 @@ export interface Step {
   routine?: string;
 }
 
-export const Step: Schema.Schema<Step> = Schema.suspend(() =>
-  Schema.Struct({
-    step: Schema.optional(Schema.String),
-    routine: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Step" }) as any as Schema.Schema<Step>;
+export const Step: Schema.Schema<Step> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      step: Schema.optional(Schema.String),
+      routine: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Step" }) as any as Schema.Schema<Step>;
 
 export interface Status {
   /** A list of currently executing or last executed step names for the workflow execution currently running. If the workflow has succeeded or failed, this is the last attempted or executed step. Presently, if the current step is inside a subworkflow, the list only includes that step. In the future, the list will contain items for each step in the call stack, starting with the outermost step in the `main` subworkflow, and ending with the most deeply nested step. */
   currentSteps?: Array<Step>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    currentSteps: Schema.optional(Schema.Array(Step)),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currentSteps: Schema.optional(Schema.Array(Step)),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Execution {
   /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
@@ -157,20 +161,21 @@ export interface Execution {
   workflowRevisionId?: string;
 }
 
-export const Execution: Schema.Schema<Execution> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    callLogLevel: Schema.optional(Schema.String),
-    argument: Schema.optional(Schema.String),
-    result: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    error: Schema.optional(Workflowexecutions_Error),
-    status: Schema.optional(Status),
-    workflowRevisionId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Execution" }) as any as Schema.Schema<Execution>;
+export const Execution: Schema.Schema<Execution> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      callLogLevel: Schema.optional(Schema.String),
+      argument: Schema.optional(Schema.String),
+      result: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      error: Schema.optional(Workflowexecutions_Error),
+      status: Schema.optional(Status),
+      workflowRevisionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Execution" }) as any as Schema.Schema<Execution>;
 
 export interface ListExecutionsResponse {
   /** The executions which match the request. */
@@ -180,7 +185,7 @@ export interface ListExecutionsResponse {
 }
 
 export const ListExecutionsResponse: Schema.Schema<ListExecutionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executions: Schema.optional(Schema.Array(Execution)),
       nextPageToken: Schema.optional(Schema.String),
@@ -204,23 +209,24 @@ export interface ListProjectsLocationsWorkflowsExecutionsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsWorkflowsExecutionsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsWorkflowsExecutionsRequest>;
+export const ListProjectsLocationsWorkflowsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsWorkflowsExecutionsRequest>;
 
 export type ListProjectsLocationsWorkflowsExecutionsResponse =
   ListExecutionsResponse;
 export const ListProjectsLocationsWorkflowsExecutionsResponse =
-  ListExecutionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListExecutionsResponse;
 
 export type ListProjectsLocationsWorkflowsExecutionsError = DefaultErrors;
 
@@ -230,7 +236,7 @@ export const listProjectsLocationsWorkflowsExecutions: API.PaginatedOperationMet
   ListProjectsLocationsWorkflowsExecutionsResponse,
   ListProjectsLocationsWorkflowsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsExecutionsRequest,
   output: ListProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
@@ -247,19 +253,21 @@ export interface GetProjectsLocationsWorkflowsExecutionsRequest {
   view?: "EXECUTION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
 }
 
-export const GetProjectsLocationsWorkflowsExecutionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions/{executionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsWorkflowsExecutionsRequest>;
+export const GetProjectsLocationsWorkflowsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions/{executionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsWorkflowsExecutionsRequest>;
 
 export type GetProjectsLocationsWorkflowsExecutionsResponse = Execution;
-export const GetProjectsLocationsWorkflowsExecutionsResponse = Execution;
+export const GetProjectsLocationsWorkflowsExecutionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Execution;
 
 export type GetProjectsLocationsWorkflowsExecutionsError = DefaultErrors;
 
@@ -269,7 +277,7 @@ export const getProjectsLocationsWorkflowsExecutions: API.OperationMethod<
   GetProjectsLocationsWorkflowsExecutionsResponse,
   GetProjectsLocationsWorkflowsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsWorkflowsExecutionsRequest,
   output: GetProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
@@ -282,20 +290,22 @@ export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
   body?: Execution;
 }
 
-export const CreateProjectsLocationsWorkflowsExecutionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Execution).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsWorkflowsExecutionsRequest>;
+export const CreateProjectsLocationsWorkflowsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Execution).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsWorkflowsExecutionsRequest>;
 
 export type CreateProjectsLocationsWorkflowsExecutionsResponse = Execution;
-export const CreateProjectsLocationsWorkflowsExecutionsResponse = Execution;
+export const CreateProjectsLocationsWorkflowsExecutionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Execution;
 
 export type CreateProjectsLocationsWorkflowsExecutionsError = DefaultErrors;
 
@@ -305,7 +315,7 @@ export const createProjectsLocationsWorkflowsExecutions: API.OperationMethod<
   CreateProjectsLocationsWorkflowsExecutionsResponse,
   CreateProjectsLocationsWorkflowsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsWorkflowsExecutionsRequest,
   output: CreateProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
@@ -318,20 +328,22 @@ export interface CancelProjectsLocationsWorkflowsExecutionsRequest {
   body?: CancelExecutionRequest;
 }
 
-export const CancelProjectsLocationsWorkflowsExecutionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelExecutionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions/{executionsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsWorkflowsExecutionsRequest>;
+export const CancelProjectsLocationsWorkflowsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelExecutionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/workflows/{workflowsId}/executions/{executionsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsWorkflowsExecutionsRequest>;
 
 export type CancelProjectsLocationsWorkflowsExecutionsResponse = Execution;
-export const CancelProjectsLocationsWorkflowsExecutionsResponse = Execution;
+export const CancelProjectsLocationsWorkflowsExecutionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Execution;
 
 export type CancelProjectsLocationsWorkflowsExecutionsError = DefaultErrors;
 
@@ -341,7 +353,7 @@ export const cancelProjectsLocationsWorkflowsExecutions: API.OperationMethod<
   CancelProjectsLocationsWorkflowsExecutionsResponse,
   CancelProjectsLocationsWorkflowsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsWorkflowsExecutionsRequest,
   output: CancelProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],

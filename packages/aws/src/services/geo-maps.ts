@@ -189,7 +189,7 @@ export interface GetGlyphsRequest {
   FontStack: string;
   FontUnicodeRange: string;
 }
-export const GetGlyphsRequest = S.suspend(() =>
+export const GetGlyphsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     FontStack: S.String.pipe(T.HttpLabel("FontStack")),
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
@@ -212,7 +212,7 @@ export interface GetGlyphsResponse {
   CacheControl?: string;
   ETag?: string;
 }
-export const GetGlyphsResponse = S.suspend(() =>
+export const GetGlyphsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -228,7 +228,7 @@ export interface GetSpritesRequest {
   ColorScheme: string;
   Variant: string;
 }
-export const GetSpritesRequest = S.suspend(() =>
+export const GetSpritesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     FileName: S.String.pipe(T.HttpLabel("FileName")),
     Style: S.String.pipe(T.HttpLabel("Style")),
@@ -256,7 +256,7 @@ export interface GetSpritesResponse {
   CacheControl?: string;
   ETag?: string;
 }
-export const GetSpritesResponse = S.suspend(() =>
+export const GetSpritesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -288,7 +288,7 @@ export interface GetStaticMapRequest {
   Width: number;
   Zoom?: number;
 }
-export const GetStaticMapRequest = S.suspend(() =>
+export const GetStaticMapRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BoundingBox: S.optional(SensitiveString).pipe(T.HttpQuery("bounding-box")),
     BoundedPositions: S.optional(SensitiveString).pipe(
@@ -338,7 +338,7 @@ export interface GetStaticMapResponse {
   ETag?: string;
   PricingBucket: string;
 }
-export const GetStaticMapResponse = S.suspend(() =>
+export const GetStaticMapResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -353,17 +353,20 @@ export interface ValidationExceptionField {
   Name: string;
   Message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String }).pipe(
-    S.encodeKeys({ Name: "name", Message: "message" }),
-  ),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Name: S.String, Message: S.String }).pipe(
+      S.encodeKeys({ Name: "name", Message: "message" }),
+    ),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export type TravelModeList = string[];
-export const TravelModeList = S.Array(S.String);
+export const TravelModeList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetStyleDescriptorRequest {
   Style: string;
   ColorScheme?: string;
@@ -375,29 +378,30 @@ export interface GetStyleDescriptorRequest {
   Buildings?: string;
   Key?: string | redacted.Redacted<string>;
 }
-export const GetStyleDescriptorRequest = S.suspend(() =>
-  S.Struct({
-    Style: S.String.pipe(T.HttpLabel("Style")),
-    ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
-    PoliticalView: S.optional(SensitiveString).pipe(
-      T.HttpQuery("political-view"),
+export const GetStyleDescriptorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Style: S.String.pipe(T.HttpLabel("Style")),
+      ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
+      PoliticalView: S.optional(SensitiveString).pipe(
+        T.HttpQuery("political-view"),
+      ),
+      Terrain: S.optional(S.String).pipe(T.HttpQuery("terrain")),
+      ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
+      Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
+      TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
+      Buildings: S.optional(S.String).pipe(T.HttpQuery("buildings")),
+      Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Terrain: S.optional(S.String).pipe(T.HttpQuery("terrain")),
-    ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
-    Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
-    TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
-    Buildings: S.optional(S.String).pipe(T.HttpQuery("buildings")),
-    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetStyleDescriptorRequest",
 }) as any as S.Schema<GetStyleDescriptorRequest>;
@@ -407,18 +411,21 @@ export interface GetStyleDescriptorResponse {
   CacheControl?: string;
   ETag?: string;
 }
-export const GetStyleDescriptorResponse = S.suspend(() =>
-  S.Struct({
-    Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-  }),
+export const GetStyleDescriptorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
+      ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+      CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+      ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+    }),
 ).annotate({
   identifier: "GetStyleDescriptorResponse",
 }) as any as S.Schema<GetStyleDescriptorResponse>;
 export type TileAdditionalFeatureList = string[];
-export const TileAdditionalFeatureList = S.Array(S.String);
+export const TileAdditionalFeatureList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface GetTileRequest {
   AdditionalFeatures?: string[];
   Tileset: string;
@@ -427,7 +434,7 @@ export interface GetTileRequest {
   Y: string | redacted.Redacted<string>;
   Key?: string | redacted.Redacted<string>;
 }
-export const GetTileRequest = S.suspend(() =>
+export const GetTileRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AdditionalFeatures: S.optional(TileAdditionalFeatureList).pipe(
       T.HttpQuery("additional-features"),
@@ -455,7 +462,7 @@ export interface GetTileResponse {
   ETag?: string;
   PricingBucket: string;
 }
-export const GetTileResponse = S.suspend(() =>
+export const GetTileResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Blob: S.optional(T.Blob).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),

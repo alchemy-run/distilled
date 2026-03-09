@@ -31,13 +31,16 @@ export interface Pollen_Date {
   day?: number;
 }
 
-export const Pollen_Date: Schema.Schema<Pollen_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    month: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Pollen_Date" }) as any as Schema.Schema<Pollen_Date>;
+export const Pollen_Date: Schema.Schema<Pollen_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      month: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Pollen_Date",
+  }) as any as Schema.Schema<Pollen_Date>;
 
 export interface Color {
   /** The amount of red in the color as a value in the interval [0, 1]. */
@@ -50,14 +53,15 @@ export interface Color {
   blue?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-    blue: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+      blue: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface HttpBody {
   /** The HTTP request/response body as raw binary. */
@@ -68,15 +72,16 @@ export interface HttpBody {
   contentType?: string;
 }
 
-export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.String),
-    extensions: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    contentType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
+export const HttpBody: Schema.Schema<HttpBody> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      extensions: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      contentType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
 
 export interface IndexInfo {
   /** Textual explanation of current index level. */
@@ -93,16 +98,17 @@ export interface IndexInfo {
   code?: "INDEX_UNSPECIFIED" | "UPI" | (string & {});
 }
 
-export const IndexInfo: Schema.Schema<IndexInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    indexDescription: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Number),
-    color: Schema.optional(Color),
-    category: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "IndexInfo" }) as any as Schema.Schema<IndexInfo>;
+export const IndexInfo: Schema.Schema<IndexInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      indexDescription: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+      color: Schema.optional(Color),
+      category: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "IndexInfo" }) as any as Schema.Schema<IndexInfo>;
 
 export interface PlantDescription {
   /** Textual list of explanations of seasons where the pollen is active. Example: "Late winter, spring". */
@@ -123,8 +129,8 @@ export interface PlantDescription {
   pictureCloseup?: string;
 }
 
-export const PlantDescription: Schema.Schema<PlantDescription> = Schema.suspend(
-  () =>
+export const PlantDescription: Schema.Schema<PlantDescription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       season: Schema.optional(Schema.String),
       picture: Schema.optional(Schema.String),
@@ -135,9 +141,9 @@ export const PlantDescription: Schema.Schema<PlantDescription> = Schema.suspend(
       crossReaction: Schema.optional(Schema.String),
       pictureCloseup: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PlantDescription",
-}) as any as Schema.Schema<PlantDescription>;
+  ).annotate({
+    identifier: "PlantDescription",
+  }) as any as Schema.Schema<PlantDescription>;
 
 export interface PlantInfo {
   /** This object contains data representing specific pollen index value, category and description. */
@@ -171,15 +177,16 @@ export interface PlantInfo {
   inSeason?: boolean;
 }
 
-export const PlantInfo: Schema.Schema<PlantInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    indexInfo: Schema.optional(IndexInfo),
-    plantDescription: Schema.optional(PlantDescription),
-    code: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    inSeason: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "PlantInfo" }) as any as Schema.Schema<PlantInfo>;
+export const PlantInfo: Schema.Schema<PlantInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      indexInfo: Schema.optional(IndexInfo),
+      plantDescription: Schema.optional(PlantDescription),
+      code: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      inSeason: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "PlantInfo" }) as any as Schema.Schema<PlantInfo>;
 
 export interface PollenTypeInfo {
   /** Textual list of explanations, related to health insights based on the current pollen levels. */
@@ -194,8 +201,8 @@ export interface PollenTypeInfo {
   indexInfo?: IndexInfo;
 }
 
-export const PollenTypeInfo: Schema.Schema<PollenTypeInfo> = Schema.suspend(
-  () =>
+export const PollenTypeInfo: Schema.Schema<PollenTypeInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       healthRecommendations: Schema.optional(Schema.Array(Schema.String)),
       code: Schema.optional(Schema.String),
@@ -203,9 +210,9 @@ export const PollenTypeInfo: Schema.Schema<PollenTypeInfo> = Schema.suspend(
       inSeason: Schema.optional(Schema.Boolean),
       indexInfo: Schema.optional(IndexInfo),
     }),
-).annotate({
-  identifier: "PollenTypeInfo",
-}) as any as Schema.Schema<PollenTypeInfo>;
+  ).annotate({
+    identifier: "PollenTypeInfo",
+  }) as any as Schema.Schema<PollenTypeInfo>;
 
 export interface DayInfo {
   /** The date in UTC at which the pollen forecast data is represented. */
@@ -216,13 +223,14 @@ export interface DayInfo {
   pollenTypeInfo?: Array<PollenTypeInfo>;
 }
 
-export const DayInfo: Schema.Schema<DayInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    date: Schema.optional(Pollen_Date),
-    plantInfo: Schema.optional(Schema.Array(PlantInfo)),
-    pollenTypeInfo: Schema.optional(Schema.Array(PollenTypeInfo)),
-  }),
-).annotate({ identifier: "DayInfo" }) as any as Schema.Schema<DayInfo>;
+export const DayInfo: Schema.Schema<DayInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      date: Schema.optional(Pollen_Date),
+      plantInfo: Schema.optional(Schema.Array(PlantInfo)),
+      pollenTypeInfo: Schema.optional(Schema.Array(PollenTypeInfo)),
+    }),
+  ).annotate({ identifier: "DayInfo" }) as any as Schema.Schema<DayInfo>;
 
 export interface LookupForecastResponse {
   /** Optional. The token to retrieve the next page. */
@@ -234,7 +242,7 @@ export interface LookupForecastResponse {
 }
 
 export const LookupForecastResponse: Schema.Schema<LookupForecastResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
@@ -265,7 +273,7 @@ export interface LookupForecastRequest {
   pageSize?: number;
 }
 
-export const LookupForecastRequest = Schema.Struct({
+export const LookupForecastRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   languageCode: Schema.optional(Schema.String).pipe(
     T.HttpQuery("languageCode"),
   ),
@@ -287,7 +295,8 @@ export const LookupForecastRequest = Schema.Struct({
 ) as unknown as Schema.Schema<LookupForecastRequest>;
 
 export type LookupForecastResponse_Op = LookupForecastResponse;
-export const LookupForecastResponse_Op = LookupForecastResponse;
+export const LookupForecastResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ LookupForecastResponse;
 
 export type LookupForecastError = DefaultErrors;
 
@@ -297,7 +306,7 @@ export const lookupForecast: API.PaginatedOperationMethod<
   LookupForecastResponse_Op,
   LookupForecastError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: LookupForecastRequest,
   output: LookupForecastResponse_Op,
   errors: [],
@@ -323,21 +332,23 @@ export interface LookupHeatmapTileMapTypesHeatmapTilesRequest {
   y: number;
 }
 
-export const LookupHeatmapTileMapTypesHeatmapTilesRequest = Schema.Struct({
-  mapType: Schema.String.pipe(T.HttpPath("mapType")),
-  x: Schema.Number.pipe(T.HttpPath("x")),
-  zoom: Schema.Number.pipe(T.HttpPath("zoom")),
-  y: Schema.Number.pipe(T.HttpPath("y")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/mapTypes/{mapType}/heatmapTiles/{zoom}/{x}/{y}",
-  }),
-  svc,
-) as unknown as Schema.Schema<LookupHeatmapTileMapTypesHeatmapTilesRequest>;
+export const LookupHeatmapTileMapTypesHeatmapTilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mapType: Schema.String.pipe(T.HttpPath("mapType")),
+    x: Schema.Number.pipe(T.HttpPath("x")),
+    zoom: Schema.Number.pipe(T.HttpPath("zoom")),
+    y: Schema.Number.pipe(T.HttpPath("y")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/mapTypes/{mapType}/heatmapTiles/{zoom}/{x}/{y}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupHeatmapTileMapTypesHeatmapTilesRequest>;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
-export const LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
+export const LookupHeatmapTileMapTypesHeatmapTilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ HttpBody;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = DefaultErrors;
 
@@ -347,7 +358,7 @@ export const lookupHeatmapTileMapTypesHeatmapTiles: API.OperationMethod<
   LookupHeatmapTileMapTypesHeatmapTilesResponse,
   LookupHeatmapTileMapTypesHeatmapTilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupHeatmapTileMapTypesHeatmapTilesRequest,
   output: LookupHeatmapTileMapTypesHeatmapTilesResponse,
   errors: [],

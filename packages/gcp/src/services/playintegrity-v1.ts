@@ -31,13 +31,14 @@ export interface Values {
   bitSecond?: boolean;
 }
 
-export const Values: Schema.Schema<Values> = Schema.suspend(() =>
-  Schema.Struct({
-    bitFirst: Schema.optional(Schema.Boolean),
-    bitThird: Schema.optional(Schema.Boolean),
-    bitSecond: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Values" }) as any as Schema.Schema<Values>;
+export const Values: Schema.Schema<Values> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bitFirst: Schema.optional(Schema.Boolean),
+      bitThird: Schema.optional(Schema.Boolean),
+      bitSecond: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Values" }) as any as Schema.Schema<Values>;
 
 export interface AppAccessRiskVerdict {
   /** List of detected app types signalled for App Access Risk. */
@@ -56,7 +57,7 @@ export interface AppAccessRiskVerdict {
 }
 
 export const AppAccessRiskVerdict: Schema.Schema<AppAccessRiskVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appsDetected: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -80,16 +81,17 @@ export interface AppIntegrity {
   packageName?: string;
 }
 
-export const AppIntegrity: Schema.Schema<AppIntegrity> = Schema.suspend(() =>
-  Schema.Struct({
-    certificateSha256Digest: Schema.optional(Schema.Array(Schema.String)),
-    versionCode: Schema.optional(Schema.String),
-    appRecognitionVerdict: Schema.optional(Schema.String),
-    packageName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AppIntegrity",
-}) as any as Schema.Schema<AppIntegrity>;
+export const AppIntegrity: Schema.Schema<AppIntegrity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      certificateSha256Digest: Schema.optional(Schema.Array(Schema.String)),
+      versionCode: Schema.optional(Schema.String),
+      appRecognitionVerdict: Schema.optional(Schema.String),
+      packageName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AppIntegrity",
+  }) as any as Schema.Schema<AppIntegrity>;
 
 export interface PcRequestDetails {
   /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. */
@@ -100,16 +102,16 @@ export interface PcRequestDetails {
   requestHash?: string;
 }
 
-export const PcRequestDetails: Schema.Schema<PcRequestDetails> = Schema.suspend(
-  () =>
+export const PcRequestDetails: Schema.Schema<PcRequestDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestPackageName: Schema.optional(Schema.String),
       requestTime: Schema.optional(Schema.String),
       requestHash: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PcRequestDetails",
-}) as any as Schema.Schema<PcRequestDetails>;
+  ).annotate({
+    identifier: "PcRequestDetails",
+  }) as any as Schema.Schema<PcRequestDetails>;
 
 export interface AccountActivity {
   /** Required. Indicates the activity level of the account. */
@@ -123,14 +125,14 @@ export interface AccountActivity {
     | (string & {});
 }
 
-export const AccountActivity: Schema.Schema<AccountActivity> = Schema.suspend(
-  () =>
+export const AccountActivity: Schema.Schema<AccountActivity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activityLevel: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AccountActivity",
-}) as any as Schema.Schema<AccountActivity>;
+  ).annotate({
+    identifier: "AccountActivity",
+  }) as any as Schema.Schema<AccountActivity>;
 
 export interface WriteDeviceRecallRequest {
   /** Required. Integrity token obtained from calling Play Integrity API. */
@@ -140,7 +142,7 @@ export interface WriteDeviceRecallRequest {
 }
 
 export const WriteDeviceRecallRequest: Schema.Schema<WriteDeviceRecallRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrityToken: Schema.optional(Schema.String),
       newValues: Schema.optional(Values),
@@ -159,14 +161,14 @@ export interface PcAccountDetails {
     | (string & {});
 }
 
-export const PcAccountDetails: Schema.Schema<PcAccountDetails> = Schema.suspend(
-  () =>
+export const PcAccountDetails: Schema.Schema<PcAccountDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appLicensingVerdict: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PcAccountDetails",
-}) as any as Schema.Schema<PcAccountDetails>;
+  ).annotate({
+    identifier: "PcAccountDetails",
+  }) as any as Schema.Schema<PcAccountDetails>;
 
 export interface PcDeviceIntegrity {
   /** Details about the integrity of the device the app is running on. */
@@ -178,7 +180,7 @@ export interface PcDeviceIntegrity {
 }
 
 export const PcDeviceIntegrity: Schema.Schema<PcDeviceIntegrity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceRecognitionVerdict: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -191,14 +193,14 @@ export interface PcTestingDetails {
   isTestingResponse?: boolean;
 }
 
-export const PcTestingDetails: Schema.Schema<PcTestingDetails> = Schema.suspend(
-  () =>
+export const PcTestingDetails: Schema.Schema<PcTestingDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isTestingResponse: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "PcTestingDetails",
-}) as any as Schema.Schema<PcTestingDetails>;
+  ).annotate({
+    identifier: "PcTestingDetails",
+  }) as any as Schema.Schema<PcTestingDetails>;
 
 export interface PcTokenPayloadExternal {
   /** Details about the account information such as the licensing status. */
@@ -212,7 +214,7 @@ export interface PcTokenPayloadExternal {
 }
 
 export const PcTokenPayloadExternal: Schema.Schema<PcTokenPayloadExternal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountDetails: Schema.optional(PcAccountDetails),
       requestDetails: Schema.optional(PcRequestDetails),
@@ -229,7 +231,7 @@ export interface DecodePcIntegrityTokenResponse {
 }
 
 export const DecodePcIntegrityTokenResponse: Schema.Schema<DecodePcIntegrityTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tokenPayloadExternal: Schema.optional(PcTokenPayloadExternal),
     }),
@@ -243,7 +245,7 @@ export interface DecodeIntegrityTokenRequest {
 }
 
 export const DecodeIntegrityTokenRequest: Schema.Schema<DecodeIntegrityTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrityToken: Schema.optional(Schema.String),
     }),
@@ -256,14 +258,14 @@ export interface DeviceAttributes {
   sdkVersion?: number;
 }
 
-export const DeviceAttributes: Schema.Schema<DeviceAttributes> = Schema.suspend(
-  () =>
+export const DeviceAttributes: Schema.Schema<DeviceAttributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdkVersion: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "DeviceAttributes",
-}) as any as Schema.Schema<DeviceAttributes>;
+  ).annotate({
+    identifier: "DeviceAttributes",
+  }) as any as Schema.Schema<DeviceAttributes>;
 
 export interface RequestDetails {
   /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. For details on application integrity, check application_integrity. */
@@ -276,17 +278,17 @@ export interface RequestDetails {
   requestHash?: string;
 }
 
-export const RequestDetails: Schema.Schema<RequestDetails> = Schema.suspend(
-  () =>
+export const RequestDetails: Schema.Schema<RequestDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestPackageName: Schema.optional(Schema.String),
       nonce: Schema.optional(Schema.String),
       timestampMillis: Schema.optional(Schema.String),
       requestHash: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RequestDetails",
-}) as any as Schema.Schema<RequestDetails>;
+  ).annotate({
+    identifier: "RequestDetails",
+  }) as any as Schema.Schema<RequestDetails>;
 
 export interface RecentDeviceActivity {
   /** Required. Indicates the activity level of the device. */
@@ -301,7 +303,7 @@ export interface RecentDeviceActivity {
 }
 
 export const RecentDeviceActivity: Schema.Schema<RecentDeviceActivity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceActivityLevel: Schema.optional(Schema.String),
     }),
@@ -325,7 +327,7 @@ export interface EnvironmentDetails {
 }
 
 export const EnvironmentDetails: Schema.Schema<EnvironmentDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appAccessRiskVerdict: Schema.optional(AppAccessRiskVerdict),
       playProtectVerdict: Schema.optional(Schema.String),
@@ -346,29 +348,29 @@ export interface AccountDetails {
   accountActivity?: AccountActivity;
 }
 
-export const AccountDetails: Schema.Schema<AccountDetails> = Schema.suspend(
-  () =>
+export const AccountDetails: Schema.Schema<AccountDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appLicensingVerdict: Schema.optional(Schema.String),
       accountActivity: Schema.optional(AccountActivity),
     }),
-).annotate({
-  identifier: "AccountDetails",
-}) as any as Schema.Schema<AccountDetails>;
+  ).annotate({
+    identifier: "AccountDetails",
+  }) as any as Schema.Schema<AccountDetails>;
 
 export interface TestingDetails {
   /** Required. Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
   isTestingResponse?: boolean;
 }
 
-export const TestingDetails: Schema.Schema<TestingDetails> = Schema.suspend(
-  () =>
+export const TestingDetails: Schema.Schema<TestingDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isTestingResponse: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "TestingDetails",
-}) as any as Schema.Schema<TestingDetails>;
+  ).annotate({
+    identifier: "TestingDetails",
+  }) as any as Schema.Schema<TestingDetails>;
 
 export interface WriteDates {
   /** Optional. Write time in YYYYMM format (in UTC, e.g. 202402) for the third bit. Note that this value won't be set if the third bit is false. */
@@ -379,13 +381,14 @@ export interface WriteDates {
   yyyymmSecond?: number;
 }
 
-export const WriteDates: Schema.Schema<WriteDates> = Schema.suspend(() =>
-  Schema.Struct({
-    yyyymmThird: Schema.optional(Schema.Number),
-    yyyymmFirst: Schema.optional(Schema.Number),
-    yyyymmSecond: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "WriteDates" }) as any as Schema.Schema<WriteDates>;
+export const WriteDates: Schema.Schema<WriteDates> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      yyyymmThird: Schema.optional(Schema.Number),
+      yyyymmFirst: Schema.optional(Schema.Number),
+      yyyymmSecond: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "WriteDates" }) as any as Schema.Schema<WriteDates>;
 
 export interface DeviceRecall {
   /** Required. Contains the recall bits write dates. */
@@ -394,14 +397,15 @@ export interface DeviceRecall {
   values?: Values;
 }
 
-export const DeviceRecall: Schema.Schema<DeviceRecall> = Schema.suspend(() =>
-  Schema.Struct({
-    writeDates: Schema.optional(WriteDates),
-    values: Schema.optional(Values),
-  }),
-).annotate({
-  identifier: "DeviceRecall",
-}) as any as Schema.Schema<DeviceRecall>;
+export const DeviceRecall: Schema.Schema<DeviceRecall> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      writeDates: Schema.optional(WriteDates),
+      values: Schema.optional(Values),
+    }),
+  ).annotate({
+    identifier: "DeviceRecall",
+  }) as any as Schema.Schema<DeviceRecall>;
 
 export interface DeviceIntegrity {
   /** Details about the integrity of the device the app is running on. */
@@ -430,8 +434,8 @@ export interface DeviceIntegrity {
   recentDeviceActivity?: RecentDeviceActivity;
 }
 
-export const DeviceIntegrity: Schema.Schema<DeviceIntegrity> = Schema.suspend(
-  () =>
+export const DeviceIntegrity: Schema.Schema<DeviceIntegrity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceRecognitionVerdict: Schema.optional(Schema.Array(Schema.String)),
       deviceRecall: Schema.optional(DeviceRecall),
@@ -441,9 +445,9 @@ export const DeviceIntegrity: Schema.Schema<DeviceIntegrity> = Schema.suspend(
       deviceAttributes: Schema.optional(DeviceAttributes),
       recentDeviceActivity: Schema.optional(RecentDeviceActivity),
     }),
-).annotate({
-  identifier: "DeviceIntegrity",
-}) as any as Schema.Schema<DeviceIntegrity>;
+  ).annotate({
+    identifier: "DeviceIntegrity",
+  }) as any as Schema.Schema<DeviceIntegrity>;
 
 export interface TokenPayloadExternal {
   /** Required. Details about the application integrity. */
@@ -461,7 +465,7 @@ export interface TokenPayloadExternal {
 }
 
 export const TokenPayloadExternal: Schema.Schema<TokenPayloadExternal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appIntegrity: Schema.optional(AppIntegrity),
       accountDetails: Schema.optional(AccountDetails),
@@ -480,7 +484,7 @@ export interface DecodeIntegrityTokenResponse {
 }
 
 export const DecodeIntegrityTokenResponse: Schema.Schema<DecodeIntegrityTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tokenPayloadExternal: Schema.optional(TokenPayloadExternal),
     }),
@@ -494,7 +498,7 @@ export interface DecodePcIntegrityTokenRequest {
 }
 
 export const DecodePcIntegrityTokenRequest: Schema.Schema<DecodePcIntegrityTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrityToken: Schema.optional(Schema.String),
     }),
@@ -505,7 +509,7 @@ export const DecodePcIntegrityTokenRequest: Schema.Schema<DecodePcIntegrityToken
 export interface WriteDeviceRecallResponse {}
 
 export const WriteDeviceRecallResponse: Schema.Schema<WriteDeviceRecallResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "WriteDeviceRecallResponse",
   }) as any as Schema.Schema<WriteDeviceRecallResponse>;
 
@@ -520,20 +524,22 @@ export interface DecodePcIntegrityTokenV1Request {
   body?: DecodePcIntegrityTokenRequest;
 }
 
-export const DecodePcIntegrityTokenV1Request = Schema.Struct({
-  packageName: Schema.String.pipe(T.HttpPath("packageName")),
-  body: Schema.optional(DecodePcIntegrityTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}:decodePcIntegrityToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DecodePcIntegrityTokenV1Request>;
+export const DecodePcIntegrityTokenV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    packageName: Schema.String.pipe(T.HttpPath("packageName")),
+    body: Schema.optional(DecodePcIntegrityTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}:decodePcIntegrityToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DecodePcIntegrityTokenV1Request>;
 
 export type DecodePcIntegrityTokenV1Response = DecodePcIntegrityTokenResponse;
-export const DecodePcIntegrityTokenV1Response = DecodePcIntegrityTokenResponse;
+export const DecodePcIntegrityTokenV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ DecodePcIntegrityTokenResponse;
 
 export type DecodePcIntegrityTokenV1Error = DefaultErrors;
 
@@ -543,7 +549,7 @@ export const decodePcIntegrityTokenV1: API.OperationMethod<
   DecodePcIntegrityTokenV1Response,
   DecodePcIntegrityTokenV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecodePcIntegrityTokenV1Request,
   output: DecodePcIntegrityTokenV1Response,
   errors: [],
@@ -556,20 +562,22 @@ export interface DecodeIntegrityTokenV1Request {
   body?: DecodeIntegrityTokenRequest;
 }
 
-export const DecodeIntegrityTokenV1Request = Schema.Struct({
-  packageName: Schema.String.pipe(T.HttpPath("packageName")),
-  body: Schema.optional(DecodeIntegrityTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}:decodeIntegrityToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DecodeIntegrityTokenV1Request>;
+export const DecodeIntegrityTokenV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    packageName: Schema.String.pipe(T.HttpPath("packageName")),
+    body: Schema.optional(DecodeIntegrityTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}:decodeIntegrityToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DecodeIntegrityTokenV1Request>;
 
 export type DecodeIntegrityTokenV1Response = DecodeIntegrityTokenResponse;
-export const DecodeIntegrityTokenV1Response = DecodeIntegrityTokenResponse;
+export const DecodeIntegrityTokenV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ DecodeIntegrityTokenResponse;
 
 export type DecodeIntegrityTokenV1Error = DefaultErrors;
 
@@ -579,7 +587,7 @@ export const decodeIntegrityTokenV1: API.OperationMethod<
   DecodeIntegrityTokenV1Response,
   DecodeIntegrityTokenV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DecodeIntegrityTokenV1Request,
   output: DecodeIntegrityTokenV1Response,
   errors: [],
@@ -592,20 +600,22 @@ export interface WriteDeviceRecallRequest_Op {
   body?: WriteDeviceRecallRequest;
 }
 
-export const WriteDeviceRecallRequest_Op = Schema.Struct({
-  packageName: Schema.String.pipe(T.HttpPath("packageName")),
-  body: Schema.optional(WriteDeviceRecallRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}/deviceRecall:write",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WriteDeviceRecallRequest_Op>;
+export const WriteDeviceRecallRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    packageName: Schema.String.pipe(T.HttpPath("packageName")),
+    body: Schema.optional(WriteDeviceRecallRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}/deviceRecall:write",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteDeviceRecallRequest_Op>;
 
 export type WriteDeviceRecallResponse_Op = WriteDeviceRecallResponse;
-export const WriteDeviceRecallResponse_Op = WriteDeviceRecallResponse;
+export const WriteDeviceRecallResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ WriteDeviceRecallResponse;
 
 export type WriteDeviceRecallError = DefaultErrors;
 
@@ -615,7 +625,7 @@ export const writeDeviceRecall: API.OperationMethod<
   WriteDeviceRecallResponse_Op,
   WriteDeviceRecallError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteDeviceRecallRequest_Op,
   output: WriteDeviceRecallResponse_Op,
   errors: [],

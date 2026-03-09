@@ -4,58 +4,60 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListDeployOperationsInput = Schema.Struct({
-  number: Schema.Number.pipe(T.PathParam()),
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  page: Schema.optional(Schema.Number),
-  per_page: Schema.optional(Schema.Number),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/organizations/{organization}/databases/{database}/deploy-requests/{number}/operations",
-  }),
-);
+export const ListDeployOperationsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    number: Schema.Number.pipe(T.PathParam()),
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    page: Schema.optional(Schema.Number),
+    per_page: Schema.optional(Schema.Number),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{organization}/databases/{database}/deploy-requests/{number}/operations",
+    }),
+  );
 export type ListDeployOperationsInput = typeof ListDeployOperationsInput.Type;
 
 // Output Schema
-export const ListDeployOperationsOutput = Schema.Struct({
-  current_page: Schema.Number,
-  next_page: Schema.NullOr(Schema.Number),
-  next_page_url: Schema.NullOr(Schema.String),
-  prev_page: Schema.NullOr(Schema.Number),
-  prev_page_url: Schema.NullOr(Schema.String),
-  data: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      state: Schema.Literals([
-        "pending",
-        "queued",
-        "in_progress",
-        "complete",
-        "cancelled",
-        "error",
-      ]),
-      keyspace_name: Schema.String,
-      table_name: Schema.String,
-      operation_name: Schema.String,
-      eta_seconds: Schema.Number,
-      progress_percentage: Schema.Number,
-      deploy_error_docs_url: Schema.String,
-      ddl_statement: Schema.String,
-      syntax_highlighted_ddl: Schema.String,
-      created_at: Schema.String,
-      updated_at: Schema.String,
-      throttled_at: Schema.String,
-      can_drop_data: Schema.Boolean,
-      table_locked: Schema.Boolean,
-      table_recently_used: Schema.Boolean,
-      table_recently_used_at: Schema.String,
-      removed_foreign_key_names: Schema.Array(Schema.String),
-      deploy_errors: Schema.String,
-    }),
-  ),
-});
+export const ListDeployOperationsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    current_page: Schema.Number,
+    next_page: Schema.NullOr(Schema.Number),
+    next_page_url: Schema.NullOr(Schema.String),
+    prev_page: Schema.NullOr(Schema.Number),
+    prev_page_url: Schema.NullOr(Schema.String),
+    data: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        state: Schema.Literals([
+          "pending",
+          "queued",
+          "in_progress",
+          "complete",
+          "cancelled",
+          "error",
+        ]),
+        keyspace_name: Schema.String,
+        table_name: Schema.String,
+        operation_name: Schema.String,
+        eta_seconds: Schema.Number,
+        progress_percentage: Schema.Number,
+        deploy_error_docs_url: Schema.String,
+        ddl_statement: Schema.String,
+        syntax_highlighted_ddl: Schema.String,
+        created_at: Schema.String,
+        updated_at: Schema.String,
+        throttled_at: Schema.String,
+        can_drop_data: Schema.Boolean,
+        table_locked: Schema.Boolean,
+        table_recently_used: Schema.Boolean,
+        table_recently_used_at: Schema.String,
+        removed_foreign_key_names: Schema.Array(Schema.String),
+        deploy_errors: Schema.String,
+      }),
+    ),
+  });
 export type ListDeployOperationsOutput = typeof ListDeployOperationsOutput.Type;
 
 // The operation

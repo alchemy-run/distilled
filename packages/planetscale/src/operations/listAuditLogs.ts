@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListAuditLogsInput = Schema.Struct({
+export const ListAuditLogsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
 }).pipe(
   T.Http({ method: "GET", path: "/organizations/{organization}/audit-log" }),
@@ -12,7 +12,7 @@ export const ListAuditLogsInput = Schema.Struct({
 export type ListAuditLogsInput = typeof ListAuditLogsInput.Type;
 
 // Output Schema
-export const ListAuditLogsOutput = Schema.Struct({
+export const ListAuditLogsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   has_next: Schema.Boolean,
   has_prev: Schema.Boolean,
   cursor_start: Schema.NullOr(Schema.String),

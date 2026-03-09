@@ -38,14 +38,15 @@ export interface Approval {
   updateTime?: string;
 }
 
-export const Approval: Schema.Schema<Approval> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    reason: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Approval" }) as any as Schema.Schema<Approval>;
+export const Approval: Schema.Schema<Approval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Approval" }) as any as Schema.Schema<Approval>;
 
 export interface Account {
   /** Output only. The resource name of the account. Account names have the form `accounts/{account_id}`. */
@@ -70,20 +71,21 @@ export interface Account {
   resellerParentBillingAccount?: string;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    provider: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    inputProperties: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    approvals: Schema.optional(Schema.Array(Approval)),
-    resellerParentBillingAccount: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      inputProperties: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      approvals: Schema.optional(Schema.Array(Approval)),
+      resellerParentBillingAccount: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface ListAccountsResponse {
   /** The list of accounts in this response. */
@@ -93,7 +95,7 @@ export interface ListAccountsResponse {
 }
 
 export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accounts: Schema.optional(Schema.Array(Account)),
       nextPageToken: Schema.optional(Schema.String),
@@ -112,7 +114,7 @@ export interface ApproveAccountRequest {
 }
 
 export const ApproveAccountRequest: Schema.Schema<ApproveAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       approvalName: Schema.optional(Schema.String),
@@ -124,9 +126,10 @@ export const ApproveAccountRequest: Schema.Schema<ApproveAccountRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface RejectAccountRequest {
   /** The name of the approval being rejected. If absent and there is only one approval possible, that approval will be rejected. If absent and there are many approvals possible, the request will fail with a 400 Bad Request. Optional. */
@@ -136,7 +139,7 @@ export interface RejectAccountRequest {
 }
 
 export const RejectAccountRequest: Schema.Schema<RejectAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       approvalName: Schema.optional(Schema.String),
       reason: Schema.optional(Schema.String),
@@ -148,7 +151,7 @@ export const RejectAccountRequest: Schema.Schema<RejectAccountRequest> =
 export interface ResetAccountRequest {}
 
 export const ResetAccountRequest: Schema.Schema<ResetAccountRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResetAccountRequest",
   }) as any as Schema.Schema<ResetAccountRequest>;
 
@@ -157,11 +160,12 @@ export interface Consumer {
   project?: string;
 }
 
-export const Consumer: Schema.Schema<Consumer> = Schema.suspend(() =>
-  Schema.Struct({
-    project: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Consumer" }) as any as Schema.Schema<Consumer>;
+export const Consumer: Schema.Schema<Consumer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      project: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Consumer" }) as any as Schema.Schema<Consumer>;
 
 export interface Entitlement {
   /** Output only. The resource name of the entitlement. Entitlement names have the form `providers/{provider_id}/entitlements/{entitlement_id}`. */
@@ -227,38 +231,41 @@ export interface Entitlement {
   cancellationReason?: string;
 }
 
-export const Entitlement: Schema.Schema<Entitlement> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    account: Schema.optional(Schema.String),
-    provider: Schema.optional(Schema.String),
-    product: Schema.optional(Schema.String),
-    quoteExternalName: Schema.optional(Schema.String),
-    productExternalName: Schema.optional(Schema.String),
-    plan: Schema.optional(Schema.String),
-    offer: Schema.optional(Schema.String),
-    newPendingOffer: Schema.optional(Schema.String),
-    newOfferStartTime: Schema.optional(Schema.String),
-    offerDuration: Schema.optional(Schema.String),
-    newPendingOfferDuration: Schema.optional(Schema.String),
-    offerEndTime: Schema.optional(Schema.String),
-    newOfferEndTime: Schema.optional(Schema.String),
-    newPendingPlan: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    inputProperties: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    usageReportingId: Schema.optional(Schema.String),
-    messageToUser: Schema.optional(Schema.String),
-    consumers: Schema.optional(Schema.Array(Consumer)),
-    subscriptionEndTime: Schema.optional(Schema.String),
-    orderId: Schema.optional(Schema.String),
-    entitlementBenefitIds: Schema.optional(Schema.Array(Schema.String)),
-    cancellationReason: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Entitlement" }) as any as Schema.Schema<Entitlement>;
+export const Entitlement: Schema.Schema<Entitlement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.String),
+      product: Schema.optional(Schema.String),
+      quoteExternalName: Schema.optional(Schema.String),
+      productExternalName: Schema.optional(Schema.String),
+      plan: Schema.optional(Schema.String),
+      offer: Schema.optional(Schema.String),
+      newPendingOffer: Schema.optional(Schema.String),
+      newOfferStartTime: Schema.optional(Schema.String),
+      offerDuration: Schema.optional(Schema.String),
+      newPendingOfferDuration: Schema.optional(Schema.String),
+      offerEndTime: Schema.optional(Schema.String),
+      newOfferEndTime: Schema.optional(Schema.String),
+      newPendingPlan: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      inputProperties: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      usageReportingId: Schema.optional(Schema.String),
+      messageToUser: Schema.optional(Schema.String),
+      consumers: Schema.optional(Schema.Array(Consumer)),
+      subscriptionEndTime: Schema.optional(Schema.String),
+      orderId: Schema.optional(Schema.String),
+      entitlementBenefitIds: Schema.optional(Schema.Array(Schema.String)),
+      cancellationReason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Entitlement",
+  }) as any as Schema.Schema<Entitlement>;
 
 export interface ListEntitlementsResponse {
   /** The list of entitlements in this response. */
@@ -268,7 +275,7 @@ export interface ListEntitlementsResponse {
 }
 
 export const ListEntitlementsResponse: Schema.Schema<ListEntitlementsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entitlements: Schema.optional(Schema.Array(Entitlement)),
       nextPageToken: Schema.optional(Schema.String),
@@ -285,7 +292,7 @@ export interface ApproveEntitlementRequest {
 }
 
 export const ApproveEntitlementRequest: Schema.Schema<ApproveEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       entitlementMigrated: Schema.optional(Schema.String),
@@ -300,7 +307,7 @@ export interface RejectEntitlementRequest {
 }
 
 export const RejectEntitlementRequest: Schema.Schema<RejectEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -314,7 +321,7 @@ export interface ApproveEntitlementPlanChangeRequest {
 }
 
 export const ApproveEntitlementPlanChangeRequest: Schema.Schema<ApproveEntitlementPlanChangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pendingPlanName: Schema.optional(Schema.String),
     }),
@@ -330,7 +337,7 @@ export interface RejectEntitlementPlanChangeRequest {
 }
 
 export const RejectEntitlementPlanChangeRequest: Schema.Schema<RejectEntitlementPlanChangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
       pendingPlanName: Schema.optional(Schema.String),
@@ -345,7 +352,7 @@ export interface SuspendEntitlementRequest {
 }
 
 export const SuspendEntitlementRequest: Schema.Schema<SuspendEntitlementRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -368,19 +375,20 @@ export interface GetProvidersAccountsRequest {
     | (string & {});
 }
 
-export const GetProvidersAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/providers/{providersId}/accounts/{accountsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProvidersAccountsRequest>;
+export const GetProvidersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/providers/{providersId}/accounts/{accountsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProvidersAccountsRequest>;
 
 export type GetProvidersAccountsResponse = Account;
-export const GetProvidersAccountsResponse = Account;
+export const GetProvidersAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type GetProvidersAccountsError = DefaultErrors;
 
@@ -390,7 +398,7 @@ export const getProvidersAccounts: API.OperationMethod<
   GetProvidersAccountsResponse,
   GetProvidersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProvidersAccountsRequest,
   output: GetProvidersAccountsResponse,
   errors: [],
@@ -405,17 +413,19 @@ export interface ListProvidersAccountsRequest {
   pageToken?: string;
 }
 
-export const ListProvidersAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/providers/{providersId}/accounts" }),
-  svc,
-) as unknown as Schema.Schema<ListProvidersAccountsRequest>;
+export const ListProvidersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/providers/{providersId}/accounts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProvidersAccountsRequest>;
 
 export type ListProvidersAccountsResponse = ListAccountsResponse;
-export const ListProvidersAccountsResponse = ListAccountsResponse;
+export const ListProvidersAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
 
 export type ListProvidersAccountsError = DefaultErrors;
 
@@ -425,7 +435,7 @@ export const listProvidersAccounts: API.PaginatedOperationMethod<
   ListProvidersAccountsResponse,
   ListProvidersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProvidersAccountsRequest,
   output: ListProvidersAccountsResponse,
   errors: [],
@@ -442,20 +452,22 @@ export interface ApproveProvidersAccountsRequest {
   body?: ApproveAccountRequest;
 }
 
-export const ApproveProvidersAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ApproveAccountRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/accounts/{accountsId}:approve",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApproveProvidersAccountsRequest>;
+export const ApproveProvidersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ApproveAccountRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/accounts/{accountsId}:approve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApproveProvidersAccountsRequest>;
 
 export type ApproveProvidersAccountsResponse = Empty;
-export const ApproveProvidersAccountsResponse = Empty;
+export const ApproveProvidersAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ApproveProvidersAccountsError = DefaultErrors;
 
@@ -465,7 +477,7 @@ export const approveProvidersAccounts: API.OperationMethod<
   ApproveProvidersAccountsResponse,
   ApproveProvidersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApproveProvidersAccountsRequest,
   output: ApproveProvidersAccountsResponse,
   errors: [],
@@ -478,20 +490,22 @@ export interface RejectProvidersAccountsRequest {
   body?: RejectAccountRequest;
 }
 
-export const RejectProvidersAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RejectAccountRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/accounts/{accountsId}:reject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RejectProvidersAccountsRequest>;
+export const RejectProvidersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RejectAccountRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/accounts/{accountsId}:reject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RejectProvidersAccountsRequest>;
 
 export type RejectProvidersAccountsResponse = Empty;
-export const RejectProvidersAccountsResponse = Empty;
+export const RejectProvidersAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RejectProvidersAccountsError = DefaultErrors;
 
@@ -501,7 +515,7 @@ export const rejectProvidersAccounts: API.OperationMethod<
   RejectProvidersAccountsResponse,
   RejectProvidersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectProvidersAccountsRequest,
   output: RejectProvidersAccountsResponse,
   errors: [],
@@ -514,20 +528,21 @@ export interface ResetProvidersAccountsRequest {
   body?: ResetAccountRequest;
 }
 
-export const ResetProvidersAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ResetAccountRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/accounts/{accountsId}:reset",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResetProvidersAccountsRequest>;
+export const ResetProvidersAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ResetAccountRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/accounts/{accountsId}:reset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetProvidersAccountsRequest>;
 
 export type ResetProvidersAccountsResponse = Empty;
-export const ResetProvidersAccountsResponse = Empty;
+export const ResetProvidersAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ResetProvidersAccountsError = DefaultErrors;
 
@@ -537,7 +552,7 @@ export const resetProvidersAccounts: API.OperationMethod<
   ResetProvidersAccountsResponse,
   ResetProvidersAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetProvidersAccountsRequest,
   output: ResetProvidersAccountsResponse,
   errors: [],
@@ -548,18 +563,20 @@ export interface GetProvidersEntitlementsRequest {
   name: string;
 }
 
-export const GetProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProvidersEntitlementsRequest>;
+export const GetProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProvidersEntitlementsRequest>;
 
 export type GetProvidersEntitlementsResponse = Entitlement;
-export const GetProvidersEntitlementsResponse = Entitlement;
+export const GetProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Entitlement;
 
 export type GetProvidersEntitlementsError = DefaultErrors;
 
@@ -569,7 +586,7 @@ export const getProvidersEntitlements: API.OperationMethod<
   GetProvidersEntitlementsResponse,
   GetProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProvidersEntitlementsRequest,
   output: GetProvidersEntitlementsResponse,
   errors: [],
@@ -584,21 +601,23 @@ export interface PatchProvidersEntitlementsRequest {
   body?: Entitlement;
 }
 
-export const PatchProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Entitlement).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProvidersEntitlementsRequest>;
+export const PatchProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Entitlement).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProvidersEntitlementsRequest>;
 
 export type PatchProvidersEntitlementsResponse = Entitlement;
-export const PatchProvidersEntitlementsResponse = Entitlement;
+export const PatchProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Entitlement;
 
 export type PatchProvidersEntitlementsError = DefaultErrors;
 
@@ -608,7 +627,7 @@ export const patchProvidersEntitlements: API.OperationMethod<
   PatchProvidersEntitlementsResponse,
   PatchProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProvidersEntitlementsRequest,
   output: PatchProvidersEntitlementsResponse,
   errors: [],
@@ -625,18 +644,20 @@ export interface ListProvidersEntitlementsRequest {
   pageToken?: string;
 }
 
-export const ListProvidersEntitlementsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/providers/{providersId}/entitlements" }),
-  svc,
-) as unknown as Schema.Schema<ListProvidersEntitlementsRequest>;
+export const ListProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/providers/{providersId}/entitlements" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProvidersEntitlementsRequest>;
 
 export type ListProvidersEntitlementsResponse = ListEntitlementsResponse;
-export const ListProvidersEntitlementsResponse = ListEntitlementsResponse;
+export const ListProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListEntitlementsResponse;
 
 export type ListProvidersEntitlementsError = DefaultErrors;
 
@@ -646,7 +667,7 @@ export const listProvidersEntitlements: API.PaginatedOperationMethod<
   ListProvidersEntitlementsResponse,
   ListProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProvidersEntitlementsRequest,
   output: ListProvidersEntitlementsResponse,
   errors: [],
@@ -663,20 +684,22 @@ export interface ApproveProvidersEntitlementsRequest {
   body?: ApproveEntitlementRequest;
 }
 
-export const ApproveProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ApproveEntitlementRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}:approve",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApproveProvidersEntitlementsRequest>;
+export const ApproveProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ApproveEntitlementRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}:approve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApproveProvidersEntitlementsRequest>;
 
 export type ApproveProvidersEntitlementsResponse = Empty;
-export const ApproveProvidersEntitlementsResponse = Empty;
+export const ApproveProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ApproveProvidersEntitlementsError = DefaultErrors;
 
@@ -686,7 +709,7 @@ export const approveProvidersEntitlements: API.OperationMethod<
   ApproveProvidersEntitlementsResponse,
   ApproveProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApproveProvidersEntitlementsRequest,
   output: ApproveProvidersEntitlementsResponse,
   errors: [],
@@ -699,20 +722,22 @@ export interface RejectProvidersEntitlementsRequest {
   body?: RejectEntitlementRequest;
 }
 
-export const RejectProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RejectEntitlementRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}:reject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RejectProvidersEntitlementsRequest>;
+export const RejectProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RejectEntitlementRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}:reject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RejectProvidersEntitlementsRequest>;
 
 export type RejectProvidersEntitlementsResponse = Empty;
-export const RejectProvidersEntitlementsResponse = Empty;
+export const RejectProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RejectProvidersEntitlementsError = DefaultErrors;
 
@@ -722,7 +747,7 @@ export const rejectProvidersEntitlements: API.OperationMethod<
   RejectProvidersEntitlementsResponse,
   RejectProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectProvidersEntitlementsRequest,
   output: RejectProvidersEntitlementsResponse,
   errors: [],
@@ -735,20 +760,24 @@ export interface ApprovePlanChangeProvidersEntitlementsRequest {
   body?: ApproveEntitlementPlanChangeRequest;
 }
 
-export const ApprovePlanChangeProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ApproveEntitlementPlanChangeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}:approvePlanChange",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApprovePlanChangeProvidersEntitlementsRequest>;
+export const ApprovePlanChangeProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ApproveEntitlementPlanChangeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}:approvePlanChange",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApprovePlanChangeProvidersEntitlementsRequest>;
 
 export type ApprovePlanChangeProvidersEntitlementsResponse = Empty;
-export const ApprovePlanChangeProvidersEntitlementsResponse = Empty;
+export const ApprovePlanChangeProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ApprovePlanChangeProvidersEntitlementsError = DefaultErrors;
 
@@ -758,7 +787,7 @@ export const approvePlanChangeProvidersEntitlements: API.OperationMethod<
   ApprovePlanChangeProvidersEntitlementsResponse,
   ApprovePlanChangeProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApprovePlanChangeProvidersEntitlementsRequest,
   output: ApprovePlanChangeProvidersEntitlementsResponse,
   errors: [],
@@ -771,20 +800,24 @@ export interface RejectPlanChangeProvidersEntitlementsRequest {
   body?: RejectEntitlementPlanChangeRequest;
 }
 
-export const RejectPlanChangeProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RejectEntitlementPlanChangeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}:rejectPlanChange",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RejectPlanChangeProvidersEntitlementsRequest>;
+export const RejectPlanChangeProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RejectEntitlementPlanChangeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}:rejectPlanChange",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RejectPlanChangeProvidersEntitlementsRequest>;
 
 export type RejectPlanChangeProvidersEntitlementsResponse = Empty;
-export const RejectPlanChangeProvidersEntitlementsResponse = Empty;
+export const RejectPlanChangeProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RejectPlanChangeProvidersEntitlementsError = DefaultErrors;
 
@@ -794,7 +827,7 @@ export const rejectPlanChangeProvidersEntitlements: API.OperationMethod<
   RejectPlanChangeProvidersEntitlementsResponse,
   RejectPlanChangeProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejectPlanChangeProvidersEntitlementsRequest,
   output: RejectPlanChangeProvidersEntitlementsResponse,
   errors: [],
@@ -807,20 +840,22 @@ export interface SuspendProvidersEntitlementsRequest {
   body?: SuspendEntitlementRequest;
 }
 
-export const SuspendProvidersEntitlementsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SuspendEntitlementRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/providers/{providersId}/entitlements/{entitlementsId}:suspend",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SuspendProvidersEntitlementsRequest>;
+export const SuspendProvidersEntitlementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SuspendEntitlementRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/providers/{providersId}/entitlements/{entitlementsId}:suspend",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SuspendProvidersEntitlementsRequest>;
 
 export type SuspendProvidersEntitlementsResponse = Empty;
-export const SuspendProvidersEntitlementsResponse = Empty;
+export const SuspendProvidersEntitlementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type SuspendProvidersEntitlementsError = DefaultErrors;
 
@@ -830,7 +865,7 @@ export const suspendProvidersEntitlements: API.OperationMethod<
   SuspendProvidersEntitlementsResponse,
   SuspendProvidersEntitlementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendProvidersEntitlementsRequest,
   output: SuspendProvidersEntitlementsResponse,
   errors: [],

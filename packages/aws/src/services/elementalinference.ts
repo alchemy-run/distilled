@@ -97,35 +97,40 @@ export type AssociatedResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: S.optional(TagMap) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
@@ -143,16 +148,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -170,35 +177,37 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface CroppingConfig {}
-export const CroppingConfig = S.suspend(() => S.Struct({})).annotate({
-  identifier: "CroppingConfig",
-}) as any as S.Schema<CroppingConfig>;
+export const CroppingConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({ identifier: "CroppingConfig" }) as any as S.Schema<CroppingConfig>;
 export interface ClippingConfig {
   callbackMetadata?: string;
 }
-export const ClippingConfig = S.suspend(() =>
+export const ClippingConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ callbackMetadata: S.optional(S.String) }),
 ).annotate({ identifier: "ClippingConfig" }) as any as S.Schema<ClippingConfig>;
 export type OutputConfig =
   | { cropping: CroppingConfig; clipping?: never }
   | { cropping?: never; clipping: ClippingConfig };
-export const OutputConfig = S.Union([
+export const OutputConfig = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ cropping: CroppingConfig }),
   S.Struct({ clipping: ClippingConfig }),
 ]);
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
-export const OutputStatus = S.String;
+export const OutputStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
   description?: string;
 }
-export const CreateOutput = S.suspend(() =>
+export const CreateOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     outputConfig: OutputConfig,
@@ -207,13 +216,14 @@ export const CreateOutput = S.suspend(() =>
   }),
 ).annotate({ identifier: "CreateOutput" }) as any as S.Schema<CreateOutput>;
 export type CreateOutputList = CreateOutput[];
-export const CreateOutputList = S.Array(CreateOutput);
+export const CreateOutputList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CreateOutput);
 export interface CreateFeedRequest {
   name: string;
   outputs: CreateOutput[];
   tags?: { [key: string]: string | undefined };
 }
-export const CreateFeedRequest = S.suspend(() =>
+export const CreateFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     outputs: CreateOutputList,
@@ -232,7 +242,7 @@ export const CreateFeedRequest = S.suspend(() =>
   identifier: "CreateFeedRequest",
 }) as any as S.Schema<CreateFeedRequest>;
 export type StringList = string[];
-export const StringList = S.Array(S.String);
+export const StringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetOutput {
   name: string;
   outputConfig: OutputConfig;
@@ -240,7 +250,7 @@ export interface GetOutput {
   description?: string;
   fromAssociation?: boolean;
 }
-export const GetOutput = S.suspend(() =>
+export const GetOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     outputConfig: OutputConfig,
@@ -250,7 +260,7 @@ export const GetOutput = S.suspend(() =>
   }),
 ).annotate({ identifier: "GetOutput" }) as any as S.Schema<GetOutput>;
 export type GetOutputList = GetOutput[];
-export const GetOutputList = S.Array(GetOutput);
+export const GetOutputList = /*@__PURE__*/ /*#__PURE__*/ S.Array(GetOutput);
 export type FeedStatus =
   | "CREATING"
   | "AVAILABLE"
@@ -260,11 +270,11 @@ export type FeedStatus =
   | "DELETED"
   | "ARCHIVED"
   | (string & {});
-export const FeedStatus = S.String;
+export const FeedStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FeedAssociation {
   associatedResourceName: string;
 }
-export const FeedAssociation = S.suspend(() =>
+export const FeedAssociation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ associatedResourceName: S.String }),
 ).annotate({
   identifier: "FeedAssociation",
@@ -279,7 +289,7 @@ export interface CreateFeedResponse {
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateFeedResponse = S.suspend(() =>
+export const CreateFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
@@ -296,7 +306,7 @@ export const CreateFeedResponse = S.suspend(() =>
 export interface GetFeedRequest {
   id: string;
 }
-export const GetFeedRequest = S.suspend(() =>
+export const GetFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v1/feed/{id}" }),
@@ -318,7 +328,7 @@ export interface GetFeedResponse {
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
 }
-export const GetFeedResponse = S.suspend(() =>
+export const GetFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
@@ -339,7 +349,7 @@ export interface UpdateOutput {
   description?: string;
   fromAssociation?: boolean;
 }
-export const UpdateOutput = S.suspend(() =>
+export const UpdateOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     outputConfig: OutputConfig,
@@ -349,13 +359,14 @@ export const UpdateOutput = S.suspend(() =>
   }),
 ).annotate({ identifier: "UpdateOutput" }) as any as S.Schema<UpdateOutput>;
 export type UpdateOutputList = UpdateOutput[];
-export const UpdateOutputList = S.Array(UpdateOutput);
+export const UpdateOutputList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(UpdateOutput);
 export interface UpdateFeedRequest {
   name: string;
   id: string;
   outputs: UpdateOutput[];
 }
-export const UpdateFeedRequest = S.suspend(() =>
+export const UpdateFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     id: S.String.pipe(T.HttpLabel("id")),
@@ -383,7 +394,7 @@ export interface UpdateFeedResponse {
   association?: FeedAssociation;
   tags?: { [key: string]: string | undefined };
 }
-export const UpdateFeedResponse = S.suspend(() =>
+export const UpdateFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
@@ -400,7 +411,7 @@ export const UpdateFeedResponse = S.suspend(() =>
 export interface DeleteFeedRequest {
   id: string;
 }
-export const DeleteFeedRequest = S.suspend(() =>
+export const DeleteFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v1/feed/{id}" }),
@@ -419,7 +430,7 @@ export interface DeleteFeedResponse {
   id: string;
   status: FeedStatus;
 }
-export const DeleteFeedResponse = S.suspend(() =>
+export const DeleteFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String, status: FeedStatus }),
 ).annotate({
   identifier: "DeleteFeedResponse",
@@ -428,7 +439,7 @@ export interface ListFeedsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListFeedsRequest = S.suspend(() =>
+export const ListFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -452,7 +463,7 @@ export interface FeedSummary {
   association?: FeedAssociation;
   status: FeedStatus;
 }
-export const FeedSummary = S.suspend(() =>
+export const FeedSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     id: S.String,
@@ -462,12 +473,12 @@ export const FeedSummary = S.suspend(() =>
   }),
 ).annotate({ identifier: "FeedSummary" }) as any as S.Schema<FeedSummary>;
 export type FeedSummaryList = FeedSummary[];
-export const FeedSummaryList = S.Array(FeedSummary);
+export const FeedSummaryList = /*@__PURE__*/ /*#__PURE__*/ S.Array(FeedSummary);
 export interface ListFeedsResponse {
   feeds: FeedSummary[];
   nextToken?: string;
 }
-export const ListFeedsResponse = S.suspend(() =>
+export const ListFeedsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ feeds: FeedSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFeedsResponse",
@@ -478,7 +489,7 @@ export interface AssociateFeedRequest {
   outputs: CreateOutput[];
   dryRun?: boolean;
 }
-export const AssociateFeedRequest = S.suspend(() =>
+export const AssociateFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
     associatedResourceName: S.String.pipe(T.IdempotencyToken()),
@@ -501,7 +512,7 @@ export interface AssociateFeedResponse {
   arn: string;
   id: string;
 }
-export const AssociateFeedResponse = S.suspend(() =>
+export const AssociateFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String }),
 ).annotate({
   identifier: "AssociateFeedResponse",
@@ -511,21 +522,22 @@ export interface DisassociateFeedRequest {
   associatedResourceName: string;
   dryRun?: boolean;
 }
-export const DisassociateFeedRequest = S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    associatedResourceName: S.String.pipe(T.IdempotencyToken()),
-    dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/feed/{id}/disassociate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisassociateFeedRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String.pipe(T.HttpLabel("id")),
+      associatedResourceName: S.String.pipe(T.IdempotencyToken()),
+      dryRun: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/feed/{id}/disassociate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DisassociateFeedRequest",
 }) as any as S.Schema<DisassociateFeedRequest>;
@@ -533,8 +545,8 @@ export interface DisassociateFeedResponse {
   arn: string;
   id: string;
 }
-export const DisassociateFeedResponse = S.suspend(() =>
-  S.Struct({ arn: S.String, id: S.String }),
+export const DisassociateFeedResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ arn: S.String, id: S.String }),
 ).annotate({
   identifier: "DisassociateFeedResponse",
 }) as any as S.Schema<DisassociateFeedResponse>;

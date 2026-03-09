@@ -3,29 +3,31 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const UpdateBranchNeonAuthOauthProviderInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  oauth_provider_id: Schema.String.pipe(T.PathParam()),
-  client_id: Schema.optional(Schema.String),
-  client_secret: Schema.optional(Schema.String),
-  microsoft_tenant_id: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
-  }),
-);
+export const UpdateBranchNeonAuthOauthProviderInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    oauth_provider_id: Schema.String.pipe(T.PathParam()),
+    client_id: Schema.optional(Schema.String),
+    client_secret: Schema.optional(Schema.String),
+    microsoft_tenant_id: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers/{oauth_provider_id}",
+    }),
+  );
 export type UpdateBranchNeonAuthOauthProviderInput =
   typeof UpdateBranchNeonAuthOauthProviderInput.Type;
 
 // Output Schema
-export const UpdateBranchNeonAuthOauthProviderOutput = Schema.Struct({
-  id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
-  type: Schema.Literals(["standard", "shared"]),
-  client_id: Schema.optional(Schema.String),
-  client_secret: Schema.optional(Schema.String),
-});
+export const UpdateBranchNeonAuthOauthProviderOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
+    type: Schema.Literals(["standard", "shared"]),
+    client_id: Schema.optional(Schema.String),
+    client_secret: Schema.optional(Schema.String),
+  });
 export type UpdateBranchNeonAuthOauthProviderOutput =
   typeof UpdateBranchNeonAuthOauthProviderOutput.Type;
 

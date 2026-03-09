@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface SetPropertyServiceLevelResponse {}
 
 export const SetPropertyServiceLevelResponse: Schema.Schema<SetPropertyServiceLevelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SetPropertyServiceLevelResponse",
   }) as any as Schema.Schema<SetPropertyServiceLevelResponse>;
 
@@ -36,14 +36,15 @@ export interface Organization {
   displayName?: string;
 }
 
-export const Organization: Schema.Schema<Organization> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Organization",
-}) as any as Schema.Schema<Organization>;
+export const Organization: Schema.Schema<Organization> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Organization",
+  }) as any as Schema.Schema<Organization>;
 
 export interface Marketingplatformadmin_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -55,7 +56,7 @@ export interface Marketingplatformadmin_Date {
 }
 
 export const Marketingplatformadmin_Date: Schema.Schema<Marketingplatformadmin_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
@@ -74,13 +75,14 @@ export interface ClientData {
   endDate?: Marketingplatformadmin_Date;
 }
 
-export const ClientData: Schema.Schema<ClientData> = Schema.suspend(() =>
-  Schema.Struct({
-    organization: Schema.optional(Organization),
-    startDate: Schema.optional(Marketingplatformadmin_Date),
-    endDate: Schema.optional(Marketingplatformadmin_Date),
-  }),
-).annotate({ identifier: "ClientData" }) as any as Schema.Schema<ClientData>;
+export const ClientData: Schema.Schema<ClientData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      organization: Schema.optional(Organization),
+      startDate: Schema.optional(Marketingplatformadmin_Date),
+      endDate: Schema.optional(Marketingplatformadmin_Date),
+    }),
+  ).annotate({ identifier: "ClientData" }) as any as Schema.Schema<ClientData>;
 
 export interface PropertyUsage {
   /** The number of events for which the property is billed in the requested month. */
@@ -108,19 +110,20 @@ export interface PropertyUsage {
     | (string & {});
 }
 
-export const PropertyUsage: Schema.Schema<PropertyUsage> = Schema.suspend(() =>
-  Schema.Struct({
-    billableEventCount: Schema.optional(Schema.String),
-    property: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    propertyType: Schema.optional(Schema.String),
-    totalEventCount: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    serviceLevel: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PropertyUsage",
-}) as any as Schema.Schema<PropertyUsage>;
+export const PropertyUsage: Schema.Schema<PropertyUsage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      billableEventCount: Schema.optional(Schema.String),
+      property: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      propertyType: Schema.optional(Schema.String),
+      totalEventCount: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      serviceLevel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PropertyUsage",
+  }) as any as Schema.Schema<PropertyUsage>;
 
 export interface SetPropertyServiceLevelRequest {
   /** Required. The Analytics property to change the ServiceLevel setting. This field is the name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
@@ -134,7 +137,7 @@ export interface SetPropertyServiceLevelRequest {
 }
 
 export const SetPropertyServiceLevelRequest: Schema.Schema<SetPropertyServiceLevelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyticsProperty: Schema.optional(Schema.String),
       serviceLevel: Schema.optional(Schema.String),
@@ -145,9 +148,10 @@ export const SetPropertyServiceLevelRequest: Schema.Schema<SetPropertyServiceLev
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface AnalyticsAccountLink {
   /** Identifier. Resource name of this AnalyticsAccountLink. Note the resource ID is the same as the ID of the Analtyics account. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} Example: "organizations/xyz/analyticsAccountLinks/1234" */
@@ -165,7 +169,7 @@ export interface AnalyticsAccountLink {
 }
 
 export const AnalyticsAccountLink: Schema.Schema<AnalyticsAccountLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -184,7 +188,7 @@ export interface ListAnalyticsAccountLinksResponse {
 }
 
 export const ListAnalyticsAccountLinksResponse: Schema.Schema<ListAnalyticsAccountLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       analyticsAccountLinks: Schema.optional(
@@ -204,13 +208,14 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface BillInfo {
   /** The amount of the monthly base fee. */
@@ -223,14 +228,15 @@ export interface BillInfo {
   priceProtectionCredit?: Money;
 }
 
-export const BillInfo: Schema.Schema<BillInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    baseFee: Schema.optional(Money),
-    eventFee: Schema.optional(Money),
-    total: Schema.optional(Money),
-    priceProtectionCredit: Schema.optional(Money),
-  }),
-).annotate({ identifier: "BillInfo" }) as any as Schema.Schema<BillInfo>;
+export const BillInfo: Schema.Schema<BillInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      baseFee: Schema.optional(Money),
+      eventFee: Schema.optional(Money),
+      total: Schema.optional(Money),
+      priceProtectionCredit: Schema.optional(Money),
+    }),
+  ).annotate({ identifier: "BillInfo" }) as any as Schema.Schema<BillInfo>;
 
 export interface ReportPropertyUsageResponse {
   /** Usage data for all properties in the specified organization and month. */
@@ -240,7 +246,7 @@ export interface ReportPropertyUsageResponse {
 }
 
 export const ReportPropertyUsageResponse: Schema.Schema<ReportPropertyUsageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       propertyUsages: Schema.optional(Schema.Array(PropertyUsage)),
       billInfo: Schema.optional(BillInfo),
@@ -255,7 +261,7 @@ export interface FindSalesPartnerManagedClientsRequest {
 }
 
 export const FindSalesPartnerManagedClientsRequest: Schema.Schema<FindSalesPartnerManagedClientsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isActive: Schema.optional(Schema.Boolean),
     }),
@@ -271,7 +277,7 @@ export interface ListOrganizationsResponse {
 }
 
 export const ListOrganizationsResponse: Schema.Schema<ListOrganizationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       organizations: Schema.optional(Schema.Array(Organization)),
@@ -286,7 +292,7 @@ export interface FindSalesPartnerManagedClientsResponse {
 }
 
 export const FindSalesPartnerManagedClientsResponse: Schema.Schema<FindSalesPartnerManagedClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientData: Schema.optional(Schema.Array(ClientData)),
     }),
@@ -300,7 +306,7 @@ export interface ReportPropertyUsageRequest {
 }
 
 export const ReportPropertyUsageRequest: Schema.Schema<ReportPropertyUsageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.String),
     }),
@@ -317,15 +323,17 @@ export interface GetOrganizationsRequest {
   name: string;
 }
 
-export const GetOrganizationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/organizations/{organizationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsRequest>;
+export const GetOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/organizations/{organizationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsRequest>;
 
 export type GetOrganizationsResponse = Organization;
-export const GetOrganizationsResponse = Organization;
+export const GetOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Organization;
 
 export type GetOrganizationsError = DefaultErrors;
 
@@ -335,7 +343,7 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsResponse,
   GetOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
@@ -348,26 +356,25 @@ export interface FindSalesPartnerManagedClientsOrganizationsRequest {
   body?: FindSalesPartnerManagedClientsRequest;
 }
 
-export const FindSalesPartnerManagedClientsOrganizationsRequest = Schema.Struct(
-  {
+export const FindSalesPartnerManagedClientsOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     organization: Schema.String.pipe(T.HttpPath("organization")),
     body: Schema.optional(FindSalesPartnerManagedClientsRequest).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/organizations/{organizationsId}:findSalesPartnerManagedClients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FindSalesPartnerManagedClientsOrganizationsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/organizations/{organizationsId}:findSalesPartnerManagedClients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FindSalesPartnerManagedClientsOrganizationsRequest>;
 
 export type FindSalesPartnerManagedClientsOrganizationsResponse =
   FindSalesPartnerManagedClientsResponse;
 export const FindSalesPartnerManagedClientsOrganizationsResponse =
-  FindSalesPartnerManagedClientsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ FindSalesPartnerManagedClientsResponse;
 
 export type FindSalesPartnerManagedClientsOrganizationsError = DefaultErrors;
 
@@ -377,7 +384,7 @@ export const findSalesPartnerManagedClientsOrganizations: API.OperationMethod<
   FindSalesPartnerManagedClientsOrganizationsResponse,
   FindSalesPartnerManagedClientsOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FindSalesPartnerManagedClientsOrganizationsRequest,
   output: FindSalesPartnerManagedClientsOrganizationsResponse,
   errors: [],
@@ -390,22 +397,23 @@ export interface ReportPropertyUsageOrganizationsRequest {
   body?: ReportPropertyUsageRequest;
 }
 
-export const ReportPropertyUsageOrganizationsRequest = Schema.Struct({
-  organization: Schema.String.pipe(T.HttpPath("organization")),
-  body: Schema.optional(ReportPropertyUsageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/organizations/{organizationsId}:reportPropertyUsage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReportPropertyUsageOrganizationsRequest>;
+export const ReportPropertyUsageOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.HttpPath("organization")),
+    body: Schema.optional(ReportPropertyUsageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/organizations/{organizationsId}:reportPropertyUsage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReportPropertyUsageOrganizationsRequest>;
 
 export type ReportPropertyUsageOrganizationsResponse =
   ReportPropertyUsageResponse;
 export const ReportPropertyUsageOrganizationsResponse =
-  ReportPropertyUsageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ReportPropertyUsageResponse;
 
 export type ReportPropertyUsageOrganizationsError = DefaultErrors;
 
@@ -415,7 +423,7 @@ export const reportPropertyUsageOrganizations: API.OperationMethod<
   ReportPropertyUsageOrganizationsResponse,
   ReportPropertyUsageOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportPropertyUsageOrganizationsRequest,
   output: ReportPropertyUsageOrganizationsResponse,
   errors: [],
@@ -428,16 +436,18 @@ export interface ListOrganizationsRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/organizations" }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsRequest>;
+export const ListOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/organizations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsRequest>;
 
 export type ListOrganizationsResponse_Op = ListOrganizationsResponse;
-export const ListOrganizationsResponse_Op = ListOrganizationsResponse;
+export const ListOrganizationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListOrganizationsResponse;
 
 export type ListOrganizationsError = DefaultErrors;
 
@@ -447,7 +457,7 @@ export const listOrganizations: API.PaginatedOperationMethod<
   ListOrganizationsResponse_Op,
   ListOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsRequest,
   output: ListOrganizationsResponse_Op,
   errors: [],
@@ -462,18 +472,20 @@ export interface DeleteOrganizationsAnalyticsAccountLinksRequest {
   name: string;
 }
 
-export const DeleteOrganizationsAnalyticsAccountLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks/{analyticsAccountLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsAnalyticsAccountLinksRequest>;
+export const DeleteOrganizationsAnalyticsAccountLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks/{analyticsAccountLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsAnalyticsAccountLinksRequest>;
 
 export type DeleteOrganizationsAnalyticsAccountLinksResponse = Empty;
-export const DeleteOrganizationsAnalyticsAccountLinksResponse = Empty;
+export const DeleteOrganizationsAnalyticsAccountLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteOrganizationsAnalyticsAccountLinksError = DefaultErrors;
 
@@ -483,7 +495,7 @@ export const deleteOrganizationsAnalyticsAccountLinks: API.OperationMethod<
   DeleteOrganizationsAnalyticsAccountLinksResponse,
   DeleteOrganizationsAnalyticsAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsAnalyticsAccountLinksRequest,
   output: DeleteOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
@@ -498,22 +510,23 @@ export interface ListOrganizationsAnalyticsAccountLinksRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsAnalyticsAccountLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsAnalyticsAccountLinksRequest>;
+export const ListOrganizationsAnalyticsAccountLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsAnalyticsAccountLinksRequest>;
 
 export type ListOrganizationsAnalyticsAccountLinksResponse =
   ListAnalyticsAccountLinksResponse;
 export const ListOrganizationsAnalyticsAccountLinksResponse =
-  ListAnalyticsAccountLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAnalyticsAccountLinksResponse;
 
 export type ListOrganizationsAnalyticsAccountLinksError = DefaultErrors;
 
@@ -523,7 +536,7 @@ export const listOrganizationsAnalyticsAccountLinks: API.PaginatedOperationMetho
   ListOrganizationsAnalyticsAccountLinksResponse,
   ListOrganizationsAnalyticsAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsAnalyticsAccountLinksRequest,
   output: ListOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
@@ -540,22 +553,23 @@ export interface CreateOrganizationsAnalyticsAccountLinksRequest {
   body?: AnalyticsAccountLink;
 }
 
-export const CreateOrganizationsAnalyticsAccountLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AnalyticsAccountLink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsAnalyticsAccountLinksRequest>;
+export const CreateOrganizationsAnalyticsAccountLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AnalyticsAccountLink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/organizations/{organizationsId}/analyticsAccountLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsAnalyticsAccountLinksRequest>;
 
 export type CreateOrganizationsAnalyticsAccountLinksResponse =
   AnalyticsAccountLink;
 export const CreateOrganizationsAnalyticsAccountLinksResponse =
-  AnalyticsAccountLink;
+  /*@__PURE__*/ /*#__PURE__*/ AnalyticsAccountLink;
 
 export type CreateOrganizationsAnalyticsAccountLinksError = DefaultErrors;
 
@@ -565,7 +579,7 @@ export const createOrganizationsAnalyticsAccountLinks: API.OperationMethod<
   CreateOrganizationsAnalyticsAccountLinksResponse,
   CreateOrganizationsAnalyticsAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsAnalyticsAccountLinksRequest,
   output: CreateOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
@@ -579,7 +593,7 @@ export interface SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksReques
 }
 
 export const SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     analyticsAccountLink: Schema.String.pipe(
       T.HttpPath("analyticsAccountLink"),
     ),
@@ -596,7 +610,7 @@ export const SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest =
 export type SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse =
   SetPropertyServiceLevelResponse;
 export const SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse =
-  SetPropertyServiceLevelResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SetPropertyServiceLevelResponse;
 
 export type SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksError =
   DefaultErrors;
@@ -607,7 +621,7 @@ export const setPropertyServiceLevelOrganizationsAnalyticsAccountLinks: API.Oper
   SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse,
   SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest,
   output: SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse,
   errors: [],

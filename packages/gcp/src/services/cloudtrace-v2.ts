@@ -30,7 +30,7 @@ export interface TruncatableString {
 }
 
 export const TruncatableString: Schema.Schema<TruncatableString> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       truncatedByteCount: Schema.optional(Schema.Number),
@@ -48,16 +48,16 @@ export interface AttributeValue {
   boolValue?: boolean;
 }
 
-export const AttributeValue: Schema.Schema<AttributeValue> = Schema.suspend(
-  () =>
+export const AttributeValue: Schema.Schema<AttributeValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(TruncatableString),
       intValue: Schema.optional(Schema.String),
       boolValue: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "AttributeValue",
-}) as any as Schema.Schema<AttributeValue>;
+  ).annotate({
+    identifier: "AttributeValue",
+  }) as any as Schema.Schema<AttributeValue>;
 
 export interface Attributes {
   /** A set of attributes. Each attribute's key can be up to 128 bytes long. The value can be a string up to 256 bytes, a signed 64-bit integer, or the boolean values `true` or `false`. For example: "/instance_id": { "string_value": { "value": "my-instance" } } "/http/request_bytes": { "int_value": 300 } "example.com/myattribute": { "bool_value": false } */
@@ -66,12 +66,15 @@ export interface Attributes {
   droppedAttributesCount?: number;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
-  Schema.Struct({
-    attributeMap: Schema.optional(Schema.Record(Schema.String, AttributeValue)),
-    droppedAttributesCount: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      attributeMap: Schema.optional(
+        Schema.Record(Schema.String, AttributeValue),
+      ),
+      droppedAttributesCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface Module {
   /** For example: main binary, kernel modules, and dynamic libraries such as libc.so, sharedlib.so (up to 256 bytes). */
@@ -80,12 +83,13 @@ export interface Module {
   buildId?: TruncatableString;
 }
 
-export const Module: Schema.Schema<Module> = Schema.suspend(() =>
-  Schema.Struct({
-    module: Schema.optional(TruncatableString),
-    buildId: Schema.optional(TruncatableString),
-  }),
-).annotate({ identifier: "Module" }) as any as Schema.Schema<Module>;
+export const Module: Schema.Schema<Module> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      module: Schema.optional(TruncatableString),
+      buildId: Schema.optional(TruncatableString),
+    }),
+  ).annotate({ identifier: "Module" }) as any as Schema.Schema<Module>;
 
 export interface StackFrame {
   /** The fully-qualified name that uniquely identifies the function or method that is active in this frame (up to 1024 bytes). */
@@ -104,17 +108,18 @@ export interface StackFrame {
   sourceVersion?: TruncatableString;
 }
 
-export const StackFrame: Schema.Schema<StackFrame> = Schema.suspend(() =>
-  Schema.Struct({
-    functionName: Schema.optional(TruncatableString),
-    originalFunctionName: Schema.optional(TruncatableString),
-    fileName: Schema.optional(TruncatableString),
-    lineNumber: Schema.optional(Schema.String),
-    columnNumber: Schema.optional(Schema.String),
-    loadModule: Schema.optional(Module),
-    sourceVersion: Schema.optional(TruncatableString),
-  }),
-).annotate({ identifier: "StackFrame" }) as any as Schema.Schema<StackFrame>;
+export const StackFrame: Schema.Schema<StackFrame> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      functionName: Schema.optional(TruncatableString),
+      originalFunctionName: Schema.optional(TruncatableString),
+      fileName: Schema.optional(TruncatableString),
+      lineNumber: Schema.optional(Schema.String),
+      columnNumber: Schema.optional(Schema.String),
+      loadModule: Schema.optional(Module),
+      sourceVersion: Schema.optional(TruncatableString),
+    }),
+  ).annotate({ identifier: "StackFrame" }) as any as Schema.Schema<StackFrame>;
 
 export interface StackFrames {
   /** Stack frames in this call stack. */
@@ -123,12 +128,15 @@ export interface StackFrames {
   droppedFramesCount?: number;
 }
 
-export const StackFrames: Schema.Schema<StackFrames> = Schema.suspend(() =>
-  Schema.Struct({
-    frame: Schema.optional(Schema.Array(StackFrame)),
-    droppedFramesCount: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "StackFrames" }) as any as Schema.Schema<StackFrames>;
+export const StackFrames: Schema.Schema<StackFrames> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      frame: Schema.optional(Schema.Array(StackFrame)),
+      droppedFramesCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "StackFrames",
+  }) as any as Schema.Schema<StackFrames>;
 
 export interface StackTrace {
   /** Stack frames in this stack trace. A maximum of 128 frames are allowed. */
@@ -137,12 +145,13 @@ export interface StackTrace {
   stackTraceHashId?: string;
 }
 
-export const StackTrace: Schema.Schema<StackTrace> = Schema.suspend(() =>
-  Schema.Struct({
-    stackFrames: Schema.optional(StackFrames),
-    stackTraceHashId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "StackTrace" }) as any as Schema.Schema<StackTrace>;
+export const StackTrace: Schema.Schema<StackTrace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      stackFrames: Schema.optional(StackFrames),
+      stackTraceHashId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "StackTrace" }) as any as Schema.Schema<StackTrace>;
 
 export interface Annotation {
   /** A user-supplied message describing the event. The maximum length for the description is 256 bytes. */
@@ -151,12 +160,13 @@ export interface Annotation {
   attributes?: Attributes;
 }
 
-export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(TruncatableString),
-    attributes: Schema.optional(Attributes),
-  }),
-).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
+export const Annotation: Schema.Schema<Annotation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(TruncatableString),
+      attributes: Schema.optional(Attributes),
+    }),
+  ).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
 
 export interface MessageEvent {
   /** Type of MessageEvent. Indicates whether the message was sent or received. */
@@ -169,16 +179,17 @@ export interface MessageEvent {
   compressedSizeBytes?: string;
 }
 
-export const MessageEvent: Schema.Schema<MessageEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    uncompressedSizeBytes: Schema.optional(Schema.String),
-    compressedSizeBytes: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MessageEvent",
-}) as any as Schema.Schema<MessageEvent>;
+export const MessageEvent: Schema.Schema<MessageEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      uncompressedSizeBytes: Schema.optional(Schema.String),
+      compressedSizeBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MessageEvent",
+  }) as any as Schema.Schema<MessageEvent>;
 
 export interface TimeEvent {
   /** The timestamp indicating the time the event occurred. */
@@ -189,13 +200,14 @@ export interface TimeEvent {
   messageEvent?: MessageEvent;
 }
 
-export const TimeEvent: Schema.Schema<TimeEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    time: Schema.optional(Schema.String),
-    annotation: Schema.optional(Annotation),
-    messageEvent: Schema.optional(MessageEvent),
-  }),
-).annotate({ identifier: "TimeEvent" }) as any as Schema.Schema<TimeEvent>;
+export const TimeEvent: Schema.Schema<TimeEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      time: Schema.optional(Schema.String),
+      annotation: Schema.optional(Annotation),
+      messageEvent: Schema.optional(MessageEvent),
+    }),
+  ).annotate({ identifier: "TimeEvent" }) as any as Schema.Schema<TimeEvent>;
 
 export interface TimeEvents {
   /** A collection of `TimeEvent`s. */
@@ -206,13 +218,14 @@ export interface TimeEvents {
   droppedMessageEventsCount?: number;
 }
 
-export const TimeEvents: Schema.Schema<TimeEvents> = Schema.suspend(() =>
-  Schema.Struct({
-    timeEvent: Schema.optional(Schema.Array(TimeEvent)),
-    droppedAnnotationsCount: Schema.optional(Schema.Number),
-    droppedMessageEventsCount: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeEvents" }) as any as Schema.Schema<TimeEvents>;
+export const TimeEvents: Schema.Schema<TimeEvents> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeEvent: Schema.optional(Schema.Array(TimeEvent)),
+      droppedAnnotationsCount: Schema.optional(Schema.Number),
+      droppedMessageEventsCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeEvents" }) as any as Schema.Schema<TimeEvents>;
 
 export interface Link {
   /** The `[TRACE_ID]` for a trace within a project. */
@@ -229,14 +242,15 @@ export interface Link {
   attributes?: Attributes;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() =>
-  Schema.Struct({
-    traceId: Schema.optional(Schema.String),
-    spanId: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    attributes: Schema.optional(Attributes),
-  }),
-).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      traceId: Schema.optional(Schema.String),
+      spanId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+    }),
+  ).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface Links {
   /** A collection of links. */
@@ -245,12 +259,13 @@ export interface Links {
   droppedLinksCount?: number;
 }
 
-export const Links: Schema.Schema<Links> = Schema.suspend(() =>
-  Schema.Struct({
-    link: Schema.optional(Schema.Array(Link)),
-    droppedLinksCount: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Links" }) as any as Schema.Schema<Links>;
+export const Links: Schema.Schema<Links> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      link: Schema.optional(Schema.Array(Link)),
+      droppedLinksCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Links" }) as any as Schema.Schema<Links>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -261,15 +276,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Span {
   /** Required. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
@@ -309,24 +325,25 @@ export interface Span {
     | (string & {});
 }
 
-export const Span: Schema.Schema<Span> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    spanId: Schema.optional(Schema.String),
-    parentSpanId: Schema.optional(Schema.String),
-    displayName: Schema.optional(TruncatableString),
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    attributes: Schema.optional(Attributes),
-    stackTrace: Schema.optional(StackTrace),
-    timeEvents: Schema.optional(TimeEvents),
-    links: Schema.optional(Links),
-    status: Schema.optional(Status),
-    sameProcessAsParentSpan: Schema.optional(Schema.Boolean),
-    childSpanCount: Schema.optional(Schema.Number),
-    spanKind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Span" }) as any as Schema.Schema<Span>;
+export const Span: Schema.Schema<Span> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      spanId: Schema.optional(Schema.String),
+      parentSpanId: Schema.optional(Schema.String),
+      displayName: Schema.optional(TruncatableString),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+      stackTrace: Schema.optional(StackTrace),
+      timeEvents: Schema.optional(TimeEvents),
+      links: Schema.optional(Links),
+      status: Schema.optional(Status),
+      sameProcessAsParentSpan: Schema.optional(Schema.Boolean),
+      childSpanCount: Schema.optional(Schema.Number),
+      spanKind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Span" }) as any as Schema.Schema<Span>;
 
 export interface BatchWriteSpansRequest {
   /** Required. A list of new spans. The span names must not match existing spans, otherwise the results are undefined. */
@@ -334,7 +351,7 @@ export interface BatchWriteSpansRequest {
 }
 
 export const BatchWriteSpansRequest: Schema.Schema<BatchWriteSpansRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spans: Schema.optional(Schema.Array(Span)),
     }),
@@ -344,9 +361,10 @@ export const BatchWriteSpansRequest: Schema.Schema<BatchWriteSpansRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -359,20 +377,22 @@ export interface BatchWriteProjectsTracesRequest {
   body?: BatchWriteSpansRequest;
 }
 
-export const BatchWriteProjectsTracesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(BatchWriteSpansRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/traces:batchWrite",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchWriteProjectsTracesRequest>;
+export const BatchWriteProjectsTracesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(BatchWriteSpansRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/traces:batchWrite",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchWriteProjectsTracesRequest>;
 
 export type BatchWriteProjectsTracesResponse = Empty;
-export const BatchWriteProjectsTracesResponse = Empty;
+export const BatchWriteProjectsTracesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type BatchWriteProjectsTracesError = DefaultErrors;
 
@@ -382,7 +402,7 @@ export const batchWriteProjectsTraces: API.OperationMethod<
   BatchWriteProjectsTracesResponse,
   BatchWriteProjectsTracesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchWriteProjectsTracesRequest,
   output: BatchWriteProjectsTracesResponse,
   errors: [],
@@ -395,20 +415,22 @@ export interface CreateSpanProjectsTracesSpansRequest {
   body?: Span;
 }
 
-export const CreateSpanProjectsTracesSpansRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Span).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/traces/{tracesId}/spans/{spansId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateSpanProjectsTracesSpansRequest>;
+export const CreateSpanProjectsTracesSpansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Span).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/traces/{tracesId}/spans/{spansId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSpanProjectsTracesSpansRequest>;
 
 export type CreateSpanProjectsTracesSpansResponse = Span;
-export const CreateSpanProjectsTracesSpansResponse = Span;
+export const CreateSpanProjectsTracesSpansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Span;
 
 export type CreateSpanProjectsTracesSpansError = DefaultErrors;
 
@@ -418,7 +440,7 @@ export const createSpanProjectsTracesSpans: API.OperationMethod<
   CreateSpanProjectsTracesSpansResponse,
   CreateSpanProjectsTracesSpansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpanProjectsTracesSpansRequest,
   output: CreateSpanProjectsTracesSpansResponse,
   errors: [],

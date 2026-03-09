@@ -23,7 +23,7 @@ export interface PurgeCacheRequest {
   tags?: string[];
 }
 
-export const PurgeCacheRequest = Schema.Struct({
+export const PurgeCacheRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   tags: Schema.optional(Schema.Array(Schema.String)),
 }).pipe(
@@ -34,7 +34,7 @@ export interface PurgeCacheResponse {
   id: string;
 }
 
-export const PurgeCacheResponse = Schema.Struct({
+export const PurgeCacheResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<PurgeCacheResponse>;
 
@@ -45,7 +45,7 @@ export const purgeCache: API.OperationMethod<
   PurgeCacheResponse,
   PurgeCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeCacheRequest,
   output: PurgeCacheResponse,
   errors: [],
@@ -60,9 +60,11 @@ export interface GetCacheReserveRequest {
   zoneId: string;
 }
 
-export const GetCacheReserveRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
+export const GetCacheReserveRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/cache/cache_reserve" }),
 ) as unknown as Schema.Schema<GetCacheReserveRequest>;
 
@@ -77,19 +79,20 @@ export interface GetCacheReserveResponse {
   modifiedOn?: string | null;
 }
 
-export const GetCacheReserveResponse = Schema.Struct({
-  id: Schema.Literal("cache_reserve"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<GetCacheReserveResponse>;
+export const GetCacheReserveResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("cache_reserve"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<GetCacheReserveResponse>;
 
 export type GetCacheReserveError = DefaultErrors;
 
@@ -98,7 +101,7 @@ export const getCacheReserve: API.OperationMethod<
   GetCacheReserveResponse,
   GetCacheReserveError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCacheReserveRequest,
   output: GetCacheReserveResponse,
   errors: [],
@@ -111,12 +114,13 @@ export interface PatchCacheReserveRequest {
   value: "on" | "off";
 }
 
-export const PatchCacheReserveRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["on", "off"]),
-}).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/cache/cache_reserve" }),
-) as unknown as Schema.Schema<PatchCacheReserveRequest>;
+export const PatchCacheReserveRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    value: Schema.Literals(["on", "off"]),
+  }).pipe(
+    T.Http({ method: "PATCH", path: "/zones/{zone_id}/cache/cache_reserve" }),
+  ) as unknown as Schema.Schema<PatchCacheReserveRequest>;
 
 export interface PatchCacheReserveResponse {
   /** The identifier of the caching setting. */
@@ -129,19 +133,20 @@ export interface PatchCacheReserveResponse {
   modifiedOn?: string | null;
 }
 
-export const PatchCacheReserveResponse = Schema.Struct({
-  id: Schema.Literal("cache_reserve"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<PatchCacheReserveResponse>;
+export const PatchCacheReserveResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("cache_reserve"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<PatchCacheReserveResponse>;
 
 export type PatchCacheReserveError = DefaultErrors;
 
@@ -150,7 +155,7 @@ export const patchCacheReserve: API.OperationMethod<
   PatchCacheReserveResponse,
   PatchCacheReserveError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCacheReserveRequest,
   output: PatchCacheReserveResponse,
   errors: [],
@@ -161,11 +166,15 @@ export interface StatusCacheReserveRequest {
   zoneId: string;
 }
 
-export const StatusCacheReserveRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/cache/cache_reserve_clear" }),
-) as unknown as Schema.Schema<StatusCacheReserveRequest>;
+export const StatusCacheReserveRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/cache/cache_reserve_clear",
+    }),
+  ) as unknown as Schema.Schema<StatusCacheReserveRequest>;
 
 export interface StatusCacheReserveResponse {
   /** ID of the zone setting. */
@@ -180,21 +189,22 @@ export interface StatusCacheReserveResponse {
   modifiedOn?: string | null;
 }
 
-export const StatusCacheReserveResponse = Schema.Struct({
-  id: Schema.Literal("cache_reserve_clear"),
-  startTs: Schema.String,
-  state: Schema.Literals(["In-progress", "Completed"]),
-  endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    startTs: "start_ts",
-    state: "state",
-    endTs: "end_ts",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<StatusCacheReserveResponse>;
+export const StatusCacheReserveResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("cache_reserve_clear"),
+    startTs: Schema.String,
+    state: Schema.Literals(["In-progress", "Completed"]),
+    endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      startTs: "start_ts",
+      state: "state",
+      endTs: "end_ts",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<StatusCacheReserveResponse>;
 
 export type StatusCacheReserveError = DefaultErrors;
 
@@ -203,7 +213,7 @@ export const statusCacheReserve: API.OperationMethod<
   StatusCacheReserveResponse,
   StatusCacheReserveError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StatusCacheReserveRequest,
   output: StatusCacheReserveResponse,
   errors: [],
@@ -216,15 +226,16 @@ export interface ClearCacheReserveRequest {
   body: unknown;
 }
 
-export const ClearCacheReserveRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/cache/cache_reserve_clear",
-  }),
-) as unknown as Schema.Schema<ClearCacheReserveRequest>;
+export const ClearCacheReserveRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/cache/cache_reserve_clear",
+    }),
+  ) as unknown as Schema.Schema<ClearCacheReserveRequest>;
 
 export interface ClearCacheReserveResponse {
   /** ID of the zone setting. */
@@ -239,21 +250,22 @@ export interface ClearCacheReserveResponse {
   modifiedOn?: string | null;
 }
 
-export const ClearCacheReserveResponse = Schema.Struct({
-  id: Schema.Literal("cache_reserve_clear"),
-  startTs: Schema.String,
-  state: Schema.Literals(["In-progress", "Completed"]),
-  endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    startTs: "start_ts",
-    state: "state",
-    endTs: "end_ts",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<ClearCacheReserveResponse>;
+export const ClearCacheReserveResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("cache_reserve_clear"),
+    startTs: Schema.String,
+    state: Schema.Literals(["In-progress", "Completed"]),
+    endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      startTs: "start_ts",
+      state: "state",
+      endTs: "end_ts",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<ClearCacheReserveResponse>;
 
 export type ClearCacheReserveError = DefaultErrors;
 
@@ -262,7 +274,7 @@ export const clearCacheReserve: API.OperationMethod<
   ClearCacheReserveResponse,
   ClearCacheReserveError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearCacheReserveRequest,
   output: ClearCacheReserveResponse,
   errors: [],
@@ -277,14 +289,15 @@ export interface GetRegionalTieredCacheRequest {
   zoneId: string;
 }
 
-export const GetRegionalTieredCacheRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/cache/regional_tiered_cache",
-  }),
-) as unknown as Schema.Schema<GetRegionalTieredCacheRequest>;
+export const GetRegionalTieredCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/cache/regional_tiered_cache",
+    }),
+  ) as unknown as Schema.Schema<GetRegionalTieredCacheRequest>;
 
 export interface GetRegionalTieredCacheResponse {
   /** The identifier of the caching setting. */
@@ -297,19 +310,20 @@ export interface GetRegionalTieredCacheResponse {
   modifiedOn?: string | null;
 }
 
-export const GetRegionalTieredCacheResponse = Schema.Struct({
-  id: Schema.Literal("tc_regional"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
+export const GetRegionalTieredCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tc_regional"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
 
 export type GetRegionalTieredCacheError = DefaultErrors;
 
@@ -318,7 +332,7 @@ export const getRegionalTieredCache: API.OperationMethod<
   GetRegionalTieredCacheResponse,
   GetRegionalTieredCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionalTieredCacheRequest,
   output: GetRegionalTieredCacheResponse,
   errors: [],
@@ -331,15 +345,16 @@ export interface PatchRegionalTieredCacheRequest {
   value: "on" | "off";
 }
 
-export const PatchRegionalTieredCacheRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["on", "off"]),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/cache/regional_tiered_cache",
-  }),
-) as unknown as Schema.Schema<PatchRegionalTieredCacheRequest>;
+export const PatchRegionalTieredCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    value: Schema.Literals(["on", "off"]),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/cache/regional_tiered_cache",
+    }),
+  ) as unknown as Schema.Schema<PatchRegionalTieredCacheRequest>;
 
 export interface PatchRegionalTieredCacheResponse {
   /** The identifier of the caching setting. */
@@ -352,19 +367,20 @@ export interface PatchRegionalTieredCacheResponse {
   modifiedOn?: string | null;
 }
 
-export const PatchRegionalTieredCacheResponse = Schema.Struct({
-  id: Schema.Literal("tc_regional"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
+export const PatchRegionalTieredCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tc_regional"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
 
 export type PatchRegionalTieredCacheError = DefaultErrors;
 
@@ -373,7 +389,7 @@ export const patchRegionalTieredCache: API.OperationMethod<
   PatchRegionalTieredCacheResponse,
   PatchRegionalTieredCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRegionalTieredCacheRequest,
   output: PatchRegionalTieredCacheResponse,
   errors: [],
@@ -388,14 +404,15 @@ export interface GetSmartTieredCacheRequest {
   zoneId: string;
 }
 
-export const GetSmartTieredCacheRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
-  }),
-) as unknown as Schema.Schema<GetSmartTieredCacheRequest>;
+export const GetSmartTieredCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+    }),
+  ) as unknown as Schema.Schema<GetSmartTieredCacheRequest>;
 
 export interface GetSmartTieredCacheResponse {
   /** The identifier of the caching setting. */
@@ -408,19 +425,20 @@ export interface GetSmartTieredCacheResponse {
   modifiedOn?: string | null;
 }
 
-export const GetSmartTieredCacheResponse = Schema.Struct({
-  id: Schema.Literal("tiered_cache_smart_topology_enable"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
+export const GetSmartTieredCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tiered_cache_smart_topology_enable"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
 
 export type GetSmartTieredCacheError = DefaultErrors;
 
@@ -429,7 +447,7 @@ export const getSmartTieredCache: API.OperationMethod<
   GetSmartTieredCacheResponse,
   GetSmartTieredCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSmartTieredCacheRequest,
   output: GetSmartTieredCacheResponse,
   errors: [],
@@ -442,15 +460,16 @@ export interface PatchSmartTieredCacheRequest {
   value: "on" | "off";
 }
 
-export const PatchSmartTieredCacheRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  value: Schema.Literals(["on", "off"]),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
-  }),
-) as unknown as Schema.Schema<PatchSmartTieredCacheRequest>;
+export const PatchSmartTieredCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    value: Schema.Literals(["on", "off"]),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+    }),
+  ) as unknown as Schema.Schema<PatchSmartTieredCacheRequest>;
 
 export interface PatchSmartTieredCacheResponse {
   /** The identifier of the caching setting. */
@@ -463,19 +482,20 @@ export interface PatchSmartTieredCacheResponse {
   modifiedOn?: string | null;
 }
 
-export const PatchSmartTieredCacheResponse = Schema.Struct({
-  id: Schema.Literal("tiered_cache_smart_topology_enable"),
-  editable: Schema.Boolean,
-  value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
+export const PatchSmartTieredCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tiered_cache_smart_topology_enable"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
 
 export type PatchSmartTieredCacheError = DefaultErrors;
 
@@ -484,7 +504,7 @@ export const patchSmartTieredCache: API.OperationMethod<
   PatchSmartTieredCacheResponse,
   PatchSmartTieredCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSmartTieredCacheRequest,
   output: PatchSmartTieredCacheResponse,
   errors: [],
@@ -495,14 +515,15 @@ export interface DeleteSmartTieredCacheRequest {
   zoneId: string;
 }
 
-export const DeleteSmartTieredCacheRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
-  }),
-) as unknown as Schema.Schema<DeleteSmartTieredCacheRequest>;
+export const DeleteSmartTieredCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/cache/tiered_cache_smart_topology_enable",
+    }),
+  ) as unknown as Schema.Schema<DeleteSmartTieredCacheRequest>;
 
 export interface DeleteSmartTieredCacheResponse {
   /** The identifier of the caching setting. */
@@ -513,17 +534,18 @@ export interface DeleteSmartTieredCacheResponse {
   modifiedOn?: string | null;
 }
 
-export const DeleteSmartTieredCacheResponse = Schema.Struct({
-  id: Schema.Literal("tiered_cache_smart_topology_enable"),
-  editable: Schema.Boolean,
-  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
+export const DeleteSmartTieredCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tiered_cache_smart_topology_enable"),
+    editable: Schema.Boolean,
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
 
 export type DeleteSmartTieredCacheError = DefaultErrors;
 
@@ -532,7 +554,7 @@ export const deleteSmartTieredCache: API.OperationMethod<
   DeleteSmartTieredCacheResponse,
   DeleteSmartTieredCacheError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSmartTieredCacheRequest,
   output: DeleteSmartTieredCacheResponse,
   errors: [],
@@ -547,7 +569,7 @@ export interface GetVariantRequest {
   zoneId: string;
 }
 
-export const GetVariantRequest = Schema.Struct({
+export const GetVariantRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/cache/variants" }),
@@ -576,7 +598,7 @@ export interface GetVariantResponse {
   modifiedOn?: string | null;
 }
 
-export const GetVariantResponse = Schema.Struct({
+export const GetVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   value: Schema.Struct({
@@ -631,7 +653,7 @@ export const getVariant: API.OperationMethod<
   GetVariantResponse,
   GetVariantError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVariantRequest,
   output: GetVariantResponse,
   errors: [],
@@ -656,7 +678,7 @@ export interface PatchVariantRequest {
   };
 }
 
-export const PatchVariantRequest = Schema.Struct({
+export const PatchVariantRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   value: Schema.Struct({
     avif: Schema.optional(Schema.Array(Schema.String)),
@@ -698,7 +720,7 @@ export interface PatchVariantResponse {
   modifiedOn?: string | null;
 }
 
-export const PatchVariantResponse = Schema.Struct({
+export const PatchVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   value: Schema.Struct({
@@ -753,7 +775,7 @@ export const patchVariant: API.OperationMethod<
   PatchVariantResponse,
   PatchVariantError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchVariantRequest,
   output: PatchVariantResponse,
   errors: [],
@@ -764,7 +786,7 @@ export interface DeleteVariantRequest {
   zoneId: string;
 }
 
-export const DeleteVariantRequest = Schema.Struct({
+export const DeleteVariantRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/cache/variants" }),
@@ -779,7 +801,7 @@ export interface DeleteVariantResponse {
   modifiedOn?: string | null;
 }
 
-export const DeleteVariantResponse = Schema.Struct({
+export const DeleteVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -798,7 +820,7 @@ export const deleteVariant: API.OperationMethod<
   DeleteVariantResponse,
   DeleteVariantError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVariantRequest,
   output: DeleteVariantResponse,
   errors: [],

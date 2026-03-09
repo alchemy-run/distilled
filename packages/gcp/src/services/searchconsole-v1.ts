@@ -29,15 +29,15 @@ export interface RichResultsIssue {
   severity?: "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR" | (string & {});
 }
 
-export const RichResultsIssue: Schema.Schema<RichResultsIssue> = Schema.suspend(
-  () =>
+export const RichResultsIssue: Schema.Schema<RichResultsIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueMessage: Schema.optional(Schema.String),
       severity: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RichResultsIssue",
-}) as any as Schema.Schema<RichResultsIssue>;
+  ).annotate({
+    identifier: "RichResultsIssue",
+  }) as any as Schema.Schema<RichResultsIssue>;
 
 export interface Item {
   /** The user-provided name of this item. */
@@ -46,12 +46,13 @@ export interface Item {
   issues?: Array<RichResultsIssue>;
 }
 
-export const Item: Schema.Schema<Item> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    issues: Schema.optional(Schema.Array(RichResultsIssue)),
-  }),
-).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
+export const Item: Schema.Schema<Item> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      issues: Schema.optional(Schema.Array(RichResultsIssue)),
+    }),
+  ).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
 
 export interface Metadata {
   /** The first date for which the data is still being collected and processed, presented in `YYYY-MM-DD` format (ISO-8601 extended local date format). This field is populated only when the request's `dataState` is "`all`", data is grouped by "`DATE`", and the requested date range contains incomplete data points. All values after the `first_incomplete_date` may still change noticeably. */
@@ -60,26 +61,27 @@ export interface Metadata {
   firstIncompleteHour?: string;
 }
 
-export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() =>
-  Schema.Struct({
-    firstIncompleteDate: Schema.optional(Schema.String),
-    firstIncompleteHour: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
+export const Metadata: Schema.Schema<Metadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      firstIncompleteDate: Schema.optional(Schema.String),
+      firstIncompleteHour: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
 
 export interface BlockedResource {
   /** URL of the blocked resource. */
   url?: string;
 }
 
-export const BlockedResource: Schema.Schema<BlockedResource> = Schema.suspend(
-  () =>
+export const BlockedResource: Schema.Schema<BlockedResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BlockedResource",
-}) as any as Schema.Schema<BlockedResource>;
+  ).annotate({
+    identifier: "BlockedResource",
+  }) as any as Schema.Schema<BlockedResource>;
 
 export interface ApiDataRow {
   keys?: Array<string>;
@@ -89,15 +91,16 @@ export interface ApiDataRow {
   ctr?: number;
 }
 
-export const ApiDataRow: Schema.Schema<ApiDataRow> = Schema.suspend(() =>
-  Schema.Struct({
-    keys: Schema.optional(Schema.Array(Schema.String)),
-    position: Schema.optional(Schema.Number),
-    impressions: Schema.optional(Schema.Number),
-    clicks: Schema.optional(Schema.Number),
-    ctr: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "ApiDataRow" }) as any as Schema.Schema<ApiDataRow>;
+export const ApiDataRow: Schema.Schema<ApiDataRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      keys: Schema.optional(Schema.Array(Schema.String)),
+      position: Schema.optional(Schema.Number),
+      impressions: Schema.optional(Schema.Number),
+      clicks: Schema.optional(Schema.Number),
+      ctr: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "ApiDataRow" }) as any as Schema.Schema<ApiDataRow>;
 
 export interface IndexStatusInspectionResult {
   /** URLs that link to the inspected URL, directly and indirectly. */
@@ -158,7 +161,7 @@ export interface IndexStatusInspectionResult {
 }
 
 export const IndexStatusInspectionResult: Schema.Schema<IndexStatusInspectionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referringUrls: Schema.optional(Schema.Array(Schema.String)),
       robotsTxtState: Schema.optional(Schema.String),
@@ -189,12 +192,13 @@ export interface WmxSite {
   siteUrl?: string;
 }
 
-export const WmxSite: Schema.Schema<WmxSite> = Schema.suspend(() =>
-  Schema.Struct({
-    permissionLevel: Schema.optional(Schema.String),
-    siteUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "WmxSite" }) as any as Schema.Schema<WmxSite>;
+export const WmxSite: Schema.Schema<WmxSite> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permissionLevel: Schema.optional(Schema.String),
+      siteUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "WmxSite" }) as any as Schema.Schema<WmxSite>;
 
 export interface SitesListResponse {
   /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
@@ -202,7 +206,7 @@ export interface SitesListResponse {
 }
 
 export const SitesListResponse: Schema.Schema<SitesListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       siteEntry: Schema.optional(Schema.Array(WmxSite)),
     }),
@@ -217,12 +221,13 @@ export interface AmpIssue {
   severity?: "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR" | (string & {});
 }
 
-export const AmpIssue: Schema.Schema<AmpIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    issueMessage: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AmpIssue" }) as any as Schema.Schema<AmpIssue>;
+export const AmpIssue: Schema.Schema<AmpIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      issueMessage: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AmpIssue" }) as any as Schema.Schema<AmpIssue>;
 
 export interface AmpInspectionResult {
   /** A list of zero or more AMP issues found for the inspected URL. */
@@ -278,7 +283,7 @@ export interface AmpInspectionResult {
 }
 
 export const AmpInspectionResult: Schema.Schema<AmpInspectionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issues: Schema.optional(Schema.Array(AmpIssue)),
       robotsTxtState: Schema.optional(Schema.String),
@@ -311,7 +316,7 @@ export interface MobileUsabilityIssue {
 }
 
 export const MobileUsabilityIssue: Schema.Schema<MobileUsabilityIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       message: Schema.optional(Schema.String),
@@ -335,7 +340,7 @@ export interface MobileUsabilityInspectionResult {
 }
 
 export const MobileUsabilityInspectionResult: Schema.Schema<MobileUsabilityInspectionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verdict: Schema.optional(Schema.String),
       issues: Schema.optional(Schema.Array(MobileUsabilityIssue)),
@@ -352,7 +357,7 @@ export interface RunMobileFriendlyTestRequest {
 }
 
 export const RunMobileFriendlyTestRequest: Schema.Schema<RunMobileFriendlyTestRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       requestScreenshot: Schema.optional(Schema.Boolean),
@@ -381,7 +386,7 @@ export interface WmxSitemapContent {
 }
 
 export const WmxSitemapContent: Schema.Schema<WmxSitemapContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       indexed: Schema.optional(Schema.String),
@@ -405,7 +410,7 @@ export interface MobileFriendlyIssue {
 }
 
 export const MobileFriendlyIssue: Schema.Schema<MobileFriendlyIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rule: Schema.optional(Schema.String),
     }),
@@ -420,12 +425,13 @@ export interface Image {
   data?: string;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface DetectedItems {
   /** Rich Results type */
@@ -434,14 +440,15 @@ export interface DetectedItems {
   items?: Array<Item>;
 }
 
-export const DetectedItems: Schema.Schema<DetectedItems> = Schema.suspend(() =>
-  Schema.Struct({
-    richResultType: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Item)),
-  }),
-).annotate({
-  identifier: "DetectedItems",
-}) as any as Schema.Schema<DetectedItems>;
+export const DetectedItems: Schema.Schema<DetectedItems> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      richResultType: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Item)),
+    }),
+  ).annotate({
+    identifier: "DetectedItems",
+  }) as any as Schema.Schema<DetectedItems>;
 
 export interface RichResultsInspectionResult {
   /** A list of zero or more rich results detected on this page. Rich results that cannot even be parsed due to syntactic issues will not be listed here. */
@@ -457,7 +464,7 @@ export interface RichResultsInspectionResult {
 }
 
 export const RichResultsInspectionResult: Schema.Schema<RichResultsInspectionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detectedItems: Schema.optional(Schema.Array(DetectedItems)),
       verdict: Schema.optional(Schema.String),
@@ -486,7 +493,7 @@ export interface ApiDimensionFilter {
 }
 
 export const ApiDimensionFilter: Schema.Schema<ApiDimensionFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operator: Schema.optional(Schema.String),
       expression: Schema.optional(Schema.String),
@@ -502,7 +509,7 @@ export interface ApiDimensionFilterGroup {
 }
 
 export const ApiDimensionFilterGroup: Schema.Schema<ApiDimensionFilterGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupType: Schema.optional(Schema.String),
       filters: Schema.optional(Schema.Array(ApiDimensionFilter)),
@@ -568,7 +575,7 @@ export interface SearchAnalyticsQueryRequest {
 }
 
 export const SearchAnalyticsQueryRequest: Schema.Schema<SearchAnalyticsQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(Schema.String)),
       searchType: Schema.optional(Schema.String),
@@ -602,7 +609,7 @@ export interface SearchAnalyticsQueryResponse {
 }
 
 export const SearchAnalyticsQueryResponse: Schema.Schema<SearchAnalyticsQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(Metadata),
       rows: Schema.optional(Schema.Array(ApiDataRow)),
@@ -622,7 +629,7 @@ export interface InspectUrlIndexRequest {
 }
 
 export const InspectUrlIndexRequest: Schema.Schema<InspectUrlIndexRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectionUrl: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -661,32 +668,34 @@ export interface WmxSitemap {
   isSitemapsIndex?: boolean;
 }
 
-export const WmxSitemap: Schema.Schema<WmxSitemap> = Schema.suspend(() =>
-  Schema.Struct({
-    isPending: Schema.optional(Schema.Boolean),
-    errors: Schema.optional(Schema.String),
-    warnings: Schema.optional(Schema.String),
-    lastSubmitted: Schema.optional(Schema.String),
-    contents: Schema.optional(Schema.Array(WmxSitemapContent)),
-    type: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    lastDownloaded: Schema.optional(Schema.String),
-    isSitemapsIndex: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "WmxSitemap" }) as any as Schema.Schema<WmxSitemap>;
+export const WmxSitemap: Schema.Schema<WmxSitemap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      isPending: Schema.optional(Schema.Boolean),
+      errors: Schema.optional(Schema.String),
+      warnings: Schema.optional(Schema.String),
+      lastSubmitted: Schema.optional(Schema.String),
+      contents: Schema.optional(Schema.Array(WmxSitemapContent)),
+      type: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      lastDownloaded: Schema.optional(Schema.String),
+      isSitemapsIndex: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "WmxSitemap" }) as any as Schema.Schema<WmxSitemap>;
 
 export interface ResourceIssue {
   /** Describes a blocked resource issue. */
   blockedResource?: BlockedResource;
 }
 
-export const ResourceIssue: Schema.Schema<ResourceIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    blockedResource: Schema.optional(BlockedResource),
-  }),
-).annotate({
-  identifier: "ResourceIssue",
-}) as any as Schema.Schema<ResourceIssue>;
+export const ResourceIssue: Schema.Schema<ResourceIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      blockedResource: Schema.optional(BlockedResource),
+    }),
+  ).annotate({
+    identifier: "ResourceIssue",
+  }) as any as Schema.Schema<ResourceIssue>;
 
 export interface TestStatus {
   /** Status of the test. */
@@ -700,12 +709,13 @@ export interface TestStatus {
   details?: string;
 }
 
-export const TestStatus: Schema.Schema<TestStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    status: Schema.optional(Schema.String),
-    details: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TestStatus" }) as any as Schema.Schema<TestStatus>;
+export const TestStatus: Schema.Schema<TestStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Schema.String),
+      details: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TestStatus" }) as any as Schema.Schema<TestStatus>;
 
 export interface UrlInspectionResult {
   /** Result of the AMP analysis. Absent if the page is not an AMP page. */
@@ -721,7 +731,7 @@ export interface UrlInspectionResult {
 }
 
 export const UrlInspectionResult: Schema.Schema<UrlInspectionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ampResult: Schema.optional(AmpInspectionResult),
       mobileUsabilityResult: Schema.optional(MobileUsabilityInspectionResult),
@@ -739,7 +749,7 @@ export interface InspectUrlIndexResponse {
 }
 
 export const InspectUrlIndexResponse: Schema.Schema<InspectUrlIndexResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectionResult: Schema.optional(UrlInspectionResult),
     }),
@@ -765,7 +775,7 @@ export interface RunMobileFriendlyTestResponse {
 }
 
 export const RunMobileFriendlyTestResponse: Schema.Schema<RunMobileFriendlyTestResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testStatus: Schema.optional(TestStatus),
       resourceIssues: Schema.optional(Schema.Array(ResourceIssue)),
@@ -783,7 +793,7 @@ export interface SitemapsListResponse {
 }
 
 export const SitemapsListResponse: Schema.Schema<SitemapsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sitemap: Schema.optional(Schema.Array(WmxSitemap)),
     }),
@@ -802,20 +812,22 @@ export interface QuerySearchanalyticsRequest {
   body?: SearchAnalyticsQueryRequest;
 }
 
-export const QuerySearchanalyticsRequest = Schema.Struct({
-  siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
-  body: Schema.optional(SearchAnalyticsQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "webmasters/v3/sites/{siteUrl}/searchAnalytics/query",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<QuerySearchanalyticsRequest>;
+export const QuerySearchanalyticsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
+    body: Schema.optional(SearchAnalyticsQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "webmasters/v3/sites/{siteUrl}/searchAnalytics/query",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QuerySearchanalyticsRequest>;
 
 export type QuerySearchanalyticsResponse = SearchAnalyticsQueryResponse;
-export const QuerySearchanalyticsResponse = SearchAnalyticsQueryResponse;
+export const QuerySearchanalyticsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchAnalyticsQueryResponse;
 
 export type QuerySearchanalyticsError = DefaultErrors;
 
@@ -825,7 +837,7 @@ export const querySearchanalytics: API.OperationMethod<
   QuerySearchanalyticsResponse,
   QuerySearchanalyticsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QuerySearchanalyticsRequest,
   output: QuerySearchanalyticsResponse,
   errors: [],
@@ -838,7 +850,7 @@ export interface DeleteSitemapsRequest {
   feedpath: string;
 }
 
-export const DeleteSitemapsRequest = Schema.Struct({
+export const DeleteSitemapsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
   feedpath: Schema.String.pipe(T.HttpPath("feedpath")),
 }).pipe(
@@ -851,7 +863,9 @@ export const DeleteSitemapsRequest = Schema.Struct({
 
 export interface DeleteSitemapsResponse {}
 export const DeleteSitemapsResponse: Schema.Schema<DeleteSitemapsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteSitemapsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteSitemapsResponse>;
 
 export type DeleteSitemapsError = DefaultErrors;
 
@@ -861,7 +875,7 @@ export const deleteSitemaps: API.OperationMethod<
   DeleteSitemapsResponse,
   DeleteSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSitemapsRequest,
   output: DeleteSitemapsResponse,
   errors: [],
@@ -874,7 +888,7 @@ export interface GetSitemapsRequest {
   feedpath: string;
 }
 
-export const GetSitemapsRequest = Schema.Struct({
+export const GetSitemapsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
   feedpath: Schema.String.pipe(T.HttpPath("feedpath")),
 }).pipe(
@@ -886,7 +900,7 @@ export const GetSitemapsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSitemapsRequest>;
 
 export type GetSitemapsResponse = WmxSitemap;
-export const GetSitemapsResponse = WmxSitemap;
+export const GetSitemapsResponse = /*@__PURE__*/ /*#__PURE__*/ WmxSitemap;
 
 export type GetSitemapsError = DefaultErrors;
 
@@ -896,7 +910,7 @@ export const getSitemaps: API.OperationMethod<
   GetSitemapsResponse,
   GetSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSitemapsRequest,
   output: GetSitemapsResponse,
   errors: [],
@@ -909,7 +923,7 @@ export interface ListSitemapsRequest {
   sitemapIndex?: string;
 }
 
-export const ListSitemapsRequest = Schema.Struct({
+export const ListSitemapsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
   sitemapIndex: Schema.optional(Schema.String).pipe(
     T.HttpQuery("sitemapIndex"),
@@ -920,7 +934,8 @@ export const ListSitemapsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSitemapsRequest>;
 
 export type ListSitemapsResponse = SitemapsListResponse;
-export const ListSitemapsResponse = SitemapsListResponse;
+export const ListSitemapsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SitemapsListResponse;
 
 export type ListSitemapsError = DefaultErrors;
 
@@ -930,7 +945,7 @@ export const listSitemaps: API.OperationMethod<
   ListSitemapsResponse,
   ListSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSitemapsRequest,
   output: ListSitemapsResponse,
   errors: [],
@@ -943,7 +958,7 @@ export interface SubmitSitemapsRequest {
   feedpath: string;
 }
 
-export const SubmitSitemapsRequest = Schema.Struct({
+export const SubmitSitemapsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
   feedpath: Schema.String.pipe(T.HttpPath("feedpath")),
 }).pipe(
@@ -957,7 +972,9 @@ export const SubmitSitemapsRequest = Schema.Struct({
 
 export interface SubmitSitemapsResponse {}
 export const SubmitSitemapsResponse: Schema.Schema<SubmitSitemapsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<SubmitSitemapsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<SubmitSitemapsResponse>;
 
 export type SubmitSitemapsError = DefaultErrors;
 
@@ -967,7 +984,7 @@ export const submitSitemaps: API.OperationMethod<
   SubmitSitemapsResponse,
   SubmitSitemapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitSitemapsRequest,
   output: SubmitSitemapsResponse,
   errors: [],
@@ -978,19 +995,21 @@ export interface InspectUrlInspectionIndexRequest {
   body?: InspectUrlIndexRequest;
 }
 
-export const InspectUrlInspectionIndexRequest = Schema.Struct({
-  body: Schema.optional(InspectUrlIndexRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/urlInspection/index:inspect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InspectUrlInspectionIndexRequest>;
+export const InspectUrlInspectionIndexRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(InspectUrlIndexRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/urlInspection/index:inspect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InspectUrlInspectionIndexRequest>;
 
 export type InspectUrlInspectionIndexResponse = InspectUrlIndexResponse;
-export const InspectUrlInspectionIndexResponse = InspectUrlIndexResponse;
+export const InspectUrlInspectionIndexResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InspectUrlIndexResponse;
 
 export type InspectUrlInspectionIndexError = DefaultErrors;
 
@@ -1000,7 +1019,7 @@ export const inspectUrlInspectionIndex: API.OperationMethod<
   InspectUrlInspectionIndexResponse,
   InspectUrlInspectionIndexError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InspectUrlInspectionIndexRequest,
   output: InspectUrlInspectionIndexResponse,
   errors: [],
@@ -1011,7 +1030,7 @@ export interface DeleteSitesRequest {
   siteUrl: string;
 }
 
-export const DeleteSitesRequest = Schema.Struct({
+export const DeleteSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
 }).pipe(
   T.Http({ method: "DELETE", path: "webmasters/v3/sites/{siteUrl}" }),
@@ -1020,7 +1039,9 @@ export const DeleteSitesRequest = Schema.Struct({
 
 export interface DeleteSitesResponse {}
 export const DeleteSitesResponse: Schema.Schema<DeleteSitesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteSitesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteSitesResponse>;
 
 export type DeleteSitesError = DefaultErrors;
 
@@ -1030,7 +1051,7 @@ export const deleteSites: API.OperationMethod<
   DeleteSitesResponse,
   DeleteSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSitesRequest,
   output: DeleteSitesResponse,
   errors: [],
@@ -1041,7 +1062,7 @@ export interface GetSitesRequest {
   siteUrl: string;
 }
 
-export const GetSitesRequest = Schema.Struct({
+export const GetSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
 }).pipe(
   T.Http({ method: "GET", path: "webmasters/v3/sites/{siteUrl}" }),
@@ -1049,7 +1070,7 @@ export const GetSitesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSitesRequest>;
 
 export type GetSitesResponse = WmxSite;
-export const GetSitesResponse = WmxSite;
+export const GetSitesResponse = /*@__PURE__*/ /*#__PURE__*/ WmxSite;
 
 export type GetSitesError = DefaultErrors;
 
@@ -1059,7 +1080,7 @@ export const getSites: API.OperationMethod<
   GetSitesResponse,
   GetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
@@ -1067,13 +1088,15 @@ export const getSites: API.OperationMethod<
 
 export interface ListSitesRequest {}
 
-export const ListSitesRequest = Schema.Struct({}).pipe(
+export const ListSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "webmasters/v3/sites" }),
   svc,
 ) as unknown as Schema.Schema<ListSitesRequest>;
 
 export type ListSitesResponse = SitesListResponse;
-export const ListSitesResponse = SitesListResponse;
+export const ListSitesResponse = /*@__PURE__*/ /*#__PURE__*/ SitesListResponse;
 
 export type ListSitesError = DefaultErrors;
 
@@ -1083,7 +1106,7 @@ export const listSites: API.OperationMethod<
   ListSitesResponse,
   ListSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSitesRequest,
   output: ListSitesResponse,
   errors: [],
@@ -1094,7 +1117,7 @@ export interface AddSitesRequest {
   siteUrl: string;
 }
 
-export const AddSitesRequest = Schema.Struct({
+export const AddSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteUrl: Schema.String.pipe(T.HttpPath("siteUrl")),
 }).pipe(
   T.Http({
@@ -1106,9 +1129,10 @@ export const AddSitesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<AddSitesRequest>;
 
 export interface AddSitesResponse {}
-export const AddSitesResponse: Schema.Schema<AddSitesResponse> = Schema.Struct(
-  {},
-) as any as Schema.Schema<AddSitesResponse>;
+export const AddSitesResponse: Schema.Schema<AddSitesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<AddSitesResponse>;
 
 export type AddSitesError = DefaultErrors;
 
@@ -1118,7 +1142,7 @@ export const addSites: API.OperationMethod<
   AddSitesResponse,
   AddSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddSitesRequest,
   output: AddSitesResponse,
   errors: [],
@@ -1129,21 +1153,22 @@ export interface RunUrlTestingToolsMobileFriendlyTestRequest {
   body?: RunMobileFriendlyTestRequest;
 }
 
-export const RunUrlTestingToolsMobileFriendlyTestRequest = Schema.Struct({
-  body: Schema.optional(RunMobileFriendlyTestRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/urlTestingTools/mobileFriendlyTest:run",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>;
+export const RunUrlTestingToolsMobileFriendlyTestRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(RunMobileFriendlyTestRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/urlTestingTools/mobileFriendlyTest:run",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>;
 
 export type RunUrlTestingToolsMobileFriendlyTestResponse =
   RunMobileFriendlyTestResponse;
 export const RunUrlTestingToolsMobileFriendlyTestResponse =
-  RunMobileFriendlyTestResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RunMobileFriendlyTestResponse;
 
 export type RunUrlTestingToolsMobileFriendlyTestError = DefaultErrors;
 
@@ -1153,7 +1178,7 @@ export const runUrlTestingToolsMobileFriendlyTest: API.OperationMethod<
   RunUrlTestingToolsMobileFriendlyTestResponse,
   RunUrlTestingToolsMobileFriendlyTestError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunUrlTestingToolsMobileFriendlyTestRequest,
   output: RunUrlTestingToolsMobileFriendlyTestResponse,
   errors: [],

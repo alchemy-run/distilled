@@ -30,7 +30,7 @@ export interface GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
 }
 
 export const GoogleFirestoreAdminV1beta2ExportDocumentsRequest: Schema.Schema<GoogleFirestoreAdminV1beta2ExportDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUriPrefix: Schema.optional(Schema.String),
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
@@ -49,7 +49,7 @@ export interface GoogleFirestoreAdminV1PitrSnapshot {
 }
 
 export const GoogleFirestoreAdminV1PitrSnapshot: Schema.Schema<GoogleFirestoreAdminV1PitrSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       database: Schema.optional(Schema.String),
       databaseUid: Schema.optional(Schema.String),
@@ -67,7 +67,7 @@ export interface GoogleFirestoreAdminV1beta2ImportDocumentsRequest {
 }
 
 export const GoogleFirestoreAdminV1beta2ImportDocumentsRequest: Schema.Schema<GoogleFirestoreAdminV1beta2ImportDocumentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionIds: Schema.optional(Schema.Array(Schema.String)),
       inputUriPrefix: Schema.optional(Schema.String),
@@ -84,7 +84,7 @@ export interface GoogleFirestoreAdminV1beta2Progress {
 }
 
 export const GoogleFirestoreAdminV1beta2Progress: Schema.Schema<GoogleFirestoreAdminV1beta2Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       estimatedWork: Schema.optional(Schema.String),
       completedWork: Schema.optional(Schema.String),
@@ -120,7 +120,7 @@ export interface GoogleFirestoreAdminV1beta2ImportDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta2ImportDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1beta2ImportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressBytes: Schema.optional(GoogleFirestoreAdminV1beta2Progress),
       startTime: Schema.optional(Schema.String),
@@ -142,7 +142,7 @@ export interface GoogleFirestoreAdminV1Progress {
 }
 
 export const GoogleFirestoreAdminV1Progress: Schema.Schema<GoogleFirestoreAdminV1Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       estimatedWork: Schema.optional(Schema.String),
       completedWork: Schema.optional(Schema.String),
@@ -180,7 +180,7 @@ export interface GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1BulkDeleteDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       operationState: Schema.optional(Schema.String),
@@ -220,7 +220,7 @@ export interface GoogleFirestoreAdminV1RestoreDatabaseMetadata {
 }
 
 export const GoogleFirestoreAdminV1RestoreDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1RestoreDatabaseMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       operationState: Schema.optional(Schema.String),
@@ -242,15 +242,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface GoogleLongrunningOperation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -266,7 +267,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       done: Schema.optional(Schema.Boolean),
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -303,7 +304,7 @@ export interface GoogleFirestoreAdminV1beta2IndexOperationMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta2IndexOperationMetadata: Schema.Schema<GoogleFirestoreAdminV1beta2IndexOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -318,9 +319,10 @@ export const GoogleFirestoreAdminV1beta2IndexOperationMetadata: Schema.Schema<Go
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GoogleFirestoreAdminV1beta2IndexField {
   /** Can be __name__. For single field indexes, this must match the name of the field or may be omitted. */
@@ -332,7 +334,7 @@ export interface GoogleFirestoreAdminV1beta2IndexField {
 }
 
 export const GoogleFirestoreAdminV1beta2IndexField: Schema.Schema<GoogleFirestoreAdminV1beta2IndexField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldPath: Schema.optional(Schema.String),
       arrayConfig: Schema.optional(Schema.String),
@@ -363,7 +365,7 @@ export interface GoogleFirestoreAdminV1beta2Index {
 }
 
 export const GoogleFirestoreAdminV1beta2Index: Schema.Schema<GoogleFirestoreAdminV1beta2Index> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryScope: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -384,7 +386,7 @@ export interface GoogleFirestoreAdminV1beta2IndexConfigDelta {
 }
 
 export const GoogleFirestoreAdminV1beta2IndexConfigDelta: Schema.Schema<GoogleFirestoreAdminV1beta2IndexConfigDelta> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changeType: Schema.optional(Schema.String),
       index: Schema.optional(GoogleFirestoreAdminV1beta2Index),
@@ -420,7 +422,7 @@ export interface GoogleFirestoreAdminV1beta2ExportDocumentsMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta2ExportDocumentsMetadata: Schema.Schema<GoogleFirestoreAdminV1beta2ExportDocumentsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       operationState: Schema.optional(Schema.String),
@@ -446,7 +448,7 @@ export interface GoogleFirestoreAdminV1beta2IndexConfig {
 }
 
 export const GoogleFirestoreAdminV1beta2IndexConfig: Schema.Schema<GoogleFirestoreAdminV1beta2IndexConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ancestorField: Schema.optional(Schema.String),
       indexes: Schema.optional(Schema.Array(GoogleFirestoreAdminV1beta2Index)),
@@ -465,7 +467,7 @@ export interface GoogleFirestoreAdminV1beta2Field {
 }
 
 export const GoogleFirestoreAdminV1beta2Field: Schema.Schema<GoogleFirestoreAdminV1beta2Field> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       indexConfig: Schema.optional(GoogleFirestoreAdminV1beta2IndexConfig),
       name: Schema.optional(Schema.String),
@@ -477,7 +479,7 @@ export const GoogleFirestoreAdminV1beta2Field: Schema.Schema<GoogleFirestoreAdmi
 export interface GoogleFirestoreAdminV1DeleteDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1DeleteDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1DeleteDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1DeleteDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1DeleteDatabaseMetadata>;
 
@@ -489,7 +491,7 @@ export interface GoogleFirestoreAdminV1beta2ListIndexesResponse {
 }
 
 export const GoogleFirestoreAdminV1beta2ListIndexesResponse: Schema.Schema<GoogleFirestoreAdminV1beta2ListIndexesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       indexes: Schema.optional(Schema.Array(GoogleFirestoreAdminV1beta2Index)),
       nextPageToken: Schema.optional(Schema.String),
@@ -523,7 +525,7 @@ export interface GoogleFirestoreAdminV1CloneDatabaseMetadata {
 }
 
 export const GoogleFirestoreAdminV1CloneDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1CloneDatabaseMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressPercentage: Schema.optional(GoogleFirestoreAdminV1Progress),
       endTime: Schema.optional(Schema.String),
@@ -539,7 +541,7 @@ export const GoogleFirestoreAdminV1CloneDatabaseMetadata: Schema.Schema<GoogleFi
 export interface GoogleFirestoreAdminV1UpdateDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1UpdateDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1UpdateDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1UpdateDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1UpdateDatabaseMetadata>;
 
@@ -549,7 +551,7 @@ export interface GoogleFirestoreAdminV1beta2ExportDocumentsResponse {
 }
 
 export const GoogleFirestoreAdminV1beta2ExportDocumentsResponse: Schema.Schema<GoogleFirestoreAdminV1beta2ExportDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUriPrefix: Schema.optional(Schema.String),
     }),
@@ -560,7 +562,7 @@ export const GoogleFirestoreAdminV1beta2ExportDocumentsResponse: Schema.Schema<G
 export interface GoogleFirestoreAdminV1CreateDatabaseMetadata {}
 
 export const GoogleFirestoreAdminV1CreateDatabaseMetadata: Schema.Schema<GoogleFirestoreAdminV1CreateDatabaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirestoreAdminV1CreateDatabaseMetadata",
   }) as any as Schema.Schema<GoogleFirestoreAdminV1CreateDatabaseMetadata>;
 
@@ -591,7 +593,7 @@ export interface GoogleFirestoreAdminV1beta2FieldOperationMetadata {
 }
 
 export const GoogleFirestoreAdminV1beta2FieldOperationMetadata: Schema.Schema<GoogleFirestoreAdminV1beta2FieldOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -615,7 +617,7 @@ export interface GoogleFirestoreAdminV1beta2ListFieldsResponse {
 }
 
 export const GoogleFirestoreAdminV1beta2ListFieldsResponse: Schema.Schema<GoogleFirestoreAdminV1beta2ListFieldsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fields: Schema.optional(Schema.Array(GoogleFirestoreAdminV1beta2Field)),
       nextPageToken: Schema.optional(Schema.String),
@@ -635,24 +637,25 @@ export interface ExportDocumentsProjectsDatabasesRequest {
   body?: GoogleFirestoreAdminV1beta2ExportDocumentsRequest;
 }
 
-export const ExportDocumentsProjectsDatabasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirestoreAdminV1beta2ExportDocumentsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta2/projects/{projectsId}/databases/{databasesId}:exportDocuments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportDocumentsProjectsDatabasesRequest>;
+export const ExportDocumentsProjectsDatabasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleFirestoreAdminV1beta2ExportDocumentsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta2/projects/{projectsId}/databases/{databasesId}:exportDocuments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportDocumentsProjectsDatabasesRequest>;
 
 export type ExportDocumentsProjectsDatabasesResponse =
   GoogleLongrunningOperation;
 export const ExportDocumentsProjectsDatabasesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportDocumentsProjectsDatabasesError = DefaultErrors;
 
@@ -662,7 +665,7 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   ExportDocumentsProjectsDatabasesResponse,
   ExportDocumentsProjectsDatabasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportDocumentsProjectsDatabasesRequest,
   output: ExportDocumentsProjectsDatabasesResponse,
   errors: [],
@@ -675,24 +678,25 @@ export interface ImportDocumentsProjectsDatabasesRequest {
   body?: GoogleFirestoreAdminV1beta2ImportDocumentsRequest;
 }
 
-export const ImportDocumentsProjectsDatabasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirestoreAdminV1beta2ImportDocumentsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta2/projects/{projectsId}/databases/{databasesId}:importDocuments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportDocumentsProjectsDatabasesRequest>;
+export const ImportDocumentsProjectsDatabasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleFirestoreAdminV1beta2ImportDocumentsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta2/projects/{projectsId}/databases/{databasesId}:importDocuments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportDocumentsProjectsDatabasesRequest>;
 
 export type ImportDocumentsProjectsDatabasesResponse =
   GoogleLongrunningOperation;
 export const ImportDocumentsProjectsDatabasesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportDocumentsProjectsDatabasesError = DefaultErrors;
 
@@ -702,7 +706,7 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   ImportDocumentsProjectsDatabasesResponse,
   ImportDocumentsProjectsDatabasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDocumentsProjectsDatabasesRequest,
   output: ImportDocumentsProjectsDatabasesResponse,
   errors: [],
@@ -713,22 +717,21 @@ export interface GetProjectsDatabasesCollectionGroupsIndexesRequest {
   name: string;
 }
 
-export const GetProjectsDatabasesCollectionGroupsIndexesRequest = Schema.Struct(
-  {
+export const GetProjectsDatabasesCollectionGroupsIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/indexes/{indexesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatabasesCollectionGroupsIndexesRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/indexes/{indexesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatabasesCollectionGroupsIndexesRequest>;
 
 export type GetProjectsDatabasesCollectionGroupsIndexesResponse =
   GoogleFirestoreAdminV1beta2Index;
 export const GetProjectsDatabasesCollectionGroupsIndexesResponse =
-  GoogleFirestoreAdminV1beta2Index;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta2Index;
 
 export type GetProjectsDatabasesCollectionGroupsIndexesError = DefaultErrors;
 
@@ -738,7 +741,7 @@ export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<
   GetProjectsDatabasesCollectionGroupsIndexesResponse,
   GetProjectsDatabasesCollectionGroupsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatabasesCollectionGroupsIndexesRequest,
   output: GetProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
@@ -750,7 +753,7 @@ export interface DeleteProjectsDatabasesCollectionGroupsIndexesRequest {
 }
 
 export const DeleteProjectsDatabasesCollectionGroupsIndexesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -761,7 +764,8 @@ export const DeleteProjectsDatabasesCollectionGroupsIndexesRequest =
   ) as unknown as Schema.Schema<DeleteProjectsDatabasesCollectionGroupsIndexesRequest>;
 
 export type DeleteProjectsDatabasesCollectionGroupsIndexesResponse = Empty;
-export const DeleteProjectsDatabasesCollectionGroupsIndexesResponse = Empty;
+export const DeleteProjectsDatabasesCollectionGroupsIndexesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsDatabasesCollectionGroupsIndexesError = DefaultErrors;
 
@@ -771,7 +775,7 @@ export const deleteProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   DeleteProjectsDatabasesCollectionGroupsIndexesResponse,
   DeleteProjectsDatabasesCollectionGroupsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatabasesCollectionGroupsIndexesRequest,
   output: DeleteProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
@@ -785,7 +789,7 @@ export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
 }
 
 export const CreateProjectsDatabasesCollectionGroupsIndexesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleFirestoreAdminV1beta2Index).pipe(T.HttpBody()),
   }).pipe(
@@ -800,7 +804,7 @@ export const CreateProjectsDatabasesCollectionGroupsIndexesRequest =
 export type CreateProjectsDatabasesCollectionGroupsIndexesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsDatabasesCollectionGroupsIndexesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsDatabasesCollectionGroupsIndexesError = DefaultErrors;
 
@@ -810,7 +814,7 @@ export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   CreateProjectsDatabasesCollectionGroupsIndexesResponse,
   CreateProjectsDatabasesCollectionGroupsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDatabasesCollectionGroupsIndexesRequest,
   output: CreateProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
@@ -828,7 +832,7 @@ export interface ListProjectsDatabasesCollectionGroupsIndexesRequest {
 }
 
 export const ListProjectsDatabasesCollectionGroupsIndexesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -844,7 +848,7 @@ export const ListProjectsDatabasesCollectionGroupsIndexesRequest =
 export type ListProjectsDatabasesCollectionGroupsIndexesResponse =
   GoogleFirestoreAdminV1beta2ListIndexesResponse;
 export const ListProjectsDatabasesCollectionGroupsIndexesResponse =
-  GoogleFirestoreAdminV1beta2ListIndexesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta2ListIndexesResponse;
 
 export type ListProjectsDatabasesCollectionGroupsIndexesError = DefaultErrors;
 
@@ -854,7 +858,7 @@ export const listProjectsDatabasesCollectionGroupsIndexes: API.PaginatedOperatio
   ListProjectsDatabasesCollectionGroupsIndexesResponse,
   ListProjectsDatabasesCollectionGroupsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatabasesCollectionGroupsIndexesRequest,
   output: ListProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
@@ -869,20 +873,21 @@ export interface GetProjectsDatabasesCollectionGroupsFieldsRequest {
   name: string;
 }
 
-export const GetProjectsDatabasesCollectionGroupsFieldsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/fields/{fieldsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatabasesCollectionGroupsFieldsRequest>;
+export const GetProjectsDatabasesCollectionGroupsFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/fields/{fieldsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatabasesCollectionGroupsFieldsRequest>;
 
 export type GetProjectsDatabasesCollectionGroupsFieldsResponse =
   GoogleFirestoreAdminV1beta2Field;
 export const GetProjectsDatabasesCollectionGroupsFieldsResponse =
-  GoogleFirestoreAdminV1beta2Field;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta2Field;
 
 export type GetProjectsDatabasesCollectionGroupsFieldsError = DefaultErrors;
 
@@ -892,7 +897,7 @@ export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   GetProjectsDatabasesCollectionGroupsFieldsResponse,
   GetProjectsDatabasesCollectionGroupsFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatabasesCollectionGroupsFieldsRequest,
   output: GetProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],
@@ -908,7 +913,7 @@ export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest {
 }
 
 export const PatchProjectsDatabasesCollectionGroupsFieldsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleFirestoreAdminV1beta2Field).pipe(T.HttpBody()),
@@ -924,7 +929,7 @@ export const PatchProjectsDatabasesCollectionGroupsFieldsRequest =
 export type PatchProjectsDatabasesCollectionGroupsFieldsResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsDatabasesCollectionGroupsFieldsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsDatabasesCollectionGroupsFieldsError = DefaultErrors;
 
@@ -934,7 +939,7 @@ export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   PatchProjectsDatabasesCollectionGroupsFieldsResponse,
   PatchProjectsDatabasesCollectionGroupsFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsDatabasesCollectionGroupsFieldsRequest,
   output: PatchProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],
@@ -951,25 +956,24 @@ export interface ListProjectsDatabasesCollectionGroupsFieldsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDatabasesCollectionGroupsFieldsRequest = Schema.Struct(
-  {
+export const ListProjectsDatabasesCollectionGroupsFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/fields",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatabasesCollectionGroupsFieldsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta2/projects/{projectsId}/databases/{databasesId}/collectionGroups/{collectionGroupsId}/fields",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatabasesCollectionGroupsFieldsRequest>;
 
 export type ListProjectsDatabasesCollectionGroupsFieldsResponse =
   GoogleFirestoreAdminV1beta2ListFieldsResponse;
 export const ListProjectsDatabasesCollectionGroupsFieldsResponse =
-  GoogleFirestoreAdminV1beta2ListFieldsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirestoreAdminV1beta2ListFieldsResponse;
 
 export type ListProjectsDatabasesCollectionGroupsFieldsError = DefaultErrors;
 
@@ -979,7 +983,7 @@ export const listProjectsDatabasesCollectionGroupsFields: API.PaginatedOperation
   ListProjectsDatabasesCollectionGroupsFieldsResponse,
   ListProjectsDatabasesCollectionGroupsFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatabasesCollectionGroupsFieldsRequest,
   output: ListProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],

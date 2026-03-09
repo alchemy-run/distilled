@@ -230,29 +230,30 @@ export type SessionDurationEscalationException2 = string;
 export interface PolicyDescriptorType {
   arn?: string;
 }
-export const PolicyDescriptorType = S.suspend(() =>
+export const PolicyDescriptorType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.optional(S.String) }),
 ).annotate({
   identifier: "PolicyDescriptorType",
 }) as any as S.Schema<PolicyDescriptorType>;
 export type PolicyDescriptorListType = PolicyDescriptorType[];
-export const PolicyDescriptorListType = S.Array(PolicyDescriptorType);
+export const PolicyDescriptorListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PolicyDescriptorType);
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagListType = Tag[];
-export const TagListType = S.Array(Tag);
+export const TagListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export type TagKeyListType = string[];
-export const TagKeyListType = S.Array(S.String);
+export const TagKeyListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ProvidedContext {
   ProviderArn?: string;
   ContextAssertion?: string;
 }
-export const ProvidedContext = S.suspend(() =>
+export const ProvidedContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ProviderArn: S.optional(S.String),
     ContextAssertion: S.optional(S.String),
@@ -261,7 +262,8 @@ export const ProvidedContext = S.suspend(() =>
   identifier: "ProvidedContext",
 }) as any as S.Schema<ProvidedContext>;
 export type ProvidedContextsListType = ProvidedContext[];
-export const ProvidedContextsListType = S.Array(ProvidedContext);
+export const ProvidedContextsListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ProvidedContext);
 export interface AssumeRoleRequest {
   RoleArn: string;
   RoleSessionName: string;
@@ -276,7 +278,7 @@ export interface AssumeRoleRequest {
   SourceIdentity?: string;
   ProvidedContexts?: ProvidedContext[];
 }
-export const AssumeRoleRequest = S.suspend(() =>
+export const AssumeRoleRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RoleArn: S.String,
     RoleSessionName: S.String,
@@ -310,7 +312,7 @@ export interface Credentials {
   SessionToken: string;
   Expiration: Date;
 }
-export const Credentials = S.suspend(() =>
+export const Credentials = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessKeyId: S.String,
     SecretAccessKey: SensitiveString,
@@ -322,7 +324,7 @@ export interface AssumedRoleUser {
   AssumedRoleId: string;
   Arn: string;
 }
-export const AssumedRoleUser = S.suspend(() =>
+export const AssumedRoleUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AssumedRoleId: S.String, Arn: S.String }),
 ).annotate({
   identifier: "AssumedRoleUser",
@@ -333,7 +335,7 @@ export interface AssumeRoleResponse {
   PackedPolicySize?: number;
   SourceIdentity?: string;
 }
-export const AssumeRoleResponse = S.suspend(() =>
+export const AssumeRoleResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     AssumedRoleUser: S.optional(AssumedRoleUser),
@@ -351,25 +353,26 @@ export interface AssumeRoleWithSAMLRequest {
   Policy?: string;
   DurationSeconds?: number;
 }
-export const AssumeRoleWithSAMLRequest = S.suspend(() =>
-  S.Struct({
-    RoleArn: S.String,
-    PrincipalArn: S.String,
-    SAMLAssertion: SensitiveString,
-    PolicyArns: S.optional(PolicyDescriptorListType),
-    Policy: S.optional(S.String),
-    DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssumeRoleWithSAMLRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      RoleArn: S.String,
+      PrincipalArn: S.String,
+      SAMLAssertion: SensitiveString,
+      PolicyArns: S.optional(PolicyDescriptorListType),
+      Policy: S.optional(S.String),
+      DurationSeconds: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AssumeRoleWithSAMLRequest",
 }) as any as S.Schema<AssumeRoleWithSAMLRequest>;
@@ -384,18 +387,19 @@ export interface AssumeRoleWithSAMLResponse {
   NameQualifier?: string;
   SourceIdentity?: string;
 }
-export const AssumeRoleWithSAMLResponse = S.suspend(() =>
-  S.Struct({
-    Credentials: S.optional(Credentials),
-    AssumedRoleUser: S.optional(AssumedRoleUser),
-    PackedPolicySize: S.optional(S.Number),
-    Subject: S.optional(S.String),
-    SubjectType: S.optional(S.String),
-    Issuer: S.optional(S.String),
-    Audience: S.optional(S.String),
-    NameQualifier: S.optional(S.String),
-    SourceIdentity: S.optional(S.String),
-  }).pipe(ns),
+export const AssumeRoleWithSAMLResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Credentials: S.optional(Credentials),
+      AssumedRoleUser: S.optional(AssumedRoleUser),
+      PackedPolicySize: S.optional(S.Number),
+      Subject: S.optional(S.String),
+      SubjectType: S.optional(S.String),
+      Issuer: S.optional(S.String),
+      Audience: S.optional(S.String),
+      NameQualifier: S.optional(S.String),
+      SourceIdentity: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "AssumeRoleWithSAMLResponse",
 }) as any as S.Schema<AssumeRoleWithSAMLResponse>;
@@ -408,29 +412,30 @@ export interface AssumeRoleWithWebIdentityRequest {
   Policy?: string;
   DurationSeconds?: number;
 }
-export const AssumeRoleWithWebIdentityRequest = S.suspend(() =>
-  S.Struct({
-    RoleArn: S.String,
-    RoleSessionName: S.String,
-    WebIdentityToken: SensitiveString,
-    ProviderId: S.optional(S.String),
-    PolicyArns: S.optional(PolicyDescriptorListType),
-    Policy: S.optional(S.String),
-    DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssumeRoleWithWebIdentityRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoleArn: S.String,
+      RoleSessionName: S.String,
+      WebIdentityToken: SensitiveString,
+      ProviderId: S.optional(S.String),
+      PolicyArns: S.optional(PolicyDescriptorListType),
+      Policy: S.optional(S.String),
+      DurationSeconds: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AssumeRoleWithWebIdentityRequest",
-}) as any as S.Schema<AssumeRoleWithWebIdentityRequest>;
+  ).annotate({
+    identifier: "AssumeRoleWithWebIdentityRequest",
+  }) as any as S.Schema<AssumeRoleWithWebIdentityRequest>;
 export interface AssumeRoleWithWebIdentityResponse {
   Credentials?: Credentials;
   SubjectFromWebIdentityToken?: string;
@@ -440,25 +445,26 @@ export interface AssumeRoleWithWebIdentityResponse {
   Audience?: string;
   SourceIdentity?: string;
 }
-export const AssumeRoleWithWebIdentityResponse = S.suspend(() =>
-  S.Struct({
-    Credentials: S.optional(Credentials),
-    SubjectFromWebIdentityToken: S.optional(S.String),
-    AssumedRoleUser: S.optional(AssumedRoleUser),
-    PackedPolicySize: S.optional(S.Number),
-    Provider: S.optional(S.String),
-    Audience: S.optional(S.String),
-    SourceIdentity: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "AssumeRoleWithWebIdentityResponse",
-}) as any as S.Schema<AssumeRoleWithWebIdentityResponse>;
+export const AssumeRoleWithWebIdentityResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Credentials: S.optional(Credentials),
+      SubjectFromWebIdentityToken: S.optional(S.String),
+      AssumedRoleUser: S.optional(AssumedRoleUser),
+      PackedPolicySize: S.optional(S.Number),
+      Provider: S.optional(S.String),
+      Audience: S.optional(S.String),
+      SourceIdentity: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AssumeRoleWithWebIdentityResponse",
+  }) as any as S.Schema<AssumeRoleWithWebIdentityResponse>;
 export interface AssumeRootRequest {
   TargetPrincipal: string;
   TaskPolicyArn: PolicyDescriptorType;
   DurationSeconds?: number;
 }
-export const AssumeRootRequest = S.suspend(() =>
+export const AssumeRootRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TargetPrincipal: S.String,
     TaskPolicyArn: PolicyDescriptorType,
@@ -481,7 +487,7 @@ export interface AssumeRootResponse {
   Credentials?: Credentials;
   SourceIdentity?: string;
 }
-export const AssumeRootResponse = S.suspend(() =>
+export const AssumeRootResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     SourceIdentity: S.optional(S.String),
@@ -492,68 +498,72 @@ export const AssumeRootResponse = S.suspend(() =>
 export interface DecodeAuthorizationMessageRequest {
   EncodedMessage: string;
 }
-export const DecodeAuthorizationMessageRequest = S.suspend(() =>
-  S.Struct({ EncodedMessage: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DecodeAuthorizationMessageRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EncodedMessage: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DecodeAuthorizationMessageRequest",
-}) as any as S.Schema<DecodeAuthorizationMessageRequest>;
+  ).annotate({
+    identifier: "DecodeAuthorizationMessageRequest",
+  }) as any as S.Schema<DecodeAuthorizationMessageRequest>;
 export interface DecodeAuthorizationMessageResponse {
   DecodedMessage?: string;
 }
-export const DecodeAuthorizationMessageResponse = S.suspend(() =>
-  S.Struct({ DecodedMessage: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DecodeAuthorizationMessageResponse",
-}) as any as S.Schema<DecodeAuthorizationMessageResponse>;
+export const DecodeAuthorizationMessageResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DecodedMessage: S.optional(S.String) }).pipe(ns),
+  ).annotate({
+    identifier: "DecodeAuthorizationMessageResponse",
+  }) as any as S.Schema<DecodeAuthorizationMessageResponse>;
 export interface GetAccessKeyInfoRequest {
   AccessKeyId: string;
 }
-export const GetAccessKeyInfoRequest = S.suspend(() =>
-  S.Struct({ AccessKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetAccessKeyInfoRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AccessKeyId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetAccessKeyInfoRequest",
 }) as any as S.Schema<GetAccessKeyInfoRequest>;
 export interface GetAccessKeyInfoResponse {
   Account?: string;
 }
-export const GetAccessKeyInfoResponse = S.suspend(() =>
-  S.Struct({ Account: S.optional(S.String) }).pipe(ns),
+export const GetAccessKeyInfoResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Account: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "GetAccessKeyInfoResponse",
 }) as any as S.Schema<GetAccessKeyInfoResponse>;
 export interface GetCallerIdentityRequest {}
-export const GetCallerIdentityRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetCallerIdentityRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({}).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetCallerIdentityRequest",
 }) as any as S.Schema<GetCallerIdentityRequest>;
@@ -562,47 +572,50 @@ export interface GetCallerIdentityResponse {
   Account?: string;
   Arn?: string;
 }
-export const GetCallerIdentityResponse = S.suspend(() =>
-  S.Struct({
-    UserId: S.optional(S.String),
-    Account: S.optional(S.String),
-    Arn: S.optional(S.String),
-  }).pipe(ns),
+export const GetCallerIdentityResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserId: S.optional(S.String),
+      Account: S.optional(S.String),
+      Arn: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "GetCallerIdentityResponse",
 }) as any as S.Schema<GetCallerIdentityResponse>;
 export interface GetDelegatedAccessTokenRequest {
   TradeInToken: string | redacted.Redacted<string>;
 }
-export const GetDelegatedAccessTokenRequest = S.suspend(() =>
-  S.Struct({ TradeInToken: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDelegatedAccessTokenRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ TradeInToken: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDelegatedAccessTokenRequest",
-}) as any as S.Schema<GetDelegatedAccessTokenRequest>;
+  ).annotate({
+    identifier: "GetDelegatedAccessTokenRequest",
+  }) as any as S.Schema<GetDelegatedAccessTokenRequest>;
 export interface GetDelegatedAccessTokenResponse {
   Credentials?: Credentials;
   PackedPolicySize?: number;
   AssumedPrincipal?: string;
 }
-export const GetDelegatedAccessTokenResponse = S.suspend(() =>
-  S.Struct({
-    Credentials: S.optional(Credentials),
-    PackedPolicySize: S.optional(S.Number),
-    AssumedPrincipal: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDelegatedAccessTokenResponse",
-}) as any as S.Schema<GetDelegatedAccessTokenResponse>;
+export const GetDelegatedAccessTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Credentials: S.optional(Credentials),
+      PackedPolicySize: S.optional(S.Number),
+      AssumedPrincipal: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetDelegatedAccessTokenResponse",
+  }) as any as S.Schema<GetDelegatedAccessTokenResponse>;
 export interface GetFederationTokenRequest {
   Name: string;
   Policy?: string;
@@ -610,24 +623,25 @@ export interface GetFederationTokenRequest {
   DurationSeconds?: number;
   Tags?: Tag[];
 }
-export const GetFederationTokenRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Policy: S.optional(S.String),
-    PolicyArns: S.optional(PolicyDescriptorListType),
-    DurationSeconds: S.optional(S.Number),
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetFederationTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.String,
+      Policy: S.optional(S.String),
+      PolicyArns: S.optional(PolicyDescriptorListType),
+      DurationSeconds: S.optional(S.Number),
+      Tags: S.optional(TagListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetFederationTokenRequest",
 }) as any as S.Schema<GetFederationTokenRequest>;
@@ -635,7 +649,7 @@ export interface FederatedUser {
   FederatedUserId: string;
   Arn: string;
 }
-export const FederatedUser = S.suspend(() =>
+export const FederatedUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ FederatedUserId: S.String, Arn: S.String }),
 ).annotate({ identifier: "FederatedUser" }) as any as S.Schema<FederatedUser>;
 export interface GetFederationTokenResponse {
@@ -643,12 +657,13 @@ export interface GetFederationTokenResponse {
   FederatedUser?: FederatedUser;
   PackedPolicySize?: number;
 }
-export const GetFederationTokenResponse = S.suspend(() =>
-  S.Struct({
-    Credentials: S.optional(Credentials),
-    FederatedUser: S.optional(FederatedUser),
-    PackedPolicySize: S.optional(S.Number),
-  }).pipe(ns),
+export const GetFederationTokenResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Credentials: S.optional(Credentials),
+      FederatedUser: S.optional(FederatedUser),
+      PackedPolicySize: S.optional(S.Number),
+    }).pipe(ns),
 ).annotate({
   identifier: "GetFederationTokenResponse",
 }) as any as S.Schema<GetFederationTokenResponse>;
@@ -657,58 +672,61 @@ export interface GetSessionTokenRequest {
   SerialNumber?: string;
   TokenCode?: string;
 }
-export const GetSessionTokenRequest = S.suspend(() =>
-  S.Struct({
-    DurationSeconds: S.optional(S.Number),
-    SerialNumber: S.optional(S.String),
-    TokenCode: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetSessionTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DurationSeconds: S.optional(S.Number),
+      SerialNumber: S.optional(S.String),
+      TokenCode: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetSessionTokenRequest",
 }) as any as S.Schema<GetSessionTokenRequest>;
 export interface GetSessionTokenResponse {
   Credentials?: Credentials;
 }
-export const GetSessionTokenResponse = S.suspend(() =>
-  S.Struct({ Credentials: S.optional(Credentials) }).pipe(ns),
+export const GetSessionTokenResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Credentials: S.optional(Credentials) }).pipe(ns),
 ).annotate({
   identifier: "GetSessionTokenResponse",
 }) as any as S.Schema<GetSessionTokenResponse>;
 export type WebIdentityTokenAudienceListType = string[];
-export const WebIdentityTokenAudienceListType = S.Array(S.String);
+export const WebIdentityTokenAudienceListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetWebIdentityTokenRequest {
   Audience: string[];
   DurationSeconds?: number;
   SigningAlgorithm: string;
   Tags?: Tag[];
 }
-export const GetWebIdentityTokenRequest = S.suspend(() =>
-  S.Struct({
-    Audience: WebIdentityTokenAudienceListType,
-    DurationSeconds: S.optional(S.Number),
-    SigningAlgorithm: S.String,
-    Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetWebIdentityTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Audience: WebIdentityTokenAudienceListType,
+      DurationSeconds: S.optional(S.Number),
+      SigningAlgorithm: S.String,
+      Tags: S.optional(TagListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetWebIdentityTokenRequest",
 }) as any as S.Schema<GetWebIdentityTokenRequest>;
@@ -716,16 +734,17 @@ export interface GetWebIdentityTokenResponse {
   WebIdentityToken?: string | redacted.Redacted<string>;
   Expiration?: Date;
 }
-export const GetWebIdentityTokenResponse = S.suspend(() =>
-  S.Struct({
-    WebIdentityToken: S.optional(SensitiveString),
-    Expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetWebIdentityTokenResponse",
-}) as any as S.Schema<GetWebIdentityTokenResponse>;
+export const GetWebIdentityTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WebIdentityToken: S.optional(SensitiveString),
+      Expiration: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetWebIdentityTokenResponse",
+  }) as any as S.Schema<GetWebIdentityTokenResponse>;
 
 //# Errors
 export class ExpiredTokenException extends S.TaggedErrorClass<ExpiredTokenException>()(

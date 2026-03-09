@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteRoleInput = Schema.Struct({
+export const DeleteRoleInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -19,7 +19,7 @@ export const DeleteRoleInput = Schema.Struct({
 export type DeleteRoleInput = typeof DeleteRoleInput.Type;
 
 // Output Schema
-export const DeleteRoleOutput = Schema.Void;
+export const DeleteRoleOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteRoleOutput = typeof DeleteRoleOutput.Type;
 
 // The operation

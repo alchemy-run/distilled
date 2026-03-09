@@ -217,28 +217,33 @@ export type AttributeDataType =
   | "DateTime"
   | "Boolean"
   | (string & {});
-export const AttributeDataType = S.String;
+export const AttributeDataType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface NumberAttributeConstraintsType {
   MinValue?: string;
   MaxValue?: string;
 }
-export const NumberAttributeConstraintsType = S.suspend(() =>
-  S.Struct({ MinValue: S.optional(S.String), MaxValue: S.optional(S.String) }),
-).annotate({
-  identifier: "NumberAttributeConstraintsType",
-}) as any as S.Schema<NumberAttributeConstraintsType>;
+export const NumberAttributeConstraintsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MinValue: S.optional(S.String),
+      MaxValue: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "NumberAttributeConstraintsType",
+  }) as any as S.Schema<NumberAttributeConstraintsType>;
 export interface StringAttributeConstraintsType {
   MinLength?: string;
   MaxLength?: string;
 }
-export const StringAttributeConstraintsType = S.suspend(() =>
-  S.Struct({
-    MinLength: S.optional(S.String),
-    MaxLength: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StringAttributeConstraintsType",
-}) as any as S.Schema<StringAttributeConstraintsType>;
+export const StringAttributeConstraintsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MinLength: S.optional(S.String),
+      MaxLength: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "StringAttributeConstraintsType",
+  }) as any as S.Schema<StringAttributeConstraintsType>;
 export interface SchemaAttributeType {
   Name?: string;
   AttributeDataType?: AttributeDataType;
@@ -248,7 +253,7 @@ export interface SchemaAttributeType {
   NumberAttributeConstraints?: NumberAttributeConstraintsType;
   StringAttributeConstraints?: StringAttributeConstraintsType;
 }
-export const SchemaAttributeType = S.suspend(() =>
+export const SchemaAttributeType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     AttributeDataType: S.optional(AttributeDataType),
@@ -262,144 +267,152 @@ export const SchemaAttributeType = S.suspend(() =>
   identifier: "SchemaAttributeType",
 }) as any as S.Schema<SchemaAttributeType>;
 export type CustomAttributesListType = SchemaAttributeType[];
-export const CustomAttributesListType = S.Array(SchemaAttributeType);
+export const CustomAttributesListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SchemaAttributeType);
 export interface AddCustomAttributesRequest {
   UserPoolId: string;
   CustomAttributes: SchemaAttributeType[];
 }
-export const AddCustomAttributesRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    CustomAttributes: CustomAttributesListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AddCustomAttributesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      CustomAttributes: CustomAttributesListType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AddCustomAttributesRequest",
 }) as any as S.Schema<AddCustomAttributesRequest>;
 export interface AddCustomAttributesResponse {}
-export const AddCustomAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddCustomAttributesResponse",
-}) as any as S.Schema<AddCustomAttributesResponse>;
+export const AddCustomAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AddCustomAttributesResponse",
+  }) as any as S.Schema<AddCustomAttributesResponse>;
 export interface AddUserPoolClientSecretRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   ClientSecret?: string | redacted.Redacted<string>;
 }
-export const AddUserPoolClientSecretRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    ClientSecret: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AddUserPoolClientSecretRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      ClientSecret: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AddUserPoolClientSecretRequest",
-}) as any as S.Schema<AddUserPoolClientSecretRequest>;
+  ).annotate({
+    identifier: "AddUserPoolClientSecretRequest",
+  }) as any as S.Schema<AddUserPoolClientSecretRequest>;
 export interface ClientSecretDescriptorType {
   ClientSecretId?: string;
   ClientSecretValue?: string | redacted.Redacted<string>;
   ClientSecretCreateDate?: Date;
 }
-export const ClientSecretDescriptorType = S.suspend(() =>
-  S.Struct({
-    ClientSecretId: S.optional(S.String),
-    ClientSecretValue: S.optional(SensitiveString),
-    ClientSecretCreateDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
+export const ClientSecretDescriptorType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientSecretId: S.optional(S.String),
+      ClientSecretValue: S.optional(SensitiveString),
+      ClientSecretCreateDate: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
 ).annotate({
   identifier: "ClientSecretDescriptorType",
 }) as any as S.Schema<ClientSecretDescriptorType>;
 export interface AddUserPoolClientSecretResponse {
   ClientSecretDescriptor?: ClientSecretDescriptorType;
 }
-export const AddUserPoolClientSecretResponse = S.suspend(() =>
-  S.Struct({
-    ClientSecretDescriptor: S.optional(ClientSecretDescriptorType),
-  }).pipe(ns),
-).annotate({
-  identifier: "AddUserPoolClientSecretResponse",
-}) as any as S.Schema<AddUserPoolClientSecretResponse>;
+export const AddUserPoolClientSecretResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientSecretDescriptor: S.optional(ClientSecretDescriptorType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AddUserPoolClientSecretResponse",
+  }) as any as S.Schema<AddUserPoolClientSecretResponse>;
 export interface AdminAddUserToGroupRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   GroupName: string;
 }
-export const AdminAddUserToGroupRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    GroupName: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminAddUserToGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      GroupName: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminAddUserToGroupRequest",
 }) as any as S.Schema<AdminAddUserToGroupRequest>;
 export interface AdminAddUserToGroupResponse {}
-export const AdminAddUserToGroupResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminAddUserToGroupResponse",
-}) as any as S.Schema<AdminAddUserToGroupResponse>;
+export const AdminAddUserToGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminAddUserToGroupResponse",
+  }) as any as S.Schema<AdminAddUserToGroupResponse>;
 export type ClientMetadataType = { [key: string]: string | undefined };
-export const ClientMetadataType = S.Record(S.String, S.String.pipe(S.optional));
+export const ClientMetadataType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface AdminConfirmSignUpRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const AdminConfirmSignUpRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminConfirmSignUpRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminConfirmSignUpRequest",
 }) as any as S.Schema<AdminConfirmSignUpRequest>;
 export interface AdminConfirmSignUpResponse {}
-export const AdminConfirmSignUpResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const AdminConfirmSignUpResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AdminConfirmSignUpResponse",
 }) as any as S.Schema<AdminConfirmSignUpResponse>;
@@ -407,17 +420,19 @@ export interface AttributeType {
   Name: string;
   Value?: string | redacted.Redacted<string>;
 }
-export const AttributeType = S.suspend(() =>
+export const AttributeType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.optional(SensitiveString) }),
 ).annotate({ identifier: "AttributeType" }) as any as S.Schema<AttributeType>;
 export type AttributeListType = AttributeType[];
-export const AttributeListType = S.Array(AttributeType);
+export const AttributeListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AttributeType);
 export type MessageActionType = "RESEND" | "SUPPRESS" | (string & {});
-export const MessageActionType = S.String;
+export const MessageActionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DeliveryMediumType = "SMS" | "EMAIL" | (string & {});
-export const DeliveryMediumType = S.String;
+export const DeliveryMediumType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DeliveryMediumListType = DeliveryMediumType[];
-export const DeliveryMediumListType = S.Array(DeliveryMediumType);
+export const DeliveryMediumListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DeliveryMediumType);
 export interface AdminCreateUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
@@ -429,28 +444,29 @@ export interface AdminCreateUserRequest {
   DesiredDeliveryMediums?: DeliveryMediumType[];
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const AdminCreateUserRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    UserAttributes: S.optional(AttributeListType),
-    ValidationData: S.optional(AttributeListType),
-    TemporaryPassword: S.optional(SensitiveString),
-    ForceAliasCreation: S.optional(S.Boolean),
-    MessageAction: S.optional(MessageActionType),
-    DesiredDeliveryMediums: S.optional(DeliveryMediumListType),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminCreateUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      UserAttributes: S.optional(AttributeListType),
+      ValidationData: S.optional(AttributeListType),
+      TemporaryPassword: S.optional(SensitiveString),
+      ForceAliasCreation: S.optional(S.Boolean),
+      MessageAction: S.optional(MessageActionType),
+      DesiredDeliveryMediums: S.optional(DeliveryMediumListType),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminCreateUserRequest",
 }) as any as S.Schema<AdminCreateUserRequest>;
@@ -464,19 +480,20 @@ export type UserStatusType =
   | "FORCE_CHANGE_PASSWORD"
   | "EXTERNAL_PROVIDER"
   | (string & {});
-export const UserStatusType = S.String;
+export const UserStatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MFAOptionType {
   DeliveryMedium?: DeliveryMediumType;
   AttributeName?: string;
 }
-export const MFAOptionType = S.suspend(() =>
+export const MFAOptionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeliveryMedium: S.optional(DeliveryMediumType),
     AttributeName: S.optional(S.String),
   }),
 ).annotate({ identifier: "MFAOptionType" }) as any as S.Schema<MFAOptionType>;
 export type MFAOptionListType = MFAOptionType[];
-export const MFAOptionListType = S.Array(MFAOptionType);
+export const MFAOptionListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(MFAOptionType);
 export interface UserType {
   Username?: string | redacted.Redacted<string>;
   Attributes?: AttributeType[];
@@ -486,7 +503,7 @@ export interface UserType {
   UserStatus?: UserStatusType;
   MFAOptions?: MFAOptionType[];
 }
-export const UserType = S.suspend(() =>
+export const UserType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Username: S.optional(SensitiveString),
     Attributes: S.optional(AttributeListType),
@@ -502,8 +519,8 @@ export const UserType = S.suspend(() =>
 export interface AdminCreateUserResponse {
   User?: UserType;
 }
-export const AdminCreateUserResponse = S.suspend(() =>
-  S.Struct({ User: S.optional(UserType) }).pipe(ns),
+export const AdminCreateUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ User: S.optional(UserType) }).pipe(ns),
 ).annotate({
   identifier: "AdminCreateUserResponse",
 }) as any as S.Schema<AdminCreateUserResponse>;
@@ -511,70 +528,74 @@ export interface AdminDeleteUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminDeleteUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminDeleteUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminDeleteUserRequest",
 }) as any as S.Schema<AdminDeleteUserRequest>;
 export interface AdminDeleteUserResponse {}
-export const AdminDeleteUserResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const AdminDeleteUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AdminDeleteUserResponse",
 }) as any as S.Schema<AdminDeleteUserResponse>;
 export type AttributeNameListType = string[];
-export const AttributeNameListType = S.Array(S.String);
+export const AttributeNameListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface AdminDeleteUserAttributesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   UserAttributeNames: string[];
 }
-export const AdminDeleteUserAttributesRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    UserAttributeNames: AttributeNameListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminDeleteUserAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      UserAttributeNames: AttributeNameListType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminDeleteUserAttributesRequest",
-}) as any as S.Schema<AdminDeleteUserAttributesRequest>;
+  ).annotate({
+    identifier: "AdminDeleteUserAttributesRequest",
+  }) as any as S.Schema<AdminDeleteUserAttributesRequest>;
 export interface AdminDeleteUserAttributesResponse {}
-export const AdminDeleteUserAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminDeleteUserAttributesResponse",
-}) as any as S.Schema<AdminDeleteUserAttributesResponse>;
+export const AdminDeleteUserAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminDeleteUserAttributesResponse",
+  }) as any as S.Schema<AdminDeleteUserAttributesResponse>;
 export interface ProviderUserIdentifierType {
   ProviderName?: string;
   ProviderAttributeName?: string;
   ProviderAttributeValue?: string;
 }
-export const ProviderUserIdentifierType = S.suspend(() =>
-  S.Struct({
-    ProviderName: S.optional(S.String),
-    ProviderAttributeName: S.optional(S.String),
-    ProviderAttributeValue: S.optional(S.String),
-  }),
+export const ProviderUserIdentifierType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ProviderName: S.optional(S.String),
+      ProviderAttributeName: S.optional(S.String),
+      ProviderAttributeValue: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ProviderUserIdentifierType",
 }) as any as S.Schema<ProviderUserIdentifierType>;
@@ -582,49 +603,50 @@ export interface AdminDisableProviderForUserRequest {
   UserPoolId: string;
   User: ProviderUserIdentifierType;
 }
-export const AdminDisableProviderForUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, User: ProviderUserIdentifierType }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminDisableProviderForUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, User: ProviderUserIdentifierType }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminDisableProviderForUserRequest",
-}) as any as S.Schema<AdminDisableProviderForUserRequest>;
+  ).annotate({
+    identifier: "AdminDisableProviderForUserRequest",
+  }) as any as S.Schema<AdminDisableProviderForUserRequest>;
 export interface AdminDisableProviderForUserResponse {}
-export const AdminDisableProviderForUserResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminDisableProviderForUserResponse",
-}) as any as S.Schema<AdminDisableProviderForUserResponse>;
+export const AdminDisableProviderForUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminDisableProviderForUserResponse",
+  }) as any as S.Schema<AdminDisableProviderForUserResponse>;
 export interface AdminDisableUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminDisableUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminDisableUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminDisableUserRequest",
 }) as any as S.Schema<AdminDisableUserRequest>;
 export interface AdminDisableUserResponse {}
-export const AdminDisableUserResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const AdminDisableUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AdminDisableUserResponse",
 }) as any as S.Schema<AdminDisableUserResponse>;
@@ -632,24 +654,25 @@ export interface AdminEnableUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminEnableUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminEnableUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminEnableUserRequest",
 }) as any as S.Schema<AdminEnableUserRequest>;
 export interface AdminEnableUserResponse {}
-export const AdminEnableUserResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const AdminEnableUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AdminEnableUserResponse",
 }) as any as S.Schema<AdminEnableUserResponse>;
@@ -658,28 +681,29 @@ export interface AdminForgetDeviceRequest {
   Username: string | redacted.Redacted<string>;
   DeviceKey: string;
 }
-export const AdminForgetDeviceRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    DeviceKey: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminForgetDeviceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      DeviceKey: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminForgetDeviceRequest",
 }) as any as S.Schema<AdminForgetDeviceRequest>;
 export interface AdminForgetDeviceResponse {}
-export const AdminForgetDeviceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const AdminForgetDeviceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AdminForgetDeviceResponse",
 }) as any as S.Schema<AdminForgetDeviceResponse>;
@@ -688,7 +712,7 @@ export interface AdminGetDeviceRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminGetDeviceRequest = S.suspend(() =>
+export const AdminGetDeviceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceKey: S.String,
     UserPoolId: S.String,
@@ -714,7 +738,7 @@ export interface DeviceType {
   DeviceLastModifiedDate?: Date;
   DeviceLastAuthenticatedDate?: Date;
 }
-export const DeviceType = S.suspend(() =>
+export const DeviceType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceKey: S.optional(S.String),
     DeviceAttributes: S.optional(AttributeListType),
@@ -732,8 +756,8 @@ export const DeviceType = S.suspend(() =>
 export interface AdminGetDeviceResponse {
   Device: DeviceType;
 }
-export const AdminGetDeviceResponse = S.suspend(() =>
-  S.Struct({ Device: DeviceType }).pipe(ns),
+export const AdminGetDeviceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Device: DeviceType }).pipe(ns),
 ).annotate({
   identifier: "AdminGetDeviceResponse",
 }) as any as S.Schema<AdminGetDeviceResponse>;
@@ -741,7 +765,7 @@ export interface AdminGetUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminGetUserRequest = S.suspend(() =>
+export const AdminGetUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
@@ -757,7 +781,9 @@ export const AdminGetUserRequest = S.suspend(() =>
   identifier: "AdminGetUserRequest",
 }) as any as S.Schema<AdminGetUserRequest>;
 export type UserMFASettingListType = string[];
-export const UserMFASettingListType = S.Array(S.String);
+export const UserMFASettingListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface AdminGetUserResponse {
   Username: string | redacted.Redacted<string>;
   UserAttributes?: AttributeType[];
@@ -769,7 +795,7 @@ export interface AdminGetUserResponse {
   PreferredMfaSetting?: string;
   UserMFASettingList?: string[];
 }
-export const AdminGetUserResponse = S.suspend(() =>
+export const AdminGetUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Username: SensitiveString,
     UserAttributes: S.optional(AttributeListType),
@@ -796,13 +822,16 @@ export type AuthFlowType =
   | "ADMIN_USER_PASSWORD_AUTH"
   | "USER_AUTH"
   | (string & {});
-export const AuthFlowType = S.String;
+export const AuthFlowType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AuthParametersType = { [key: string]: string | undefined };
-export const AuthParametersType = S.Record(S.String, S.String.pipe(S.optional));
+export const AuthParametersType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface AnalyticsMetadataType {
   AnalyticsEndpointId?: string;
 }
-export const AnalyticsMetadataType = S.suspend(() =>
+export const AnalyticsMetadataType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AnalyticsEndpointId: S.optional(S.String) }),
 ).annotate({
   identifier: "AnalyticsMetadataType",
@@ -811,14 +840,14 @@ export interface HttpHeader {
   headerName?: string;
   headerValue?: string;
 }
-export const HttpHeader = S.suspend(() =>
+export const HttpHeader = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     headerName: S.optional(S.String),
     headerValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "HttpHeader" }) as any as S.Schema<HttpHeader>;
 export type HttpHeaderList = HttpHeader[];
-export const HttpHeaderList = S.Array(HttpHeader);
+export const HttpHeaderList = /*@__PURE__*/ /*#__PURE__*/ S.Array(HttpHeader);
 export interface ContextDataType {
   IpAddress: string;
   ServerName: string;
@@ -826,7 +855,7 @@ export interface ContextDataType {
   HttpHeaders: HttpHeader[];
   EncodedData?: string;
 }
-export const ContextDataType = S.suspend(() =>
+export const ContextDataType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     IpAddress: S.String,
     ServerName: S.String,
@@ -847,27 +876,28 @@ export interface AdminInitiateAuthRequest {
   ContextData?: ContextDataType;
   Session?: string | redacted.Redacted<string>;
 }
-export const AdminInitiateAuthRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    AuthFlow: AuthFlowType,
-    AuthParameters: S.optional(AuthParametersType),
-    ClientMetadata: S.optional(ClientMetadataType),
-    AnalyticsMetadata: S.optional(AnalyticsMetadataType),
-    ContextData: S.optional(ContextDataType),
-    Session: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminInitiateAuthRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      AuthFlow: AuthFlowType,
+      AuthParameters: S.optional(AuthParametersType),
+      ClientMetadata: S.optional(ClientMetadataType),
+      AnalyticsMetadata: S.optional(AnalyticsMetadataType),
+      ContextData: S.optional(ContextDataType),
+      Session: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminInitiateAuthRequest",
 }) as any as S.Schema<AdminInitiateAuthRequest>;
@@ -889,9 +919,9 @@ export type ChallengeNameType =
   | "WEB_AUTHN"
   | "PASSWORD_SRP"
   | (string & {});
-export const ChallengeNameType = S.String;
+export const ChallengeNameType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ChallengeParametersType = { [key: string]: string | undefined };
-export const ChallengeParametersType = S.Record(
+export const ChallengeParametersType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
@@ -899,7 +929,7 @@ export interface NewDeviceMetadataType {
   DeviceKey?: string;
   DeviceGroupKey?: string;
 }
-export const NewDeviceMetadataType = S.suspend(() =>
+export const NewDeviceMetadataType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceKey: S.optional(S.String),
     DeviceGroupKey: S.optional(S.String),
@@ -915,20 +945,22 @@ export interface AuthenticationResultType {
   IdToken?: string | redacted.Redacted<string>;
   NewDeviceMetadata?: NewDeviceMetadataType;
 }
-export const AuthenticationResultType = S.suspend(() =>
-  S.Struct({
-    AccessToken: S.optional(SensitiveString),
-    ExpiresIn: S.optional(S.Number),
-    TokenType: S.optional(S.String),
-    RefreshToken: S.optional(SensitiveString),
-    IdToken: S.optional(SensitiveString),
-    NewDeviceMetadata: S.optional(NewDeviceMetadataType),
-  }),
+export const AuthenticationResultType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: S.optional(SensitiveString),
+      ExpiresIn: S.optional(S.Number),
+      TokenType: S.optional(S.String),
+      RefreshToken: S.optional(SensitiveString),
+      IdToken: S.optional(SensitiveString),
+      NewDeviceMetadata: S.optional(NewDeviceMetadataType),
+    }),
 ).annotate({
   identifier: "AuthenticationResultType",
 }) as any as S.Schema<AuthenticationResultType>;
 export type AvailableChallengeListType = ChallengeNameType[];
-export const AvailableChallengeListType = S.Array(ChallengeNameType);
+export const AvailableChallengeListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ChallengeNameType);
 export interface AdminInitiateAuthResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
@@ -936,14 +968,15 @@ export interface AdminInitiateAuthResponse {
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: ChallengeNameType[];
 }
-export const AdminInitiateAuthResponse = S.suspend(() =>
-  S.Struct({
-    ChallengeName: S.optional(ChallengeNameType),
-    Session: S.optional(SensitiveString),
-    ChallengeParameters: S.optional(ChallengeParametersType),
-    AuthenticationResult: S.optional(AuthenticationResultType),
-    AvailableChallenges: S.optional(AvailableChallengeListType),
-  }).pipe(ns),
+export const AdminInitiateAuthResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ChallengeName: S.optional(ChallengeNameType),
+      Session: S.optional(SensitiveString),
+      ChallengeParameters: S.optional(ChallengeParametersType),
+      AuthenticationResult: S.optional(AuthenticationResultType),
+      AvailableChallenges: S.optional(AvailableChallengeListType),
+    }).pipe(ns),
 ).annotate({
   identifier: "AdminInitiateAuthResponse",
 }) as any as S.Schema<AdminInitiateAuthResponse>;
@@ -952,68 +985,70 @@ export interface AdminLinkProviderForUserRequest {
   DestinationUser: ProviderUserIdentifierType;
   SourceUser: ProviderUserIdentifierType;
 }
-export const AdminLinkProviderForUserRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    DestinationUser: ProviderUserIdentifierType,
-    SourceUser: ProviderUserIdentifierType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminLinkProviderForUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      DestinationUser: ProviderUserIdentifierType,
+      SourceUser: ProviderUserIdentifierType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminLinkProviderForUserRequest",
-}) as any as S.Schema<AdminLinkProviderForUserRequest>;
+  ).annotate({
+    identifier: "AdminLinkProviderForUserRequest",
+  }) as any as S.Schema<AdminLinkProviderForUserRequest>;
 export interface AdminLinkProviderForUserResponse {}
-export const AdminLinkProviderForUserResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminLinkProviderForUserResponse",
-}) as any as S.Schema<AdminLinkProviderForUserResponse>;
+export const AdminLinkProviderForUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminLinkProviderForUserResponse",
+  }) as any as S.Schema<AdminLinkProviderForUserResponse>;
 export interface AdminListDevicesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   Limit?: number;
   PaginationToken?: string;
 }
-export const AdminListDevicesRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    Limit: S.optional(S.Number),
-    PaginationToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminListDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      Limit: S.optional(S.Number),
+      PaginationToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AdminListDevicesRequest",
 }) as any as S.Schema<AdminListDevicesRequest>;
 export type DeviceListType = DeviceType[];
-export const DeviceListType = S.Array(DeviceType);
+export const DeviceListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(DeviceType);
 export interface AdminListDevicesResponse {
   Devices?: DeviceType[];
   PaginationToken?: string;
 }
-export const AdminListDevicesResponse = S.suspend(() =>
-  S.Struct({
-    Devices: S.optional(DeviceListType),
-    PaginationToken: S.optional(S.String),
-  }).pipe(ns),
+export const AdminListDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Devices: S.optional(DeviceListType),
+      PaginationToken: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "AdminListDevicesResponse",
 }) as any as S.Schema<AdminListDevicesResponse>;
@@ -1023,26 +1058,27 @@ export interface AdminListGroupsForUserRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const AdminListGroupsForUserRequest = S.suspend(() =>
-  S.Struct({
-    Username: SensitiveString,
-    UserPoolId: S.String,
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminListGroupsForUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Username: SensitiveString,
+      UserPoolId: S.String,
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminListGroupsForUserRequest",
-}) as any as S.Schema<AdminListGroupsForUserRequest>;
+  ).annotate({
+    identifier: "AdminListGroupsForUserRequest",
+  }) as any as S.Schema<AdminListGroupsForUserRequest>;
 export interface GroupType {
   GroupName?: string;
   UserPoolId?: string;
@@ -1052,7 +1088,7 @@ export interface GroupType {
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
-export const GroupType = S.suspend(() =>
+export const GroupType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.optional(S.String),
     UserPoolId: S.optional(S.String),
@@ -1066,45 +1102,47 @@ export const GroupType = S.suspend(() =>
   }),
 ).annotate({ identifier: "GroupType" }) as any as S.Schema<GroupType>;
 export type GroupListType = GroupType[];
-export const GroupListType = S.Array(GroupType);
+export const GroupListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(GroupType);
 export interface AdminListGroupsForUserResponse {
   Groups?: GroupType[];
   NextToken?: string;
 }
-export const AdminListGroupsForUserResponse = S.suspend(() =>
-  S.Struct({
-    Groups: S.optional(GroupListType),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "AdminListGroupsForUserResponse",
-}) as any as S.Schema<AdminListGroupsForUserResponse>;
+export const AdminListGroupsForUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Groups: S.optional(GroupListType),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AdminListGroupsForUserResponse",
+  }) as any as S.Schema<AdminListGroupsForUserResponse>;
 export interface AdminListUserAuthEventsRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   MaxResults?: number;
   NextToken?: string;
 }
-export const AdminListUserAuthEventsRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminListUserAuthEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminListUserAuthEventsRequest",
-}) as any as S.Schema<AdminListUserAuthEventsRequest>;
+  ).annotate({
+    identifier: "AdminListUserAuthEventsRequest",
+  }) as any as S.Schema<AdminListUserAuthEventsRequest>;
 export type EventType =
   | "SignIn"
   | "SignUp"
@@ -1112,23 +1150,23 @@ export type EventType =
   | "PasswordChange"
   | "ResendCode"
   | (string & {});
-export const EventType = S.String;
+export const EventType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventResponseType = "Pass" | "Fail" | "InProgress" | (string & {});
-export const EventResponseType = S.String;
+export const EventResponseType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RiskDecisionType =
   | "NoRisk"
   | "AccountTakeover"
   | "Block"
   | (string & {});
-export const RiskDecisionType = S.String;
+export const RiskDecisionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RiskLevelType = "Low" | "Medium" | "High" | (string & {});
-export const RiskLevelType = S.String;
+export const RiskLevelType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EventRiskType {
   RiskDecision?: RiskDecisionType;
   RiskLevel?: RiskLevelType;
   CompromisedCredentialsDetected?: boolean;
 }
-export const EventRiskType = S.suspend(() =>
+export const EventRiskType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RiskDecision: S.optional(RiskDecisionType),
     RiskLevel: S.optional(RiskLevelType),
@@ -1136,14 +1174,14 @@ export const EventRiskType = S.suspend(() =>
   }),
 ).annotate({ identifier: "EventRiskType" }) as any as S.Schema<EventRiskType>;
 export type ChallengeName = "Password" | "Mfa" | (string & {});
-export const ChallengeName = S.String;
+export const ChallengeName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ChallengeResponse = "Success" | "Failure" | (string & {});
-export const ChallengeResponse = S.String;
+export const ChallengeResponse = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ChallengeResponseType {
   ChallengeName?: ChallengeName;
   ChallengeResponse?: ChallengeResponse;
 }
-export const ChallengeResponseType = S.suspend(() =>
+export const ChallengeResponseType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(ChallengeName),
     ChallengeResponse: S.optional(ChallengeResponse),
@@ -1152,7 +1190,9 @@ export const ChallengeResponseType = S.suspend(() =>
   identifier: "ChallengeResponseType",
 }) as any as S.Schema<ChallengeResponseType>;
 export type ChallengeResponseListType = ChallengeResponseType[];
-export const ChallengeResponseListType = S.Array(ChallengeResponseType);
+export const ChallengeResponseListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ChallengeResponseType,
+);
 export interface EventContextDataType {
   IpAddress?: string;
   DeviceName?: string;
@@ -1160,7 +1200,7 @@ export interface EventContextDataType {
   City?: string;
   Country?: string;
 }
-export const EventContextDataType = S.suspend(() =>
+export const EventContextDataType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     IpAddress: S.optional(S.String),
     DeviceName: S.optional(S.String),
@@ -1172,13 +1212,13 @@ export const EventContextDataType = S.suspend(() =>
   identifier: "EventContextDataType",
 }) as any as S.Schema<EventContextDataType>;
 export type FeedbackValueType = "Valid" | "Invalid" | (string & {});
-export const FeedbackValueType = S.String;
+export const FeedbackValueType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EventFeedbackType {
   FeedbackValue: FeedbackValueType;
   Provider: string;
   FeedbackDate?: Date;
 }
-export const EventFeedbackType = S.suspend(() =>
+export const EventFeedbackType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     FeedbackValue: FeedbackValueType,
     Provider: S.String,
@@ -1197,7 +1237,7 @@ export interface AuthEventType {
   EventContextData?: EventContextDataType;
   EventFeedback?: EventFeedbackType;
 }
-export const AuthEventType = S.suspend(() =>
+export const AuthEventType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EventId: S.optional(S.String),
     EventType: S.optional(EventType),
@@ -1210,81 +1250,83 @@ export const AuthEventType = S.suspend(() =>
   }),
 ).annotate({ identifier: "AuthEventType" }) as any as S.Schema<AuthEventType>;
 export type AuthEventsType = AuthEventType[];
-export const AuthEventsType = S.Array(AuthEventType);
+export const AuthEventsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AuthEventType);
 export interface AdminListUserAuthEventsResponse {
   AuthEvents?: AuthEventType[];
   NextToken?: string;
 }
-export const AdminListUserAuthEventsResponse = S.suspend(() =>
-  S.Struct({
-    AuthEvents: S.optional(AuthEventsType),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "AdminListUserAuthEventsResponse",
-}) as any as S.Schema<AdminListUserAuthEventsResponse>;
+export const AdminListUserAuthEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AuthEvents: S.optional(AuthEventsType),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AdminListUserAuthEventsResponse",
+  }) as any as S.Schema<AdminListUserAuthEventsResponse>;
 export interface AdminRemoveUserFromGroupRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   GroupName: string;
 }
-export const AdminRemoveUserFromGroupRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    GroupName: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminRemoveUserFromGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      GroupName: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminRemoveUserFromGroupRequest",
-}) as any as S.Schema<AdminRemoveUserFromGroupRequest>;
+  ).annotate({
+    identifier: "AdminRemoveUserFromGroupRequest",
+  }) as any as S.Schema<AdminRemoveUserFromGroupRequest>;
 export interface AdminRemoveUserFromGroupResponse {}
-export const AdminRemoveUserFromGroupResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminRemoveUserFromGroupResponse",
-}) as any as S.Schema<AdminRemoveUserFromGroupResponse>;
+export const AdminRemoveUserFromGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminRemoveUserFromGroupResponse",
+  }) as any as S.Schema<AdminRemoveUserFromGroupResponse>;
 export interface AdminResetUserPasswordRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const AdminResetUserPasswordRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminResetUserPasswordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminResetUserPasswordRequest",
-}) as any as S.Schema<AdminResetUserPasswordRequest>;
+  ).annotate({
+    identifier: "AdminResetUserPasswordRequest",
+  }) as any as S.Schema<AdminResetUserPasswordRequest>;
 export interface AdminResetUserPasswordResponse {}
-export const AdminResetUserPasswordResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminResetUserPasswordResponse",
-}) as any as S.Schema<AdminResetUserPasswordResponse>;
+export const AdminResetUserPasswordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminResetUserPasswordResponse",
+  }) as any as S.Schema<AdminResetUserPasswordResponse>;
 export type ChallengeResponsesType = { [key: string]: string | undefined };
-export const ChallengeResponsesType = S.Record(
+export const ChallengeResponsesType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
@@ -1298,51 +1340,53 @@ export interface AdminRespondToAuthChallengeRequest {
   ContextData?: ContextDataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const AdminRespondToAuthChallengeRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    ChallengeName: ChallengeNameType,
-    ChallengeResponses: S.optional(ChallengeResponsesType),
-    Session: S.optional(SensitiveString),
-    AnalyticsMetadata: S.optional(AnalyticsMetadataType),
-    ContextData: S.optional(ContextDataType),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminRespondToAuthChallengeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      ChallengeName: ChallengeNameType,
+      ChallengeResponses: S.optional(ChallengeResponsesType),
+      Session: S.optional(SensitiveString),
+      AnalyticsMetadata: S.optional(AnalyticsMetadataType),
+      ContextData: S.optional(ContextDataType),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminRespondToAuthChallengeRequest",
-}) as any as S.Schema<AdminRespondToAuthChallengeRequest>;
+  ).annotate({
+    identifier: "AdminRespondToAuthChallengeRequest",
+  }) as any as S.Schema<AdminRespondToAuthChallengeRequest>;
 export interface AdminRespondToAuthChallengeResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
   ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
 }
-export const AdminRespondToAuthChallengeResponse = S.suspend(() =>
-  S.Struct({
-    ChallengeName: S.optional(ChallengeNameType),
-    Session: S.optional(SensitiveString),
-    ChallengeParameters: S.optional(ChallengeParametersType),
-    AuthenticationResult: S.optional(AuthenticationResultType),
-  }).pipe(ns),
-).annotate({
-  identifier: "AdminRespondToAuthChallengeResponse",
-}) as any as S.Schema<AdminRespondToAuthChallengeResponse>;
+export const AdminRespondToAuthChallengeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ChallengeName: S.optional(ChallengeNameType),
+      Session: S.optional(SensitiveString),
+      ChallengeParameters: S.optional(ChallengeParametersType),
+      AuthenticationResult: S.optional(AuthenticationResultType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AdminRespondToAuthChallengeResponse",
+  }) as any as S.Schema<AdminRespondToAuthChallengeResponse>;
 export interface SMSMfaSettingsType {
   Enabled?: boolean;
   PreferredMfa?: boolean;
 }
-export const SMSMfaSettingsType = S.suspend(() =>
+export const SMSMfaSettingsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     PreferredMfa: S.optional(S.Boolean),
@@ -1354,19 +1398,20 @@ export interface SoftwareTokenMfaSettingsType {
   Enabled?: boolean;
   PreferredMfa?: boolean;
 }
-export const SoftwareTokenMfaSettingsType = S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    PreferredMfa: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SoftwareTokenMfaSettingsType",
-}) as any as S.Schema<SoftwareTokenMfaSettingsType>;
+export const SoftwareTokenMfaSettingsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Enabled: S.optional(S.Boolean),
+      PreferredMfa: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "SoftwareTokenMfaSettingsType",
+  }) as any as S.Schema<SoftwareTokenMfaSettingsType>;
 export interface EmailMfaSettingsType {
   Enabled?: boolean;
   PreferredMfa?: boolean;
 }
-export const EmailMfaSettingsType = S.suspend(() =>
+export const EmailMfaSettingsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     PreferredMfa: S.optional(S.Boolean),
@@ -1381,261 +1426,263 @@ export interface AdminSetUserMFAPreferenceRequest {
   Username: string | redacted.Redacted<string>;
   UserPoolId: string;
 }
-export const AdminSetUserMFAPreferenceRequest = S.suspend(() =>
-  S.Struct({
-    SMSMfaSettings: S.optional(SMSMfaSettingsType),
-    SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
-    EmailMfaSettings: S.optional(EmailMfaSettingsType),
-    Username: SensitiveString,
-    UserPoolId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminSetUserMFAPreferenceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SMSMfaSettings: S.optional(SMSMfaSettingsType),
+      SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
+      EmailMfaSettings: S.optional(EmailMfaSettingsType),
+      Username: SensitiveString,
+      UserPoolId: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminSetUserMFAPreferenceRequest",
-}) as any as S.Schema<AdminSetUserMFAPreferenceRequest>;
+  ).annotate({
+    identifier: "AdminSetUserMFAPreferenceRequest",
+  }) as any as S.Schema<AdminSetUserMFAPreferenceRequest>;
 export interface AdminSetUserMFAPreferenceResponse {}
-export const AdminSetUserMFAPreferenceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminSetUserMFAPreferenceResponse",
-}) as any as S.Schema<AdminSetUserMFAPreferenceResponse>;
+export const AdminSetUserMFAPreferenceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminSetUserMFAPreferenceResponse",
+  }) as any as S.Schema<AdminSetUserMFAPreferenceResponse>;
 export interface AdminSetUserPasswordRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   Password: string | redacted.Redacted<string>;
   Permanent?: boolean;
 }
-export const AdminSetUserPasswordRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    Password: SensitiveString,
-    Permanent: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminSetUserPasswordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      Password: SensitiveString,
+      Permanent: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminSetUserPasswordRequest",
-}) as any as S.Schema<AdminSetUserPasswordRequest>;
+  ).annotate({
+    identifier: "AdminSetUserPasswordRequest",
+  }) as any as S.Schema<AdminSetUserPasswordRequest>;
 export interface AdminSetUserPasswordResponse {}
-export const AdminSetUserPasswordResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminSetUserPasswordResponse",
-}) as any as S.Schema<AdminSetUserPasswordResponse>;
+export const AdminSetUserPasswordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminSetUserPasswordResponse",
+  }) as any as S.Schema<AdminSetUserPasswordResponse>;
 export interface AdminSetUserSettingsRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   MFAOptions: MFAOptionType[];
 }
-export const AdminSetUserSettingsRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    MFAOptions: MFAOptionListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminSetUserSettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      MFAOptions: MFAOptionListType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminSetUserSettingsRequest",
-}) as any as S.Schema<AdminSetUserSettingsRequest>;
+  ).annotate({
+    identifier: "AdminSetUserSettingsRequest",
+  }) as any as S.Schema<AdminSetUserSettingsRequest>;
 export interface AdminSetUserSettingsResponse {}
-export const AdminSetUserSettingsResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminSetUserSettingsResponse",
-}) as any as S.Schema<AdminSetUserSettingsResponse>;
+export const AdminSetUserSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminSetUserSettingsResponse",
+  }) as any as S.Schema<AdminSetUserSettingsResponse>;
 export interface AdminUpdateAuthEventFeedbackRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   EventId: string;
   FeedbackValue: FeedbackValueType;
 }
-export const AdminUpdateAuthEventFeedbackRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    EventId: S.String,
-    FeedbackValue: FeedbackValueType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminUpdateAuthEventFeedbackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      EventId: S.String,
+      FeedbackValue: FeedbackValueType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminUpdateAuthEventFeedbackRequest",
-}) as any as S.Schema<AdminUpdateAuthEventFeedbackRequest>;
+  ).annotate({
+    identifier: "AdminUpdateAuthEventFeedbackRequest",
+  }) as any as S.Schema<AdminUpdateAuthEventFeedbackRequest>;
 export interface AdminUpdateAuthEventFeedbackResponse {}
-export const AdminUpdateAuthEventFeedbackResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminUpdateAuthEventFeedbackResponse",
-}) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>;
+export const AdminUpdateAuthEventFeedbackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminUpdateAuthEventFeedbackResponse",
+  }) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>;
 export type DeviceRememberedStatusType =
   | "remembered"
   | "not_remembered"
   | (string & {});
-export const DeviceRememberedStatusType = S.String;
+export const DeviceRememberedStatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AdminUpdateDeviceStatusRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   DeviceKey: string;
   DeviceRememberedStatus?: DeviceRememberedStatusType;
 }
-export const AdminUpdateDeviceStatusRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    DeviceKey: S.String,
-    DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminUpdateDeviceStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      DeviceKey: S.String,
+      DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminUpdateDeviceStatusRequest",
-}) as any as S.Schema<AdminUpdateDeviceStatusRequest>;
+  ).annotate({
+    identifier: "AdminUpdateDeviceStatusRequest",
+  }) as any as S.Schema<AdminUpdateDeviceStatusRequest>;
 export interface AdminUpdateDeviceStatusResponse {}
-export const AdminUpdateDeviceStatusResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminUpdateDeviceStatusResponse",
-}) as any as S.Schema<AdminUpdateDeviceStatusResponse>;
+export const AdminUpdateDeviceStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminUpdateDeviceStatusResponse",
+  }) as any as S.Schema<AdminUpdateDeviceStatusResponse>;
 export interface AdminUpdateUserAttributesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   UserAttributes: AttributeType[];
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const AdminUpdateUserAttributesRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    UserAttributes: AttributeListType,
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminUpdateUserAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      UserAttributes: AttributeListType,
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminUpdateUserAttributesRequest",
-}) as any as S.Schema<AdminUpdateUserAttributesRequest>;
+  ).annotate({
+    identifier: "AdminUpdateUserAttributesRequest",
+  }) as any as S.Schema<AdminUpdateUserAttributesRequest>;
 export interface AdminUpdateUserAttributesResponse {}
-export const AdminUpdateUserAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminUpdateUserAttributesResponse",
-}) as any as S.Schema<AdminUpdateUserAttributesResponse>;
+export const AdminUpdateUserAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminUpdateUserAttributesResponse",
+  }) as any as S.Schema<AdminUpdateUserAttributesResponse>;
 export interface AdminUserGlobalSignOutRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
 }
-export const AdminUserGlobalSignOutRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AdminUserGlobalSignOutRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AdminUserGlobalSignOutRequest",
-}) as any as S.Schema<AdminUserGlobalSignOutRequest>;
+  ).annotate({
+    identifier: "AdminUserGlobalSignOutRequest",
+  }) as any as S.Schema<AdminUserGlobalSignOutRequest>;
 export interface AdminUserGlobalSignOutResponse {}
-export const AdminUserGlobalSignOutResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AdminUserGlobalSignOutResponse",
-}) as any as S.Schema<AdminUserGlobalSignOutResponse>;
+export const AdminUserGlobalSignOutResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AdminUserGlobalSignOutResponse",
+  }) as any as S.Schema<AdminUserGlobalSignOutResponse>;
 export interface AssociateSoftwareTokenRequest {
   AccessToken?: string | redacted.Redacted<string>;
   Session?: string | redacted.Redacted<string>;
 }
-export const AssociateSoftwareTokenRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: S.optional(SensitiveString),
-    Session: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssociateSoftwareTokenRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AccessToken: S.optional(SensitiveString),
+      Session: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AssociateSoftwareTokenRequest",
-}) as any as S.Schema<AssociateSoftwareTokenRequest>;
+  ).annotate({
+    identifier: "AssociateSoftwareTokenRequest",
+  }) as any as S.Schema<AssociateSoftwareTokenRequest>;
 export interface AssociateSoftwareTokenResponse {
   SecretCode?: string | redacted.Redacted<string>;
   Session?: string | redacted.Redacted<string>;
 }
-export const AssociateSoftwareTokenResponse = S.suspend(() =>
-  S.Struct({
-    SecretCode: S.optional(SensitiveString),
-    Session: S.optional(SensitiveString),
-  }).pipe(ns),
-).annotate({
-  identifier: "AssociateSoftwareTokenResponse",
-}) as any as S.Schema<AssociateSoftwareTokenResponse>;
+export const AssociateSoftwareTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SecretCode: S.optional(SensitiveString),
+      Session: S.optional(SensitiveString),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "AssociateSoftwareTokenResponse",
+  }) as any as S.Schema<AssociateSoftwareTokenResponse>;
 export interface ChangePasswordRequest {
   PreviousPassword?: string | redacted.Redacted<string>;
   ProposedPassword: string | redacted.Redacted<string>;
   AccessToken: string | redacted.Redacted<string>;
 }
-export const ChangePasswordRequest = S.suspend(() =>
+export const ChangePasswordRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PreviousPassword: S.optional(SensitiveString),
     ProposedPassword: SensitiveString,
@@ -1655,8 +1702,8 @@ export const ChangePasswordRequest = S.suspend(() =>
   identifier: "ChangePasswordRequest",
 }) as any as S.Schema<ChangePasswordRequest>;
 export interface ChangePasswordResponse {}
-export const ChangePasswordResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const ChangePasswordResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "ChangePasswordResponse",
 }) as any as S.Schema<ChangePasswordResponse>;
@@ -1664,46 +1711,47 @@ export interface CompleteWebAuthnRegistrationRequest {
   AccessToken: string | redacted.Redacted<string>;
   Credential: any;
 }
-export const CompleteWebAuthnRegistrationRequest = S.suspend(() =>
-  S.Struct({ AccessToken: SensitiveString, Credential: S.Any }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CompleteWebAuthnRegistrationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AccessToken: SensitiveString, Credential: S.Any }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CompleteWebAuthnRegistrationRequest",
-}) as any as S.Schema<CompleteWebAuthnRegistrationRequest>;
+  ).annotate({
+    identifier: "CompleteWebAuthnRegistrationRequest",
+  }) as any as S.Schema<CompleteWebAuthnRegistrationRequest>;
 export interface CompleteWebAuthnRegistrationResponse {}
-export const CompleteWebAuthnRegistrationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CompleteWebAuthnRegistrationResponse",
-}) as any as S.Schema<CompleteWebAuthnRegistrationResponse>;
+export const CompleteWebAuthnRegistrationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CompleteWebAuthnRegistrationResponse",
+  }) as any as S.Schema<CompleteWebAuthnRegistrationResponse>;
 export interface DeviceSecretVerifierConfigType {
   PasswordVerifier?: string;
   Salt?: string;
 }
-export const DeviceSecretVerifierConfigType = S.suspend(() =>
-  S.Struct({
-    PasswordVerifier: S.optional(S.String),
-    Salt: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeviceSecretVerifierConfigType",
-}) as any as S.Schema<DeviceSecretVerifierConfigType>;
+export const DeviceSecretVerifierConfigType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PasswordVerifier: S.optional(S.String),
+      Salt: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DeviceSecretVerifierConfigType",
+  }) as any as S.Schema<DeviceSecretVerifierConfigType>;
 export interface ConfirmDeviceRequest {
   AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
   DeviceSecretVerifierConfig?: DeviceSecretVerifierConfigType;
   DeviceName?: string;
 }
-export const ConfirmDeviceRequest = S.suspend(() =>
+export const ConfirmDeviceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessToken: SensitiveString,
     DeviceKey: S.String,
@@ -1726,7 +1774,7 @@ export const ConfirmDeviceRequest = S.suspend(() =>
 export interface ConfirmDeviceResponse {
   UserConfirmationNecessary?: boolean;
 }
-export const ConfirmDeviceResponse = S.suspend(() =>
+export const ConfirmDeviceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ UserConfirmationNecessary: S.optional(S.Boolean) }).pipe(ns),
 ).annotate({
   identifier: "ConfirmDeviceResponse",
@@ -1735,7 +1783,7 @@ export interface UserContextDataType {
   IpAddress?: string;
   EncodedData?: string;
 }
-export const UserContextDataType = S.suspend(() =>
+export const UserContextDataType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     IpAddress: S.optional(S.String),
     EncodedData: S.optional(S.String),
@@ -1753,36 +1801,36 @@ export interface ConfirmForgotPasswordRequest {
   UserContextData?: UserContextDataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const ConfirmForgotPasswordRequest = S.suspend(() =>
-  S.Struct({
-    ClientId: SensitiveString,
-    SecretHash: S.optional(SensitiveString),
-    Username: SensitiveString,
-    ConfirmationCode: S.String,
-    Password: SensitiveString,
-    AnalyticsMetadata: S.optional(AnalyticsMetadataType),
-    UserContextData: S.optional(UserContextDataType),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ConfirmForgotPasswordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientId: SensitiveString,
+      SecretHash: S.optional(SensitiveString),
+      Username: SensitiveString,
+      ConfirmationCode: S.String,
+      Password: SensitiveString,
+      AnalyticsMetadata: S.optional(AnalyticsMetadataType),
+      UserContextData: S.optional(UserContextDataType),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ConfirmForgotPasswordRequest",
-}) as any as S.Schema<ConfirmForgotPasswordRequest>;
+  ).annotate({
+    identifier: "ConfirmForgotPasswordRequest",
+  }) as any as S.Schema<ConfirmForgotPasswordRequest>;
 export interface ConfirmForgotPasswordResponse {}
-export const ConfirmForgotPasswordResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ConfirmForgotPasswordResponse",
-}) as any as S.Schema<ConfirmForgotPasswordResponse>;
+export const ConfirmForgotPasswordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "ConfirmForgotPasswordResponse",
+  }) as any as S.Schema<ConfirmForgotPasswordResponse>;
 export interface ConfirmSignUpRequest {
   ClientId: string | redacted.Redacted<string>;
   SecretHash?: string | redacted.Redacted<string>;
@@ -1794,7 +1842,7 @@ export interface ConfirmSignUpRequest {
   ClientMetadata?: { [key: string]: string | undefined };
   Session?: string | redacted.Redacted<string>;
 }
-export const ConfirmSignUpRequest = S.suspend(() =>
+export const ConfirmSignUpRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientId: SensitiveString,
     SecretHash: S.optional(SensitiveString),
@@ -1822,7 +1870,7 @@ export const ConfirmSignUpRequest = S.suspend(() =>
 export interface ConfirmSignUpResponse {
   Session?: string | redacted.Redacted<string>;
 }
-export const ConfirmSignUpResponse = S.suspend(() =>
+export const ConfirmSignUpResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Session: S.optional(SensitiveString) }).pipe(ns),
 ).annotate({
   identifier: "ConfirmSignUpResponse",
@@ -1834,7 +1882,7 @@ export interface CreateGroupRequest {
   RoleArn?: string;
   Precedence?: number;
 }
-export const CreateGroupRequest = S.suspend(() =>
+export const CreateGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.String,
     UserPoolId: S.String,
@@ -1858,7 +1906,7 @@ export const CreateGroupRequest = S.suspend(() =>
 export interface CreateGroupResponse {
   Group?: GroupType;
 }
-export const CreateGroupResponse = S.suspend(() =>
+export const CreateGroupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Group: S.optional(GroupType) }).pipe(ns),
 ).annotate({
   identifier: "CreateGroupResponse",
@@ -1871,19 +1919,21 @@ export type IdentityProviderTypeType =
   | "SignInWithApple"
   | "OIDC"
   | (string & {});
-export const IdentityProviderTypeType = S.String;
+export const IdentityProviderTypeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ProviderDetailsType = { [key: string]: string | undefined };
-export const ProviderDetailsType = S.Record(
+export const ProviderDetailsType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
 export type AttributeMappingType = { [key: string]: string | undefined };
-export const AttributeMappingType = S.Record(
+export const AttributeMappingType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
 export type IdpIdentifiersListType = string[];
-export const IdpIdentifiersListType = S.Array(S.String);
+export const IdpIdentifiersListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface CreateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
@@ -1892,28 +1942,29 @@ export interface CreateIdentityProviderRequest {
   AttributeMapping?: { [key: string]: string | undefined };
   IdpIdentifiers?: string[];
 }
-export const CreateIdentityProviderRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ProviderName: S.String,
-    ProviderType: IdentityProviderTypeType,
-    ProviderDetails: ProviderDetailsType,
-    AttributeMapping: S.optional(AttributeMappingType),
-    IdpIdentifiers: S.optional(IdpIdentifiersListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateIdentityProviderRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ProviderName: S.String,
+      ProviderType: IdentityProviderTypeType,
+      ProviderDetails: ProviderDetailsType,
+      AttributeMapping: S.optional(AttributeMappingType),
+      IdpIdentifiers: S.optional(IdpIdentifiersListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateIdentityProviderRequest",
-}) as any as S.Schema<CreateIdentityProviderRequest>;
+  ).annotate({
+    identifier: "CreateIdentityProviderRequest",
+  }) as any as S.Schema<CreateIdentityProviderRequest>;
 export interface IdentityProviderType {
   UserPoolId?: string;
   ProviderName?: string;
@@ -1924,7 +1975,7 @@ export interface IdentityProviderType {
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
-export const IdentityProviderType = S.suspend(() =>
+export const IdentityProviderType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ProviderName: S.optional(S.String),
@@ -1943,11 +1994,12 @@ export const IdentityProviderType = S.suspend(() =>
 export interface CreateIdentityProviderResponse {
   IdentityProvider: IdentityProviderType;
 }
-export const CreateIdentityProviderResponse = S.suspend(() =>
-  S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
-).annotate({
-  identifier: "CreateIdentityProviderResponse",
-}) as any as S.Schema<CreateIdentityProviderResponse>;
+export const CreateIdentityProviderResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
+  ).annotate({
+    identifier: "CreateIdentityProviderResponse",
+  }) as any as S.Schema<CreateIdentityProviderResponse>;
 export type AssetCategoryType =
   | "FAVICON_ICO"
   | "FAVICON_SVG"
@@ -1965,9 +2017,9 @@ export type AssetCategoryType =
   | "FORM_LOGO"
   | "IDP_BUTTON_ICON"
   | (string & {});
-export const AssetCategoryType = S.String;
+export const AssetCategoryType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ColorSchemeModeType = "LIGHT" | "DARK" | "DYNAMIC" | (string & {});
-export const ColorSchemeModeType = S.String;
+export const ColorSchemeModeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AssetExtensionType =
   | "ICO"
   | "JPEG"
@@ -1975,7 +2027,7 @@ export type AssetExtensionType =
   | "SVG"
   | "WEBP"
   | (string & {});
-export const AssetExtensionType = S.String;
+export const AssetExtensionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AssetType {
   Category: AssetCategoryType;
   ColorMode: ColorSchemeModeType;
@@ -1983,7 +2035,7 @@ export interface AssetType {
   Bytes?: Uint8Array;
   ResourceId?: string;
 }
-export const AssetType = S.suspend(() =>
+export const AssetType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Category: AssetCategoryType,
     ColorMode: ColorSchemeModeType,
@@ -1993,7 +2045,7 @@ export const AssetType = S.suspend(() =>
   }),
 ).annotate({ identifier: "AssetType" }) as any as S.Schema<AssetType>;
 export type AssetListType = AssetType[];
-export const AssetListType = S.Array(AssetType);
+export const AssetListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(AssetType);
 export interface CreateManagedLoginBrandingRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
@@ -2001,27 +2053,28 @@ export interface CreateManagedLoginBrandingRequest {
   Settings?: any;
   Assets?: AssetType[];
 }
-export const CreateManagedLoginBrandingRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Any),
-    Assets: S.optional(AssetListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateManagedLoginBrandingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      UseCognitoProvidedValues: S.optional(S.Boolean),
+      Settings: S.optional(S.Any),
+      Assets: S.optional(AssetListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateManagedLoginBrandingRequest",
-}) as any as S.Schema<CreateManagedLoginBrandingRequest>;
+  ).annotate({
+    identifier: "CreateManagedLoginBrandingRequest",
+  }) as any as S.Schema<CreateManagedLoginBrandingRequest>;
 export interface ManagedLoginBrandingType {
   ManagedLoginBrandingId?: string;
   UserPoolId?: string;
@@ -2031,75 +2084,80 @@ export interface ManagedLoginBrandingType {
   CreationDate?: Date;
   LastModifiedDate?: Date;
 }
-export const ManagedLoginBrandingType = S.suspend(() =>
-  S.Struct({
-    ManagedLoginBrandingId: S.optional(S.String),
-    UserPoolId: S.optional(S.String),
-    UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Any),
-    Assets: S.optional(AssetListType),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
+export const ManagedLoginBrandingType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ManagedLoginBrandingId: S.optional(S.String),
+      UserPoolId: S.optional(S.String),
+      UseCognitoProvidedValues: S.optional(S.Boolean),
+      Settings: S.optional(S.Any),
+      Assets: S.optional(AssetListType),
+      CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      LastModifiedDate: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
 ).annotate({
   identifier: "ManagedLoginBrandingType",
 }) as any as S.Schema<ManagedLoginBrandingType>;
 export interface CreateManagedLoginBrandingResponse {
   ManagedLoginBranding?: ManagedLoginBrandingType;
 }
-export const CreateManagedLoginBrandingResponse = S.suspend(() =>
-  S.Struct({ ManagedLoginBranding: S.optional(ManagedLoginBrandingType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "CreateManagedLoginBrandingResponse",
-}) as any as S.Schema<CreateManagedLoginBrandingResponse>;
+export const CreateManagedLoginBrandingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginBranding: S.optional(ManagedLoginBrandingType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "CreateManagedLoginBrandingResponse",
+  }) as any as S.Schema<CreateManagedLoginBrandingResponse>;
 export interface ResourceServerScopeType {
   ScopeName: string;
   ScopeDescription: string;
 }
-export const ResourceServerScopeType = S.suspend(() =>
-  S.Struct({ ScopeName: S.String, ScopeDescription: S.String }),
+export const ResourceServerScopeType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ScopeName: S.String, ScopeDescription: S.String }),
 ).annotate({
   identifier: "ResourceServerScopeType",
 }) as any as S.Schema<ResourceServerScopeType>;
 export type ResourceServerScopeListType = ResourceServerScopeType[];
-export const ResourceServerScopeListType = S.Array(ResourceServerScopeType);
+export const ResourceServerScopeListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ResourceServerScopeType,
+);
 export interface CreateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
   Scopes?: ResourceServerScopeType[];
 }
-export const CreateResourceServerRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Identifier: S.String,
-    Name: S.String,
-    Scopes: S.optional(ResourceServerScopeListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateResourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Identifier: S.String,
+      Name: S.String,
+      Scopes: S.optional(ResourceServerScopeListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateResourceServerRequest",
-}) as any as S.Schema<CreateResourceServerRequest>;
+  ).annotate({
+    identifier: "CreateResourceServerRequest",
+  }) as any as S.Schema<CreateResourceServerRequest>;
 export interface ResourceServerType {
   UserPoolId?: string;
   Identifier?: string;
   Name?: string;
   Scopes?: ResourceServerScopeType[];
 }
-export const ResourceServerType = S.suspend(() =>
+export const ResourceServerType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     Identifier: S.optional(S.String),
@@ -2112,17 +2170,21 @@ export const ResourceServerType = S.suspend(() =>
 export interface CreateResourceServerResponse {
   ResourceServer: ResourceServerType;
 }
-export const CreateResourceServerResponse = S.suspend(() =>
-  S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
-).annotate({
-  identifier: "CreateResourceServerResponse",
-}) as any as S.Schema<CreateResourceServerResponse>;
+export const CreateResourceServerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
+  ).annotate({
+    identifier: "CreateResourceServerResponse",
+  }) as any as S.Schema<CreateResourceServerResponse>;
 export type TermsSourceType = "LINK" | (string & {});
-export const TermsSourceType = S.String;
+export const TermsSourceType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type TermsEnforcementType = "NONE" | (string & {});
-export const TermsEnforcementType = S.String;
+export const TermsEnforcementType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LinksType = { [key: string]: string | undefined };
-export const LinksType = S.Record(S.String, S.String.pipe(S.optional));
+export const LinksType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateTermsRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
@@ -2131,7 +2193,7 @@ export interface CreateTermsRequest {
   Enforcement: TermsEnforcementType;
   Links?: { [key: string]: string | undefined };
 }
-export const CreateTermsRequest = S.suspend(() =>
+export const CreateTermsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     ClientId: SensitiveString,
@@ -2164,7 +2226,7 @@ export interface TermsType {
   CreationDate: Date;
   LastModifiedDate: Date;
 }
-export const TermsType = S.suspend(() =>
+export const TermsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     UserPoolId: S.String,
@@ -2180,7 +2242,7 @@ export const TermsType = S.suspend(() =>
 export interface CreateTermsResponse {
   Terms?: TermsType;
 }
-export const CreateTermsResponse = S.suspend(() =>
+export const CreateTermsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Terms: S.optional(TermsType) }).pipe(ns),
 ).annotate({
   identifier: "CreateTermsResponse",
@@ -2190,22 +2252,23 @@ export interface CreateUserImportJobRequest {
   UserPoolId: string;
   CloudWatchLogsRoleArn: string;
 }
-export const CreateUserImportJobRequest = S.suspend(() =>
-  S.Struct({
-    JobName: S.String,
-    UserPoolId: S.String,
-    CloudWatchLogsRoleArn: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateUserImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      JobName: S.String,
+      UserPoolId: S.String,
+      CloudWatchLogsRoleArn: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateUserImportJobRequest",
 }) as any as S.Schema<CreateUserImportJobRequest>;
@@ -2219,7 +2282,7 @@ export type UserImportJobStatusType =
   | "Failed"
   | "Succeeded"
   | (string & {});
-export const UserImportJobStatusType = S.String;
+export const UserImportJobStatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface UserImportJobType {
   JobName?: string;
   JobId?: string;
@@ -2235,7 +2298,7 @@ export interface UserImportJobType {
   FailedUsers?: number;
   CompletionMessage?: string;
 }
-export const UserImportJobType = S.suspend(() =>
+export const UserImportJobType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     JobName: S.optional(S.String),
     JobId: S.optional(S.String),
@@ -2257,11 +2320,12 @@ export const UserImportJobType = S.suspend(() =>
 export interface CreateUserImportJobResponse {
   UserImportJob?: UserImportJobType;
 }
-export const CreateUserImportJobResponse = S.suspend(() =>
-  S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
-).annotate({
-  identifier: "CreateUserImportJobResponse",
-}) as any as S.Schema<CreateUserImportJobResponse>;
+export const CreateUserImportJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
+  ).annotate({
+    identifier: "CreateUserImportJobResponse",
+  }) as any as S.Schema<CreateUserImportJobResponse>;
 export interface PasswordPolicyType {
   MinimumLength?: number;
   RequireUppercase?: boolean;
@@ -2271,7 +2335,7 @@ export interface PasswordPolicyType {
   PasswordHistorySize?: number;
   TemporaryPasswordValidityDays?: number;
 }
-export const PasswordPolicyType = S.suspend(() =>
+export const PasswordPolicyType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MinimumLength: S.optional(S.Number),
     RequireUppercase: S.optional(S.Boolean),
@@ -2290,13 +2354,14 @@ export type AuthFactorType =
   | "SMS_OTP"
   | "WEB_AUTHN"
   | (string & {});
-export const AuthFactorType = S.String;
+export const AuthFactorType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AllowedFirstAuthFactorsListType = AuthFactorType[];
-export const AllowedFirstAuthFactorsListType = S.Array(AuthFactorType);
+export const AllowedFirstAuthFactorsListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AuthFactorType);
 export interface SignInPolicyType {
   AllowedFirstAuthFactors?: AuthFactorType[];
 }
-export const SignInPolicyType = S.suspend(() =>
+export const SignInPolicyType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AllowedFirstAuthFactors: S.optional(AllowedFirstAuthFactorsListType),
   }),
@@ -2307,7 +2372,7 @@ export interface UserPoolPolicyType {
   PasswordPolicy?: PasswordPolicyType;
   SignInPolicy?: SignInPolicyType;
 }
-export const UserPoolPolicyType = S.suspend(() =>
+export const UserPoolPolicyType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PasswordPolicy: S.optional(PasswordPolicyType),
     SignInPolicy: S.optional(SignInPolicyType),
@@ -2316,67 +2381,75 @@ export const UserPoolPolicyType = S.suspend(() =>
   identifier: "UserPoolPolicyType",
 }) as any as S.Schema<UserPoolPolicyType>;
 export type DeletionProtectionType = "ACTIVE" | "INACTIVE" | (string & {});
-export const DeletionProtectionType = S.String;
+export const DeletionProtectionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type PreTokenGenerationLambdaVersionType =
   | "V1_0"
   | "V2_0"
   | "V3_0"
   | (string & {});
-export const PreTokenGenerationLambdaVersionType = S.String;
+export const PreTokenGenerationLambdaVersionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PreTokenGenerationVersionConfigType {
   LambdaVersion: PreTokenGenerationLambdaVersionType;
   LambdaArn: string;
 }
-export const PreTokenGenerationVersionConfigType = S.suspend(() =>
-  S.Struct({
-    LambdaVersion: PreTokenGenerationLambdaVersionType,
-    LambdaArn: S.String,
-  }),
-).annotate({
-  identifier: "PreTokenGenerationVersionConfigType",
-}) as any as S.Schema<PreTokenGenerationVersionConfigType>;
+export const PreTokenGenerationVersionConfigType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LambdaVersion: PreTokenGenerationLambdaVersionType,
+      LambdaArn: S.String,
+    }),
+  ).annotate({
+    identifier: "PreTokenGenerationVersionConfigType",
+  }) as any as S.Schema<PreTokenGenerationVersionConfigType>;
 export type CustomSMSSenderLambdaVersionType = "V1_0" | (string & {});
-export const CustomSMSSenderLambdaVersionType = S.String;
+export const CustomSMSSenderLambdaVersionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CustomSMSLambdaVersionConfigType {
   LambdaVersion: CustomSMSSenderLambdaVersionType;
   LambdaArn: string;
 }
-export const CustomSMSLambdaVersionConfigType = S.suspend(() =>
-  S.Struct({
-    LambdaVersion: CustomSMSSenderLambdaVersionType,
-    LambdaArn: S.String,
-  }),
-).annotate({
-  identifier: "CustomSMSLambdaVersionConfigType",
-}) as any as S.Schema<CustomSMSLambdaVersionConfigType>;
+export const CustomSMSLambdaVersionConfigType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LambdaVersion: CustomSMSSenderLambdaVersionType,
+      LambdaArn: S.String,
+    }),
+  ).annotate({
+    identifier: "CustomSMSLambdaVersionConfigType",
+  }) as any as S.Schema<CustomSMSLambdaVersionConfigType>;
 export type CustomEmailSenderLambdaVersionType = "V1_0" | (string & {});
-export const CustomEmailSenderLambdaVersionType = S.String;
+export const CustomEmailSenderLambdaVersionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CustomEmailLambdaVersionConfigType {
   LambdaVersion: CustomEmailSenderLambdaVersionType;
   LambdaArn: string;
 }
-export const CustomEmailLambdaVersionConfigType = S.suspend(() =>
-  S.Struct({
-    LambdaVersion: CustomEmailSenderLambdaVersionType,
-    LambdaArn: S.String,
-  }),
-).annotate({
-  identifier: "CustomEmailLambdaVersionConfigType",
-}) as any as S.Schema<CustomEmailLambdaVersionConfigType>;
+export const CustomEmailLambdaVersionConfigType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LambdaVersion: CustomEmailSenderLambdaVersionType,
+      LambdaArn: S.String,
+    }),
+  ).annotate({
+    identifier: "CustomEmailLambdaVersionConfigType",
+  }) as any as S.Schema<CustomEmailLambdaVersionConfigType>;
 export type InboundFederationLambdaVersionType = "V1_0" | (string & {});
-export const InboundFederationLambdaVersionType = S.String;
+export const InboundFederationLambdaVersionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface InboundFederationLambdaType {
   LambdaVersion: InboundFederationLambdaVersionType;
   LambdaArn: string;
 }
-export const InboundFederationLambdaType = S.suspend(() =>
-  S.Struct({
-    LambdaVersion: InboundFederationLambdaVersionType,
-    LambdaArn: S.String,
-  }),
-).annotate({
-  identifier: "InboundFederationLambdaType",
-}) as any as S.Schema<InboundFederationLambdaType>;
+export const InboundFederationLambdaType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LambdaVersion: InboundFederationLambdaVersionType,
+      LambdaArn: S.String,
+    }),
+  ).annotate({
+    identifier: "InboundFederationLambdaType",
+  }) as any as S.Schema<InboundFederationLambdaType>;
 export interface LambdaConfigType {
   PreSignUp?: string;
   CustomMessage?: string;
@@ -2394,7 +2467,7 @@ export interface LambdaConfigType {
   KMSKeyID?: string;
   InboundFederation?: InboundFederationLambdaType;
 }
-export const LambdaConfigType = S.suspend(() =>
+export const LambdaConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PreSignUp: S.optional(S.String),
     CustomMessage: S.optional(S.String),
@@ -2416,26 +2489,31 @@ export const LambdaConfigType = S.suspend(() =>
   identifier: "LambdaConfigType",
 }) as any as S.Schema<LambdaConfigType>;
 export type VerifiedAttributeType = "phone_number" | "email" | (string & {});
-export const VerifiedAttributeType = S.String;
+export const VerifiedAttributeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type VerifiedAttributesListType = VerifiedAttributeType[];
-export const VerifiedAttributesListType = S.Array(VerifiedAttributeType);
+export const VerifiedAttributesListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  VerifiedAttributeType,
+);
 export type AliasAttributeType =
   | "phone_number"
   | "email"
   | "preferred_username"
   | (string & {});
-export const AliasAttributeType = S.String;
+export const AliasAttributeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AliasAttributesListType = AliasAttributeType[];
-export const AliasAttributesListType = S.Array(AliasAttributeType);
+export const AliasAttributesListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AliasAttributeType);
 export type UsernameAttributeType = "phone_number" | "email" | (string & {});
-export const UsernameAttributeType = S.String;
+export const UsernameAttributeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type UsernameAttributesListType = UsernameAttributeType[];
-export const UsernameAttributesListType = S.Array(UsernameAttributeType);
+export const UsernameAttributesListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  UsernameAttributeType,
+);
 export type DefaultEmailOptionType =
   | "CONFIRM_WITH_LINK"
   | "CONFIRM_WITH_CODE"
   | (string & {});
-export const DefaultEmailOptionType = S.String;
+export const DefaultEmailOptionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface VerificationMessageTemplateType {
   SmsMessage?: string;
   EmailMessage?: string;
@@ -2444,46 +2522,48 @@ export interface VerificationMessageTemplateType {
   EmailSubjectByLink?: string;
   DefaultEmailOption?: DefaultEmailOptionType;
 }
-export const VerificationMessageTemplateType = S.suspend(() =>
-  S.Struct({
-    SmsMessage: S.optional(S.String),
-    EmailMessage: S.optional(S.String),
-    EmailSubject: S.optional(S.String),
-    EmailMessageByLink: S.optional(S.String),
-    EmailSubjectByLink: S.optional(S.String),
-    DefaultEmailOption: S.optional(DefaultEmailOptionType),
-  }),
-).annotate({
-  identifier: "VerificationMessageTemplateType",
-}) as any as S.Schema<VerificationMessageTemplateType>;
+export const VerificationMessageTemplateType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SmsMessage: S.optional(S.String),
+      EmailMessage: S.optional(S.String),
+      EmailSubject: S.optional(S.String),
+      EmailMessageByLink: S.optional(S.String),
+      EmailSubjectByLink: S.optional(S.String),
+      DefaultEmailOption: S.optional(DefaultEmailOptionType),
+    }),
+  ).annotate({
+    identifier: "VerificationMessageTemplateType",
+  }) as any as S.Schema<VerificationMessageTemplateType>;
 export type UserPoolMfaType = "OFF" | "ON" | "OPTIONAL" | (string & {});
-export const UserPoolMfaType = S.String;
+export const UserPoolMfaType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AttributesRequireVerificationBeforeUpdateType =
   VerifiedAttributeType[];
-export const AttributesRequireVerificationBeforeUpdateType = S.Array(
-  VerifiedAttributeType,
-);
+export const AttributesRequireVerificationBeforeUpdateType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(VerifiedAttributeType);
 export interface UserAttributeUpdateSettingsType {
   AttributesRequireVerificationBeforeUpdate?: VerifiedAttributeType[];
 }
-export const UserAttributeUpdateSettingsType = S.suspend(() =>
-  S.Struct({
-    AttributesRequireVerificationBeforeUpdate: S.optional(
-      AttributesRequireVerificationBeforeUpdateType,
-    ),
-  }),
-).annotate({
-  identifier: "UserAttributeUpdateSettingsType",
-}) as any as S.Schema<UserAttributeUpdateSettingsType>;
+export const UserAttributeUpdateSettingsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AttributesRequireVerificationBeforeUpdate: S.optional(
+        AttributesRequireVerificationBeforeUpdateType,
+      ),
+    }),
+  ).annotate({
+    identifier: "UserAttributeUpdateSettingsType",
+  }) as any as S.Schema<UserAttributeUpdateSettingsType>;
 export interface DeviceConfigurationType {
   ChallengeRequiredOnNewDevice?: boolean;
   DeviceOnlyRememberedOnUserPrompt?: boolean;
 }
-export const DeviceConfigurationType = S.suspend(() =>
-  S.Struct({
-    ChallengeRequiredOnNewDevice: S.optional(S.Boolean),
-    DeviceOnlyRememberedOnUserPrompt: S.optional(S.Boolean),
-  }),
+export const DeviceConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ChallengeRequiredOnNewDevice: S.optional(S.Boolean),
+      DeviceOnlyRememberedOnUserPrompt: S.optional(S.Boolean),
+    }),
 ).annotate({
   identifier: "DeviceConfigurationType",
 }) as any as S.Schema<DeviceConfigurationType>;
@@ -2491,7 +2571,7 @@ export type EmailSendingAccountType =
   | "COGNITO_DEFAULT"
   | "DEVELOPER"
   | (string & {});
-export const EmailSendingAccountType = S.String;
+export const EmailSendingAccountType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EmailConfigurationType {
   SourceArn?: string;
   ReplyToEmailAddress?: string;
@@ -2499,14 +2579,15 @@ export interface EmailConfigurationType {
   From?: string;
   ConfigurationSet?: string;
 }
-export const EmailConfigurationType = S.suspend(() =>
-  S.Struct({
-    SourceArn: S.optional(S.String),
-    ReplyToEmailAddress: S.optional(S.String),
-    EmailSendingAccount: S.optional(EmailSendingAccountType),
-    From: S.optional(S.String),
-    ConfigurationSet: S.optional(S.String),
-  }),
+export const EmailConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      SourceArn: S.optional(S.String),
+      ReplyToEmailAddress: S.optional(S.String),
+      EmailSendingAccount: S.optional(EmailSendingAccountType),
+      From: S.optional(S.String),
+      ConfigurationSet: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "EmailConfigurationType",
 }) as any as S.Schema<EmailConfigurationType>;
@@ -2515,7 +2596,7 @@ export interface SmsConfigurationType {
   ExternalId?: string;
   SnsRegion?: string;
 }
-export const SmsConfigurationType = S.suspend(() =>
+export const SmsConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     SnsCallerArn: S.String,
     ExternalId: S.optional(S.String),
@@ -2525,13 +2606,16 @@ export const SmsConfigurationType = S.suspend(() =>
   identifier: "SmsConfigurationType",
 }) as any as S.Schema<SmsConfigurationType>;
 export type UserPoolTagsType = { [key: string]: string | undefined };
-export const UserPoolTagsType = S.Record(S.String, S.String.pipe(S.optional));
+export const UserPoolTagsType = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface MessageTemplateType {
   SMSMessage?: string;
   EmailMessage?: string;
   EmailSubject?: string;
 }
-export const MessageTemplateType = S.suspend(() =>
+export const MessageTemplateType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     SMSMessage: S.optional(S.String),
     EmailMessage: S.optional(S.String),
@@ -2545,41 +2629,45 @@ export interface AdminCreateUserConfigType {
   UnusedAccountValidityDays?: number;
   InviteMessageTemplate?: MessageTemplateType;
 }
-export const AdminCreateUserConfigType = S.suspend(() =>
-  S.Struct({
-    AllowAdminCreateUserOnly: S.optional(S.Boolean),
-    UnusedAccountValidityDays: S.optional(S.Number),
-    InviteMessageTemplate: S.optional(MessageTemplateType),
-  }),
+export const AdminCreateUserConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AllowAdminCreateUserOnly: S.optional(S.Boolean),
+      UnusedAccountValidityDays: S.optional(S.Number),
+      InviteMessageTemplate: S.optional(MessageTemplateType),
+    }),
 ).annotate({
   identifier: "AdminCreateUserConfigType",
 }) as any as S.Schema<AdminCreateUserConfigType>;
 export type SchemaAttributesListType = SchemaAttributeType[];
-export const SchemaAttributesListType = S.Array(SchemaAttributeType);
+export const SchemaAttributesListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SchemaAttributeType);
 export type AdvancedSecurityModeType =
   | "OFF"
   | "AUDIT"
   | "ENFORCED"
   | (string & {});
-export const AdvancedSecurityModeType = S.String;
+export const AdvancedSecurityModeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AdvancedSecurityEnabledModeType =
   | "AUDIT"
   | "ENFORCED"
   | (string & {});
-export const AdvancedSecurityEnabledModeType = S.String;
+export const AdvancedSecurityEnabledModeType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AdvancedSecurityAdditionalFlowsType {
   CustomAuthMode?: AdvancedSecurityEnabledModeType;
 }
-export const AdvancedSecurityAdditionalFlowsType = S.suspend(() =>
-  S.Struct({ CustomAuthMode: S.optional(AdvancedSecurityEnabledModeType) }),
-).annotate({
-  identifier: "AdvancedSecurityAdditionalFlowsType",
-}) as any as S.Schema<AdvancedSecurityAdditionalFlowsType>;
+export const AdvancedSecurityAdditionalFlowsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CustomAuthMode: S.optional(AdvancedSecurityEnabledModeType) }),
+  ).annotate({
+    identifier: "AdvancedSecurityAdditionalFlowsType",
+  }) as any as S.Schema<AdvancedSecurityAdditionalFlowsType>;
 export interface UserPoolAddOnsType {
   AdvancedSecurityMode: AdvancedSecurityModeType;
   AdvancedSecurityAdditionalFlows?: AdvancedSecurityAdditionalFlowsType;
 }
-export const UserPoolAddOnsType = S.suspend(() =>
+export const UserPoolAddOnsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AdvancedSecurityMode: AdvancedSecurityModeType,
     AdvancedSecurityAdditionalFlows: S.optional(
@@ -2592,8 +2680,8 @@ export const UserPoolAddOnsType = S.suspend(() =>
 export interface UsernameConfigurationType {
   CaseSensitive: boolean;
 }
-export const UsernameConfigurationType = S.suspend(() =>
-  S.Struct({ CaseSensitive: S.Boolean }),
+export const UsernameConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ CaseSensitive: S.Boolean }),
 ).annotate({
   identifier: "UsernameConfigurationType",
 }) as any as S.Schema<UsernameConfigurationType>;
@@ -2602,28 +2690,29 @@ export type RecoveryOptionNameType =
   | "verified_phone_number"
   | "admin_only"
   | (string & {});
-export const RecoveryOptionNameType = S.String;
+export const RecoveryOptionNameType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RecoveryOptionType {
   Priority: number;
   Name: RecoveryOptionNameType;
 }
-export const RecoveryOptionType = S.suspend(() =>
+export const RecoveryOptionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Priority: S.Number, Name: RecoveryOptionNameType }),
 ).annotate({
   identifier: "RecoveryOptionType",
 }) as any as S.Schema<RecoveryOptionType>;
 export type RecoveryMechanismsType = RecoveryOptionType[];
-export const RecoveryMechanismsType = S.Array(RecoveryOptionType);
+export const RecoveryMechanismsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecoveryOptionType);
 export interface AccountRecoverySettingType {
   RecoveryMechanisms?: RecoveryOptionType[];
 }
-export const AccountRecoverySettingType = S.suspend(() =>
-  S.Struct({ RecoveryMechanisms: S.optional(RecoveryMechanismsType) }),
+export const AccountRecoverySettingType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ RecoveryMechanisms: S.optional(RecoveryMechanismsType) }),
 ).annotate({
   identifier: "AccountRecoverySettingType",
 }) as any as S.Schema<AccountRecoverySettingType>;
 export type UserPoolTierType = "LITE" | "ESSENTIALS" | "PLUS" | (string & {});
-export const UserPoolTierType = S.String;
+export const UserPoolTierType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateUserPoolRequest {
   PoolName: string;
   Policies?: UserPoolPolicyType;
@@ -2650,7 +2739,7 @@ export interface CreateUserPoolRequest {
   AccountRecoverySetting?: AccountRecoverySettingType;
   UserPoolTier?: UserPoolTierType;
 }
-export const CreateUserPoolRequest = S.suspend(() =>
+export const CreateUserPoolRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PoolName: S.String,
     Policies: S.optional(UserPoolPolicyType),
@@ -2691,7 +2780,7 @@ export const CreateUserPoolRequest = S.suspend(() =>
   identifier: "CreateUserPoolRequest",
 }) as any as S.Schema<CreateUserPoolRequest>;
 export type StatusType = "Enabled" | "Disabled" | (string & {});
-export const StatusType = S.String;
+export const StatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface UserPoolType {
   Id?: string;
   Name?: string;
@@ -2728,7 +2817,7 @@ export interface UserPoolType {
   AccountRecoverySetting?: AccountRecoverySettingType;
   UserPoolTier?: UserPoolTierType;
 }
-export const UserPoolType = S.suspend(() =>
+export const UserPoolType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Name: S.optional(S.String),
@@ -2771,8 +2860,8 @@ export const UserPoolType = S.suspend(() =>
 export interface CreateUserPoolResponse {
   UserPool?: UserPoolType;
 }
-export const CreateUserPoolResponse = S.suspend(() =>
-  S.Struct({ UserPool: S.optional(UserPoolType) }).pipe(ns),
+export const CreateUserPoolResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UserPool: S.optional(UserPoolType) }).pipe(ns),
 ).annotate({
   identifier: "CreateUserPoolResponse",
 }) as any as S.Schema<CreateUserPoolResponse>;
@@ -2782,23 +2871,26 @@ export type TimeUnitsType =
   | "hours"
   | "days"
   | (string & {});
-export const TimeUnitsType = S.String;
+export const TimeUnitsType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface TokenValidityUnitsType {
   AccessToken?: TimeUnitsType;
   IdToken?: TimeUnitsType;
   RefreshToken?: TimeUnitsType;
 }
-export const TokenValidityUnitsType = S.suspend(() =>
-  S.Struct({
-    AccessToken: S.optional(TimeUnitsType),
-    IdToken: S.optional(TimeUnitsType),
-    RefreshToken: S.optional(TimeUnitsType),
-  }),
+export const TokenValidityUnitsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: S.optional(TimeUnitsType),
+      IdToken: S.optional(TimeUnitsType),
+      RefreshToken: S.optional(TimeUnitsType),
+    }),
 ).annotate({
   identifier: "TokenValidityUnitsType",
 }) as any as S.Schema<TokenValidityUnitsType>;
 export type ClientPermissionListType = string[];
-export const ClientPermissionListType = S.Array(S.String);
+export const ClientPermissionListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type ExplicitAuthFlowsType =
   | "ADMIN_NO_SRP_AUTH"
   | "CUSTOM_AUTH_FLOW_ONLY"
@@ -2810,25 +2902,31 @@ export type ExplicitAuthFlowsType =
   | "ALLOW_REFRESH_TOKEN_AUTH"
   | "ALLOW_USER_AUTH"
   | (string & {});
-export const ExplicitAuthFlowsType = S.String;
+export const ExplicitAuthFlowsType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ExplicitAuthFlowsListType = ExplicitAuthFlowsType[];
-export const ExplicitAuthFlowsListType = S.Array(ExplicitAuthFlowsType);
+export const ExplicitAuthFlowsListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ExplicitAuthFlowsType,
+);
 export type SupportedIdentityProvidersListType = string[];
-export const SupportedIdentityProvidersListType = S.Array(S.String);
+export const SupportedIdentityProvidersListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type CallbackURLsListType = string[];
-export const CallbackURLsListType = S.Array(S.String);
+export const CallbackURLsListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type LogoutURLsListType = string[];
-export const LogoutURLsListType = S.Array(S.String);
+export const LogoutURLsListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type OAuthFlowType =
   | "code"
   | "implicit"
   | "client_credentials"
   | (string & {});
-export const OAuthFlowType = S.String;
+export const OAuthFlowType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type OAuthFlowsType = OAuthFlowType[];
-export const OAuthFlowsType = S.Array(OAuthFlowType);
+export const OAuthFlowsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(OAuthFlowType);
 export type ScopeListType = string[];
-export const ScopeListType = S.Array(S.String);
+export const ScopeListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface AnalyticsConfigurationType {
   ApplicationId?: string;
   ApplicationArn?: string;
@@ -2836,14 +2934,15 @@ export interface AnalyticsConfigurationType {
   ExternalId?: string;
   UserDataShared?: boolean;
 }
-export const AnalyticsConfigurationType = S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ApplicationArn: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    ExternalId: S.optional(S.String),
-    UserDataShared: S.optional(S.Boolean),
-  }),
+export const AnalyticsConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ApplicationId: S.optional(S.String),
+      ApplicationArn: S.optional(S.String),
+      RoleArn: S.optional(S.String),
+      ExternalId: S.optional(S.String),
+      UserDataShared: S.optional(S.Boolean),
+    }),
 ).annotate({
   identifier: "AnalyticsConfigurationType",
 }) as any as S.Schema<AnalyticsConfigurationType>;
@@ -2851,18 +2950,20 @@ export type PreventUserExistenceErrorTypes =
   | "LEGACY"
   | "ENABLED"
   | (string & {});
-export const PreventUserExistenceErrorTypes = S.String;
+export const PreventUserExistenceErrorTypes =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FeatureType = "ENABLED" | "DISABLED" | (string & {});
-export const FeatureType = S.String;
+export const FeatureType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RefreshTokenRotationType {
   Feature: FeatureType;
   RetryGracePeriodSeconds?: number;
 }
-export const RefreshTokenRotationType = S.suspend(() =>
-  S.Struct({
-    Feature: FeatureType,
-    RetryGracePeriodSeconds: S.optional(S.Number),
-  }),
+export const RefreshTokenRotationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Feature: FeatureType,
+      RetryGracePeriodSeconds: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "RefreshTokenRotationType",
 }) as any as S.Schema<RefreshTokenRotationType>;
@@ -2892,46 +2993,49 @@ export interface CreateUserPoolClientRequest {
   AuthSessionValidity?: number;
   RefreshTokenRotation?: RefreshTokenRotationType;
 }
-export const CreateUserPoolClientRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientName: S.String,
-    GenerateSecret: S.optional(S.Boolean),
-    ClientSecret: S.optional(SensitiveString),
-    RefreshTokenValidity: S.optional(S.Number),
-    AccessTokenValidity: S.optional(S.Number),
-    IdTokenValidity: S.optional(S.Number),
-    TokenValidityUnits: S.optional(TokenValidityUnitsType),
-    ReadAttributes: S.optional(ClientPermissionListType),
-    WriteAttributes: S.optional(ClientPermissionListType),
-    ExplicitAuthFlows: S.optional(ExplicitAuthFlowsListType),
-    SupportedIdentityProviders: S.optional(SupportedIdentityProvidersListType),
-    CallbackURLs: S.optional(CallbackURLsListType),
-    LogoutURLs: S.optional(LogoutURLsListType),
-    DefaultRedirectURI: S.optional(S.String),
-    AllowedOAuthFlows: S.optional(OAuthFlowsType),
-    AllowedOAuthScopes: S.optional(ScopeListType),
-    AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
-    AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
-    PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
-    EnableTokenRevocation: S.optional(S.Boolean),
-    EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
-    AuthSessionValidity: S.optional(S.Number),
-    RefreshTokenRotation: S.optional(RefreshTokenRotationType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateUserPoolClientRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientName: S.String,
+      GenerateSecret: S.optional(S.Boolean),
+      ClientSecret: S.optional(SensitiveString),
+      RefreshTokenValidity: S.optional(S.Number),
+      AccessTokenValidity: S.optional(S.Number),
+      IdTokenValidity: S.optional(S.Number),
+      TokenValidityUnits: S.optional(TokenValidityUnitsType),
+      ReadAttributes: S.optional(ClientPermissionListType),
+      WriteAttributes: S.optional(ClientPermissionListType),
+      ExplicitAuthFlows: S.optional(ExplicitAuthFlowsListType),
+      SupportedIdentityProviders: S.optional(
+        SupportedIdentityProvidersListType,
+      ),
+      CallbackURLs: S.optional(CallbackURLsListType),
+      LogoutURLs: S.optional(LogoutURLsListType),
+      DefaultRedirectURI: S.optional(S.String),
+      AllowedOAuthFlows: S.optional(OAuthFlowsType),
+      AllowedOAuthScopes: S.optional(ScopeListType),
+      AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
+      AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
+      PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
+      EnableTokenRevocation: S.optional(S.Boolean),
+      EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
+      AuthSessionValidity: S.optional(S.Number),
+      RefreshTokenRotation: S.optional(RefreshTokenRotationType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateUserPoolClientRequest",
-}) as any as S.Schema<CreateUserPoolClientRequest>;
+  ).annotate({
+    identifier: "CreateUserPoolClientRequest",
+  }) as any as S.Schema<CreateUserPoolClientRequest>;
 export interface UserPoolClientType {
   UserPoolId?: string;
   ClientName?: string;
@@ -2960,7 +3064,7 @@ export interface UserPoolClientType {
   AuthSessionValidity?: number;
   RefreshTokenRotation?: RefreshTokenRotationType;
 }
-export const UserPoolClientType = S.suspend(() =>
+export const UserPoolClientType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ClientName: S.optional(S.String),
@@ -2997,16 +3101,17 @@ export const UserPoolClientType = S.suspend(() =>
 export interface CreateUserPoolClientResponse {
   UserPoolClient?: UserPoolClientType;
 }
-export const CreateUserPoolClientResponse = S.suspend(() =>
-  S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
-).annotate({
-  identifier: "CreateUserPoolClientResponse",
-}) as any as S.Schema<CreateUserPoolClientResponse>;
+export const CreateUserPoolClientResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
+  ).annotate({
+    identifier: "CreateUserPoolClientResponse",
+  }) as any as S.Schema<CreateUserPoolClientResponse>;
 export interface CustomDomainConfigType {
   CertificateArn: string;
 }
-export const CustomDomainConfigType = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }),
+export const CustomDomainConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ CertificateArn: S.String }),
 ).annotate({
   identifier: "CustomDomainConfigType",
 }) as any as S.Schema<CustomDomainConfigType>;
@@ -3016,43 +3121,45 @@ export interface CreateUserPoolDomainRequest {
   ManagedLoginVersion?: number;
   CustomDomainConfig?: CustomDomainConfigType;
 }
-export const CreateUserPoolDomainRequest = S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    UserPoolId: S.String,
-    ManagedLoginVersion: S.optional(S.Number),
-    CustomDomainConfig: S.optional(CustomDomainConfigType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateUserPoolDomainRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Domain: S.String,
+      UserPoolId: S.String,
+      ManagedLoginVersion: S.optional(S.Number),
+      CustomDomainConfig: S.optional(CustomDomainConfigType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateUserPoolDomainRequest",
-}) as any as S.Schema<CreateUserPoolDomainRequest>;
+  ).annotate({
+    identifier: "CreateUserPoolDomainRequest",
+  }) as any as S.Schema<CreateUserPoolDomainRequest>;
 export interface CreateUserPoolDomainResponse {
   ManagedLoginVersion?: number;
   CloudFrontDomain?: string;
 }
-export const CreateUserPoolDomainResponse = S.suspend(() =>
-  S.Struct({
-    ManagedLoginVersion: S.optional(S.Number),
-    CloudFrontDomain: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateUserPoolDomainResponse",
-}) as any as S.Schema<CreateUserPoolDomainResponse>;
+export const CreateUserPoolDomainResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginVersion: S.optional(S.Number),
+      CloudFrontDomain: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "CreateUserPoolDomainResponse",
+  }) as any as S.Schema<CreateUserPoolDomainResponse>;
 export interface DeleteGroupRequest {
   GroupName: string;
   UserPoolId: string;
 }
-export const DeleteGroupRequest = S.suspend(() =>
+export const DeleteGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ GroupName: S.String, UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3068,7 +3175,7 @@ export const DeleteGroupRequest = S.suspend(() =>
   identifier: "DeleteGroupRequest",
 }) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResponse {}
-export const DeleteGroupResponse = S.suspend(() =>
+export const DeleteGroupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteGroupResponse",
@@ -3077,82 +3184,82 @@ export interface DeleteIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
 }
-export const DeleteIdentityProviderRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ProviderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteIdentityProviderRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, ProviderName: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteIdentityProviderRequest",
-}) as any as S.Schema<DeleteIdentityProviderRequest>;
+  ).annotate({
+    identifier: "DeleteIdentityProviderRequest",
+  }) as any as S.Schema<DeleteIdentityProviderRequest>;
 export interface DeleteIdentityProviderResponse {}
-export const DeleteIdentityProviderResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteIdentityProviderResponse",
-}) as any as S.Schema<DeleteIdentityProviderResponse>;
+export const DeleteIdentityProviderResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteIdentityProviderResponse",
+  }) as any as S.Schema<DeleteIdentityProviderResponse>;
 export interface DeleteManagedLoginBrandingRequest {
   ManagedLoginBrandingId: string;
   UserPoolId: string;
 }
-export const DeleteManagedLoginBrandingRequest = S.suspend(() =>
-  S.Struct({ ManagedLoginBrandingId: S.String, UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteManagedLoginBrandingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ManagedLoginBrandingId: S.String, UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteManagedLoginBrandingRequest",
-}) as any as S.Schema<DeleteManagedLoginBrandingRequest>;
+  ).annotate({
+    identifier: "DeleteManagedLoginBrandingRequest",
+  }) as any as S.Schema<DeleteManagedLoginBrandingRequest>;
 export interface DeleteManagedLoginBrandingResponse {}
-export const DeleteManagedLoginBrandingResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteManagedLoginBrandingResponse",
-}) as any as S.Schema<DeleteManagedLoginBrandingResponse>;
+export const DeleteManagedLoginBrandingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteManagedLoginBrandingResponse",
+  }) as any as S.Schema<DeleteManagedLoginBrandingResponse>;
 export interface DeleteResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
 }
-export const DeleteResourceServerRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Identifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteResourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, Identifier: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteResourceServerRequest",
-}) as any as S.Schema<DeleteResourceServerRequest>;
+  ).annotate({
+    identifier: "DeleteResourceServerRequest",
+  }) as any as S.Schema<DeleteResourceServerRequest>;
 export interface DeleteResourceServerResponse {}
-export const DeleteResourceServerResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteResourceServerResponse",
-}) as any as S.Schema<DeleteResourceServerResponse>;
+export const DeleteResourceServerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteResourceServerResponse",
+  }) as any as S.Schema<DeleteResourceServerResponse>;
 export interface DeleteTermsRequest {
   TermsId: string;
   UserPoolId: string;
 }
-export const DeleteTermsRequest = S.suspend(() =>
+export const DeleteTermsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ TermsId: S.String, UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3168,7 +3275,7 @@ export const DeleteTermsRequest = S.suspend(() =>
   identifier: "DeleteTermsRequest",
 }) as any as S.Schema<DeleteTermsRequest>;
 export interface DeleteTermsResponse {}
-export const DeleteTermsResponse = S.suspend(() =>
+export const DeleteTermsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteTermsResponse",
@@ -3176,7 +3283,7 @@ export const DeleteTermsResponse = S.suspend(() =>
 export interface DeleteUserRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
-export const DeleteUserRequest = S.suspend(() =>
+export const DeleteUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
@@ -3192,7 +3299,7 @@ export const DeleteUserRequest = S.suspend(() =>
   identifier: "DeleteUserRequest",
 }) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {}
-export const DeleteUserResponse = S.suspend(() =>
+export const DeleteUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteUserResponse",
@@ -3201,34 +3308,34 @@ export interface DeleteUserAttributesRequest {
   UserAttributeNames: string[];
   AccessToken: string | redacted.Redacted<string>;
 }
-export const DeleteUserAttributesRequest = S.suspend(() =>
-  S.Struct({
-    UserAttributeNames: AttributeNameListType,
-    AccessToken: SensitiveString,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUserAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserAttributeNames: AttributeNameListType,
+      AccessToken: SensitiveString,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteUserAttributesRequest",
-}) as any as S.Schema<DeleteUserAttributesRequest>;
+  ).annotate({
+    identifier: "DeleteUserAttributesRequest",
+  }) as any as S.Schema<DeleteUserAttributesRequest>;
 export interface DeleteUserAttributesResponse {}
-export const DeleteUserAttributesResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserAttributesResponse",
-}) as any as S.Schema<DeleteUserAttributesResponse>;
+export const DeleteUserAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteUserAttributesResponse",
+  }) as any as S.Schema<DeleteUserAttributesResponse>;
 export interface DeleteUserPoolRequest {
   UserPoolId: string;
 }
-export const DeleteUserPoolRequest = S.suspend(() =>
+export const DeleteUserPoolRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3244,8 +3351,8 @@ export const DeleteUserPoolRequest = S.suspend(() =>
   identifier: "DeleteUserPoolRequest",
 }) as any as S.Schema<DeleteUserPoolRequest>;
 export interface DeleteUserPoolResponse {}
-export const DeleteUserPoolResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const DeleteUserPoolResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteUserPoolResponse",
 }) as any as S.Schema<DeleteUserPoolResponse>;
@@ -3253,290 +3360,303 @@ export interface DeleteUserPoolClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
 }
-export const DeleteUserPoolClientRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUserPoolClientRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteUserPoolClientRequest",
-}) as any as S.Schema<DeleteUserPoolClientRequest>;
+  ).annotate({
+    identifier: "DeleteUserPoolClientRequest",
+  }) as any as S.Schema<DeleteUserPoolClientRequest>;
 export interface DeleteUserPoolClientResponse {}
-export const DeleteUserPoolClientResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserPoolClientResponse",
-}) as any as S.Schema<DeleteUserPoolClientResponse>;
+export const DeleteUserPoolClientResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteUserPoolClientResponse",
+  }) as any as S.Schema<DeleteUserPoolClientResponse>;
 export interface DeleteUserPoolClientSecretRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   ClientSecretId: string;
 }
-export const DeleteUserPoolClientSecretRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    ClientSecretId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUserPoolClientSecretRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      ClientSecretId: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteUserPoolClientSecretRequest",
-}) as any as S.Schema<DeleteUserPoolClientSecretRequest>;
+  ).annotate({
+    identifier: "DeleteUserPoolClientSecretRequest",
+  }) as any as S.Schema<DeleteUserPoolClientSecretRequest>;
 export interface DeleteUserPoolClientSecretResponse {}
-export const DeleteUserPoolClientSecretResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserPoolClientSecretResponse",
-}) as any as S.Schema<DeleteUserPoolClientSecretResponse>;
+export const DeleteUserPoolClientSecretResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteUserPoolClientSecretResponse",
+  }) as any as S.Schema<DeleteUserPoolClientSecretResponse>;
 export interface DeleteUserPoolDomainRequest {
   Domain: string;
   UserPoolId: string;
 }
-export const DeleteUserPoolDomainRequest = S.suspend(() =>
-  S.Struct({ Domain: S.String, UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUserPoolDomainRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Domain: S.String, UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteUserPoolDomainRequest",
-}) as any as S.Schema<DeleteUserPoolDomainRequest>;
+  ).annotate({
+    identifier: "DeleteUserPoolDomainRequest",
+  }) as any as S.Schema<DeleteUserPoolDomainRequest>;
 export interface DeleteUserPoolDomainResponse {}
-export const DeleteUserPoolDomainResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUserPoolDomainResponse",
-}) as any as S.Schema<DeleteUserPoolDomainResponse>;
+export const DeleteUserPoolDomainResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteUserPoolDomainResponse",
+  }) as any as S.Schema<DeleteUserPoolDomainResponse>;
 export interface DeleteWebAuthnCredentialRequest {
   AccessToken: string | redacted.Redacted<string>;
   CredentialId: string;
 }
-export const DeleteWebAuthnCredentialRequest = S.suspend(() =>
-  S.Struct({ AccessToken: SensitiveString, CredentialId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteWebAuthnCredentialRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AccessToken: SensitiveString, CredentialId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteWebAuthnCredentialRequest",
-}) as any as S.Schema<DeleteWebAuthnCredentialRequest>;
+  ).annotate({
+    identifier: "DeleteWebAuthnCredentialRequest",
+  }) as any as S.Schema<DeleteWebAuthnCredentialRequest>;
 export interface DeleteWebAuthnCredentialResponse {}
-export const DeleteWebAuthnCredentialResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteWebAuthnCredentialResponse",
-}) as any as S.Schema<DeleteWebAuthnCredentialResponse>;
+export const DeleteWebAuthnCredentialResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteWebAuthnCredentialResponse",
+  }) as any as S.Schema<DeleteWebAuthnCredentialResponse>;
 export interface DescribeIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
 }
-export const DescribeIdentityProviderRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ProviderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeIdentityProviderRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, ProviderName: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeIdentityProviderRequest",
-}) as any as S.Schema<DescribeIdentityProviderRequest>;
+  ).annotate({
+    identifier: "DescribeIdentityProviderRequest",
+  }) as any as S.Schema<DescribeIdentityProviderRequest>;
 export interface DescribeIdentityProviderResponse {
   IdentityProvider: IdentityProviderType;
 }
-export const DescribeIdentityProviderResponse = S.suspend(() =>
-  S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
-).annotate({
-  identifier: "DescribeIdentityProviderResponse",
-}) as any as S.Schema<DescribeIdentityProviderResponse>;
+export const DescribeIdentityProviderResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeIdentityProviderResponse",
+  }) as any as S.Schema<DescribeIdentityProviderResponse>;
 export interface DescribeManagedLoginBrandingRequest {
   UserPoolId: string;
   ManagedLoginBrandingId: string;
   ReturnMergedResources?: boolean;
 }
-export const DescribeManagedLoginBrandingRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ManagedLoginBrandingId: S.String,
-    ReturnMergedResources: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeManagedLoginBrandingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ManagedLoginBrandingId: S.String,
+      ReturnMergedResources: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeManagedLoginBrandingRequest",
-}) as any as S.Schema<DescribeManagedLoginBrandingRequest>;
+  ).annotate({
+    identifier: "DescribeManagedLoginBrandingRequest",
+  }) as any as S.Schema<DescribeManagedLoginBrandingRequest>;
 export interface DescribeManagedLoginBrandingResponse {
   ManagedLoginBranding?: ManagedLoginBrandingType;
 }
-export const DescribeManagedLoginBrandingResponse = S.suspend(() =>
-  S.Struct({ ManagedLoginBranding: S.optional(ManagedLoginBrandingType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeManagedLoginBrandingResponse",
-}) as any as S.Schema<DescribeManagedLoginBrandingResponse>;
+export const DescribeManagedLoginBrandingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginBranding: S.optional(ManagedLoginBrandingType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeManagedLoginBrandingResponse",
+  }) as any as S.Schema<DescribeManagedLoginBrandingResponse>;
 export interface DescribeManagedLoginBrandingByClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   ReturnMergedResources?: boolean;
 }
-export const DescribeManagedLoginBrandingByClientRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    ReturnMergedResources: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeManagedLoginBrandingByClientRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      ReturnMergedResources: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeManagedLoginBrandingByClientRequest",
-}) as any as S.Schema<DescribeManagedLoginBrandingByClientRequest>;
+  ).annotate({
+    identifier: "DescribeManagedLoginBrandingByClientRequest",
+  }) as any as S.Schema<DescribeManagedLoginBrandingByClientRequest>;
 export interface DescribeManagedLoginBrandingByClientResponse {
   ManagedLoginBranding?: ManagedLoginBrandingType;
 }
-export const DescribeManagedLoginBrandingByClientResponse = S.suspend(() =>
-  S.Struct({ ManagedLoginBranding: S.optional(ManagedLoginBrandingType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeManagedLoginBrandingByClientResponse",
-}) as any as S.Schema<DescribeManagedLoginBrandingByClientResponse>;
+export const DescribeManagedLoginBrandingByClientResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginBranding: S.optional(ManagedLoginBrandingType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeManagedLoginBrandingByClientResponse",
+  }) as any as S.Schema<DescribeManagedLoginBrandingByClientResponse>;
 export interface DescribeResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
 }
-export const DescribeResourceServerRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Identifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeResourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, Identifier: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeResourceServerRequest",
-}) as any as S.Schema<DescribeResourceServerRequest>;
+  ).annotate({
+    identifier: "DescribeResourceServerRequest",
+  }) as any as S.Schema<DescribeResourceServerRequest>;
 export interface DescribeResourceServerResponse {
   ResourceServer: ResourceServerType;
 }
-export const DescribeResourceServerResponse = S.suspend(() =>
-  S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
-).annotate({
-  identifier: "DescribeResourceServerResponse",
-}) as any as S.Schema<DescribeResourceServerResponse>;
+export const DescribeResourceServerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeResourceServerResponse",
+  }) as any as S.Schema<DescribeResourceServerResponse>;
 export interface DescribeRiskConfigurationRequest {
   UserPoolId: string;
   ClientId?: string | redacted.Redacted<string>;
 }
-export const DescribeRiskConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeRiskConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeRiskConfigurationRequest",
-}) as any as S.Schema<DescribeRiskConfigurationRequest>;
+  ).annotate({
+    identifier: "DescribeRiskConfigurationRequest",
+  }) as any as S.Schema<DescribeRiskConfigurationRequest>;
 export type EventFilterType =
   | "SIGN_IN"
   | "PASSWORD_CHANGE"
   | "SIGN_UP"
   | (string & {});
-export const EventFilterType = S.String;
+export const EventFilterType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventFiltersType = EventFilterType[];
-export const EventFiltersType = S.Array(EventFilterType);
+export const EventFiltersType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EventFilterType);
 export type CompromisedCredentialsEventActionType =
   | "BLOCK"
   | "NO_ACTION"
   | (string & {});
-export const CompromisedCredentialsEventActionType = S.String;
+export const CompromisedCredentialsEventActionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CompromisedCredentialsActionsType {
   EventAction: CompromisedCredentialsEventActionType;
 }
-export const CompromisedCredentialsActionsType = S.suspend(() =>
-  S.Struct({ EventAction: CompromisedCredentialsEventActionType }),
-).annotate({
-  identifier: "CompromisedCredentialsActionsType",
-}) as any as S.Schema<CompromisedCredentialsActionsType>;
+export const CompromisedCredentialsActionsType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EventAction: CompromisedCredentialsEventActionType }),
+  ).annotate({
+    identifier: "CompromisedCredentialsActionsType",
+  }) as any as S.Schema<CompromisedCredentialsActionsType>;
 export interface CompromisedCredentialsRiskConfigurationType {
   EventFilter?: EventFilterType[];
   Actions: CompromisedCredentialsActionsType;
 }
-export const CompromisedCredentialsRiskConfigurationType = S.suspend(() =>
-  S.Struct({
-    EventFilter: S.optional(EventFiltersType),
-    Actions: CompromisedCredentialsActionsType,
-  }),
-).annotate({
-  identifier: "CompromisedCredentialsRiskConfigurationType",
-}) as any as S.Schema<CompromisedCredentialsRiskConfigurationType>;
+export const CompromisedCredentialsRiskConfigurationType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EventFilter: S.optional(EventFiltersType),
+      Actions: CompromisedCredentialsActionsType,
+    }),
+  ).annotate({
+    identifier: "CompromisedCredentialsRiskConfigurationType",
+  }) as any as S.Schema<CompromisedCredentialsRiskConfigurationType>;
 export interface NotifyEmailType {
   Subject: string;
   HtmlBody?: string;
   TextBody?: string;
 }
-export const NotifyEmailType = S.suspend(() =>
+export const NotifyEmailType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Subject: S.String,
     HtmlBody: S.optional(S.String),
@@ -3553,15 +3673,16 @@ export interface NotifyConfigurationType {
   NoActionEmail?: NotifyEmailType;
   MfaEmail?: NotifyEmailType;
 }
-export const NotifyConfigurationType = S.suspend(() =>
-  S.Struct({
-    From: S.optional(S.String),
-    ReplyTo: S.optional(S.String),
-    SourceArn: S.String,
-    BlockEmail: S.optional(NotifyEmailType),
-    NoActionEmail: S.optional(NotifyEmailType),
-    MfaEmail: S.optional(NotifyEmailType),
-  }),
+export const NotifyConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      From: S.optional(S.String),
+      ReplyTo: S.optional(S.String),
+      SourceArn: S.String,
+      BlockEmail: S.optional(NotifyEmailType),
+      NoActionEmail: S.optional(NotifyEmailType),
+      MfaEmail: S.optional(NotifyEmailType),
+    }),
 ).annotate({
   identifier: "NotifyConfigurationType",
 }) as any as S.Schema<NotifyConfigurationType>;
@@ -3571,13 +3692,18 @@ export type AccountTakeoverEventActionType =
   | "MFA_REQUIRED"
   | "NO_ACTION"
   | (string & {});
-export const AccountTakeoverEventActionType = S.String;
+export const AccountTakeoverEventActionType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AccountTakeoverActionType {
   Notify: boolean;
   EventAction: AccountTakeoverEventActionType;
 }
-export const AccountTakeoverActionType = S.suspend(() =>
-  S.Struct({ Notify: S.Boolean, EventAction: AccountTakeoverEventActionType }),
+export const AccountTakeoverActionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Notify: S.Boolean,
+      EventAction: AccountTakeoverEventActionType,
+    }),
 ).annotate({
   identifier: "AccountTakeoverActionType",
 }) as any as S.Schema<AccountTakeoverActionType>;
@@ -3586,12 +3712,13 @@ export interface AccountTakeoverActionsType {
   MediumAction?: AccountTakeoverActionType;
   HighAction?: AccountTakeoverActionType;
 }
-export const AccountTakeoverActionsType = S.suspend(() =>
-  S.Struct({
-    LowAction: S.optional(AccountTakeoverActionType),
-    MediumAction: S.optional(AccountTakeoverActionType),
-    HighAction: S.optional(AccountTakeoverActionType),
-  }),
+export const AccountTakeoverActionsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LowAction: S.optional(AccountTakeoverActionType),
+      MediumAction: S.optional(AccountTakeoverActionType),
+      HighAction: S.optional(AccountTakeoverActionType),
+    }),
 ).annotate({
   identifier: "AccountTakeoverActionsType",
 }) as any as S.Schema<AccountTakeoverActionsType>;
@@ -3599,30 +3726,36 @@ export interface AccountTakeoverRiskConfigurationType {
   NotifyConfiguration?: NotifyConfigurationType;
   Actions: AccountTakeoverActionsType;
 }
-export const AccountTakeoverRiskConfigurationType = S.suspend(() =>
-  S.Struct({
-    NotifyConfiguration: S.optional(NotifyConfigurationType),
-    Actions: AccountTakeoverActionsType,
-  }),
-).annotate({
-  identifier: "AccountTakeoverRiskConfigurationType",
-}) as any as S.Schema<AccountTakeoverRiskConfigurationType>;
+export const AccountTakeoverRiskConfigurationType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NotifyConfiguration: S.optional(NotifyConfigurationType),
+      Actions: AccountTakeoverActionsType,
+    }),
+  ).annotate({
+    identifier: "AccountTakeoverRiskConfigurationType",
+  }) as any as S.Schema<AccountTakeoverRiskConfigurationType>;
 export type BlockedIPRangeListType = string[];
-export const BlockedIPRangeListType = S.Array(S.String);
+export const BlockedIPRangeListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type SkippedIPRangeListType = string[];
-export const SkippedIPRangeListType = S.Array(S.String);
+export const SkippedIPRangeListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface RiskExceptionConfigurationType {
   BlockedIPRangeList?: string[];
   SkippedIPRangeList?: string[];
 }
-export const RiskExceptionConfigurationType = S.suspend(() =>
-  S.Struct({
-    BlockedIPRangeList: S.optional(BlockedIPRangeListType),
-    SkippedIPRangeList: S.optional(SkippedIPRangeListType),
-  }),
-).annotate({
-  identifier: "RiskExceptionConfigurationType",
-}) as any as S.Schema<RiskExceptionConfigurationType>;
+export const RiskExceptionConfigurationType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BlockedIPRangeList: S.optional(BlockedIPRangeListType),
+      SkippedIPRangeList: S.optional(SkippedIPRangeListType),
+    }),
+  ).annotate({
+    identifier: "RiskExceptionConfigurationType",
+  }) as any as S.Schema<RiskExceptionConfigurationType>;
 export interface RiskConfigurationType {
   UserPoolId?: string;
   ClientId?: string | redacted.Redacted<string>;
@@ -3631,7 +3764,7 @@ export interface RiskConfigurationType {
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
   LastModifiedDate?: Date;
 }
-export const RiskConfigurationType = S.suspend(() =>
+export const RiskConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ClientId: S.optional(SensitiveString),
@@ -3652,16 +3785,17 @@ export const RiskConfigurationType = S.suspend(() =>
 export interface DescribeRiskConfigurationResponse {
   RiskConfiguration: RiskConfigurationType;
 }
-export const DescribeRiskConfigurationResponse = S.suspend(() =>
-  S.Struct({ RiskConfiguration: RiskConfigurationType }).pipe(ns),
-).annotate({
-  identifier: "DescribeRiskConfigurationResponse",
-}) as any as S.Schema<DescribeRiskConfigurationResponse>;
+export const DescribeRiskConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RiskConfiguration: RiskConfigurationType }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeRiskConfigurationResponse",
+  }) as any as S.Schema<DescribeRiskConfigurationResponse>;
 export interface DescribeTermsRequest {
   TermsId: string;
   UserPoolId: string;
 }
-export const DescribeTermsRequest = S.suspend(() =>
+export const DescribeTermsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ TermsId: S.String, UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3679,7 +3813,7 @@ export const DescribeTermsRequest = S.suspend(() =>
 export interface DescribeTermsResponse {
   Terms?: TermsType;
 }
-export const DescribeTermsResponse = S.suspend(() =>
+export const DescribeTermsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Terms: S.optional(TermsType) }).pipe(ns),
 ).annotate({
   identifier: "DescribeTermsResponse",
@@ -3688,52 +3822,55 @@ export interface DescribeUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
 }
-export const DescribeUserImportJobRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeUserImportJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeUserImportJobRequest",
-}) as any as S.Schema<DescribeUserImportJobRequest>;
+  ).annotate({
+    identifier: "DescribeUserImportJobRequest",
+  }) as any as S.Schema<DescribeUserImportJobRequest>;
 export interface DescribeUserImportJobResponse {
   UserImportJob?: UserImportJobType;
 }
-export const DescribeUserImportJobResponse = S.suspend(() =>
-  S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
-).annotate({
-  identifier: "DescribeUserImportJobResponse",
-}) as any as S.Schema<DescribeUserImportJobResponse>;
+export const DescribeUserImportJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeUserImportJobResponse",
+  }) as any as S.Schema<DescribeUserImportJobResponse>;
 export interface DescribeUserPoolRequest {
   UserPoolId: string;
 }
-export const DescribeUserPoolRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeUserPoolRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeUserPoolRequest",
 }) as any as S.Schema<DescribeUserPoolRequest>;
 export interface DescribeUserPoolResponse {
   UserPool?: UserPoolType;
 }
-export const DescribeUserPoolResponse = S.suspend(() =>
-  S.Struct({ UserPool: S.optional(UserPoolType) }).pipe(ns),
+export const DescribeUserPoolResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UserPool: S.optional(UserPoolType) }).pipe(ns),
 ).annotate({
   identifier: "DescribeUserPoolResponse",
 }) as any as S.Schema<DescribeUserPoolResponse>;
@@ -3741,47 +3878,50 @@ export interface DescribeUserPoolClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
 }
-export const DescribeUserPoolClientRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeUserPoolClientRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeUserPoolClientRequest",
-}) as any as S.Schema<DescribeUserPoolClientRequest>;
+  ).annotate({
+    identifier: "DescribeUserPoolClientRequest",
+  }) as any as S.Schema<DescribeUserPoolClientRequest>;
 export interface DescribeUserPoolClientResponse {
   UserPoolClient?: UserPoolClientType;
 }
-export const DescribeUserPoolClientResponse = S.suspend(() =>
-  S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
-).annotate({
-  identifier: "DescribeUserPoolClientResponse",
-}) as any as S.Schema<DescribeUserPoolClientResponse>;
+export const DescribeUserPoolClientResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeUserPoolClientResponse",
+  }) as any as S.Schema<DescribeUserPoolClientResponse>;
 export interface DescribeUserPoolDomainRequest {
   Domain: string;
 }
-export const DescribeUserPoolDomainRequest = S.suspend(() =>
-  S.Struct({ Domain: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeUserPoolDomainRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Domain: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeUserPoolDomainRequest",
-}) as any as S.Schema<DescribeUserPoolDomainRequest>;
+  ).annotate({
+    identifier: "DescribeUserPoolDomainRequest",
+  }) as any as S.Schema<DescribeUserPoolDomainRequest>;
 export type DomainStatusType =
   | "CREATING"
   | "DELETING"
@@ -3789,7 +3929,7 @@ export type DomainStatusType =
   | "ACTIVE"
   | "FAILED"
   | (string & {});
-export const DomainStatusType = S.String;
+export const DomainStatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DomainDescriptionType {
   UserPoolId?: string;
   AWSAccountId?: string;
@@ -3801,7 +3941,7 @@ export interface DomainDescriptionType {
   CustomDomainConfig?: CustomDomainConfigType;
   ManagedLoginVersion?: number;
 }
-export const DomainDescriptionType = S.suspend(() =>
+export const DomainDescriptionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     AWSAccountId: S.optional(S.String),
@@ -3819,16 +3959,17 @@ export const DomainDescriptionType = S.suspend(() =>
 export interface DescribeUserPoolDomainResponse {
   DomainDescription?: DomainDescriptionType;
 }
-export const DescribeUserPoolDomainResponse = S.suspend(() =>
-  S.Struct({ DomainDescription: S.optional(DomainDescriptionType) }).pipe(ns),
-).annotate({
-  identifier: "DescribeUserPoolDomainResponse",
-}) as any as S.Schema<DescribeUserPoolDomainResponse>;
+export const DescribeUserPoolDomainResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DomainDescription: S.optional(DomainDescriptionType) }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeUserPoolDomainResponse",
+  }) as any as S.Schema<DescribeUserPoolDomainResponse>;
 export interface ForgetDeviceRequest {
   AccessToken?: string | redacted.Redacted<string>;
   DeviceKey: string;
 }
-export const ForgetDeviceRequest = S.suspend(() =>
+export const ForgetDeviceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessToken: S.optional(SensitiveString),
     DeviceKey: S.String,
@@ -3847,7 +3988,7 @@ export const ForgetDeviceRequest = S.suspend(() =>
   identifier: "ForgetDeviceRequest",
 }) as any as S.Schema<ForgetDeviceRequest>;
 export interface ForgetDeviceResponse {}
-export const ForgetDeviceResponse = S.suspend(() =>
+export const ForgetDeviceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "ForgetDeviceResponse",
@@ -3860,7 +4001,7 @@ export interface ForgotPasswordRequest {
   AnalyticsMetadata?: AnalyticsMetadataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const ForgotPasswordRequest = S.suspend(() =>
+export const ForgotPasswordRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientId: SensitiveString,
     SecretHash: S.optional(SensitiveString),
@@ -3887,29 +4028,31 @@ export interface CodeDeliveryDetailsType {
   DeliveryMedium?: DeliveryMediumType;
   AttributeName?: string;
 }
-export const CodeDeliveryDetailsType = S.suspend(() =>
-  S.Struct({
-    Destination: S.optional(S.String),
-    DeliveryMedium: S.optional(DeliveryMediumType),
-    AttributeName: S.optional(S.String),
-  }),
+export const CodeDeliveryDetailsType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Destination: S.optional(S.String),
+      DeliveryMedium: S.optional(DeliveryMediumType),
+      AttributeName: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "CodeDeliveryDetailsType",
 }) as any as S.Schema<CodeDeliveryDetailsType>;
 export interface ForgotPasswordResponse {
   CodeDeliveryDetails?: CodeDeliveryDetailsType;
 }
-export const ForgotPasswordResponse = S.suspend(() =>
-  S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
-    ns,
-  ),
+export const ForgotPasswordResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
+      ns,
+    ),
 ).annotate({
   identifier: "ForgotPasswordResponse",
 }) as any as S.Schema<ForgotPasswordResponse>;
 export interface GetCSVHeaderRequest {
   UserPoolId: string;
 }
-export const GetCSVHeaderRequest = S.suspend(() =>
+export const GetCSVHeaderRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3925,12 +4068,12 @@ export const GetCSVHeaderRequest = S.suspend(() =>
   identifier: "GetCSVHeaderRequest",
 }) as any as S.Schema<GetCSVHeaderRequest>;
 export type ListOfStringTypes = string[];
-export const ListOfStringTypes = S.Array(S.String);
+export const ListOfStringTypes = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetCSVHeaderResponse {
   UserPoolId?: string;
   CSVHeader?: string[];
 }
-export const GetCSVHeaderResponse = S.suspend(() =>
+export const GetCSVHeaderResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     CSVHeader: S.optional(ListOfStringTypes),
@@ -3942,7 +4085,7 @@ export interface GetDeviceRequest {
   DeviceKey: string;
   AccessToken?: string | redacted.Redacted<string>;
 }
-export const GetDeviceRequest = S.suspend(() =>
+export const GetDeviceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceKey: S.String,
     AccessToken: S.optional(SensitiveString),
@@ -3963,7 +4106,7 @@ export const GetDeviceRequest = S.suspend(() =>
 export interface GetDeviceResponse {
   Device: DeviceType;
 }
-export const GetDeviceResponse = S.suspend(() =>
+export const GetDeviceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Device: DeviceType }).pipe(ns),
 ).annotate({
   identifier: "GetDeviceResponse",
@@ -3972,7 +4115,7 @@ export interface GetGroupRequest {
   GroupName: string;
   UserPoolId: string;
 }
-export const GetGroupRequest = S.suspend(() =>
+export const GetGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ GroupName: S.String, UserPoolId: S.String }).pipe(
     T.all(
       ns,
@@ -3990,7 +4133,7 @@ export const GetGroupRequest = S.suspend(() =>
 export interface GetGroupResponse {
   Group?: GroupType;
 }
-export const GetGroupResponse = S.suspend(() =>
+export const GetGroupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Group: S.optional(GroupType) }).pipe(ns),
 ).annotate({
   identifier: "GetGroupResponse",
@@ -3999,66 +4142,70 @@ export interface GetIdentityProviderByIdentifierRequest {
   UserPoolId: string;
   IdpIdentifier: string;
 }
-export const GetIdentityProviderByIdentifierRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, IdpIdentifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetIdentityProviderByIdentifierRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String, IdpIdentifier: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetIdentityProviderByIdentifierRequest",
-}) as any as S.Schema<GetIdentityProviderByIdentifierRequest>;
+  ).annotate({
+    identifier: "GetIdentityProviderByIdentifierRequest",
+  }) as any as S.Schema<GetIdentityProviderByIdentifierRequest>;
 export interface GetIdentityProviderByIdentifierResponse {
   IdentityProvider: IdentityProviderType;
 }
-export const GetIdentityProviderByIdentifierResponse = S.suspend(() =>
-  S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
-).annotate({
-  identifier: "GetIdentityProviderByIdentifierResponse",
-}) as any as S.Schema<GetIdentityProviderByIdentifierResponse>;
+export const GetIdentityProviderByIdentifierResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
+  ).annotate({
+    identifier: "GetIdentityProviderByIdentifierResponse",
+  }) as any as S.Schema<GetIdentityProviderByIdentifierResponse>;
 export interface GetLogDeliveryConfigurationRequest {
   UserPoolId: string;
 }
-export const GetLogDeliveryConfigurationRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetLogDeliveryConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetLogDeliveryConfigurationRequest",
-}) as any as S.Schema<GetLogDeliveryConfigurationRequest>;
+  ).annotate({
+    identifier: "GetLogDeliveryConfigurationRequest",
+  }) as any as S.Schema<GetLogDeliveryConfigurationRequest>;
 export type LogLevel = "ERROR" | "INFO" | (string & {});
-export const LogLevel = S.String;
+export const LogLevel = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventSourceName =
   | "userNotification"
   | "userAuthEvents"
   | (string & {});
-export const EventSourceName = S.String;
+export const EventSourceName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CloudWatchLogsConfigurationType {
   LogGroupArn?: string;
 }
-export const CloudWatchLogsConfigurationType = S.suspend(() =>
-  S.Struct({ LogGroupArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CloudWatchLogsConfigurationType",
-}) as any as S.Schema<CloudWatchLogsConfigurationType>;
+export const CloudWatchLogsConfigurationType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LogGroupArn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CloudWatchLogsConfigurationType",
+  }) as any as S.Schema<CloudWatchLogsConfigurationType>;
 export interface S3ConfigurationType {
   BucketArn?: string;
 }
-export const S3ConfigurationType = S.suspend(() =>
+export const S3ConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ BucketArn: S.optional(S.String) }),
 ).annotate({
   identifier: "S3ConfigurationType",
@@ -4066,8 +4213,8 @@ export const S3ConfigurationType = S.suspend(() =>
 export interface FirehoseConfigurationType {
   StreamArn?: string;
 }
-export const FirehoseConfigurationType = S.suspend(() =>
-  S.Struct({ StreamArn: S.optional(S.String) }),
+export const FirehoseConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ StreamArn: S.optional(S.String) }),
 ).annotate({
   identifier: "FirehoseConfigurationType",
 }) as any as S.Schema<FirehoseConfigurationType>;
@@ -4078,7 +4225,7 @@ export interface LogConfigurationType {
   S3Configuration?: S3ConfigurationType;
   FirehoseConfiguration?: FirehoseConfigurationType;
 }
-export const LogConfigurationType = S.suspend(() =>
+export const LogConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     LogLevel: LogLevel,
     EventSource: EventSourceName,
@@ -4090,55 +4237,60 @@ export const LogConfigurationType = S.suspend(() =>
   identifier: "LogConfigurationType",
 }) as any as S.Schema<LogConfigurationType>;
 export type LogConfigurationListType = LogConfigurationType[];
-export const LogConfigurationListType = S.Array(LogConfigurationType);
+export const LogConfigurationListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LogConfigurationType);
 export interface LogDeliveryConfigurationType {
   UserPoolId: string;
   LogConfigurations: LogConfigurationType[];
 }
-export const LogDeliveryConfigurationType = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    LogConfigurations: LogConfigurationListType,
-  }),
-).annotate({
-  identifier: "LogDeliveryConfigurationType",
-}) as any as S.Schema<LogDeliveryConfigurationType>;
+export const LogDeliveryConfigurationType =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      LogConfigurations: LogConfigurationListType,
+    }),
+  ).annotate({
+    identifier: "LogDeliveryConfigurationType",
+  }) as any as S.Schema<LogDeliveryConfigurationType>;
 export interface GetLogDeliveryConfigurationResponse {
   LogDeliveryConfiguration?: LogDeliveryConfigurationType;
 }
-export const GetLogDeliveryConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    LogDeliveryConfiguration: S.optional(LogDeliveryConfigurationType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetLogDeliveryConfigurationResponse",
-}) as any as S.Schema<GetLogDeliveryConfigurationResponse>;
+export const GetLogDeliveryConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LogDeliveryConfiguration: S.optional(LogDeliveryConfigurationType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetLogDeliveryConfigurationResponse",
+  }) as any as S.Schema<GetLogDeliveryConfigurationResponse>;
 export interface GetSigningCertificateRequest {
   UserPoolId: string;
 }
-export const GetSigningCertificateRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetSigningCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetSigningCertificateRequest",
-}) as any as S.Schema<GetSigningCertificateRequest>;
+  ).annotate({
+    identifier: "GetSigningCertificateRequest",
+  }) as any as S.Schema<GetSigningCertificateRequest>;
 export interface GetSigningCertificateResponse {
   Certificate?: string;
 }
-export const GetSigningCertificateResponse = S.suspend(() =>
-  S.Struct({ Certificate: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetSigningCertificateResponse",
-}) as any as S.Schema<GetSigningCertificateResponse>;
+export const GetSigningCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Certificate: S.optional(S.String) }).pipe(ns),
+  ).annotate({
+    identifier: "GetSigningCertificateResponse",
+  }) as any as S.Schema<GetSigningCertificateResponse>;
 export interface GetTokensFromRefreshTokenRequest {
   RefreshToken: string | redacted.Redacted<string>;
   ClientId: string | redacted.Redacted<string>;
@@ -4146,56 +4298,59 @@ export interface GetTokensFromRefreshTokenRequest {
   DeviceKey?: string;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
-  S.Struct({
-    RefreshToken: SensitiveString,
-    ClientId: SensitiveString,
-    ClientSecret: S.optional(SensitiveString),
-    DeviceKey: S.optional(S.String),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetTokensFromRefreshTokenRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RefreshToken: SensitiveString,
+      ClientId: SensitiveString,
+      ClientSecret: S.optional(SensitiveString),
+      DeviceKey: S.optional(S.String),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetTokensFromRefreshTokenRequest",
-}) as any as S.Schema<GetTokensFromRefreshTokenRequest>;
+  ).annotate({
+    identifier: "GetTokensFromRefreshTokenRequest",
+  }) as any as S.Schema<GetTokensFromRefreshTokenRequest>;
 export interface GetTokensFromRefreshTokenResponse {
   AuthenticationResult?: AuthenticationResultType;
 }
-export const GetTokensFromRefreshTokenResponse = S.suspend(() =>
-  S.Struct({ AuthenticationResult: S.optional(AuthenticationResultType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetTokensFromRefreshTokenResponse",
-}) as any as S.Schema<GetTokensFromRefreshTokenResponse>;
+export const GetTokensFromRefreshTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AuthenticationResult: S.optional(AuthenticationResultType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetTokensFromRefreshTokenResponse",
+  }) as any as S.Schema<GetTokensFromRefreshTokenResponse>;
 export interface GetUICustomizationRequest {
   UserPoolId: string;
   ClientId?: string | redacted.Redacted<string>;
 }
-export const GetUICustomizationRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUICustomizationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetUICustomizationRequest",
 }) as any as S.Schema<GetUICustomizationRequest>;
@@ -4208,7 +4363,7 @@ export interface UICustomizationType {
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
-export const UICustomizationType = S.suspend(() =>
+export const UICustomizationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ClientId: S.optional(SensitiveString),
@@ -4226,15 +4381,15 @@ export const UICustomizationType = S.suspend(() =>
 export interface GetUICustomizationResponse {
   UICustomization: UICustomizationType;
 }
-export const GetUICustomizationResponse = S.suspend(() =>
-  S.Struct({ UICustomization: UICustomizationType }).pipe(ns),
+export const GetUICustomizationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UICustomization: UICustomizationType }).pipe(ns),
 ).annotate({
   identifier: "GetUICustomizationResponse",
 }) as any as S.Schema<GetUICustomizationResponse>;
 export interface GetUserRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
-export const GetUserRequest = S.suspend(() =>
+export const GetUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
@@ -4254,7 +4409,7 @@ export interface GetUserResponse {
   PreferredMfaSetting?: string;
   UserMFASettingList?: string[];
 }
-export const GetUserResponse = S.suspend(() =>
+export const GetUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Username: SensitiveString,
     UserAttributes: AttributeListType,
@@ -4270,94 +4425,100 @@ export interface GetUserAttributeVerificationCodeRequest {
   AttributeName: string;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: SensitiveString,
-    AttributeName: S.String,
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUserAttributeVerificationCodeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AccessToken: SensitiveString,
+      AttributeName: S.String,
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetUserAttributeVerificationCodeRequest",
-}) as any as S.Schema<GetUserAttributeVerificationCodeRequest>;
+  ).annotate({
+    identifier: "GetUserAttributeVerificationCodeRequest",
+  }) as any as S.Schema<GetUserAttributeVerificationCodeRequest>;
 export interface GetUserAttributeVerificationCodeResponse {
   CodeDeliveryDetails?: CodeDeliveryDetailsType;
 }
-export const GetUserAttributeVerificationCodeResponse = S.suspend(() =>
-  S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetUserAttributeVerificationCodeResponse",
-}) as any as S.Schema<GetUserAttributeVerificationCodeResponse>;
+export const GetUserAttributeVerificationCodeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
+      ns,
+    ),
+  ).annotate({
+    identifier: "GetUserAttributeVerificationCodeResponse",
+  }) as any as S.Schema<GetUserAttributeVerificationCodeResponse>;
 export interface GetUserAuthFactorsRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
-export const GetUserAuthFactorsRequest = S.suspend(() =>
-  S.Struct({ AccessToken: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUserAuthFactorsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AccessToken: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetUserAuthFactorsRequest",
 }) as any as S.Schema<GetUserAuthFactorsRequest>;
 export type ConfiguredUserAuthFactorsListType = AuthFactorType[];
-export const ConfiguredUserAuthFactorsListType = S.Array(AuthFactorType);
+export const ConfiguredUserAuthFactorsListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AuthFactorType);
 export interface GetUserAuthFactorsResponse {
   Username: string | redacted.Redacted<string>;
   PreferredMfaSetting?: string;
   UserMFASettingList?: string[];
   ConfiguredUserAuthFactors?: AuthFactorType[];
 }
-export const GetUserAuthFactorsResponse = S.suspend(() =>
-  S.Struct({
-    Username: SensitiveString,
-    PreferredMfaSetting: S.optional(S.String),
-    UserMFASettingList: S.optional(UserMFASettingListType),
-    ConfiguredUserAuthFactors: S.optional(ConfiguredUserAuthFactorsListType),
-  }).pipe(ns),
+export const GetUserAuthFactorsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Username: SensitiveString,
+      PreferredMfaSetting: S.optional(S.String),
+      UserMFASettingList: S.optional(UserMFASettingListType),
+      ConfiguredUserAuthFactors: S.optional(ConfiguredUserAuthFactorsListType),
+    }).pipe(ns),
 ).annotate({
   identifier: "GetUserAuthFactorsResponse",
 }) as any as S.Schema<GetUserAuthFactorsResponse>;
 export interface GetUserPoolMfaConfigRequest {
   UserPoolId: string;
 }
-export const GetUserPoolMfaConfigRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUserPoolMfaConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetUserPoolMfaConfigRequest",
-}) as any as S.Schema<GetUserPoolMfaConfigRequest>;
+  ).annotate({
+    identifier: "GetUserPoolMfaConfigRequest",
+  }) as any as S.Schema<GetUserPoolMfaConfigRequest>;
 export interface SmsMfaConfigType {
   SmsAuthenticationMessage?: string;
   SmsConfiguration?: SmsConfigurationType;
 }
-export const SmsMfaConfigType = S.suspend(() =>
+export const SmsMfaConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     SmsAuthenticationMessage: S.optional(S.String),
     SmsConfiguration: S.optional(SmsConfigurationType),
@@ -4368,8 +4529,8 @@ export const SmsMfaConfigType = S.suspend(() =>
 export interface SoftwareTokenMfaConfigType {
   Enabled?: boolean;
 }
-export const SoftwareTokenMfaConfigType = S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
+export const SoftwareTokenMfaConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Enabled: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "SoftwareTokenMfaConfigType",
 }) as any as S.Schema<SoftwareTokenMfaConfigType>;
@@ -4377,22 +4538,23 @@ export interface EmailMfaConfigType {
   Message?: string;
   Subject?: string;
 }
-export const EmailMfaConfigType = S.suspend(() =>
+export const EmailMfaConfigType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), Subject: S.optional(S.String) }),
 ).annotate({
   identifier: "EmailMfaConfigType",
 }) as any as S.Schema<EmailMfaConfigType>;
 export type UserVerificationType = "required" | "preferred" | (string & {});
-export const UserVerificationType = S.String;
+export const UserVerificationType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface WebAuthnConfigurationType {
   RelyingPartyId?: string;
   UserVerification?: UserVerificationType;
 }
-export const WebAuthnConfigurationType = S.suspend(() =>
-  S.Struct({
-    RelyingPartyId: S.optional(S.String),
-    UserVerification: S.optional(UserVerificationType),
-  }),
+export const WebAuthnConfigurationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      RelyingPartyId: S.optional(S.String),
+      UserVerification: S.optional(UserVerificationType),
+    }),
 ).annotate({
   identifier: "WebAuthnConfigurationType",
 }) as any as S.Schema<WebAuthnConfigurationType>;
@@ -4403,21 +4565,22 @@ export interface GetUserPoolMfaConfigResponse {
   MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
-export const GetUserPoolMfaConfigResponse = S.suspend(() =>
-  S.Struct({
-    SmsMfaConfiguration: S.optional(SmsMfaConfigType),
-    SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
-    EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(UserPoolMfaType),
-    WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetUserPoolMfaConfigResponse",
-}) as any as S.Schema<GetUserPoolMfaConfigResponse>;
+export const GetUserPoolMfaConfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SmsMfaConfiguration: S.optional(SmsMfaConfigType),
+      SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
+      EmailMfaConfiguration: S.optional(EmailMfaConfigType),
+      MfaConfiguration: S.optional(UserPoolMfaType),
+      WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetUserPoolMfaConfigResponse",
+  }) as any as S.Schema<GetUserPoolMfaConfigResponse>;
 export interface GlobalSignOutRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
-export const GlobalSignOutRequest = S.suspend(() =>
+export const GlobalSignOutRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
@@ -4433,7 +4596,7 @@ export const GlobalSignOutRequest = S.suspend(() =>
   identifier: "GlobalSignOutRequest",
 }) as any as S.Schema<GlobalSignOutRequest>;
 export interface GlobalSignOutResponse {}
-export const GlobalSignOutResponse = S.suspend(() =>
+export const GlobalSignOutResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "GlobalSignOutResponse",
@@ -4447,7 +4610,7 @@ export interface InitiateAuthRequest {
   UserContextData?: UserContextDataType;
   Session?: string | redacted.Redacted<string>;
 }
-export const InitiateAuthRequest = S.suspend(() =>
+export const InitiateAuthRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AuthFlow: AuthFlowType,
     AuthParameters: S.optional(AuthParametersType),
@@ -4477,7 +4640,7 @@ export interface InitiateAuthResponse {
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: ChallengeNameType[];
 }
-export const InitiateAuthResponse = S.suspend(() =>
+export const InitiateAuthResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(ChallengeNameType),
     Session: S.optional(SensitiveString),
@@ -4493,7 +4656,7 @@ export interface ListDevicesRequest {
   Limit?: number;
   PaginationToken?: string;
 }
-export const ListDevicesRequest = S.suspend(() =>
+export const ListDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessToken: SensitiveString,
     Limit: S.optional(S.Number),
@@ -4516,7 +4679,7 @@ export interface ListDevicesResponse {
   Devices?: DeviceType[];
   PaginationToken?: string;
 }
-export const ListDevicesResponse = S.suspend(() =>
+export const ListDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Devices: S.optional(DeviceListType),
     PaginationToken: S.optional(S.String),
@@ -4529,7 +4692,7 @@ export interface ListGroupsRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const ListGroupsRequest = S.suspend(() =>
+export const ListGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     Limit: S.optional(S.Number),
@@ -4552,7 +4715,7 @@ export interface ListGroupsResponse {
   Groups?: GroupType[];
   NextToken?: string;
 }
-export const ListGroupsResponse = S.suspend(() =>
+export const ListGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Groups: S.optional(GroupListType),
     NextToken: S.optional(S.String),
@@ -4565,32 +4728,33 @@ export interface ListIdentityProvidersRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListIdentityProvidersRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListIdentityProvidersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListIdentityProvidersRequest",
-}) as any as S.Schema<ListIdentityProvidersRequest>;
+  ).annotate({
+    identifier: "ListIdentityProvidersRequest",
+  }) as any as S.Schema<ListIdentityProvidersRequest>;
 export interface ProviderDescription {
   ProviderName?: string;
   ProviderType?: IdentityProviderTypeType;
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
-export const ProviderDescription = S.suspend(() =>
+export const ProviderDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ProviderName: S.optional(S.String),
     ProviderType: S.optional(IdentityProviderTypeType),
@@ -4603,89 +4767,96 @@ export const ProviderDescription = S.suspend(() =>
   identifier: "ProviderDescription",
 }) as any as S.Schema<ProviderDescription>;
 export type ProvidersListType = ProviderDescription[];
-export const ProvidersListType = S.Array(ProviderDescription);
+export const ProvidersListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ProviderDescription);
 export interface ListIdentityProvidersResponse {
   Providers: ProviderDescription[];
   NextToken?: string;
 }
-export const ListIdentityProvidersResponse = S.suspend(() =>
-  S.Struct({
-    Providers: ProvidersListType,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListIdentityProvidersResponse",
-}) as any as S.Schema<ListIdentityProvidersResponse>;
+export const ListIdentityProvidersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Providers: ProvidersListType,
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListIdentityProvidersResponse",
+  }) as any as S.Schema<ListIdentityProvidersResponse>;
 export interface ListResourceServersRequest {
   UserPoolId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListResourceServersRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListResourceServersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListResourceServersRequest",
 }) as any as S.Schema<ListResourceServersRequest>;
 export type ResourceServersListType = ResourceServerType[];
-export const ResourceServersListType = S.Array(ResourceServerType);
+export const ResourceServersListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ResourceServerType);
 export interface ListResourceServersResponse {
   ResourceServers: ResourceServerType[];
   NextToken?: string;
 }
-export const ListResourceServersResponse = S.suspend(() =>
-  S.Struct({
-    ResourceServers: ResourceServersListType,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListResourceServersResponse",
-}) as any as S.Schema<ListResourceServersResponse>;
+export const ListResourceServersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ResourceServers: ResourceServersListType,
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListResourceServersResponse",
+  }) as any as S.Schema<ListResourceServersResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(UserPoolTagsType) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(UserPoolTagsType) }).pipe(ns),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTermsRequest {
   UserPoolId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListTermsRequest = S.suspend(() =>
+export const ListTermsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     MaxResults: S.optional(S.Number),
@@ -4711,7 +4882,7 @@ export interface TermsDescriptionType {
   CreationDate: Date;
   LastModifiedDate: Date;
 }
-export const TermsDescriptionType = S.suspend(() =>
+export const TermsDescriptionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     TermsName: S.String,
@@ -4723,12 +4894,13 @@ export const TermsDescriptionType = S.suspend(() =>
   identifier: "TermsDescriptionType",
 }) as any as S.Schema<TermsDescriptionType>;
 export type TermsDescriptionListType = TermsDescriptionType[];
-export const TermsDescriptionListType = S.Array(TermsDescriptionType);
+export const TermsDescriptionListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(TermsDescriptionType);
 export interface ListTermsResponse {
   Terms: TermsDescriptionType[];
   NextToken?: string;
 }
-export const ListTermsResponse = S.suspend(() =>
+export const ListTermsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Terms: TermsDescriptionListType,
     NextToken: S.optional(S.String),
@@ -4741,36 +4913,39 @@ export interface ListUserImportJobsRequest {
   MaxResults: number;
   PaginationToken?: string;
 }
-export const ListUserImportJobsRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    MaxResults: S.Number,
-    PaginationToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListUserImportJobsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      MaxResults: S.Number,
+      PaginationToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListUserImportJobsRequest",
 }) as any as S.Schema<ListUserImportJobsRequest>;
 export type UserImportJobsListType = UserImportJobType[];
-export const UserImportJobsListType = S.Array(UserImportJobType);
+export const UserImportJobsListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(UserImportJobType);
 export interface ListUserImportJobsResponse {
   UserImportJobs?: UserImportJobType[];
   PaginationToken?: string;
 }
-export const ListUserImportJobsResponse = S.suspend(() =>
-  S.Struct({
-    UserImportJobs: S.optional(UserImportJobsListType),
-    PaginationToken: S.optional(S.String),
-  }).pipe(ns),
+export const ListUserImportJobsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserImportJobs: S.optional(UserImportJobsListType),
+      PaginationToken: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "ListUserImportJobsResponse",
 }) as any as S.Schema<ListUserImportJobsResponse>;
@@ -4779,22 +4954,23 @@ export interface ListUserPoolClientsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListUserPoolClientsRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListUserPoolClientsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListUserPoolClientsRequest",
 }) as any as S.Schema<ListUserPoolClientsRequest>;
@@ -4803,74 +4979,79 @@ export interface UserPoolClientDescription {
   UserPoolId?: string;
   ClientName?: string;
 }
-export const UserPoolClientDescription = S.suspend(() =>
-  S.Struct({
-    ClientId: S.optional(SensitiveString),
-    UserPoolId: S.optional(S.String),
-    ClientName: S.optional(S.String),
-  }),
+export const UserPoolClientDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientId: S.optional(SensitiveString),
+      UserPoolId: S.optional(S.String),
+      ClientName: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "UserPoolClientDescription",
 }) as any as S.Schema<UserPoolClientDescription>;
 export type UserPoolClientListType = UserPoolClientDescription[];
-export const UserPoolClientListType = S.Array(UserPoolClientDescription);
+export const UserPoolClientListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  UserPoolClientDescription,
+);
 export interface ListUserPoolClientsResponse {
   UserPoolClients?: UserPoolClientDescription[];
   NextToken?: string;
 }
-export const ListUserPoolClientsResponse = S.suspend(() =>
-  S.Struct({
-    UserPoolClients: S.optional(UserPoolClientListType),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUserPoolClientsResponse",
-}) as any as S.Schema<ListUserPoolClientsResponse>;
+export const ListUserPoolClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolClients: S.optional(UserPoolClientListType),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListUserPoolClientsResponse",
+  }) as any as S.Schema<ListUserPoolClientsResponse>;
 export interface ListUserPoolClientSecretsRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   NextToken?: string;
 }
-export const ListUserPoolClientSecretsRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListUserPoolClientSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListUserPoolClientSecretsRequest",
-}) as any as S.Schema<ListUserPoolClientSecretsRequest>;
+  ).annotate({
+    identifier: "ListUserPoolClientSecretsRequest",
+  }) as any as S.Schema<ListUserPoolClientSecretsRequest>;
 export type ClientSecretDescriptorListType = ClientSecretDescriptorType[];
-export const ClientSecretDescriptorListType = S.Array(
-  ClientSecretDescriptorType,
-);
+export const ClientSecretDescriptorListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ClientSecretDescriptorType);
 export interface ListUserPoolClientSecretsResponse {
   ClientSecrets?: ClientSecretDescriptorType[];
   NextToken?: string;
 }
-export const ListUserPoolClientSecretsResponse = S.suspend(() =>
-  S.Struct({
-    ClientSecrets: S.optional(ClientSecretDescriptorListType),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListUserPoolClientSecretsResponse",
-}) as any as S.Schema<ListUserPoolClientSecretsResponse>;
+export const ListUserPoolClientSecretsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientSecrets: S.optional(ClientSecretDescriptorListType),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListUserPoolClientSecretsResponse",
+  }) as any as S.Schema<ListUserPoolClientSecretsResponse>;
 export interface ListUserPoolsRequest {
   NextToken?: string;
   MaxResults: number;
 }
-export const ListUserPoolsRequest = S.suspend(() =>
+export const ListUserPoolsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), MaxResults: S.Number }).pipe(
     T.all(
       ns,
@@ -4893,27 +5074,30 @@ export interface UserPoolDescriptionType {
   LastModifiedDate?: Date;
   CreationDate?: Date;
 }
-export const UserPoolDescriptionType = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    LambdaConfig: S.optional(LambdaConfigType),
-    Status: S.optional(StatusType),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
+export const UserPoolDescriptionType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Id: S.optional(S.String),
+      Name: S.optional(S.String),
+      LambdaConfig: S.optional(LambdaConfigType),
+      Status: S.optional(StatusType),
+      LastModifiedDate: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    }),
 ).annotate({
   identifier: "UserPoolDescriptionType",
 }) as any as S.Schema<UserPoolDescriptionType>;
 export type UserPoolListType = UserPoolDescriptionType[];
-export const UserPoolListType = S.Array(UserPoolDescriptionType);
+export const UserPoolListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  UserPoolDescriptionType,
+);
 export interface ListUserPoolsResponse {
   UserPools?: UserPoolDescriptionType[];
   NextToken?: string;
 }
-export const ListUserPoolsResponse = S.suspend(() =>
+export const ListUserPoolsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPools: S.optional(UserPoolListType),
     NextToken: S.optional(S.String),
@@ -4922,7 +5106,8 @@ export const ListUserPoolsResponse = S.suspend(() =>
   identifier: "ListUserPoolsResponse",
 }) as any as S.Schema<ListUserPoolsResponse>;
 export type SearchedAttributeNamesListType = string[];
-export const SearchedAttributeNamesListType = S.Array(S.String);
+export const SearchedAttributeNamesListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListUsersRequest {
   UserPoolId: string;
   AttributesToGet?: string[];
@@ -4930,7 +5115,7 @@ export interface ListUsersRequest {
   PaginationToken?: string;
   Filter?: string;
 }
-export const ListUsersRequest = S.suspend(() =>
+export const ListUsersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     AttributesToGet: S.optional(SearchedAttributeNamesListType),
@@ -4952,12 +5137,12 @@ export const ListUsersRequest = S.suspend(() =>
   identifier: "ListUsersRequest",
 }) as any as S.Schema<ListUsersRequest>;
 export type UsersListType = UserType[];
-export const UsersListType = S.Array(UserType);
+export const UsersListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(UserType);
 export interface ListUsersResponse {
   Users?: UserType[];
   PaginationToken?: string;
 }
-export const ListUsersResponse = S.suspend(() =>
+export const ListUsersResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Users: S.optional(UsersListType),
     PaginationToken: S.optional(S.String),
@@ -4971,23 +5156,24 @@ export interface ListUsersInGroupRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const ListUsersInGroupRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    GroupName: S.String,
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListUsersInGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      GroupName: S.String,
+      Limit: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListUsersInGroupRequest",
 }) as any as S.Schema<ListUsersInGroupRequest>;
@@ -4995,11 +5181,12 @@ export interface ListUsersInGroupResponse {
   Users?: UserType[];
   NextToken?: string;
 }
-export const ListUsersInGroupResponse = S.suspend(() =>
-  S.Struct({
-    Users: S.optional(UsersListType),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+export const ListUsersInGroupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Users: S.optional(UsersListType),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "ListUsersInGroupResponse",
 }) as any as S.Schema<ListUsersInGroupResponse>;
@@ -5008,27 +5195,29 @@ export interface ListWebAuthnCredentialsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListWebAuthnCredentialsRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: SensitiveString,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListWebAuthnCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AccessToken: SensitiveString,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListWebAuthnCredentialsRequest",
-}) as any as S.Schema<ListWebAuthnCredentialsRequest>;
+  ).annotate({
+    identifier: "ListWebAuthnCredentialsRequest",
+  }) as any as S.Schema<ListWebAuthnCredentialsRequest>;
 export type WebAuthnAuthenticatorTransportsList = string[];
-export const WebAuthnAuthenticatorTransportsList = S.Array(S.String);
+export const WebAuthnAuthenticatorTransportsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface WebAuthnCredentialDescription {
   CredentialId: string;
   FriendlyCredentialName: string;
@@ -5037,35 +5226,36 @@ export interface WebAuthnCredentialDescription {
   AuthenticatorTransports: string[];
   CreatedAt: Date;
 }
-export const WebAuthnCredentialDescription = S.suspend(() =>
-  S.Struct({
-    CredentialId: S.String,
-    FriendlyCredentialName: S.String,
-    RelyingPartyId: S.String,
-    AuthenticatorAttachment: S.optional(S.String),
-    AuthenticatorTransports: WebAuthnAuthenticatorTransportsList,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "WebAuthnCredentialDescription",
-}) as any as S.Schema<WebAuthnCredentialDescription>;
+export const WebAuthnCredentialDescription =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CredentialId: S.String,
+      FriendlyCredentialName: S.String,
+      RelyingPartyId: S.String,
+      AuthenticatorAttachment: S.optional(S.String),
+      AuthenticatorTransports: WebAuthnAuthenticatorTransportsList,
+      CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    }),
+  ).annotate({
+    identifier: "WebAuthnCredentialDescription",
+  }) as any as S.Schema<WebAuthnCredentialDescription>;
 export type WebAuthnCredentialDescriptionListType =
   WebAuthnCredentialDescription[];
-export const WebAuthnCredentialDescriptionListType = S.Array(
-  WebAuthnCredentialDescription,
-);
+export const WebAuthnCredentialDescriptionListType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(WebAuthnCredentialDescription);
 export interface ListWebAuthnCredentialsResponse {
   Credentials: WebAuthnCredentialDescription[];
   NextToken?: string;
 }
-export const ListWebAuthnCredentialsResponse = S.suspend(() =>
-  S.Struct({
-    Credentials: WebAuthnCredentialDescriptionListType,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListWebAuthnCredentialsResponse",
-}) as any as S.Schema<ListWebAuthnCredentialsResponse>;
+export const ListWebAuthnCredentialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Credentials: WebAuthnCredentialDescriptionListType,
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListWebAuthnCredentialsResponse",
+  }) as any as S.Schema<ListWebAuthnCredentialsResponse>;
 export interface ResendConfirmationCodeRequest {
   ClientId: string | redacted.Redacted<string>;
   SecretHash?: string | redacted.Redacted<string>;
@@ -5074,38 +5264,40 @@ export interface ResendConfirmationCodeRequest {
   AnalyticsMetadata?: AnalyticsMetadataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const ResendConfirmationCodeRequest = S.suspend(() =>
-  S.Struct({
-    ClientId: SensitiveString,
-    SecretHash: S.optional(SensitiveString),
-    UserContextData: S.optional(UserContextDataType),
-    Username: SensitiveString,
-    AnalyticsMetadata: S.optional(AnalyticsMetadataType),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ResendConfirmationCodeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientId: SensitiveString,
+      SecretHash: S.optional(SensitiveString),
+      UserContextData: S.optional(UserContextDataType),
+      Username: SensitiveString,
+      AnalyticsMetadata: S.optional(AnalyticsMetadataType),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ResendConfirmationCodeRequest",
-}) as any as S.Schema<ResendConfirmationCodeRequest>;
+  ).annotate({
+    identifier: "ResendConfirmationCodeRequest",
+  }) as any as S.Schema<ResendConfirmationCodeRequest>;
 export interface ResendConfirmationCodeResponse {
   CodeDeliveryDetails?: CodeDeliveryDetailsType;
 }
-export const ResendConfirmationCodeResponse = S.suspend(() =>
-  S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ResendConfirmationCodeResponse",
-}) as any as S.Schema<ResendConfirmationCodeResponse>;
+export const ResendConfirmationCodeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType) }).pipe(
+      ns,
+    ),
+  ).annotate({
+    identifier: "ResendConfirmationCodeResponse",
+  }) as any as S.Schema<ResendConfirmationCodeResponse>;
 export interface RespondToAuthChallengeRequest {
   ClientId: string | redacted.Redacted<string>;
   ChallengeName: ChallengeNameType;
@@ -5115,51 +5307,53 @@ export interface RespondToAuthChallengeRequest {
   UserContextData?: UserContextDataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const RespondToAuthChallengeRequest = S.suspend(() =>
-  S.Struct({
-    ClientId: SensitiveString,
-    ChallengeName: ChallengeNameType,
-    Session: S.optional(SensitiveString),
-    ChallengeResponses: S.optional(ChallengeResponsesType),
-    AnalyticsMetadata: S.optional(AnalyticsMetadataType),
-    UserContextData: S.optional(UserContextDataType),
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RespondToAuthChallengeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientId: SensitiveString,
+      ChallengeName: ChallengeNameType,
+      Session: S.optional(SensitiveString),
+      ChallengeResponses: S.optional(ChallengeResponsesType),
+      AnalyticsMetadata: S.optional(AnalyticsMetadataType),
+      UserContextData: S.optional(UserContextDataType),
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RespondToAuthChallengeRequest",
-}) as any as S.Schema<RespondToAuthChallengeRequest>;
+  ).annotate({
+    identifier: "RespondToAuthChallengeRequest",
+  }) as any as S.Schema<RespondToAuthChallengeRequest>;
 export interface RespondToAuthChallengeResponse {
   ChallengeName?: ChallengeNameType;
   Session?: string | redacted.Redacted<string>;
   ChallengeParameters?: { [key: string]: string | undefined };
   AuthenticationResult?: AuthenticationResultType;
 }
-export const RespondToAuthChallengeResponse = S.suspend(() =>
-  S.Struct({
-    ChallengeName: S.optional(ChallengeNameType),
-    Session: S.optional(SensitiveString),
-    ChallengeParameters: S.optional(ChallengeParametersType),
-    AuthenticationResult: S.optional(AuthenticationResultType),
-  }).pipe(ns),
-).annotate({
-  identifier: "RespondToAuthChallengeResponse",
-}) as any as S.Schema<RespondToAuthChallengeResponse>;
+export const RespondToAuthChallengeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ChallengeName: S.optional(ChallengeNameType),
+      Session: S.optional(SensitiveString),
+      ChallengeParameters: S.optional(ChallengeParametersType),
+      AuthenticationResult: S.optional(AuthenticationResultType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "RespondToAuthChallengeResponse",
+  }) as any as S.Schema<RespondToAuthChallengeResponse>;
 export interface RevokeTokenRequest {
   Token: string | redacted.Redacted<string>;
   ClientId: string | redacted.Redacted<string>;
   ClientSecret?: string | redacted.Redacted<string>;
 }
-export const RevokeTokenRequest = S.suspend(() =>
+export const RevokeTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Token: SensitiveString,
     ClientId: SensitiveString,
@@ -5179,7 +5373,7 @@ export const RevokeTokenRequest = S.suspend(() =>
   identifier: "RevokeTokenRequest",
 }) as any as S.Schema<RevokeTokenRequest>;
 export interface RevokeTokenResponse {}
-export const RevokeTokenResponse = S.suspend(() =>
+export const RevokeTokenResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "RevokeTokenResponse",
@@ -5188,34 +5382,36 @@ export interface SetLogDeliveryConfigurationRequest {
   UserPoolId: string;
   LogConfigurations: LogConfigurationType[];
 }
-export const SetLogDeliveryConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    LogConfigurations: LogConfigurationListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetLogDeliveryConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      LogConfigurations: LogConfigurationListType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetLogDeliveryConfigurationRequest",
-}) as any as S.Schema<SetLogDeliveryConfigurationRequest>;
+  ).annotate({
+    identifier: "SetLogDeliveryConfigurationRequest",
+  }) as any as S.Schema<SetLogDeliveryConfigurationRequest>;
 export interface SetLogDeliveryConfigurationResponse {
   LogDeliveryConfiguration?: LogDeliveryConfigurationType;
 }
-export const SetLogDeliveryConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    LogDeliveryConfiguration: S.optional(LogDeliveryConfigurationType),
-  }).pipe(ns),
-).annotate({
-  identifier: "SetLogDeliveryConfigurationResponse",
-}) as any as S.Schema<SetLogDeliveryConfigurationResponse>;
+export const SetLogDeliveryConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LogDeliveryConfiguration: S.optional(LogDeliveryConfigurationType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "SetLogDeliveryConfigurationResponse",
+  }) as any as S.Schema<SetLogDeliveryConfigurationResponse>;
 export interface SetRiskConfigurationRequest {
   UserPoolId: string;
   ClientId?: string | redacted.Redacted<string>;
@@ -5223,70 +5419,73 @@ export interface SetRiskConfigurationRequest {
   AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
 }
-export const SetRiskConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: S.optional(SensitiveString),
-    CompromisedCredentialsRiskConfiguration: S.optional(
-      CompromisedCredentialsRiskConfigurationType,
+export const SetRiskConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: S.optional(SensitiveString),
+      CompromisedCredentialsRiskConfiguration: S.optional(
+        CompromisedCredentialsRiskConfigurationType,
+      ),
+      AccountTakeoverRiskConfiguration: S.optional(
+        AccountTakeoverRiskConfigurationType,
+      ),
+      RiskExceptionConfiguration: S.optional(RiskExceptionConfigurationType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    AccountTakeoverRiskConfiguration: S.optional(
-      AccountTakeoverRiskConfigurationType,
-    ),
-    RiskExceptionConfiguration: S.optional(RiskExceptionConfigurationType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetRiskConfigurationRequest",
-}) as any as S.Schema<SetRiskConfigurationRequest>;
+  ).annotate({
+    identifier: "SetRiskConfigurationRequest",
+  }) as any as S.Schema<SetRiskConfigurationRequest>;
 export interface SetRiskConfigurationResponse {
   RiskConfiguration: RiskConfigurationType;
 }
-export const SetRiskConfigurationResponse = S.suspend(() =>
-  S.Struct({ RiskConfiguration: RiskConfigurationType }).pipe(ns),
-).annotate({
-  identifier: "SetRiskConfigurationResponse",
-}) as any as S.Schema<SetRiskConfigurationResponse>;
+export const SetRiskConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RiskConfiguration: RiskConfigurationType }).pipe(ns),
+  ).annotate({
+    identifier: "SetRiskConfigurationResponse",
+  }) as any as S.Schema<SetRiskConfigurationResponse>;
 export interface SetUICustomizationRequest {
   UserPoolId: string;
   ClientId?: string | redacted.Redacted<string>;
   CSS?: string;
   ImageFile?: Uint8Array;
 }
-export const SetUICustomizationRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: S.optional(SensitiveString),
-    CSS: S.optional(S.String),
-    ImageFile: S.optional(T.Blob),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetUICustomizationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: S.optional(SensitiveString),
+      CSS: S.optional(S.String),
+      ImageFile: S.optional(T.Blob),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "SetUICustomizationRequest",
 }) as any as S.Schema<SetUICustomizationRequest>;
 export interface SetUICustomizationResponse {
   UICustomization: UICustomizationType;
 }
-export const SetUICustomizationResponse = S.suspend(() =>
-  S.Struct({ UICustomization: UICustomizationType }).pipe(ns),
+export const SetUICustomizationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UICustomization: UICustomizationType }).pipe(ns),
 ).annotate({
   identifier: "SetUICustomizationResponse",
 }) as any as S.Schema<SetUICustomizationResponse>;
@@ -5296,32 +5495,32 @@ export interface SetUserMFAPreferenceRequest {
   EmailMfaSettings?: EmailMfaSettingsType;
   AccessToken: string | redacted.Redacted<string>;
 }
-export const SetUserMFAPreferenceRequest = S.suspend(() =>
-  S.Struct({
-    SMSMfaSettings: S.optional(SMSMfaSettingsType),
-    SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
-    EmailMfaSettings: S.optional(EmailMfaSettingsType),
-    AccessToken: SensitiveString,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetUserMFAPreferenceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SMSMfaSettings: S.optional(SMSMfaSettingsType),
+      SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
+      EmailMfaSettings: S.optional(EmailMfaSettingsType),
+      AccessToken: SensitiveString,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetUserMFAPreferenceRequest",
-}) as any as S.Schema<SetUserMFAPreferenceRequest>;
+  ).annotate({
+    identifier: "SetUserMFAPreferenceRequest",
+  }) as any as S.Schema<SetUserMFAPreferenceRequest>;
 export interface SetUserMFAPreferenceResponse {}
-export const SetUserMFAPreferenceResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetUserMFAPreferenceResponse",
-}) as any as S.Schema<SetUserMFAPreferenceResponse>;
+export const SetUserMFAPreferenceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "SetUserMFAPreferenceResponse",
+  }) as any as S.Schema<SetUserMFAPreferenceResponse>;
 export interface SetUserPoolMfaConfigRequest {
   UserPoolId: string;
   SmsMfaConfiguration?: SmsMfaConfigType;
@@ -5330,28 +5529,29 @@ export interface SetUserPoolMfaConfigRequest {
   MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
-export const SetUserPoolMfaConfigRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    SmsMfaConfiguration: S.optional(SmsMfaConfigType),
-    SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
-    EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(UserPoolMfaType),
-    WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetUserPoolMfaConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      SmsMfaConfiguration: S.optional(SmsMfaConfigType),
+      SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
+      EmailMfaConfiguration: S.optional(EmailMfaConfigType),
+      MfaConfiguration: S.optional(UserPoolMfaType),
+      WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetUserPoolMfaConfigRequest",
-}) as any as S.Schema<SetUserPoolMfaConfigRequest>;
+  ).annotate({
+    identifier: "SetUserPoolMfaConfigRequest",
+  }) as any as S.Schema<SetUserPoolMfaConfigRequest>;
 export interface SetUserPoolMfaConfigResponse {
   SmsMfaConfiguration?: SmsMfaConfigType;
   SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
@@ -5359,42 +5559,44 @@ export interface SetUserPoolMfaConfigResponse {
   MfaConfiguration?: UserPoolMfaType;
   WebAuthnConfiguration?: WebAuthnConfigurationType;
 }
-export const SetUserPoolMfaConfigResponse = S.suspend(() =>
-  S.Struct({
-    SmsMfaConfiguration: S.optional(SmsMfaConfigType),
-    SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
-    EmailMfaConfiguration: S.optional(EmailMfaConfigType),
-    MfaConfiguration: S.optional(UserPoolMfaType),
-    WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
-  }).pipe(ns),
-).annotate({
-  identifier: "SetUserPoolMfaConfigResponse",
-}) as any as S.Schema<SetUserPoolMfaConfigResponse>;
+export const SetUserPoolMfaConfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SmsMfaConfiguration: S.optional(SmsMfaConfigType),
+      SoftwareTokenMfaConfiguration: S.optional(SoftwareTokenMfaConfigType),
+      EmailMfaConfiguration: S.optional(EmailMfaConfigType),
+      MfaConfiguration: S.optional(UserPoolMfaType),
+      WebAuthnConfiguration: S.optional(WebAuthnConfigurationType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "SetUserPoolMfaConfigResponse",
+  }) as any as S.Schema<SetUserPoolMfaConfigResponse>;
 export interface SetUserSettingsRequest {
   AccessToken: string | redacted.Redacted<string>;
   MFAOptions: MFAOptionType[];
 }
-export const SetUserSettingsRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: SensitiveString,
-    MFAOptions: MFAOptionListType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetUserSettingsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: SensitiveString,
+      MFAOptions: MFAOptionListType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "SetUserSettingsRequest",
 }) as any as S.Schema<SetUserSettingsRequest>;
 export interface SetUserSettingsResponse {}
-export const SetUserSettingsResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const SetUserSettingsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SetUserSettingsResponse",
 }) as any as S.Schema<SetUserSettingsResponse>;
@@ -5409,7 +5611,7 @@ export interface SignUpRequest {
   UserContextData?: UserContextDataType;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const SignUpRequest = S.suspend(() =>
+export const SignUpRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientId: SensitiveString,
     SecretHash: S.optional(SensitiveString),
@@ -5438,7 +5640,7 @@ export interface SignUpResponse {
   UserSub: string;
   Session?: string | redacted.Redacted<string>;
 }
-export const SignUpResponse = S.suspend(() =>
+export const SignUpResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserConfirmed: S.Boolean,
     CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType),
@@ -5450,79 +5652,83 @@ export interface StartUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
 }
-export const StartUserImportJobRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartUserImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartUserImportJobRequest",
 }) as any as S.Schema<StartUserImportJobRequest>;
 export interface StartUserImportJobResponse {
   UserImportJob?: UserImportJobType;
 }
-export const StartUserImportJobResponse = S.suspend(() =>
-  S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
+export const StartUserImportJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
 ).annotate({
   identifier: "StartUserImportJobResponse",
 }) as any as S.Schema<StartUserImportJobResponse>;
 export interface StartWebAuthnRegistrationRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
-export const StartWebAuthnRegistrationRequest = S.suspend(() =>
-  S.Struct({ AccessToken: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartWebAuthnRegistrationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AccessToken: SensitiveString }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StartWebAuthnRegistrationRequest",
-}) as any as S.Schema<StartWebAuthnRegistrationRequest>;
+  ).annotate({
+    identifier: "StartWebAuthnRegistrationRequest",
+  }) as any as S.Schema<StartWebAuthnRegistrationRequest>;
 export interface StartWebAuthnRegistrationResponse {
   CredentialCreationOptions: any;
 }
-export const StartWebAuthnRegistrationResponse = S.suspend(() =>
-  S.Struct({ CredentialCreationOptions: S.Any }).pipe(ns),
-).annotate({
-  identifier: "StartWebAuthnRegistrationResponse",
-}) as any as S.Schema<StartWebAuthnRegistrationResponse>;
+export const StartWebAuthnRegistrationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CredentialCreationOptions: S.Any }).pipe(ns),
+  ).annotate({
+    identifier: "StartWebAuthnRegistrationResponse",
+  }) as any as S.Schema<StartWebAuthnRegistrationResponse>;
 export interface StopUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
 }
-export const StopUserImportJobRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StopUserImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ UserPoolId: S.String, JobId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StopUserImportJobRequest",
 }) as any as S.Schema<StopUserImportJobRequest>;
 export interface StopUserImportJobResponse {
   UserImportJob?: UserImportJobType;
 }
-export const StopUserImportJobResponse = S.suspend(() =>
-  S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
+export const StopUserImportJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ UserImportJob: S.optional(UserImportJobType) }).pipe(ns),
 ).annotate({
   identifier: "StopUserImportJobResponse",
 }) as any as S.Schema<StopUserImportJobResponse>;
@@ -5530,7 +5736,7 @@ export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: UserPoolTagsType }).pipe(
     T.all(
       ns,
@@ -5546,18 +5752,20 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() =>
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type UserPoolTagsListType = string[];
-export const UserPoolTagsListType = S.Array(S.String);
+export const UserPoolTagsListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: UserPoolTagsListType }).pipe(
     T.all(
       ns,
@@ -5573,7 +5781,7 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() =>
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UntagResourceResponse",
@@ -5585,60 +5793,61 @@ export interface UpdateAuthEventFeedbackRequest {
   FeedbackToken: string | redacted.Redacted<string>;
   FeedbackValue: FeedbackValueType;
 }
-export const UpdateAuthEventFeedbackRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Username: SensitiveString,
-    EventId: S.String,
-    FeedbackToken: SensitiveString,
-    FeedbackValue: FeedbackValueType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAuthEventFeedbackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Username: SensitiveString,
+      EventId: S.String,
+      FeedbackToken: SensitiveString,
+      FeedbackValue: FeedbackValueType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateAuthEventFeedbackRequest",
-}) as any as S.Schema<UpdateAuthEventFeedbackRequest>;
+  ).annotate({
+    identifier: "UpdateAuthEventFeedbackRequest",
+  }) as any as S.Schema<UpdateAuthEventFeedbackRequest>;
 export interface UpdateAuthEventFeedbackResponse {}
-export const UpdateAuthEventFeedbackResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateAuthEventFeedbackResponse",
-}) as any as S.Schema<UpdateAuthEventFeedbackResponse>;
+export const UpdateAuthEventFeedbackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "UpdateAuthEventFeedbackResponse",
+  }) as any as S.Schema<UpdateAuthEventFeedbackResponse>;
 export interface UpdateDeviceStatusRequest {
   AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
   DeviceRememberedStatus?: DeviceRememberedStatusType;
 }
-export const UpdateDeviceStatusRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: SensitiveString,
-    DeviceKey: S.String,
-    DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDeviceStatusRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: SensitiveString,
+      DeviceKey: S.String,
+      DeviceRememberedStatus: S.optional(DeviceRememberedStatusType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateDeviceStatusRequest",
 }) as any as S.Schema<UpdateDeviceStatusRequest>;
 export interface UpdateDeviceStatusResponse {}
-export const UpdateDeviceStatusResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const UpdateDeviceStatusResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateDeviceStatusResponse",
 }) as any as S.Schema<UpdateDeviceStatusResponse>;
@@ -5649,7 +5858,7 @@ export interface UpdateGroupRequest {
   RoleArn?: string;
   Precedence?: number;
 }
-export const UpdateGroupRequest = S.suspend(() =>
+export const UpdateGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.String,
     UserPoolId: S.String,
@@ -5673,7 +5882,7 @@ export const UpdateGroupRequest = S.suspend(() =>
 export interface UpdateGroupResponse {
   Group?: GroupType;
 }
-export const UpdateGroupResponse = S.suspend(() =>
+export const UpdateGroupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Group: S.optional(GroupType) }).pipe(ns),
 ).annotate({
   identifier: "UpdateGroupResponse",
@@ -5685,35 +5894,37 @@ export interface UpdateIdentityProviderRequest {
   AttributeMapping?: { [key: string]: string | undefined };
   IdpIdentifiers?: string[];
 }
-export const UpdateIdentityProviderRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ProviderName: S.String,
-    ProviderDetails: S.optional(ProviderDetailsType),
-    AttributeMapping: S.optional(AttributeMappingType),
-    IdpIdentifiers: S.optional(IdpIdentifiersListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateIdentityProviderRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ProviderName: S.String,
+      ProviderDetails: S.optional(ProviderDetailsType),
+      AttributeMapping: S.optional(AttributeMappingType),
+      IdpIdentifiers: S.optional(IdpIdentifiersListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateIdentityProviderRequest",
-}) as any as S.Schema<UpdateIdentityProviderRequest>;
+  ).annotate({
+    identifier: "UpdateIdentityProviderRequest",
+  }) as any as S.Schema<UpdateIdentityProviderRequest>;
 export interface UpdateIdentityProviderResponse {
   IdentityProvider: IdentityProviderType;
 }
-export const UpdateIdentityProviderResponse = S.suspend(() =>
-  S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
-).annotate({
-  identifier: "UpdateIdentityProviderResponse",
-}) as any as S.Schema<UpdateIdentityProviderResponse>;
+export const UpdateIdentityProviderResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ IdentityProvider: IdentityProviderType }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateIdentityProviderResponse",
+  }) as any as S.Schema<UpdateIdentityProviderResponse>;
 export interface UpdateManagedLoginBrandingRequest {
   UserPoolId?: string;
   ManagedLoginBrandingId?: string;
@@ -5721,71 +5932,75 @@ export interface UpdateManagedLoginBrandingRequest {
   Settings?: any;
   Assets?: AssetType[];
 }
-export const UpdateManagedLoginBrandingRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.optional(S.String),
-    ManagedLoginBrandingId: S.optional(S.String),
-    UseCognitoProvidedValues: S.optional(S.Boolean),
-    Settings: S.optional(S.Any),
-    Assets: S.optional(AssetListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateManagedLoginBrandingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.optional(S.String),
+      ManagedLoginBrandingId: S.optional(S.String),
+      UseCognitoProvidedValues: S.optional(S.Boolean),
+      Settings: S.optional(S.Any),
+      Assets: S.optional(AssetListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateManagedLoginBrandingRequest",
-}) as any as S.Schema<UpdateManagedLoginBrandingRequest>;
+  ).annotate({
+    identifier: "UpdateManagedLoginBrandingRequest",
+  }) as any as S.Schema<UpdateManagedLoginBrandingRequest>;
 export interface UpdateManagedLoginBrandingResponse {
   ManagedLoginBranding?: ManagedLoginBrandingType;
 }
-export const UpdateManagedLoginBrandingResponse = S.suspend(() =>
-  S.Struct({ ManagedLoginBranding: S.optional(ManagedLoginBrandingType) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "UpdateManagedLoginBrandingResponse",
-}) as any as S.Schema<UpdateManagedLoginBrandingResponse>;
+export const UpdateManagedLoginBrandingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginBranding: S.optional(ManagedLoginBrandingType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateManagedLoginBrandingResponse",
+  }) as any as S.Schema<UpdateManagedLoginBrandingResponse>;
 export interface UpdateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
   Scopes?: ResourceServerScopeType[];
 }
-export const UpdateResourceServerRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    Identifier: S.String,
-    Name: S.String,
-    Scopes: S.optional(ResourceServerScopeListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateResourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      Identifier: S.String,
+      Name: S.String,
+      Scopes: S.optional(ResourceServerScopeListType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateResourceServerRequest",
-}) as any as S.Schema<UpdateResourceServerRequest>;
+  ).annotate({
+    identifier: "UpdateResourceServerRequest",
+  }) as any as S.Schema<UpdateResourceServerRequest>;
 export interface UpdateResourceServerResponse {
   ResourceServer: ResourceServerType;
 }
-export const UpdateResourceServerResponse = S.suspend(() =>
-  S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
-).annotate({
-  identifier: "UpdateResourceServerResponse",
-}) as any as S.Schema<UpdateResourceServerResponse>;
+export const UpdateResourceServerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ResourceServer: ResourceServerType }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateResourceServerResponse",
+  }) as any as S.Schema<UpdateResourceServerResponse>;
 export interface UpdateTermsRequest {
   TermsId: string;
   UserPoolId: string;
@@ -5794,7 +6009,7 @@ export interface UpdateTermsRequest {
   Enforcement?: TermsEnforcementType;
   Links?: { [key: string]: string | undefined };
 }
-export const UpdateTermsRequest = S.suspend(() =>
+export const UpdateTermsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     UserPoolId: S.String,
@@ -5819,7 +6034,7 @@ export const UpdateTermsRequest = S.suspend(() =>
 export interface UpdateTermsResponse {
   Terms?: TermsType;
 }
-export const UpdateTermsResponse = S.suspend(() =>
+export const UpdateTermsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Terms: S.optional(TermsType) }).pipe(ns),
 ).annotate({
   identifier: "UpdateTermsResponse",
@@ -5829,37 +6044,41 @@ export interface UpdateUserAttributesRequest {
   AccessToken: string | redacted.Redacted<string>;
   ClientMetadata?: { [key: string]: string | undefined };
 }
-export const UpdateUserAttributesRequest = S.suspend(() =>
-  S.Struct({
-    UserAttributes: AttributeListType,
-    AccessToken: SensitiveString,
-    ClientMetadata: S.optional(ClientMetadataType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateUserAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserAttributes: AttributeListType,
+      AccessToken: SensitiveString,
+      ClientMetadata: S.optional(ClientMetadataType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateUserAttributesRequest",
-}) as any as S.Schema<UpdateUserAttributesRequest>;
+  ).annotate({
+    identifier: "UpdateUserAttributesRequest",
+  }) as any as S.Schema<UpdateUserAttributesRequest>;
 export type CodeDeliveryDetailsListType = CodeDeliveryDetailsType[];
-export const CodeDeliveryDetailsListType = S.Array(CodeDeliveryDetailsType);
+export const CodeDeliveryDetailsListType = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CodeDeliveryDetailsType,
+);
 export interface UpdateUserAttributesResponse {
   CodeDeliveryDetailsList?: CodeDeliveryDetailsType[];
 }
-export const UpdateUserAttributesResponse = S.suspend(() =>
-  S.Struct({
-    CodeDeliveryDetailsList: S.optional(CodeDeliveryDetailsListType),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateUserAttributesResponse",
-}) as any as S.Schema<UpdateUserAttributesResponse>;
+export const UpdateUserAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CodeDeliveryDetailsList: S.optional(CodeDeliveryDetailsListType),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateUserAttributesResponse",
+  }) as any as S.Schema<UpdateUserAttributesResponse>;
 export interface UpdateUserPoolRequest {
   UserPoolId: string;
   Policies?: UserPoolPolicyType;
@@ -5883,7 +6102,7 @@ export interface UpdateUserPoolRequest {
   PoolName?: string;
   UserPoolTier?: UserPoolTierType;
 }
-export const UpdateUserPoolRequest = S.suspend(() =>
+export const UpdateUserPoolRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
     Policies: S.optional(UserPoolPolicyType),
@@ -5921,8 +6140,8 @@ export const UpdateUserPoolRequest = S.suspend(() =>
   identifier: "UpdateUserPoolRequest",
 }) as any as S.Schema<UpdateUserPoolRequest>;
 export interface UpdateUserPoolResponse {}
-export const UpdateUserPoolResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const UpdateUserPoolResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateUserPoolResponse",
 }) as any as S.Schema<UpdateUserPoolResponse>;
@@ -5951,114 +6170,121 @@ export interface UpdateUserPoolClientRequest {
   AuthSessionValidity?: number;
   RefreshTokenRotation?: RefreshTokenRotationType;
 }
-export const UpdateUserPoolClientRequest = S.suspend(() =>
-  S.Struct({
-    UserPoolId: S.String,
-    ClientId: SensitiveString,
-    ClientName: S.optional(S.String),
-    RefreshTokenValidity: S.optional(S.Number),
-    AccessTokenValidity: S.optional(S.Number),
-    IdTokenValidity: S.optional(S.Number),
-    TokenValidityUnits: S.optional(TokenValidityUnitsType),
-    ReadAttributes: S.optional(ClientPermissionListType),
-    WriteAttributes: S.optional(ClientPermissionListType),
-    ExplicitAuthFlows: S.optional(ExplicitAuthFlowsListType),
-    SupportedIdentityProviders: S.optional(SupportedIdentityProvidersListType),
-    CallbackURLs: S.optional(CallbackURLsListType),
-    LogoutURLs: S.optional(LogoutURLsListType),
-    DefaultRedirectURI: S.optional(S.String),
-    AllowedOAuthFlows: S.optional(OAuthFlowsType),
-    AllowedOAuthScopes: S.optional(ScopeListType),
-    AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
-    AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
-    PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
-    EnableTokenRevocation: S.optional(S.Boolean),
-    EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
-    AuthSessionValidity: S.optional(S.Number),
-    RefreshTokenRotation: S.optional(RefreshTokenRotationType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateUserPoolClientRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserPoolId: S.String,
+      ClientId: SensitiveString,
+      ClientName: S.optional(S.String),
+      RefreshTokenValidity: S.optional(S.Number),
+      AccessTokenValidity: S.optional(S.Number),
+      IdTokenValidity: S.optional(S.Number),
+      TokenValidityUnits: S.optional(TokenValidityUnitsType),
+      ReadAttributes: S.optional(ClientPermissionListType),
+      WriteAttributes: S.optional(ClientPermissionListType),
+      ExplicitAuthFlows: S.optional(ExplicitAuthFlowsListType),
+      SupportedIdentityProviders: S.optional(
+        SupportedIdentityProvidersListType,
+      ),
+      CallbackURLs: S.optional(CallbackURLsListType),
+      LogoutURLs: S.optional(LogoutURLsListType),
+      DefaultRedirectURI: S.optional(S.String),
+      AllowedOAuthFlows: S.optional(OAuthFlowsType),
+      AllowedOAuthScopes: S.optional(ScopeListType),
+      AllowedOAuthFlowsUserPoolClient: S.optional(S.Boolean),
+      AnalyticsConfiguration: S.optional(AnalyticsConfigurationType),
+      PreventUserExistenceErrors: S.optional(PreventUserExistenceErrorTypes),
+      EnableTokenRevocation: S.optional(S.Boolean),
+      EnablePropagateAdditionalUserContextData: S.optional(S.Boolean),
+      AuthSessionValidity: S.optional(S.Number),
+      RefreshTokenRotation: S.optional(RefreshTokenRotationType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateUserPoolClientRequest",
-}) as any as S.Schema<UpdateUserPoolClientRequest>;
+  ).annotate({
+    identifier: "UpdateUserPoolClientRequest",
+  }) as any as S.Schema<UpdateUserPoolClientRequest>;
 export interface UpdateUserPoolClientResponse {
   UserPoolClient?: UserPoolClientType;
 }
-export const UpdateUserPoolClientResponse = S.suspend(() =>
-  S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
-).annotate({
-  identifier: "UpdateUserPoolClientResponse",
-}) as any as S.Schema<UpdateUserPoolClientResponse>;
+export const UpdateUserPoolClientResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ UserPoolClient: S.optional(UserPoolClientType) }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateUserPoolClientResponse",
+  }) as any as S.Schema<UpdateUserPoolClientResponse>;
 export interface UpdateUserPoolDomainRequest {
   Domain: string;
   UserPoolId: string;
   ManagedLoginVersion?: number;
   CustomDomainConfig?: CustomDomainConfigType;
 }
-export const UpdateUserPoolDomainRequest = S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    UserPoolId: S.String,
-    ManagedLoginVersion: S.optional(S.Number),
-    CustomDomainConfig: S.optional(CustomDomainConfigType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateUserPoolDomainRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Domain: S.String,
+      UserPoolId: S.String,
+      ManagedLoginVersion: S.optional(S.Number),
+      CustomDomainConfig: S.optional(CustomDomainConfigType),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateUserPoolDomainRequest",
-}) as any as S.Schema<UpdateUserPoolDomainRequest>;
+  ).annotate({
+    identifier: "UpdateUserPoolDomainRequest",
+  }) as any as S.Schema<UpdateUserPoolDomainRequest>;
 export interface UpdateUserPoolDomainResponse {
   ManagedLoginVersion?: number;
   CloudFrontDomain?: string;
 }
-export const UpdateUserPoolDomainResponse = S.suspend(() =>
-  S.Struct({
-    ManagedLoginVersion: S.optional(S.Number),
-    CloudFrontDomain: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateUserPoolDomainResponse",
-}) as any as S.Schema<UpdateUserPoolDomainResponse>;
+export const UpdateUserPoolDomainResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ManagedLoginVersion: S.optional(S.Number),
+      CloudFrontDomain: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateUserPoolDomainResponse",
+  }) as any as S.Schema<UpdateUserPoolDomainResponse>;
 export interface VerifySoftwareTokenRequest {
   AccessToken?: string | redacted.Redacted<string>;
   Session?: string | redacted.Redacted<string>;
   UserCode: string | redacted.Redacted<string>;
   FriendlyDeviceName?: string;
 }
-export const VerifySoftwareTokenRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: S.optional(SensitiveString),
-    Session: S.optional(SensitiveString),
-    UserCode: SensitiveString,
-    FriendlyDeviceName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const VerifySoftwareTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: S.optional(SensitiveString),
+      Session: S.optional(SensitiveString),
+      UserCode: SensitiveString,
+      FriendlyDeviceName: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "VerifySoftwareTokenRequest",
 }) as any as S.Schema<VerifySoftwareTokenRequest>;
@@ -6066,49 +6292,51 @@ export type VerifySoftwareTokenResponseType =
   | "SUCCESS"
   | "ERROR"
   | (string & {});
-export const VerifySoftwareTokenResponseType = S.String;
+export const VerifySoftwareTokenResponseType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface VerifySoftwareTokenResponse {
   Status?: VerifySoftwareTokenResponseType;
   Session?: string | redacted.Redacted<string>;
 }
-export const VerifySoftwareTokenResponse = S.suspend(() =>
-  S.Struct({
-    Status: S.optional(VerifySoftwareTokenResponseType),
-    Session: S.optional(SensitiveString),
-  }).pipe(ns),
-).annotate({
-  identifier: "VerifySoftwareTokenResponse",
-}) as any as S.Schema<VerifySoftwareTokenResponse>;
+export const VerifySoftwareTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Status: S.optional(VerifySoftwareTokenResponseType),
+      Session: S.optional(SensitiveString),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "VerifySoftwareTokenResponse",
+  }) as any as S.Schema<VerifySoftwareTokenResponse>;
 export interface VerifyUserAttributeRequest {
   AccessToken: string | redacted.Redacted<string>;
   AttributeName: string;
   Code: string;
 }
-export const VerifyUserAttributeRequest = S.suspend(() =>
-  S.Struct({
-    AccessToken: SensitiveString,
-    AttributeName: S.String,
-    Code: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const VerifyUserAttributeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AccessToken: SensitiveString,
+      AttributeName: S.String,
+      Code: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "VerifyUserAttributeRequest",
 }) as any as S.Schema<VerifyUserAttributeRequest>;
 export interface VerifyUserAttributeResponse {}
-export const VerifyUserAttributeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "VerifyUserAttributeResponse",
-}) as any as S.Schema<VerifyUserAttributeResponse>;
+export const VerifyUserAttributeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "VerifyUserAttributeResponse",
+  }) as any as S.Schema<VerifyUserAttributeResponse>;
 
 //# Errors
 export class InternalErrorException extends S.TaggedErrorClass<InternalErrorException>()(

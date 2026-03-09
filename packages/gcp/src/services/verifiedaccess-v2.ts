@@ -24,20 +24,22 @@ const svc = T.Service({
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Challenge {
   /** Generated challenge, the bytes representation of SignedData. */
   challenge?: string;
 }
 
-export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() =>
-  Schema.Struct({
-    challenge: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
+export const Challenge: Schema.Schema<Challenge> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      challenge: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
 
 export interface VerifyChallengeResponseRequest {
   /** Required. The generated response to the challenge, the bytes representation of SignedData. */
@@ -47,7 +49,7 @@ export interface VerifyChallengeResponseRequest {
 }
 
 export const VerifyChallengeResponseRequest: Schema.Schema<VerifyChallengeResponseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       challengeResponse: Schema.optional(Schema.String),
       expectedIdentity: Schema.optional(Schema.String),
@@ -63,15 +65,15 @@ export interface CrowdStrikeAgent {
   customerId?: string;
 }
 
-export const CrowdStrikeAgent: Schema.Schema<CrowdStrikeAgent> = Schema.suspend(
-  () =>
+export const CrowdStrikeAgent: Schema.Schema<CrowdStrikeAgent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       customerId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CrowdStrikeAgent",
-}) as any as Schema.Schema<CrowdStrikeAgent>;
+  ).annotate({
+    identifier: "CrowdStrikeAgent",
+  }) as any as Schema.Schema<CrowdStrikeAgent>;
 
 export interface Antivirus {
   /** Output only. The state of the antivirus on the device. Introduced in Chrome M136. */
@@ -83,11 +85,12 @@ export interface Antivirus {
     | (string & {});
 }
 
-export const Antivirus: Schema.Schema<Antivirus> = Schema.suspend(() =>
-  Schema.Struct({
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Antivirus" }) as any as Schema.Schema<Antivirus>;
+export const Antivirus: Schema.Schema<Antivirus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Antivirus" }) as any as Schema.Schema<Antivirus>;
 
 export interface DeviceSignals {
   /** Output only. The name of the device's manufacturer. */
@@ -204,45 +207,46 @@ export interface DeviceSignals {
   antivirus?: Antivirus;
 }
 
-export const DeviceSignals: Schema.Schema<DeviceSignals> = Schema.suspend(() =>
-  Schema.Struct({
-    deviceManufacturer: Schema.optional(Schema.String),
-    deviceModel: Schema.optional(Schema.String),
-    operatingSystem: Schema.optional(Schema.String),
-    osVersion: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    diskEncryption: Schema.optional(Schema.String),
-    serialNumber: Schema.optional(Schema.String),
-    osFirewall: Schema.optional(Schema.String),
-    systemDnsServers: Schema.optional(Schema.Array(Schema.String)),
-    hostname: Schema.optional(Schema.String),
-    macAddresses: Schema.optional(Schema.Array(Schema.String)),
-    screenLockSecured: Schema.optional(Schema.String),
-    allowScreenLock: Schema.optional(Schema.Boolean),
-    imei: Schema.optional(Schema.Array(Schema.String)),
-    meid: Schema.optional(Schema.Array(Schema.String)),
-    secureBootMode: Schema.optional(Schema.String),
-    windowsMachineDomain: Schema.optional(Schema.String),
-    windowsUserDomain: Schema.optional(Schema.String),
-    deviceEnrollmentDomain: Schema.optional(Schema.String),
-    browserVersion: Schema.optional(Schema.String),
-    deviceAffiliationIds: Schema.optional(Schema.Array(Schema.String)),
-    profileAffiliationIds: Schema.optional(Schema.Array(Schema.String)),
-    builtInDnsClientEnabled: Schema.optional(Schema.Boolean),
-    chromeRemoteDesktopAppBlocked: Schema.optional(Schema.Boolean),
-    safeBrowsingProtectionLevel: Schema.optional(Schema.String),
-    siteIsolationEnabled: Schema.optional(Schema.Boolean),
-    passwordProtectionWarningTrigger: Schema.optional(Schema.String),
-    realtimeUrlCheckMode: Schema.optional(Schema.String),
-    thirdPartyBlockingEnabled: Schema.optional(Schema.Boolean),
-    crowdStrikeAgent: Schema.optional(CrowdStrikeAgent),
-    trigger: Schema.optional(Schema.String),
-    profileEnrollmentDomain: Schema.optional(Schema.String),
-    antivirus: Schema.optional(Antivirus),
-  }),
-).annotate({
-  identifier: "DeviceSignals",
-}) as any as Schema.Schema<DeviceSignals>;
+export const DeviceSignals: Schema.Schema<DeviceSignals> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deviceManufacturer: Schema.optional(Schema.String),
+      deviceModel: Schema.optional(Schema.String),
+      operatingSystem: Schema.optional(Schema.String),
+      osVersion: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      diskEncryption: Schema.optional(Schema.String),
+      serialNumber: Schema.optional(Schema.String),
+      osFirewall: Schema.optional(Schema.String),
+      systemDnsServers: Schema.optional(Schema.Array(Schema.String)),
+      hostname: Schema.optional(Schema.String),
+      macAddresses: Schema.optional(Schema.Array(Schema.String)),
+      screenLockSecured: Schema.optional(Schema.String),
+      allowScreenLock: Schema.optional(Schema.Boolean),
+      imei: Schema.optional(Schema.Array(Schema.String)),
+      meid: Schema.optional(Schema.Array(Schema.String)),
+      secureBootMode: Schema.optional(Schema.String),
+      windowsMachineDomain: Schema.optional(Schema.String),
+      windowsUserDomain: Schema.optional(Schema.String),
+      deviceEnrollmentDomain: Schema.optional(Schema.String),
+      browserVersion: Schema.optional(Schema.String),
+      deviceAffiliationIds: Schema.optional(Schema.Array(Schema.String)),
+      profileAffiliationIds: Schema.optional(Schema.Array(Schema.String)),
+      builtInDnsClientEnabled: Schema.optional(Schema.Boolean),
+      chromeRemoteDesktopAppBlocked: Schema.optional(Schema.Boolean),
+      safeBrowsingProtectionLevel: Schema.optional(Schema.String),
+      siteIsolationEnabled: Schema.optional(Schema.Boolean),
+      passwordProtectionWarningTrigger: Schema.optional(Schema.String),
+      realtimeUrlCheckMode: Schema.optional(Schema.String),
+      thirdPartyBlockingEnabled: Schema.optional(Schema.Boolean),
+      crowdStrikeAgent: Schema.optional(CrowdStrikeAgent),
+      trigger: Schema.optional(Schema.String),
+      profileEnrollmentDomain: Schema.optional(Schema.String),
+      antivirus: Schema.optional(Antivirus),
+    }),
+  ).annotate({
+    identifier: "DeviceSignals",
+  }) as any as Schema.Schema<DeviceSignals>;
 
 export interface VerifyChallengeResponseResult {
   /** Output only. Device permanent id is returned in this field (for the machine response only). */
@@ -290,7 +294,7 @@ export interface VerifyChallengeResponseResult {
 }
 
 export const VerifyChallengeResponseResult: Schema.Schema<VerifyChallengeResponseResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devicePermanentId: Schema.optional(Schema.String),
       virtualDeviceId: Schema.optional(Schema.String),
@@ -319,15 +323,16 @@ export interface GenerateChallengeRequest {
   body?: Empty;
 }
 
-export const GenerateChallengeRequest = Schema.Struct({
-  body: Schema.optional(Empty).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/challenge:generate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GenerateChallengeRequest>;
+export const GenerateChallengeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Empty).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v2/challenge:generate", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateChallengeRequest>;
 
 export type GenerateChallengeResponse = Challenge;
-export const GenerateChallengeResponse = Challenge;
+export const GenerateChallengeResponse = /*@__PURE__*/ /*#__PURE__*/ Challenge;
 
 export type GenerateChallengeError = DefaultErrors;
 
@@ -337,7 +342,7 @@ export const generateChallenge: API.OperationMethod<
   GenerateChallengeResponse,
   GenerateChallengeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateChallengeRequest,
   output: GenerateChallengeResponse,
   errors: [],
@@ -348,15 +353,18 @@ export interface VerifyChallengeRequest {
   body?: VerifyChallengeResponseRequest;
 }
 
-export const VerifyChallengeRequest = Schema.Struct({
-  body: Schema.optional(VerifyChallengeResponseRequest).pipe(T.HttpBody()),
-}).pipe(
+export const VerifyChallengeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(VerifyChallengeResponseRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v2/challenge:verify", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<VerifyChallengeRequest>;
 
 export type VerifyChallengeResponse = VerifyChallengeResponseResult;
-export const VerifyChallengeResponse = VerifyChallengeResponseResult;
+export const VerifyChallengeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyChallengeResponseResult;
 
 export type VerifyChallengeError = DefaultErrors;
 
@@ -366,7 +374,7 @@ export const verifyChallenge: API.OperationMethod<
   VerifyChallengeResponse,
   VerifyChallengeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyChallengeRequest,
   output: VerifyChallengeResponse,
   errors: [],

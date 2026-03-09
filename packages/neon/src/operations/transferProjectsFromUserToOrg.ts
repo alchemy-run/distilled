@@ -3,15 +3,17 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const TransferProjectsFromUserToOrgInput = Schema.Struct({
-  destination_org_id: Schema.String,
-  project_ids: Schema.Array(Schema.String),
-}).pipe(T.Http({ method: "POST", path: "/users/me/projects/transfer" }));
+export const TransferProjectsFromUserToOrgInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destination_org_id: Schema.String,
+    project_ids: Schema.Array(Schema.String),
+  }).pipe(T.Http({ method: "POST", path: "/users/me/projects/transfer" }));
 export type TransferProjectsFromUserToOrgInput =
   typeof TransferProjectsFromUserToOrgInput.Type;
 
 // Output Schema
-export const TransferProjectsFromUserToOrgOutput = Schema.Struct({});
+export const TransferProjectsFromUserToOrgOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({});
 export type TransferProjectsFromUserToOrgOutput =
   typeof TransferProjectsFromUserToOrgOutput.Type;
 

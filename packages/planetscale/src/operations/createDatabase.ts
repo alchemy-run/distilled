@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
-export const CreateDatabaseInput = Schema.Struct({
+export const CreateDatabaseInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   name: Schema.String,
   region: Schema.optional(Schema.String),
@@ -18,7 +18,7 @@ export const CreateDatabaseInput = Schema.Struct({
 export type CreateDatabaseInput = typeof CreateDatabaseInput.Type;
 
 // Output Schema
-export const CreateDatabaseOutput = Schema.Struct({
+export const CreateDatabaseOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   url: Schema.String,
   branches_url: Schema.String,

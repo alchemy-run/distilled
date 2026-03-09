@@ -4,41 +4,43 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListGeneratedQueryPatternsReportsInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns",
-  }),
-);
+export const ListGeneratedQueryPatternsReportsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns",
+    }),
+  );
 export type ListGeneratedQueryPatternsReportsInput =
   typeof ListGeneratedQueryPatternsReportsInput.Type;
 
 // Output Schema
-export const ListGeneratedQueryPatternsReportsOutput = Schema.Struct({
-  has_next: Schema.Boolean,
-  has_prev: Schema.Boolean,
-  cursor_start: Schema.String,
-  cursor_end: Schema.String,
-  data: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      state: Schema.Literals(["pending", "completed", "failed"]),
-      created_at: Schema.String,
-      finished_at: Schema.String,
-      url: Schema.String,
-      download_url: Schema.String,
-      actor: Schema.Struct({
+export const ListGeneratedQueryPatternsReportsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    has_next: Schema.Boolean,
+    has_prev: Schema.Boolean,
+    cursor_start: Schema.String,
+    cursor_end: Schema.String,
+    data: Schema.Array(
+      Schema.Struct({
         id: Schema.String,
-        display_name: Schema.String,
-        avatar_url: Schema.String,
+        state: Schema.Literals(["pending", "completed", "failed"]),
+        created_at: Schema.String,
+        finished_at: Schema.String,
+        url: Schema.String,
+        download_url: Schema.String,
+        actor: Schema.Struct({
+          id: Schema.String,
+          display_name: Schema.String,
+          avatar_url: Schema.String,
+        }),
       }),
-    }),
-  ),
-});
+    ),
+  });
 export type ListGeneratedQueryPatternsReportsOutput =
   typeof ListGeneratedQueryPatternsReportsOutput.Type;
 

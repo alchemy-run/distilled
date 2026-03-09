@@ -33,14 +33,15 @@ export interface TimeOfDay {
   seconds?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface IncreasedFoodSafety {
   /** Disposable flatware. */
@@ -91,7 +92,7 @@ export interface IncreasedFoodSafety {
 }
 
 export const IncreasedFoodSafety: Schema.Schema<IncreasedFoodSafety> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disposableFlatware: Schema.optional(Schema.Boolean),
       singleUseFoodMenus: Schema.optional(Schema.Boolean),
@@ -178,8 +179,8 @@ export interface MinimizedContact {
     | (string & {});
 }
 
-export const MinimizedContact: Schema.Schema<MinimizedContact> = Schema.suspend(
-  () =>
+export const MinimizedContact: Schema.Schema<MinimizedContact> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       digitalGuestRoomKeysException: Schema.optional(Schema.String),
       noHighTouchItemsGuestRoomsException: Schema.optional(Schema.String),
@@ -196,9 +197,9 @@ export const MinimizedContact: Schema.Schema<MinimizedContact> = Schema.suspend(
       housekeepingScheduledRequestOnly: Schema.optional(Schema.Boolean),
       housekeepingScheduledRequestOnlyException: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "MinimizedContact",
-}) as any as Schema.Schema<MinimizedContact>;
+  ).annotate({
+    identifier: "MinimizedContact",
+  }) as any as Schema.Schema<MinimizedContact>;
 
 export interface EnhancedCleaning {
   /** Commercial grade disinfectant cleaning exception. */
@@ -257,8 +258,8 @@ export interface EnhancedCleaning {
   employeesTrainedThoroughHandWashing?: boolean;
 }
 
-export const EnhancedCleaning: Schema.Schema<EnhancedCleaning> = Schema.suspend(
-  () =>
+export const EnhancedCleaning: Schema.Schema<EnhancedCleaning> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commercialGradeDisinfectantCleaningException: Schema.optional(
         Schema.String,
@@ -279,9 +280,9 @@ export const EnhancedCleaning: Schema.Schema<EnhancedCleaning> = Schema.suspend(
       employeesTrainedCleaningProcedures: Schema.optional(Schema.Boolean),
       employeesTrainedThoroughHandWashing: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "EnhancedCleaning",
-}) as any as Schema.Schema<EnhancedCleaning>;
+  ).annotate({
+    identifier: "EnhancedCleaning",
+  }) as any as Schema.Schema<EnhancedCleaning>;
 
 export interface PhysicalDistancing {
   /** Physical distancing required. */
@@ -332,7 +333,7 @@ export interface PhysicalDistancing {
 }
 
 export const PhysicalDistancing: Schema.Schema<PhysicalDistancing> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       physicalDistancingRequired: Schema.optional(Schema.Boolean),
       physicalDistancingRequiredException: Schema.optional(Schema.String),
@@ -391,7 +392,7 @@ export interface PersonalProtection {
 }
 
 export const PersonalProtection: Schema.Schema<PersonalProtection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       faceMaskRequiredException: Schema.optional(Schema.String),
       protectiveEquipmentAvailable: Schema.optional(Schema.Boolean),
@@ -419,8 +420,8 @@ export interface HealthAndSafety {
   personalProtection?: PersonalProtection;
 }
 
-export const HealthAndSafety: Schema.Schema<HealthAndSafety> = Schema.suspend(
-  () =>
+export const HealthAndSafety: Schema.Schema<HealthAndSafety> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       increasedFoodSafety: Schema.optional(IncreasedFoodSafety),
       minimizedContact: Schema.optional(MinimizedContact),
@@ -428,9 +429,9 @@ export const HealthAndSafety: Schema.Schema<HealthAndSafety> = Schema.suspend(
       physicalDistancing: Schema.optional(PhysicalDistancing),
       personalProtection: Schema.optional(PersonalProtection),
     }),
-).annotate({
-  identifier: "HealthAndSafety",
-}) as any as Schema.Schema<HealthAndSafety>;
+  ).annotate({
+    identifier: "HealthAndSafety",
+  }) as any as Schema.Schema<HealthAndSafety>;
 
 export interface Families {
   /** Babysitting. Child care that is offered by hotel staffers or coordinated by hotel staffers with local child care professionals. Can be free or for a fee. */
@@ -471,18 +472,19 @@ export interface Families {
     | (string & {});
 }
 
-export const Families: Schema.Schema<Families> = Schema.suspend(() =>
-  Schema.Struct({
-    babysitting: Schema.optional(Schema.Boolean),
-    babysittingException: Schema.optional(Schema.String),
-    kidsActivities: Schema.optional(Schema.Boolean),
-    kidsActivitiesException: Schema.optional(Schema.String),
-    kidsClub: Schema.optional(Schema.Boolean),
-    kidsFriendly: Schema.optional(Schema.Boolean),
-    kidsFriendlyException: Schema.optional(Schema.String),
-    kidsClubException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Families" }) as any as Schema.Schema<Families>;
+export const Families: Schema.Schema<Families> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      babysitting: Schema.optional(Schema.Boolean),
+      babysittingException: Schema.optional(Schema.String),
+      kidsActivities: Schema.optional(Schema.Boolean),
+      kidsActivitiesException: Schema.optional(Schema.String),
+      kidsClub: Schema.optional(Schema.Boolean),
+      kidsFriendly: Schema.optional(Schema.Boolean),
+      kidsFriendlyException: Schema.optional(Schema.String),
+      kidsClubException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Families" }) as any as Schema.Schema<Families>;
 
 export interface LivingAreaLayout {
   /** Living area sq meters. The measurement in meters of the area of a guestroom's living space. */
@@ -541,8 +543,8 @@ export interface LivingAreaLayout {
     | (string & {});
 }
 
-export const LivingAreaLayout: Schema.Schema<LivingAreaLayout> = Schema.suspend(
-  () =>
+export const LivingAreaLayout: Schema.Schema<LivingAreaLayout> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       livingAreaSqMeters: Schema.optional(Schema.Number),
       loftException: Schema.optional(Schema.String),
@@ -557,9 +559,9 @@ export const LivingAreaLayout: Schema.Schema<LivingAreaLayout> = Schema.suspend(
       patio: Schema.optional(Schema.Boolean),
       livingAreaSqMetersException: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LivingAreaLayout",
-}) as any as Schema.Schema<LivingAreaLayout>;
+  ).annotate({
+    identifier: "LivingAreaLayout",
+  }) as any as Schema.Schema<LivingAreaLayout>;
 
 export interface SustainableSourcing {
   /** Locally sourced food and beverages exception. */
@@ -637,7 +639,7 @@ export interface SustainableSourcing {
 }
 
 export const SustainableSourcing: Schema.Schema<SustainableSourcing> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locallySourcedFoodAndBeveragesException: Schema.optional(Schema.String),
       responsiblySourcesSeafood: Schema.optional(Schema.Boolean),
@@ -699,18 +701,19 @@ export interface Property {
     | (string & {});
 }
 
-export const Property: Schema.Schema<Property> = Schema.suspend(() =>
-  Schema.Struct({
-    lastRenovatedYear: Schema.optional(Schema.Number),
-    floorsCount: Schema.optional(Schema.Number),
-    floorsCountException: Schema.optional(Schema.String),
-    roomsCountException: Schema.optional(Schema.String),
-    builtYear: Schema.optional(Schema.Number),
-    roomsCount: Schema.optional(Schema.Number),
-    lastRenovatedYearException: Schema.optional(Schema.String),
-    builtYearException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Property" }) as any as Schema.Schema<Property>;
+export const Property: Schema.Schema<Property> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      lastRenovatedYear: Schema.optional(Schema.Number),
+      floorsCount: Schema.optional(Schema.Number),
+      floorsCountException: Schema.optional(Schema.String),
+      roomsCountException: Schema.optional(Schema.String),
+      builtYear: Schema.optional(Schema.Number),
+      roomsCount: Schema.optional(Schema.Number),
+      lastRenovatedYearException: Schema.optional(Schema.String),
+      builtYearException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Property" }) as any as Schema.Schema<Property>;
 
 export interface FoodAndDrink {
   /** Buffet exception. */
@@ -823,36 +826,37 @@ export interface FoodAndDrink {
     | (string & {});
 }
 
-export const FoodAndDrink: Schema.Schema<FoodAndDrink> = Schema.suspend(() =>
-  Schema.Struct({
-    buffetException: Schema.optional(Schema.String),
-    dinnerBuffetException: Schema.optional(Schema.String),
-    bar: Schema.optional(Schema.Boolean),
-    twentyFourHourRoomServiceException: Schema.optional(Schema.String),
-    tableService: Schema.optional(Schema.Boolean),
-    vendingMachineException: Schema.optional(Schema.String),
-    vendingMachine: Schema.optional(Schema.Boolean),
-    dinnerBuffet: Schema.optional(Schema.Boolean),
-    freeBreakfastException: Schema.optional(Schema.String),
-    breakfastAvailableException: Schema.optional(Schema.String),
-    roomService: Schema.optional(Schema.Boolean),
-    breakfastBuffetException: Schema.optional(Schema.String),
-    breakfastAvailable: Schema.optional(Schema.Boolean),
-    barException: Schema.optional(Schema.String),
-    roomServiceException: Schema.optional(Schema.String),
-    freeBreakfast: Schema.optional(Schema.Boolean),
-    breakfastBuffet: Schema.optional(Schema.Boolean),
-    restaurant: Schema.optional(Schema.Boolean),
-    restaurantsCount: Schema.optional(Schema.Number),
-    restaurantsCountException: Schema.optional(Schema.String),
-    buffet: Schema.optional(Schema.Boolean),
-    twentyFourHourRoomService: Schema.optional(Schema.Boolean),
-    restaurantException: Schema.optional(Schema.String),
-    tableServiceException: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FoodAndDrink",
-}) as any as Schema.Schema<FoodAndDrink>;
+export const FoodAndDrink: Schema.Schema<FoodAndDrink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      buffetException: Schema.optional(Schema.String),
+      dinnerBuffetException: Schema.optional(Schema.String),
+      bar: Schema.optional(Schema.Boolean),
+      twentyFourHourRoomServiceException: Schema.optional(Schema.String),
+      tableService: Schema.optional(Schema.Boolean),
+      vendingMachineException: Schema.optional(Schema.String),
+      vendingMachine: Schema.optional(Schema.Boolean),
+      dinnerBuffet: Schema.optional(Schema.Boolean),
+      freeBreakfastException: Schema.optional(Schema.String),
+      breakfastAvailableException: Schema.optional(Schema.String),
+      roomService: Schema.optional(Schema.Boolean),
+      breakfastBuffetException: Schema.optional(Schema.String),
+      breakfastAvailable: Schema.optional(Schema.Boolean),
+      barException: Schema.optional(Schema.String),
+      roomServiceException: Schema.optional(Schema.String),
+      freeBreakfast: Schema.optional(Schema.Boolean),
+      breakfastBuffet: Schema.optional(Schema.Boolean),
+      restaurant: Schema.optional(Schema.Boolean),
+      restaurantsCount: Schema.optional(Schema.Number),
+      restaurantsCountException: Schema.optional(Schema.String),
+      buffet: Schema.optional(Schema.Boolean),
+      twentyFourHourRoomService: Schema.optional(Schema.Boolean),
+      restaurantException: Schema.optional(Schema.String),
+      tableServiceException: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FoodAndDrink",
+  }) as any as Schema.Schema<FoodAndDrink>;
 
 export interface Housekeeping {
   /** Turndown service. Hotel staff enters guest units to prepare the bed for sleep use. May or may not include some light housekeeping. May or may not include an evening snack or candy. Also known as evening service. */
@@ -884,18 +888,19 @@ export interface Housekeeping {
     | (string & {});
 }
 
-export const Housekeeping: Schema.Schema<Housekeeping> = Schema.suspend(() =>
-  Schema.Struct({
-    turndownService: Schema.optional(Schema.Boolean),
-    turndownServiceException: Schema.optional(Schema.String),
-    housekeepingAvailable: Schema.optional(Schema.Boolean),
-    dailyHousekeeping: Schema.optional(Schema.Boolean),
-    housekeepingAvailableException: Schema.optional(Schema.String),
-    dailyHousekeepingException: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Housekeeping",
-}) as any as Schema.Schema<Housekeeping>;
+export const Housekeeping: Schema.Schema<Housekeeping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      turndownService: Schema.optional(Schema.Boolean),
+      turndownServiceException: Schema.optional(Schema.String),
+      housekeepingAvailable: Schema.optional(Schema.Boolean),
+      dailyHousekeeping: Schema.optional(Schema.Boolean),
+      housekeepingAvailableException: Schema.optional(Schema.String),
+      dailyHousekeepingException: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Housekeeping",
+  }) as any as Schema.Schema<Housekeeping>;
 
 export interface Activities {
   /** Boutique stores exception. */
@@ -1053,44 +1058,45 @@ export interface Activities {
   horsebackRiding?: boolean;
 }
 
-export const Activities: Schema.Schema<Activities> = Schema.suspend(() =>
-  Schema.Struct({
-    boutiqueStoresException: Schema.optional(Schema.String),
-    waterSkiingException: Schema.optional(Schema.String),
-    beachAccessException: Schema.optional(Schema.String),
-    scuba: Schema.optional(Schema.Boolean),
-    freeBicycleRentalException: Schema.optional(Schema.String),
-    beachAccess: Schema.optional(Schema.Boolean),
-    gameRoomException: Schema.optional(Schema.String),
-    watercraftRentalException: Schema.optional(Schema.String),
-    nightclub: Schema.optional(Schema.Boolean),
-    tennis: Schema.optional(Schema.Boolean),
-    tennisException: Schema.optional(Schema.String),
-    beachFront: Schema.optional(Schema.Boolean),
-    boutiqueStores: Schema.optional(Schema.Boolean),
-    privateBeachException: Schema.optional(Schema.String),
-    golf: Schema.optional(Schema.Boolean),
-    snorkeling: Schema.optional(Schema.Boolean),
-    waterSkiing: Schema.optional(Schema.Boolean),
-    beachFrontException: Schema.optional(Schema.String),
-    casinoException: Schema.optional(Schema.String),
-    bicycleRental: Schema.optional(Schema.Boolean),
-    casino: Schema.optional(Schema.Boolean),
-    freeWatercraftRentalException: Schema.optional(Schema.String),
-    horsebackRidingException: Schema.optional(Schema.String),
-    freeBicycleRental: Schema.optional(Schema.Boolean),
-    gameRoom: Schema.optional(Schema.Boolean),
-    freeWatercraftRental: Schema.optional(Schema.Boolean),
-    privateBeach: Schema.optional(Schema.Boolean),
-    scubaException: Schema.optional(Schema.String),
-    snorkelingException: Schema.optional(Schema.String),
-    bicycleRentalException: Schema.optional(Schema.String),
-    watercraftRental: Schema.optional(Schema.Boolean),
-    nightclubException: Schema.optional(Schema.String),
-    golfException: Schema.optional(Schema.String),
-    horsebackRiding: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
+export const Activities: Schema.Schema<Activities> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      boutiqueStoresException: Schema.optional(Schema.String),
+      waterSkiingException: Schema.optional(Schema.String),
+      beachAccessException: Schema.optional(Schema.String),
+      scuba: Schema.optional(Schema.Boolean),
+      freeBicycleRentalException: Schema.optional(Schema.String),
+      beachAccess: Schema.optional(Schema.Boolean),
+      gameRoomException: Schema.optional(Schema.String),
+      watercraftRentalException: Schema.optional(Schema.String),
+      nightclub: Schema.optional(Schema.Boolean),
+      tennis: Schema.optional(Schema.Boolean),
+      tennisException: Schema.optional(Schema.String),
+      beachFront: Schema.optional(Schema.Boolean),
+      boutiqueStores: Schema.optional(Schema.Boolean),
+      privateBeachException: Schema.optional(Schema.String),
+      golf: Schema.optional(Schema.Boolean),
+      snorkeling: Schema.optional(Schema.Boolean),
+      waterSkiing: Schema.optional(Schema.Boolean),
+      beachFrontException: Schema.optional(Schema.String),
+      casinoException: Schema.optional(Schema.String),
+      bicycleRental: Schema.optional(Schema.Boolean),
+      casino: Schema.optional(Schema.Boolean),
+      freeWatercraftRentalException: Schema.optional(Schema.String),
+      horsebackRidingException: Schema.optional(Schema.String),
+      freeBicycleRental: Schema.optional(Schema.Boolean),
+      gameRoom: Schema.optional(Schema.Boolean),
+      freeWatercraftRental: Schema.optional(Schema.Boolean),
+      privateBeach: Schema.optional(Schema.Boolean),
+      scubaException: Schema.optional(Schema.String),
+      snorkelingException: Schema.optional(Schema.String),
+      bicycleRentalException: Schema.optional(Schema.String),
+      watercraftRental: Schema.optional(Schema.Boolean),
+      nightclubException: Schema.optional(Schema.String),
+      golfException: Schema.optional(Schema.String),
+      horsebackRiding: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Activities" }) as any as Schema.Schema<Activities>;
 
 export interface Business {
   /** Meeting rooms exception. */
@@ -1122,16 +1128,17 @@ export interface Business {
   meetingRooms?: boolean;
 }
 
-export const Business: Schema.Schema<Business> = Schema.suspend(() =>
-  Schema.Struct({
-    meetingRoomsException: Schema.optional(Schema.String),
-    meetingRoomsCountException: Schema.optional(Schema.String),
-    meetingRoomsCount: Schema.optional(Schema.Number),
-    businessCenter: Schema.optional(Schema.Boolean),
-    businessCenterException: Schema.optional(Schema.String),
-    meetingRooms: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Business" }) as any as Schema.Schema<Business>;
+export const Business: Schema.Schema<Business> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      meetingRoomsException: Schema.optional(Schema.String),
+      meetingRoomsCountException: Schema.optional(Schema.String),
+      meetingRoomsCount: Schema.optional(Schema.Number),
+      businessCenter: Schema.optional(Schema.Boolean),
+      businessCenterException: Schema.optional(Schema.String),
+      meetingRooms: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Business" }) as any as Schema.Schema<Business>;
 
 export interface Accessibility {
   /** Mobility accessible exception. */
@@ -1172,20 +1179,21 @@ export interface Accessibility {
     | (string & {});
 }
 
-export const Accessibility: Schema.Schema<Accessibility> = Schema.suspend(() =>
-  Schema.Struct({
-    mobilityAccessibleException: Schema.optional(Schema.String),
-    mobilityAccessibleParkingException: Schema.optional(Schema.String),
-    mobilityAccessibleElevator: Schema.optional(Schema.Boolean),
-    mobilityAccessible: Schema.optional(Schema.Boolean),
-    mobilityAccessibleParking: Schema.optional(Schema.Boolean),
-    mobilityAccessibleElevatorException: Schema.optional(Schema.String),
-    mobilityAccessiblePool: Schema.optional(Schema.Boolean),
-    mobilityAccessiblePoolException: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Accessibility",
-}) as any as Schema.Schema<Accessibility>;
+export const Accessibility: Schema.Schema<Accessibility> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mobilityAccessibleException: Schema.optional(Schema.String),
+      mobilityAccessibleParkingException: Schema.optional(Schema.String),
+      mobilityAccessibleElevator: Schema.optional(Schema.Boolean),
+      mobilityAccessible: Schema.optional(Schema.Boolean),
+      mobilityAccessibleParking: Schema.optional(Schema.Boolean),
+      mobilityAccessibleElevatorException: Schema.optional(Schema.String),
+      mobilityAccessiblePool: Schema.optional(Schema.Boolean),
+      mobilityAccessiblePoolException: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Accessibility",
+  }) as any as Schema.Schema<Accessibility>;
 
 export interface PaymentOptions {
   /** Credit card. The hotel accepts payment by a card issued by a bank or credit card company. Also known as charge card, debit card, bank card, or charge plate. */
@@ -1235,8 +1243,8 @@ export interface PaymentOptions {
   cash?: boolean;
 }
 
-export const PaymentOptions: Schema.Schema<PaymentOptions> = Schema.suspend(
-  () =>
+export const PaymentOptions: Schema.Schema<PaymentOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creditCard: Schema.optional(Schema.Boolean),
       cashException: Schema.optional(Schema.String),
@@ -1249,9 +1257,9 @@ export const PaymentOptions: Schema.Schema<PaymentOptions> = Schema.suspend(
       mobileNfcException: Schema.optional(Schema.String),
       cash: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "PaymentOptions",
-}) as any as Schema.Schema<PaymentOptions>;
+  ).annotate({
+    identifier: "PaymentOptions",
+  }) as any as Schema.Schema<PaymentOptions>;
 
 export interface EcoCertification {
   /** Whether the eco certificate was awarded or not. */
@@ -1296,16 +1304,16 @@ export interface EcoCertification {
     | (string & {});
 }
 
-export const EcoCertification: Schema.Schema<EcoCertification> = Schema.suspend(
-  () =>
+export const EcoCertification: Schema.Schema<EcoCertification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       awarded: Schema.optional(Schema.Boolean),
       ecoCertificate: Schema.optional(Schema.String),
       awardedException: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "EcoCertification",
-}) as any as Schema.Schema<EcoCertification>;
+  ).annotate({
+    identifier: "EcoCertification",
+  }) as any as Schema.Schema<EcoCertification>;
 
 export interface EnergyEfficiency {
   /** Output only. Green building design exception. */
@@ -1373,8 +1381,8 @@ export interface EnergyEfficiency {
     | (string & {});
 }
 
-export const EnergyEfficiency: Schema.Schema<EnergyEfficiency> = Schema.suspend(
-  () =>
+export const EnergyEfficiency: Schema.Schema<EnergyEfficiency> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       greenBuildingDesignException: Schema.optional(Schema.String),
       energyEfficientLighting: Schema.optional(Schema.Boolean),
@@ -1395,9 +1403,9 @@ export const EnergyEfficiency: Schema.Schema<EnergyEfficiency> = Schema.suspend(
       greenBuildingDesign: Schema.optional(Schema.Boolean),
       energyConservationProgramException: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "EnergyEfficiency",
-}) as any as Schema.Schema<EnergyEfficiency>;
+  ).annotate({
+    identifier: "EnergyEfficiency",
+  }) as any as Schema.Schema<EnergyEfficiency>;
 
 export interface SustainabilityCertifications {
   /** LEED certification exception. */
@@ -1438,7 +1446,7 @@ export interface SustainabilityCertifications {
 }
 
 export const SustainabilityCertifications: Schema.Schema<SustainabilityCertifications> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       leedCertificationException: Schema.optional(Schema.String),
       ecoCertifications: Schema.optional(Schema.Array(EcoCertification)),
@@ -1508,7 +1516,7 @@ export interface WaterConservation {
 }
 
 export const WaterConservation: Schema.Schema<WaterConservation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       independentOrganizationAuditsWaterUseException: Schema.optional(
         Schema.String,
@@ -1676,8 +1684,8 @@ export interface WasteReduction {
   waterBottleFillingStations?: boolean;
 }
 
-export const WasteReduction: Schema.Schema<WasteReduction> = Schema.suspend(
-  () =>
+export const WasteReduction: Schema.Schema<WasteReduction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       safelyDisposesElectronics: Schema.optional(Schema.Boolean),
       noSingleUsePlasticStraws: Schema.optional(Schema.Boolean),
@@ -1714,9 +1722,9 @@ export const WasteReduction: Schema.Schema<WasteReduction> = Schema.suspend(
       safelyDisposesLightbulbsException: Schema.optional(Schema.String),
       waterBottleFillingStations: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "WasteReduction",
-}) as any as Schema.Schema<WasteReduction>;
+  ).annotate({
+    identifier: "WasteReduction",
+  }) as any as Schema.Schema<WasteReduction>;
 
 export interface Sustainability {
   /** Energy efficiency practices implemented at the hotel. */
@@ -1731,8 +1739,8 @@ export interface Sustainability {
   wasteReduction?: WasteReduction;
 }
 
-export const Sustainability: Schema.Schema<Sustainability> = Schema.suspend(
-  () =>
+export const Sustainability: Schema.Schema<Sustainability> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       energyEfficiency: Schema.optional(EnergyEfficiency),
       sustainableSourcing: Schema.optional(SustainableSourcing),
@@ -1742,9 +1750,9 @@ export const Sustainability: Schema.Schema<Sustainability> = Schema.suspend(
       waterConservation: Schema.optional(WaterConservation),
       wasteReduction: Schema.optional(WasteReduction),
     }),
-).annotate({
-  identifier: "Sustainability",
-}) as any as Schema.Schema<Sustainability>;
+  ).annotate({
+    identifier: "Sustainability",
+  }) as any as Schema.Schema<Sustainability>;
 
 export interface Connectivity {
   /** Free wifi exception. */
@@ -1785,20 +1793,21 @@ export interface Connectivity {
     | (string & {});
 }
 
-export const Connectivity: Schema.Schema<Connectivity> = Schema.suspend(() =>
-  Schema.Struct({
-    freeWifiException: Schema.optional(Schema.String),
-    wifiAvailable: Schema.optional(Schema.Boolean),
-    freeWifi: Schema.optional(Schema.Boolean),
-    publicAreaWifiAvailableException: Schema.optional(Schema.String),
-    wifiAvailableException: Schema.optional(Schema.String),
-    publicAreaWifiAvailable: Schema.optional(Schema.Boolean),
-    publicInternetTerminal: Schema.optional(Schema.Boolean),
-    publicInternetTerminalException: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Connectivity",
-}) as any as Schema.Schema<Connectivity>;
+export const Connectivity: Schema.Schema<Connectivity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      freeWifiException: Schema.optional(Schema.String),
+      wifiAvailable: Schema.optional(Schema.Boolean),
+      freeWifi: Schema.optional(Schema.Boolean),
+      publicAreaWifiAvailableException: Schema.optional(Schema.String),
+      wifiAvailableException: Schema.optional(Schema.String),
+      publicAreaWifiAvailable: Schema.optional(Schema.Boolean),
+      publicInternetTerminal: Schema.optional(Schema.Boolean),
+      publicInternetTerminalException: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Connectivity",
+  }) as any as Schema.Schema<Connectivity>;
 
 export interface LivingAreaFeatures {
   /** Bathtub. A fixed plumbing feature set on the floor and consisting of a large container that accommodates the body of an adult for the purpose of seated bathing. Includes knobs or fixtures to control the temperature of the water, a faucet through which the water flows, and a drain that can be closed for filling and opened for draining. */
@@ -1984,7 +1993,7 @@ export interface LivingAreaFeatures {
 }
 
 export const LivingAreaFeatures: Schema.Schema<LivingAreaFeatures> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bathtub: Schema.optional(Schema.Boolean),
       universalPowerAdaptersException: Schema.optional(Schema.String),
@@ -2178,8 +2187,8 @@ export interface LivingAreaEating {
     | (string & {});
 }
 
-export const LivingAreaEating: Schema.Schema<LivingAreaEating> = Schema.suspend(
-  () =>
+export const LivingAreaEating: Schema.Schema<LivingAreaEating> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       microwave: Schema.optional(Schema.Boolean),
       toasterException: Schema.optional(Schema.String),
@@ -2214,9 +2223,9 @@ export const LivingAreaEating: Schema.Schema<LivingAreaEating> = Schema.suspend(
       toaster: Schema.optional(Schema.Boolean),
       microwaveException: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LivingAreaEating",
-}) as any as Schema.Schema<LivingAreaEating>;
+  ).annotate({
+    identifier: "LivingAreaEating",
+  }) as any as Schema.Schema<LivingAreaEating>;
 
 export interface LivingAreaSleeping {
   /** Hypoallergenic bedding. Bedding such as linens, pillows, mattress covers and/or mattresses that are made of materials known to be resistant to allergens such as mold, dust and dander. */
@@ -2348,7 +2357,7 @@ export interface LivingAreaSleeping {
 }
 
 export const LivingAreaSleeping: Schema.Schema<LivingAreaSleeping> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hypoallergenicBedding: Schema.optional(Schema.Boolean),
       bedsCountException: Schema.optional(Schema.String),
@@ -2459,7 +2468,7 @@ export interface LivingAreaAccessibility {
 }
 
 export const LivingAreaAccessibility: Schema.Schema<LivingAreaAccessibility> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mobilityAccessibleUnitException: Schema.optional(Schema.String),
       adaCompliantUnit: Schema.optional(Schema.Boolean),
@@ -2495,15 +2504,16 @@ export interface LivingArea {
   accessibility?: LivingAreaAccessibility;
 }
 
-export const LivingArea: Schema.Schema<LivingArea> = Schema.suspend(() =>
-  Schema.Struct({
-    features: Schema.optional(LivingAreaFeatures),
-    eating: Schema.optional(LivingAreaEating),
-    sleeping: Schema.optional(LivingAreaSleeping),
-    layout: Schema.optional(LivingAreaLayout),
-    accessibility: Schema.optional(LivingAreaAccessibility),
-  }),
-).annotate({ identifier: "LivingArea" }) as any as Schema.Schema<LivingArea>;
+export const LivingArea: Schema.Schema<LivingArea> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      features: Schema.optional(LivingAreaFeatures),
+      eating: Schema.optional(LivingAreaEating),
+      sleeping: Schema.optional(LivingAreaSleeping),
+      layout: Schema.optional(LivingAreaLayout),
+      accessibility: Schema.optional(LivingAreaAccessibility),
+    }),
+  ).annotate({ identifier: "LivingArea" }) as any as Schema.Schema<LivingArea>;
 
 export interface ViewsFromUnit {
   /** City view. A guestroom that features a window through which guests can see the buildings, parks and/or streets of the city. */
@@ -2580,28 +2590,29 @@ export interface ViewsFromUnit {
   oceanView?: boolean;
 }
 
-export const ViewsFromUnit: Schema.Schema<ViewsFromUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    cityView: Schema.optional(Schema.Boolean),
-    oceanViewException: Schema.optional(Schema.String),
-    beachViewException: Schema.optional(Schema.String),
-    gardenView: Schema.optional(Schema.Boolean),
-    gardenViewException: Schema.optional(Schema.String),
-    lakeViewException: Schema.optional(Schema.String),
-    landmarkViewException: Schema.optional(Schema.String),
-    beachView: Schema.optional(Schema.Boolean),
-    poolView: Schema.optional(Schema.Boolean),
-    lakeView: Schema.optional(Schema.Boolean),
-    valleyViewException: Schema.optional(Schema.String),
-    poolViewException: Schema.optional(Schema.String),
-    valleyView: Schema.optional(Schema.Boolean),
-    cityViewException: Schema.optional(Schema.String),
-    landmarkView: Schema.optional(Schema.Boolean),
-    oceanView: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "ViewsFromUnit",
-}) as any as Schema.Schema<ViewsFromUnit>;
+export const ViewsFromUnit: Schema.Schema<ViewsFromUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cityView: Schema.optional(Schema.Boolean),
+      oceanViewException: Schema.optional(Schema.String),
+      beachViewException: Schema.optional(Schema.String),
+      gardenView: Schema.optional(Schema.Boolean),
+      gardenViewException: Schema.optional(Schema.String),
+      lakeViewException: Schema.optional(Schema.String),
+      landmarkViewException: Schema.optional(Schema.String),
+      beachView: Schema.optional(Schema.Boolean),
+      poolView: Schema.optional(Schema.Boolean),
+      lakeView: Schema.optional(Schema.Boolean),
+      valleyViewException: Schema.optional(Schema.String),
+      poolViewException: Schema.optional(Schema.String),
+      valleyView: Schema.optional(Schema.Boolean),
+      cityViewException: Schema.optional(Schema.String),
+      landmarkView: Schema.optional(Schema.Boolean),
+      oceanView: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ViewsFromUnit",
+  }) as any as Schema.Schema<ViewsFromUnit>;
 
 export interface GuestUnitFeatures {
   /** Private home exception. */
@@ -2696,7 +2707,7 @@ export interface GuestUnitFeatures {
 }
 
 export const GuestUnitFeatures: Schema.Schema<GuestUnitFeatures> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privateHomeException: Schema.optional(Schema.String),
       tierException: Schema.optional(Schema.String),
@@ -2732,15 +2743,16 @@ export interface GuestUnitType {
   label?: string;
 }
 
-export const GuestUnitType: Schema.Schema<GuestUnitType> = Schema.suspend(() =>
-  Schema.Struct({
-    codes: Schema.optional(Schema.Array(Schema.String)),
-    features: Schema.optional(GuestUnitFeatures),
-    label: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GuestUnitType",
-}) as any as Schema.Schema<GuestUnitType>;
+export const GuestUnitType: Schema.Schema<GuestUnitType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      codes: Schema.optional(Schema.Array(Schema.String)),
+      features: Schema.optional(GuestUnitFeatures),
+      label: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GuestUnitType",
+  }) as any as Schema.Schema<GuestUnitType>;
 
 export interface Policies {
   /** Smoke free property exception. */
@@ -2819,41 +2831,42 @@ export interface Policies {
     | (string & {});
 }
 
-export const Policies: Schema.Schema<Policies> = Schema.suspend(() =>
-  Schema.Struct({
-    smokeFreePropertyException: Schema.optional(Schema.String),
-    allInclusiveOnlyException: Schema.optional(Schema.String),
-    checkinTime: Schema.optional(TimeOfDay),
-    allInclusiveOnly: Schema.optional(Schema.Boolean),
-    allInclusiveAvailable: Schema.optional(Schema.Boolean),
-    paymentOptions: Schema.optional(PaymentOptions),
-    maxKidsStayFreeCountException: Schema.optional(Schema.String),
-    maxChildAgeException: Schema.optional(Schema.String),
-    smokeFreeProperty: Schema.optional(Schema.Boolean),
-    kidsStayFreeException: Schema.optional(Schema.String),
-    maxChildAge: Schema.optional(Schema.Number),
-    checkoutTime: Schema.optional(TimeOfDay),
-    allInclusiveAvailableException: Schema.optional(Schema.String),
-    checkoutTimeException: Schema.optional(Schema.String),
-    maxKidsStayFreeCount: Schema.optional(Schema.Number),
-    kidsStayFree: Schema.optional(Schema.Boolean),
-    checkinTimeException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policies" }) as any as Schema.Schema<Policies>;
+export const Policies: Schema.Schema<Policies> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      smokeFreePropertyException: Schema.optional(Schema.String),
+      allInclusiveOnlyException: Schema.optional(Schema.String),
+      checkinTime: Schema.optional(TimeOfDay),
+      allInclusiveOnly: Schema.optional(Schema.Boolean),
+      allInclusiveAvailable: Schema.optional(Schema.Boolean),
+      paymentOptions: Schema.optional(PaymentOptions),
+      maxKidsStayFreeCountException: Schema.optional(Schema.String),
+      maxChildAgeException: Schema.optional(Schema.String),
+      smokeFreeProperty: Schema.optional(Schema.Boolean),
+      kidsStayFreeException: Schema.optional(Schema.String),
+      maxChildAge: Schema.optional(Schema.Number),
+      checkoutTime: Schema.optional(TimeOfDay),
+      allInclusiveAvailableException: Schema.optional(Schema.String),
+      checkoutTimeException: Schema.optional(Schema.String),
+      maxKidsStayFreeCount: Schema.optional(Schema.Number),
+      kidsStayFree: Schema.optional(Schema.Boolean),
+      checkinTimeException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policies" }) as any as Schema.Schema<Policies>;
 
 export interface LodgingMetadata {
   /** Required. The latest time at which the Lodging data is asserted to be true in the real world. This is not necessarily the time at which the request is made. */
   updateTime?: string;
 }
 
-export const LodgingMetadata: Schema.Schema<LodgingMetadata> = Schema.suspend(
-  () =>
+export const LodgingMetadata: Schema.Schema<LodgingMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LodgingMetadata",
-}) as any as Schema.Schema<LodgingMetadata>;
+  ).annotate({
+    identifier: "LodgingMetadata",
+  }) as any as Schema.Schema<LodgingMetadata>;
 
 export interface Parking {
   /** Self parking available. Guests park their own cars. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Can be free or for a fee. */
@@ -2921,24 +2934,25 @@ export interface Parking {
   freeValetParking?: boolean;
 }
 
-export const Parking: Schema.Schema<Parking> = Schema.suspend(() =>
-  Schema.Struct({
-    selfParkingAvailable: Schema.optional(Schema.Boolean),
-    freeValetParkingException: Schema.optional(Schema.String),
-    parkingAvailableException: Schema.optional(Schema.String),
-    valetParkingAvailable: Schema.optional(Schema.Boolean),
-    freeSelfParkingException: Schema.optional(Schema.String),
-    electricCarChargingStationsException: Schema.optional(Schema.String),
-    freeParking: Schema.optional(Schema.Boolean),
-    parkingAvailable: Schema.optional(Schema.Boolean),
-    valetParkingAvailableException: Schema.optional(Schema.String),
-    selfParkingAvailableException: Schema.optional(Schema.String),
-    electricCarChargingStations: Schema.optional(Schema.Boolean),
-    freeParkingException: Schema.optional(Schema.String),
-    freeSelfParking: Schema.optional(Schema.Boolean),
-    freeValetParking: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Parking" }) as any as Schema.Schema<Parking>;
+export const Parking: Schema.Schema<Parking> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selfParkingAvailable: Schema.optional(Schema.Boolean),
+      freeValetParkingException: Schema.optional(Schema.String),
+      parkingAvailableException: Schema.optional(Schema.String),
+      valetParkingAvailable: Schema.optional(Schema.Boolean),
+      freeSelfParkingException: Schema.optional(Schema.String),
+      electricCarChargingStationsException: Schema.optional(Schema.String),
+      freeParking: Schema.optional(Schema.Boolean),
+      parkingAvailable: Schema.optional(Schema.Boolean),
+      valetParkingAvailableException: Schema.optional(Schema.String),
+      selfParkingAvailableException: Schema.optional(Schema.String),
+      electricCarChargingStations: Schema.optional(Schema.Boolean),
+      freeParkingException: Schema.optional(Schema.String),
+      freeSelfParking: Schema.optional(Schema.Boolean),
+      freeValetParking: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Parking" }) as any as Schema.Schema<Parking>;
 
 export interface Pools {
   /** Outdoor pools count. The sum of all outdoor pools at the hotel. */
@@ -3069,38 +3083,39 @@ export interface Pools {
     | (string & {});
 }
 
-export const Pools: Schema.Schema<Pools> = Schema.suspend(() =>
-  Schema.Struct({
-    outdoorPoolsCount: Schema.optional(Schema.Number),
-    pool: Schema.optional(Schema.Boolean),
-    adultPoolException: Schema.optional(Schema.String),
-    outdoorPoolException: Schema.optional(Schema.String),
-    outdoorPool: Schema.optional(Schema.Boolean),
-    waterslideException: Schema.optional(Schema.String),
-    wadingPoolException: Schema.optional(Schema.String),
-    indoorPoolsCountException: Schema.optional(Schema.String),
-    adultPool: Schema.optional(Schema.Boolean),
-    waterParkException: Schema.optional(Schema.String),
-    wavePool: Schema.optional(Schema.Boolean),
-    outdoorPoolsCountException: Schema.optional(Schema.String),
-    lazyRiver: Schema.optional(Schema.Boolean),
-    lifeguard: Schema.optional(Schema.Boolean),
-    poolException: Schema.optional(Schema.String),
-    hotTub: Schema.optional(Schema.Boolean),
-    indoorPoolsCount: Schema.optional(Schema.Number),
-    lazyRiverException: Schema.optional(Schema.String),
-    wadingPool: Schema.optional(Schema.Boolean),
-    waterPark: Schema.optional(Schema.Boolean),
-    indoorPool: Schema.optional(Schema.Boolean),
-    lifeguardException: Schema.optional(Schema.String),
-    hotTubException: Schema.optional(Schema.String),
-    poolsCountException: Schema.optional(Schema.String),
-    waterslide: Schema.optional(Schema.Boolean),
-    wavePoolException: Schema.optional(Schema.String),
-    poolsCount: Schema.optional(Schema.Number),
-    indoorPoolException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Pools" }) as any as Schema.Schema<Pools>;
+export const Pools: Schema.Schema<Pools> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      outdoorPoolsCount: Schema.optional(Schema.Number),
+      pool: Schema.optional(Schema.Boolean),
+      adultPoolException: Schema.optional(Schema.String),
+      outdoorPoolException: Schema.optional(Schema.String),
+      outdoorPool: Schema.optional(Schema.Boolean),
+      waterslideException: Schema.optional(Schema.String),
+      wadingPoolException: Schema.optional(Schema.String),
+      indoorPoolsCountException: Schema.optional(Schema.String),
+      adultPool: Schema.optional(Schema.Boolean),
+      waterParkException: Schema.optional(Schema.String),
+      wavePool: Schema.optional(Schema.Boolean),
+      outdoorPoolsCountException: Schema.optional(Schema.String),
+      lazyRiver: Schema.optional(Schema.Boolean),
+      lifeguard: Schema.optional(Schema.Boolean),
+      poolException: Schema.optional(Schema.String),
+      hotTub: Schema.optional(Schema.Boolean),
+      indoorPoolsCount: Schema.optional(Schema.Number),
+      lazyRiverException: Schema.optional(Schema.String),
+      wadingPool: Schema.optional(Schema.Boolean),
+      waterPark: Schema.optional(Schema.Boolean),
+      indoorPool: Schema.optional(Schema.Boolean),
+      lifeguardException: Schema.optional(Schema.String),
+      hotTubException: Schema.optional(Schema.String),
+      poolsCountException: Schema.optional(Schema.String),
+      waterslide: Schema.optional(Schema.Boolean),
+      wavePoolException: Schema.optional(Schema.String),
+      poolsCount: Schema.optional(Schema.Number),
+      indoorPoolException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Pools" }) as any as Schema.Schema<Pools>;
 
 export interface LanguageSpoken {
   /** At least one member of the staff can speak the language. */
@@ -3116,16 +3131,16 @@ export interface LanguageSpoken {
   languageCode?: string;
 }
 
-export const LanguageSpoken: Schema.Schema<LanguageSpoken> = Schema.suspend(
-  () =>
+export const LanguageSpoken: Schema.Schema<LanguageSpoken> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spoken: Schema.optional(Schema.Boolean),
       spokenException: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LanguageSpoken",
-}) as any as Schema.Schema<LanguageSpoken>;
+  ).annotate({
+    identifier: "LanguageSpoken",
+  }) as any as Schema.Schema<LanguageSpoken>;
 
 export interface Services {
   /** Front desk exception. */
@@ -3240,35 +3255,36 @@ export interface Services {
     | (string & {});
 }
 
-export const Services: Schema.Schema<Services> = Schema.suspend(() =>
-  Schema.Struct({
-    frontDeskException: Schema.optional(Schema.String),
-    selfServiceLaundryException: Schema.optional(Schema.String),
-    socialHour: Schema.optional(Schema.Boolean),
-    languagesSpoken: Schema.optional(Schema.Array(LanguageSpoken)),
-    fullServiceLaundryException: Schema.optional(Schema.String),
-    convenienceStoreException: Schema.optional(Schema.String),
-    currencyExchangeException: Schema.optional(Schema.String),
-    wakeUpCalls: Schema.optional(Schema.Boolean),
-    conciergeException: Schema.optional(Schema.String),
-    giftShop: Schema.optional(Schema.Boolean),
-    elevator: Schema.optional(Schema.Boolean),
-    wakeUpCallsException: Schema.optional(Schema.String),
-    twentyFourHourFrontDeskException: Schema.optional(Schema.String),
-    giftShopException: Schema.optional(Schema.String),
-    baggageStorageException: Schema.optional(Schema.String),
-    socialHourException: Schema.optional(Schema.String),
-    selfServiceLaundry: Schema.optional(Schema.Boolean),
-    concierge: Schema.optional(Schema.Boolean),
-    frontDesk: Schema.optional(Schema.Boolean),
-    currencyExchange: Schema.optional(Schema.Boolean),
-    twentyFourHourFrontDesk: Schema.optional(Schema.Boolean),
-    baggageStorage: Schema.optional(Schema.Boolean),
-    convenienceStore: Schema.optional(Schema.Boolean),
-    fullServiceLaundry: Schema.optional(Schema.Boolean),
-    elevatorException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Services" }) as any as Schema.Schema<Services>;
+export const Services: Schema.Schema<Services> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      frontDeskException: Schema.optional(Schema.String),
+      selfServiceLaundryException: Schema.optional(Schema.String),
+      socialHour: Schema.optional(Schema.Boolean),
+      languagesSpoken: Schema.optional(Schema.Array(LanguageSpoken)),
+      fullServiceLaundryException: Schema.optional(Schema.String),
+      convenienceStoreException: Schema.optional(Schema.String),
+      currencyExchangeException: Schema.optional(Schema.String),
+      wakeUpCalls: Schema.optional(Schema.Boolean),
+      conciergeException: Schema.optional(Schema.String),
+      giftShop: Schema.optional(Schema.Boolean),
+      elevator: Schema.optional(Schema.Boolean),
+      wakeUpCallsException: Schema.optional(Schema.String),
+      twentyFourHourFrontDeskException: Schema.optional(Schema.String),
+      giftShopException: Schema.optional(Schema.String),
+      baggageStorageException: Schema.optional(Schema.String),
+      socialHourException: Schema.optional(Schema.String),
+      selfServiceLaundry: Schema.optional(Schema.Boolean),
+      concierge: Schema.optional(Schema.Boolean),
+      frontDesk: Schema.optional(Schema.Boolean),
+      currencyExchange: Schema.optional(Schema.Boolean),
+      twentyFourHourFrontDesk: Schema.optional(Schema.Boolean),
+      baggageStorage: Schema.optional(Schema.Boolean),
+      convenienceStore: Schema.optional(Schema.Boolean),
+      fullServiceLaundry: Schema.optional(Schema.Boolean),
+      elevatorException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Services" }) as any as Schema.Schema<Services>;
 
 export interface Transportation {
   /** Transfer. Hotel provides a shuttle service or car service to take guests to and from the nearest airport or train station. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. */
@@ -3336,8 +3352,8 @@ export interface Transportation {
   privateCarService?: boolean;
 }
 
-export const Transportation: Schema.Schema<Transportation> = Schema.suspend(
-  () =>
+export const Transportation: Schema.Schema<Transportation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transfer: Schema.optional(Schema.Boolean),
       freePrivateCarServiceException: Schema.optional(Schema.String),
@@ -3354,9 +3370,9 @@ export const Transportation: Schema.Schema<Transportation> = Schema.suspend(
       privateCarServiceException: Schema.optional(Schema.String),
       privateCarService: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "Transportation",
-}) as any as Schema.Schema<Transportation>;
+  ).annotate({
+    identifier: "Transportation",
+  }) as any as Schema.Schema<Transportation>;
 
 export interface Wellness {
   /** Doctor on call exception. */
@@ -3460,32 +3476,33 @@ export interface Wellness {
     | (string & {});
 }
 
-export const Wellness: Schema.Schema<Wellness> = Schema.suspend(() =>
-  Schema.Struct({
-    doctorOnCallException: Schema.optional(Schema.String),
-    freeFitnessCenter: Schema.optional(Schema.Boolean),
-    ellipticalMachine: Schema.optional(Schema.Boolean),
-    treadmillException: Schema.optional(Schema.String),
-    saunaException: Schema.optional(Schema.String),
-    massage: Schema.optional(Schema.Boolean),
-    spaException: Schema.optional(Schema.String),
-    freeFitnessCenterException: Schema.optional(Schema.String),
-    ellipticalMachineException: Schema.optional(Schema.String),
-    salon: Schema.optional(Schema.Boolean),
-    sauna: Schema.optional(Schema.Boolean),
-    treadmill: Schema.optional(Schema.Boolean),
-    doctorOnCall: Schema.optional(Schema.Boolean),
-    massageException: Schema.optional(Schema.String),
-    freeWeights: Schema.optional(Schema.Boolean),
-    weightMachineException: Schema.optional(Schema.String),
-    fitnessCenter: Schema.optional(Schema.Boolean),
-    spa: Schema.optional(Schema.Boolean),
-    freeWeightsException: Schema.optional(Schema.String),
-    weightMachine: Schema.optional(Schema.Boolean),
-    salonException: Schema.optional(Schema.String),
-    fitnessCenterException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Wellness" }) as any as Schema.Schema<Wellness>;
+export const Wellness: Schema.Schema<Wellness> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      doctorOnCallException: Schema.optional(Schema.String),
+      freeFitnessCenter: Schema.optional(Schema.Boolean),
+      ellipticalMachine: Schema.optional(Schema.Boolean),
+      treadmillException: Schema.optional(Schema.String),
+      saunaException: Schema.optional(Schema.String),
+      massage: Schema.optional(Schema.Boolean),
+      spaException: Schema.optional(Schema.String),
+      freeFitnessCenterException: Schema.optional(Schema.String),
+      ellipticalMachineException: Schema.optional(Schema.String),
+      salon: Schema.optional(Schema.Boolean),
+      sauna: Schema.optional(Schema.Boolean),
+      treadmill: Schema.optional(Schema.Boolean),
+      doctorOnCall: Schema.optional(Schema.Boolean),
+      massageException: Schema.optional(Schema.String),
+      freeWeights: Schema.optional(Schema.Boolean),
+      weightMachineException: Schema.optional(Schema.String),
+      fitnessCenter: Schema.optional(Schema.Boolean),
+      spa: Schema.optional(Schema.Boolean),
+      freeWeightsException: Schema.optional(Schema.String),
+      weightMachine: Schema.optional(Schema.Boolean),
+      salonException: Schema.optional(Schema.String),
+      fitnessCenterException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Wellness" }) as any as Schema.Schema<Wellness>;
 
 export interface Pets {
   /** Pets allowed. Household animals are allowed at the property and in the specific guest room of their owner. May or may not include dogs, cats, reptiles and/or fish. May or may not require a fee. Service animals are not considered to be pets, so not governed by this policy. */
@@ -3526,18 +3543,19 @@ export interface Pets {
     | (string & {});
 }
 
-export const Pets: Schema.Schema<Pets> = Schema.suspend(() =>
-  Schema.Struct({
-    petsAllowed: Schema.optional(Schema.Boolean),
-    petsAllowedFree: Schema.optional(Schema.Boolean),
-    catsAllowed: Schema.optional(Schema.Boolean),
-    dogsAllowed: Schema.optional(Schema.Boolean),
-    petsAllowedException: Schema.optional(Schema.String),
-    dogsAllowedException: Schema.optional(Schema.String),
-    petsAllowedFreeException: Schema.optional(Schema.String),
-    catsAllowedException: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Pets" }) as any as Schema.Schema<Pets>;
+export const Pets: Schema.Schema<Pets> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      petsAllowed: Schema.optional(Schema.Boolean),
+      petsAllowedFree: Schema.optional(Schema.Boolean),
+      catsAllowed: Schema.optional(Schema.Boolean),
+      dogsAllowed: Schema.optional(Schema.Boolean),
+      petsAllowedException: Schema.optional(Schema.String),
+      dogsAllowedException: Schema.optional(Schema.String),
+      petsAllowedFreeException: Schema.optional(Schema.String),
+      catsAllowedException: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Pets" }) as any as Schema.Schema<Pets>;
 
 export interface Lodging {
   /** Sustainability practices implemented at the hotel. */
@@ -3588,33 +3606,34 @@ export interface Lodging {
   accessibility?: Accessibility;
 }
 
-export const Lodging: Schema.Schema<Lodging> = Schema.suspend(() =>
-  Schema.Struct({
-    sustainability: Schema.optional(Sustainability),
-    property: Schema.optional(Property),
-    foodAndDrink: Schema.optional(FoodAndDrink),
-    name: Schema.optional(Schema.String),
-    activities: Schema.optional(Activities),
-    connectivity: Schema.optional(Connectivity),
-    guestUnits: Schema.optional(Schema.Array(GuestUnitType)),
-    policies: Schema.optional(Policies),
-    metadata: Schema.optional(LodgingMetadata),
-    commonLivingArea: Schema.optional(LivingArea),
-    parking: Schema.optional(Parking),
-    allUnits: Schema.optional(GuestUnitFeatures),
-    housekeeping: Schema.optional(Housekeeping),
-    pools: Schema.optional(Pools),
-    services: Schema.optional(Services),
-    transportation: Schema.optional(Transportation),
-    families: Schema.optional(Families),
-    business: Schema.optional(Business),
-    healthAndSafety: Schema.optional(HealthAndSafety),
-    someUnits: Schema.optional(GuestUnitFeatures),
-    wellness: Schema.optional(Wellness),
-    pets: Schema.optional(Pets),
-    accessibility: Schema.optional(Accessibility),
-  }),
-).annotate({ identifier: "Lodging" }) as any as Schema.Schema<Lodging>;
+export const Lodging: Schema.Schema<Lodging> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sustainability: Schema.optional(Sustainability),
+      property: Schema.optional(Property),
+      foodAndDrink: Schema.optional(FoodAndDrink),
+      name: Schema.optional(Schema.String),
+      activities: Schema.optional(Activities),
+      connectivity: Schema.optional(Connectivity),
+      guestUnits: Schema.optional(Schema.Array(GuestUnitType)),
+      policies: Schema.optional(Policies),
+      metadata: Schema.optional(LodgingMetadata),
+      commonLivingArea: Schema.optional(LivingArea),
+      parking: Schema.optional(Parking),
+      allUnits: Schema.optional(GuestUnitFeatures),
+      housekeeping: Schema.optional(Housekeeping),
+      pools: Schema.optional(Pools),
+      services: Schema.optional(Services),
+      transportation: Schema.optional(Transportation),
+      families: Schema.optional(Families),
+      business: Schema.optional(Business),
+      healthAndSafety: Schema.optional(HealthAndSafety),
+      someUnits: Schema.optional(GuestUnitFeatures),
+      wellness: Schema.optional(Wellness),
+      pets: Schema.optional(Pets),
+      accessibility: Schema.optional(Accessibility),
+    }),
+  ).annotate({ identifier: "Lodging" }) as any as Schema.Schema<Lodging>;
 
 export interface GetGoogleUpdatedLodgingResponse {
   /** Required. The Google updated Lodging. */
@@ -3624,7 +3643,7 @@ export interface GetGoogleUpdatedLodgingResponse {
 }
 
 export const GetGoogleUpdatedLodgingResponse: Schema.Schema<GetGoogleUpdatedLodgingResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lodging: Schema.optional(Lodging),
       diffMask: Schema.optional(Schema.String),
@@ -3646,21 +3665,23 @@ export interface UpdateLodgingLocationsRequest {
   body?: Lodging;
 }
 
-export const UpdateLodgingLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Lodging).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/locations/{locationsId}/lodging",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLodgingLocationsRequest>;
+export const UpdateLodgingLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Lodging).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/locations/{locationsId}/lodging",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLodgingLocationsRequest>;
 
 export type UpdateLodgingLocationsResponse = Lodging;
-export const UpdateLodgingLocationsResponse = Lodging;
+export const UpdateLodgingLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Lodging;
 
 export type UpdateLodgingLocationsError = DefaultErrors;
 
@@ -3670,7 +3691,7 @@ export const updateLodgingLocations: API.OperationMethod<
   UpdateLodgingLocationsResponse,
   UpdateLodgingLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLodgingLocationsRequest,
   output: UpdateLodgingLocationsResponse,
   errors: [],
@@ -3683,16 +3704,17 @@ export interface GetLodgingLocationsRequest {
   readMask?: string;
 }
 
-export const GetLodgingLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/locations/{locationsId}/lodging" }),
-  svc,
-) as unknown as Schema.Schema<GetLodgingLocationsRequest>;
+export const GetLodgingLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/locations/{locationsId}/lodging" }),
+    svc,
+  ) as unknown as Schema.Schema<GetLodgingLocationsRequest>;
 
 export type GetLodgingLocationsResponse = Lodging;
-export const GetLodgingLocationsResponse = Lodging;
+export const GetLodgingLocationsResponse = /*@__PURE__*/ /*#__PURE__*/ Lodging;
 
 export type GetLodgingLocationsError = DefaultErrors;
 
@@ -3702,7 +3724,7 @@ export const getLodgingLocations: API.OperationMethod<
   GetLodgingLocationsResponse,
   GetLodgingLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLodgingLocationsRequest,
   output: GetLodgingLocationsResponse,
   errors: [],
@@ -3715,21 +3737,22 @@ export interface GetGoogleUpdatedLocationsLodgingRequest {
   name: string;
 }
 
-export const GetGoogleUpdatedLocationsLodgingRequest = Schema.Struct({
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}/lodging:getGoogleUpdated",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGoogleUpdatedLocationsLodgingRequest>;
+export const GetGoogleUpdatedLocationsLodgingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}/lodging:getGoogleUpdated",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGoogleUpdatedLocationsLodgingRequest>;
 
 export type GetGoogleUpdatedLocationsLodgingResponse =
   GetGoogleUpdatedLodgingResponse;
 export const GetGoogleUpdatedLocationsLodgingResponse =
-  GetGoogleUpdatedLodgingResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetGoogleUpdatedLodgingResponse;
 
 export type GetGoogleUpdatedLocationsLodgingError = DefaultErrors;
 
@@ -3739,7 +3762,7 @@ export const getGoogleUpdatedLocationsLodging: API.OperationMethod<
   GetGoogleUpdatedLocationsLodgingResponse,
   GetGoogleUpdatedLocationsLodgingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGoogleUpdatedLocationsLodgingRequest,
   output: GetGoogleUpdatedLocationsLodgingResponse,
   errors: [],

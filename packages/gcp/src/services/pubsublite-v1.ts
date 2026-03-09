@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -86,14 +88,15 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -104,12 +107,13 @@ export interface Capacity {
   subscribeMibPerSec?: number;
 }
 
-export const Capacity: Schema.Schema<Capacity> = Schema.suspend(() =>
-  Schema.Struct({
-    publishMibPerSec: Schema.optional(Schema.Number),
-    subscribeMibPerSec: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Capacity" }) as any as Schema.Schema<Capacity>;
+export const Capacity: Schema.Schema<Capacity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publishMibPerSec: Schema.optional(Schema.Number),
+      subscribeMibPerSec: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Capacity" }) as any as Schema.Schema<Capacity>;
 
 export interface PartitionConfig {
   /** The number of partitions in the topic. Must be at least 1. Once a topic has been created the number of partitions can be increased but not decreased. Message ordering is not guaranteed across a topic resize. For more information see https://cloud.google.com/pubsub/lite/docs/topics#scaling_capacity */
@@ -120,16 +124,16 @@ export interface PartitionConfig {
   capacity?: Capacity;
 }
 
-export const PartitionConfig: Schema.Schema<PartitionConfig> = Schema.suspend(
-  () =>
+export const PartitionConfig: Schema.Schema<PartitionConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.String),
       scale: Schema.optional(Schema.Number),
       capacity: Schema.optional(Capacity),
     }),
-).annotate({
-  identifier: "PartitionConfig",
-}) as any as Schema.Schema<PartitionConfig>;
+  ).annotate({
+    identifier: "PartitionConfig",
+  }) as any as Schema.Schema<PartitionConfig>;
 
 export interface RetentionConfig {
   /** The provisioned storage, in bytes, per partition. If the number of bytes stored in any of the topic's partitions grows beyond this value, older messages will be dropped to make room for newer ones, regardless of the value of `period`. */
@@ -138,15 +142,15 @@ export interface RetentionConfig {
   period?: string;
 }
 
-export const RetentionConfig: Schema.Schema<RetentionConfig> = Schema.suspend(
-  () =>
+export const RetentionConfig: Schema.Schema<RetentionConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       perPartitionBytes: Schema.optional(Schema.String),
       period: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RetentionConfig",
-}) as any as Schema.Schema<RetentionConfig>;
+  ).annotate({
+    identifier: "RetentionConfig",
+  }) as any as Schema.Schema<RetentionConfig>;
 
 export interface ReservationConfig {
   /** The Reservation to use for this topic's throughput capacity. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
@@ -154,7 +158,7 @@ export interface ReservationConfig {
 }
 
 export const ReservationConfig: Schema.Schema<ReservationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       throughputReservation: Schema.optional(Schema.String),
     }),
@@ -173,28 +177,29 @@ export interface Topic {
   reservationConfig?: ReservationConfig;
 }
 
-export const Topic: Schema.Schema<Topic> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    partitionConfig: Schema.optional(PartitionConfig),
-    retentionConfig: Schema.optional(RetentionConfig),
-    reservationConfig: Schema.optional(ReservationConfig),
-  }),
-).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
+export const Topic: Schema.Schema<Topic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      partitionConfig: Schema.optional(PartitionConfig),
+      retentionConfig: Schema.optional(RetentionConfig),
+      reservationConfig: Schema.optional(ReservationConfig),
+    }),
+  ).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
 
 export interface TopicPartitions {
   /** The number of partitions in the topic. */
   partitionCount?: string;
 }
 
-export const TopicPartitions: Schema.Schema<TopicPartitions> = Schema.suspend(
-  () =>
+export const TopicPartitions: Schema.Schema<TopicPartitions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionCount: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TopicPartitions",
-}) as any as Schema.Schema<TopicPartitions>;
+  ).annotate({
+    identifier: "TopicPartitions",
+  }) as any as Schema.Schema<TopicPartitions>;
 
 export interface ListTopicsResponse {
   /** The list of topic in the requested parent. The order of the topics is unspecified. */
@@ -204,7 +209,7 @@ export interface ListTopicsResponse {
 }
 
 export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topics: Schema.optional(Schema.Array(Topic)),
       nextPageToken: Schema.optional(Schema.String),
@@ -221,7 +226,7 @@ export interface ListTopicSubscriptionsResponse {
 }
 
 export const ListTopicSubscriptionsResponse: Schema.Schema<ListTopicSubscriptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscriptions: Schema.optional(Schema.Array(Schema.String)),
       nextPageToken: Schema.optional(Schema.String),
@@ -239,27 +244,28 @@ export interface DeliveryConfig {
     | (string & {});
 }
 
-export const DeliveryConfig: Schema.Schema<DeliveryConfig> = Schema.suspend(
-  () =>
+export const DeliveryConfig: Schema.Schema<DeliveryConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deliveryRequirement: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DeliveryConfig",
-}) as any as Schema.Schema<DeliveryConfig>;
+  ).annotate({
+    identifier: "DeliveryConfig",
+  }) as any as Schema.Schema<DeliveryConfig>;
 
 export interface PubSubConfig {
   /** The name of the Pub/Sub topic. Structured like: projects/{project_number}/topics/{topic_id}. The topic may be changed. */
   topic?: string;
 }
 
-export const PubSubConfig: Schema.Schema<PubSubConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    topic: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PubSubConfig",
-}) as any as Schema.Schema<PubSubConfig>;
+export const PubSubConfig: Schema.Schema<PubSubConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PubSubConfig",
+  }) as any as Schema.Schema<PubSubConfig>;
 
 export interface ExportConfig {
   /** The desired state of this export. Setting this to values other than `ACTIVE` and `PAUSED` will result in an error. */
@@ -284,16 +290,17 @@ export interface ExportConfig {
   pubsubConfig?: PubSubConfig;
 }
 
-export const ExportConfig: Schema.Schema<ExportConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    desiredState: Schema.optional(Schema.String),
-    currentState: Schema.optional(Schema.String),
-    deadLetterTopic: Schema.optional(Schema.String),
-    pubsubConfig: Schema.optional(PubSubConfig),
-  }),
-).annotate({
-  identifier: "ExportConfig",
-}) as any as Schema.Schema<ExportConfig>;
+export const ExportConfig: Schema.Schema<ExportConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      desiredState: Schema.optional(Schema.String),
+      currentState: Schema.optional(Schema.String),
+      deadLetterTopic: Schema.optional(Schema.String),
+      pubsubConfig: Schema.optional(PubSubConfig),
+    }),
+  ).annotate({
+    identifier: "ExportConfig",
+  }) as any as Schema.Schema<ExportConfig>;
 
 export interface Subscription {
   /** The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
@@ -306,16 +313,17 @@ export interface Subscription {
   exportConfig?: ExportConfig;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    topic: Schema.optional(Schema.String),
-    deliveryConfig: Schema.optional(DeliveryConfig),
-    exportConfig: Schema.optional(ExportConfig),
-  }),
-).annotate({
-  identifier: "Subscription",
-}) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      topic: Schema.optional(Schema.String),
+      deliveryConfig: Schema.optional(DeliveryConfig),
+      exportConfig: Schema.optional(ExportConfig),
+    }),
+  ).annotate({
+    identifier: "Subscription",
+  }) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** The list of subscriptions in the requested parent. The order of the subscriptions is unspecified. */
@@ -325,7 +333,7 @@ export interface ListSubscriptionsResponse {
 }
 
 export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscriptions: Schema.optional(Schema.Array(Subscription)),
       nextPageToken: Schema.optional(Schema.String),
@@ -341,12 +349,13 @@ export interface TimeTarget {
   eventTime?: string;
 }
 
-export const TimeTarget: Schema.Schema<TimeTarget> = Schema.suspend(() =>
-  Schema.Struct({
-    publishTime: Schema.optional(Schema.String),
-    eventTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeTarget" }) as any as Schema.Schema<TimeTarget>;
+export const TimeTarget: Schema.Schema<TimeTarget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publishTime: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeTarget" }) as any as Schema.Schema<TimeTarget>;
 
 export interface SeekSubscriptionRequest {
   /** Seek to a named position with respect to the message backlog. */
@@ -356,7 +365,7 @@ export interface SeekSubscriptionRequest {
 }
 
 export const SeekSubscriptionRequest: Schema.Schema<SeekSubscriptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namedTarget: Schema.optional(Schema.String),
       timeTarget: Schema.optional(TimeTarget),
@@ -372,12 +381,15 @@ export interface Reservation {
   throughputCapacity?: string;
 }
 
-export const Reservation: Schema.Schema<Reservation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    throughputCapacity: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Reservation" }) as any as Schema.Schema<Reservation>;
+export const Reservation: Schema.Schema<Reservation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      throughputCapacity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Reservation",
+  }) as any as Schema.Schema<Reservation>;
 
 export interface ListReservationsResponse {
   /** The list of reservation in the requested parent. The order of the reservations is unspecified. */
@@ -387,7 +399,7 @@ export interface ListReservationsResponse {
 }
 
 export const ListReservationsResponse: Schema.Schema<ListReservationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reservations: Schema.optional(Schema.Array(Reservation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -404,7 +416,7 @@ export interface ListReservationTopicsResponse {
 }
 
 export const ListReservationTopicsResponse: Schema.Schema<ListReservationTopicsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topics: Schema.optional(Schema.Array(Schema.String)),
       nextPageToken: Schema.optional(Schema.String),
@@ -418,11 +430,12 @@ export interface Cursor {
   offset?: string;
 }
 
-export const Cursor: Schema.Schema<Cursor> = Schema.suspend(() =>
-  Schema.Struct({
-    offset: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Cursor" }) as any as Schema.Schema<Cursor>;
+export const Cursor: Schema.Schema<Cursor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      offset: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Cursor" }) as any as Schema.Schema<Cursor>;
 
 export interface CommitCursorRequest {
   /** The partition for which to update the cursor. Partitions are zero indexed, so `partition` must be in the range [0, topic.num_partitions). */
@@ -432,7 +445,7 @@ export interface CommitCursorRequest {
 }
 
 export const CommitCursorRequest: Schema.Schema<CommitCursorRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partition: Schema.optional(Schema.String),
       cursor: Schema.optional(Cursor),
@@ -444,7 +457,7 @@ export const CommitCursorRequest: Schema.Schema<CommitCursorRequest> =
 export interface CommitCursorResponse {}
 
 export const CommitCursorResponse: Schema.Schema<CommitCursorResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CommitCursorResponse",
   }) as any as Schema.Schema<CommitCursorResponse>;
 
@@ -455,15 +468,15 @@ export interface PartitionCursor {
   cursor?: Cursor;
 }
 
-export const PartitionCursor: Schema.Schema<PartitionCursor> = Schema.suspend(
-  () =>
+export const PartitionCursor: Schema.Schema<PartitionCursor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partition: Schema.optional(Schema.String),
       cursor: Schema.optional(Cursor),
     }),
-).annotate({
-  identifier: "PartitionCursor",
-}) as any as Schema.Schema<PartitionCursor>;
+  ).annotate({
+    identifier: "PartitionCursor",
+  }) as any as Schema.Schema<PartitionCursor>;
 
 export interface ListPartitionCursorsResponse {
   /** The partition cursors from this request. */
@@ -473,7 +486,7 @@ export interface ListPartitionCursorsResponse {
 }
 
 export const ListPartitionCursorsResponse: Schema.Schema<ListPartitionCursorsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionCursors: Schema.optional(Schema.Array(PartitionCursor)),
       nextPageToken: Schema.optional(Schema.String),
@@ -492,7 +505,7 @@ export interface ComputeMessageStatsRequest {
 }
 
 export const ComputeMessageStatsRequest: Schema.Schema<ComputeMessageStatsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partition: Schema.optional(Schema.String),
       startCursor: Schema.optional(Cursor),
@@ -514,7 +527,7 @@ export interface ComputeMessageStatsResponse {
 }
 
 export const ComputeMessageStatsResponse: Schema.Schema<ComputeMessageStatsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageCount: Schema.optional(Schema.String),
       messageBytes: Schema.optional(Schema.String),
@@ -531,7 +544,7 @@ export interface ComputeHeadCursorRequest {
 }
 
 export const ComputeHeadCursorRequest: Schema.Schema<ComputeHeadCursorRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partition: Schema.optional(Schema.String),
     }),
@@ -545,7 +558,7 @@ export interface ComputeHeadCursorResponse {
 }
 
 export const ComputeHeadCursorResponse: Schema.Schema<ComputeHeadCursorResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headCursor: Schema.optional(Cursor),
     }),
@@ -561,7 +574,7 @@ export interface ComputeTimeCursorRequest {
 }
 
 export const ComputeTimeCursorRequest: Schema.Schema<ComputeTimeCursorRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partition: Schema.optional(Schema.String),
       target: Schema.optional(TimeTarget),
@@ -576,7 +589,7 @@ export interface ComputeTimeCursorResponse {
 }
 
 export const ComputeTimeCursorResponse: Schema.Schema<ComputeTimeCursorResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cursor: Schema.optional(Cursor),
     }),
@@ -587,7 +600,7 @@ export const ComputeTimeCursorResponse: Schema.Schema<ComputeTimeCursorResponse>
 export interface SeekSubscriptionResponse {}
 
 export const SeekSubscriptionResponse: Schema.Schema<SeekSubscriptionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SeekSubscriptionResponse",
   }) as any as Schema.Schema<SeekSubscriptionResponse>;
 
@@ -603,7 +616,7 @@ export interface OperationMetadata {
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -631,26 +644,27 @@ export interface ListAdminProjectsLocationsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListAdminProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdminProjectsLocationsOperationsRequest>;
+export const ListAdminProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdminProjectsLocationsOperationsRequest>;
 
 export type ListAdminProjectsLocationsOperationsResponse =
   ListOperationsResponse;
 export const ListAdminProjectsLocationsOperationsResponse =
-  ListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListAdminProjectsLocationsOperationsError = DefaultErrors;
 
@@ -660,7 +674,7 @@ export const listAdminProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListAdminProjectsLocationsOperationsResponse,
   ListAdminProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsOperationsRequest,
   output: ListAdminProjectsLocationsOperationsResponse,
   errors: [],
@@ -675,18 +689,20 @@ export interface GetAdminProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetAdminProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdminProjectsLocationsOperationsRequest>;
+export const GetAdminProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdminProjectsLocationsOperationsRequest>;
 
 export type GetAdminProjectsLocationsOperationsResponse = Operation;
-export const GetAdminProjectsLocationsOperationsResponse = Operation;
+export const GetAdminProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetAdminProjectsLocationsOperationsError = DefaultErrors;
 
@@ -696,7 +712,7 @@ export const getAdminProjectsLocationsOperations: API.OperationMethod<
   GetAdminProjectsLocationsOperationsResponse,
   GetAdminProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminProjectsLocationsOperationsRequest,
   output: GetAdminProjectsLocationsOperationsResponse,
   errors: [],
@@ -707,18 +723,20 @@ export interface DeleteAdminProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const DeleteAdminProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdminProjectsLocationsOperationsRequest>;
+export const DeleteAdminProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdminProjectsLocationsOperationsRequest>;
 
 export type DeleteAdminProjectsLocationsOperationsResponse = Empty;
-export const DeleteAdminProjectsLocationsOperationsResponse = Empty;
+export const DeleteAdminProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdminProjectsLocationsOperationsError = DefaultErrors;
 
@@ -728,7 +746,7 @@ export const deleteAdminProjectsLocationsOperations: API.OperationMethod<
   DeleteAdminProjectsLocationsOperationsResponse,
   DeleteAdminProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdminProjectsLocationsOperationsRequest,
   output: DeleteAdminProjectsLocationsOperationsResponse,
   errors: [],
@@ -741,20 +759,22 @@ export interface CancelAdminProjectsLocationsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelAdminProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelAdminProjectsLocationsOperationsRequest>;
+export const CancelAdminProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelAdminProjectsLocationsOperationsRequest>;
 
 export type CancelAdminProjectsLocationsOperationsResponse = Empty;
-export const CancelAdminProjectsLocationsOperationsResponse = Empty;
+export const CancelAdminProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelAdminProjectsLocationsOperationsError = DefaultErrors;
 
@@ -764,7 +784,7 @@ export const cancelAdminProjectsLocationsOperations: API.OperationMethod<
   CancelAdminProjectsLocationsOperationsResponse,
   CancelAdminProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAdminProjectsLocationsOperationsRequest,
   output: CancelAdminProjectsLocationsOperationsResponse,
   errors: [],
@@ -779,21 +799,23 @@ export interface CreateAdminProjectsLocationsTopicsRequest {
   body?: Topic;
 }
 
-export const CreateAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  topicId: Schema.optional(Schema.String).pipe(T.HttpQuery("topicId")),
-  body: Schema.optional(Topic).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdminProjectsLocationsTopicsRequest>;
+export const CreateAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    topicId: Schema.optional(Schema.String).pipe(T.HttpQuery("topicId")),
+    body: Schema.optional(Topic).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdminProjectsLocationsTopicsRequest>;
 
 export type CreateAdminProjectsLocationsTopicsResponse = Topic;
-export const CreateAdminProjectsLocationsTopicsResponse = Topic;
+export const CreateAdminProjectsLocationsTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type CreateAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -803,7 +825,7 @@ export const createAdminProjectsLocationsTopics: API.OperationMethod<
   CreateAdminProjectsLocationsTopicsResponse,
   CreateAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsTopicsRequest,
   output: CreateAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -814,18 +836,20 @@ export interface GetAdminProjectsLocationsTopicsRequest {
   name: string;
 }
 
-export const GetAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdminProjectsLocationsTopicsRequest>;
+export const GetAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdminProjectsLocationsTopicsRequest>;
 
 export type GetAdminProjectsLocationsTopicsResponse = Topic;
-export const GetAdminProjectsLocationsTopicsResponse = Topic;
+export const GetAdminProjectsLocationsTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type GetAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -835,7 +859,7 @@ export const getAdminProjectsLocationsTopics: API.OperationMethod<
   GetAdminProjectsLocationsTopicsResponse,
   GetAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminProjectsLocationsTopicsRequest,
   output: GetAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -846,19 +870,20 @@ export interface GetPartitionsAdminProjectsLocationsTopicsRequest {
   name: string;
 }
 
-export const GetPartitionsAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}/partitions",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPartitionsAdminProjectsLocationsTopicsRequest>;
+export const GetPartitionsAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}/partitions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPartitionsAdminProjectsLocationsTopicsRequest>;
 
 export type GetPartitionsAdminProjectsLocationsTopicsResponse = TopicPartitions;
 export const GetPartitionsAdminProjectsLocationsTopicsResponse =
-  TopicPartitions;
+  /*@__PURE__*/ /*#__PURE__*/ TopicPartitions;
 
 export type GetPartitionsAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -868,7 +893,7 @@ export const getPartitionsAdminProjectsLocationsTopics: API.OperationMethod<
   GetPartitionsAdminProjectsLocationsTopicsResponse,
   GetPartitionsAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartitionsAdminProjectsLocationsTopicsRequest,
   output: GetPartitionsAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -883,20 +908,22 @@ export interface ListAdminProjectsLocationsTopicsRequest {
   pageToken?: string;
 }
 
-export const ListAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdminProjectsLocationsTopicsRequest>;
+export const ListAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdminProjectsLocationsTopicsRequest>;
 
 export type ListAdminProjectsLocationsTopicsResponse = ListTopicsResponse;
-export const ListAdminProjectsLocationsTopicsResponse = ListTopicsResponse;
+export const ListAdminProjectsLocationsTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTopicsResponse;
 
 export type ListAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -906,7 +933,7 @@ export const listAdminProjectsLocationsTopics: API.PaginatedOperationMethod<
   ListAdminProjectsLocationsTopicsResponse,
   ListAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsTopicsRequest,
   output: ListAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -925,21 +952,23 @@ export interface PatchAdminProjectsLocationsTopicsRequest {
   body?: Topic;
 }
 
-export const PatchAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Topic).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdminProjectsLocationsTopicsRequest>;
+export const PatchAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Topic).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdminProjectsLocationsTopicsRequest>;
 
 export type PatchAdminProjectsLocationsTopicsResponse = Topic;
-export const PatchAdminProjectsLocationsTopicsResponse = Topic;
+export const PatchAdminProjectsLocationsTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type PatchAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -949,7 +978,7 @@ export const patchAdminProjectsLocationsTopics: API.OperationMethod<
   PatchAdminProjectsLocationsTopicsResponse,
   PatchAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdminProjectsLocationsTopicsRequest,
   output: PatchAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -960,18 +989,20 @@ export interface DeleteAdminProjectsLocationsTopicsRequest {
   name: string;
 }
 
-export const DeleteAdminProjectsLocationsTopicsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdminProjectsLocationsTopicsRequest>;
+export const DeleteAdminProjectsLocationsTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/topics/{topicsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdminProjectsLocationsTopicsRequest>;
 
 export type DeleteAdminProjectsLocationsTopicsResponse = Empty;
-export const DeleteAdminProjectsLocationsTopicsResponse = Empty;
+export const DeleteAdminProjectsLocationsTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdminProjectsLocationsTopicsError = DefaultErrors;
 
@@ -981,7 +1012,7 @@ export const deleteAdminProjectsLocationsTopics: API.OperationMethod<
   DeleteAdminProjectsLocationsTopicsResponse,
   DeleteAdminProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdminProjectsLocationsTopicsRequest,
   output: DeleteAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -997,7 +1028,7 @@ export interface ListAdminProjectsLocationsTopicsSubscriptionsRequest {
 }
 
 export const ListAdminProjectsLocationsTopicsSubscriptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1012,7 +1043,7 @@ export const ListAdminProjectsLocationsTopicsSubscriptionsRequest =
 export type ListAdminProjectsLocationsTopicsSubscriptionsResponse =
   ListTopicSubscriptionsResponse;
 export const ListAdminProjectsLocationsTopicsSubscriptionsResponse =
-  ListTopicSubscriptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTopicSubscriptionsResponse;
 
 export type ListAdminProjectsLocationsTopicsSubscriptionsError = DefaultErrors;
 
@@ -1022,7 +1053,7 @@ export const listAdminProjectsLocationsTopicsSubscriptions: API.PaginatedOperati
   ListAdminProjectsLocationsTopicsSubscriptionsResponse,
   ListAdminProjectsLocationsTopicsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsTopicsSubscriptionsRequest,
   output: ListAdminProjectsLocationsTopicsSubscriptionsResponse,
   errors: [],
@@ -1043,24 +1074,28 @@ export interface CreateAdminProjectsLocationsSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const CreateAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  subscriptionId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("subscriptionId"),
-  ),
-  skipBacklog: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("skipBacklog")),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdminProjectsLocationsSubscriptionsRequest>;
+export const CreateAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    subscriptionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("subscriptionId"),
+    ),
+    skipBacklog: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("skipBacklog"),
+    ),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdminProjectsLocationsSubscriptionsRequest>;
 
 export type CreateAdminProjectsLocationsSubscriptionsResponse = Subscription;
-export const CreateAdminProjectsLocationsSubscriptionsResponse = Subscription;
+export const CreateAdminProjectsLocationsSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type CreateAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1070,7 +1105,7 @@ export const createAdminProjectsLocationsSubscriptions: API.OperationMethod<
   CreateAdminProjectsLocationsSubscriptionsResponse,
   CreateAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsSubscriptionsRequest,
   output: CreateAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1081,18 +1116,20 @@ export interface GetAdminProjectsLocationsSubscriptionsRequest {
   name: string;
 }
 
-export const GetAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdminProjectsLocationsSubscriptionsRequest>;
+export const GetAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdminProjectsLocationsSubscriptionsRequest>;
 
 export type GetAdminProjectsLocationsSubscriptionsResponse = Subscription;
-export const GetAdminProjectsLocationsSubscriptionsResponse = Subscription;
+export const GetAdminProjectsLocationsSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type GetAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1102,7 +1139,7 @@ export const getAdminProjectsLocationsSubscriptions: API.OperationMethod<
   GetAdminProjectsLocationsSubscriptionsResponse,
   GetAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminProjectsLocationsSubscriptionsRequest,
   output: GetAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1117,22 +1154,23 @@ export interface ListAdminProjectsLocationsSubscriptionsRequest {
   pageToken?: string;
 }
 
-export const ListAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdminProjectsLocationsSubscriptionsRequest>;
+export const ListAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdminProjectsLocationsSubscriptionsRequest>;
 
 export type ListAdminProjectsLocationsSubscriptionsResponse =
   ListSubscriptionsResponse;
 export const ListAdminProjectsLocationsSubscriptionsResponse =
-  ListSubscriptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListSubscriptionsResponse;
 
 export type ListAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1142,7 +1180,7 @@ export const listAdminProjectsLocationsSubscriptions: API.PaginatedOperationMeth
   ListAdminProjectsLocationsSubscriptionsResponse,
   ListAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsSubscriptionsRequest,
   output: ListAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1161,21 +1199,23 @@ export interface PatchAdminProjectsLocationsSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const PatchAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdminProjectsLocationsSubscriptionsRequest>;
+export const PatchAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdminProjectsLocationsSubscriptionsRequest>;
 
 export type PatchAdminProjectsLocationsSubscriptionsResponse = Subscription;
-export const PatchAdminProjectsLocationsSubscriptionsResponse = Subscription;
+export const PatchAdminProjectsLocationsSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type PatchAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1185,7 +1225,7 @@ export const patchAdminProjectsLocationsSubscriptions: API.OperationMethod<
   PatchAdminProjectsLocationsSubscriptionsResponse,
   PatchAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdminProjectsLocationsSubscriptionsRequest,
   output: PatchAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1196,18 +1236,20 @@ export interface DeleteAdminProjectsLocationsSubscriptionsRequest {
   name: string;
 }
 
-export const DeleteAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdminProjectsLocationsSubscriptionsRequest>;
+export const DeleteAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdminProjectsLocationsSubscriptionsRequest>;
 
 export type DeleteAdminProjectsLocationsSubscriptionsResponse = Empty;
-export const DeleteAdminProjectsLocationsSubscriptionsResponse = Empty;
+export const DeleteAdminProjectsLocationsSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1217,7 +1259,7 @@ export const deleteAdminProjectsLocationsSubscriptions: API.OperationMethod<
   DeleteAdminProjectsLocationsSubscriptionsResponse,
   DeleteAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdminProjectsLocationsSubscriptionsRequest,
   output: DeleteAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1230,20 +1272,22 @@ export interface SeekAdminProjectsLocationsSubscriptionsRequest {
   body?: SeekSubscriptionRequest;
 }
 
-export const SeekAdminProjectsLocationsSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SeekSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}:seek",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SeekAdminProjectsLocationsSubscriptionsRequest>;
+export const SeekAdminProjectsLocationsSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SeekSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/subscriptions/{subscriptionsId}:seek",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SeekAdminProjectsLocationsSubscriptionsRequest>;
 
 export type SeekAdminProjectsLocationsSubscriptionsResponse = Operation;
-export const SeekAdminProjectsLocationsSubscriptionsResponse = Operation;
+export const SeekAdminProjectsLocationsSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type SeekAdminProjectsLocationsSubscriptionsError = DefaultErrors;
 
@@ -1253,7 +1297,7 @@ export const seekAdminProjectsLocationsSubscriptions: API.OperationMethod<
   SeekAdminProjectsLocationsSubscriptionsResponse,
   SeekAdminProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SeekAdminProjectsLocationsSubscriptionsRequest,
   output: SeekAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1268,23 +1312,25 @@ export interface CreateAdminProjectsLocationsReservationsRequest {
   body?: Reservation;
 }
 
-export const CreateAdminProjectsLocationsReservationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  reservationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reservationId"),
-  ),
-  body: Schema.optional(Reservation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdminProjectsLocationsReservationsRequest>;
+export const CreateAdminProjectsLocationsReservationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    reservationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("reservationId"),
+    ),
+    body: Schema.optional(Reservation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdminProjectsLocationsReservationsRequest>;
 
 export type CreateAdminProjectsLocationsReservationsResponse = Reservation;
-export const CreateAdminProjectsLocationsReservationsResponse = Reservation;
+export const CreateAdminProjectsLocationsReservationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Reservation;
 
 export type CreateAdminProjectsLocationsReservationsError = DefaultErrors;
 
@@ -1294,7 +1340,7 @@ export const createAdminProjectsLocationsReservations: API.OperationMethod<
   CreateAdminProjectsLocationsReservationsResponse,
   CreateAdminProjectsLocationsReservationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdminProjectsLocationsReservationsRequest,
   output: CreateAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1305,18 +1351,20 @@ export interface GetAdminProjectsLocationsReservationsRequest {
   name: string;
 }
 
-export const GetAdminProjectsLocationsReservationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdminProjectsLocationsReservationsRequest>;
+export const GetAdminProjectsLocationsReservationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdminProjectsLocationsReservationsRequest>;
 
 export type GetAdminProjectsLocationsReservationsResponse = Reservation;
-export const GetAdminProjectsLocationsReservationsResponse = Reservation;
+export const GetAdminProjectsLocationsReservationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Reservation;
 
 export type GetAdminProjectsLocationsReservationsError = DefaultErrors;
 
@@ -1326,7 +1374,7 @@ export const getAdminProjectsLocationsReservations: API.OperationMethod<
   GetAdminProjectsLocationsReservationsResponse,
   GetAdminProjectsLocationsReservationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdminProjectsLocationsReservationsRequest,
   output: GetAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1341,22 +1389,23 @@ export interface ListAdminProjectsLocationsReservationsRequest {
   pageToken?: string;
 }
 
-export const ListAdminProjectsLocationsReservationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdminProjectsLocationsReservationsRequest>;
+export const ListAdminProjectsLocationsReservationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdminProjectsLocationsReservationsRequest>;
 
 export type ListAdminProjectsLocationsReservationsResponse =
   ListReservationsResponse;
 export const ListAdminProjectsLocationsReservationsResponse =
-  ListReservationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListReservationsResponse;
 
 export type ListAdminProjectsLocationsReservationsError = DefaultErrors;
 
@@ -1366,7 +1415,7 @@ export const listAdminProjectsLocationsReservations: API.PaginatedOperationMetho
   ListAdminProjectsLocationsReservationsResponse,
   ListAdminProjectsLocationsReservationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsReservationsRequest,
   output: ListAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1385,21 +1434,23 @@ export interface PatchAdminProjectsLocationsReservationsRequest {
   body?: Reservation;
 }
 
-export const PatchAdminProjectsLocationsReservationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Reservation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdminProjectsLocationsReservationsRequest>;
+export const PatchAdminProjectsLocationsReservationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Reservation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdminProjectsLocationsReservationsRequest>;
 
 export type PatchAdminProjectsLocationsReservationsResponse = Reservation;
-export const PatchAdminProjectsLocationsReservationsResponse = Reservation;
+export const PatchAdminProjectsLocationsReservationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Reservation;
 
 export type PatchAdminProjectsLocationsReservationsError = DefaultErrors;
 
@@ -1409,7 +1460,7 @@ export const patchAdminProjectsLocationsReservations: API.OperationMethod<
   PatchAdminProjectsLocationsReservationsResponse,
   PatchAdminProjectsLocationsReservationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdminProjectsLocationsReservationsRequest,
   output: PatchAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1420,18 +1471,20 @@ export interface DeleteAdminProjectsLocationsReservationsRequest {
   name: string;
 }
 
-export const DeleteAdminProjectsLocationsReservationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdminProjectsLocationsReservationsRequest>;
+export const DeleteAdminProjectsLocationsReservationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/admin/projects/{projectsId}/locations/{locationsId}/reservations/{reservationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdminProjectsLocationsReservationsRequest>;
 
 export type DeleteAdminProjectsLocationsReservationsResponse = Empty;
-export const DeleteAdminProjectsLocationsReservationsResponse = Empty;
+export const DeleteAdminProjectsLocationsReservationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdminProjectsLocationsReservationsError = DefaultErrors;
 
@@ -1441,7 +1494,7 @@ export const deleteAdminProjectsLocationsReservations: API.OperationMethod<
   DeleteAdminProjectsLocationsReservationsResponse,
   DeleteAdminProjectsLocationsReservationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdminProjectsLocationsReservationsRequest,
   output: DeleteAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1457,7 +1510,7 @@ export interface ListAdminProjectsLocationsReservationsTopicsRequest {
 }
 
 export const ListAdminProjectsLocationsReservationsTopicsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1472,7 +1525,7 @@ export const ListAdminProjectsLocationsReservationsTopicsRequest =
 export type ListAdminProjectsLocationsReservationsTopicsResponse =
   ListReservationTopicsResponse;
 export const ListAdminProjectsLocationsReservationsTopicsResponse =
-  ListReservationTopicsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListReservationTopicsResponse;
 
 export type ListAdminProjectsLocationsReservationsTopicsError = DefaultErrors;
 
@@ -1482,7 +1535,7 @@ export const listAdminProjectsLocationsReservationsTopics: API.PaginatedOperatio
   ListAdminProjectsLocationsReservationsTopicsResponse,
   ListAdminProjectsLocationsReservationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdminProjectsLocationsReservationsTopicsRequest,
   output: ListAdminProjectsLocationsReservationsTopicsResponse,
   errors: [],
@@ -1500,7 +1553,7 @@ export interface CommitCursorCursorProjectsLocationsSubscriptionsRequest {
 }
 
 export const CommitCursorCursorProjectsLocationsSubscriptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     subscription: Schema.String.pipe(T.HttpPath("subscription")),
     body: Schema.optional(CommitCursorRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1515,7 +1568,7 @@ export const CommitCursorCursorProjectsLocationsSubscriptionsRequest =
 export type CommitCursorCursorProjectsLocationsSubscriptionsResponse =
   CommitCursorResponse;
 export const CommitCursorCursorProjectsLocationsSubscriptionsResponse =
-  CommitCursorResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CommitCursorResponse;
 
 export type CommitCursorCursorProjectsLocationsSubscriptionsError =
   DefaultErrors;
@@ -1526,7 +1579,7 @@ export const commitCursorCursorProjectsLocationsSubscriptions: API.OperationMeth
   CommitCursorCursorProjectsLocationsSubscriptionsResponse,
   CommitCursorCursorProjectsLocationsSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitCursorCursorProjectsLocationsSubscriptionsRequest,
   output: CommitCursorCursorProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1542,7 +1595,7 @@ export interface ListCursorProjectsLocationsSubscriptionsCursorsRequest {
 }
 
 export const ListCursorProjectsLocationsSubscriptionsCursorsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1557,7 +1610,7 @@ export const ListCursorProjectsLocationsSubscriptionsCursorsRequest =
 export type ListCursorProjectsLocationsSubscriptionsCursorsResponse =
   ListPartitionCursorsResponse;
 export const ListCursorProjectsLocationsSubscriptionsCursorsResponse =
-  ListPartitionCursorsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPartitionCursorsResponse;
 
 export type ListCursorProjectsLocationsSubscriptionsCursorsError =
   DefaultErrors;
@@ -1568,7 +1621,7 @@ export const listCursorProjectsLocationsSubscriptionsCursors: API.PaginatedOpera
   ListCursorProjectsLocationsSubscriptionsCursorsResponse,
   ListCursorProjectsLocationsSubscriptionsCursorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCursorProjectsLocationsSubscriptionsCursorsRequest,
   output: ListCursorProjectsLocationsSubscriptionsCursorsResponse,
   errors: [],
@@ -1586,7 +1639,7 @@ export interface ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest {
 }
 
 export const ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     topic: Schema.String.pipe(T.HttpPath("topic")),
     body: Schema.optional(ComputeMessageStatsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1601,7 +1654,7 @@ export const ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest =
 export type ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse =
   ComputeMessageStatsResponse;
 export const ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse =
-  ComputeMessageStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeMessageStatsResponse;
 
 export type ComputeMessageStatsTopicStatsProjectsLocationsTopicsError =
   DefaultErrors;
@@ -1612,7 +1665,7 @@ export const computeMessageStatsTopicStatsProjectsLocationsTopics: API.Operation
   ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse,
   ComputeMessageStatsTopicStatsProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse,
   errors: [],
@@ -1626,7 +1679,7 @@ export interface ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest {
 }
 
 export const ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     topic: Schema.String.pipe(T.HttpPath("topic")),
     body: Schema.optional(ComputeHeadCursorRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1641,7 +1694,7 @@ export const ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest =
 export type ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse =
   ComputeHeadCursorResponse;
 export const ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse =
-  ComputeHeadCursorResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeHeadCursorResponse;
 
 export type ComputeHeadCursorTopicStatsProjectsLocationsTopicsError =
   DefaultErrors;
@@ -1652,7 +1705,7 @@ export const computeHeadCursorTopicStatsProjectsLocationsTopics: API.OperationMe
   ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse,
   ComputeHeadCursorTopicStatsProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse,
   errors: [],
@@ -1666,7 +1719,7 @@ export interface ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest {
 }
 
 export const ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     topic: Schema.String.pipe(T.HttpPath("topic")),
     body: Schema.optional(ComputeTimeCursorRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1681,7 +1734,7 @@ export const ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest =
 export type ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse =
   ComputeTimeCursorResponse;
 export const ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse =
-  ComputeTimeCursorResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeTimeCursorResponse;
 
 export type ComputeTimeCursorTopicStatsProjectsLocationsTopicsError =
   DefaultErrors;
@@ -1692,7 +1745,7 @@ export const computeTimeCursorTopicStatsProjectsLocationsTopics: API.OperationMe
   ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse,
   ComputeTimeCursorTopicStatsProjectsLocationsTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse,
   errors: [],

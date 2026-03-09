@@ -39,7 +39,7 @@ export interface NotificationSubscription {
 }
 
 export const NotificationSubscription: Schema.Schema<NotificationSubscription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callBackUri: Schema.optional(Schema.String),
       allManagedAccounts: Schema.optional(Schema.Boolean),
@@ -59,7 +59,7 @@ export interface ListNotificationSubscriptionsResponse {
 }
 
 export const ListNotificationSubscriptionsResponse: Schema.Schema<ListNotificationSubscriptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notificationSubscriptions: Schema.optional(
         Schema.Array(NotificationSubscription),
@@ -102,16 +102,17 @@ export interface ProductChange {
     | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
@@ -135,7 +136,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventTime: Schema.optional(Schema.String),
       resourceId: Schema.optional(Schema.String),
@@ -153,9 +154,10 @@ export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessag
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -168,22 +170,23 @@ export interface CreateAccountsNotificationsubscriptionsRequest {
   body?: NotificationSubscription;
 }
 
-export const CreateAccountsNotificationsubscriptionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsNotificationsubscriptionsRequest>;
+export const CreateAccountsNotificationsubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsNotificationsubscriptionsRequest>;
 
 export type CreateAccountsNotificationsubscriptionsResponse =
   NotificationSubscription;
 export const CreateAccountsNotificationsubscriptionsResponse =
-  NotificationSubscription;
+  /*@__PURE__*/ /*#__PURE__*/ NotificationSubscription;
 
 export type CreateAccountsNotificationsubscriptionsError = DefaultErrors;
 
@@ -193,7 +196,7 @@ export const createAccountsNotificationsubscriptions: API.OperationMethod<
   CreateAccountsNotificationsubscriptionsResponse,
   CreateAccountsNotificationsubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsNotificationsubscriptionsRequest,
   output: CreateAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -208,23 +211,24 @@ export interface PatchAccountsNotificationsubscriptionsRequest {
   body?: NotificationSubscription;
 }
 
-export const PatchAccountsNotificationsubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsNotificationsubscriptionsRequest>;
+export const PatchAccountsNotificationsubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(NotificationSubscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsNotificationsubscriptionsRequest>;
 
 export type PatchAccountsNotificationsubscriptionsResponse =
   NotificationSubscription;
 export const PatchAccountsNotificationsubscriptionsResponse =
-  NotificationSubscription;
+  /*@__PURE__*/ /*#__PURE__*/ NotificationSubscription;
 
 export type PatchAccountsNotificationsubscriptionsError = DefaultErrors;
 
@@ -234,7 +238,7 @@ export const patchAccountsNotificationsubscriptions: API.OperationMethod<
   PatchAccountsNotificationsubscriptionsResponse,
   PatchAccountsNotificationsubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsNotificationsubscriptionsRequest,
   output: PatchAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -249,22 +253,23 @@ export interface ListAccountsNotificationsubscriptionsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsNotificationsubscriptionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsNotificationsubscriptionsRequest>;
+export const ListAccountsNotificationsubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsNotificationsubscriptionsRequest>;
 
 export type ListAccountsNotificationsubscriptionsResponse =
   ListNotificationSubscriptionsResponse;
 export const ListAccountsNotificationsubscriptionsResponse =
-  ListNotificationSubscriptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNotificationSubscriptionsResponse;
 
 export type ListAccountsNotificationsubscriptionsError = DefaultErrors;
 
@@ -274,7 +279,7 @@ export const listAccountsNotificationsubscriptions: API.PaginatedOperationMethod
   ListAccountsNotificationsubscriptionsResponse,
   ListAccountsNotificationsubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsNotificationsubscriptionsRequest,
   output: ListAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -289,20 +294,21 @@ export interface GetAccountsNotificationsubscriptionsRequest {
   name: string;
 }
 
-export const GetAccountsNotificationsubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsNotificationsubscriptionsRequest>;
+export const GetAccountsNotificationsubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsNotificationsubscriptionsRequest>;
 
 export type GetAccountsNotificationsubscriptionsResponse =
   NotificationSubscription;
 export const GetAccountsNotificationsubscriptionsResponse =
-  NotificationSubscription;
+  /*@__PURE__*/ /*#__PURE__*/ NotificationSubscription;
 
 export type GetAccountsNotificationsubscriptionsError = DefaultErrors;
 
@@ -312,7 +318,7 @@ export const getAccountsNotificationsubscriptions: API.OperationMethod<
   GetAccountsNotificationsubscriptionsResponse,
   GetAccountsNotificationsubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsNotificationsubscriptionsRequest,
   output: GetAccountsNotificationsubscriptionsResponse,
   errors: [],
@@ -323,18 +329,20 @@ export interface DeleteAccountsNotificationsubscriptionsRequest {
   name: string;
 }
 
-export const DeleteAccountsNotificationsubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsNotificationsubscriptionsRequest>;
+export const DeleteAccountsNotificationsubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "notifications/v1/accounts/{accountsId}/notificationsubscriptions/{notificationsubscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsNotificationsubscriptionsRequest>;
 
 export type DeleteAccountsNotificationsubscriptionsResponse = Empty;
-export const DeleteAccountsNotificationsubscriptionsResponse = Empty;
+export const DeleteAccountsNotificationsubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsNotificationsubscriptionsError = DefaultErrors;
 
@@ -344,7 +352,7 @@ export const deleteAccountsNotificationsubscriptions: API.OperationMethod<
   DeleteAccountsNotificationsubscriptionsResponse,
   DeleteAccountsNotificationsubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsNotificationsubscriptionsRequest,
   output: DeleteAccountsNotificationsubscriptionsResponse,
   errors: [],

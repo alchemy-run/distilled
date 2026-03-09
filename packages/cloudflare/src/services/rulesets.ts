@@ -18,7 +18,9 @@ import { type DefaultErrors } from "../errors";
 
 export interface GetPhasRequest {}
 
-export const GetPhasRequest = Schema.Struct({}).pipe(
+export const GetPhasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/rulesets/phases/{rulesetPhase}/entrypoint",
@@ -123,7 +125,7 @@ export interface GetPhasResponse {
   description?: string | null;
 }
 
-export const GetPhasResponse = Schema.Struct({
+export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -358,7 +360,7 @@ export const getPhas: API.OperationMethod<
   GetPhasResponse,
   GetPhasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhasRequest,
   output: GetPhasResponse,
   errors: [],
@@ -427,7 +429,7 @@ export interface PutPhasRequest {
   )[];
 }
 
-export const PutPhasRequest = Schema.Struct({
+export const PutPhasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
@@ -658,7 +660,7 @@ export interface PutPhasResponse {
   description?: string | null;
 }
 
-export const PutPhasResponse = Schema.Struct({
+export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -893,7 +895,7 @@ export const putPhas: API.OperationMethod<
   PutPhasResponse,
   PutPhasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPhasRequest,
   output: PutPhasResponse,
   errors: [],
@@ -907,7 +909,7 @@ export interface GetPhasVersionRequest {
   rulesetVersion: string;
 }
 
-export const GetPhasVersionRequest = Schema.Struct({
+export const GetPhasVersionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetVersion: Schema.String.pipe(T.HttpPath("rulesetVersion")),
 }).pipe(
   T.Http({
@@ -1014,222 +1016,228 @@ export interface GetPhasVersionResponse {
   description?: string | null;
 }
 
-export const GetPhasVersionResponse = Schema.Struct({
-  id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-  lastUpdated: Schema.String,
-  name: Schema.String,
-  phase: Schema.Literals([
-    "ddos_l4",
-    "ddos_l7",
-    "http_config_settings",
-    "http_custom_errors",
-    "http_log_custom_fields",
-    "http_ratelimit",
-    "http_request_cache_settings",
-    "http_request_dynamic_redirect",
-    "http_request_firewall_custom",
-    "http_request_firewall_managed",
-    "http_request_late_transform",
-    "http_request_origin",
-    "http_request_redirect",
-    "http_request_sanitize",
-    "http_request_sbfm",
-    "http_request_transform",
-    "http_response_compression",
-    "http_response_firewall_managed",
-    "http_response_headers_transform",
-    "magic_transit",
-    "magic_transit_ids_managed",
-    "magic_transit_managed",
-    "magic_transit_ratelimit",
-  ]),
-  rules: Schema.Array(
-    Schema.Union([
-      Schema.Unknown,
-      Schema.Struct({
-        lastUpdated: Schema.String,
-        version: Schema.String,
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        action: Schema.optional(
-          Schema.Union([Schema.Literal("challenge"), Schema.Null]),
-        ),
-        actionParameters: Schema.optional(
-          Schema.Union([Schema.Unknown, Schema.Null]),
-        ),
-        categories: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        description: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        exposedCredentialCheck: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              passwordExpression: Schema.String,
-              usernameExpression: Schema.String,
-            }).pipe(
-              Schema.encodeKeys({
-                passwordExpression: "password_expression",
-                usernameExpression: "username_expression",
-              }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        logging: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-        ratelimit: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              characteristics: Schema.Array(Schema.String),
-              period: Schema.Number,
-              countingExpression: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              mitigationTimeout: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requestsPerPeriod: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requestsToOrigin: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-              scorePerPeriod: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              scoreResponseHeaderName: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                characteristics: "characteristics",
-                period: "period",
-                countingExpression: "counting_expression",
-                mitigationTimeout: "mitigation_timeout",
-                requestsPerPeriod: "requests_per_period",
-                requestsToOrigin: "requests_to_origin",
-                scorePerPeriod: "score_per_period",
-                scoreResponseHeaderName: "score_response_header_name",
-              }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          lastUpdated: "last_updated",
-          version: "version",
-          id: "id",
-          action: "action",
-          actionParameters: "action_parameters",
-          categories: "categories",
-          description: "description",
-          enabled: "enabled",
-          exposedCredentialCheck: "exposed_credential_check",
-          expression: "expression",
-          logging: "logging",
-          ratelimit: "ratelimit",
-          ref: "ref",
-        }),
-      ),
-      Schema.Struct({
-        lastUpdated: Schema.String,
-        version: Schema.String,
-        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        action: Schema.optional(
-          Schema.Union([Schema.Literal("js_challenge"), Schema.Null]),
-        ),
-        actionParameters: Schema.optional(
-          Schema.Union([Schema.Unknown, Schema.Null]),
-        ),
-        categories: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        description: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        exposedCredentialCheck: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              passwordExpression: Schema.String,
-              usernameExpression: Schema.String,
-            }).pipe(
-              Schema.encodeKeys({
-                passwordExpression: "password_expression",
-                usernameExpression: "username_expression",
-              }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        logging: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-        ratelimit: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              characteristics: Schema.Array(Schema.String),
-              period: Schema.Number,
-              countingExpression: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              mitigationTimeout: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requestsPerPeriod: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requestsToOrigin: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-              scorePerPeriod: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              scoreResponseHeaderName: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                characteristics: "characteristics",
-                period: "period",
-                countingExpression: "counting_expression",
-                mitigationTimeout: "mitigation_timeout",
-                requestsPerPeriod: "requests_per_period",
-                requestsToOrigin: "requests_to_origin",
-                scorePerPeriod: "score_per_period",
-                scoreResponseHeaderName: "score_response_header_name",
-              }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          lastUpdated: "last_updated",
-          version: "version",
-          id: "id",
-          action: "action",
-          actionParameters: "action_parameters",
-          categories: "categories",
-          description: "description",
-          enabled: "enabled",
-          exposedCredentialCheck: "exposed_credential_check",
-          expression: "expression",
-          logging: "logging",
-          ratelimit: "ratelimit",
-          ref: "ref",
-        }),
-      ),
+export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    lastUpdated: Schema.String,
+    name: Schema.String,
+    phase: Schema.Literals([
+      "ddos_l4",
+      "ddos_l7",
+      "http_config_settings",
+      "http_custom_errors",
+      "http_log_custom_fields",
+      "http_ratelimit",
+      "http_request_cache_settings",
+      "http_request_dynamic_redirect",
+      "http_request_firewall_custom",
+      "http_request_firewall_managed",
+      "http_request_late_transform",
+      "http_request_origin",
+      "http_request_redirect",
+      "http_request_sanitize",
+      "http_request_sbfm",
+      "http_request_transform",
+      "http_response_compression",
+      "http_response_firewall_managed",
+      "http_response_headers_transform",
+      "magic_transit",
+      "magic_transit_ids_managed",
+      "magic_transit_managed",
+      "magic_transit_ratelimit",
     ]),
-  ),
-  version: Schema.String,
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
+    rules: Schema.Array(
+      Schema.Union([
+        Schema.Unknown,
+        Schema.Struct({
+          lastUpdated: Schema.String,
+          version: Schema.String,
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          action: Schema.optional(
+            Schema.Union([Schema.Literal("challenge"), Schema.Null]),
+          ),
+          actionParameters: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          categories: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          exposedCredentialCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                passwordExpression: Schema.String,
+                usernameExpression: Schema.String,
+              }).pipe(
+                Schema.encodeKeys({
+                  passwordExpression: "password_expression",
+                  usernameExpression: "username_expression",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          expression: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          logging: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          ratelimit: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                characteristics: Schema.Array(Schema.String),
+                period: Schema.Number,
+                countingExpression: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                mitigationTimeout: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requestsPerPeriod: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requestsToOrigin: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                scorePerPeriod: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                scoreResponseHeaderName: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  characteristics: "characteristics",
+                  period: "period",
+                  countingExpression: "counting_expression",
+                  mitigationTimeout: "mitigation_timeout",
+                  requestsPerPeriod: "requests_per_period",
+                  requestsToOrigin: "requests_to_origin",
+                  scorePerPeriod: "score_per_period",
+                  scoreResponseHeaderName: "score_response_header_name",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            lastUpdated: "last_updated",
+            version: "version",
+            id: "id",
+            action: "action",
+            actionParameters: "action_parameters",
+            categories: "categories",
+            description: "description",
+            enabled: "enabled",
+            exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
+          }),
+        ),
+        Schema.Struct({
+          lastUpdated: Schema.String,
+          version: Schema.String,
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          action: Schema.optional(
+            Schema.Union([Schema.Literal("js_challenge"), Schema.Null]),
+          ),
+          actionParameters: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          categories: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          exposedCredentialCheck: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                passwordExpression: Schema.String,
+                usernameExpression: Schema.String,
+              }).pipe(
+                Schema.encodeKeys({
+                  passwordExpression: "password_expression",
+                  usernameExpression: "username_expression",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          expression: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          logging: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+          ratelimit: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                characteristics: Schema.Array(Schema.String),
+                period: Schema.Number,
+                countingExpression: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                mitigationTimeout: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requestsPerPeriod: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requestsToOrigin: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                scorePerPeriod: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                scoreResponseHeaderName: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  characteristics: "characteristics",
+                  period: "period",
+                  countingExpression: "counting_expression",
+                  mitigationTimeout: "mitigation_timeout",
+                  requestsPerPeriod: "requests_per_period",
+                  requestsToOrigin: "requests_to_origin",
+                  scorePerPeriod: "score_per_period",
+                  scoreResponseHeaderName: "score_response_header_name",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            lastUpdated: "last_updated",
+            version: "version",
+            id: "id",
+            action: "action",
+            actionParameters: "action_parameters",
+            categories: "categories",
+            description: "description",
+            enabled: "enabled",
+            exposedCredentialCheck: "exposed_credential_check",
+            expression: "expression",
+            logging: "logging",
+            ratelimit: "ratelimit",
+            ref: "ref",
+          }),
+        ),
+      ]),
+    ),
+    version: Schema.String,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     kind: "kind",
@@ -1249,7 +1257,7 @@ export const getPhasVersion: API.OperationMethod<
   GetPhasVersionResponse,
   GetPhasVersionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPhasVersionRequest,
   output: GetPhasVersionResponse,
   errors: [],
@@ -1257,12 +1265,13 @@ export const getPhasVersion: API.OperationMethod<
 
 export interface ListPhasVersionsRequest {}
 
-export const ListPhasVersionsRequest = Schema.Struct({}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/{accountOrZone}/{accountOrZoneId}/rulesets/phases/{rulesetPhase}/entrypoint/versions",
-  }),
-) as unknown as Schema.Schema<ListPhasVersionsRequest>;
+export const ListPhasVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      path: "/{accountOrZone}/{accountOrZoneId}/rulesets/phases/{rulesetPhase}/entrypoint/versions",
+    }),
+  ) as unknown as Schema.Schema<ListPhasVersionsRequest>;
 
 export type ListPhasVersionsResponse = {
   id: string;
@@ -1297,51 +1306,52 @@ export type ListPhasVersionsResponse = {
   description?: string | null;
 }[];
 
-export const ListPhasVersionsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-    lastUpdated: Schema.String,
-    name: Schema.String,
-    phase: Schema.Literals([
-      "ddos_l4",
-      "ddos_l7",
-      "http_config_settings",
-      "http_custom_errors",
-      "http_log_custom_fields",
-      "http_ratelimit",
-      "http_request_cache_settings",
-      "http_request_dynamic_redirect",
-      "http_request_firewall_custom",
-      "http_request_firewall_managed",
-      "http_request_late_transform",
-      "http_request_origin",
-      "http_request_redirect",
-      "http_request_sanitize",
-      "http_request_sbfm",
-      "http_request_transform",
-      "http_response_compression",
-      "http_response_firewall_managed",
-      "http_response_headers_transform",
-      "magic_transit",
-      "magic_transit_ids_managed",
-      "magic_transit_managed",
-      "magic_transit_ratelimit",
-    ]),
-    version: Schema.String,
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      kind: "kind",
-      lastUpdated: "last_updated",
-      name: "name",
-      phase: "phase",
-      version: "version",
-      description: "description",
-    }),
-  ),
-) as unknown as Schema.Schema<ListPhasVersionsResponse>;
+export const ListPhasVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+      lastUpdated: Schema.String,
+      name: Schema.String,
+      phase: Schema.Literals([
+        "ddos_l4",
+        "ddos_l7",
+        "http_config_settings",
+        "http_custom_errors",
+        "http_log_custom_fields",
+        "http_ratelimit",
+        "http_request_cache_settings",
+        "http_request_dynamic_redirect",
+        "http_request_firewall_custom",
+        "http_request_firewall_managed",
+        "http_request_late_transform",
+        "http_request_origin",
+        "http_request_redirect",
+        "http_request_sanitize",
+        "http_request_sbfm",
+        "http_request_transform",
+        "http_response_compression",
+        "http_response_firewall_managed",
+        "http_response_headers_transform",
+        "magic_transit",
+        "magic_transit_ids_managed",
+        "magic_transit_managed",
+        "magic_transit_ratelimit",
+      ]),
+      version: Schema.String,
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        kind: "kind",
+        lastUpdated: "last_updated",
+        name: "name",
+        phase: "phase",
+        version: "version",
+        description: "description",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListPhasVersionsResponse>;
 
 export type ListPhasVersionsError = DefaultErrors;
 
@@ -1350,7 +1360,7 @@ export const listPhasVersions: API.OperationMethod<
   ListPhasVersionsResponse,
   ListPhasVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPhasVersionsRequest,
   output: ListPhasVersionsResponse,
   errors: [],
@@ -1404,7 +1414,7 @@ export interface CreateRuleRequest {
   ref?: string;
 }
 
-export const CreateRuleRequest = Schema.Struct({
+export const CreateRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
@@ -2324,7 +2334,7 @@ export interface CreateRuleResponse {
   description?: string | null;
 }
 
-export const CreateRuleResponse = Schema.Struct({
+export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -5265,7 +5275,7 @@ export const createRule: API.OperationMethod<
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [],
@@ -5316,7 +5326,7 @@ export interface PatchRuleRequest {
   ref?: string;
 }
 
-export const PatchRuleRequest = Schema.Struct({
+export const PatchRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -6237,7 +6247,7 @@ export interface PatchRuleResponse {
   description?: string | null;
 }
 
-export const PatchRuleResponse = Schema.Struct({
+export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -9178,7 +9188,7 @@ export const patchRule: API.OperationMethod<
   PatchRuleResponse,
   PatchRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRuleRequest,
   output: PatchRuleResponse,
   errors: [],
@@ -9189,7 +9199,7 @@ export interface DeleteRuleRequest {
   ruleId: string;
 }
 
-export const DeleteRuleRequest = Schema.Struct({
+export const DeleteRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
 }).pipe(
@@ -10020,7 +10030,7 @@ export interface DeleteRuleResponse {
   description?: string | null;
 }
 
-export const DeleteRuleResponse = Schema.Struct({
+export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -12961,7 +12971,7 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [],
@@ -12975,7 +12985,7 @@ export interface GetRulesetRequest {
   rulesetId: string;
 }
 
-export const GetRulesetRequest = Schema.Struct({
+export const GetRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
 }).pipe(
   T.Http({
@@ -13082,7 +13092,7 @@ export interface GetRulesetResponse {
   description?: string | null;
 }
 
-export const GetRulesetResponse = Schema.Struct({
+export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -13317,7 +13327,7 @@ export const getRuleset: API.OperationMethod<
   GetRulesetResponse,
   GetRulesetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRulesetRequest,
   output: GetRulesetResponse,
   errors: [],
@@ -13325,7 +13335,9 @@ export const getRuleset: API.OperationMethod<
 
 export interface ListRulesetsRequest {}
 
-export const ListRulesetsRequest = Schema.Struct({}).pipe(
+export const ListRulesetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/rulesets",
@@ -13365,7 +13377,7 @@ export type ListRulesetsResponse = {
   description?: string | null;
 }[];
 
-export const ListRulesetsResponse = Schema.Array(
+export const ListRulesetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     kind: Schema.Literals(["zone", "managed", "custom", "root"]),
@@ -13418,7 +13430,7 @@ export const listRulesets: API.OperationMethod<
   ListRulesetsResponse,
   ListRulesetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRulesetsRequest,
   output: ListRulesetsResponse,
   errors: [],
@@ -13514,7 +13526,7 @@ export interface CreateRulesetRequest {
   )[];
 }
 
-export const CreateRulesetRequest = Schema.Struct({
+export const CreateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
@@ -13771,7 +13783,7 @@ export interface CreateRulesetResponse {
   description?: string | null;
 }
 
-export const CreateRulesetResponse = Schema.Struct({
+export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -14006,7 +14018,7 @@ export const createRuleset: API.OperationMethod<
   CreateRulesetResponse,
   CreateRulesetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRulesetRequest,
   output: CreateRulesetResponse,
   errors: [],
@@ -14103,7 +14115,7 @@ export interface UpdateRulesetRequest {
   )[];
 }
 
-export const UpdateRulesetRequest = Schema.Struct({
+export const UpdateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
@@ -14363,7 +14375,7 @@ export interface UpdateRulesetResponse {
   description?: string | null;
 }
 
-export const UpdateRulesetResponse = Schema.Struct({
+export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -14598,7 +14610,7 @@ export const updateRuleset: API.OperationMethod<
   UpdateRulesetResponse,
   UpdateRulesetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRulesetRequest,
   output: UpdateRulesetResponse,
   errors: [],
@@ -14608,7 +14620,7 @@ export interface DeleteRulesetRequest {
   rulesetId: string;
 }
 
-export const DeleteRulesetRequest = Schema.Struct({
+export const DeleteRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
 }).pipe(
   T.Http({
@@ -14620,7 +14632,7 @@ export const DeleteRulesetRequest = Schema.Struct({
 export type DeleteRulesetResponse = unknown;
 
 export const DeleteRulesetResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteRulesetResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteRulesetResponse>;
 
 export type DeleteRulesetError = DefaultErrors;
 
@@ -14629,7 +14641,7 @@ export const deleteRuleset: API.OperationMethod<
   DeleteRulesetResponse,
   DeleteRulesetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRulesetRequest,
   output: DeleteRulesetResponse,
   errors: [],
@@ -14644,7 +14656,7 @@ export interface GetVersionRequest {
   rulesetVersion: string;
 }
 
-export const GetVersionRequest = Schema.Struct({
+export const GetVersionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   rulesetVersion: Schema.String.pipe(T.HttpPath("rulesetVersion")),
 }).pipe(
@@ -14752,7 +14764,7 @@ export interface GetVersionResponse {
   description?: string | null;
 }
 
-export const GetVersionResponse = Schema.Struct({
+export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
@@ -14987,7 +14999,7 @@ export const getVersion: API.OperationMethod<
   GetVersionResponse,
   GetVersionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVersionRequest,
   output: GetVersionResponse,
   errors: [],
@@ -14997,7 +15009,7 @@ export interface ListVersionsRequest {
   rulesetId: string;
 }
 
-export const ListVersionsRequest = Schema.Struct({
+export const ListVersionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
 }).pipe(
   T.Http({
@@ -15039,7 +15051,7 @@ export type ListVersionsResponse = {
   description?: string | null;
 }[];
 
-export const ListVersionsResponse = Schema.Array(
+export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     kind: Schema.Literals(["zone", "managed", "custom", "root"]),
@@ -15092,7 +15104,7 @@ export const listVersions: API.OperationMethod<
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
   errors: [],
@@ -15103,7 +15115,7 @@ export interface DeleteVersionRequest {
   rulesetVersion: string;
 }
 
-export const DeleteVersionRequest = Schema.Struct({
+export const DeleteVersionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   rulesetId: Schema.String.pipe(T.HttpPath("rulesetId")),
   rulesetVersion: Schema.String.pipe(T.HttpPath("rulesetVersion")),
 }).pipe(
@@ -15116,7 +15128,7 @@ export const DeleteVersionRequest = Schema.Struct({
 export type DeleteVersionResponse = unknown;
 
 export const DeleteVersionResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteVersionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteVersionResponse>;
 
 export type DeleteVersionError = DefaultErrors;
 
@@ -15125,7 +15137,7 @@ export const deleteVersion: API.OperationMethod<
   DeleteVersionResponse,
   DeleteVersionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteVersionRequest,
   output: DeleteVersionResponse,
   errors: [],

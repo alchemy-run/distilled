@@ -29,15 +29,15 @@ export interface ConversionType {
   report?: boolean;
 }
 
-export const ConversionType: Schema.Schema<ConversionType> = Schema.suspend(
-  () =>
+export const ConversionType: Schema.Schema<ConversionType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       report: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ConversionType",
-}) as any as Schema.Schema<ConversionType>;
+  ).annotate({
+    identifier: "ConversionType",
+  }) as any as Schema.Schema<ConversionType>;
 
 export interface AttributionSettings {
   /** Required. Lookback window (in days) used for attribution in this source. Supported values are `7`, `30` & `40`. */
@@ -58,7 +58,7 @@ export interface AttributionSettings {
 }
 
 export const AttributionSettings: Schema.Schema<AttributionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributionLookbackWindowDays: Schema.optional(Schema.Number),
       attributionModel: Schema.optional(Schema.String),
@@ -78,7 +78,7 @@ export interface GoogleAnalyticsLink {
 }
 
 export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       property: Schema.optional(Schema.String),
       attributionSettings: Schema.optional(AttributionSettings),
@@ -100,7 +100,7 @@ export interface MerchantCenterDestination {
 }
 
 export const MerchantCenterDestination: Schema.Schema<MerchantCenterDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributionSettings: Schema.optional(AttributionSettings),
       destination: Schema.optional(Schema.String),
@@ -135,8 +135,8 @@ export interface ConversionSource {
     | (string & {});
 }
 
-export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
-  () =>
+export const ConversionSource: Schema.Schema<ConversionSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantCenterDestination: Schema.optional(MerchantCenterDestination),
       expireTime: Schema.optional(Schema.String),
@@ -145,22 +145,23 @@ export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
       name: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConversionSource",
-}) as any as Schema.Schema<ConversionSource>;
+  ).annotate({
+    identifier: "ConversionSource",
+  }) as any as Schema.Schema<ConversionSource>;
 
 export interface UndeleteConversionSourceRequest {}
 
 export const UndeleteConversionSourceRequest: Schema.Schema<UndeleteConversionSourceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteConversionSourceRequest",
   }) as any as Schema.Schema<UndeleteConversionSourceRequest>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListConversionSourcesResponse {
   /** List of conversion sources. */
@@ -170,7 +171,7 @@ export interface ListConversionSourcesResponse {
 }
 
 export const ListConversionSourcesResponse: Schema.Schema<ListConversionSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionSources: Schema.optional(Schema.Array(ConversionSource)),
       nextPageToken: Schema.optional(Schema.String),
@@ -211,16 +212,17 @@ export interface ProductChange {
     | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
@@ -244,7 +246,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventTime: Schema.optional(Schema.String),
       account: Schema.optional(Schema.String),
@@ -271,20 +273,22 @@ export interface UndeleteAccountsConversionSourcesRequest {
   body?: UndeleteConversionSourceRequest;
 }
 
-export const UndeleteAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndeleteConversionSourceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}:undelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteAccountsConversionSourcesRequest>;
+export const UndeleteAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteConversionSourceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteAccountsConversionSourcesRequest>;
 
 export type UndeleteAccountsConversionSourcesResponse = ConversionSource;
-export const UndeleteAccountsConversionSourcesResponse = ConversionSource;
+export const UndeleteAccountsConversionSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type UndeleteAccountsConversionSourcesError = DefaultErrors;
 
@@ -294,7 +298,7 @@ export const undeleteAccountsConversionSources: API.OperationMethod<
   UndeleteAccountsConversionSourcesResponse,
   UndeleteAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteAccountsConversionSourcesRequest,
   output: UndeleteAccountsConversionSourcesResponse,
   errors: [],
@@ -307,20 +311,22 @@ export interface CreateAccountsConversionSourcesRequest {
   body?: ConversionSource;
 }
 
-export const CreateAccountsConversionSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsConversionSourcesRequest>;
+export const CreateAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsConversionSourcesRequest>;
 
 export type CreateAccountsConversionSourcesResponse = ConversionSource;
-export const CreateAccountsConversionSourcesResponse = ConversionSource;
+export const CreateAccountsConversionSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type CreateAccountsConversionSourcesError = DefaultErrors;
 
@@ -330,7 +336,7 @@ export const createAccountsConversionSources: API.OperationMethod<
   CreateAccountsConversionSourcesResponse,
   CreateAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsConversionSourcesRequest,
   output: CreateAccountsConversionSourcesResponse,
   errors: [],
@@ -347,23 +353,26 @@ export interface ListAccountsConversionSourcesRequest {
   parent: string;
 }
 
-export const ListAccountsConversionSourcesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsConversionSourcesRequest>;
+export const ListAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsConversionSourcesRequest>;
 
 export type ListAccountsConversionSourcesResponse =
   ListConversionSourcesResponse;
 export const ListAccountsConversionSourcesResponse =
-  ListConversionSourcesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListConversionSourcesResponse;
 
 export type ListAccountsConversionSourcesError = DefaultErrors;
 
@@ -373,7 +382,7 @@ export const listAccountsConversionSources: API.PaginatedOperationMethod<
   ListAccountsConversionSourcesResponse,
   ListAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsConversionSourcesRequest,
   output: ListAccountsConversionSourcesResponse,
   errors: [],
@@ -388,18 +397,20 @@ export interface DeleteAccountsConversionSourcesRequest {
   name: string;
 }
 
-export const DeleteAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsConversionSourcesRequest>;
+export const DeleteAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsConversionSourcesRequest>;
 
 export type DeleteAccountsConversionSourcesResponse = Empty;
-export const DeleteAccountsConversionSourcesResponse = Empty;
+export const DeleteAccountsConversionSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsConversionSourcesError = DefaultErrors;
 
@@ -409,7 +420,7 @@ export const deleteAccountsConversionSources: API.OperationMethod<
   DeleteAccountsConversionSourcesResponse,
   DeleteAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsConversionSourcesRequest,
   output: DeleteAccountsConversionSourcesResponse,
   errors: [],
@@ -424,21 +435,23 @@ export interface PatchAccountsConversionSourcesRequest {
   body?: ConversionSource;
 }
 
-export const PatchAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsConversionSourcesRequest>;
+export const PatchAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsConversionSourcesRequest>;
 
 export type PatchAccountsConversionSourcesResponse = ConversionSource;
-export const PatchAccountsConversionSourcesResponse = ConversionSource;
+export const PatchAccountsConversionSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type PatchAccountsConversionSourcesError = DefaultErrors;
 
@@ -448,7 +461,7 @@ export const patchAccountsConversionSources: API.OperationMethod<
   PatchAccountsConversionSourcesResponse,
   PatchAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsConversionSourcesRequest,
   output: PatchAccountsConversionSourcesResponse,
   errors: [],
@@ -459,18 +472,20 @@ export interface GetAccountsConversionSourcesRequest {
   name: string;
 }
 
-export const GetAccountsConversionSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
+export const GetAccountsConversionSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "conversions/v1beta/accounts/{accountsId}/conversionSources/{conversionSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
 
 export type GetAccountsConversionSourcesResponse = ConversionSource;
-export const GetAccountsConversionSourcesResponse = ConversionSource;
+export const GetAccountsConversionSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type GetAccountsConversionSourcesError = DefaultErrors;
 
@@ -480,7 +495,7 @@ export const getAccountsConversionSources: API.OperationMethod<
   GetAccountsConversionSourcesResponse,
   GetAccountsConversionSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsConversionSourcesRequest,
   output: GetAccountsConversionSourcesResponse,
   errors: [],

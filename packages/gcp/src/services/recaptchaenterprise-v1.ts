@@ -38,7 +38,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionDataAddress {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionDataAddress: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionDataAddress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recipient: Schema.optional(Schema.String),
       address: Schema.optional(Schema.Array(Schema.String)),
@@ -67,7 +67,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionDataUser {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionDataUser: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionDataUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       creationMs: Schema.optional(Schema.String),
@@ -92,7 +92,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionDataItem {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionDataItem: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionDataItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.Number),
@@ -115,7 +115,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionDataGatewayInfo {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionDataGatewayInfo: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionDataGatewayInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       gatewayResponseCode: Schema.optional(Schema.String),
@@ -156,7 +156,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionData {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionData: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transactionId: Schema.optional(Schema.String),
       paymentMethod: Schema.optional(Schema.String),
@@ -198,7 +198,7 @@ export interface GoogleCloudRecaptchaenterpriseV1UserId {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1UserId: Schema.Schema<GoogleCloudRecaptchaenterpriseV1UserId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       phoneNumber: Schema.optional(Schema.String),
@@ -218,7 +218,7 @@ export interface GoogleCloudRecaptchaenterpriseV1UserInfo {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1UserInfo: Schema.Schema<GoogleCloudRecaptchaenterpriseV1UserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createAccountTime: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
@@ -270,7 +270,7 @@ export interface GoogleCloudRecaptchaenterpriseV1Event {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1Event: Schema.Schema<GoogleCloudRecaptchaenterpriseV1Event> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
       siteKey: Schema.optional(Schema.String),
@@ -308,7 +308,7 @@ export interface GoogleCloudRecaptchaenterpriseV1Bot {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1Bot: Schema.Schema<GoogleCloudRecaptchaenterpriseV1Bot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       botType: Schema.optional(Schema.String),
@@ -346,7 +346,7 @@ export interface GoogleCloudRecaptchaenterpriseV1RiskAnalysis {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1RiskAnalysis: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RiskAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       score: Schema.optional(Schema.Number),
       reasons: Schema.optional(Schema.Array(Schema.String)),
@@ -387,7 +387,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TokenProperties {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TokenProperties: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TokenProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valid: Schema.optional(Schema.Boolean),
       invalidReason: Schema.optional(Schema.String),
@@ -413,7 +413,7 @@ export interface GoogleCloudRecaptchaenterpriseV1EndpointVerificationInfo {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1EndpointVerificationInfo: Schema.Schema<GoogleCloudRecaptchaenterpriseV1EndpointVerificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
       phoneNumber: Schema.optional(Schema.String),
@@ -447,7 +447,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpoints: Schema.optional(
         Schema.Array(GoogleCloudRecaptchaenterpriseV1EndpointVerificationInfo),
@@ -471,7 +471,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccoun
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountRiskReason: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountRiskReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -490,7 +490,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccoun
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountTrustReason: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountTrustReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -509,7 +509,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccoun
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountTakeoverVerdict: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessmentAccountTakeoverVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       risk: Schema.optional(Schema.Number),
       riskReasons: Schema.optional(
@@ -543,7 +543,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Array(Schema.String)),
       accountTakeoverVerdict: Schema.optional(
@@ -566,7 +566,7 @@ export interface GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification
 }
 
 export const GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification: Schema.Schema<GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lookupHashPrefix: Schema.optional(Schema.String),
       encryptedUserCredentialsHash: Schema.optional(Schema.String),
@@ -587,8 +587,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -596,28 +596,28 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction {}
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction>;
 
 export interface GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction {}
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction>;
 
 export interface GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction {}
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction>;
@@ -625,7 +625,7 @@ export const GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScrip
 export interface GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction {}
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction>;
 
@@ -635,7 +635,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FirewallActionSubstituteAction 
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionSubstituteAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionSubstituteAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       path: Schema.optional(Schema.String),
     }),
@@ -652,7 +652,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FirewallActionSetHeaderAction {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallActionSetHeaderAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallActionSetHeaderAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -677,7 +677,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FirewallAction {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallAction: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allow: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1FirewallActionAllowAction,
@@ -716,7 +716,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FirewallPolicy {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallPolicy: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -738,7 +738,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(GoogleRpcStatus),
       firewallPolicy: Schema.optional(
@@ -762,7 +762,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentRiskRe
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentRiskReason: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentRiskReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -777,7 +777,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentStolen
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentStolenInstrumentVerdict: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentStolenInstrumentVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       risk: Schema.optional(Schema.Number),
     }),
@@ -792,7 +792,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentCardTe
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentCardTestingVerdict: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentCardTestingVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       risk: Schema.optional(Schema.Number),
     }),
@@ -807,7 +807,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentBehavi
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentBehavioralTrustVerdict: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessmentBehavioralTrustVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trust: Schema.optional(Schema.Number),
     }),
@@ -830,7 +830,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transactionRisk: Schema.optional(Schema.Number),
       riskReasons: Schema.optional(
@@ -860,7 +860,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudSignalsUserSignals {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudSignalsUserSignals: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudSignalsUserSignals> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activeDaysLowerBound: Schema.optional(Schema.Number),
       syntheticRisk: Schema.optional(Schema.Number),
@@ -881,7 +881,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudSignalsCardSignals {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudSignalsCardSignals: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudSignalsCardSignals> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cardLabels: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -897,7 +897,7 @@ export interface GoogleCloudRecaptchaenterpriseV1FraudSignals {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1FraudSignals: Schema.Schema<GoogleCloudRecaptchaenterpriseV1FraudSignals> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userSignals: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1FraudSignalsUserSignals,
@@ -920,7 +920,7 @@ export interface GoogleCloudRecaptchaenterpriseV1SmsTollFraudVerdict {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1SmsTollFraudVerdict: Schema.Schema<GoogleCloudRecaptchaenterpriseV1SmsTollFraudVerdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       risk: Schema.optional(Schema.Number),
       reasons: Schema.optional(Schema.Array(Schema.String)),
@@ -935,7 +935,7 @@ export interface GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1PhoneFraudAssessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       smsTollFraudVerdict: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1SmsTollFraudVerdict,
@@ -953,7 +953,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AssessmentEnvironment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       client: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -990,7 +990,7 @@ export interface GoogleCloudRecaptchaenterpriseV1Assessment {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1Assessment: Schema.Schema<GoogleCloudRecaptchaenterpriseV1Assessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       event: Schema.optional(GoogleCloudRecaptchaenterpriseV1Event),
@@ -1061,7 +1061,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TransactionEvent {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TransactionEvent: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TransactionEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventType: Schema.optional(Schema.String),
       reason: Schema.optional(Schema.String),
@@ -1080,7 +1080,7 @@ export interface GoogleCloudRecaptchaenterpriseV1PhoneAuthenticationEvent {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1PhoneAuthenticationEvent: Schema.Schema<GoogleCloudRecaptchaenterpriseV1PhoneAuthenticationEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phoneNumber: Schema.optional(Schema.String),
       eventTime: Schema.optional(Schema.String),
@@ -1128,7 +1128,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotation: Schema.optional(Schema.String),
       reasons: Schema.optional(Schema.Array(Schema.String)),
@@ -1148,7 +1148,7 @@ export const GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest: Schema.S
 export interface GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse {}
 
 export const GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse>;
 
@@ -1158,7 +1158,7 @@ export interface GoogleCloudRecaptchaenterpriseV1WebKeySettingsActionSettings {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1WebKeySettingsActionSettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1WebKeySettingsActionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scoreThreshold: Schema.optional(Schema.Number),
     }),
@@ -1177,7 +1177,7 @@ export interface GoogleCloudRecaptchaenterpriseV1WebKeySettingsChallengeSettings
 }
 
 export const GoogleCloudRecaptchaenterpriseV1WebKeySettingsChallengeSettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1WebKeySettingsChallengeSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultSettings: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1WebKeySettingsActionSettings,
@@ -1221,7 +1221,7 @@ export interface GoogleCloudRecaptchaenterpriseV1WebKeySettings {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1WebKeySettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1WebKeySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAllDomains: Schema.optional(Schema.Boolean),
       allowedDomains: Schema.optional(Schema.Array(Schema.String)),
@@ -1246,7 +1246,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AndroidKeySettings {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AndroidKeySettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AndroidKeySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAllPackageNames: Schema.optional(Schema.Boolean),
       allowedPackageNames: Schema.optional(Schema.Array(Schema.String)),
@@ -1266,7 +1266,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AppleDeveloperId {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AppleDeveloperId: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AppleDeveloperId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privateKey: Schema.optional(Schema.String),
       keyId: Schema.optional(Schema.String),
@@ -1286,7 +1286,7 @@ export interface GoogleCloudRecaptchaenterpriseV1IOSKeySettings {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1IOSKeySettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1IOSKeySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAllBundleIds: Schema.optional(Schema.Boolean),
       allowedBundleIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1301,7 +1301,7 @@ export const GoogleCloudRecaptchaenterpriseV1IOSKeySettings: Schema.Schema<Googl
 export interface GoogleCloudRecaptchaenterpriseV1ExpressKeySettings {}
 
 export const GoogleCloudRecaptchaenterpriseV1ExpressKeySettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ExpressKeySettings> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1ExpressKeySettings",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1ExpressKeySettings>;
 
@@ -1317,7 +1317,7 @@ export interface GoogleCloudRecaptchaenterpriseV1TestingOptions {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1TestingOptions: Schema.Schema<GoogleCloudRecaptchaenterpriseV1TestingOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testingScore: Schema.optional(Schema.Number),
       testingChallenge: Schema.optional(Schema.String),
@@ -1346,7 +1346,7 @@ export interface GoogleCloudRecaptchaenterpriseV1WafSettings {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1WafSettings: Schema.Schema<GoogleCloudRecaptchaenterpriseV1WafSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wafService: Schema.optional(Schema.String),
       wafFeature: Schema.optional(Schema.String),
@@ -1379,7 +1379,7 @@ export interface GoogleCloudRecaptchaenterpriseV1Key {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1Key: Schema.Schema<GoogleCloudRecaptchaenterpriseV1Key> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1414,7 +1414,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ListKeysResponse {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ListKeysResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ListKeysResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keys: Schema.optional(Schema.Array(GoogleCloudRecaptchaenterpriseV1Key)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1429,7 +1429,7 @@ export interface GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse
 }
 
 export const GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       legacySecretKey: Schema.optional(Schema.String),
     }),
@@ -1441,7 +1441,7 @@ export const GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse: Sc
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -1451,7 +1451,7 @@ export interface GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skipBillingCheck: Schema.optional(Schema.Boolean),
     }),
@@ -1467,7 +1467,7 @@ export interface GoogleCloudRecaptchaenterpriseV1IpOverrideData {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1IpOverrideData: Schema.Schema<GoogleCloudRecaptchaenterpriseV1IpOverrideData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ip: Schema.optional(Schema.String),
       overrideType: Schema.optional(Schema.String),
@@ -1482,7 +1482,7 @@ export interface GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipOverrideData: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1IpOverrideData,
@@ -1495,7 +1495,7 @@ export const GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest: Schema.Schema
 export interface GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse {}
 
 export const GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse>;
 
@@ -1505,7 +1505,7 @@ export interface GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipOverrideData: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1IpOverrideData,
@@ -1518,7 +1518,7 @@ export const GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest: Schema.Sch
 export interface GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse {}
 
 export const GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse>;
 
@@ -1530,7 +1530,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipOverrides: Schema.optional(
         Schema.Array(GoogleCloudRecaptchaenterpriseV1IpOverrideData),
@@ -1547,7 +1547,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ScoreDistribution {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ScoreDistribution: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ScoreDistribution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scoreBuckets: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -1568,7 +1568,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ScoreMetrics {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ScoreMetrics: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ScoreMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overallMetrics: Schema.optional(
         GoogleCloudRecaptchaenterpriseV1ScoreDistribution,
@@ -1596,7 +1596,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ChallengeMetrics {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ChallengeMetrics: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ChallengeMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageloadCount: Schema.optional(Schema.String),
       nocaptchaCount: Schema.optional(Schema.String),
@@ -1619,7 +1619,7 @@ export interface GoogleCloudRecaptchaenterpriseV1Metrics {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1Metrics: Schema.Schema<GoogleCloudRecaptchaenterpriseV1Metrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -1642,7 +1642,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firewallPolicies: Schema.optional(
         Schema.Array(GoogleCloudRecaptchaenterpriseV1FirewallPolicy),
@@ -1659,7 +1659,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest 
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1671,7 +1671,7 @@ export const GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest: Sch
 export interface GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse {}
 
 export const GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse",
   }) as any as Schema.Schema<GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse>;
@@ -1682,7 +1682,7 @@ export interface GoogleCloudRecaptchaenterpriseV1RelatedAccountGroup {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1RelatedAccountGroup: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RelatedAccountGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -1698,7 +1698,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsRespons
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedAccountGroups: Schema.optional(
         Schema.Array(GoogleCloudRecaptchaenterpriseV1RelatedAccountGroup),
@@ -1720,7 +1720,7 @@ export interface GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership {
 }
 
 export const GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership: Schema.Schema<GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
@@ -1738,7 +1738,7 @@ export interface GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembersh
 }
 
 export const GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedAccountGroupMemberships: Schema.optional(
         Schema.Array(
@@ -1764,7 +1764,7 @@ export interface GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMember
 }
 
 export const GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest: Schema.Schema<GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       hashedAccountId: Schema.optional(Schema.String),
@@ -1784,7 +1784,7 @@ export interface GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMember
 }
 
 export const GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse: Schema.Schema<GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relatedAccountGroupMemberships: Schema.optional(
         Schema.Array(
@@ -1809,24 +1809,25 @@ export interface CreateProjectsAssessmentsRequest {
   body?: GoogleCloudRecaptchaenterpriseV1Assessment;
 }
 
-export const CreateProjectsAssessmentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Assessment).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/assessments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAssessmentsRequest>;
+export const CreateProjectsAssessmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Assessment).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/assessments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAssessmentsRequest>;
 
 export type CreateProjectsAssessmentsResponse =
   GoogleCloudRecaptchaenterpriseV1Assessment;
 export const CreateProjectsAssessmentsResponse =
-  GoogleCloudRecaptchaenterpriseV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Assessment;
 
 export type CreateProjectsAssessmentsError = DefaultErrors;
 
@@ -1836,7 +1837,7 @@ export const createProjectsAssessments: API.OperationMethod<
   CreateProjectsAssessmentsResponse,
   CreateProjectsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAssessmentsRequest,
   output: CreateProjectsAssessmentsResponse,
   errors: [],
@@ -1849,24 +1850,25 @@ export interface AnnotateProjectsAssessmentsRequest {
   body?: GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest;
 }
 
-export const AnnotateProjectsAssessmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/assessments/{assessmentsId}:annotate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AnnotateProjectsAssessmentsRequest>;
+export const AnnotateProjectsAssessmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/assessments/{assessmentsId}:annotate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AnnotateProjectsAssessmentsRequest>;
 
 export type AnnotateProjectsAssessmentsResponse =
   GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse;
 export const AnnotateProjectsAssessmentsResponse =
-  GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentResponse;
 
 export type AnnotateProjectsAssessmentsError = DefaultErrors;
 
@@ -1876,7 +1878,7 @@ export const annotateProjectsAssessments: API.OperationMethod<
   AnnotateProjectsAssessmentsResponse,
   AnnotateProjectsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AnnotateProjectsAssessmentsRequest,
   output: AnnotateProjectsAssessmentsResponse,
   errors: [],
@@ -1889,20 +1891,24 @@ export interface CreateProjectsKeysRequest {
   body?: GoogleCloudRecaptchaenterpriseV1Key;
 }
 
-export const CreateProjectsKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Key).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/keys",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsKeysRequest>;
+export const CreateProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Key).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/keys",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsKeysRequest>;
 
 export type CreateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
-export const CreateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
+export const CreateProjectsKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Key;
 
 export type CreateProjectsKeysError = DefaultErrors;
 
@@ -1912,7 +1918,7 @@ export const createProjectsKeys: API.OperationMethod<
   CreateProjectsKeysResponse,
   CreateProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsKeysRequest,
   output: CreateProjectsKeysResponse,
   errors: [],
@@ -1927,19 +1933,20 @@ export interface ListProjectsKeysRequest {
   pageToken?: string;
 }
 
-export const ListProjectsKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/keys" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsKeysRequest>;
+export const ListProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/keys" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsKeysRequest>;
 
 export type ListProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1ListKeysResponse;
 export const ListProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1ListKeysResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ListKeysResponse;
 
 export type ListProjectsKeysError = DefaultErrors;
 
@@ -1949,7 +1956,7 @@ export const listProjectsKeys: API.PaginatedOperationMethod<
   ListProjectsKeysResponse,
   ListProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsKeysRequest,
   output: ListProjectsKeysResponse,
   errors: [],
@@ -1961,20 +1968,19 @@ export const listProjectsKeys: API.PaginatedOperationMethod<
 
 export interface RetrieveLegacySecretKeyProjectsKeysRequest {}
 
-export const RetrieveLegacySecretKeyProjectsKeysRequest = Schema.Struct(
-  {},
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/keys/{keysId}:retrieveLegacySecretKey",
-  }),
-  svc,
-) as unknown as Schema.Schema<RetrieveLegacySecretKeyProjectsKeysRequest>;
+export const RetrieveLegacySecretKeyProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/keys/{keysId}:retrieveLegacySecretKey",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetrieveLegacySecretKeyProjectsKeysRequest>;
 
 export type RetrieveLegacySecretKeyProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse;
 export const RetrieveLegacySecretKeyProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1RetrieveLegacySecretKeyResponse;
 
 export type RetrieveLegacySecretKeyProjectsKeysError = DefaultErrors;
 
@@ -1984,7 +1990,7 @@ export const retrieveLegacySecretKeyProjectsKeys: API.OperationMethod<
   RetrieveLegacySecretKeyProjectsKeysResponse,
   RetrieveLegacySecretKeyProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetrieveLegacySecretKeyProjectsKeysRequest,
   output: RetrieveLegacySecretKeyProjectsKeysResponse,
   errors: [],
@@ -1995,15 +2001,18 @@ export interface GetProjectsKeysRequest {
   name: string;
 }
 
-export const GetProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetProjectsKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/projects/{projectsId}/keys/{keysId}" }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsKeysRequest>;
 
 export type GetProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
-export const GetProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
+export const GetProjectsKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Key;
 
 export type GetProjectsKeysError = DefaultErrors;
 
@@ -2013,7 +2022,7 @@ export const getProjectsKeys: API.OperationMethod<
   GetProjectsKeysResponse,
   GetProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsKeysRequest,
   output: GetProjectsKeysResponse,
   errors: [],
@@ -2028,21 +2037,25 @@ export interface PatchProjectsKeysRequest {
   body?: GoogleCloudRecaptchaenterpriseV1Key;
 }
 
-export const PatchProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Key).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/keys/{keysId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsKeysRequest>;
+export const PatchProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRecaptchaenterpriseV1Key).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/keys/{keysId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsKeysRequest>;
 
 export type PatchProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
-export const PatchProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
+export const PatchProjectsKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Key;
 
 export type PatchProjectsKeysError = DefaultErrors;
 
@@ -2052,7 +2065,7 @@ export const patchProjectsKeys: API.OperationMethod<
   PatchProjectsKeysResponse,
   PatchProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsKeysRequest,
   output: PatchProjectsKeysResponse,
   errors: [],
@@ -2063,15 +2076,20 @@ export interface DeleteProjectsKeysRequest {
   name: string;
 }
 
-export const DeleteProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/projects/{projectsId}/keys/{keysId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsKeysRequest>;
+export const DeleteProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/keys/{keysId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsKeysRequest>;
 
 export type DeleteProjectsKeysResponse = GoogleProtobufEmpty;
-export const DeleteProjectsKeysResponse = GoogleProtobufEmpty;
+export const DeleteProjectsKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsKeysError = DefaultErrors;
 
@@ -2081,7 +2099,7 @@ export const deleteProjectsKeys: API.OperationMethod<
   DeleteProjectsKeysResponse,
   DeleteProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsKeysRequest,
   output: DeleteProjectsKeysResponse,
   errors: [],
@@ -2094,22 +2112,24 @@ export interface MigrateProjectsKeysRequest {
   body?: GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest;
 }
 
-export const MigrateProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/keys/{keysId}:migrate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<MigrateProjectsKeysRequest>;
+export const MigrateProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/keys/{keysId}:migrate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MigrateProjectsKeysRequest>;
 
 export type MigrateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
-export const MigrateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
+export const MigrateProjectsKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Key;
 
 export type MigrateProjectsKeysError = DefaultErrors;
 
@@ -2119,7 +2139,7 @@ export const migrateProjectsKeys: API.OperationMethod<
   MigrateProjectsKeysResponse,
   MigrateProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MigrateProjectsKeysRequest,
   output: MigrateProjectsKeysResponse,
   errors: [],
@@ -2132,24 +2152,25 @@ export interface AddIpOverrideProjectsKeysRequest {
   body?: GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest;
 }
 
-export const AddIpOverrideProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/keys/{keysId}:addIpOverride",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddIpOverrideProjectsKeysRequest>;
+export const AddIpOverrideProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudRecaptchaenterpriseV1AddIpOverrideRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/keys/{keysId}:addIpOverride",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddIpOverrideProjectsKeysRequest>;
 
 export type AddIpOverrideProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse;
 export const AddIpOverrideProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1AddIpOverrideResponse;
 
 export type AddIpOverrideProjectsKeysError = DefaultErrors;
 
@@ -2159,7 +2180,7 @@ export const addIpOverrideProjectsKeys: API.OperationMethod<
   AddIpOverrideProjectsKeysResponse,
   AddIpOverrideProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddIpOverrideProjectsKeysRequest,
   output: AddIpOverrideProjectsKeysResponse,
   errors: [],
@@ -2172,24 +2193,25 @@ export interface RemoveIpOverrideProjectsKeysRequest {
   body?: GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest;
 }
 
-export const RemoveIpOverrideProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/keys/{keysId}:removeIpOverride",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveIpOverrideProjectsKeysRequest>;
+export const RemoveIpOverrideProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/keys/{keysId}:removeIpOverride",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveIpOverrideProjectsKeysRequest>;
 
 export type RemoveIpOverrideProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse;
 export const RemoveIpOverrideProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideResponse;
 
 export type RemoveIpOverrideProjectsKeysError = DefaultErrors;
 
@@ -2199,7 +2221,7 @@ export const removeIpOverrideProjectsKeys: API.OperationMethod<
   RemoveIpOverrideProjectsKeysResponse,
   RemoveIpOverrideProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveIpOverrideProjectsKeysRequest,
   output: RemoveIpOverrideProjectsKeysResponse,
   errors: [],
@@ -2214,22 +2236,23 @@ export interface ListIpOverridesProjectsKeysRequest {
   pageToken?: string;
 }
 
-export const ListIpOverridesProjectsKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/keys/{keysId}:listIpOverrides",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListIpOverridesProjectsKeysRequest>;
+export const ListIpOverridesProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/keys/{keysId}:listIpOverrides",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListIpOverridesProjectsKeysRequest>;
 
 export type ListIpOverridesProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse;
 export const ListIpOverridesProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ListIpOverridesResponse;
 
 export type ListIpOverridesProjectsKeysError = DefaultErrors;
 
@@ -2239,7 +2262,7 @@ export const listIpOverridesProjectsKeys: API.PaginatedOperationMethod<
   ListIpOverridesProjectsKeysResponse,
   ListIpOverridesProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListIpOverridesProjectsKeysRequest,
   output: ListIpOverridesProjectsKeysResponse,
   errors: [],
@@ -2254,20 +2277,21 @@ export interface GetMetricsProjectsKeysRequest {
   name: string;
 }
 
-export const GetMetricsProjectsKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/keys/{keysId}/metrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetMetricsProjectsKeysRequest>;
+export const GetMetricsProjectsKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/keys/{keysId}/metrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetMetricsProjectsKeysRequest>;
 
 export type GetMetricsProjectsKeysResponse =
   GoogleCloudRecaptchaenterpriseV1Metrics;
 export const GetMetricsProjectsKeysResponse =
-  GoogleCloudRecaptchaenterpriseV1Metrics;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1Metrics;
 
 export type GetMetricsProjectsKeysError = DefaultErrors;
 
@@ -2277,7 +2301,7 @@ export const getMetricsProjectsKeys: API.OperationMethod<
   GetMetricsProjectsKeysResponse,
   GetMetricsProjectsKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricsProjectsKeysRequest,
   output: GetMetricsProjectsKeysResponse,
   errors: [],
@@ -2290,24 +2314,25 @@ export interface CreateProjectsFirewallpoliciesRequest {
   body?: GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 }
 
-export const CreateProjectsFirewallpoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1FirewallPolicy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/firewallpolicies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsFirewallpoliciesRequest>;
+export const CreateProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRecaptchaenterpriseV1FirewallPolicy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/firewallpolicies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsFirewallpoliciesRequest>;
 
 export type CreateProjectsFirewallpoliciesResponse =
   GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 export const CreateProjectsFirewallpoliciesResponse =
-  GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 
 export type CreateProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2317,7 +2342,7 @@ export const createProjectsFirewallpolicies: API.OperationMethod<
   CreateProjectsFirewallpoliciesResponse,
   CreateProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsFirewallpoliciesRequest,
   output: CreateProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2332,19 +2357,23 @@ export interface ListProjectsFirewallpoliciesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsFirewallpoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/firewallpolicies" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsFirewallpoliciesRequest>;
+export const ListProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/firewallpolicies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsFirewallpoliciesRequest>;
 
 export type ListProjectsFirewallpoliciesResponse =
   GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse;
 export const ListProjectsFirewallpoliciesResponse =
-  GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ListFirewallPoliciesResponse;
 
 export type ListProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2354,7 +2383,7 @@ export const listProjectsFirewallpolicies: API.PaginatedOperationMethod<
   ListProjectsFirewallpoliciesResponse,
   ListProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsFirewallpoliciesRequest,
   output: ListProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2369,20 +2398,21 @@ export interface GetProjectsFirewallpoliciesRequest {
   name: string;
 }
 
-export const GetProjectsFirewallpoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsFirewallpoliciesRequest>;
+export const GetProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsFirewallpoliciesRequest>;
 
 export type GetProjectsFirewallpoliciesResponse =
   GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 export const GetProjectsFirewallpoliciesResponse =
-  GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 
 export type GetProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2392,7 +2422,7 @@ export const getProjectsFirewallpolicies: API.OperationMethod<
   GetProjectsFirewallpoliciesResponse,
   GetProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsFirewallpoliciesRequest,
   output: GetProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2407,25 +2437,26 @@ export interface PatchProjectsFirewallpoliciesRequest {
   body?: GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 }
 
-export const PatchProjectsFirewallpoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRecaptchaenterpriseV1FirewallPolicy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsFirewallpoliciesRequest>;
+export const PatchProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRecaptchaenterpriseV1FirewallPolicy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsFirewallpoliciesRequest>;
 
 export type PatchProjectsFirewallpoliciesResponse =
   GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 export const PatchProjectsFirewallpoliciesResponse =
-  GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1FirewallPolicy;
 
 export type PatchProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2435,7 +2466,7 @@ export const patchProjectsFirewallpolicies: API.OperationMethod<
   PatchProjectsFirewallpoliciesResponse,
   PatchProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsFirewallpoliciesRequest,
   output: PatchProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2446,18 +2477,20 @@ export interface DeleteProjectsFirewallpoliciesRequest {
   name: string;
 }
 
-export const DeleteProjectsFirewallpoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsFirewallpoliciesRequest>;
+export const DeleteProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/firewallpolicies/{firewallpoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsFirewallpoliciesRequest>;
 
 export type DeleteProjectsFirewallpoliciesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsFirewallpoliciesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsFirewallpoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2467,7 +2500,7 @@ export const deleteProjectsFirewallpolicies: API.OperationMethod<
   DeleteProjectsFirewallpoliciesResponse,
   DeleteProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsFirewallpoliciesRequest,
   output: DeleteProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2480,24 +2513,25 @@ export interface ReorderProjectsFirewallpoliciesRequest {
   body?: GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest;
 }
 
-export const ReorderProjectsFirewallpoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/firewallpolicies:reorder",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReorderProjectsFirewallpoliciesRequest>;
+export const ReorderProjectsFirewallpoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/firewallpolicies:reorder",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReorderProjectsFirewallpoliciesRequest>;
 
 export type ReorderProjectsFirewallpoliciesResponse =
   GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse;
 export const ReorderProjectsFirewallpoliciesResponse =
-  GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ReorderFirewallPoliciesResponse;
 
 export type ReorderProjectsFirewallpoliciesError = DefaultErrors;
 
@@ -2507,7 +2541,7 @@ export const reorderProjectsFirewallpolicies: API.OperationMethod<
   ReorderProjectsFirewallpoliciesResponse,
   ReorderProjectsFirewallpoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReorderProjectsFirewallpoliciesRequest,
   output: ReorderProjectsFirewallpoliciesResponse,
   errors: [],
@@ -2522,22 +2556,23 @@ export interface ListProjectsRelatedaccountgroupsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsRelatedaccountgroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/relatedaccountgroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsRelatedaccountgroupsRequest>;
+export const ListProjectsRelatedaccountgroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/relatedaccountgroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsRelatedaccountgroupsRequest>;
 
 export type ListProjectsRelatedaccountgroupsResponse =
   GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse;
 export const ListProjectsRelatedaccountgroupsResponse =
-  GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse;
 
 export type ListProjectsRelatedaccountgroupsError = DefaultErrors;
 
@@ -2547,7 +2582,7 @@ export const listProjectsRelatedaccountgroups: API.PaginatedOperationMethod<
   ListProjectsRelatedaccountgroupsResponse,
   ListProjectsRelatedaccountgroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsRelatedaccountgroupsRequest,
   output: ListProjectsRelatedaccountgroupsResponse,
   errors: [],
@@ -2566,24 +2601,23 @@ export interface ListProjectsRelatedaccountgroupsMembershipsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsRelatedaccountgroupsMembershipsRequest = Schema.Struct(
-  {
+export const ListProjectsRelatedaccountgroupsMembershipsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/relatedaccountgroups/{relatedaccountgroupsId}/memberships",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsRelatedaccountgroupsMembershipsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/relatedaccountgroups/{relatedaccountgroupsId}/memberships",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsRelatedaccountgroupsMembershipsRequest>;
 
 export type ListProjectsRelatedaccountgroupsMembershipsResponse =
   GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse;
 export const ListProjectsRelatedaccountgroupsMembershipsResponse =
-  GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse;
 
 export type ListProjectsRelatedaccountgroupsMembershipsError = DefaultErrors;
 
@@ -2593,7 +2627,7 @@ export const listProjectsRelatedaccountgroupsMemberships: API.PaginatedOperation
   ListProjectsRelatedaccountgroupsMembershipsResponse,
   ListProjectsRelatedaccountgroupsMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsRelatedaccountgroupsMembershipsRequest,
   output: ListProjectsRelatedaccountgroupsMembershipsResponse,
   errors: [],
@@ -2611,7 +2645,7 @@ export interface SearchProjectsRelatedaccountgroupmembershipsRequest {
 }
 
 export const SearchProjectsRelatedaccountgroupmembershipsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     project: Schema.String.pipe(T.HttpPath("project")),
     body: Schema.optional(
       GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest,
@@ -2628,7 +2662,7 @@ export const SearchProjectsRelatedaccountgroupmembershipsRequest =
 export type SearchProjectsRelatedaccountgroupmembershipsResponse =
   GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse;
 export const SearchProjectsRelatedaccountgroupmembershipsResponse =
-  GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse;
 
 export type SearchProjectsRelatedaccountgroupmembershipsError = DefaultErrors;
 
@@ -2638,7 +2672,7 @@ export const searchProjectsRelatedaccountgroupmemberships: API.OperationMethod<
   SearchProjectsRelatedaccountgroupmembershipsResponse,
   SearchProjectsRelatedaccountgroupmembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsRelatedaccountgroupmembershipsRequest,
   output: SearchProjectsRelatedaccountgroupmembershipsResponse,
   errors: [],

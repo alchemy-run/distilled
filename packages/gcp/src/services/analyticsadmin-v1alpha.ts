@@ -36,7 +36,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertySyncConfig {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertySyncConfig: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertySyncConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       applyToProperty: Schema.optional(Schema.String),
@@ -67,7 +67,7 @@ export interface GoogleAnalyticsAdminV1alphaCustomDimension {
 }
 
 export const GoogleAnalyticsAdminV1alphaCustomDimension: Schema.Schema<GoogleAnalyticsAdminV1alphaCustomDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameterName: Schema.optional(Schema.String),
       scope: Schema.optional(Schema.String),
@@ -88,7 +88,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterInListFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caseSensitive: Schema.optional(Schema.Boolean),
       values: Schema.optional(Schema.Array(Schema.String)),
@@ -107,7 +107,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterStringFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchType: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -127,7 +127,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSetFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSetFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldName: Schema.optional(Schema.String),
       inListFilter: Schema.optional(
@@ -151,7 +151,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression {
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       andGroup: Schema.optional(
         GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList,
@@ -171,7 +171,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList 
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSetFilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExpressions: Schema.optional(
         Schema.Array(
@@ -196,7 +196,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceEventTrigger {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceEventTrigger: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceEventTrigger> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventName: Schema.optional(Schema.String),
       logCondition: Schema.optional(Schema.String),
@@ -211,7 +211,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExpressions: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAudienceFilterExpression),
@@ -229,7 +229,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceEventFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceEventFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceEventFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventName: Schema.optional(Schema.String),
       eventParameterFilterExpression: Schema.optional(
@@ -248,7 +248,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInLis
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caseSensitive: Schema.optional(Schema.Boolean),
       values: Schema.optional(Schema.Array(Schema.String)),
@@ -266,7 +266,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumer
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       int64Value: Schema.optional(Schema.String),
       doubleValue: Schema.optional(Schema.Number),
@@ -284,7 +284,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetwe
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fromValue: Schema.optional(
         GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue,
@@ -315,7 +315,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStrin
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchType: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -339,7 +339,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumer
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(
         GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue,
@@ -369,7 +369,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inListFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter,
@@ -405,7 +405,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceFilterExpression {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceFilterExpression: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       andGroup: Schema.optional(
         GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList,
@@ -440,7 +440,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceSimpleFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceSimpleFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceSimpleFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scope: Schema.optional(Schema.String),
       filterExpression: Schema.optional(
@@ -468,7 +468,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequen
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scope: Schema.optional(Schema.String),
       filterExpression: Schema.optional(
@@ -497,7 +497,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceSequenceFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceSequenceFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceSequenceFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scope: Schema.optional(Schema.String),
       sequenceMaximumDuration: Schema.optional(Schema.String),
@@ -525,7 +525,7 @@ export interface GoogleAnalyticsAdminV1alphaAudienceFilterClause {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudienceFilterClause: Schema.Schema<GoogleAnalyticsAdminV1alphaAudienceFilterClause> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clauseType: Schema.optional(Schema.String),
       simpleFilter: Schema.optional(
@@ -565,7 +565,7 @@ export interface GoogleAnalyticsAdminV1alphaAudience {
 }
 
 export const GoogleAnalyticsAdminV1alphaAudience: Schema.Schema<GoogleAnalyticsAdminV1alphaAudience> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       eventTrigger: Schema.optional(
@@ -593,7 +593,7 @@ export interface GoogleAnalyticsAdminV1alphaListAudiencesResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListAudiencesResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListAudiencesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audiences: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAudience),
@@ -614,7 +614,7 @@ export interface GoogleAnalyticsAdminV1alphaFirebaseLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaFirebaseLink: Schema.Schema<GoogleAnalyticsAdminV1alphaFirebaseLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       project: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -632,7 +632,7 @@ export interface GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firebaseLinks: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaFirebaseLink),
@@ -661,7 +661,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStrin
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchType: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -682,7 +682,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaSubpropertyEventFilterConditionStringFilter,
@@ -704,7 +704,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterCondition: Schema.optional(
         GoogleAnalyticsAdminV1alphaSubpropertyEventFilterCondition,
@@ -726,7 +726,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExpressions: Schema.optional(
         Schema.Array(
@@ -748,16 +748,16 @@ export interface GoogleTypeDate {
   month?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       day: Schema.optional(Schema.Number),
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange {
   /** Required. The start date for this range. Must be a valid date with year, month, and day set. The date may be in the past, present, or future. */
@@ -767,7 +767,7 @@ export interface GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange {
 }
 
 export const GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange: Schema.Schema<GoogleAnalyticsAdminV1alphaReportingDataAnnotationDateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startDate: Schema.optional(GoogleTypeDate),
       endDate: Schema.optional(GoogleTypeDate),
@@ -803,7 +803,7 @@ export interface GoogleAnalyticsAdminV1alphaReportingDataAnnotation {
 }
 
 export const GoogleAnalyticsAdminV1alphaReportingDataAnnotation: Schema.Schema<GoogleAnalyticsAdminV1alphaReportingDataAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -827,7 +827,7 @@ export interface GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse
 }
 
 export const GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       reportingDataAnnotations: Schema.optional(
@@ -845,7 +845,7 @@ export interface GoogleAnalyticsAdminV1alphaDeleteAccessBindingRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaDeleteAccessBindingRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaDeleteAccessBindingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -859,7 +859,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaDeleteAccessBindingRequest),
@@ -891,7 +891,7 @@ export interface GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails {
 }
 
 export const GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails: Schema.Schema<GoogleAnalyticsAdminV1alphaLinkProposalStatusDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestorEmail: Schema.optional(Schema.String),
       linkProposalState: Schema.optional(Schema.String),
@@ -909,7 +909,7 @@ export interface GoogleAnalyticsAdminV1alphaNumericValue {
 }
 
 export const GoogleAnalyticsAdminV1alphaNumericValue: Schema.Schema<GoogleAnalyticsAdminV1alphaNumericValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       int64Value: Schema.optional(Schema.String),
       doubleValue: Schema.optional(Schema.Number),
@@ -926,7 +926,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessBetweenFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessBetweenFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessBetweenFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fromValue: Schema.optional(GoogleAnalyticsAdminV1alphaNumericValue),
       toValue: Schema.optional(GoogleAnalyticsAdminV1alphaNumericValue),
@@ -943,7 +943,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessInListFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessInListFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessInListFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
       caseSensitive: Schema.optional(Schema.Boolean),
@@ -970,7 +970,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessStringFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessStringFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessStringFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchType: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -995,7 +995,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessNumericFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessNumericFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessNumericFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operation: Schema.optional(Schema.String),
       value: Schema.optional(GoogleAnalyticsAdminV1alphaNumericValue),
@@ -1018,7 +1018,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       betweenFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaAccessBetweenFilter,
@@ -1051,7 +1051,7 @@ export interface GoogleAnalyticsAdminV1alphaReportingIdentitySettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaReportingIdentitySettings: Schema.Schema<GoogleAnalyticsAdminV1alphaReportingIdentitySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportingIdentity: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1095,7 +1095,7 @@ export interface GoogleAnalyticsAdminV1alphaCustomMetric {
 }
 
 export const GoogleAnalyticsAdminV1alphaCustomMetric: Schema.Schema<GoogleAnalyticsAdminV1alphaCustomMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameterName: Schema.optional(Schema.String),
       scope: Schema.optional(Schema.String),
@@ -1117,7 +1117,7 @@ export interface GoogleAnalyticsAdminV1alphaListCustomMetricsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListCustomMetricsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListCustomMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customMetrics: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaCustomMetric),
@@ -1144,7 +1144,7 @@ export interface GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink: Schema.Schema<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       advertiserDisplayName: Schema.optional(Schema.String),
@@ -1183,7 +1183,7 @@ export interface GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       formInteractionsEnabled: Schema.optional(Schema.Boolean),
       searchQueryParameter: Schema.optional(Schema.String),
@@ -1221,7 +1221,7 @@ export interface GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposa
 }
 
 export const GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal: Schema.Schema<GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       validationEmail: Schema.optional(Schema.String),
       advertiserId: Schema.optional(Schema.String),
@@ -1251,7 +1251,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterClauseType: Schema.optional(Schema.String),
       filterExpression: Schema.optional(
@@ -1272,7 +1272,7 @@ export interface GoogleAnalyticsAdminV1alphaSubpropertyEventFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubpropertyEventFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaSubpropertyEventFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterClauses: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaSubpropertyEventFilterClause),
@@ -1351,7 +1351,7 @@ export interface GoogleAnalyticsAdminV1alphaProperty {
 }
 
 export const GoogleAnalyticsAdminV1alphaProperty: Schema.Schema<GoogleAnalyticsAdminV1alphaProperty> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       industryCategory: Schema.optional(Schema.String),
       deleteTime: Schema.optional(Schema.String),
@@ -1379,7 +1379,7 @@ export interface GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subpropertyEventFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaSubpropertyEventFilter,
@@ -1398,7 +1398,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessQuotaStatus {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessQuotaStatus: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessQuotaStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       consumed: Schema.optional(Schema.Number),
       remaining: Schema.optional(Schema.Number),
@@ -1421,7 +1421,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessQuota {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessQuota: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessQuota> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tokensPerDay: Schema.optional(
         GoogleAnalyticsAdminV1alphaAccessQuotaStatus,
@@ -1451,7 +1451,7 @@ export interface GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subpropertySyncConfigs: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaSubpropertySyncConfig),
@@ -1472,7 +1472,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessBinding {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessBinding: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessBinding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       user: Schema.optional(Schema.String),
       roles: Schema.optional(Schema.Array(Schema.String)),
@@ -1494,7 +1494,7 @@ export interface GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userId: Schema.optional(Schema.String),
       appInstanceId: Schema.optional(Schema.String),
@@ -1521,7 +1521,7 @@ export interface GoogleAnalyticsAdminV1alphaDataSharingSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataSharingSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaDataSharingSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sharingWithOthersEnabled: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
@@ -1552,7 +1552,7 @@ export interface GoogleAnalyticsAdminV1alphaExpandedDataSet {
 }
 
 export const GoogleAnalyticsAdminV1alphaExpandedDataSet: Schema.Schema<GoogleAnalyticsAdminV1alphaExpandedDataSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1576,7 +1576,7 @@ export interface GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expandedDataSets: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaExpandedDataSet),
@@ -1595,7 +1595,7 @@ export interface GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData: Schema.Schema<GoogleAnalyticsAdminV1alphaDataStreamAndroidAppStreamData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firebaseAppId: Schema.optional(Schema.String),
       packageName: Schema.optional(Schema.String),
@@ -1612,7 +1612,7 @@ export interface GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData: Schema.Schema<GoogleAnalyticsAdminV1alphaDataStreamIosAppStreamData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firebaseAppId: Schema.optional(Schema.String),
       bundleId: Schema.optional(Schema.String),
@@ -1631,7 +1631,7 @@ export interface GoogleAnalyticsAdminV1alphaDataStreamWebStreamData {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataStreamWebStreamData: Schema.Schema<GoogleAnalyticsAdminV1alphaDataStreamWebStreamData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultUri: Schema.optional(Schema.String),
       measurementId: Schema.optional(Schema.String),
@@ -1666,7 +1666,7 @@ export interface GoogleAnalyticsAdminV1alphaDataStream {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataStream: Schema.Schema<GoogleAnalyticsAdminV1alphaDataStream> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -1695,7 +1695,7 @@ export interface GoogleAnalyticsAdminV1alphaListDataStreamsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListDataStreamsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListDataStreamsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStreams: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaDataStream),
@@ -1724,7 +1724,7 @@ export interface GoogleAnalyticsAdminV1alphaAccount {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccount: Schema.Schema<GoogleAnalyticsAdminV1alphaAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       deleted: Schema.optional(Schema.Boolean),
@@ -1746,7 +1746,7 @@ export interface GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValu
 }
 
 export const GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValue: Schema.Schema<GoogleAnalyticsAdminV1alphaConversionEventDefaultConversionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       currencyCode: Schema.optional(Schema.String),
@@ -1764,7 +1764,7 @@ export interface GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       accessBinding: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding),
@@ -1779,7 +1779,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaCreateAccessBindingRequest),
@@ -1817,7 +1817,7 @@ export interface GoogleAnalyticsAdminV1alphaMatchingCondition {
 }
 
 export const GoogleAnalyticsAdminV1alphaMatchingCondition: Schema.Schema<GoogleAnalyticsAdminV1alphaMatchingCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(Schema.String),
       comparisonType: Schema.optional(Schema.String),
@@ -1836,7 +1836,7 @@ export interface GoogleAnalyticsAdminV1alphaParameterMutation {
 }
 
 export const GoogleAnalyticsAdminV1alphaParameterMutation: Schema.Schema<GoogleAnalyticsAdminV1alphaParameterMutation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameter: Schema.optional(Schema.String),
       parameterValue: Schema.optional(Schema.String),
@@ -1859,7 +1859,7 @@ export interface GoogleAnalyticsAdminV1alphaEventEditRule {
 }
 
 export const GoogleAnalyticsAdminV1alphaEventEditRule: Schema.Schema<GoogleAnalyticsAdminV1alphaEventEditRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventConditions: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaMatchingCondition),
@@ -1883,7 +1883,7 @@ export interface GoogleAnalyticsAdminV1alphaListEventEditRulesResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListEventEditRulesResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListEventEditRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventEditRules: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaEventEditRule),
@@ -1920,7 +1920,7 @@ export interface GoogleAnalyticsAdminV1alphaDataRetentionSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataRetentionSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaDataRetentionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventDataRetention: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1948,7 +1948,7 @@ export interface GoogleAnalyticsAdminV1alphaPropertySummary {
 }
 
 export const GoogleAnalyticsAdminV1alphaPropertySummary: Schema.Schema<GoogleAnalyticsAdminV1alphaPropertySummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       parent: Schema.optional(Schema.String),
@@ -1971,7 +1971,7 @@ export interface GoogleAnalyticsAdminV1alphaAccountSummary {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccountSummary: Schema.Schema<GoogleAnalyticsAdminV1alphaAccountSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       propertySummaries: Schema.optional(
@@ -1992,7 +1992,7 @@ export interface GoogleAnalyticsAdminV1alphaKeyEventDefaultValue {
 }
 
 export const GoogleAnalyticsAdminV1alphaKeyEventDefaultValue: Schema.Schema<GoogleAnalyticsAdminV1alphaKeyEventDefaultValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       numericValue: Schema.optional(Schema.Number),
@@ -2023,7 +2023,7 @@ export interface GoogleAnalyticsAdminV1alphaKeyEvent {
 }
 
 export const GoogleAnalyticsAdminV1alphaKeyEvent: Schema.Schema<GoogleAnalyticsAdminV1alphaKeyEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       custom: Schema.optional(Schema.Boolean),
@@ -2051,7 +2051,7 @@ export interface GoogleAnalyticsAdminV1alphaDataRedactionSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaDataRedactionSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaDataRedactionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryParameterKeys: Schema.optional(Schema.Array(Schema.String)),
       emailRedactionEnabled: Schema.optional(Schema.Boolean),
@@ -2095,7 +2095,7 @@ export interface GoogleAnalyticsAdminV1alphaAttributionSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaAttributionSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaAttributionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       otherConversionEventLookbackWindow: Schema.optional(Schema.String),
@@ -2125,7 +2125,7 @@ export interface GoogleAnalyticsAdminV1alphaGoogleSignalsSettings {
 }
 
 export const GoogleAnalyticsAdminV1alphaGoogleSignalsSettings: Schema.Schema<GoogleAnalyticsAdminV1alphaGoogleSignalsSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -2151,7 +2151,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchType: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -2166,7 +2166,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroupFilterInListFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2184,7 +2184,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroupFilter {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroupFilter: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroupFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaChannelGroupFilterStringFilter,
@@ -2204,7 +2204,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterExpressions: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression),
@@ -2226,7 +2226,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(GoogleAnalyticsAdminV1alphaChannelGroupFilter),
       andGroup: Schema.optional(
@@ -2251,7 +2251,7 @@ export interface GoogleAnalyticsAdminV1alphaGroupingRule {
 }
 
 export const GoogleAnalyticsAdminV1alphaGroupingRule: Schema.Schema<GoogleAnalyticsAdminV1alphaGroupingRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       expression: Schema.optional(
@@ -2278,7 +2278,7 @@ export interface GoogleAnalyticsAdminV1alphaChannelGroup {
 }
 
 export const GoogleAnalyticsAdminV1alphaChannelGroup: Schema.Schema<GoogleAnalyticsAdminV1alphaChannelGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2311,7 +2311,7 @@ export interface GoogleAnalyticsAdminV1alphaGoogleAdsLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaGoogleAdsLink: Schema.Schema<GoogleAnalyticsAdminV1alphaGoogleAdsLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerId: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -2333,7 +2333,7 @@ export interface GoogleAnalyticsAdminV1alphaAdSenseLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaAdSenseLink: Schema.Schema<GoogleAnalyticsAdminV1alphaAdSenseLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       adClientCode: Schema.optional(Schema.String),
@@ -2364,7 +2364,7 @@ export interface GoogleAnalyticsAdminV1alphaConversionEvent {
 }
 
 export const GoogleAnalyticsAdminV1alphaConversionEvent: Schema.Schema<GoogleAnalyticsAdminV1alphaConversionEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countingMethod: Schema.optional(Schema.String),
       eventName: Schema.optional(Schema.String),
@@ -2394,7 +2394,7 @@ export interface GoogleAnalyticsAdminV1alphaEventCreateRule {
 }
 
 export const GoogleAnalyticsAdminV1alphaEventCreateRule: Schema.Schema<GoogleAnalyticsAdminV1alphaEventCreateRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationEvent: Schema.optional(Schema.String),
       parameterMutations: Schema.optional(
@@ -2434,7 +2434,7 @@ export interface GoogleAnalyticsAdminV1alphaBigQueryLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaBigQueryLink: Schema.Schema<GoogleAnalyticsAdminV1alphaBigQueryLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetLocation: Schema.optional(Schema.String),
       dailyExportEnabled: Schema.optional(Schema.Boolean),
@@ -2465,7 +2465,7 @@ export interface GoogleAnalyticsAdminV1alphaEventMapping {
 }
 
 export const GoogleAnalyticsAdminV1alphaEventMapping: Schema.Schema<GoogleAnalyticsAdminV1alphaEventMapping> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minEventCount: Schema.optional(Schema.String),
       minEventValue: Schema.optional(Schema.Number),
@@ -2496,7 +2496,7 @@ export interface GoogleAnalyticsAdminV1alphaConversionValues {
 }
 
 export const GoogleAnalyticsAdminV1alphaConversionValues: Schema.Schema<GoogleAnalyticsAdminV1alphaConversionValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventMappings: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaEventMapping),
@@ -2518,7 +2518,7 @@ export interface GoogleAnalyticsAdminV1alphaPostbackWindow {
 }
 
 export const GoogleAnalyticsAdminV1alphaPostbackWindow: Schema.Schema<GoogleAnalyticsAdminV1alphaPostbackWindow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionValues: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaConversionValues),
@@ -2543,7 +2543,7 @@ export interface GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema {
 }
 
 export const GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema: Schema.Schema<GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       postbackWindowThree: Schema.optional(
@@ -2598,7 +2598,7 @@ export interface GoogleAnalyticsAdminV1alphaCalculatedMetric {
 }
 
 export const GoogleAnalyticsAdminV1alphaCalculatedMetric: Schema.Schema<GoogleAnalyticsAdminV1alphaCalculatedMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       calculatedMetricId: Schema.optional(Schema.String),
       invalidMetricReference: Schema.optional(Schema.Boolean),
@@ -2623,7 +2623,7 @@ export interface GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret {
 }
 
 export const GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret: Schema.Schema<GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       secretValue: Schema.optional(Schema.String),
@@ -2651,7 +2651,7 @@ export interface GoogleAnalyticsAdminV1alphaSearchAds360Link {
 }
 
 export const GoogleAnalyticsAdminV1alphaSearchAds360Link: Schema.Schema<GoogleAnalyticsAdminV1alphaSearchAds360Link> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       costDataSharingEnabled: Schema.optional(Schema.Boolean),
       advertiserId: Schema.optional(Schema.String),
@@ -2727,7 +2727,7 @@ export interface GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryReso
 }
 
 export const GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource: Schema.Schema<GoogleAnalyticsAdminV1alphaChangeHistoryChangeChangeHistoryResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customMetric: Schema.optional(GoogleAnalyticsAdminV1alphaCustomMetric),
       subpropertySyncConfig: Schema.optional(
@@ -2817,7 +2817,7 @@ export interface GoogleAnalyticsAdminV1alphaChangeHistoryChange {
 }
 
 export const GoogleAnalyticsAdminV1alphaChangeHistoryChange: Schema.Schema<GoogleAnalyticsAdminV1alphaChangeHistoryChange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(Schema.String),
       resourceAfterChange: Schema.optional(
@@ -2840,7 +2840,7 @@ export interface GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksRe
 }
 
 export const GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayVideo360AdvertiserLinks: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink),
@@ -2860,7 +2860,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessDateRange {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessDateRange: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessDateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startDate: Schema.optional(Schema.String),
       endDate: Schema.optional(Schema.String),
@@ -2872,7 +2872,7 @@ export const GoogleAnalyticsAdminV1alphaAccessDateRange: Schema.Schema<GoogleAna
 export interface GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse {}
 
 export const GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse>;
@@ -2883,7 +2883,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessDimension {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessDimension: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
     }),
@@ -2899,7 +2899,7 @@ export interface GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchAds360Links: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaSearchAds360Link),
@@ -2918,7 +2918,7 @@ export interface GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleAdsLinks: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaGoogleAdsLink),
@@ -2935,7 +2935,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBindings: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessBinding),
@@ -3003,7 +3003,7 @@ export interface GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceType: Schema.optional(Schema.Array(Schema.String)),
       action: Schema.optional(Schema.Array(Schema.String)),
@@ -3024,7 +3024,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessDimensionValue {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessDimensionValue: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessDimensionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -3038,7 +3038,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessMetricValue {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessMetricValue: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessMetricValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -3054,7 +3054,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessRow {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessRow: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionValues: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessDimensionValue),
@@ -3073,7 +3073,7 @@ export interface GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventEditRules: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3089,7 +3089,7 @@ export interface GoogleAnalyticsAdminV1alphaListChannelGroupsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListChannelGroupsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListChannelGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelGroups: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaChannelGroup),
@@ -3106,7 +3106,7 @@ export interface GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBinding: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding),
     }),
@@ -3120,7 +3120,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaUpdateAccessBindingRequest),
@@ -3138,7 +3138,7 @@ export interface GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       calculatedMetrics: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaCalculatedMetric),
@@ -3152,7 +3152,7 @@ export const GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse: Schema.Sc
 export interface GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest {}
 
 export const GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest>;
 
@@ -3170,7 +3170,7 @@ export interface GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subpropertyEventFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaSubpropertyEventFilter,
@@ -3192,7 +3192,7 @@ export interface GoogleAnalyticsAdminV1alphaRollupPropertySourceLink {
 }
 
 export const GoogleAnalyticsAdminV1alphaRollupPropertySourceLink: Schema.Schema<GoogleAnalyticsAdminV1alphaRollupPropertySourceLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       sourceProperty: Schema.optional(Schema.String),
@@ -3209,7 +3209,7 @@ export interface GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rollupProperty: Schema.optional(GoogleAnalyticsAdminV1alphaProperty),
       rollupPropertySourceLinks: Schema.optional(
@@ -3226,7 +3226,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessMetricHeader {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessMetricHeader: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessMetricHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricName: Schema.optional(Schema.String),
     }),
@@ -3242,7 +3242,7 @@ export interface GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       eventCreateRules: Schema.optional(
@@ -3261,7 +3261,7 @@ export interface GoogleAnalyticsAdminV1alphaListConversionEventsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListConversionEventsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListConversionEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionEvents: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaConversionEvent),
@@ -3280,7 +3280,7 @@ export interface GoogleAnalyticsAdminV1alphaListAccountsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListAccountsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accounts: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccount),
@@ -3299,7 +3299,7 @@ export interface GoogleAnalyticsAdminV1alphaListKeyEventsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListKeyEventsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListKeyEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyEvents: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaKeyEvent),
@@ -3316,7 +3316,7 @@ export interface GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLink
 }
 
 export const GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayVideo360AdvertiserLink: Schema.optional(
         GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink,
@@ -3333,7 +3333,7 @@ export interface GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest
 }
 
 export const GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       acknowledgement: Schema.optional(Schema.String),
     }),
@@ -3345,7 +3345,7 @@ export const GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest: Sc
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -3357,7 +3357,7 @@ export interface GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceProperties: Schema.optional(Schema.Array(Schema.String)),
       rollupProperty: Schema.optional(GoogleAnalyticsAdminV1alphaProperty),
@@ -3379,7 +3379,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
       orderType: Schema.optional(Schema.String),
@@ -3394,7 +3394,7 @@ export interface GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountTicketId: Schema.optional(Schema.String),
     }),
@@ -3414,7 +3414,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessFilterExpression {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessFilterExpression: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessFilterExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessFilter: Schema.optional(GoogleAnalyticsAdminV1alphaAccessFilter),
       andGroup: Schema.optional(
@@ -3437,7 +3437,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessFilterExpressionList {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessFilterExpressionList: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessFilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessFilterExpression),
@@ -3455,7 +3455,7 @@ export interface GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse 
 }
 
 export const GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subpropertyEventFilters: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaSubpropertyEventFilter),
@@ -3470,7 +3470,7 @@ export const GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse: Sch
 export interface GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest {}
 
 export const GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest>;
@@ -3483,7 +3483,7 @@ export interface GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adsenseLinks: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAdSenseLink),
@@ -3515,7 +3515,7 @@ export interface GoogleAnalyticsAdminV1alphaChangeHistoryEvent {
 }
 
 export const GoogleAnalyticsAdminV1alphaChangeHistoryEvent: Schema.Schema<GoogleAnalyticsAdminV1alphaChangeHistoryEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       changes: Schema.optional(
@@ -3538,7 +3538,7 @@ export interface GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksRespons
 }
 
 export const GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       rollupPropertySourceLinks: Schema.optional(
@@ -3558,7 +3558,7 @@ export interface GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsRespon
 }
 
 export const GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       measurementProtocolSecrets: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret),
@@ -3578,7 +3578,7 @@ export interface GoogleAnalyticsAdminV1alphaListAccessBindingsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListAccessBindingsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListAccessBindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBindings: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessBinding),
@@ -3592,7 +3592,7 @@ export const GoogleAnalyticsAdminV1alphaListAccessBindingsResponse: Schema.Schem
 export interface GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest {}
 
 export const GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest>;
 
@@ -3604,7 +3604,7 @@ export interface GoogleAnalyticsAdminV1alphaListPropertiesResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListPropertiesResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListPropertiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaProperty),
@@ -3623,7 +3623,7 @@ export interface GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       customDimensions: Schema.optional(
@@ -3640,7 +3640,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessDimensionHeader {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessDimensionHeader: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessDimensionHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
     }),
@@ -3656,7 +3656,7 @@ export interface GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchema
 }
 
 export const GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       skadnetworkConversionValueSchemas: Schema.optional(
@@ -3676,7 +3676,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessMetric {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessMetric: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricName: Schema.optional(Schema.String),
     }),
@@ -3690,7 +3690,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessOrderByMetricOrderBy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricName: Schema.optional(Schema.String),
     }),
@@ -3712,7 +3712,7 @@ export interface GoogleAnalyticsAdminV1alphaRunAccessReportResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaRunAccessReportResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaRunAccessReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quota: Schema.optional(GoogleAnalyticsAdminV1alphaAccessQuota),
       metricHeaders: Schema.optional(
@@ -3731,7 +3731,7 @@ export const GoogleAnalyticsAdminV1alphaRunAccessReportResponse: Schema.Schema<G
 export interface GoogleAnalyticsAdminV1alphaArchiveAudienceRequest {}
 
 export const GoogleAnalyticsAdminV1alphaArchiveAudienceRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveAudienceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAnalyticsAdminV1alphaArchiveAudienceRequest",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaArchiveAudienceRequest>;
 
@@ -3743,7 +3743,7 @@ export interface GoogleAnalyticsAdminV1alphaGlobalSiteTag {
 }
 
 export const GoogleAnalyticsAdminV1alphaGlobalSiteTag: Schema.Schema<GoogleAnalyticsAdminV1alphaGlobalSiteTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       snippet: Schema.optional(Schema.String),
@@ -3758,7 +3758,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBindings: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessBinding),
@@ -3776,7 +3776,7 @@ export interface GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       changeHistoryEvents: Schema.optional(
@@ -3790,7 +3790,7 @@ export const GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse: Schem
 export interface GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest {}
 
 export const GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest",
   }) as any as Schema.Schema<GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest>;
@@ -3803,7 +3803,7 @@ export interface GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectUri: Schema.optional(Schema.String),
       account: Schema.optional(GoogleAnalyticsAdminV1alphaAccount),
@@ -3818,7 +3818,7 @@ export interface GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletionRequestTime: Schema.optional(Schema.String),
     }),
@@ -3836,7 +3836,7 @@ export interface GoogleAnalyticsAdminV1alphaAccessOrderBy {
 }
 
 export const GoogleAnalyticsAdminV1alphaAccessOrderBy: Schema.Schema<GoogleAnalyticsAdminV1alphaAccessOrderBy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimension: Schema.optional(
         GoogleAnalyticsAdminV1alphaAccessOrderByDimensionOrderBy,
@@ -3858,7 +3858,7 @@ export interface GoogleAnalyticsAdminV1alphaListAccountSummariesResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListAccountSummariesResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListAccountSummariesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       accountSummaries: Schema.optional(
@@ -3897,7 +3897,7 @@ export interface GoogleAnalyticsAdminV1alphaRunAccessReportRequest {
 }
 
 export const GoogleAnalyticsAdminV1alphaRunAccessReportRequest: Schema.Schema<GoogleAnalyticsAdminV1alphaRunAccessReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionFilter: Schema.optional(
         GoogleAnalyticsAdminV1alphaAccessFilterExpression,
@@ -3936,7 +3936,7 @@ export interface GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryLinks: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaBigQueryLink),
@@ -3953,7 +3953,7 @@ export interface GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse {
 }
 
 export const GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessBindings: Schema.optional(
         Schema.Array(GoogleAnalyticsAdminV1alphaAccessBinding),
@@ -3971,7 +3971,7 @@ export interface GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkPro
 }
 
 export const GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse: Schema.Schema<GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayVideo360AdvertiserLinkProposals: Schema.optional(
         Schema.Array(
@@ -3998,25 +3998,26 @@ export interface UpdateGoogleSignalsSettingsPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
 }
 
-export const UpdateGoogleSignalsSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaGoogleSignalsSettings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/googleSignalsSettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGoogleSignalsSettingsPropertiesRequest>;
+export const UpdateGoogleSignalsSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaGoogleSignalsSettings,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/googleSignalsSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGoogleSignalsSettingsPropertiesRequest>;
 
 export type UpdateGoogleSignalsSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
 export const UpdateGoogleSignalsSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
 
 export type UpdateGoogleSignalsSettingsPropertiesError = DefaultErrors;
 
@@ -4026,7 +4027,7 @@ export const updateGoogleSignalsSettingsProperties: API.OperationMethod<
   UpdateGoogleSignalsSettingsPropertiesResponse,
   UpdateGoogleSignalsSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGoogleSignalsSettingsPropertiesRequest,
   output: UpdateGoogleSignalsSettingsPropertiesResponse,
   errors: [],
@@ -4043,7 +4044,7 @@ export interface ListPropertiesRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesRequest = Schema.Struct({
+export const ListPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -4056,7 +4057,7 @@ export const ListPropertiesRequest = Schema.Struct({
 export type ListPropertiesResponse =
   GoogleAnalyticsAdminV1alphaListPropertiesResponse;
 export const ListPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaListPropertiesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListPropertiesResponse;
 
 export type ListPropertiesError = DefaultErrors;
 
@@ -4066,7 +4067,7 @@ export const listProperties: API.PaginatedOperationMethod<
   ListPropertiesResponse,
   ListPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesRequest,
   output: ListPropertiesResponse,
   errors: [],
@@ -4081,20 +4082,21 @@ export interface GetDataRetentionSettingsPropertiesRequest {
   name: string;
 }
 
-export const GetDataRetentionSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataRetentionSettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDataRetentionSettingsPropertiesRequest>;
+export const GetDataRetentionSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataRetentionSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDataRetentionSettingsPropertiesRequest>;
 
 export type GetDataRetentionSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaDataRetentionSettings;
 export const GetDataRetentionSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaDataRetentionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataRetentionSettings;
 
 export type GetDataRetentionSettingsPropertiesError = DefaultErrors;
 
@@ -4104,7 +4106,7 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
   GetDataRetentionSettingsPropertiesResponse,
   GetDataRetentionSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataRetentionSettingsPropertiesRequest,
   output: GetDataRetentionSettingsPropertiesResponse,
   errors: [],
@@ -4117,24 +4119,25 @@ export interface SubmitUserDeletionPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest;
 }
 
-export const SubmitUserDeletionPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}:submitUserDeletion",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SubmitUserDeletionPropertiesRequest>;
+export const SubmitUserDeletionPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaSubmitUserDeletionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}:submitUserDeletion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SubmitUserDeletionPropertiesRequest>;
 
 export type SubmitUserDeletionPropertiesResponse =
   GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse;
 export const SubmitUserDeletionPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubmitUserDeletionResponse;
 
 export type SubmitUserDeletionPropertiesError = DefaultErrors;
 
@@ -4144,7 +4147,7 @@ export const submitUserDeletionProperties: API.OperationMethod<
   SubmitUserDeletionPropertiesResponse,
   SubmitUserDeletionPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubmitUserDeletionPropertiesRequest,
   output: SubmitUserDeletionPropertiesResponse,
   errors: [],
@@ -4159,25 +4162,26 @@ export interface UpdateAttributionSettingsPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaAttributionSettings;
 }
 
-export const UpdateAttributionSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAttributionSettings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/attributionSettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAttributionSettingsPropertiesRequest>;
+export const UpdateAttributionSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAttributionSettings).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/attributionSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAttributionSettingsPropertiesRequest>;
 
 export type UpdateAttributionSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaAttributionSettings;
 export const UpdateAttributionSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaAttributionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAttributionSettings;
 
 export type UpdateAttributionSettingsPropertiesError = DefaultErrors;
 
@@ -4187,7 +4191,7 @@ export const updateAttributionSettingsProperties: API.OperationMethod<
   UpdateAttributionSettingsPropertiesResponse,
   UpdateAttributionSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAttributionSettingsPropertiesRequest,
   output: UpdateAttributionSettingsPropertiesResponse,
   errors: [],
@@ -4198,15 +4202,17 @@ export interface DeletePropertiesRequest {
   name: string;
 }
 
-export const DeletePropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1alpha/properties/{propertiesId}" }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesRequest>;
+export const DeletePropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1alpha/properties/{propertiesId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesRequest>;
 
 export type DeletePropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
-export const DeletePropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
+export const DeletePropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProperty;
 
 export type DeletePropertiesError = DefaultErrors;
 
@@ -4216,7 +4222,7 @@ export const deleteProperties: API.OperationMethod<
   DeletePropertiesResponse,
   DeletePropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesRequest,
   output: DeletePropertiesResponse,
   errors: [],
@@ -4227,20 +4233,21 @@ export interface GetGoogleSignalsSettingsPropertiesRequest {
   name: string;
 }
 
-export const GetGoogleSignalsSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/googleSignalsSettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGoogleSignalsSettingsPropertiesRequest>;
+export const GetGoogleSignalsSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/googleSignalsSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGoogleSignalsSettingsPropertiesRequest>;
 
 export type GetGoogleSignalsSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
 export const GetGoogleSignalsSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaGoogleSignalsSettings;
 
 export type GetGoogleSignalsSettingsPropertiesError = DefaultErrors;
 
@@ -4250,7 +4257,7 @@ export const getGoogleSignalsSettingsProperties: API.OperationMethod<
   GetGoogleSignalsSettingsPropertiesResponse,
   GetGoogleSignalsSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGoogleSignalsSettingsPropertiesRequest,
   output: GetGoogleSignalsSettingsPropertiesResponse,
   errors: [],
@@ -4261,7 +4268,7 @@ export interface GetPropertiesRequest {
   name: string;
 }
 
-export const GetPropertiesRequest = Schema.Struct({
+export const GetPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/properties/{propertiesId}" }),
@@ -4269,7 +4276,8 @@ export const GetPropertiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPropertiesRequest>;
 
 export type GetPropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
-export const GetPropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
+export const GetPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProperty;
 
 export type GetPropertiesError = DefaultErrors;
 
@@ -4279,7 +4287,7 @@ export const getProperties: API.OperationMethod<
   GetPropertiesResponse,
   GetPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesRequest,
   output: GetPropertiesResponse,
   errors: [],
@@ -4290,20 +4298,21 @@ export interface GetAttributionSettingsPropertiesRequest {
   name: string;
 }
 
-export const GetAttributionSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/attributionSettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAttributionSettingsPropertiesRequest>;
+export const GetAttributionSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/attributionSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAttributionSettingsPropertiesRequest>;
 
 export type GetAttributionSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaAttributionSettings;
 export const GetAttributionSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaAttributionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAttributionSettings;
 
 export type GetAttributionSettingsPropertiesError = DefaultErrors;
 
@@ -4313,7 +4322,7 @@ export const getAttributionSettingsProperties: API.OperationMethod<
   GetAttributionSettingsPropertiesResponse,
   GetAttributionSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributionSettingsPropertiesRequest,
   output: GetAttributionSettingsPropertiesResponse,
   errors: [],
@@ -4324,23 +4333,24 @@ export interface CreateRollupPropertyPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest;
 }
 
-export const CreateRollupPropertyPropertiesRequest = Schema.Struct({
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties:createRollupProperty",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateRollupPropertyPropertiesRequest>;
+export const CreateRollupPropertyPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaCreateRollupPropertyRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties:createRollupProperty",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateRollupPropertyPropertiesRequest>;
 
 export type CreateRollupPropertyPropertiesResponse =
   GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse;
 export const CreateRollupPropertyPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCreateRollupPropertyResponse;
 
 export type CreateRollupPropertyPropertiesError = DefaultErrors;
 
@@ -4350,7 +4360,7 @@ export const createRollupPropertyProperties: API.OperationMethod<
   CreateRollupPropertyPropertiesResponse,
   CreateRollupPropertyPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRollupPropertyPropertiesRequest,
   output: CreateRollupPropertyPropertiesResponse,
   errors: [],
@@ -4365,11 +4375,15 @@ export interface PatchPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaProperty;
 }
 
-export const PatchPropertiesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaProperty).pipe(T.HttpBody()),
-}).pipe(
+export const PatchPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaProperty).pipe(
+      T.HttpBody(),
+    ),
+  },
+).pipe(
   T.Http({
     method: "PATCH",
     path: "v1alpha/properties/{propertiesId}",
@@ -4379,7 +4393,8 @@ export const PatchPropertiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchPropertiesRequest>;
 
 export type PatchPropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
-export const PatchPropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
+export const PatchPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProperty;
 
 export type PatchPropertiesError = DefaultErrors;
 
@@ -4389,7 +4404,7 @@ export const patchProperties: API.OperationMethod<
   PatchPropertiesResponse,
   PatchPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesRequest,
   output: PatchPropertiesResponse,
   errors: [],
@@ -4402,24 +4417,25 @@ export interface AcknowledgeUserDataCollectionPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest;
 }
 
-export const AcknowledgeUserDataCollectionPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}:acknowledgeUserDataCollection",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcknowledgeUserDataCollectionPropertiesRequest>;
+export const AcknowledgeUserDataCollectionPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}:acknowledgeUserDataCollection",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcknowledgeUserDataCollectionPropertiesRequest>;
 
 export type AcknowledgeUserDataCollectionPropertiesResponse =
   GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse;
 export const AcknowledgeUserDataCollectionPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAcknowledgeUserDataCollectionResponse;
 
 export type AcknowledgeUserDataCollectionPropertiesError = DefaultErrors;
 
@@ -4429,7 +4445,7 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
   AcknowledgeUserDataCollectionPropertiesResponse,
   AcknowledgeUserDataCollectionPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcknowledgeUserDataCollectionPropertiesRequest,
   output: AcknowledgeUserDataCollectionPropertiesResponse,
   errors: [],
@@ -4440,20 +4456,21 @@ export interface GetReportingIdentitySettingsPropertiesRequest {
   name: string;
 }
 
-export const GetReportingIdentitySettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/reportingIdentitySettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetReportingIdentitySettingsPropertiesRequest>;
+export const GetReportingIdentitySettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/reportingIdentitySettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetReportingIdentitySettingsPropertiesRequest>;
 
 export type GetReportingIdentitySettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaReportingIdentitySettings;
 export const GetReportingIdentitySettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaReportingIdentitySettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaReportingIdentitySettings;
 
 export type GetReportingIdentitySettingsPropertiesError = DefaultErrors;
 
@@ -4463,7 +4480,7 @@ export const getReportingIdentitySettingsProperties: API.OperationMethod<
   GetReportingIdentitySettingsPropertiesResponse,
   GetReportingIdentitySettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReportingIdentitySettingsPropertiesRequest,
   output: GetReportingIdentitySettingsPropertiesResponse,
   errors: [],
@@ -4476,24 +4493,25 @@ export interface RunAccessReportPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaRunAccessReportRequest;
 }
 
-export const RunAccessReportPropertiesRequest = Schema.Struct({
-  entity: Schema.String.pipe(T.HttpPath("entity")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaRunAccessReportRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}:runAccessReport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunAccessReportPropertiesRequest>;
+export const RunAccessReportPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    entity: Schema.String.pipe(T.HttpPath("entity")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaRunAccessReportRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}:runAccessReport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunAccessReportPropertiesRequest>;
 
 export type RunAccessReportPropertiesResponse =
   GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
 export const RunAccessReportPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
 
 export type RunAccessReportPropertiesError = DefaultErrors;
 
@@ -4503,7 +4521,7 @@ export const runAccessReportProperties: API.OperationMethod<
   RunAccessReportPropertiesResponse,
   RunAccessReportPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAccessReportPropertiesRequest,
   output: RunAccessReportPropertiesResponse,
   errors: [],
@@ -4518,25 +4536,26 @@ export interface UpdateDataRetentionSettingsPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaDataRetentionSettings;
 }
 
-export const UpdateDataRetentionSettingsPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaDataRetentionSettings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/dataRetentionSettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateDataRetentionSettingsPropertiesRequest>;
+export const UpdateDataRetentionSettingsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaDataRetentionSettings,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/dataRetentionSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateDataRetentionSettingsPropertiesRequest>;
 
 export type UpdateDataRetentionSettingsPropertiesResponse =
   GoogleAnalyticsAdminV1alphaDataRetentionSettings;
 export const UpdateDataRetentionSettingsPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaDataRetentionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataRetentionSettings;
 
 export type UpdateDataRetentionSettingsPropertiesError = DefaultErrors;
 
@@ -4546,7 +4565,7 @@ export const updateDataRetentionSettingsProperties: API.OperationMethod<
   UpdateDataRetentionSettingsPropertiesResponse,
   UpdateDataRetentionSettingsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRetentionSettingsPropertiesRequest,
   output: UpdateDataRetentionSettingsPropertiesResponse,
   errors: [],
@@ -4557,15 +4576,19 @@ export interface CreatePropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaProperty;
 }
 
-export const CreatePropertiesRequest = Schema.Struct({
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaProperty).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1alpha/properties", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesRequest>;
+export const CreatePropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaProperty).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1alpha/properties", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesRequest>;
 
 export type CreatePropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
-export const CreatePropertiesResponse = GoogleAnalyticsAdminV1alphaProperty;
+export const CreatePropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProperty;
 
 export type CreatePropertiesError = DefaultErrors;
 
@@ -4575,7 +4598,7 @@ export const createProperties: API.OperationMethod<
   CreatePropertiesResponse,
   CreatePropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesRequest,
   output: CreatePropertiesResponse,
   errors: [],
@@ -4586,23 +4609,24 @@ export interface ProvisionSubpropertyPropertiesRequest {
   body?: GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest;
 }
 
-export const ProvisionSubpropertyPropertiesRequest = Schema.Struct({
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties:provisionSubproperty",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionSubpropertyPropertiesRequest>;
+export const ProvisionSubpropertyPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaProvisionSubpropertyRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties:provisionSubproperty",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionSubpropertyPropertiesRequest>;
 
 export type ProvisionSubpropertyPropertiesResponse =
   GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse;
 export const ProvisionSubpropertyPropertiesResponse =
-  GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProvisionSubpropertyResponse;
 
 export type ProvisionSubpropertyPropertiesError = DefaultErrors;
 
@@ -4612,7 +4636,7 @@ export const provisionSubpropertyProperties: API.OperationMethod<
   ProvisionSubpropertyPropertiesResponse,
   ProvisionSubpropertyPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionSubpropertyPropertiesRequest,
   output: ProvisionSubpropertyPropertiesResponse,
   errors: [],
@@ -4627,25 +4651,26 @@ export interface PatchPropertiesGoogleAdsLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 }
 
-export const PatchPropertiesGoogleAdsLinksRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaGoogleAdsLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/googleAdsLinks/{googleAdsLinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesGoogleAdsLinksRequest>;
+export const PatchPropertiesGoogleAdsLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaGoogleAdsLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/googleAdsLinks/{googleAdsLinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesGoogleAdsLinksRequest>;
 
 export type PatchPropertiesGoogleAdsLinksResponse =
   GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 export const PatchPropertiesGoogleAdsLinksResponse =
-  GoogleAnalyticsAdminV1alphaGoogleAdsLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 
 export type PatchPropertiesGoogleAdsLinksError = DefaultErrors;
 
@@ -4655,7 +4680,7 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
   PatchPropertiesGoogleAdsLinksResponse,
   PatchPropertiesGoogleAdsLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesGoogleAdsLinksRequest,
   output: PatchPropertiesGoogleAdsLinksResponse,
   errors: [],
@@ -4668,24 +4693,25 @@ export interface CreatePropertiesGoogleAdsLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 }
 
-export const CreatePropertiesGoogleAdsLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaGoogleAdsLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/googleAdsLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesGoogleAdsLinksRequest>;
+export const CreatePropertiesGoogleAdsLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaGoogleAdsLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/googleAdsLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesGoogleAdsLinksRequest>;
 
 export type CreatePropertiesGoogleAdsLinksResponse =
   GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 export const CreatePropertiesGoogleAdsLinksResponse =
-  GoogleAnalyticsAdminV1alphaGoogleAdsLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaGoogleAdsLink;
 
 export type CreatePropertiesGoogleAdsLinksError = DefaultErrors;
 
@@ -4695,7 +4721,7 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
   CreatePropertiesGoogleAdsLinksResponse,
   CreatePropertiesGoogleAdsLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesGoogleAdsLinksRequest,
   output: CreatePropertiesGoogleAdsLinksResponse,
   errors: [],
@@ -4710,22 +4736,23 @@ export interface ListPropertiesGoogleAdsLinksRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesGoogleAdsLinksRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/googleAdsLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesGoogleAdsLinksRequest>;
+export const ListPropertiesGoogleAdsLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/googleAdsLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesGoogleAdsLinksRequest>;
 
 export type ListPropertiesGoogleAdsLinksResponse =
   GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse;
 export const ListPropertiesGoogleAdsLinksResponse =
-  GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse;
 
 export type ListPropertiesGoogleAdsLinksError = DefaultErrors;
 
@@ -4735,7 +4762,7 @@ export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
   ListPropertiesGoogleAdsLinksResponse,
   ListPropertiesGoogleAdsLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesGoogleAdsLinksRequest,
   output: ListPropertiesGoogleAdsLinksResponse,
   errors: [],
@@ -4750,18 +4777,20 @@ export interface DeletePropertiesGoogleAdsLinksRequest {
   name: string;
 }
 
-export const DeletePropertiesGoogleAdsLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/googleAdsLinks/{googleAdsLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesGoogleAdsLinksRequest>;
+export const DeletePropertiesGoogleAdsLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/googleAdsLinks/{googleAdsLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesGoogleAdsLinksRequest>;
 
 export type DeletePropertiesGoogleAdsLinksResponse = GoogleProtobufEmpty;
-export const DeletePropertiesGoogleAdsLinksResponse = GoogleProtobufEmpty;
+export const DeletePropertiesGoogleAdsLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesGoogleAdsLinksError = DefaultErrors;
 
@@ -4771,7 +4800,7 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
   DeletePropertiesGoogleAdsLinksResponse,
   DeletePropertiesGoogleAdsLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesGoogleAdsLinksRequest,
   output: DeletePropertiesGoogleAdsLinksResponse,
   errors: [],
@@ -4786,25 +4815,26 @@ export interface PatchPropertiesChannelGroupsRequest {
   body?: GoogleAnalyticsAdminV1alphaChannelGroup;
 }
 
-export const PatchPropertiesChannelGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaChannelGroup).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesChannelGroupsRequest>;
+export const PatchPropertiesChannelGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaChannelGroup).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesChannelGroupsRequest>;
 
 export type PatchPropertiesChannelGroupsResponse =
   GoogleAnalyticsAdminV1alphaChannelGroup;
 export const PatchPropertiesChannelGroupsResponse =
-  GoogleAnalyticsAdminV1alphaChannelGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaChannelGroup;
 
 export type PatchPropertiesChannelGroupsError = DefaultErrors;
 
@@ -4814,7 +4844,7 @@ export const patchPropertiesChannelGroups: API.OperationMethod<
   PatchPropertiesChannelGroupsResponse,
   PatchPropertiesChannelGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesChannelGroupsRequest,
   output: PatchPropertiesChannelGroupsResponse,
   errors: [],
@@ -4825,20 +4855,21 @@ export interface GetPropertiesChannelGroupsRequest {
   name: string;
 }
 
-export const GetPropertiesChannelGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesChannelGroupsRequest>;
+export const GetPropertiesChannelGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesChannelGroupsRequest>;
 
 export type GetPropertiesChannelGroupsResponse =
   GoogleAnalyticsAdminV1alphaChannelGroup;
 export const GetPropertiesChannelGroupsResponse =
-  GoogleAnalyticsAdminV1alphaChannelGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaChannelGroup;
 
 export type GetPropertiesChannelGroupsError = DefaultErrors;
 
@@ -4848,7 +4879,7 @@ export const getPropertiesChannelGroups: API.OperationMethod<
   GetPropertiesChannelGroupsResponse,
   GetPropertiesChannelGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesChannelGroupsRequest,
   output: GetPropertiesChannelGroupsResponse,
   errors: [],
@@ -4859,18 +4890,20 @@ export interface DeletePropertiesChannelGroupsRequest {
   name: string;
 }
 
-export const DeletePropertiesChannelGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesChannelGroupsRequest>;
+export const DeletePropertiesChannelGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/channelGroups/{channelGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesChannelGroupsRequest>;
 
 export type DeletePropertiesChannelGroupsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesChannelGroupsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesChannelGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesChannelGroupsError = DefaultErrors;
 
@@ -4880,7 +4913,7 @@ export const deletePropertiesChannelGroups: API.OperationMethod<
   DeletePropertiesChannelGroupsResponse,
   DeletePropertiesChannelGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesChannelGroupsRequest,
   output: DeletePropertiesChannelGroupsResponse,
   errors: [],
@@ -4895,22 +4928,23 @@ export interface ListPropertiesChannelGroupsRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesChannelGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/channelGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesChannelGroupsRequest>;
+export const ListPropertiesChannelGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/channelGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesChannelGroupsRequest>;
 
 export type ListPropertiesChannelGroupsResponse =
   GoogleAnalyticsAdminV1alphaListChannelGroupsResponse;
 export const ListPropertiesChannelGroupsResponse =
-  GoogleAnalyticsAdminV1alphaListChannelGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListChannelGroupsResponse;
 
 export type ListPropertiesChannelGroupsError = DefaultErrors;
 
@@ -4920,7 +4954,7 @@ export const listPropertiesChannelGroups: API.PaginatedOperationMethod<
   ListPropertiesChannelGroupsResponse,
   ListPropertiesChannelGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesChannelGroupsRequest,
   output: ListPropertiesChannelGroupsResponse,
   errors: [],
@@ -4937,24 +4971,25 @@ export interface CreatePropertiesChannelGroupsRequest {
   body?: GoogleAnalyticsAdminV1alphaChannelGroup;
 }
 
-export const CreatePropertiesChannelGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaChannelGroup).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/channelGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesChannelGroupsRequest>;
+export const CreatePropertiesChannelGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaChannelGroup).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/channelGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesChannelGroupsRequest>;
 
 export type CreatePropertiesChannelGroupsResponse =
   GoogleAnalyticsAdminV1alphaChannelGroup;
 export const CreatePropertiesChannelGroupsResponse =
-  GoogleAnalyticsAdminV1alphaChannelGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaChannelGroup;
 
 export type CreatePropertiesChannelGroupsError = DefaultErrors;
 
@@ -4964,7 +4999,7 @@ export const createPropertiesChannelGroups: API.OperationMethod<
   CreatePropertiesChannelGroupsResponse,
   CreatePropertiesChannelGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesChannelGroupsRequest,
   output: CreatePropertiesChannelGroupsResponse,
   errors: [],
@@ -4975,18 +5010,20 @@ export interface DeletePropertiesAdSenseLinksRequest {
   name: string;
 }
 
-export const DeletePropertiesAdSenseLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/adSenseLinks/{adSenseLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesAdSenseLinksRequest>;
+export const DeletePropertiesAdSenseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/adSenseLinks/{adSenseLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesAdSenseLinksRequest>;
 
 export type DeletePropertiesAdSenseLinksResponse = GoogleProtobufEmpty;
-export const DeletePropertiesAdSenseLinksResponse = GoogleProtobufEmpty;
+export const DeletePropertiesAdSenseLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesAdSenseLinksError = DefaultErrors;
 
@@ -4996,7 +5033,7 @@ export const deletePropertiesAdSenseLinks: API.OperationMethod<
   DeletePropertiesAdSenseLinksResponse,
   DeletePropertiesAdSenseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesAdSenseLinksRequest,
   output: DeletePropertiesAdSenseLinksResponse,
   errors: [],
@@ -5007,20 +5044,21 @@ export interface GetPropertiesAdSenseLinksRequest {
   name: string;
 }
 
-export const GetPropertiesAdSenseLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/adSenseLinks/{adSenseLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesAdSenseLinksRequest>;
+export const GetPropertiesAdSenseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/adSenseLinks/{adSenseLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesAdSenseLinksRequest>;
 
 export type GetPropertiesAdSenseLinksResponse =
   GoogleAnalyticsAdminV1alphaAdSenseLink;
 export const GetPropertiesAdSenseLinksResponse =
-  GoogleAnalyticsAdminV1alphaAdSenseLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAdSenseLink;
 
 export type GetPropertiesAdSenseLinksError = DefaultErrors;
 
@@ -5030,7 +5068,7 @@ export const getPropertiesAdSenseLinks: API.OperationMethod<
   GetPropertiesAdSenseLinksResponse,
   GetPropertiesAdSenseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesAdSenseLinksRequest,
   output: GetPropertiesAdSenseLinksResponse,
   errors: [],
@@ -5043,24 +5081,25 @@ export interface CreatePropertiesAdSenseLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaAdSenseLink;
 }
 
-export const CreatePropertiesAdSenseLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAdSenseLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/adSenseLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesAdSenseLinksRequest>;
+export const CreatePropertiesAdSenseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAdSenseLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/adSenseLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesAdSenseLinksRequest>;
 
 export type CreatePropertiesAdSenseLinksResponse =
   GoogleAnalyticsAdminV1alphaAdSenseLink;
 export const CreatePropertiesAdSenseLinksResponse =
-  GoogleAnalyticsAdminV1alphaAdSenseLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAdSenseLink;
 
 export type CreatePropertiesAdSenseLinksError = DefaultErrors;
 
@@ -5070,7 +5109,7 @@ export const createPropertiesAdSenseLinks: API.OperationMethod<
   CreatePropertiesAdSenseLinksResponse,
   CreatePropertiesAdSenseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesAdSenseLinksRequest,
   output: CreatePropertiesAdSenseLinksResponse,
   errors: [],
@@ -5085,22 +5124,23 @@ export interface ListPropertiesAdSenseLinksRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesAdSenseLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/adSenseLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesAdSenseLinksRequest>;
+export const ListPropertiesAdSenseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/adSenseLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesAdSenseLinksRequest>;
 
 export type ListPropertiesAdSenseLinksResponse =
   GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse;
 export const ListPropertiesAdSenseLinksResponse =
-  GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAdSenseLinksResponse;
 
 export type ListPropertiesAdSenseLinksError = DefaultErrors;
 
@@ -5110,7 +5150,7 @@ export const listPropertiesAdSenseLinks: API.PaginatedOperationMethod<
   ListPropertiesAdSenseLinksResponse,
   ListPropertiesAdSenseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesAdSenseLinksRequest,
   output: ListPropertiesAdSenseLinksResponse,
   errors: [],
@@ -5127,24 +5167,25 @@ export interface CreatePropertiesFirebaseLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaFirebaseLink;
 }
 
-export const CreatePropertiesFirebaseLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaFirebaseLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/firebaseLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesFirebaseLinksRequest>;
+export const CreatePropertiesFirebaseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaFirebaseLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/firebaseLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesFirebaseLinksRequest>;
 
 export type CreatePropertiesFirebaseLinksResponse =
   GoogleAnalyticsAdminV1alphaFirebaseLink;
 export const CreatePropertiesFirebaseLinksResponse =
-  GoogleAnalyticsAdminV1alphaFirebaseLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaFirebaseLink;
 
 export type CreatePropertiesFirebaseLinksError = DefaultErrors;
 
@@ -5154,7 +5195,7 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
   CreatePropertiesFirebaseLinksResponse,
   CreatePropertiesFirebaseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesFirebaseLinksRequest,
   output: CreatePropertiesFirebaseLinksResponse,
   errors: [],
@@ -5169,22 +5210,23 @@ export interface ListPropertiesFirebaseLinksRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesFirebaseLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/firebaseLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesFirebaseLinksRequest>;
+export const ListPropertiesFirebaseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/firebaseLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesFirebaseLinksRequest>;
 
 export type ListPropertiesFirebaseLinksResponse =
   GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse;
 export const ListPropertiesFirebaseLinksResponse =
-  GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListFirebaseLinksResponse;
 
 export type ListPropertiesFirebaseLinksError = DefaultErrors;
 
@@ -5194,7 +5236,7 @@ export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
   ListPropertiesFirebaseLinksResponse,
   ListPropertiesFirebaseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesFirebaseLinksRequest,
   output: ListPropertiesFirebaseLinksResponse,
   errors: [],
@@ -5209,18 +5251,20 @@ export interface DeletePropertiesFirebaseLinksRequest {
   name: string;
 }
 
-export const DeletePropertiesFirebaseLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/firebaseLinks/{firebaseLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesFirebaseLinksRequest>;
+export const DeletePropertiesFirebaseLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/firebaseLinks/{firebaseLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesFirebaseLinksRequest>;
 
 export type DeletePropertiesFirebaseLinksResponse = GoogleProtobufEmpty;
-export const DeletePropertiesFirebaseLinksResponse = GoogleProtobufEmpty;
+export const DeletePropertiesFirebaseLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesFirebaseLinksError = DefaultErrors;
 
@@ -5230,7 +5274,7 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
   DeletePropertiesFirebaseLinksResponse,
   DeletePropertiesFirebaseLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesFirebaseLinksRequest,
   output: DeletePropertiesFirebaseLinksResponse,
   errors: [],
@@ -5241,20 +5285,21 @@ export interface GetPropertiesKeyEventsRequest {
   name: string;
 }
 
-export const GetPropertiesKeyEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesKeyEventsRequest>;
+export const GetPropertiesKeyEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesKeyEventsRequest>;
 
 export type GetPropertiesKeyEventsResponse =
   GoogleAnalyticsAdminV1alphaKeyEvent;
 export const GetPropertiesKeyEventsResponse =
-  GoogleAnalyticsAdminV1alphaKeyEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaKeyEvent;
 
 export type GetPropertiesKeyEventsError = DefaultErrors;
 
@@ -5264,7 +5309,7 @@ export const getPropertiesKeyEvents: API.OperationMethod<
   GetPropertiesKeyEventsResponse,
   GetPropertiesKeyEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesKeyEventsRequest,
   output: GetPropertiesKeyEventsResponse,
   errors: [],
@@ -5279,23 +5324,26 @@ export interface PatchPropertiesKeyEventsRequest {
   body?: GoogleAnalyticsAdminV1alphaKeyEvent;
 }
 
-export const PatchPropertiesKeyEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaKeyEvent).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesKeyEventsRequest>;
+export const PatchPropertiesKeyEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaKeyEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesKeyEventsRequest>;
 
 export type PatchPropertiesKeyEventsResponse =
   GoogleAnalyticsAdminV1alphaKeyEvent;
 export const PatchPropertiesKeyEventsResponse =
-  GoogleAnalyticsAdminV1alphaKeyEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaKeyEvent;
 
 export type PatchPropertiesKeyEventsError = DefaultErrors;
 
@@ -5305,7 +5353,7 @@ export const patchPropertiesKeyEvents: API.OperationMethod<
   PatchPropertiesKeyEventsResponse,
   PatchPropertiesKeyEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesKeyEventsRequest,
   output: PatchPropertiesKeyEventsResponse,
   errors: [],
@@ -5316,18 +5364,20 @@ export interface DeletePropertiesKeyEventsRequest {
   name: string;
 }
 
-export const DeletePropertiesKeyEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesKeyEventsRequest>;
+export const DeletePropertiesKeyEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/keyEvents/{keyEventsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesKeyEventsRequest>;
 
 export type DeletePropertiesKeyEventsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesKeyEventsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesKeyEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesKeyEventsError = DefaultErrors;
 
@@ -5337,7 +5387,7 @@ export const deletePropertiesKeyEvents: API.OperationMethod<
   DeletePropertiesKeyEventsResponse,
   DeletePropertiesKeyEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesKeyEventsRequest,
   output: DeletePropertiesKeyEventsResponse,
   errors: [],
@@ -5350,22 +5400,25 @@ export interface CreatePropertiesKeyEventsRequest {
   body?: GoogleAnalyticsAdminV1alphaKeyEvent;
 }
 
-export const CreatePropertiesKeyEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaKeyEvent).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/keyEvents",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesKeyEventsRequest>;
+export const CreatePropertiesKeyEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaKeyEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/keyEvents",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesKeyEventsRequest>;
 
 export type CreatePropertiesKeyEventsResponse =
   GoogleAnalyticsAdminV1alphaKeyEvent;
 export const CreatePropertiesKeyEventsResponse =
-  GoogleAnalyticsAdminV1alphaKeyEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaKeyEvent;
 
 export type CreatePropertiesKeyEventsError = DefaultErrors;
 
@@ -5375,7 +5428,7 @@ export const createPropertiesKeyEvents: API.OperationMethod<
   CreatePropertiesKeyEventsResponse,
   CreatePropertiesKeyEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesKeyEventsRequest,
   output: CreatePropertiesKeyEventsResponse,
   errors: [],
@@ -5390,22 +5443,23 @@ export interface ListPropertiesKeyEventsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesKeyEventsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/keyEvents",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesKeyEventsRequest>;
+export const ListPropertiesKeyEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/keyEvents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesKeyEventsRequest>;
 
 export type ListPropertiesKeyEventsResponse =
   GoogleAnalyticsAdminV1alphaListKeyEventsResponse;
 export const ListPropertiesKeyEventsResponse =
-  GoogleAnalyticsAdminV1alphaListKeyEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListKeyEventsResponse;
 
 export type ListPropertiesKeyEventsError = DefaultErrors;
 
@@ -5415,7 +5469,7 @@ export const listPropertiesKeyEvents: API.PaginatedOperationMethod<
   ListPropertiesKeyEventsResponse,
   ListPropertiesKeyEventsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesKeyEventsRequest,
   output: ListPropertiesKeyEventsResponse,
   errors: [],
@@ -5432,24 +5486,25 @@ export interface CreatePropertiesConversionEventsRequest {
   body?: GoogleAnalyticsAdminV1alphaConversionEvent;
 }
 
-export const CreatePropertiesConversionEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaConversionEvent).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/conversionEvents",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesConversionEventsRequest>;
+export const CreatePropertiesConversionEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaConversionEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/conversionEvents",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesConversionEventsRequest>;
 
 export type CreatePropertiesConversionEventsResponse =
   GoogleAnalyticsAdminV1alphaConversionEvent;
 export const CreatePropertiesConversionEventsResponse =
-  GoogleAnalyticsAdminV1alphaConversionEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaConversionEvent;
 
 export type CreatePropertiesConversionEventsError = DefaultErrors;
 
@@ -5459,7 +5514,7 @@ export const createPropertiesConversionEvents: API.OperationMethod<
   CreatePropertiesConversionEventsResponse,
   CreatePropertiesConversionEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesConversionEventsRequest,
   output: CreatePropertiesConversionEventsResponse,
   errors: [],
@@ -5474,22 +5529,23 @@ export interface ListPropertiesConversionEventsRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesConversionEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/conversionEvents",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesConversionEventsRequest>;
+export const ListPropertiesConversionEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/conversionEvents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesConversionEventsRequest>;
 
 export type ListPropertiesConversionEventsResponse =
   GoogleAnalyticsAdminV1alphaListConversionEventsResponse;
 export const ListPropertiesConversionEventsResponse =
-  GoogleAnalyticsAdminV1alphaListConversionEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListConversionEventsResponse;
 
 export type ListPropertiesConversionEventsError = DefaultErrors;
 
@@ -5499,7 +5555,7 @@ export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
   ListPropertiesConversionEventsResponse,
   ListPropertiesConversionEventsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesConversionEventsRequest,
   output: ListPropertiesConversionEventsResponse,
   errors: [],
@@ -5518,25 +5574,26 @@ export interface PatchPropertiesConversionEventsRequest {
   body?: GoogleAnalyticsAdminV1alphaConversionEvent;
 }
 
-export const PatchPropertiesConversionEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaConversionEvent).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesConversionEventsRequest>;
+export const PatchPropertiesConversionEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaConversionEvent).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesConversionEventsRequest>;
 
 export type PatchPropertiesConversionEventsResponse =
   GoogleAnalyticsAdminV1alphaConversionEvent;
 export const PatchPropertiesConversionEventsResponse =
-  GoogleAnalyticsAdminV1alphaConversionEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaConversionEvent;
 
 export type PatchPropertiesConversionEventsError = DefaultErrors;
 
@@ -5546,7 +5603,7 @@ export const patchPropertiesConversionEvents: API.OperationMethod<
   PatchPropertiesConversionEventsResponse,
   PatchPropertiesConversionEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesConversionEventsRequest,
   output: PatchPropertiesConversionEventsResponse,
   errors: [],
@@ -5557,20 +5614,21 @@ export interface GetPropertiesConversionEventsRequest {
   name: string;
 }
 
-export const GetPropertiesConversionEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesConversionEventsRequest>;
+export const GetPropertiesConversionEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesConversionEventsRequest>;
 
 export type GetPropertiesConversionEventsResponse =
   GoogleAnalyticsAdminV1alphaConversionEvent;
 export const GetPropertiesConversionEventsResponse =
-  GoogleAnalyticsAdminV1alphaConversionEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaConversionEvent;
 
 export type GetPropertiesConversionEventsError = DefaultErrors;
 
@@ -5580,7 +5638,7 @@ export const getPropertiesConversionEvents: API.OperationMethod<
   GetPropertiesConversionEventsResponse,
   GetPropertiesConversionEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesConversionEventsRequest,
   output: GetPropertiesConversionEventsResponse,
   errors: [],
@@ -5591,18 +5649,20 @@ export interface DeletePropertiesConversionEventsRequest {
   name: string;
 }
 
-export const DeletePropertiesConversionEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesConversionEventsRequest>;
+export const DeletePropertiesConversionEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/conversionEvents/{conversionEventsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesConversionEventsRequest>;
 
 export type DeletePropertiesConversionEventsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesConversionEventsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesConversionEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesConversionEventsError = DefaultErrors;
 
@@ -5612,7 +5672,7 @@ export const deletePropertiesConversionEvents: API.OperationMethod<
   DeletePropertiesConversionEventsResponse,
   DeletePropertiesConversionEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesConversionEventsRequest,
   output: DeletePropertiesConversionEventsResponse,
   errors: [],
@@ -5623,20 +5683,21 @@ export interface GetPropertiesDataStreamsRequest {
   name: string;
 }
 
-export const GetPropertiesDataStreamsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesDataStreamsRequest>;
+export const GetPropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesDataStreamsRequest>;
 
 export type GetPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaDataStream;
 export const GetPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaDataStream;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataStream;
 
 export type GetPropertiesDataStreamsError = DefaultErrors;
 
@@ -5646,7 +5707,7 @@ export const getPropertiesDataStreams: API.OperationMethod<
   GetPropertiesDataStreamsResponse,
   GetPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsRequest,
   output: GetPropertiesDataStreamsResponse,
   errors: [],
@@ -5661,25 +5722,26 @@ export interface PatchPropertiesDataStreamsRequest {
   body?: GoogleAnalyticsAdminV1alphaDataStream;
 }
 
-export const PatchPropertiesDataStreamsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaDataStream).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesDataStreamsRequest>;
+export const PatchPropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaDataStream).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesDataStreamsRequest>;
 
 export type PatchPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaDataStream;
 export const PatchPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaDataStream;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataStream;
 
 export type PatchPropertiesDataStreamsError = DefaultErrors;
 
@@ -5689,7 +5751,7 @@ export const patchPropertiesDataStreams: API.OperationMethod<
   PatchPropertiesDataStreamsResponse,
   PatchPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsRequest,
   output: PatchPropertiesDataStreamsResponse,
   errors: [],
@@ -5700,18 +5762,20 @@ export interface DeletePropertiesDataStreamsRequest {
   name: string;
 }
 
-export const DeletePropertiesDataStreamsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesDataStreamsRequest>;
+export const DeletePropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesDataStreamsRequest>;
 
 export type DeletePropertiesDataStreamsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesDataStreamsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesDataStreamsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsError = DefaultErrors;
 
@@ -5721,7 +5785,7 @@ export const deletePropertiesDataStreams: API.OperationMethod<
   DeletePropertiesDataStreamsResponse,
   DeletePropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsRequest,
   output: DeletePropertiesDataStreamsResponse,
   errors: [],
@@ -5733,7 +5797,7 @@ export interface GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest {
 }
 
 export const GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5746,7 +5810,7 @@ export const GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest =
 export type GetEnhancedMeasurementSettingsPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
 export const GetEnhancedMeasurementSettingsPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
 
 export type GetEnhancedMeasurementSettingsPropertiesDataStreamsError =
   DefaultErrors;
@@ -5757,7 +5821,7 @@ export const getEnhancedMeasurementSettingsPropertiesDataStreams: API.OperationM
   GetEnhancedMeasurementSettingsPropertiesDataStreamsResponse,
   GetEnhancedMeasurementSettingsPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnhancedMeasurementSettingsPropertiesDataStreamsRequest,
   output: GetEnhancedMeasurementSettingsPropertiesDataStreamsResponse,
   errors: [],
@@ -5772,22 +5836,23 @@ export interface ListPropertiesDataStreamsRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesDataStreamsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesDataStreamsRequest>;
+export const ListPropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesDataStreamsRequest>;
 
 export type ListPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaListDataStreamsResponse;
 export const ListPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaListDataStreamsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListDataStreamsResponse;
 
 export type ListPropertiesDataStreamsError = DefaultErrors;
 
@@ -5797,7 +5862,7 @@ export const listPropertiesDataStreams: API.PaginatedOperationMethod<
   ListPropertiesDataStreamsResponse,
   ListPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsRequest,
   output: ListPropertiesDataStreamsResponse,
   errors: [],
@@ -5817,7 +5882,7 @@ export interface UpdateDataRedactionSettingsPropertiesDataStreamsRequest {
 }
 
 export const UpdateDataRedactionSettingsPropertiesDataStreamsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
@@ -5835,7 +5900,7 @@ export const UpdateDataRedactionSettingsPropertiesDataStreamsRequest =
 export type UpdateDataRedactionSettingsPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaDataRedactionSettings;
 export const UpdateDataRedactionSettingsPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaDataRedactionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataRedactionSettings;
 
 export type UpdateDataRedactionSettingsPropertiesDataStreamsError =
   DefaultErrors;
@@ -5846,7 +5911,7 @@ export const updateDataRedactionSettingsPropertiesDataStreams: API.OperationMeth
   UpdateDataRedactionSettingsPropertiesDataStreamsResponse,
   UpdateDataRedactionSettingsPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDataRedactionSettingsPropertiesDataStreamsRequest,
   output: UpdateDataRedactionSettingsPropertiesDataStreamsResponse,
   errors: [],
@@ -5857,20 +5922,21 @@ export interface GetGlobalSiteTagPropertiesDataStreamsRequest {
   name: string;
 }
 
-export const GetGlobalSiteTagPropertiesDataStreamsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/globalSiteTag",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGlobalSiteTagPropertiesDataStreamsRequest>;
+export const GetGlobalSiteTagPropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/globalSiteTag",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGlobalSiteTagPropertiesDataStreamsRequest>;
 
 export type GetGlobalSiteTagPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaGlobalSiteTag;
 export const GetGlobalSiteTagPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaGlobalSiteTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaGlobalSiteTag;
 
 export type GetGlobalSiteTagPropertiesDataStreamsError = DefaultErrors;
 
@@ -5880,7 +5946,7 @@ export const getGlobalSiteTagPropertiesDataStreams: API.OperationMethod<
   GetGlobalSiteTagPropertiesDataStreamsResponse,
   GetGlobalSiteTagPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGlobalSiteTagPropertiesDataStreamsRequest,
   output: GetGlobalSiteTagPropertiesDataStreamsResponse,
   errors: [],
@@ -5892,7 +5958,7 @@ export interface GetDataRedactionSettingsPropertiesDataStreamsRequest {
 }
 
 export const GetDataRedactionSettingsPropertiesDataStreamsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5905,7 +5971,7 @@ export const GetDataRedactionSettingsPropertiesDataStreamsRequest =
 export type GetDataRedactionSettingsPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaDataRedactionSettings;
 export const GetDataRedactionSettingsPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaDataRedactionSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataRedactionSettings;
 
 export type GetDataRedactionSettingsPropertiesDataStreamsError = DefaultErrors;
 
@@ -5915,7 +5981,7 @@ export const getDataRedactionSettingsPropertiesDataStreams: API.OperationMethod<
   GetDataRedactionSettingsPropertiesDataStreamsResponse,
   GetDataRedactionSettingsPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataRedactionSettingsPropertiesDataStreamsRequest,
   output: GetDataRedactionSettingsPropertiesDataStreamsResponse,
   errors: [],
@@ -5928,24 +5994,25 @@ export interface CreatePropertiesDataStreamsRequest {
   body?: GoogleAnalyticsAdminV1alphaDataStream;
 }
 
-export const CreatePropertiesDataStreamsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaDataStream).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/dataStreams",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesDataStreamsRequest>;
+export const CreatePropertiesDataStreamsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaDataStream).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/dataStreams",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesDataStreamsRequest>;
 
 export type CreatePropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaDataStream;
 export const CreatePropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaDataStream;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataStream;
 
 export type CreatePropertiesDataStreamsError = DefaultErrors;
 
@@ -5955,7 +6022,7 @@ export const createPropertiesDataStreams: API.OperationMethod<
   CreatePropertiesDataStreamsResponse,
   CreatePropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsRequest,
   output: CreatePropertiesDataStreamsResponse,
   errors: [],
@@ -5971,7 +6038,7 @@ export interface UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest {
 }
 
 export const UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
@@ -5989,7 +6056,7 @@ export const UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest =
 export type UpdateEnhancedMeasurementSettingsPropertiesDataStreamsResponse =
   GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
 export const UpdateEnhancedMeasurementSettingsPropertiesDataStreamsResponse =
-  GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings;
 
 export type UpdateEnhancedMeasurementSettingsPropertiesDataStreamsError =
   DefaultErrors;
@@ -6000,7 +6067,7 @@ export const updateEnhancedMeasurementSettingsPropertiesDataStreams: API.Operati
   UpdateEnhancedMeasurementSettingsPropertiesDataStreamsResponse,
   UpdateEnhancedMeasurementSettingsPropertiesDataStreamsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest,
   output: UpdateEnhancedMeasurementSettingsPropertiesDataStreamsResponse,
   errors: [],
@@ -6012,7 +6079,7 @@ export interface DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest {
 }
 
 export const DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6025,7 +6092,7 @@ export const DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest =
 export type DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsMeasurementProtocolSecretsError =
   DefaultErrors;
@@ -6036,7 +6103,7 @@ export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   DeletePropertiesDataStreamsMeasurementProtocolSecretsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -6052,7 +6119,7 @@ export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest {
 }
 
 export const PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
@@ -6070,7 +6137,7 @@ export const PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest =
 export type PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse =
   GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 export const PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse =
-  GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 
 export type PatchPropertiesDataStreamsMeasurementProtocolSecretsError =
   DefaultErrors;
@@ -6081,7 +6148,7 @@ export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.Operation
   PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   PatchPropertiesDataStreamsMeasurementProtocolSecretsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -6093,7 +6160,7 @@ export interface GetPropertiesDataStreamsMeasurementProtocolSecretsRequest {
 }
 
 export const GetPropertiesDataStreamsMeasurementProtocolSecretsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6106,7 +6173,7 @@ export const GetPropertiesDataStreamsMeasurementProtocolSecretsRequest =
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsResponse =
   GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 export const GetPropertiesDataStreamsMeasurementProtocolSecretsResponse =
-  GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsError =
   DefaultErrors;
@@ -6117,7 +6184,7 @@ export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMe
   GetPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   GetPropertiesDataStreamsMeasurementProtocolSecretsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GetPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -6133,7 +6200,7 @@ export interface ListPropertiesDataStreamsMeasurementProtocolSecretsRequest {
 }
 
 export const ListPropertiesDataStreamsMeasurementProtocolSecretsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -6148,7 +6215,7 @@ export const ListPropertiesDataStreamsMeasurementProtocolSecretsRequest =
 export type ListPropertiesDataStreamsMeasurementProtocolSecretsResponse =
   GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse;
 export const ListPropertiesDataStreamsMeasurementProtocolSecretsResponse =
-  GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse;
 
 export type ListPropertiesDataStreamsMeasurementProtocolSecretsError =
   DefaultErrors;
@@ -6159,7 +6226,7 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedO
   ListPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   ListPropertiesDataStreamsMeasurementProtocolSecretsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: ListPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -6177,7 +6244,7 @@ export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest {
 }
 
 export const CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret,
@@ -6194,7 +6261,7 @@ export const CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest =
 export type CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse =
   GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 export const CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse =
-  GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
 
 export type CreatePropertiesDataStreamsMeasurementProtocolSecretsError =
   DefaultErrors;
@@ -6205,7 +6272,7 @@ export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   CreatePropertiesDataStreamsMeasurementProtocolSecretsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -6217,7 +6284,7 @@ export interface GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest
 }
 
 export const GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6230,7 +6297,7 @@ export const GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
 export type GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
   GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 export const GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
-  GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 
 export type GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
   DefaultErrors;
@@ -6241,7 +6308,7 @@ export const getPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Opera
   GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest,
   output: GetPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   errors: [],
@@ -6257,7 +6324,7 @@ export interface PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaReque
 }
 
 export const PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
@@ -6275,7 +6342,7 @@ export const PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
 export type PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
   GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 export const PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
-  GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 
 export type PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
   DefaultErrors;
@@ -6286,7 +6353,7 @@ export const patchPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Ope
   PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest,
   output: PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   errors: [],
@@ -6298,7 +6365,7 @@ export interface DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequ
 }
 
 export const DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6311,7 +6378,7 @@ export const DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest 
 export type DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
   DefaultErrors;
@@ -6322,7 +6389,7 @@ export const deletePropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Op
   DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest,
   output: DeletePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   errors: [],
@@ -6336,7 +6403,7 @@ export interface CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequ
 }
 
 export const CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema,
@@ -6353,7 +6420,7 @@ export const CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest 
 export type CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
   GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 export const CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
-  GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema;
 
 export type CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
   DefaultErrors;
@@ -6364,7 +6431,7 @@ export const createPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Op
   CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest,
   output: CreatePropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   errors: [],
@@ -6380,7 +6447,7 @@ export interface ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaReques
 }
 
 export const ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -6395,7 +6462,7 @@ export const ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest =
 export type ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
   GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse;
 export const ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse =
-  GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListSKAdNetworkConversionValueSchemasResponse;
 
 export type ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaError =
   DefaultErrors;
@@ -6406,7 +6473,7 @@ export const listPropertiesDataStreamsSKAdNetworkConversionValueSchema: API.Pagi
   ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest,
   output: ListPropertiesDataStreamsSKAdNetworkConversionValueSchemaResponse,
   errors: [],
@@ -6425,22 +6492,23 @@ export interface ListPropertiesDataStreamsEventCreateRulesRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesDataStreamsEventCreateRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesDataStreamsEventCreateRulesRequest>;
+export const ListPropertiesDataStreamsEventCreateRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesDataStreamsEventCreateRulesRequest>;
 
 export type ListPropertiesDataStreamsEventCreateRulesResponse =
   GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse;
 export const ListPropertiesDataStreamsEventCreateRulesResponse =
-  GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListEventCreateRulesResponse;
 
 export type ListPropertiesDataStreamsEventCreateRulesError = DefaultErrors;
 
@@ -6450,7 +6518,7 @@ export const listPropertiesDataStreamsEventCreateRules: API.PaginatedOperationMe
   ListPropertiesDataStreamsEventCreateRulesResponse,
   ListPropertiesDataStreamsEventCreateRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsEventCreateRulesRequest,
   output: ListPropertiesDataStreamsEventCreateRulesResponse,
   errors: [],
@@ -6467,26 +6535,25 @@ export interface CreatePropertiesDataStreamsEventCreateRulesRequest {
   body?: GoogleAnalyticsAdminV1alphaEventCreateRule;
 }
 
-export const CreatePropertiesDataStreamsEventCreateRulesRequest = Schema.Struct(
-  {
+export const CreatePropertiesDataStreamsEventCreateRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleAnalyticsAdminV1alphaEventCreateRule).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesDataStreamsEventCreateRulesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesDataStreamsEventCreateRulesRequest>;
 
 export type CreatePropertiesDataStreamsEventCreateRulesResponse =
   GoogleAnalyticsAdminV1alphaEventCreateRule;
 export const CreatePropertiesDataStreamsEventCreateRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventCreateRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventCreateRule;
 
 export type CreatePropertiesDataStreamsEventCreateRulesError = DefaultErrors;
 
@@ -6496,7 +6563,7 @@ export const createPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   CreatePropertiesDataStreamsEventCreateRulesResponse,
   CreatePropertiesDataStreamsEventCreateRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsEventCreateRulesRequest,
   output: CreatePropertiesDataStreamsEventCreateRulesResponse,
   errors: [],
@@ -6507,22 +6574,21 @@ export interface DeletePropertiesDataStreamsEventCreateRulesRequest {
   name: string;
 }
 
-export const DeletePropertiesDataStreamsEventCreateRulesRequest = Schema.Struct(
-  {
+export const DeletePropertiesDataStreamsEventCreateRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesDataStreamsEventCreateRulesRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesDataStreamsEventCreateRulesRequest>;
 
 export type DeletePropertiesDataStreamsEventCreateRulesResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDataStreamsEventCreateRulesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsEventCreateRulesError = DefaultErrors;
 
@@ -6532,7 +6598,7 @@ export const deletePropertiesDataStreamsEventCreateRules: API.OperationMethod<
   DeletePropertiesDataStreamsEventCreateRulesResponse,
   DeletePropertiesDataStreamsEventCreateRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsEventCreateRulesRequest,
   output: DeletePropertiesDataStreamsEventCreateRulesResponse,
   errors: [],
@@ -6543,20 +6609,21 @@ export interface GetPropertiesDataStreamsEventCreateRulesRequest {
   name: string;
 }
 
-export const GetPropertiesDataStreamsEventCreateRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesDataStreamsEventCreateRulesRequest>;
+export const GetPropertiesDataStreamsEventCreateRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesDataStreamsEventCreateRulesRequest>;
 
 export type GetPropertiesDataStreamsEventCreateRulesResponse =
   GoogleAnalyticsAdminV1alphaEventCreateRule;
 export const GetPropertiesDataStreamsEventCreateRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventCreateRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventCreateRule;
 
 export type GetPropertiesDataStreamsEventCreateRulesError = DefaultErrors;
 
@@ -6566,7 +6633,7 @@ export const getPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   GetPropertiesDataStreamsEventCreateRulesResponse,
   GetPropertiesDataStreamsEventCreateRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsEventCreateRulesRequest,
   output: GetPropertiesDataStreamsEventCreateRulesResponse,
   errors: [],
@@ -6581,25 +6648,26 @@ export interface PatchPropertiesDataStreamsEventCreateRulesRequest {
   body?: GoogleAnalyticsAdminV1alphaEventCreateRule;
 }
 
-export const PatchPropertiesDataStreamsEventCreateRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaEventCreateRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesDataStreamsEventCreateRulesRequest>;
+export const PatchPropertiesDataStreamsEventCreateRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaEventCreateRule).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventCreateRules/{eventCreateRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesDataStreamsEventCreateRulesRequest>;
 
 export type PatchPropertiesDataStreamsEventCreateRulesResponse =
   GoogleAnalyticsAdminV1alphaEventCreateRule;
 export const PatchPropertiesDataStreamsEventCreateRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventCreateRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventCreateRule;
 
 export type PatchPropertiesDataStreamsEventCreateRulesError = DefaultErrors;
 
@@ -6609,7 +6677,7 @@ export const patchPropertiesDataStreamsEventCreateRules: API.OperationMethod<
   PatchPropertiesDataStreamsEventCreateRulesResponse,
   PatchPropertiesDataStreamsEventCreateRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsEventCreateRulesRequest,
   output: PatchPropertiesDataStreamsEventCreateRulesResponse,
   errors: [],
@@ -6624,22 +6692,23 @@ export interface ListPropertiesDataStreamsEventEditRulesRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesDataStreamsEventEditRulesRequest>;
+export const ListPropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesDataStreamsEventEditRulesRequest>;
 
 export type ListPropertiesDataStreamsEventEditRulesResponse =
   GoogleAnalyticsAdminV1alphaListEventEditRulesResponse;
 export const ListPropertiesDataStreamsEventEditRulesResponse =
-  GoogleAnalyticsAdminV1alphaListEventEditRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListEventEditRulesResponse;
 
 export type ListPropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6649,7 +6718,7 @@ export const listPropertiesDataStreamsEventEditRules: API.PaginatedOperationMeth
   ListPropertiesDataStreamsEventEditRulesResponse,
   ListPropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDataStreamsEventEditRulesRequest,
   output: ListPropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6666,24 +6735,25 @@ export interface CreatePropertiesDataStreamsEventEditRulesRequest {
   body?: GoogleAnalyticsAdminV1alphaEventEditRule;
 }
 
-export const CreatePropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaEventEditRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesDataStreamsEventEditRulesRequest>;
+export const CreatePropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaEventEditRule).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesDataStreamsEventEditRulesRequest>;
 
 export type CreatePropertiesDataStreamsEventEditRulesResponse =
   GoogleAnalyticsAdminV1alphaEventEditRule;
 export const CreatePropertiesDataStreamsEventEditRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventEditRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventEditRule;
 
 export type CreatePropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6693,7 +6763,7 @@ export const createPropertiesDataStreamsEventEditRules: API.OperationMethod<
   CreatePropertiesDataStreamsEventEditRulesResponse,
   CreatePropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDataStreamsEventEditRulesRequest,
   output: CreatePropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6704,20 +6774,21 @@ export interface DeletePropertiesDataStreamsEventEditRulesRequest {
   name: string;
 }
 
-export const DeletePropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesDataStreamsEventEditRulesRequest>;
+export const DeletePropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesDataStreamsEventEditRulesRequest>;
 
 export type DeletePropertiesDataStreamsEventEditRulesResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDataStreamsEventEditRulesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6727,7 +6798,7 @@ export const deletePropertiesDataStreamsEventEditRules: API.OperationMethod<
   DeletePropertiesDataStreamsEventEditRulesResponse,
   DeletePropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDataStreamsEventEditRulesRequest,
   output: DeletePropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6742,25 +6813,26 @@ export interface PatchPropertiesDataStreamsEventEditRulesRequest {
   body?: GoogleAnalyticsAdminV1alphaEventEditRule;
 }
 
-export const PatchPropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaEventEditRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesDataStreamsEventEditRulesRequest>;
+export const PatchPropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaEventEditRule).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesDataStreamsEventEditRulesRequest>;
 
 export type PatchPropertiesDataStreamsEventEditRulesResponse =
   GoogleAnalyticsAdminV1alphaEventEditRule;
 export const PatchPropertiesDataStreamsEventEditRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventEditRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventEditRule;
 
 export type PatchPropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6770,7 +6842,7 @@ export const patchPropertiesDataStreamsEventEditRules: API.OperationMethod<
   PatchPropertiesDataStreamsEventEditRulesResponse,
   PatchPropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDataStreamsEventEditRulesRequest,
   output: PatchPropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6781,20 +6853,21 @@ export interface GetPropertiesDataStreamsEventEditRulesRequest {
   name: string;
 }
 
-export const GetPropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesDataStreamsEventEditRulesRequest>;
+export const GetPropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules/{eventEditRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesDataStreamsEventEditRulesRequest>;
 
 export type GetPropertiesDataStreamsEventEditRulesResponse =
   GoogleAnalyticsAdminV1alphaEventEditRule;
 export const GetPropertiesDataStreamsEventEditRulesResponse =
-  GoogleAnalyticsAdminV1alphaEventEditRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaEventEditRule;
 
 export type GetPropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6804,7 +6877,7 @@ export const getPropertiesDataStreamsEventEditRules: API.OperationMethod<
   GetPropertiesDataStreamsEventEditRulesResponse,
   GetPropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDataStreamsEventEditRulesRequest,
   output: GetPropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6817,24 +6890,25 @@ export interface ReorderPropertiesDataStreamsEventEditRulesRequest {
   body?: GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest;
 }
 
-export const ReorderPropertiesDataStreamsEventEditRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules:reorder",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReorderPropertiesDataStreamsEventEditRulesRequest>;
+export const ReorderPropertiesDataStreamsEventEditRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaReorderEventEditRulesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/dataStreams/{dataStreamsId}/eventEditRules:reorder",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReorderPropertiesDataStreamsEventEditRulesRequest>;
 
 export type ReorderPropertiesDataStreamsEventEditRulesResponse =
   GoogleProtobufEmpty;
 export const ReorderPropertiesDataStreamsEventEditRulesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ReorderPropertiesDataStreamsEventEditRulesError = DefaultErrors;
 
@@ -6844,7 +6918,7 @@ export const reorderPropertiesDataStreamsEventEditRules: API.OperationMethod<
   ReorderPropertiesDataStreamsEventEditRulesResponse,
   ReorderPropertiesDataStreamsEventEditRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReorderPropertiesDataStreamsEventEditRulesRequest,
   output: ReorderPropertiesDataStreamsEventEditRulesResponse,
   errors: [],
@@ -6860,7 +6934,7 @@ export interface ListPropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
 }
 
 export const ListPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -6875,7 +6949,7 @@ export const ListPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type ListPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse;
 export const ListPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinkProposalsResponse;
 
 export type ListPropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -6886,7 +6960,7 @@ export const listPropertiesDisplayVideo360AdvertiserLinkProposals: API.Paginated
   ListPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   ListPropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: ListPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -6904,7 +6978,7 @@ export interface CreatePropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
 }
 
 export const CreatePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal,
@@ -6921,7 +6995,7 @@ export const CreatePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type CreatePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 export const CreatePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 
 export type CreatePropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -6932,7 +7006,7 @@ export const createPropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   CreatePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   CreatePropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: CreatePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -6946,7 +7020,7 @@ export interface ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest 
 }
 
 export const ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest,
@@ -6963,7 +7037,7 @@ export const ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse;
 export const ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse;
 
 export type ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -6974,7 +7048,7 @@ export const approvePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operat
   ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: ApprovePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -6986,7 +7060,7 @@ export interface DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
 }
 
 export const DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6999,7 +7073,7 @@ export const DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type DeletePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -7010,7 +7084,7 @@ export const deletePropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   DeletePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   DeletePropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: DeletePropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -7024,7 +7098,7 @@ export interface CancelPropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
 }
 
 export const CancelPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaCancelDisplayVideo360AdvertiserLinkProposalRequest,
@@ -7041,7 +7115,7 @@ export const CancelPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type CancelPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 export const CancelPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 
 export type CancelPropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -7052,7 +7126,7 @@ export const cancelPropertiesDisplayVideo360AdvertiserLinkProposals: API.Operati
   CancelPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   CancelPropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelPropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: CancelPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -7064,7 +7138,7 @@ export interface GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest {
 }
 
 export const GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -7077,7 +7151,7 @@ export const GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest =
 export type GetPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 export const GetPropertiesDisplayVideo360AdvertiserLinkProposalsResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLinkProposal;
 
 export type GetPropertiesDisplayVideo360AdvertiserLinkProposalsError =
   DefaultErrors;
@@ -7088,7 +7162,7 @@ export const getPropertiesDisplayVideo360AdvertiserLinkProposals: API.OperationM
   GetPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   GetPropertiesDisplayVideo360AdvertiserLinkProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDisplayVideo360AdvertiserLinkProposalsRequest,
   output: GetPropertiesDisplayVideo360AdvertiserLinkProposalsResponse,
   errors: [],
@@ -7103,22 +7177,23 @@ export interface ListPropertiesSearchAds360LinksRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesSearchAds360LinksRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/searchAds360Links",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesSearchAds360LinksRequest>;
+export const ListPropertiesSearchAds360LinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/searchAds360Links",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesSearchAds360LinksRequest>;
 
 export type ListPropertiesSearchAds360LinksResponse =
   GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse;
 export const ListPropertiesSearchAds360LinksResponse =
-  GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListSearchAds360LinksResponse;
 
 export type ListPropertiesSearchAds360LinksError = DefaultErrors;
 
@@ -7128,7 +7203,7 @@ export const listPropertiesSearchAds360Links: API.PaginatedOperationMethod<
   ListPropertiesSearchAds360LinksResponse,
   ListPropertiesSearchAds360LinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesSearchAds360LinksRequest,
   output: ListPropertiesSearchAds360LinksResponse,
   errors: [],
@@ -7145,24 +7220,25 @@ export interface CreatePropertiesSearchAds360LinksRequest {
   body?: GoogleAnalyticsAdminV1alphaSearchAds360Link;
 }
 
-export const CreatePropertiesSearchAds360LinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaSearchAds360Link).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/searchAds360Links",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesSearchAds360LinksRequest>;
+export const CreatePropertiesSearchAds360LinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaSearchAds360Link).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/searchAds360Links",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesSearchAds360LinksRequest>;
 
 export type CreatePropertiesSearchAds360LinksResponse =
   GoogleAnalyticsAdminV1alphaSearchAds360Link;
 export const CreatePropertiesSearchAds360LinksResponse =
-  GoogleAnalyticsAdminV1alphaSearchAds360Link;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSearchAds360Link;
 
 export type CreatePropertiesSearchAds360LinksError = DefaultErrors;
 
@@ -7172,7 +7248,7 @@ export const createPropertiesSearchAds360Links: API.OperationMethod<
   CreatePropertiesSearchAds360LinksResponse,
   CreatePropertiesSearchAds360LinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesSearchAds360LinksRequest,
   output: CreatePropertiesSearchAds360LinksResponse,
   errors: [],
@@ -7183,18 +7259,20 @@ export interface DeletePropertiesSearchAds360LinksRequest {
   name: string;
 }
 
-export const DeletePropertiesSearchAds360LinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesSearchAds360LinksRequest>;
+export const DeletePropertiesSearchAds360LinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesSearchAds360LinksRequest>;
 
 export type DeletePropertiesSearchAds360LinksResponse = GoogleProtobufEmpty;
-export const DeletePropertiesSearchAds360LinksResponse = GoogleProtobufEmpty;
+export const DeletePropertiesSearchAds360LinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesSearchAds360LinksError = DefaultErrors;
 
@@ -7204,7 +7282,7 @@ export const deletePropertiesSearchAds360Links: API.OperationMethod<
   DeletePropertiesSearchAds360LinksResponse,
   DeletePropertiesSearchAds360LinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesSearchAds360LinksRequest,
   output: DeletePropertiesSearchAds360LinksResponse,
   errors: [],
@@ -7219,25 +7297,26 @@ export interface PatchPropertiesSearchAds360LinksRequest {
   body?: GoogleAnalyticsAdminV1alphaSearchAds360Link;
 }
 
-export const PatchPropertiesSearchAds360LinksRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaSearchAds360Link).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesSearchAds360LinksRequest>;
+export const PatchPropertiesSearchAds360LinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaSearchAds360Link).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesSearchAds360LinksRequest>;
 
 export type PatchPropertiesSearchAds360LinksResponse =
   GoogleAnalyticsAdminV1alphaSearchAds360Link;
 export const PatchPropertiesSearchAds360LinksResponse =
-  GoogleAnalyticsAdminV1alphaSearchAds360Link;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSearchAds360Link;
 
 export type PatchPropertiesSearchAds360LinksError = DefaultErrors;
 
@@ -7247,7 +7326,7 @@ export const patchPropertiesSearchAds360Links: API.OperationMethod<
   PatchPropertiesSearchAds360LinksResponse,
   PatchPropertiesSearchAds360LinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesSearchAds360LinksRequest,
   output: PatchPropertiesSearchAds360LinksResponse,
   errors: [],
@@ -7258,20 +7337,21 @@ export interface GetPropertiesSearchAds360LinksRequest {
   name: string;
 }
 
-export const GetPropertiesSearchAds360LinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesSearchAds360LinksRequest>;
+export const GetPropertiesSearchAds360LinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/searchAds360Links/{searchAds360LinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesSearchAds360LinksRequest>;
 
 export type GetPropertiesSearchAds360LinksResponse =
   GoogleAnalyticsAdminV1alphaSearchAds360Link;
 export const GetPropertiesSearchAds360LinksResponse =
-  GoogleAnalyticsAdminV1alphaSearchAds360Link;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSearchAds360Link;
 
 export type GetPropertiesSearchAds360LinksError = DefaultErrors;
 
@@ -7281,7 +7361,7 @@ export const getPropertiesSearchAds360Links: API.OperationMethod<
   GetPropertiesSearchAds360LinksResponse,
   GetPropertiesSearchAds360LinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesSearchAds360LinksRequest,
   output: GetPropertiesSearchAds360LinksResponse,
   errors: [],
@@ -7294,22 +7374,24 @@ export interface BatchDeletePropertiesAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest;
 }
 
-export const BatchDeletePropertiesAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/accessBindings:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeletePropertiesAccessBindingsRequest>;
+export const BatchDeletePropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/accessBindings:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeletePropertiesAccessBindingsRequest>;
 
 export type BatchDeletePropertiesAccessBindingsResponse = GoogleProtobufEmpty;
-export const BatchDeletePropertiesAccessBindingsResponse = GoogleProtobufEmpty;
+export const BatchDeletePropertiesAccessBindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchDeletePropertiesAccessBindingsError = DefaultErrors;
 
@@ -7319,7 +7401,7 @@ export const batchDeletePropertiesAccessBindings: API.OperationMethod<
   BatchDeletePropertiesAccessBindingsResponse,
   BatchDeletePropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeletePropertiesAccessBindingsRequest,
   output: BatchDeletePropertiesAccessBindingsResponse,
   errors: [],
@@ -7332,24 +7414,25 @@ export interface CreatePropertiesAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaAccessBinding;
 }
 
-export const CreatePropertiesAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/accessBindings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesAccessBindingsRequest>;
+export const CreatePropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/accessBindings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesAccessBindingsRequest>;
 
 export type CreatePropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const CreatePropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type CreatePropertiesAccessBindingsError = DefaultErrors;
 
@@ -7359,7 +7442,7 @@ export const createPropertiesAccessBindings: API.OperationMethod<
   CreatePropertiesAccessBindingsResponse,
   CreatePropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesAccessBindingsRequest,
   output: CreatePropertiesAccessBindingsResponse,
   errors: [],
@@ -7372,24 +7455,25 @@ export interface BatchCreatePropertiesAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest;
 }
 
-export const BatchCreatePropertiesAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/accessBindings:batchCreate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchCreatePropertiesAccessBindingsRequest>;
+export const BatchCreatePropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/accessBindings:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreatePropertiesAccessBindingsRequest>;
 
 export type BatchCreatePropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
 export const BatchCreatePropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
 
 export type BatchCreatePropertiesAccessBindingsError = DefaultErrors;
 
@@ -7399,7 +7483,7 @@ export const batchCreatePropertiesAccessBindings: API.OperationMethod<
   BatchCreatePropertiesAccessBindingsResponse,
   BatchCreatePropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreatePropertiesAccessBindingsRequest,
   output: BatchCreatePropertiesAccessBindingsResponse,
   errors: [],
@@ -7412,24 +7496,25 @@ export interface PatchPropertiesAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaAccessBinding;
 }
 
-export const PatchPropertiesAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesAccessBindingsRequest>;
+export const PatchPropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesAccessBindingsRequest>;
 
 export type PatchPropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const PatchPropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type PatchPropertiesAccessBindingsError = DefaultErrors;
 
@@ -7439,7 +7524,7 @@ export const patchPropertiesAccessBindings: API.OperationMethod<
   PatchPropertiesAccessBindingsResponse,
   PatchPropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesAccessBindingsRequest,
   output: PatchPropertiesAccessBindingsResponse,
   errors: [],
@@ -7450,20 +7535,21 @@ export interface GetPropertiesAccessBindingsRequest {
   name: string;
 }
 
-export const GetPropertiesAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesAccessBindingsRequest>;
+export const GetPropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesAccessBindingsRequest>;
 
 export type GetPropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const GetPropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type GetPropertiesAccessBindingsError = DefaultErrors;
 
@@ -7473,7 +7559,7 @@ export const getPropertiesAccessBindings: API.OperationMethod<
   GetPropertiesAccessBindingsResponse,
   GetPropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesAccessBindingsRequest,
   output: GetPropertiesAccessBindingsResponse,
   errors: [],
@@ -7484,18 +7570,20 @@ export interface DeletePropertiesAccessBindingsRequest {
   name: string;
 }
 
-export const DeletePropertiesAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesAccessBindingsRequest>;
+export const DeletePropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/accessBindings/{accessBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesAccessBindingsRequest>;
 
 export type DeletePropertiesAccessBindingsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesAccessBindingsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesAccessBindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesAccessBindingsError = DefaultErrors;
 
@@ -7505,7 +7593,7 @@ export const deletePropertiesAccessBindings: API.OperationMethod<
   DeletePropertiesAccessBindingsResponse,
   DeletePropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesAccessBindingsRequest,
   output: DeletePropertiesAccessBindingsResponse,
   errors: [],
@@ -7518,23 +7606,24 @@ export interface BatchGetPropertiesAccessBindingsRequest {
   parent: string;
 }
 
-export const BatchGetPropertiesAccessBindingsRequest = Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/accessBindings:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetPropertiesAccessBindingsRequest>;
+export const BatchGetPropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/accessBindings:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetPropertiesAccessBindingsRequest>;
 
 export type BatchGetPropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
 export const BatchGetPropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
 
 export type BatchGetPropertiesAccessBindingsError = DefaultErrors;
 
@@ -7544,7 +7633,7 @@ export const batchGetPropertiesAccessBindings: API.OperationMethod<
   BatchGetPropertiesAccessBindingsResponse,
   BatchGetPropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetPropertiesAccessBindingsRequest,
   output: BatchGetPropertiesAccessBindingsResponse,
   errors: [],
@@ -7557,24 +7646,25 @@ export interface BatchUpdatePropertiesAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest;
 }
 
-export const BatchUpdatePropertiesAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/accessBindings:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdatePropertiesAccessBindingsRequest>;
+export const BatchUpdatePropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/accessBindings:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdatePropertiesAccessBindingsRequest>;
 
 export type BatchUpdatePropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
 export const BatchUpdatePropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
 
 export type BatchUpdatePropertiesAccessBindingsError = DefaultErrors;
 
@@ -7584,7 +7674,7 @@ export const batchUpdatePropertiesAccessBindings: API.OperationMethod<
   BatchUpdatePropertiesAccessBindingsResponse,
   BatchUpdatePropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdatePropertiesAccessBindingsRequest,
   output: BatchUpdatePropertiesAccessBindingsResponse,
   errors: [],
@@ -7599,22 +7689,23 @@ export interface ListPropertiesAccessBindingsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesAccessBindingsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/accessBindings",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesAccessBindingsRequest>;
+export const ListPropertiesAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/accessBindings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesAccessBindingsRequest>;
 
 export type ListPropertiesAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
 export const ListPropertiesAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
 
 export type ListPropertiesAccessBindingsError = DefaultErrors;
 
@@ -7624,7 +7715,7 @@ export const listPropertiesAccessBindings: API.PaginatedOperationMethod<
   ListPropertiesAccessBindingsResponse,
   ListPropertiesAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesAccessBindingsRequest,
   output: ListPropertiesAccessBindingsResponse,
   errors: [],
@@ -7643,27 +7734,28 @@ export interface CreatePropertiesCalculatedMetricsRequest {
   body?: GoogleAnalyticsAdminV1alphaCalculatedMetric;
 }
 
-export const CreatePropertiesCalculatedMetricsRequest = Schema.Struct({
-  calculatedMetricId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("calculatedMetricId"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCalculatedMetric).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/calculatedMetrics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesCalculatedMetricsRequest>;
+export const CreatePropertiesCalculatedMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    calculatedMetricId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("calculatedMetricId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCalculatedMetric).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/calculatedMetrics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesCalculatedMetricsRequest>;
 
 export type CreatePropertiesCalculatedMetricsResponse =
   GoogleAnalyticsAdminV1alphaCalculatedMetric;
 export const CreatePropertiesCalculatedMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCalculatedMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCalculatedMetric;
 
 export type CreatePropertiesCalculatedMetricsError = DefaultErrors;
 
@@ -7673,7 +7765,7 @@ export const createPropertiesCalculatedMetrics: API.OperationMethod<
   CreatePropertiesCalculatedMetricsResponse,
   CreatePropertiesCalculatedMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesCalculatedMetricsRequest,
   output: CreatePropertiesCalculatedMetricsResponse,
   errors: [],
@@ -7688,22 +7780,23 @@ export interface ListPropertiesCalculatedMetricsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesCalculatedMetricsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/calculatedMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesCalculatedMetricsRequest>;
+export const ListPropertiesCalculatedMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/calculatedMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesCalculatedMetricsRequest>;
 
 export type ListPropertiesCalculatedMetricsResponse =
   GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse;
 export const ListPropertiesCalculatedMetricsResponse =
-  GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListCalculatedMetricsResponse;
 
 export type ListPropertiesCalculatedMetricsError = DefaultErrors;
 
@@ -7713,7 +7806,7 @@ export const listPropertiesCalculatedMetrics: API.PaginatedOperationMethod<
   ListPropertiesCalculatedMetricsResponse,
   ListPropertiesCalculatedMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesCalculatedMetricsRequest,
   output: ListPropertiesCalculatedMetricsResponse,
   errors: [],
@@ -7728,18 +7821,20 @@ export interface DeletePropertiesCalculatedMetricsRequest {
   name: string;
 }
 
-export const DeletePropertiesCalculatedMetricsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesCalculatedMetricsRequest>;
+export const DeletePropertiesCalculatedMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesCalculatedMetricsRequest>;
 
 export type DeletePropertiesCalculatedMetricsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesCalculatedMetricsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesCalculatedMetricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesCalculatedMetricsError = DefaultErrors;
 
@@ -7749,7 +7844,7 @@ export const deletePropertiesCalculatedMetrics: API.OperationMethod<
   DeletePropertiesCalculatedMetricsResponse,
   DeletePropertiesCalculatedMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesCalculatedMetricsRequest,
   output: DeletePropertiesCalculatedMetricsResponse,
   errors: [],
@@ -7760,20 +7855,21 @@ export interface GetPropertiesCalculatedMetricsRequest {
   name: string;
 }
 
-export const GetPropertiesCalculatedMetricsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesCalculatedMetricsRequest>;
+export const GetPropertiesCalculatedMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesCalculatedMetricsRequest>;
 
 export type GetPropertiesCalculatedMetricsResponse =
   GoogleAnalyticsAdminV1alphaCalculatedMetric;
 export const GetPropertiesCalculatedMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCalculatedMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCalculatedMetric;
 
 export type GetPropertiesCalculatedMetricsError = DefaultErrors;
 
@@ -7783,7 +7879,7 @@ export const getPropertiesCalculatedMetrics: API.OperationMethod<
   GetPropertiesCalculatedMetricsResponse,
   GetPropertiesCalculatedMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesCalculatedMetricsRequest,
   output: GetPropertiesCalculatedMetricsResponse,
   errors: [],
@@ -7798,25 +7894,26 @@ export interface PatchPropertiesCalculatedMetricsRequest {
   body?: GoogleAnalyticsAdminV1alphaCalculatedMetric;
 }
 
-export const PatchPropertiesCalculatedMetricsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCalculatedMetric).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesCalculatedMetricsRequest>;
+export const PatchPropertiesCalculatedMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCalculatedMetric).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/calculatedMetrics/{calculatedMetricsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesCalculatedMetricsRequest>;
 
 export type PatchPropertiesCalculatedMetricsResponse =
   GoogleAnalyticsAdminV1alphaCalculatedMetric;
 export const PatchPropertiesCalculatedMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCalculatedMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCalculatedMetric;
 
 export type PatchPropertiesCalculatedMetricsError = DefaultErrors;
 
@@ -7826,7 +7923,7 @@ export const patchPropertiesCalculatedMetrics: API.OperationMethod<
   PatchPropertiesCalculatedMetricsResponse,
   PatchPropertiesCalculatedMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesCalculatedMetricsRequest,
   output: PatchPropertiesCalculatedMetricsResponse,
   errors: [],
@@ -7841,22 +7938,23 @@ export interface ListPropertiesAudiencesRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesAudiencesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/audiences",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesAudiencesRequest>;
+export const ListPropertiesAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/audiences",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesAudiencesRequest>;
 
 export type ListPropertiesAudiencesResponse =
   GoogleAnalyticsAdminV1alphaListAudiencesResponse;
 export const ListPropertiesAudiencesResponse =
-  GoogleAnalyticsAdminV1alphaListAudiencesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAudiencesResponse;
 
 export type ListPropertiesAudiencesError = DefaultErrors;
 
@@ -7866,7 +7964,7 @@ export const listPropertiesAudiences: API.PaginatedOperationMethod<
   ListPropertiesAudiencesResponse,
   ListPropertiesAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesAudiencesRequest,
   output: ListPropertiesAudiencesResponse,
   errors: [],
@@ -7883,22 +7981,25 @@ export interface CreatePropertiesAudiencesRequest {
   body?: GoogleAnalyticsAdminV1alphaAudience;
 }
 
-export const CreatePropertiesAudiencesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAudience).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/audiences",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesAudiencesRequest>;
+export const CreatePropertiesAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAudience).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/audiences",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesAudiencesRequest>;
 
 export type CreatePropertiesAudiencesResponse =
   GoogleAnalyticsAdminV1alphaAudience;
 export const CreatePropertiesAudiencesResponse =
-  GoogleAnalyticsAdminV1alphaAudience;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAudience;
 
 export type CreatePropertiesAudiencesError = DefaultErrors;
 
@@ -7908,7 +8009,7 @@ export const createPropertiesAudiences: API.OperationMethod<
   CreatePropertiesAudiencesResponse,
   CreatePropertiesAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesAudiencesRequest,
   output: CreatePropertiesAudiencesResponse,
   errors: [],
@@ -7919,20 +8020,21 @@ export interface GetPropertiesAudiencesRequest {
   name: string;
 }
 
-export const GetPropertiesAudiencesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesAudiencesRequest>;
+export const GetPropertiesAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesAudiencesRequest>;
 
 export type GetPropertiesAudiencesResponse =
   GoogleAnalyticsAdminV1alphaAudience;
 export const GetPropertiesAudiencesResponse =
-  GoogleAnalyticsAdminV1alphaAudience;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAudience;
 
 export type GetPropertiesAudiencesError = DefaultErrors;
 
@@ -7942,7 +8044,7 @@ export const getPropertiesAudiences: API.OperationMethod<
   GetPropertiesAudiencesResponse,
   GetPropertiesAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesAudiencesRequest,
   output: GetPropertiesAudiencesResponse,
   errors: [],
@@ -7955,22 +8057,24 @@ export interface ArchivePropertiesAudiencesRequest {
   body?: GoogleAnalyticsAdminV1alphaArchiveAudienceRequest;
 }
 
-export const ArchivePropertiesAudiencesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaArchiveAudienceRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}:archive",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ArchivePropertiesAudiencesRequest>;
+export const ArchivePropertiesAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaArchiveAudienceRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}:archive",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ArchivePropertiesAudiencesRequest>;
 
 export type ArchivePropertiesAudiencesResponse = GoogleProtobufEmpty;
-export const ArchivePropertiesAudiencesResponse = GoogleProtobufEmpty;
+export const ArchivePropertiesAudiencesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ArchivePropertiesAudiencesError = DefaultErrors;
 
@@ -7980,7 +8084,7 @@ export const archivePropertiesAudiences: API.OperationMethod<
   ArchivePropertiesAudiencesResponse,
   ArchivePropertiesAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchivePropertiesAudiencesRequest,
   output: ArchivePropertiesAudiencesResponse,
   errors: [],
@@ -7995,23 +8099,26 @@ export interface PatchPropertiesAudiencesRequest {
   body?: GoogleAnalyticsAdminV1alphaAudience;
 }
 
-export const PatchPropertiesAudiencesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAudience).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesAudiencesRequest>;
+export const PatchPropertiesAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAudience).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/audiences/{audiencesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesAudiencesRequest>;
 
 export type PatchPropertiesAudiencesResponse =
   GoogleAnalyticsAdminV1alphaAudience;
 export const PatchPropertiesAudiencesResponse =
-  GoogleAnalyticsAdminV1alphaAudience;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAudience;
 
 export type PatchPropertiesAudiencesError = DefaultErrors;
 
@@ -8021,7 +8128,7 @@ export const patchPropertiesAudiences: API.OperationMethod<
   PatchPropertiesAudiencesResponse,
   PatchPropertiesAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesAudiencesRequest,
   output: PatchPropertiesAudiencesResponse,
   errors: [],
@@ -8034,24 +8141,25 @@ export interface CreatePropertiesCustomMetricsRequest {
   body?: GoogleAnalyticsAdminV1alphaCustomMetric;
 }
 
-export const CreatePropertiesCustomMetricsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomMetric).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/customMetrics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesCustomMetricsRequest>;
+export const CreatePropertiesCustomMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomMetric).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/customMetrics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesCustomMetricsRequest>;
 
 export type CreatePropertiesCustomMetricsResponse =
   GoogleAnalyticsAdminV1alphaCustomMetric;
 export const CreatePropertiesCustomMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCustomMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomMetric;
 
 export type CreatePropertiesCustomMetricsError = DefaultErrors;
 
@@ -8061,7 +8169,7 @@ export const createPropertiesCustomMetrics: API.OperationMethod<
   CreatePropertiesCustomMetricsResponse,
   CreatePropertiesCustomMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesCustomMetricsRequest,
   output: CreatePropertiesCustomMetricsResponse,
   errors: [],
@@ -8076,22 +8184,23 @@ export interface ListPropertiesCustomMetricsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesCustomMetricsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/customMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesCustomMetricsRequest>;
+export const ListPropertiesCustomMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/customMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesCustomMetricsRequest>;
 
 export type ListPropertiesCustomMetricsResponse =
   GoogleAnalyticsAdminV1alphaListCustomMetricsResponse;
 export const ListPropertiesCustomMetricsResponse =
-  GoogleAnalyticsAdminV1alphaListCustomMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListCustomMetricsResponse;
 
 export type ListPropertiesCustomMetricsError = DefaultErrors;
 
@@ -8101,7 +8210,7 @@ export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
   ListPropertiesCustomMetricsResponse,
   ListPropertiesCustomMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesCustomMetricsRequest,
   output: ListPropertiesCustomMetricsResponse,
   errors: [],
@@ -8118,22 +8227,24 @@ export interface ArchivePropertiesCustomMetricsRequest {
   body?: GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest;
 }
 
-export const ArchivePropertiesCustomMetricsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}:archive",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ArchivePropertiesCustomMetricsRequest>;
+export const ArchivePropertiesCustomMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}:archive",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ArchivePropertiesCustomMetricsRequest>;
 
 export type ArchivePropertiesCustomMetricsResponse = GoogleProtobufEmpty;
-export const ArchivePropertiesCustomMetricsResponse = GoogleProtobufEmpty;
+export const ArchivePropertiesCustomMetricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ArchivePropertiesCustomMetricsError = DefaultErrors;
 
@@ -8143,7 +8254,7 @@ export const archivePropertiesCustomMetrics: API.OperationMethod<
   ArchivePropertiesCustomMetricsResponse,
   ArchivePropertiesCustomMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchivePropertiesCustomMetricsRequest,
   output: ArchivePropertiesCustomMetricsResponse,
   errors: [],
@@ -8154,20 +8265,21 @@ export interface GetPropertiesCustomMetricsRequest {
   name: string;
 }
 
-export const GetPropertiesCustomMetricsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesCustomMetricsRequest>;
+export const GetPropertiesCustomMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesCustomMetricsRequest>;
 
 export type GetPropertiesCustomMetricsResponse =
   GoogleAnalyticsAdminV1alphaCustomMetric;
 export const GetPropertiesCustomMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCustomMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomMetric;
 
 export type GetPropertiesCustomMetricsError = DefaultErrors;
 
@@ -8177,7 +8289,7 @@ export const getPropertiesCustomMetrics: API.OperationMethod<
   GetPropertiesCustomMetricsResponse,
   GetPropertiesCustomMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesCustomMetricsRequest,
   output: GetPropertiesCustomMetricsResponse,
   errors: [],
@@ -8192,25 +8304,26 @@ export interface PatchPropertiesCustomMetricsRequest {
   body?: GoogleAnalyticsAdminV1alphaCustomMetric;
 }
 
-export const PatchPropertiesCustomMetricsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomMetric).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesCustomMetricsRequest>;
+export const PatchPropertiesCustomMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomMetric).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/customMetrics/{customMetricsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesCustomMetricsRequest>;
 
 export type PatchPropertiesCustomMetricsResponse =
   GoogleAnalyticsAdminV1alphaCustomMetric;
 export const PatchPropertiesCustomMetricsResponse =
-  GoogleAnalyticsAdminV1alphaCustomMetric;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomMetric;
 
 export type PatchPropertiesCustomMetricsError = DefaultErrors;
 
@@ -8220,7 +8333,7 @@ export const patchPropertiesCustomMetrics: API.OperationMethod<
   PatchPropertiesCustomMetricsResponse,
   PatchPropertiesCustomMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesCustomMetricsRequest,
   output: PatchPropertiesCustomMetricsResponse,
   errors: [],
@@ -8231,20 +8344,21 @@ export interface DeletePropertiesSubpropertyEventFiltersRequest {
   name: string;
 }
 
-export const DeletePropertiesSubpropertyEventFiltersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesSubpropertyEventFiltersRequest>;
+export const DeletePropertiesSubpropertyEventFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesSubpropertyEventFiltersRequest>;
 
 export type DeletePropertiesSubpropertyEventFiltersResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesSubpropertyEventFiltersResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesSubpropertyEventFiltersError = DefaultErrors;
 
@@ -8254,7 +8368,7 @@ export const deletePropertiesSubpropertyEventFilters: API.OperationMethod<
   DeletePropertiesSubpropertyEventFiltersResponse,
   DeletePropertiesSubpropertyEventFiltersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesSubpropertyEventFiltersRequest,
   output: DeletePropertiesSubpropertyEventFiltersResponse,
   errors: [],
@@ -8269,25 +8383,26 @@ export interface PatchPropertiesSubpropertyEventFiltersRequest {
   body?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 }
 
-export const PatchPropertiesSubpropertyEventFiltersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaSubpropertyEventFilter).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesSubpropertyEventFiltersRequest>;
+export const PatchPropertiesSubpropertyEventFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaSubpropertyEventFilter,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesSubpropertyEventFiltersRequest>;
 
 export type PatchPropertiesSubpropertyEventFiltersResponse =
   GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 export const PatchPropertiesSubpropertyEventFiltersResponse =
-  GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 
 export type PatchPropertiesSubpropertyEventFiltersError = DefaultErrors;
 
@@ -8297,7 +8412,7 @@ export const patchPropertiesSubpropertyEventFilters: API.OperationMethod<
   PatchPropertiesSubpropertyEventFiltersResponse,
   PatchPropertiesSubpropertyEventFiltersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesSubpropertyEventFiltersRequest,
   output: PatchPropertiesSubpropertyEventFiltersResponse,
   errors: [],
@@ -8308,20 +8423,21 @@ export interface GetPropertiesSubpropertyEventFiltersRequest {
   name: string;
 }
 
-export const GetPropertiesSubpropertyEventFiltersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesSubpropertyEventFiltersRequest>;
+export const GetPropertiesSubpropertyEventFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters/{subpropertyEventFiltersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesSubpropertyEventFiltersRequest>;
 
 export type GetPropertiesSubpropertyEventFiltersResponse =
   GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 export const GetPropertiesSubpropertyEventFiltersResponse =
-  GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 
 export type GetPropertiesSubpropertyEventFiltersError = DefaultErrors;
 
@@ -8331,7 +8447,7 @@ export const getPropertiesSubpropertyEventFilters: API.OperationMethod<
   GetPropertiesSubpropertyEventFiltersResponse,
   GetPropertiesSubpropertyEventFiltersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesSubpropertyEventFiltersRequest,
   output: GetPropertiesSubpropertyEventFiltersResponse,
   errors: [],
@@ -8344,24 +8460,25 @@ export interface CreatePropertiesSubpropertyEventFiltersRequest {
   body?: GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 }
 
-export const CreatePropertiesSubpropertyEventFiltersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaSubpropertyEventFilter).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesSubpropertyEventFiltersRequest>;
+export const CreatePropertiesSubpropertyEventFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaSubpropertyEventFilter,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesSubpropertyEventFiltersRequest>;
 
 export type CreatePropertiesSubpropertyEventFiltersResponse =
   GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 export const CreatePropertiesSubpropertyEventFiltersResponse =
-  GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubpropertyEventFilter;
 
 export type CreatePropertiesSubpropertyEventFiltersError = DefaultErrors;
 
@@ -8371,7 +8488,7 @@ export const createPropertiesSubpropertyEventFilters: API.OperationMethod<
   CreatePropertiesSubpropertyEventFiltersResponse,
   CreatePropertiesSubpropertyEventFiltersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesSubpropertyEventFiltersRequest,
   output: CreatePropertiesSubpropertyEventFiltersResponse,
   errors: [],
@@ -8386,22 +8503,23 @@ export interface ListPropertiesSubpropertyEventFiltersRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesSubpropertyEventFiltersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesSubpropertyEventFiltersRequest>;
+export const ListPropertiesSubpropertyEventFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/subpropertyEventFilters",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesSubpropertyEventFiltersRequest>;
 
 export type ListPropertiesSubpropertyEventFiltersResponse =
   GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse;
 export const ListPropertiesSubpropertyEventFiltersResponse =
-  GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListSubpropertyEventFiltersResponse;
 
 export type ListPropertiesSubpropertyEventFiltersError = DefaultErrors;
 
@@ -8411,7 +8529,7 @@ export const listPropertiesSubpropertyEventFilters: API.PaginatedOperationMethod
   ListPropertiesSubpropertyEventFiltersResponse,
   ListPropertiesSubpropertyEventFiltersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesSubpropertyEventFiltersRequest,
   output: ListPropertiesSubpropertyEventFiltersResponse,
   errors: [],
@@ -8428,24 +8546,25 @@ export interface CreatePropertiesReportingDataAnnotationsRequest {
   body?: GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 }
 
-export const CreatePropertiesReportingDataAnnotationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesReportingDataAnnotationsRequest>;
+export const CreatePropertiesReportingDataAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesReportingDataAnnotationsRequest>;
 
 export type CreatePropertiesReportingDataAnnotationsResponse =
   GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 export const CreatePropertiesReportingDataAnnotationsResponse =
-  GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 
 export type CreatePropertiesReportingDataAnnotationsError = DefaultErrors;
 
@@ -8455,7 +8574,7 @@ export const createPropertiesReportingDataAnnotations: API.OperationMethod<
   CreatePropertiesReportingDataAnnotationsResponse,
   CreatePropertiesReportingDataAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesReportingDataAnnotationsRequest,
   output: CreatePropertiesReportingDataAnnotationsResponse,
   errors: [],
@@ -8472,23 +8591,24 @@ export interface ListPropertiesReportingDataAnnotationsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesReportingDataAnnotationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesReportingDataAnnotationsRequest>;
+export const ListPropertiesReportingDataAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesReportingDataAnnotationsRequest>;
 
 export type ListPropertiesReportingDataAnnotationsResponse =
   GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse;
 export const ListPropertiesReportingDataAnnotationsResponse =
-  GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListReportingDataAnnotationsResponse;
 
 export type ListPropertiesReportingDataAnnotationsError = DefaultErrors;
 
@@ -8498,7 +8618,7 @@ export const listPropertiesReportingDataAnnotations: API.PaginatedOperationMetho
   ListPropertiesReportingDataAnnotationsResponse,
   ListPropertiesReportingDataAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesReportingDataAnnotationsRequest,
   output: ListPropertiesReportingDataAnnotationsResponse,
   errors: [],
@@ -8517,25 +8637,26 @@ export interface PatchPropertiesReportingDataAnnotationsRequest {
   body?: GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 }
 
-export const PatchPropertiesReportingDataAnnotationsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesReportingDataAnnotationsRequest>;
+export const PatchPropertiesReportingDataAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesReportingDataAnnotationsRequest>;
 
 export type PatchPropertiesReportingDataAnnotationsResponse =
   GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 export const PatchPropertiesReportingDataAnnotationsResponse =
-  GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 
 export type PatchPropertiesReportingDataAnnotationsError = DefaultErrors;
 
@@ -8545,7 +8666,7 @@ export const patchPropertiesReportingDataAnnotations: API.OperationMethod<
   PatchPropertiesReportingDataAnnotationsResponse,
   PatchPropertiesReportingDataAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesReportingDataAnnotationsRequest,
   output: PatchPropertiesReportingDataAnnotationsResponse,
   errors: [],
@@ -8556,20 +8677,21 @@ export interface GetPropertiesReportingDataAnnotationsRequest {
   name: string;
 }
 
-export const GetPropertiesReportingDataAnnotationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesReportingDataAnnotationsRequest>;
+export const GetPropertiesReportingDataAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesReportingDataAnnotationsRequest>;
 
 export type GetPropertiesReportingDataAnnotationsResponse =
   GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 export const GetPropertiesReportingDataAnnotationsResponse =
-  GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaReportingDataAnnotation;
 
 export type GetPropertiesReportingDataAnnotationsError = DefaultErrors;
 
@@ -8579,7 +8701,7 @@ export const getPropertiesReportingDataAnnotations: API.OperationMethod<
   GetPropertiesReportingDataAnnotationsResponse,
   GetPropertiesReportingDataAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesReportingDataAnnotationsRequest,
   output: GetPropertiesReportingDataAnnotationsResponse,
   errors: [],
@@ -8590,20 +8712,21 @@ export interface DeletePropertiesReportingDataAnnotationsRequest {
   name: string;
 }
 
-export const DeletePropertiesReportingDataAnnotationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesReportingDataAnnotationsRequest>;
+export const DeletePropertiesReportingDataAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/reportingDataAnnotations/{reportingDataAnnotationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesReportingDataAnnotationsRequest>;
 
 export type DeletePropertiesReportingDataAnnotationsResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesReportingDataAnnotationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesReportingDataAnnotationsError = DefaultErrors;
 
@@ -8613,7 +8736,7 @@ export const deletePropertiesReportingDataAnnotations: API.OperationMethod<
   DeletePropertiesReportingDataAnnotationsResponse,
   DeletePropertiesReportingDataAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesReportingDataAnnotationsRequest,
   output: DeletePropertiesReportingDataAnnotationsResponse,
   errors: [],
@@ -8628,25 +8751,26 @@ export interface PatchPropertiesSubpropertySyncConfigsRequest {
   body?: GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
 }
 
-export const PatchPropertiesSubpropertySyncConfigsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaSubpropertySyncConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs/{subpropertySyncConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesSubpropertySyncConfigsRequest>;
+export const PatchPropertiesSubpropertySyncConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaSubpropertySyncConfig,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs/{subpropertySyncConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesSubpropertySyncConfigsRequest>;
 
 export type PatchPropertiesSubpropertySyncConfigsResponse =
   GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
 export const PatchPropertiesSubpropertySyncConfigsResponse =
-  GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
 
 export type PatchPropertiesSubpropertySyncConfigsError = DefaultErrors;
 
@@ -8656,7 +8780,7 @@ export const patchPropertiesSubpropertySyncConfigs: API.OperationMethod<
   PatchPropertiesSubpropertySyncConfigsResponse,
   PatchPropertiesSubpropertySyncConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesSubpropertySyncConfigsRequest,
   output: PatchPropertiesSubpropertySyncConfigsResponse,
   errors: [],
@@ -8671,22 +8795,23 @@ export interface ListPropertiesSubpropertySyncConfigsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesSubpropertySyncConfigsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesSubpropertySyncConfigsRequest>;
+export const ListPropertiesSubpropertySyncConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesSubpropertySyncConfigsRequest>;
 
 export type ListPropertiesSubpropertySyncConfigsResponse =
   GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse;
 export const ListPropertiesSubpropertySyncConfigsResponse =
-  GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListSubpropertySyncConfigsResponse;
 
 export type ListPropertiesSubpropertySyncConfigsError = DefaultErrors;
 
@@ -8696,7 +8821,7 @@ export const listPropertiesSubpropertySyncConfigs: API.PaginatedOperationMethod<
   ListPropertiesSubpropertySyncConfigsResponse,
   ListPropertiesSubpropertySyncConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesSubpropertySyncConfigsRequest,
   output: ListPropertiesSubpropertySyncConfigsResponse,
   errors: [],
@@ -8711,20 +8836,21 @@ export interface GetPropertiesSubpropertySyncConfigsRequest {
   name: string;
 }
 
-export const GetPropertiesSubpropertySyncConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs/{subpropertySyncConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesSubpropertySyncConfigsRequest>;
+export const GetPropertiesSubpropertySyncConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/subpropertySyncConfigs/{subpropertySyncConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesSubpropertySyncConfigsRequest>;
 
 export type GetPropertiesSubpropertySyncConfigsResponse =
   GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
 export const GetPropertiesSubpropertySyncConfigsResponse =
-  GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSubpropertySyncConfig;
 
 export type GetPropertiesSubpropertySyncConfigsError = DefaultErrors;
 
@@ -8734,7 +8860,7 @@ export const getPropertiesSubpropertySyncConfigs: API.OperationMethod<
   GetPropertiesSubpropertySyncConfigsResponse,
   GetPropertiesSubpropertySyncConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesSubpropertySyncConfigsRequest,
   output: GetPropertiesSubpropertySyncConfigsResponse,
   errors: [],
@@ -8749,22 +8875,23 @@ export interface ListPropertiesExpandedDataSetsRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesExpandedDataSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/expandedDataSets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesExpandedDataSetsRequest>;
+export const ListPropertiesExpandedDataSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/expandedDataSets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesExpandedDataSetsRequest>;
 
 export type ListPropertiesExpandedDataSetsResponse =
   GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse;
 export const ListPropertiesExpandedDataSetsResponse =
-  GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListExpandedDataSetsResponse;
 
 export type ListPropertiesExpandedDataSetsError = DefaultErrors;
 
@@ -8774,7 +8901,7 @@ export const listPropertiesExpandedDataSets: API.PaginatedOperationMethod<
   ListPropertiesExpandedDataSetsResponse,
   ListPropertiesExpandedDataSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesExpandedDataSetsRequest,
   output: ListPropertiesExpandedDataSetsResponse,
   errors: [],
@@ -8791,24 +8918,25 @@ export interface CreatePropertiesExpandedDataSetsRequest {
   body?: GoogleAnalyticsAdminV1alphaExpandedDataSet;
 }
 
-export const CreatePropertiesExpandedDataSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaExpandedDataSet).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/expandedDataSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesExpandedDataSetsRequest>;
+export const CreatePropertiesExpandedDataSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaExpandedDataSet).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/expandedDataSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesExpandedDataSetsRequest>;
 
 export type CreatePropertiesExpandedDataSetsResponse =
   GoogleAnalyticsAdminV1alphaExpandedDataSet;
 export const CreatePropertiesExpandedDataSetsResponse =
-  GoogleAnalyticsAdminV1alphaExpandedDataSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaExpandedDataSet;
 
 export type CreatePropertiesExpandedDataSetsError = DefaultErrors;
 
@@ -8818,7 +8946,7 @@ export const createPropertiesExpandedDataSets: API.OperationMethod<
   CreatePropertiesExpandedDataSetsResponse,
   CreatePropertiesExpandedDataSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesExpandedDataSetsRequest,
   output: CreatePropertiesExpandedDataSetsResponse,
   errors: [],
@@ -8833,25 +8961,26 @@ export interface PatchPropertiesExpandedDataSetsRequest {
   body?: GoogleAnalyticsAdminV1alphaExpandedDataSet;
 }
 
-export const PatchPropertiesExpandedDataSetsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaExpandedDataSet).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesExpandedDataSetsRequest>;
+export const PatchPropertiesExpandedDataSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaExpandedDataSet).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesExpandedDataSetsRequest>;
 
 export type PatchPropertiesExpandedDataSetsResponse =
   GoogleAnalyticsAdminV1alphaExpandedDataSet;
 export const PatchPropertiesExpandedDataSetsResponse =
-  GoogleAnalyticsAdminV1alphaExpandedDataSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaExpandedDataSet;
 
 export type PatchPropertiesExpandedDataSetsError = DefaultErrors;
 
@@ -8861,7 +8990,7 @@ export const patchPropertiesExpandedDataSets: API.OperationMethod<
   PatchPropertiesExpandedDataSetsResponse,
   PatchPropertiesExpandedDataSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesExpandedDataSetsRequest,
   output: PatchPropertiesExpandedDataSetsResponse,
   errors: [],
@@ -8872,20 +9001,21 @@ export interface GetPropertiesExpandedDataSetsRequest {
   name: string;
 }
 
-export const GetPropertiesExpandedDataSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesExpandedDataSetsRequest>;
+export const GetPropertiesExpandedDataSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesExpandedDataSetsRequest>;
 
 export type GetPropertiesExpandedDataSetsResponse =
   GoogleAnalyticsAdminV1alphaExpandedDataSet;
 export const GetPropertiesExpandedDataSetsResponse =
-  GoogleAnalyticsAdminV1alphaExpandedDataSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaExpandedDataSet;
 
 export type GetPropertiesExpandedDataSetsError = DefaultErrors;
 
@@ -8895,7 +9025,7 @@ export const getPropertiesExpandedDataSets: API.OperationMethod<
   GetPropertiesExpandedDataSetsResponse,
   GetPropertiesExpandedDataSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesExpandedDataSetsRequest,
   output: GetPropertiesExpandedDataSetsResponse,
   errors: [],
@@ -8906,18 +9036,20 @@ export interface DeletePropertiesExpandedDataSetsRequest {
   name: string;
 }
 
-export const DeletePropertiesExpandedDataSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesExpandedDataSetsRequest>;
+export const DeletePropertiesExpandedDataSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/expandedDataSets/{expandedDataSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesExpandedDataSetsRequest>;
 
 export type DeletePropertiesExpandedDataSetsResponse = GoogleProtobufEmpty;
-export const DeletePropertiesExpandedDataSetsResponse = GoogleProtobufEmpty;
+export const DeletePropertiesExpandedDataSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesExpandedDataSetsError = DefaultErrors;
 
@@ -8927,7 +9059,7 @@ export const deletePropertiesExpandedDataSets: API.OperationMethod<
   DeletePropertiesExpandedDataSetsResponse,
   DeletePropertiesExpandedDataSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesExpandedDataSetsRequest,
   output: DeletePropertiesExpandedDataSetsResponse,
   errors: [],
@@ -8940,24 +9072,25 @@ export interface CreatePropertiesBigQueryLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaBigQueryLink;
 }
 
-export const CreatePropertiesBigQueryLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaBigQueryLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/bigQueryLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesBigQueryLinksRequest>;
+export const CreatePropertiesBigQueryLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaBigQueryLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/bigQueryLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesBigQueryLinksRequest>;
 
 export type CreatePropertiesBigQueryLinksResponse =
   GoogleAnalyticsAdminV1alphaBigQueryLink;
 export const CreatePropertiesBigQueryLinksResponse =
-  GoogleAnalyticsAdminV1alphaBigQueryLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBigQueryLink;
 
 export type CreatePropertiesBigQueryLinksError = DefaultErrors;
 
@@ -8967,7 +9100,7 @@ export const createPropertiesBigQueryLinks: API.OperationMethod<
   CreatePropertiesBigQueryLinksResponse,
   CreatePropertiesBigQueryLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesBigQueryLinksRequest,
   output: CreatePropertiesBigQueryLinksResponse,
   errors: [],
@@ -8982,22 +9115,23 @@ export interface ListPropertiesBigQueryLinksRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesBigQueryLinksRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/bigQueryLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesBigQueryLinksRequest>;
+export const ListPropertiesBigQueryLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/bigQueryLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesBigQueryLinksRequest>;
 
 export type ListPropertiesBigQueryLinksResponse =
   GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse;
 export const ListPropertiesBigQueryLinksResponse =
-  GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListBigQueryLinksResponse;
 
 export type ListPropertiesBigQueryLinksError = DefaultErrors;
 
@@ -9007,7 +9141,7 @@ export const listPropertiesBigQueryLinks: API.PaginatedOperationMethod<
   ListPropertiesBigQueryLinksResponse,
   ListPropertiesBigQueryLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesBigQueryLinksRequest,
   output: ListPropertiesBigQueryLinksResponse,
   errors: [],
@@ -9026,25 +9160,26 @@ export interface PatchPropertiesBigQueryLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaBigQueryLink;
 }
 
-export const PatchPropertiesBigQueryLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaBigQueryLink).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesBigQueryLinksRequest>;
+export const PatchPropertiesBigQueryLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaBigQueryLink).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesBigQueryLinksRequest>;
 
 export type PatchPropertiesBigQueryLinksResponse =
   GoogleAnalyticsAdminV1alphaBigQueryLink;
 export const PatchPropertiesBigQueryLinksResponse =
-  GoogleAnalyticsAdminV1alphaBigQueryLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBigQueryLink;
 
 export type PatchPropertiesBigQueryLinksError = DefaultErrors;
 
@@ -9054,7 +9189,7 @@ export const patchPropertiesBigQueryLinks: API.OperationMethod<
   PatchPropertiesBigQueryLinksResponse,
   PatchPropertiesBigQueryLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesBigQueryLinksRequest,
   output: PatchPropertiesBigQueryLinksResponse,
   errors: [],
@@ -9065,20 +9200,21 @@ export interface GetPropertiesBigQueryLinksRequest {
   name: string;
 }
 
-export const GetPropertiesBigQueryLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesBigQueryLinksRequest>;
+export const GetPropertiesBigQueryLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesBigQueryLinksRequest>;
 
 export type GetPropertiesBigQueryLinksResponse =
   GoogleAnalyticsAdminV1alphaBigQueryLink;
 export const GetPropertiesBigQueryLinksResponse =
-  GoogleAnalyticsAdminV1alphaBigQueryLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBigQueryLink;
 
 export type GetPropertiesBigQueryLinksError = DefaultErrors;
 
@@ -9088,7 +9224,7 @@ export const getPropertiesBigQueryLinks: API.OperationMethod<
   GetPropertiesBigQueryLinksResponse,
   GetPropertiesBigQueryLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesBigQueryLinksRequest,
   output: GetPropertiesBigQueryLinksResponse,
   errors: [],
@@ -9099,18 +9235,20 @@ export interface DeletePropertiesBigQueryLinksRequest {
   name: string;
 }
 
-export const DeletePropertiesBigQueryLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesBigQueryLinksRequest>;
+export const DeletePropertiesBigQueryLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/bigQueryLinks/{bigQueryLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesBigQueryLinksRequest>;
 
 export type DeletePropertiesBigQueryLinksResponse = GoogleProtobufEmpty;
-export const DeletePropertiesBigQueryLinksResponse = GoogleProtobufEmpty;
+export const DeletePropertiesBigQueryLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesBigQueryLinksError = DefaultErrors;
 
@@ -9120,7 +9258,7 @@ export const deletePropertiesBigQueryLinks: API.OperationMethod<
   DeletePropertiesBigQueryLinksResponse,
   DeletePropertiesBigQueryLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesBigQueryLinksRequest,
   output: DeletePropertiesBigQueryLinksResponse,
   errors: [],
@@ -9131,20 +9269,21 @@ export interface DeletePropertiesRollupPropertySourceLinksRequest {
   name: string;
 }
 
-export const DeletePropertiesRollupPropertySourceLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks/{rollupPropertySourceLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesRollupPropertySourceLinksRequest>;
+export const DeletePropertiesRollupPropertySourceLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks/{rollupPropertySourceLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesRollupPropertySourceLinksRequest>;
 
 export type DeletePropertiesRollupPropertySourceLinksResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesRollupPropertySourceLinksResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesRollupPropertySourceLinksError = DefaultErrors;
 
@@ -9154,7 +9293,7 @@ export const deletePropertiesRollupPropertySourceLinks: API.OperationMethod<
   DeletePropertiesRollupPropertySourceLinksResponse,
   DeletePropertiesRollupPropertySourceLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesRollupPropertySourceLinksRequest,
   output: DeletePropertiesRollupPropertySourceLinksResponse,
   errors: [],
@@ -9165,20 +9304,21 @@ export interface GetPropertiesRollupPropertySourceLinksRequest {
   name: string;
 }
 
-export const GetPropertiesRollupPropertySourceLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks/{rollupPropertySourceLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesRollupPropertySourceLinksRequest>;
+export const GetPropertiesRollupPropertySourceLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks/{rollupPropertySourceLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesRollupPropertySourceLinksRequest>;
 
 export type GetPropertiesRollupPropertySourceLinksResponse =
   GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
 export const GetPropertiesRollupPropertySourceLinksResponse =
-  GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
 
 export type GetPropertiesRollupPropertySourceLinksError = DefaultErrors;
 
@@ -9188,7 +9328,7 @@ export const getPropertiesRollupPropertySourceLinks: API.OperationMethod<
   GetPropertiesRollupPropertySourceLinksResponse,
   GetPropertiesRollupPropertySourceLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesRollupPropertySourceLinksRequest,
   output: GetPropertiesRollupPropertySourceLinksResponse,
   errors: [],
@@ -9203,22 +9343,23 @@ export interface ListPropertiesRollupPropertySourceLinksRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesRollupPropertySourceLinksRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesRollupPropertySourceLinksRequest>;
+export const ListPropertiesRollupPropertySourceLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesRollupPropertySourceLinksRequest>;
 
 export type ListPropertiesRollupPropertySourceLinksResponse =
   GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse;
 export const ListPropertiesRollupPropertySourceLinksResponse =
-  GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListRollupPropertySourceLinksResponse;
 
 export type ListPropertiesRollupPropertySourceLinksError = DefaultErrors;
 
@@ -9228,7 +9369,7 @@ export const listPropertiesRollupPropertySourceLinks: API.PaginatedOperationMeth
   ListPropertiesRollupPropertySourceLinksResponse,
   ListPropertiesRollupPropertySourceLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesRollupPropertySourceLinksRequest,
   output: ListPropertiesRollupPropertySourceLinksResponse,
   errors: [],
@@ -9245,24 +9386,25 @@ export interface CreatePropertiesRollupPropertySourceLinksRequest {
   body?: GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
 }
 
-export const CreatePropertiesRollupPropertySourceLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaRollupPropertySourceLink,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesRollupPropertySourceLinksRequest>;
+export const CreatePropertiesRollupPropertySourceLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaRollupPropertySourceLink,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/rollupPropertySourceLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesRollupPropertySourceLinksRequest>;
 
 export type CreatePropertiesRollupPropertySourceLinksResponse =
   GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
 export const CreatePropertiesRollupPropertySourceLinksResponse =
-  GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaRollupPropertySourceLink;
 
 export type CreatePropertiesRollupPropertySourceLinksError = DefaultErrors;
 
@@ -9272,7 +9414,7 @@ export const createPropertiesRollupPropertySourceLinks: API.OperationMethod<
   CreatePropertiesRollupPropertySourceLinksResponse,
   CreatePropertiesRollupPropertySourceLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesRollupPropertySourceLinksRequest,
   output: CreatePropertiesRollupPropertySourceLinksResponse,
   errors: [],
@@ -9288,7 +9430,7 @@ export interface PatchPropertiesDisplayVideo360AdvertiserLinksRequest {
 }
 
 export const PatchPropertiesDisplayVideo360AdvertiserLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -9306,7 +9448,7 @@ export const PatchPropertiesDisplayVideo360AdvertiserLinksRequest =
 export type PatchPropertiesDisplayVideo360AdvertiserLinksResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 export const PatchPropertiesDisplayVideo360AdvertiserLinksResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 
 export type PatchPropertiesDisplayVideo360AdvertiserLinksError = DefaultErrors;
 
@@ -9316,7 +9458,7 @@ export const patchPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
   PatchPropertiesDisplayVideo360AdvertiserLinksResponse,
   PatchPropertiesDisplayVideo360AdvertiserLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesDisplayVideo360AdvertiserLinksRequest,
   output: PatchPropertiesDisplayVideo360AdvertiserLinksResponse,
   errors: [],
@@ -9327,22 +9469,21 @@ export interface GetPropertiesDisplayVideo360AdvertiserLinksRequest {
   name: string;
 }
 
-export const GetPropertiesDisplayVideo360AdvertiserLinksRequest = Schema.Struct(
-  {
+export const GetPropertiesDisplayVideo360AdvertiserLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/displayVideo360AdvertiserLinks/{displayVideo360AdvertiserLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesDisplayVideo360AdvertiserLinksRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/displayVideo360AdvertiserLinks/{displayVideo360AdvertiserLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesDisplayVideo360AdvertiserLinksRequest>;
 
 export type GetPropertiesDisplayVideo360AdvertiserLinksResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 export const GetPropertiesDisplayVideo360AdvertiserLinksResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 
 export type GetPropertiesDisplayVideo360AdvertiserLinksError = DefaultErrors;
 
@@ -9352,7 +9493,7 @@ export const getPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod<
   GetPropertiesDisplayVideo360AdvertiserLinksResponse,
   GetPropertiesDisplayVideo360AdvertiserLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesDisplayVideo360AdvertiserLinksRequest,
   output: GetPropertiesDisplayVideo360AdvertiserLinksResponse,
   errors: [],
@@ -9364,7 +9505,7 @@ export interface DeletePropertiesDisplayVideo360AdvertiserLinksRequest {
 }
 
 export const DeletePropertiesDisplayVideo360AdvertiserLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -9377,7 +9518,7 @@ export const DeletePropertiesDisplayVideo360AdvertiserLinksRequest =
 export type DeletePropertiesDisplayVideo360AdvertiserLinksResponse =
   GoogleProtobufEmpty;
 export const DeletePropertiesDisplayVideo360AdvertiserLinksResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeletePropertiesDisplayVideo360AdvertiserLinksError = DefaultErrors;
 
@@ -9387,7 +9528,7 @@ export const deletePropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
   DeletePropertiesDisplayVideo360AdvertiserLinksResponse,
   DeletePropertiesDisplayVideo360AdvertiserLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesDisplayVideo360AdvertiserLinksRequest,
   output: DeletePropertiesDisplayVideo360AdvertiserLinksResponse,
   errors: [],
@@ -9403,7 +9544,7 @@ export interface ListPropertiesDisplayVideo360AdvertiserLinksRequest {
 }
 
 export const ListPropertiesDisplayVideo360AdvertiserLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -9418,7 +9559,7 @@ export const ListPropertiesDisplayVideo360AdvertiserLinksRequest =
 export type ListPropertiesDisplayVideo360AdvertiserLinksResponse =
   GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksResponse;
 export const ListPropertiesDisplayVideo360AdvertiserLinksResponse =
-  GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListDisplayVideo360AdvertiserLinksResponse;
 
 export type ListPropertiesDisplayVideo360AdvertiserLinksError = DefaultErrors;
 
@@ -9428,7 +9569,7 @@ export const listPropertiesDisplayVideo360AdvertiserLinks: API.PaginatedOperatio
   ListPropertiesDisplayVideo360AdvertiserLinksResponse,
   ListPropertiesDisplayVideo360AdvertiserLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesDisplayVideo360AdvertiserLinksRequest,
   output: ListPropertiesDisplayVideo360AdvertiserLinksResponse,
   errors: [],
@@ -9446,7 +9587,7 @@ export interface CreatePropertiesDisplayVideo360AdvertiserLinksRequest {
 }
 
 export const CreatePropertiesDisplayVideo360AdvertiserLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink,
@@ -9463,7 +9604,7 @@ export const CreatePropertiesDisplayVideo360AdvertiserLinksRequest =
 export type CreatePropertiesDisplayVideo360AdvertiserLinksResponse =
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 export const CreatePropertiesDisplayVideo360AdvertiserLinksResponse =
-  GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink;
 
 export type CreatePropertiesDisplayVideo360AdvertiserLinksError = DefaultErrors;
 
@@ -9473,7 +9614,7 @@ export const createPropertiesDisplayVideo360AdvertiserLinks: API.OperationMethod
   CreatePropertiesDisplayVideo360AdvertiserLinksResponse,
   CreatePropertiesDisplayVideo360AdvertiserLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesDisplayVideo360AdvertiserLinksRequest,
   output: CreatePropertiesDisplayVideo360AdvertiserLinksResponse,
   errors: [],
@@ -9488,25 +9629,26 @@ export interface PatchPropertiesCustomDimensionsRequest {
   body?: GoogleAnalyticsAdminV1alphaCustomDimension;
 }
 
-export const PatchPropertiesCustomDimensionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomDimension).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPropertiesCustomDimensionsRequest>;
+export const PatchPropertiesCustomDimensionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomDimension).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPropertiesCustomDimensionsRequest>;
 
 export type PatchPropertiesCustomDimensionsResponse =
   GoogleAnalyticsAdminV1alphaCustomDimension;
 export const PatchPropertiesCustomDimensionsResponse =
-  GoogleAnalyticsAdminV1alphaCustomDimension;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomDimension;
 
 export type PatchPropertiesCustomDimensionsError = DefaultErrors;
 
@@ -9516,7 +9658,7 @@ export const patchPropertiesCustomDimensions: API.OperationMethod<
   PatchPropertiesCustomDimensionsResponse,
   PatchPropertiesCustomDimensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesCustomDimensionsRequest,
   output: PatchPropertiesCustomDimensionsResponse,
   errors: [],
@@ -9529,22 +9671,24 @@ export interface ArchivePropertiesCustomDimensionsRequest {
   body?: GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest;
 }
 
-export const ArchivePropertiesCustomDimensionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}:archive",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ArchivePropertiesCustomDimensionsRequest>;
+export const ArchivePropertiesCustomDimensionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}:archive",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ArchivePropertiesCustomDimensionsRequest>;
 
 export type ArchivePropertiesCustomDimensionsResponse = GoogleProtobufEmpty;
-export const ArchivePropertiesCustomDimensionsResponse = GoogleProtobufEmpty;
+export const ArchivePropertiesCustomDimensionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ArchivePropertiesCustomDimensionsError = DefaultErrors;
 
@@ -9554,7 +9698,7 @@ export const archivePropertiesCustomDimensions: API.OperationMethod<
   ArchivePropertiesCustomDimensionsResponse,
   ArchivePropertiesCustomDimensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ArchivePropertiesCustomDimensionsRequest,
   output: ArchivePropertiesCustomDimensionsResponse,
   errors: [],
@@ -9565,20 +9709,21 @@ export interface GetPropertiesCustomDimensionsRequest {
   name: string;
 }
 
-export const GetPropertiesCustomDimensionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesCustomDimensionsRequest>;
+export const GetPropertiesCustomDimensionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/customDimensions/{customDimensionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesCustomDimensionsRequest>;
 
 export type GetPropertiesCustomDimensionsResponse =
   GoogleAnalyticsAdminV1alphaCustomDimension;
 export const GetPropertiesCustomDimensionsResponse =
-  GoogleAnalyticsAdminV1alphaCustomDimension;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomDimension;
 
 export type GetPropertiesCustomDimensionsError = DefaultErrors;
 
@@ -9588,7 +9733,7 @@ export const getPropertiesCustomDimensions: API.OperationMethod<
   GetPropertiesCustomDimensionsResponse,
   GetPropertiesCustomDimensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesCustomDimensionsRequest,
   output: GetPropertiesCustomDimensionsResponse,
   errors: [],
@@ -9601,24 +9746,25 @@ export interface CreatePropertiesCustomDimensionsRequest {
   body?: GoogleAnalyticsAdminV1alphaCustomDimension;
 }
 
-export const CreatePropertiesCustomDimensionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomDimension).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/properties/{propertiesId}/customDimensions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesCustomDimensionsRequest>;
+export const CreatePropertiesCustomDimensionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaCustomDimension).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/properties/{propertiesId}/customDimensions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesCustomDimensionsRequest>;
 
 export type CreatePropertiesCustomDimensionsResponse =
   GoogleAnalyticsAdminV1alphaCustomDimension;
 export const CreatePropertiesCustomDimensionsResponse =
-  GoogleAnalyticsAdminV1alphaCustomDimension;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaCustomDimension;
 
 export type CreatePropertiesCustomDimensionsError = DefaultErrors;
 
@@ -9628,7 +9774,7 @@ export const createPropertiesCustomDimensions: API.OperationMethod<
   CreatePropertiesCustomDimensionsResponse,
   CreatePropertiesCustomDimensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesCustomDimensionsRequest,
   output: CreatePropertiesCustomDimensionsResponse,
   errors: [],
@@ -9643,22 +9789,23 @@ export interface ListPropertiesCustomDimensionsRequest {
   pageToken?: string;
 }
 
-export const ListPropertiesCustomDimensionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/properties/{propertiesId}/customDimensions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesCustomDimensionsRequest>;
+export const ListPropertiesCustomDimensionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/properties/{propertiesId}/customDimensions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesCustomDimensionsRequest>;
 
 export type ListPropertiesCustomDimensionsResponse =
   GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse;
 export const ListPropertiesCustomDimensionsResponse =
-  GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse;
 
 export type ListPropertiesCustomDimensionsError = DefaultErrors;
 
@@ -9668,7 +9815,7 @@ export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
   ListPropertiesCustomDimensionsResponse,
   ListPropertiesCustomDimensionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesCustomDimensionsRequest,
   output: ListPropertiesCustomDimensionsResponse,
   errors: [],
@@ -9685,18 +9832,19 @@ export interface ListAccountSummariesRequest {
   pageSize?: number;
 }
 
-export const ListAccountSummariesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accountSummaries" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountSummariesRequest>;
+export const ListAccountSummariesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/accountSummaries" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountSummariesRequest>;
 
 export type ListAccountSummariesResponse =
   GoogleAnalyticsAdminV1alphaListAccountSummariesResponse;
 export const ListAccountSummariesResponse =
-  GoogleAnalyticsAdminV1alphaListAccountSummariesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAccountSummariesResponse;
 
 export type ListAccountSummariesError = DefaultErrors;
 
@@ -9706,7 +9854,7 @@ export const listAccountSummaries: API.PaginatedOperationMethod<
   ListAccountSummariesResponse,
   ListAccountSummariesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountSummariesRequest,
   output: ListAccountSummariesResponse,
   errors: [],
@@ -9721,23 +9869,24 @@ export interface ProvisionAccountTicketAccountsRequest {
   body?: GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest;
 }
 
-export const ProvisionAccountTicketAccountsRequest = Schema.Struct({
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts:provisionAccountTicket",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionAccountTicketAccountsRequest>;
+export const ProvisionAccountTicketAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts:provisionAccountTicket",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionAccountTicketAccountsRequest>;
 
 export type ProvisionAccountTicketAccountsResponse =
   GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse;
 export const ProvisionAccountTicketAccountsResponse =
-  GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaProvisionAccountTicketResponse;
 
 export type ProvisionAccountTicketAccountsError = DefaultErrors;
 
@@ -9747,7 +9896,7 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
   ProvisionAccountTicketAccountsResponse,
   ProvisionAccountTicketAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionAccountTicketAccountsRequest,
   output: ProvisionAccountTicketAccountsResponse,
   errors: [],
@@ -9758,7 +9907,7 @@ export interface DeleteAccountsRequest {
   name: string;
 }
 
-export const DeleteAccountsRequest = Schema.Struct({
+export const DeleteAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1alpha/accounts/{accountsId}" }),
@@ -9766,7 +9915,8 @@ export const DeleteAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteAccountsRequest>;
 
 export type DeleteAccountsResponse = GoogleProtobufEmpty;
-export const DeleteAccountsResponse = GoogleProtobufEmpty;
+export const DeleteAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsError = DefaultErrors;
 
@@ -9776,7 +9926,7 @@ export const deleteAccounts: API.OperationMethod<
   DeleteAccountsResponse,
   DeleteAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsRequest,
   output: DeleteAccountsResponse,
   errors: [],
@@ -9787,7 +9937,7 @@ export interface GetAccountsRequest {
   name: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}" }),
@@ -9795,7 +9945,8 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = GoogleAnalyticsAdminV1alphaAccount;
-export const GetAccountsResponse = GoogleAnalyticsAdminV1alphaAccount;
+export const GetAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccount;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -9805,7 +9956,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -9816,20 +9967,21 @@ export interface GetDataSharingSettingsAccountsRequest {
   name: string;
 }
 
-export const GetDataSharingSettingsAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/dataSharingSettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDataSharingSettingsAccountsRequest>;
+export const GetDataSharingSettingsAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/dataSharingSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDataSharingSettingsAccountsRequest>;
 
 export type GetDataSharingSettingsAccountsResponse =
   GoogleAnalyticsAdminV1alphaDataSharingSettings;
 export const GetDataSharingSettingsAccountsResponse =
-  GoogleAnalyticsAdminV1alphaDataSharingSettings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaDataSharingSettings;
 
 export type GetDataSharingSettingsAccountsError = DefaultErrors;
 
@@ -9839,7 +9991,7 @@ export const getDataSharingSettingsAccounts: API.OperationMethod<
   GetDataSharingSettingsAccountsResponse,
   GetDataSharingSettingsAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDataSharingSettingsAccountsRequest,
   output: GetDataSharingSettingsAccountsResponse,
   errors: [],
@@ -9852,24 +10004,25 @@ export interface RunAccessReportAccountsRequest {
   body?: GoogleAnalyticsAdminV1alphaRunAccessReportRequest;
 }
 
-export const RunAccessReportAccountsRequest = Schema.Struct({
-  entity: Schema.String.pipe(T.HttpPath("entity")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaRunAccessReportRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}:runAccessReport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunAccessReportAccountsRequest>;
+export const RunAccessReportAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    entity: Schema.String.pipe(T.HttpPath("entity")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaRunAccessReportRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}:runAccessReport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunAccessReportAccountsRequest>;
 
 export type RunAccessReportAccountsResponse =
   GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
 export const RunAccessReportAccountsResponse =
-  GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaRunAccessReportResponse;
 
 export type RunAccessReportAccountsError = DefaultErrors;
 
@@ -9879,7 +10032,7 @@ export const runAccessReportAccounts: API.OperationMethod<
   RunAccessReportAccountsResponse,
   RunAccessReportAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAccessReportAccountsRequest,
   output: RunAccessReportAccountsResponse,
   errors: [],
@@ -9894,7 +10047,7 @@ export interface PatchAccountsRequest {
   body?: GoogleAnalyticsAdminV1alphaAccount;
 }
 
-export const PatchAccountsRequest = Schema.Struct({
+export const PatchAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(GoogleAnalyticsAdminV1alphaAccount).pipe(T.HttpBody()),
@@ -9908,7 +10061,8 @@ export const PatchAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchAccountsRequest>;
 
 export type PatchAccountsResponse = GoogleAnalyticsAdminV1alphaAccount;
-export const PatchAccountsResponse = GoogleAnalyticsAdminV1alphaAccount;
+export const PatchAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccount;
 
 export type PatchAccountsError = DefaultErrors;
 
@@ -9918,7 +10072,7 @@ export const patchAccounts: API.OperationMethod<
   PatchAccountsResponse,
   PatchAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
@@ -9931,24 +10085,25 @@ export interface SearchChangeHistoryEventsAccountsRequest {
   body?: GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest;
 }
 
-export const SearchChangeHistoryEventsAccountsRequest = Schema.Struct({
-  account: Schema.String.pipe(T.HttpPath("account")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}:searchChangeHistoryEvents",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchChangeHistoryEventsAccountsRequest>;
+export const SearchChangeHistoryEventsAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    account: Schema.String.pipe(T.HttpPath("account")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}:searchChangeHistoryEvents",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchChangeHistoryEventsAccountsRequest>;
 
 export type SearchChangeHistoryEventsAccountsResponse =
   GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse;
 export const SearchChangeHistoryEventsAccountsResponse =
-  GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaSearchChangeHistoryEventsResponse;
 
 export type SearchChangeHistoryEventsAccountsError = DefaultErrors;
 
@@ -9958,7 +10113,7 @@ export const searchChangeHistoryEventsAccounts: API.OperationMethod<
   SearchChangeHistoryEventsAccountsResponse,
   SearchChangeHistoryEventsAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchChangeHistoryEventsAccountsRequest,
   output: SearchChangeHistoryEventsAccountsResponse,
   errors: [],
@@ -9973,7 +10128,7 @@ export interface ListAccountsRequest {
   showDeleted?: boolean;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
@@ -9985,7 +10140,7 @@ export const ListAccountsRequest = Schema.Struct({
 export type ListAccountsResponse =
   GoogleAnalyticsAdminV1alphaListAccountsResponse;
 export const ListAccountsResponse =
-  GoogleAnalyticsAdminV1alphaListAccountsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -9995,7 +10150,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -10012,22 +10167,24 @@ export interface BatchDeleteAccountsAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest;
 }
 
-export const BatchDeleteAccountsAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/accessBindings:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeleteAccountsAccessBindingsRequest>;
+export const BatchDeleteAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchDeleteAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/accessBindings:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeleteAccountsAccessBindingsRequest>;
 
 export type BatchDeleteAccountsAccessBindingsResponse = GoogleProtobufEmpty;
-export const BatchDeleteAccountsAccessBindingsResponse = GoogleProtobufEmpty;
+export const BatchDeleteAccountsAccessBindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchDeleteAccountsAccessBindingsError = DefaultErrors;
 
@@ -10037,7 +10194,7 @@ export const batchDeleteAccountsAccessBindings: API.OperationMethod<
   BatchDeleteAccountsAccessBindingsResponse,
   BatchDeleteAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteAccountsAccessBindingsRequest,
   output: BatchDeleteAccountsAccessBindingsResponse,
   errors: [],
@@ -10050,24 +10207,25 @@ export interface CreateAccountsAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaAccessBinding;
 }
 
-export const CreateAccountsAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/accessBindings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAccessBindingsRequest>;
+export const CreateAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/accessBindings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAccessBindingsRequest>;
 
 export type CreateAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const CreateAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type CreateAccountsAccessBindingsError = DefaultErrors;
 
@@ -10077,7 +10235,7 @@ export const createAccountsAccessBindings: API.OperationMethod<
   CreateAccountsAccessBindingsResponse,
   CreateAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAccessBindingsRequest,
   output: CreateAccountsAccessBindingsResponse,
   errors: [],
@@ -10090,24 +10248,25 @@ export interface BatchCreateAccountsAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest;
 }
 
-export const BatchCreateAccountsAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/accessBindings:batchCreate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchCreateAccountsAccessBindingsRequest>;
+export const BatchCreateAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/accessBindings:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreateAccountsAccessBindingsRequest>;
 
 export type BatchCreateAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
 export const BatchCreateAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchCreateAccessBindingsResponse;
 
 export type BatchCreateAccountsAccessBindingsError = DefaultErrors;
 
@@ -10117,7 +10276,7 @@ export const batchCreateAccountsAccessBindings: API.OperationMethod<
   BatchCreateAccountsAccessBindingsResponse,
   BatchCreateAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateAccountsAccessBindingsRequest,
   output: BatchCreateAccountsAccessBindingsResponse,
   errors: [],
@@ -10128,18 +10287,20 @@ export interface DeleteAccountsAccessBindingsRequest {
   name: string;
 }
 
-export const DeleteAccountsAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsAccessBindingsRequest>;
+export const DeleteAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsAccessBindingsRequest>;
 
 export type DeleteAccountsAccessBindingsResponse = GoogleProtobufEmpty;
-export const DeleteAccountsAccessBindingsResponse = GoogleProtobufEmpty;
+export const DeleteAccountsAccessBindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteAccountsAccessBindingsError = DefaultErrors;
 
@@ -10149,7 +10310,7 @@ export const deleteAccountsAccessBindings: API.OperationMethod<
   DeleteAccountsAccessBindingsResponse,
   DeleteAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsAccessBindingsRequest,
   output: DeleteAccountsAccessBindingsResponse,
   errors: [],
@@ -10162,24 +10323,25 @@ export interface PatchAccountsAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaAccessBinding;
 }
 
-export const PatchAccountsAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsAccessBindingsRequest>;
+export const PatchAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleAnalyticsAdminV1alphaAccessBinding).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsAccessBindingsRequest>;
 
 export type PatchAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const PatchAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type PatchAccountsAccessBindingsError = DefaultErrors;
 
@@ -10189,7 +10351,7 @@ export const patchAccountsAccessBindings: API.OperationMethod<
   PatchAccountsAccessBindingsResponse,
   PatchAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsAccessBindingsRequest,
   output: PatchAccountsAccessBindingsResponse,
   errors: [],
@@ -10200,20 +10362,21 @@ export interface GetAccountsAccessBindingsRequest {
   name: string;
 }
 
-export const GetAccountsAccessBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAccessBindingsRequest>;
+export const GetAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/accessBindings/{accessBindingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAccessBindingsRequest>;
 
 export type GetAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaAccessBinding;
 export const GetAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaAccessBinding;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaAccessBinding;
 
 export type GetAccountsAccessBindingsError = DefaultErrors;
 
@@ -10223,7 +10386,7 @@ export const getAccountsAccessBindings: API.OperationMethod<
   GetAccountsAccessBindingsResponse,
   GetAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAccessBindingsRequest,
   output: GetAccountsAccessBindingsResponse,
   errors: [],
@@ -10236,23 +10399,24 @@ export interface BatchGetAccountsAccessBindingsRequest {
   parent: string;
 }
 
-export const BatchGetAccountsAccessBindingsRequest = Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/accessBindings:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetAccountsAccessBindingsRequest>;
+export const BatchGetAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/accessBindings:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetAccountsAccessBindingsRequest>;
 
 export type BatchGetAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
 export const BatchGetAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchGetAccessBindingsResponse;
 
 export type BatchGetAccountsAccessBindingsError = DefaultErrors;
 
@@ -10262,7 +10426,7 @@ export const batchGetAccountsAccessBindings: API.OperationMethod<
   BatchGetAccountsAccessBindingsResponse,
   BatchGetAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAccountsAccessBindingsRequest,
   output: BatchGetAccountsAccessBindingsResponse,
   errors: [],
@@ -10275,24 +10439,25 @@ export interface BatchUpdateAccountsAccessBindingsRequest {
   body?: GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest;
 }
 
-export const BatchUpdateAccountsAccessBindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/accessBindings:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateAccountsAccessBindingsRequest>;
+export const BatchUpdateAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/accessBindings:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateAccountsAccessBindingsRequest>;
 
 export type BatchUpdateAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
 export const BatchUpdateAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaBatchUpdateAccessBindingsResponse;
 
 export type BatchUpdateAccountsAccessBindingsError = DefaultErrors;
 
@@ -10302,7 +10467,7 @@ export const batchUpdateAccountsAccessBindings: API.OperationMethod<
   BatchUpdateAccountsAccessBindingsResponse,
   BatchUpdateAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateAccountsAccessBindingsRequest,
   output: BatchUpdateAccountsAccessBindingsResponse,
   errors: [],
@@ -10317,22 +10482,23 @@ export interface ListAccountsAccessBindingsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsAccessBindingsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/accessBindings",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAccessBindingsRequest>;
+export const ListAccountsAccessBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/accessBindings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAccessBindingsRequest>;
 
 export type ListAccountsAccessBindingsResponse =
   GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
 export const ListAccountsAccessBindingsResponse =
-  GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAnalyticsAdminV1alphaListAccessBindingsResponse;
 
 export type ListAccountsAccessBindingsError = DefaultErrors;
 
@@ -10342,7 +10508,7 @@ export const listAccountsAccessBindings: API.PaginatedOperationMethod<
   ListAccountsAccessBindingsResponse,
   ListAccountsAccessBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAccessBindingsRequest,
   output: ListAccountsAccessBindingsResponse,
   errors: [],

@@ -3,22 +3,24 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetNeonAuthAllowLocalhostInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/allow_localhost",
-  }),
-);
+export const GetNeonAuthAllowLocalhostInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/allow_localhost",
+    }),
+  );
 export type GetNeonAuthAllowLocalhostInput =
   typeof GetNeonAuthAllowLocalhostInput.Type;
 
 // Output Schema
-export const GetNeonAuthAllowLocalhostOutput = Schema.Struct({
-  allow_localhost: Schema.Boolean,
-});
+export const GetNeonAuthAllowLocalhostOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    allow_localhost: Schema.Boolean,
+  });
 export type GetNeonAuthAllowLocalhostOutput =
   typeof GetNeonAuthAllowLocalhostOutput.Type;
 

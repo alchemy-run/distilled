@@ -39,7 +39,7 @@ export interface CivicinfoSchemaV2Election {
 }
 
 export const CivicinfoSchemaV2Election: Schema.Schema<CivicinfoSchemaV2Election> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       electionDay: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -59,7 +59,7 @@ export interface CivicinfoApiprotosV2ElectionsQueryResponse {
 }
 
 export const CivicinfoApiprotosV2ElectionsQueryResponse: Schema.Schema<CivicinfoApiprotosV2ElectionsQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       elections: Schema.optional(Schema.Array(CivicinfoSchemaV2Election)),
@@ -78,7 +78,7 @@ export interface CivicinfoApiprotosV2DivisionSearchResult {
 }
 
 export const CivicinfoApiprotosV2DivisionSearchResult: Schema.Schema<CivicinfoApiprotosV2DivisionSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aliases: Schema.optional(Schema.Array(Schema.String)),
       ocdId: Schema.optional(Schema.String),
@@ -102,7 +102,7 @@ export interface CivicinfoSchemaV2ElectionOfficial {
 }
 
 export const CivicinfoSchemaV2ElectionOfficial: Schema.Schema<CivicinfoSchemaV2ElectionOfficial> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       faxNumber: Schema.optional(Schema.String),
       emailAddress: Schema.optional(Schema.String),
@@ -133,7 +133,7 @@ export interface CivicinfoSchemaV2SimpleAddressType {
 }
 
 export const CivicinfoSchemaV2SimpleAddressType: Schema.Schema<CivicinfoSchemaV2SimpleAddressType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       line1: Schema.optional(Schema.String),
       line2: Schema.optional(Schema.String),
@@ -182,7 +182,7 @@ export interface CivicinfoSchemaV2AdministrativeBody {
 }
 
 export const CivicinfoSchemaV2AdministrativeBody: Schema.Schema<CivicinfoSchemaV2AdministrativeBody> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hoursOfOperation: Schema.optional(Schema.String),
       voter_services: Schema.optional(Schema.Array(Schema.String)),
@@ -218,7 +218,7 @@ export interface CivicinfoSchemaV2GeographicDivision {
 }
 
 export const CivicinfoSchemaV2GeographicDivision: Schema.Schema<CivicinfoSchemaV2GeographicDivision> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       officeIndices: Schema.optional(Schema.Array(Schema.Number)),
@@ -236,7 +236,7 @@ export interface CivicinfoSchemaV2Source {
 }
 
 export const CivicinfoSchemaV2Source: Schema.Schema<CivicinfoSchemaV2Source> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       official: Schema.optional(Schema.Boolean),
@@ -257,7 +257,7 @@ export interface CivicinfoSchemaV2AdministrationRegion {
 }
 
 export const CivicinfoSchemaV2AdministrationRegion: Schema.Schema<CivicinfoSchemaV2AdministrationRegion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       local_jurisdiction: Schema.optional(
         CivicinfoSchemaV2AdministrationRegion,
@@ -296,7 +296,7 @@ export interface CivicinfoSchemaV2PollingLocation {
 }
 
 export const CivicinfoSchemaV2PollingLocation: Schema.Schema<CivicinfoSchemaV2PollingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endDate: Schema.optional(Schema.String),
       startDate: Schema.optional(Schema.String),
@@ -338,7 +338,7 @@ export interface CivicinfoSchemaV2ElectoralDistrict {
 }
 
 export const CivicinfoSchemaV2ElectoralDistrict: Schema.Schema<CivicinfoSchemaV2ElectoralDistrict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -356,7 +356,7 @@ export interface CivicinfoSchemaV2Channel {
 }
 
 export const CivicinfoSchemaV2Channel: Schema.Schema<CivicinfoSchemaV2Channel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -385,7 +385,7 @@ export interface CivicinfoSchemaV2Candidate {
 }
 
 export const CivicinfoSchemaV2Candidate: Schema.Schema<CivicinfoSchemaV2Candidate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phone: Schema.optional(Schema.String),
       party: Schema.optional(Schema.String),
@@ -477,7 +477,7 @@ export interface CivicinfoSchemaV2Contest {
 }
 
 export const CivicinfoSchemaV2Contest: Schema.Schema<CivicinfoSchemaV2Contest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referendumPassageThreshold: Schema.optional(Schema.String),
       ballotPlacement: Schema.optional(Schema.String),
@@ -540,7 +540,7 @@ export interface CivicinfoSchemaV2Precinct {
 }
 
 export const CivicinfoSchemaV2Precinct: Schema.Schema<CivicinfoSchemaV2Precinct> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       administrationRegionId: Schema.optional(Schema.String),
       spatialBoundaryId: Schema.optional(Schema.Array(Schema.String)),
@@ -588,7 +588,7 @@ export interface CivicinfoApiprotosV2VoterInfoResponse {
 }
 
 export const CivicinfoApiprotosV2VoterInfoResponse: Schema.Schema<CivicinfoApiprotosV2VoterInfoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       election: Schema.optional(CivicinfoSchemaV2Election),
       precinctId: Schema.optional(Schema.String),
@@ -622,7 +622,7 @@ export interface CivicinfoApiprotosV2DivisionSearchResponse {
 }
 
 export const CivicinfoApiprotosV2DivisionSearchResponse: Schema.Schema<CivicinfoApiprotosV2DivisionSearchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(
         Schema.Array(CivicinfoApiprotosV2DivisionSearchResult),
@@ -640,7 +640,7 @@ export interface CivicinfoApiprotosV2DivisionByAddressResponse {
 }
 
 export const CivicinfoApiprotosV2DivisionByAddressResponse: Schema.Schema<CivicinfoApiprotosV2DivisionByAddressResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       divisions: Schema.optional(
         Schema.Record(Schema.String, CivicinfoSchemaV2GeographicDivision),
@@ -659,17 +659,18 @@ export interface QueryDivisionByAddressDivisionsRequest {
   address?: string;
 }
 
-export const QueryDivisionByAddressDivisionsRequest = Schema.Struct({
-  address: Schema.optional(Schema.String).pipe(T.HttpQuery("address")),
-}).pipe(
-  T.Http({ method: "GET", path: "civicinfo/v2/divisionsByAddress" }),
-  svc,
-) as unknown as Schema.Schema<QueryDivisionByAddressDivisionsRequest>;
+export const QueryDivisionByAddressDivisionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    address: Schema.optional(Schema.String).pipe(T.HttpQuery("address")),
+  }).pipe(
+    T.Http({ method: "GET", path: "civicinfo/v2/divisionsByAddress" }),
+    svc,
+  ) as unknown as Schema.Schema<QueryDivisionByAddressDivisionsRequest>;
 
 export type QueryDivisionByAddressDivisionsResponse =
   CivicinfoApiprotosV2DivisionByAddressResponse;
 export const QueryDivisionByAddressDivisionsResponse =
-  CivicinfoApiprotosV2DivisionByAddressResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CivicinfoApiprotosV2DivisionByAddressResponse;
 
 export type QueryDivisionByAddressDivisionsError = DefaultErrors;
 
@@ -679,7 +680,7 @@ export const queryDivisionByAddressDivisions: API.OperationMethod<
   QueryDivisionByAddressDivisionsResponse,
   QueryDivisionByAddressDivisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryDivisionByAddressDivisionsRequest,
   output: QueryDivisionByAddressDivisionsResponse,
   errors: [],
@@ -690,9 +691,11 @@ export interface SearchDivisionsRequest {
   query?: string;
 }
 
-export const SearchDivisionsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
+export const SearchDivisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "civicinfo/v2/divisions" }),
   svc,
 ) as unknown as Schema.Schema<SearchDivisionsRequest>;
@@ -700,7 +703,7 @@ export const SearchDivisionsRequest = Schema.Struct({
 export type SearchDivisionsResponse =
   CivicinfoApiprotosV2DivisionSearchResponse;
 export const SearchDivisionsResponse =
-  CivicinfoApiprotosV2DivisionSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CivicinfoApiprotosV2DivisionSearchResponse;
 
 export type SearchDivisionsError = DefaultErrors;
 
@@ -710,7 +713,7 @@ export const searchDivisions: API.OperationMethod<
   SearchDivisionsResponse,
   SearchDivisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchDivisionsRequest,
   output: SearchDivisionsResponse,
   errors: [],
@@ -729,27 +732,28 @@ export interface VoterInfoQueryElectionsRequest {
   productionDataOnly?: boolean;
 }
 
-export const VoterInfoQueryElectionsRequest = Schema.Struct({
-  officialOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("officialOnly"),
-  ),
-  electionId: Schema.optional(Schema.String).pipe(T.HttpQuery("electionId")),
-  address: Schema.optional(Schema.String).pipe(T.HttpQuery("address")),
-  returnAllAvailableData: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnAllAvailableData"),
-  ),
-  productionDataOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("productionDataOnly"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "civicinfo/v2/voterinfo" }),
-  svc,
-) as unknown as Schema.Schema<VoterInfoQueryElectionsRequest>;
+export const VoterInfoQueryElectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    officialOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("officialOnly"),
+    ),
+    electionId: Schema.optional(Schema.String).pipe(T.HttpQuery("electionId")),
+    address: Schema.optional(Schema.String).pipe(T.HttpQuery("address")),
+    returnAllAvailableData: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnAllAvailableData"),
+    ),
+    productionDataOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("productionDataOnly"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "civicinfo/v2/voterinfo" }),
+    svc,
+  ) as unknown as Schema.Schema<VoterInfoQueryElectionsRequest>;
 
 export type VoterInfoQueryElectionsResponse =
   CivicinfoApiprotosV2VoterInfoResponse;
 export const VoterInfoQueryElectionsResponse =
-  CivicinfoApiprotosV2VoterInfoResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CivicinfoApiprotosV2VoterInfoResponse;
 
 export type VoterInfoQueryElectionsError = DefaultErrors;
 
@@ -759,7 +763,7 @@ export const voterInfoQueryElections: API.OperationMethod<
   VoterInfoQueryElectionsResponse,
   VoterInfoQueryElectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VoterInfoQueryElectionsRequest,
   output: VoterInfoQueryElectionsResponse,
   errors: [],
@@ -770,19 +774,20 @@ export interface ElectionQueryElectionsRequest {
   productionDataOnly?: boolean;
 }
 
-export const ElectionQueryElectionsRequest = Schema.Struct({
-  productionDataOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("productionDataOnly"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "civicinfo/v2/elections" }),
-  svc,
-) as unknown as Schema.Schema<ElectionQueryElectionsRequest>;
+export const ElectionQueryElectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    productionDataOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("productionDataOnly"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "civicinfo/v2/elections" }),
+    svc,
+  ) as unknown as Schema.Schema<ElectionQueryElectionsRequest>;
 
 export type ElectionQueryElectionsResponse =
   CivicinfoApiprotosV2ElectionsQueryResponse;
 export const ElectionQueryElectionsResponse =
-  CivicinfoApiprotosV2ElectionsQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CivicinfoApiprotosV2ElectionsQueryResponse;
 
 export type ElectionQueryElectionsError = DefaultErrors;
 
@@ -792,7 +797,7 @@ export const electionQueryElections: API.OperationMethod<
   ElectionQueryElectionsResponse,
   ElectionQueryElectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ElectionQueryElectionsRequest,
   output: ElectionQueryElectionsResponse,
   errors: [],

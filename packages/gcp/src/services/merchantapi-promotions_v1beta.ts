@@ -29,12 +29,13 @@ export interface Interval {
   startTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
@@ -43,12 +44,13 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amountMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amountMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface Attributes {
   /** Optional. Product filter by brand for the promotion. The product filter attributes only applies when the products eligible for promotion product applicability `product_applicability` attribute is set to [specific_products](https://support.google.com/merchants/answer/13837299?ref_topic=13773355). */
@@ -192,51 +194,52 @@ export interface Attributes {
   itemIdExclusion?: Array<string>;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
-  Schema.Struct({
-    brandInclusion: Schema.optional(Schema.Array(Schema.String)),
-    freeGiftDescription: Schema.optional(Schema.String),
-    promotionEffectiveTimePeriod: Schema.optional(Interval),
-    productApplicability: Schema.optional(Schema.String),
-    moneyOffAmount: Schema.optional(Price),
-    maxPercentOff: Schema.optional(Schema.String),
-    itemGroupIdInclusion: Schema.optional(Schema.Array(Schema.String)),
-    productTypeExclusion: Schema.optional(Schema.Array(Schema.String)),
-    minPercentOff: Schema.optional(Schema.String),
-    maxDiscountAmount: Schema.optional(Price),
-    storeApplicability: Schema.optional(Schema.String),
-    itemIdInclusion: Schema.optional(Schema.Array(Schema.String)),
-    offerType: Schema.optional(Schema.String),
-    brandExclusion: Schema.optional(Schema.Array(Schema.String)),
-    storeCodesInclusion: Schema.optional(Schema.Array(Schema.String)),
-    storeCodesExclusion: Schema.optional(Schema.Array(Schema.String)),
-    promotionDisplayTimePeriod: Schema.optional(Interval),
-    googleProductCategories: Schema.optional(Schema.Array(Schema.String)),
-    freeGiftItemId: Schema.optional(Schema.String),
-    itemGroupIdExclusion: Schema.optional(Schema.Array(Schema.String)),
-    minimumPurchaseAmount: Schema.optional(Price),
-    productTypeInclusion: Schema.optional(Schema.Array(Schema.String)),
-    redemptionRestriction: Schema.optional(Schema.String),
-    audience: Schema.optional(Schema.String),
-    minMoneyOffAmount: Schema.optional(Price),
-    eventApplicability: Schema.optional(Schema.String),
-    getThisQuantityDiscounted: Schema.optional(Schema.String),
-    freeGiftValue: Schema.optional(Price),
-    maxMoneyOffAmount: Schema.optional(Price),
-    regionIdInclusion: Schema.optional(Schema.Array(Schema.String)),
-    genericRedemptionCode: Schema.optional(Schema.String),
-    promotionDestinations: Schema.optional(Schema.Array(Schema.String)),
-    percentOff: Schema.optional(Schema.String),
-    minimumPurchaseQuantity: Schema.optional(Schema.String),
-    limitValue: Schema.optional(Price),
-    customRedemptionRestriction: Schema.optional(Schema.String),
-    longTitle: Schema.optional(Schema.String),
-    limitQuantity: Schema.optional(Schema.String),
-    promotionUrl: Schema.optional(Schema.String),
-    couponValueType: Schema.optional(Schema.String),
-    itemIdExclusion: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      brandInclusion: Schema.optional(Schema.Array(Schema.String)),
+      freeGiftDescription: Schema.optional(Schema.String),
+      promotionEffectiveTimePeriod: Schema.optional(Interval),
+      productApplicability: Schema.optional(Schema.String),
+      moneyOffAmount: Schema.optional(Price),
+      maxPercentOff: Schema.optional(Schema.String),
+      itemGroupIdInclusion: Schema.optional(Schema.Array(Schema.String)),
+      productTypeExclusion: Schema.optional(Schema.Array(Schema.String)),
+      minPercentOff: Schema.optional(Schema.String),
+      maxDiscountAmount: Schema.optional(Price),
+      storeApplicability: Schema.optional(Schema.String),
+      itemIdInclusion: Schema.optional(Schema.Array(Schema.String)),
+      offerType: Schema.optional(Schema.String),
+      brandExclusion: Schema.optional(Schema.Array(Schema.String)),
+      storeCodesInclusion: Schema.optional(Schema.Array(Schema.String)),
+      storeCodesExclusion: Schema.optional(Schema.Array(Schema.String)),
+      promotionDisplayTimePeriod: Schema.optional(Interval),
+      googleProductCategories: Schema.optional(Schema.Array(Schema.String)),
+      freeGiftItemId: Schema.optional(Schema.String),
+      itemGroupIdExclusion: Schema.optional(Schema.Array(Schema.String)),
+      minimumPurchaseAmount: Schema.optional(Price),
+      productTypeInclusion: Schema.optional(Schema.Array(Schema.String)),
+      redemptionRestriction: Schema.optional(Schema.String),
+      audience: Schema.optional(Schema.String),
+      minMoneyOffAmount: Schema.optional(Price),
+      eventApplicability: Schema.optional(Schema.String),
+      getThisQuantityDiscounted: Schema.optional(Schema.String),
+      freeGiftValue: Schema.optional(Price),
+      maxMoneyOffAmount: Schema.optional(Price),
+      regionIdInclusion: Schema.optional(Schema.Array(Schema.String)),
+      genericRedemptionCode: Schema.optional(Schema.String),
+      promotionDestinations: Schema.optional(Schema.Array(Schema.String)),
+      percentOff: Schema.optional(Schema.String),
+      minimumPurchaseQuantity: Schema.optional(Schema.String),
+      limitValue: Schema.optional(Price),
+      customRedemptionRestriction: Schema.optional(Schema.String),
+      longTitle: Schema.optional(Schema.String),
+      limitQuantity: Schema.optional(Schema.String),
+      promotionUrl: Schema.optional(Schema.String),
+      couponValueType: Schema.optional(Schema.String),
+      itemIdExclusion: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface ItemLevelIssue {
   /** Output only. A short issue description in English. */
@@ -285,8 +288,8 @@ export interface ItemLevelIssue {
   code?: string;
 }
 
-export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
-  () =>
+export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       attribute: Schema.optional(Schema.String),
@@ -298,9 +301,9 @@ export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
       reportingContext: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ItemLevelIssue",
-}) as any as Schema.Schema<ItemLevelIssue>;
+  ).annotate({
+    identifier: "ItemLevelIssue",
+  }) as any as Schema.Schema<ItemLevelIssue>;
 
 export interface DestinationStatus {
   /** Output only. The name of the promotion destination. */
@@ -339,7 +342,7 @@ export interface DestinationStatus {
 }
 
 export const DestinationStatus: Schema.Schema<DestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportingContext: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -359,17 +362,17 @@ export interface PromotionStatus {
   destinationStatuses?: Array<DestinationStatus>;
 }
 
-export const PromotionStatus: Schema.Schema<PromotionStatus> = Schema.suspend(
-  () =>
+export const PromotionStatus: Schema.Schema<PromotionStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastUpdateDate: Schema.optional(Schema.String),
       itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
       creationDate: Schema.optional(Schema.String),
       destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
     }),
-).annotate({
-  identifier: "PromotionStatus",
-}) as any as Schema.Schema<PromotionStatus>;
+  ).annotate({
+    identifier: "PromotionStatus",
+  }) as any as Schema.Schema<PromotionStatus>;
 
 export interface CustomAttribute {
   /** The name of the attribute. */
@@ -380,16 +383,16 @@ export interface CustomAttribute {
   value?: string;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
-  () =>
+export const CustomAttribute: Schema.Schema<CustomAttribute> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       groupValues: Schema.optional(Schema.Array(CustomAttribute)),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as Schema.Schema<CustomAttribute>;
+  ).annotate({
+    identifier: "CustomAttribute",
+  }) as any as Schema.Schema<CustomAttribute>;
 
 export interface Promotion {
   /** Optional. Represents the existing version (freshness) of the promotion, which can be used to preserve the right order when multiple updates are done at the same time. If set, the insertion is prevented when version number is lower than the current version number of the existing promotion. Re-insertion (for example, promotion refresh after 30 days) can be performed with the current `version_number`. If the operation is prevented, the aborted exception will be thrown. */
@@ -416,20 +419,21 @@ export interface Promotion {
   dataSource?: string;
 }
 
-export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() =>
-  Schema.Struct({
-    versionNumber: Schema.optional(Schema.String),
-    attributes: Schema.optional(Attributes),
-    name: Schema.optional(Schema.String),
-    redemptionChannel: Schema.optional(Schema.Array(Schema.String)),
-    targetCountry: Schema.optional(Schema.String),
-    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-    promotionId: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    promotionStatus: Schema.optional(PromotionStatus),
-    dataSource: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
+export const Promotion: Schema.Schema<Promotion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      versionNumber: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+      name: Schema.optional(Schema.String),
+      redemptionChannel: Schema.optional(Schema.Array(Schema.String)),
+      targetCountry: Schema.optional(Schema.String),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+      promotionId: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      promotionStatus: Schema.optional(PromotionStatus),
+      dataSource: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
 
 export interface InsertPromotionRequest {
   /** Required. The promotion to insert. */
@@ -439,7 +443,7 @@ export interface InsertPromotionRequest {
 }
 
 export const InsertPromotionRequest: Schema.Schema<InsertPromotionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotion: Schema.optional(Promotion),
       dataSource: Schema.optional(Schema.String),
@@ -480,16 +484,17 @@ export interface ProductChange {
     | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
@@ -513,7 +518,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expirationTime: Schema.optional(Schema.String),
       eventTime: Schema.optional(Schema.String),
@@ -537,7 +542,7 @@ export interface ListPromotionsResponse {
 }
 
 export const ListPromotionsResponse: Schema.Schema<ListPromotionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       promotions: Schema.optional(Schema.Array(Promotion)),
@@ -559,20 +564,22 @@ export interface ListAccountsPromotionsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsPromotionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "promotions/v1beta/accounts/{accountsId}/promotions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsPromotionsRequest>;
+export const ListAccountsPromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "promotions/v1beta/accounts/{accountsId}/promotions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsPromotionsRequest>;
 
 export type ListAccountsPromotionsResponse = ListPromotionsResponse;
-export const ListAccountsPromotionsResponse = ListPromotionsResponse;
+export const ListAccountsPromotionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPromotionsResponse;
 
 export type ListAccountsPromotionsError = DefaultErrors;
 
@@ -582,7 +589,7 @@ export const listAccountsPromotions: API.PaginatedOperationMethod<
   ListAccountsPromotionsResponse,
   ListAccountsPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsPromotionsRequest,
   output: ListAccountsPromotionsResponse,
   errors: [],
@@ -599,20 +606,22 @@ export interface InsertAccountsPromotionsRequest {
   body?: InsertPromotionRequest;
 }
 
-export const InsertAccountsPromotionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(InsertPromotionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "promotions/v1beta/accounts/{accountsId}/promotions:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsPromotionsRequest>;
+export const InsertAccountsPromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(InsertPromotionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "promotions/v1beta/accounts/{accountsId}/promotions:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsPromotionsRequest>;
 
 export type InsertAccountsPromotionsResponse = Promotion;
-export const InsertAccountsPromotionsResponse = Promotion;
+export const InsertAccountsPromotionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Promotion;
 
 export type InsertAccountsPromotionsError = DefaultErrors;
 
@@ -622,7 +631,7 @@ export const insertAccountsPromotions: API.OperationMethod<
   InsertAccountsPromotionsResponse,
   InsertAccountsPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsPromotionsRequest,
   output: InsertAccountsPromotionsResponse,
   errors: [],
@@ -633,18 +642,20 @@ export interface GetAccountsPromotionsRequest {
   name: string;
 }
 
-export const GetAccountsPromotionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "promotions/v1beta/accounts/{accountsId}/promotions/{promotionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsPromotionsRequest>;
+export const GetAccountsPromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "promotions/v1beta/accounts/{accountsId}/promotions/{promotionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsPromotionsRequest>;
 
 export type GetAccountsPromotionsResponse = Promotion;
-export const GetAccountsPromotionsResponse = Promotion;
+export const GetAccountsPromotionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Promotion;
 
 export type GetAccountsPromotionsError = DefaultErrors;
 
@@ -654,7 +665,7 @@ export const getAccountsPromotions: API.OperationMethod<
   GetAccountsPromotionsResponse,
   GetAccountsPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsPromotionsRequest,
   output: GetAccountsPromotionsResponse,
   errors: [],

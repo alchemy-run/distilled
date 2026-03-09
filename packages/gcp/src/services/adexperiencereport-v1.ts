@@ -52,8 +52,8 @@ export interface PlatformSummary {
   >;
 }
 
-export const PlatformSummary: Schema.Schema<PlatformSummary> = Schema.suspend(
-  () =>
+export const PlatformSummary: Schema.Schema<PlatformSummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       betterAdsStatus: Schema.optional(Schema.String),
       enforcementTime: Schema.optional(Schema.String),
@@ -63,9 +63,9 @@ export const PlatformSummary: Schema.Schema<PlatformSummary> = Schema.suspend(
       filterStatus: Schema.optional(Schema.String),
       region: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "PlatformSummary",
-}) as any as Schema.Schema<PlatformSummary>;
+  ).annotate({
+    identifier: "PlatformSummary",
+  }) as any as Schema.Schema<PlatformSummary>;
 
 export interface SiteSummaryResponse {
   /** The site's Ad Experience Report summary on mobile. */
@@ -77,7 +77,7 @@ export interface SiteSummaryResponse {
 }
 
 export const SiteSummaryResponse: Schema.Schema<SiteSummaryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mobileSummary: Schema.optional(PlatformSummary),
       reviewedSite: Schema.optional(Schema.String),
@@ -93,7 +93,7 @@ export interface ViolatingSitesResponse {
 }
 
 export const ViolatingSitesResponse: Schema.Schema<ViolatingSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       violatingSites: Schema.optional(Schema.Array(SiteSummaryResponse)),
     }),
@@ -110,7 +110,7 @@ export interface GetSitesRequest {
   name: string;
 }
 
-export const GetSitesRequest = Schema.Struct({
+export const GetSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/sites/{sitesId}" }),
@@ -118,7 +118,7 @@ export const GetSitesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSitesRequest>;
 
 export type GetSitesResponse = SiteSummaryResponse;
-export const GetSitesResponse = SiteSummaryResponse;
+export const GetSitesResponse = /*@__PURE__*/ /*#__PURE__*/ SiteSummaryResponse;
 
 export type GetSitesError = DefaultErrors;
 
@@ -128,7 +128,7 @@ export const getSites: API.OperationMethod<
   GetSitesResponse,
   GetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
@@ -136,13 +136,15 @@ export const getSites: API.OperationMethod<
 
 export interface ListViolatingSitesRequest {}
 
-export const ListViolatingSitesRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "v1/violatingSites" }),
-  svc,
-) as unknown as Schema.Schema<ListViolatingSitesRequest>;
+export const ListViolatingSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "v1/violatingSites" }),
+    svc,
+  ) as unknown as Schema.Schema<ListViolatingSitesRequest>;
 
 export type ListViolatingSitesResponse = ViolatingSitesResponse;
-export const ListViolatingSitesResponse = ViolatingSitesResponse;
+export const ListViolatingSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ViolatingSitesResponse;
 
 export type ListViolatingSitesError = DefaultErrors;
 
@@ -152,7 +154,7 @@ export const listViolatingSites: API.OperationMethod<
   ListViolatingSitesResponse,
   ListViolatingSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListViolatingSitesRequest,
   output: ListViolatingSitesResponse,
   errors: [],

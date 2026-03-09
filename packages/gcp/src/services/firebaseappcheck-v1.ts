@@ -30,7 +30,7 @@ export interface GoogleFirebaseAppcheckV1AppAttestConfig {
 }
 
 export const GoogleFirebaseAppcheckV1AppAttestConfig: Schema.Schema<GoogleFirebaseAppcheckV1AppAttestConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       tokenTtl: Schema.optional(Schema.String),
@@ -45,7 +45,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1AppAttestConfig),
@@ -69,7 +69,7 @@ export interface GoogleFirebaseAppcheckV1DeviceCheckConfig {
 }
 
 export const GoogleFirebaseAppcheckV1DeviceCheckConfig: Schema.Schema<GoogleFirebaseAppcheckV1DeviceCheckConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       tokenTtl: Schema.optional(Schema.String),
@@ -87,7 +87,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1DeviceCheckConfig),
@@ -111,7 +111,7 @@ export interface GoogleFirebaseAppcheckV1RecaptchaV3Config {
 }
 
 export const GoogleFirebaseAppcheckV1RecaptchaV3Config: Schema.Schema<GoogleFirebaseAppcheckV1RecaptchaV3Config> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tokenTtl: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -129,7 +129,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1RecaptchaV3Config),
@@ -145,7 +145,7 @@ export interface GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfigRiskAnalysis {
 }
 
 export const GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfigRiskAnalysis: Schema.Schema<GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfigRiskAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minValidScore: Schema.optional(Schema.Number),
     }),
@@ -165,7 +165,7 @@ export interface GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig {
 }
 
 export const GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig: Schema.Schema<GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       tokenTtl: Schema.optional(Schema.String),
@@ -184,7 +184,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsRespo
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig),
@@ -203,7 +203,7 @@ export interface GoogleFirebaseAppcheckV1SafetyNetConfig {
 }
 
 export const GoogleFirebaseAppcheckV1SafetyNetConfig: Schema.Schema<GoogleFirebaseAppcheckV1SafetyNetConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       tokenTtl: Schema.optional(Schema.String),
@@ -218,7 +218,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1SafetyNetConfig),
@@ -234,7 +234,7 @@ export interface GoogleFirebaseAppcheckV1PlayIntegrityConfigAppIntegrity {
 }
 
 export const GoogleFirebaseAppcheckV1PlayIntegrityConfigAppIntegrity: Schema.Schema<GoogleFirebaseAppcheckV1PlayIntegrityConfigAppIntegrity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowUnrecognizedVersion: Schema.optional(Schema.Boolean),
     }),
@@ -254,7 +254,7 @@ export interface GoogleFirebaseAppcheckV1PlayIntegrityConfigDeviceIntegrity {
 }
 
 export const GoogleFirebaseAppcheckV1PlayIntegrityConfigDeviceIntegrity: Schema.Schema<GoogleFirebaseAppcheckV1PlayIntegrityConfigDeviceIntegrity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minDeviceRecognitionLevel: Schema.optional(Schema.String),
     }),
@@ -268,7 +268,7 @@ export interface GoogleFirebaseAppcheckV1PlayIntegrityConfigAccountDetails {
 }
 
 export const GoogleFirebaseAppcheckV1PlayIntegrityConfigAccountDetails: Schema.Schema<GoogleFirebaseAppcheckV1PlayIntegrityConfigAccountDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requireLicensed: Schema.optional(Schema.Boolean),
     }),
@@ -290,7 +290,7 @@ export interface GoogleFirebaseAppcheckV1PlayIntegrityConfig {
 }
 
 export const GoogleFirebaseAppcheckV1PlayIntegrityConfig: Schema.Schema<GoogleFirebaseAppcheckV1PlayIntegrityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       tokenTtl: Schema.optional(Schema.String),
@@ -314,7 +314,7 @@ export interface GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1PlayIntegrityConfig),
@@ -336,7 +336,7 @@ export interface GoogleFirebaseAppcheckV1DebugToken {
 }
 
 export const GoogleFirebaseAppcheckV1DebugToken: Schema.Schema<GoogleFirebaseAppcheckV1DebugToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -355,7 +355,7 @@ export interface GoogleFirebaseAppcheckV1ListDebugTokensResponse {
 }
 
 export const GoogleFirebaseAppcheckV1ListDebugTokensResponse: Schema.Schema<GoogleFirebaseAppcheckV1ListDebugTokensResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       debugTokens: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1DebugToken),
@@ -369,7 +369,7 @@ export const GoogleFirebaseAppcheckV1ListDebugTokensResponse: Schema.Schema<Goog
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -381,7 +381,7 @@ export interface GoogleFirebaseAppcheckV1Service {
 }
 
 export const GoogleFirebaseAppcheckV1Service: Schema.Schema<GoogleFirebaseAppcheckV1Service> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       enforcementMode: Schema.optional(Schema.String),
@@ -398,7 +398,7 @@ export interface GoogleFirebaseAppcheckV1ListServicesResponse {
 }
 
 export const GoogleFirebaseAppcheckV1ListServicesResponse: Schema.Schema<GoogleFirebaseAppcheckV1ListServicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       services: Schema.optional(Schema.Array(GoogleFirebaseAppcheckV1Service)),
       nextPageToken: Schema.optional(Schema.String),
@@ -415,7 +415,7 @@ export interface GoogleFirebaseAppcheckV1UpdateServiceRequest {
 }
 
 export const GoogleFirebaseAppcheckV1UpdateServiceRequest: Schema.Schema<GoogleFirebaseAppcheckV1UpdateServiceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(GoogleFirebaseAppcheckV1Service),
       updateMask: Schema.optional(Schema.String),
@@ -432,7 +432,7 @@ export interface GoogleFirebaseAppcheckV1BatchUpdateServicesRequest {
 }
 
 export const GoogleFirebaseAppcheckV1BatchUpdateServicesRequest: Schema.Schema<GoogleFirebaseAppcheckV1BatchUpdateServicesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateMask: Schema.optional(Schema.String),
       requests: Schema.optional(
@@ -449,7 +449,7 @@ export interface GoogleFirebaseAppcheckV1BatchUpdateServicesResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchUpdateServicesResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchUpdateServicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       services: Schema.optional(Schema.Array(GoogleFirebaseAppcheckV1Service)),
     }),
@@ -471,7 +471,7 @@ export interface GoogleFirebaseAppcheckV1ResourcePolicy {
 }
 
 export const GoogleFirebaseAppcheckV1ResourcePolicy: Schema.Schema<GoogleFirebaseAppcheckV1ResourcePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       targetResource: Schema.optional(Schema.String),
@@ -491,7 +491,7 @@ export interface GoogleFirebaseAppcheckV1ListResourcePoliciesResponse {
 }
 
 export const GoogleFirebaseAppcheckV1ListResourcePoliciesResponse: Schema.Schema<GoogleFirebaseAppcheckV1ListResourcePoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourcePolicies: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1ResourcePolicy),
@@ -510,7 +510,7 @@ export interface GoogleFirebaseAppcheckV1UpdateResourcePolicyRequest {
 }
 
 export const GoogleFirebaseAppcheckV1UpdateResourcePolicyRequest: Schema.Schema<GoogleFirebaseAppcheckV1UpdateResourcePolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourcePolicy: Schema.optional(GoogleFirebaseAppcheckV1ResourcePolicy),
       updateMask: Schema.optional(Schema.String),
@@ -527,7 +527,7 @@ export interface GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesRequest {
 }
 
 export const GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesRequest: Schema.Schema<GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateMask: Schema.optional(Schema.String),
       requests: Schema.optional(
@@ -544,7 +544,7 @@ export interface GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse {
 }
 
 export const GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse: Schema.Schema<GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourcePolicies: Schema.optional(
         Schema.Array(GoogleFirebaseAppcheckV1ResourcePolicy),
@@ -570,7 +570,7 @@ export interface GoogleFirebaseAppcheckV1PublicJwk {
 }
 
 export const GoogleFirebaseAppcheckV1PublicJwk: Schema.Schema<GoogleFirebaseAppcheckV1PublicJwk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kty: Schema.optional(Schema.String),
       use: Schema.optional(Schema.String),
@@ -589,7 +589,7 @@ export interface GoogleFirebaseAppcheckV1PublicJwkSet {
 }
 
 export const GoogleFirebaseAppcheckV1PublicJwkSet: Schema.Schema<GoogleFirebaseAppcheckV1PublicJwkSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keys: Schema.optional(Schema.Array(GoogleFirebaseAppcheckV1PublicJwk)),
     }),
@@ -603,7 +603,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       safetyNetToken: Schema.optional(Schema.String),
     }),
@@ -619,7 +619,7 @@ export interface GoogleFirebaseAppcheckV1AppCheckToken {
 }
 
 export const GoogleFirebaseAppcheckV1AppCheckToken: Schema.Schema<GoogleFirebaseAppcheckV1AppCheckToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.String),
@@ -631,7 +631,7 @@ export const GoogleFirebaseAppcheckV1AppCheckToken: Schema.Schema<GoogleFirebase
 export interface GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest {}
 
 export const GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest: Schema.Schema<GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest",
   }) as any as Schema.Schema<GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest>;
 
@@ -643,7 +643,7 @@ export interface GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse 
 }
 
 export const GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse: Schema.Schema<GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       challenge: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.String),
@@ -661,7 +661,7 @@ export interface GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       playIntegrityToken: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -678,7 +678,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceToken: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -695,7 +695,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recaptchaV3Token: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -712,7 +712,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recaptchaEnterpriseToken: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -730,7 +730,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customToken: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -747,7 +747,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       debugToken: Schema.optional(Schema.String),
       limitedUse: Schema.optional(Schema.Boolean),
@@ -759,7 +759,7 @@ export const GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest: Schema.Schema<Go
 export interface GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest {}
 
 export const GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest: Schema.Schema<GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest",
   }) as any as Schema.Schema<GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest>;
 
@@ -771,7 +771,7 @@ export interface GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse {
 }
 
 export const GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse: Schema.Schema<GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       challenge: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.String),
@@ -792,7 +792,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attestationStatement: Schema.optional(Schema.String),
       challenge: Schema.optional(Schema.String),
@@ -811,7 +811,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifact: Schema.optional(Schema.String),
       appCheckToken: Schema.optional(GoogleFirebaseAppcheckV1AppCheckToken),
@@ -832,7 +832,7 @@ export interface GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest {
 }
 
 export const GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest: Schema.Schema<GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifact: Schema.optional(Schema.String),
       assertion: Schema.optional(Schema.String),
@@ -852,18 +852,20 @@ export interface GetProjectsServicesRequest {
   name: string;
 }
 
-export const GetProjectsServicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/services/{servicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsServicesRequest>;
+export const GetProjectsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/services/{servicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsServicesRequest>;
 
 export type GetProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
-export const GetProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
+export const GetProjectsServicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1Service;
 
 export type GetProjectsServicesError = DefaultErrors;
 
@@ -873,7 +875,7 @@ export const getProjectsServices: API.OperationMethod<
   GetProjectsServicesResponse,
   GetProjectsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsServicesRequest,
   output: GetProjectsServicesResponse,
   errors: [],
@@ -888,19 +890,20 @@ export interface ListProjectsServicesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsServicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/services" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsServicesRequest>;
+export const ListProjectsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/services" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsServicesRequest>;
 
 export type ListProjectsServicesResponse =
   GoogleFirebaseAppcheckV1ListServicesResponse;
 export const ListProjectsServicesResponse =
-  GoogleFirebaseAppcheckV1ListServicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ListServicesResponse;
 
 export type ListProjectsServicesError = DefaultErrors;
 
@@ -910,7 +913,7 @@ export const listProjectsServices: API.PaginatedOperationMethod<
   ListProjectsServicesResponse,
   ListProjectsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsServicesRequest,
   output: ListProjectsServicesResponse,
   errors: [],
@@ -929,21 +932,23 @@ export interface PatchProjectsServicesRequest {
   body?: GoogleFirebaseAppcheckV1Service;
 }
 
-export const PatchProjectsServicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1Service).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/services/{servicesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsServicesRequest>;
+export const PatchProjectsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1Service).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/services/{servicesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsServicesRequest>;
 
 export type PatchProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
-export const PatchProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
+export const PatchProjectsServicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1Service;
 
 export type PatchProjectsServicesError = DefaultErrors;
 
@@ -953,7 +958,7 @@ export const patchProjectsServices: API.OperationMethod<
   PatchProjectsServicesResponse,
   PatchProjectsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsServicesRequest,
   output: PatchProjectsServicesResponse,
   errors: [],
@@ -966,24 +971,25 @@ export interface BatchUpdateProjectsServicesRequest {
   body?: GoogleFirebaseAppcheckV1BatchUpdateServicesRequest;
 }
 
-export const BatchUpdateProjectsServicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1BatchUpdateServicesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/services:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateProjectsServicesRequest>;
+export const BatchUpdateProjectsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1BatchUpdateServicesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/services:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateProjectsServicesRequest>;
 
 export type BatchUpdateProjectsServicesResponse =
   GoogleFirebaseAppcheckV1BatchUpdateServicesResponse;
 export const BatchUpdateProjectsServicesResponse =
-  GoogleFirebaseAppcheckV1BatchUpdateServicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchUpdateServicesResponse;
 
 export type BatchUpdateProjectsServicesError = DefaultErrors;
 
@@ -993,7 +999,7 @@ export const batchUpdateProjectsServices: API.OperationMethod<
   BatchUpdateProjectsServicesResponse,
   BatchUpdateProjectsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsServicesRequest,
   output: BatchUpdateProjectsServicesResponse,
   errors: [],
@@ -1004,20 +1010,21 @@ export interface GetProjectsServicesResourcePoliciesRequest {
   name: string;
 }
 
-export const GetProjectsServicesResourcePoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsServicesResourcePoliciesRequest>;
+export const GetProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsServicesResourcePoliciesRequest>;
 
 export type GetProjectsServicesResourcePoliciesResponse =
   GoogleFirebaseAppcheckV1ResourcePolicy;
 export const GetProjectsServicesResourcePoliciesResponse =
-  GoogleFirebaseAppcheckV1ResourcePolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ResourcePolicy;
 
 export type GetProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1027,7 +1034,7 @@ export const getProjectsServicesResourcePolicies: API.OperationMethod<
   GetProjectsServicesResourcePoliciesResponse,
   GetProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsServicesResourcePoliciesRequest,
   output: GetProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1044,23 +1051,24 @@ export interface ListProjectsServicesResourcePoliciesRequest {
   filter?: string;
 }
 
-export const ListProjectsServicesResourcePoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsServicesResourcePoliciesRequest>;
+export const ListProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsServicesResourcePoliciesRequest>;
 
 export type ListProjectsServicesResourcePoliciesResponse =
   GoogleFirebaseAppcheckV1ListResourcePoliciesResponse;
 export const ListProjectsServicesResourcePoliciesResponse =
-  GoogleFirebaseAppcheckV1ListResourcePoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ListResourcePoliciesResponse;
 
 export type ListProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1070,7 +1078,7 @@ export const listProjectsServicesResourcePolicies: API.PaginatedOperationMethod<
   ListProjectsServicesResourcePoliciesResponse,
   ListProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsServicesResourcePoliciesRequest,
   output: ListProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1087,24 +1095,25 @@ export interface CreateProjectsServicesResourcePoliciesRequest {
   body?: GoogleFirebaseAppcheckV1ResourcePolicy;
 }
 
-export const CreateProjectsServicesResourcePoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1ResourcePolicy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsServicesResourcePoliciesRequest>;
+export const CreateProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1ResourcePolicy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsServicesResourcePoliciesRequest>;
 
 export type CreateProjectsServicesResourcePoliciesResponse =
   GoogleFirebaseAppcheckV1ResourcePolicy;
 export const CreateProjectsServicesResourcePoliciesResponse =
-  GoogleFirebaseAppcheckV1ResourcePolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ResourcePolicy;
 
 export type CreateProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1114,7 +1123,7 @@ export const createProjectsServicesResourcePolicies: API.OperationMethod<
   CreateProjectsServicesResourcePoliciesResponse,
   CreateProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsServicesResourcePoliciesRequest,
   output: CreateProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1129,25 +1138,26 @@ export interface PatchProjectsServicesResourcePoliciesRequest {
   body?: GoogleFirebaseAppcheckV1ResourcePolicy;
 }
 
-export const PatchProjectsServicesResourcePoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1ResourcePolicy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsServicesResourcePoliciesRequest>;
+export const PatchProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1ResourcePolicy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsServicesResourcePoliciesRequest>;
 
 export type PatchProjectsServicesResourcePoliciesResponse =
   GoogleFirebaseAppcheckV1ResourcePolicy;
 export const PatchProjectsServicesResourcePoliciesResponse =
-  GoogleFirebaseAppcheckV1ResourcePolicy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ResourcePolicy;
 
 export type PatchProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1157,7 +1167,7 @@ export const patchProjectsServicesResourcePolicies: API.OperationMethod<
   PatchProjectsServicesResourcePoliciesResponse,
   PatchProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsServicesResourcePoliciesRequest,
   output: PatchProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1170,21 +1180,22 @@ export interface DeleteProjectsServicesResourcePoliciesRequest {
   etag?: string;
 }
 
-export const DeleteProjectsServicesResourcePoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsServicesResourcePoliciesRequest>;
+export const DeleteProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies/{resourcePoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsServicesResourcePoliciesRequest>;
 
 export type DeleteProjectsServicesResourcePoliciesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsServicesResourcePoliciesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1194,7 +1205,7 @@ export const deleteProjectsServicesResourcePolicies: API.OperationMethod<
   DeleteProjectsServicesResourcePoliciesResponse,
   DeleteProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsServicesResourcePoliciesRequest,
   output: DeleteProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1207,26 +1218,25 @@ export interface BatchUpdateProjectsServicesResourcePoliciesRequest {
   body?: GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesRequest;
 }
 
-export const BatchUpdateProjectsServicesResourcePoliciesRequest = Schema.Struct(
-  {
+export const BatchUpdateProjectsServicesResourcePoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateProjectsServicesResourcePoliciesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/services/{servicesId}/resourcePolicies:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateProjectsServicesResourcePoliciesRequest>;
 
 export type BatchUpdateProjectsServicesResourcePoliciesResponse =
   GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse;
 export const BatchUpdateProjectsServicesResourcePoliciesResponse =
-  GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchUpdateResourcePoliciesResponse;
 
 export type BatchUpdateProjectsServicesResourcePoliciesError = DefaultErrors;
 
@@ -1236,7 +1246,7 @@ export const batchUpdateProjectsServicesResourcePolicies: API.OperationMethod<
   BatchUpdateProjectsServicesResourcePoliciesResponse,
   BatchUpdateProjectsServicesResourcePoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsServicesResourcePoliciesRequest,
   output: BatchUpdateProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -1249,24 +1259,25 @@ export interface ExchangeSafetyNetTokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest;
 }
 
-export const ExchangeSafetyNetTokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeSafetyNetToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeSafetyNetTokenProjectsAppsRequest>;
+export const ExchangeSafetyNetTokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeSafetyNetToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeSafetyNetTokenProjectsAppsRequest>;
 
 export type ExchangeSafetyNetTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeSafetyNetTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeSafetyNetTokenProjectsAppsError = DefaultErrors;
 
@@ -1276,7 +1287,7 @@ export const exchangeSafetyNetTokenProjectsApps: API.OperationMethod<
   ExchangeSafetyNetTokenProjectsAppsResponse,
   ExchangeSafetyNetTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeSafetyNetTokenProjectsAppsRequest,
   output: ExchangeSafetyNetTokenProjectsAppsResponse,
   errors: [],
@@ -1289,24 +1300,25 @@ export interface GeneratePlayIntegrityChallengeProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest;
 }
 
-export const GeneratePlayIntegrityChallengeProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:generatePlayIntegrityChallenge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GeneratePlayIntegrityChallengeProjectsAppsRequest>;
+export const GeneratePlayIntegrityChallengeProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:generatePlayIntegrityChallenge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GeneratePlayIntegrityChallengeProjectsAppsRequest>;
 
 export type GeneratePlayIntegrityChallengeProjectsAppsResponse =
   GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse;
 export const GeneratePlayIntegrityChallengeProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse;
 
 export type GeneratePlayIntegrityChallengeProjectsAppsError = DefaultErrors;
 
@@ -1316,7 +1328,7 @@ export const generatePlayIntegrityChallengeProjectsApps: API.OperationMethod<
   GeneratePlayIntegrityChallengeProjectsAppsResponse,
   GeneratePlayIntegrityChallengeProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GeneratePlayIntegrityChallengeProjectsAppsRequest,
   output: GeneratePlayIntegrityChallengeProjectsAppsResponse,
   errors: [],
@@ -1329,24 +1341,25 @@ export interface ExchangePlayIntegrityTokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest;
 }
 
-export const ExchangePlayIntegrityTokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangePlayIntegrityToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangePlayIntegrityTokenProjectsAppsRequest>;
+export const ExchangePlayIntegrityTokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangePlayIntegrityToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangePlayIntegrityTokenProjectsAppsRequest>;
 
 export type ExchangePlayIntegrityTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangePlayIntegrityTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangePlayIntegrityTokenProjectsAppsError = DefaultErrors;
 
@@ -1356,7 +1369,7 @@ export const exchangePlayIntegrityTokenProjectsApps: API.OperationMethod<
   ExchangePlayIntegrityTokenProjectsAppsResponse,
   ExchangePlayIntegrityTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangePlayIntegrityTokenProjectsAppsRequest,
   output: ExchangePlayIntegrityTokenProjectsAppsResponse,
   errors: [],
@@ -1369,24 +1382,25 @@ export interface ExchangeDeviceCheckTokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest;
 }
 
-export const ExchangeDeviceCheckTokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeDeviceCheckToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeDeviceCheckTokenProjectsAppsRequest>;
+export const ExchangeDeviceCheckTokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeDeviceCheckToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeDeviceCheckTokenProjectsAppsRequest>;
 
 export type ExchangeDeviceCheckTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeDeviceCheckTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeDeviceCheckTokenProjectsAppsError = DefaultErrors;
 
@@ -1396,7 +1410,7 @@ export const exchangeDeviceCheckTokenProjectsApps: API.OperationMethod<
   ExchangeDeviceCheckTokenProjectsAppsResponse,
   ExchangeDeviceCheckTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeDeviceCheckTokenProjectsAppsRequest,
   output: ExchangeDeviceCheckTokenProjectsAppsResponse,
   errors: [],
@@ -1409,24 +1423,25 @@ export interface ExchangeRecaptchaV3TokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest;
 }
 
-export const ExchangeRecaptchaV3TokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeRecaptchaV3Token",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeRecaptchaV3TokenProjectsAppsRequest>;
+export const ExchangeRecaptchaV3TokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeRecaptchaV3Token",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeRecaptchaV3TokenProjectsAppsRequest>;
 
 export type ExchangeRecaptchaV3TokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeRecaptchaV3TokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeRecaptchaV3TokenProjectsAppsError = DefaultErrors;
 
@@ -1436,7 +1451,7 @@ export const exchangeRecaptchaV3TokenProjectsApps: API.OperationMethod<
   ExchangeRecaptchaV3TokenProjectsAppsResponse,
   ExchangeRecaptchaV3TokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeRecaptchaV3TokenProjectsAppsRequest,
   output: ExchangeRecaptchaV3TokenProjectsAppsResponse,
   errors: [],
@@ -1450,7 +1465,7 @@ export interface ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest {
 }
 
 export const ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     app: Schema.String.pipe(T.HttpPath("app")),
     body: Schema.optional(
       GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest,
@@ -1467,7 +1482,7 @@ export const ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest =
 export type ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeRecaptchaEnterpriseTokenProjectsAppsError = DefaultErrors;
 
@@ -1477,7 +1492,7 @@ export const exchangeRecaptchaEnterpriseTokenProjectsApps: API.OperationMethod<
   ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse,
   ExchangeRecaptchaEnterpriseTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest,
   output: ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse,
   errors: [],
@@ -1490,24 +1505,25 @@ export interface ExchangeCustomTokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest;
 }
 
-export const ExchangeCustomTokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeCustomToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeCustomTokenProjectsAppsRequest>;
+export const ExchangeCustomTokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeCustomToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeCustomTokenProjectsAppsRequest>;
 
 export type ExchangeCustomTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeCustomTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeCustomTokenProjectsAppsError = DefaultErrors;
 
@@ -1517,7 +1533,7 @@ export const exchangeCustomTokenProjectsApps: API.OperationMethod<
   ExchangeCustomTokenProjectsAppsResponse,
   ExchangeCustomTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeCustomTokenProjectsAppsRequest,
   output: ExchangeCustomTokenProjectsAppsResponse,
   errors: [],
@@ -1530,24 +1546,25 @@ export interface ExchangeDebugTokenProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest;
 }
 
-export const ExchangeDebugTokenProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeDebugToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeDebugTokenProjectsAppsRequest>;
+export const ExchangeDebugTokenProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeDebugToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeDebugTokenProjectsAppsRequest>;
 
 export type ExchangeDebugTokenProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeDebugTokenProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeDebugTokenProjectsAppsError = DefaultErrors;
 
@@ -1557,7 +1574,7 @@ export const exchangeDebugTokenProjectsApps: API.OperationMethod<
   ExchangeDebugTokenProjectsAppsResponse,
   ExchangeDebugTokenProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeDebugTokenProjectsAppsRequest,
   output: ExchangeDebugTokenProjectsAppsResponse,
   errors: [],
@@ -1570,24 +1587,25 @@ export interface GenerateAppAttestChallengeProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest;
 }
 
-export const GenerateAppAttestChallengeProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:generateAppAttestChallenge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAppAttestChallengeProjectsAppsRequest>;
+export const GenerateAppAttestChallengeProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:generateAppAttestChallenge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAppAttestChallengeProjectsAppsRequest>;
 
 export type GenerateAppAttestChallengeProjectsAppsResponse =
   GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
 export const GenerateAppAttestChallengeProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
 
 export type GenerateAppAttestChallengeProjectsAppsError = DefaultErrors;
 
@@ -1597,7 +1615,7 @@ export const generateAppAttestChallengeProjectsApps: API.OperationMethod<
   GenerateAppAttestChallengeProjectsAppsResponse,
   GenerateAppAttestChallengeProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAppAttestChallengeProjectsAppsRequest,
   output: GenerateAppAttestChallengeProjectsAppsResponse,
   errors: [],
@@ -1610,24 +1628,25 @@ export interface ExchangeAppAttestAttestationProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest;
 }
 
-export const ExchangeAppAttestAttestationProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeAppAttestAttestation",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeAppAttestAttestationProjectsAppsRequest>;
+export const ExchangeAppAttestAttestationProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeAppAttestAttestation",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeAppAttestAttestationProjectsAppsRequest>;
 
 export type ExchangeAppAttestAttestationProjectsAppsResponse =
   GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
 export const ExchangeAppAttestAttestationProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
 
 export type ExchangeAppAttestAttestationProjectsAppsError = DefaultErrors;
 
@@ -1637,7 +1656,7 @@ export const exchangeAppAttestAttestationProjectsApps: API.OperationMethod<
   ExchangeAppAttestAttestationProjectsAppsResponse,
   ExchangeAppAttestAttestationProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAttestationProjectsAppsRequest,
   output: ExchangeAppAttestAttestationProjectsAppsResponse,
   errors: [],
@@ -1650,24 +1669,25 @@ export interface ExchangeAppAttestAssertionProjectsAppsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest;
 }
 
-export const ExchangeAppAttestAssertionProjectsAppsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}:exchangeAppAttestAssertion",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeAppAttestAssertionProjectsAppsRequest>;
+export const ExchangeAppAttestAssertionProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}:exchangeAppAttestAssertion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeAppAttestAssertionProjectsAppsRequest>;
 
 export type ExchangeAppAttestAssertionProjectsAppsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeAppAttestAssertionProjectsAppsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeAppAttestAssertionProjectsAppsError = DefaultErrors;
 
@@ -1677,7 +1697,7 @@ export const exchangeAppAttestAssertionProjectsApps: API.OperationMethod<
   ExchangeAppAttestAssertionProjectsAppsResponse,
   ExchangeAppAttestAssertionProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAssertionProjectsAppsRequest,
   output: ExchangeAppAttestAssertionProjectsAppsResponse,
   errors: [],
@@ -1688,20 +1708,21 @@ export interface GetProjectsAppsAppAttestConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsAppAttestConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/appAttestConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsAppAttestConfigRequest>;
+export const GetProjectsAppsAppAttestConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/appAttestConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsAppAttestConfigRequest>;
 
 export type GetProjectsAppsAppAttestConfigResponse =
   GoogleFirebaseAppcheckV1AppAttestConfig;
 export const GetProjectsAppsAppAttestConfigResponse =
-  GoogleFirebaseAppcheckV1AppAttestConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppAttestConfig;
 
 export type GetProjectsAppsAppAttestConfigError = DefaultErrors;
 
@@ -1711,7 +1732,7 @@ export const getProjectsAppsAppAttestConfig: API.OperationMethod<
   GetProjectsAppsAppAttestConfigResponse,
   GetProjectsAppsAppAttestConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsAppAttestConfigRequest,
   output: GetProjectsAppsAppAttestConfigResponse,
   errors: [],
@@ -1724,23 +1745,24 @@ export interface BatchGetProjectsAppsAppAttestConfigRequest {
   names?: string[];
 }
 
-export const BatchGetProjectsAppsAppAttestConfigRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/-/appAttestConfig:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsAppsAppAttestConfigRequest>;
+export const BatchGetProjectsAppsAppAttestConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/-/appAttestConfig:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsAppsAppAttestConfigRequest>;
 
 export type BatchGetProjectsAppsAppAttestConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse;
 export const BatchGetProjectsAppsAppAttestConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse;
 
 export type BatchGetProjectsAppsAppAttestConfigError = DefaultErrors;
 
@@ -1750,7 +1772,7 @@ export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<
   BatchGetProjectsAppsAppAttestConfigResponse,
   BatchGetProjectsAppsAppAttestConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsAppAttestConfigRequest,
   output: BatchGetProjectsAppsAppAttestConfigResponse,
   errors: [],
@@ -1765,25 +1787,26 @@ export interface PatchProjectsAppsAppAttestConfigRequest {
   body?: GoogleFirebaseAppcheckV1AppAttestConfig;
 }
 
-export const PatchProjectsAppsAppAttestConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1AppAttestConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/appAttestConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsAppAttestConfigRequest>;
+export const PatchProjectsAppsAppAttestConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1AppAttestConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/appAttestConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsAppAttestConfigRequest>;
 
 export type PatchProjectsAppsAppAttestConfigResponse =
   GoogleFirebaseAppcheckV1AppAttestConfig;
 export const PatchProjectsAppsAppAttestConfigResponse =
-  GoogleFirebaseAppcheckV1AppAttestConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppAttestConfig;
 
 export type PatchProjectsAppsAppAttestConfigError = DefaultErrors;
 
@@ -1793,7 +1816,7 @@ export const patchProjectsAppsAppAttestConfig: API.OperationMethod<
   PatchProjectsAppsAppAttestConfigResponse,
   PatchProjectsAppsAppAttestConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsAppAttestConfigRequest,
   output: PatchProjectsAppsAppAttestConfigResponse,
   errors: [],
@@ -1804,20 +1827,21 @@ export interface GetProjectsAppsDeviceCheckConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsDeviceCheckConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/deviceCheckConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsDeviceCheckConfigRequest>;
+export const GetProjectsAppsDeviceCheckConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/deviceCheckConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsDeviceCheckConfigRequest>;
 
 export type GetProjectsAppsDeviceCheckConfigResponse =
   GoogleFirebaseAppcheckV1DeviceCheckConfig;
 export const GetProjectsAppsDeviceCheckConfigResponse =
-  GoogleFirebaseAppcheckV1DeviceCheckConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1DeviceCheckConfig;
 
 export type GetProjectsAppsDeviceCheckConfigError = DefaultErrors;
 
@@ -1827,7 +1851,7 @@ export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<
   GetProjectsAppsDeviceCheckConfigResponse,
   GetProjectsAppsDeviceCheckConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsDeviceCheckConfigRequest,
   output: GetProjectsAppsDeviceCheckConfigResponse,
   errors: [],
@@ -1840,23 +1864,24 @@ export interface BatchGetProjectsAppsDeviceCheckConfigRequest {
   names?: string[];
 }
 
-export const BatchGetProjectsAppsDeviceCheckConfigRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/-/deviceCheckConfig:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsAppsDeviceCheckConfigRequest>;
+export const BatchGetProjectsAppsDeviceCheckConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/-/deviceCheckConfig:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsAppsDeviceCheckConfigRequest>;
 
 export type BatchGetProjectsAppsDeviceCheckConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse;
 export const BatchGetProjectsAppsDeviceCheckConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse;
 
 export type BatchGetProjectsAppsDeviceCheckConfigError = DefaultErrors;
 
@@ -1866,7 +1891,7 @@ export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<
   BatchGetProjectsAppsDeviceCheckConfigResponse,
   BatchGetProjectsAppsDeviceCheckConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsDeviceCheckConfigRequest,
   output: BatchGetProjectsAppsDeviceCheckConfigResponse,
   errors: [],
@@ -1881,25 +1906,26 @@ export interface PatchProjectsAppsDeviceCheckConfigRequest {
   body?: GoogleFirebaseAppcheckV1DeviceCheckConfig;
 }
 
-export const PatchProjectsAppsDeviceCheckConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1DeviceCheckConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/deviceCheckConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsDeviceCheckConfigRequest>;
+export const PatchProjectsAppsDeviceCheckConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1DeviceCheckConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/deviceCheckConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsDeviceCheckConfigRequest>;
 
 export type PatchProjectsAppsDeviceCheckConfigResponse =
   GoogleFirebaseAppcheckV1DeviceCheckConfig;
 export const PatchProjectsAppsDeviceCheckConfigResponse =
-  GoogleFirebaseAppcheckV1DeviceCheckConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1DeviceCheckConfig;
 
 export type PatchProjectsAppsDeviceCheckConfigError = DefaultErrors;
 
@@ -1909,7 +1935,7 @@ export const patchProjectsAppsDeviceCheckConfig: API.OperationMethod<
   PatchProjectsAppsDeviceCheckConfigResponse,
   PatchProjectsAppsDeviceCheckConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsDeviceCheckConfigRequest,
   output: PatchProjectsAppsDeviceCheckConfigResponse,
   errors: [],
@@ -1920,20 +1946,21 @@ export interface GetProjectsAppsRecaptchaV3ConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsRecaptchaV3ConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaV3Config",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsRecaptchaV3ConfigRequest>;
+export const GetProjectsAppsRecaptchaV3ConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaV3Config",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsRecaptchaV3ConfigRequest>;
 
 export type GetProjectsAppsRecaptchaV3ConfigResponse =
   GoogleFirebaseAppcheckV1RecaptchaV3Config;
 export const GetProjectsAppsRecaptchaV3ConfigResponse =
-  GoogleFirebaseAppcheckV1RecaptchaV3Config;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1RecaptchaV3Config;
 
 export type GetProjectsAppsRecaptchaV3ConfigError = DefaultErrors;
 
@@ -1943,7 +1970,7 @@ export const getProjectsAppsRecaptchaV3Config: API.OperationMethod<
   GetProjectsAppsRecaptchaV3ConfigResponse,
   GetProjectsAppsRecaptchaV3ConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsRecaptchaV3ConfigRequest,
   output: GetProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
@@ -1956,23 +1983,24 @@ export interface BatchGetProjectsAppsRecaptchaV3ConfigRequest {
   names?: string[];
 }
 
-export const BatchGetProjectsAppsRecaptchaV3ConfigRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/-/recaptchaV3Config:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsAppsRecaptchaV3ConfigRequest>;
+export const BatchGetProjectsAppsRecaptchaV3ConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/-/recaptchaV3Config:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsAppsRecaptchaV3ConfigRequest>;
 
 export type BatchGetProjectsAppsRecaptchaV3ConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse;
 export const BatchGetProjectsAppsRecaptchaV3ConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse;
 
 export type BatchGetProjectsAppsRecaptchaV3ConfigError = DefaultErrors;
 
@@ -1982,7 +2010,7 @@ export const batchGetProjectsAppsRecaptchaV3Config: API.OperationMethod<
   BatchGetProjectsAppsRecaptchaV3ConfigResponse,
   BatchGetProjectsAppsRecaptchaV3ConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaV3ConfigRequest,
   output: BatchGetProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
@@ -1997,25 +2025,26 @@ export interface PatchProjectsAppsRecaptchaV3ConfigRequest {
   body?: GoogleFirebaseAppcheckV1RecaptchaV3Config;
 }
 
-export const PatchProjectsAppsRecaptchaV3ConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1RecaptchaV3Config).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaV3Config",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsRecaptchaV3ConfigRequest>;
+export const PatchProjectsAppsRecaptchaV3ConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1RecaptchaV3Config).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaV3Config",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsRecaptchaV3ConfigRequest>;
 
 export type PatchProjectsAppsRecaptchaV3ConfigResponse =
   GoogleFirebaseAppcheckV1RecaptchaV3Config;
 export const PatchProjectsAppsRecaptchaV3ConfigResponse =
-  GoogleFirebaseAppcheckV1RecaptchaV3Config;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1RecaptchaV3Config;
 
 export type PatchProjectsAppsRecaptchaV3ConfigError = DefaultErrors;
 
@@ -2025,7 +2054,7 @@ export const patchProjectsAppsRecaptchaV3Config: API.OperationMethod<
   PatchProjectsAppsRecaptchaV3ConfigResponse,
   PatchProjectsAppsRecaptchaV3ConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsRecaptchaV3ConfigRequest,
   output: PatchProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
@@ -2036,20 +2065,21 @@ export interface GetProjectsAppsRecaptchaEnterpriseConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsRecaptchaEnterpriseConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaEnterpriseConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsRecaptchaEnterpriseConfigRequest>;
+export const GetProjectsAppsRecaptchaEnterpriseConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaEnterpriseConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsRecaptchaEnterpriseConfigRequest>;
 
 export type GetProjectsAppsRecaptchaEnterpriseConfigResponse =
   GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
 export const GetProjectsAppsRecaptchaEnterpriseConfigResponse =
-  GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
 
 export type GetProjectsAppsRecaptchaEnterpriseConfigError = DefaultErrors;
 
@@ -2059,7 +2089,7 @@ export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   GetProjectsAppsRecaptchaEnterpriseConfigResponse,
   GetProjectsAppsRecaptchaEnterpriseConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: GetProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
@@ -2073,7 +2103,7 @@ export interface BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest {
 }
 
 export const BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     names: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("names"),
@@ -2089,7 +2119,7 @@ export const BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest =
 export type BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse;
 export const BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse;
 
 export type BatchGetProjectsAppsRecaptchaEnterpriseConfigError = DefaultErrors;
 
@@ -2099,7 +2129,7 @@ export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse,
   BatchGetProjectsAppsRecaptchaEnterpriseConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
@@ -2114,25 +2144,26 @@ export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest {
   body?: GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
 }
 
-export const PatchProjectsAppsRecaptchaEnterpriseConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaEnterpriseConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsRecaptchaEnterpriseConfigRequest>;
+export const PatchProjectsAppsRecaptchaEnterpriseConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/recaptchaEnterpriseConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsRecaptchaEnterpriseConfigRequest>;
 
 export type PatchProjectsAppsRecaptchaEnterpriseConfigResponse =
   GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
 export const PatchProjectsAppsRecaptchaEnterpriseConfigResponse =
-  GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig;
 
 export type PatchProjectsAppsRecaptchaEnterpriseConfigError = DefaultErrors;
 
@@ -2142,7 +2173,7 @@ export const patchProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   PatchProjectsAppsRecaptchaEnterpriseConfigResponse,
   PatchProjectsAppsRecaptchaEnterpriseConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: PatchProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
@@ -2153,20 +2184,21 @@ export interface GetProjectsAppsSafetyNetConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsSafetyNetConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/safetyNetConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsSafetyNetConfigRequest>;
+export const GetProjectsAppsSafetyNetConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/safetyNetConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsSafetyNetConfigRequest>;
 
 export type GetProjectsAppsSafetyNetConfigResponse =
   GoogleFirebaseAppcheckV1SafetyNetConfig;
 export const GetProjectsAppsSafetyNetConfigResponse =
-  GoogleFirebaseAppcheckV1SafetyNetConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1SafetyNetConfig;
 
 export type GetProjectsAppsSafetyNetConfigError = DefaultErrors;
 
@@ -2176,7 +2208,7 @@ export const getProjectsAppsSafetyNetConfig: API.OperationMethod<
   GetProjectsAppsSafetyNetConfigResponse,
   GetProjectsAppsSafetyNetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsSafetyNetConfigRequest,
   output: GetProjectsAppsSafetyNetConfigResponse,
   errors: [],
@@ -2189,23 +2221,24 @@ export interface BatchGetProjectsAppsSafetyNetConfigRequest {
   names?: string[];
 }
 
-export const BatchGetProjectsAppsSafetyNetConfigRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/-/safetyNetConfig:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsAppsSafetyNetConfigRequest>;
+export const BatchGetProjectsAppsSafetyNetConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/-/safetyNetConfig:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsAppsSafetyNetConfigRequest>;
 
 export type BatchGetProjectsAppsSafetyNetConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse;
 export const BatchGetProjectsAppsSafetyNetConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse;
 
 export type BatchGetProjectsAppsSafetyNetConfigError = DefaultErrors;
 
@@ -2215,7 +2248,7 @@ export const batchGetProjectsAppsSafetyNetConfig: API.OperationMethod<
   BatchGetProjectsAppsSafetyNetConfigResponse,
   BatchGetProjectsAppsSafetyNetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsSafetyNetConfigRequest,
   output: BatchGetProjectsAppsSafetyNetConfigResponse,
   errors: [],
@@ -2230,25 +2263,26 @@ export interface PatchProjectsAppsSafetyNetConfigRequest {
   body?: GoogleFirebaseAppcheckV1SafetyNetConfig;
 }
 
-export const PatchProjectsAppsSafetyNetConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1SafetyNetConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/safetyNetConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsSafetyNetConfigRequest>;
+export const PatchProjectsAppsSafetyNetConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1SafetyNetConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/safetyNetConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsSafetyNetConfigRequest>;
 
 export type PatchProjectsAppsSafetyNetConfigResponse =
   GoogleFirebaseAppcheckV1SafetyNetConfig;
 export const PatchProjectsAppsSafetyNetConfigResponse =
-  GoogleFirebaseAppcheckV1SafetyNetConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1SafetyNetConfig;
 
 export type PatchProjectsAppsSafetyNetConfigError = DefaultErrors;
 
@@ -2258,7 +2292,7 @@ export const patchProjectsAppsSafetyNetConfig: API.OperationMethod<
   PatchProjectsAppsSafetyNetConfigResponse,
   PatchProjectsAppsSafetyNetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsSafetyNetConfigRequest,
   output: PatchProjectsAppsSafetyNetConfigResponse,
   errors: [],
@@ -2269,20 +2303,21 @@ export interface GetProjectsAppsPlayIntegrityConfigRequest {
   name: string;
 }
 
-export const GetProjectsAppsPlayIntegrityConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/playIntegrityConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsPlayIntegrityConfigRequest>;
+export const GetProjectsAppsPlayIntegrityConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/playIntegrityConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsPlayIntegrityConfigRequest>;
 
 export type GetProjectsAppsPlayIntegrityConfigResponse =
   GoogleFirebaseAppcheckV1PlayIntegrityConfig;
 export const GetProjectsAppsPlayIntegrityConfigResponse =
-  GoogleFirebaseAppcheckV1PlayIntegrityConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1PlayIntegrityConfig;
 
 export type GetProjectsAppsPlayIntegrityConfigError = DefaultErrors;
 
@@ -2292,7 +2327,7 @@ export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   GetProjectsAppsPlayIntegrityConfigResponse,
   GetProjectsAppsPlayIntegrityConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsPlayIntegrityConfigRequest,
   output: GetProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
@@ -2305,23 +2340,24 @@ export interface BatchGetProjectsAppsPlayIntegrityConfigRequest {
   names?: string[];
 }
 
-export const BatchGetProjectsAppsPlayIntegrityConfigRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/-/playIntegrityConfig:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetProjectsAppsPlayIntegrityConfigRequest>;
+export const BatchGetProjectsAppsPlayIntegrityConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/-/playIntegrityConfig:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetProjectsAppsPlayIntegrityConfigRequest>;
 
 export type BatchGetProjectsAppsPlayIntegrityConfigResponse =
   GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse;
 export const BatchGetProjectsAppsPlayIntegrityConfigResponse =
-  GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse;
 
 export type BatchGetProjectsAppsPlayIntegrityConfigError = DefaultErrors;
 
@@ -2331,7 +2367,7 @@ export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   BatchGetProjectsAppsPlayIntegrityConfigResponse,
   BatchGetProjectsAppsPlayIntegrityConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetProjectsAppsPlayIntegrityConfigRequest,
   output: BatchGetProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
@@ -2346,25 +2382,26 @@ export interface PatchProjectsAppsPlayIntegrityConfigRequest {
   body?: GoogleFirebaseAppcheckV1PlayIntegrityConfig;
 }
 
-export const PatchProjectsAppsPlayIntegrityConfigRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1PlayIntegrityConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/playIntegrityConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsPlayIntegrityConfigRequest>;
+export const PatchProjectsAppsPlayIntegrityConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1PlayIntegrityConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/playIntegrityConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsPlayIntegrityConfigRequest>;
 
 export type PatchProjectsAppsPlayIntegrityConfigResponse =
   GoogleFirebaseAppcheckV1PlayIntegrityConfig;
 export const PatchProjectsAppsPlayIntegrityConfigResponse =
-  GoogleFirebaseAppcheckV1PlayIntegrityConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1PlayIntegrityConfig;
 
 export type PatchProjectsAppsPlayIntegrityConfigError = DefaultErrors;
 
@@ -2374,7 +2411,7 @@ export const patchProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   PatchProjectsAppsPlayIntegrityConfigResponse,
   PatchProjectsAppsPlayIntegrityConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsPlayIntegrityConfigRequest,
   output: PatchProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
@@ -2385,20 +2422,21 @@ export interface GetProjectsAppsDebugTokensRequest {
   name: string;
 }
 
-export const GetProjectsAppsDebugTokensRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsDebugTokensRequest>;
+export const GetProjectsAppsDebugTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsDebugTokensRequest>;
 
 export type GetProjectsAppsDebugTokensResponse =
   GoogleFirebaseAppcheckV1DebugToken;
 export const GetProjectsAppsDebugTokensResponse =
-  GoogleFirebaseAppcheckV1DebugToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1DebugToken;
 
 export type GetProjectsAppsDebugTokensError = DefaultErrors;
 
@@ -2408,7 +2446,7 @@ export const getProjectsAppsDebugTokens: API.OperationMethod<
   GetProjectsAppsDebugTokensResponse,
   GetProjectsAppsDebugTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsDebugTokensRequest,
   output: GetProjectsAppsDebugTokensResponse,
   errors: [],
@@ -2423,22 +2461,23 @@ export interface ListProjectsAppsDebugTokensRequest {
   pageToken?: string;
 }
 
-export const ListProjectsAppsDebugTokensRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsDebugTokensRequest>;
+export const ListProjectsAppsDebugTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsDebugTokensRequest>;
 
 export type ListProjectsAppsDebugTokensResponse =
   GoogleFirebaseAppcheckV1ListDebugTokensResponse;
 export const ListProjectsAppsDebugTokensResponse =
-  GoogleFirebaseAppcheckV1ListDebugTokensResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ListDebugTokensResponse;
 
 export type ListProjectsAppsDebugTokensError = DefaultErrors;
 
@@ -2448,7 +2487,7 @@ export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<
   ListProjectsAppsDebugTokensResponse,
   ListProjectsAppsDebugTokensError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsDebugTokensRequest,
   output: ListProjectsAppsDebugTokensResponse,
   errors: [],
@@ -2465,22 +2504,25 @@ export interface CreateProjectsAppsDebugTokensRequest {
   body?: GoogleFirebaseAppcheckV1DebugToken;
 }
 
-export const CreateProjectsAppsDebugTokensRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1DebugToken).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAppsDebugTokensRequest>;
+export const CreateProjectsAppsDebugTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1DebugToken).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAppsDebugTokensRequest>;
 
 export type CreateProjectsAppsDebugTokensResponse =
   GoogleFirebaseAppcheckV1DebugToken;
 export const CreateProjectsAppsDebugTokensResponse =
-  GoogleFirebaseAppcheckV1DebugToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1DebugToken;
 
 export type CreateProjectsAppsDebugTokensError = DefaultErrors;
 
@@ -2490,7 +2532,7 @@ export const createProjectsAppsDebugTokens: API.OperationMethod<
   CreateProjectsAppsDebugTokensResponse,
   CreateProjectsAppsDebugTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAppsDebugTokensRequest,
   output: CreateProjectsAppsDebugTokensResponse,
   errors: [],
@@ -2505,23 +2547,26 @@ export interface PatchProjectsAppsDebugTokensRequest {
   body?: GoogleFirebaseAppcheckV1DebugToken;
 }
 
-export const PatchProjectsAppsDebugTokensRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1DebugToken).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsDebugTokensRequest>;
+export const PatchProjectsAppsDebugTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleFirebaseAppcheckV1DebugToken).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsDebugTokensRequest>;
 
 export type PatchProjectsAppsDebugTokensResponse =
   GoogleFirebaseAppcheckV1DebugToken;
 export const PatchProjectsAppsDebugTokensResponse =
-  GoogleFirebaseAppcheckV1DebugToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1DebugToken;
 
 export type PatchProjectsAppsDebugTokensError = DefaultErrors;
 
@@ -2531,7 +2576,7 @@ export const patchProjectsAppsDebugTokens: API.OperationMethod<
   PatchProjectsAppsDebugTokensResponse,
   PatchProjectsAppsDebugTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsDebugTokensRequest,
   output: PatchProjectsAppsDebugTokensResponse,
   errors: [],
@@ -2542,18 +2587,20 @@ export interface DeleteProjectsAppsDebugTokensRequest {
   name: string;
 }
 
-export const DeleteProjectsAppsDebugTokensRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAppsDebugTokensRequest>;
+export const DeleteProjectsAppsDebugTokensRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/apps/{appsId}/debugTokens/{debugTokensId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAppsDebugTokensRequest>;
 
 export type DeleteProjectsAppsDebugTokensResponse = GoogleProtobufEmpty;
-export const DeleteProjectsAppsDebugTokensResponse = GoogleProtobufEmpty;
+export const DeleteProjectsAppsDebugTokensResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsDebugTokensError = DefaultErrors;
 
@@ -2563,7 +2610,7 @@ export const deleteProjectsAppsDebugTokens: API.OperationMethod<
   DeleteProjectsAppsDebugTokensResponse,
   DeleteProjectsAppsDebugTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAppsDebugTokensRequest,
   output: DeleteProjectsAppsDebugTokensResponse,
   errors: [],
@@ -2574,7 +2621,7 @@ export interface GetJwksRequest {
   name: string;
 }
 
-export const GetJwksRequest = Schema.Struct({
+export const GetJwksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/jwks" }),
@@ -2582,7 +2629,8 @@ export const GetJwksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetJwksRequest>;
 
 export type GetJwksResponse = GoogleFirebaseAppcheckV1PublicJwkSet;
-export const GetJwksResponse = GoogleFirebaseAppcheckV1PublicJwkSet;
+export const GetJwksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1PublicJwkSet;
 
 export type GetJwksError = DefaultErrors;
 
@@ -2592,7 +2640,7 @@ export const getJwks: API.OperationMethod<
   GetJwksResponse,
   GetJwksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJwksRequest,
   output: GetJwksResponse,
   errors: [],
@@ -2605,24 +2653,25 @@ export interface ExchangeDebugTokenOauthClientsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest;
 }
 
-export const ExchangeDebugTokenOauthClientsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/oauthClients/{oauthClientsId}:exchangeDebugToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeDebugTokenOauthClientsRequest>;
+export const ExchangeDebugTokenOauthClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/oauthClients/{oauthClientsId}:exchangeDebugToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeDebugTokenOauthClientsRequest>;
 
 export type ExchangeDebugTokenOauthClientsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeDebugTokenOauthClientsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeDebugTokenOauthClientsError = DefaultErrors;
 
@@ -2632,7 +2681,7 @@ export const exchangeDebugTokenOauthClients: API.OperationMethod<
   ExchangeDebugTokenOauthClientsResponse,
   ExchangeDebugTokenOauthClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeDebugTokenOauthClientsRequest,
   output: ExchangeDebugTokenOauthClientsResponse,
   errors: [],
@@ -2645,24 +2694,25 @@ export interface GenerateAppAttestChallengeOauthClientsRequest {
   body?: GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest;
 }
 
-export const GenerateAppAttestChallengeOauthClientsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/oauthClients/{oauthClientsId}:generateAppAttestChallenge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAppAttestChallengeOauthClientsRequest>;
+export const GenerateAppAttestChallengeOauthClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/oauthClients/{oauthClientsId}:generateAppAttestChallenge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAppAttestChallengeOauthClientsRequest>;
 
 export type GenerateAppAttestChallengeOauthClientsResponse =
   GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
 export const GenerateAppAttestChallengeOauthClientsResponse =
-  GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
 
 export type GenerateAppAttestChallengeOauthClientsError = DefaultErrors;
 
@@ -2672,7 +2722,7 @@ export const generateAppAttestChallengeOauthClients: API.OperationMethod<
   GenerateAppAttestChallengeOauthClientsResponse,
   GenerateAppAttestChallengeOauthClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAppAttestChallengeOauthClientsRequest,
   output: GenerateAppAttestChallengeOauthClientsResponse,
   errors: [],
@@ -2685,24 +2735,25 @@ export interface ExchangeAppAttestAttestationOauthClientsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest;
 }
 
-export const ExchangeAppAttestAttestationOauthClientsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/oauthClients/{oauthClientsId}:exchangeAppAttestAttestation",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeAppAttestAttestationOauthClientsRequest>;
+export const ExchangeAppAttestAttestationOauthClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/oauthClients/{oauthClientsId}:exchangeAppAttestAttestation",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeAppAttestAttestationOauthClientsRequest>;
 
 export type ExchangeAppAttestAttestationOauthClientsResponse =
   GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
 export const ExchangeAppAttestAttestationOauthClientsResponse =
-  GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
 
 export type ExchangeAppAttestAttestationOauthClientsError = DefaultErrors;
 
@@ -2712,7 +2763,7 @@ export const exchangeAppAttestAttestationOauthClients: API.OperationMethod<
   ExchangeAppAttestAttestationOauthClientsResponse,
   ExchangeAppAttestAttestationOauthClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAttestationOauthClientsRequest,
   output: ExchangeAppAttestAttestationOauthClientsResponse,
   errors: [],
@@ -2725,24 +2776,25 @@ export interface ExchangeAppAttestAssertionOauthClientsRequest {
   body?: GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest;
 }
 
-export const ExchangeAppAttestAssertionOauthClientsRequest = Schema.Struct({
-  app: Schema.String.pipe(T.HttpPath("app")),
-  body: Schema.optional(
-    GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/oauthClients/{oauthClientsId}:exchangeAppAttestAssertion",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExchangeAppAttestAssertionOauthClientsRequest>;
+export const ExchangeAppAttestAssertionOauthClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    app: Schema.String.pipe(T.HttpPath("app")),
+    body: Schema.optional(
+      GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/oauthClients/{oauthClientsId}:exchangeAppAttestAssertion",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExchangeAppAttestAssertionOauthClientsRequest>;
 
 export type ExchangeAppAttestAssertionOauthClientsResponse =
   GoogleFirebaseAppcheckV1AppCheckToken;
 export const ExchangeAppAttestAssertionOauthClientsResponse =
-  GoogleFirebaseAppcheckV1AppCheckToken;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppcheckV1AppCheckToken;
 
 export type ExchangeAppAttestAssertionOauthClientsError = DefaultErrors;
 
@@ -2752,7 +2804,7 @@ export const exchangeAppAttestAssertionOauthClients: API.OperationMethod<
   ExchangeAppAttestAssertionOauthClientsResponse,
   ExchangeAppAttestAssertionOauthClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExchangeAppAttestAssertionOauthClientsRequest,
   output: ExchangeAppAttestAssertionOauthClientsResponse,
   errors: [],

@@ -36,27 +36,28 @@ export interface GetAnalyticReportRequest {
   until?: string;
 }
 
-export const GetAnalyticReportRequest = Schema.Struct({
-  dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}/dns_analytics/report",
-  }),
-) as unknown as Schema.Schema<GetAnalyticReportRequest>;
+export const GetAnalyticReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}/dns_analytics/report",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticReportRequest>;
 
 export type GetAnalyticReportResponse = unknown;
 
 export const GetAnalyticReportResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
 export type GetAnalyticReportError = DefaultErrors;
 
@@ -65,7 +66,7 @@ export const getAnalyticReport: API.OperationMethod<
   GetAnalyticReportResponse,
   GetAnalyticReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticReportRequest,
   output: GetAnalyticReportResponse,
   errors: [],
@@ -107,41 +108,42 @@ export interface GetAnalyticReportBytimeRequest {
   until?: string;
 }
 
-export const GetAnalyticReportBytimeRequest = Schema.Struct({
-  dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  timeDelta: Schema.optional(
-    Schema.Literals([
-      "all",
-      "auto",
-      "year",
-      "quarter",
-      "month",
-      "week",
-      "day",
-      "hour",
-      "dekaminute",
-      "minute",
-    ]),
-  ).pipe(T.HttpQuery("time_delta")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}/dns_analytics/report/bytime",
-  }),
-) as unknown as Schema.Schema<GetAnalyticReportBytimeRequest>;
+export const GetAnalyticReportBytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+    timeDelta: Schema.optional(
+      Schema.Literals([
+        "all",
+        "auto",
+        "year",
+        "quarter",
+        "month",
+        "week",
+        "day",
+        "hour",
+        "dekaminute",
+        "minute",
+      ]),
+    ).pipe(T.HttpQuery("time_delta")),
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}/dns_analytics/report/bytime",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticReportBytimeRequest>;
 
 export type GetAnalyticReportBytimeResponse = unknown;
 
 export const GetAnalyticReportBytimeResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
 export type GetAnalyticReportBytimeError = DefaultErrors;
 
@@ -150,7 +152,7 @@ export const getAnalyticReportBytime: API.OperationMethod<
   GetAnalyticReportBytimeResponse,
   GetAnalyticReportBytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticReportBytimeRequest,
   output: GetAnalyticReportBytimeResponse,
   errors: [],
@@ -166,7 +168,7 @@ export interface GetDnsFirewallRequest {
   accountId: string;
 }
 
-export const GetDnsFirewallRequest = Schema.Struct({
+export const GetDnsFirewallRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -206,36 +208,38 @@ export interface GetDnsFirewallResponse {
   } | null;
 }
 
-export const GetDnsFirewallResponse = Schema.Struct({
-  id: Schema.String,
-  deprecateAnyRequests: Schema.Boolean,
-  dnsFirewallIps: Schema.Array(Schema.String),
-  ecsFallback: Schema.Boolean,
-  maximumCacheTtl: Schema.Number,
-  minimumCacheTtl: Schema.Number,
-  modifiedOn: Schema.String,
-  name: Schema.String,
-  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
-  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
-  retries: Schema.Number,
-  upstreamIps: Schema.Array(Schema.String),
-  attackMitigation: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        onlyWhenUpstreamUnhealthy: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+export const GetDnsFirewallResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    deprecateAnyRequests: Schema.Boolean,
+    dnsFirewallIps: Schema.Array(Schema.String),
+    ecsFallback: Schema.Boolean,
+    maximumCacheTtl: Schema.Number,
+    minimumCacheTtl: Schema.Number,
+    modifiedOn: Schema.String,
+    name: Schema.String,
+    negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
+    ratelimit: Schema.Union([Schema.Number, Schema.Null]),
+    retries: Schema.Number,
+    upstreamIps: Schema.Array(Schema.String),
+    attackMitigation: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          onlyWhenUpstreamUnhealthy: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          enabled: "enabled",
-          onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-}).pipe(
+        Schema.Null,
+      ]),
+    ),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     deprecateAnyRequests: "deprecate_any_requests",
@@ -260,7 +264,7 @@ export const getDnsFirewall: API.OperationMethod<
   GetDnsFirewallResponse,
   GetDnsFirewallError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDnsFirewallRequest,
   output: GetDnsFirewallResponse,
   errors: [],
@@ -271,11 +275,12 @@ export interface ListDnsFirewallsRequest {
   accountId: string;
 }
 
-export const ListDnsFirewallsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/dns_firewall" }),
-) as unknown as Schema.Schema<ListDnsFirewallsRequest>;
+export const ListDnsFirewallsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/accounts/{account_id}/dns_firewall" }),
+  ) as unknown as Schema.Schema<ListDnsFirewallsRequest>;
 
 export type ListDnsFirewallsResponse = {
   id: string;
@@ -296,8 +301,175 @@ export type ListDnsFirewallsResponse = {
   } | null;
 }[];
 
-export const ListDnsFirewallsResponse = Schema.Array(
-  Schema.Struct({
+export const ListDnsFirewallsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      deprecateAnyRequests: Schema.Boolean,
+      dnsFirewallIps: Schema.Array(Schema.String),
+      ecsFallback: Schema.Boolean,
+      maximumCacheTtl: Schema.Number,
+      minimumCacheTtl: Schema.Number,
+      modifiedOn: Schema.String,
+      name: Schema.String,
+      negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
+      ratelimit: Schema.Union([Schema.Number, Schema.Null]),
+      retries: Schema.Number,
+      upstreamIps: Schema.Array(Schema.String),
+      attackMitigation: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            onlyWhenUpstreamUnhealthy: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        deprecateAnyRequests: "deprecate_any_requests",
+        dnsFirewallIps: "dns_firewall_ips",
+        ecsFallback: "ecs_fallback",
+        maximumCacheTtl: "maximum_cache_ttl",
+        minimumCacheTtl: "minimum_cache_ttl",
+        modifiedOn: "modified_on",
+        name: "name",
+        negativeCacheTtl: "negative_cache_ttl",
+        ratelimit: "ratelimit",
+        retries: "retries",
+        upstreamIps: "upstream_ips",
+        attackMitigation: "attack_mitigation",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListDnsFirewallsResponse>;
+
+export type ListDnsFirewallsError = DefaultErrors;
+
+export const listDnsFirewalls: API.OperationMethod<
+  ListDnsFirewallsRequest,
+  ListDnsFirewallsResponse,
+  ListDnsFirewallsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListDnsFirewallsRequest,
+  output: ListDnsFirewallsResponse,
+  errors: [],
+}));
+
+export interface CreateDnsFirewallRequest {
+  /** Path param: Identifier. */
+  accountId: string;
+  /** Body param: DNS Firewall cluster name */
+  name: string;
+  /** Body param: */
+  upstreamIps: string[];
+  /** Body param: Attack mitigation settings */
+  attackMitigation?: {
+    enabled?: boolean;
+    onlyWhenUpstreamUnhealthy?: boolean;
+  } | null;
+  /** Body param: Whether to refuse to answer queries for the ANY type */
+  deprecateAnyRequests?: boolean;
+  /** Body param: Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
+  ecsFallback?: boolean;
+  /** Body param: By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching pu */
+  maximumCacheTtl?: number;
+  /** Body param: By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching pur */
+  minimumCacheTtl?: number;
+  /** Body param: This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.  This setting does not affect the TTL value in the DNS response Clou */
+  negativeCacheTtl?: number | null;
+  /** Body param: Ratelimit in queries per second per datacenter (applies to DNS queries sent to the upstream nameservers configured on the cluster) */
+  ratelimit?: number | null;
+  /** Body param: Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
+  retries?: number;
+}
+
+export const CreateDnsFirewallRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.String,
+    upstreamIps: Schema.Array(Schema.String),
+    attackMitigation: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Boolean),
+          onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    deprecateAnyRequests: Schema.optional(Schema.Boolean),
+    ecsFallback: Schema.optional(Schema.Boolean),
+    maximumCacheTtl: Schema.optional(Schema.Number),
+    minimumCacheTtl: Schema.optional(Schema.Number),
+    negativeCacheTtl: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    retries: Schema.optional(Schema.Number),
+  }).pipe(
+    Schema.encodeKeys({
+      name: "name",
+      upstreamIps: "upstream_ips",
+      attackMitigation: "attack_mitigation",
+      deprecateAnyRequests: "deprecate_any_requests",
+      ecsFallback: "ecs_fallback",
+      maximumCacheTtl: "maximum_cache_ttl",
+      minimumCacheTtl: "minimum_cache_ttl",
+      negativeCacheTtl: "negative_cache_ttl",
+      ratelimit: "ratelimit",
+      retries: "retries",
+    }),
+    T.Http({ method: "POST", path: "/accounts/{account_id}/dns_firewall" }),
+  ) as unknown as Schema.Schema<CreateDnsFirewallRequest>;
+
+export interface CreateDnsFirewallResponse {
+  /** Identifier. */
+  id: string;
+  /** Whether to refuse to answer queries for the ANY type */
+  deprecateAnyRequests: boolean;
+  dnsFirewallIps: string[];
+  /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
+  ecsFallback: boolean;
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, high */
+  maximumCacheTtl: number;
+  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower */
+  minimumCacheTtl: number;
+  /** Last modification of DNS Firewall cluster */
+  modifiedOn: string;
+  /** DNS Firewall cluster name */
+  name: string;
+  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.  This setting does not affect the TTL value in the DNS response Cloudflare retur */
+  negativeCacheTtl: number | null;
+  /** Ratelimit in queries per second per datacenter (applies to DNS queries sent to the upstream nameservers configured on the cluster) */
+  ratelimit: number | null;
+  /** Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
+  retries: number;
+  upstreamIps: string[];
+  /** Attack mitigation settings */
+  attackMitigation?: {
+    enabled?: boolean | null;
+    onlyWhenUpstreamUnhealthy?: boolean | null;
+  } | null;
+}
+
+export const CreateDnsFirewallResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     deprecateAnyRequests: Schema.Boolean,
     dnsFirewallIps: Schema.Array(Schema.String),
@@ -342,167 +514,7 @@ export const ListDnsFirewallsResponse = Schema.Array(
       upstreamIps: "upstream_ips",
       attackMitigation: "attack_mitigation",
     }),
-  ),
-) as unknown as Schema.Schema<ListDnsFirewallsResponse>;
-
-export type ListDnsFirewallsError = DefaultErrors;
-
-export const listDnsFirewalls: API.OperationMethod<
-  ListDnsFirewallsRequest,
-  ListDnsFirewallsResponse,
-  ListDnsFirewallsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ListDnsFirewallsRequest,
-  output: ListDnsFirewallsResponse,
-  errors: [],
-}));
-
-export interface CreateDnsFirewallRequest {
-  /** Path param: Identifier. */
-  accountId: string;
-  /** Body param: DNS Firewall cluster name */
-  name: string;
-  /** Body param: */
-  upstreamIps: string[];
-  /** Body param: Attack mitigation settings */
-  attackMitigation?: {
-    enabled?: boolean;
-    onlyWhenUpstreamUnhealthy?: boolean;
-  } | null;
-  /** Body param: Whether to refuse to answer queries for the ANY type */
-  deprecateAnyRequests?: boolean;
-  /** Body param: Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
-  ecsFallback?: boolean;
-  /** Body param: By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching pu */
-  maximumCacheTtl?: number;
-  /** Body param: By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching pur */
-  minimumCacheTtl?: number;
-  /** Body param: This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.  This setting does not affect the TTL value in the DNS response Clou */
-  negativeCacheTtl?: number | null;
-  /** Body param: Ratelimit in queries per second per datacenter (applies to DNS queries sent to the upstream nameservers configured on the cluster) */
-  ratelimit?: number | null;
-  /** Body param: Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
-  retries?: number;
-}
-
-export const CreateDnsFirewallRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.String,
-  upstreamIps: Schema.Array(Schema.String),
-  attackMitigation: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          enabled: "enabled",
-          onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  deprecateAnyRequests: Schema.optional(Schema.Boolean),
-  ecsFallback: Schema.optional(Schema.Boolean),
-  maximumCacheTtl: Schema.optional(Schema.Number),
-  minimumCacheTtl: Schema.optional(Schema.Number),
-  negativeCacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  retries: Schema.optional(Schema.Number),
-}).pipe(
-  Schema.encodeKeys({
-    name: "name",
-    upstreamIps: "upstream_ips",
-    attackMitigation: "attack_mitigation",
-    deprecateAnyRequests: "deprecate_any_requests",
-    ecsFallback: "ecs_fallback",
-    maximumCacheTtl: "maximum_cache_ttl",
-    minimumCacheTtl: "minimum_cache_ttl",
-    negativeCacheTtl: "negative_cache_ttl",
-    ratelimit: "ratelimit",
-    retries: "retries",
-  }),
-  T.Http({ method: "POST", path: "/accounts/{account_id}/dns_firewall" }),
-) as unknown as Schema.Schema<CreateDnsFirewallRequest>;
-
-export interface CreateDnsFirewallResponse {
-  /** Identifier. */
-  id: string;
-  /** Whether to refuse to answer queries for the ANY type */
-  deprecateAnyRequests: boolean;
-  dnsFirewallIps: string[];
-  /** Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent */
-  ecsFallback: boolean;
-  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets an upper bound on this duration. For caching purposes, high */
-  maximumCacheTtl: number;
-  /** By default, Cloudflare attempts to cache responses for as long as indicated by the TTL received from upstream nameservers. This setting sets a lower bound on this duration. For caching purposes, lower */
-  minimumCacheTtl: number;
-  /** Last modification of DNS Firewall cluster */
-  modifiedOn: string;
-  /** DNS Firewall cluster name */
-  name: string;
-  /** This setting controls how long DNS Firewall should cache negative responses (e.g., NXDOMAIN) from the upstream servers.  This setting does not affect the TTL value in the DNS response Cloudflare retur */
-  negativeCacheTtl: number | null;
-  /** Ratelimit in queries per second per datacenter (applies to DNS queries sent to the upstream nameservers configured on the cluster) */
-  ratelimit: number | null;
-  /** Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt) */
-  retries: number;
-  upstreamIps: string[];
-  /** Attack mitigation settings */
-  attackMitigation?: {
-    enabled?: boolean | null;
-    onlyWhenUpstreamUnhealthy?: boolean | null;
-  } | null;
-}
-
-export const CreateDnsFirewallResponse = Schema.Struct({
-  id: Schema.String,
-  deprecateAnyRequests: Schema.Boolean,
-  dnsFirewallIps: Schema.Array(Schema.String),
-  ecsFallback: Schema.Boolean,
-  maximumCacheTtl: Schema.Number,
-  minimumCacheTtl: Schema.Number,
-  modifiedOn: Schema.String,
-  name: Schema.String,
-  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
-  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
-  retries: Schema.Number,
-  upstreamIps: Schema.Array(Schema.String),
-  attackMitigation: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        onlyWhenUpstreamUnhealthy: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          enabled: "enabled",
-          onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    deprecateAnyRequests: "deprecate_any_requests",
-    dnsFirewallIps: "dns_firewall_ips",
-    ecsFallback: "ecs_fallback",
-    maximumCacheTtl: "maximum_cache_ttl",
-    minimumCacheTtl: "minimum_cache_ttl",
-    modifiedOn: "modified_on",
-    name: "name",
-    negativeCacheTtl: "negative_cache_ttl",
-    ratelimit: "ratelimit",
-    retries: "retries",
-    upstreamIps: "upstream_ips",
-    attackMitigation: "attack_mitigation",
-  }),
-) as unknown as Schema.Schema<CreateDnsFirewallResponse>;
+  ) as unknown as Schema.Schema<CreateDnsFirewallResponse>;
 
 export type CreateDnsFirewallError = DefaultErrors;
 
@@ -511,7 +523,7 @@ export const createDnsFirewall: API.OperationMethod<
   CreateDnsFirewallResponse,
   CreateDnsFirewallError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDnsFirewallRequest,
   output: CreateDnsFirewallResponse,
   errors: [],
@@ -546,50 +558,53 @@ export interface PatchDnsFirewallRequest {
   upstreamIps?: string[];
 }
 
-export const PatchDnsFirewallRequest = Schema.Struct({
-  dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  attackMitigation: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
-      }).pipe(
-        Schema.encodeKeys({
-          enabled: "enabled",
-          onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  deprecateAnyRequests: Schema.optional(Schema.Boolean),
-  ecsFallback: Schema.optional(Schema.Boolean),
-  maximumCacheTtl: Schema.optional(Schema.Number),
-  minimumCacheTtl: Schema.optional(Schema.Number),
-  name: Schema.optional(Schema.String),
-  negativeCacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  retries: Schema.optional(Schema.Number),
-  upstreamIps: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  Schema.encodeKeys({
-    attackMitigation: "attack_mitigation",
-    deprecateAnyRequests: "deprecate_any_requests",
-    ecsFallback: "ecs_fallback",
-    maximumCacheTtl: "maximum_cache_ttl",
-    minimumCacheTtl: "minimum_cache_ttl",
-    name: "name",
-    negativeCacheTtl: "negative_cache_ttl",
-    ratelimit: "ratelimit",
-    retries: "retries",
-    upstreamIps: "upstream_ips",
-  }),
-  T.Http({
-    method: "PATCH",
-    path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}",
-  }),
-) as unknown as Schema.Schema<PatchDnsFirewallRequest>;
+export const PatchDnsFirewallRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    attackMitigation: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Boolean),
+          onlyWhenUpstreamUnhealthy: Schema.optional(Schema.Boolean),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    deprecateAnyRequests: Schema.optional(Schema.Boolean),
+    ecsFallback: Schema.optional(Schema.Boolean),
+    maximumCacheTtl: Schema.optional(Schema.Number),
+    minimumCacheTtl: Schema.optional(Schema.Number),
+    name: Schema.optional(Schema.String),
+    negativeCacheTtl: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    ratelimit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    retries: Schema.optional(Schema.Number),
+    upstreamIps: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    Schema.encodeKeys({
+      attackMitigation: "attack_mitigation",
+      deprecateAnyRequests: "deprecate_any_requests",
+      ecsFallback: "ecs_fallback",
+      maximumCacheTtl: "maximum_cache_ttl",
+      minimumCacheTtl: "minimum_cache_ttl",
+      name: "name",
+      negativeCacheTtl: "negative_cache_ttl",
+      ratelimit: "ratelimit",
+      retries: "retries",
+      upstreamIps: "upstream_ips",
+    }),
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}",
+    }),
+  ) as unknown as Schema.Schema<PatchDnsFirewallRequest>;
 
 export interface PatchDnsFirewallResponse {
   /** Identifier. */
@@ -621,52 +636,53 @@ export interface PatchDnsFirewallResponse {
   } | null;
 }
 
-export const PatchDnsFirewallResponse = Schema.Struct({
-  id: Schema.String,
-  deprecateAnyRequests: Schema.Boolean,
-  dnsFirewallIps: Schema.Array(Schema.String),
-  ecsFallback: Schema.Boolean,
-  maximumCacheTtl: Schema.Number,
-  minimumCacheTtl: Schema.Number,
-  modifiedOn: Schema.String,
-  name: Schema.String,
-  negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
-  ratelimit: Schema.Union([Schema.Number, Schema.Null]),
-  retries: Schema.Number,
-  upstreamIps: Schema.Array(Schema.String),
-  attackMitigation: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        onlyWhenUpstreamUnhealthy: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+export const PatchDnsFirewallResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    deprecateAnyRequests: Schema.Boolean,
+    dnsFirewallIps: Schema.Array(Schema.String),
+    ecsFallback: Schema.Boolean,
+    maximumCacheTtl: Schema.Number,
+    minimumCacheTtl: Schema.Number,
+    modifiedOn: Schema.String,
+    name: Schema.String,
+    negativeCacheTtl: Schema.Union([Schema.Number, Schema.Null]),
+    ratelimit: Schema.Union([Schema.Number, Schema.Null]),
+    retries: Schema.Number,
+    upstreamIps: Schema.Array(Schema.String),
+    attackMitigation: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          onlyWhenUpstreamUnhealthy: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            enabled: "enabled",
+            onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          enabled: "enabled",
-          onlyWhenUpstreamUnhealthy: "only_when_upstream_unhealthy",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    deprecateAnyRequests: "deprecate_any_requests",
-    dnsFirewallIps: "dns_firewall_ips",
-    ecsFallback: "ecs_fallback",
-    maximumCacheTtl: "maximum_cache_ttl",
-    minimumCacheTtl: "minimum_cache_ttl",
-    modifiedOn: "modified_on",
-    name: "name",
-    negativeCacheTtl: "negative_cache_ttl",
-    ratelimit: "ratelimit",
-    retries: "retries",
-    upstreamIps: "upstream_ips",
-    attackMitigation: "attack_mitigation",
-  }),
-) as unknown as Schema.Schema<PatchDnsFirewallResponse>;
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      deprecateAnyRequests: "deprecate_any_requests",
+      dnsFirewallIps: "dns_firewall_ips",
+      ecsFallback: "ecs_fallback",
+      maximumCacheTtl: "maximum_cache_ttl",
+      minimumCacheTtl: "minimum_cache_ttl",
+      modifiedOn: "modified_on",
+      name: "name",
+      negativeCacheTtl: "negative_cache_ttl",
+      ratelimit: "ratelimit",
+      retries: "retries",
+      upstreamIps: "upstream_ips",
+      attackMitigation: "attack_mitigation",
+    }),
+  ) as unknown as Schema.Schema<PatchDnsFirewallResponse>;
 
 export type PatchDnsFirewallError = DefaultErrors;
 
@@ -675,7 +691,7 @@ export const patchDnsFirewall: API.OperationMethod<
   PatchDnsFirewallResponse,
   PatchDnsFirewallError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchDnsFirewallRequest,
   output: PatchDnsFirewallResponse,
   errors: [],
@@ -687,24 +703,26 @@ export interface DeleteDnsFirewallRequest {
   accountId: string;
 }
 
-export const DeleteDnsFirewallRequest = Schema.Struct({
-  dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}",
-  }),
-) as unknown as Schema.Schema<DeleteDnsFirewallRequest>;
+export const DeleteDnsFirewallRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/dns_firewall/{dnsFirewallId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteDnsFirewallRequest>;
 
 export interface DeleteDnsFirewallResponse {
   /** Identifier. */
   id?: string | null;
 }
 
-export const DeleteDnsFirewallResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteDnsFirewallResponse>;
+export const DeleteDnsFirewallResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteDnsFirewallResponse>;
 
 export type DeleteDnsFirewallError = DefaultErrors;
 
@@ -713,7 +731,7 @@ export const deleteDnsFirewall: API.OperationMethod<
   DeleteDnsFirewallResponse,
   DeleteDnsFirewallError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDnsFirewallRequest,
   output: DeleteDnsFirewallResponse,
   errors: [],
@@ -729,7 +747,7 @@ export interface GetReverseDnRequest {
   accountId: string;
 }
 
-export const GetReverseDnRequest = Schema.Struct({
+export const GetReverseDnRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -744,7 +762,7 @@ export interface GetReverseDnResponse {
   ptr: Record<string, unknown>;
 }
 
-export const GetReverseDnResponse = Schema.Struct({
+export const GetReverseDnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ptr: Schema.Struct({}),
 }) as unknown as Schema.Schema<GetReverseDnResponse>;
 
@@ -755,7 +773,7 @@ export const getReverseDn: API.OperationMethod<
   GetReverseDnResponse,
   GetReverseDnError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReverseDnRequest,
   output: GetReverseDnResponse,
   errors: [],
@@ -769,7 +787,7 @@ export interface PatchReverseDnRequest {
   ptr?: Record<string, unknown>;
 }
 
-export const PatchReverseDnRequest = Schema.Struct({
+export const PatchReverseDnRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsFirewallId: Schema.String.pipe(T.HttpPath("dnsFirewallId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   ptr: Schema.optional(Schema.Struct({})),
@@ -785,9 +803,11 @@ export interface PatchReverseDnResponse {
   ptr: Record<string, unknown>;
 }
 
-export const PatchReverseDnResponse = Schema.Struct({
-  ptr: Schema.Struct({}),
-}) as unknown as Schema.Schema<PatchReverseDnResponse>;
+export const PatchReverseDnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    ptr: Schema.Struct({}),
+  },
+) as unknown as Schema.Schema<PatchReverseDnResponse>;
 
 export type PatchReverseDnError = DefaultErrors;
 
@@ -796,7 +816,7 @@ export const patchReverseDn: API.OperationMethod<
   PatchReverseDnResponse,
   PatchReverseDnError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchReverseDnRequest,
   output: PatchReverseDnResponse,
   errors: [],

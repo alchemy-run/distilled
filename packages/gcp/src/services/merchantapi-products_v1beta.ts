@@ -29,12 +29,13 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amountMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amountMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface Installment {
   /** The number of installments the buyer has to pay. */
@@ -47,14 +48,17 @@ export interface Installment {
   downpayment?: Price;
 }
 
-export const Installment: Schema.Schema<Installment> = Schema.suspend(() =>
-  Schema.Struct({
-    months: Schema.optional(Schema.String),
-    creditType: Schema.optional(Schema.String),
-    amount: Schema.optional(Price),
-    downpayment: Schema.optional(Price),
-  }),
-).annotate({ identifier: "Installment" }) as any as Schema.Schema<Installment>;
+export const Installment: Schema.Schema<Installment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      months: Schema.optional(Schema.String),
+      creditType: Schema.optional(Schema.String),
+      amount: Schema.optional(Price),
+      downpayment: Schema.optional(Price),
+    }),
+  ).annotate({
+    identifier: "Installment",
+  }) as any as Schema.Schema<Installment>;
 
 export interface UnitPricingMeasure {
   /** The measure of an item. */
@@ -64,7 +68,7 @@ export interface UnitPricingMeasure {
 }
 
 export const UnitPricingMeasure: Schema.Schema<UnitPricingMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
@@ -120,8 +124,8 @@ export interface ItemLevelIssue {
   description?: string;
 }
 
-export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
-  () =>
+export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attribute: Schema.optional(Schema.String),
       detail: Schema.optional(Schema.String),
@@ -133,9 +137,9 @@ export const ItemLevelIssue: Schema.Schema<ItemLevelIssue> = Schema.suspend(
       resolution: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ItemLevelIssue",
-}) as any as Schema.Schema<ItemLevelIssue>;
+  ).annotate({
+    identifier: "ItemLevelIssue",
+  }) as any as Schema.Schema<ItemLevelIssue>;
 
 export interface UnitPricingBaseMeasure {
   /** The unit of the denominator. */
@@ -145,7 +149,7 @@ export interface UnitPricingBaseMeasure {
 }
 
 export const UnitPricingBaseMeasure: Schema.Schema<UnitPricingBaseMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unit: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -165,16 +169,17 @@ export interface Certification {
   certificationValue?: string;
 }
 
-export const Certification: Schema.Schema<Certification> = Schema.suspend(() =>
-  Schema.Struct({
-    certificationAuthority: Schema.optional(Schema.String),
-    certificationName: Schema.optional(Schema.String),
-    certificationCode: Schema.optional(Schema.String),
-    certificationValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Certification",
-}) as any as Schema.Schema<Certification>;
+export const Certification: Schema.Schema<Certification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      certificationAuthority: Schema.optional(Schema.String),
+      certificationName: Schema.optional(Schema.String),
+      certificationCode: Schema.optional(Schema.String),
+      certificationValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Certification",
+  }) as any as Schema.Schema<Certification>;
 
 export interface CustomAttribute {
   /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
@@ -185,16 +190,16 @@ export interface CustomAttribute {
   value?: string;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
-  () =>
+export const CustomAttribute: Schema.Schema<CustomAttribute> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupValues: Schema.optional(Schema.Array(CustomAttribute)),
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as Schema.Schema<CustomAttribute>;
+  ).annotate({
+    identifier: "CustomAttribute",
+  }) as any as Schema.Schema<CustomAttribute>;
 
 export interface ProductChange {
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -228,16 +233,17 @@ export interface ProductChange {
     | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ShippingWeight {
   /** The weight of the product used to calculate the shipping cost of the item. */
@@ -246,15 +252,15 @@ export interface ShippingWeight {
   unit?: string;
 }
 
-export const ShippingWeight: Schema.Schema<ShippingWeight> = Schema.suspend(
-  () =>
+export const ShippingWeight: Schema.Schema<ShippingWeight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ShippingWeight",
-}) as any as Schema.Schema<ShippingWeight>;
+  ).annotate({
+    identifier: "ShippingWeight",
+  }) as any as Schema.Schema<ShippingWeight>;
 
 export interface Shipping {
   /** The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
@@ -285,23 +291,24 @@ export interface Shipping {
   handlingCutoffTime?: string;
 }
 
-export const Shipping: Schema.Schema<Shipping> = Schema.suspend(() =>
-  Schema.Struct({
-    country: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    locationGroupName: Schema.optional(Schema.String),
-    minHandlingTime: Schema.optional(Schema.String),
-    minTransitTime: Schema.optional(Schema.String),
-    handlingCutoffTimezone: Schema.optional(Schema.String),
-    service: Schema.optional(Schema.String),
-    region: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    maxTransitTime: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    maxHandlingTime: Schema.optional(Schema.String),
-    handlingCutoffTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Shipping" }) as any as Schema.Schema<Shipping>;
+export const Shipping: Schema.Schema<Shipping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      country: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      locationGroupName: Schema.optional(Schema.String),
+      minHandlingTime: Schema.optional(Schema.String),
+      minTransitTime: Schema.optional(Schema.String),
+      handlingCutoffTimezone: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      maxTransitTime: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      maxHandlingTime: Schema.optional(Schema.String),
+      handlingCutoffTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Shipping" }) as any as Schema.Schema<Shipping>;
 
 export interface AutomatedDiscounts {
   /** The current sale price for products with a price optimized using Google Automated Discounts (GAD). Absent if the information about the GAD_price of the product is not available. */
@@ -313,7 +320,7 @@ export interface AutomatedDiscounts {
 }
 
 export const AutomatedDiscounts: Schema.Schema<AutomatedDiscounts> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gadPrice: Schema.optional(Price),
       priorPrice: Schema.optional(Price),
@@ -325,9 +332,10 @@ export const AutomatedDiscounts: Schema.Schema<AutomatedDiscounts> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ProductStatusChangeMessage {
   /** The attribute in the resource that changed, in this case it will be always `Status`. */
@@ -351,7 +359,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attribute: Schema.optional(Schema.String),
       changes: Schema.optional(Schema.Array(ProductChange)),
@@ -375,7 +383,7 @@ export interface ProductStructuredTitle {
 }
 
 export const ProductStructuredTitle: Schema.Schema<ProductStructuredTitle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       digitalSourceType: Schema.optional(Schema.String),
@@ -393,15 +401,16 @@ export interface LoyaltyPoints {
   name?: string;
 }
 
-export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> = Schema.suspend(() =>
-  Schema.Struct({
-    pointsValue: Schema.optional(Schema.String),
-    ratio: Schema.optional(Schema.Number),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LoyaltyPoints",
-}) as any as Schema.Schema<LoyaltyPoints>;
+export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pointsValue: Schema.optional(Schema.String),
+      ratio: Schema.optional(Schema.Number),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LoyaltyPoints",
+  }) as any as Schema.Schema<LoyaltyPoints>;
 
 export interface DestinationStatus {
   /** The name of the reporting context. */
@@ -436,7 +445,7 @@ export interface DestinationStatus {
 }
 
 export const DestinationStatus: Schema.Schema<DestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportingContext: Schema.optional(Schema.String),
       disapprovedCountries: Schema.optional(Schema.Array(Schema.String)),
@@ -460,17 +469,18 @@ export interface ProductStatus {
   creationDate?: string;
 }
 
-export const ProductStatus: Schema.Schema<ProductStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
-    lastUpdateDate: Schema.optional(Schema.String),
-    itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
-    googleExpirationDate: Schema.optional(Schema.String),
-    creationDate: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductStatus",
-}) as any as Schema.Schema<ProductStatus>;
+export const ProductStatus: Schema.Schema<ProductStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
+      lastUpdateDate: Schema.optional(Schema.String),
+      itemLevelIssues: Schema.optional(Schema.Array(ItemLevelIssue)),
+      googleExpirationDate: Schema.optional(Schema.String),
+      creationDate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatus",
+  }) as any as Schema.Schema<ProductStatus>;
 
 export interface FreeShippingThreshold {
   /** The minimum product price for the shipping cost to become free. Represented as a number. */
@@ -480,7 +490,7 @@ export interface FreeShippingThreshold {
 }
 
 export const FreeShippingThreshold: Schema.Schema<FreeShippingThreshold> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       priceThreshold: Schema.optional(Price),
       country: Schema.optional(Schema.String),
@@ -496,14 +506,15 @@ export interface ProductWeight {
   value?: number;
 }
 
-export const ProductWeight: Schema.Schema<ProductWeight> = Schema.suspend(() =>
-  Schema.Struct({
-    unit: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "ProductWeight",
-}) as any as Schema.Schema<ProductWeight>;
+export const ProductWeight: Schema.Schema<ProductWeight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unit: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ProductWeight",
+  }) as any as Schema.Schema<ProductWeight>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -512,12 +523,13 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface ProductDimension {
   /** Required. The dimension value represented as a number. The value can have a maximum precision of four decimal places. */
@@ -526,15 +538,15 @@ export interface ProductDimension {
   unit?: string;
 }
 
-export const ProductDimension: Schema.Schema<ProductDimension> = Schema.suspend(
-  () =>
+export const ProductDimension: Schema.Schema<ProductDimension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ProductDimension",
-}) as any as Schema.Schema<ProductDimension>;
+  ).annotate({
+    identifier: "ProductDimension",
+  }) as any as Schema.Schema<ProductDimension>;
 
 export interface ShippingDimension {
   /** The dimension of the product used to calculate the shipping cost of the item. */
@@ -544,7 +556,7 @@ export interface ShippingDimension {
 }
 
 export const ShippingDimension: Schema.Schema<ShippingDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
@@ -561,7 +573,7 @@ export interface ProductStructuredDescription {
 }
 
 export const ProductStructuredDescription: Schema.Schema<ProductStructuredDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       digitalSourceType: Schema.optional(Schema.String),
@@ -590,7 +602,7 @@ export interface CloudExportAdditionalProperties {
 }
 
 export const CloudExportAdditionalProperties: Schema.Schema<CloudExportAdditionalProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       propertyName: Schema.optional(Schema.String),
       textValue: Schema.optional(Schema.Array(Schema.String)),
@@ -619,16 +631,16 @@ export interface SubscriptionCost {
   amount?: Price;
 }
 
-export const SubscriptionCost: Schema.Schema<SubscriptionCost> = Schema.suspend(
-  () =>
+export const SubscriptionCost: Schema.Schema<SubscriptionCost> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       periodLength: Schema.optional(Schema.String),
       period: Schema.optional(Schema.String),
       amount: Schema.optional(Price),
     }),
-).annotate({
-  identifier: "SubscriptionCost",
-}) as any as Schema.Schema<SubscriptionCost>;
+  ).annotate({
+    identifier: "SubscriptionCost",
+  }) as any as Schema.Schema<SubscriptionCost>;
 
 export interface ProductSustainabilityIncentive {
   /** The percentage of the sale price that the incentive is applied to. */
@@ -644,7 +656,7 @@ export interface ProductSustainabilityIncentive {
 }
 
 export const ProductSustainabilityIncentive: Schema.Schema<ProductSustainabilityIncentive> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentage: Schema.optional(Schema.Number),
       type: Schema.optional(Schema.String),
@@ -669,16 +681,17 @@ export interface Tax {
   postalCode?: string;
 }
 
-export const Tax: Schema.Schema<Tax> = Schema.suspend(() =>
-  Schema.Struct({
-    rate: Schema.optional(Schema.Number),
-    country: Schema.optional(Schema.String),
-    taxShip: Schema.optional(Schema.Boolean),
-    locationId: Schema.optional(Schema.String),
-    region: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Tax" }) as any as Schema.Schema<Tax>;
+export const Tax: Schema.Schema<Tax> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rate: Schema.optional(Schema.Number),
+      country: Schema.optional(Schema.String),
+      taxShip: Schema.optional(Schema.Boolean),
+      locationId: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Tax" }) as any as Schema.Schema<Tax>;
 
 export interface LoyaltyProgram {
   /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
@@ -697,8 +710,8 @@ export interface LoyaltyProgram {
   loyaltyPoints?: string;
 }
 
-export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(
-  () =>
+export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shippingLabel: Schema.optional(Schema.String),
       programLabel: Schema.optional(Schema.String),
@@ -708,9 +721,9 @@ export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(
       price: Schema.optional(Price),
       loyaltyPoints: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LoyaltyProgram",
-}) as any as Schema.Schema<LoyaltyProgram>;
+  ).annotate({
+    identifier: "LoyaltyProgram",
+  }) as any as Schema.Schema<LoyaltyProgram>;
 
 export interface ProductDetail {
   /** The name of the product detail. */
@@ -721,15 +734,16 @@ export interface ProductDetail {
   sectionName?: string;
 }
 
-export const ProductDetail: Schema.Schema<ProductDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    attributeName: Schema.optional(Schema.String),
-    attributeValue: Schema.optional(Schema.String),
-    sectionName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductDetail",
-}) as any as Schema.Schema<ProductDetail>;
+export const ProductDetail: Schema.Schema<ProductDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      attributeName: Schema.optional(Schema.String),
+      attributeValue: Schema.optional(Schema.String),
+      sectionName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductDetail",
+  }) as any as Schema.Schema<ProductDetail>;
 
 export interface Attributes {
   /** Product Certifications, for example for energy efficiency labeling of products recorded in the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. See the [Help Center](https://support.google.com/merchants/answer/13528839) article for more information. */
@@ -924,109 +938,114 @@ export interface Attributes {
   expirationDate?: string;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
-  Schema.Struct({
-    certifications: Schema.optional(Schema.Array(Certification)),
-    gender: Schema.optional(Schema.String),
-    displayAdsTitle: Schema.optional(Schema.String),
-    productHighlights: Schema.optional(Schema.Array(Schema.String)),
-    customLabel1: Schema.optional(Schema.String),
-    cloudExportAdditionalProperties: Schema.optional(
-      Schema.Array(CloudExportAdditionalProperties),
-    ),
-    transitTimeLabel: Schema.optional(Schema.String),
-    shoppingAdsExcludedCountries: Schema.optional(Schema.Array(Schema.String)),
-    subscriptionCost: Schema.optional(SubscriptionCost),
-    gtin: Schema.optional(Schema.Array(Schema.String)),
-    costOfGoodsSold: Schema.optional(Price),
-    shippingLabel: Schema.optional(Schema.String),
-    disclosureDate: Schema.optional(Schema.String),
-    sizeTypes: Schema.optional(Schema.Array(Schema.String)),
-    shippingHeight: Schema.optional(ShippingDimension),
-    sustainabilityIncentives: Schema.optional(
-      Schema.Array(ProductSustainabilityIncentive),
-    ),
-    pause: Schema.optional(Schema.String),
-    mobileLink: Schema.optional(Schema.String),
-    productLength: Schema.optional(ProductDimension),
-    salePriceEffectiveDate: Schema.optional(Interval),
-    taxes: Schema.optional(Schema.Array(Tax)),
-    adsLabels: Schema.optional(Schema.Array(Schema.String)),
-    promotionIds: Schema.optional(Schema.Array(Schema.String)),
-    adult: Schema.optional(Schema.Boolean),
-    installment: Schema.optional(Installment),
-    structuredDescription: Schema.optional(ProductStructuredDescription),
-    isBundle: Schema.optional(Schema.Boolean),
-    displayAdsId: Schema.optional(Schema.String),
-    productHeight: Schema.optional(ProductDimension),
-    displayAdsSimilarIds: Schema.optional(Schema.Array(Schema.String)),
-    multipack: Schema.optional(Schema.String),
-    color: Schema.optional(Schema.String),
-    pattern: Schema.optional(Schema.String),
-    unitPricingBaseMeasure: Schema.optional(UnitPricingBaseMeasure),
-    customLabel4: Schema.optional(Schema.String),
-    material: Schema.optional(Schema.String),
-    gtins: Schema.optional(Schema.Array(Schema.String)),
-    identifierExists: Schema.optional(Schema.Boolean),
-    minEnergyEfficiencyClass: Schema.optional(Schema.String),
-    freeShippingThreshold: Schema.optional(Schema.Array(FreeShippingThreshold)),
-    maxHandlingTime: Schema.optional(Schema.String),
-    productWidth: Schema.optional(ProductDimension),
-    customLabel2: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.String),
-    maxEnergyEfficiencyClass: Schema.optional(Schema.String),
-    productTypes: Schema.optional(Schema.Array(Schema.String)),
-    externalSellerId: Schema.optional(Schema.String),
-    sellOnGoogleQuantity: Schema.optional(Schema.String),
-    itemGroupId: Schema.optional(Schema.String),
-    salePrice: Schema.optional(Price),
-    excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
-    virtualModelLink: Schema.optional(Schema.String),
-    imageLink: Schema.optional(Schema.String),
-    loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
-    title: Schema.optional(Schema.String),
-    availability: Schema.optional(Schema.String),
-    pickupSla: Schema.optional(Schema.String),
-    canonicalLink: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    shippingLength: Schema.optional(ShippingDimension),
-    taxCategory: Schema.optional(Schema.String),
-    sizeSystem: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    ageGroup: Schema.optional(Schema.String),
-    loyaltyPoints: Schema.optional(LoyaltyPoints),
-    shippingWeight: Schema.optional(ShippingWeight),
-    adsGrouping: Schema.optional(Schema.String),
-    condition: Schema.optional(Schema.String),
-    displayAdsLink: Schema.optional(Schema.String),
-    mpn: Schema.optional(Schema.String),
-    mobileLinkTemplate: Schema.optional(Schema.String),
-    linkTemplate: Schema.optional(Schema.String),
-    maximumRetailPrice: Schema.optional(Price),
-    shippingWidth: Schema.optional(ShippingDimension),
-    minHandlingTime: Schema.optional(Schema.String),
-    includedDestinations: Schema.optional(Schema.Array(Schema.String)),
-    autoPricingMinPrice: Schema.optional(Price),
-    link: Schema.optional(Schema.String),
-    googleProductCategory: Schema.optional(Schema.String),
-    adsRedirect: Schema.optional(Schema.String),
-    lifestyleImageLinks: Schema.optional(Schema.Array(Schema.String)),
-    productDetails: Schema.optional(Schema.Array(ProductDetail)),
-    availabilityDate: Schema.optional(Schema.String),
-    brand: Schema.optional(Schema.String),
-    displayAdsValue: Schema.optional(Schema.Number),
-    shipping: Schema.optional(Schema.Array(Shipping)),
-    productWeight: Schema.optional(ProductWeight),
-    customLabel3: Schema.optional(Schema.String),
-    energyEfficiencyClass: Schema.optional(Schema.String),
-    additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
-    structuredTitle: Schema.optional(ProductStructuredTitle),
-    unitPricingMeasure: Schema.optional(UnitPricingMeasure),
-    pickupMethod: Schema.optional(Schema.String),
-    customLabel0: Schema.optional(Schema.String),
-    expirationDate: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      certifications: Schema.optional(Schema.Array(Certification)),
+      gender: Schema.optional(Schema.String),
+      displayAdsTitle: Schema.optional(Schema.String),
+      productHighlights: Schema.optional(Schema.Array(Schema.String)),
+      customLabel1: Schema.optional(Schema.String),
+      cloudExportAdditionalProperties: Schema.optional(
+        Schema.Array(CloudExportAdditionalProperties),
+      ),
+      transitTimeLabel: Schema.optional(Schema.String),
+      shoppingAdsExcludedCountries: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      subscriptionCost: Schema.optional(SubscriptionCost),
+      gtin: Schema.optional(Schema.Array(Schema.String)),
+      costOfGoodsSold: Schema.optional(Price),
+      shippingLabel: Schema.optional(Schema.String),
+      disclosureDate: Schema.optional(Schema.String),
+      sizeTypes: Schema.optional(Schema.Array(Schema.String)),
+      shippingHeight: Schema.optional(ShippingDimension),
+      sustainabilityIncentives: Schema.optional(
+        Schema.Array(ProductSustainabilityIncentive),
+      ),
+      pause: Schema.optional(Schema.String),
+      mobileLink: Schema.optional(Schema.String),
+      productLength: Schema.optional(ProductDimension),
+      salePriceEffectiveDate: Schema.optional(Interval),
+      taxes: Schema.optional(Schema.Array(Tax)),
+      adsLabels: Schema.optional(Schema.Array(Schema.String)),
+      promotionIds: Schema.optional(Schema.Array(Schema.String)),
+      adult: Schema.optional(Schema.Boolean),
+      installment: Schema.optional(Installment),
+      structuredDescription: Schema.optional(ProductStructuredDescription),
+      isBundle: Schema.optional(Schema.Boolean),
+      displayAdsId: Schema.optional(Schema.String),
+      productHeight: Schema.optional(ProductDimension),
+      displayAdsSimilarIds: Schema.optional(Schema.Array(Schema.String)),
+      multipack: Schema.optional(Schema.String),
+      color: Schema.optional(Schema.String),
+      pattern: Schema.optional(Schema.String),
+      unitPricingBaseMeasure: Schema.optional(UnitPricingBaseMeasure),
+      customLabel4: Schema.optional(Schema.String),
+      material: Schema.optional(Schema.String),
+      gtins: Schema.optional(Schema.Array(Schema.String)),
+      identifierExists: Schema.optional(Schema.Boolean),
+      minEnergyEfficiencyClass: Schema.optional(Schema.String),
+      freeShippingThreshold: Schema.optional(
+        Schema.Array(FreeShippingThreshold),
+      ),
+      maxHandlingTime: Schema.optional(Schema.String),
+      productWidth: Schema.optional(ProductDimension),
+      customLabel2: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      maxEnergyEfficiencyClass: Schema.optional(Schema.String),
+      productTypes: Schema.optional(Schema.Array(Schema.String)),
+      externalSellerId: Schema.optional(Schema.String),
+      sellOnGoogleQuantity: Schema.optional(Schema.String),
+      itemGroupId: Schema.optional(Schema.String),
+      salePrice: Schema.optional(Price),
+      excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
+      virtualModelLink: Schema.optional(Schema.String),
+      imageLink: Schema.optional(Schema.String),
+      loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
+      title: Schema.optional(Schema.String),
+      availability: Schema.optional(Schema.String),
+      pickupSla: Schema.optional(Schema.String),
+      canonicalLink: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      shippingLength: Schema.optional(ShippingDimension),
+      taxCategory: Schema.optional(Schema.String),
+      sizeSystem: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      ageGroup: Schema.optional(Schema.String),
+      loyaltyPoints: Schema.optional(LoyaltyPoints),
+      shippingWeight: Schema.optional(ShippingWeight),
+      adsGrouping: Schema.optional(Schema.String),
+      condition: Schema.optional(Schema.String),
+      displayAdsLink: Schema.optional(Schema.String),
+      mpn: Schema.optional(Schema.String),
+      mobileLinkTemplate: Schema.optional(Schema.String),
+      linkTemplate: Schema.optional(Schema.String),
+      maximumRetailPrice: Schema.optional(Price),
+      shippingWidth: Schema.optional(ShippingDimension),
+      minHandlingTime: Schema.optional(Schema.String),
+      includedDestinations: Schema.optional(Schema.Array(Schema.String)),
+      autoPricingMinPrice: Schema.optional(Price),
+      link: Schema.optional(Schema.String),
+      googleProductCategory: Schema.optional(Schema.String),
+      adsRedirect: Schema.optional(Schema.String),
+      lifestyleImageLinks: Schema.optional(Schema.Array(Schema.String)),
+      productDetails: Schema.optional(Schema.Array(ProductDetail)),
+      availabilityDate: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      displayAdsValue: Schema.optional(Schema.Number),
+      shipping: Schema.optional(Schema.Array(Shipping)),
+      productWeight: Schema.optional(ProductWeight),
+      customLabel3: Schema.optional(Schema.String),
+      energyEfficiencyClass: Schema.optional(Schema.String),
+      additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
+      structuredTitle: Schema.optional(ProductStructuredTitle),
+      unitPricingMeasure: Schema.optional(UnitPricingMeasure),
+      pickupMethod: Schema.optional(Schema.String),
+      customLabel0: Schema.optional(Schema.String),
+      expirationDate: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface Product {
   /** Output only. A list of product attributes. */
@@ -1053,21 +1072,22 @@ export interface Product {
   productStatus?: ProductStatus;
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() =>
-  Schema.Struct({
-    attributes: Schema.optional(Attributes),
-    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-    name: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    automatedDiscounts: Schema.optional(AutomatedDiscounts),
-    feedLabel: Schema.optional(Schema.String),
-    dataSource: Schema.optional(Schema.String),
-    versionNumber: Schema.optional(Schema.String),
-    productStatus: Schema.optional(ProductStatus),
-  }),
-).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      attributes: Schema.optional(Attributes),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+      name: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      automatedDiscounts: Schema.optional(AutomatedDiscounts),
+      feedLabel: Schema.optional(Schema.String),
+      dataSource: Schema.optional(Schema.String),
+      versionNumber: Schema.optional(Schema.String),
+      productStatus: Schema.optional(ProductStatus),
+    }),
+  ).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface ProductInput {
   /** Output only. The name of the processed product. Format: `accounts/{account}/products/{product}` */
@@ -1090,21 +1110,22 @@ export interface ProductInput {
   versionNumber?: string;
 }
 
-export const ProductInput: Schema.Schema<ProductInput> = Schema.suspend(() =>
-  Schema.Struct({
-    product: Schema.optional(Schema.String),
-    attributes: Schema.optional(Attributes),
-    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-    name: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    versionNumber: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductInput",
-}) as any as Schema.Schema<ProductInput>;
+export const ProductInput: Schema.Schema<ProductInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      product: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+      name: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      versionNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductInput",
+  }) as any as Schema.Schema<ProductInput>;
 
 export interface ListProductsResponse {
   /** The processed products from the specified account. These are your processed products after applying rules and supplemental data sources. */
@@ -1114,7 +1135,7 @@ export interface ListProductsResponse {
 }
 
 export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       products: Schema.optional(Schema.Array(Product)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1136,21 +1157,23 @@ export interface InsertAccountsProductInputsRequest {
   body?: ProductInput;
 }
 
-export const InsertAccountsProductInputsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
-  body: Schema.optional(ProductInput).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "products/v1beta/accounts/{accountsId}/productInputs:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsProductInputsRequest>;
+export const InsertAccountsProductInputsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
+    body: Schema.optional(ProductInput).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "products/v1beta/accounts/{accountsId}/productInputs:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsProductInputsRequest>;
 
 export type InsertAccountsProductInputsResponse = ProductInput;
-export const InsertAccountsProductInputsResponse = ProductInput;
+export const InsertAccountsProductInputsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductInput;
 
 export type InsertAccountsProductInputsError = DefaultErrors;
 
@@ -1160,7 +1183,7 @@ export const insertAccountsProductInputs: API.OperationMethod<
   InsertAccountsProductInputsResponse,
   InsertAccountsProductInputsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsProductInputsRequest,
   output: InsertAccountsProductInputsResponse,
   errors: [],
@@ -1177,22 +1200,24 @@ export interface PatchAccountsProductInputsRequest {
   body?: ProductInput;
 }
 
-export const PatchAccountsProductInputsRequest = Schema.Struct({
-  dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(ProductInput).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "products/v1beta/accounts/{accountsId}/productInputs/{productInputsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsProductInputsRequest>;
+export const PatchAccountsProductInputsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(ProductInput).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "products/v1beta/accounts/{accountsId}/productInputs/{productInputsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsProductInputsRequest>;
 
 export type PatchAccountsProductInputsResponse = ProductInput;
-export const PatchAccountsProductInputsResponse = ProductInput;
+export const PatchAccountsProductInputsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductInput;
 
 export type PatchAccountsProductInputsError = DefaultErrors;
 
@@ -1202,7 +1227,7 @@ export const patchAccountsProductInputs: API.OperationMethod<
   PatchAccountsProductInputsResponse,
   PatchAccountsProductInputsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsProductInputsRequest,
   output: PatchAccountsProductInputsResponse,
   errors: [],
@@ -1215,19 +1240,21 @@ export interface DeleteAccountsProductInputsRequest {
   dataSource?: string;
 }
 
-export const DeleteAccountsProductInputsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "products/v1beta/accounts/{accountsId}/productInputs/{productInputsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsProductInputsRequest>;
+export const DeleteAccountsProductInputsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    dataSource: Schema.optional(Schema.String).pipe(T.HttpQuery("dataSource")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "products/v1beta/accounts/{accountsId}/productInputs/{productInputsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductInputsRequest>;
 
 export type DeleteAccountsProductInputsResponse = Empty;
-export const DeleteAccountsProductInputsResponse = Empty;
+export const DeleteAccountsProductInputsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsProductInputsError = DefaultErrors;
 
@@ -1237,7 +1264,7 @@ export const deleteAccountsProductInputs: API.OperationMethod<
   DeleteAccountsProductInputsResponse,
   DeleteAccountsProductInputsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsProductInputsRequest,
   output: DeleteAccountsProductInputsResponse,
   errors: [],
@@ -1248,18 +1275,19 @@ export interface GetAccountsProductsRequest {
   name: string;
 }
 
-export const GetAccountsProductsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "products/v1beta/accounts/{accountsId}/products/{productsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsProductsRequest>;
+export const GetAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "products/v1beta/accounts/{accountsId}/products/{productsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsProductsRequest>;
 
 export type GetAccountsProductsResponse = Product;
-export const GetAccountsProductsResponse = Product;
+export const GetAccountsProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type GetAccountsProductsError = DefaultErrors;
 
@@ -1269,7 +1297,7 @@ export const getAccountsProducts: API.OperationMethod<
   GetAccountsProductsResponse,
   GetAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsProductsRequest,
   output: GetAccountsProductsResponse,
   errors: [],
@@ -1284,20 +1312,22 @@ export interface ListAccountsProductsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "products/v1beta/accounts/{accountsId}/products",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProductsRequest>;
+export const ListAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "products/v1beta/accounts/{accountsId}/products",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsRequest>;
 
 export type ListAccountsProductsResponse = ListProductsResponse;
-export const ListAccountsProductsResponse = ListProductsResponse;
+export const ListAccountsProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProductsResponse;
 
 export type ListAccountsProductsError = DefaultErrors;
 
@@ -1307,7 +1337,7 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
   ListAccountsProductsResponse,
   ListAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListAccountsProductsResponse,
   errors: [],

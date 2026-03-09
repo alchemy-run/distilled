@@ -20,7 +20,7 @@ export interface GetMembershipRequest {
   membershipId: string;
 }
 
-export const GetMembershipRequest = Schema.Struct({
+export const GetMembershipRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
 }).pipe(
   T.Http({ method: "GET", path: "/memberships/{membershipId}" }),
@@ -75,7 +75,7 @@ export interface GetMembershipResponse {
   status?: "accepted" | "pending" | "rejected" | null;
 }
 
-export const GetMembershipResponse = Schema.Struct({
+export const GetMembershipResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   apiAccessEnabled: Schema.optional(
@@ -233,7 +233,7 @@ export const getMembership: API.OperationMethod<
   GetMembershipResponse,
   GetMembershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMembershipRequest,
   output: GetMembershipResponse,
   errors: [],
@@ -241,7 +241,9 @@ export const getMembership: API.OperationMethod<
 
 export interface ListMembershipsRequest {}
 
-export const ListMembershipsRequest = Schema.Struct({}).pipe(
+export const ListMembershipsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/memberships" }),
 ) as unknown as Schema.Schema<ListMembershipsRequest>;
 
@@ -267,7 +269,7 @@ export type ListMembershipsResponse = {
   status?: "accepted" | "pending" | "rejected" | null;
 }[];
 
-export const ListMembershipsResponse = Schema.Array(
+export const ListMembershipsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
@@ -346,7 +348,7 @@ export const listMemberships: API.OperationMethod<
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMembershipsRequest,
   output: ListMembershipsResponse,
   errors: [],
@@ -358,7 +360,7 @@ export interface PutMembershipRequest {
   status: "accepted" | "rejected";
 }
 
-export const PutMembershipRequest = Schema.Struct({
+export const PutMembershipRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
   status: Schema.Literals(["accepted", "rejected"]),
 }).pipe(
@@ -414,7 +416,7 @@ export interface PutMembershipResponse {
   status?: "accepted" | "pending" | "rejected" | null;
 }
 
-export const PutMembershipResponse = Schema.Struct({
+export const PutMembershipResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   apiAccessEnabled: Schema.optional(
@@ -572,7 +574,7 @@ export const putMembership: API.OperationMethod<
   PutMembershipResponse,
   PutMembershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutMembershipRequest,
   output: PutMembershipResponse,
   errors: [],
@@ -582,20 +584,22 @@ export interface DeleteMembershipRequest {
   membershipId: string;
 }
 
-export const DeleteMembershipRequest = Schema.Struct({
-  membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "/memberships/{membershipId}" }),
-) as unknown as Schema.Schema<DeleteMembershipRequest>;
+export const DeleteMembershipRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    membershipId: Schema.String.pipe(T.HttpPath("membershipId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "/memberships/{membershipId}" }),
+  ) as unknown as Schema.Schema<DeleteMembershipRequest>;
 
 export interface DeleteMembershipResponse {
   /** Membership identifier tag. */
   id?: string | null;
 }
 
-export const DeleteMembershipResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteMembershipResponse>;
+export const DeleteMembershipResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteMembershipResponse>;
 
 export type DeleteMembershipError = DefaultErrors;
 
@@ -604,7 +608,7 @@ export const deleteMembership: API.OperationMethod<
   DeleteMembershipResponse,
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMembershipRequest,
   output: DeleteMembershipResponse,
   errors: [],

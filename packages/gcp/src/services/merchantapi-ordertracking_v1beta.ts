@@ -29,12 +29,13 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface DateTime {
   /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
@@ -57,19 +58,20 @@ export interface DateTime {
   minutes?: number;
 }
 
-export const DateTime: Schema.Schema<DateTime> = Schema.suspend(() =>
-  Schema.Struct({
-    utcOffset: Schema.optional(Schema.String),
-    timeZone: Schema.optional(TimeZone),
-    hours: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
+export const DateTime: Schema.Schema<DateTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      utcOffset: Schema.optional(Schema.String),
+      timeZone: Schema.optional(TimeZone),
+      hours: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
 
 export interface ShippingInfo {
   /** Optional. The service type for fulfillment, such as GROUND, FIRST_CLASS, etc. */
@@ -100,23 +102,24 @@ export interface ShippingInfo {
   originRegionCode?: string;
 }
 
-export const ShippingInfo: Schema.Schema<ShippingInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    carrierService: Schema.optional(Schema.String),
-    earliestDeliveryPromiseTime: Schema.optional(DateTime),
-    carrier: Schema.optional(Schema.String),
-    shippedTime: Schema.optional(DateTime),
-    originPostalCode: Schema.optional(Schema.String),
-    actualDeliveryTime: Schema.optional(DateTime),
-    shipmentId: Schema.optional(Schema.String),
-    latestDeliveryPromiseTime: Schema.optional(DateTime),
-    trackingId: Schema.optional(Schema.String),
-    shippingStatus: Schema.optional(Schema.String),
-    originRegionCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ShippingInfo",
-}) as any as Schema.Schema<ShippingInfo>;
+export const ShippingInfo: Schema.Schema<ShippingInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      carrierService: Schema.optional(Schema.String),
+      earliestDeliveryPromiseTime: Schema.optional(DateTime),
+      carrier: Schema.optional(Schema.String),
+      shippedTime: Schema.optional(DateTime),
+      originPostalCode: Schema.optional(Schema.String),
+      actualDeliveryTime: Schema.optional(DateTime),
+      shipmentId: Schema.optional(Schema.String),
+      latestDeliveryPromiseTime: Schema.optional(DateTime),
+      trackingId: Schema.optional(Schema.String),
+      shippingStatus: Schema.optional(Schema.String),
+      originRegionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ShippingInfo",
+  }) as any as Schema.Schema<ShippingInfo>;
 
 export interface Price {
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
@@ -125,12 +128,13 @@ export interface Price {
   amountMicros?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    amountMicros: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      amountMicros: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface ProductChange {
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
@@ -164,16 +168,17 @@ export interface ProductChange {
   newValue?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    regionCode: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    newValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
@@ -197,7 +202,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expirationTime: Schema.optional(Schema.String),
       resourceId: Schema.optional(Schema.String),
@@ -232,8 +237,8 @@ export interface LineItemDetails {
   productId?: string;
 }
 
-export const LineItemDetails: Schema.Schema<LineItemDetails> = Schema.suspend(
-  () =>
+export const LineItemDetails: Schema.Schema<LineItemDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gtin: Schema.optional(Schema.String),
       mpn: Schema.optional(Schema.String),
@@ -244,9 +249,9 @@ export const LineItemDetails: Schema.Schema<LineItemDetails> = Schema.suspend(
       lineItemId: Schema.optional(Schema.String),
       productId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LineItemDetails",
-}) as any as Schema.Schema<LineItemDetails>;
+  ).annotate({
+    identifier: "LineItemDetails",
+  }) as any as Schema.Schema<LineItemDetails>;
 
 export interface ShipmentLineItemMapping {
   /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
@@ -258,7 +263,7 @@ export interface ShipmentLineItemMapping {
 }
 
 export const ShipmentLineItemMapping: Schema.Schema<ShipmentLineItemMapping> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shipmentId: Schema.optional(Schema.String),
       quantity: Schema.optional(Schema.String),
@@ -292,7 +297,7 @@ export interface OrderTrackingSignal {
 }
 
 export const OrderTrackingSignal: Schema.Schema<OrderTrackingSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       orderTrackingSignalId: Schema.optional(Schema.String),
       shippingInfo: Schema.optional(Schema.Array(ShippingInfo)),
@@ -324,23 +329,25 @@ export interface CreateAccountsOrderTrackingSignalsRequest {
   body?: OrderTrackingSignal;
 }
 
-export const CreateAccountsOrderTrackingSignalsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  orderTrackingSignalId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("orderTrackingSignalId"),
-  ),
-  body: Schema.optional(OrderTrackingSignal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "ordertracking/v1beta/accounts/{accountsId}/orderTrackingSignals",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsOrderTrackingSignalsRequest>;
+export const CreateAccountsOrderTrackingSignalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    orderTrackingSignalId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("orderTrackingSignalId"),
+    ),
+    body: Schema.optional(OrderTrackingSignal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "ordertracking/v1beta/accounts/{accountsId}/orderTrackingSignals",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsOrderTrackingSignalsRequest>;
 
 export type CreateAccountsOrderTrackingSignalsResponse = OrderTrackingSignal;
-export const CreateAccountsOrderTrackingSignalsResponse = OrderTrackingSignal;
+export const CreateAccountsOrderTrackingSignalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OrderTrackingSignal;
 
 export type CreateAccountsOrderTrackingSignalsError = DefaultErrors;
 
@@ -350,7 +357,7 @@ export const createAccountsOrderTrackingSignals: API.OperationMethod<
   CreateAccountsOrderTrackingSignalsResponse,
   CreateAccountsOrderTrackingSignalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsOrderTrackingSignalsRequest,
   output: CreateAccountsOrderTrackingSignalsResponse,
   errors: [],

@@ -51,23 +51,24 @@ export interface PosixAccount {
   primary?: boolean;
 }
 
-export const PosixAccount: Schema.Schema<PosixAccount> = Schema.suspend(() =>
-  Schema.Struct({
-    systemId: Schema.optional(Schema.String),
-    homeDirectory: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    gid: Schema.optional(Schema.String),
-    shell: Schema.optional(Schema.String),
-    operatingSystemType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    gecos: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
-    primary: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "PosixAccount",
-}) as any as Schema.Schema<PosixAccount>;
+export const PosixAccount: Schema.Schema<PosixAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      systemId: Schema.optional(Schema.String),
+      homeDirectory: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      gid: Schema.optional(Schema.String),
+      shell: Schema.optional(Schema.String),
+      operatingSystemType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      gecos: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      primary: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PosixAccount",
+  }) as any as Schema.Schema<PosixAccount>;
 
 export interface SshPublicKey {
   /** An expiration time in microseconds since epoch. */
@@ -80,16 +81,17 @@ export interface SshPublicKey {
   key?: string;
 }
 
-export const SshPublicKey: Schema.Schema<SshPublicKey> = Schema.suspend(() =>
-  Schema.Struct({
-    expirationTimeUsec: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    key: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SshPublicKey",
-}) as any as Schema.Schema<SshPublicKey>;
+export const SshPublicKey: Schema.Schema<SshPublicKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expirationTimeUsec: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SshPublicKey",
+  }) as any as Schema.Schema<SshPublicKey>;
 
 export interface UniversalTwoFactor {
   /** Application ID for the U2F protocol. */
@@ -97,7 +99,7 @@ export interface UniversalTwoFactor {
 }
 
 export const UniversalTwoFactor: Schema.Schema<UniversalTwoFactor> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appId: Schema.optional(Schema.String),
     }),
@@ -110,11 +112,12 @@ export interface WebAuthn {
   rpId?: string;
 }
 
-export const WebAuthn: Schema.Schema<WebAuthn> = Schema.suspend(() =>
-  Schema.Struct({
-    rpId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "WebAuthn" }) as any as Schema.Schema<WebAuthn>;
+export const WebAuthn: Schema.Schema<WebAuthn> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rpId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "WebAuthn" }) as any as Schema.Schema<WebAuthn>;
 
 export interface SecurityKey {
   /** Public key text in SSH format, defined by [RFC4253]("https://www.ietf.org/rfc/rfc4253.txt") section 6.6. */
@@ -129,15 +132,18 @@ export interface SecurityKey {
   deviceNickname?: string;
 }
 
-export const SecurityKey: Schema.Schema<SecurityKey> = Schema.suspend(() =>
-  Schema.Struct({
-    publicKey: Schema.optional(Schema.String),
-    privateKey: Schema.optional(Schema.String),
-    universalTwoFactor: Schema.optional(UniversalTwoFactor),
-    webAuthn: Schema.optional(WebAuthn),
-    deviceNickname: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SecurityKey" }) as any as Schema.Schema<SecurityKey>;
+export const SecurityKey: Schema.Schema<SecurityKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publicKey: Schema.optional(Schema.String),
+      privateKey: Schema.optional(Schema.String),
+      universalTwoFactor: Schema.optional(UniversalTwoFactor),
+      webAuthn: Schema.optional(WebAuthn),
+      deviceNickname: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SecurityKey",
+  }) as any as Schema.Schema<SecurityKey>;
 
 export interface LoginProfile {
   /** The list of POSIX accounts associated with the user. */
@@ -150,16 +156,19 @@ export interface LoginProfile {
   securityKeys?: Array<SecurityKey>;
 }
 
-export const LoginProfile: Schema.Schema<LoginProfile> = Schema.suspend(() =>
-  Schema.Struct({
-    posixAccounts: Schema.optional(Schema.Array(PosixAccount)),
-    sshPublicKeys: Schema.optional(Schema.Record(Schema.String, SshPublicKey)),
-    name: Schema.optional(Schema.String),
-    securityKeys: Schema.optional(Schema.Array(SecurityKey)),
-  }),
-).annotate({
-  identifier: "LoginProfile",
-}) as any as Schema.Schema<LoginProfile>;
+export const LoginProfile: Schema.Schema<LoginProfile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      posixAccounts: Schema.optional(Schema.Array(PosixAccount)),
+      sshPublicKeys: Schema.optional(
+        Schema.Record(Schema.String, SshPublicKey),
+      ),
+      name: Schema.optional(Schema.String),
+      securityKeys: Schema.optional(Schema.Array(SecurityKey)),
+    }),
+  ).annotate({
+    identifier: "LoginProfile",
+  }) as any as Schema.Schema<LoginProfile>;
 
 export interface ImportSshPublicKeyResponse {
   /** Detailed information about import results. */
@@ -169,7 +178,7 @@ export interface ImportSshPublicKeyResponse {
 }
 
 export const ImportSshPublicKeyResponse: Schema.Schema<ImportSshPublicKeyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       details: Schema.optional(Schema.String),
       loginProfile: Schema.optional(LoginProfile),
@@ -184,7 +193,7 @@ export interface SignSshPublicKeyRequest {
 }
 
 export const SignSshPublicKeyRequest: Schema.Schema<SignSshPublicKeyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sshPublicKey: Schema.optional(Schema.String),
     }),
@@ -204,7 +213,7 @@ export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRe
 }
 
 export const GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest: Schema.Schema<GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       computeInstance: Schema.optional(Schema.String),
       appEngineInstance: Schema.optional(Schema.String),
@@ -222,7 +231,7 @@ export interface SignSshPublicKeyResponse {
 }
 
 export const SignSshPublicKeyResponse: Schema.Schema<SignSshPublicKeyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signedSshPublicKey: Schema.optional(Schema.String),
     }),
@@ -232,9 +241,10 @@ export const SignSshPublicKeyResponse: Schema.Schema<SignSshPublicKeyResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ProvisionPosixAccountRequest {
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
@@ -242,7 +252,7 @@ export interface ProvisionPosixAccountRequest {
 }
 
 export const ProvisionPosixAccountRequest: Schema.Schema<ProvisionPosixAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -256,7 +266,7 @@ export interface GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRe
 }
 
 export const GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse: Schema.Schema<GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signedSshPublicKey: Schema.optional(Schema.String),
     }),
@@ -276,24 +286,25 @@ export interface SignSshPublicKeyProjectsLocationsRequest {
   body?: GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest;
 }
 
-export const SignSshPublicKeyProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/locations/{locationsId}:signSshPublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SignSshPublicKeyProjectsLocationsRequest>;
+export const SignSshPublicKeyProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}:signSshPublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SignSshPublicKeyProjectsLocationsRequest>;
 
 export type SignSshPublicKeyProjectsLocationsResponse =
   GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse;
 export const SignSshPublicKeyProjectsLocationsResponse =
-  GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudOsloginControlplaneRegionalV1alphaSignSshPublicKeyResponse;
 
 export type SignSshPublicKeyProjectsLocationsError = DefaultErrors;
 
@@ -303,7 +314,7 @@ export const signSshPublicKeyProjectsLocations: API.OperationMethod<
   SignSshPublicKeyProjectsLocationsResponse,
   SignSshPublicKeyProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignSshPublicKeyProjectsLocationsRequest,
   output: SignSshPublicKeyProjectsLocationsResponse,
   errors: [],
@@ -326,25 +337,27 @@ export interface ImportSshPublicKeyUsersRequest {
   body?: SshPublicKey;
 }
 
-export const ImportSshPublicKeyUsersRequest = Schema.Struct({
-  projectId: Schema.optional(Schema.String).pipe(T.HttpQuery("projectId")),
-  regions: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("regions"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/users/{usersId}:importSshPublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportSshPublicKeyUsersRequest>;
+export const ImportSshPublicKeyUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.optional(Schema.String).pipe(T.HttpQuery("projectId")),
+    regions: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("regions"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/users/{usersId}:importSshPublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportSshPublicKeyUsersRequest>;
 
 export type ImportSshPublicKeyUsersResponse = ImportSshPublicKeyResponse;
-export const ImportSshPublicKeyUsersResponse = ImportSshPublicKeyResponse;
+export const ImportSshPublicKeyUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ImportSshPublicKeyResponse;
 
 export type ImportSshPublicKeyUsersError = DefaultErrors;
 
@@ -354,7 +367,7 @@ export const importSshPublicKeyUsers: API.OperationMethod<
   ImportSshPublicKeyUsersResponse,
   ImportSshPublicKeyUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportSshPublicKeyUsersRequest,
   output: ImportSshPublicKeyUsersResponse,
   errors: [],
@@ -381,21 +394,23 @@ export interface GetLoginProfileUsersRequest {
     | (string & {});
 }
 
-export const GetLoginProfileUsersRequest = Schema.Struct({
-  projectId: Schema.optional(Schema.String).pipe(T.HttpQuery("projectId")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  systemId: Schema.optional(Schema.String).pipe(T.HttpQuery("systemId")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  operatingSystemType: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("operatingSystemType"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/users/{usersId}/loginProfile" }),
-  svc,
-) as unknown as Schema.Schema<GetLoginProfileUsersRequest>;
+export const GetLoginProfileUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.optional(Schema.String).pipe(T.HttpQuery("projectId")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    systemId: Schema.optional(Schema.String).pipe(T.HttpQuery("systemId")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    operatingSystemType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("operatingSystemType"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/users/{usersId}/loginProfile" }),
+    svc,
+  ) as unknown as Schema.Schema<GetLoginProfileUsersRequest>;
 
 export type GetLoginProfileUsersResponse = LoginProfile;
-export const GetLoginProfileUsersResponse = LoginProfile;
+export const GetLoginProfileUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoginProfile;
 
 export type GetLoginProfileUsersError = DefaultErrors;
 
@@ -405,7 +420,7 @@ export const getLoginProfileUsers: API.OperationMethod<
   GetLoginProfileUsersResponse,
   GetLoginProfileUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoginProfileUsersRequest,
   output: GetLoginProfileUsersResponse,
   errors: [],
@@ -422,21 +437,22 @@ export interface DeleteUsersProjectsRequest {
   name: string;
 }
 
-export const DeleteUsersProjectsRequest = Schema.Struct({
-  operatingSystemType: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("operatingSystemType"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/users/{usersId}/projects/{projectsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteUsersProjectsRequest>;
+export const DeleteUsersProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    operatingSystemType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("operatingSystemType"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/users/{usersId}/projects/{projectsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUsersProjectsRequest>;
 
 export type DeleteUsersProjectsResponse = Empty;
-export const DeleteUsersProjectsResponse = Empty;
+export const DeleteUsersProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteUsersProjectsError = DefaultErrors;
 
@@ -446,7 +462,7 @@ export const deleteUsersProjects: API.OperationMethod<
   DeleteUsersProjectsResponse,
   DeleteUsersProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersProjectsRequest,
   output: DeleteUsersProjectsResponse,
   errors: [],
@@ -459,20 +475,22 @@ export interface ProvisionPosixAccountUsersProjectsRequest {
   body?: ProvisionPosixAccountRequest;
 }
 
-export const ProvisionPosixAccountUsersProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ProvisionPosixAccountRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/users/{usersId}/projects/{projectsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionPosixAccountUsersProjectsRequest>;
+export const ProvisionPosixAccountUsersProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ProvisionPosixAccountRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/users/{usersId}/projects/{projectsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionPosixAccountUsersProjectsRequest>;
 
 export type ProvisionPosixAccountUsersProjectsResponse = PosixAccount;
-export const ProvisionPosixAccountUsersProjectsResponse = PosixAccount;
+export const ProvisionPosixAccountUsersProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PosixAccount;
 
 export type ProvisionPosixAccountUsersProjectsError = DefaultErrors;
 
@@ -482,7 +500,7 @@ export const provisionPosixAccountUsersProjects: API.OperationMethod<
   ProvisionPosixAccountUsersProjectsResponse,
   ProvisionPosixAccountUsersProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionPosixAccountUsersProjectsRequest,
   output: ProvisionPosixAccountUsersProjectsResponse,
   errors: [],
@@ -495,22 +513,23 @@ export interface SignSshPublicKeyUsersProjectsLocationsRequest {
   body?: SignSshPublicKeyRequest;
 }
 
-export const SignSshPublicKeyUsersProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SignSshPublicKeyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/users/{usersId}/projects/{projectsId}/locations/{locationsId}:signSshPublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SignSshPublicKeyUsersProjectsLocationsRequest>;
+export const SignSshPublicKeyUsersProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SignSshPublicKeyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/users/{usersId}/projects/{projectsId}/locations/{locationsId}:signSshPublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SignSshPublicKeyUsersProjectsLocationsRequest>;
 
 export type SignSshPublicKeyUsersProjectsLocationsResponse =
   SignSshPublicKeyResponse;
 export const SignSshPublicKeyUsersProjectsLocationsResponse =
-  SignSshPublicKeyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SignSshPublicKeyResponse;
 
 export type SignSshPublicKeyUsersProjectsLocationsError = DefaultErrors;
 
@@ -520,7 +539,7 @@ export const signSshPublicKeyUsersProjectsLocations: API.OperationMethod<
   SignSshPublicKeyUsersProjectsLocationsResponse,
   SignSshPublicKeyUsersProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignSshPublicKeyUsersProjectsLocationsRequest,
   output: SignSshPublicKeyUsersProjectsLocationsResponse,
   errors: [],
@@ -533,22 +552,23 @@ export interface SignSshPublicKeyUsersProjectsZonesRequest {
   body?: SignSshPublicKeyRequest;
 }
 
-export const SignSshPublicKeyUsersProjectsZonesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SignSshPublicKeyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/users/{usersId}/projects/{projectsId}/zones/{zonesId}:signSshPublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SignSshPublicKeyUsersProjectsZonesRequest>;
+export const SignSshPublicKeyUsersProjectsZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SignSshPublicKeyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/users/{usersId}/projects/{projectsId}/zones/{zonesId}:signSshPublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SignSshPublicKeyUsersProjectsZonesRequest>;
 
 export type SignSshPublicKeyUsersProjectsZonesResponse =
   SignSshPublicKeyResponse;
 export const SignSshPublicKeyUsersProjectsZonesResponse =
-  SignSshPublicKeyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SignSshPublicKeyResponse;
 
 export type SignSshPublicKeyUsersProjectsZonesError = DefaultErrors;
 
@@ -558,7 +578,7 @@ export const signSshPublicKeyUsersProjectsZones: API.OperationMethod<
   SignSshPublicKeyUsersProjectsZonesResponse,
   SignSshPublicKeyUsersProjectsZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignSshPublicKeyUsersProjectsZonesRequest,
   output: SignSshPublicKeyUsersProjectsZonesResponse,
   errors: [],
@@ -571,20 +591,22 @@ export interface CreateUsersSshPublicKeysRequest {
   body?: SshPublicKey;
 }
 
-export const CreateUsersSshPublicKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/users/{usersId}/sshPublicKeys",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateUsersSshPublicKeysRequest>;
+export const CreateUsersSshPublicKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/users/{usersId}/sshPublicKeys",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateUsersSshPublicKeysRequest>;
 
 export type CreateUsersSshPublicKeysResponse = SshPublicKey;
-export const CreateUsersSshPublicKeysResponse = SshPublicKey;
+export const CreateUsersSshPublicKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SshPublicKey;
 
 export type CreateUsersSshPublicKeysError = DefaultErrors;
 
@@ -594,7 +616,7 @@ export const createUsersSshPublicKeys: API.OperationMethod<
   CreateUsersSshPublicKeysResponse,
   CreateUsersSshPublicKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsersSshPublicKeysRequest,
   output: CreateUsersSshPublicKeysResponse,
   errors: [],
@@ -605,18 +627,20 @@ export interface DeleteUsersSshPublicKeysRequest {
   name: string;
 }
 
-export const DeleteUsersSshPublicKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteUsersSshPublicKeysRequest>;
+export const DeleteUsersSshPublicKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUsersSshPublicKeysRequest>;
 
 export type DeleteUsersSshPublicKeysResponse = Empty;
-export const DeleteUsersSshPublicKeysResponse = Empty;
+export const DeleteUsersSshPublicKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteUsersSshPublicKeysError = DefaultErrors;
 
@@ -626,7 +650,7 @@ export const deleteUsersSshPublicKeys: API.OperationMethod<
   DeleteUsersSshPublicKeysResponse,
   DeleteUsersSshPublicKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersSshPublicKeysRequest,
   output: DeleteUsersSshPublicKeysResponse,
   errors: [],
@@ -641,21 +665,23 @@ export interface PatchUsersSshPublicKeysRequest {
   body?: SshPublicKey;
 }
 
-export const PatchUsersSshPublicKeysRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchUsersSshPublicKeysRequest>;
+export const PatchUsersSshPublicKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchUsersSshPublicKeysRequest>;
 
 export type PatchUsersSshPublicKeysResponse = SshPublicKey;
-export const PatchUsersSshPublicKeysResponse = SshPublicKey;
+export const PatchUsersSshPublicKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SshPublicKey;
 
 export type PatchUsersSshPublicKeysError = DefaultErrors;
 
@@ -665,7 +691,7 @@ export const patchUsersSshPublicKeys: API.OperationMethod<
   PatchUsersSshPublicKeysResponse,
   PatchUsersSshPublicKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUsersSshPublicKeysRequest,
   output: PatchUsersSshPublicKeysResponse,
   errors: [],
@@ -676,18 +702,20 @@ export interface GetUsersSshPublicKeysRequest {
   name: string;
 }
 
-export const GetUsersSshPublicKeysRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUsersSshPublicKeysRequest>;
+export const GetUsersSshPublicKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/users/{usersId}/sshPublicKeys/{sshPublicKeysId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUsersSshPublicKeysRequest>;
 
 export type GetUsersSshPublicKeysResponse = SshPublicKey;
-export const GetUsersSshPublicKeysResponse = SshPublicKey;
+export const GetUsersSshPublicKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SshPublicKey;
 
 export type GetUsersSshPublicKeysError = DefaultErrors;
 
@@ -697,7 +725,7 @@ export const getUsersSshPublicKeys: API.OperationMethod<
   GetUsersSshPublicKeysResponse,
   GetUsersSshPublicKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersSshPublicKeysRequest,
   output: GetUsersSshPublicKeysResponse,
   errors: [],

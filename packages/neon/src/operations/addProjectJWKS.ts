@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const AddProjectJWKSInput = Schema.Struct({
+export const AddProjectJWKSInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   jwks_url: Schema.String,
   provider_name: Schema.String,
@@ -15,7 +15,7 @@ export const AddProjectJWKSInput = Schema.Struct({
 export type AddProjectJWKSInput = typeof AddProjectJWKSInput.Type;
 
 // Output Schema
-export const AddProjectJWKSOutput = Schema.Struct({
+export const AddProjectJWKSOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jwks: Schema.Struct({
     id: Schema.String,
     project_id: Schema.String,

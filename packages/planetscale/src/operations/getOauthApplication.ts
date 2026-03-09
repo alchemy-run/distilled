@@ -4,34 +4,36 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetOauthApplicationInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  application_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/organizations/{organization}/oauth-applications/{application_id}",
-  }),
-);
+export const GetOauthApplicationInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    application_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{organization}/oauth-applications/{application_id}",
+    }),
+  );
 export type GetOauthApplicationInput = typeof GetOauthApplicationInput.Type;
 
 // Output Schema
-export const GetOauthApplicationOutput = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  redirect_uri: Schema.String,
-  domain: Schema.String,
-  created_at: Schema.String,
-  updated_at: Schema.String,
-  scopes: Schema.Array(Schema.String),
-  avatar: Schema.String,
-  client_id: Schema.String,
-  tokens: Schema.Number,
-  dcr: Schema.Boolean,
-  single_org_authorization: Schema.Boolean,
-  scopes_by_resource: Schema.Record(Schema.String, Schema.Unknown),
-  all_scopes_by_resource: Schema.Record(Schema.String, Schema.Unknown),
-});
+export const GetOauthApplicationOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    name: Schema.String,
+    redirect_uri: Schema.String,
+    domain: Schema.String,
+    created_at: Schema.String,
+    updated_at: Schema.String,
+    scopes: Schema.Array(Schema.String),
+    avatar: Schema.String,
+    client_id: Schema.String,
+    tokens: Schema.Number,
+    dcr: Schema.Boolean,
+    single_org_authorization: Schema.Boolean,
+    scopes_by_resource: Schema.Record(Schema.String, Schema.Unknown),
+    all_scopes_by_resource: Schema.Record(Schema.String, Schema.Unknown),
+  });
 export type GetOauthApplicationOutput = typeof GetOauthApplicationOutput.Type;
 
 // The operation

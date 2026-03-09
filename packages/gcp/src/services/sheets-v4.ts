@@ -31,13 +31,14 @@ export interface ValueRange {
   values?: Array<Array<unknown>>;
 }
 
-export const ValueRange: Schema.Schema<ValueRange> = Schema.suspend(() =>
-  Schema.Struct({
-    range: Schema.optional(Schema.String),
-    majorDimension: Schema.optional(Schema.String),
-    values: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-  }),
-).annotate({ identifier: "ValueRange" }) as any as Schema.Schema<ValueRange>;
+export const ValueRange: Schema.Schema<ValueRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      range: Schema.optional(Schema.String),
+      majorDimension: Schema.optional(Schema.String),
+      values: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+    }),
+  ).annotate({ identifier: "ValueRange" }) as any as Schema.Schema<ValueRange>;
 
 export interface UpdateValuesResponse {
   /** The spreadsheet the updates were applied to. */
@@ -55,7 +56,7 @@ export interface UpdateValuesResponse {
 }
 
 export const UpdateValuesResponse: Schema.Schema<UpdateValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       updatedRange: Schema.optional(Schema.String),
@@ -78,7 +79,7 @@ export interface AppendValuesResponse {
 }
 
 export const AppendValuesResponse: Schema.Schema<AppendValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       tableRange: Schema.optional(Schema.String),
@@ -91,7 +92,7 @@ export const AppendValuesResponse: Schema.Schema<AppendValuesResponse> =
 export interface ClearValuesRequest {}
 
 export const ClearValuesRequest: Schema.Schema<ClearValuesRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ClearValuesRequest",
   }) as any as Schema.Schema<ClearValuesRequest>;
 
@@ -103,7 +104,7 @@ export interface ClearValuesResponse {
 }
 
 export const ClearValuesResponse: Schema.Schema<ClearValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       clearedRange: Schema.optional(Schema.String),
@@ -120,7 +121,7 @@ export interface BatchGetValuesResponse {
 }
 
 export const BatchGetValuesResponse: Schema.Schema<BatchGetValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       valueRanges: Schema.optional(Schema.Array(ValueRange)),
@@ -154,7 +155,7 @@ export interface BatchUpdateValuesRequest {
 }
 
 export const BatchUpdateValuesRequest: Schema.Schema<BatchUpdateValuesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valueInputOption: Schema.optional(Schema.String),
       data: Schema.optional(Schema.Array(ValueRange)),
@@ -182,7 +183,7 @@ export interface BatchUpdateValuesResponse {
 }
 
 export const BatchUpdateValuesResponse: Schema.Schema<BatchUpdateValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       totalUpdatedRows: Schema.optional(Schema.Number),
@@ -201,7 +202,7 @@ export interface BatchClearValuesRequest {
 }
 
 export const BatchClearValuesRequest: Schema.Schema<BatchClearValuesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ranges: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -217,7 +218,7 @@ export interface BatchClearValuesResponse {
 }
 
 export const BatchClearValuesResponse: Schema.Schema<BatchClearValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       clearedRanges: Schema.optional(Schema.Array(Schema.String)),
@@ -237,17 +238,17 @@ export interface DimensionRange {
   endIndex?: number;
 }
 
-export const DimensionRange: Schema.Schema<DimensionRange> = Schema.suspend(
-  () =>
+export const DimensionRange: Schema.Schema<DimensionRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       dimension: Schema.optional(Schema.String),
       startIndex: Schema.optional(Schema.Number),
       endIndex: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "DimensionRange",
-}) as any as Schema.Schema<DimensionRange>;
+  ).annotate({
+    identifier: "DimensionRange",
+  }) as any as Schema.Schema<DimensionRange>;
 
 export interface DeveloperMetadataLocation {
   /** The type of location this object represents. This field is read-only. */
@@ -267,7 +268,7 @@ export interface DeveloperMetadataLocation {
 }
 
 export const DeveloperMetadataLocation: Schema.Schema<DeveloperMetadataLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationType: Schema.optional(Schema.String),
       spreadsheet: Schema.optional(Schema.Boolean),
@@ -310,7 +311,7 @@ export interface DeveloperMetadataLookup {
 }
 
 export const DeveloperMetadataLookup: Schema.Schema<DeveloperMetadataLookup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationType: Schema.optional(Schema.String),
       metadataLocation: Schema.optional(DeveloperMetadataLocation),
@@ -337,15 +338,16 @@ export interface GridRange {
   endColumnIndex?: number;
 }
 
-export const GridRange: Schema.Schema<GridRange> = Schema.suspend(() =>
-  Schema.Struct({
-    sheetId: Schema.optional(Schema.Number),
-    startRowIndex: Schema.optional(Schema.Number),
-    endRowIndex: Schema.optional(Schema.Number),
-    startColumnIndex: Schema.optional(Schema.Number),
-    endColumnIndex: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "GridRange" }) as any as Schema.Schema<GridRange>;
+export const GridRange: Schema.Schema<GridRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sheetId: Schema.optional(Schema.Number),
+      startRowIndex: Schema.optional(Schema.Number),
+      endRowIndex: Schema.optional(Schema.Number),
+      startColumnIndex: Schema.optional(Schema.Number),
+      endColumnIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "GridRange" }) as any as Schema.Schema<GridRange>;
 
 export interface DataFilter {
   /** Selects data associated with the developer metadata matching the criteria described by this DeveloperMetadataLookup. */
@@ -356,13 +358,14 @@ export interface DataFilter {
   gridRange?: GridRange;
 }
 
-export const DataFilter: Schema.Schema<DataFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    developerMetadataLookup: Schema.optional(DeveloperMetadataLookup),
-    a1Range: Schema.optional(Schema.String),
-    gridRange: Schema.optional(GridRange),
-  }),
-).annotate({ identifier: "DataFilter" }) as any as Schema.Schema<DataFilter>;
+export const DataFilter: Schema.Schema<DataFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      developerMetadataLookup: Schema.optional(DeveloperMetadataLookup),
+      a1Range: Schema.optional(Schema.String),
+      gridRange: Schema.optional(GridRange),
+    }),
+  ).annotate({ identifier: "DataFilter" }) as any as Schema.Schema<DataFilter>;
 
 export interface BatchGetValuesByDataFilterRequest {
   /** The data filters used to match the ranges of values to retrieve. Ranges that match any of the specified data filters are included in the response. */
@@ -380,7 +383,7 @@ export interface BatchGetValuesByDataFilterRequest {
 }
 
 export const BatchGetValuesByDataFilterRequest: Schema.Schema<BatchGetValuesByDataFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
       majorDimension: Schema.optional(Schema.String),
@@ -399,7 +402,7 @@ export interface MatchedValueRange {
 }
 
 export const MatchedValueRange: Schema.Schema<MatchedValueRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valueRange: Schema.optional(ValueRange),
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
@@ -416,7 +419,7 @@ export interface BatchGetValuesByDataFilterResponse {
 }
 
 export const BatchGetValuesByDataFilterResponse: Schema.Schema<BatchGetValuesByDataFilterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       valueRanges: Schema.optional(Schema.Array(MatchedValueRange)),
@@ -435,7 +438,7 @@ export interface DataFilterValueRange {
 }
 
 export const DataFilterValueRange: Schema.Schema<DataFilterValueRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilter: Schema.optional(DataFilter),
       majorDimension: Schema.optional(Schema.String),
@@ -470,7 +473,7 @@ export interface BatchUpdateValuesByDataFilterRequest {
 }
 
 export const BatchUpdateValuesByDataFilterRequest: Schema.Schema<BatchUpdateValuesByDataFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valueInputOption: Schema.optional(Schema.String),
       data: Schema.optional(Schema.Array(DataFilterValueRange)),
@@ -498,7 +501,7 @@ export interface UpdateValuesByDataFilterResponse {
 }
 
 export const UpdateValuesByDataFilterResponse: Schema.Schema<UpdateValuesByDataFilterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updatedRange: Schema.optional(Schema.String),
       updatedRows: Schema.optional(Schema.Number),
@@ -527,7 +530,7 @@ export interface BatchUpdateValuesByDataFilterResponse {
 }
 
 export const BatchUpdateValuesByDataFilterResponse: Schema.Schema<BatchUpdateValuesByDataFilterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       totalUpdatedRows: Schema.optional(Schema.Number),
@@ -548,7 +551,7 @@ export interface BatchClearValuesByDataFilterRequest {
 }
 
 export const BatchClearValuesByDataFilterRequest: Schema.Schema<BatchClearValuesByDataFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
     }),
@@ -564,7 +567,7 @@ export interface BatchClearValuesByDataFilterResponse {
 }
 
 export const BatchClearValuesByDataFilterResponse: Schema.Schema<BatchClearValuesByDataFilterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       clearedRanges: Schema.optional(Schema.Array(Schema.String)),
@@ -591,7 +594,7 @@ export interface DeveloperMetadata {
 }
 
 export const DeveloperMetadata: Schema.Schema<DeveloperMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadataId: Schema.optional(Schema.Number),
       metadataKey: Schema.optional(Schema.String),
@@ -609,7 +612,7 @@ export interface SearchDeveloperMetadataRequest {
 }
 
 export const SearchDeveloperMetadataRequest: Schema.Schema<SearchDeveloperMetadataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
     }),
@@ -625,7 +628,7 @@ export interface MatchedDeveloperMetadata {
 }
 
 export const MatchedDeveloperMetadata: Schema.Schema<MatchedDeveloperMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       developerMetadata: Schema.optional(DeveloperMetadata),
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
@@ -640,7 +643,7 @@ export interface SearchDeveloperMetadataResponse {
 }
 
 export const SearchDeveloperMetadataResponse: Schema.Schema<SearchDeveloperMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchedDeveloperMetadata: Schema.optional(
         Schema.Array(MatchedDeveloperMetadata),
@@ -667,14 +670,15 @@ export interface NumberFormat {
   pattern?: string;
 }
 
-export const NumberFormat: Schema.Schema<NumberFormat> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    pattern: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "NumberFormat",
-}) as any as Schema.Schema<NumberFormat>;
+export const NumberFormat: Schema.Schema<NumberFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      pattern: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NumberFormat",
+  }) as any as Schema.Schema<NumberFormat>;
 
 export interface Color {
   /** The amount of red in the color as a value in the interval [0, 1]. */
@@ -687,14 +691,15 @@ export interface Color {
   alpha?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-    blue: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+      blue: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface ColorStyle {
   /** RGB color. The [`alpha`](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/other#Color.FIELDS.alpha) value in the [`Color`](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/other#color) object isn't generally supported. */
@@ -714,12 +719,13 @@ export interface ColorStyle {
     | (string & {});
 }
 
-export const ColorStyle: Schema.Schema<ColorStyle> = Schema.suspend(() =>
-  Schema.Struct({
-    rgbColor: Schema.optional(Color),
-    themeColor: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ColorStyle" }) as any as Schema.Schema<ColorStyle>;
+export const ColorStyle: Schema.Schema<ColorStyle> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rgbColor: Schema.optional(Color),
+      themeColor: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ColorStyle" }) as any as Schema.Schema<ColorStyle>;
 
 export interface Border {
   /** The style of the border. */
@@ -741,14 +747,15 @@ export interface Border {
   colorStyle?: ColorStyle;
 }
 
-export const Border: Schema.Schema<Border> = Schema.suspend(() =>
-  Schema.Struct({
-    style: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
-    color: Schema.optional(Color),
-    colorStyle: Schema.optional(ColorStyle),
-  }),
-).annotate({ identifier: "Border" }) as any as Schema.Schema<Border>;
+export const Border: Schema.Schema<Border> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      style: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.Number),
+      color: Schema.optional(Color),
+      colorStyle: Schema.optional(ColorStyle),
+    }),
+  ).annotate({ identifier: "Border" }) as any as Schema.Schema<Border>;
 
 export interface Borders {
   /** The top border of the cell. */
@@ -761,14 +768,15 @@ export interface Borders {
   right?: Border;
 }
 
-export const Borders: Schema.Schema<Borders> = Schema.suspend(() =>
-  Schema.Struct({
-    top: Schema.optional(Border),
-    bottom: Schema.optional(Border),
-    left: Schema.optional(Border),
-    right: Schema.optional(Border),
-  }),
-).annotate({ identifier: "Borders" }) as any as Schema.Schema<Borders>;
+export const Borders: Schema.Schema<Borders> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      top: Schema.optional(Border),
+      bottom: Schema.optional(Border),
+      left: Schema.optional(Border),
+      right: Schema.optional(Border),
+    }),
+  ).annotate({ identifier: "Borders" }) as any as Schema.Schema<Borders>;
 
 export interface Padding {
   /** The top padding of the cell. */
@@ -781,25 +789,27 @@ export interface Padding {
   left?: number;
 }
 
-export const Padding: Schema.Schema<Padding> = Schema.suspend(() =>
-  Schema.Struct({
-    top: Schema.optional(Schema.Number),
-    right: Schema.optional(Schema.Number),
-    bottom: Schema.optional(Schema.Number),
-    left: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Padding" }) as any as Schema.Schema<Padding>;
+export const Padding: Schema.Schema<Padding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      top: Schema.optional(Schema.Number),
+      right: Schema.optional(Schema.Number),
+      bottom: Schema.optional(Schema.Number),
+      left: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Padding" }) as any as Schema.Schema<Padding>;
 
 export interface Link {
   /** The link identifier. */
   uri?: string;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface TextFormat {
   /** The foreground color of the text. Deprecated: Use foreground_color_style. */
@@ -822,19 +832,20 @@ export interface TextFormat {
   link?: Link;
 }
 
-export const TextFormat: Schema.Schema<TextFormat> = Schema.suspend(() =>
-  Schema.Struct({
-    foregroundColor: Schema.optional(Color),
-    foregroundColorStyle: Schema.optional(ColorStyle),
-    fontFamily: Schema.optional(Schema.String),
-    fontSize: Schema.optional(Schema.Number),
-    bold: Schema.optional(Schema.Boolean),
-    italic: Schema.optional(Schema.Boolean),
-    strikethrough: Schema.optional(Schema.Boolean),
-    underline: Schema.optional(Schema.Boolean),
-    link: Schema.optional(Link),
-  }),
-).annotate({ identifier: "TextFormat" }) as any as Schema.Schema<TextFormat>;
+export const TextFormat: Schema.Schema<TextFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      foregroundColor: Schema.optional(Color),
+      foregroundColorStyle: Schema.optional(ColorStyle),
+      fontFamily: Schema.optional(Schema.String),
+      fontSize: Schema.optional(Schema.Number),
+      bold: Schema.optional(Schema.Boolean),
+      italic: Schema.optional(Schema.Boolean),
+      strikethrough: Schema.optional(Schema.Boolean),
+      underline: Schema.optional(Schema.Boolean),
+      link: Schema.optional(Link),
+    }),
+  ).annotate({ identifier: "TextFormat" }) as any as Schema.Schema<TextFormat>;
 
 export interface TextRotation {
   /** The angle between the standard orientation and the desired orientation. Measured in degrees. Valid values are between -90 and 90. Positive angles are angled upwards, negative are angled downwards. Note: For LTR text direction positive angles are in the counterclockwise direction, whereas for RTL they are in the clockwise direction */
@@ -843,14 +854,15 @@ export interface TextRotation {
   vertical?: boolean;
 }
 
-export const TextRotation: Schema.Schema<TextRotation> = Schema.suspend(() =>
-  Schema.Struct({
-    angle: Schema.optional(Schema.Number),
-    vertical: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "TextRotation",
-}) as any as Schema.Schema<TextRotation>;
+export const TextRotation: Schema.Schema<TextRotation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      angle: Schema.optional(Schema.Number),
+      vertical: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TextRotation",
+  }) as any as Schema.Schema<TextRotation>;
 
 export interface CellFormat {
   /** A format describing how number values should be represented to the user. */
@@ -903,22 +915,23 @@ export interface CellFormat {
   textRotation?: TextRotation;
 }
 
-export const CellFormat: Schema.Schema<CellFormat> = Schema.suspend(() =>
-  Schema.Struct({
-    numberFormat: Schema.optional(NumberFormat),
-    backgroundColor: Schema.optional(Color),
-    backgroundColorStyle: Schema.optional(ColorStyle),
-    borders: Schema.optional(Borders),
-    padding: Schema.optional(Padding),
-    horizontalAlignment: Schema.optional(Schema.String),
-    verticalAlignment: Schema.optional(Schema.String),
-    wrapStrategy: Schema.optional(Schema.String),
-    textDirection: Schema.optional(Schema.String),
-    textFormat: Schema.optional(TextFormat),
-    hyperlinkDisplayType: Schema.optional(Schema.String),
-    textRotation: Schema.optional(TextRotation),
-  }),
-).annotate({ identifier: "CellFormat" }) as any as Schema.Schema<CellFormat>;
+export const CellFormat: Schema.Schema<CellFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      numberFormat: Schema.optional(NumberFormat),
+      backgroundColor: Schema.optional(Color),
+      backgroundColorStyle: Schema.optional(ColorStyle),
+      borders: Schema.optional(Borders),
+      padding: Schema.optional(Padding),
+      horizontalAlignment: Schema.optional(Schema.String),
+      verticalAlignment: Schema.optional(Schema.String),
+      wrapStrategy: Schema.optional(Schema.String),
+      textDirection: Schema.optional(Schema.String),
+      textFormat: Schema.optional(TextFormat),
+      hyperlinkDisplayType: Schema.optional(Schema.String),
+      textRotation: Schema.optional(TextRotation),
+    }),
+  ).annotate({ identifier: "CellFormat" }) as any as Schema.Schema<CellFormat>;
 
 export interface IterativeCalculationSettings {
   /** When iterative calculation is enabled, the maximum number of calculation rounds to perform. */
@@ -928,7 +941,7 @@ export interface IterativeCalculationSettings {
 }
 
 export const IterativeCalculationSettings: Schema.Schema<IterativeCalculationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxIterations: Schema.optional(Schema.Number),
       convergenceThreshold: Schema.optional(Schema.Number),
@@ -955,15 +968,15 @@ export interface ThemeColorPair {
   color?: ColorStyle;
 }
 
-export const ThemeColorPair: Schema.Schema<ThemeColorPair> = Schema.suspend(
-  () =>
+export const ThemeColorPair: Schema.Schema<ThemeColorPair> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       colorType: Schema.optional(Schema.String),
       color: Schema.optional(ColorStyle),
     }),
-).annotate({
-  identifier: "ThemeColorPair",
-}) as any as Schema.Schema<ThemeColorPair>;
+  ).annotate({
+    identifier: "ThemeColorPair",
+  }) as any as Schema.Schema<ThemeColorPair>;
 
 export interface SpreadsheetTheme {
   /** Name of the primary font family. */
@@ -972,15 +985,15 @@ export interface SpreadsheetTheme {
   themeColors?: Array<ThemeColorPair>;
 }
 
-export const SpreadsheetTheme: Schema.Schema<SpreadsheetTheme> = Schema.suspend(
-  () =>
+export const SpreadsheetTheme: Schema.Schema<SpreadsheetTheme> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryFontFamily: Schema.optional(Schema.String),
       themeColors: Schema.optional(Schema.Array(ThemeColorPair)),
     }),
-).annotate({
-  identifier: "SpreadsheetTheme",
-}) as any as Schema.Schema<SpreadsheetTheme>;
+  ).annotate({
+    identifier: "SpreadsheetTheme",
+  }) as any as Schema.Schema<SpreadsheetTheme>;
 
 export interface SpreadsheetProperties {
   /** The title of the spreadsheet. */
@@ -1007,7 +1020,7 @@ export interface SpreadsheetProperties {
 }
 
 export const SpreadsheetProperties: Schema.Schema<SpreadsheetProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       locale: Schema.optional(Schema.String),
@@ -1041,8 +1054,8 @@ export interface GridProperties {
   columnGroupControlAfter?: boolean;
 }
 
-export const GridProperties: Schema.Schema<GridProperties> = Schema.suspend(
-  () =>
+export const GridProperties: Schema.Schema<GridProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rowCount: Schema.optional(Schema.Number),
       columnCount: Schema.optional(Schema.Number),
@@ -1052,9 +1065,9 @@ export const GridProperties: Schema.Schema<GridProperties> = Schema.suspend(
       rowGroupControlAfter: Schema.optional(Schema.Boolean),
       columnGroupControlAfter: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "GridProperties",
-}) as any as Schema.Schema<GridProperties>;
+  ).annotate({
+    identifier: "GridProperties",
+  }) as any as Schema.Schema<GridProperties>;
 
 export interface DataSourceColumnReference {
   /** The display name of the column. It should be unique within a data source. */
@@ -1062,7 +1075,7 @@ export interface DataSourceColumnReference {
 }
 
 export const DataSourceColumnReference: Schema.Schema<DataSourceColumnReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -1077,15 +1090,15 @@ export interface DataSourceColumn {
   formula?: string;
 }
 
-export const DataSourceColumn: Schema.Schema<DataSourceColumn> = Schema.suspend(
-  () =>
+export const DataSourceColumn: Schema.Schema<DataSourceColumn> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reference: Schema.optional(DataSourceColumnReference),
       formula: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DataSourceColumn",
-}) as any as Schema.Schema<DataSourceColumn>;
+  ).annotate({
+    identifier: "DataSourceColumn",
+  }) as any as Schema.Schema<DataSourceColumn>;
 
 export interface DataExecutionStatus {
   /** The state of the data execution. */
@@ -1127,7 +1140,7 @@ export interface DataExecutionStatus {
 }
 
 export const DataExecutionStatus: Schema.Schema<DataExecutionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       errorCode: Schema.optional(Schema.String),
@@ -1148,7 +1161,7 @@ export interface DataSourceSheetProperties {
 }
 
 export const DataSourceSheetProperties: Schema.Schema<DataSourceSheetProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceId: Schema.optional(Schema.String),
       columns: Schema.optional(Schema.Array(DataSourceColumn)),
@@ -1186,8 +1199,8 @@ export interface SheetProperties {
   dataSourceSheetProperties?: DataSourceSheetProperties;
 }
 
-export const SheetProperties: Schema.Schema<SheetProperties> = Schema.suspend(
-  () =>
+export const SheetProperties: Schema.Schema<SheetProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       title: Schema.optional(Schema.String),
@@ -1200,9 +1213,9 @@ export const SheetProperties: Schema.Schema<SheetProperties> = Schema.suspend(
       rightToLeft: Schema.optional(Schema.Boolean),
       dataSourceSheetProperties: Schema.optional(DataSourceSheetProperties),
     }),
-).annotate({
-  identifier: "SheetProperties",
-}) as any as Schema.Schema<SheetProperties>;
+  ).annotate({
+    identifier: "SheetProperties",
+  }) as any as Schema.Schema<SheetProperties>;
 
 export interface ErrorValue {
   /** The type of error. */
@@ -1222,12 +1235,13 @@ export interface ErrorValue {
   message?: string;
 }
 
-export const ErrorValue: Schema.Schema<ErrorValue> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ErrorValue" }) as any as Schema.Schema<ErrorValue>;
+export const ErrorValue: Schema.Schema<ErrorValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ErrorValue" }) as any as Schema.Schema<ErrorValue>;
 
 export interface ExtendedValue {
   /** Represents a double value. Note: Dates, Times and DateTimes are represented as doubles in SERIAL_NUMBER format. */
@@ -1242,17 +1256,18 @@ export interface ExtendedValue {
   errorValue?: ErrorValue;
 }
 
-export const ExtendedValue: Schema.Schema<ExtendedValue> = Schema.suspend(() =>
-  Schema.Struct({
-    numberValue: Schema.optional(Schema.Number),
-    stringValue: Schema.optional(Schema.String),
-    boolValue: Schema.optional(Schema.Boolean),
-    formulaValue: Schema.optional(Schema.String),
-    errorValue: Schema.optional(ErrorValue),
-  }),
-).annotate({
-  identifier: "ExtendedValue",
-}) as any as Schema.Schema<ExtendedValue>;
+export const ExtendedValue: Schema.Schema<ExtendedValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      numberValue: Schema.optional(Schema.Number),
+      stringValue: Schema.optional(Schema.String),
+      boolValue: Schema.optional(Schema.Boolean),
+      formulaValue: Schema.optional(Schema.String),
+      errorValue: Schema.optional(ErrorValue),
+    }),
+  ).annotate({
+    identifier: "ExtendedValue",
+  }) as any as Schema.Schema<ExtendedValue>;
 
 export interface TextFormatRun {
   /** The zero-based character index where this run starts, in UTF-16 code units. */
@@ -1261,14 +1276,15 @@ export interface TextFormatRun {
   format?: TextFormat;
 }
 
-export const TextFormatRun: Schema.Schema<TextFormatRun> = Schema.suspend(() =>
-  Schema.Struct({
-    startIndex: Schema.optional(Schema.Number),
-    format: Schema.optional(TextFormat),
-  }),
-).annotate({
-  identifier: "TextFormatRun",
-}) as any as Schema.Schema<TextFormatRun>;
+export const TextFormatRun: Schema.Schema<TextFormatRun> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startIndex: Schema.optional(Schema.Number),
+      format: Schema.optional(TextFormat),
+    }),
+  ).annotate({
+    identifier: "TextFormatRun",
+  }) as any as Schema.Schema<TextFormatRun>;
 
 export interface ConditionValue {
   /** A relative date (based on the current date). Valid only if the type is DATE_BEFORE, DATE_AFTER, DATE_ON_OR_BEFORE or DATE_ON_OR_AFTER. Relative dates are not supported in data validation. They are supported only in conditional formatting and conditional filters. */
@@ -1285,15 +1301,15 @@ export interface ConditionValue {
   userEnteredValue?: string;
 }
 
-export const ConditionValue: Schema.Schema<ConditionValue> = Schema.suspend(
-  () =>
+export const ConditionValue: Schema.Schema<ConditionValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relativeDate: Schema.optional(Schema.String),
       userEnteredValue: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConditionValue",
-}) as any as Schema.Schema<ConditionValue>;
+  ).annotate({
+    identifier: "ConditionValue",
+  }) as any as Schema.Schema<ConditionValue>;
 
 export interface BooleanCondition {
   /** The type of condition. */
@@ -1336,15 +1352,15 @@ export interface BooleanCondition {
   values?: Array<ConditionValue>;
 }
 
-export const BooleanCondition: Schema.Schema<BooleanCondition> = Schema.suspend(
-  () =>
+export const BooleanCondition: Schema.Schema<BooleanCondition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       values: Schema.optional(Schema.Array(ConditionValue)),
     }),
-).annotate({
-  identifier: "BooleanCondition",
-}) as any as Schema.Schema<BooleanCondition>;
+  ).annotate({
+    identifier: "BooleanCondition",
+  }) as any as Schema.Schema<BooleanCondition>;
 
 export interface DataValidationRule {
   /** The condition that data in the cell must match. */
@@ -1358,7 +1374,7 @@ export interface DataValidationRule {
 }
 
 export const DataValidationRule: Schema.Schema<DataValidationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(BooleanCondition),
       inputMessage: Schema.optional(Schema.String),
@@ -1377,7 +1393,7 @@ export interface PivotGroupValueMetadata {
 }
 
 export const PivotGroupValueMetadata: Schema.Schema<PivotGroupValueMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(ExtendedValue),
       collapsed: Schema.optional(Schema.Boolean),
@@ -1394,7 +1410,7 @@ export interface PivotGroupSortValueBucket {
 }
 
 export const PivotGroupSortValueBucket: Schema.Schema<PivotGroupSortValueBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valuesIndex: Schema.optional(Schema.Number),
       buckets: Schema.optional(Schema.Array(ExtendedValue)),
@@ -1410,26 +1426,27 @@ export interface ManualRuleGroup {
   items?: Array<ExtendedValue>;
 }
 
-export const ManualRuleGroup: Schema.Schema<ManualRuleGroup> = Schema.suspend(
-  () =>
+export const ManualRuleGroup: Schema.Schema<ManualRuleGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupName: Schema.optional(ExtendedValue),
       items: Schema.optional(Schema.Array(ExtendedValue)),
     }),
-).annotate({
-  identifier: "ManualRuleGroup",
-}) as any as Schema.Schema<ManualRuleGroup>;
+  ).annotate({
+    identifier: "ManualRuleGroup",
+  }) as any as Schema.Schema<ManualRuleGroup>;
 
 export interface ManualRule {
   /** The list of group names and the corresponding items from the source data that map to each group name. */
   groups?: Array<ManualRuleGroup>;
 }
 
-export const ManualRule: Schema.Schema<ManualRule> = Schema.suspend(() =>
-  Schema.Struct({
-    groups: Schema.optional(Schema.Array(ManualRuleGroup)),
-  }),
-).annotate({ identifier: "ManualRule" }) as any as Schema.Schema<ManualRule>;
+export const ManualRule: Schema.Schema<ManualRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      groups: Schema.optional(Schema.Array(ManualRuleGroup)),
+    }),
+  ).annotate({ identifier: "ManualRule" }) as any as Schema.Schema<ManualRule>;
 
 export interface HistogramRule {
   /** The size of the buckets that are created. Must be positive. */
@@ -1440,15 +1457,16 @@ export interface HistogramRule {
   end?: number;
 }
 
-export const HistogramRule: Schema.Schema<HistogramRule> = Schema.suspend(() =>
-  Schema.Struct({
-    interval: Schema.optional(Schema.Number),
-    start: Schema.optional(Schema.Number),
-    end: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "HistogramRule",
-}) as any as Schema.Schema<HistogramRule>;
+export const HistogramRule: Schema.Schema<HistogramRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      interval: Schema.optional(Schema.Number),
+      start: Schema.optional(Schema.Number),
+      end: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "HistogramRule",
+  }) as any as Schema.Schema<HistogramRule>;
 
 export interface DateTimeRule {
   /** The type of date-time grouping to apply. */
@@ -1472,13 +1490,14 @@ export interface DateTimeRule {
     | (string & {});
 }
 
-export const DateTimeRule: Schema.Schema<DateTimeRule> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DateTimeRule",
-}) as any as Schema.Schema<DateTimeRule>;
+export const DateTimeRule: Schema.Schema<DateTimeRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DateTimeRule",
+  }) as any as Schema.Schema<DateTimeRule>;
 
 export interface PivotGroupRule {
   /** A ManualRule. */
@@ -1489,16 +1508,16 @@ export interface PivotGroupRule {
   dateTimeRule?: DateTimeRule;
 }
 
-export const PivotGroupRule: Schema.Schema<PivotGroupRule> = Schema.suspend(
-  () =>
+export const PivotGroupRule: Schema.Schema<PivotGroupRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       manualRule: Schema.optional(ManualRule),
       histogramRule: Schema.optional(HistogramRule),
       dateTimeRule: Schema.optional(DateTimeRule),
     }),
-).annotate({
-  identifier: "PivotGroupRule",
-}) as any as Schema.Schema<PivotGroupRule>;
+  ).annotate({
+    identifier: "PivotGroupRule",
+  }) as any as Schema.Schema<PivotGroupRule>;
 
 export interface PivotGroupLimit {
   /** The count limit. */
@@ -1507,15 +1526,15 @@ export interface PivotGroupLimit {
   applyOrder?: number;
 }
 
-export const PivotGroupLimit: Schema.Schema<PivotGroupLimit> = Schema.suspend(
-  () =>
+export const PivotGroupLimit: Schema.Schema<PivotGroupLimit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countLimit: Schema.optional(Schema.Number),
       applyOrder: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "PivotGroupLimit",
-}) as any as Schema.Schema<PivotGroupLimit>;
+  ).annotate({
+    identifier: "PivotGroupLimit",
+  }) as any as Schema.Schema<PivotGroupLimit>;
 
 export interface PivotGroup {
   /** The column offset of the source range that this grouping is based on. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this group refers to column `C`, whereas the offset `1` would refer to column `D`. */
@@ -1544,20 +1563,21 @@ export interface PivotGroup {
   groupLimit?: PivotGroupLimit;
 }
 
-export const PivotGroup: Schema.Schema<PivotGroup> = Schema.suspend(() =>
-  Schema.Struct({
-    sourceColumnOffset: Schema.optional(Schema.Number),
-    dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
-    showTotals: Schema.optional(Schema.Boolean),
-    valueMetadata: Schema.optional(Schema.Array(PivotGroupValueMetadata)),
-    sortOrder: Schema.optional(Schema.String),
-    valueBucket: Schema.optional(PivotGroupSortValueBucket),
-    repeatHeadings: Schema.optional(Schema.Boolean),
-    label: Schema.optional(Schema.String),
-    groupRule: Schema.optional(PivotGroupRule),
-    groupLimit: Schema.optional(PivotGroupLimit),
-  }),
-).annotate({ identifier: "PivotGroup" }) as any as Schema.Schema<PivotGroup>;
+export const PivotGroup: Schema.Schema<PivotGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sourceColumnOffset: Schema.optional(Schema.Number),
+      dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
+      showTotals: Schema.optional(Schema.Boolean),
+      valueMetadata: Schema.optional(Schema.Array(PivotGroupValueMetadata)),
+      sortOrder: Schema.optional(Schema.String),
+      valueBucket: Schema.optional(PivotGroupSortValueBucket),
+      repeatHeadings: Schema.optional(Schema.Boolean),
+      label: Schema.optional(Schema.String),
+      groupRule: Schema.optional(PivotGroupRule),
+      groupLimit: Schema.optional(PivotGroupLimit),
+    }),
+  ).annotate({ identifier: "PivotGroup" }) as any as Schema.Schema<PivotGroup>;
 
 export interface PivotFilterCriteria {
   /** Values that should be included. Values not listed here are excluded. */
@@ -1569,7 +1589,7 @@ export interface PivotFilterCriteria {
 }
 
 export const PivotFilterCriteria: Schema.Schema<PivotFilterCriteria> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       visibleValues: Schema.optional(Schema.Array(Schema.String)),
       condition: Schema.optional(BooleanCondition),
@@ -1588,16 +1608,16 @@ export interface PivotFilterSpec {
   filterCriteria?: PivotFilterCriteria;
 }
 
-export const PivotFilterSpec: Schema.Schema<PivotFilterSpec> = Schema.suspend(
-  () =>
+export const PivotFilterSpec: Schema.Schema<PivotFilterSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnOffsetIndex: Schema.optional(Schema.Number),
       dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
       filterCriteria: Schema.optional(PivotFilterCriteria),
     }),
-).annotate({
-  identifier: "PivotFilterSpec",
-}) as any as Schema.Schema<PivotFilterSpec>;
+  ).annotate({
+    identifier: "PivotFilterSpec",
+  }) as any as Schema.Schema<PivotFilterSpec>;
 
 export interface PivotValue {
   /** The column offset of the source range that this value reads from. For example, if the source was `C10:E15`, a `sourceColumnOffset` of `0` means this value refers to column `C`, whereas the offset `1` would refer to column `D`. */
@@ -1636,16 +1656,17 @@ export interface PivotValue {
     | (string & {});
 }
 
-export const PivotValue: Schema.Schema<PivotValue> = Schema.suspend(() =>
-  Schema.Struct({
-    sourceColumnOffset: Schema.optional(Schema.Number),
-    formula: Schema.optional(Schema.String),
-    dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
-    summarizeFunction: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    calculatedDisplayType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PivotValue" }) as any as Schema.Schema<PivotValue>;
+export const PivotValue: Schema.Schema<PivotValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sourceColumnOffset: Schema.optional(Schema.Number),
+      formula: Schema.optional(Schema.String),
+      dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
+      summarizeFunction: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      calculatedDisplayType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PivotValue" }) as any as Schema.Schema<PivotValue>;
 
 export interface PivotTable {
   /** The range the pivot table is reading data from. */
@@ -1668,21 +1689,22 @@ export interface PivotTable {
   dataExecutionStatus?: DataExecutionStatus;
 }
 
-export const PivotTable: Schema.Schema<PivotTable> = Schema.suspend(() =>
-  Schema.Struct({
-    source: Schema.optional(GridRange),
-    dataSourceId: Schema.optional(Schema.String),
-    rows: Schema.optional(Schema.Array(PivotGroup)),
-    columns: Schema.optional(Schema.Array(PivotGroup)),
-    criteria: Schema.optional(
-      Schema.Record(Schema.String, PivotFilterCriteria),
-    ),
-    filterSpecs: Schema.optional(Schema.Array(PivotFilterSpec)),
-    values: Schema.optional(Schema.Array(PivotValue)),
-    valueLayout: Schema.optional(Schema.String),
-    dataExecutionStatus: Schema.optional(DataExecutionStatus),
-  }),
-).annotate({ identifier: "PivotTable" }) as any as Schema.Schema<PivotTable>;
+export const PivotTable: Schema.Schema<PivotTable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(GridRange),
+      dataSourceId: Schema.optional(Schema.String),
+      rows: Schema.optional(Schema.Array(PivotGroup)),
+      columns: Schema.optional(Schema.Array(PivotGroup)),
+      criteria: Schema.optional(
+        Schema.Record(Schema.String, PivotFilterCriteria),
+      ),
+      filterSpecs: Schema.optional(Schema.Array(PivotFilterSpec)),
+      values: Schema.optional(Schema.Array(PivotValue)),
+      valueLayout: Schema.optional(Schema.String),
+      dataExecutionStatus: Schema.optional(DataExecutionStatus),
+    }),
+  ).annotate({ identifier: "PivotTable" }) as any as Schema.Schema<PivotTable>;
 
 export interface FilterCriteria {
   /** Values that should be hidden. */
@@ -1699,8 +1721,8 @@ export interface FilterCriteria {
   visibleForegroundColorStyle?: ColorStyle;
 }
 
-export const FilterCriteria: Schema.Schema<FilterCriteria> = Schema.suspend(
-  () =>
+export const FilterCriteria: Schema.Schema<FilterCriteria> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hiddenValues: Schema.optional(Schema.Array(Schema.String)),
       condition: Schema.optional(BooleanCondition),
@@ -1709,9 +1731,9 @@ export const FilterCriteria: Schema.Schema<FilterCriteria> = Schema.suspend(
       visibleForegroundColor: Schema.optional(Color),
       visibleForegroundColorStyle: Schema.optional(ColorStyle),
     }),
-).annotate({
-  identifier: "FilterCriteria",
-}) as any as Schema.Schema<FilterCriteria>;
+  ).annotate({
+    identifier: "FilterCriteria",
+  }) as any as Schema.Schema<FilterCriteria>;
 
 export interface FilterSpec {
   /** The zero-based column index. */
@@ -1722,13 +1744,14 @@ export interface FilterSpec {
   filterCriteria?: FilterCriteria;
 }
 
-export const FilterSpec: Schema.Schema<FilterSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    columnIndex: Schema.optional(Schema.Number),
-    dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
-    filterCriteria: Schema.optional(FilterCriteria),
-  }),
-).annotate({ identifier: "FilterSpec" }) as any as Schema.Schema<FilterSpec>;
+export const FilterSpec: Schema.Schema<FilterSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columnIndex: Schema.optional(Schema.Number),
+      dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
+      filterCriteria: Schema.optional(FilterCriteria),
+    }),
+  ).annotate({ identifier: "FilterSpec" }) as any as Schema.Schema<FilterSpec>;
 
 export interface SortSpec {
   /** The dimension the sort should be applied to. */
@@ -1751,17 +1774,18 @@ export interface SortSpec {
   backgroundColorStyle?: ColorStyle;
 }
 
-export const SortSpec: Schema.Schema<SortSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    dimensionIndex: Schema.optional(Schema.Number),
-    dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
-    sortOrder: Schema.optional(Schema.String),
-    foregroundColor: Schema.optional(Color),
-    foregroundColorStyle: Schema.optional(ColorStyle),
-    backgroundColor: Schema.optional(Color),
-    backgroundColorStyle: Schema.optional(ColorStyle),
-  }),
-).annotate({ identifier: "SortSpec" }) as any as Schema.Schema<SortSpec>;
+export const SortSpec: Schema.Schema<SortSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dimensionIndex: Schema.optional(Schema.Number),
+      dataSourceColumnReference: Schema.optional(DataSourceColumnReference),
+      sortOrder: Schema.optional(Schema.String),
+      foregroundColor: Schema.optional(Color),
+      foregroundColorStyle: Schema.optional(ColorStyle),
+      backgroundColor: Schema.optional(Color),
+      backgroundColorStyle: Schema.optional(ColorStyle),
+    }),
+  ).annotate({ identifier: "SortSpec" }) as any as Schema.Schema<SortSpec>;
 
 export interface DataSourceTable {
   /** The ID of the data source the data source table is associated with. */
@@ -1784,8 +1808,8 @@ export interface DataSourceTable {
   dataExecutionStatus?: DataExecutionStatus;
 }
 
-export const DataSourceTable: Schema.Schema<DataSourceTable> = Schema.suspend(
-  () =>
+export const DataSourceTable: Schema.Schema<DataSourceTable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceId: Schema.optional(Schema.String),
       columnSelectionType: Schema.optional(Schema.String),
@@ -1795,9 +1819,9 @@ export const DataSourceTable: Schema.Schema<DataSourceTable> = Schema.suspend(
       rowLimit: Schema.optional(Schema.Number),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
     }),
-).annotate({
-  identifier: "DataSourceTable",
-}) as any as Schema.Schema<DataSourceTable>;
+  ).annotate({
+    identifier: "DataSourceTable",
+  }) as any as Schema.Schema<DataSourceTable>;
 
 export interface DataSourceFormula {
   /** The ID of the data source the formula is associated with. */
@@ -1807,7 +1831,7 @@ export interface DataSourceFormula {
 }
 
 export const DataSourceFormula: Schema.Schema<DataSourceFormula> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceId: Schema.optional(Schema.String),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
@@ -1828,15 +1852,15 @@ export interface PersonProperties {
     | (string & {});
 }
 
-export const PersonProperties: Schema.Schema<PersonProperties> = Schema.suspend(
-  () =>
+export const PersonProperties: Schema.Schema<PersonProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       displayFormat: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PersonProperties",
-}) as any as Schema.Schema<PersonProperties>;
+  ).annotate({
+    identifier: "PersonProperties",
+  }) as any as Schema.Schema<PersonProperties>;
 
 export interface RichLinkProperties {
   /** Required. The URI to the link. This is always present. */
@@ -1846,7 +1870,7 @@ export interface RichLinkProperties {
 }
 
 export const RichLinkProperties: Schema.Schema<RichLinkProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -1862,12 +1886,13 @@ export interface Chip {
   richLinkProperties?: RichLinkProperties;
 }
 
-export const Chip: Schema.Schema<Chip> = Schema.suspend(() =>
-  Schema.Struct({
-    personProperties: Schema.optional(PersonProperties),
-    richLinkProperties: Schema.optional(RichLinkProperties),
-  }),
-).annotate({ identifier: "Chip" }) as any as Schema.Schema<Chip>;
+export const Chip: Schema.Schema<Chip> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      personProperties: Schema.optional(PersonProperties),
+      richLinkProperties: Schema.optional(RichLinkProperties),
+    }),
+  ).annotate({ identifier: "Chip" }) as any as Schema.Schema<Chip>;
 
 export interface ChipRun {
   /** Required. The zero-based character index where this run starts, in UTF-16 code units. */
@@ -1876,12 +1901,13 @@ export interface ChipRun {
   chip?: Chip;
 }
 
-export const ChipRun: Schema.Schema<ChipRun> = Schema.suspend(() =>
-  Schema.Struct({
-    startIndex: Schema.optional(Schema.Number),
-    chip: Schema.optional(Chip),
-  }),
-).annotate({ identifier: "ChipRun" }) as any as Schema.Schema<ChipRun>;
+export const ChipRun: Schema.Schema<ChipRun> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startIndex: Schema.optional(Schema.Number),
+      chip: Schema.optional(Chip),
+    }),
+  ).annotate({ identifier: "ChipRun" }) as any as Schema.Schema<ChipRun>;
 
 export interface CellData {
   /** The value the user entered in the cell. e.g., `1234`, `'Hello'`, or `=NOW()` Note: Dates, Times and DateTimes are represented as doubles in serial number format. */
@@ -1912,34 +1938,36 @@ export interface CellData {
   chipRuns?: Array<ChipRun>;
 }
 
-export const CellData: Schema.Schema<CellData> = Schema.suspend(() =>
-  Schema.Struct({
-    userEnteredValue: Schema.optional(ExtendedValue),
-    effectiveValue: Schema.optional(ExtendedValue),
-    formattedValue: Schema.optional(Schema.String),
-    userEnteredFormat: Schema.optional(CellFormat),
-    effectiveFormat: Schema.optional(CellFormat),
-    hyperlink: Schema.optional(Schema.String),
-    note: Schema.optional(Schema.String),
-    textFormatRuns: Schema.optional(Schema.Array(TextFormatRun)),
-    dataValidation: Schema.optional(DataValidationRule),
-    pivotTable: Schema.optional(PivotTable),
-    dataSourceTable: Schema.optional(DataSourceTable),
-    dataSourceFormula: Schema.optional(DataSourceFormula),
-    chipRuns: Schema.optional(Schema.Array(ChipRun)),
-  }),
-).annotate({ identifier: "CellData" }) as any as Schema.Schema<CellData>;
+export const CellData: Schema.Schema<CellData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userEnteredValue: Schema.optional(ExtendedValue),
+      effectiveValue: Schema.optional(ExtendedValue),
+      formattedValue: Schema.optional(Schema.String),
+      userEnteredFormat: Schema.optional(CellFormat),
+      effectiveFormat: Schema.optional(CellFormat),
+      hyperlink: Schema.optional(Schema.String),
+      note: Schema.optional(Schema.String),
+      textFormatRuns: Schema.optional(Schema.Array(TextFormatRun)),
+      dataValidation: Schema.optional(DataValidationRule),
+      pivotTable: Schema.optional(PivotTable),
+      dataSourceTable: Schema.optional(DataSourceTable),
+      dataSourceFormula: Schema.optional(DataSourceFormula),
+      chipRuns: Schema.optional(Schema.Array(ChipRun)),
+    }),
+  ).annotate({ identifier: "CellData" }) as any as Schema.Schema<CellData>;
 
 export interface RowData {
   /** The values in the row, one per column. */
   values?: Array<CellData>;
 }
 
-export const RowData: Schema.Schema<RowData> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(CellData)),
-  }),
-).annotate({ identifier: "RowData" }) as any as Schema.Schema<RowData>;
+export const RowData: Schema.Schema<RowData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(CellData)),
+    }),
+  ).annotate({ identifier: "RowData" }) as any as Schema.Schema<RowData>;
 
 export interface DimensionProperties {
   /** True if this dimension is being filtered. This field is read-only. */
@@ -1955,7 +1983,7 @@ export interface DimensionProperties {
 }
 
 export const DimensionProperties: Schema.Schema<DimensionProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hiddenByFilter: Schema.optional(Schema.Boolean),
       hiddenByUser: Schema.optional(Schema.Boolean),
@@ -1980,15 +2008,16 @@ export interface GridData {
   columnMetadata?: Array<DimensionProperties>;
 }
 
-export const GridData: Schema.Schema<GridData> = Schema.suspend(() =>
-  Schema.Struct({
-    startRow: Schema.optional(Schema.Number),
-    startColumn: Schema.optional(Schema.Number),
-    rowData: Schema.optional(Schema.Array(RowData)),
-    rowMetadata: Schema.optional(Schema.Array(DimensionProperties)),
-    columnMetadata: Schema.optional(Schema.Array(DimensionProperties)),
-  }),
-).annotate({ identifier: "GridData" }) as any as Schema.Schema<GridData>;
+export const GridData: Schema.Schema<GridData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startRow: Schema.optional(Schema.Number),
+      startColumn: Schema.optional(Schema.Number),
+      rowData: Schema.optional(Schema.Array(RowData)),
+      rowMetadata: Schema.optional(Schema.Array(DimensionProperties)),
+      columnMetadata: Schema.optional(Schema.Array(DimensionProperties)),
+    }),
+  ).annotate({ identifier: "GridData" }) as any as Schema.Schema<GridData>;
 
 export interface BooleanRule {
   /** The condition of the rule. If the condition evaluates to true, the format is applied. */
@@ -1997,12 +2026,15 @@ export interface BooleanRule {
   format?: CellFormat;
 }
 
-export const BooleanRule: Schema.Schema<BooleanRule> = Schema.suspend(() =>
-  Schema.Struct({
-    condition: Schema.optional(BooleanCondition),
-    format: Schema.optional(CellFormat),
-  }),
-).annotate({ identifier: "BooleanRule" }) as any as Schema.Schema<BooleanRule>;
+export const BooleanRule: Schema.Schema<BooleanRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      condition: Schema.optional(BooleanCondition),
+      format: Schema.optional(CellFormat),
+    }),
+  ).annotate({
+    identifier: "BooleanRule",
+  }) as any as Schema.Schema<BooleanRule>;
 
 export interface InterpolationPoint {
   /** The color this interpolation point should use. Deprecated: Use color_style. */
@@ -2023,7 +2055,7 @@ export interface InterpolationPoint {
 }
 
 export const InterpolationPoint: Schema.Schema<InterpolationPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       color: Schema.optional(Color),
       colorStyle: Schema.optional(ColorStyle),
@@ -2043,15 +2075,16 @@ export interface GradientRule {
   maxpoint?: InterpolationPoint;
 }
 
-export const GradientRule: Schema.Schema<GradientRule> = Schema.suspend(() =>
-  Schema.Struct({
-    minpoint: Schema.optional(InterpolationPoint),
-    midpoint: Schema.optional(InterpolationPoint),
-    maxpoint: Schema.optional(InterpolationPoint),
-  }),
-).annotate({
-  identifier: "GradientRule",
-}) as any as Schema.Schema<GradientRule>;
+export const GradientRule: Schema.Schema<GradientRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minpoint: Schema.optional(InterpolationPoint),
+      midpoint: Schema.optional(InterpolationPoint),
+      maxpoint: Schema.optional(InterpolationPoint),
+    }),
+  ).annotate({
+    identifier: "GradientRule",
+  }) as any as Schema.Schema<GradientRule>;
 
 export interface ConditionalFormatRule {
   /** The ranges that are formatted if the condition is true. All the ranges must be on the same grid. */
@@ -2063,7 +2096,7 @@ export interface ConditionalFormatRule {
 }
 
 export const ConditionalFormatRule: Schema.Schema<ConditionalFormatRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ranges: Schema.optional(Schema.Array(GridRange)),
       booleanRule: Schema.optional(BooleanRule),
@@ -2092,18 +2125,19 @@ export interface FilterView {
   filterSpecs?: Array<FilterSpec>;
 }
 
-export const FilterView: Schema.Schema<FilterView> = Schema.suspend(() =>
-  Schema.Struct({
-    filterViewId: Schema.optional(Schema.Number),
-    title: Schema.optional(Schema.String),
-    range: Schema.optional(GridRange),
-    namedRangeId: Schema.optional(Schema.String),
-    tableId: Schema.optional(Schema.String),
-    sortSpecs: Schema.optional(Schema.Array(SortSpec)),
-    criteria: Schema.optional(Schema.Record(Schema.String, FilterCriteria)),
-    filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
-  }),
-).annotate({ identifier: "FilterView" }) as any as Schema.Schema<FilterView>;
+export const FilterView: Schema.Schema<FilterView> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      filterViewId: Schema.optional(Schema.Number),
+      title: Schema.optional(Schema.String),
+      range: Schema.optional(GridRange),
+      namedRangeId: Schema.optional(Schema.String),
+      tableId: Schema.optional(Schema.String),
+      sortSpecs: Schema.optional(Schema.Array(SortSpec)),
+      criteria: Schema.optional(Schema.Record(Schema.String, FilterCriteria)),
+      filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
+    }),
+  ).annotate({ identifier: "FilterView" }) as any as Schema.Schema<FilterView>;
 
 export interface Editors {
   /** The email addresses of users with edit access to the protected range. */
@@ -2114,13 +2148,14 @@ export interface Editors {
   domainUsersCanEdit?: boolean;
 }
 
-export const Editors: Schema.Schema<Editors> = Schema.suspend(() =>
-  Schema.Struct({
-    users: Schema.optional(Schema.Array(Schema.String)),
-    groups: Schema.optional(Schema.Array(Schema.String)),
-    domainUsersCanEdit: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Editors" }) as any as Schema.Schema<Editors>;
+export const Editors: Schema.Schema<Editors> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      users: Schema.optional(Schema.Array(Schema.String)),
+      groups: Schema.optional(Schema.Array(Schema.String)),
+      domainUsersCanEdit: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Editors" }) as any as Schema.Schema<Editors>;
 
 export interface ProtectedRange {
   /** The ID of the protected range. This field is read-only. */
@@ -2143,8 +2178,8 @@ export interface ProtectedRange {
   editors?: Editors;
 }
 
-export const ProtectedRange: Schema.Schema<ProtectedRange> = Schema.suspend(
-  () =>
+export const ProtectedRange: Schema.Schema<ProtectedRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protectedRangeId: Schema.optional(Schema.Number),
       range: Schema.optional(GridRange),
@@ -2156,9 +2191,9 @@ export const ProtectedRange: Schema.Schema<ProtectedRange> = Schema.suspend(
       unprotectedRanges: Schema.optional(Schema.Array(GridRange)),
       editors: Schema.optional(Editors),
     }),
-).annotate({
-  identifier: "ProtectedRange",
-}) as any as Schema.Schema<ProtectedRange>;
+  ).annotate({
+    identifier: "ProtectedRange",
+  }) as any as Schema.Schema<ProtectedRange>;
 
 export interface BasicFilter {
   /** The range the filter covers. */
@@ -2173,15 +2208,18 @@ export interface BasicFilter {
   filterSpecs?: Array<FilterSpec>;
 }
 
-export const BasicFilter: Schema.Schema<BasicFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    range: Schema.optional(GridRange),
-    tableId: Schema.optional(Schema.String),
-    sortSpecs: Schema.optional(Schema.Array(SortSpec)),
-    criteria: Schema.optional(Schema.Record(Schema.String, FilterCriteria)),
-    filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
-  }),
-).annotate({ identifier: "BasicFilter" }) as any as Schema.Schema<BasicFilter>;
+export const BasicFilter: Schema.Schema<BasicFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      range: Schema.optional(GridRange),
+      tableId: Schema.optional(Schema.String),
+      sortSpecs: Schema.optional(Schema.Array(SortSpec)),
+      criteria: Schema.optional(Schema.Record(Schema.String, FilterCriteria)),
+      filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
+    }),
+  ).annotate({
+    identifier: "BasicFilter",
+  }) as any as Schema.Schema<BasicFilter>;
 
 export interface TextPosition {
   /** Horizontal alignment setting for the piece of text. */
@@ -2193,13 +2231,14 @@ export interface TextPosition {
     | (string & {});
 }
 
-export const TextPosition: Schema.Schema<TextPosition> = Schema.suspend(() =>
-  Schema.Struct({
-    horizontalAlignment: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TextPosition",
-}) as any as Schema.Schema<TextPosition>;
+export const TextPosition: Schema.Schema<TextPosition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      horizontalAlignment: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TextPosition",
+  }) as any as Schema.Schema<TextPosition>;
 
 export interface DataSourceChartProperties {
   /** ID of the data source that the chart is associated with. */
@@ -2209,7 +2248,7 @@ export interface DataSourceChartProperties {
 }
 
 export const DataSourceChartProperties: Schema.Schema<DataSourceChartProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceId: Schema.optional(Schema.String),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
@@ -2233,7 +2272,7 @@ export interface ChartAxisViewWindowOptions {
 }
 
 export const ChartAxisViewWindowOptions: Schema.Schema<ChartAxisViewWindowOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewWindowMin: Schema.optional(Schema.Number),
       viewWindowMax: Schema.optional(Schema.Number),
@@ -2261,8 +2300,8 @@ export interface BasicChartAxis {
   viewWindowOptions?: ChartAxisViewWindowOptions;
 }
 
-export const BasicChartAxis: Schema.Schema<BasicChartAxis> = Schema.suspend(
-  () =>
+export const BasicChartAxis: Schema.Schema<BasicChartAxis> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       position: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -2270,23 +2309,23 @@ export const BasicChartAxis: Schema.Schema<BasicChartAxis> = Schema.suspend(
       titleTextPosition: Schema.optional(TextPosition),
       viewWindowOptions: Schema.optional(ChartAxisViewWindowOptions),
     }),
-).annotate({
-  identifier: "BasicChartAxis",
-}) as any as Schema.Schema<BasicChartAxis>;
+  ).annotate({
+    identifier: "BasicChartAxis",
+  }) as any as Schema.Schema<BasicChartAxis>;
 
 export interface ChartSourceRange {
   /** The ranges of data for a series or domain. Exactly one dimension must have a length of 1, and all sources in the list must have the same dimension with length 1. The domain (if it exists) & all series must have the same number of source ranges. If using more than one source range, then the source range at a given offset must be in order and contiguous across the domain and series. For example, these are valid configurations: domain sources: A1:A5 series1 sources: B1:B5 series2 sources: D6:D10 domain sources: A1:A5, C10:C12 series1 sources: B1:B5, D10:D12 series2 sources: C1:C5, E10:E12 */
   sources?: Array<GridRange>;
 }
 
-export const ChartSourceRange: Schema.Schema<ChartSourceRange> = Schema.suspend(
-  () =>
+export const ChartSourceRange: Schema.Schema<ChartSourceRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(Schema.Array(GridRange)),
     }),
-).annotate({
-  identifier: "ChartSourceRange",
-}) as any as Schema.Schema<ChartSourceRange>;
+  ).annotate({
+    identifier: "ChartSourceRange",
+  }) as any as Schema.Schema<ChartSourceRange>;
 
 export interface ChartDateTimeRule {
   /** The type of date-time grouping to apply. */
@@ -2311,7 +2350,7 @@ export interface ChartDateTimeRule {
 }
 
 export const ChartDateTimeRule: Schema.Schema<ChartDateTimeRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -2329,7 +2368,7 @@ export interface ChartHistogramRule {
 }
 
 export const ChartHistogramRule: Schema.Schema<ChartHistogramRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minValue: Schema.optional(Schema.Number),
       maxValue: Schema.optional(Schema.Number),
@@ -2346,15 +2385,15 @@ export interface ChartGroupRule {
   histogramRule?: ChartHistogramRule;
 }
 
-export const ChartGroupRule: Schema.Schema<ChartGroupRule> = Schema.suspend(
-  () =>
+export const ChartGroupRule: Schema.Schema<ChartGroupRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateTimeRule: Schema.optional(ChartDateTimeRule),
       histogramRule: Schema.optional(ChartHistogramRule),
     }),
-).annotate({
-  identifier: "ChartGroupRule",
-}) as any as Schema.Schema<ChartGroupRule>;
+  ).annotate({
+    identifier: "ChartGroupRule",
+  }) as any as Schema.Schema<ChartGroupRule>;
 
 export interface ChartData {
   /** The source ranges of the data. */
@@ -2375,14 +2414,15 @@ export interface ChartData {
     | (string & {});
 }
 
-export const ChartData: Schema.Schema<ChartData> = Schema.suspend(() =>
-  Schema.Struct({
-    sourceRange: Schema.optional(ChartSourceRange),
-    columnReference: Schema.optional(DataSourceColumnReference),
-    groupRule: Schema.optional(ChartGroupRule),
-    aggregateType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ChartData" }) as any as Schema.Schema<ChartData>;
+export const ChartData: Schema.Schema<ChartData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sourceRange: Schema.optional(ChartSourceRange),
+      columnReference: Schema.optional(DataSourceColumnReference),
+      groupRule: Schema.optional(ChartGroupRule),
+      aggregateType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ChartData" }) as any as Schema.Schema<ChartData>;
 
 export interface BasicChartDomain {
   /** The data of the domain. For example, if charting stock prices over time, this is the data representing the dates. */
@@ -2391,15 +2431,15 @@ export interface BasicChartDomain {
   reversed?: boolean;
 }
 
-export const BasicChartDomain: Schema.Schema<BasicChartDomain> = Schema.suspend(
-  () =>
+export const BasicChartDomain: Schema.Schema<BasicChartDomain> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(ChartData),
       reversed: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "BasicChartDomain",
-}) as any as Schema.Schema<BasicChartDomain>;
+  ).annotate({
+    identifier: "BasicChartDomain",
+  }) as any as Schema.Schema<BasicChartDomain>;
 
 export interface LineStyle {
   /** The thickness of the line, in px. */
@@ -2418,12 +2458,13 @@ export interface LineStyle {
     | (string & {});
 }
 
-export const LineStyle: Schema.Schema<LineStyle> = Schema.suspend(() =>
-  Schema.Struct({
-    width: Schema.optional(Schema.Number),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LineStyle" }) as any as Schema.Schema<LineStyle>;
+export const LineStyle: Schema.Schema<LineStyle> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.Number),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "LineStyle" }) as any as Schema.Schema<LineStyle>;
 
 export interface DataLabel {
   /** The type of the data label. */
@@ -2451,14 +2492,15 @@ export interface DataLabel {
   customLabelData?: ChartData;
 }
 
-export const DataLabel: Schema.Schema<DataLabel> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    textFormat: Schema.optional(TextFormat),
-    placement: Schema.optional(Schema.String),
-    customLabelData: Schema.optional(ChartData),
-  }),
-).annotate({ identifier: "DataLabel" }) as any as Schema.Schema<DataLabel>;
+export const DataLabel: Schema.Schema<DataLabel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      textFormat: Schema.optional(TextFormat),
+      placement: Schema.optional(Schema.String),
+      customLabelData: Schema.optional(ChartData),
+    }),
+  ).annotate({ identifier: "DataLabel" }) as any as Schema.Schema<DataLabel>;
 
 export interface PointStyle {
   /** The point size. If empty, a default size is used. */
@@ -2477,12 +2519,13 @@ export interface PointStyle {
     | (string & {});
 }
 
-export const PointStyle: Schema.Schema<PointStyle> = Schema.suspend(() =>
-  Schema.Struct({
-    size: Schema.optional(Schema.Number),
-    shape: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PointStyle" }) as any as Schema.Schema<PointStyle>;
+export const PointStyle: Schema.Schema<PointStyle> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      size: Schema.optional(Schema.Number),
+      shape: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PointStyle" }) as any as Schema.Schema<PointStyle>;
 
 export interface BasicSeriesDataPointStyleOverride {
   /** The zero-based index of the series data point. */
@@ -2496,7 +2539,7 @@ export interface BasicSeriesDataPointStyleOverride {
 }
 
 export const BasicSeriesDataPointStyleOverride: Schema.Schema<BasicSeriesDataPointStyleOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       index: Schema.optional(Schema.Number),
       color: Schema.optional(Color),
@@ -2542,8 +2585,8 @@ export interface BasicChartSeries {
   styleOverrides?: Array<BasicSeriesDataPointStyleOverride>;
 }
 
-export const BasicChartSeries: Schema.Schema<BasicChartSeries> = Schema.suspend(
-  () =>
+export const BasicChartSeries: Schema.Schema<BasicChartSeries> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       series: Schema.optional(ChartData),
       targetAxis: Schema.optional(Schema.String),
@@ -2557,9 +2600,9 @@ export const BasicChartSeries: Schema.Schema<BasicChartSeries> = Schema.suspend(
         Schema.Array(BasicSeriesDataPointStyleOverride),
       ),
     }),
-).annotate({
-  identifier: "BasicChartSeries",
-}) as any as Schema.Schema<BasicChartSeries>;
+  ).annotate({
+    identifier: "BasicChartSeries",
+  }) as any as Schema.Schema<BasicChartSeries>;
 
 export interface BasicChartSpec {
   /** The type of the chart. */
@@ -2613,8 +2656,8 @@ export interface BasicChartSpec {
   totalDataLabel?: DataLabel;
 }
 
-export const BasicChartSpec: Schema.Schema<BasicChartSpec> = Schema.suspend(
-  () =>
+export const BasicChartSpec: Schema.Schema<BasicChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chartType: Schema.optional(Schema.String),
       legendPosition: Schema.optional(Schema.String),
@@ -2629,9 +2672,9 @@ export const BasicChartSpec: Schema.Schema<BasicChartSpec> = Schema.suspend(
       compareMode: Schema.optional(Schema.String),
       totalDataLabel: Schema.optional(DataLabel),
     }),
-).annotate({
-  identifier: "BasicChartSpec",
-}) as any as Schema.Schema<BasicChartSpec>;
+  ).annotate({
+    identifier: "BasicChartSpec",
+  }) as any as Schema.Schema<BasicChartSpec>;
 
 export interface PieChartSpec {
   /** Where the legend of the pie chart should be drawn. */
@@ -2654,17 +2697,18 @@ export interface PieChartSpec {
   pieHole?: number;
 }
 
-export const PieChartSpec: Schema.Schema<PieChartSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    legendPosition: Schema.optional(Schema.String),
-    domain: Schema.optional(ChartData),
-    series: Schema.optional(ChartData),
-    threeDimensional: Schema.optional(Schema.Boolean),
-    pieHole: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "PieChartSpec",
-}) as any as Schema.Schema<PieChartSpec>;
+export const PieChartSpec: Schema.Schema<PieChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      legendPosition: Schema.optional(Schema.String),
+      domain: Schema.optional(ChartData),
+      series: Schema.optional(ChartData),
+      threeDimensional: Schema.optional(Schema.Boolean),
+      pieHole: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PieChartSpec",
+  }) as any as Schema.Schema<PieChartSpec>;
 
 export interface BubbleChartSpec {
   /** Where the legend of the chart should be drawn. */
@@ -2701,8 +2745,8 @@ export interface BubbleChartSpec {
   bubbleTextStyle?: TextFormat;
 }
 
-export const BubbleChartSpec: Schema.Schema<BubbleChartSpec> = Schema.suspend(
-  () =>
+export const BubbleChartSpec: Schema.Schema<BubbleChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       legendPosition: Schema.optional(Schema.String),
       bubbleLabels: Schema.optional(ChartData),
@@ -2717,9 +2761,9 @@ export const BubbleChartSpec: Schema.Schema<BubbleChartSpec> = Schema.suspend(
       bubbleMinRadiusSize: Schema.optional(Schema.Number),
       bubbleTextStyle: Schema.optional(TextFormat),
     }),
-).annotate({
-  identifier: "BubbleChartSpec",
-}) as any as Schema.Schema<BubbleChartSpec>;
+  ).annotate({
+    identifier: "BubbleChartSpec",
+  }) as any as Schema.Schema<BubbleChartSpec>;
 
 export interface CandlestickDomain {
   /** The data of the CandlestickDomain. */
@@ -2729,7 +2773,7 @@ export interface CandlestickDomain {
 }
 
 export const CandlestickDomain: Schema.Schema<CandlestickDomain> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(ChartData),
       reversed: Schema.optional(Schema.Boolean),
@@ -2744,7 +2788,7 @@ export interface CandlestickSeries {
 }
 
 export const CandlestickSeries: Schema.Schema<CandlestickSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(ChartData),
     }),
@@ -2763,17 +2807,17 @@ export interface CandlestickData {
   highSeries?: CandlestickSeries;
 }
 
-export const CandlestickData: Schema.Schema<CandlestickData> = Schema.suspend(
-  () =>
+export const CandlestickData: Schema.Schema<CandlestickData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lowSeries: Schema.optional(CandlestickSeries),
       openSeries: Schema.optional(CandlestickSeries),
       closeSeries: Schema.optional(CandlestickSeries),
       highSeries: Schema.optional(CandlestickSeries),
     }),
-).annotate({
-  identifier: "CandlestickData",
-}) as any as Schema.Schema<CandlestickData>;
+  ).annotate({
+    identifier: "CandlestickData",
+  }) as any as Schema.Schema<CandlestickData>;
 
 export interface CandlestickChartSpec {
   /** The domain data (horizontal axis) for the candlestick chart. String data will be treated as discrete labels, other data will be treated as continuous values. */
@@ -2783,7 +2827,7 @@ export interface CandlestickChartSpec {
 }
 
 export const CandlestickChartSpec: Schema.Schema<CandlestickChartSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(CandlestickDomain),
       data: Schema.optional(Schema.Array(CandlestickData)),
@@ -2816,20 +2860,21 @@ export interface OrgChartSpec {
   tooltips?: ChartData;
 }
 
-export const OrgChartSpec: Schema.Schema<OrgChartSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    nodeSize: Schema.optional(Schema.String),
-    nodeColor: Schema.optional(Color),
-    nodeColorStyle: Schema.optional(ColorStyle),
-    selectedNodeColor: Schema.optional(Color),
-    selectedNodeColorStyle: Schema.optional(ColorStyle),
-    labels: Schema.optional(ChartData),
-    parentLabels: Schema.optional(ChartData),
-    tooltips: Schema.optional(ChartData),
-  }),
-).annotate({
-  identifier: "OrgChartSpec",
-}) as any as Schema.Schema<OrgChartSpec>;
+export const OrgChartSpec: Schema.Schema<OrgChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nodeSize: Schema.optional(Schema.String),
+      nodeColor: Schema.optional(Color),
+      nodeColorStyle: Schema.optional(ColorStyle),
+      selectedNodeColor: Schema.optional(Color),
+      selectedNodeColorStyle: Schema.optional(ColorStyle),
+      labels: Schema.optional(ChartData),
+      parentLabels: Schema.optional(ChartData),
+      tooltips: Schema.optional(ChartData),
+    }),
+  ).annotate({
+    identifier: "OrgChartSpec",
+  }) as any as Schema.Schema<OrgChartSpec>;
 
 export interface HistogramSeries {
   /** The color of the column representing this series in each bucket. This field is optional. Deprecated: Use bar_color_style. */
@@ -2840,16 +2885,16 @@ export interface HistogramSeries {
   data?: ChartData;
 }
 
-export const HistogramSeries: Schema.Schema<HistogramSeries> = Schema.suspend(
-  () =>
+export const HistogramSeries: Schema.Schema<HistogramSeries> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       barColor: Schema.optional(Color),
       barColorStyle: Schema.optional(ColorStyle),
       data: Schema.optional(ChartData),
     }),
-).annotate({
-  identifier: "HistogramSeries",
-}) as any as Schema.Schema<HistogramSeries>;
+  ).annotate({
+    identifier: "HistogramSeries",
+  }) as any as Schema.Schema<HistogramSeries>;
 
 export interface HistogramChartSpec {
   /** The series for a histogram may be either a single series of values to be bucketed or multiple series, each of the same length, containing the name of the series followed by the values to be bucketed for that series. */
@@ -2873,7 +2918,7 @@ export interface HistogramChartSpec {
 }
 
 export const HistogramChartSpec: Schema.Schema<HistogramChartSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       series: Schema.optional(Schema.Array(HistogramSeries)),
       legendPosition: Schema.optional(Schema.String),
@@ -2893,7 +2938,7 @@ export interface WaterfallChartDomain {
 }
 
 export const WaterfallChartDomain: Schema.Schema<WaterfallChartDomain> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(ChartData),
       reversed: Schema.optional(Schema.Boolean),
@@ -2912,7 +2957,7 @@ export interface WaterfallChartColumnStyle {
 }
 
 export const WaterfallChartColumnStyle: Schema.Schema<WaterfallChartColumnStyle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       color: Schema.optional(Color),
@@ -2932,7 +2977,7 @@ export interface WaterfallChartCustomSubtotal {
 }
 
 export const WaterfallChartCustomSubtotal: Schema.Schema<WaterfallChartCustomSubtotal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subtotalIndex: Schema.optional(Schema.Number),
       label: Schema.optional(Schema.String),
@@ -2960,7 +3005,7 @@ export interface WaterfallChartSeries {
 }
 
 export const WaterfallChartSeries: Schema.Schema<WaterfallChartSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(ChartData),
       positiveColumnsStyle: Schema.optional(WaterfallChartColumnStyle),
@@ -2998,7 +3043,7 @@ export interface WaterfallChartSpec {
 }
 
 export const WaterfallChartSpec: Schema.Schema<WaterfallChartSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(WaterfallChartDomain),
       series: Schema.optional(Schema.Array(WaterfallChartSeries)),
@@ -3032,7 +3077,7 @@ export interface TreemapChartColorScale {
 }
 
 export const TreemapChartColorScale: Schema.Schema<TreemapChartColorScale> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minValueColor: Schema.optional(Color),
       minValueColorStyle: Schema.optional(ColorStyle),
@@ -3076,8 +3121,8 @@ export interface TreemapChartSpec {
   hideTooltips?: boolean;
 }
 
-export const TreemapChartSpec: Schema.Schema<TreemapChartSpec> = Schema.suspend(
-  () =>
+export const TreemapChartSpec: Schema.Schema<TreemapChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(ChartData),
       parentLabels: Schema.optional(ChartData),
@@ -3093,9 +3138,9 @@ export const TreemapChartSpec: Schema.Schema<TreemapChartSpec> = Schema.suspend(
       colorScale: Schema.optional(TreemapChartColorScale),
       hideTooltips: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "TreemapChartSpec",
-}) as any as Schema.Schema<TreemapChartSpec>;
+  ).annotate({
+    identifier: "TreemapChartSpec",
+  }) as any as Schema.Schema<TreemapChartSpec>;
 
 export interface KeyValueFormat {
   /** Text formatting options for key value. The link field is not supported. */
@@ -3104,15 +3149,15 @@ export interface KeyValueFormat {
   position?: TextPosition;
 }
 
-export const KeyValueFormat: Schema.Schema<KeyValueFormat> = Schema.suspend(
-  () =>
+export const KeyValueFormat: Schema.Schema<KeyValueFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textFormat: Schema.optional(TextFormat),
       position: Schema.optional(TextPosition),
     }),
-).annotate({
-  identifier: "KeyValueFormat",
-}) as any as Schema.Schema<KeyValueFormat>;
+  ).annotate({
+    identifier: "KeyValueFormat",
+  }) as any as Schema.Schema<KeyValueFormat>;
 
 export interface BaselineValueFormat {
   /** The comparison type of key value with baseline value. */
@@ -3138,7 +3183,7 @@ export interface BaselineValueFormat {
 }
 
 export const BaselineValueFormat: Schema.Schema<BaselineValueFormat> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       comparisonType: Schema.optional(Schema.String),
       textFormat: Schema.optional(TextFormat),
@@ -3161,7 +3206,7 @@ export interface ChartCustomNumberFormatOptions {
 }
 
 export const ChartCustomNumberFormatOptions: Schema.Schema<ChartCustomNumberFormatOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prefix: Schema.optional(Schema.String),
       suffix: Schema.optional(Schema.String),
@@ -3202,7 +3247,7 @@ export interface ScorecardChartSpec {
 }
 
 export const ScorecardChartSpec: Schema.Schema<ScorecardChartSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyValueData: Schema.optional(ChartData),
       baselineValueData: Schema.optional(ChartData),
@@ -3274,34 +3319,35 @@ export interface ChartSpec {
     | (string & {});
 }
 
-export const ChartSpec: Schema.Schema<ChartSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    altText: Schema.optional(Schema.String),
-    titleTextFormat: Schema.optional(TextFormat),
-    titleTextPosition: Schema.optional(TextPosition),
-    subtitle: Schema.optional(Schema.String),
-    subtitleTextFormat: Schema.optional(TextFormat),
-    subtitleTextPosition: Schema.optional(TextPosition),
-    fontName: Schema.optional(Schema.String),
-    maximized: Schema.optional(Schema.Boolean),
-    backgroundColor: Schema.optional(Color),
-    backgroundColorStyle: Schema.optional(ColorStyle),
-    dataSourceChartProperties: Schema.optional(DataSourceChartProperties),
-    filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
-    sortSpecs: Schema.optional(Schema.Array(SortSpec)),
-    basicChart: Schema.optional(BasicChartSpec),
-    pieChart: Schema.optional(PieChartSpec),
-    bubbleChart: Schema.optional(BubbleChartSpec),
-    candlestickChart: Schema.optional(CandlestickChartSpec),
-    orgChart: Schema.optional(OrgChartSpec),
-    histogramChart: Schema.optional(HistogramChartSpec),
-    waterfallChart: Schema.optional(WaterfallChartSpec),
-    treemapChart: Schema.optional(TreemapChartSpec),
-    scorecardChart: Schema.optional(ScorecardChartSpec),
-    hiddenDimensionStrategy: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ChartSpec" }) as any as Schema.Schema<ChartSpec>;
+export const ChartSpec: Schema.Schema<ChartSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      altText: Schema.optional(Schema.String),
+      titleTextFormat: Schema.optional(TextFormat),
+      titleTextPosition: Schema.optional(TextPosition),
+      subtitle: Schema.optional(Schema.String),
+      subtitleTextFormat: Schema.optional(TextFormat),
+      subtitleTextPosition: Schema.optional(TextPosition),
+      fontName: Schema.optional(Schema.String),
+      maximized: Schema.optional(Schema.Boolean),
+      backgroundColor: Schema.optional(Color),
+      backgroundColorStyle: Schema.optional(ColorStyle),
+      dataSourceChartProperties: Schema.optional(DataSourceChartProperties),
+      filterSpecs: Schema.optional(Schema.Array(FilterSpec)),
+      sortSpecs: Schema.optional(Schema.Array(SortSpec)),
+      basicChart: Schema.optional(BasicChartSpec),
+      pieChart: Schema.optional(PieChartSpec),
+      bubbleChart: Schema.optional(BubbleChartSpec),
+      candlestickChart: Schema.optional(CandlestickChartSpec),
+      orgChart: Schema.optional(OrgChartSpec),
+      histogramChart: Schema.optional(HistogramChartSpec),
+      waterfallChart: Schema.optional(WaterfallChartSpec),
+      treemapChart: Schema.optional(TreemapChartSpec),
+      scorecardChart: Schema.optional(ScorecardChartSpec),
+      hiddenDimensionStrategy: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ChartSpec" }) as any as Schema.Schema<ChartSpec>;
 
 export interface GridCoordinate {
   /** The sheet this coordinate is on. */
@@ -3312,16 +3358,16 @@ export interface GridCoordinate {
   columnIndex?: number;
 }
 
-export const GridCoordinate: Schema.Schema<GridCoordinate> = Schema.suspend(
-  () =>
+export const GridCoordinate: Schema.Schema<GridCoordinate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       rowIndex: Schema.optional(Schema.Number),
       columnIndex: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GridCoordinate",
-}) as any as Schema.Schema<GridCoordinate>;
+  ).annotate({
+    identifier: "GridCoordinate",
+  }) as any as Schema.Schema<GridCoordinate>;
 
 export interface OverlayPosition {
   /** The cell the object is anchored to. */
@@ -3336,8 +3382,8 @@ export interface OverlayPosition {
   heightPixels?: number;
 }
 
-export const OverlayPosition: Schema.Schema<OverlayPosition> = Schema.suspend(
-  () =>
+export const OverlayPosition: Schema.Schema<OverlayPosition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       anchorCell: Schema.optional(GridCoordinate),
       offsetXPixels: Schema.optional(Schema.Number),
@@ -3345,9 +3391,9 @@ export const OverlayPosition: Schema.Schema<OverlayPosition> = Schema.suspend(
       widthPixels: Schema.optional(Schema.Number),
       heightPixels: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "OverlayPosition",
-}) as any as Schema.Schema<OverlayPosition>;
+  ).annotate({
+    identifier: "OverlayPosition",
+  }) as any as Schema.Schema<OverlayPosition>;
 
 export interface EmbeddedObjectPosition {
   /** The sheet this is on. Set only if the embedded object is on its own sheet. Must be non-negative. */
@@ -3359,7 +3405,7 @@ export interface EmbeddedObjectPosition {
 }
 
 export const EmbeddedObjectPosition: Schema.Schema<EmbeddedObjectPosition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       overlayPosition: Schema.optional(OverlayPosition),
@@ -3377,7 +3423,7 @@ export interface EmbeddedObjectBorder {
 }
 
 export const EmbeddedObjectBorder: Schema.Schema<EmbeddedObjectBorder> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       color: Schema.optional(Color),
       colorStyle: Schema.optional(ColorStyle),
@@ -3397,16 +3443,17 @@ export interface EmbeddedChart {
   border?: EmbeddedObjectBorder;
 }
 
-export const EmbeddedChart: Schema.Schema<EmbeddedChart> = Schema.suspend(() =>
-  Schema.Struct({
-    chartId: Schema.optional(Schema.Number),
-    spec: Schema.optional(ChartSpec),
-    position: Schema.optional(EmbeddedObjectPosition),
-    border: Schema.optional(EmbeddedObjectBorder),
-  }),
-).annotate({
-  identifier: "EmbeddedChart",
-}) as any as Schema.Schema<EmbeddedChart>;
+export const EmbeddedChart: Schema.Schema<EmbeddedChart> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      chartId: Schema.optional(Schema.Number),
+      spec: Schema.optional(ChartSpec),
+      position: Schema.optional(EmbeddedObjectPosition),
+      border: Schema.optional(EmbeddedObjectBorder),
+    }),
+  ).annotate({
+    identifier: "EmbeddedChart",
+  }) as any as Schema.Schema<EmbeddedChart>;
 
 export interface BandingProperties {
   /** The color of the first row or column. If this field is set, the first row or column is filled with this color and the colors alternate between first_band_color and second_band_color starting from the second row or column. Otherwise, the first row or column is filled with first_band_color and the colors proceed to alternate as they normally would. Deprecated: Use header_color_style. */
@@ -3428,7 +3475,7 @@ export interface BandingProperties {
 }
 
 export const BandingProperties: Schema.Schema<BandingProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headerColor: Schema.optional(Color),
       headerColorStyle: Schema.optional(ColorStyle),
@@ -3456,15 +3503,18 @@ export interface BandedRange {
   columnProperties?: BandingProperties;
 }
 
-export const BandedRange: Schema.Schema<BandedRange> = Schema.suspend(() =>
-  Schema.Struct({
-    bandedRangeId: Schema.optional(Schema.Number),
-    bandedRangeReference: Schema.optional(Schema.String),
-    range: Schema.optional(GridRange),
-    rowProperties: Schema.optional(BandingProperties),
-    columnProperties: Schema.optional(BandingProperties),
-  }),
-).annotate({ identifier: "BandedRange" }) as any as Schema.Schema<BandedRange>;
+export const BandedRange: Schema.Schema<BandedRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bandedRangeId: Schema.optional(Schema.Number),
+      bandedRangeReference: Schema.optional(Schema.String),
+      range: Schema.optional(GridRange),
+      rowProperties: Schema.optional(BandingProperties),
+      columnProperties: Schema.optional(BandingProperties),
+    }),
+  ).annotate({
+    identifier: "BandedRange",
+  }) as any as Schema.Schema<BandedRange>;
 
 export interface DimensionGroup {
   /** The range over which this group exists. */
@@ -3475,16 +3525,16 @@ export interface DimensionGroup {
   collapsed?: boolean;
 }
 
-export const DimensionGroup: Schema.Schema<DimensionGroup> = Schema.suspend(
-  () =>
+export const DimensionGroup: Schema.Schema<DimensionGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
       depth: Schema.optional(Schema.Number),
       collapsed: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "DimensionGroup",
-}) as any as Schema.Schema<DimensionGroup>;
+  ).annotate({
+    identifier: "DimensionGroup",
+  }) as any as Schema.Schema<DimensionGroup>;
 
 export interface SlicerSpec {
   /** The data range of the slicer. */
@@ -3512,19 +3562,20 @@ export interface SlicerSpec {
     | (string & {});
 }
 
-export const SlicerSpec: Schema.Schema<SlicerSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    dataRange: Schema.optional(GridRange),
-    filterCriteria: Schema.optional(FilterCriteria),
-    columnIndex: Schema.optional(Schema.Number),
-    applyToPivotTables: Schema.optional(Schema.Boolean),
-    title: Schema.optional(Schema.String),
-    textFormat: Schema.optional(TextFormat),
-    backgroundColor: Schema.optional(Color),
-    backgroundColorStyle: Schema.optional(ColorStyle),
-    horizontalAlignment: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SlicerSpec" }) as any as Schema.Schema<SlicerSpec>;
+export const SlicerSpec: Schema.Schema<SlicerSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataRange: Schema.optional(GridRange),
+      filterCriteria: Schema.optional(FilterCriteria),
+      columnIndex: Schema.optional(Schema.Number),
+      applyToPivotTables: Schema.optional(Schema.Boolean),
+      title: Schema.optional(Schema.String),
+      textFormat: Schema.optional(TextFormat),
+      backgroundColor: Schema.optional(Color),
+      backgroundColorStyle: Schema.optional(ColorStyle),
+      horizontalAlignment: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SlicerSpec" }) as any as Schema.Schema<SlicerSpec>;
 
 export interface Slicer {
   /** The ID of the slicer. */
@@ -3535,13 +3586,14 @@ export interface Slicer {
   position?: EmbeddedObjectPosition;
 }
 
-export const Slicer: Schema.Schema<Slicer> = Schema.suspend(() =>
-  Schema.Struct({
-    slicerId: Schema.optional(Schema.Number),
-    spec: Schema.optional(SlicerSpec),
-    position: Schema.optional(EmbeddedObjectPosition),
-  }),
-).annotate({ identifier: "Slicer" }) as any as Schema.Schema<Slicer>;
+export const Slicer: Schema.Schema<Slicer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      slicerId: Schema.optional(Schema.Number),
+      spec: Schema.optional(SlicerSpec),
+      position: Schema.optional(EmbeddedObjectPosition),
+    }),
+  ).annotate({ identifier: "Slicer" }) as any as Schema.Schema<Slicer>;
 
 export interface TableRowsProperties {
   /** The color of the header row. If this field is set, the header row is filled with the specified color. Otherwise, the header row is filled with a default color. */
@@ -3555,7 +3607,7 @@ export interface TableRowsProperties {
 }
 
 export const TableRowsProperties: Schema.Schema<TableRowsProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headerColorStyle: Schema.optional(ColorStyle),
       firstBandColorStyle: Schema.optional(ColorStyle),
@@ -3572,7 +3624,7 @@ export interface TableColumnDataValidationRule {
 }
 
 export const TableColumnDataValidationRule: Schema.Schema<TableColumnDataValidationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(BooleanCondition),
     }),
@@ -3608,7 +3660,7 @@ export interface TableColumnProperties {
 }
 
 export const TableColumnProperties: Schema.Schema<TableColumnProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnIndex: Schema.optional(Schema.Number),
       columnName: Schema.optional(Schema.String),
@@ -3632,15 +3684,16 @@ export interface Table {
   columnProperties?: Array<TableColumnProperties>;
 }
 
-export const Table: Schema.Schema<Table> = Schema.suspend(() =>
-  Schema.Struct({
-    tableId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    range: Schema.optional(GridRange),
-    rowsProperties: Schema.optional(TableRowsProperties),
-    columnProperties: Schema.optional(Schema.Array(TableColumnProperties)),
-  }),
-).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
+export const Table: Schema.Schema<Table> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tableId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      range: Schema.optional(GridRange),
+      rowsProperties: Schema.optional(TableRowsProperties),
+      columnProperties: Schema.optional(Schema.Array(TableColumnProperties)),
+    }),
+  ).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
 
 export interface Sheet {
   /** The properties of the sheet. */
@@ -3673,24 +3726,25 @@ export interface Sheet {
   tables?: Array<Table>;
 }
 
-export const Sheet: Schema.Schema<Sheet> = Schema.suspend(() =>
-  Schema.Struct({
-    properties: Schema.optional(SheetProperties),
-    data: Schema.optional(Schema.Array(GridData)),
-    merges: Schema.optional(Schema.Array(GridRange)),
-    conditionalFormats: Schema.optional(Schema.Array(ConditionalFormatRule)),
-    filterViews: Schema.optional(Schema.Array(FilterView)),
-    protectedRanges: Schema.optional(Schema.Array(ProtectedRange)),
-    basicFilter: Schema.optional(BasicFilter),
-    charts: Schema.optional(Schema.Array(EmbeddedChart)),
-    bandedRanges: Schema.optional(Schema.Array(BandedRange)),
-    developerMetadata: Schema.optional(Schema.Array(DeveloperMetadata)),
-    rowGroups: Schema.optional(Schema.Array(DimensionGroup)),
-    columnGroups: Schema.optional(Schema.Array(DimensionGroup)),
-    slicers: Schema.optional(Schema.Array(Slicer)),
-    tables: Schema.optional(Schema.Array(Table)),
-  }),
-).annotate({ identifier: "Sheet" }) as any as Schema.Schema<Sheet>;
+export const Sheet: Schema.Schema<Sheet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      properties: Schema.optional(SheetProperties),
+      data: Schema.optional(Schema.Array(GridData)),
+      merges: Schema.optional(Schema.Array(GridRange)),
+      conditionalFormats: Schema.optional(Schema.Array(ConditionalFormatRule)),
+      filterViews: Schema.optional(Schema.Array(FilterView)),
+      protectedRanges: Schema.optional(Schema.Array(ProtectedRange)),
+      basicFilter: Schema.optional(BasicFilter),
+      charts: Schema.optional(Schema.Array(EmbeddedChart)),
+      bandedRanges: Schema.optional(Schema.Array(BandedRange)),
+      developerMetadata: Schema.optional(Schema.Array(DeveloperMetadata)),
+      rowGroups: Schema.optional(Schema.Array(DimensionGroup)),
+      columnGroups: Schema.optional(Schema.Array(DimensionGroup)),
+      slicers: Schema.optional(Schema.Array(Slicer)),
+      tables: Schema.optional(Schema.Array(Table)),
+    }),
+  ).annotate({ identifier: "Sheet" }) as any as Schema.Schema<Sheet>;
 
 export interface NamedRange {
   /** The ID of the named range. */
@@ -3701,13 +3755,14 @@ export interface NamedRange {
   range?: GridRange;
 }
 
-export const NamedRange: Schema.Schema<NamedRange> = Schema.suspend(() =>
-  Schema.Struct({
-    namedRangeId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    range: Schema.optional(GridRange),
-  }),
-).annotate({ identifier: "NamedRange" }) as any as Schema.Schema<NamedRange>;
+export const NamedRange: Schema.Schema<NamedRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      namedRangeId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      range: Schema.optional(GridRange),
+    }),
+  ).annotate({ identifier: "NamedRange" }) as any as Schema.Schema<NamedRange>;
 
 export interface BigQueryQuerySpec {
   /** The raw query string. */
@@ -3715,7 +3770,7 @@ export interface BigQueryQuerySpec {
 }
 
 export const BigQueryQuerySpec: Schema.Schema<BigQueryQuerySpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rawQuery: Schema.optional(Schema.String),
     }),
@@ -3733,7 +3788,7 @@ export interface BigQueryTableSpec {
 }
 
 export const BigQueryTableSpec: Schema.Schema<BigQueryTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableProjectId: Schema.optional(Schema.String),
       tableId: Schema.optional(Schema.String),
@@ -3753,7 +3808,7 @@ export interface BigQueryDataSourceSpec {
 }
 
 export const BigQueryDataSourceSpec: Schema.Schema<BigQueryDataSourceSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       querySpec: Schema.optional(BigQueryQuerySpec),
@@ -3773,7 +3828,7 @@ export interface LookerDataSourceSpec {
 }
 
 export const LookerDataSourceSpec: Schema.Schema<LookerDataSourceSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceUri: Schema.optional(Schema.String),
       model: Schema.optional(Schema.String),
@@ -3793,7 +3848,7 @@ export interface DataSourceParameter {
 }
 
 export const DataSourceParameter: Schema.Schema<DataSourceParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       namedRangeId: Schema.optional(Schema.String),
@@ -3812,16 +3867,16 @@ export interface DataSourceSpec {
   parameters?: Array<DataSourceParameter>;
 }
 
-export const DataSourceSpec: Schema.Schema<DataSourceSpec> = Schema.suspend(
-  () =>
+export const DataSourceSpec: Schema.Schema<DataSourceSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQuery: Schema.optional(BigQueryDataSourceSpec),
       looker: Schema.optional(LookerDataSourceSpec),
       parameters: Schema.optional(Schema.Array(DataSourceParameter)),
     }),
-).annotate({
-  identifier: "DataSourceSpec",
-}) as any as Schema.Schema<DataSourceSpec>;
+  ).annotate({
+    identifier: "DataSourceSpec",
+  }) as any as Schema.Schema<DataSourceSpec>;
 
 export interface DataSource {
   /** The spreadsheet-scoped unique ID that identifies the data source. Example: 1080547365. */
@@ -3834,14 +3889,15 @@ export interface DataSource {
   sheetId?: number;
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
-  Schema.Struct({
-    dataSourceId: Schema.optional(Schema.String),
-    spec: Schema.optional(DataSourceSpec),
-    calculatedColumns: Schema.optional(Schema.Array(DataSourceColumn)),
-    sheetId: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceId: Schema.optional(Schema.String),
+      spec: Schema.optional(DataSourceSpec),
+      calculatedColumns: Schema.optional(Schema.Array(DataSourceColumn)),
+      sheetId: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
@@ -3854,14 +3910,15 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface DataSourceRefreshDailySchedule {
   /** The start time of a time interval in which a data source refresh is scheduled. Only `hours` part is used. The time interval size defaults to that in the Sheets editor. */
@@ -3869,7 +3926,7 @@ export interface DataSourceRefreshDailySchedule {
 }
 
 export const DataSourceRefreshDailySchedule: Schema.Schema<DataSourceRefreshDailySchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(TimeOfDay),
     }),
@@ -3895,7 +3952,7 @@ export interface DataSourceRefreshWeeklySchedule {
 }
 
 export const DataSourceRefreshWeeklySchedule: Schema.Schema<DataSourceRefreshWeeklySchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(TimeOfDay),
       daysOfWeek: Schema.optional(Schema.Array(Schema.String)),
@@ -3912,7 +3969,7 @@ export interface DataSourceRefreshMonthlySchedule {
 }
 
 export const DataSourceRefreshMonthlySchedule: Schema.Schema<DataSourceRefreshMonthlySchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(TimeOfDay),
       daysOfMonth: Schema.optional(Schema.Array(Schema.Number)),
@@ -3928,12 +3985,13 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface DataSourceRefreshSchedule {
   /** True if the refresh schedule is enabled, or false otherwise. */
@@ -3954,7 +4012,7 @@ export interface DataSourceRefreshSchedule {
 }
 
 export const DataSourceRefreshSchedule: Schema.Schema<DataSourceRefreshSchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       refreshScope: Schema.optional(Schema.String),
@@ -3986,20 +4044,23 @@ export interface Spreadsheet {
   dataSourceSchedules?: Array<DataSourceRefreshSchedule>;
 }
 
-export const Spreadsheet: Schema.Schema<Spreadsheet> = Schema.suspend(() =>
-  Schema.Struct({
-    spreadsheetId: Schema.optional(Schema.String),
-    properties: Schema.optional(SpreadsheetProperties),
-    sheets: Schema.optional(Schema.Array(Sheet)),
-    namedRanges: Schema.optional(Schema.Array(NamedRange)),
-    spreadsheetUrl: Schema.optional(Schema.String),
-    developerMetadata: Schema.optional(Schema.Array(DeveloperMetadata)),
-    dataSources: Schema.optional(Schema.Array(DataSource)),
-    dataSourceSchedules: Schema.optional(
-      Schema.Array(DataSourceRefreshSchedule),
-    ),
-  }),
-).annotate({ identifier: "Spreadsheet" }) as any as Schema.Schema<Spreadsheet>;
+export const Spreadsheet: Schema.Schema<Spreadsheet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      spreadsheetId: Schema.optional(Schema.String),
+      properties: Schema.optional(SpreadsheetProperties),
+      sheets: Schema.optional(Schema.Array(Sheet)),
+      namedRanges: Schema.optional(Schema.Array(NamedRange)),
+      spreadsheetUrl: Schema.optional(Schema.String),
+      developerMetadata: Schema.optional(Schema.Array(DeveloperMetadata)),
+      dataSources: Schema.optional(Schema.Array(DataSource)),
+      dataSourceSchedules: Schema.optional(
+        Schema.Array(DataSourceRefreshSchedule),
+      ),
+    }),
+  ).annotate({
+    identifier: "Spreadsheet",
+  }) as any as Schema.Schema<Spreadsheet>;
 
 export interface GetSpreadsheetByDataFilterRequest {
   /** The DataFilters used to select which ranges to retrieve from the spreadsheet. */
@@ -4011,7 +4072,7 @@ export interface GetSpreadsheetByDataFilterRequest {
 }
 
 export const GetSpreadsheetByDataFilterRequest: Schema.Schema<GetSpreadsheetByDataFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
       includeGridData: Schema.optional(Schema.Boolean),
@@ -4029,7 +4090,7 @@ export interface UpdateSpreadsheetPropertiesRequest {
 }
 
 export const UpdateSpreadsheetPropertiesRequest: Schema.Schema<UpdateSpreadsheetPropertiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(SpreadsheetProperties),
       fields: Schema.optional(Schema.String),
@@ -4046,7 +4107,7 @@ export interface UpdateSheetPropertiesRequest {
 }
 
 export const UpdateSheetPropertiesRequest: Schema.Schema<UpdateSheetPropertiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(SheetProperties),
       fields: Schema.optional(Schema.String),
@@ -4063,7 +4124,7 @@ export interface DataSourceSheetDimensionRange {
 }
 
 export const DataSourceSheetDimensionRange: Schema.Schema<DataSourceSheetDimensionRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       columnReferences: Schema.optional(
@@ -4086,7 +4147,7 @@ export interface UpdateDimensionPropertiesRequest {
 }
 
 export const UpdateDimensionPropertiesRequest: Schema.Schema<UpdateDimensionPropertiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
       dataSourceSheetRange: Schema.optional(DataSourceSheetDimensionRange),
@@ -4105,7 +4166,7 @@ export interface UpdateNamedRangeRequest {
 }
 
 export const UpdateNamedRangeRequest: Schema.Schema<UpdateNamedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namedRange: Schema.optional(NamedRange),
       fields: Schema.optional(Schema.String),
@@ -4124,7 +4185,7 @@ export interface RepeatCellRequest {
 }
 
 export const RepeatCellRequest: Schema.Schema<RepeatCellRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       cell: Schema.optional(CellData),
@@ -4140,7 +4201,7 @@ export interface AddNamedRangeRequest {
 }
 
 export const AddNamedRangeRequest: Schema.Schema<AddNamedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namedRange: Schema.optional(NamedRange),
     }),
@@ -4154,7 +4215,7 @@ export interface DeleteNamedRangeRequest {
 }
 
 export const DeleteNamedRangeRequest: Schema.Schema<DeleteNamedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namedRangeId: Schema.optional(Schema.String),
     }),
@@ -4167,14 +4228,14 @@ export interface AddSheetRequest {
   properties?: SheetProperties;
 }
 
-export const AddSheetRequest: Schema.Schema<AddSheetRequest> = Schema.suspend(
-  () =>
+export const AddSheetRequest: Schema.Schema<AddSheetRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(SheetProperties),
     }),
-).annotate({
-  identifier: "AddSheetRequest",
-}) as any as Schema.Schema<AddSheetRequest>;
+  ).annotate({
+    identifier: "AddSheetRequest",
+  }) as any as Schema.Schema<AddSheetRequest>;
 
 export interface DeleteSheetRequest {
   /** The ID of the sheet to delete. If the sheet is of DATA_SOURCE type, the associated DataSource is also deleted. */
@@ -4182,7 +4243,7 @@ export interface DeleteSheetRequest {
 }
 
 export const DeleteSheetRequest: Schema.Schema<DeleteSheetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
     }),
@@ -4200,7 +4261,7 @@ export interface SourceAndDestination {
 }
 
 export const SourceAndDestination: Schema.Schema<SourceAndDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(GridRange),
       dimension: Schema.optional(Schema.String),
@@ -4219,16 +4280,16 @@ export interface AutoFillRequest {
   useAlternateSeries?: boolean;
 }
 
-export const AutoFillRequest: Schema.Schema<AutoFillRequest> = Schema.suspend(
-  () =>
+export const AutoFillRequest: Schema.Schema<AutoFillRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       sourceAndDestination: Schema.optional(SourceAndDestination),
       useAlternateSeries: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "AutoFillRequest",
-}) as any as Schema.Schema<AutoFillRequest>;
+  ).annotate({
+    identifier: "AutoFillRequest",
+  }) as any as Schema.Schema<AutoFillRequest>;
 
 export interface CutPasteRequest {
   /** The source data to cut. */
@@ -4247,16 +4308,16 @@ export interface CutPasteRequest {
     | (string & {});
 }
 
-export const CutPasteRequest: Schema.Schema<CutPasteRequest> = Schema.suspend(
-  () =>
+export const CutPasteRequest: Schema.Schema<CutPasteRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(GridRange),
       destination: Schema.optional(GridCoordinate),
       pasteType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CutPasteRequest",
-}) as any as Schema.Schema<CutPasteRequest>;
+  ).annotate({
+    identifier: "CutPasteRequest",
+  }) as any as Schema.Schema<CutPasteRequest>;
 
 export interface CopyPasteRequest {
   /** The source range to copy. */
@@ -4277,17 +4338,17 @@ export interface CopyPasteRequest {
   pasteOrientation?: "NORMAL" | "TRANSPOSE" | (string & {});
 }
 
-export const CopyPasteRequest: Schema.Schema<CopyPasteRequest> = Schema.suspend(
-  () =>
+export const CopyPasteRequest: Schema.Schema<CopyPasteRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(GridRange),
       destination: Schema.optional(GridRange),
       pasteType: Schema.optional(Schema.String),
       pasteOrientation: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CopyPasteRequest",
-}) as any as Schema.Schema<CopyPasteRequest>;
+  ).annotate({
+    identifier: "CopyPasteRequest",
+  }) as any as Schema.Schema<CopyPasteRequest>;
 
 export interface MergeCellsRequest {
   /** The range of cells to merge. */
@@ -4297,7 +4358,7 @@ export interface MergeCellsRequest {
 }
 
 export const MergeCellsRequest: Schema.Schema<MergeCellsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       mergeType: Schema.optional(Schema.String),
@@ -4312,7 +4373,7 @@ export interface UnmergeCellsRequest {
 }
 
 export const UnmergeCellsRequest: Schema.Schema<UnmergeCellsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
     }),
@@ -4338,7 +4399,7 @@ export interface UpdateBordersRequest {
 }
 
 export const UpdateBordersRequest: Schema.Schema<UpdateBordersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       top: Schema.optional(Border),
@@ -4364,7 +4425,7 @@ export interface UpdateCellsRequest {
 }
 
 export const UpdateCellsRequest: Schema.Schema<UpdateCellsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       start: Schema.optional(GridCoordinate),
       range: Schema.optional(GridRange),
@@ -4381,7 +4442,7 @@ export interface AddFilterViewRequest {
 }
 
 export const AddFilterViewRequest: Schema.Schema<AddFilterViewRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(FilterView),
     }),
@@ -4401,7 +4462,7 @@ export interface AppendCellsRequest {
 }
 
 export const AppendCellsRequest: Schema.Schema<AppendCellsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       rows: Schema.optional(Schema.Array(RowData)),
@@ -4418,7 +4479,7 @@ export interface ClearBasicFilterRequest {
 }
 
 export const ClearBasicFilterRequest: Schema.Schema<ClearBasicFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
     }),
@@ -4432,7 +4493,7 @@ export interface DeleteDimensionRequest {
 }
 
 export const DeleteDimensionRequest: Schema.Schema<DeleteDimensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
     }),
@@ -4446,7 +4507,7 @@ export interface DeleteEmbeddedObjectRequest {
 }
 
 export const DeleteEmbeddedObjectRequest: Schema.Schema<DeleteEmbeddedObjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectId: Schema.optional(Schema.Number),
     }),
@@ -4460,7 +4521,7 @@ export interface DeleteFilterViewRequest {
 }
 
 export const DeleteFilterViewRequest: Schema.Schema<DeleteFilterViewRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterId: Schema.optional(Schema.Number),
     }),
@@ -4474,7 +4535,7 @@ export interface DuplicateFilterViewRequest {
 }
 
 export const DuplicateFilterViewRequest: Schema.Schema<DuplicateFilterViewRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterId: Schema.optional(Schema.Number),
     }),
@@ -4494,7 +4555,7 @@ export interface DuplicateSheetRequest {
 }
 
 export const DuplicateSheetRequest: Schema.Schema<DuplicateSheetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceSheetId: Schema.optional(Schema.Number),
       insertSheetIndex: Schema.optional(Schema.Number),
@@ -4527,7 +4588,7 @@ export interface FindReplaceRequest {
 }
 
 export const FindReplaceRequest: Schema.Schema<FindReplaceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       find: Schema.optional(Schema.String),
       replacement: Schema.optional(Schema.String),
@@ -4551,7 +4612,7 @@ export interface InsertDimensionRequest {
 }
 
 export const InsertDimensionRequest: Schema.Schema<InsertDimensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
       inheritFromBefore: Schema.optional(Schema.Boolean),
@@ -4568,7 +4629,7 @@ export interface InsertRangeRequest {
 }
 
 export const InsertRangeRequest: Schema.Schema<InsertRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       shiftDimension: Schema.optional(Schema.String),
@@ -4585,7 +4646,7 @@ export interface MoveDimensionRequest {
 }
 
 export const MoveDimensionRequest: Schema.Schema<MoveDimensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(DimensionRange),
       destinationIndex: Schema.optional(Schema.Number),
@@ -4604,7 +4665,7 @@ export interface UpdateEmbeddedObjectPositionRequest {
 }
 
 export const UpdateEmbeddedObjectPositionRequest: Schema.Schema<UpdateEmbeddedObjectPositionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectId: Schema.optional(Schema.Number),
       newPosition: Schema.optional(EmbeddedObjectPosition),
@@ -4635,8 +4696,8 @@ export interface PasteDataRequest {
     | (string & {});
 }
 
-export const PasteDataRequest: Schema.Schema<PasteDataRequest> = Schema.suspend(
-  () =>
+export const PasteDataRequest: Schema.Schema<PasteDataRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       coordinate: Schema.optional(GridCoordinate),
       data: Schema.optional(Schema.String),
@@ -4644,9 +4705,9 @@ export const PasteDataRequest: Schema.Schema<PasteDataRequest> = Schema.suspend(
       html: Schema.optional(Schema.Boolean),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PasteDataRequest",
-}) as any as Schema.Schema<PasteDataRequest>;
+  ).annotate({
+    identifier: "PasteDataRequest",
+  }) as any as Schema.Schema<PasteDataRequest>;
 
 export interface TextToColumnsRequest {
   /** The source data range. This must span exactly one column. */
@@ -4666,7 +4727,7 @@ export interface TextToColumnsRequest {
 }
 
 export const TextToColumnsRequest: Schema.Schema<TextToColumnsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(GridRange),
       delimiter: Schema.optional(Schema.String),
@@ -4684,7 +4745,7 @@ export interface UpdateFilterViewRequest {
 }
 
 export const UpdateFilterViewRequest: Schema.Schema<UpdateFilterViewRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(FilterView),
       fields: Schema.optional(Schema.String),
@@ -4701,7 +4762,7 @@ export interface DeleteRangeRequest {
 }
 
 export const DeleteRangeRequest: Schema.Schema<DeleteRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       shiftDimension: Schema.optional(Schema.String),
@@ -4720,7 +4781,7 @@ export interface AppendDimensionRequest {
 }
 
 export const AppendDimensionRequest: Schema.Schema<AppendDimensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.Number),
       dimension: Schema.optional(Schema.String),
@@ -4738,7 +4799,7 @@ export interface AddConditionalFormatRuleRequest {
 }
 
 export const AddConditionalFormatRuleRequest: Schema.Schema<AddConditionalFormatRuleRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rule: Schema.optional(ConditionalFormatRule),
       index: Schema.optional(Schema.Number),
@@ -4759,7 +4820,7 @@ export interface UpdateConditionalFormatRuleRequest {
 }
 
 export const UpdateConditionalFormatRuleRequest: Schema.Schema<UpdateConditionalFormatRuleRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rule: Schema.optional(ConditionalFormatRule),
       newIndex: Schema.optional(Schema.Number),
@@ -4778,7 +4839,7 @@ export interface DeleteConditionalFormatRuleRequest {
 }
 
 export const DeleteConditionalFormatRuleRequest: Schema.Schema<DeleteConditionalFormatRuleRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       index: Schema.optional(Schema.Number),
       sheetId: Schema.optional(Schema.Number),
@@ -4794,15 +4855,15 @@ export interface SortRangeRequest {
   sortSpecs?: Array<SortSpec>;
 }
 
-export const SortRangeRequest: Schema.Schema<SortRangeRequest> = Schema.suspend(
-  () =>
+export const SortRangeRequest: Schema.Schema<SortRangeRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       sortSpecs: Schema.optional(Schema.Array(SortSpec)),
     }),
-).annotate({
-  identifier: "SortRangeRequest",
-}) as any as Schema.Schema<SortRangeRequest>;
+  ).annotate({
+    identifier: "SortRangeRequest",
+  }) as any as Schema.Schema<SortRangeRequest>;
 
 export interface SetDataValidationRequest {
   /** The range the data validation rule should apply to. */
@@ -4814,7 +4875,7 @@ export interface SetDataValidationRequest {
 }
 
 export const SetDataValidationRequest: Schema.Schema<SetDataValidationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       rule: Schema.optional(DataValidationRule),
@@ -4830,7 +4891,7 @@ export interface SetBasicFilterRequest {
 }
 
 export const SetBasicFilterRequest: Schema.Schema<SetBasicFilterRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(BasicFilter),
     }),
@@ -4844,7 +4905,7 @@ export interface AddProtectedRangeRequest {
 }
 
 export const AddProtectedRangeRequest: Schema.Schema<AddProtectedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protectedRange: Schema.optional(ProtectedRange),
     }),
@@ -4860,7 +4921,7 @@ export interface UpdateProtectedRangeRequest {
 }
 
 export const UpdateProtectedRangeRequest: Schema.Schema<UpdateProtectedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protectedRange: Schema.optional(ProtectedRange),
       fields: Schema.optional(Schema.String),
@@ -4875,7 +4936,7 @@ export interface DeleteProtectedRangeRequest {
 }
 
 export const DeleteProtectedRangeRequest: Schema.Schema<DeleteProtectedRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protectedRangeId: Schema.optional(Schema.Number),
     }),
@@ -4891,7 +4952,7 @@ export interface AutoResizeDimensionsRequest {
 }
 
 export const AutoResizeDimensionsRequest: Schema.Schema<AutoResizeDimensionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(DimensionRange),
       dataSourceSheetDimensions: Schema.optional(DataSourceSheetDimensionRange),
@@ -4905,14 +4966,14 @@ export interface AddChartRequest {
   chart?: EmbeddedChart;
 }
 
-export const AddChartRequest: Schema.Schema<AddChartRequest> = Schema.suspend(
-  () =>
+export const AddChartRequest: Schema.Schema<AddChartRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chart: Schema.optional(EmbeddedChart),
     }),
-).annotate({
-  identifier: "AddChartRequest",
-}) as any as Schema.Schema<AddChartRequest>;
+  ).annotate({
+    identifier: "AddChartRequest",
+  }) as any as Schema.Schema<AddChartRequest>;
 
 export interface UpdateChartSpecRequest {
   /** The ID of the chart to update. */
@@ -4922,7 +4983,7 @@ export interface UpdateChartSpecRequest {
 }
 
 export const UpdateChartSpecRequest: Schema.Schema<UpdateChartSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chartId: Schema.optional(Schema.Number),
       spec: Schema.optional(ChartSpec),
@@ -4939,7 +5000,7 @@ export interface UpdateBandingRequest {
 }
 
 export const UpdateBandingRequest: Schema.Schema<UpdateBandingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bandedRange: Schema.optional(BandedRange),
       fields: Schema.optional(Schema.String),
@@ -4954,7 +5015,7 @@ export interface AddBandingRequest {
 }
 
 export const AddBandingRequest: Schema.Schema<AddBandingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bandedRange: Schema.optional(BandedRange),
     }),
@@ -4968,7 +5029,7 @@ export interface DeleteBandingRequest {
 }
 
 export const DeleteBandingRequest: Schema.Schema<DeleteBandingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bandedRangeId: Schema.optional(Schema.Number),
     }),
@@ -4982,7 +5043,7 @@ export interface CreateDeveloperMetadataRequest {
 }
 
 export const CreateDeveloperMetadataRequest: Schema.Schema<CreateDeveloperMetadataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       developerMetadata: Schema.optional(DeveloperMetadata),
     }),
@@ -5000,7 +5061,7 @@ export interface UpdateDeveloperMetadataRequest {
 }
 
 export const UpdateDeveloperMetadataRequest: Schema.Schema<UpdateDeveloperMetadataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilters: Schema.optional(Schema.Array(DataFilter)),
       developerMetadata: Schema.optional(DeveloperMetadata),
@@ -5016,7 +5077,7 @@ export interface DeleteDeveloperMetadataRequest {
 }
 
 export const DeleteDeveloperMetadataRequest: Schema.Schema<DeleteDeveloperMetadataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataFilter: Schema.optional(DataFilter),
     }),
@@ -5030,7 +5091,7 @@ export interface RandomizeRangeRequest {
 }
 
 export const RandomizeRangeRequest: Schema.Schema<RandomizeRangeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
     }),
@@ -5044,7 +5105,7 @@ export interface AddDimensionGroupRequest {
 }
 
 export const AddDimensionGroupRequest: Schema.Schema<AddDimensionGroupRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
     }),
@@ -5058,7 +5119,7 @@ export interface DeleteDimensionGroupRequest {
 }
 
 export const DeleteDimensionGroupRequest: Schema.Schema<DeleteDimensionGroupRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(DimensionRange),
     }),
@@ -5074,7 +5135,7 @@ export interface UpdateDimensionGroupRequest {
 }
 
 export const UpdateDimensionGroupRequest: Schema.Schema<UpdateDimensionGroupRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionGroup: Schema.optional(DimensionGroup),
       fields: Schema.optional(Schema.String),
@@ -5089,7 +5150,7 @@ export interface TrimWhitespaceRequest {
 }
 
 export const TrimWhitespaceRequest: Schema.Schema<TrimWhitespaceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
     }),
@@ -5105,7 +5166,7 @@ export interface DeleteDuplicatesRequest {
 }
 
 export const DeleteDuplicatesRequest: Schema.Schema<DeleteDuplicatesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       range: Schema.optional(GridRange),
       comparisonColumns: Schema.optional(Schema.Array(DimensionRange)),
@@ -5124,7 +5185,7 @@ export interface UpdateEmbeddedObjectBorderRequest {
 }
 
 export const UpdateEmbeddedObjectBorderRequest: Schema.Schema<UpdateEmbeddedObjectBorderRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectId: Schema.optional(Schema.Number),
       border: Schema.optional(EmbeddedObjectBorder),
@@ -5139,14 +5200,14 @@ export interface AddSlicerRequest {
   slicer?: Slicer;
 }
 
-export const AddSlicerRequest: Schema.Schema<AddSlicerRequest> = Schema.suspend(
-  () =>
+export const AddSlicerRequest: Schema.Schema<AddSlicerRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       slicer: Schema.optional(Slicer),
     }),
-).annotate({
-  identifier: "AddSlicerRequest",
-}) as any as Schema.Schema<AddSlicerRequest>;
+  ).annotate({
+    identifier: "AddSlicerRequest",
+  }) as any as Schema.Schema<AddSlicerRequest>;
 
 export interface UpdateSlicerSpecRequest {
   /** The id of the slicer to update. */
@@ -5158,7 +5219,7 @@ export interface UpdateSlicerSpecRequest {
 }
 
 export const UpdateSlicerSpecRequest: Schema.Schema<UpdateSlicerSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       slicerId: Schema.optional(Schema.Number),
       spec: Schema.optional(SlicerSpec),
@@ -5174,7 +5235,7 @@ export interface AddDataSourceRequest {
 }
 
 export const AddDataSourceRequest: Schema.Schema<AddDataSourceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(DataSource),
     }),
@@ -5190,7 +5251,7 @@ export interface UpdateDataSourceRequest {
 }
 
 export const UpdateDataSourceRequest: Schema.Schema<UpdateDataSourceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(DataSource),
       fields: Schema.optional(Schema.String),
@@ -5205,7 +5266,7 @@ export interface DeleteDataSourceRequest {
 }
 
 export const DeleteDataSourceRequest: Schema.Schema<DeleteDataSourceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceId: Schema.optional(Schema.String),
     }),
@@ -5227,7 +5288,7 @@ export interface DataSourceObjectReference {
 }
 
 export const DataSourceObjectReference: Schema.Schema<DataSourceObjectReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sheetId: Schema.optional(Schema.String),
       chartId: Schema.optional(Schema.Number),
@@ -5245,7 +5306,7 @@ export interface DataSourceObjectReferences {
 }
 
 export const DataSourceObjectReferences: Schema.Schema<DataSourceObjectReferences> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       references: Schema.optional(Schema.Array(DataSourceObjectReference)),
     }),
@@ -5265,7 +5326,7 @@ export interface RefreshDataSourceRequest {
 }
 
 export const RefreshDataSourceRequest: Schema.Schema<RefreshDataSourceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       references: Schema.optional(DataSourceObjectReferences),
       dataSourceId: Schema.optional(Schema.String),
@@ -5286,7 +5347,7 @@ export interface CancelDataSourceRefreshRequest {
 }
 
 export const CancelDataSourceRefreshRequest: Schema.Schema<CancelDataSourceRefreshRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       references: Schema.optional(DataSourceObjectReferences),
       dataSourceId: Schema.optional(Schema.String),
@@ -5301,14 +5362,14 @@ export interface AddTableRequest {
   table?: Table;
 }
 
-export const AddTableRequest: Schema.Schema<AddTableRequest> = Schema.suspend(
-  () =>
+export const AddTableRequest: Schema.Schema<AddTableRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(Table),
     }),
-).annotate({
-  identifier: "AddTableRequest",
-}) as any as Schema.Schema<AddTableRequest>;
+  ).annotate({
+    identifier: "AddTableRequest",
+  }) as any as Schema.Schema<AddTableRequest>;
 
 export interface UpdateTableRequest {
   /** Required. The table to update. */
@@ -5318,7 +5379,7 @@ export interface UpdateTableRequest {
 }
 
 export const UpdateTableRequest: Schema.Schema<UpdateTableRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(Table),
       fields: Schema.optional(Schema.String),
@@ -5333,7 +5394,7 @@ export interface DeleteTableRequest {
 }
 
 export const DeleteTableRequest: Schema.Schema<DeleteTableRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableId: Schema.optional(Schema.String),
     }),
@@ -5482,91 +5543,94 @@ export interface Request {
   deleteTable?: DeleteTableRequest;
 }
 
-export const Request: Schema.Schema<Request> = Schema.suspend(() =>
-  Schema.Struct({
-    updateSpreadsheetProperties: Schema.optional(
-      UpdateSpreadsheetPropertiesRequest,
-    ),
-    updateSheetProperties: Schema.optional(UpdateSheetPropertiesRequest),
-    updateDimensionProperties: Schema.optional(
-      UpdateDimensionPropertiesRequest,
-    ),
-    updateNamedRange: Schema.optional(UpdateNamedRangeRequest),
-    repeatCell: Schema.optional(RepeatCellRequest),
-    addNamedRange: Schema.optional(AddNamedRangeRequest),
-    deleteNamedRange: Schema.optional(DeleteNamedRangeRequest),
-    addSheet: Schema.optional(AddSheetRequest),
-    deleteSheet: Schema.optional(DeleteSheetRequest),
-    autoFill: Schema.optional(AutoFillRequest),
-    cutPaste: Schema.optional(CutPasteRequest),
-    copyPaste: Schema.optional(CopyPasteRequest),
-    mergeCells: Schema.optional(MergeCellsRequest),
-    unmergeCells: Schema.optional(UnmergeCellsRequest),
-    updateBorders: Schema.optional(UpdateBordersRequest),
-    updateCells: Schema.optional(UpdateCellsRequest),
-    addFilterView: Schema.optional(AddFilterViewRequest),
-    appendCells: Schema.optional(AppendCellsRequest),
-    clearBasicFilter: Schema.optional(ClearBasicFilterRequest),
-    deleteDimension: Schema.optional(DeleteDimensionRequest),
-    deleteEmbeddedObject: Schema.optional(DeleteEmbeddedObjectRequest),
-    deleteFilterView: Schema.optional(DeleteFilterViewRequest),
-    duplicateFilterView: Schema.optional(DuplicateFilterViewRequest),
-    duplicateSheet: Schema.optional(DuplicateSheetRequest),
-    findReplace: Schema.optional(FindReplaceRequest),
-    insertDimension: Schema.optional(InsertDimensionRequest),
-    insertRange: Schema.optional(InsertRangeRequest),
-    moveDimension: Schema.optional(MoveDimensionRequest),
-    updateEmbeddedObjectPosition: Schema.optional(
-      UpdateEmbeddedObjectPositionRequest,
-    ),
-    pasteData: Schema.optional(PasteDataRequest),
-    textToColumns: Schema.optional(TextToColumnsRequest),
-    updateFilterView: Schema.optional(UpdateFilterViewRequest),
-    deleteRange: Schema.optional(DeleteRangeRequest),
-    appendDimension: Schema.optional(AppendDimensionRequest),
-    addConditionalFormatRule: Schema.optional(AddConditionalFormatRuleRequest),
-    updateConditionalFormatRule: Schema.optional(
-      UpdateConditionalFormatRuleRequest,
-    ),
-    deleteConditionalFormatRule: Schema.optional(
-      DeleteConditionalFormatRuleRequest,
-    ),
-    sortRange: Schema.optional(SortRangeRequest),
-    setDataValidation: Schema.optional(SetDataValidationRequest),
-    setBasicFilter: Schema.optional(SetBasicFilterRequest),
-    addProtectedRange: Schema.optional(AddProtectedRangeRequest),
-    updateProtectedRange: Schema.optional(UpdateProtectedRangeRequest),
-    deleteProtectedRange: Schema.optional(DeleteProtectedRangeRequest),
-    autoResizeDimensions: Schema.optional(AutoResizeDimensionsRequest),
-    addChart: Schema.optional(AddChartRequest),
-    updateChartSpec: Schema.optional(UpdateChartSpecRequest),
-    updateBanding: Schema.optional(UpdateBandingRequest),
-    addBanding: Schema.optional(AddBandingRequest),
-    deleteBanding: Schema.optional(DeleteBandingRequest),
-    createDeveloperMetadata: Schema.optional(CreateDeveloperMetadataRequest),
-    updateDeveloperMetadata: Schema.optional(UpdateDeveloperMetadataRequest),
-    deleteDeveloperMetadata: Schema.optional(DeleteDeveloperMetadataRequest),
-    randomizeRange: Schema.optional(RandomizeRangeRequest),
-    addDimensionGroup: Schema.optional(AddDimensionGroupRequest),
-    deleteDimensionGroup: Schema.optional(DeleteDimensionGroupRequest),
-    updateDimensionGroup: Schema.optional(UpdateDimensionGroupRequest),
-    trimWhitespace: Schema.optional(TrimWhitespaceRequest),
-    deleteDuplicates: Schema.optional(DeleteDuplicatesRequest),
-    updateEmbeddedObjectBorder: Schema.optional(
-      UpdateEmbeddedObjectBorderRequest,
-    ),
-    addSlicer: Schema.optional(AddSlicerRequest),
-    updateSlicerSpec: Schema.optional(UpdateSlicerSpecRequest),
-    addDataSource: Schema.optional(AddDataSourceRequest),
-    updateDataSource: Schema.optional(UpdateDataSourceRequest),
-    deleteDataSource: Schema.optional(DeleteDataSourceRequest),
-    refreshDataSource: Schema.optional(RefreshDataSourceRequest),
-    cancelDataSourceRefresh: Schema.optional(CancelDataSourceRefreshRequest),
-    addTable: Schema.optional(AddTableRequest),
-    updateTable: Schema.optional(UpdateTableRequest),
-    deleteTable: Schema.optional(DeleteTableRequest),
-  }),
-).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
+export const Request: Schema.Schema<Request> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateSpreadsheetProperties: Schema.optional(
+        UpdateSpreadsheetPropertiesRequest,
+      ),
+      updateSheetProperties: Schema.optional(UpdateSheetPropertiesRequest),
+      updateDimensionProperties: Schema.optional(
+        UpdateDimensionPropertiesRequest,
+      ),
+      updateNamedRange: Schema.optional(UpdateNamedRangeRequest),
+      repeatCell: Schema.optional(RepeatCellRequest),
+      addNamedRange: Schema.optional(AddNamedRangeRequest),
+      deleteNamedRange: Schema.optional(DeleteNamedRangeRequest),
+      addSheet: Schema.optional(AddSheetRequest),
+      deleteSheet: Schema.optional(DeleteSheetRequest),
+      autoFill: Schema.optional(AutoFillRequest),
+      cutPaste: Schema.optional(CutPasteRequest),
+      copyPaste: Schema.optional(CopyPasteRequest),
+      mergeCells: Schema.optional(MergeCellsRequest),
+      unmergeCells: Schema.optional(UnmergeCellsRequest),
+      updateBorders: Schema.optional(UpdateBordersRequest),
+      updateCells: Schema.optional(UpdateCellsRequest),
+      addFilterView: Schema.optional(AddFilterViewRequest),
+      appendCells: Schema.optional(AppendCellsRequest),
+      clearBasicFilter: Schema.optional(ClearBasicFilterRequest),
+      deleteDimension: Schema.optional(DeleteDimensionRequest),
+      deleteEmbeddedObject: Schema.optional(DeleteEmbeddedObjectRequest),
+      deleteFilterView: Schema.optional(DeleteFilterViewRequest),
+      duplicateFilterView: Schema.optional(DuplicateFilterViewRequest),
+      duplicateSheet: Schema.optional(DuplicateSheetRequest),
+      findReplace: Schema.optional(FindReplaceRequest),
+      insertDimension: Schema.optional(InsertDimensionRequest),
+      insertRange: Schema.optional(InsertRangeRequest),
+      moveDimension: Schema.optional(MoveDimensionRequest),
+      updateEmbeddedObjectPosition: Schema.optional(
+        UpdateEmbeddedObjectPositionRequest,
+      ),
+      pasteData: Schema.optional(PasteDataRequest),
+      textToColumns: Schema.optional(TextToColumnsRequest),
+      updateFilterView: Schema.optional(UpdateFilterViewRequest),
+      deleteRange: Schema.optional(DeleteRangeRequest),
+      appendDimension: Schema.optional(AppendDimensionRequest),
+      addConditionalFormatRule: Schema.optional(
+        AddConditionalFormatRuleRequest,
+      ),
+      updateConditionalFormatRule: Schema.optional(
+        UpdateConditionalFormatRuleRequest,
+      ),
+      deleteConditionalFormatRule: Schema.optional(
+        DeleteConditionalFormatRuleRequest,
+      ),
+      sortRange: Schema.optional(SortRangeRequest),
+      setDataValidation: Schema.optional(SetDataValidationRequest),
+      setBasicFilter: Schema.optional(SetBasicFilterRequest),
+      addProtectedRange: Schema.optional(AddProtectedRangeRequest),
+      updateProtectedRange: Schema.optional(UpdateProtectedRangeRequest),
+      deleteProtectedRange: Schema.optional(DeleteProtectedRangeRequest),
+      autoResizeDimensions: Schema.optional(AutoResizeDimensionsRequest),
+      addChart: Schema.optional(AddChartRequest),
+      updateChartSpec: Schema.optional(UpdateChartSpecRequest),
+      updateBanding: Schema.optional(UpdateBandingRequest),
+      addBanding: Schema.optional(AddBandingRequest),
+      deleteBanding: Schema.optional(DeleteBandingRequest),
+      createDeveloperMetadata: Schema.optional(CreateDeveloperMetadataRequest),
+      updateDeveloperMetadata: Schema.optional(UpdateDeveloperMetadataRequest),
+      deleteDeveloperMetadata: Schema.optional(DeleteDeveloperMetadataRequest),
+      randomizeRange: Schema.optional(RandomizeRangeRequest),
+      addDimensionGroup: Schema.optional(AddDimensionGroupRequest),
+      deleteDimensionGroup: Schema.optional(DeleteDimensionGroupRequest),
+      updateDimensionGroup: Schema.optional(UpdateDimensionGroupRequest),
+      trimWhitespace: Schema.optional(TrimWhitespaceRequest),
+      deleteDuplicates: Schema.optional(DeleteDuplicatesRequest),
+      updateEmbeddedObjectBorder: Schema.optional(
+        UpdateEmbeddedObjectBorderRequest,
+      ),
+      addSlicer: Schema.optional(AddSlicerRequest),
+      updateSlicerSpec: Schema.optional(UpdateSlicerSpecRequest),
+      addDataSource: Schema.optional(AddDataSourceRequest),
+      updateDataSource: Schema.optional(UpdateDataSourceRequest),
+      deleteDataSource: Schema.optional(DeleteDataSourceRequest),
+      refreshDataSource: Schema.optional(RefreshDataSourceRequest),
+      cancelDataSourceRefresh: Schema.optional(CancelDataSourceRefreshRequest),
+      addTable: Schema.optional(AddTableRequest),
+      updateTable: Schema.optional(UpdateTableRequest),
+      deleteTable: Schema.optional(DeleteTableRequest),
+    }),
+  ).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
 
 export interface BatchUpdateSpreadsheetRequest {
   /** A list of updates to apply to the spreadsheet. Requests will be applied in the order they are specified. If any request is not valid, no requests will be applied. */
@@ -5580,7 +5644,7 @@ export interface BatchUpdateSpreadsheetRequest {
 }
 
 export const BatchUpdateSpreadsheetRequest: Schema.Schema<BatchUpdateSpreadsheetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(Request)),
       includeSpreadsheetInResponse: Schema.optional(Schema.Boolean),
@@ -5597,7 +5661,7 @@ export interface AddNamedRangeResponse {
 }
 
 export const AddNamedRangeResponse: Schema.Schema<AddNamedRangeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namedRange: Schema.optional(NamedRange),
     }),
@@ -5610,14 +5674,14 @@ export interface AddSheetResponse {
   properties?: SheetProperties;
 }
 
-export const AddSheetResponse: Schema.Schema<AddSheetResponse> = Schema.suspend(
-  () =>
+export const AddSheetResponse: Schema.Schema<AddSheetResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(SheetProperties),
     }),
-).annotate({
-  identifier: "AddSheetResponse",
-}) as any as Schema.Schema<AddSheetResponse>;
+  ).annotate({
+    identifier: "AddSheetResponse",
+  }) as any as Schema.Schema<AddSheetResponse>;
 
 export interface AddFilterViewResponse {
   /** The newly added filter view. */
@@ -5625,7 +5689,7 @@ export interface AddFilterViewResponse {
 }
 
 export const AddFilterViewResponse: Schema.Schema<AddFilterViewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(FilterView),
     }),
@@ -5639,7 +5703,7 @@ export interface DuplicateFilterViewResponse {
 }
 
 export const DuplicateFilterViewResponse: Schema.Schema<DuplicateFilterViewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(FilterView),
     }),
@@ -5653,7 +5717,7 @@ export interface DuplicateSheetResponse {
 }
 
 export const DuplicateSheetResponse: Schema.Schema<DuplicateSheetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(SheetProperties),
     }),
@@ -5675,7 +5739,7 @@ export interface FindReplaceResponse {
 }
 
 export const FindReplaceResponse: Schema.Schema<FindReplaceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valuesChanged: Schema.optional(Schema.Number),
       formulasChanged: Schema.optional(Schema.Number),
@@ -5693,7 +5757,7 @@ export interface UpdateEmbeddedObjectPositionResponse {
 }
 
 export const UpdateEmbeddedObjectPositionResponse: Schema.Schema<UpdateEmbeddedObjectPositionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       position: Schema.optional(EmbeddedObjectPosition),
     }),
@@ -5713,7 +5777,7 @@ export interface UpdateConditionalFormatRuleResponse {
 }
 
 export const UpdateConditionalFormatRuleResponse: Schema.Schema<UpdateConditionalFormatRuleResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       oldRule: Schema.optional(ConditionalFormatRule),
       oldIndex: Schema.optional(Schema.Number),
@@ -5730,7 +5794,7 @@ export interface DeleteConditionalFormatRuleResponse {
 }
 
 export const DeleteConditionalFormatRuleResponse: Schema.Schema<DeleteConditionalFormatRuleResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rule: Schema.optional(ConditionalFormatRule),
     }),
@@ -5744,7 +5808,7 @@ export interface AddProtectedRangeResponse {
 }
 
 export const AddProtectedRangeResponse: Schema.Schema<AddProtectedRangeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protectedRange: Schema.optional(ProtectedRange),
     }),
@@ -5757,14 +5821,14 @@ export interface AddChartResponse {
   chart?: EmbeddedChart;
 }
 
-export const AddChartResponse: Schema.Schema<AddChartResponse> = Schema.suspend(
-  () =>
+export const AddChartResponse: Schema.Schema<AddChartResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chart: Schema.optional(EmbeddedChart),
     }),
-).annotate({
-  identifier: "AddChartResponse",
-}) as any as Schema.Schema<AddChartResponse>;
+  ).annotate({
+    identifier: "AddChartResponse",
+  }) as any as Schema.Schema<AddChartResponse>;
 
 export interface AddBandingResponse {
   /** The banded range that was added. */
@@ -5772,7 +5836,7 @@ export interface AddBandingResponse {
 }
 
 export const AddBandingResponse: Schema.Schema<AddBandingResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bandedRange: Schema.optional(BandedRange),
     }),
@@ -5786,7 +5850,7 @@ export interface CreateDeveloperMetadataResponse {
 }
 
 export const CreateDeveloperMetadataResponse: Schema.Schema<CreateDeveloperMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       developerMetadata: Schema.optional(DeveloperMetadata),
     }),
@@ -5800,7 +5864,7 @@ export interface UpdateDeveloperMetadataResponse {
 }
 
 export const UpdateDeveloperMetadataResponse: Schema.Schema<UpdateDeveloperMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       developerMetadata: Schema.optional(Schema.Array(DeveloperMetadata)),
     }),
@@ -5814,7 +5878,7 @@ export interface DeleteDeveloperMetadataResponse {
 }
 
 export const DeleteDeveloperMetadataResponse: Schema.Schema<DeleteDeveloperMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletedDeveloperMetadata: Schema.optional(
         Schema.Array(DeveloperMetadata),
@@ -5830,7 +5894,7 @@ export interface AddDimensionGroupResponse {
 }
 
 export const AddDimensionGroupResponse: Schema.Schema<AddDimensionGroupResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionGroups: Schema.optional(Schema.Array(DimensionGroup)),
     }),
@@ -5844,7 +5908,7 @@ export interface DeleteDimensionGroupResponse {
 }
 
 export const DeleteDimensionGroupResponse: Schema.Schema<DeleteDimensionGroupResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionGroups: Schema.optional(Schema.Array(DimensionGroup)),
     }),
@@ -5858,7 +5922,7 @@ export interface TrimWhitespaceResponse {
 }
 
 export const TrimWhitespaceResponse: Schema.Schema<TrimWhitespaceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cellsChangedCount: Schema.optional(Schema.Number),
     }),
@@ -5872,7 +5936,7 @@ export interface DeleteDuplicatesResponse {
 }
 
 export const DeleteDuplicatesResponse: Schema.Schema<DeleteDuplicatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duplicatesRemovedCount: Schema.optional(Schema.Number),
     }),
@@ -5886,7 +5950,7 @@ export interface AddSlicerResponse {
 }
 
 export const AddSlicerResponse: Schema.Schema<AddSlicerResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       slicer: Schema.optional(Slicer),
     }),
@@ -5902,7 +5966,7 @@ export interface AddDataSourceResponse {
 }
 
 export const AddDataSourceResponse: Schema.Schema<AddDataSourceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(DataSource),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
@@ -5919,7 +5983,7 @@ export interface UpdateDataSourceResponse {
 }
 
 export const UpdateDataSourceResponse: Schema.Schema<UpdateDataSourceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(DataSource),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
@@ -5936,7 +6000,7 @@ export interface RefreshDataSourceObjectExecutionStatus {
 }
 
 export const RefreshDataSourceObjectExecutionStatus: Schema.Schema<RefreshDataSourceObjectExecutionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reference: Schema.optional(DataSourceObjectReference),
       dataExecutionStatus: Schema.optional(DataExecutionStatus),
@@ -5951,7 +6015,7 @@ export interface RefreshDataSourceResponse {
 }
 
 export const RefreshDataSourceResponse: Schema.Schema<RefreshDataSourceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       statuses: Schema.optional(
         Schema.Array(RefreshDataSourceObjectExecutionStatus),
@@ -5980,7 +6044,7 @@ export interface RefreshCancellationStatus {
 }
 
 export const RefreshCancellationStatus: Schema.Schema<RefreshCancellationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       errorCode: Schema.optional(Schema.String),
@@ -5997,7 +6061,7 @@ export interface CancelDataSourceRefreshStatus {
 }
 
 export const CancelDataSourceRefreshStatus: Schema.Schema<CancelDataSourceRefreshStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reference: Schema.optional(DataSourceObjectReference),
       refreshCancellationStatus: Schema.optional(RefreshCancellationStatus),
@@ -6012,7 +6076,7 @@ export interface CancelDataSourceRefreshResponse {
 }
 
 export const CancelDataSourceRefreshResponse: Schema.Schema<CancelDataSourceRefreshResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       statuses: Schema.optional(Schema.Array(CancelDataSourceRefreshStatus)),
     }),
@@ -6025,14 +6089,14 @@ export interface AddTableResponse {
   table?: Table;
 }
 
-export const AddTableResponse: Schema.Schema<AddTableResponse> = Schema.suspend(
-  () =>
+export const AddTableResponse: Schema.Schema<AddTableResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(Table),
     }),
-).annotate({
-  identifier: "AddTableResponse",
-}) as any as Schema.Schema<AddTableResponse>;
+  ).annotate({
+    identifier: "AddTableResponse",
+  }) as any as Schema.Schema<AddTableResponse>;
 
 export interface Response {
   /** A reply from adding a named range. */
@@ -6087,41 +6151,42 @@ export interface Response {
   addTable?: AddTableResponse;
 }
 
-export const Response: Schema.Schema<Response> = Schema.suspend(() =>
-  Schema.Struct({
-    addNamedRange: Schema.optional(AddNamedRangeResponse),
-    addSheet: Schema.optional(AddSheetResponse),
-    addFilterView: Schema.optional(AddFilterViewResponse),
-    duplicateFilterView: Schema.optional(DuplicateFilterViewResponse),
-    duplicateSheet: Schema.optional(DuplicateSheetResponse),
-    findReplace: Schema.optional(FindReplaceResponse),
-    updateEmbeddedObjectPosition: Schema.optional(
-      UpdateEmbeddedObjectPositionResponse,
-    ),
-    updateConditionalFormatRule: Schema.optional(
-      UpdateConditionalFormatRuleResponse,
-    ),
-    deleteConditionalFormatRule: Schema.optional(
-      DeleteConditionalFormatRuleResponse,
-    ),
-    addProtectedRange: Schema.optional(AddProtectedRangeResponse),
-    addChart: Schema.optional(AddChartResponse),
-    addBanding: Schema.optional(AddBandingResponse),
-    createDeveloperMetadata: Schema.optional(CreateDeveloperMetadataResponse),
-    updateDeveloperMetadata: Schema.optional(UpdateDeveloperMetadataResponse),
-    deleteDeveloperMetadata: Schema.optional(DeleteDeveloperMetadataResponse),
-    addDimensionGroup: Schema.optional(AddDimensionGroupResponse),
-    deleteDimensionGroup: Schema.optional(DeleteDimensionGroupResponse),
-    trimWhitespace: Schema.optional(TrimWhitespaceResponse),
-    deleteDuplicates: Schema.optional(DeleteDuplicatesResponse),
-    addSlicer: Schema.optional(AddSlicerResponse),
-    addDataSource: Schema.optional(AddDataSourceResponse),
-    updateDataSource: Schema.optional(UpdateDataSourceResponse),
-    refreshDataSource: Schema.optional(RefreshDataSourceResponse),
-    cancelDataSourceRefresh: Schema.optional(CancelDataSourceRefreshResponse),
-    addTable: Schema.optional(AddTableResponse),
-  }),
-).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
+export const Response: Schema.Schema<Response> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      addNamedRange: Schema.optional(AddNamedRangeResponse),
+      addSheet: Schema.optional(AddSheetResponse),
+      addFilterView: Schema.optional(AddFilterViewResponse),
+      duplicateFilterView: Schema.optional(DuplicateFilterViewResponse),
+      duplicateSheet: Schema.optional(DuplicateSheetResponse),
+      findReplace: Schema.optional(FindReplaceResponse),
+      updateEmbeddedObjectPosition: Schema.optional(
+        UpdateEmbeddedObjectPositionResponse,
+      ),
+      updateConditionalFormatRule: Schema.optional(
+        UpdateConditionalFormatRuleResponse,
+      ),
+      deleteConditionalFormatRule: Schema.optional(
+        DeleteConditionalFormatRuleResponse,
+      ),
+      addProtectedRange: Schema.optional(AddProtectedRangeResponse),
+      addChart: Schema.optional(AddChartResponse),
+      addBanding: Schema.optional(AddBandingResponse),
+      createDeveloperMetadata: Schema.optional(CreateDeveloperMetadataResponse),
+      updateDeveloperMetadata: Schema.optional(UpdateDeveloperMetadataResponse),
+      deleteDeveloperMetadata: Schema.optional(DeleteDeveloperMetadataResponse),
+      addDimensionGroup: Schema.optional(AddDimensionGroupResponse),
+      deleteDimensionGroup: Schema.optional(DeleteDimensionGroupResponse),
+      trimWhitespace: Schema.optional(TrimWhitespaceResponse),
+      deleteDuplicates: Schema.optional(DeleteDuplicatesResponse),
+      addSlicer: Schema.optional(AddSlicerResponse),
+      addDataSource: Schema.optional(AddDataSourceResponse),
+      updateDataSource: Schema.optional(UpdateDataSourceResponse),
+      refreshDataSource: Schema.optional(RefreshDataSourceResponse),
+      cancelDataSourceRefresh: Schema.optional(CancelDataSourceRefreshResponse),
+      addTable: Schema.optional(AddTableResponse),
+    }),
+  ).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
 
 export interface BatchUpdateSpreadsheetResponse {
   /** The spreadsheet the updates were applied to. */
@@ -6133,7 +6198,7 @@ export interface BatchUpdateSpreadsheetResponse {
 }
 
 export const BatchUpdateSpreadsheetResponse: Schema.Schema<BatchUpdateSpreadsheetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetId: Schema.optional(Schema.String),
       replies: Schema.optional(Schema.Array(Response)),
@@ -6149,7 +6214,7 @@ export interface CopySheetToAnotherSpreadsheetRequest {
 }
 
 export const CopySheetToAnotherSpreadsheetRequest: Schema.Schema<CopySheetToAnotherSpreadsheetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationSpreadsheetId: Schema.optional(Schema.String),
     }),
@@ -6166,15 +6231,17 @@ export interface CreateSpreadsheetsRequest {
   body?: Spreadsheet;
 }
 
-export const CreateSpreadsheetsRequest = Schema.Struct({
-  body: Schema.optional(Spreadsheet).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/spreadsheets", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateSpreadsheetsRequest>;
+export const CreateSpreadsheetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Spreadsheet).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/spreadsheets", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSpreadsheetsRequest>;
 
 export type CreateSpreadsheetsResponse = Spreadsheet;
-export const CreateSpreadsheetsResponse = Spreadsheet;
+export const CreateSpreadsheetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Spreadsheet;
 
 export type CreateSpreadsheetsError = DefaultErrors;
 
@@ -6184,7 +6251,7 @@ export const createSpreadsheets: API.OperationMethod<
   CreateSpreadsheetsResponse,
   CreateSpreadsheetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpreadsheetsRequest,
   output: CreateSpreadsheetsResponse,
   errors: [],
@@ -6201,24 +6268,26 @@ export interface GetSpreadsheetsRequest {
   excludeTablesInBandedRanges?: boolean;
 }
 
-export const GetSpreadsheetsRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  ranges: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("ranges"),
-  ),
-  includeGridData: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeGridData"),
-  ),
-  excludeTablesInBandedRanges: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("excludeTablesInBandedRanges"),
-  ),
-}).pipe(
+export const GetSpreadsheetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    ranges: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("ranges"),
+    ),
+    includeGridData: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeGridData"),
+    ),
+    excludeTablesInBandedRanges: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("excludeTablesInBandedRanges"),
+    ),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v4/spreadsheets/{spreadsheetId}" }),
   svc,
 ) as unknown as Schema.Schema<GetSpreadsheetsRequest>;
 
 export type GetSpreadsheetsResponse = Spreadsheet;
-export const GetSpreadsheetsResponse = Spreadsheet;
+export const GetSpreadsheetsResponse = /*@__PURE__*/ /*#__PURE__*/ Spreadsheet;
 
 export type GetSpreadsheetsError = DefaultErrors;
 
@@ -6228,7 +6297,7 @@ export const getSpreadsheets: API.OperationMethod<
   GetSpreadsheetsResponse,
   GetSpreadsheetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpreadsheetsRequest,
   output: GetSpreadsheetsResponse,
   errors: [],
@@ -6241,20 +6310,22 @@ export interface GetByDataFilterSpreadsheetsRequest {
   body?: GetSpreadsheetByDataFilterRequest;
 }
 
-export const GetByDataFilterSpreadsheetsRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(GetSpreadsheetByDataFilterRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}:getByDataFilter",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetByDataFilterSpreadsheetsRequest>;
+export const GetByDataFilterSpreadsheetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(GetSpreadsheetByDataFilterRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}:getByDataFilter",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetByDataFilterSpreadsheetsRequest>;
 
 export type GetByDataFilterSpreadsheetsResponse = Spreadsheet;
-export const GetByDataFilterSpreadsheetsResponse = Spreadsheet;
+export const GetByDataFilterSpreadsheetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Spreadsheet;
 
 export type GetByDataFilterSpreadsheetsError = DefaultErrors;
 
@@ -6264,7 +6335,7 @@ export const getByDataFilterSpreadsheets: API.OperationMethod<
   GetByDataFilterSpreadsheetsResponse,
   GetByDataFilterSpreadsheetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetByDataFilterSpreadsheetsRequest,
   output: GetByDataFilterSpreadsheetsResponse,
   errors: [],
@@ -6277,20 +6348,22 @@ export interface BatchUpdateSpreadsheetsRequest {
   body?: BatchUpdateSpreadsheetRequest;
 }
 
-export const BatchUpdateSpreadsheetsRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchUpdateSpreadsheetRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateSpreadsheetsRequest>;
+export const BatchUpdateSpreadsheetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchUpdateSpreadsheetRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateSpreadsheetsRequest>;
 
 export type BatchUpdateSpreadsheetsResponse = BatchUpdateSpreadsheetResponse;
-export const BatchUpdateSpreadsheetsResponse = BatchUpdateSpreadsheetResponse;
+export const BatchUpdateSpreadsheetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchUpdateSpreadsheetResponse;
 
 export type BatchUpdateSpreadsheetsError = DefaultErrors;
 
@@ -6300,7 +6373,7 @@ export const batchUpdateSpreadsheets: API.OperationMethod<
   BatchUpdateSpreadsheetsResponse,
   BatchUpdateSpreadsheetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateSpreadsheetsRequest,
   output: BatchUpdateSpreadsheetsResponse,
   errors: [],
@@ -6323,28 +6396,30 @@ export interface GetSpreadsheetsValuesRequest {
   dateTimeRenderOption?: "SERIAL_NUMBER" | "FORMATTED_STRING" | (string & {});
 }
 
-export const GetSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  range: Schema.String.pipe(T.HttpPath("range")),
-  majorDimension: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("majorDimension"),
-  ),
-  valueRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("valueRenderOption"),
-  ),
-  dateTimeRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("dateTimeRenderOption"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/spreadsheets/{spreadsheetId}/values/{range}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSpreadsheetsValuesRequest>;
+export const GetSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    range: Schema.String.pipe(T.HttpPath("range")),
+    majorDimension: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("majorDimension"),
+    ),
+    valueRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("valueRenderOption"),
+    ),
+    dateTimeRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dateTimeRenderOption"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/spreadsheets/{spreadsheetId}/values/{range}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpreadsheetsValuesRequest>;
 
 export type GetSpreadsheetsValuesResponse = ValueRange;
-export const GetSpreadsheetsValuesResponse = ValueRange;
+export const GetSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ValueRange;
 
 export type GetSpreadsheetsValuesError = DefaultErrors;
 
@@ -6354,7 +6429,7 @@ export const getSpreadsheetsValues: API.OperationMethod<
   GetSpreadsheetsValuesResponse,
   GetSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpreadsheetsValuesRequest,
   output: GetSpreadsheetsValuesResponse,
   errors: [],
@@ -6388,33 +6463,35 @@ export interface UpdateSpreadsheetsValuesRequest {
   body?: ValueRange;
 }
 
-export const UpdateSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  range: Schema.String.pipe(T.HttpPath("range")),
-  valueInputOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("valueInputOption"),
-  ),
-  includeValuesInResponse: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeValuesInResponse"),
-  ),
-  responseValueRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("responseValueRenderOption"),
-  ),
-  responseDateTimeRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("responseDateTimeRenderOption"),
-  ),
-  body: Schema.optional(ValueRange).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v4/spreadsheets/{spreadsheetId}/values/{range}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSpreadsheetsValuesRequest>;
+export const UpdateSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    range: Schema.String.pipe(T.HttpPath("range")),
+    valueInputOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("valueInputOption"),
+    ),
+    includeValuesInResponse: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeValuesInResponse"),
+    ),
+    responseValueRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("responseValueRenderOption"),
+    ),
+    responseDateTimeRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("responseDateTimeRenderOption"),
+    ),
+    body: Schema.optional(ValueRange).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v4/spreadsheets/{spreadsheetId}/values/{range}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSpreadsheetsValuesRequest>;
 
 export type UpdateSpreadsheetsValuesResponse = UpdateValuesResponse;
-export const UpdateSpreadsheetsValuesResponse = UpdateValuesResponse;
+export const UpdateSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UpdateValuesResponse;
 
 export type UpdateSpreadsheetsValuesError = DefaultErrors;
 
@@ -6424,7 +6501,7 @@ export const updateSpreadsheetsValues: API.OperationMethod<
   UpdateSpreadsheetsValuesResponse,
   UpdateSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpreadsheetsValuesRequest,
   output: UpdateSpreadsheetsValuesResponse,
   errors: [],
@@ -6460,36 +6537,38 @@ export interface AppendSpreadsheetsValuesRequest {
   body?: ValueRange;
 }
 
-export const AppendSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  range: Schema.String.pipe(T.HttpPath("range")),
-  valueInputOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("valueInputOption"),
-  ),
-  insertDataOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("insertDataOption"),
-  ),
-  includeValuesInResponse: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeValuesInResponse"),
-  ),
-  responseValueRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("responseValueRenderOption"),
-  ),
-  responseDateTimeRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("responseDateTimeRenderOption"),
-  ),
-  body: Schema.optional(ValueRange).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values/{range}:append",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AppendSpreadsheetsValuesRequest>;
+export const AppendSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    range: Schema.String.pipe(T.HttpPath("range")),
+    valueInputOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("valueInputOption"),
+    ),
+    insertDataOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("insertDataOption"),
+    ),
+    includeValuesInResponse: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeValuesInResponse"),
+    ),
+    responseValueRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("responseValueRenderOption"),
+    ),
+    responseDateTimeRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("responseDateTimeRenderOption"),
+    ),
+    body: Schema.optional(ValueRange).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values/{range}:append",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AppendSpreadsheetsValuesRequest>;
 
 export type AppendSpreadsheetsValuesResponse = AppendValuesResponse;
-export const AppendSpreadsheetsValuesResponse = AppendValuesResponse;
+export const AppendSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AppendValuesResponse;
 
 export type AppendSpreadsheetsValuesError = DefaultErrors;
 
@@ -6499,7 +6578,7 @@ export const appendSpreadsheetsValues: API.OperationMethod<
   AppendSpreadsheetsValuesResponse,
   AppendSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AppendSpreadsheetsValuesRequest,
   output: AppendSpreadsheetsValuesResponse,
   errors: [],
@@ -6514,21 +6593,23 @@ export interface ClearSpreadsheetsValuesRequest {
   body?: ClearValuesRequest;
 }
 
-export const ClearSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  range: Schema.String.pipe(T.HttpPath("range")),
-  body: Schema.optional(ClearValuesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values/{range}:clear",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClearSpreadsheetsValuesRequest>;
+export const ClearSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    range: Schema.String.pipe(T.HttpPath("range")),
+    body: Schema.optional(ClearValuesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values/{range}:clear",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClearSpreadsheetsValuesRequest>;
 
 export type ClearSpreadsheetsValuesResponse = ClearValuesResponse;
-export const ClearSpreadsheetsValuesResponse = ClearValuesResponse;
+export const ClearSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClearValuesResponse;
 
 export type ClearSpreadsheetsValuesError = DefaultErrors;
 
@@ -6538,7 +6619,7 @@ export const clearSpreadsheetsValues: API.OperationMethod<
   ClearSpreadsheetsValuesResponse,
   ClearSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearSpreadsheetsValuesRequest,
   output: ClearSpreadsheetsValuesResponse,
   errors: [],
@@ -6561,30 +6642,32 @@ export interface BatchGetSpreadsheetsValuesRequest {
   dateTimeRenderOption?: "SERIAL_NUMBER" | "FORMATTED_STRING" | (string & {});
 }
 
-export const BatchGetSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  ranges: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("ranges"),
-  ),
-  majorDimension: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("majorDimension"),
-  ),
-  valueRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("valueRenderOption"),
-  ),
-  dateTimeRenderOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("dateTimeRenderOption"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchGet",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetSpreadsheetsValuesRequest>;
+export const BatchGetSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    ranges: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("ranges"),
+    ),
+    majorDimension: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("majorDimension"),
+    ),
+    valueRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("valueRenderOption"),
+    ),
+    dateTimeRenderOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dateTimeRenderOption"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchGet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetSpreadsheetsValuesRequest>;
 
 export type BatchGetSpreadsheetsValuesResponse = BatchGetValuesResponse;
-export const BatchGetSpreadsheetsValuesResponse = BatchGetValuesResponse;
+export const BatchGetSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetValuesResponse;
 
 export type BatchGetSpreadsheetsValuesError = DefaultErrors;
 
@@ -6594,7 +6677,7 @@ export const batchGetSpreadsheetsValues: API.OperationMethod<
   BatchGetSpreadsheetsValuesResponse,
   BatchGetSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetSpreadsheetsValuesRequest,
   output: BatchGetSpreadsheetsValuesResponse,
   errors: [],
@@ -6607,20 +6690,22 @@ export interface BatchUpdateSpreadsheetsValuesRequest {
   body?: BatchUpdateValuesRequest;
 }
 
-export const BatchUpdateSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchUpdateValuesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateSpreadsheetsValuesRequest>;
+export const BatchUpdateSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchUpdateValuesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateSpreadsheetsValuesRequest>;
 
 export type BatchUpdateSpreadsheetsValuesResponse = BatchUpdateValuesResponse;
-export const BatchUpdateSpreadsheetsValuesResponse = BatchUpdateValuesResponse;
+export const BatchUpdateSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchUpdateValuesResponse;
 
 export type BatchUpdateSpreadsheetsValuesError = DefaultErrors;
 
@@ -6630,7 +6715,7 @@ export const batchUpdateSpreadsheetsValues: API.OperationMethod<
   BatchUpdateSpreadsheetsValuesResponse,
   BatchUpdateSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateSpreadsheetsValuesRequest,
   output: BatchUpdateSpreadsheetsValuesResponse,
   errors: [],
@@ -6643,20 +6728,22 @@ export interface BatchClearSpreadsheetsValuesRequest {
   body?: BatchClearValuesRequest;
 }
 
-export const BatchClearSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchClearValuesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchClear",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchClearSpreadsheetsValuesRequest>;
+export const BatchClearSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchClearValuesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchClear",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchClearSpreadsheetsValuesRequest>;
 
 export type BatchClearSpreadsheetsValuesResponse = BatchClearValuesResponse;
-export const BatchClearSpreadsheetsValuesResponse = BatchClearValuesResponse;
+export const BatchClearSpreadsheetsValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchClearValuesResponse;
 
 export type BatchClearSpreadsheetsValuesError = DefaultErrors;
 
@@ -6666,7 +6753,7 @@ export const batchClearSpreadsheetsValues: API.OperationMethod<
   BatchClearSpreadsheetsValuesResponse,
   BatchClearSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchClearSpreadsheetsValuesRequest,
   output: BatchClearSpreadsheetsValuesResponse,
   errors: [],
@@ -6679,22 +6766,23 @@ export interface BatchGetByDataFilterSpreadsheetsValuesRequest {
   body?: BatchGetValuesByDataFilterRequest;
 }
 
-export const BatchGetByDataFilterSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchGetValuesByDataFilterRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchGetByDataFilter",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>;
+export const BatchGetByDataFilterSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchGetValuesByDataFilterRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchGetByDataFilter",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>;
 
 export type BatchGetByDataFilterSpreadsheetsValuesResponse =
   BatchGetValuesByDataFilterResponse;
 export const BatchGetByDataFilterSpreadsheetsValuesResponse =
-  BatchGetValuesByDataFilterResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetValuesByDataFilterResponse;
 
 export type BatchGetByDataFilterSpreadsheetsValuesError = DefaultErrors;
 
@@ -6704,7 +6792,7 @@ export const batchGetByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchGetByDataFilterSpreadsheetsValuesResponse,
   BatchGetByDataFilterSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetByDataFilterSpreadsheetsValuesRequest,
   output: BatchGetByDataFilterSpreadsheetsValuesResponse,
   errors: [],
@@ -6717,24 +6805,25 @@ export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
   body?: BatchUpdateValuesByDataFilterRequest;
 }
 
-export const BatchUpdateByDataFilterSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchUpdateValuesByDataFilterRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchUpdateByDataFilter",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>;
+export const BatchUpdateByDataFilterSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchUpdateValuesByDataFilterRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchUpdateByDataFilter",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>;
 
 export type BatchUpdateByDataFilterSpreadsheetsValuesResponse =
   BatchUpdateValuesByDataFilterResponse;
 export const BatchUpdateByDataFilterSpreadsheetsValuesResponse =
-  BatchUpdateValuesByDataFilterResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchUpdateValuesByDataFilterResponse;
 
 export type BatchUpdateByDataFilterSpreadsheetsValuesError = DefaultErrors;
 
@@ -6744,7 +6833,7 @@ export const batchUpdateByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchUpdateByDataFilterSpreadsheetsValuesResponse,
   BatchUpdateByDataFilterSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateByDataFilterSpreadsheetsValuesRequest,
   output: BatchUpdateByDataFilterSpreadsheetsValuesResponse,
   errors: [],
@@ -6757,22 +6846,25 @@ export interface BatchClearByDataFilterSpreadsheetsValuesRequest {
   body?: BatchClearValuesByDataFilterRequest;
 }
 
-export const BatchClearByDataFilterSpreadsheetsValuesRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(BatchClearValuesByDataFilterRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/values:batchClearByDataFilter",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchClearByDataFilterSpreadsheetsValuesRequest>;
+export const BatchClearByDataFilterSpreadsheetsValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(BatchClearValuesByDataFilterRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/values:batchClearByDataFilter",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchClearByDataFilterSpreadsheetsValuesRequest>;
 
 export type BatchClearByDataFilterSpreadsheetsValuesResponse =
   BatchClearValuesByDataFilterResponse;
 export const BatchClearByDataFilterSpreadsheetsValuesResponse =
-  BatchClearValuesByDataFilterResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchClearValuesByDataFilterResponse;
 
 export type BatchClearByDataFilterSpreadsheetsValuesError = DefaultErrors;
 
@@ -6782,7 +6874,7 @@ export const batchClearByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchClearByDataFilterSpreadsheetsValuesResponse,
   BatchClearByDataFilterSpreadsheetsValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchClearByDataFilterSpreadsheetsValuesRequest,
   output: BatchClearByDataFilterSpreadsheetsValuesResponse,
   errors: [],
@@ -6795,19 +6887,21 @@ export interface GetSpreadsheetsDeveloperMetadataRequest {
   metadataId: number;
 }
 
-export const GetSpreadsheetsDeveloperMetadataRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  metadataId: Schema.Number.pipe(T.HttpPath("metadataId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/spreadsheets/{spreadsheetId}/developerMetadata/{metadataId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSpreadsheetsDeveloperMetadataRequest>;
+export const GetSpreadsheetsDeveloperMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    metadataId: Schema.Number.pipe(T.HttpPath("metadataId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/spreadsheets/{spreadsheetId}/developerMetadata/{metadataId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpreadsheetsDeveloperMetadataRequest>;
 
 export type GetSpreadsheetsDeveloperMetadataResponse = DeveloperMetadata;
-export const GetSpreadsheetsDeveloperMetadataResponse = DeveloperMetadata;
+export const GetSpreadsheetsDeveloperMetadataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DeveloperMetadata;
 
 export type GetSpreadsheetsDeveloperMetadataError = DefaultErrors;
 
@@ -6817,7 +6911,7 @@ export const getSpreadsheetsDeveloperMetadata: API.OperationMethod<
   GetSpreadsheetsDeveloperMetadataResponse,
   GetSpreadsheetsDeveloperMetadataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpreadsheetsDeveloperMetadataRequest,
   output: GetSpreadsheetsDeveloperMetadataResponse,
   errors: [],
@@ -6830,22 +6924,23 @@ export interface SearchSpreadsheetsDeveloperMetadataRequest {
   body?: SearchDeveloperMetadataRequest;
 }
 
-export const SearchSpreadsheetsDeveloperMetadataRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  body: Schema.optional(SearchDeveloperMetadataRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/developerMetadata:search",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchSpreadsheetsDeveloperMetadataRequest>;
+export const SearchSpreadsheetsDeveloperMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    body: Schema.optional(SearchDeveloperMetadataRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/developerMetadata:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchSpreadsheetsDeveloperMetadataRequest>;
 
 export type SearchSpreadsheetsDeveloperMetadataResponse =
   SearchDeveloperMetadataResponse;
 export const SearchSpreadsheetsDeveloperMetadataResponse =
-  SearchDeveloperMetadataResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchDeveloperMetadataResponse;
 
 export type SearchSpreadsheetsDeveloperMetadataError = DefaultErrors;
 
@@ -6855,7 +6950,7 @@ export const searchSpreadsheetsDeveloperMetadata: API.OperationMethod<
   SearchSpreadsheetsDeveloperMetadataResponse,
   SearchSpreadsheetsDeveloperMetadataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchSpreadsheetsDeveloperMetadataRequest,
   output: SearchSpreadsheetsDeveloperMetadataResponse,
   errors: [],
@@ -6870,23 +6965,25 @@ export interface CopyToSpreadsheetsSheetsRequest {
   body?: CopySheetToAnotherSpreadsheetRequest;
 }
 
-export const CopyToSpreadsheetsSheetsRequest = Schema.Struct({
-  spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
-  sheetId: Schema.Number.pipe(T.HttpPath("sheetId")),
-  body: Schema.optional(CopySheetToAnotherSpreadsheetRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/spreadsheets/{spreadsheetId}/sheets/{sheetId}:copyTo",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CopyToSpreadsheetsSheetsRequest>;
+export const CopyToSpreadsheetsSheetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    spreadsheetId: Schema.String.pipe(T.HttpPath("spreadsheetId")),
+    sheetId: Schema.Number.pipe(T.HttpPath("sheetId")),
+    body: Schema.optional(CopySheetToAnotherSpreadsheetRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/spreadsheets/{spreadsheetId}/sheets/{sheetId}:copyTo",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CopyToSpreadsheetsSheetsRequest>;
 
 export type CopyToSpreadsheetsSheetsResponse = SheetProperties;
-export const CopyToSpreadsheetsSheetsResponse = SheetProperties;
+export const CopyToSpreadsheetsSheetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SheetProperties;
 
 export type CopyToSpreadsheetsSheetsError = DefaultErrors;
 
@@ -6896,7 +6993,7 @@ export const copyToSpreadsheetsSheets: API.OperationMethod<
   CopyToSpreadsheetsSheetsResponse,
   CopyToSpreadsheetsSheetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyToSpreadsheetsSheetsRequest,
   output: CopyToSpreadsheetsSheetsResponse,
   errors: [],

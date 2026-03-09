@@ -4,19 +4,20 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteServiceTokenInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/service-tokens/{id}",
-  }),
-);
+export const DeleteServiceTokenInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/service-tokens/{id}",
+    }),
+  );
 export type DeleteServiceTokenInput = typeof DeleteServiceTokenInput.Type;
 
 // Output Schema
-export const DeleteServiceTokenOutput = Schema.Void;
+export const DeleteServiceTokenOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteServiceTokenOutput = typeof DeleteServiceTokenOutput.Type;
 
 // The operation

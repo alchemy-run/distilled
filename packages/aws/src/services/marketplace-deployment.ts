@@ -99,35 +99,40 @@ export type DeploymentParameterResourceIdentifier = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: S.optional(Tags) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: S.optional(Tags),
@@ -145,16 +150,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type StringList = string[];
-export const StringList = S.Array(S.String);
+export const StringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
@@ -172,20 +179,25 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface DeploymentParameterInput {
   name: string;
   secretString: string | redacted.Redacted<string>;
 }
-export const DeploymentParameterInput = S.suspend(() =>
-  S.Struct({ name: S.String, secretString: SensitiveString }),
+export const DeploymentParameterInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, secretString: SensitiveString }),
 ).annotate({
   identifier: "DeploymentParameterInput",
 }) as any as S.Schema<DeploymentParameterInput>;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagsMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface PutDeploymentParameterRequest {
   catalog: string;
   productId: string;
@@ -195,49 +207,51 @@ export interface PutDeploymentParameterRequest {
   expirationDate?: Date;
   clientToken?: string;
 }
-export const PutDeploymentParameterRequest = S.suspend(() =>
-  S.Struct({
-    catalog: S.String.pipe(T.HttpLabel("catalog")),
-    productId: S.String.pipe(T.HttpLabel("productId")),
-    agreementId: S.String,
-    deploymentParameter: DeploymentParameterInput,
-    tags: S.optional(TagsMap),
-    expirationDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+export const PutDeploymentParameterRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      catalog: S.String.pipe(T.HttpLabel("catalog")),
+      productId: S.String.pipe(T.HttpLabel("productId")),
+      agreementId: S.String,
+      deploymentParameter: DeploymentParameterInput,
+      tags: S.optional(TagsMap),
+      expirationDate: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/catalogs/{catalog}/products/{productId}/deployment-parameters",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/catalogs/{catalog}/products/{productId}/deployment-parameters",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutDeploymentParameterRequest",
-}) as any as S.Schema<PutDeploymentParameterRequest>;
+  ).annotate({
+    identifier: "PutDeploymentParameterRequest",
+  }) as any as S.Schema<PutDeploymentParameterRequest>;
 export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
   tags?: { [key: string]: string | undefined };
 }
-export const PutDeploymentParameterResponse = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    agreementId: S.String,
-    deploymentParameterId: S.String,
-    tags: S.optional(TagsMap),
-  }),
-).annotate({
-  identifier: "PutDeploymentParameterResponse",
-}) as any as S.Schema<PutDeploymentParameterResponse>;
+export const PutDeploymentParameterResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resourceArn: S.String,
+      agreementId: S.String,
+      deploymentParameterId: S.String,
+      tags: S.optional(TagsMap),
+    }),
+  ).annotate({
+    identifier: "PutDeploymentParameterResponse",
+  }) as any as S.Schema<PutDeploymentParameterResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

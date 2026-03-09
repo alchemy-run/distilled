@@ -30,7 +30,7 @@ export interface GoogleCloudDatalabelingV1alpha1GcsDestination {
 }
 
 export const GoogleCloudDatalabelingV1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUri: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -45,7 +45,7 @@ export interface GoogleCloudDatalabelingV1alpha1GcsFolderDestination {
 }
 
 export const GoogleCloudDatalabelingV1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1alpha1GcsFolderDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputFolderUri: Schema.optional(Schema.String),
     }),
@@ -61,7 +61,7 @@ export interface GoogleCloudDatalabelingV1alpha1OutputConfig {
 }
 
 export const GoogleCloudDatalabelingV1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1OutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudDatalabelingV1alpha1GcsDestination,
@@ -77,7 +77,7 @@ export const GoogleCloudDatalabelingV1alpha1OutputConfig: Schema.Schema<GoogleCl
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -103,7 +103,7 @@ export interface GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig {
 }
 
 export const GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       annotatedDatasetDescription: Schema.optional(Schema.String),
@@ -122,14 +122,14 @@ export const GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig: Schema.Schema
 export interface GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata {}
 
 export const GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata",
   }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata>;
 
 export interface GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata {}
 
 export const GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata",
   }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata>;
 
@@ -147,7 +147,7 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackMessage {
 }
 
 export const GoogleCloudDatalabelingV1beta1FeedbackMessage: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       body: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -172,7 +172,7 @@ export interface GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       feedbackMessages: Schema.optional(
@@ -192,8 +192,8 @@ export interface GoogleRpcStatus {
   message?: string;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       details: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -201,9 +201,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleCloudDatalabelingV1beta1Attempt {
   attemptTime?: string;
@@ -212,7 +212,7 @@ export interface GoogleCloudDatalabelingV1beta1Attempt {
 }
 
 export const GoogleCloudDatalabelingV1beta1Attempt: Schema.Schema<GoogleCloudDatalabelingV1beta1Attempt> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attemptTime: Schema.optional(Schema.String),
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -227,7 +227,7 @@ export interface GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions {
 }
 
 export const GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iouThreshold: Schema.optional(Schema.Number),
     }),
@@ -241,7 +241,7 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1EvaluationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boundingBoxEvaluationOptions: Schema.optional(
         GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions,
@@ -266,7 +266,7 @@ export interface GoogleCloudDatalabelingV1beta1ImageClassificationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImageClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       allowMultiLabel: Schema.optional(Schema.Boolean),
@@ -284,7 +284,7 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobAlertConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minAcceptableMeanAveragePrecision: Schema.optional(Schema.Number),
       email: Schema.optional(Schema.String),
@@ -299,7 +299,7 @@ export interface GoogleCloudDatalabelingV1beta1SentimentConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1SentimentConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SentimentConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableLabelSentimentSelection: Schema.optional(Schema.Boolean),
     }),
@@ -317,7 +317,7 @@ export interface GoogleCloudDatalabelingV1beta1TextClassificationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       sentimentConfig: Schema.optional(
@@ -337,7 +337,7 @@ export interface GoogleCloudDatalabelingV1beta1BoundingPolyConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1BoundingPolyConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPolyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instructionMessage: Schema.optional(Schema.String),
       annotationSpecSet: Schema.optional(Schema.String),
@@ -352,7 +352,7 @@ export interface GoogleCloudDatalabelingV1beta1ClassificationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1ClassificationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isMultiLabel: Schema.optional(Schema.Boolean),
     }),
@@ -366,7 +366,7 @@ export interface GoogleCloudDatalabelingV1beta1TextMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1TextMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
     }),
@@ -382,7 +382,7 @@ export interface GoogleCloudDatalabelingV1beta1GcsSource {
 }
 
 export const GoogleCloudDatalabelingV1beta1GcsSource: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       inputUri: Schema.optional(Schema.String),
@@ -397,7 +397,7 @@ export interface GoogleCloudDatalabelingV1beta1BigQuerySource {
 }
 
 export const GoogleCloudDatalabelingV1beta1BigQuerySource: Schema.Schema<GoogleCloudDatalabelingV1beta1BigQuerySource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputUri: Schema.optional(Schema.String),
     }),
@@ -442,7 +442,7 @@ export interface GoogleCloudDatalabelingV1beta1InputConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1InputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1InputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataType: Schema.optional(Schema.String),
       classificationMetadata: Schema.optional(
@@ -481,7 +481,7 @@ export interface GoogleCloudDatalabelingV1beta1HumanAnnotationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1HumanAnnotationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelGroup: Schema.optional(Schema.String),
       replicaCount: Schema.optional(Schema.Number),
@@ -521,7 +521,7 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJobConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1EvaluationJobConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJobConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1EvaluationConfig,
@@ -582,7 +582,7 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationJob {
 }
 
 export const GoogleCloudDatalabelingV1beta1EvaluationJob: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationJob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attempts: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1Attempt),
@@ -611,7 +611,7 @@ export interface GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluationJobs: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1EvaluationJob),
@@ -632,7 +632,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -654,7 +654,7 @@ export interface GoogleCloudDatalabelingV1beta1ImagePayload {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImagePayload: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageUri: Schema.optional(Schema.String),
       signedUri: Schema.optional(Schema.String),
@@ -675,7 +675,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1CreateInstructionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       instruction: Schema.optional(Schema.String),
@@ -691,7 +691,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperation
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectTrackingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -712,7 +712,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpec {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotationSpec: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       index: Schema.optional(Schema.Number),
       description: Schema.optional(Schema.String),
@@ -728,7 +728,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMe
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingPolyOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -747,7 +747,7 @@ export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageSize: Schema.optional(Schema.Number),
       pageToken: Schema.optional(Schema.String),
@@ -762,7 +762,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMe
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageSegmentationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -779,7 +779,7 @@ export interface GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpec: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpec,
@@ -797,7 +797,7 @@ export interface GoogleCloudDatalabelingV1beta1NormalizedVertex {
 }
 
 export const GoogleCloudDatalabelingV1beta1NormalizedVertex: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedVertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       y: Schema.optional(Schema.Number),
       x: Schema.optional(Schema.Number),
@@ -812,7 +812,7 @@ export interface GoogleCloudDatalabelingV1beta1NormalizedPolyline {
 }
 
 export const GoogleCloudDatalabelingV1beta1NormalizedPolyline: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedPolyline> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedVertices: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex),
@@ -830,7 +830,7 @@ export interface GoogleCloudDatalabelingV1beta1Vertex {
 }
 
 export const GoogleCloudDatalabelingV1beta1Vertex: Schema.Schema<GoogleCloudDatalabelingV1beta1Vertex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -845,7 +845,7 @@ export interface GoogleCloudDatalabelingV1beta1Polyline {
 }
 
 export const GoogleCloudDatalabelingV1beta1Polyline: Schema.Schema<GoogleCloudDatalabelingV1beta1Polyline> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1Vertex),
@@ -863,7 +863,7 @@ export interface GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedPolyline: Schema.optional(
         GoogleCloudDatalabelingV1beta1NormalizedPolyline,
@@ -885,7 +885,7 @@ export interface GoogleCloudDatalabelingV1beta1TimeSegment {
 }
 
 export const GoogleCloudDatalabelingV1beta1TimeSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1TimeSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimeOffset: Schema.optional(Schema.String),
       endTimeOffset: Schema.optional(Schema.String),
@@ -902,7 +902,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpec: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpec,
@@ -919,7 +919,7 @@ export interface GoogleCloudDatalabelingV1beta1TextClassificationAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextClassificationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextClassificationAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpec: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpec,
@@ -937,7 +937,7 @@ export interface GoogleCloudDatalabelingV1beta1SequentialSegment {
 }
 
 export const GoogleCloudDatalabelingV1beta1SequentialSegment: Schema.Schema<GoogleCloudDatalabelingV1beta1SequentialSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       start: Schema.optional(Schema.Number),
       end: Schema.optional(Schema.Number),
@@ -954,7 +954,7 @@ export interface GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpec: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpec,
@@ -973,7 +973,7 @@ export interface GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly {
 }
 
 export const GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedVertices: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1NormalizedVertex),
@@ -989,7 +989,7 @@ export interface GoogleCloudDatalabelingV1beta1BoundingPoly {
 }
 
 export const GoogleCloudDatalabelingV1beta1BoundingPoly: Schema.Schema<GoogleCloudDatalabelingV1beta1BoundingPoly> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertices: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1Vertex),
@@ -1007,7 +1007,7 @@ export interface GoogleCloudDatalabelingV1beta1ObjectTrackingFrame {
 }
 
 export const GoogleCloudDatalabelingV1beta1ObjectTrackingFrame: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingFrame> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedBoundingPoly: Schema.optional(
         GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly,
@@ -1029,7 +1029,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectTrackingFrames: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1ObjectTrackingFrame),
@@ -1051,7 +1051,7 @@ export interface GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boundingPoly: Schema.optional(GoogleCloudDatalabelingV1beta1BoundingPoly),
       normalizedBoundingPoly: Schema.optional(
@@ -1078,7 +1078,7 @@ export interface GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       imageBytes: Schema.optional(Schema.String),
@@ -1101,7 +1101,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoEventAnnotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoEventAnnotation: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoEventAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeSegment: Schema.optional(GoogleCloudDatalabelingV1beta1TimeSegment),
       annotationSpec: Schema.optional(
@@ -1134,7 +1134,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationValue {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotationValue: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageClassificationAnnotation: Schema.optional(
         GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation,
@@ -1174,7 +1174,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputFolderUri: Schema.optional(Schema.String),
     }),
@@ -1204,7 +1204,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotatedDatasetDisplayName: Schema.optional(Schema.String),
       instruction: Schema.optional(Schema.String),
@@ -1226,7 +1226,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperat
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -1251,7 +1251,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSet {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotationSpecSet: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockingResources: Schema.optional(Schema.Array(Schema.String)),
       annotationSpecs: Schema.optional(
@@ -1287,7 +1287,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       annotatedDatasetDescription: Schema.optional(Schema.String),
@@ -1309,7 +1309,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperat
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectTrackingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -1328,7 +1328,7 @@ export interface GoogleCloudDatalabelingV1beta1SegmentationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1SegmentationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1SegmentationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       instructionMessage: Schema.optional(Schema.String),
@@ -1361,7 +1361,7 @@ export interface GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry {
 }
 
 export const GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       precisionAt5: Schema.optional(Schema.Number),
       f1ScoreAt5: Schema.optional(Schema.Number),
@@ -1390,7 +1390,7 @@ export interface GoogleCloudDatalabelingV1beta1PrCurve {
 }
 
 export const GoogleCloudDatalabelingV1beta1PrCurve: Schema.Schema<GoogleCloudDatalabelingV1beta1PrCurve> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceMetricsEntries: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry),
@@ -1413,7 +1413,7 @@ export interface GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry {
 }
 
 export const GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpec: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpec,
@@ -1432,7 +1432,7 @@ export interface GoogleCloudDatalabelingV1beta1Row {
 }
 
 export const GoogleCloudDatalabelingV1beta1Row: Schema.Schema<GoogleCloudDatalabelingV1beta1Row> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry),
@@ -1450,7 +1450,7 @@ export interface GoogleCloudDatalabelingV1beta1ConfusionMatrix {
 }
 
 export const GoogleCloudDatalabelingV1beta1ConfusionMatrix: Schema.Schema<GoogleCloudDatalabelingV1beta1ConfusionMatrix> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       row: Schema.optional(Schema.Array(GoogleCloudDatalabelingV1beta1Row)),
     }),
@@ -1466,7 +1466,7 @@ export interface GoogleCloudDatalabelingV1beta1ClassificationMetrics {
 }
 
 export const GoogleCloudDatalabelingV1beta1ClassificationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ClassificationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
       confusionMatrix: Schema.optional(
@@ -1483,7 +1483,7 @@ export interface GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics {
 }
 
 export const GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prCurve: Schema.optional(GoogleCloudDatalabelingV1beta1PrCurve),
     }),
@@ -1497,7 +1497,7 @@ export interface GoogleCloudDatalabelingV1beta1EvaluationMetrics {
 }
 
 export const GoogleCloudDatalabelingV1beta1EvaluationMetrics: Schema.Schema<GoogleCloudDatalabelingV1beta1EvaluationMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       classificationMetrics: Schema.optional(
         GoogleCloudDatalabelingV1beta1ClassificationMetrics,
@@ -1522,7 +1522,7 @@ export interface GoogleCloudDatalabelingV1beta1OperatorMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1OperatorMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1OperatorMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelVotes: Schema.optional(Schema.Number),
       totalVotes: Schema.optional(Schema.Number),
@@ -1543,7 +1543,7 @@ export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
       createTime: Schema.optional(Schema.String),
@@ -1561,7 +1561,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoThumbnail {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoThumbnail: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoThumbnail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeOffset: Schema.optional(Schema.String),
       thumbnail: Schema.optional(Schema.String),
@@ -1578,7 +1578,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1GcsDestination {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUri: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -1593,7 +1593,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GcsFolderDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputFolderUri: Schema.optional(Schema.String),
     }),
@@ -1609,7 +1609,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1OutputConfig {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1OutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1GcsDestination,
@@ -1628,7 +1628,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelStats {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -1654,7 +1654,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportCount: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
@@ -1677,7 +1677,7 @@ export interface GoogleCloudDatalabelingV1beta1PolylineConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1PolylineConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1PolylineConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       instructionMessage: Schema.optional(Schema.String),
@@ -1692,7 +1692,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetada
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -1709,7 +1709,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperatio
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextEntityExtractionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -1726,7 +1726,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMet
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -1743,7 +1743,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelStats {
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -1759,7 +1759,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperation
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -1776,7 +1776,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelStats {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -1792,7 +1792,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOpera
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -1813,7 +1813,7 @@ export interface GoogleCloudDatalabelingV1beta1ObjectTrackingConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1ObjectTrackingConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectTrackingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clipLength: Schema.optional(Schema.Number),
       annotationSpecSet: Schema.optional(Schema.String),
@@ -1831,7 +1831,7 @@ export interface GoogleCloudDatalabelingV1beta1ObjectDetectionConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1ObjectDetectionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1ObjectDetectionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       extractionFrameRate: Schema.optional(Schema.Number),
@@ -1846,7 +1846,7 @@ export interface GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
     }),
@@ -1862,7 +1862,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(Schema.String),
       allowMultiLabel: Schema.optional(Schema.Boolean),
@@ -1879,7 +1879,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoClassificationConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoClassificationConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoClassificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSetConfigs: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1AnnotationSpecSetConfig),
@@ -1900,7 +1900,7 @@ export interface GoogleCloudDatalabelingV1beta1EventConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1EventConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1EventConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSets: Schema.optional(Schema.Array(Schema.String)),
       clipLength: Schema.optional(Schema.Number),
@@ -1936,7 +1936,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectTrackingConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1ObjectTrackingConfig,
@@ -2018,7 +2018,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotatedDataset {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotatedDataset: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotatedDataset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       completedExampleCount: Schema.optional(Schema.String),
       metadata: Schema.optional(
@@ -2044,7 +2044,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetada
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -2065,7 +2065,7 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCount: Schema.optional(Schema.Number),
       importCount: Schema.optional(Schema.Number),
@@ -2081,7 +2081,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetad
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImagePolylineOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2102,7 +2102,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1CreateInstructionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instruction: Schema.optional(Schema.String),
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -2122,7 +2122,7 @@ export interface GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata {
 }
 
 export const GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1CreateInstructionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
       createTime: Schema.optional(Schema.String),
@@ -2138,7 +2138,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMet
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImagePolylineOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2155,7 +2155,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperation
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2172,7 +2172,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationM
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageSegmentationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2189,7 +2189,7 @@ export interface GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationSpecSet: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationSpecSet,
@@ -2205,7 +2205,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperati
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -2222,7 +2222,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperati
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectDetectionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2253,7 +2253,7 @@ export interface GoogleCloudDatalabelingV1beta1Dataset {
 }
 
 export const GoogleCloudDatalabelingV1beta1Dataset: Schema.Schema<GoogleCloudDatalabelingV1beta1Dataset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataItemCount: Schema.optional(Schema.String),
@@ -2276,7 +2276,7 @@ export interface GoogleCloudDatalabelingV1beta1CreateDatasetRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1CreateDatasetRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateDatasetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(GoogleCloudDatalabelingV1beta1Dataset),
     }),
@@ -2296,7 +2296,7 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
       annotatedDataset: Schema.optional(Schema.String),
@@ -2313,7 +2313,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperatio
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoObjectTrackingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2332,7 +2332,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1GcsDestination {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1GcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       outputUri: Schema.optional(Schema.String),
@@ -2349,7 +2349,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1OutputConfig {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1OutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsFolderDestination: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1GcsFolderDestination,
@@ -2378,7 +2378,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1OutputConfig,
@@ -2399,7 +2399,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperation
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2416,7 +2416,7 @@ export interface GoogleCloudDatalabelingV1beta1TextPayload {
 }
 
 export const GoogleCloudDatalabelingV1beta1TextPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1TextPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textContent: Schema.optional(Schema.String),
     }),
@@ -2430,7 +2430,7 @@ export interface GoogleCloudDatalabelingV1beta1AnnotationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1AnnotationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1AnnotationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operatorMetadata: Schema.optional(
         GoogleCloudDatalabelingV1beta1OperatorMetadata,
@@ -2461,7 +2461,7 @@ export interface GoogleCloudDatalabelingV1beta1Annotation {
 }
 
 export const GoogleCloudDatalabelingV1beta1Annotation: Schema.Schema<GoogleCloudDatalabelingV1beta1Annotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationValue: Schema.optional(
         GoogleCloudDatalabelingV1beta1AnnotationValue,
@@ -2491,7 +2491,7 @@ export interface GoogleCloudDatalabelingV1beta1VideoPayload {
 }
 
 export const GoogleCloudDatalabelingV1beta1VideoPayload: Schema.Schema<GoogleCloudDatalabelingV1beta1VideoPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       videoUri: Schema.optional(Schema.String),
@@ -2519,7 +2519,7 @@ export interface GoogleCloudDatalabelingV1beta1Example {
 }
 
 export const GoogleCloudDatalabelingV1beta1Example: Schema.Schema<GoogleCloudDatalabelingV1beta1Example> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
       annotations: Schema.optional(
@@ -2539,7 +2539,7 @@ export interface GoogleCloudDatalabelingV1beta1GcsFolderDestination {
 }
 
 export const GoogleCloudDatalabelingV1beta1GcsFolderDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsFolderDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputFolderUri: Schema.optional(Schema.String),
     }),
@@ -2553,7 +2553,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperatio
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -2572,7 +2572,7 @@ export interface GoogleCloudDatalabelingV1beta1GcsDestination {
 }
 
 export const GoogleCloudDatalabelingV1beta1GcsDestination: Schema.Schema<GoogleCloudDatalabelingV1beta1GcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       outputUri: Schema.optional(Schema.String),
@@ -2589,7 +2589,7 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1InputConfig),
       userEmailAddress: Schema.optional(Schema.String),
@@ -2610,7 +2610,7 @@ export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
       annotatedDataset: Schema.optional(Schema.String),
@@ -2627,7 +2627,7 @@ export interface GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       job: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob),
     }),
@@ -2641,7 +2641,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperation
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -2658,7 +2658,7 @@ export interface GoogleCloudDatalabelingV1beta1CsvInstruction {
 }
 
 export const GoogleCloudDatalabelingV1beta1CsvInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1CsvInstruction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsFileUri: Schema.optional(Schema.String),
     }),
@@ -2680,7 +2680,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       done: Schema.optional(Schema.Boolean),
       error: Schema.optional(GoogleRpcStatus),
@@ -2702,7 +2702,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2715,7 +2715,7 @@ export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongru
 export interface GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest {}
 
 export const GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest",
   }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest>;
 
@@ -2725,7 +2725,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperat
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -2748,7 +2748,7 @@ export interface GoogleCloudDatalabelingV1beta1DataItem {
 }
 
 export const GoogleCloudDatalabelingV1beta1DataItem: Schema.Schema<GoogleCloudDatalabelingV1beta1DataItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       textPayload: Schema.optional(GoogleCloudDatalabelingV1beta1TextPayload),
@@ -2767,7 +2767,7 @@ export interface GoogleCloudDatalabelingV1beta1ListDataItemsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListDataItemsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDataItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataItems: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1DataItem),
@@ -2784,7 +2784,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxO
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2803,7 +2803,7 @@ export interface GoogleCloudDatalabelingV1beta1OutputConfig {
 }
 
 export const GoogleCloudDatalabelingV1beta1OutputConfig: Schema.Schema<GoogleCloudDatalabelingV1beta1OutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsFolderDestination: Schema.optional(
         GoogleCloudDatalabelingV1beta1GcsFolderDestination,
@@ -2822,7 +2822,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperat
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2839,7 +2839,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperat
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2856,7 +2856,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperatio
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2873,7 +2873,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOpera
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextEntityExtractionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2890,7 +2890,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperatio
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelImageSegmentationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2907,7 +2907,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOpera
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelVideoObjectDetectionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2924,7 +2924,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperati
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelTextClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig,
@@ -2973,7 +2973,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1LabelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       videoEventDetails: Schema.optional(
         GoogleCloudDatalabelingV1p2alpha1LabelVideoEventOperationMetadata,
@@ -3033,7 +3033,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ExportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -3052,7 +3052,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperatio
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1GenerateAnalysisReportOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -3068,7 +3068,7 @@ export interface GoogleCloudDatalabelingV1beta1PdfInstruction {
 }
 
 export const GoogleCloudDatalabelingV1beta1PdfInstruction: Schema.Schema<GoogleCloudDatalabelingV1beta1PdfInstruction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsFileUri: Schema.optional(Schema.String),
     }),
@@ -3104,7 +3104,7 @@ export interface GoogleCloudDatalabelingV1beta1Instruction {
 }
 
 export const GoogleCloudDatalabelingV1beta1Instruction: Schema.Schema<GoogleCloudDatalabelingV1beta1Instruction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockingResources: Schema.optional(Schema.Array(Schema.String)),
       updateTime: Schema.optional(Schema.String),
@@ -3132,7 +3132,7 @@ export interface GoogleCloudDatalabelingV1beta1ListInstructionsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListInstructionsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListInstructionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       instructions: Schema.optional(
@@ -3149,7 +3149,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelVideoEventOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3175,7 +3175,7 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastUpdateTime: Schema.optional(Schema.String),
       thumbnail: Schema.optional(Schema.String),
@@ -3192,7 +3192,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelStats {
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelStats: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exampleCount: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -3218,7 +3218,7 @@ export interface GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ExportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotatedDataset: Schema.optional(Schema.String),
       labelStats: Schema.optional(GoogleCloudDatalabelingV1alpha1LabelStats),
@@ -3243,7 +3243,7 @@ export interface GoogleCloudDatalabelingV1beta1CreateInstructionMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1CreateInstructionMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instruction: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -3259,7 +3259,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMet
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3276,7 +3276,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperatio
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3293,7 +3293,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperatio
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3310,7 +3310,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxO
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3327,7 +3327,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperat
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3344,7 +3344,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOpera
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig,
@@ -3393,7 +3393,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imagePolylineDetails: Schema.optional(
         GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata,
@@ -3447,7 +3447,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationM
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3464,7 +3464,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperatio
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3481,7 +3481,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetada
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImagePolylineOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3498,7 +3498,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMe
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3517,7 +3517,7 @@ export interface GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       annotatedDatasets: Schema.optional(
@@ -3534,7 +3534,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOper
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageOrientedBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3553,7 +3553,7 @@ export interface GoogleCloudDatalabelingV1beta1ExampleComparison {
 }
 
 export const GoogleCloudDatalabelingV1beta1ExampleComparison: Schema.Schema<GoogleCloudDatalabelingV1beta1ExampleComparison> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groundTruthExample: Schema.optional(
         GoogleCloudDatalabelingV1beta1Example,
@@ -3599,7 +3599,7 @@ export interface GoogleCloudDatalabelingV1beta1Evaluation {
 }
 
 export const GoogleCloudDatalabelingV1beta1Evaluation: Schema.Schema<GoogleCloudDatalabelingV1beta1Evaluation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       evaluatedItemCount: Schema.optional(Schema.String),
       config: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationConfig),
@@ -3623,7 +3623,7 @@ export interface GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       evaluations: Schema.optional(
@@ -3640,7 +3640,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperati
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3657,7 +3657,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationM
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3674,7 +3674,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageClassificationOperation
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageClassificationOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3691,7 +3691,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperatio
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoObjectDetectionOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3708,7 +3708,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata 
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -3757,7 +3757,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textClassificationDetails: Schema.optional(
         GoogleCloudDatalabelingV1beta1LabelTextClassificationOperationMetadata,
@@ -3817,7 +3817,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ExportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -3844,7 +3844,7 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ExportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotatedDataset: Schema.optional(Schema.String),
       labelStats: Schema.optional(GoogleCloudDatalabelingV1beta1LabelStats),
@@ -3865,7 +3865,7 @@ export interface GoogleCloudDatalabelingV1beta1FeedbackThread {
 }
 
 export const GoogleCloudDatalabelingV1beta1FeedbackThread: Schema.Schema<GoogleCloudDatalabelingV1beta1FeedbackThread> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackThreadMetadata: Schema.optional(
         GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata,
@@ -3886,7 +3886,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       totalCount: Schema.optional(Schema.Number),
@@ -3902,7 +3902,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOpe
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelImageOrientedBoundingBoxOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig,
@@ -3951,7 +3951,7 @@ export interface GoogleCloudDatalabelingV1alpha1LabelOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1alpha1LabelOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1alpha1LabelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageBoundingPolyDetails: Schema.optional(
         GoogleCloudDatalabelingV1alpha1LabelImageBoundingPolyOperationMetadata,
@@ -4009,7 +4009,7 @@ export interface GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1beta1ImportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       partialFailures: Schema.optional(Schema.Array(GoogleRpcStatus)),
@@ -4029,7 +4029,7 @@ export interface GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1p1alpha1ImportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       totalCount: Schema.optional(Schema.Number),
@@ -4055,7 +4055,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelTextRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelTextRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelTextRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textClassificationConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1TextClassificationConfig,
@@ -4096,7 +4096,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelImageRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelImageRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelImageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageClassificationConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1ImageClassificationConfig,
@@ -4127,7 +4127,7 @@ export interface GoogleCloudDatalabelingV1beta1ListDatasetsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListDatasetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListDatasetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasets: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1Dataset),
@@ -4146,7 +4146,7 @@ export interface GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse 
 }
 
 export const GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       exampleComparisons: Schema.optional(
@@ -4166,7 +4166,7 @@ export interface GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       annotationSpecSets: Schema.optional(
@@ -4180,7 +4180,7 @@ export const GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse: Schem
 export interface GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest {}
 
 export const GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest",
   }) as any as Schema.Schema<GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest>;
 
@@ -4192,7 +4192,7 @@ export interface GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       feedbackThreads: Schema.optional(
@@ -4215,7 +4215,7 @@ export interface GoogleCloudDatalabelingV1beta1ExportDataRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1ExportDataRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1ExportDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(GoogleCloudDatalabelingV1beta1OutputConfig),
       userEmailAddress: Schema.optional(Schema.String),
@@ -4234,7 +4234,7 @@ export interface GoogleCloudDatalabelingV1beta1ListExamplesResponse {
 }
 
 export const GoogleCloudDatalabelingV1beta1ListExamplesResponse: Schema.Schema<GoogleCloudDatalabelingV1beta1ListExamplesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       examples: Schema.optional(
         Schema.Array(GoogleCloudDatalabelingV1beta1Example),
@@ -4255,7 +4255,7 @@ export interface GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata {
 }
 
 export const GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata: Schema.Schema<GoogleCloudDatalabelingV1p2alpha1ImportDataOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -4275,7 +4275,7 @@ export interface GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse {
 }
 
 export const GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse: Schema.Schema<GoogleCloudDatalabelingV1alpha1ImportDataOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       importCount: Schema.optional(Schema.Number),
       totalCount: Schema.optional(Schema.Number),
@@ -4307,7 +4307,7 @@ export interface GoogleCloudDatalabelingV1beta1LabelVideoRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1LabelVideoRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1LabelVideoRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       basicConfig: Schema.optional(
         GoogleCloudDatalabelingV1beta1HumanAnnotationConfig,
@@ -4334,7 +4334,7 @@ export interface GoogleCloudDatalabelingV1beta1CreateInstructionRequest {
 }
 
 export const GoogleCloudDatalabelingV1beta1CreateInstructionRequest: Schema.Schema<GoogleCloudDatalabelingV1beta1CreateInstructionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instruction: Schema.optional(GoogleCloudDatalabelingV1beta1Instruction),
     }),
@@ -4353,24 +4353,25 @@ export interface CreateProjectsDatasetsRequest {
   body?: GoogleCloudDatalabelingV1beta1CreateDatasetRequest;
 }
 
-export const CreateProjectsDatasetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1CreateDatasetRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDatasetsRequest>;
+export const CreateProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1CreateDatasetRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDatasetsRequest>;
 
 export type CreateProjectsDatasetsResponse =
   GoogleCloudDatalabelingV1beta1Dataset;
 export const CreateProjectsDatasetsResponse =
-  GoogleCloudDatalabelingV1beta1Dataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1Dataset;
 
 export type CreateProjectsDatasetsError = DefaultErrors;
 
@@ -4380,7 +4381,7 @@ export const createProjectsDatasets: API.OperationMethod<
   CreateProjectsDatasetsResponse,
   CreateProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDatasetsRequest,
   output: CreateProjectsDatasetsResponse,
   errors: [],
@@ -4391,18 +4392,20 @@ export interface DeleteProjectsDatasetsRequest {
   name: string;
 }
 
-export const DeleteProjectsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatasetsRequest>;
+export const DeleteProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatasetsRequest>;
 
 export type DeleteProjectsDatasetsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDatasetsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsDatasetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsError = DefaultErrors;
 
@@ -4412,7 +4415,7 @@ export const deleteProjectsDatasets: API.OperationMethod<
   DeleteProjectsDatasetsResponse,
   DeleteProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatasetsRequest,
   output: DeleteProjectsDatasetsResponse,
   errors: [],
@@ -4425,22 +4428,24 @@ export interface ExportDataProjectsDatasetsRequest {
   body?: GoogleCloudDatalabelingV1beta1ExportDataRequest;
 }
 
-export const ExportDataProjectsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1ExportDataRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:exportData",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportDataProjectsDatasetsRequest>;
+export const ExportDataProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1ExportDataRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:exportData",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportDataProjectsDatasetsRequest>;
 
 export type ExportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
-export const ExportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
+export const ExportDataProjectsDatasetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportDataProjectsDatasetsError = DefaultErrors;
 
@@ -4450,7 +4455,7 @@ export const exportDataProjectsDatasets: API.OperationMethod<
   ExportDataProjectsDatasetsResponse,
   ExportDataProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportDataProjectsDatasetsRequest,
   output: ExportDataProjectsDatasetsResponse,
   errors: [],
@@ -4467,20 +4472,21 @@ export interface ListProjectsDatasetsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDatasetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsRequest>;
+export const ListProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/datasets" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsRequest>;
 
 export type ListProjectsDatasetsResponse =
   GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
 export const ListProjectsDatasetsResponse =
-  GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListDatasetsResponse;
 
 export type ListProjectsDatasetsError = DefaultErrors;
 
@@ -4490,7 +4496,7 @@ export const listProjectsDatasets: API.PaginatedOperationMethod<
   ListProjectsDatasetsResponse,
   ListProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsRequest,
   output: ListProjectsDatasetsResponse,
   errors: [],
@@ -4507,22 +4513,24 @@ export interface ImportDataProjectsDatasetsRequest {
   body?: GoogleCloudDatalabelingV1beta1ImportDataRequest;
 }
 
-export const ImportDataProjectsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1ImportDataRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:importData",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportDataProjectsDatasetsRequest>;
+export const ImportDataProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1ImportDataRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}:importData",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportDataProjectsDatasetsRequest>;
 
 export type ImportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
-export const ImportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
+export const ImportDataProjectsDatasetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportDataProjectsDatasetsError = DefaultErrors;
 
@@ -4532,7 +4540,7 @@ export const importDataProjectsDatasets: API.OperationMethod<
   ImportDataProjectsDatasetsResponse,
   ImportDataProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDataProjectsDatasetsRequest,
   output: ImportDataProjectsDatasetsResponse,
   errors: [],
@@ -4543,19 +4551,20 @@ export interface GetProjectsDatasetsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsRequest>;
+export const GetProjectsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsRequest>;
 
 export type GetProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset;
 export const GetProjectsDatasetsResponse =
-  GoogleCloudDatalabelingV1beta1Dataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1Dataset;
 
 export type GetProjectsDatasetsError = DefaultErrors;
 
@@ -4565,7 +4574,7 @@ export const getProjectsDatasets: API.OperationMethod<
   GetProjectsDatasetsResponse,
   GetProjectsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsRequest,
   output: GetProjectsDatasetsResponse,
   errors: [],
@@ -4578,22 +4587,24 @@ export interface LabelProjectsDatasetsTextRequest {
   body?: GoogleCloudDatalabelingV1beta1LabelTextRequest;
 }
 
-export const LabelProjectsDatasetsTextRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/text:label",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LabelProjectsDatasetsTextRequest>;
+export const LabelProjectsDatasetsTextRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelTextRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/text:label",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LabelProjectsDatasetsTextRequest>;
 
 export type LabelProjectsDatasetsTextResponse = GoogleLongrunningOperation;
-export const LabelProjectsDatasetsTextResponse = GoogleLongrunningOperation;
+export const LabelProjectsDatasetsTextResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsTextError = DefaultErrors;
 
@@ -4603,7 +4614,7 @@ export const labelProjectsDatasetsText: API.OperationMethod<
   LabelProjectsDatasetsTextResponse,
   LabelProjectsDatasetsTextError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LabelProjectsDatasetsTextRequest,
   output: LabelProjectsDatasetsTextResponse,
   errors: [],
@@ -4616,22 +4627,24 @@ export interface LabelProjectsDatasetsImageRequest {
   body?: GoogleCloudDatalabelingV1beta1LabelImageRequest;
 }
 
-export const LabelProjectsDatasetsImageRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/image:label",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LabelProjectsDatasetsImageRequest>;
+export const LabelProjectsDatasetsImageRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelImageRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/image:label",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LabelProjectsDatasetsImageRequest>;
 
 export type LabelProjectsDatasetsImageResponse = GoogleLongrunningOperation;
-export const LabelProjectsDatasetsImageResponse = GoogleLongrunningOperation;
+export const LabelProjectsDatasetsImageResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsImageError = DefaultErrors;
 
@@ -4641,7 +4654,7 @@ export const labelProjectsDatasetsImage: API.OperationMethod<
   LabelProjectsDatasetsImageResponse,
   LabelProjectsDatasetsImageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LabelProjectsDatasetsImageRequest,
   output: LabelProjectsDatasetsImageResponse,
   errors: [],
@@ -4654,22 +4667,24 @@ export interface LabelProjectsDatasetsVideoRequest {
   body?: GoogleCloudDatalabelingV1beta1LabelVideoRequest;
 }
 
-export const LabelProjectsDatasetsVideoRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/video:label",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LabelProjectsDatasetsVideoRequest>;
+export const LabelProjectsDatasetsVideoRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1LabelVideoRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/video:label",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LabelProjectsDatasetsVideoRequest>;
 
 export type LabelProjectsDatasetsVideoResponse = GoogleLongrunningOperation;
-export const LabelProjectsDatasetsVideoResponse = GoogleLongrunningOperation;
+export const LabelProjectsDatasetsVideoResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsVideoError = DefaultErrors;
 
@@ -4679,7 +4694,7 @@ export const labelProjectsDatasetsVideo: API.OperationMethod<
   LabelProjectsDatasetsVideoResponse,
   LabelProjectsDatasetsVideoError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LabelProjectsDatasetsVideoRequest,
   output: LabelProjectsDatasetsVideoResponse,
   errors: [],
@@ -4696,23 +4711,24 @@ export interface ListProjectsDatasetsDataItemsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDatasetsDataItemsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsDataItemsRequest>;
+export const ListProjectsDatasetsDataItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsDataItemsRequest>;
 
 export type ListProjectsDatasetsDataItemsResponse =
   GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 export const ListProjectsDatasetsDataItemsResponse =
-  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 
 export type ListProjectsDatasetsDataItemsError = DefaultErrors;
 
@@ -4722,7 +4738,7 @@ export const listProjectsDatasetsDataItems: API.PaginatedOperationMethod<
   ListProjectsDatasetsDataItemsResponse,
   ListProjectsDatasetsDataItemsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsDataItemsRequest,
   output: ListProjectsDatasetsDataItemsResponse,
   errors: [],
@@ -4737,20 +4753,21 @@ export interface GetProjectsDatasetsDataItemsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsDataItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems/{dataItemsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsDataItemsRequest>;
+export const GetProjectsDatasetsDataItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/dataItems/{dataItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsDataItemsRequest>;
 
 export type GetProjectsDatasetsDataItemsResponse =
   GoogleCloudDatalabelingV1beta1DataItem;
 export const GetProjectsDatasetsDataItemsResponse =
-  GoogleCloudDatalabelingV1beta1DataItem;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1DataItem;
 
 export type GetProjectsDatasetsDataItemsError = DefaultErrors;
 
@@ -4760,7 +4777,7 @@ export const getProjectsDatasetsDataItems: API.OperationMethod<
   GetProjectsDatasetsDataItemsResponse,
   GetProjectsDatasetsDataItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsDataItemsRequest,
   output: GetProjectsDatasetsDataItemsResponse,
   errors: [],
@@ -4771,20 +4788,21 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsRequest {
   name: string;
 }
 
-export const DeleteProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsRequest>;
+export const DeleteProjectsDatasetsAnnotatedDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsRequest>;
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsDatasetsAnnotatedDatasetsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
@@ -4794,7 +4812,7 @@ export const deleteProjectsDatasetsAnnotatedDatasets: API.OperationMethod<
   DeleteProjectsDatasetsAnnotatedDatasetsResponse,
   DeleteProjectsDatasetsAnnotatedDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -4811,23 +4829,24 @@ export interface ListProjectsDatasetsAnnotatedDatasetsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsRequest>;
+export const ListProjectsDatasetsAnnotatedDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsRequest>;
 
 export type ListProjectsDatasetsAnnotatedDatasetsResponse =
   GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
 export const ListProjectsDatasetsAnnotatedDatasetsResponse =
-  GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
@@ -4837,7 +4856,7 @@ export const listProjectsDatasetsAnnotatedDatasets: API.PaginatedOperationMethod
   ListProjectsDatasetsAnnotatedDatasetsResponse,
   ListProjectsDatasetsAnnotatedDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -4852,20 +4871,21 @@ export interface GetProjectsDatasetsAnnotatedDatasetsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsAnnotatedDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsRequest>;
+export const GetProjectsDatasetsAnnotatedDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/annotatedDatasets/{annotatedDatasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsRequest>;
 
 export type GetProjectsDatasetsAnnotatedDatasetsResponse =
   GoogleCloudDatalabelingV1beta1AnnotatedDataset;
 export const GetProjectsDatasetsAnnotatedDatasetsResponse =
-  GoogleCloudDatalabelingV1beta1AnnotatedDataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1AnnotatedDataset;
 
 export type GetProjectsDatasetsAnnotatedDatasetsError = DefaultErrors;
 
@@ -4875,7 +4895,7 @@ export const getProjectsDatasetsAnnotatedDatasets: API.OperationMethod<
   GetProjectsDatasetsAnnotatedDatasetsResponse,
   GetProjectsDatasetsAnnotatedDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -4889,7 +4909,7 @@ export interface GetProjectsDatasetsAnnotatedDatasetsExamplesRequest {
 }
 
 export const GetProjectsDatasetsAnnotatedDatasetsExamplesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
@@ -4903,7 +4923,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsExamplesRequest =
 export type GetProjectsDatasetsAnnotatedDatasetsExamplesResponse =
   GoogleCloudDatalabelingV1beta1Example;
 export const GetProjectsDatasetsAnnotatedDatasetsExamplesResponse =
-  GoogleCloudDatalabelingV1beta1Example;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1Example;
 
 export type GetProjectsDatasetsAnnotatedDatasetsExamplesError = DefaultErrors;
 
@@ -4913,7 +4933,7 @@ export const getProjectsDatasetsAnnotatedDatasetsExamples: API.OperationMethod<
   GetProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   GetProjectsDatasetsAnnotatedDatasetsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
@@ -4931,7 +4951,7 @@ export interface ListProjectsDatasetsAnnotatedDatasetsExamplesRequest {
 }
 
 export const ListProjectsDatasetsAnnotatedDatasetsExamplesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -4947,7 +4967,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsExamplesRequest =
 export type ListProjectsDatasetsAnnotatedDatasetsExamplesResponse =
   GoogleCloudDatalabelingV1beta1ListExamplesResponse;
 export const ListProjectsDatasetsAnnotatedDatasetsExamplesResponse =
-  GoogleCloudDatalabelingV1beta1ListExamplesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListExamplesResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsExamplesError = DefaultErrors;
 
@@ -4957,7 +4977,7 @@ export const listProjectsDatasetsAnnotatedDatasetsExamples: API.PaginatedOperati
   ListProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   ListProjectsDatasetsAnnotatedDatasetsExamplesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
@@ -4979,7 +4999,7 @@ export interface ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
 }
 
 export const ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -4995,7 +5015,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
 export type ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
   GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 export const ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
-  GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListDataItemsResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsDataItemsError = DefaultErrors;
 
@@ -5005,7 +5025,7 @@ export const listProjectsDatasetsAnnotatedDatasetsDataItems: API.PaginatedOperat
   ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   ListProjectsDatasetsAnnotatedDatasetsDataItemsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
@@ -5021,7 +5041,7 @@ export interface GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
 }
 
 export const GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5034,7 +5054,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
 export type GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
   GoogleCloudDatalabelingV1beta1DataItem;
 export const GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse =
-  GoogleCloudDatalabelingV1beta1DataItem;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1DataItem;
 
 export type GetProjectsDatasetsAnnotatedDatasetsDataItemsError = DefaultErrors;
 
@@ -5044,7 +5064,7 @@ export const getProjectsDatasetsAnnotatedDatasetsDataItems: API.OperationMethod<
   GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   GetProjectsDatasetsAnnotatedDatasetsDataItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
@@ -5056,7 +5076,7 @@ export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
 }
 
 export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5069,7 +5089,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
   GoogleCloudDatalabelingV1beta1FeedbackThread;
 export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
-  GoogleCloudDatalabelingV1beta1FeedbackThread;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1FeedbackThread;
 
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
   DefaultErrors;
@@ -5080,7 +5100,7 @@ export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationM
   GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -5092,7 +5112,7 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
 }
 
 export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5105,7 +5125,7 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
   DefaultErrors;
@@ -5116,7 +5136,7 @@ export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.Operati
   DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -5132,7 +5152,7 @@ export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
 }
 
 export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -5147,7 +5167,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
   GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
 export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse =
-  GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError =
   DefaultErrors;
@@ -5158,7 +5178,7 @@ export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.Paginated
   ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -5174,7 +5194,7 @@ export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackM
 }
 
 export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5187,7 +5207,7 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
   DefaultErrors;
@@ -5198,7 +5218,7 @@ export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
   DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output:
@@ -5216,7 +5236,7 @@ export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMes
 }
 
 export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5231,7 +5251,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessage
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
   GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
 export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
-  GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse;
 
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
   DefaultErrors;
@@ -5242,7 +5262,7 @@ export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessage
   ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output:
@@ -5262,7 +5282,7 @@ export interface CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackM
 }
 
 export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDatalabelingV1beta1FeedbackMessage).pipe(
       T.HttpBody(),
@@ -5279,7 +5299,7 @@ export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
 export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
   DefaultErrors;
@@ -5290,7 +5310,7 @@ export const createProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
   CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output:
@@ -5304,7 +5324,7 @@ export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMess
 }
 
 export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -5317,7 +5337,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
   GoogleCloudDatalabelingV1beta1FeedbackMessage;
 export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse =
-  GoogleCloudDatalabelingV1beta1FeedbackMessage;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1FeedbackMessage;
 
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError =
   DefaultErrors;
@@ -5328,7 +5348,7 @@ export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages
   GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output:
@@ -5341,20 +5361,21 @@ export interface GetProjectsDatasetsEvaluationsRequest {
   name: string;
 }
 
-export const GetProjectsDatasetsEvaluationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDatasetsEvaluationsRequest>;
+export const GetProjectsDatasetsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/datasets/{datasetsId}/evaluations/{evaluationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDatasetsEvaluationsRequest>;
 
 export type GetProjectsDatasetsEvaluationsResponse =
   GoogleCloudDatalabelingV1beta1Evaluation;
 export const GetProjectsDatasetsEvaluationsResponse =
-  GoogleCloudDatalabelingV1beta1Evaluation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1Evaluation;
 
 export type GetProjectsDatasetsEvaluationsError = DefaultErrors;
 
@@ -5364,7 +5385,7 @@ export const getProjectsDatasetsEvaluations: API.OperationMethod<
   GetProjectsDatasetsEvaluationsResponse,
   GetProjectsDatasetsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDatasetsEvaluationsRequest,
   output: GetProjectsDatasetsEvaluationsResponse,
   errors: [],
@@ -5378,7 +5399,7 @@ export interface SearchProjectsDatasetsEvaluationsExampleComparisonsRequest {
 }
 
 export const SearchProjectsDatasetsEvaluationsExampleComparisonsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest,
@@ -5395,7 +5416,7 @@ export const SearchProjectsDatasetsEvaluationsExampleComparisonsRequest =
 export type SearchProjectsDatasetsEvaluationsExampleComparisonsResponse =
   GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
 export const SearchProjectsDatasetsEvaluationsExampleComparisonsResponse =
-  GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse;
 
 export type SearchProjectsDatasetsEvaluationsExampleComparisonsError =
   DefaultErrors;
@@ -5406,7 +5427,7 @@ export const searchProjectsDatasetsEvaluationsExampleComparisons: API.OperationM
   SearchProjectsDatasetsEvaluationsExampleComparisonsResponse,
   SearchProjectsDatasetsEvaluationsExampleComparisonsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsDatasetsEvaluationsExampleComparisonsRequest,
   output: SearchProjectsDatasetsEvaluationsExampleComparisonsResponse,
   errors: [],
@@ -5423,20 +5444,24 @@ export interface ListProjectsInstructionsRequest {
   parent: string;
 }
 
-export const ListProjectsInstructionsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/instructions" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInstructionsRequest>;
+export const ListProjectsInstructionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/instructions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInstructionsRequest>;
 
 export type ListProjectsInstructionsResponse =
   GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
 export const ListProjectsInstructionsResponse =
-  GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListInstructionsResponse;
 
 export type ListProjectsInstructionsError = DefaultErrors;
 
@@ -5446,7 +5471,7 @@ export const listProjectsInstructions: API.PaginatedOperationMethod<
   ListProjectsInstructionsResponse,
   ListProjectsInstructionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsInstructionsRequest,
   output: ListProjectsInstructionsResponse,
   errors: [],
@@ -5463,22 +5488,24 @@ export interface CreateProjectsInstructionsRequest {
   body?: GoogleCloudDatalabelingV1beta1CreateInstructionRequest;
 }
 
-export const CreateProjectsInstructionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1CreateInstructionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/instructions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsInstructionsRequest>;
+export const CreateProjectsInstructionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1CreateInstructionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/instructions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsInstructionsRequest>;
 
 export type CreateProjectsInstructionsResponse = GoogleLongrunningOperation;
-export const CreateProjectsInstructionsResponse = GoogleLongrunningOperation;
+export const CreateProjectsInstructionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsInstructionsError = DefaultErrors;
 
@@ -5488,7 +5515,7 @@ export const createProjectsInstructions: API.OperationMethod<
   CreateProjectsInstructionsResponse,
   CreateProjectsInstructionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsInstructionsRequest,
   output: CreateProjectsInstructionsResponse,
   errors: [],
@@ -5499,18 +5526,20 @@ export interface DeleteProjectsInstructionsRequest {
   name: string;
 }
 
-export const DeleteProjectsInstructionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsInstructionsRequest>;
+export const DeleteProjectsInstructionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsInstructionsRequest>;
 
 export type DeleteProjectsInstructionsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsInstructionsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsInstructionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsInstructionsError = DefaultErrors;
 
@@ -5520,7 +5549,7 @@ export const deleteProjectsInstructions: API.OperationMethod<
   DeleteProjectsInstructionsResponse,
   DeleteProjectsInstructionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsInstructionsRequest,
   output: DeleteProjectsInstructionsResponse,
   errors: [],
@@ -5531,20 +5560,21 @@ export interface GetProjectsInstructionsRequest {
   name: string;
 }
 
-export const GetProjectsInstructionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsInstructionsRequest>;
+export const GetProjectsInstructionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/instructions/{instructionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsInstructionsRequest>;
 
 export type GetProjectsInstructionsResponse =
   GoogleCloudDatalabelingV1beta1Instruction;
 export const GetProjectsInstructionsResponse =
-  GoogleCloudDatalabelingV1beta1Instruction;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1Instruction;
 
 export type GetProjectsInstructionsError = DefaultErrors;
 
@@ -5554,7 +5584,7 @@ export const getProjectsInstructions: API.OperationMethod<
   GetProjectsInstructionsResponse,
   GetProjectsInstructionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsInstructionsRequest,
   output: GetProjectsInstructionsResponse,
   errors: [],
@@ -5565,18 +5595,20 @@ export interface DeleteProjectsEvaluationJobsRequest {
   name: string;
 }
 
-export const DeleteProjectsEvaluationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsEvaluationJobsRequest>;
+export const DeleteProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsEvaluationJobsRequest>;
 
 export type DeleteProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsEvaluationJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5586,7 +5618,7 @@ export const deleteProjectsEvaluationJobs: API.OperationMethod<
   DeleteProjectsEvaluationJobsResponse,
   DeleteProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsEvaluationJobsRequest,
   output: DeleteProjectsEvaluationJobsResponse,
   errors: [],
@@ -5601,25 +5633,26 @@ export interface PatchProjectsEvaluationJobsRequest {
   body?: GoogleCloudDatalabelingV1beta1EvaluationJob;
 }
 
-export const PatchProjectsEvaluationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsEvaluationJobsRequest>;
+export const PatchProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatalabelingV1beta1EvaluationJob).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsEvaluationJobsRequest>;
 
 export type PatchProjectsEvaluationJobsResponse =
   GoogleCloudDatalabelingV1beta1EvaluationJob;
 export const PatchProjectsEvaluationJobsResponse =
-  GoogleCloudDatalabelingV1beta1EvaluationJob;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type PatchProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5629,7 +5662,7 @@ export const patchProjectsEvaluationJobs: API.OperationMethod<
   PatchProjectsEvaluationJobsResponse,
   PatchProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsEvaluationJobsRequest,
   output: PatchProjectsEvaluationJobsResponse,
   errors: [],
@@ -5646,23 +5679,24 @@ export interface ListProjectsEvaluationJobsRequest {
   parent: string;
 }
 
-export const ListProjectsEvaluationJobsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsEvaluationJobsRequest>;
+export const ListProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsEvaluationJobsRequest>;
 
 export type ListProjectsEvaluationJobsResponse =
   GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
 export const ListProjectsEvaluationJobsResponse =
-  GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse;
 
 export type ListProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5672,7 +5706,7 @@ export const listProjectsEvaluationJobs: API.PaginatedOperationMethod<
   ListProjectsEvaluationJobsResponse,
   ListProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsEvaluationJobsRequest,
   output: ListProjectsEvaluationJobsResponse,
   errors: [],
@@ -5689,22 +5723,24 @@ export interface ResumeProjectsEvaluationJobsRequest {
   body?: GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest;
 }
 
-export const ResumeProjectsEvaluationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeProjectsEvaluationJobsRequest>;
+export const ResumeProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeProjectsEvaluationJobsRequest>;
 
 export type ResumeProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
-export const ResumeProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
+export const ResumeProjectsEvaluationJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ResumeProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5714,7 +5750,7 @@ export const resumeProjectsEvaluationJobs: API.OperationMethod<
   ResumeProjectsEvaluationJobsResponse,
   ResumeProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeProjectsEvaluationJobsRequest,
   output: ResumeProjectsEvaluationJobsResponse,
   errors: [],
@@ -5727,24 +5763,25 @@ export interface CreateProjectsEvaluationJobsRequest {
   body?: GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest;
 }
 
-export const CreateProjectsEvaluationJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsEvaluationJobsRequest>;
+export const CreateProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsEvaluationJobsRequest>;
 
 export type CreateProjectsEvaluationJobsResponse =
   GoogleCloudDatalabelingV1beta1EvaluationJob;
 export const CreateProjectsEvaluationJobsResponse =
-  GoogleCloudDatalabelingV1beta1EvaluationJob;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type CreateProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5754,7 +5791,7 @@ export const createProjectsEvaluationJobs: API.OperationMethod<
   CreateProjectsEvaluationJobsResponse,
   CreateProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsEvaluationJobsRequest,
   output: CreateProjectsEvaluationJobsResponse,
   errors: [],
@@ -5767,22 +5804,24 @@ export interface PauseProjectsEvaluationJobsRequest {
   body?: GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest;
 }
 
-export const PauseProjectsEvaluationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseProjectsEvaluationJobsRequest>;
+export const PauseProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseProjectsEvaluationJobsRequest>;
 
 export type PauseProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
-export const PauseProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
+export const PauseProjectsEvaluationJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type PauseProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5792,7 +5831,7 @@ export const pauseProjectsEvaluationJobs: API.OperationMethod<
   PauseProjectsEvaluationJobsResponse,
   PauseProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseProjectsEvaluationJobsRequest,
   output: PauseProjectsEvaluationJobsResponse,
   errors: [],
@@ -5803,20 +5842,21 @@ export interface GetProjectsEvaluationJobsRequest {
   name: string;
 }
 
-export const GetProjectsEvaluationJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsEvaluationJobsRequest>;
+export const GetProjectsEvaluationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/evaluationJobs/{evaluationJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsEvaluationJobsRequest>;
 
 export type GetProjectsEvaluationJobsResponse =
   GoogleCloudDatalabelingV1beta1EvaluationJob;
 export const GetProjectsEvaluationJobsResponse =
-  GoogleCloudDatalabelingV1beta1EvaluationJob;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1EvaluationJob;
 
 export type GetProjectsEvaluationJobsError = DefaultErrors;
 
@@ -5826,7 +5866,7 @@ export const getProjectsEvaluationJobs: API.OperationMethod<
   GetProjectsEvaluationJobsResponse,
   GetProjectsEvaluationJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsEvaluationJobsRequest,
   output: GetProjectsEvaluationJobsResponse,
   errors: [],
@@ -5837,18 +5877,20 @@ export interface DeleteProjectsAnnotationSpecSetsRequest {
   name: string;
 }
 
-export const DeleteProjectsAnnotationSpecSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAnnotationSpecSetsRequest>;
+export const DeleteProjectsAnnotationSpecSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAnnotationSpecSetsRequest>;
 
 export type DeleteProjectsAnnotationSpecSetsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsAnnotationSpecSetsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsAnnotationSpecSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsAnnotationSpecSetsError = DefaultErrors;
 
@@ -5858,7 +5900,7 @@ export const deleteProjectsAnnotationSpecSets: API.OperationMethod<
   DeleteProjectsAnnotationSpecSetsResponse,
   DeleteProjectsAnnotationSpecSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAnnotationSpecSetsRequest,
   output: DeleteProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -5871,24 +5913,25 @@ export interface CreateProjectsAnnotationSpecSetsRequest {
   body?: GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest;
 }
 
-export const CreateProjectsAnnotationSpecSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/annotationSpecSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAnnotationSpecSetsRequest>;
+export const CreateProjectsAnnotationSpecSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/annotationSpecSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAnnotationSpecSetsRequest>;
 
 export type CreateProjectsAnnotationSpecSetsResponse =
   GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 export const CreateProjectsAnnotationSpecSetsResponse =
-  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 
 export type CreateProjectsAnnotationSpecSetsError = DefaultErrors;
 
@@ -5898,7 +5941,7 @@ export const createProjectsAnnotationSpecSets: API.OperationMethod<
   CreateProjectsAnnotationSpecSetsResponse,
   CreateProjectsAnnotationSpecSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAnnotationSpecSetsRequest,
   output: CreateProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -5909,20 +5952,21 @@ export interface GetProjectsAnnotationSpecSetsRequest {
   name: string;
 }
 
-export const GetProjectsAnnotationSpecSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAnnotationSpecSetsRequest>;
+export const GetProjectsAnnotationSpecSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/annotationSpecSets/{annotationSpecSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAnnotationSpecSetsRequest>;
 
 export type GetProjectsAnnotationSpecSetsResponse =
   GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 export const GetProjectsAnnotationSpecSetsResponse =
-  GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1AnnotationSpecSet;
 
 export type GetProjectsAnnotationSpecSetsError = DefaultErrors;
 
@@ -5932,7 +5976,7 @@ export const getProjectsAnnotationSpecSets: API.OperationMethod<
   GetProjectsAnnotationSpecSetsResponse,
   GetProjectsAnnotationSpecSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAnnotationSpecSetsRequest,
   output: GetProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -5949,23 +5993,24 @@ export interface ListProjectsAnnotationSpecSetsRequest {
   filter?: string;
 }
 
-export const ListProjectsAnnotationSpecSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/annotationSpecSets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAnnotationSpecSetsRequest>;
+export const ListProjectsAnnotationSpecSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/annotationSpecSets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAnnotationSpecSetsRequest>;
 
 export type ListProjectsAnnotationSpecSetsResponse =
   GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
 export const ListProjectsAnnotationSpecSetsResponse =
-  GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1ListAnnotationSpecSetsResponse;
 
 export type ListProjectsAnnotationSpecSetsError = DefaultErrors;
 
@@ -5975,7 +6020,7 @@ export const listProjectsAnnotationSpecSets: API.PaginatedOperationMethod<
   ListProjectsAnnotationSpecSetsResponse,
   ListProjectsAnnotationSpecSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAnnotationSpecSetsRequest,
   output: ListProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -5990,18 +6035,20 @@ export interface CancelProjectsOperationsRequest {
   name: string;
 }
 
-export const CancelProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/operations/{operationsId}:cancel",
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
+export const CancelProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/operations/{operationsId}:cancel",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
 
 export type CancelProjectsOperationsResponse = GoogleProtobufEmpty;
-export const CancelProjectsOperationsResponse = GoogleProtobufEmpty;
+export const CancelProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsOperationsError = DefaultErrors;
 
@@ -6011,7 +6058,7 @@ export const cancelProjectsOperations: API.OperationMethod<
   CancelProjectsOperationsResponse,
   CancelProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
@@ -6022,18 +6069,20 @@ export interface DeleteProjectsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
+export const DeleteProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
 
 export type DeleteProjectsOperationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsOperationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsOperationsError = DefaultErrors;
 
@@ -6043,7 +6092,7 @@ export const deleteProjectsOperations: API.OperationMethod<
   DeleteProjectsOperationsResponse,
   DeleteProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
@@ -6062,23 +6111,24 @@ export interface ListProjectsOperationsRequest {
   name: string;
 }
 
-export const ListProjectsOperationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
+export const ListProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/operations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
 export type ListProjectsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsOperationsError = DefaultErrors;
 
@@ -6088,7 +6138,7 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   ListProjectsOperationsResponse,
   ListProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -6103,18 +6153,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -6124,7 +6176,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -6141,23 +6193,24 @@ export interface SearchProjectsEvaluationsRequest {
   pageSize?: number;
 }
 
-export const SearchProjectsEvaluationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/evaluations:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsEvaluationsRequest>;
+export const SearchProjectsEvaluationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/evaluations:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsEvaluationsRequest>;
 
 export type SearchProjectsEvaluationsResponse =
   GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
 export const SearchProjectsEvaluationsResponse =
-  GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse;
 
 export type SearchProjectsEvaluationsError = DefaultErrors;
 
@@ -6167,7 +6220,7 @@ export const searchProjectsEvaluations: API.PaginatedOperationMethod<
   SearchProjectsEvaluationsResponse,
   SearchProjectsEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsEvaluationsRequest,
   output: SearchProjectsEvaluationsResponse,
   errors: [],

@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const UpdateWebhookInput = Schema.Struct({
+export const UpdateWebhookInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   id: Schema.String.pipe(T.PathParam()),
@@ -20,7 +20,7 @@ export const UpdateWebhookInput = Schema.Struct({
 export type UpdateWebhookInput = typeof UpdateWebhookInput.Type;
 
 // Output Schema
-export const UpdateWebhookOutput = Schema.Struct({
+export const UpdateWebhookOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   url: Schema.String,
   secret: Schema.String,

@@ -59,8 +59,8 @@ export interface CountrySettings {
   localInventoryAdsEnabled?: boolean;
 }
 
-export const CountrySettings: Schema.Schema<CountrySettings> = Schema.suspend(
-  () =>
+export const CountrySettings: Schema.Schema<CountrySettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productPageType: Schema.optional(Schema.String),
       inventoryVerificationState: Schema.optional(Schema.String),
@@ -70,9 +70,9 @@ export const CountrySettings: Schema.Schema<CountrySettings> = Schema.suspend(
       freeLocalListingsEnabled: Schema.optional(Schema.Boolean),
       localInventoryAdsEnabled: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "CountrySettings",
-}) as any as Schema.Schema<CountrySettings>;
+  ).annotate({
+    identifier: "CountrySettings",
+  }) as any as Schema.Schema<CountrySettings>;
 
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
@@ -81,12 +81,13 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amountMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amountMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface InventoryStats {
   /** Number of entries that were built based on provided inventories/sales and couldn't be submitted to Google due to errors like missing product. */
@@ -99,17 +100,17 @@ export interface InventoryStats {
   submittedProducts?: string;
 }
 
-export const InventoryStats: Schema.Schema<InventoryStats> = Schema.suspend(
-  () =>
+export const InventoryStats: Schema.Schema<InventoryStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unsubmittedEntries: Schema.optional(Schema.String),
       submittedEntries: Schema.optional(Schema.String),
       submittedInStockEntries: Schema.optional(Schema.String),
       submittedProducts: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "InventoryStats",
-}) as any as Schema.Schema<InventoryStats>;
+  ).annotate({
+    identifier: "InventoryStats",
+  }) as any as Schema.Schema<InventoryStats>;
 
 export interface LfpSale {
   /** Required. The timestamp for the sale. */
@@ -138,22 +139,23 @@ export interface LfpSale {
   price?: Price;
 }
 
-export const LfpSale: Schema.Schema<LfpSale> = Schema.suspend(() =>
-  Schema.Struct({
-    saleTime: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    storeCode: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    targetAccount: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    gtin: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    quantity: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-  }),
-).annotate({ identifier: "LfpSale" }) as any as Schema.Schema<LfpSale>;
+export const LfpSale: Schema.Schema<LfpSale> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      saleTime: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      storeCode: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      targetAccount: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      gtin: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+    }),
+  ).annotate({ identifier: "LfpSale" }) as any as Schema.Schema<LfpSale>;
 
 export interface LfpStore {
   /** Optional. Output only. The hint of why the matching has failed. This is only set when matchingState=`STORE_MATCHING_STATE_FAILED`. Possible values are: - "`linked-store-not-found`": There aren't any Google Business Profile stores available for matching. - "`store-match-not-found`": The provided `LfpStore` couldn't be matched to any of the connected Google Business Profile stores. Merchant Center account is connected correctly and stores are available on Google Business Profile, but the `LfpStore` location address does not match with Google Business Profile stores' addresses. Update the `LfpStore` address or Google Business Profile store address to match correctly. - "`store-match-unverified`": The provided `LfpStore` couldn't be matched to any of the connected Google Business Profile stores, as the matched Google Business Profile store is unverified. Go through the Google Business Profile verification process to match correctly. */
@@ -184,21 +186,22 @@ export interface LfpStore {
   websiteUri?: string;
 }
 
-export const LfpStore: Schema.Schema<LfpStore> = Schema.suspend(() =>
-  Schema.Struct({
-    matchingStateHint: Schema.optional(Schema.String),
-    targetAccount: Schema.optional(Schema.String),
-    storeName: Schema.optional(Schema.String),
-    gcidCategory: Schema.optional(Schema.Array(Schema.String)),
-    storeCode: Schema.optional(Schema.String),
-    matchingState: Schema.optional(Schema.String),
-    placeId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    storeAddress: Schema.optional(Schema.String),
-    phoneNumber: Schema.optional(Schema.String),
-    websiteUri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LfpStore" }) as any as Schema.Schema<LfpStore>;
+export const LfpStore: Schema.Schema<LfpStore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      matchingStateHint: Schema.optional(Schema.String),
+      targetAccount: Schema.optional(Schema.String),
+      storeName: Schema.optional(Schema.String),
+      gcidCategory: Schema.optional(Schema.Array(Schema.String)),
+      storeCode: Schema.optional(Schema.String),
+      matchingState: Schema.optional(Schema.String),
+      placeId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      storeAddress: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      websiteUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "LfpStore" }) as any as Schema.Schema<LfpStore>;
 
 export interface ListLfpStoresResponse {
   /** The stores from the specified merchant. */
@@ -208,7 +211,7 @@ export interface ListLfpStoresResponse {
 }
 
 export const ListLfpStoresResponse: Schema.Schema<ListLfpStoresResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lfpStores: Schema.optional(Schema.Array(LfpStore)),
       nextPageToken: Schema.optional(Schema.String),
@@ -230,15 +233,16 @@ export interface LfpStoreState {
   matchingStateHint?: string;
 }
 
-export const LfpStoreState: Schema.Schema<LfpStoreState> = Schema.suspend(() =>
-  Schema.Struct({
-    storeCode: Schema.optional(Schema.String),
-    matchingState: Schema.optional(Schema.String),
-    matchingStateHint: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LfpStoreState",
-}) as any as Schema.Schema<LfpStoreState>;
+export const LfpStoreState: Schema.Schema<LfpStoreState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      storeCode: Schema.optional(Schema.String),
+      matchingState: Schema.optional(Schema.String),
+      matchingStateHint: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LfpStoreState",
+  }) as any as Schema.Schema<LfpStoreState>;
 
 export interface LfpMerchantState {
   /** Country-specific settings for the merchant. */
@@ -253,8 +257,8 @@ export interface LfpMerchantState {
   name?: string;
 }
 
-export const LfpMerchantState: Schema.Schema<LfpMerchantState> = Schema.suspend(
-  () =>
+export const LfpMerchantState: Schema.Schema<LfpMerchantState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countrySettings: Schema.optional(Schema.Array(CountrySettings)),
       inventoryStats: Schema.optional(InventoryStats),
@@ -262,15 +266,16 @@ export const LfpMerchantState: Schema.Schema<LfpMerchantState> = Schema.suspend(
       storeStates: Schema.optional(Schema.Array(LfpStoreState)),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LfpMerchantState",
-}) as any as Schema.Schema<LfpMerchantState>;
+  ).annotate({
+    identifier: "LfpMerchantState",
+  }) as any as Schema.Schema<LfpMerchantState>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ProductChange {
   /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -304,16 +309,17 @@ export interface ProductChange {
     | (string & {});
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    newValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** The attribute in the resource that changed, in this case it will be always `Status`. */
@@ -337,7 +343,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attribute: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
@@ -384,26 +390,27 @@ export interface LfpInventory {
   storeCode?: string;
 }
 
-export const LfpInventory: Schema.Schema<LfpInventory> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    pickupMethod: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    pickupSla: Schema.optional(Schema.String),
-    collectionTime: Schema.optional(Schema.String),
-    availability: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    gtin: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    targetAccount: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    contentLanguage: Schema.optional(Schema.String),
-    quantity: Schema.optional(Schema.String),
-    storeCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LfpInventory",
-}) as any as Schema.Schema<LfpInventory>;
+export const LfpInventory: Schema.Schema<LfpInventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      pickupMethod: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      pickupSla: Schema.optional(Schema.String),
+      collectionTime: Schema.optional(Schema.String),
+      availability: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      gtin: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      targetAccount: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      contentLanguage: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      storeCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LfpInventory",
+  }) as any as Schema.Schema<LfpInventory>;
 
 // ==========================================================================
 // Operations
@@ -414,18 +421,20 @@ export interface GetAccountsLfpMerchantStatesRequest {
   name: string;
 }
 
-export const GetAccountsLfpMerchantStatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpMerchantStates/{lfpMerchantStatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsLfpMerchantStatesRequest>;
+export const GetAccountsLfpMerchantStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpMerchantStates/{lfpMerchantStatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsLfpMerchantStatesRequest>;
 
 export type GetAccountsLfpMerchantStatesResponse = LfpMerchantState;
-export const GetAccountsLfpMerchantStatesResponse = LfpMerchantState;
+export const GetAccountsLfpMerchantStatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LfpMerchantState;
 
 export type GetAccountsLfpMerchantStatesError = DefaultErrors;
 
@@ -435,7 +444,7 @@ export const getAccountsLfpMerchantStates: API.OperationMethod<
   GetAccountsLfpMerchantStatesResponse,
   GetAccountsLfpMerchantStatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsLfpMerchantStatesRequest,
   output: GetAccountsLfpMerchantStatesResponse,
   errors: [],
@@ -448,20 +457,22 @@ export interface InsertAccountsLfpSalesRequest {
   body?: LfpSale;
 }
 
-export const InsertAccountsLfpSalesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(LfpSale).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpSales:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsLfpSalesRequest>;
+export const InsertAccountsLfpSalesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(LfpSale).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpSales:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsLfpSalesRequest>;
 
 export type InsertAccountsLfpSalesResponse = LfpSale;
-export const InsertAccountsLfpSalesResponse = LfpSale;
+export const InsertAccountsLfpSalesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LfpSale;
 
 export type InsertAccountsLfpSalesError = DefaultErrors;
 
@@ -471,7 +482,7 @@ export const insertAccountsLfpSales: API.OperationMethod<
   InsertAccountsLfpSalesResponse,
   InsertAccountsLfpSalesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsLfpSalesRequest,
   output: InsertAccountsLfpSalesResponse,
   errors: [],
@@ -482,18 +493,20 @@ export interface DeleteAccountsLfpStoresRequest {
   name: string;
 }
 
-export const DeleteAccountsLfpStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpStores/{lfpStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsLfpStoresRequest>;
+export const DeleteAccountsLfpStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpStores/{lfpStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsLfpStoresRequest>;
 
 export type DeleteAccountsLfpStoresResponse = Empty;
-export const DeleteAccountsLfpStoresResponse = Empty;
+export const DeleteAccountsLfpStoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsLfpStoresError = DefaultErrors;
 
@@ -503,7 +516,7 @@ export const deleteAccountsLfpStores: API.OperationMethod<
   DeleteAccountsLfpStoresResponse,
   DeleteAccountsLfpStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsLfpStoresRequest,
   output: DeleteAccountsLfpStoresResponse,
   errors: [],
@@ -520,20 +533,25 @@ export interface ListAccountsLfpStoresRequest {
   pageSize?: number;
 }
 
-export const ListAccountsLfpStoresRequest = Schema.Struct({
-  targetAccount: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("targetAccount"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "lfp/v1beta/accounts/{accountsId}/lfpStores" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsLfpStoresRequest>;
+export const ListAccountsLfpStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    targetAccount: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("targetAccount"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpStores",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsLfpStoresRequest>;
 
 export type ListAccountsLfpStoresResponse = ListLfpStoresResponse;
-export const ListAccountsLfpStoresResponse = ListLfpStoresResponse;
+export const ListAccountsLfpStoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLfpStoresResponse;
 
 export type ListAccountsLfpStoresError = DefaultErrors;
 
@@ -543,7 +561,7 @@ export const listAccountsLfpStores: API.PaginatedOperationMethod<
   ListAccountsLfpStoresResponse,
   ListAccountsLfpStoresError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsLfpStoresRequest,
   output: ListAccountsLfpStoresResponse,
   errors: [],
@@ -560,20 +578,22 @@ export interface InsertAccountsLfpStoresRequest {
   body?: LfpStore;
 }
 
-export const InsertAccountsLfpStoresRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(LfpStore).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpStores:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsLfpStoresRequest>;
+export const InsertAccountsLfpStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(LfpStore).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpStores:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsLfpStoresRequest>;
 
 export type InsertAccountsLfpStoresResponse = LfpStore;
-export const InsertAccountsLfpStoresResponse = LfpStore;
+export const InsertAccountsLfpStoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LfpStore;
 
 export type InsertAccountsLfpStoresError = DefaultErrors;
 
@@ -583,7 +603,7 @@ export const insertAccountsLfpStores: API.OperationMethod<
   InsertAccountsLfpStoresResponse,
   InsertAccountsLfpStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsLfpStoresRequest,
   output: InsertAccountsLfpStoresResponse,
   errors: [],
@@ -594,18 +614,20 @@ export interface GetAccountsLfpStoresRequest {
   name: string;
 }
 
-export const GetAccountsLfpStoresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpStores/{lfpStoresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsLfpStoresRequest>;
+export const GetAccountsLfpStoresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpStores/{lfpStoresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsLfpStoresRequest>;
 
 export type GetAccountsLfpStoresResponse = LfpStore;
-export const GetAccountsLfpStoresResponse = LfpStore;
+export const GetAccountsLfpStoresResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LfpStore;
 
 export type GetAccountsLfpStoresError = DefaultErrors;
 
@@ -615,7 +637,7 @@ export const getAccountsLfpStores: API.OperationMethod<
   GetAccountsLfpStoresResponse,
   GetAccountsLfpStoresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsLfpStoresRequest,
   output: GetAccountsLfpStoresResponse,
   errors: [],
@@ -628,20 +650,22 @@ export interface InsertAccountsLfpInventoriesRequest {
   body?: LfpInventory;
 }
 
-export const InsertAccountsLfpInventoriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(LfpInventory).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "lfp/v1beta/accounts/{accountsId}/lfpInventories:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsLfpInventoriesRequest>;
+export const InsertAccountsLfpInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(LfpInventory).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "lfp/v1beta/accounts/{accountsId}/lfpInventories:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsLfpInventoriesRequest>;
 
 export type InsertAccountsLfpInventoriesResponse = LfpInventory;
-export const InsertAccountsLfpInventoriesResponse = LfpInventory;
+export const InsertAccountsLfpInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LfpInventory;
 
 export type InsertAccountsLfpInventoriesError = DefaultErrors;
 
@@ -651,7 +675,7 @@ export const insertAccountsLfpInventories: API.OperationMethod<
   InsertAccountsLfpInventoriesResponse,
   InsertAccountsLfpInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsLfpInventoriesRequest,
   output: InsertAccountsLfpInventoriesResponse,
   errors: [],

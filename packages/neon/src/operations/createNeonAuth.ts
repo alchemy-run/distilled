@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const CreateNeonAuthInput = Schema.Struct({
+export const CreateNeonAuthInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
@@ -17,7 +17,7 @@ export const CreateNeonAuthInput = Schema.Struct({
 export type CreateNeonAuthInput = typeof CreateNeonAuthInput.Type;
 
 // Output Schema
-export const CreateNeonAuthOutput = Schema.Struct({
+export const CreateNeonAuthOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   auth_provider: Schema.Literals(["mock", "stack", "stack_v2", "better_auth"]),
   auth_provider_project_id: Schema.String,
   pub_client_key: Schema.String,

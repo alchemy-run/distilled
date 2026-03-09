@@ -53,7 +53,7 @@ export interface RunAiRequest {
   text: string;
 }
 
-export const RunAiRequest = Schema.Struct({
+export const RunAiRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modelName: Schema.String.pipe(T.HttpPath("modelName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   text: Schema.String,
@@ -98,7 +98,7 @@ export type RunAiResponse =
   | { summary?: string | null }
   | { description?: string | null };
 
-export const RunAiResponse = Schema.Union([
+export const RunAiResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Array(
     Schema.Struct({
       label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -220,7 +220,7 @@ export const runAi: API.OperationMethod<
   RunAiResponse,
   RunAiError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAiRequest,
   output: RunAiResponse,
   errors: [ModelNotFound],
@@ -234,7 +234,7 @@ export interface ListAuthorsRequest {
   accountId: string;
 }
 
-export const ListAuthorsRequest = Schema.Struct({
+export const ListAuthorsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai/authors/search" }),
@@ -242,7 +242,7 @@ export const ListAuthorsRequest = Schema.Struct({
 
 export type ListAuthorsResponse = unknown[];
 
-export const ListAuthorsResponse = Schema.Array(
+export const ListAuthorsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListAuthorsResponse>;
 
@@ -253,7 +253,7 @@ export const listAuthors: API.OperationMethod<
   ListAuthorsResponse,
   ListAuthorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAuthorsRequest,
   output: ListAuthorsResponse,
   errors: [],
@@ -267,7 +267,7 @@ export interface ListFinetunesRequest {
   accountId: string;
 }
 
-export const ListFinetunesRequest = Schema.Struct({
+export const ListFinetunesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai/finetunes" }),
@@ -282,7 +282,7 @@ export type ListFinetunesResponse = {
   description?: string | null;
 }[];
 
-export const ListFinetunesResponse = Schema.Array(
+export const ListFinetunesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     createdAt: Schema.String,
@@ -309,7 +309,7 @@ export const listFinetunes: API.OperationMethod<
   ListFinetunesResponse,
   ListFinetunesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFinetunesRequest,
   output: ListFinetunesResponse,
   errors: [AccountNotFound],
@@ -328,7 +328,7 @@ export interface CreateFinetuneRequest {
   public?: boolean;
 }
 
-export const CreateFinetuneRequest = Schema.Struct({
+export const CreateFinetuneRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   model: Schema.String,
   name: Schema.String,
@@ -348,15 +348,17 @@ export interface CreateFinetuneResponse {
   description?: string | null;
 }
 
-export const CreateFinetuneResponse = Schema.Struct({
-  id: Schema.String,
-  createdAt: Schema.String,
-  model: Schema.String,
-  modifiedAt: Schema.String,
-  name: Schema.String,
-  public: Schema.Boolean,
-  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
+export const CreateFinetuneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    createdAt: Schema.String,
+    model: Schema.String,
+    modifiedAt: Schema.String,
+    name: Schema.String,
+    public: Schema.Boolean,
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     createdAt: "created_at",
@@ -378,7 +380,7 @@ export const createFinetune: API.OperationMethod<
   CreateFinetuneResponse,
   CreateFinetuneError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFinetuneRequest,
   output: CreateFinetuneResponse,
   errors: [ModelNotSupported, AccountNotFound],
@@ -398,27 +400,29 @@ export interface CreateFinetuneAssetRequest {
   fileName?: string;
 }
 
-export const CreateFinetuneAssetRequest = Schema.Struct({
-  finetuneId: Schema.String.pipe(T.HttpPath("finetuneId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  file: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
-  fileName: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({ file: "file", fileName: "file_name" }),
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/ai/finetunes/{finetuneId}/finetune-assets",
-    contentType: "multipart",
-  }),
-) as unknown as Schema.Schema<CreateFinetuneAssetRequest>;
+export const CreateFinetuneAssetRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    finetuneId: Schema.String.pipe(T.HttpPath("finetuneId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    file: Schema.optional(UploadableSchema.pipe(T.HttpFormDataFile())),
+    fileName: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({ file: "file", fileName: "file_name" }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/ai/finetunes/{finetuneId}/finetune-assets",
+      contentType: "multipart",
+    }),
+  ) as unknown as Schema.Schema<CreateFinetuneAssetRequest>;
 
 export interface CreateFinetuneAssetResponse {
   success: boolean;
 }
 
-export const CreateFinetuneAssetResponse = Schema.Struct({
-  success: Schema.Boolean,
-}) as unknown as Schema.Schema<CreateFinetuneAssetResponse>;
+export const CreateFinetuneAssetResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    success: Schema.Boolean,
+  }) as unknown as Schema.Schema<CreateFinetuneAssetResponse>;
 
 export type CreateFinetuneAssetError =
   | DefaultErrors
@@ -430,7 +434,7 @@ export const createFinetuneAsset: API.OperationMethod<
   CreateFinetuneAssetResponse,
   CreateFinetuneAssetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFinetuneAssetRequest,
   output: CreateFinetuneAssetResponse,
   errors: [ModelNotSupported, AccountNotFound],
@@ -451,14 +455,18 @@ export interface ListFinetunePublicsRequest {
   orderBy?: string;
 }
 
-export const ListFinetunePublicsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/ai/finetunes/public" }),
-) as unknown as Schema.Schema<ListFinetunePublicsRequest>;
+export const ListFinetunePublicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/ai/finetunes/public",
+    }),
+  ) as unknown as Schema.Schema<ListFinetunePublicsRequest>;
 
 export type ListFinetunePublicsResponse = {
   id: string;
@@ -470,27 +478,28 @@ export type ListFinetunePublicsResponse = {
   description?: string | null;
 }[];
 
-export const ListFinetunePublicsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    createdAt: Schema.String,
-    model: Schema.String,
-    modifiedAt: Schema.String,
-    name: Schema.String,
-    public: Schema.Boolean,
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      model: "model",
-      modifiedAt: "modified_at",
-      name: "name",
-      public: "public",
-      description: "description",
-    }),
-  ),
-) as unknown as Schema.Schema<ListFinetunePublicsResponse>;
+export const ListFinetunePublicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      createdAt: Schema.String,
+      model: Schema.String,
+      modifiedAt: Schema.String,
+      name: Schema.String,
+      public: Schema.Boolean,
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        model: "model",
+        modifiedAt: "modified_at",
+        name: "name",
+        public: "public",
+        description: "description",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListFinetunePublicsResponse>;
 
 export type ListFinetunePublicsError = DefaultErrors;
 
@@ -499,7 +508,7 @@ export const listFinetunePublics: API.OperationMethod<
   ListFinetunePublicsResponse,
   ListFinetunePublicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFinetunePublicsRequest,
   output: ListFinetunePublicsResponse,
   errors: [],
@@ -524,7 +533,7 @@ export interface ListModelsRequest {
   task?: string;
 }
 
-export const ListModelsRequest = Schema.Struct({
+export const ListModelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   author: Schema.optional(Schema.String).pipe(T.HttpQuery("author")),
   hideExperimental: Schema.optional(Schema.Boolean).pipe(
@@ -539,7 +548,7 @@ export const ListModelsRequest = Schema.Struct({
 
 export type ListModelsResponse = unknown[];
 
-export const ListModelsResponse = Schema.Array(
+export const ListModelsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListModelsResponse>;
 
@@ -550,7 +559,7 @@ export const listModels: API.OperationMethod<
   ListModelsResponse,
   ListModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListModelsRequest,
   output: ListModelsResponse,
   errors: [],
@@ -567,7 +576,7 @@ export interface GetModelSchemaRequest {
   model: string;
 }
 
-export const GetModelSchemaRequest = Schema.Struct({
+export const GetModelSchemaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   model: Schema.String.pipe(T.HttpQuery("model")),
 }).pipe(
@@ -577,7 +586,7 @@ export const GetModelSchemaRequest = Schema.Struct({
 export type GetModelSchemaResponse = unknown;
 
 export const GetModelSchemaResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetModelSchemaResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetModelSchemaResponse>;
 
 export type GetModelSchemaError =
   | DefaultErrors
@@ -590,7 +599,7 @@ export const getModelSchema: API.OperationMethod<
   GetModelSchemaResponse,
   GetModelSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetModelSchemaRequest,
   output: GetModelSchemaResponse,
   errors: [ModelNotSupported, ModelSchemaNotFound, AccountNotFound],
@@ -604,7 +613,7 @@ export interface ListTasksRequest {
   accountId: string;
 }
 
-export const ListTasksRequest = Schema.Struct({
+export const ListTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai/tasks/search" }),
@@ -612,7 +621,7 @@ export const ListTasksRequest = Schema.Struct({
 
 export type ListTasksResponse = unknown[];
 
-export const ListTasksResponse = Schema.Array(
+export const ListTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Unknown,
 ) as unknown as Schema.Schema<ListTasksResponse>;
 
@@ -623,7 +632,7 @@ export const listTasks: API.OperationMethod<
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [],
@@ -637,26 +646,28 @@ export interface SupportedToMarkdownRequest {
   accountId: string;
 }
 
-export const SupportedToMarkdownRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/ai/tomarkdown/supported",
-  }),
-) as unknown as Schema.Schema<SupportedToMarkdownRequest>;
+export const SupportedToMarkdownRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/ai/tomarkdown/supported",
+    }),
+  ) as unknown as Schema.Schema<SupportedToMarkdownRequest>;
 
 export type SupportedToMarkdownResponse = {
   extension: string;
   mimeType: string;
 }[];
 
-export const SupportedToMarkdownResponse = Schema.Array(
-  Schema.Struct({
-    extension: Schema.String,
-    mimeType: Schema.String,
-  }),
-) as unknown as Schema.Schema<SupportedToMarkdownResponse>;
+export const SupportedToMarkdownResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      extension: Schema.String,
+      mimeType: Schema.String,
+    }),
+  ) as unknown as Schema.Schema<SupportedToMarkdownResponse>;
 
 export type SupportedToMarkdownError = DefaultErrors;
 
@@ -665,7 +676,7 @@ export const supportedToMarkdown: API.OperationMethod<
   SupportedToMarkdownResponse,
   SupportedToMarkdownError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SupportedToMarkdownRequest,
   output: SupportedToMarkdownResponse,
   errors: [],
@@ -676,11 +687,12 @@ export interface TransformToMarkdownRequest {
   accountId: string;
 }
 
-export const TransformToMarkdownRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/ai/tomarkdown" }),
-) as unknown as Schema.Schema<TransformToMarkdownRequest>;
+export const TransformToMarkdownRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({ method: "POST", path: "/accounts/{account_id}/ai/tomarkdown" }),
+  ) as unknown as Schema.Schema<TransformToMarkdownRequest>;
 
 export type TransformToMarkdownResponse = {
   data: string;
@@ -690,15 +702,16 @@ export type TransformToMarkdownResponse = {
   tokens: string;
 }[];
 
-export const TransformToMarkdownResponse = Schema.Array(
-  Schema.Struct({
-    data: Schema.String,
-    format: Schema.String,
-    mimeType: Schema.String,
-    name: Schema.String,
-    tokens: Schema.String,
-  }),
-) as unknown as Schema.Schema<TransformToMarkdownResponse>;
+export const TransformToMarkdownResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      data: Schema.String,
+      format: Schema.String,
+      mimeType: Schema.String,
+      name: Schema.String,
+      tokens: Schema.String,
+    }),
+  ) as unknown as Schema.Schema<TransformToMarkdownResponse>;
 
 export type TransformToMarkdownError = DefaultErrors;
 
@@ -707,7 +720,7 @@ export const transformToMarkdown: API.OperationMethod<
   TransformToMarkdownResponse,
   TransformToMarkdownError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TransformToMarkdownRequest,
   output: TransformToMarkdownResponse,
   errors: [],

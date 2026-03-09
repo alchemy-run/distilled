@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetInvoiceInput = Schema.Struct({
+export const GetInvoiceInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   id: Schema.String.pipe(T.PathParam()),
 }).pipe(
@@ -16,7 +16,7 @@ export const GetInvoiceInput = Schema.Struct({
 export type GetInvoiceInput = typeof GetInvoiceInput.Type;
 
 // Output Schema
-export const GetInvoiceOutput = Schema.Struct({
+export const GetInvoiceOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   total: Schema.String,
   billing_period_start: Schema.String,

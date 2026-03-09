@@ -112,41 +112,42 @@ export interface Tag {
   Key: string | redacted.Redacted<string>;
   Value: string | redacted.Redacted<string>;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface CreateAppInstanceRequest {
   Name: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
   ClientRequestToken: string;
   Tags?: Tag[];
 }
-export const CreateAppInstanceRequest = S.suspend(() =>
-  S.Struct({
-    Name: SensitiveString,
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAppInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: SensitiveString,
+      Metadata: S.optional(SensitiveString),
+      ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(TagList),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/app-instances" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateAppInstanceRequest",
 }) as any as S.Schema<CreateAppInstanceRequest>;
 export interface CreateAppInstanceResponse {
   AppInstanceArn?: string;
 }
-export const CreateAppInstanceResponse = S.suspend(() =>
-  S.Struct({ AppInstanceArn: S.optional(S.String) }),
+export const CreateAppInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ AppInstanceArn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateAppInstanceResponse",
 }) as any as S.Schema<CreateAppInstanceResponse>;
@@ -167,63 +168,68 @@ export type ErrorCode =
   | "VoiceConnectorGroupAssociationsExist"
   | "PhoneNumberAssociationsExist"
   | (string & {});
-export const ErrorCode = S.String;
+export const ErrorCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const CreateAppInstanceAdminRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String,
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instances/{AppInstanceArn}/admins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAppInstanceAdminRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceAdminArn: S.String,
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/app-instances/{AppInstanceArn}/admins",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceAdminRequest",
-}) as any as S.Schema<CreateAppInstanceAdminRequest>;
+  ).annotate({
+    identifier: "CreateAppInstanceAdminRequest",
+  }) as any as S.Schema<CreateAppInstanceAdminRequest>;
 export interface Identity {
   Arn?: string;
   Name?: string | redacted.Redacted<string>;
 }
-export const Identity = S.suspend(() =>
+export const Identity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
 ).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface CreateAppInstanceAdminResponse {
   AppInstanceAdmin?: Identity;
   AppInstanceArn?: string;
 }
-export const CreateAppInstanceAdminResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceAdmin: S.optional(Identity),
-    AppInstanceArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAppInstanceAdminResponse",
-}) as any as S.Schema<CreateAppInstanceAdminResponse>;
+export const CreateAppInstanceAdminResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceAdmin: S.optional(Identity),
+      AppInstanceArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateAppInstanceAdminResponse",
+  }) as any as S.Schema<CreateAppInstanceAdminResponse>;
 export type RespondsTo = "STANDARD_MESSAGES" | (string & {});
-export const RespondsTo = S.String;
+export const RespondsTo = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type StandardMessages =
   | "AUTO"
   | "ALL"
   | "MENTIONS"
   | "NONE"
   | (string & {});
-export const StandardMessages = S.String;
+export const StandardMessages = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type TargetedMessages = "ALL" | "NONE" | (string & {});
-export const TargetedMessages = S.String;
+export const TargetedMessages = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface InvokedBy {
   StandardMessages: StandardMessages;
   TargetedMessages: TargetedMessages;
 }
-export const InvokedBy = S.suspend(() =>
+export const InvokedBy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     StandardMessages: StandardMessages,
     TargetedMessages: TargetedMessages,
@@ -236,7 +242,7 @@ export interface LexConfiguration {
   LocaleId: string;
   WelcomeIntent?: string;
 }
-export const LexConfiguration = S.suspend(() =>
+export const LexConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RespondsTo: S.optional(RespondsTo),
     InvokedBy: S.optional(InvokedBy),
@@ -250,7 +256,7 @@ export const LexConfiguration = S.suspend(() =>
 export interface Configuration {
   Lex: LexConfiguration;
 }
-export const Configuration = S.suspend(() =>
+export const Configuration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Lex: LexConfiguration }),
 ).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 export interface CreateAppInstanceBotRequest {
@@ -261,42 +267,44 @@ export interface CreateAppInstanceBotRequest {
   Tags?: Tag[];
   Configuration: Configuration;
 }
-export const CreateAppInstanceBotRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String,
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-    Configuration: Configuration,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instance-bots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAppInstanceBotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String,
+      Name: S.optional(SensitiveString),
+      Metadata: S.optional(SensitiveString),
+      ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(TagList),
+      Configuration: Configuration,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/app-instance-bots" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceBotRequest",
-}) as any as S.Schema<CreateAppInstanceBotRequest>;
+  ).annotate({
+    identifier: "CreateAppInstanceBotRequest",
+  }) as any as S.Schema<CreateAppInstanceBotRequest>;
 export interface CreateAppInstanceBotResponse {
   AppInstanceBotArn?: string;
 }
-export const CreateAppInstanceBotResponse = S.suspend(() =>
-  S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppInstanceBotResponse",
-}) as any as S.Schema<CreateAppInstanceBotResponse>;
+export const CreateAppInstanceBotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CreateAppInstanceBotResponse",
+  }) as any as S.Schema<CreateAppInstanceBotResponse>;
 export type ExpirationCriterion = "CREATED_TIMESTAMP" | (string & {});
-export const ExpirationCriterion = S.String;
+export const ExpirationCriterion = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ExpirationSettings {
   ExpirationDays: number;
   ExpirationCriterion: ExpirationCriterion;
 }
-export const ExpirationSettings = S.suspend(() =>
+export const ExpirationSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ExpirationDays: S.Number,
     ExpirationCriterion: ExpirationCriterion,
@@ -313,191 +321,197 @@ export interface CreateAppInstanceUserRequest {
   Tags?: Tag[];
   ExpirationSettings?: ExpirationSettings;
 }
-export const CreateAppInstanceUserRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String,
-    AppInstanceUserId: SensitiveString,
-    Name: SensitiveString,
-    Metadata: S.optional(SensitiveString),
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-    ExpirationSettings: S.optional(ExpirationSettings),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/app-instance-users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAppInstanceUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String,
+      AppInstanceUserId: SensitiveString,
+      Name: SensitiveString,
+      Metadata: S.optional(SensitiveString),
+      ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(TagList),
+      ExpirationSettings: S.optional(ExpirationSettings),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/app-instance-users" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateAppInstanceUserRequest",
-}) as any as S.Schema<CreateAppInstanceUserRequest>;
+  ).annotate({
+    identifier: "CreateAppInstanceUserRequest",
+  }) as any as S.Schema<CreateAppInstanceUserRequest>;
 export interface CreateAppInstanceUserResponse {
   AppInstanceUserArn?: string;
 }
-export const CreateAppInstanceUserResponse = S.suspend(() =>
-  S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateAppInstanceUserResponse",
-}) as any as S.Schema<CreateAppInstanceUserResponse>;
+export const CreateAppInstanceUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CreateAppInstanceUserResponse",
+  }) as any as S.Schema<CreateAppInstanceUserResponse>;
 export interface DeleteAppInstanceRequest {
   AppInstanceArn: string;
 }
-export const DeleteAppInstanceRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAppInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/app-instances/{AppInstanceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteAppInstanceRequest",
 }) as any as S.Schema<DeleteAppInstanceRequest>;
 export interface DeleteAppInstanceResponse {}
-export const DeleteAppInstanceResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "DeleteAppInstanceResponse" },
-) as any as S.Schema<DeleteAppInstanceResponse>;
+export const DeleteAppInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteAppInstanceResponse",
+}) as any as S.Schema<DeleteAppInstanceResponse>;
 export interface DeleteAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const DeleteAppInstanceAdminRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAppInstanceAdminRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceAdminRequest",
-}) as any as S.Schema<DeleteAppInstanceAdminRequest>;
+  ).annotate({
+    identifier: "DeleteAppInstanceAdminRequest",
+  }) as any as S.Schema<DeleteAppInstanceAdminRequest>;
 export interface DeleteAppInstanceAdminResponse {}
-export const DeleteAppInstanceAdminResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceAdminResponse",
-}) as any as S.Schema<DeleteAppInstanceAdminResponse>;
+export const DeleteAppInstanceAdminResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteAppInstanceAdminResponse",
+  }) as any as S.Schema<DeleteAppInstanceAdminResponse>;
 export interface DeleteAppInstanceBotRequest {
   AppInstanceBotArn: string;
 }
-export const DeleteAppInstanceBotRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instance-bots/{AppInstanceBotArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAppInstanceBotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/app-instance-bots/{AppInstanceBotArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceBotRequest",
-}) as any as S.Schema<DeleteAppInstanceBotRequest>;
+  ).annotate({
+    identifier: "DeleteAppInstanceBotRequest",
+  }) as any as S.Schema<DeleteAppInstanceBotRequest>;
 export interface DeleteAppInstanceBotResponse {}
-export const DeleteAppInstanceBotResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceBotResponse",
-}) as any as S.Schema<DeleteAppInstanceBotResponse>;
+export const DeleteAppInstanceBotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteAppInstanceBotResponse",
+  }) as any as S.Schema<DeleteAppInstanceBotResponse>;
 export interface DeleteAppInstanceUserRequest {
   AppInstanceUserArn: string;
 }
-export const DeleteAppInstanceUserRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAppInstanceUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/app-instance-users/{AppInstanceUserArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteAppInstanceUserRequest",
-}) as any as S.Schema<DeleteAppInstanceUserRequest>;
+  ).annotate({
+    identifier: "DeleteAppInstanceUserRequest",
+  }) as any as S.Schema<DeleteAppInstanceUserRequest>;
 export interface DeleteAppInstanceUserResponse {}
-export const DeleteAppInstanceUserResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAppInstanceUserResponse",
-}) as any as S.Schema<DeleteAppInstanceUserResponse>;
+export const DeleteAppInstanceUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteAppInstanceUserResponse",
+  }) as any as S.Schema<DeleteAppInstanceUserResponse>;
 export interface DeregisterAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
 }
-export const DeregisterAppInstanceUserEndpointRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeregisterAppInstanceUserEndpointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeregisterAppInstanceUserEndpointRequest",
-}) as any as S.Schema<DeregisterAppInstanceUserEndpointRequest>;
+  ).annotate({
+    identifier: "DeregisterAppInstanceUserEndpointRequest",
+  }) as any as S.Schema<DeregisterAppInstanceUserEndpointRequest>;
 export interface DeregisterAppInstanceUserEndpointResponse {}
-export const DeregisterAppInstanceUserEndpointResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeregisterAppInstanceUserEndpointResponse",
-}) as any as S.Schema<DeregisterAppInstanceUserEndpointResponse>;
+export const DeregisterAppInstanceUserEndpointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeregisterAppInstanceUserEndpointResponse",
+  }) as any as S.Schema<DeregisterAppInstanceUserEndpointResponse>;
 export interface DescribeAppInstanceRequest {
   AppInstanceArn: string;
 }
-export const DescribeAppInstanceRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAppInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeAppInstanceRequest",
 }) as any as S.Schema<DescribeAppInstanceRequest>;
@@ -508,7 +522,7 @@ export interface AppInstance {
   LastUpdatedTimestamp?: Date;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstance = S.suspend(() =>
+export const AppInstance = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
     Name: S.optional(SensitiveString),
@@ -524,41 +538,43 @@ export const AppInstance = S.suspend(() =>
 export interface DescribeAppInstanceResponse {
   AppInstance?: AppInstance;
 }
-export const DescribeAppInstanceResponse = S.suspend(() =>
-  S.Struct({ AppInstance: S.optional(AppInstance) }),
-).annotate({
-  identifier: "DescribeAppInstanceResponse",
-}) as any as S.Schema<DescribeAppInstanceResponse>;
+export const DescribeAppInstanceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstance: S.optional(AppInstance) }),
+  ).annotate({
+    identifier: "DescribeAppInstanceResponse",
+  }) as any as S.Schema<DescribeAppInstanceResponse>;
 export interface DescribeAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
 }
-export const DescribeAppInstanceAdminRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAppInstanceAdminRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceAdminRequest",
-}) as any as S.Schema<DescribeAppInstanceAdminRequest>;
+  ).annotate({
+    identifier: "DescribeAppInstanceAdminRequest",
+  }) as any as S.Schema<DescribeAppInstanceAdminRequest>;
 export interface AppInstanceAdmin {
   Admin?: Identity;
   AppInstanceArn?: string;
   CreatedTimestamp?: Date;
 }
-export const AppInstanceAdmin = S.suspend(() =>
+export const AppInstanceAdmin = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Admin: S.optional(Identity),
     AppInstanceArn: S.optional(S.String),
@@ -572,30 +588,35 @@ export const AppInstanceAdmin = S.suspend(() =>
 export interface DescribeAppInstanceAdminResponse {
   AppInstanceAdmin?: AppInstanceAdmin;
 }
-export const DescribeAppInstanceAdminResponse = S.suspend(() =>
-  S.Struct({ AppInstanceAdmin: S.optional(AppInstanceAdmin) }),
-).annotate({
-  identifier: "DescribeAppInstanceAdminResponse",
-}) as any as S.Schema<DescribeAppInstanceAdminResponse>;
+export const DescribeAppInstanceAdminResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceAdmin: S.optional(AppInstanceAdmin) }),
+  ).annotate({
+    identifier: "DescribeAppInstanceAdminResponse",
+  }) as any as S.Schema<DescribeAppInstanceAdminResponse>;
 export interface DescribeAppInstanceBotRequest {
   AppInstanceBotArn: string;
 }
-export const DescribeAppInstanceBotRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAppInstanceBotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instance-bots/{AppInstanceBotArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceBotRequest",
-}) as any as S.Schema<DescribeAppInstanceBotRequest>;
+  ).annotate({
+    identifier: "DescribeAppInstanceBotRequest",
+  }) as any as S.Schema<DescribeAppInstanceBotRequest>;
 export interface AppInstanceBot {
   AppInstanceBotArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -604,7 +625,7 @@ export interface AppInstanceBot {
   LastUpdatedTimestamp?: Date;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceBot = S.suspend(() =>
+export const AppInstanceBot = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppInstanceBotArn: S.optional(S.String),
     Name: S.optional(SensitiveString),
@@ -621,33 +642,35 @@ export const AppInstanceBot = S.suspend(() =>
 export interface DescribeAppInstanceBotResponse {
   AppInstanceBot?: AppInstanceBot;
 }
-export const DescribeAppInstanceBotResponse = S.suspend(() =>
-  S.Struct({ AppInstanceBot: S.optional(AppInstanceBot) }),
-).annotate({
-  identifier: "DescribeAppInstanceBotResponse",
-}) as any as S.Schema<DescribeAppInstanceBotResponse>;
+export const DescribeAppInstanceBotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceBot: S.optional(AppInstanceBot) }),
+  ).annotate({
+    identifier: "DescribeAppInstanceBotResponse",
+  }) as any as S.Schema<DescribeAppInstanceBotResponse>;
 export interface DescribeAppInstanceUserRequest {
   AppInstanceUserArn: string;
 }
-export const DescribeAppInstanceUserRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAppInstanceUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instance-users/{AppInstanceUserArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceUserRequest",
-}) as any as S.Schema<DescribeAppInstanceUserRequest>;
+  ).annotate({
+    identifier: "DescribeAppInstanceUserRequest",
+  }) as any as S.Schema<DescribeAppInstanceUserRequest>;
 export interface AppInstanceUser {
   AppInstanceUserArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -656,7 +679,7 @@ export interface AppInstanceUser {
   LastUpdatedTimestamp?: Date;
   ExpirationSettings?: ExpirationSettings;
 }
-export const AppInstanceUser = S.suspend(() =>
+export const AppInstanceUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.optional(S.String),
     Name: S.optional(SensitiveString),
@@ -675,46 +698,48 @@ export const AppInstanceUser = S.suspend(() =>
 export interface DescribeAppInstanceUserResponse {
   AppInstanceUser?: AppInstanceUser;
 }
-export const DescribeAppInstanceUserResponse = S.suspend(() =>
-  S.Struct({ AppInstanceUser: S.optional(AppInstanceUser) }),
-).annotate({
-  identifier: "DescribeAppInstanceUserResponse",
-}) as any as S.Schema<DescribeAppInstanceUserResponse>;
+export const DescribeAppInstanceUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceUser: S.optional(AppInstanceUser) }),
+  ).annotate({
+    identifier: "DescribeAppInstanceUserResponse",
+  }) as any as S.Schema<DescribeAppInstanceUserResponse>;
 export interface DescribeAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
 }
-export const DescribeAppInstanceUserEndpointRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAppInstanceUserEndpointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeAppInstanceUserEndpointRequest",
-}) as any as S.Schema<DescribeAppInstanceUserEndpointRequest>;
+  ).annotate({
+    identifier: "DescribeAppInstanceUserEndpointRequest",
+  }) as any as S.Schema<DescribeAppInstanceUserEndpointRequest>;
 export type AppInstanceUserEndpointType =
   | "APNS"
   | "APNS_SANDBOX"
   | "GCM"
   | (string & {});
-export const AppInstanceUserEndpointType = S.String;
+export const AppInstanceUserEndpointType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EndpointAttributes {
   DeviceToken: string | redacted.Redacted<string>;
   VoipDeviceToken?: string | redacted.Redacted<string>;
 }
-export const EndpointAttributes = S.suspend(() =>
+export const EndpointAttributes = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceToken: SensitiveString,
     VoipDeviceToken: S.optional(SensitiveString),
@@ -723,19 +748,19 @@ export const EndpointAttributes = S.suspend(() =>
   identifier: "EndpointAttributes",
 }) as any as S.Schema<EndpointAttributes>;
 export type AllowMessages = "ALL" | "NONE" | (string & {});
-export const AllowMessages = S.String;
+export const AllowMessages = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EndpointStatus = "ACTIVE" | "INACTIVE" | (string & {});
-export const EndpointStatus = S.String;
+export const EndpointStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EndpointStatusReason =
   | "INVALID_DEVICE_TOKEN"
   | "INVALID_PINPOINT_ARN"
   | (string & {});
-export const EndpointStatusReason = S.String;
+export const EndpointStatusReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EndpointState {
   Status: EndpointStatus;
   StatusReason?: EndpointStatusReason;
 }
-export const EndpointState = S.suspend(() =>
+export const EndpointState = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: EndpointStatus,
     StatusReason: S.optional(EndpointStatusReason),
@@ -753,153 +778,168 @@ export interface AppInstanceUserEndpoint {
   AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
-export const AppInstanceUserEndpoint = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Type: S.optional(AppInstanceUserEndpointType),
-    ResourceArn: S.optional(S.String),
-    EndpointAttributes: S.optional(EndpointAttributes),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AllowMessages: S.optional(AllowMessages),
-    EndpointState: S.optional(EndpointState),
-  }),
+export const AppInstanceUserEndpoint = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      EndpointId: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Type: S.optional(AppInstanceUserEndpointType),
+      ResourceArn: S.optional(S.String),
+      EndpointAttributes: S.optional(EndpointAttributes),
+      CreatedTimestamp: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      LastUpdatedTimestamp: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      AllowMessages: S.optional(AllowMessages),
+      EndpointState: S.optional(EndpointState),
+    }),
 ).annotate({
   identifier: "AppInstanceUserEndpoint",
 }) as any as S.Schema<AppInstanceUserEndpoint>;
 export interface DescribeAppInstanceUserEndpointResponse {
   AppInstanceUserEndpoint?: AppInstanceUserEndpoint;
 }
-export const DescribeAppInstanceUserEndpointResponse = S.suspend(() =>
-  S.Struct({ AppInstanceUserEndpoint: S.optional(AppInstanceUserEndpoint) }),
-).annotate({
-  identifier: "DescribeAppInstanceUserEndpointResponse",
-}) as any as S.Schema<DescribeAppInstanceUserEndpointResponse>;
+export const DescribeAppInstanceUserEndpointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceUserEndpoint: S.optional(AppInstanceUserEndpoint) }),
+  ).annotate({
+    identifier: "DescribeAppInstanceUserEndpointResponse",
+  }) as any as S.Schema<DescribeAppInstanceUserEndpointResponse>;
 export interface GetAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
 }
-export const GetAppInstanceRetentionSettingsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instances/{AppInstanceArn}/retention-settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetAppInstanceRetentionSettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instances/{AppInstanceArn}/retention-settings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetAppInstanceRetentionSettingsRequest",
-}) as any as S.Schema<GetAppInstanceRetentionSettingsRequest>;
+  ).annotate({
+    identifier: "GetAppInstanceRetentionSettingsRequest",
+  }) as any as S.Schema<GetAppInstanceRetentionSettingsRequest>;
 export interface ChannelRetentionSettings {
   RetentionDays?: number;
 }
-export const ChannelRetentionSettings = S.suspend(() =>
-  S.Struct({ RetentionDays: S.optional(S.Number) }),
+export const ChannelRetentionSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ RetentionDays: S.optional(S.Number) }),
 ).annotate({
   identifier: "ChannelRetentionSettings",
 }) as any as S.Schema<ChannelRetentionSettings>;
 export interface AppInstanceRetentionSettings {
   ChannelRetentionSettings?: ChannelRetentionSettings;
 }
-export const AppInstanceRetentionSettings = S.suspend(() =>
-  S.Struct({ ChannelRetentionSettings: S.optional(ChannelRetentionSettings) }),
-).annotate({
-  identifier: "AppInstanceRetentionSettings",
-}) as any as S.Schema<AppInstanceRetentionSettings>;
+export const AppInstanceRetentionSettings =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ChannelRetentionSettings: S.optional(ChannelRetentionSettings),
+    }),
+  ).annotate({
+    identifier: "AppInstanceRetentionSettings",
+  }) as any as S.Schema<AppInstanceRetentionSettings>;
 export interface GetAppInstanceRetentionSettingsResponse {
   AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
   InitiateDeletionTimestamp?: Date;
 }
-export const GetAppInstanceRetentionSettingsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
-    InitiateDeletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GetAppInstanceRetentionSettingsResponse",
-}) as any as S.Schema<GetAppInstanceRetentionSettingsResponse>;
+export const GetAppInstanceRetentionSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
+      InitiateDeletionTimestamp: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAppInstanceRetentionSettingsResponse",
+  }) as any as S.Schema<GetAppInstanceRetentionSettingsResponse>;
 export interface ListAppInstanceAdminsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceAdminsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}/admins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAppInstanceAdminsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instances/{AppInstanceArn}/admins",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceAdminsRequest",
-}) as any as S.Schema<ListAppInstanceAdminsRequest>;
+  ).annotate({
+    identifier: "ListAppInstanceAdminsRequest",
+  }) as any as S.Schema<ListAppInstanceAdminsRequest>;
 export interface AppInstanceAdminSummary {
   Admin?: Identity;
 }
-export const AppInstanceAdminSummary = S.suspend(() =>
-  S.Struct({ Admin: S.optional(Identity) }),
+export const AppInstanceAdminSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Admin: S.optional(Identity) }),
 ).annotate({
   identifier: "AppInstanceAdminSummary",
 }) as any as S.Schema<AppInstanceAdminSummary>;
 export type AppInstanceAdminList = AppInstanceAdminSummary[];
-export const AppInstanceAdminList = S.Array(AppInstanceAdminSummary);
+export const AppInstanceAdminList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AppInstanceAdminSummary,
+);
 export interface ListAppInstanceAdminsResponse {
   AppInstanceArn?: string;
   AppInstanceAdmins?: AppInstanceAdminSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceAdminsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceAdmins: S.optional(AppInstanceAdminList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceAdminsResponse",
-}) as any as S.Schema<ListAppInstanceAdminsResponse>;
+export const ListAppInstanceAdminsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.optional(S.String),
+      AppInstanceAdmins: S.optional(AppInstanceAdminList),
+      NextToken: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "ListAppInstanceAdminsResponse",
+  }) as any as S.Schema<ListAppInstanceAdminsResponse>;
 export interface ListAppInstanceBotsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceBotsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-bots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAppInstanceBotsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/app-instance-bots" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListAppInstanceBotsRequest",
 }) as any as S.Schema<ListAppInstanceBotsRequest>;
@@ -908,7 +948,7 @@ export interface AppInstanceBotSummary {
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceBotSummary = S.suspend(() =>
+export const AppInstanceBotSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppInstanceBotArn: S.optional(S.String),
     Name: S.optional(SensitiveString),
@@ -918,39 +958,43 @@ export const AppInstanceBotSummary = S.suspend(() =>
   identifier: "AppInstanceBotSummary",
 }) as any as S.Schema<AppInstanceBotSummary>;
 export type AppInstanceBotList = AppInstanceBotSummary[];
-export const AppInstanceBotList = S.Array(AppInstanceBotSummary);
+export const AppInstanceBotList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AppInstanceBotSummary,
+);
 export interface ListAppInstanceBotsResponse {
   AppInstanceArn?: string;
   AppInstanceBots?: AppInstanceBotSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceBotsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceBots: S.optional(AppInstanceBotList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceBotsResponse",
-}) as any as S.Schema<ListAppInstanceBotsResponse>;
+export const ListAppInstanceBotsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.optional(S.String),
+      AppInstanceBots: S.optional(AppInstanceBotList),
+      NextToken: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "ListAppInstanceBotsResponse",
+  }) as any as S.Schema<ListAppInstanceBotsResponse>;
 export interface ListAppInstancesRequest {
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstancesRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAppInstancesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/app-instances" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListAppInstancesRequest",
 }) as any as S.Schema<ListAppInstancesRequest>;
@@ -959,7 +1003,7 @@ export interface AppInstanceSummary {
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceSummary = S.suspend(() =>
+export const AppInstanceSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
     Name: S.optional(SensitiveString),
@@ -969,16 +1013,18 @@ export const AppInstanceSummary = S.suspend(() =>
   identifier: "AppInstanceSummary",
 }) as any as S.Schema<AppInstanceSummary>;
 export type AppInstanceList = AppInstanceSummary[];
-export const AppInstanceList = S.Array(AppInstanceSummary);
+export const AppInstanceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AppInstanceSummary);
 export interface ListAppInstancesResponse {
   AppInstances?: AppInstanceSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstancesResponse = S.suspend(() =>
-  S.Struct({
-    AppInstances: S.optional(AppInstanceList),
-    NextToken: S.optional(SensitiveString),
-  }),
+export const ListAppInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstances: S.optional(AppInstanceList),
+      NextToken: S.optional(SensitiveString),
+    }),
 ).annotate({
   identifier: "ListAppInstancesResponse",
 }) as any as S.Schema<ListAppInstancesResponse>;
@@ -987,27 +1033,30 @@ export interface ListAppInstanceUserEndpointsRequest {
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUserEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAppInstanceUserEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: SensitiveString.pipe(
+        T.HttpLabel("AppInstanceUserArn"),
+      ),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceUserEndpointsRequest",
-}) as any as S.Schema<ListAppInstanceUserEndpointsRequest>;
+  ).annotate({
+    identifier: "ListAppInstanceUserEndpointsRequest",
+  }) as any as S.Schema<ListAppInstanceUserEndpointsRequest>;
 export interface AppInstanceUserEndpointSummary {
   AppInstanceUserArn?: string;
   EndpointId?: string;
@@ -1016,187 +1065,199 @@ export interface AppInstanceUserEndpointSummary {
   AllowMessages?: AllowMessages;
   EndpointState?: EndpointState;
 }
-export const AppInstanceUserEndpointSummary = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Type: S.optional(AppInstanceUserEndpointType),
-    AllowMessages: S.optional(AllowMessages),
-    EndpointState: S.optional(EndpointState),
-  }),
-).annotate({
-  identifier: "AppInstanceUserEndpointSummary",
-}) as any as S.Schema<AppInstanceUserEndpointSummary>;
+export const AppInstanceUserEndpointSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      EndpointId: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Type: S.optional(AppInstanceUserEndpointType),
+      AllowMessages: S.optional(AllowMessages),
+      EndpointState: S.optional(EndpointState),
+    }),
+  ).annotate({
+    identifier: "AppInstanceUserEndpointSummary",
+  }) as any as S.Schema<AppInstanceUserEndpointSummary>;
 export type AppInstanceUserEndpointSummaryList =
   AppInstanceUserEndpointSummary[];
-export const AppInstanceUserEndpointSummaryList = S.Array(
-  AppInstanceUserEndpointSummary,
-);
+export const AppInstanceUserEndpointSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AppInstanceUserEndpointSummary);
 export interface ListAppInstanceUserEndpointsResponse {
   AppInstanceUserEndpoints?: AppInstanceUserEndpointSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUserEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserEndpoints: S.optional(AppInstanceUserEndpointSummaryList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceUserEndpointsResponse",
-}) as any as S.Schema<ListAppInstanceUserEndpointsResponse>;
+export const ListAppInstanceUserEndpointsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserEndpoints: S.optional(AppInstanceUserEndpointSummaryList),
+      NextToken: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "ListAppInstanceUserEndpointsResponse",
+  }) as any as S.Schema<ListAppInstanceUserEndpointsResponse>;
 export interface ListAppInstanceUsersRequest {
   AppInstanceArn: string;
   MaxResults?: number;
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUsersRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/app-instance-users" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAppInstanceUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/app-instance-users" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAppInstanceUsersRequest",
-}) as any as S.Schema<ListAppInstanceUsersRequest>;
+  ).annotate({
+    identifier: "ListAppInstanceUsersRequest",
+  }) as any as S.Schema<ListAppInstanceUsersRequest>;
 export interface AppInstanceUserSummary {
   AppInstanceUserArn?: string;
   Name?: string | redacted.Redacted<string>;
   Metadata?: string | redacted.Redacted<string>;
 }
-export const AppInstanceUserSummary = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Metadata: S.optional(SensitiveString),
-  }),
+export const AppInstanceUserSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Metadata: S.optional(SensitiveString),
+    }),
 ).annotate({
   identifier: "AppInstanceUserSummary",
 }) as any as S.Schema<AppInstanceUserSummary>;
 export type AppInstanceUserList = AppInstanceUserSummary[];
-export const AppInstanceUserList = S.Array(AppInstanceUserSummary);
+export const AppInstanceUserList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AppInstanceUserSummary,
+);
 export interface ListAppInstanceUsersResponse {
   AppInstanceArn?: string;
   AppInstanceUsers?: AppInstanceUserSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
-export const ListAppInstanceUsersResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.optional(S.String),
-    AppInstanceUsers: S.optional(AppInstanceUserList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListAppInstanceUsersResponse",
-}) as any as S.Schema<ListAppInstanceUsersResponse>;
+export const ListAppInstanceUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.optional(S.String),
+      AppInstanceUsers: S.optional(AppInstanceUserList),
+      NextToken: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "ListAppInstanceUsersResponse",
+  }) as any as S.Schema<ListAppInstanceUsersResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(TagList) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutAppInstanceRetentionSettingsRequest {
   AppInstanceArn: string;
   AppInstanceRetentionSettings: AppInstanceRetentionSettings;
 }
-export const PutAppInstanceRetentionSettingsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    AppInstanceRetentionSettings: AppInstanceRetentionSettings,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instances/{AppInstanceArn}/retention-settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutAppInstanceRetentionSettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+      AppInstanceRetentionSettings: AppInstanceRetentionSettings,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/app-instances/{AppInstanceArn}/retention-settings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "PutAppInstanceRetentionSettingsRequest",
-}) as any as S.Schema<PutAppInstanceRetentionSettingsRequest>;
+  ).annotate({
+    identifier: "PutAppInstanceRetentionSettingsRequest",
+  }) as any as S.Schema<PutAppInstanceRetentionSettingsRequest>;
 export interface PutAppInstanceRetentionSettingsResponse {
   AppInstanceRetentionSettings?: AppInstanceRetentionSettings;
   InitiateDeletionTimestamp?: Date;
 }
-export const PutAppInstanceRetentionSettingsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
-    InitiateDeletionTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "PutAppInstanceRetentionSettingsResponse",
-}) as any as S.Schema<PutAppInstanceRetentionSettingsResponse>;
+export const PutAppInstanceRetentionSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceRetentionSettings: S.optional(AppInstanceRetentionSettings),
+      InitiateDeletionTimestamp: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
+  ).annotate({
+    identifier: "PutAppInstanceRetentionSettingsResponse",
+  }) as any as S.Schema<PutAppInstanceRetentionSettingsResponse>;
 export interface PutAppInstanceUserExpirationSettingsRequest {
   AppInstanceUserArn: string;
   ExpirationSettings?: ExpirationSettings;
 }
-export const PutAppInstanceUserExpirationSettingsRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    ExpirationSettings: S.optional(ExpirationSettings),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instance-users/{AppInstanceUserArn}/expiration-settings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutAppInstanceUserExpirationSettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+      ExpirationSettings: S.optional(ExpirationSettings),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/app-instance-users/{AppInstanceUserArn}/expiration-settings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "PutAppInstanceUserExpirationSettingsRequest",
-}) as any as S.Schema<PutAppInstanceUserExpirationSettingsRequest>;
+  ).annotate({
+    identifier: "PutAppInstanceUserExpirationSettingsRequest",
+  }) as any as S.Schema<PutAppInstanceUserExpirationSettingsRequest>;
 export interface PutAppInstanceUserExpirationSettingsResponse {
   AppInstanceUserArn?: string;
   ExpirationSettings?: ExpirationSettings;
 }
-export const PutAppInstanceUserExpirationSettingsResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    ExpirationSettings: S.optional(ExpirationSettings),
-  }),
-).annotate({
-  identifier: "PutAppInstanceUserExpirationSettingsResponse",
-}) as any as S.Schema<PutAppInstanceUserExpirationSettingsResponse>;
+export const PutAppInstanceUserExpirationSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      ExpirationSettings: S.optional(ExpirationSettings),
+    }),
+  ).annotate({
+    identifier: "PutAppInstanceUserExpirationSettingsResponse",
+  }) as any as S.Schema<PutAppInstanceUserExpirationSettingsResponse>;
 export interface RegisterAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string | redacted.Redacted<string>;
   Name?: string | redacted.Redacted<string>;
@@ -1206,48 +1267,52 @@ export interface RegisterAppInstanceUserEndpointRequest {
   ClientRequestToken: string;
   AllowMessages?: AllowMessages;
 }
-export const RegisterAppInstanceUserEndpointRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
-    Name: S.optional(SensitiveString),
-    Type: AppInstanceUserEndpointType,
-    ResourceArn: S.String,
-    EndpointAttributes: EndpointAttributes,
-    ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    AllowMessages: S.optional(AllowMessages),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RegisterAppInstanceUserEndpointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: SensitiveString.pipe(
+        T.HttpLabel("AppInstanceUserArn"),
+      ),
+      Name: S.optional(SensitiveString),
+      Type: AppInstanceUserEndpointType,
+      ResourceArn: S.String,
+      EndpointAttributes: EndpointAttributes,
+      ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+      AllowMessages: S.optional(AllowMessages),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RegisterAppInstanceUserEndpointRequest",
-}) as any as S.Schema<RegisterAppInstanceUserEndpointRequest>;
+  ).annotate({
+    identifier: "RegisterAppInstanceUserEndpointRequest",
+  }) as any as S.Schema<RegisterAppInstanceUserEndpointRequest>;
 export interface RegisterAppInstanceUserEndpointResponse {
   AppInstanceUserArn?: string;
   EndpointId?: string;
 }
-export const RegisterAppInstanceUserEndpointResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RegisterAppInstanceUserEndpointResponse",
-}) as any as S.Schema<RegisterAppInstanceUserEndpointResponse>;
+export const RegisterAppInstanceUserEndpointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      EndpointId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "RegisterAppInstanceUserEndpointResponse",
+  }) as any as S.Schema<RegisterAppInstanceUserEndpointResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags?operation=tag-resource" }),
@@ -1262,16 +1327,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string | redacted.Redacted<string>[];
-export const TagKeyList = S.Array(SensitiveString);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(SensitiveString);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string | redacted.Redacted<string>[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags?operation=untag-resource" }),
@@ -1286,7 +1353,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppInstanceRequest {
@@ -1294,29 +1363,30 @@ export interface UpdateAppInstanceRequest {
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
 }
-export const UpdateAppInstanceRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/app-instances/{AppInstanceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAppInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
+      Name: SensitiveString,
+      Metadata: SensitiveString,
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/app-instances/{AppInstanceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateAppInstanceRequest",
 }) as any as S.Schema<UpdateAppInstanceRequest>;
 export interface UpdateAppInstanceResponse {
   AppInstanceArn?: string;
 }
-export const UpdateAppInstanceResponse = S.suspend(() =>
-  S.Struct({ AppInstanceArn: S.optional(S.String) }),
+export const UpdateAppInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ AppInstanceArn: S.optional(S.String) }),
 ).annotate({
   identifier: "UpdateAppInstanceResponse",
 }) as any as S.Schema<UpdateAppInstanceResponse>;
@@ -1326,107 +1396,116 @@ export interface UpdateAppInstanceBotRequest {
   Metadata: string | redacted.Redacted<string>;
   Configuration?: Configuration;
 }
-export const UpdateAppInstanceBotRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-    Configuration: S.optional(Configuration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAppInstanceBotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
+      Name: SensitiveString,
+      Metadata: SensitiveString,
+      Configuration: S.optional(Configuration),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/app-instance-bots/{AppInstanceBotArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceBotRequest",
-}) as any as S.Schema<UpdateAppInstanceBotRequest>;
+  ).annotate({
+    identifier: "UpdateAppInstanceBotRequest",
+  }) as any as S.Schema<UpdateAppInstanceBotRequest>;
 export interface UpdateAppInstanceBotResponse {
   AppInstanceBotArn?: string;
 }
-export const UpdateAppInstanceBotResponse = S.suspend(() =>
-  S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateAppInstanceBotResponse",
-}) as any as S.Schema<UpdateAppInstanceBotResponse>;
+export const UpdateAppInstanceBotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceBotArn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "UpdateAppInstanceBotResponse",
+  }) as any as S.Schema<UpdateAppInstanceBotResponse>;
 export interface UpdateAppInstanceUserRequest {
   AppInstanceUserArn: string;
   Name: string | redacted.Redacted<string>;
   Metadata: string | redacted.Redacted<string>;
 }
-export const UpdateAppInstanceUserRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    Name: SensitiveString,
-    Metadata: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instance-users/{AppInstanceUserArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAppInstanceUserRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+      Name: SensitiveString,
+      Metadata: SensitiveString,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/app-instance-users/{AppInstanceUserArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceUserRequest",
-}) as any as S.Schema<UpdateAppInstanceUserRequest>;
+  ).annotate({
+    identifier: "UpdateAppInstanceUserRequest",
+  }) as any as S.Schema<UpdateAppInstanceUserRequest>;
 export interface UpdateAppInstanceUserResponse {
   AppInstanceUserArn?: string;
 }
-export const UpdateAppInstanceUserResponse = S.suspend(() =>
-  S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateAppInstanceUserResponse",
-}) as any as S.Schema<UpdateAppInstanceUserResponse>;
+export const UpdateAppInstanceUserResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AppInstanceUserArn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "UpdateAppInstanceUserResponse",
+  }) as any as S.Schema<UpdateAppInstanceUserResponse>;
 export interface UpdateAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
   Name?: string | redacted.Redacted<string>;
   AllowMessages?: AllowMessages;
 }
-export const UpdateAppInstanceUserEndpointRequest = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-    Name: S.optional(SensitiveString),
-    AllowMessages: S.optional(AllowMessages),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAppInstanceUserEndpointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+      EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
+      Name: S.optional(SensitiveString),
+      AllowMessages: S.optional(AllowMessages),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateAppInstanceUserEndpointRequest",
-}) as any as S.Schema<UpdateAppInstanceUserEndpointRequest>;
+  ).annotate({
+    identifier: "UpdateAppInstanceUserEndpointRequest",
+  }) as any as S.Schema<UpdateAppInstanceUserEndpointRequest>;
 export interface UpdateAppInstanceUserEndpointResponse {
   AppInstanceUserArn?: string;
   EndpointId?: string;
 }
-export const UpdateAppInstanceUserEndpointResponse = S.suspend(() =>
-  S.Struct({
-    AppInstanceUserArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateAppInstanceUserEndpointResponse",
-}) as any as S.Schema<UpdateAppInstanceUserEndpointResponse>;
+export const UpdateAppInstanceUserEndpointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AppInstanceUserArn: S.optional(S.String),
+      EndpointId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateAppInstanceUserEndpointResponse",
+  }) as any as S.Schema<UpdateAppInstanceUserEndpointResponse>;
 
 //# Errors
 export class BadRequestException extends S.TaggedErrorClass<BadRequestException>()(

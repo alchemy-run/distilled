@@ -35,17 +35,18 @@ export interface AptRepository {
   gpgKey?: string;
 }
 
-export const AptRepository: Schema.Schema<AptRepository> = Schema.suspend(() =>
-  Schema.Struct({
-    distribution: Schema.optional(Schema.String),
-    uri: Schema.optional(Schema.String),
-    archiveType: Schema.optional(Schema.String),
-    components: Schema.optional(Schema.Array(Schema.String)),
-    gpgKey: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AptRepository",
-}) as any as Schema.Schema<AptRepository>;
+export const AptRepository: Schema.Schema<AptRepository> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      distribution: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      archiveType: Schema.optional(Schema.String),
+      components: Schema.optional(Schema.Array(Schema.String)),
+      gpgKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AptRepository",
+  }) as any as Schema.Schema<AptRepository>;
 
 export interface GooRepository {
   /** Required. The url of the repository. */
@@ -54,14 +55,15 @@ export interface GooRepository {
   name?: string;
 }
 
-export const GooRepository: Schema.Schema<GooRepository> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GooRepository",
-}) as any as Schema.Schema<GooRepository>;
+export const GooRepository: Schema.Schema<GooRepository> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GooRepository",
+  }) as any as Schema.Schema<GooRepository>;
 
 export interface YumRepository {
   /** Required. A one word, unique name for this repository. This is the `repo id` in the Yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for guest policy conflicts. */
@@ -74,16 +76,17 @@ export interface YumRepository {
   gpgKeys?: Array<string>;
 }
 
-export const YumRepository: Schema.Schema<YumRepository> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    baseUrl: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    gpgKeys: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "YumRepository",
-}) as any as Schema.Schema<YumRepository>;
+export const YumRepository: Schema.Schema<YumRepository> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      baseUrl: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      gpgKeys: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "YumRepository",
+  }) as any as Schema.Schema<YumRepository>;
 
 export interface ZypperRepository {
   /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for guest policy conflicts. */
@@ -96,17 +99,17 @@ export interface ZypperRepository {
   baseUrl?: string;
 }
 
-export const ZypperRepository: Schema.Schema<ZypperRepository> = Schema.suspend(
-  () =>
+export const ZypperRepository: Schema.Schema<ZypperRepository> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
       gpgKeys: Schema.optional(Schema.Array(Schema.String)),
       baseUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ZypperRepository",
-}) as any as Schema.Schema<ZypperRepository>;
+  ).annotate({
+    identifier: "ZypperRepository",
+  }) as any as Schema.Schema<ZypperRepository>;
 
 export interface PackageRepository {
   /** An Apt Repository. */
@@ -120,7 +123,7 @@ export interface PackageRepository {
 }
 
 export const PackageRepository: Schema.Schema<PackageRepository> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apt: Schema.optional(AptRepository),
       goo: Schema.optional(GooRepository),
@@ -139,7 +142,7 @@ export interface EffectiveGuestPolicySourcedPackageRepository {
 }
 
 export const EffectiveGuestPolicySourcedPackageRepository: Schema.Schema<EffectiveGuestPolicySourcedPackageRepository> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Schema.String),
       packageRepository: Schema.optional(PackageRepository),
@@ -150,9 +153,10 @@ export const EffectiveGuestPolicySourcedPackageRepository: Schema.Schema<Effecti
 
 export interface GooSettings {}
 
-export const GooSettings: Schema.Schema<GooSettings> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "GooSettings" }) as any as Schema.Schema<GooSettings>;
+export const GooSettings: Schema.Schema<GooSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GooSettings",
+  }) as any as Schema.Schema<GooSettings>;
 
 export interface GcsObject {
   /** Required. Bucket of the Google Cloud Storage object. */
@@ -163,13 +167,14 @@ export interface GcsObject {
   generationNumber?: string;
 }
 
-export const GcsObject: Schema.Schema<GcsObject> = Schema.suspend(() =>
-  Schema.Struct({
-    bucket: Schema.optional(Schema.String),
-    object: Schema.optional(Schema.String),
-    generationNumber: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GcsObject" }) as any as Schema.Schema<GcsObject>;
+export const GcsObject: Schema.Schema<GcsObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bucket: Schema.optional(Schema.String),
+      object: Schema.optional(Schema.String),
+      generationNumber: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "GcsObject" }) as any as Schema.Schema<GcsObject>;
 
 export interface ExecStepConfig {
   /** Defaults to [0]. A list of possible return values that the execution can return to indicate a success. */
@@ -187,17 +192,17 @@ export interface ExecStepConfig {
   localPath?: string;
 }
 
-export const ExecStepConfig: Schema.Schema<ExecStepConfig> = Schema.suspend(
-  () =>
+export const ExecStepConfig: Schema.Schema<ExecStepConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedSuccessCodes: Schema.optional(Schema.Array(Schema.Number)),
       interpreter: Schema.optional(Schema.String),
       gcsObject: Schema.optional(GcsObject),
       localPath: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExecStepConfig",
-}) as any as Schema.Schema<ExecStepConfig>;
+  ).annotate({
+    identifier: "ExecStepConfig",
+  }) as any as Schema.Schema<ExecStepConfig>;
 
 export interface ExecStep {
   /** The ExecStepConfig for all Linux VMs targeted by the PatchJob. */
@@ -206,12 +211,13 @@ export interface ExecStep {
   windowsExecStepConfig?: ExecStepConfig;
 }
 
-export const ExecStep: Schema.Schema<ExecStep> = Schema.suspend(() =>
-  Schema.Struct({
-    linuxExecStepConfig: Schema.optional(ExecStepConfig),
-    windowsExecStepConfig: Schema.optional(ExecStepConfig),
-  }),
-).annotate({ identifier: "ExecStep" }) as any as Schema.Schema<ExecStep>;
+export const ExecStep: Schema.Schema<ExecStep> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      linuxExecStepConfig: Schema.optional(ExecStepConfig),
+      windowsExecStepConfig: Schema.optional(ExecStepConfig),
+    }),
+  ).annotate({ identifier: "ExecStep" }) as any as Schema.Schema<ExecStep>;
 
 export interface PatchInstanceFilterGroupLabel {
   /** Compute Engine instance labels that must be present for a VM instance to be targeted by this filter. */
@@ -219,7 +225,7 @@ export interface PatchInstanceFilterGroupLabel {
 }
 
 export const PatchInstanceFilterGroupLabel: Schema.Schema<PatchInstanceFilterGroupLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
@@ -236,13 +242,16 @@ export interface AptSettings {
   exclusivePackages?: Array<string>;
 }
 
-export const AptSettings: Schema.Schema<AptSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    excludes: Schema.optional(Schema.Array(Schema.String)),
-    exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "AptSettings" }) as any as Schema.Schema<AptSettings>;
+export const AptSettings: Schema.Schema<AptSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      excludes: Schema.optional(Schema.Array(Schema.String)),
+      exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "AptSettings",
+  }) as any as Schema.Schema<AptSettings>;
 
 export interface YumSettings {
   /** Will cause patch to run `yum update-minimal` instead. */
@@ -255,14 +264,17 @@ export interface YumSettings {
   exclusivePackages?: Array<string>;
 }
 
-export const YumSettings: Schema.Schema<YumSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    minimal: Schema.optional(Schema.Boolean),
-    excludes: Schema.optional(Schema.Array(Schema.String)),
-    security: Schema.optional(Schema.Boolean),
-    exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "YumSettings" }) as any as Schema.Schema<YumSettings>;
+export const YumSettings: Schema.Schema<YumSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minimal: Schema.optional(Schema.Boolean),
+      excludes: Schema.optional(Schema.Array(Schema.String)),
+      security: Schema.optional(Schema.Boolean),
+      exclusivePackages: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "YumSettings",
+  }) as any as Schema.Schema<YumSettings>;
 
 export interface ZypperSettings {
   /** Adds the `--with-update` flag, to `zypper patch`. */
@@ -279,8 +291,8 @@ export interface ZypperSettings {
   excludes?: Array<string>;
 }
 
-export const ZypperSettings: Schema.Schema<ZypperSettings> = Schema.suspend(
-  () =>
+export const ZypperSettings: Schema.Schema<ZypperSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       withUpdate: Schema.optional(Schema.Boolean),
       categories: Schema.optional(Schema.Array(Schema.String)),
@@ -289,9 +301,9 @@ export const ZypperSettings: Schema.Schema<ZypperSettings> = Schema.suspend(
       withOptional: Schema.optional(Schema.Boolean),
       excludes: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "ZypperSettings",
-}) as any as Schema.Schema<ZypperSettings>;
+  ).annotate({
+    identifier: "ZypperSettings",
+  }) as any as Schema.Schema<ZypperSettings>;
 
 export interface WindowsUpdateSettings {
   /** Only apply updates of these windows update classifications. If empty, all updates are applied. */
@@ -315,7 +327,7 @@ export interface WindowsUpdateSettings {
 }
 
 export const WindowsUpdateSettings: Schema.Schema<WindowsUpdateSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       classifications: Schema.optional(Schema.Array(Schema.String)),
       excludes: Schema.optional(Schema.Array(Schema.String)),
@@ -353,20 +365,23 @@ export interface PatchConfig {
   preStep?: ExecStep;
 }
 
-export const PatchConfig: Schema.Schema<PatchConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    skipUnpatchableVms: Schema.optional(Schema.Boolean),
-    apt: Schema.optional(AptSettings),
-    goo: Schema.optional(GooSettings),
-    postStep: Schema.optional(ExecStep),
-    rebootConfig: Schema.optional(Schema.String),
-    migInstancesAllowed: Schema.optional(Schema.Boolean),
-    yum: Schema.optional(YumSettings),
-    zypper: Schema.optional(ZypperSettings),
-    windowsUpdate: Schema.optional(WindowsUpdateSettings),
-    preStep: Schema.optional(ExecStep),
-  }),
-).annotate({ identifier: "PatchConfig" }) as any as Schema.Schema<PatchConfig>;
+export const PatchConfig: Schema.Schema<PatchConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      skipUnpatchableVms: Schema.optional(Schema.Boolean),
+      apt: Schema.optional(AptSettings),
+      goo: Schema.optional(GooSettings),
+      postStep: Schema.optional(ExecStep),
+      rebootConfig: Schema.optional(Schema.String),
+      migInstancesAllowed: Schema.optional(Schema.Boolean),
+      yum: Schema.optional(YumSettings),
+      zypper: Schema.optional(ZypperSettings),
+      windowsUpdate: Schema.optional(WindowsUpdateSettings),
+      preStep: Schema.optional(ExecStep),
+    }),
+  ).annotate({
+    identifier: "PatchConfig",
+  }) as any as Schema.Schema<PatchConfig>;
 
 export interface PatchJobInstanceDetailsSummary {
   /** Number of instances that are downloading patches. */
@@ -404,7 +419,7 @@ export interface PatchJobInstanceDetailsSummary {
 }
 
 export const PatchJobInstanceDetailsSummary: Schema.Schema<PatchJobInstanceDetailsSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadingPatchesInstanceCount: Schema.optional(Schema.String),
       ackedInstanceCount: Schema.optional(Schema.String),
@@ -434,15 +449,15 @@ export interface FixedOrPercent {
   fixed?: number;
 }
 
-export const FixedOrPercent: Schema.Schema<FixedOrPercent> = Schema.suspend(
-  () =>
+export const FixedOrPercent: Schema.Schema<FixedOrPercent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percent: Schema.optional(Schema.Number),
       fixed: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "FixedOrPercent",
-}) as any as Schema.Schema<FixedOrPercent>;
+  ).annotate({
+    identifier: "FixedOrPercent",
+  }) as any as Schema.Schema<FixedOrPercent>;
 
 export interface PatchRollout {
   /** The maximum number (or percentage) of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up. During patching, a VM is considered disrupted from the time the agent is notified to begin until patching has completed. This disruption time includes the time to complete reboot and any post-patch steps. A VM contributes to the disruption budget if its patching operation fails either when applying the patches, running pre or post patch steps, or if it fails to respond with a success notification before timing out. VMs that are not running or do not have an active agent do not count toward this disruption budget. For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone. For example, if the disruption budget has a fixed value of `10`, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops. */
@@ -455,14 +470,15 @@ export interface PatchRollout {
     | (string & {});
 }
 
-export const PatchRollout: Schema.Schema<PatchRollout> = Schema.suspend(() =>
-  Schema.Struct({
-    disruptionBudget: Schema.optional(FixedOrPercent),
-    mode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PatchRollout",
-}) as any as Schema.Schema<PatchRollout>;
+export const PatchRollout: Schema.Schema<PatchRollout> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      disruptionBudget: Schema.optional(FixedOrPercent),
+      mode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PatchRollout",
+  }) as any as Schema.Schema<PatchRollout>;
 
 export interface PatchInstanceFilter {
   /** Targets VM instances matching at least one of these label sets. This allows targeting of disparate groups, for example "env=prod or env=staging". */
@@ -478,7 +494,7 @@ export interface PatchInstanceFilter {
 }
 
 export const PatchInstanceFilter: Schema.Schema<PatchInstanceFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupLabels: Schema.optional(Schema.Array(PatchInstanceFilterGroupLabel)),
       zones: Schema.optional(Schema.Array(Schema.String)),
@@ -533,25 +549,26 @@ export interface PatchJob {
     | (string & {});
 }
 
-export const PatchJob: Schema.Schema<PatchJob> = Schema.suspend(() =>
-  Schema.Struct({
-    patchDeployment: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    patchConfig: Schema.optional(PatchConfig),
-    duration: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    instanceDetailsSummary: Schema.optional(PatchJobInstanceDetailsSummary),
-    rollout: Schema.optional(PatchRollout),
-    percentComplete: Schema.optional(Schema.Number),
-    errorMessage: Schema.optional(Schema.String),
-    dryRun: Schema.optional(Schema.Boolean),
-    instanceFilter: Schema.optional(PatchInstanceFilter),
-    createTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PatchJob" }) as any as Schema.Schema<PatchJob>;
+export const PatchJob: Schema.Schema<PatchJob> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      patchDeployment: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      patchConfig: Schema.optional(PatchConfig),
+      duration: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      instanceDetailsSummary: Schema.optional(PatchJobInstanceDetailsSummary),
+      rollout: Schema.optional(PatchRollout),
+      percentComplete: Schema.optional(Schema.Number),
+      errorMessage: Schema.optional(Schema.String),
+      dryRun: Schema.optional(Schema.Boolean),
+      instanceFilter: Schema.optional(PatchInstanceFilter),
+      createTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PatchJob" }) as any as Schema.Schema<PatchJob>;
 
 export interface SoftwareRecipeStepCopyFile {
   /** Required. The absolute path on the instance to put the file. */
@@ -565,7 +582,7 @@ export interface SoftwareRecipeStepCopyFile {
 }
 
 export const SoftwareRecipeStepCopyFile: Schema.Schema<SoftwareRecipeStepCopyFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.String),
       permissions: Schema.optional(Schema.String),
@@ -583,12 +600,13 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
@@ -601,14 +619,15 @@ export interface TimeOfDay {
   nanos?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface WeekDayOfMonth {
   /** Required. A day of the week. */
@@ -628,16 +647,16 @@ export interface WeekDayOfMonth {
   weekOrdinal?: number;
 }
 
-export const WeekDayOfMonth: Schema.Schema<WeekDayOfMonth> = Schema.suspend(
-  () =>
+export const WeekDayOfMonth: Schema.Schema<WeekDayOfMonth> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dayOfWeek: Schema.optional(Schema.String),
       dayOffset: Schema.optional(Schema.Number),
       weekOrdinal: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "WeekDayOfMonth",
-}) as any as Schema.Schema<WeekDayOfMonth>;
+  ).annotate({
+    identifier: "WeekDayOfMonth",
+  }) as any as Schema.Schema<WeekDayOfMonth>;
 
 export interface MonthlySchedule {
   /** Required. Week day in a month. */
@@ -646,15 +665,15 @@ export interface MonthlySchedule {
   monthDay?: number;
 }
 
-export const MonthlySchedule: Schema.Schema<MonthlySchedule> = Schema.suspend(
-  () =>
+export const MonthlySchedule: Schema.Schema<MonthlySchedule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       weekDayOfMonth: Schema.optional(WeekDayOfMonth),
       monthDay: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "MonthlySchedule",
-}) as any as Schema.Schema<MonthlySchedule>;
+  ).annotate({
+    identifier: "MonthlySchedule",
+  }) as any as Schema.Schema<MonthlySchedule>;
 
 export interface WeeklySchedule {
   /** Required. Day of the week. */
@@ -670,14 +689,14 @@ export interface WeeklySchedule {
     | (string & {});
 }
 
-export const WeeklySchedule: Schema.Schema<WeeklySchedule> = Schema.suspend(
-  () =>
+export const WeeklySchedule: Schema.Schema<WeeklySchedule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dayOfWeek: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "WeeklySchedule",
-}) as any as Schema.Schema<WeeklySchedule>;
+  ).annotate({
+    identifier: "WeeklySchedule",
+  }) as any as Schema.Schema<WeeklySchedule>;
 
 export interface RecurringSchedule {
   /** Output only. The time the last patch job ran successfully. */
@@ -706,7 +725,7 @@ export interface RecurringSchedule {
 }
 
 export const RecurringSchedule: Schema.Schema<RecurringSchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastExecuteTime: Schema.optional(Schema.String),
       nextExecuteTime: Schema.optional(Schema.String),
@@ -747,7 +766,7 @@ export interface OSPolicyAssignmentOperationMetadata {
 }
 
 export const OSPolicyAssignmentOperationMetadata: Schema.Schema<OSPolicyAssignmentOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osPolicyAssignment: Schema.optional(Schema.String),
       apiMethod: Schema.optional(Schema.String),
@@ -777,7 +796,7 @@ export interface GoogleCloudOsconfigV2beta__OperationMetadata {
 }
 
 export const GoogleCloudOsconfigV2beta__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2beta__OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       statusMessage: Schema.optional(Schema.String),
@@ -794,7 +813,7 @@ export const GoogleCloudOsconfigV2beta__OperationMetadata: Schema.Schema<GoogleC
 export interface CancelPatchJobRequest {}
 
 export const CancelPatchJobRequest: Schema.Schema<CancelPatchJobRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelPatchJobRequest",
   }) as any as Schema.Schema<CancelPatchJobRequest>;
 
@@ -808,7 +827,7 @@ export interface SoftwareRecipeArtifactGcs {
 }
 
 export const SoftwareRecipeArtifactGcs: Schema.Schema<SoftwareRecipeArtifactGcs> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
       object: Schema.optional(Schema.String),
@@ -827,16 +846,16 @@ export interface AssignmentOsType {
   osVersion?: string;
 }
 
-export const AssignmentOsType: Schema.Schema<AssignmentOsType> = Schema.suspend(
-  () =>
+export const AssignmentOsType: Schema.Schema<AssignmentOsType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osArchitecture: Schema.optional(Schema.String),
       osShortName: Schema.optional(Schema.String),
       osVersion: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AssignmentOsType",
-}) as any as Schema.Schema<AssignmentOsType>;
+  ).annotate({
+    identifier: "AssignmentOsType",
+  }) as any as Schema.Schema<AssignmentOsType>;
 
 export interface AssignmentGroupLabel {
   /** Google Compute Engine instance labels that must be present for an instance to be included in this assignment group. */
@@ -844,7 +863,7 @@ export interface AssignmentGroupLabel {
 }
 
 export const AssignmentGroupLabel: Schema.Schema<AssignmentGroupLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
@@ -865,15 +884,16 @@ export interface Assignment {
   instanceNamePrefixes?: Array<string>;
 }
 
-export const Assignment: Schema.Schema<Assignment> = Schema.suspend(() =>
-  Schema.Struct({
-    instances: Schema.optional(Schema.Array(Schema.String)),
-    osTypes: Schema.optional(Schema.Array(AssignmentOsType)),
-    groupLabels: Schema.optional(Schema.Array(AssignmentGroupLabel)),
-    zones: Schema.optional(Schema.Array(Schema.String)),
-    instanceNamePrefixes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
+export const Assignment: Schema.Schema<Assignment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      instances: Schema.optional(Schema.Array(Schema.String)),
+      osTypes: Schema.optional(Schema.Array(AssignmentOsType)),
+      groupLabels: Schema.optional(Schema.Array(AssignmentGroupLabel)),
+      zones: Schema.optional(Schema.Array(Schema.String)),
+      instanceNamePrefixes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
 
 export interface SoftwareRecipeArtifactRemote {
   /** Must be provided if `allow_insecure` is `false`. SHA256 checksum in hex format, to compare to the checksum of the artifact. If the checksum is not empty and it doesn't match the artifact then the recipe installation fails before running any of the steps. */
@@ -883,7 +903,7 @@ export interface SoftwareRecipeArtifactRemote {
 }
 
 export const SoftwareRecipeArtifactRemote: Schema.Schema<SoftwareRecipeArtifactRemote> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       checksum: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -913,13 +933,14 @@ export interface Package {
     | (string & {});
 }
 
-export const Package: Schema.Schema<Package> = Schema.suspend(() =>
-  Schema.Struct({
-    desiredState: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    manager: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Package" }) as any as Schema.Schema<Package>;
+export const Package: Schema.Schema<Package> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      desiredState: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      manager: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Package" }) as any as Schema.Schema<Package>;
 
 export interface EffectiveGuestPolicySourcedPackage {
   /** A software package to configure on the VM instance. */
@@ -929,7 +950,7 @@ export interface EffectiveGuestPolicySourcedPackage {
 }
 
 export const EffectiveGuestPolicySourcedPackage: Schema.Schema<EffectiveGuestPolicySourcedPackage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       package: Schema.optional(Package),
       source: Schema.optional(Schema.String),
@@ -956,7 +977,7 @@ export interface SoftwareRecipeStepExtractArchive {
 }
 
 export const SoftwareRecipeStepExtractArchive: Schema.Schema<SoftwareRecipeStepExtractArchive> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifactId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -972,7 +993,7 @@ export interface SoftwareRecipeStepInstallRpm {
 }
 
 export const SoftwareRecipeStepInstallRpm: Schema.Schema<SoftwareRecipeStepInstallRpm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifactId: Schema.optional(Schema.String),
     }),
@@ -994,7 +1015,7 @@ export interface SoftwareRecipeStepRunScript {
 }
 
 export const SoftwareRecipeStepRunScript: Schema.Schema<SoftwareRecipeStepRunScript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       script: Schema.optional(Schema.String),
       interpreter: Schema.optional(Schema.String),
@@ -1014,7 +1035,7 @@ export interface SoftwareRecipeStepInstallMsi {
 }
 
 export const SoftwareRecipeStepInstallMsi: Schema.Schema<SoftwareRecipeStepInstallMsi> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifactId: Schema.optional(Schema.String),
       allowedExitCodes: Schema.optional(Schema.Array(Schema.Number)),
@@ -1030,7 +1051,7 @@ export interface SoftwareRecipeStepInstallDpkg {
 }
 
 export const SoftwareRecipeStepInstallDpkg: Schema.Schema<SoftwareRecipeStepInstallDpkg> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artifactId: Schema.optional(Schema.String),
     }),
@@ -1050,7 +1071,7 @@ export interface SoftwareRecipeStepExecFile {
 }
 
 export const SoftwareRecipeStepExecFile: Schema.Schema<SoftwareRecipeStepExecFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localPath: Schema.optional(Schema.String),
       artifactId: Schema.optional(Schema.String),
@@ -1079,7 +1100,7 @@ export interface SoftwareRecipeStep {
 }
 
 export const SoftwareRecipeStep: Schema.Schema<SoftwareRecipeStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       archiveExtraction: Schema.optional(SoftwareRecipeStepExtractArchive),
       rpmInstallation: Schema.optional(SoftwareRecipeStepInstallRpm),
@@ -1105,7 +1126,7 @@ export interface SoftwareRecipeArtifact {
 }
 
 export const SoftwareRecipeArtifact: Schema.Schema<SoftwareRecipeArtifact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       remote: Schema.optional(SoftwareRecipeArtifactRemote),
       gcs: Schema.optional(SoftwareRecipeArtifactGcs),
@@ -1136,8 +1157,8 @@ export interface SoftwareRecipe {
     | (string & {});
 }
 
-export const SoftwareRecipe: Schema.Schema<SoftwareRecipe> = Schema.suspend(
-  () =>
+export const SoftwareRecipe: Schema.Schema<SoftwareRecipe> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       installSteps: Schema.optional(Schema.Array(SoftwareRecipeStep)),
@@ -1146,9 +1167,9 @@ export const SoftwareRecipe: Schema.Schema<SoftwareRecipe> = Schema.suspend(
       artifacts: Schema.optional(Schema.Array(SoftwareRecipeArtifact)),
       desiredState: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SoftwareRecipe",
-}) as any as Schema.Schema<SoftwareRecipe>;
+  ).annotate({
+    identifier: "SoftwareRecipe",
+  }) as any as Schema.Schema<SoftwareRecipe>;
 
 export interface EffectiveGuestPolicySourcedSoftwareRecipe {
   /** Name of the guest policy providing this config. */
@@ -1158,7 +1179,7 @@ export interface EffectiveGuestPolicySourcedSoftwareRecipe {
 }
 
 export const EffectiveGuestPolicySourcedSoftwareRecipe: Schema.Schema<EffectiveGuestPolicySourcedSoftwareRecipe> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Schema.String),
       softwareRecipe: Schema.optional(SoftwareRecipe),
@@ -1177,7 +1198,7 @@ export interface EffectiveGuestPolicy {
 }
 
 export const EffectiveGuestPolicy: Schema.Schema<EffectiveGuestPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       packages: Schema.optional(
         Schema.Array(EffectiveGuestPolicySourcedPackage),
@@ -1225,7 +1246,7 @@ export interface PatchJobInstanceDetails {
 }
 
 export const PatchJobInstanceDetails: Schema.Schema<PatchJobInstanceDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       attemptCount: Schema.optional(Schema.String),
@@ -1255,7 +1276,7 @@ export interface GoogleCloudOsconfigCommonV1main__OperationMetadata {
 }
 
 export const GoogleCloudOsconfigCommonV1main__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1main__OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       verb: Schema.optional(Schema.String),
@@ -1272,14 +1293,14 @@ export const GoogleCloudOsconfigCommonV1main__OperationMetadata: Schema.Schema<G
 export interface PausePatchDeploymentRequest {}
 
 export const PausePatchDeploymentRequest: Schema.Schema<PausePatchDeploymentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "PausePatchDeploymentRequest",
   }) as any as Schema.Schema<PausePatchDeploymentRequest>;
 
 export interface ResumePatchDeploymentRequest {}
 
 export const ResumePatchDeploymentRequest: Schema.Schema<ResumePatchDeploymentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResumePatchDeploymentRequest",
   }) as any as Schema.Schema<ResumePatchDeploymentRequest>;
 
@@ -1301,7 +1322,7 @@ export interface ExecutePatchJobRequest {
 }
 
 export const ExecutePatchJobRequest: Schema.Schema<ExecutePatchJobRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       dryRun: Schema.optional(Schema.Boolean),
@@ -1317,9 +1338,10 @@ export const ExecutePatchJobRequest: Schema.Schema<ExecutePatchJobRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GoogleCloudOsconfigCommonV1__OperationMetadata {
   /** Output only. The time the operation was created. */
@@ -1339,7 +1361,7 @@ export interface GoogleCloudOsconfigCommonV1__OperationMetadata {
 }
 
 export const GoogleCloudOsconfigCommonV1__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1__OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       statusMessage: Schema.optional(Schema.String),
@@ -1361,7 +1383,7 @@ export interface ListPatchJobsResponse {
 }
 
 export const ListPatchJobsResponse: Schema.Schema<ListPatchJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       patchJobs: Schema.optional(Schema.Array(PatchJob)),
@@ -1372,23 +1394,24 @@ export const ListPatchJobsResponse: Schema.Schema<ListPatchJobsResponse> =
 
 export interface MessageSet {}
 
-export const MessageSet: Schema.Schema<MessageSet> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "MessageSet" }) as any as Schema.Schema<MessageSet>;
+export const MessageSet: Schema.Schema<MessageSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MessageSet",
+  }) as any as Schema.Schema<MessageSet>;
 
 export interface OneTimeSchedule {
   /** Required. The desired patch job execution time. */
   executeTime?: string;
 }
 
-export const OneTimeSchedule: Schema.Schema<OneTimeSchedule> = Schema.suspend(
-  () =>
+export const OneTimeSchedule: Schema.Schema<OneTimeSchedule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executeTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "OneTimeSchedule",
-}) as any as Schema.Schema<OneTimeSchedule>;
+  ).annotate({
+    identifier: "OneTimeSchedule",
+  }) as any as Schema.Schema<OneTimeSchedule>;
 
 export interface GoogleCloudOsconfigCommonV1alpha__OperationMetadata {
   /** Output only. The time the operation finished running. */
@@ -1408,7 +1431,7 @@ export interface GoogleCloudOsconfigCommonV1alpha__OperationMetadata {
 }
 
 export const GoogleCloudOsconfigCommonV1alpha__OperationMetadata: Schema.Schema<GoogleCloudOsconfigCommonV1alpha__OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       verb: Schema.optional(Schema.String),
@@ -1435,15 +1458,18 @@ export interface StatusProto {
   messageSet?: MessageSet;
 }
 
-export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    canonicalCode: Schema.optional(Schema.Number),
-    space: Schema.optional(Schema.String),
-    messageSet: Schema.optional(MessageSet),
-  }),
-).annotate({ identifier: "StatusProto" }) as any as Schema.Schema<StatusProto>;
+export const StatusProto: Schema.Schema<StatusProto> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      canonicalCode: Schema.optional(Schema.Number),
+      space: Schema.optional(Schema.String),
+      messageSet: Schema.optional(MessageSet),
+    }),
+  ).annotate({
+    identifier: "StatusProto",
+  }) as any as Schema.Schema<StatusProto>;
 
 export interface GuestPolicy {
   /** The etag for this guest policy. If this is provided on update, it must match the server's etag. */
@@ -1466,19 +1492,22 @@ export interface GuestPolicy {
   description?: string;
 }
 
-export const GuestPolicy: Schema.Schema<GuestPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    packageRepositories: Schema.optional(Schema.Array(PackageRepository)),
-    updateTime: Schema.optional(Schema.String),
-    packages: Schema.optional(Schema.Array(Package)),
-    recipes: Schema.optional(Schema.Array(SoftwareRecipe)),
-    assignment: Schema.optional(Assignment),
-    createTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GuestPolicy" }) as any as Schema.Schema<GuestPolicy>;
+export const GuestPolicy: Schema.Schema<GuestPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      packageRepositories: Schema.optional(Schema.Array(PackageRepository)),
+      updateTime: Schema.optional(Schema.String),
+      packages: Schema.optional(Schema.Array(Package)),
+      recipes: Schema.optional(Schema.Array(SoftwareRecipe)),
+      assignment: Schema.optional(Assignment),
+      createTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GuestPolicy",
+  }) as any as Schema.Schema<GuestPolicy>;
 
 export interface ListGuestPoliciesResponse {
   /** The list of GuestPolicies. */
@@ -1488,7 +1517,7 @@ export interface ListGuestPoliciesResponse {
 }
 
 export const ListGuestPoliciesResponse: Schema.Schema<ListGuestPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guestPolicies: Schema.optional(Schema.Array(GuestPolicy)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1515,7 +1544,7 @@ export interface GoogleCloudOsconfigV2__OperationMetadata {
 }
 
 export const GoogleCloudOsconfigV2__OperationMetadata: Schema.Schema<GoogleCloudOsconfigV2__OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedCancellation: Schema.optional(Schema.Boolean),
       endTime: Schema.optional(Schema.String),
@@ -1554,7 +1583,7 @@ export interface GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata {
 }
 
 export const GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata: Schema.Schema<GoogleCloudOsconfigV1__OSPolicyAssignmentOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osPolicyAssignment: Schema.optional(Schema.String),
       apiMethod: Schema.optional(Schema.String),
@@ -1593,8 +1622,8 @@ export interface PatchDeployment {
   updateTime?: string;
 }
 
-export const PatchDeployment: Schema.Schema<PatchDeployment> = Schema.suspend(
-  () =>
+export const PatchDeployment: Schema.Schema<PatchDeployment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       oneTimeSchedule: Schema.optional(OneTimeSchedule),
@@ -1609,9 +1638,9 @@ export const PatchDeployment: Schema.Schema<PatchDeployment> = Schema.suspend(
       duration: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PatchDeployment",
-}) as any as Schema.Schema<PatchDeployment>;
+  ).annotate({
+    identifier: "PatchDeployment",
+  }) as any as Schema.Schema<PatchDeployment>;
 
 export interface ListPatchDeploymentsResponse {
   /** The list of patch deployments. */
@@ -1621,7 +1650,7 @@ export interface ListPatchDeploymentsResponse {
 }
 
 export const ListPatchDeploymentsResponse: Schema.Schema<ListPatchDeploymentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patchDeployments: Schema.optional(Schema.Array(PatchDeployment)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1638,7 +1667,7 @@ export interface ListPatchJobInstanceDetailsResponse {
 }
 
 export const ListPatchJobInstanceDetailsResponse: Schema.Schema<ListPatchJobInstanceDetailsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       patchJobInstanceDetails: Schema.optional(
@@ -1659,7 +1688,7 @@ export interface LookupEffectiveGuestPolicyRequest {
 }
 
 export const LookupEffectiveGuestPolicyRequest: Schema.Schema<LookupEffectiveGuestPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       osArchitecture: Schema.optional(Schema.String),
       osShortName: Schema.optional(Schema.String),
@@ -1678,18 +1707,20 @@ export interface GetProjectsGuestPoliciesRequest {
   name: string;
 }
 
-export const GetProjectsGuestPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsGuestPoliciesRequest>;
+export const GetProjectsGuestPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsGuestPoliciesRequest>;
 
 export type GetProjectsGuestPoliciesResponse = GuestPolicy;
-export const GetProjectsGuestPoliciesResponse = GuestPolicy;
+export const GetProjectsGuestPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuestPolicy;
 
 export type GetProjectsGuestPoliciesError = DefaultErrors;
 
@@ -1699,7 +1730,7 @@ export const getProjectsGuestPolicies: API.OperationMethod<
   GetProjectsGuestPoliciesResponse,
   GetProjectsGuestPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsGuestPoliciesRequest,
   output: GetProjectsGuestPoliciesResponse,
   errors: [],
@@ -1714,21 +1745,23 @@ export interface PatchProjectsGuestPoliciesRequest {
   body?: GuestPolicy;
 }
 
-export const PatchProjectsGuestPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GuestPolicy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsGuestPoliciesRequest>;
+export const PatchProjectsGuestPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GuestPolicy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsGuestPoliciesRequest>;
 
 export type PatchProjectsGuestPoliciesResponse = GuestPolicy;
-export const PatchProjectsGuestPoliciesResponse = GuestPolicy;
+export const PatchProjectsGuestPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuestPolicy;
 
 export type PatchProjectsGuestPoliciesError = DefaultErrors;
 
@@ -1738,7 +1771,7 @@ export const patchProjectsGuestPolicies: API.OperationMethod<
   PatchProjectsGuestPoliciesResponse,
   PatchProjectsGuestPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsGuestPoliciesRequest,
   output: PatchProjectsGuestPoliciesResponse,
   errors: [],
@@ -1753,17 +1786,22 @@ export interface ListProjectsGuestPoliciesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsGuestPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/guestPolicies" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsGuestPoliciesRequest>;
+export const ListProjectsGuestPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/guestPolicies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsGuestPoliciesRequest>;
 
 export type ListProjectsGuestPoliciesResponse = ListGuestPoliciesResponse;
-export const ListProjectsGuestPoliciesResponse = ListGuestPoliciesResponse;
+export const ListProjectsGuestPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListGuestPoliciesResponse;
 
 export type ListProjectsGuestPoliciesError = DefaultErrors;
 
@@ -1773,7 +1811,7 @@ export const listProjectsGuestPolicies: API.PaginatedOperationMethod<
   ListProjectsGuestPoliciesResponse,
   ListProjectsGuestPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsGuestPoliciesRequest,
   output: ListProjectsGuestPoliciesResponse,
   errors: [],
@@ -1792,23 +1830,25 @@ export interface CreateProjectsGuestPoliciesRequest {
   body?: GuestPolicy;
 }
 
-export const CreateProjectsGuestPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  guestPolicyId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("guestPolicyId"),
-  ),
-  body: Schema.optional(GuestPolicy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/guestPolicies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsGuestPoliciesRequest>;
+export const CreateProjectsGuestPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    guestPolicyId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("guestPolicyId"),
+    ),
+    body: Schema.optional(GuestPolicy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/guestPolicies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsGuestPoliciesRequest>;
 
 export type CreateProjectsGuestPoliciesResponse = GuestPolicy;
-export const CreateProjectsGuestPoliciesResponse = GuestPolicy;
+export const CreateProjectsGuestPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuestPolicy;
 
 export type CreateProjectsGuestPoliciesError = DefaultErrors;
 
@@ -1818,7 +1858,7 @@ export const createProjectsGuestPolicies: API.OperationMethod<
   CreateProjectsGuestPoliciesResponse,
   CreateProjectsGuestPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsGuestPoliciesRequest,
   output: CreateProjectsGuestPoliciesResponse,
   errors: [],
@@ -1829,18 +1869,20 @@ export interface DeleteProjectsGuestPoliciesRequest {
   name: string;
 }
 
-export const DeleteProjectsGuestPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsGuestPoliciesRequest>;
+export const DeleteProjectsGuestPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/guestPolicies/{guestPoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsGuestPoliciesRequest>;
 
 export type DeleteProjectsGuestPoliciesResponse = Empty;
-export const DeleteProjectsGuestPoliciesResponse = Empty;
+export const DeleteProjectsGuestPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsGuestPoliciesError = DefaultErrors;
 
@@ -1850,7 +1892,7 @@ export const deleteProjectsGuestPolicies: API.OperationMethod<
   DeleteProjectsGuestPoliciesResponse,
   DeleteProjectsGuestPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsGuestPoliciesRequest,
   output: DeleteProjectsGuestPoliciesResponse,
   errors: [],
@@ -1864,7 +1906,7 @@ export interface LookupEffectiveGuestPolicyProjectsZonesInstancesRequest {
 }
 
 export const LookupEffectiveGuestPolicyProjectsZonesInstancesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     instance: Schema.String.pipe(T.HttpPath("instance")),
     body: Schema.optional(LookupEffectiveGuestPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1879,7 +1921,7 @@ export const LookupEffectiveGuestPolicyProjectsZonesInstancesRequest =
 export type LookupEffectiveGuestPolicyProjectsZonesInstancesResponse =
   EffectiveGuestPolicy;
 export const LookupEffectiveGuestPolicyProjectsZonesInstancesResponse =
-  EffectiveGuestPolicy;
+  /*@__PURE__*/ /*#__PURE__*/ EffectiveGuestPolicy;
 
 export type LookupEffectiveGuestPolicyProjectsZonesInstancesError =
   DefaultErrors;
@@ -1890,7 +1932,7 @@ export const lookupEffectiveGuestPolicyProjectsZonesInstances: API.OperationMeth
   LookupEffectiveGuestPolicyProjectsZonesInstancesResponse,
   LookupEffectiveGuestPolicyProjectsZonesInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupEffectiveGuestPolicyProjectsZonesInstancesRequest,
   output: LookupEffectiveGuestPolicyProjectsZonesInstancesResponse,
   errors: [],
@@ -1907,18 +1949,20 @@ export interface ListProjectsPatchJobsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsPatchJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/patchJobs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsPatchJobsRequest>;
+export const ListProjectsPatchJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/patchJobs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsPatchJobsRequest>;
 
 export type ListProjectsPatchJobsResponse = ListPatchJobsResponse;
-export const ListProjectsPatchJobsResponse = ListPatchJobsResponse;
+export const ListProjectsPatchJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPatchJobsResponse;
 
 export type ListProjectsPatchJobsError = DefaultErrors;
 
@@ -1928,7 +1972,7 @@ export const listProjectsPatchJobs: API.PaginatedOperationMethod<
   ListProjectsPatchJobsResponse,
   ListProjectsPatchJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsPatchJobsRequest,
   output: ListProjectsPatchJobsResponse,
   errors: [],
@@ -1945,20 +1989,22 @@ export interface CancelProjectsPatchJobsRequest {
   body?: CancelPatchJobRequest;
 }
 
-export const CancelProjectsPatchJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelPatchJobRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsPatchJobsRequest>;
+export const CancelProjectsPatchJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelPatchJobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsPatchJobsRequest>;
 
 export type CancelProjectsPatchJobsResponse = PatchJob;
-export const CancelProjectsPatchJobsResponse = PatchJob;
+export const CancelProjectsPatchJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchJob;
 
 export type CancelProjectsPatchJobsError = DefaultErrors;
 
@@ -1968,7 +2014,7 @@ export const cancelProjectsPatchJobs: API.OperationMethod<
   CancelProjectsPatchJobsResponse,
   CancelProjectsPatchJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsPatchJobsRequest,
   output: CancelProjectsPatchJobsResponse,
   errors: [],
@@ -1981,20 +2027,22 @@ export interface ExecuteProjectsPatchJobsRequest {
   body?: ExecutePatchJobRequest;
 }
 
-export const ExecuteProjectsPatchJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExecutePatchJobRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/patchJobs:execute",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecuteProjectsPatchJobsRequest>;
+export const ExecuteProjectsPatchJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExecutePatchJobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/patchJobs:execute",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteProjectsPatchJobsRequest>;
 
 export type ExecuteProjectsPatchJobsResponse = PatchJob;
-export const ExecuteProjectsPatchJobsResponse = PatchJob;
+export const ExecuteProjectsPatchJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchJob;
 
 export type ExecuteProjectsPatchJobsError = DefaultErrors;
 
@@ -2004,7 +2052,7 @@ export const executeProjectsPatchJobs: API.OperationMethod<
   ExecuteProjectsPatchJobsResponse,
   ExecuteProjectsPatchJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProjectsPatchJobsRequest,
   output: ExecuteProjectsPatchJobsResponse,
   errors: [],
@@ -2015,18 +2063,20 @@ export interface GetProjectsPatchJobsRequest {
   name: string;
 }
 
-export const GetProjectsPatchJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsPatchJobsRequest>;
+export const GetProjectsPatchJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsPatchJobsRequest>;
 
 export type GetProjectsPatchJobsResponse = PatchJob;
-export const GetProjectsPatchJobsResponse = PatchJob;
+export const GetProjectsPatchJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchJob;
 
 export type GetProjectsPatchJobsError = DefaultErrors;
 
@@ -2036,7 +2086,7 @@ export const getProjectsPatchJobs: API.OperationMethod<
   GetProjectsPatchJobsResponse,
   GetProjectsPatchJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsPatchJobsRequest,
   output: GetProjectsPatchJobsResponse,
   errors: [],
@@ -2053,23 +2103,24 @@ export interface ListProjectsPatchJobsInstanceDetailsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsPatchJobsInstanceDetailsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}/instanceDetails",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsPatchJobsInstanceDetailsRequest>;
+export const ListProjectsPatchJobsInstanceDetailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/patchJobs/{patchJobsId}/instanceDetails",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsPatchJobsInstanceDetailsRequest>;
 
 export type ListProjectsPatchJobsInstanceDetailsResponse =
   ListPatchJobInstanceDetailsResponse;
 export const ListProjectsPatchJobsInstanceDetailsResponse =
-  ListPatchJobInstanceDetailsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPatchJobInstanceDetailsResponse;
 
 export type ListProjectsPatchJobsInstanceDetailsError = DefaultErrors;
 
@@ -2079,7 +2130,7 @@ export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<
   ListProjectsPatchJobsInstanceDetailsResponse,
   ListProjectsPatchJobsInstanceDetailsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsPatchJobsInstanceDetailsRequest,
   output: ListProjectsPatchJobsInstanceDetailsResponse,
   errors: [],
@@ -2098,23 +2149,25 @@ export interface CreateProjectsPatchDeploymentsRequest {
   body?: PatchDeployment;
 }
 
-export const CreateProjectsPatchDeploymentsRequest = Schema.Struct({
-  patchDeploymentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("patchDeploymentId"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/patchDeployments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsPatchDeploymentsRequest>;
+export const CreateProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    patchDeploymentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("patchDeploymentId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/patchDeployments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsPatchDeploymentsRequest>;
 
 export type CreateProjectsPatchDeploymentsResponse = PatchDeployment;
-export const CreateProjectsPatchDeploymentsResponse = PatchDeployment;
+export const CreateProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchDeployment;
 
 export type CreateProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2124,7 +2177,7 @@ export const createProjectsPatchDeployments: API.OperationMethod<
   CreateProjectsPatchDeploymentsResponse,
   CreateProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsPatchDeploymentsRequest,
   output: CreateProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2135,18 +2188,20 @@ export interface DeleteProjectsPatchDeploymentsRequest {
   name: string;
 }
 
-export const DeleteProjectsPatchDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsPatchDeploymentsRequest>;
+export const DeleteProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsPatchDeploymentsRequest>;
 
 export type DeleteProjectsPatchDeploymentsResponse = Empty;
-export const DeleteProjectsPatchDeploymentsResponse = Empty;
+export const DeleteProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2156,7 +2211,7 @@ export const deleteProjectsPatchDeployments: API.OperationMethod<
   DeleteProjectsPatchDeploymentsResponse,
   DeleteProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsPatchDeploymentsRequest,
   output: DeleteProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2169,20 +2224,22 @@ export interface PauseProjectsPatchDeploymentsRequest {
   body?: PausePatchDeploymentRequest;
 }
 
-export const PauseProjectsPatchDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(PausePatchDeploymentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseProjectsPatchDeploymentsRequest>;
+export const PauseProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PausePatchDeploymentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseProjectsPatchDeploymentsRequest>;
 
 export type PauseProjectsPatchDeploymentsResponse = PatchDeployment;
-export const PauseProjectsPatchDeploymentsResponse = PatchDeployment;
+export const PauseProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchDeployment;
 
 export type PauseProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2192,7 +2249,7 @@ export const pauseProjectsPatchDeployments: API.OperationMethod<
   PauseProjectsPatchDeploymentsResponse,
   PauseProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseProjectsPatchDeploymentsRequest,
   output: PauseProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2207,21 +2264,22 @@ export interface ListProjectsPatchDeploymentsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsPatchDeploymentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/patchDeployments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsPatchDeploymentsRequest>;
+export const ListProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/patchDeployments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsPatchDeploymentsRequest>;
 
 export type ListProjectsPatchDeploymentsResponse = ListPatchDeploymentsResponse;
 export const ListProjectsPatchDeploymentsResponse =
-  ListPatchDeploymentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPatchDeploymentsResponse;
 
 export type ListProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2231,7 +2289,7 @@ export const listProjectsPatchDeployments: API.PaginatedOperationMethod<
   ListProjectsPatchDeploymentsResponse,
   ListProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsPatchDeploymentsRequest,
   output: ListProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2246,18 +2304,20 @@ export interface GetProjectsPatchDeploymentsRequest {
   name: string;
 }
 
-export const GetProjectsPatchDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsPatchDeploymentsRequest>;
+export const GetProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsPatchDeploymentsRequest>;
 
 export type GetProjectsPatchDeploymentsResponse = PatchDeployment;
-export const GetProjectsPatchDeploymentsResponse = PatchDeployment;
+export const GetProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchDeployment;
 
 export type GetProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2267,7 +2327,7 @@ export const getProjectsPatchDeployments: API.OperationMethod<
   GetProjectsPatchDeploymentsResponse,
   GetProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsPatchDeploymentsRequest,
   output: GetProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2282,21 +2342,23 @@ export interface PatchProjectsPatchDeploymentsRequest {
   body?: PatchDeployment;
 }
 
-export const PatchProjectsPatchDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsPatchDeploymentsRequest>;
+export const PatchProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PatchDeployment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsPatchDeploymentsRequest>;
 
 export type PatchProjectsPatchDeploymentsResponse = PatchDeployment;
-export const PatchProjectsPatchDeploymentsResponse = PatchDeployment;
+export const PatchProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchDeployment;
 
 export type PatchProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2306,7 +2368,7 @@ export const patchProjectsPatchDeployments: API.OperationMethod<
   PatchProjectsPatchDeploymentsResponse,
   PatchProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsPatchDeploymentsRequest,
   output: PatchProjectsPatchDeploymentsResponse,
   errors: [],
@@ -2319,20 +2381,22 @@ export interface ResumeProjectsPatchDeploymentsRequest {
   body?: ResumePatchDeploymentRequest;
 }
 
-export const ResumeProjectsPatchDeploymentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ResumePatchDeploymentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeProjectsPatchDeploymentsRequest>;
+export const ResumeProjectsPatchDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ResumePatchDeploymentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/patchDeployments/{patchDeploymentsId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeProjectsPatchDeploymentsRequest>;
 
 export type ResumeProjectsPatchDeploymentsResponse = PatchDeployment;
-export const ResumeProjectsPatchDeploymentsResponse = PatchDeployment;
+export const ResumeProjectsPatchDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PatchDeployment;
 
 export type ResumeProjectsPatchDeploymentsError = DefaultErrors;
 
@@ -2342,7 +2406,7 @@ export const resumeProjectsPatchDeployments: API.OperationMethod<
   ResumeProjectsPatchDeploymentsResponse,
   ResumeProjectsPatchDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeProjectsPatchDeploymentsRequest,
   output: ResumeProjectsPatchDeploymentsResponse,
   errors: [],

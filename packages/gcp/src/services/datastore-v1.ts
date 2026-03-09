@@ -28,7 +28,7 @@ export interface BeginTransactionResponse {
 }
 
 export const BeginTransactionResponse: Schema.Schema<BeginTransactionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transaction: Schema.optional(Schema.String),
     }),
@@ -48,7 +48,7 @@ export interface GoogleDatastoreAdminV1IndexedProperty {
 }
 
 export const GoogleDatastoreAdminV1IndexedProperty: Schema.Schema<GoogleDatastoreAdminV1IndexedProperty> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       direction: Schema.optional(Schema.String),
@@ -83,7 +83,7 @@ export interface GoogleDatastoreAdminV1Index {
 }
 
 export const GoogleDatastoreAdminV1Index: Schema.Schema<GoogleDatastoreAdminV1Index> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       ancestor: Schema.optional(Schema.String),
@@ -106,7 +106,7 @@ export interface GoogleDatastoreAdminV1ListIndexesResponse {
 }
 
 export const GoogleDatastoreAdminV1ListIndexesResponse: Schema.Schema<GoogleDatastoreAdminV1ListIndexesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       indexes: Schema.optional(Schema.Array(GoogleDatastoreAdminV1Index)),
@@ -120,11 +120,12 @@ export interface Count {
   upTo?: string;
 }
 
-export const Count: Schema.Schema<Count> = Schema.suspend(() =>
-  Schema.Struct({
-    upTo: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
+export const Count: Schema.Schema<Count> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      upTo: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
 
 export interface PartitionId {
   /** If not empty, the ID of the namespace to which the entities belong. */
@@ -135,13 +136,16 @@ export interface PartitionId {
   databaseId?: string;
 }
 
-export const PartitionId: Schema.Schema<PartitionId> = Schema.suspend(() =>
-  Schema.Struct({
-    namespaceId: Schema.optional(Schema.String),
-    projectId: Schema.optional(Schema.String),
-    databaseId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PartitionId" }) as any as Schema.Schema<PartitionId>;
+export const PartitionId: Schema.Schema<PartitionId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      namespaceId: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      databaseId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PartitionId",
+  }) as any as Schema.Schema<PartitionId>;
 
 export interface PathElement {
   /** The kind of the entity. A kind matching regex `__.*__` is reserved/read-only. A kind must not contain more than 1500 bytes when UTF-8 encoded. Cannot be `""`. Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are encoded as `__bytes__` where `` is the base-64 encoding of the bytes. */
@@ -152,13 +156,16 @@ export interface PathElement {
   id?: string;
 }
 
-export const PathElement: Schema.Schema<PathElement> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PathElement" }) as any as Schema.Schema<PathElement>;
+export const PathElement: Schema.Schema<PathElement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PathElement",
+  }) as any as Schema.Schema<PathElement>;
 
 export interface Key {
   /** Entities are partitioned into subsets, currently identified by a project ID and namespace ID. Queries are scoped to a single partition. */
@@ -167,25 +174,27 @@ export interface Key {
   path?: Array<PathElement>;
 }
 
-export const Key: Schema.Schema<Key> = Schema.suspend(() =>
-  Schema.Struct({
-    partitionId: Schema.optional(PartitionId),
-    path: Schema.optional(Schema.Array(PathElement)),
-  }),
-).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
+export const Key: Schema.Schema<Key> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      partitionId: Schema.optional(PartitionId),
+      path: Schema.optional(Schema.Array(PathElement)),
+    }),
+  ).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
 
 export interface PropertyMask {
   /** The paths to the properties covered by this mask. A path is a list of property names separated by dots (`.`), for example `foo.bar` means the property `bar` inside the entity property `foo` inside the entity associated with this path. If a property name contains a dot `.` or a backslash `\`, then that name must be escaped. A path must not be empty, and may not reference a value inside an array value. */
   paths?: Array<string>;
 }
 
-export const PropertyMask: Schema.Schema<PropertyMask> = Schema.suspend(() =>
-  Schema.Struct({
-    paths: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "PropertyMask",
-}) as any as Schema.Schema<PropertyMask>;
+export const PropertyMask: Schema.Schema<PropertyMask> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      paths: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PropertyMask",
+  }) as any as Schema.Schema<PropertyMask>;
 
 export interface GoogleDatastoreAdminV1EntityFilter {
   /** An empty list represents all namespaces. This is the preferred usage for projects that don't use namespaces. An empty string element represents the default namespace. This should be used if the project has data in non-default namespaces, but doesn't want to include them. Each namespace in this list must be unique. */
@@ -195,7 +204,7 @@ export interface GoogleDatastoreAdminV1EntityFilter {
 }
 
 export const GoogleDatastoreAdminV1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1EntityFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namespaceIds: Schema.optional(Schema.Array(Schema.String)),
       kinds: Schema.optional(Schema.Array(Schema.String)),
@@ -212,7 +221,7 @@ export interface GoogleDatastoreAdminV1Progress {
 }
 
 export const GoogleDatastoreAdminV1Progress: Schema.Schema<GoogleDatastoreAdminV1Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workCompleted: Schema.optional(Schema.String),
       workEstimated: Schema.optional(Schema.String),
@@ -250,7 +259,7 @@ export interface GoogleDatastoreAdminV1CommonMetadata {
 }
 
 export const GoogleDatastoreAdminV1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1CommonMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -276,7 +285,7 @@ export interface GoogleDatastoreAdminV1ImportEntitiesMetadata {
 }
 
 export const GoogleDatastoreAdminV1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
       progressBytes: Schema.optional(GoogleDatastoreAdminV1Progress),
@@ -302,7 +311,7 @@ export interface GoogleDatastoreAdminV1ExportEntitiesMetadata {
 }
 
 export const GoogleDatastoreAdminV1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
       progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
@@ -325,7 +334,7 @@ export interface GoogleDatastoreAdminV1PrepareStepDetails {
 }
 
 export const GoogleDatastoreAdminV1PrepareStepDetails: Schema.Schema<GoogleDatastoreAdminV1PrepareStepDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       concurrencyMode: Schema.optional(Schema.String),
     }),
@@ -344,7 +353,7 @@ export interface GoogleDatastoreAdminV1RedirectWritesStepDetails {
 }
 
 export const GoogleDatastoreAdminV1RedirectWritesStepDetails: Schema.Schema<GoogleDatastoreAdminV1RedirectWritesStepDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       concurrencyMode: Schema.optional(Schema.String),
     }),
@@ -371,7 +380,7 @@ export interface GoogleDatastoreAdminV1MigrationProgressEvent {
 }
 
 export const GoogleDatastoreAdminV1MigrationProgressEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationProgressEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       step: Schema.optional(Schema.String),
       prepareStepDetails: Schema.optional(
@@ -391,7 +400,7 @@ export interface PropertyReference {
 }
 
 export const PropertyReference: Schema.Schema<PropertyReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -404,22 +413,24 @@ export interface Projection {
   property?: PropertyReference;
 }
 
-export const Projection: Schema.Schema<Projection> = Schema.suspend(() =>
-  Schema.Struct({
-    property: Schema.optional(PropertyReference),
-  }),
-).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
+export const Projection: Schema.Schema<Projection> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(PropertyReference),
+    }),
+  ).annotate({ identifier: "Projection" }) as any as Schema.Schema<Projection>;
 
 export interface Sum {
   /** The property to aggregate on. */
   property?: PropertyReference;
 }
 
-export const Sum: Schema.Schema<Sum> = Schema.suspend(() =>
-  Schema.Struct({
-    property: Schema.optional(PropertyReference),
-  }),
-).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
+export const Sum: Schema.Schema<Sum> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(PropertyReference),
+    }),
+  ).annotate({ identifier: "Sum" }) as any as Schema.Schema<Sum>;
 
 export interface ReserveIdsRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
@@ -429,7 +440,7 @@ export interface ReserveIdsRequest {
 }
 
 export const ReserveIdsRequest: Schema.Schema<ReserveIdsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       databaseId: Schema.optional(Schema.String),
       keys: Schema.optional(Schema.Array(Key)),
@@ -446,7 +457,7 @@ export interface GoogleDatastoreAdminV1beta1Progress {
 }
 
 export const GoogleDatastoreAdminV1beta1Progress: Schema.Schema<GoogleDatastoreAdminV1beta1Progress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workCompleted: Schema.optional(Schema.String),
       workEstimated: Schema.optional(Schema.String),
@@ -460,11 +471,12 @@ export interface ArrayValue {
   values?: Array<Value>;
 }
 
-export const ArrayValue: Schema.Schema<ArrayValue> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Value)),
-  }),
-).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
+export const ArrayValue: Schema.Schema<ArrayValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Value)),
+    }),
+  ).annotate({ identifier: "ArrayValue" }) as any as Schema.Schema<ArrayValue>;
 
 export interface LatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
@@ -473,12 +485,13 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    longitude: Schema.optional(Schema.Number),
-    latitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      longitude: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface Value {
   /** If the value should be excluded from all indexes including those defined explicitly. */
@@ -509,23 +522,24 @@ export interface Value {
   geoPointValue?: LatLng;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() =>
-  Schema.Struct({
-    excludeFromIndexes: Schema.optional(Schema.Boolean),
-    keyValue: Schema.optional(Key),
-    integerValue: Schema.optional(Schema.String),
-    meaning: Schema.optional(Schema.Number),
-    stringValue: Schema.optional(Schema.String),
-    nullValue: Schema.optional(Schema.String),
-    doubleValue: Schema.optional(Schema.Number),
-    arrayValue: Schema.optional(ArrayValue),
-    booleanValue: Schema.optional(Schema.Boolean),
-    entityValue: Schema.optional(Entity),
-    blobValue: Schema.optional(Schema.String),
-    timestampValue: Schema.optional(Schema.String),
-    geoPointValue: Schema.optional(LatLng),
-  }),
-).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      excludeFromIndexes: Schema.optional(Schema.Boolean),
+      keyValue: Schema.optional(Key),
+      integerValue: Schema.optional(Schema.String),
+      meaning: Schema.optional(Schema.Number),
+      stringValue: Schema.optional(Schema.String),
+      nullValue: Schema.optional(Schema.String),
+      doubleValue: Schema.optional(Schema.Number),
+      arrayValue: Schema.optional(ArrayValue),
+      booleanValue: Schema.optional(Schema.Boolean),
+      entityValue: Schema.optional(Entity),
+      blobValue: Schema.optional(Schema.String),
+      timestampValue: Schema.optional(Schema.String),
+      geoPointValue: Schema.optional(LatLng),
+    }),
+  ).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface Entity {
   /** The entity's properties. The map's keys are property names. A property name matching regex `__.*__` is reserved. A reserved property name is forbidden in certain documented contexts. The map keys, represented as UTF-8, must not exceed 1,500 bytes and cannot be empty. */
@@ -534,18 +548,20 @@ export interface Entity {
   key?: Key;
 }
 
-export const Entity: Schema.Schema<Entity> = Schema.suspend(() =>
-  Schema.Struct({
-    properties: Schema.optional(Schema.Record(Schema.String, Value)),
-    key: Schema.optional(Key),
-  }),
-).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+export const Entity: Schema.Schema<Entity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      properties: Schema.optional(Schema.Record(Schema.String, Value)),
+      key: Schema.optional(Key),
+    }),
+  ).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GoogleDatastoreAdminV1MigrationStateEvent {
   /** The new state of the migration. */
@@ -558,7 +574,7 @@ export interface GoogleDatastoreAdminV1MigrationStateEvent {
 }
 
 export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleDatastoreAdminV1MigrationStateEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -572,7 +588,7 @@ export interface AggregationResult {
 }
 
 export const AggregationResult: Schema.Schema<AggregationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregateProperties: Schema.optional(Schema.Record(Schema.String, Value)),
     }),
@@ -596,7 +612,7 @@ export interface AggregationResultBatch {
 }
 
 export const AggregationResultBatch: Schema.Schema<AggregationResultBatch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregationResults: Schema.optional(Schema.Array(AggregationResult)),
       moreResults: Schema.optional(Schema.String),
@@ -611,14 +627,14 @@ export interface KindExpression {
   name?: string;
 }
 
-export const KindExpression: Schema.Schema<KindExpression> = Schema.suspend(
-  () =>
+export const KindExpression: Schema.Schema<KindExpression> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "KindExpression",
-}) as any as Schema.Schema<KindExpression>;
+  ).annotate({
+    identifier: "KindExpression",
+  }) as any as Schema.Schema<KindExpression>;
 
 export interface FindNearest {
   /** Required. The query vector that we are searching on. Must be a vector of no more than 2048 dimensions. */
@@ -640,16 +656,19 @@ export interface FindNearest {
   vectorProperty?: PropertyReference;
 }
 
-export const FindNearest: Schema.Schema<FindNearest> = Schema.suspend(() =>
-  Schema.Struct({
-    queryVector: Schema.optional(Value),
-    limit: Schema.optional(Schema.Number),
-    distanceResultProperty: Schema.optional(Schema.String),
-    distanceThreshold: Schema.optional(Schema.Number),
-    distanceMeasure: Schema.optional(Schema.String),
-    vectorProperty: Schema.optional(PropertyReference),
-  }),
-).annotate({ identifier: "FindNearest" }) as any as Schema.Schema<FindNearest>;
+export const FindNearest: Schema.Schema<FindNearest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      queryVector: Schema.optional(Value),
+      limit: Schema.optional(Schema.Number),
+      distanceResultProperty: Schema.optional(Schema.String),
+      distanceThreshold: Schema.optional(Schema.Number),
+      distanceMeasure: Schema.optional(Schema.String),
+      vectorProperty: Schema.optional(PropertyReference),
+    }),
+  ).annotate({
+    identifier: "FindNearest",
+  }) as any as Schema.Schema<FindNearest>;
 
 export interface PropertyOrder {
   /** The property to order by. */
@@ -662,14 +681,15 @@ export interface PropertyOrder {
     | (string & {});
 }
 
-export const PropertyOrder: Schema.Schema<PropertyOrder> = Schema.suspend(() =>
-  Schema.Struct({
-    property: Schema.optional(PropertyReference),
-    direction: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PropertyOrder",
-}) as any as Schema.Schema<PropertyOrder>;
+export const PropertyOrder: Schema.Schema<PropertyOrder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(PropertyReference),
+      direction: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PropertyOrder",
+  }) as any as Schema.Schema<PropertyOrder>;
 
 export interface CompositeFilter {
   /** The operator for combining multiple filters. */
@@ -678,15 +698,15 @@ export interface CompositeFilter {
   filters?: Array<Filter>;
 }
 
-export const CompositeFilter: Schema.Schema<CompositeFilter> = Schema.suspend(
-  () =>
+export const CompositeFilter: Schema.Schema<CompositeFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       op: Schema.optional(Schema.String),
       filters: Schema.optional(Schema.Array(Filter)),
     }),
-).annotate({
-  identifier: "CompositeFilter",
-}) as any as Schema.Schema<CompositeFilter>;
+  ).annotate({
+    identifier: "CompositeFilter",
+  }) as any as Schema.Schema<CompositeFilter>;
 
 export interface PropertyFilter {
   /** The property to filter by. */
@@ -708,16 +728,16 @@ export interface PropertyFilter {
     | (string & {});
 }
 
-export const PropertyFilter: Schema.Schema<PropertyFilter> = Schema.suspend(
-  () =>
+export const PropertyFilter: Schema.Schema<PropertyFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       property: Schema.optional(PropertyReference),
       value: Schema.optional(Value),
       op: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PropertyFilter",
-}) as any as Schema.Schema<PropertyFilter>;
+  ).annotate({
+    identifier: "PropertyFilter",
+  }) as any as Schema.Schema<PropertyFilter>;
 
 export interface Filter {
   /** A composite filter. */
@@ -726,12 +746,13 @@ export interface Filter {
   propertyFilter?: PropertyFilter;
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
-  Schema.Struct({
-    compositeFilter: Schema.optional(CompositeFilter),
-    propertyFilter: Schema.optional(PropertyFilter),
-  }),
-).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compositeFilter: Schema.optional(CompositeFilter),
+      propertyFilter: Schema.optional(PropertyFilter),
+    }),
+  ).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface Query {
   /** The kinds to query (if empty, returns entities of all kinds). Currently at most 1 kind may be specified. */
@@ -756,31 +777,33 @@ export interface Query {
   limit?: number;
 }
 
-export const Query: Schema.Schema<Query> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.Array(KindExpression)),
-    offset: Schema.optional(Schema.Number),
-    findNearest: Schema.optional(FindNearest),
-    order: Schema.optional(Schema.Array(PropertyOrder)),
-    endCursor: Schema.optional(Schema.String),
-    projection: Schema.optional(Schema.Array(Projection)),
-    filter: Schema.optional(Filter),
-    distinctOn: Schema.optional(Schema.Array(PropertyReference)),
-    startCursor: Schema.optional(Schema.String),
-    limit: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Query" }) as any as Schema.Schema<Query>;
+export const Query: Schema.Schema<Query> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.Array(KindExpression)),
+      offset: Schema.optional(Schema.Number),
+      findNearest: Schema.optional(FindNearest),
+      order: Schema.optional(Schema.Array(PropertyOrder)),
+      endCursor: Schema.optional(Schema.String),
+      projection: Schema.optional(Schema.Array(Projection)),
+      filter: Schema.optional(Filter),
+      distinctOn: Schema.optional(Schema.Array(PropertyReference)),
+      startCursor: Schema.optional(Schema.String),
+      limit: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Query" }) as any as Schema.Schema<Query>;
 
 export interface Avg {
   /** The property to aggregate on. */
   property?: PropertyReference;
 }
 
-export const Avg: Schema.Schema<Avg> = Schema.suspend(() =>
-  Schema.Struct({
-    property: Schema.optional(PropertyReference),
-  }),
-).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
+export const Avg: Schema.Schema<Avg> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      property: Schema.optional(PropertyReference),
+    }),
+  ).annotate({ identifier: "Avg" }) as any as Schema.Schema<Avg>;
 
 export interface Aggregation {
   /** Count aggregator. */
@@ -793,14 +816,17 @@ export interface Aggregation {
   alias?: string;
 }
 
-export const Aggregation: Schema.Schema<Aggregation> = Schema.suspend(() =>
-  Schema.Struct({
-    count: Schema.optional(Count),
-    sum: Schema.optional(Sum),
-    avg: Schema.optional(Avg),
-    alias: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Aggregation" }) as any as Schema.Schema<Aggregation>;
+export const Aggregation: Schema.Schema<Aggregation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      count: Schema.optional(Count),
+      sum: Schema.optional(Sum),
+      avg: Schema.optional(Avg),
+      alias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Aggregation",
+  }) as any as Schema.Schema<Aggregation>;
 
 export interface AggregationQuery {
   /** Nested query for aggregation */
@@ -809,28 +835,31 @@ export interface AggregationQuery {
   aggregations?: Array<Aggregation>;
 }
 
-export const AggregationQuery: Schema.Schema<AggregationQuery> = Schema.suspend(
-  () =>
+export const AggregationQuery: Schema.Schema<AggregationQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nestedQuery: Schema.optional(Query),
       aggregations: Schema.optional(Schema.Array(Aggregation)),
     }),
-).annotate({
-  identifier: "AggregationQuery",
-}) as any as Schema.Schema<AggregationQuery>;
+  ).annotate({
+    identifier: "AggregationQuery",
+  }) as any as Schema.Schema<AggregationQuery>;
 
 export interface PlanSummary {
   /** The indexes selected for the query. For example: [ {"query_scope": "Collection", "properties": "(foo ASC, __name__ ASC)"}, {"query_scope": "Collection", "properties": "(bar ASC, __name__ ASC)"} ] */
   indexesUsed?: Array<Record<string, unknown>>;
 }
 
-export const PlanSummary: Schema.Schema<PlanSummary> = Schema.suspend(() =>
-  Schema.Struct({
-    indexesUsed: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "PlanSummary" }) as any as Schema.Schema<PlanSummary>;
+export const PlanSummary: Schema.Schema<PlanSummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      indexesUsed: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({
+    identifier: "PlanSummary",
+  }) as any as Schema.Schema<PlanSummary>;
 
 export interface ExecutionStats {
   /** Debugging statistics from the execution of the query. Note that the debugging stats are subject to change as Firestore evolves. It could include: { "indexes_entries_scanned": "1000", "documents_scanned": "20", "billing_details" : { "documents_billable": "20", "index_entries_billable": "1000", "min_query_cost": "0" } } */
@@ -843,17 +872,17 @@ export interface ExecutionStats {
   readOperations?: string;
 }
 
-export const ExecutionStats: Schema.Schema<ExecutionStats> = Schema.suspend(
-  () =>
+export const ExecutionStats: Schema.Schema<ExecutionStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       debugStats: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       resultsReturned: Schema.optional(Schema.String),
       executionDuration: Schema.optional(Schema.String),
       readOperations: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExecutionStats",
-}) as any as Schema.Schema<ExecutionStats>;
+  ).annotate({
+    identifier: "ExecutionStats",
+  }) as any as Schema.Schema<ExecutionStats>;
 
 export interface ExplainMetrics {
   /** Planning phase information for the query. */
@@ -862,15 +891,15 @@ export interface ExplainMetrics {
   executionStats?: ExecutionStats;
 }
 
-export const ExplainMetrics: Schema.Schema<ExplainMetrics> = Schema.suspend(
-  () =>
+export const ExplainMetrics: Schema.Schema<ExplainMetrics> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       planSummary: Schema.optional(PlanSummary),
       executionStats: Schema.optional(ExecutionStats),
     }),
-).annotate({
-  identifier: "ExplainMetrics",
-}) as any as Schema.Schema<ExplainMetrics>;
+  ).annotate({
+    identifier: "ExplainMetrics",
+  }) as any as Schema.Schema<ExplainMetrics>;
 
 export interface RunAggregationQueryResponse {
   /** A batch of aggregation results. Always present. */
@@ -884,7 +913,7 @@ export interface RunAggregationQueryResponse {
 }
 
 export const RunAggregationQueryResponse: Schema.Schema<RunAggregationQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batch: Schema.optional(AggregationResultBatch),
       transaction: Schema.optional(Schema.String),
@@ -916,7 +945,7 @@ export interface PropertyTransform {
 }
 
 export const PropertyTransform: Schema.Schema<PropertyTransform> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimum: Schema.optional(Value),
       increment: Schema.optional(Value),
@@ -955,41 +984,44 @@ export interface Mutation {
   updateTime?: string;
 }
 
-export const Mutation: Schema.Schema<Mutation> = Schema.suspend(() =>
-  Schema.Struct({
-    conflictResolutionStrategy: Schema.optional(Schema.String),
-    propertyTransforms: Schema.optional(Schema.Array(PropertyTransform)),
-    insert: Schema.optional(Entity),
-    update: Schema.optional(Entity),
-    upsert: Schema.optional(Entity),
-    baseVersion: Schema.optional(Schema.String),
-    delete: Schema.optional(Key),
-    propertyMask: Schema.optional(PropertyMask),
-    updateTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
+export const Mutation: Schema.Schema<Mutation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      conflictResolutionStrategy: Schema.optional(Schema.String),
+      propertyTransforms: Schema.optional(Schema.Array(PropertyTransform)),
+      insert: Schema.optional(Entity),
+      update: Schema.optional(Entity),
+      upsert: Schema.optional(Entity),
+      baseVersion: Schema.optional(Schema.String),
+      delete: Schema.optional(Key),
+      propertyMask: Schema.optional(PropertyMask),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Mutation" }) as any as Schema.Schema<Mutation>;
 
 export interface ReadWrite {
   /** The transaction identifier of the transaction being retried. */
   previousTransaction?: string;
 }
 
-export const ReadWrite: Schema.Schema<ReadWrite> = Schema.suspend(() =>
-  Schema.Struct({
-    previousTransaction: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
+export const ReadWrite: Schema.Schema<ReadWrite> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      previousTransaction: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ReadWrite" }) as any as Schema.Schema<ReadWrite>;
 
 export interface ReadOnly {
   /** Reads entities at the given time. This must be a microsecond precision timestamp within the past one hour, or if Point-in-Time Recovery is enabled, can additionally be a whole minute timestamp within the past 7 days. */
   readTime?: string;
 }
 
-export const ReadOnly: Schema.Schema<ReadOnly> = Schema.suspend(() =>
-  Schema.Struct({
-    readTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
+export const ReadOnly: Schema.Schema<ReadOnly> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      readTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ReadOnly" }) as any as Schema.Schema<ReadOnly>;
 
 export interface TransactionOptions {
   /** The transaction should allow both reads and writes. */
@@ -999,7 +1031,7 @@ export interface TransactionOptions {
 }
 
 export const TransactionOptions: Schema.Schema<TransactionOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readWrite: Schema.optional(ReadWrite),
       readOnly: Schema.optional(ReadOnly),
@@ -1025,17 +1057,18 @@ export interface CommitRequest {
     | (string & {});
 }
 
-export const CommitRequest: Schema.Schema<CommitRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    transaction: Schema.optional(Schema.String),
-    mutations: Schema.optional(Schema.Array(Mutation)),
-    databaseId: Schema.optional(Schema.String),
-    singleUseTransaction: Schema.optional(TransactionOptions),
-    mode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CommitRequest",
-}) as any as Schema.Schema<CommitRequest>;
+export const CommitRequest: Schema.Schema<CommitRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      transaction: Schema.optional(Schema.String),
+      mutations: Schema.optional(Schema.Array(Mutation)),
+      databaseId: Schema.optional(Schema.String),
+      singleUseTransaction: Schema.optional(TransactionOptions),
+      mode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitRequest",
+  }) as any as Schema.Schema<CommitRequest>;
 
 export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
   /** Location of the output metadata file. This can be used to begin an import into Cloud Datastore (this project or another project). See google.datastore.admin.v1.ImportEntitiesRequest.input_url. Only present if the operation completed successfully. */
@@ -1043,7 +1076,7 @@ export interface GoogleDatastoreAdminV1ExportEntitiesResponse {
 }
 
 export const GoogleDatastoreAdminV1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUrl: Schema.optional(Schema.String),
     }),
@@ -1056,14 +1089,14 @@ export interface ExplainOptions {
   analyze?: boolean;
 }
 
-export const ExplainOptions: Schema.Schema<ExplainOptions> = Schema.suspend(
-  () =>
+export const ExplainOptions: Schema.Schema<ExplainOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyze: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ExplainOptions",
-}) as any as Schema.Schema<ExplainOptions>;
+  ).annotate({
+    identifier: "ExplainOptions",
+  }) as any as Schema.Schema<ExplainOptions>;
 
 export interface MutationResult {
   /** The version of the entity on the server after processing the mutation. If the mutation doesn't change anything on the server, then the version will be the version of the current entity or, if no entity is present, a version that is strictly greater than the version of any previous entity and less than the version of any possible future entity. */
@@ -1080,8 +1113,8 @@ export interface MutationResult {
   transformResults?: Array<Value>;
 }
 
-export const MutationResult: Schema.Schema<MutationResult> = Schema.suspend(
-  () =>
+export const MutationResult: Schema.Schema<MutationResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -1090,9 +1123,9 @@ export const MutationResult: Schema.Schema<MutationResult> = Schema.suspend(
       conflictDetected: Schema.optional(Schema.Boolean),
       transformResults: Schema.optional(Schema.Array(Value)),
     }),
-).annotate({
-  identifier: "MutationResult",
-}) as any as Schema.Schema<MutationResult>;
+  ).annotate({
+    identifier: "MutationResult",
+  }) as any as Schema.Schema<MutationResult>;
 
 export interface CommitResponse {
   /** The transaction commit timestamp. Not set for non-transactional commits. */
@@ -1103,24 +1136,23 @@ export interface CommitResponse {
   indexUpdates?: number;
 }
 
-export const CommitResponse: Schema.Schema<CommitResponse> = Schema.suspend(
-  () =>
+export const CommitResponse: Schema.Schema<CommitResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commitTime: Schema.optional(Schema.String),
       mutationResults: Schema.optional(Schema.Array(MutationResult)),
       indexUpdates: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "CommitResponse",
-}) as any as Schema.Schema<CommitResponse>;
+  ).annotate({
+    identifier: "CommitResponse",
+  }) as any as Schema.Schema<CommitResponse>;
 
 export interface RollbackResponse {}
 
-export const RollbackResponse: Schema.Schema<RollbackResponse> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "RollbackResponse",
-}) as any as Schema.Schema<RollbackResponse>;
+export const RollbackResponse: Schema.Schema<RollbackResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RollbackResponse",
+  }) as any as Schema.Schema<RollbackResponse>;
 
 export interface EntityResult {
   /** The version of the entity, a strictly positive number that monotonically increases with changes to the entity. This field is set for `FULL` entity results. For missing entities in `LookupResponse`, this is the version of the snapshot that was used to look up the entity, and it is always set except for eventually consistent reads. */
@@ -1135,17 +1167,18 @@ export interface EntityResult {
   entity?: Entity;
 }
 
-export const EntityResult: Schema.Schema<EntityResult> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    cursor: Schema.optional(Schema.String),
-    entity: Schema.optional(Entity),
-  }),
-).annotate({
-  identifier: "EntityResult",
-}) as any as Schema.Schema<EntityResult>;
+export const EntityResult: Schema.Schema<EntityResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      cursor: Schema.optional(Schema.String),
+      entity: Schema.optional(Entity),
+    }),
+  ).annotate({
+    identifier: "EntityResult",
+  }) as any as Schema.Schema<EntityResult>;
 
 export interface LookupResponse {
   /** A list of keys that were not looked up due to resource constraints. The order of results in this field is undefined and has no relation to the order of the keys in the input. */
@@ -1160,8 +1193,8 @@ export interface LookupResponse {
   missing?: Array<EntityResult>;
 }
 
-export const LookupResponse: Schema.Schema<LookupResponse> = Schema.suspend(
-  () =>
+export const LookupResponse: Schema.Schema<LookupResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deferred: Schema.optional(Schema.Array(Key)),
       transaction: Schema.optional(Schema.String),
@@ -1169,9 +1202,9 @@ export const LookupResponse: Schema.Schema<LookupResponse> = Schema.suspend(
       readTime: Schema.optional(Schema.String),
       missing: Schema.optional(Schema.Array(EntityResult)),
     }),
-).annotate({
-  identifier: "LookupResponse",
-}) as any as Schema.Schema<LookupResponse>;
+  ).annotate({
+    identifier: "LookupResponse",
+  }) as any as Schema.Schema<LookupResponse>;
 
 export interface GqlQueryParameter {
   /** A value parameter. */
@@ -1181,7 +1214,7 @@ export interface GqlQueryParameter {
 }
 
 export const GqlQueryParameter: Schema.Schema<GqlQueryParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Value),
       cursor: Schema.optional(Schema.String),
@@ -1201,16 +1234,17 @@ export interface GqlQuery {
   queryString?: string;
 }
 
-export const GqlQuery: Schema.Schema<GqlQuery> = Schema.suspend(() =>
-  Schema.Struct({
-    allowLiterals: Schema.optional(Schema.Boolean),
-    positionalBindings: Schema.optional(Schema.Array(GqlQueryParameter)),
-    namedBindings: Schema.optional(
-      Schema.Record(Schema.String, GqlQueryParameter),
-    ),
-    queryString: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GqlQuery" }) as any as Schema.Schema<GqlQuery>;
+export const GqlQuery: Schema.Schema<GqlQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      allowLiterals: Schema.optional(Schema.Boolean),
+      positionalBindings: Schema.optional(Schema.Array(GqlQueryParameter)),
+      namedBindings: Schema.optional(
+        Schema.Record(Schema.String, GqlQueryParameter),
+      ),
+      queryString: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "GqlQuery" }) as any as Schema.Schema<GqlQuery>;
 
 export interface BeginTransactionRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
@@ -1220,7 +1254,7 @@ export interface BeginTransactionRequest {
 }
 
 export const BeginTransactionRequest: Schema.Schema<BeginTransactionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       databaseId: Schema.optional(Schema.String),
       transactionOptions: Schema.optional(TransactionOptions),
@@ -1237,7 +1271,7 @@ export interface GoogleDatastoreAdminV1beta1EntityFilter {
 }
 
 export const GoogleDatastoreAdminV1beta1EntityFilter: Schema.Schema<GoogleDatastoreAdminV1beta1EntityFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namespaceIds: Schema.optional(Schema.Array(Schema.String)),
       kinds: Schema.optional(Schema.Array(Schema.String)),
@@ -1273,7 +1307,7 @@ export interface GoogleDatastoreAdminV1beta1CommonMetadata {
 }
 
 export const GoogleDatastoreAdminV1beta1CommonMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1CommonMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -1299,7 +1333,7 @@ export interface GoogleDatastoreAdminV1beta1ImportEntitiesMetadata {
 }
 
 export const GoogleDatastoreAdminV1beta1ImportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ImportEntitiesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressBytes: Schema.optional(GoogleDatastoreAdminV1beta1Progress),
       entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
@@ -1317,7 +1351,7 @@ export interface AllocateIdsResponse {
 }
 
 export const AllocateIdsResponse: Schema.Schema<AllocateIdsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keys: Schema.optional(Schema.Array(Key)),
     }),
@@ -1331,7 +1365,7 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesResponse {
 }
 
 export const GoogleDatastoreAdminV1beta1ExportEntitiesResponse: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUrl: Schema.optional(Schema.String),
     }),
@@ -1354,14 +1388,17 @@ export interface ReadOptions {
   newTransaction?: TransactionOptions;
 }
 
-export const ReadOptions: Schema.Schema<ReadOptions> = Schema.suspend(() =>
-  Schema.Struct({
-    transaction: Schema.optional(Schema.String),
-    readTime: Schema.optional(Schema.String),
-    readConsistency: Schema.optional(Schema.String),
-    newTransaction: Schema.optional(TransactionOptions),
-  }),
-).annotate({ identifier: "ReadOptions" }) as any as Schema.Schema<ReadOptions>;
+export const ReadOptions: Schema.Schema<ReadOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      transaction: Schema.optional(Schema.String),
+      readTime: Schema.optional(Schema.String),
+      readConsistency: Schema.optional(Schema.String),
+      newTransaction: Schema.optional(TransactionOptions),
+    }),
+  ).annotate({
+    identifier: "ReadOptions",
+  }) as any as Schema.Schema<ReadOptions>;
 
 export interface RunQueryRequest {
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
@@ -1380,8 +1417,8 @@ export interface RunQueryRequest {
   gqlQuery?: GqlQuery;
 }
 
-export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(
-  () =>
+export const RunQueryRequest: Schema.Schema<RunQueryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       explainOptions: Schema.optional(ExplainOptions),
       databaseId: Schema.optional(Schema.String),
@@ -1391,9 +1428,9 @@ export const RunQueryRequest: Schema.Schema<RunQueryRequest> = Schema.suspend(
       readOptions: Schema.optional(ReadOptions),
       gqlQuery: Schema.optional(GqlQuery),
     }),
-).annotate({
-  identifier: "RunQueryRequest",
-}) as any as Schema.Schema<RunQueryRequest>;
+  ).annotate({
+    identifier: "RunQueryRequest",
+  }) as any as Schema.Schema<RunQueryRequest>;
 
 export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
   /** The current state of migration from Cloud Datastore to Cloud Firestore in Datastore mode. */
@@ -1417,7 +1454,7 @@ export interface GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata {
 }
 
 export const GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata: Schema.Schema<GoogleDatastoreAdminV1DatastoreFirestoreMigrationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       migrationState: Schema.optional(Schema.String),
       migrationStep: Schema.optional(Schema.String),
@@ -1435,15 +1472,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface QueryResultBatch {
   /** The number of results skipped, typically because of an offset. */
@@ -1475,8 +1513,8 @@ export interface QueryResultBatch {
   entityResults?: Array<EntityResult>;
 }
 
-export const QueryResultBatch: Schema.Schema<QueryResultBatch> = Schema.suspend(
-  () =>
+export const QueryResultBatch: Schema.Schema<QueryResultBatch> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skippedResults: Schema.optional(Schema.Number),
       skippedCursor: Schema.optional(Schema.String),
@@ -1487,9 +1525,9 @@ export const QueryResultBatch: Schema.Schema<QueryResultBatch> = Schema.suspend(
       entityResultType: Schema.optional(Schema.String),
       entityResults: Schema.optional(Schema.Array(EntityResult)),
     }),
-).annotate({
-  identifier: "QueryResultBatch",
-}) as any as Schema.Schema<QueryResultBatch>;
+  ).annotate({
+    identifier: "QueryResultBatch",
+  }) as any as Schema.Schema<QueryResultBatch>;
 
 export interface GoogleDatastoreAdminV1ImportEntitiesRequest {
   /** Client-assigned labels. */
@@ -1501,7 +1539,7 @@ export interface GoogleDatastoreAdminV1ImportEntitiesRequest {
 }
 
 export const GoogleDatastoreAdminV1ImportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1ImportEntitiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       inputUrl: Schema.optional(Schema.String),
@@ -1522,17 +1560,17 @@ export interface RunQueryResponse {
   explainMetrics?: ExplainMetrics;
 }
 
-export const RunQueryResponse: Schema.Schema<RunQueryResponse> = Schema.suspend(
-  () =>
+export const RunQueryResponse: Schema.Schema<RunQueryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batch: Schema.optional(QueryResultBatch),
       transaction: Schema.optional(Schema.String),
       query: Schema.optional(Query),
       explainMetrics: Schema.optional(ExplainMetrics),
     }),
-).annotate({
-  identifier: "RunQueryResponse",
-}) as any as Schema.Schema<RunQueryResponse>;
+  ).annotate({
+    identifier: "RunQueryResponse",
+  }) as any as Schema.Schema<RunQueryResponse>;
 
 export interface RunAggregationQueryRequest {
   /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
@@ -1550,7 +1588,7 @@ export interface RunAggregationQueryRequest {
 }
 
 export const RunAggregationQueryRequest: Schema.Schema<RunAggregationQueryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionId: Schema.optional(PartitionId),
       readOptions: Schema.optional(ReadOptions),
@@ -1573,7 +1611,7 @@ export interface GoogleDatastoreAdminV1IndexOperationMetadata {
 }
 
 export const GoogleDatastoreAdminV1IndexOperationMetadata: Schema.Schema<GoogleDatastoreAdminV1IndexOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       common: Schema.optional(GoogleDatastoreAdminV1CommonMetadata),
       progressEntities: Schema.optional(GoogleDatastoreAdminV1Progress),
@@ -1593,7 +1631,7 @@ export interface GoogleDatastoreAdminV1ExportEntitiesRequest {
 }
 
 export const GoogleDatastoreAdminV1ExportEntitiesRequest: Schema.Schema<GoogleDatastoreAdminV1ExportEntitiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       entityFilter: Schema.optional(GoogleDatastoreAdminV1EntityFilter),
@@ -1617,7 +1655,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -1643,7 +1681,7 @@ export interface GoogleDatastoreAdminV1beta1ExportEntitiesMetadata {
 }
 
 export const GoogleDatastoreAdminV1beta1ExportEntitiesMetadata: Schema.Schema<GoogleDatastoreAdminV1beta1ExportEntitiesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityFilter: Schema.optional(GoogleDatastoreAdminV1beta1EntityFilter),
       outputUrlPrefix: Schema.optional(Schema.String),
@@ -1662,15 +1700,15 @@ export interface RollbackRequest {
   transaction?: string;
 }
 
-export const RollbackRequest: Schema.Schema<RollbackRequest> = Schema.suspend(
-  () =>
+export const RollbackRequest: Schema.Schema<RollbackRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       databaseId: Schema.optional(Schema.String),
       transaction: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RollbackRequest",
-}) as any as Schema.Schema<RollbackRequest>;
+  ).annotate({
+    identifier: "RollbackRequest",
+  }) as any as Schema.Schema<RollbackRequest>;
 
 export interface LookupRequest {
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
@@ -1683,21 +1721,22 @@ export interface LookupRequest {
   propertyMask?: PropertyMask;
 }
 
-export const LookupRequest: Schema.Schema<LookupRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    databaseId: Schema.optional(Schema.String),
-    readOptions: Schema.optional(ReadOptions),
-    keys: Schema.optional(Schema.Array(Key)),
-    propertyMask: Schema.optional(PropertyMask),
-  }),
-).annotate({
-  identifier: "LookupRequest",
-}) as any as Schema.Schema<LookupRequest>;
+export const LookupRequest: Schema.Schema<LookupRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      databaseId: Schema.optional(Schema.String),
+      readOptions: Schema.optional(ReadOptions),
+      keys: Schema.optional(Schema.Array(Key)),
+      propertyMask: Schema.optional(PropertyMask),
+    }),
+  ).annotate({
+    identifier: "LookupRequest",
+  }) as any as Schema.Schema<LookupRequest>;
 
 export interface ReserveIdsResponse {}
 
 export const ReserveIdsResponse: Schema.Schema<ReserveIdsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ReserveIdsResponse",
   }) as any as Schema.Schema<ReserveIdsResponse>;
 
@@ -1711,7 +1750,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1729,7 +1768,7 @@ export interface AllocateIdsRequest {
 }
 
 export const AllocateIdsRequest: Schema.Schema<AllocateIdsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       databaseId: Schema.optional(Schema.String),
       keys: Schema.optional(Schema.Array(Key)),
@@ -1749,7 +1788,7 @@ export interface ExportProjectsRequest {
   body?: GoogleDatastoreAdminV1ExportEntitiesRequest;
 }
 
-export const ExportProjectsRequest = Schema.Struct({
+export const ExportProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(GoogleDatastoreAdminV1ExportEntitiesRequest).pipe(
     T.HttpBody(),
@@ -1764,7 +1803,8 @@ export const ExportProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ExportProjectsRequest>;
 
 export type ExportProjectsResponse = GoogleLongrunningOperation;
-export const ExportProjectsResponse = GoogleLongrunningOperation;
+export const ExportProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsError = DefaultErrors;
 
@@ -1774,7 +1814,7 @@ export const exportProjects: API.OperationMethod<
   ExportProjectsResponse,
   ExportProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsRequest,
   output: ExportProjectsResponse,
   errors: [],
@@ -1787,7 +1827,7 @@ export interface CommitProjectsRequest {
   body?: CommitRequest;
 }
 
-export const CommitProjectsRequest = Schema.Struct({
+export const CommitProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(CommitRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -1800,7 +1840,8 @@ export const CommitProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CommitProjectsRequest>;
 
 export type CommitProjectsResponse = CommitResponse;
-export const CommitProjectsResponse = CommitResponse;
+export const CommitProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CommitResponse;
 
 export type CommitProjectsError = DefaultErrors;
 
@@ -1810,7 +1851,7 @@ export const commitProjects: API.OperationMethod<
   CommitProjectsResponse,
   CommitProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CommitProjectsRequest,
   output: CommitProjectsResponse,
   errors: [],
@@ -1823,20 +1864,22 @@ export interface RunQueryProjectsRequest {
   body?: RunQueryRequest;
 }
 
-export const RunQueryProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(RunQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:runQuery",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunQueryProjectsRequest>;
+export const RunQueryProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(RunQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:runQuery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunQueryProjectsRequest>;
 
 export type RunQueryProjectsResponse = RunQueryResponse;
-export const RunQueryProjectsResponse = RunQueryResponse;
+export const RunQueryProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunQueryResponse;
 
 export type RunQueryProjectsError = DefaultErrors;
 
@@ -1846,7 +1889,7 @@ export const runQueryProjects: API.OperationMethod<
   RunQueryProjectsResponse,
   RunQueryProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunQueryProjectsRequest,
   output: RunQueryProjectsResponse,
   errors: [],
@@ -1859,20 +1902,22 @@ export interface AllocateIdsProjectsRequest {
   body?: AllocateIdsRequest;
 }
 
-export const AllocateIdsProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(AllocateIdsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:allocateIds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AllocateIdsProjectsRequest>;
+export const AllocateIdsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(AllocateIdsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:allocateIds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AllocateIdsProjectsRequest>;
 
 export type AllocateIdsProjectsResponse = AllocateIdsResponse;
-export const AllocateIdsProjectsResponse = AllocateIdsResponse;
+export const AllocateIdsProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AllocateIdsResponse;
 
 export type AllocateIdsProjectsError = DefaultErrors;
 
@@ -1882,7 +1927,7 @@ export const allocateIdsProjects: API.OperationMethod<
   AllocateIdsProjectsResponse,
   AllocateIdsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AllocateIdsProjectsRequest,
   output: AllocateIdsProjectsResponse,
   errors: [],
@@ -1895,20 +1940,22 @@ export interface BeginTransactionProjectsRequest {
   body?: BeginTransactionRequest;
 }
 
-export const BeginTransactionProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:beginTransaction",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BeginTransactionProjectsRequest>;
+export const BeginTransactionProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(BeginTransactionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:beginTransaction",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BeginTransactionProjectsRequest>;
 
 export type BeginTransactionProjectsResponse = BeginTransactionResponse;
-export const BeginTransactionProjectsResponse = BeginTransactionResponse;
+export const BeginTransactionProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BeginTransactionResponse;
 
 export type BeginTransactionProjectsError = DefaultErrors;
 
@@ -1918,7 +1965,7 @@ export const beginTransactionProjects: API.OperationMethod<
   BeginTransactionProjectsResponse,
   BeginTransactionProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BeginTransactionProjectsRequest,
   output: BeginTransactionProjectsResponse,
   errors: [],
@@ -1931,20 +1978,22 @@ export interface ReserveIdsProjectsRequest {
   body?: ReserveIdsRequest;
 }
 
-export const ReserveIdsProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(ReserveIdsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:reserveIds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReserveIdsProjectsRequest>;
+export const ReserveIdsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(ReserveIdsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:reserveIds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReserveIdsProjectsRequest>;
 
 export type ReserveIdsProjectsResponse = ReserveIdsResponse;
-export const ReserveIdsProjectsResponse = ReserveIdsResponse;
+export const ReserveIdsProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReserveIdsResponse;
 
 export type ReserveIdsProjectsError = DefaultErrors;
 
@@ -1954,7 +2003,7 @@ export const reserveIdsProjects: API.OperationMethod<
   ReserveIdsProjectsResponse,
   ReserveIdsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReserveIdsProjectsRequest,
   output: ReserveIdsProjectsResponse,
   errors: [],
@@ -1967,7 +2016,7 @@ export interface ImportProjectsRequest {
   body?: GoogleDatastoreAdminV1ImportEntitiesRequest;
 }
 
-export const ImportProjectsRequest = Schema.Struct({
+export const ImportProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(GoogleDatastoreAdminV1ImportEntitiesRequest).pipe(
     T.HttpBody(),
@@ -1982,7 +2031,8 @@ export const ImportProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ImportProjectsRequest>;
 
 export type ImportProjectsResponse = GoogleLongrunningOperation;
-export const ImportProjectsResponse = GoogleLongrunningOperation;
+export const ImportProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsError = DefaultErrors;
 
@@ -1992,7 +2042,7 @@ export const importProjects: API.OperationMethod<
   ImportProjectsResponse,
   ImportProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsRequest,
   output: ImportProjectsResponse,
   errors: [],
@@ -2005,20 +2055,22 @@ export interface RunAggregationQueryProjectsRequest {
   body?: RunAggregationQueryRequest;
 }
 
-export const RunAggregationQueryProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(RunAggregationQueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:runAggregationQuery",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunAggregationQueryProjectsRequest>;
+export const RunAggregationQueryProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(RunAggregationQueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:runAggregationQuery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunAggregationQueryProjectsRequest>;
 
 export type RunAggregationQueryProjectsResponse = RunAggregationQueryResponse;
-export const RunAggregationQueryProjectsResponse = RunAggregationQueryResponse;
+export const RunAggregationQueryProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunAggregationQueryResponse;
 
 export type RunAggregationQueryProjectsError = DefaultErrors;
 
@@ -2028,7 +2080,7 @@ export const runAggregationQueryProjects: API.OperationMethod<
   RunAggregationQueryProjectsResponse,
   RunAggregationQueryProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunAggregationQueryProjectsRequest,
   output: RunAggregationQueryProjectsResponse,
   errors: [],
@@ -2041,20 +2093,22 @@ export interface RollbackProjectsRequest {
   body?: RollbackRequest;
 }
 
-export const RollbackProjectsRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}:rollback",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RollbackProjectsRequest>;
+export const RollbackProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(RollbackRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}:rollback",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RollbackProjectsRequest>;
 
 export type RollbackProjectsResponse = RollbackResponse;
-export const RollbackProjectsResponse = RollbackResponse;
+export const RollbackProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RollbackResponse;
 
 export type RollbackProjectsError = DefaultErrors;
 
@@ -2064,7 +2118,7 @@ export const rollbackProjects: API.OperationMethod<
   RollbackProjectsResponse,
   RollbackProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RollbackProjectsRequest,
   output: RollbackProjectsResponse,
   errors: [],
@@ -2077,7 +2131,7 @@ export interface LookupProjectsRequest {
   body?: LookupRequest;
 }
 
-export const LookupProjectsRequest = Schema.Struct({
+export const LookupProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(LookupRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -2090,7 +2144,8 @@ export const LookupProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<LookupProjectsRequest>;
 
 export type LookupProjectsResponse = LookupResponse;
-export const LookupProjectsResponse = LookupResponse;
+export const LookupProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LookupResponse;
 
 export type LookupProjectsError = DefaultErrors;
 
@@ -2100,7 +2155,7 @@ export const lookupProjects: API.OperationMethod<
   LookupProjectsResponse,
   LookupProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupProjectsRequest,
   output: LookupProjectsResponse,
   errors: [],
@@ -2111,18 +2166,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -2132,7 +2189,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -2143,19 +2200,21 @@ export interface CancelProjectsOperationsRequest {
   name: string;
 }
 
-export const CancelProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
+export const CancelProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
 
 export type CancelProjectsOperationsResponse = Empty;
-export const CancelProjectsOperationsResponse = Empty;
+export const CancelProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelProjectsOperationsError = DefaultErrors;
 
@@ -2165,7 +2224,7 @@ export const cancelProjectsOperations: API.OperationMethod<
   CancelProjectsOperationsResponse,
   CancelProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
@@ -2184,23 +2243,24 @@ export interface ListProjectsOperationsRequest {
   filter?: string;
 }
 
-export const ListProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
+export const ListProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/operations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
 export type ListProjectsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsOperationsError = DefaultErrors;
 
@@ -2210,7 +2270,7 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   ListProjectsOperationsResponse,
   ListProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -2225,18 +2285,20 @@ export interface DeleteProjectsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
+export const DeleteProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
 
 export type DeleteProjectsOperationsResponse = Empty;
-export const DeleteProjectsOperationsResponse = Empty;
+export const DeleteProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsOperationsError = DefaultErrors;
 
@@ -2246,7 +2308,7 @@ export const deleteProjectsOperations: API.OperationMethod<
   DeleteProjectsOperationsResponse,
   DeleteProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
@@ -2259,16 +2321,21 @@ export interface GetProjectsIndexesRequest {
   indexId: string;
 }
 
-export const GetProjectsIndexesRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  indexId: Schema.String.pipe(T.HttpPath("indexId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectId}/indexes/{indexId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsIndexesRequest>;
+export const GetProjectsIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    indexId: Schema.String.pipe(T.HttpPath("indexId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectId}/indexes/{indexId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsIndexesRequest>;
 
 export type GetProjectsIndexesResponse = GoogleDatastoreAdminV1Index;
-export const GetProjectsIndexesResponse = GoogleDatastoreAdminV1Index;
+export const GetProjectsIndexesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleDatastoreAdminV1Index;
 
 export type GetProjectsIndexesError = DefaultErrors;
 
@@ -2278,7 +2345,7 @@ export const getProjectsIndexes: API.OperationMethod<
   GetProjectsIndexesResponse,
   GetProjectsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsIndexesRequest,
   output: GetProjectsIndexesResponse,
   errors: [],
@@ -2291,20 +2358,22 @@ export interface CreateProjectsIndexesRequest {
   body?: GoogleDatastoreAdminV1Index;
 }
 
-export const CreateProjectsIndexesRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  body: Schema.optional(GoogleDatastoreAdminV1Index).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectId}/indexes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsIndexesRequest>;
+export const CreateProjectsIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    body: Schema.optional(GoogleDatastoreAdminV1Index).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectId}/indexes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsIndexesRequest>;
 
 export type CreateProjectsIndexesResponse = GoogleLongrunningOperation;
-export const CreateProjectsIndexesResponse = GoogleLongrunningOperation;
+export const CreateProjectsIndexesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsIndexesError = DefaultErrors;
 
@@ -2314,7 +2383,7 @@ export const createProjectsIndexes: API.OperationMethod<
   CreateProjectsIndexesResponse,
   CreateProjectsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsIndexesRequest,
   output: CreateProjectsIndexesResponse,
   errors: [],
@@ -2327,19 +2396,21 @@ export interface DeleteProjectsIndexesRequest {
   indexId: string;
 }
 
-export const DeleteProjectsIndexesRequest = Schema.Struct({
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  indexId: Schema.String.pipe(T.HttpPath("indexId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectId}/indexes/{indexId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsIndexesRequest>;
+export const DeleteProjectsIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    indexId: Schema.String.pipe(T.HttpPath("indexId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectId}/indexes/{indexId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsIndexesRequest>;
 
 export type DeleteProjectsIndexesResponse = GoogleLongrunningOperation;
-export const DeleteProjectsIndexesResponse = GoogleLongrunningOperation;
+export const DeleteProjectsIndexesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsIndexesError = DefaultErrors;
 
@@ -2349,7 +2420,7 @@ export const deleteProjectsIndexes: API.OperationMethod<
   DeleteProjectsIndexesResponse,
   DeleteProjectsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsIndexesRequest,
   output: DeleteProjectsIndexesResponse,
   errors: [],
@@ -2365,20 +2436,21 @@ export interface ListProjectsIndexesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsIndexesRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  projectId: Schema.String.pipe(T.HttpPath("projectId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectId}/indexes" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsIndexesRequest>;
+export const ListProjectsIndexesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectId}/indexes" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsIndexesRequest>;
 
 export type ListProjectsIndexesResponse =
   GoogleDatastoreAdminV1ListIndexesResponse;
 export const ListProjectsIndexesResponse =
-  GoogleDatastoreAdminV1ListIndexesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleDatastoreAdminV1ListIndexesResponse;
 
 export type ListProjectsIndexesError = DefaultErrors;
 
@@ -2388,7 +2460,7 @@ export const listProjectsIndexes: API.PaginatedOperationMethod<
   ListProjectsIndexesResponse,
   ListProjectsIndexesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsIndexesRequest,
   output: ListProjectsIndexesResponse,
   errors: [],

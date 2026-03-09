@@ -39,7 +39,7 @@ export interface ListAuditLogsRequest {
   zone?: { name?: string };
 }
 
-export const ListAuditLogsRequest = Schema.Struct({
+export const ListAuditLogsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
   action: Schema.optional(
@@ -74,7 +74,7 @@ export const ListAuditLogsRequest = Schema.Struct({
 export type ListAuditLogsResponse = unknown;
 
 export const ListAuditLogsResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
 export type ListAuditLogsError = DefaultErrors;
 
@@ -83,7 +83,7 @@ export const listAuditLogs: API.OperationMethod<
   ListAuditLogsResponse,
   ListAuditLogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAuditLogsRequest,
   output: ListAuditLogsResponse,
   errors: [],

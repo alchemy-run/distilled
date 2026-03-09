@@ -35,17 +35,18 @@ export interface ResourceInfo {
   name?: string;
 }
 
-export const ResourceInfo: Schema.Schema<ResourceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    location: Schema.optional(Schema.String),
-    permission: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    container: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ResourceInfo",
-}) as any as Schema.Schema<ResourceInfo>;
+export const ResourceInfo: Schema.Schema<ResourceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+      permission: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      container: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ResourceInfo",
+  }) as any as Schema.Schema<ResourceInfo>;
 
 export interface ServiceMetadata {
   /** A string representing the principal_subject associated with the identity. For most identities, the format will be `principal://iam.googleapis.com/{identity pool name}/subject/{subject)` except for some GKE identities (GKE_WORKLOAD, FREEFORM, GKE_HUB_WORKLOAD) that are still in the legacy format `serviceAccount:{identity pool name}[{subject}]` If the identity is a Google account (e.g. workspace user account or service account), this will be the email of the prefixed by `serviceAccount:`. For example: `serviceAccount:my-service-account@project-1.iam.gserviceaccount.com`. If the identity is an individual user, the identity will be formatted as: `user:user_ABC@email.com`. */
@@ -56,8 +57,8 @@ export interface ServiceMetadata {
   serviceDomain?: string;
 }
 
-export const ServiceMetadata: Schema.Schema<ServiceMetadata> = Schema.suspend(
-  () =>
+export const ServiceMetadata: Schema.Schema<ServiceMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       principalSubject: Schema.optional(Schema.String),
       jobMetadata: Schema.optional(
@@ -65,9 +66,9 @@ export const ServiceMetadata: Schema.Schema<ServiceMetadata> = Schema.suspend(
       ),
       serviceDomain: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ServiceMetadata",
-}) as any as Schema.Schema<ServiceMetadata>;
+  ).annotate({
+    identifier: "ServiceMetadata",
+  }) as any as Schema.Schema<ServiceMetadata>;
 
 export interface ServiceDelegationHistory {
   /** Data identifying the service specific jobs or units of work that were involved in a chain of service calls. */
@@ -77,7 +78,7 @@ export interface ServiceDelegationHistory {
 }
 
 export const ServiceDelegationHistory: Schema.Schema<ServiceDelegationHistory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceMetadata: Schema.optional(Schema.Array(ServiceMetadata)),
       originalPrincipal: Schema.optional(Schema.String),
@@ -99,15 +100,16 @@ export interface Peer {
   port?: string;
 }
 
-export const Peer: Schema.Schema<Peer> = Schema.suspend(() =>
-  Schema.Struct({
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    principal: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    ip: Schema.optional(Schema.String),
-    port: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Peer" }) as any as Schema.Schema<Peer>;
+export const Peer: Schema.Schema<Peer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      principal: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      ip: Schema.optional(Schema.String),
+      port: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Peer" }) as any as Schema.Schema<Peer>;
 
 export interface Response {
   /** The HTTP response headers. If multiple headers share the same key, they must be merged according to HTTP spec. All header keys must be lowercased, because HTTP header keys are case-insensitive. */
@@ -122,26 +124,28 @@ export interface Response {
   backendLatency?: string;
 }
 
-export const Response: Schema.Schema<Response> = Schema.suspend(() =>
-  Schema.Struct({
-    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    time: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.String),
-    backendLatency: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
+export const Response: Schema.Schema<Response> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      time: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      backendLatency: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Response" }) as any as Schema.Schema<Response>;
 
 export interface Oauth {
   /** The optional OAuth client ID. This is the unique public identifier issued by an authorization server to a registered client application. Empty string is equivalent to no oauth client id. WARNING: This is for MCP tools/call and tools/list authorization and not for general use. */
   clientId?: string;
 }
 
-export const Oauth: Schema.Schema<Oauth> = Schema.suspend(() =>
-  Schema.Struct({
-    clientId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Oauth" }) as any as Schema.Schema<Oauth>;
+export const Oauth: Schema.Schema<Oauth> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Oauth" }) as any as Schema.Schema<Oauth>;
 
 export interface Auth {
   /** Structured claims presented with the credential. JWTs include `{key: value}` pairs for standard and private claims. The following is a subset of the standard required and optional claims that would typically be presented for a Google-based JWT: {'iss': 'accounts.google.com', 'sub': '113289723416554971153', 'aud': ['123456789012', 'pubsub.googleapis.com'], 'azp': '123456789012.apps.googleusercontent.com', 'email': 'jsmith@example.com', 'iat': 1353601026, 'exp': 1353604926} SAML assertions are similarly specified, but with an identity provider dependent structure. */
@@ -158,16 +162,17 @@ export interface Auth {
   audiences?: Array<string>;
 }
 
-export const Auth: Schema.Schema<Auth> = Schema.suspend(() =>
-  Schema.Struct({
-    claims: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    oauth: Schema.optional(Oauth),
-    presenter: Schema.optional(Schema.String),
-    principal: Schema.optional(Schema.String),
-    accessLevels: Schema.optional(Schema.Array(Schema.String)),
-    audiences: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Auth" }) as any as Schema.Schema<Auth>;
+export const Auth: Schema.Schema<Auth> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      claims: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      oauth: Schema.optional(Oauth),
+      presenter: Schema.optional(Schema.String),
+      principal: Schema.optional(Schema.String),
+      accessLevels: Schema.optional(Schema.Array(Schema.String)),
+      audiences: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Auth" }) as any as Schema.Schema<Auth>;
 
 export interface Request {
   /** The values from Origin header from the HTTP request, such as "https://console.cloud.google.com". Modern browsers can only have one origin. Special browsers and/or HTTP clients may require multiple origins. */
@@ -198,23 +203,24 @@ export interface Request {
   query?: string;
 }
 
-export const Request: Schema.Schema<Request> = Schema.suspend(() =>
-  Schema.Struct({
-    origin: Schema.optional(Schema.String),
-    host: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    method: Schema.optional(Schema.String),
-    auth: Schema.optional(Auth),
-    reason: Schema.optional(Schema.String),
-    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    id: Schema.optional(Schema.String),
-    time: Schema.optional(Schema.String),
-    protocol: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.String),
-    scheme: Schema.optional(Schema.String),
-    query: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
+export const Request: Schema.Schema<Request> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      origin: Schema.optional(Schema.String),
+      host: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
+      auth: Schema.optional(Auth),
+      reason: Schema.optional(Schema.String),
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      id: Schema.optional(Schema.String),
+      time: Schema.optional(Schema.String),
+      protocol: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      scheme: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Request" }) as any as Schema.Schema<Request>;
 
 export interface Resource {
   /** Immutable. The location of the resource. The location encoding is specific to the service provider, and new encoding may be introduced as the service evolves. For Google Cloud products, the encoding is what is used by Google Cloud APIs, such as `us-east1`, `aws-us-east-1`, and `azure-eastus2`. The semantics of `location` is identical to the `cloud.googleapis.com/location` label used by some Google Cloud APIs. */
@@ -243,22 +249,23 @@ export interface Resource {
   etag?: string;
 }
 
-export const Resource: Schema.Schema<Resource> = Schema.suspend(() =>
-  Schema.Struct({
-    location: Schema.optional(Schema.String),
-    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    createTime: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    displayName: Schema.optional(Schema.String),
-    service: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+export const Resource: Schema.Schema<Resource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
 
 export interface Api {
   /** The API protocol used for sending the request, such as "http", "https", "grpc", or "internal". */
@@ -271,14 +278,15 @@ export interface Api {
   service?: string;
 }
 
-export const Api: Schema.Schema<Api> = Schema.suspend(() =>
-  Schema.Struct({
-    protocol: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    operation: Schema.optional(Schema.String),
-    service: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Api" }) as any as Schema.Schema<Api>;
+export const Api: Schema.Schema<Api> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      protocol: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      operation: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Api" }) as any as Schema.Schema<Api>;
 
 export interface AttributeContext {
   /** The source of a network activity, such as starting a TCP connection. In a multi hop network activity, the source represents the sender of the last hop. */
@@ -299,8 +307,8 @@ export interface AttributeContext {
   api?: Api;
 }
 
-export const AttributeContext: Schema.Schema<AttributeContext> = Schema.suspend(
-  () =>
+export const AttributeContext: Schema.Schema<AttributeContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Peer),
       origin: Schema.optional(Peer),
@@ -313,9 +321,9 @@ export const AttributeContext: Schema.Schema<AttributeContext> = Schema.suspend(
       resource: Schema.optional(Resource),
       api: Schema.optional(Api),
     }),
-).annotate({
-  identifier: "AttributeContext",
-}) as any as Schema.Schema<AttributeContext>;
+  ).annotate({
+    identifier: "AttributeContext",
+  }) as any as Schema.Schema<AttributeContext>;
 
 export interface ReportRequest {
   /** Describes the list of operations to be reported. Each operation is represented as an AttributeContext, and contains all attributes around an API access. */
@@ -324,14 +332,15 @@ export interface ReportRequest {
   serviceConfigId?: string;
 }
 
-export const ReportRequest: Schema.Schema<ReportRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    operations: Schema.optional(Schema.Array(AttributeContext)),
-    serviceConfigId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportRequest",
-}) as any as Schema.Schema<ReportRequest>;
+export const ReportRequest: Schema.Schema<ReportRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(AttributeContext)),
+      serviceConfigId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportRequest",
+  }) as any as Schema.Schema<ReportRequest>;
 
 export interface ViolationInfo {
   /** Optional. Indicates the type of the policy. */
@@ -351,19 +360,20 @@ export interface ViolationInfo {
   checkedValue?: string;
 }
 
-export const ViolationInfo: Schema.Schema<ViolationInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    policyType: Schema.optional(Schema.String),
-    constraint: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-    constraintViolationInfo: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    checkedValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ViolationInfo",
-}) as any as Schema.Schema<ViolationInfo>;
+export const ViolationInfo: Schema.Schema<ViolationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      policyType: Schema.optional(Schema.String),
+      constraint: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      constraintViolationInfo: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      checkedValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ViolationInfo",
+  }) as any as Schema.Schema<ViolationInfo>;
 
 export interface OrgPolicyViolationInfo {
   /** Optional. Policy violations */
@@ -377,7 +387,7 @@ export interface OrgPolicyViolationInfo {
 }
 
 export const OrgPolicyViolationInfo: Schema.Schema<OrgPolicyViolationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       violationInfo: Schema.optional(Schema.Array(ViolationInfo)),
       resourceTags: Schema.optional(
@@ -396,7 +406,7 @@ export interface PolicyViolationInfo {
 }
 
 export const PolicyViolationInfo: Schema.Schema<PolicyViolationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       orgPolicyViolationInfo: Schema.optional(OrgPolicyViolationInfo),
     }),
@@ -413,15 +423,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface CheckResponse {
   /** Operation is allowed when this field is not set. Any non-'OK' status indicates a denial; google.rpc.Status.details would contain additional details about the denial. */
@@ -432,17 +443,18 @@ export interface CheckResponse {
   headers?: Record<string, string>;
 }
 
-export const CheckResponse: Schema.Schema<CheckResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    status: Schema.optional(Status),
-    dynamicMetadata: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({
-  identifier: "CheckResponse",
-}) as any as Schema.Schema<CheckResponse>;
+export const CheckResponse: Schema.Schema<CheckResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Status),
+      dynamicMetadata: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      headers: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CheckResponse",
+  }) as any as Schema.Schema<CheckResponse>;
 
 export interface FirstPartyPrincipal {
   /** The email address of a Google account. . */
@@ -452,7 +464,7 @@ export interface FirstPartyPrincipal {
 }
 
 export const FirstPartyPrincipal: Schema.Schema<FirstPartyPrincipal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       principalEmail: Schema.optional(Schema.String),
       serviceMetadata: Schema.optional(
@@ -469,7 +481,7 @@ export interface ThirdPartyPrincipal {
 }
 
 export const ThirdPartyPrincipal: Schema.Schema<ThirdPartyPrincipal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyClaims: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -489,7 +501,7 @@ export interface ServiceAccountDelegationInfo {
 }
 
 export const ServiceAccountDelegationInfo: Schema.Schema<ServiceAccountDelegationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyPrincipal: Schema.optional(FirstPartyPrincipal),
       thirdPartyPrincipal: Schema.optional(ThirdPartyPrincipal),
@@ -504,11 +516,12 @@ export interface OAuthInfo {
   oauthClientId?: string;
 }
 
-export const OAuthInfo: Schema.Schema<OAuthInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    oauthClientId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "OAuthInfo" }) as any as Schema.Schema<OAuthInfo>;
+export const OAuthInfo: Schema.Schema<OAuthInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oauthClientId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "OAuthInfo" }) as any as Schema.Schema<OAuthInfo>;
 
 export interface AuthenticationInfo {
   /** Identity delegation history of an authenticated service account that makes the request. It contains information on the real authorities that try to access GCP resources by delegating on a service account. When multiple authorities present, they are guaranteed to be sorted based on the original ordering of the identity delegation events. */
@@ -532,7 +545,7 @@ export interface AuthenticationInfo {
 }
 
 export const AuthenticationInfo: Schema.Schema<AuthenticationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccountDelegationInfo: Schema.optional(
         Schema.Array(ServiceAccountDelegationInfo),
@@ -559,14 +572,14 @@ export interface ReportResponse {
   extensions?: Record<string, unknown>;
 }
 
-export const ReportResponse: Schema.Schema<ReportResponse> = Schema.suspend(
-  () =>
+export const ReportResponse: Schema.Schema<ReportResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       extensions: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     }),
-).annotate({
-  identifier: "ReportResponse",
-}) as any as Schema.Schema<ReportResponse>;
+  ).annotate({
+    identifier: "ReportResponse",
+  }) as any as Schema.Schema<ReportResponse>;
 
 export interface V2ResourceEvent {
   /** The resource associated with the event. */
@@ -591,8 +604,8 @@ export interface V2ResourceEvent {
     | (string & {});
 }
 
-export const V2ResourceEvent: Schema.Schema<V2ResourceEvent> = Schema.suspend(
-  () =>
+export const V2ResourceEvent: Schema.Schema<V2ResourceEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(Resource),
       parent: Schema.optional(Resource),
@@ -602,9 +615,9 @@ export const V2ResourceEvent: Schema.Schema<V2ResourceEvent> = Schema.suspend(
       contextId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "V2ResourceEvent",
-}) as any as Schema.Schema<V2ResourceEvent>;
+  ).annotate({
+    identifier: "V2ResourceEvent",
+  }) as any as Schema.Schema<V2ResourceEvent>;
 
 export interface AuthorizationInfo {
   /** Resource attributes used in IAM condition evaluation. This field contains resource attributes like resource type and resource name. To get the whole view of the attributes used in IAM condition evaluation, the user must also look into `AuditLog.request_metadata.request_attributes`. */
@@ -626,7 +639,7 @@ export interface AuthorizationInfo {
 }
 
 export const AuthorizationInfo: Schema.Schema<AuthorizationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceAttributes: Schema.optional(Resource),
       permission: Schema.optional(Schema.String),
@@ -649,27 +662,31 @@ export interface CheckRequest {
   serviceConfigId?: string;
 }
 
-export const CheckRequest: Schema.Schema<CheckRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    resources: Schema.optional(Schema.Array(ResourceInfo)),
-    flags: Schema.optional(Schema.String),
-    attributes: Schema.optional(AttributeContext),
-    serviceConfigId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CheckRequest",
-}) as any as Schema.Schema<CheckRequest>;
+export const CheckRequest: Schema.Schema<CheckRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(ResourceInfo)),
+      flags: Schema.optional(Schema.String),
+      attributes: Schema.optional(AttributeContext),
+      serviceConfigId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CheckRequest",
+  }) as any as Schema.Schema<CheckRequest>;
 
 export interface SpanContext {
   /** The resource name of the span. The format is: projects/[PROJECT_ID_OR_NUMBER]/traces/[TRACE_ID]/spans/[SPAN_ID] `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. */
   spanName?: string;
 }
 
-export const SpanContext: Schema.Schema<SpanContext> = Schema.suspend(() =>
-  Schema.Struct({
-    spanName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SpanContext" }) as any as Schema.Schema<SpanContext>;
+export const SpanContext: Schema.Schema<SpanContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      spanName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpanContext",
+  }) as any as Schema.Schema<SpanContext>;
 
 export interface V2LogEntrySourceLocation {
   /** Optional. Line within the source file. 1-based; 0 indicates no line number available. */
@@ -681,7 +698,7 @@ export interface V2LogEntrySourceLocation {
 }
 
 export const V2LogEntrySourceLocation: Schema.Schema<V2LogEntrySourceLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       line: Schema.optional(Schema.String),
       function: Schema.optional(Schema.String),
@@ -698,15 +715,15 @@ export interface ResourceLocation {
   currentLocations?: Array<string>;
 }
 
-export const ResourceLocation: Schema.Schema<ResourceLocation> = Schema.suspend(
-  () =>
+export const ResourceLocation: Schema.Schema<ResourceLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originalLocations: Schema.optional(Schema.Array(Schema.String)),
       currentLocations: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "ResourceLocation",
-}) as any as Schema.Schema<ResourceLocation>;
+  ).annotate({
+    identifier: "ResourceLocation",
+  }) as any as Schema.Schema<ResourceLocation>;
 
 export interface RequestMetadata {
   /** The network of the caller. Set only if the network host project is part of the same GCP organization (or project) as the accessed resource. See https://cloud.google.com/compute/docs/vpc/ for more information. This is a scheme-less URI full resource name. For example: "//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID" */
@@ -721,8 +738,8 @@ export interface RequestMetadata {
   callerSuppliedUserAgent?: string;
 }
 
-export const RequestMetadata: Schema.Schema<RequestMetadata> = Schema.suspend(
-  () =>
+export const RequestMetadata: Schema.Schema<RequestMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callerNetwork: Schema.optional(Schema.String),
       destinationAttributes: Schema.optional(Peer),
@@ -730,9 +747,9 @@ export const RequestMetadata: Schema.Schema<RequestMetadata> = Schema.suspend(
       callerIp: Schema.optional(Schema.String),
       callerSuppliedUserAgent: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RequestMetadata",
-}) as any as Schema.Schema<RequestMetadata>;
+  ).annotate({
+    identifier: "RequestMetadata",
+  }) as any as Schema.Schema<RequestMetadata>;
 
 export interface AuditLog {
   /** The operation request. This may not include all request parameters, such as those that are too large, privacy-sensitive, or duplicated elsewhere in the log record. It should never include user-generated data, such as file contents. When the JSON object represented here has a proto equivalent, the proto name will be indicated in the `@type` property. */
@@ -767,27 +784,30 @@ export interface AuditLog {
   requestMetadata?: RequestMetadata;
 }
 
-export const AuditLog: Schema.Schema<AuditLog> = Schema.suspend(() =>
-  Schema.Struct({
-    request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    methodName: Schema.optional(Schema.String),
-    serviceName: Schema.optional(Schema.String),
-    serviceData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    resourceLocation: Schema.optional(ResourceLocation),
-    numResponseItems: Schema.optional(Schema.String),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    authorizationInfo: Schema.optional(Schema.Array(AuthorizationInfo)),
-    authenticationInfo: Schema.optional(AuthenticationInfo),
-    policyViolationInfo: Schema.optional(PolicyViolationInfo),
-    resourceOriginalState: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    status: Schema.optional(Status),
-    resourceName: Schema.optional(Schema.String),
-    requestMetadata: Schema.optional(RequestMetadata),
-  }),
-).annotate({ identifier: "AuditLog" }) as any as Schema.Schema<AuditLog>;
+export const AuditLog: Schema.Schema<AuditLog> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      methodName: Schema.optional(Schema.String),
+      serviceName: Schema.optional(Schema.String),
+      serviceData: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      resourceLocation: Schema.optional(ResourceLocation),
+      numResponseItems: Schema.optional(Schema.String),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      authorizationInfo: Schema.optional(Schema.Array(AuthorizationInfo)),
+      authenticationInfo: Schema.optional(AuthenticationInfo),
+      policyViolationInfo: Schema.optional(PolicyViolationInfo),
+      resourceOriginalState: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      status: Schema.optional(Status),
+      resourceName: Schema.optional(Schema.String),
+      requestMetadata: Schema.optional(RequestMetadata),
+    }),
+  ).annotate({ identifier: "AuditLog" }) as any as Schema.Schema<AuditLog>;
 
 export interface V2LogEntryOperation {
   /** Optional. Set this to True if this is the last log entry in the operation. */
@@ -801,7 +821,7 @@ export interface V2LogEntryOperation {
 }
 
 export const V2LogEntryOperation: Schema.Schema<V2LogEntryOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       last: Schema.optional(Schema.Boolean),
       first: Schema.optional(Schema.Boolean),
@@ -845,27 +865,28 @@ export interface V2HttpRequest {
   latency?: string;
 }
 
-export const V2HttpRequest: Schema.Schema<V2HttpRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    requestUrl: Schema.optional(Schema.String),
-    userAgent: Schema.optional(Schema.String),
-    referer: Schema.optional(Schema.String),
-    cacheValidatedWithOriginServer: Schema.optional(Schema.Boolean),
-    requestMethod: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.Number),
-    responseSize: Schema.optional(Schema.String),
-    cacheFillBytes: Schema.optional(Schema.String),
-    protocol: Schema.optional(Schema.String),
-    remoteIp: Schema.optional(Schema.String),
-    cacheHit: Schema.optional(Schema.Boolean),
-    serverIp: Schema.optional(Schema.String),
-    requestSize: Schema.optional(Schema.String),
-    cacheLookup: Schema.optional(Schema.Boolean),
-    latency: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "V2HttpRequest",
-}) as any as Schema.Schema<V2HttpRequest>;
+export const V2HttpRequest: Schema.Schema<V2HttpRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestUrl: Schema.optional(Schema.String),
+      userAgent: Schema.optional(Schema.String),
+      referer: Schema.optional(Schema.String),
+      cacheValidatedWithOriginServer: Schema.optional(Schema.Boolean),
+      requestMethod: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.Number),
+      responseSize: Schema.optional(Schema.String),
+      cacheFillBytes: Schema.optional(Schema.String),
+      protocol: Schema.optional(Schema.String),
+      remoteIp: Schema.optional(Schema.String),
+      cacheHit: Schema.optional(Schema.Boolean),
+      serverIp: Schema.optional(Schema.String),
+      requestSize: Schema.optional(Schema.String),
+      cacheLookup: Schema.optional(Schema.Boolean),
+      latency: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "V2HttpRequest",
+  }) as any as Schema.Schema<V2HttpRequest>;
 
 export interface V2LogEntry {
   /** The log entry payload, represented as a structure that is expressed as a JSON object. */
@@ -906,27 +927,30 @@ export interface V2LogEntry {
   trace?: string;
 }
 
-export const V2LogEntry: Schema.Schema<V2LogEntry> = Schema.suspend(() =>
-  Schema.Struct({
-    structPayload: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    severity: Schema.optional(Schema.String),
-    monitoredResourceLabels: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-    operation: Schema.optional(V2LogEntryOperation),
-    name: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    insertId: Schema.optional(Schema.String),
-    protoPayload: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    timestamp: Schema.optional(Schema.String),
-    textPayload: Schema.optional(Schema.String),
-    httpRequest: Schema.optional(V2HttpRequest),
-    sourceLocation: Schema.optional(V2LogEntrySourceLocation),
-    trace: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "V2LogEntry" }) as any as Schema.Schema<V2LogEntry>;
+export const V2LogEntry: Schema.Schema<V2LogEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      structPayload: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      severity: Schema.optional(Schema.String),
+      monitoredResourceLabels: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      operation: Schema.optional(V2LogEntryOperation),
+      name: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      insertId: Schema.optional(Schema.String),
+      protoPayload: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      timestamp: Schema.optional(Schema.String),
+      textPayload: Schema.optional(Schema.String),
+      httpRequest: Schema.optional(V2HttpRequest),
+      sourceLocation: Schema.optional(V2LogEntrySourceLocation),
+      trace: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "V2LogEntry" }) as any as Schema.Schema<V2LogEntry>;
 
 // ==========================================================================
 // Operations
@@ -939,7 +963,7 @@ export interface ReportServicesRequest {
   body?: ReportRequest;
 }
 
-export const ReportServicesRequest = Schema.Struct({
+export const ReportServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   serviceName: Schema.String.pipe(T.HttpPath("serviceName")),
   body: Schema.optional(ReportRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -952,7 +976,8 @@ export const ReportServicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ReportServicesRequest>;
 
 export type ReportServicesResponse = ReportResponse;
-export const ReportServicesResponse = ReportResponse;
+export const ReportServicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReportResponse;
 
 export type ReportServicesError = DefaultErrors;
 
@@ -962,7 +987,7 @@ export const reportServices: API.OperationMethod<
   ReportServicesResponse,
   ReportServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportServicesRequest,
   output: ReportServicesResponse,
   errors: [],
@@ -975,7 +1000,7 @@ export interface CheckServicesRequest {
   body?: CheckRequest;
 }
 
-export const CheckServicesRequest = Schema.Struct({
+export const CheckServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   serviceName: Schema.String.pipe(T.HttpPath("serviceName")),
   body: Schema.optional(CheckRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -988,7 +1013,7 @@ export const CheckServicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CheckServicesRequest>;
 
 export type CheckServicesResponse = CheckResponse;
-export const CheckServicesResponse = CheckResponse;
+export const CheckServicesResponse = /*@__PURE__*/ /*#__PURE__*/ CheckResponse;
 
 export type CheckServicesError = DefaultErrors;
 
@@ -998,7 +1023,7 @@ export const checkServices: API.OperationMethod<
   CheckServicesResponse,
   CheckServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckServicesRequest,
   output: CheckServicesResponse,
   errors: [],

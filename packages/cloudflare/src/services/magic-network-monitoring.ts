@@ -20,7 +20,7 @@ export interface GetConfigRequest {
   accountId: string;
 }
 
-export const GetConfigRequest = Schema.Struct({
+export const GetConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config" }),
@@ -35,7 +35,7 @@ export interface GetConfigResponse {
   warpDevices: { id: string; name: string; routerIp: string }[];
 }
 
-export const GetConfigResponse = Schema.Struct({
+export const GetConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
@@ -64,7 +64,7 @@ export const getConfig: API.OperationMethod<
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
   errors: [],
@@ -83,7 +83,7 @@ export interface CreateConfigRequest {
   warpDevices?: { id: string; name: string; routerIp: string }[];
 }
 
-export const CreateConfigRequest = Schema.Struct({
+export const CreateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSampling: Schema.Number,
   name: Schema.String,
@@ -118,7 +118,7 @@ export interface CreateConfigResponse {
   warpDevices: { id: string; name: string; routerIp: string }[];
 }
 
-export const CreateConfigResponse = Schema.Struct({
+export const CreateConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
@@ -147,7 +147,7 @@ export const createConfig: API.OperationMethod<
   CreateConfigResponse,
   CreateConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigRequest,
   output: CreateConfigResponse,
   errors: [],
@@ -166,7 +166,7 @@ export interface UpdateConfigRequest {
   warpDevices?: { id: string; name: string; routerIp: string }[];
 }
 
-export const UpdateConfigRequest = Schema.Struct({
+export const UpdateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSampling: Schema.Number,
   name: Schema.String,
@@ -201,7 +201,7 @@ export interface UpdateConfigResponse {
   warpDevices: { id: string; name: string; routerIp: string }[];
 }
 
-export const UpdateConfigResponse = Schema.Struct({
+export const UpdateConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
@@ -230,7 +230,7 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigResponse,
   UpdateConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigRequest,
   output: UpdateConfigResponse,
   errors: [],
@@ -249,7 +249,7 @@ export interface PatchConfigRequest {
   warpDevices?: { id: string; name: string; routerIp: string }[];
 }
 
-export const PatchConfigRequest = Schema.Struct({
+export const PatchConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   defaultSampling: Schema.optional(Schema.Number),
   name: Schema.optional(Schema.String),
@@ -284,7 +284,7 @@ export interface PatchConfigResponse {
   warpDevices: { id: string; name: string; routerIp: string }[];
 }
 
-export const PatchConfigResponse = Schema.Struct({
+export const PatchConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
@@ -313,7 +313,7 @@ export const patchConfig: API.OperationMethod<
   PatchConfigResponse,
   PatchConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchConfigRequest,
   output: PatchConfigResponse,
   errors: [],
@@ -323,7 +323,7 @@ export interface DeleteConfigRequest {
   accountId: string;
 }
 
-export const DeleteConfigRequest = Schema.Struct({
+export const DeleteConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "DELETE", path: "/accounts/{account_id}/mnm/config" }),
@@ -338,7 +338,7 @@ export interface DeleteConfigResponse {
   warpDevices: { id: string; name: string; routerIp: string }[];
 }
 
-export const DeleteConfigResponse = Schema.Struct({
+export const DeleteConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   defaultSampling: Schema.Number,
   name: Schema.String,
   routerIps: Schema.Array(Schema.String),
@@ -367,7 +367,7 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigResponse,
   DeleteConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRequest,
   output: DeleteConfigResponse,
   errors: [],
@@ -381,7 +381,7 @@ export interface GetConfigFullRequest {
   accountId: string;
 }
 
-export const GetConfigFullRequest = Schema.Struct({
+export const GetConfigFullRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/config/full" }),
@@ -390,7 +390,7 @@ export const GetConfigFullRequest = Schema.Struct({
 export type GetConfigFullResponse = unknown;
 
 export const GetConfigFullResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetConfigFullResponse>;
 
 export type GetConfigFullError = DefaultErrors;
 
@@ -399,7 +399,7 @@ export const getConfigFull: API.OperationMethod<
   GetConfigFullResponse,
   GetConfigFullError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigFullRequest,
   output: GetConfigFullResponse,
   errors: [],
@@ -414,7 +414,7 @@ export interface GetRuleRequest {
   accountId: string;
 }
 
-export const GetRuleRequest = Schema.Struct({
+export const GetRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -445,7 +445,7 @@ export interface GetRuleResponse {
   zscoreTarget?: "bits" | "packets" | null;
 }
 
-export const GetRuleResponse = Schema.Struct({
+export const GetRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
@@ -507,7 +507,7 @@ export const getRule: API.OperationMethod<
   GetRuleResponse,
   GetRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
   errors: [],
@@ -517,7 +517,7 @@ export interface ListRulesRequest {
   accountId: string;
 }
 
-export const ListRulesRequest = Schema.Struct({
+export const ListRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/mnm/rules" }),
@@ -526,7 +526,7 @@ export const ListRulesRequest = Schema.Struct({
 export type ListRulesResponse = unknown;
 
 export const ListRulesResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListRulesResponse>;
 
 export type ListRulesError = DefaultErrors;
 
@@ -535,7 +535,7 @@ export const listRules: API.OperationMethod<
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [],
@@ -558,7 +558,7 @@ export interface CreateRuleRequest {
   prefixes?: string[];
 }
 
-export const CreateRuleRequest = Schema.Struct({
+export const CreateRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   duration: Schema.Literals([
     "1m",
@@ -613,7 +613,7 @@ export interface CreateRuleResponse {
   zscoreTarget?: "bits" | "packets" | null;
 }
 
-export const CreateRuleResponse = Schema.Struct({
+export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
@@ -675,7 +675,7 @@ export const createRule: API.OperationMethod<
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [],
@@ -700,7 +700,7 @@ export interface UpdateRuleRequest {
   prefixes?: string[];
 }
 
-export const UpdateRuleRequest = Schema.Struct({
+export const UpdateRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   duration: Schema.Literals([
     "1m",
@@ -757,7 +757,7 @@ export interface UpdateRuleResponse {
   zscoreTarget?: "bits" | "packets" | null;
 }
 
-export const UpdateRuleResponse = Schema.Struct({
+export const UpdateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
@@ -819,7 +819,7 @@ export const updateRule: API.OperationMethod<
   UpdateRuleResponse,
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
   output: UpdateRuleResponse,
   errors: [],
@@ -843,7 +843,7 @@ export interface PatchRuleRequest {
   prefixes?: string[];
 }
 
-export const PatchRuleRequest = Schema.Struct({
+export const PatchRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   automaticAdvertisement: Schema.optional(
@@ -895,7 +895,7 @@ export interface PatchRuleResponse {
   zscoreTarget?: "bits" | "packets" | null;
 }
 
-export const PatchRuleResponse = Schema.Struct({
+export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
@@ -957,7 +957,7 @@ export const patchRule: API.OperationMethod<
   PatchRuleResponse,
   PatchRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRuleRequest,
   output: PatchRuleResponse,
   errors: [],
@@ -968,7 +968,7 @@ export interface DeleteRuleRequest {
   accountId: string;
 }
 
-export const DeleteRuleRequest = Schema.Struct({
+export const DeleteRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1002,7 +1002,7 @@ export interface DeleteRuleResponse {
   zscoreTarget?: "bits" | "packets" | null;
 }
 
-export const DeleteRuleResponse = Schema.Struct({
+export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
@@ -1064,7 +1064,7 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleResponse,
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
   errors: [],
@@ -1082,27 +1082,29 @@ export interface PatchRuleAdvertisementRequest {
   body: unknown;
 }
 
-export const PatchRuleAdvertisementRequest = Schema.Struct({
-  ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement",
-  }),
-) as unknown as Schema.Schema<PatchRuleAdvertisementRequest>;
+export const PatchRuleAdvertisementRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    ruleId: Schema.String.pipe(T.HttpPath("ruleId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/mnm/rules/{ruleId}/advertisement",
+    }),
+  ) as unknown as Schema.Schema<PatchRuleAdvertisementRequest>;
 
 export interface PatchRuleAdvertisementResponse {
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean | null;
 }
 
-export const PatchRuleAdvertisementResponse = Schema.Struct({
-  automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
-}).pipe(
-  Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
-) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
+export const PatchRuleAdvertisementResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
+  }).pipe(
+    Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
+  ) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
 
 export type PatchRuleAdvertisementError = DefaultErrors;
 
@@ -1111,7 +1113,7 @@ export const patchRuleAdvertisement: API.OperationMethod<
   PatchRuleAdvertisementResponse,
   PatchRuleAdvertisementError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRuleAdvertisementRequest,
   output: PatchRuleAdvertisementResponse,
   errors: [],
@@ -1125,19 +1127,20 @@ export interface CreateVpcFlowTokenRequest {
   accountId: string;
 }
 
-export const CreateVpcFlowTokenRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/mnm/vpc-flows/token",
-  }),
-) as unknown as Schema.Schema<CreateVpcFlowTokenRequest>;
+export const CreateVpcFlowTokenRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/mnm/vpc-flows/token",
+    }),
+  ) as unknown as Schema.Schema<CreateVpcFlowTokenRequest>;
 
 export type CreateVpcFlowTokenResponse = string;
 
 export const CreateVpcFlowTokenResponse =
-  Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
 
 export type CreateVpcFlowTokenError = DefaultErrors;
 
@@ -1146,7 +1149,7 @@ export const createVpcFlowToken: API.OperationMethod<
   CreateVpcFlowTokenResponse,
   CreateVpcFlowTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateVpcFlowTokenRequest,
   output: CreateVpcFlowTokenResponse,
   errors: [],

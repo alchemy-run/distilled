@@ -122,36 +122,38 @@ export interface CreateOAuth2TokenRequestBody {
   codeVerifier?: string;
   refreshToken?: string | redacted.Redacted<string>;
 }
-export const CreateOAuth2TokenRequestBody = S.suspend(() =>
-  S.Struct({
-    clientId: S.String,
-    grantType: S.String,
-    code: S.optional(S.String),
-    redirectUri: S.optional(S.String),
-    codeVerifier: S.optional(S.String),
-    refreshToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "CreateOAuth2TokenRequestBody",
-}) as any as S.Schema<CreateOAuth2TokenRequestBody>;
+export const CreateOAuth2TokenRequestBody =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientId: S.String,
+      grantType: S.String,
+      code: S.optional(S.String),
+      redirectUri: S.optional(S.String),
+      codeVerifier: S.optional(S.String),
+      refreshToken: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "CreateOAuth2TokenRequestBody",
+  }) as any as S.Schema<CreateOAuth2TokenRequestBody>;
 export interface CreateOAuth2TokenRequest {
   tokenInput: CreateOAuth2TokenRequestBody;
 }
-export const CreateOAuth2TokenRequest = S.suspend(() =>
-  S.Struct({
-    tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotate({
-      identifier: "CreateOAuth2TokenRequestBody",
-    }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/token" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateOAuth2TokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      tokenInput: CreateOAuth2TokenRequestBody.pipe(T.HttpPayload()).annotate({
+        identifier: "CreateOAuth2TokenRequestBody",
+      }),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/token" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateOAuth2TokenRequest",
 }) as any as S.Schema<CreateOAuth2TokenRequest>;
@@ -160,7 +162,7 @@ export interface AccessToken {
   secretAccessKey: string;
   sessionToken: string;
 }
-export const AccessToken = S.suspend(() =>
+export const AccessToken = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     accessKeyId: S.String,
     secretAccessKey: S.String,
@@ -174,26 +176,28 @@ export interface CreateOAuth2TokenResponseBody {
   refreshToken: string | redacted.Redacted<string>;
   idToken?: string;
 }
-export const CreateOAuth2TokenResponseBody = S.suspend(() =>
-  S.Struct({
-    accessToken: AccessToken,
-    tokenType: S.String,
-    expiresIn: S.Number,
-    refreshToken: SensitiveString,
-    idToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateOAuth2TokenResponseBody",
-}) as any as S.Schema<CreateOAuth2TokenResponseBody>;
+export const CreateOAuth2TokenResponseBody =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessToken: AccessToken,
+      tokenType: S.String,
+      expiresIn: S.Number,
+      refreshToken: SensitiveString,
+      idToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateOAuth2TokenResponseBody",
+  }) as any as S.Schema<CreateOAuth2TokenResponseBody>;
 export interface CreateOAuth2TokenResponse {
   tokenOutput: CreateOAuth2TokenResponseBody;
 }
-export const CreateOAuth2TokenResponse = S.suspend(() =>
-  S.Struct({
-    tokenOutput: CreateOAuth2TokenResponseBody.pipe(T.HttpPayload()).annotate({
-      identifier: "CreateOAuth2TokenResponseBody",
+export const CreateOAuth2TokenResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      tokenOutput: CreateOAuth2TokenResponseBody.pipe(T.HttpPayload()).annotate(
+        { identifier: "CreateOAuth2TokenResponseBody" },
+      ),
     }),
-  }),
 ).annotate({
   identifier: "CreateOAuth2TokenResponse",
 }) as any as S.Schema<CreateOAuth2TokenResponse>;
@@ -205,7 +209,7 @@ export type OAuth2ErrorCode =
   | "server_error"
   | "INVALID_REQUEST"
   | (string & {});
-export const OAuth2ErrorCode = S.String;
+export const OAuth2ErrorCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

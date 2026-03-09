@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListExtensionsInput = Schema.Struct({
+export const ListExtensionsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const ListExtensionsInput = Schema.Struct({
 export type ListExtensionsInput = typeof ListExtensionsInput.Type;
 
 // Output Schema
-export const ListExtensionsOutput = Schema.Array(
+export const ListExtensionsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     name: Schema.String,

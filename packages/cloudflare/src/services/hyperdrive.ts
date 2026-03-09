@@ -59,7 +59,7 @@ export interface GetConfigRequest {
   accountId: string;
 }
 
-export const GetConfigRequest = Schema.Struct({
+export const GetConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -72,7 +72,7 @@ export const GetConfigRequest = Schema.Struct({
 export type GetConfigResponse = unknown;
 
 export const GetConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
 export type GetConfigError =
   | DefaultErrors
@@ -85,7 +85,7 @@ export const getConfig: API.OperationMethod<
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
   errors: [
@@ -100,7 +100,7 @@ export interface ListConfigsRequest {
   accountId: string;
 }
 
-export const ListConfigsRequest = Schema.Struct({
+export const ListConfigsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/hyperdrive/configs" }),
@@ -109,7 +109,7 @@ export const ListConfigsRequest = Schema.Struct({
 export type ListConfigsResponse = unknown;
 
 export const ListConfigsResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
 
 export type ListConfigsError =
   | DefaultErrors
@@ -121,7 +121,7 @@ export const listConfigs: API.OperationMethod<
   ListConfigsResponse,
   ListConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConfigsRequest,
   output: ListConfigsResponse,
   errors: [PrivateHostNotAllowed, InvalidObjectIdentifier],
@@ -165,7 +165,7 @@ export interface CreateConfigRequest {
   originConnectionLimit?: number;
 }
 
-export const CreateConfigRequest = Schema.Struct({
+export const CreateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
   origin: Schema.Union([
@@ -243,7 +243,7 @@ export const CreateConfigRequest = Schema.Struct({
 export type CreateConfigResponse = unknown;
 
 export const CreateConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
 
 export type CreateConfigError =
   | DefaultErrors
@@ -256,7 +256,7 @@ export const createConfig: API.OperationMethod<
   CreateConfigResponse,
   CreateConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConfigRequest,
   output: CreateConfigResponse,
   errors: [
@@ -305,7 +305,7 @@ export interface UpdateConfigRequest {
   originConnectionLimit?: number;
 }
 
-export const UpdateConfigRequest = Schema.Struct({
+export const UpdateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
@@ -387,7 +387,7 @@ export const UpdateConfigRequest = Schema.Struct({
 export type UpdateConfigResponse = unknown;
 
 export const UpdateConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
 
 export type UpdateConfigError =
   | DefaultErrors
@@ -401,7 +401,7 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigResponse,
   UpdateConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateConfigRequest,
   output: UpdateConfigResponse,
   errors: [
@@ -442,7 +442,7 @@ export interface PatchConfigRequest {
   originConnectionLimit?: number;
 }
 
-export const PatchConfigRequest = Schema.Struct({
+export const PatchConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   caching: Schema.optional(
@@ -522,7 +522,7 @@ export const PatchConfigRequest = Schema.Struct({
 export type PatchConfigResponse = unknown;
 
 export const PatchConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
 export type PatchConfigError =
   | DefaultErrors
@@ -536,7 +536,7 @@ export const patchConfig: API.OperationMethod<
   PatchConfigResponse,
   PatchConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchConfigRequest,
   output: PatchConfigResponse,
   errors: [
@@ -553,7 +553,7 @@ export interface DeleteConfigRequest {
   accountId: string;
 }
 
-export const DeleteConfigRequest = Schema.Struct({
+export const DeleteConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   hyperdriveId: Schema.String.pipe(T.HttpPath("hyperdriveId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -566,7 +566,7 @@ export const DeleteConfigRequest = Schema.Struct({
 export type DeleteConfigResponse = unknown;
 
 export const DeleteConfigResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export type DeleteConfigError =
   | DefaultErrors
@@ -580,7 +580,7 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigResponse,
   DeleteConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConfigRequest,
   output: DeleteConfigResponse,
   errors: [

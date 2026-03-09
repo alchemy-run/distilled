@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const UpdateAutoApplyInput = Schema.Struct({
+export const UpdateAutoApplyInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   number: Schema.Number.pipe(T.PathParam()),
@@ -18,7 +18,7 @@ export const UpdateAutoApplyInput = Schema.Struct({
 export type UpdateAutoApplyInput = typeof UpdateAutoApplyInput.Type;
 
 // Output Schema
-export const UpdateAutoApplyOutput = Schema.Struct({
+export const UpdateAutoApplyOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   number: Schema.Number,
   actor: Schema.Struct({

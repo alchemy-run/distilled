@@ -3,20 +3,22 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteProjectVPCEndpointInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
-  }),
-);
+export const DeleteProjectVPCEndpointInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
+    }),
+  );
 export type DeleteProjectVPCEndpointInput =
   typeof DeleteProjectVPCEndpointInput.Type;
 
 // Output Schema
-export const DeleteProjectVPCEndpointOutput = Schema.Void;
+export const DeleteProjectVPCEndpointOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteProjectVPCEndpointOutput =
   typeof DeleteProjectVPCEndpointOutput.Type;
 

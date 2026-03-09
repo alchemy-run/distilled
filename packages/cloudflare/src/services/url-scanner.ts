@@ -22,7 +22,7 @@ export interface GetResponsRequest {
   accountId: string;
 }
 
-export const GetResponsRequest = Schema.Struct({
+export const GetResponsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   responseId: Schema.String.pipe(T.HttpPath("responseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -35,7 +35,7 @@ export const GetResponsRequest = Schema.Struct({
 export type GetResponsResponse = unknown;
 
 export const GetResponsResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetResponsResponse>;
 
 export type GetResponsError = DefaultErrors;
 
@@ -44,7 +44,7 @@ export const getRespons: API.OperationMethod<
   GetResponsResponse,
   GetResponsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetResponsRequest,
   output: GetResponsResponse,
   errors: [],
@@ -60,7 +60,7 @@ export interface GetScanRequest {
   accountId: string;
 }
 
-export const GetScanRequest = Schema.Struct({
+export const GetScanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -405,7 +405,7 @@ export interface GetScanResponse {
   };
 }
 
-export const GetScanResponse = Schema.Struct({
+export const GetScanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   data: Schema.Struct({
     console: Schema.Array(
       Schema.Struct({
@@ -952,7 +952,7 @@ export const getScan: API.OperationMethod<
   GetScanResponse,
   GetScanError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScanRequest,
   output: GetScanResponse,
   errors: [],
@@ -967,7 +967,7 @@ export interface ListScansRequest {
   size?: number;
 }
 
-export const ListScansRequest = Schema.Struct({
+export const ListScansRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
   size: Schema.optional(Schema.Number).pipe(T.HttpQuery("size")),
@@ -994,7 +994,7 @@ export interface ListScansResponse {
   }[];
 }
 
-export const ListScansResponse = Schema.Struct({
+export const ListScansResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   results: Schema.Array(
     Schema.Struct({
       id: Schema.String,
@@ -1040,7 +1040,7 @@ export const listScans: API.OperationMethod<
   ListScansResponse,
   ListScansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListScansRequest,
   output: ListScansResponse,
   errors: [],
@@ -1260,7 +1260,7 @@ export interface CreateScanRequest {
   visibility?: "Public" | "Unlisted";
 }
 
-export const CreateScanRequest = Schema.Struct({
+export const CreateScanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   url: Schema.String,
   country: Schema.optional(
@@ -1488,7 +1488,7 @@ export interface CreateScanResponse {
   options?: { useragent?: string | null } | null;
 }
 
-export const CreateScanResponse = Schema.Struct({
+export const CreateScanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   api: Schema.String,
   message: Schema.String,
   result: Schema.String,
@@ -1512,7 +1512,7 @@ export const createScan: API.OperationMethod<
   CreateScanResponse,
   CreateScanError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScanRequest,
   output: CreateScanResponse,
   errors: [],
@@ -1532,23 +1532,25 @@ export interface BulkCreateScansRequest {
   }[];
 }
 
-export const BulkCreateScansRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        url: Schema.String,
-        customagent: Schema.optional(Schema.String),
-        customHeaders: Schema.optional(Schema.Struct({})),
-        referer: Schema.optional(Schema.String),
-        screenshotsResolutions: Schema.optional(
-          Schema.Array(Schema.Literals(["desktop", "mobile", "tablet"])),
-        ),
-        visibility: Schema.optional(Schema.Literals(["Public", "Unlisted"])),
-      }),
-    ),
-  ).pipe(T.HttpBody()),
-}).pipe(
+export const BulkCreateScansRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          url: Schema.String,
+          customagent: Schema.optional(Schema.String),
+          customHeaders: Schema.optional(Schema.Struct({})),
+          referer: Schema.optional(Schema.String),
+          screenshotsResolutions: Schema.optional(
+            Schema.Array(Schema.Literals(["desktop", "mobile", "tablet"])),
+          ),
+          visibility: Schema.optional(Schema.Literals(["Public", "Unlisted"])),
+        }),
+      ),
+    ).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "/accounts/{account_id}/urlscanner/v2/bulk" }),
 ) as unknown as Schema.Schema<BulkCreateScansRequest>;
 
@@ -1561,7 +1563,7 @@ export type BulkCreateScansResponse = {
   options?: { useragent?: string | null } | null;
 }[];
 
-export const BulkCreateScansResponse = Schema.Array(
+export const BulkCreateScansResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     api: Schema.String,
     result: Schema.String,
@@ -1588,7 +1590,7 @@ export const bulkCreateScans: API.OperationMethod<
   BulkCreateScansResponse,
   BulkCreateScansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkCreateScansRequest,
   output: BulkCreateScansResponse,
   errors: [],
@@ -1600,7 +1602,7 @@ export interface DomScanRequest {
   accountId: string;
 }
 
-export const DomScanRequest = Schema.Struct({
+export const DomScanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1613,7 +1615,7 @@ export const DomScanRequest = Schema.Struct({
 export type DomScanResponse = unknown;
 
 export const DomScanResponse =
-  Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DomScanResponse>;
 
 export type DomScanError = DefaultErrors;
 
@@ -1622,7 +1624,7 @@ export const domScan: API.OperationMethod<
   DomScanResponse,
   DomScanError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DomScanRequest,
   output: DomScanResponse,
   errors: [],
@@ -1634,7 +1636,7 @@ export interface HarScanRequest {
   accountId: string;
 }
 
-export const HarScanRequest = Schema.Struct({
+export const HarScanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1694,7 +1696,7 @@ export interface HarScanResponse {
   };
 }
 
-export const HarScanResponse = Schema.Struct({
+export const HarScanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   log: Schema.Struct({
     creator: Schema.Struct({
       comment: Schema.String,
@@ -1803,7 +1805,7 @@ export const harScan: API.OperationMethod<
   HarScanResponse,
   HarScanError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HarScanRequest,
   output: HarScanResponse,
   errors: [],
@@ -1817,7 +1819,7 @@ export interface ScreenshotScanRequest {
   resolution?: "desktop" | "mobile" | "tablet";
 }
 
-export const ScreenshotScanRequest = Schema.Struct({
+export const ScreenshotScanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scanId: Schema.String.pipe(T.HttpPath("scanId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   resolution: Schema.optional(
@@ -1833,7 +1835,7 @@ export const ScreenshotScanRequest = Schema.Struct({
 export type ScreenshotScanResponse = unknown;
 
 export const ScreenshotScanResponse =
-  Schema.Unknown as unknown as Schema.Schema<ScreenshotScanResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ScreenshotScanResponse>;
 
 export type ScreenshotScanError = DefaultErrors;
 
@@ -1842,7 +1844,7 @@ export const screenshotScan: API.OperationMethod<
   ScreenshotScanResponse,
   ScreenshotScanError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScreenshotScanRequest,
   output: ScreenshotScanResponse,
   errors: [],

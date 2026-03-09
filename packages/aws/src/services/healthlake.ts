@@ -106,17 +106,17 @@ export type AmazonResourceName = string;
 
 //# Schemas
 export type FHIRVersion = "R4" | (string & {});
-export const FHIRVersion = S.String;
+export const FHIRVersion = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type CmkType =
   | "CUSTOMER_MANAGED_KMS_KEY"
   | "AWS_OWNED_KMS_KEY"
   | (string & {});
-export const CmkType = S.String;
+export const CmkType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface KmsEncryptionConfig {
   CmkType: CmkType;
   KmsKeyId?: string;
 }
-export const KmsEncryptionConfig = S.suspend(() =>
+export const KmsEncryptionConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ CmkType: CmkType, KmsKeyId: S.optional(S.String) }),
 ).annotate({
   identifier: "KmsEncryptionConfig",
@@ -124,17 +124,17 @@ export const KmsEncryptionConfig = S.suspend(() =>
 export interface SseConfiguration {
   KmsEncryptionConfig: KmsEncryptionConfig;
 }
-export const SseConfiguration = S.suspend(() =>
+export const SseConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ KmsEncryptionConfig: KmsEncryptionConfig }),
 ).annotate({
   identifier: "SseConfiguration",
 }) as any as S.Schema<SseConfiguration>;
 export type PreloadDataType = "SYNTHEA" | (string & {});
-export const PreloadDataType = S.String;
+export const PreloadDataType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PreloadDataConfig {
   PreloadDataType: PreloadDataType;
 }
-export const PreloadDataConfig = S.suspend(() =>
+export const PreloadDataConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ PreloadDataType: PreloadDataType }),
 ).annotate({
   identifier: "PreloadDataConfig",
@@ -143,33 +143,34 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export type AuthorizationStrategy =
   | "SMART_ON_FHIR_V1"
   | "SMART_ON_FHIR"
   | "AWS_AUTH"
   | (string & {});
-export const AuthorizationStrategy = S.String;
+export const AuthorizationStrategy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface IdentityProviderConfiguration {
   AuthorizationStrategy: AuthorizationStrategy;
   FineGrainedAuthorizationEnabled?: boolean;
   Metadata?: string;
   IdpLambdaArn?: string;
 }
-export const IdentityProviderConfiguration = S.suspend(() =>
-  S.Struct({
-    AuthorizationStrategy: AuthorizationStrategy,
-    FineGrainedAuthorizationEnabled: S.optional(S.Boolean),
-    Metadata: S.optional(S.String),
-    IdpLambdaArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IdentityProviderConfiguration",
-}) as any as S.Schema<IdentityProviderConfiguration>;
+export const IdentityProviderConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AuthorizationStrategy: AuthorizationStrategy,
+      FineGrainedAuthorizationEnabled: S.optional(S.Boolean),
+      Metadata: S.optional(S.String),
+      IdpLambdaArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "IdentityProviderConfiguration",
+  }) as any as S.Schema<IdentityProviderConfiguration>;
 export interface CreateFHIRDatastoreRequest {
   DatastoreName?: string;
   DatastoreTypeVersion: FHIRVersion;
@@ -179,18 +180,19 @@ export interface CreateFHIRDatastoreRequest {
   Tags?: Tag[];
   IdentityProviderConfiguration?: IdentityProviderConfiguration;
 }
-export const CreateFHIRDatastoreRequest = S.suspend(() =>
-  S.Struct({
-    DatastoreName: S.optional(S.String),
-    DatastoreTypeVersion: FHIRVersion,
-    SseConfiguration: S.optional(SseConfiguration),
-    PreloadDataConfig: S.optional(PreloadDataConfig),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-    IdentityProviderConfiguration: S.optional(IdentityProviderConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CreateFHIRDatastoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DatastoreName: S.optional(S.String),
+      DatastoreTypeVersion: FHIRVersion,
+      SseConfiguration: S.optional(SseConfiguration),
+      PreloadDataConfig: S.optional(PreloadDataConfig),
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Tags: S.optional(TagList),
+      IdentityProviderConfiguration: S.optional(IdentityProviderConfiguration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CreateFHIRDatastoreRequest",
 }) as any as S.Schema<CreateFHIRDatastoreRequest>;
@@ -201,30 +203,32 @@ export type DatastoreStatus =
   | "DELETED"
   | "CREATE_FAILED"
   | (string & {});
-export const DatastoreStatus = S.String;
+export const DatastoreStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateFHIRDatastoreResponse {
   DatastoreId: string;
   DatastoreArn: string;
   DatastoreStatus: DatastoreStatus;
   DatastoreEndpoint: string;
 }
-export const CreateFHIRDatastoreResponse = S.suspend(() =>
-  S.Struct({
-    DatastoreId: S.String,
-    DatastoreArn: S.String,
-    DatastoreStatus: DatastoreStatus,
-    DatastoreEndpoint: S.String,
-  }),
-).annotate({
-  identifier: "CreateFHIRDatastoreResponse",
-}) as any as S.Schema<CreateFHIRDatastoreResponse>;
+export const CreateFHIRDatastoreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DatastoreId: S.String,
+      DatastoreArn: S.String,
+      DatastoreStatus: DatastoreStatus,
+      DatastoreEndpoint: S.String,
+    }),
+  ).annotate({
+    identifier: "CreateFHIRDatastoreResponse",
+  }) as any as S.Schema<CreateFHIRDatastoreResponse>;
 export interface DeleteFHIRDatastoreRequest {
   DatastoreId: string;
 }
-export const DeleteFHIRDatastoreRequest = S.suspend(() =>
-  S.Struct({ DatastoreId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteFHIRDatastoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ DatastoreId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteFHIRDatastoreRequest",
 }) as any as S.Schema<DeleteFHIRDatastoreRequest>;
@@ -234,36 +238,38 @@ export interface DeleteFHIRDatastoreResponse {
   DatastoreStatus: DatastoreStatus;
   DatastoreEndpoint: string;
 }
-export const DeleteFHIRDatastoreResponse = S.suspend(() =>
-  S.Struct({
-    DatastoreId: S.String,
-    DatastoreArn: S.String,
-    DatastoreStatus: DatastoreStatus,
-    DatastoreEndpoint: S.String,
-  }),
-).annotate({
-  identifier: "DeleteFHIRDatastoreResponse",
-}) as any as S.Schema<DeleteFHIRDatastoreResponse>;
+export const DeleteFHIRDatastoreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DatastoreId: S.String,
+      DatastoreArn: S.String,
+      DatastoreStatus: DatastoreStatus,
+      DatastoreEndpoint: S.String,
+    }),
+  ).annotate({
+    identifier: "DeleteFHIRDatastoreResponse",
+  }) as any as S.Schema<DeleteFHIRDatastoreResponse>;
 export interface DescribeFHIRDatastoreRequest {
   DatastoreId: string;
 }
-export const DescribeFHIRDatastoreRequest = S.suspend(() =>
-  S.Struct({ DatastoreId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFHIRDatastoreRequest",
-}) as any as S.Schema<DescribeFHIRDatastoreRequest>;
+export const DescribeFHIRDatastoreRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DatastoreId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeFHIRDatastoreRequest",
+  }) as any as S.Schema<DescribeFHIRDatastoreRequest>;
 export type ErrorCategory =
   | "RETRYABLE_ERROR"
   | "NON_RETRYABLE_ERROR"
   | (string & {});
-export const ErrorCategory = S.String;
+export const ErrorCategory = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ErrorCause {
   ErrorMessage?: string;
   ErrorCategory?: ErrorCategory;
 }
-export const ErrorCause = S.suspend(() =>
+export const ErrorCause = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ErrorMessage: S.optional(S.String),
     ErrorCategory: S.optional(ErrorCategory),
@@ -282,7 +288,7 @@ export interface DatastoreProperties {
   IdentityProviderConfiguration?: IdentityProviderConfiguration;
   ErrorCause?: ErrorCause;
 }
-export const DatastoreProperties = S.suspend(() =>
+export const DatastoreProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DatastoreId: S.String,
     DatastoreArn: S.String,
@@ -302,22 +308,24 @@ export const DatastoreProperties = S.suspend(() =>
 export interface DescribeFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
 }
-export const DescribeFHIRDatastoreResponse = S.suspend(() =>
-  S.Struct({ DatastoreProperties: DatastoreProperties }),
-).annotate({
-  identifier: "DescribeFHIRDatastoreResponse",
-}) as any as S.Schema<DescribeFHIRDatastoreResponse>;
+export const DescribeFHIRDatastoreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DatastoreProperties: DatastoreProperties }),
+  ).annotate({
+    identifier: "DescribeFHIRDatastoreResponse",
+  }) as any as S.Schema<DescribeFHIRDatastoreResponse>;
 export interface DescribeFHIRExportJobRequest {
   DatastoreId: string;
   JobId: string;
 }
-export const DescribeFHIRExportJobRequest = S.suspend(() =>
-  S.Struct({ DatastoreId: S.String, JobId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFHIRExportJobRequest",
-}) as any as S.Schema<DescribeFHIRExportJobRequest>;
+export const DescribeFHIRExportJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DatastoreId: S.String, JobId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeFHIRExportJobRequest",
+  }) as any as S.Schema<DescribeFHIRExportJobRequest>;
 export type JobStatus =
   | "SUBMITTED"
   | "QUEUED"
@@ -330,18 +338,18 @@ export type JobStatus =
   | "CANCEL_COMPLETED"
   | "CANCEL_FAILED"
   | (string & {});
-export const JobStatus = S.String;
+export const JobStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface S3Configuration {
   S3Uri: string;
   KmsKeyId: string;
 }
-export const S3Configuration = S.suspend(() =>
+export const S3Configuration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ S3Uri: S.String, KmsKeyId: S.String }),
 ).annotate({
   identifier: "S3Configuration",
 }) as any as S.Schema<S3Configuration>;
 export type OutputDataConfig = { S3Configuration: S3Configuration };
-export const OutputDataConfig = S.Union([
+export const OutputDataConfig = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ S3Configuration: S3Configuration }),
 ]);
 export interface ExportJobProperties {
@@ -355,7 +363,7 @@ export interface ExportJobProperties {
   DataAccessRoleArn?: string;
   Message?: string;
 }
-export const ExportJobProperties = S.suspend(() =>
+export const ExportJobProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     JobId: S.String,
     JobName: S.optional(S.String),
@@ -373,24 +381,28 @@ export const ExportJobProperties = S.suspend(() =>
 export interface DescribeFHIRExportJobResponse {
   ExportJobProperties: ExportJobProperties;
 }
-export const DescribeFHIRExportJobResponse = S.suspend(() =>
-  S.Struct({ ExportJobProperties: ExportJobProperties }),
-).annotate({
-  identifier: "DescribeFHIRExportJobResponse",
-}) as any as S.Schema<DescribeFHIRExportJobResponse>;
+export const DescribeFHIRExportJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ExportJobProperties: ExportJobProperties }),
+  ).annotate({
+    identifier: "DescribeFHIRExportJobResponse",
+  }) as any as S.Schema<DescribeFHIRExportJobResponse>;
 export interface DescribeFHIRImportJobRequest {
   DatastoreId: string;
   JobId: string;
 }
-export const DescribeFHIRImportJobRequest = S.suspend(() =>
-  S.Struct({ DatastoreId: S.String, JobId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFHIRImportJobRequest",
-}) as any as S.Schema<DescribeFHIRImportJobRequest>;
+export const DescribeFHIRImportJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DatastoreId: S.String, JobId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeFHIRImportJobRequest",
+  }) as any as S.Schema<DescribeFHIRImportJobRequest>;
 export type InputDataConfig = { S3Uri: string };
-export const InputDataConfig = S.Union([S.Struct({ S3Uri: S.String })]);
+export const InputDataConfig = /*@__PURE__*/ /*#__PURE__*/ S.Union([
+  S.Struct({ S3Uri: S.String }),
+]);
 export interface JobProgressReport {
   TotalNumberOfScannedFiles?: number;
   TotalSizeOfScannedFilesInMB?: number;
@@ -401,7 +413,7 @@ export interface JobProgressReport {
   TotalNumberOfFilesReadWithCustomerError?: number;
   Throughput?: number;
 }
-export const JobProgressReport = S.suspend(() =>
+export const JobProgressReport = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TotalNumberOfScannedFiles: S.optional(S.Number),
     TotalSizeOfScannedFilesInMB: S.optional(S.Number),
@@ -420,7 +432,7 @@ export type ValidationLevel =
   | "structure-only"
   | "minimal"
   | (string & {});
-export const ValidationLevel = S.String;
+export const ValidationLevel = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ImportJobProperties {
   JobId: string;
   JobName?: string;
@@ -435,7 +447,7 @@ export interface ImportJobProperties {
   Message?: string;
   ValidationLevel?: ValidationLevel;
 }
-export const ImportJobProperties = S.suspend(() =>
+export const ImportJobProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     JobId: S.String,
     JobName: S.optional(S.String),
@@ -456,18 +468,19 @@ export const ImportJobProperties = S.suspend(() =>
 export interface DescribeFHIRImportJobResponse {
   ImportJobProperties: ImportJobProperties;
 }
-export const DescribeFHIRImportJobResponse = S.suspend(() =>
-  S.Struct({ ImportJobProperties: ImportJobProperties }),
-).annotate({
-  identifier: "DescribeFHIRImportJobResponse",
-}) as any as S.Schema<DescribeFHIRImportJobResponse>;
+export const DescribeFHIRImportJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ImportJobProperties: ImportJobProperties }),
+  ).annotate({
+    identifier: "DescribeFHIRImportJobResponse",
+  }) as any as S.Schema<DescribeFHIRImportJobResponse>;
 export interface DatastoreFilter {
   DatastoreName?: string;
   DatastoreStatus?: DatastoreStatus;
   CreatedBefore?: Date;
   CreatedAfter?: Date;
 }
-export const DatastoreFilter = S.suspend(() =>
+export const DatastoreFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DatastoreName: S.optional(S.String),
     DatastoreStatus: S.optional(DatastoreStatus),
@@ -482,28 +495,31 @@ export interface ListFHIRDatastoresRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListFHIRDatastoresRequest = S.suspend(() =>
-  S.Struct({
-    Filter: S.optional(DatastoreFilter),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListFHIRDatastoresRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Filter: S.optional(DatastoreFilter),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListFHIRDatastoresRequest",
 }) as any as S.Schema<ListFHIRDatastoresRequest>;
 export type DatastorePropertiesList = DatastoreProperties[];
-export const DatastorePropertiesList = S.Array(DatastoreProperties);
+export const DatastorePropertiesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DatastoreProperties);
 export interface ListFHIRDatastoresResponse {
   DatastorePropertiesList: DatastoreProperties[];
   NextToken?: string;
 }
-export const ListFHIRDatastoresResponse = S.suspend(() =>
-  S.Struct({
-    DatastorePropertiesList: DatastorePropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+export const ListFHIRDatastoresResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DatastorePropertiesList: DatastorePropertiesList,
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListFHIRDatastoresResponse",
 }) as any as S.Schema<ListFHIRDatastoresResponse>;
@@ -516,34 +532,39 @@ export interface ListFHIRExportJobsRequest {
   SubmittedBefore?: Date;
   SubmittedAfter?: Date;
 }
-export const ListFHIRExportJobsRequest = S.suspend(() =>
-  S.Struct({
-    DatastoreId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    JobName: S.optional(S.String),
-    JobStatus: S.optional(JobStatus),
-    SubmittedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+export const ListFHIRExportJobsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DatastoreId: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      JobName: S.optional(S.String),
+      JobStatus: S.optional(JobStatus),
+      SubmittedBefore: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      SubmittedAfter: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
 ).annotate({
   identifier: "ListFHIRExportJobsRequest",
 }) as any as S.Schema<ListFHIRExportJobsRequest>;
 export type ExportJobPropertiesList = ExportJobProperties[];
-export const ExportJobPropertiesList = S.Array(ExportJobProperties);
+export const ExportJobPropertiesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ExportJobProperties);
 export interface ListFHIRExportJobsResponse {
   ExportJobPropertiesList: ExportJobProperties[];
   NextToken?: string;
 }
-export const ListFHIRExportJobsResponse = S.suspend(() =>
-  S.Struct({
-    ExportJobPropertiesList: ExportJobPropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+export const ListFHIRExportJobsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ExportJobPropertiesList: ExportJobPropertiesList,
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListFHIRExportJobsResponse",
 }) as any as S.Schema<ListFHIRExportJobsResponse>;
@@ -556,55 +577,62 @@ export interface ListFHIRImportJobsRequest {
   SubmittedBefore?: Date;
   SubmittedAfter?: Date;
 }
-export const ListFHIRImportJobsRequest = S.suspend(() =>
-  S.Struct({
-    DatastoreId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    JobName: S.optional(S.String),
-    JobStatus: S.optional(JobStatus),
-    SubmittedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+export const ListFHIRImportJobsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DatastoreId: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      JobName: S.optional(S.String),
+      JobStatus: S.optional(JobStatus),
+      SubmittedBefore: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      SubmittedAfter: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
 ).annotate({
   identifier: "ListFHIRImportJobsRequest",
 }) as any as S.Schema<ListFHIRImportJobsRequest>;
 export type ImportJobPropertiesList = ImportJobProperties[];
-export const ImportJobPropertiesList = S.Array(ImportJobProperties);
+export const ImportJobPropertiesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ImportJobProperties);
 export interface ListFHIRImportJobsResponse {
   ImportJobPropertiesList: ImportJobProperties[];
   NextToken?: string;
 }
-export const ListFHIRImportJobsResponse = S.suspend(() =>
-  S.Struct({
-    ImportJobPropertiesList: ImportJobPropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+export const ListFHIRImportJobsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ImportJobPropertiesList: ImportJobPropertiesList,
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListFHIRImportJobsResponse",
 }) as any as S.Schema<ListFHIRImportJobsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceARN: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(TagList) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface StartFHIRExportJobRequest {
   JobName?: string;
   OutputDataConfig: OutputDataConfig;
@@ -612,16 +640,17 @@ export interface StartFHIRExportJobRequest {
   DataAccessRoleArn: string;
   ClientToken?: string;
 }
-export const StartFHIRExportJobRequest = S.suspend(() =>
-  S.Struct({
-    JobName: S.optional(S.String),
-    OutputDataConfig: OutputDataConfig,
-    DatastoreId: S.String,
-    DataAccessRoleArn: S.String,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const StartFHIRExportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      JobName: S.optional(S.String),
+      OutputDataConfig: OutputDataConfig,
+      DatastoreId: S.String,
+      DataAccessRoleArn: S.String,
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "StartFHIRExportJobRequest",
 }) as any as S.Schema<StartFHIRExportJobRequest>;
@@ -630,12 +659,13 @@ export interface StartFHIRExportJobResponse {
   JobStatus: JobStatus;
   DatastoreId?: string;
 }
-export const StartFHIRExportJobResponse = S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    JobStatus: JobStatus,
-    DatastoreId: S.optional(S.String),
-  }),
+export const StartFHIRExportJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      JobId: S.String,
+      JobStatus: JobStatus,
+      DatastoreId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "StartFHIRExportJobResponse",
 }) as any as S.Schema<StartFHIRExportJobResponse>;
@@ -648,18 +678,19 @@ export interface StartFHIRImportJobRequest {
   ClientToken?: string;
   ValidationLevel?: ValidationLevel;
 }
-export const StartFHIRImportJobRequest = S.suspend(() =>
-  S.Struct({
-    JobName: S.optional(S.String),
-    InputDataConfig: InputDataConfig,
-    JobOutputDataConfig: OutputDataConfig,
-    DatastoreId: S.String,
-    DataAccessRoleArn: S.String,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ValidationLevel: S.optional(ValidationLevel),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const StartFHIRImportJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      JobName: S.optional(S.String),
+      InputDataConfig: InputDataConfig,
+      JobOutputDataConfig: OutputDataConfig,
+      DatastoreId: S.String,
+      DataAccessRoleArn: S.String,
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      ValidationLevel: S.optional(ValidationLevel),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "StartFHIRImportJobRequest",
 }) as any as S.Schema<StartFHIRImportJobRequest>;
@@ -668,12 +699,13 @@ export interface StartFHIRImportJobResponse {
   JobStatus: JobStatus;
   DatastoreId?: string;
 }
-export const StartFHIRImportJobResponse = S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    JobStatus: JobStatus,
-    DatastoreId: S.optional(S.String),
-  }),
+export const StartFHIRImportJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      JobId: S.String,
+      JobStatus: JobStatus,
+      DatastoreId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "StartFHIRImportJobResponse",
 }) as any as S.Schema<StartFHIRImportJobResponse>;
@@ -681,7 +713,7 @@ export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -689,16 +721,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -706,7 +740,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 

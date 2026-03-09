@@ -31,13 +31,14 @@ export interface Axis {
   end?: number;
 }
 
-export const Axis: Schema.Schema<Axis> = Schema.suspend(() =>
-  Schema.Struct({
-    tag: Schema.optional(Schema.String),
-    start: Schema.optional(Schema.Number),
-    end: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Axis" }) as any as Schema.Schema<Axis>;
+export const Axis: Schema.Schema<Axis> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tag: Schema.optional(Schema.String),
+      start: Schema.optional(Schema.Number),
+      end: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Axis" }) as any as Schema.Schema<Axis>;
 
 export interface Tag {
   /** The name of the tag. */
@@ -46,12 +47,13 @@ export interface Tag {
   weight?: number;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    weight: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      weight: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface Webfont {
   /** The name of the font. */
@@ -80,22 +82,23 @@ export interface Webfont {
   tags?: Array<Tag>;
 }
 
-export const Webfont: Schema.Schema<Webfont> = Schema.suspend(() =>
-  Schema.Struct({
-    family: Schema.optional(Schema.String),
-    variants: Schema.optional(Schema.Array(Schema.String)),
-    subsets: Schema.optional(Schema.Array(Schema.String)),
-    version: Schema.optional(Schema.String),
-    lastModified: Schema.optional(Schema.String),
-    files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    category: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    menu: Schema.optional(Schema.String),
-    axes: Schema.optional(Schema.Array(Axis)),
-    colorCapabilities: Schema.optional(Schema.Array(Schema.String)),
-    tags: Schema.optional(Schema.Array(Tag)),
-  }),
-).annotate({ identifier: "Webfont" }) as any as Schema.Schema<Webfont>;
+export const Webfont: Schema.Schema<Webfont> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      family: Schema.optional(Schema.String),
+      variants: Schema.optional(Schema.Array(Schema.String)),
+      subsets: Schema.optional(Schema.Array(Schema.String)),
+      version: Schema.optional(Schema.String),
+      lastModified: Schema.optional(Schema.String),
+      files: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      category: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      menu: Schema.optional(Schema.String),
+      axes: Schema.optional(Schema.Array(Axis)),
+      colorCapabilities: Schema.optional(Schema.Array(Schema.String)),
+      tags: Schema.optional(Schema.Array(Tag)),
+    }),
+  ).annotate({ identifier: "Webfont" }) as any as Schema.Schema<Webfont>;
 
 export interface WebfontList {
   /** This kind represents a list of webfont objects in the webfonts service. */
@@ -104,12 +107,15 @@ export interface WebfontList {
   items?: Array<Webfont>;
 }
 
-export const WebfontList: Schema.Schema<WebfontList> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Webfont)),
-  }),
-).annotate({ identifier: "WebfontList" }) as any as Schema.Schema<WebfontList>;
+export const WebfontList: Schema.Schema<WebfontList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Webfont)),
+    }),
+  ).annotate({
+    identifier: "WebfontList",
+  }) as any as Schema.Schema<WebfontList>;
 
 // ==========================================================================
 // Operations
@@ -140,7 +146,7 @@ export interface ListWebfontsRequest {
   category?: string;
 }
 
-export const ListWebfontsRequest = Schema.Struct({
+export const ListWebfontsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
   capability: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("capability"),
@@ -156,7 +162,7 @@ export const ListWebfontsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListWebfontsRequest>;
 
 export type ListWebfontsResponse = WebfontList;
-export const ListWebfontsResponse = WebfontList;
+export const ListWebfontsResponse = /*@__PURE__*/ /*#__PURE__*/ WebfontList;
 
 export type ListWebfontsError = DefaultErrors;
 
@@ -166,7 +172,7 @@ export const listWebfonts: API.OperationMethod<
   ListWebfontsResponse,
   ListWebfontsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWebfontsRequest,
   output: ListWebfontsResponse,
   errors: [],

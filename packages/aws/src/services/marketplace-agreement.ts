@@ -109,30 +109,31 @@ export type SortBy = string;
 export interface DescribeAgreementInput {
   agreementId: string;
 }
-export const DescribeAgreementInput = S.suspend(() =>
-  S.Struct({ agreementId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeAgreementInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ agreementId: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeAgreementInput",
 }) as any as S.Schema<DescribeAgreementInput>;
 export interface Acceptor {
   accountId?: string;
 }
-export const Acceptor = S.suspend(() =>
+export const Acceptor = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ accountId: S.optional(S.String) }),
 ).annotate({ identifier: "Acceptor" }) as any as S.Schema<Acceptor>;
 export interface Proposer {
   accountId?: string;
 }
-export const Proposer = S.suspend(() =>
+export const Proposer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ accountId: S.optional(S.String) }),
 ).annotate({ identifier: "Proposer" }) as any as S.Schema<Proposer>;
 export interface EstimatedCharges {
   currencyCode?: string;
   agreementValue?: string;
 }
-export const EstimatedCharges = S.suspend(() =>
+export const EstimatedCharges = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     currencyCode: S.optional(S.String),
     agreementValue: S.optional(S.String),
@@ -144,17 +145,17 @@ export interface Resource {
   id?: string;
   type?: string;
 }
-export const Resource = S.suspend(() =>
+export const Resource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.optional(S.String), type: S.optional(S.String) }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type Resources = Resource[];
-export const Resources = S.Array(Resource);
+export const Resources = /*@__PURE__*/ /*#__PURE__*/ S.Array(Resource);
 export interface ProposalSummary {
   resources?: Resource[];
   offerId?: string;
   offerSetId?: string;
 }
-export const ProposalSummary = S.suspend(() =>
+export const ProposalSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(Resources),
     offerId: S.optional(S.String),
@@ -174,7 +175,7 @@ export type AgreementStatus =
   | "SUPERSEDED"
   | "TERMINATED"
   | (string & {});
-export const AgreementStatus = S.String;
+export const AgreementStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DescribeAgreementOutput {
   agreementId?: string;
   acceptor?: Acceptor;
@@ -187,24 +188,27 @@ export interface DescribeAgreementOutput {
   proposalSummary?: ProposalSummary;
   status?: AgreementStatus;
 }
-export const DescribeAgreementOutput = S.suspend(() =>
-  S.Struct({
-    agreementId: S.optional(S.String),
-    acceptor: S.optional(Acceptor),
-    proposer: S.optional(Proposer),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    acceptanceTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    agreementType: S.optional(S.String),
-    estimatedCharges: S.optional(EstimatedCharges),
-    proposalSummary: S.optional(ProposalSummary),
-    status: S.optional(AgreementStatus),
-  }),
+export const DescribeAgreementOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      agreementId: S.optional(S.String),
+      acceptor: S.optional(Acceptor),
+      proposer: S.optional(Proposer),
+      startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      acceptanceTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      agreementType: S.optional(S.String),
+      estimatedCharges: S.optional(EstimatedCharges),
+      proposalSummary: S.optional(ProposalSummary),
+      status: S.optional(AgreementStatus),
+    }),
 ).annotate({
   identifier: "DescribeAgreementOutput",
 }) as any as S.Schema<DescribeAgreementOutput>;
 export type ResourceType = "Agreement" | (string & {});
-export const ResourceType = S.String;
+export const ResourceType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ValidationExceptionReason =
   | "INVALID_AGREEMENT_ID"
   | "MISSING_AGREEMENT_ID"
@@ -218,31 +222,34 @@ export type ValidationExceptionReason =
   | "UNSUPPORTED_FILTERS"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export interface GetAgreementTermsInput {
   agreementId: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const GetAgreementTermsInput = S.suspend(() =>
-  S.Struct({
-    agreementId: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const GetAgreementTermsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      agreementId: S.String,
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "GetAgreementTermsInput",
 }) as any as S.Schema<GetAgreementTermsInput>;
@@ -251,7 +258,7 @@ export interface DocumentItem {
   url?: string;
   version?: string;
 }
-export const DocumentItem = S.suspend(() =>
+export const DocumentItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     url: S.optional(S.String),
@@ -259,26 +266,26 @@ export const DocumentItem = S.suspend(() =>
   }),
 ).annotate({ identifier: "DocumentItem" }) as any as S.Schema<DocumentItem>;
 export type DocumentList = DocumentItem[];
-export const DocumentList = S.Array(DocumentItem);
+export const DocumentList = /*@__PURE__*/ /*#__PURE__*/ S.Array(DocumentItem);
 export interface LegalTerm {
   type?: string;
   documents?: DocumentItem[];
 }
-export const LegalTerm = S.suspend(() =>
+export const LegalTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), documents: S.optional(DocumentList) }),
 ).annotate({ identifier: "LegalTerm" }) as any as S.Schema<LegalTerm>;
 export interface SupportTerm {
   type?: string;
   refundPolicy?: string;
 }
-export const SupportTerm = S.suspend(() =>
+export const SupportTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), refundPolicy: S.optional(S.String) }),
 ).annotate({ identifier: "SupportTerm" }) as any as S.Schema<SupportTerm>;
 export interface RenewalTermConfiguration {
   enableAutoRenew: boolean;
 }
-export const RenewalTermConfiguration = S.suspend(() =>
-  S.Struct({ enableAutoRenew: S.Boolean }),
+export const RenewalTermConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ enableAutoRenew: S.Boolean }),
 ).annotate({
   identifier: "RenewalTermConfiguration",
 }) as any as S.Schema<RenewalTermConfiguration>;
@@ -286,7 +293,7 @@ export interface RenewalTerm {
   type?: string;
   configuration?: RenewalTermConfiguration;
 }
-export const RenewalTerm = S.suspend(() =>
+export const RenewalTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     configuration: S.optional(RenewalTermConfiguration),
@@ -296,27 +303,29 @@ export interface RateCardItem {
   dimensionKey?: string;
   price?: string;
 }
-export const RateCardItem = S.suspend(() =>
+export const RateCardItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ dimensionKey: S.optional(S.String), price: S.optional(S.String) }),
 ).annotate({ identifier: "RateCardItem" }) as any as S.Schema<RateCardItem>;
 export type RateCardList = RateCardItem[];
-export const RateCardList = S.Array(RateCardItem);
+export const RateCardList = /*@__PURE__*/ /*#__PURE__*/ S.Array(RateCardItem);
 export interface UsageBasedRateCardItem {
   rateCard?: RateCardItem[];
 }
-export const UsageBasedRateCardItem = S.suspend(() =>
-  S.Struct({ rateCard: S.optional(RateCardList) }),
+export const UsageBasedRateCardItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ rateCard: S.optional(RateCardList) }),
 ).annotate({
   identifier: "UsageBasedRateCardItem",
 }) as any as S.Schema<UsageBasedRateCardItem>;
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
-export const UsageBasedRateCardList = S.Array(UsageBasedRateCardItem);
+export const UsageBasedRateCardList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  UsageBasedRateCardItem,
+);
 export interface UsageBasedPricingTerm {
   type?: string;
   currencyCode?: string;
   rateCards?: UsageBasedRateCardItem[];
 }
-export const UsageBasedPricingTerm = S.suspend(() =>
+export const UsageBasedPricingTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     currencyCode: S.optional(S.String),
@@ -329,14 +338,14 @@ export interface Selector {
   type?: string;
   value?: string;
 }
-export const Selector = S.suspend(() =>
+export const Selector = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), value: S.optional(S.String) }),
 ).annotate({ identifier: "Selector" }) as any as S.Schema<Selector>;
 export interface Constraints {
   multipleDimensionSelection?: string;
   quantityConfiguration?: string;
 }
-export const Constraints = S.suspend(() =>
+export const Constraints = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     multipleDimensionSelection: S.optional(S.String),
     quantityConfiguration: S.optional(S.String),
@@ -347,57 +356,59 @@ export interface ConfigurableUpfrontRateCardItem {
   constraints?: Constraints;
   rateCard?: RateCardItem[];
 }
-export const ConfigurableUpfrontRateCardItem = S.suspend(() =>
-  S.Struct({
-    selector: S.optional(Selector),
-    constraints: S.optional(Constraints),
-    rateCard: S.optional(RateCardList),
-  }),
-).annotate({
-  identifier: "ConfigurableUpfrontRateCardItem",
-}) as any as S.Schema<ConfigurableUpfrontRateCardItem>;
+export const ConfigurableUpfrontRateCardItem =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      selector: S.optional(Selector),
+      constraints: S.optional(Constraints),
+      rateCard: S.optional(RateCardList),
+    }),
+  ).annotate({
+    identifier: "ConfigurableUpfrontRateCardItem",
+  }) as any as S.Schema<ConfigurableUpfrontRateCardItem>;
 export type ConfigurableUpfrontRateCardList = ConfigurableUpfrontRateCardItem[];
-export const ConfigurableUpfrontRateCardList = S.Array(
-  ConfigurableUpfrontRateCardItem,
-);
+export const ConfigurableUpfrontRateCardList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ConfigurableUpfrontRateCardItem);
 export interface Dimension {
   dimensionKey: string;
   dimensionValue: number;
 }
-export const Dimension = S.suspend(() =>
+export const Dimension = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ dimensionKey: S.String, dimensionValue: S.Number }),
 ).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 export type DimensionList = Dimension[];
-export const DimensionList = S.Array(Dimension);
+export const DimensionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Dimension);
 export interface ConfigurableUpfrontPricingTermConfiguration {
   selectorValue: string;
   dimensions: Dimension[];
 }
-export const ConfigurableUpfrontPricingTermConfiguration = S.suspend(() =>
-  S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
-).annotate({
-  identifier: "ConfigurableUpfrontPricingTermConfiguration",
-}) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
+export const ConfigurableUpfrontPricingTermConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
+  ).annotate({
+    identifier: "ConfigurableUpfrontPricingTermConfiguration",
+  }) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
 export interface ConfigurableUpfrontPricingTerm {
   type?: string;
   currencyCode?: string;
   rateCards?: ConfigurableUpfrontRateCardItem[];
   configuration?: ConfigurableUpfrontPricingTermConfiguration;
 }
-export const ConfigurableUpfrontPricingTerm = S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    rateCards: S.optional(ConfigurableUpfrontRateCardList),
-    configuration: S.optional(ConfigurableUpfrontPricingTermConfiguration),
-  }),
-).annotate({
-  identifier: "ConfigurableUpfrontPricingTerm",
-}) as any as S.Schema<ConfigurableUpfrontPricingTerm>;
+export const ConfigurableUpfrontPricingTerm =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: S.optional(S.String),
+      currencyCode: S.optional(S.String),
+      rateCards: S.optional(ConfigurableUpfrontRateCardList),
+      configuration: S.optional(ConfigurableUpfrontPricingTermConfiguration),
+    }),
+  ).annotate({
+    identifier: "ConfigurableUpfrontPricingTerm",
+  }) as any as S.Schema<ConfigurableUpfrontPricingTerm>;
 export interface ByolPricingTerm {
   type?: string;
 }
-export const ByolPricingTerm = S.suspend(() =>
+export const ByolPricingTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String) }),
 ).annotate({
   identifier: "ByolPricingTerm",
@@ -408,7 +419,7 @@ export interface RecurringPaymentTerm {
   billingPeriod?: string;
   price?: string;
 }
-export const RecurringPaymentTerm = S.suspend(() =>
+export const RecurringPaymentTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     currencyCode: S.optional(S.String),
@@ -424,7 +435,7 @@ export interface ValidityTerm {
   agreementStartDate?: Date;
   agreementEndDate?: Date;
 }
-export const ValidityTerm = S.suspend(() =>
+export const ValidityTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     agreementDuration: S.optional(S.String),
@@ -440,20 +451,20 @@ export interface ScheduleItem {
   chargeDate?: Date;
   chargeAmount?: string;
 }
-export const ScheduleItem = S.suspend(() =>
+export const ScheduleItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     chargeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     chargeAmount: S.optional(S.String),
   }),
 ).annotate({ identifier: "ScheduleItem" }) as any as S.Schema<ScheduleItem>;
 export type ScheduleList = ScheduleItem[];
-export const ScheduleList = S.Array(ScheduleItem);
+export const ScheduleList = /*@__PURE__*/ /*#__PURE__*/ S.Array(ScheduleItem);
 export interface PaymentScheduleTerm {
   type?: string;
   currencyCode?: string;
   schedule?: ScheduleItem[];
 }
-export const PaymentScheduleTerm = S.suspend(() =>
+export const PaymentScheduleTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     currencyCode: S.optional(S.String),
@@ -466,20 +477,20 @@ export interface GrantItem {
   dimensionKey?: string;
   maxQuantity?: number;
 }
-export const GrantItem = S.suspend(() =>
+export const GrantItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     dimensionKey: S.optional(S.String),
     maxQuantity: S.optional(S.Number),
   }),
 ).annotate({ identifier: "GrantItem" }) as any as S.Schema<GrantItem>;
 export type GrantList = GrantItem[];
-export const GrantList = S.Array(GrantItem);
+export const GrantList = /*@__PURE__*/ /*#__PURE__*/ S.Array(GrantItem);
 export interface FreeTrialPricingTerm {
   type?: string;
   duration?: string;
   grants?: GrantItem[];
 }
-export const FreeTrialPricingTerm = S.suspend(() =>
+export const FreeTrialPricingTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     duration: S.optional(S.String),
@@ -495,14 +506,15 @@ export interface FixedUpfrontPricingTerm {
   price?: string;
   grants?: GrantItem[];
 }
-export const FixedUpfrontPricingTerm = S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    duration: S.optional(S.String),
-    price: S.optional(S.String),
-    grants: S.optional(GrantList),
-  }),
+export const FixedUpfrontPricingTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: S.optional(S.String),
+      currencyCode: S.optional(S.String),
+      duration: S.optional(S.String),
+      price: S.optional(S.String),
+      grants: S.optional(GrantList),
+    }),
 ).annotate({
   identifier: "FixedUpfrontPricingTerm",
 }) as any as S.Schema<FixedUpfrontPricingTerm>;
@@ -510,26 +522,28 @@ export type PaymentRequestApprovalStrategy =
   | "AUTO_APPROVE_ON_EXPIRATION"
   | "WAIT_FOR_APPROVAL"
   | (string & {});
-export const PaymentRequestApprovalStrategy = S.String;
+export const PaymentRequestApprovalStrategy =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface VariablePaymentTermConfiguration {
   paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy;
   expirationDuration?: string;
 }
-export const VariablePaymentTermConfiguration = S.suspend(() =>
-  S.Struct({
-    paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy,
-    expirationDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VariablePaymentTermConfiguration",
-}) as any as S.Schema<VariablePaymentTermConfiguration>;
+export const VariablePaymentTermConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy,
+      expirationDuration: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "VariablePaymentTermConfiguration",
+  }) as any as S.Schema<VariablePaymentTermConfiguration>;
 export interface VariablePaymentTerm {
   type?: string;
   currencyCode?: string;
   maxTotalChargeAmount?: string;
   configuration?: VariablePaymentTermConfiguration;
 }
-export const VariablePaymentTerm = S.suspend(() =>
+export const VariablePaymentTerm = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     currencyCode: S.optional(S.String),
@@ -708,7 +722,7 @@ export type AcceptedTerm =
       fixedUpfrontPricingTerm?: never;
       variablePaymentTerm: VariablePaymentTerm;
     };
-export const AcceptedTerm = S.Union([
+export const AcceptedTerm = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ legalTerm: LegalTerm }),
   S.Struct({ supportTerm: SupportTerm }),
   S.Struct({ renewalTerm: RenewalTerm }),
@@ -723,37 +737,39 @@ export const AcceptedTerm = S.Union([
   S.Struct({ variablePaymentTerm: VariablePaymentTerm }),
 ]);
 export type AcceptedTermList = AcceptedTerm[];
-export const AcceptedTermList = S.Array(AcceptedTerm);
+export const AcceptedTermList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AcceptedTerm);
 export interface GetAgreementTermsOutput {
   acceptedTerms?: AcceptedTerm[];
   nextToken?: string;
 }
-export const GetAgreementTermsOutput = S.suspend(() =>
-  S.Struct({
-    acceptedTerms: S.optional(AcceptedTermList),
-    nextToken: S.optional(S.String),
-  }),
+export const GetAgreementTermsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      acceptedTerms: S.optional(AcceptedTermList),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "GetAgreementTermsOutput",
 }) as any as S.Schema<GetAgreementTermsOutput>;
 export type FilterValueList = string[];
-export const FilterValueList = S.Array(S.String);
+export const FilterValueList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Filter {
   name?: string;
   values?: string[];
 }
-export const Filter = S.suspend(() =>
+export const Filter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String), values: S.optional(FilterValueList) }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = S.Array(Filter);
+export const FilterList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Filter);
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
+export const SortOrder = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Sort {
   sortBy?: string;
   sortOrder?: SortOrder;
 }
-export const Sort = S.suspend(() =>
+export const Sort = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ sortBy: S.optional(S.String), sortOrder: S.optional(SortOrder) }),
 ).annotate({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface SearchAgreementsInput {
@@ -763,7 +779,7 @@ export interface SearchAgreementsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const SearchAgreementsInput = S.suspend(() =>
+export const SearchAgreementsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     catalog: S.optional(S.String),
     filters: S.optional(FilterList),
@@ -787,7 +803,7 @@ export interface AgreementViewSummary {
   proposalSummary?: ProposalSummary;
   status?: AgreementStatus;
 }
-export const AgreementViewSummary = S.suspend(() =>
+export const AgreementViewSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     agreementId: S.optional(S.String),
     acceptanceTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -803,16 +819,18 @@ export const AgreementViewSummary = S.suspend(() =>
   identifier: "AgreementViewSummary",
 }) as any as S.Schema<AgreementViewSummary>;
 export type AgreementViewSummaryList = AgreementViewSummary[];
-export const AgreementViewSummaryList = S.Array(AgreementViewSummary);
+export const AgreementViewSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AgreementViewSummary);
 export interface SearchAgreementsOutput {
   agreementViewSummaries?: AgreementViewSummary[];
   nextToken?: string;
 }
-export const SearchAgreementsOutput = S.suspend(() =>
-  S.Struct({
-    agreementViewSummaries: S.optional(AgreementViewSummaryList),
-    nextToken: S.optional(S.String),
-  }),
+export const SearchAgreementsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      agreementViewSummaries: S.optional(AgreementViewSummaryList),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "SearchAgreementsOutput",
 }) as any as S.Schema<SearchAgreementsOutput>;

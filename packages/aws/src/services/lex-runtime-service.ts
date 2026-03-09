@@ -133,7 +133,7 @@ export interface DeleteSessionRequest {
   botAlias: string;
   userId: string;
 }
-export const DeleteSessionRequest = S.suspend(() =>
+export const DeleteSessionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
@@ -160,7 +160,7 @@ export interface DeleteSessionResponse {
   userId?: string;
   sessionId?: string;
 }
-export const DeleteSessionResponse = S.suspend(() =>
+export const DeleteSessionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.optional(S.String),
     botAlias: S.optional(S.String),
@@ -176,7 +176,7 @@ export interface GetSessionRequest {
   userId: string;
   checkpointLabelFilter?: string;
 }
-export const GetSessionRequest = S.suspend(() =>
+export const GetSessionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
@@ -201,13 +201,16 @@ export const GetSessionRequest = S.suspend(() =>
   identifier: "GetSessionRequest",
 }) as any as S.Schema<GetSessionRequest>;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = S.Record(S.String, S.String.pipe(S.optional));
+export const StringMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export type ConfirmationStatus =
   | "None"
   | "Confirmed"
   | "Denied"
   | (string & {});
-export const ConfirmationStatus = S.String;
+export const ConfirmationStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DialogActionType =
   | "ElicitIntent"
   | "ConfirmIntent"
@@ -215,13 +218,13 @@ export type DialogActionType =
   | "Close"
   | "Delegate"
   | (string & {});
-export const DialogActionType = S.String;
+export const DialogActionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FulfillmentState =
   | "Fulfilled"
   | "Failed"
   | "ReadyForFulfillment"
   | (string & {});
-export const FulfillmentState = S.String;
+export const FulfillmentState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface IntentSummary {
   intentName?: string;
   checkpointLabel?: string;
@@ -231,7 +234,7 @@ export interface IntentSummary {
   fulfillmentState?: FulfillmentState;
   slotToElicit?: string;
 }
-export const IntentSummary = S.suspend(() =>
+export const IntentSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     intentName: S.optional(S.String),
     checkpointLabel: S.optional(S.String),
@@ -243,14 +246,15 @@ export const IntentSummary = S.suspend(() =>
   }),
 ).annotate({ identifier: "IntentSummary" }) as any as S.Schema<IntentSummary>;
 export type IntentSummaryList = IntentSummary[];
-export const IntentSummaryList = S.Array(IntentSummary);
+export const IntentSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(IntentSummary);
 export type MessageFormatType =
   | "PlainText"
   | "CustomPayload"
   | "SSML"
   | "Composite"
   | (string & {});
-export const MessageFormatType = S.String;
+export const MessageFormatType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DialogAction {
   type: DialogActionType;
   intentName?: string;
@@ -260,7 +264,7 @@ export interface DialogAction {
   message?: string | redacted.Redacted<string>;
   messageFormat?: MessageFormatType;
 }
-export const DialogAction = S.suspend(() =>
+export const DialogAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: DialogActionType,
     intentName: S.optional(S.String),
@@ -275,18 +279,19 @@ export interface ActiveContextTimeToLive {
   timeToLiveInSeconds?: number;
   turnsToLive?: number;
 }
-export const ActiveContextTimeToLive = S.suspend(() =>
-  S.Struct({
-    timeToLiveInSeconds: S.optional(S.Number),
-    turnsToLive: S.optional(S.Number),
-  }),
+export const ActiveContextTimeToLive = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      timeToLiveInSeconds: S.optional(S.Number),
+      turnsToLive: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ActiveContextParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const ActiveContextParametersMap = S.Record(
+export const ActiveContextParametersMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   SensitiveString.pipe(S.optional),
 );
@@ -295,7 +300,7 @@ export interface ActiveContext {
   timeToLive: ActiveContextTimeToLive;
   parameters: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
-export const ActiveContext = S.suspend(() =>
+export const ActiveContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     timeToLive: ActiveContextTimeToLive,
@@ -303,7 +308,8 @@ export const ActiveContext = S.suspend(() =>
   }),
 ).annotate({ identifier: "ActiveContext" }) as any as S.Schema<ActiveContext>;
 export type ActiveContextsList = ActiveContext[];
-export const ActiveContextsList = S.Array(ActiveContext);
+export const ActiveContextsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ActiveContext);
 export interface GetSessionResponse {
   recentIntentSummaryView?: IntentSummary[];
   sessionAttributes?: { [key: string]: string | undefined };
@@ -311,7 +317,7 @@ export interface GetSessionResponse {
   dialogAction?: DialogAction;
   activeContexts?: ActiveContext[];
 }
-export const GetSessionResponse = S.suspend(() =>
+export const GetSessionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     recentIntentSummaryView: S.optional(IntentSummaryList),
     sessionAttributes: S.optional(StringMap),
@@ -333,7 +339,7 @@ export interface PostContentRequest {
   inputStream: T.StreamingInputBody;
   activeContexts?: string | redacted.Redacted<string>;
 }
-export const PostContentRequest = S.suspend(() =>
+export const PostContentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
@@ -374,7 +380,7 @@ export type DialogState =
   | "ReadyForFulfillment"
   | "Failed"
   | (string & {});
-export const DialogState = S.String;
+export const DialogState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PostContentResponse {
   contentType?: string;
   intentName?: string;
@@ -395,7 +401,7 @@ export interface PostContentResponse {
   sessionId?: string;
   activeContexts?: string | redacted.Redacted<string>;
 }
-export const PostContentResponse = S.suspend(() =>
+export const PostContentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     intentName: S.optional(S.String).pipe(
@@ -456,7 +462,7 @@ export interface PostTextRequest {
   inputText: string | redacted.Redacted<string>;
   activeContexts?: ActiveContext[];
 }
-export const PostTextRequest = S.suspend(() =>
+export const PostTextRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
@@ -484,7 +490,7 @@ export const PostTextRequest = S.suspend(() =>
 export interface IntentConfidence {
   score?: number;
 }
-export const IntentConfidence = S.suspend(() =>
+export const IntentConfidence = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ score: S.optional(S.Number) }),
 ).annotate({
   identifier: "IntentConfidence",
@@ -494,7 +500,7 @@ export interface PredictedIntent {
   nluIntentConfidence?: IntentConfidence;
   slots?: { [key: string]: string | undefined };
 }
-export const PredictedIntent = S.suspend(() =>
+export const PredictedIntent = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     intentName: S.optional(S.String),
     nluIntentConfidence: S.optional(IntentConfidence),
@@ -504,12 +510,12 @@ export const PredictedIntent = S.suspend(() =>
   identifier: "PredictedIntent",
 }) as any as S.Schema<PredictedIntent>;
 export type IntentList = PredictedIntent[];
-export const IntentList = S.Array(PredictedIntent);
+export const IntentList = /*@__PURE__*/ /*#__PURE__*/ S.Array(PredictedIntent);
 export interface SentimentResponse {
   sentimentLabel?: string;
   sentimentScore?: string;
 }
-export const SentimentResponse = S.suspend(() =>
+export const SentimentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sentimentLabel: S.optional(S.String),
     sentimentScore: S.optional(S.String),
@@ -520,16 +526,16 @@ export const SentimentResponse = S.suspend(() =>
 export type ContentType =
   | "application/vnd.amazonaws.card.generic"
   | (string & {});
-export const ContentType = S.String;
+export const ContentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Button {
   text: string;
   value: string;
 }
-export const Button = S.suspend(() =>
+export const Button = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ text: S.String, value: S.String }),
 ).annotate({ identifier: "Button" }) as any as S.Schema<Button>;
 export type ListOfButtons = Button[];
-export const ListOfButtons = S.Array(Button);
+export const ListOfButtons = /*@__PURE__*/ /*#__PURE__*/ S.Array(Button);
 export interface GenericAttachment {
   title?: string;
   subTitle?: string;
@@ -537,7 +543,7 @@ export interface GenericAttachment {
   imageUrl?: string;
   buttons?: Button[];
 }
-export const GenericAttachment = S.suspend(() =>
+export const GenericAttachment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
     subTitle: S.optional(S.String),
@@ -549,13 +555,14 @@ export const GenericAttachment = S.suspend(() =>
   identifier: "GenericAttachment",
 }) as any as S.Schema<GenericAttachment>;
 export type GenericAttachmentList = GenericAttachment[];
-export const GenericAttachmentList = S.Array(GenericAttachment);
+export const GenericAttachmentList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GenericAttachment);
 export interface ResponseCard {
   version?: string;
   contentType?: ContentType;
   genericAttachments?: GenericAttachment[];
 }
-export const ResponseCard = S.suspend(() =>
+export const ResponseCard = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     contentType: S.optional(ContentType),
@@ -578,7 +585,7 @@ export interface PostTextResponse {
   botVersion?: string;
   activeContexts?: ActiveContext[];
 }
-export const PostTextResponse = S.suspend(() =>
+export const PostTextResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     intentName: S.optional(S.String),
     nluIntentConfidence: S.optional(IntentConfidence),
@@ -608,7 +615,7 @@ export interface PutSessionRequest {
   accept?: string;
   activeContexts?: ActiveContext[];
 }
-export const PutSessionRequest = S.suspend(() =>
+export const PutSessionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
@@ -648,7 +655,7 @@ export interface PutSessionResponse {
   sessionId?: string;
   activeContexts?: string | redacted.Redacted<string>;
 }
-export const PutSessionResponse = S.suspend(() =>
+export const PutSessionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     intentName: S.optional(S.String).pipe(

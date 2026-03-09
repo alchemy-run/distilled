@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const RemoveOrganizationMemberInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-  delete_passwords: Schema.optional(Schema.Boolean),
-  delete_service_tokens: Schema.optional(Schema.Boolean),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/members/{id}",
-  }),
-);
+export const RemoveOrganizationMemberInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+    delete_passwords: Schema.optional(Schema.Boolean),
+    delete_service_tokens: Schema.optional(Schema.Boolean),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/members/{id}",
+    }),
+  );
 export type RemoveOrganizationMemberInput =
   typeof RemoveOrganizationMemberInput.Type;
 
 // Output Schema
-export const RemoveOrganizationMemberOutput = Schema.Void;
+export const RemoveOrganizationMemberOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type RemoveOrganizationMemberOutput =
   typeof RemoveOrganizationMemberOutput.Type;
 

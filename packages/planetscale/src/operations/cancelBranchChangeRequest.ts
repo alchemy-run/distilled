@@ -4,21 +4,23 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CancelBranchChangeRequestInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/resizes",
-  }),
-);
+export const CancelBranchChangeRequestInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/resizes",
+    }),
+  );
 export type CancelBranchChangeRequestInput =
   typeof CancelBranchChangeRequestInput.Type;
 
 // Output Schema
-export const CancelBranchChangeRequestOutput = Schema.Void;
+export const CancelBranchChangeRequestOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type CancelBranchChangeRequestOutput =
   typeof CancelBranchChangeRequestOutput.Type;
 

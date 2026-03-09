@@ -38,7 +38,7 @@ export interface GoogleSecuritySafebrowsingV5FullHashFullHashDetail {
 }
 
 export const GoogleSecuritySafebrowsingV5FullHashFullHashDetail: Schema.Schema<GoogleSecuritySafebrowsingV5FullHashFullHashDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threatType: Schema.optional(Schema.String),
       attributes: Schema.optional(Schema.Array(Schema.String)),
@@ -55,7 +55,7 @@ export interface GoogleSecuritySafebrowsingV5FullHash {
 }
 
 export const GoogleSecuritySafebrowsingV5FullHash: Schema.Schema<GoogleSecuritySafebrowsingV5FullHash> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullHash: Schema.optional(Schema.String),
       fullHashDetails: Schema.optional(
@@ -74,7 +74,7 @@ export interface GoogleSecuritySafebrowsingV5SearchHashesResponse {
 }
 
 export const GoogleSecuritySafebrowsingV5SearchHashesResponse: Schema.Schema<GoogleSecuritySafebrowsingV5SearchHashesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullHashes: Schema.optional(
         Schema.Array(GoogleSecuritySafebrowsingV5FullHash),
@@ -100,7 +100,7 @@ export interface GoogleSecuritySafebrowsingV5ThreatUrl {
 }
 
 export const GoogleSecuritySafebrowsingV5ThreatUrl: Schema.Schema<GoogleSecuritySafebrowsingV5ThreatUrl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       threatTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -117,7 +117,7 @@ export interface GoogleSecuritySafebrowsingV5SearchUrlsResponse {
 }
 
 export const GoogleSecuritySafebrowsingV5SearchUrlsResponse: Schema.Schema<GoogleSecuritySafebrowsingV5SearchUrlsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threats: Schema.optional(
         Schema.Array(GoogleSecuritySafebrowsingV5ThreatUrl),
@@ -140,7 +140,7 @@ export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit {
 }
 
 export const GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit: Schema.Schema<GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstValue: Schema.optional(Schema.Number),
       riceParameter: Schema.optional(Schema.Number),
@@ -163,7 +163,7 @@ export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit {
 }
 
 export const GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit: Schema.Schema<GoogleSecuritySafebrowsingV5RiceDeltaEncoded64Bit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstValue: Schema.optional(Schema.String),
       riceParameter: Schema.optional(Schema.Number),
@@ -188,7 +188,7 @@ export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit {
 }
 
 export const GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit: Schema.Schema<GoogleSecuritySafebrowsingV5RiceDeltaEncoded128Bit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstValueHi: Schema.optional(Schema.String),
       firstValueLo: Schema.optional(Schema.String),
@@ -218,7 +218,7 @@ export interface GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit {
 }
 
 export const GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit: Schema.Schema<GoogleSecuritySafebrowsingV5RiceDeltaEncoded256Bit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstValueFirstPart: Schema.optional(Schema.String),
       firstValueSecondPart: Schema.optional(Schema.String),
@@ -263,7 +263,7 @@ export interface GoogleSecuritySafebrowsingV5HashListMetadata {
 }
 
 export const GoogleSecuritySafebrowsingV5HashListMetadata: Schema.Schema<GoogleSecuritySafebrowsingV5HashListMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threatTypes: Schema.optional(Schema.Array(Schema.String)),
       likelySafeTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -300,7 +300,7 @@ export interface GoogleSecuritySafebrowsingV5HashList {
 }
 
 export const GoogleSecuritySafebrowsingV5HashList: Schema.Schema<GoogleSecuritySafebrowsingV5HashList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionsFourBytes: Schema.optional(
         GoogleSecuritySafebrowsingV5RiceDeltaEncoded32Bit,
@@ -336,7 +336,7 @@ export interface GoogleSecuritySafebrowsingV5ListHashListsResponse {
 }
 
 export const GoogleSecuritySafebrowsingV5ListHashListsResponse: Schema.Schema<GoogleSecuritySafebrowsingV5ListHashListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hashLists: Schema.optional(
         Schema.Array(GoogleSecuritySafebrowsingV5HashList),
@@ -353,7 +353,7 @@ export interface GoogleSecuritySafebrowsingV5BatchGetHashListsResponse {
 }
 
 export const GoogleSecuritySafebrowsingV5BatchGetHashListsResponse: Schema.Schema<GoogleSecuritySafebrowsingV5BatchGetHashListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hashLists: Schema.optional(
         Schema.Array(GoogleSecuritySafebrowsingV5HashList),
@@ -372,7 +372,7 @@ export interface SearchHashesRequest {
   hashPrefixes?: string[];
 }
 
-export const SearchHashesRequest = Schema.Struct({
+export const SearchHashesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   hashPrefixes: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("hashPrefixes"),
   ),
@@ -384,7 +384,7 @@ export const SearchHashesRequest = Schema.Struct({
 export type SearchHashesResponse =
   GoogleSecuritySafebrowsingV5SearchHashesResponse;
 export const SearchHashesResponse =
-  GoogleSecuritySafebrowsingV5SearchHashesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleSecuritySafebrowsingV5SearchHashesResponse;
 
 export type SearchHashesError = DefaultErrors;
 
@@ -394,7 +394,7 @@ export const searchHashes: API.OperationMethod<
   SearchHashesResponse,
   SearchHashesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchHashesRequest,
   output: SearchHashesResponse,
   errors: [],
@@ -405,7 +405,7 @@ export interface SearchUrlsRequest {
   urls?: string[];
 }
 
-export const SearchUrlsRequest = Schema.Struct({
+export const SearchUrlsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   urls: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("urls")),
 }).pipe(
   T.Http({ method: "GET", path: "v5/urls:search" }),
@@ -414,7 +414,7 @@ export const SearchUrlsRequest = Schema.Struct({
 
 export type SearchUrlsResponse = GoogleSecuritySafebrowsingV5SearchUrlsResponse;
 export const SearchUrlsResponse =
-  GoogleSecuritySafebrowsingV5SearchUrlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleSecuritySafebrowsingV5SearchUrlsResponse;
 
 export type SearchUrlsError = DefaultErrors;
 
@@ -424,7 +424,7 @@ export const searchUrls: API.OperationMethod<
   SearchUrlsResponse,
   SearchUrlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchUrlsRequest,
   output: SearchUrlsResponse,
   errors: [],
@@ -441,7 +441,7 @@ export interface GetHashListRequest {
   "sizeConstraints.maxDatabaseEntries"?: number;
 }
 
-export const GetHashListRequest = Schema.Struct({
+export const GetHashListRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   version: Schema.optional(Schema.String).pipe(T.HttpQuery("version")),
   "sizeConstraints.maxUpdateEntries": Schema.optional(Schema.Number).pipe(
@@ -456,7 +456,8 @@ export const GetHashListRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetHashListRequest>;
 
 export type GetHashListResponse = GoogleSecuritySafebrowsingV5HashList;
-export const GetHashListResponse = GoogleSecuritySafebrowsingV5HashList;
+export const GetHashListResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleSecuritySafebrowsingV5HashList;
 
 export type GetHashListError = DefaultErrors;
 
@@ -466,7 +467,7 @@ export const getHashList: API.OperationMethod<
   GetHashListResponse,
   GetHashListError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHashListRequest,
   output: GetHashListResponse,
   errors: [],
@@ -479,7 +480,7 @@ export interface ListHashListsRequest {
   pageToken?: string;
 }
 
-export const ListHashListsRequest = Schema.Struct({
+export const ListHashListsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -490,7 +491,7 @@ export const ListHashListsRequest = Schema.Struct({
 export type ListHashListsResponse =
   GoogleSecuritySafebrowsingV5ListHashListsResponse;
 export const ListHashListsResponse =
-  GoogleSecuritySafebrowsingV5ListHashListsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleSecuritySafebrowsingV5ListHashListsResponse;
 
 export type ListHashListsError = DefaultErrors;
 
@@ -500,7 +501,7 @@ export const listHashLists: API.PaginatedOperationMethod<
   ListHashListsResponse,
   ListHashListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListHashListsRequest,
   output: ListHashListsResponse,
   errors: [],
@@ -521,28 +522,29 @@ export interface BatchGetHashListsRequest {
   "sizeConstraints.maxDatabaseEntries"?: number;
 }
 
-export const BatchGetHashListsRequest = Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-  version: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("version"),
-  ),
-  "sizeConstraints.maxUpdateEntries": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("sizeConstraints.maxUpdateEntries"),
-  ),
-  "sizeConstraints.maxDatabaseEntries": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("sizeConstraints.maxDatabaseEntries"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v5/hashLists:batchGet" }),
-  svc,
-) as unknown as Schema.Schema<BatchGetHashListsRequest>;
+export const BatchGetHashListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+    version: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("version"),
+    ),
+    "sizeConstraints.maxUpdateEntries": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("sizeConstraints.maxUpdateEntries"),
+    ),
+    "sizeConstraints.maxDatabaseEntries": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("sizeConstraints.maxDatabaseEntries"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v5/hashLists:batchGet" }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetHashListsRequest>;
 
 export type BatchGetHashListsResponse =
   GoogleSecuritySafebrowsingV5BatchGetHashListsResponse;
 export const BatchGetHashListsResponse =
-  GoogleSecuritySafebrowsingV5BatchGetHashListsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleSecuritySafebrowsingV5BatchGetHashListsResponse;
 
 export type BatchGetHashListsError = DefaultErrors;
 
@@ -552,7 +554,7 @@ export const batchGetHashLists: API.OperationMethod<
   BatchGetHashListsResponse,
   BatchGetHashListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetHashListsRequest,
   output: BatchGetHashListsResponse,
   errors: [],

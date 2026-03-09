@@ -31,13 +31,14 @@ export interface Bucket {
   max?: number;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
-  Schema.Struct({
-    proportion: Schema.optional(Schema.Number),
-    min: Schema.optional(Schema.Number),
-    max: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      proportion: Schema.optional(Schema.Number),
+      min: Schema.optional(Schema.Number),
+      max: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface UserPageLoadMetricV5 {
   /** Identifies the form factor of the metric being collected. */
@@ -55,7 +56,7 @@ export interface UserPageLoadMetricV5 {
 }
 
 export const UserPageLoadMetricV5: Schema.Schema<UserPageLoadMetricV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       formFactor: Schema.optional(Schema.String),
       percentile: Schema.optional(Schema.Number),
@@ -75,15 +76,15 @@ export interface CategoryGroupV5 {
   description?: string;
 }
 
-export const CategoryGroupV5: Schema.Schema<CategoryGroupV5> = Schema.suspend(
-  () =>
+export const CategoryGroupV5: Schema.Schema<CategoryGroupV5> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CategoryGroupV5",
-}) as any as Schema.Schema<CategoryGroupV5>;
+  ).annotate({
+    identifier: "CategoryGroupV5",
+  }) as any as Schema.Schema<CategoryGroupV5>;
 
 export interface MetricSavings {
   /** Optional. Optional numeric value representing the audit's savings for the LCP metric. */
@@ -98,17 +99,18 @@ export interface MetricSavings {
   TBT?: number;
 }
 
-export const MetricSavings: Schema.Schema<MetricSavings> = Schema.suspend(() =>
-  Schema.Struct({
-    LCP: Schema.optional(Schema.Number),
-    CLS: Schema.optional(Schema.Number),
-    INP: Schema.optional(Schema.Number),
-    FCP: Schema.optional(Schema.Number),
-    TBT: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "MetricSavings",
-}) as any as Schema.Schema<MetricSavings>;
+export const MetricSavings: Schema.Schema<MetricSavings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      LCP: Schema.optional(Schema.Number),
+      CLS: Schema.optional(Schema.Number),
+      INP: Schema.optional(Schema.Number),
+      FCP: Schema.optional(Schema.Number),
+      TBT: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "MetricSavings",
+  }) as any as Schema.Schema<MetricSavings>;
 
 export interface LighthouseAuditResultV5 {
   /** The score of the audit, can be null. */
@@ -140,7 +142,7 @@ export interface LighthouseAuditResultV5 {
 }
 
 export const LighthouseAuditResultV5: Schema.Schema<LighthouseAuditResultV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       score: Schema.optional(Schema.Unknown),
       numericUnit: Schema.optional(Schema.String),
@@ -175,16 +177,17 @@ export interface LhrEntity {
   homepage?: string;
 }
 
-export const LhrEntity: Schema.Schema<LhrEntity> = Schema.suspend(() =>
-  Schema.Struct({
-    isUnrecognized: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-    origins: Schema.optional(Schema.Array(Schema.String)),
-    category: Schema.optional(Schema.String),
-    isFirstParty: Schema.optional(Schema.Boolean),
-    homepage: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LhrEntity" }) as any as Schema.Schema<LhrEntity>;
+export const LhrEntity: Schema.Schema<LhrEntity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      isUnrecognized: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      origins: Schema.optional(Schema.Array(Schema.String)),
+      category: Schema.optional(Schema.String),
+      isFirstParty: Schema.optional(Schema.Boolean),
+      homepage: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "LhrEntity" }) as any as Schema.Schema<LhrEntity>;
 
 export interface PagespeedApiLoadingExperienceV5 {
   /** True if the result is an origin fallback from a page, false otherwise. */
@@ -200,7 +203,7 @@ export interface PagespeedApiLoadingExperienceV5 {
 }
 
 export const PagespeedApiLoadingExperienceV5: Schema.Schema<PagespeedApiLoadingExperienceV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       origin_fallback: Schema.optional(Schema.Boolean),
       id: Schema.optional(Schema.String),
@@ -221,15 +224,15 @@ export interface PagespeedVersion {
   minor?: string;
 }
 
-export const PagespeedVersion: Schema.Schema<PagespeedVersion> = Schema.suspend(
-  () =>
+export const PagespeedVersion: Schema.Schema<PagespeedVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       major: Schema.optional(Schema.String),
       minor: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PagespeedVersion",
-}) as any as Schema.Schema<PagespeedVersion>;
+  ).annotate({
+    identifier: "PagespeedVersion",
+  }) as any as Schema.Schema<PagespeedVersion>;
 
 export interface AuditRefs {
   /** Any audit IDs closely relevant to this one. */
@@ -244,15 +247,16 @@ export interface AuditRefs {
   acronym?: string;
 }
 
-export const AuditRefs: Schema.Schema<AuditRefs> = Schema.suspend(() =>
-  Schema.Struct({
-    relevantAudits: Schema.optional(Schema.Array(Schema.String)),
-    id: Schema.optional(Schema.String),
-    weight: Schema.optional(Schema.Number),
-    group: Schema.optional(Schema.String),
-    acronym: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AuditRefs" }) as any as Schema.Schema<AuditRefs>;
+export const AuditRefs: Schema.Schema<AuditRefs> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relevantAudits: Schema.optional(Schema.Array(Schema.String)),
+      id: Schema.optional(Schema.String),
+      weight: Schema.optional(Schema.Number),
+      group: Schema.optional(Schema.String),
+      acronym: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AuditRefs" }) as any as Schema.Schema<AuditRefs>;
 
 export interface LighthouseCategoryV5 {
   /** The human-friendly name of the category. */
@@ -270,7 +274,7 @@ export interface LighthouseCategoryV5 {
 }
 
 export const LighthouseCategoryV5: Schema.Schema<LighthouseCategoryV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Unknown),
@@ -296,15 +300,16 @@ export interface Categories {
   accessibility?: LighthouseCategoryV5;
 }
 
-export const Categories: Schema.Schema<Categories> = Schema.suspend(() =>
-  Schema.Struct({
-    pwa: Schema.optional(LighthouseCategoryV5),
-    performance: Schema.optional(LighthouseCategoryV5),
-    "best-practices": Schema.optional(LighthouseCategoryV5),
-    seo: Schema.optional(LighthouseCategoryV5),
-    accessibility: Schema.optional(LighthouseCategoryV5),
-  }),
-).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
+export const Categories: Schema.Schema<Categories> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pwa: Schema.optional(LighthouseCategoryV5),
+      performance: Schema.optional(LighthouseCategoryV5),
+      "best-practices": Schema.optional(LighthouseCategoryV5),
+      seo: Schema.optional(LighthouseCategoryV5),
+      accessibility: Schema.optional(LighthouseCategoryV5),
+    }),
+  ).annotate({ identifier: "Categories" }) as any as Schema.Schema<Categories>;
 
 export interface ConfigSettings {
   /** The locale setting. */
@@ -319,8 +324,8 @@ export interface ConfigSettings {
   channel?: string;
 }
 
-export const ConfigSettings: Schema.Schema<ConfigSettings> = Schema.suspend(
-  () =>
+export const ConfigSettings: Schema.Schema<ConfigSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locale: Schema.optional(Schema.String),
       onlyCategories: Schema.optional(Schema.Unknown),
@@ -328,9 +333,9 @@ export const ConfigSettings: Schema.Schema<ConfigSettings> = Schema.suspend(
       emulatedFormFactor: Schema.optional(Schema.String),
       channel: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConfigSettings",
-}) as any as Schema.Schema<ConfigSettings>;
+  ).annotate({
+    identifier: "ConfigSettings",
+  }) as any as Schema.Schema<ConfigSettings>;
 
 export interface RuntimeError {
   /** The enumerated Lighthouse Error code. */
@@ -339,25 +344,27 @@ export interface RuntimeError {
   message?: string;
 }
 
-export const RuntimeError: Schema.Schema<RuntimeError> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "RuntimeError",
-}) as any as Schema.Schema<RuntimeError>;
+export const RuntimeError: Schema.Schema<RuntimeError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RuntimeError",
+  }) as any as Schema.Schema<RuntimeError>;
 
 export interface Timing {
   /** The total duration of Lighthouse's run. */
   total?: number;
 }
 
-export const Timing: Schema.Schema<Timing> = Schema.suspend(() =>
-  Schema.Struct({
-    total: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Timing" }) as any as Schema.Schema<Timing>;
+export const Timing: Schema.Schema<Timing> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      total: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Timing" }) as any as Schema.Schema<Timing>;
 
 export interface Environment {
   /** The benchmark index number that indicates rough device class. */
@@ -370,14 +377,17 @@ export interface Environment {
   networkUserAgent?: string;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
-  Schema.Struct({
-    benchmarkIndex: Schema.optional(Schema.Number),
-    hostUserAgent: Schema.optional(Schema.String),
-    credits: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    networkUserAgent: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      benchmarkIndex: Schema.optional(Schema.Number),
+      hostUserAgent: Schema.optional(Schema.String),
+      credits: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      networkUserAgent: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Environment",
+  }) as any as Schema.Schema<Environment>;
 
 export interface StackPack {
   /** The stack pack id. */
@@ -390,14 +400,17 @@ export interface StackPack {
   title?: string;
 }
 
-export const StackPack: Schema.Schema<StackPack> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    descriptions: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    iconDataURL: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "StackPack" }) as any as Schema.Schema<StackPack>;
+export const StackPack: Schema.Schema<StackPack> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      descriptions: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      iconDataURL: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "StackPack" }) as any as Schema.Schema<StackPack>;
 
 export interface RendererFormattedStrings {
   /** Label for a row in a table that shows the User Agent that was used to send out all network requests during the Lighthouse run. */
@@ -499,7 +512,7 @@ export interface RendererFormattedStrings {
 }
 
 export const RendererFormattedStrings: Schema.Schema<RendererFormattedStrings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runtimeSettingsUANetwork: Schema.optional(Schema.String),
       runtimeSettingsAxeVersion: Schema.optional(Schema.String),
@@ -559,11 +572,12 @@ export interface I18n {
   rendererFormattedStrings?: RendererFormattedStrings;
 }
 
-export const I18n: Schema.Schema<I18n> = Schema.suspend(() =>
-  Schema.Struct({
-    rendererFormattedStrings: Schema.optional(RendererFormattedStrings),
-  }),
-).annotate({ identifier: "I18n" }) as any as Schema.Schema<I18n>;
+export const I18n: Schema.Schema<I18n> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rendererFormattedStrings: Schema.optional(RendererFormattedStrings),
+    }),
+  ).annotate({ identifier: "I18n" }) as any as Schema.Schema<I18n>;
 
 export interface LighthouseResultV5 {
   /** Map of audits in the LHR. */
@@ -607,7 +621,7 @@ export interface LighthouseResultV5 {
 }
 
 export const LighthouseResultV5: Schema.Schema<LighthouseResultV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audits: Schema.optional(
         Schema.Record(Schema.String, LighthouseAuditResultV5),
@@ -657,7 +671,7 @@ export interface PagespeedApiPagespeedResponseV5 {
 }
 
 export const PagespeedApiPagespeedResponseV5: Schema.Schema<PagespeedApiPagespeedResponseV5> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       captchaResult: Schema.optional(Schema.String),
@@ -700,27 +714,29 @@ export interface RunpagespeedPagespeedapiRequest {
   locale?: string;
 }
 
-export const RunpagespeedPagespeedapiRequest = Schema.Struct({
-  strategy: Schema.optional(Schema.String).pipe(T.HttpQuery("strategy")),
-  url: Schema.String.pipe(T.HttpQuery("url")),
-  utm_campaign: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("utm_campaign"),
-  ),
-  utm_source: Schema.optional(Schema.String).pipe(T.HttpQuery("utm_source")),
-  captchaToken: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("captchaToken"),
-  ),
-  category: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("category"),
-  ),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-}).pipe(
-  T.Http({ method: "GET", path: "pagespeedonline/v5/runPagespeed" }),
-  svc,
-) as unknown as Schema.Schema<RunpagespeedPagespeedapiRequest>;
+export const RunpagespeedPagespeedapiRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    strategy: Schema.optional(Schema.String).pipe(T.HttpQuery("strategy")),
+    url: Schema.String.pipe(T.HttpQuery("url")),
+    utm_campaign: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("utm_campaign"),
+    ),
+    utm_source: Schema.optional(Schema.String).pipe(T.HttpQuery("utm_source")),
+    captchaToken: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("captchaToken"),
+    ),
+    category: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("category"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+  }).pipe(
+    T.Http({ method: "GET", path: "pagespeedonline/v5/runPagespeed" }),
+    svc,
+  ) as unknown as Schema.Schema<RunpagespeedPagespeedapiRequest>;
 
 export type RunpagespeedPagespeedapiResponse = PagespeedApiPagespeedResponseV5;
-export const RunpagespeedPagespeedapiResponse = PagespeedApiPagespeedResponseV5;
+export const RunpagespeedPagespeedapiResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PagespeedApiPagespeedResponseV5;
 
 export type RunpagespeedPagespeedapiError = DefaultErrors;
 
@@ -730,7 +746,7 @@ export const runpagespeedPagespeedapi: API.OperationMethod<
   RunpagespeedPagespeedapiResponse,
   RunpagespeedPagespeedapiError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunpagespeedPagespeedapiRequest,
   output: RunpagespeedPagespeedapiResponse,
   errors: [],

@@ -30,7 +30,7 @@ export interface GoogleAppsCardV1ActionParameter {
 }
 
 export const GoogleAppsCardV1ActionParameter: Schema.Schema<GoogleAppsCardV1ActionParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -57,7 +57,7 @@ export interface GoogleAppsCardV1Action {
 }
 
 export const GoogleAppsCardV1Action: Schema.Schema<GoogleAppsCardV1Action> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(
         Schema.Array(GoogleAppsCardV1ActionParameter),
@@ -87,7 +87,7 @@ export interface GoogleAppsCardV1CardHeader {
 }
 
 export const GoogleAppsCardV1CardHeader: Schema.Schema<GoogleAppsCardV1CardHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       subtitle: Schema.optional(Schema.String),
@@ -107,7 +107,7 @@ export interface GoogleAppsCardV1CardAction {
 }
 
 export const GoogleAppsCardV1CardAction: Schema.Schema<GoogleAppsCardV1CardAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionLabel: Schema.optional(Schema.String),
       onClick: Schema.optional(GoogleAppsCardV1OnClick),
@@ -126,7 +126,7 @@ export interface GoogleAppsCardV1TextParagraph {
 }
 
 export const GoogleAppsCardV1TextParagraph: Schema.Schema<GoogleAppsCardV1TextParagraph> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       textSyntax: Schema.optional(Schema.String),
@@ -148,7 +148,7 @@ export interface GoogleAppsCardV1MaterialIcon {
 }
 
 export const GoogleAppsCardV1MaterialIcon: Schema.Schema<GoogleAppsCardV1MaterialIcon> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       fill: Schema.optional(Schema.Boolean),
@@ -173,7 +173,7 @@ export interface GoogleAppsCardV1Icon {
 }
 
 export const GoogleAppsCardV1Icon: Schema.Schema<GoogleAppsCardV1Icon> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       knownIcon: Schema.optional(Schema.String),
       altText: Schema.optional(Schema.String),
@@ -196,14 +196,15 @@ export interface Color {
   green?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    blue: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      blue: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface GoogleAppsCardV1Button {
   /** The text displayed inside the button. */
@@ -229,7 +230,7 @@ export interface GoogleAppsCardV1Button {
 }
 
 export const GoogleAppsCardV1Button: Schema.Schema<GoogleAppsCardV1Button> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       icon: Schema.optional(GoogleAppsCardV1Icon),
@@ -249,7 +250,7 @@ export interface GoogleAppsCardV1ButtonList {
 }
 
 export const GoogleAppsCardV1ButtonList: Schema.Schema<GoogleAppsCardV1ButtonList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buttons: Schema.optional(Schema.Array(GoogleAppsCardV1Button)),
     }),
@@ -267,7 +268,7 @@ export interface GoogleAppsCardV1NestedWidget {
 }
 
 export const GoogleAppsCardV1NestedWidget: Schema.Schema<GoogleAppsCardV1NestedWidget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textParagraph: Schema.optional(GoogleAppsCardV1TextParagraph),
       image: Schema.optional(GoogleAppsCardV1Image),
@@ -285,7 +286,7 @@ export interface GoogleAppsCardV1CarouselCard {
 }
 
 export const GoogleAppsCardV1CarouselCard: Schema.Schema<GoogleAppsCardV1CarouselCard> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       footerWidgets: Schema.optional(
         Schema.Array(GoogleAppsCardV1NestedWidget),
@@ -302,7 +303,7 @@ export interface GoogleAppsCardV1Carousel {
 }
 
 export const GoogleAppsCardV1Carousel: Schema.Schema<GoogleAppsCardV1Carousel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       carouselCards: Schema.optional(
         Schema.Array(GoogleAppsCardV1CarouselCard),
@@ -327,7 +328,7 @@ export interface GoogleAppsCardV1Validation {
 }
 
 export const GoogleAppsCardV1Validation: Schema.Schema<GoogleAppsCardV1Validation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       characterLimit: Schema.optional(Schema.Number),
       inputType: Schema.optional(Schema.String),
@@ -341,14 +342,14 @@ export interface SpaceDataSource {
   defaultToCurrentSpace?: boolean;
 }
 
-export const SpaceDataSource: Schema.Schema<SpaceDataSource> = Schema.suspend(
-  () =>
+export const SpaceDataSource: Schema.Schema<SpaceDataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultToCurrentSpace: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "SpaceDataSource",
-}) as any as Schema.Schema<SpaceDataSource>;
+  ).annotate({
+    identifier: "SpaceDataSource",
+  }) as any as Schema.Schema<SpaceDataSource>;
 
 export interface ChatClientDataSourceMarkup {
   /** Google Chat spaces that the user is a member of. */
@@ -356,7 +357,7 @@ export interface ChatClientDataSourceMarkup {
 }
 
 export const ChatClientDataSourceMarkup: Schema.Schema<ChatClientDataSourceMarkup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spaceDataSource: Schema.optional(SpaceDataSource),
     }),
@@ -372,7 +373,7 @@ export interface WorkflowDataSourceMarkup {
 }
 
 export const WorkflowDataSourceMarkup: Schema.Schema<WorkflowDataSourceMarkup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeVariables: Schema.optional(Schema.Boolean),
       type: Schema.optional(Schema.String),
@@ -389,7 +390,7 @@ export interface HostAppDataSourceMarkup {
 }
 
 export const HostAppDataSourceMarkup: Schema.Schema<HostAppDataSourceMarkup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chatDataSource: Schema.optional(ChatClientDataSourceMarkup),
       workflowDataSource: Schema.optional(WorkflowDataSourceMarkup),
@@ -404,7 +405,7 @@ export interface GoogleAppsCardV1SuggestionItem {
 }
 
 export const GoogleAppsCardV1SuggestionItem: Schema.Schema<GoogleAppsCardV1SuggestionItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -418,7 +419,7 @@ export interface GoogleAppsCardV1Suggestions {
 }
 
 export const GoogleAppsCardV1Suggestions: Schema.Schema<GoogleAppsCardV1Suggestions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       items: Schema.optional(Schema.Array(GoogleAppsCardV1SuggestionItem)),
     }),
@@ -452,7 +453,7 @@ export interface GoogleAppsCardV1TextInput {
 }
 
 export const GoogleAppsCardV1TextInput: Schema.Schema<GoogleAppsCardV1TextInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -480,7 +481,7 @@ export interface GoogleAppsCardV1BorderStyle {
 }
 
 export const GoogleAppsCardV1BorderStyle: Schema.Schema<GoogleAppsCardV1BorderStyle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       strokeColor: Schema.optional(Color),
@@ -504,7 +505,7 @@ export interface GoogleAppsCardV1ImageCropStyle {
 }
 
 export const GoogleAppsCardV1ImageCropStyle: Schema.Schema<GoogleAppsCardV1ImageCropStyle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       aspectRatio: Schema.optional(Schema.Number),
@@ -525,7 +526,7 @@ export interface GoogleAppsCardV1ImageComponent {
 }
 
 export const GoogleAppsCardV1ImageComponent: Schema.Schema<GoogleAppsCardV1ImageComponent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageUri: Schema.optional(Schema.String),
       borderStyle: Schema.optional(GoogleAppsCardV1BorderStyle),
@@ -554,7 +555,7 @@ export interface GoogleAppsCardV1GridItem {
 }
 
 export const GoogleAppsCardV1GridItem: Schema.Schema<GoogleAppsCardV1GridItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layout: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -580,7 +581,7 @@ export interface GoogleAppsCardV1Grid {
 }
 
 export const GoogleAppsCardV1Grid: Schema.Schema<GoogleAppsCardV1Grid> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       onClick: Schema.optional(GoogleAppsCardV1OnClick),
       items: Schema.optional(Schema.Array(GoogleAppsCardV1GridItem)),
@@ -595,7 +596,7 @@ export const GoogleAppsCardV1Grid: Schema.Schema<GoogleAppsCardV1Grid> =
 export interface GoogleAppsCardV1Divider {}
 
 export const GoogleAppsCardV1Divider: Schema.Schema<GoogleAppsCardV1Divider> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleAppsCardV1Divider",
   }) as any as Schema.Schema<GoogleAppsCardV1Divider>;
 
@@ -613,7 +614,7 @@ export interface GoogleAppsCardV1SwitchControl {
 }
 
 export const GoogleAppsCardV1SwitchControl: Schema.Schema<GoogleAppsCardV1SwitchControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       controlType: Schema.optional(Schema.String),
@@ -662,7 +663,7 @@ export interface GoogleAppsCardV1DecoratedText {
 }
 
 export const GoogleAppsCardV1DecoratedText: Schema.Schema<GoogleAppsCardV1DecoratedText> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentText: Schema.optional(GoogleAppsCardV1TextParagraph),
       topLabelText: Schema.optional(GoogleAppsCardV1TextParagraph),
@@ -699,7 +700,7 @@ export interface GoogleAppsCardV1Chip {
 }
 
 export const GoogleAppsCardV1Chip: Schema.Schema<GoogleAppsCardV1Chip> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       enabled: Schema.optional(Schema.Boolean),
@@ -724,7 +725,7 @@ export interface GoogleAppsCardV1ChipList {
 }
 
 export const GoogleAppsCardV1ChipList: Schema.Schema<GoogleAppsCardV1ChipList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layout: Schema.optional(Schema.String),
       chips: Schema.optional(Schema.Array(GoogleAppsCardV1Chip)),
@@ -751,7 +752,7 @@ export interface GoogleAppsCardV1DateTimePicker {
 }
 
 export const GoogleAppsCardV1DateTimePicker: Schema.Schema<GoogleAppsCardV1DateTimePicker> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -771,7 +772,7 @@ export interface GoogleAppsCardV1Trigger {
 }
 
 export const GoogleAppsCardV1Trigger: Schema.Schema<GoogleAppsCardV1Trigger> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionRuleId: Schema.optional(Schema.String),
     }),
@@ -785,7 +786,7 @@ export interface GoogleAppsCardV1UpdateVisibilityAction {
 }
 
 export const GoogleAppsCardV1UpdateVisibilityAction: Schema.Schema<GoogleAppsCardV1UpdateVisibilityAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       visibility: Schema.optional(Schema.String),
     }),
@@ -799,7 +800,7 @@ export interface GoogleAppsCardV1CommonWidgetAction {
 }
 
 export const GoogleAppsCardV1CommonWidgetAction: Schema.Schema<GoogleAppsCardV1CommonWidgetAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateVisibilityAction: Schema.optional(
         GoogleAppsCardV1UpdateVisibilityAction,
@@ -819,7 +820,7 @@ export interface GoogleAppsCardV1EventAction {
 }
 
 export const GoogleAppsCardV1EventAction: Schema.Schema<GoogleAppsCardV1EventAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionRuleId: Schema.optional(Schema.String),
       postEventTriggers: Schema.optional(Schema.Array(GoogleAppsCardV1Trigger)),
@@ -842,7 +843,7 @@ export interface GoogleAppsCardV1SelectionItem {
 }
 
 export const GoogleAppsCardV1SelectionItem: Schema.Schema<GoogleAppsCardV1SelectionItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       bottomText: Schema.optional(Schema.String),
@@ -862,7 +863,7 @@ export interface GoogleAppsCardV1PlatformDataSource {
 }
 
 export const GoogleAppsCardV1PlatformDataSource: Schema.Schema<GoogleAppsCardV1PlatformDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commonDataSource: Schema.optional(Schema.String),
       hostAppDataSource: Schema.optional(HostAppDataSourceMarkup),
@@ -881,7 +882,7 @@ export interface GoogleAppsCardV1DataSourceConfig {
 }
 
 export const GoogleAppsCardV1DataSourceConfig: Schema.Schema<GoogleAppsCardV1DataSourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minCharactersTrigger: Schema.optional(Schema.Number),
       remoteDataSource: Schema.optional(GoogleAppsCardV1Action),
@@ -923,7 +924,7 @@ export interface GoogleAppsCardV1SelectionInput {
 }
 
 export const GoogleAppsCardV1SelectionInput: Schema.Schema<GoogleAppsCardV1SelectionInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       onChangeAction: Schema.optional(GoogleAppsCardV1Action),
@@ -963,7 +964,7 @@ export interface GoogleAppsCardV1Widgets {
 }
 
 export const GoogleAppsCardV1Widgets: Schema.Schema<GoogleAppsCardV1Widgets> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       image: Schema.optional(GoogleAppsCardV1Image),
       decoratedText: Schema.optional(GoogleAppsCardV1DecoratedText),
@@ -1004,7 +1005,7 @@ export interface GoogleAppsCardV1Column {
 }
 
 export const GoogleAppsCardV1Column: Schema.Schema<GoogleAppsCardV1Column> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       widgets: Schema.optional(Schema.Array(GoogleAppsCardV1Widgets)),
       horizontalSizeStyle: Schema.optional(Schema.String),
@@ -1021,7 +1022,7 @@ export interface GoogleAppsCardV1Columns {
 }
 
 export const GoogleAppsCardV1Columns: Schema.Schema<GoogleAppsCardV1Columns> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnItems: Schema.optional(Schema.Array(GoogleAppsCardV1Column)),
     }),
@@ -1070,7 +1071,7 @@ export interface GoogleAppsCardV1Widget {
 }
 
 export const GoogleAppsCardV1Widget: Schema.Schema<GoogleAppsCardV1Widget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       carousel: Schema.optional(GoogleAppsCardV1Carousel),
       textInput: Schema.optional(GoogleAppsCardV1TextInput),
@@ -1108,7 +1109,7 @@ export interface GoogleAppsCardV1CollapseControl {
 }
 
 export const GoogleAppsCardV1CollapseControl: Schema.Schema<GoogleAppsCardV1CollapseControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       horizontalAlignment: Schema.optional(Schema.String),
       collapseButton: Schema.optional(GoogleAppsCardV1Button),
@@ -1134,7 +1135,7 @@ export interface GoogleAppsCardV1Section {
 }
 
 export const GoogleAppsCardV1Section: Schema.Schema<GoogleAppsCardV1Section> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uncollapsibleWidgetsCount: Schema.optional(Schema.Number),
       id: Schema.optional(Schema.String),
@@ -1155,7 +1156,7 @@ export interface GoogleAppsCardV1CardFixedFooter {
 }
 
 export const GoogleAppsCardV1CardFixedFooter: Schema.Schema<GoogleAppsCardV1CardFixedFooter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryButton: Schema.optional(GoogleAppsCardV1Button),
       secondaryButton: Schema.optional(GoogleAppsCardV1Button),
@@ -1174,7 +1175,7 @@ export interface GoogleAppsCardV1ExpressionDataCondition {
 }
 
 export const GoogleAppsCardV1ExpressionDataCondition: Schema.Schema<GoogleAppsCardV1ExpressionDataCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionType: Schema.optional(Schema.String),
     }),
@@ -1190,7 +1191,7 @@ export interface GoogleAppsCardV1Condition {
 }
 
 export const GoogleAppsCardV1Condition: Schema.Schema<GoogleAppsCardV1Condition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionRuleId: Schema.optional(Schema.String),
       expressionDataCondition: Schema.optional(
@@ -1213,7 +1214,7 @@ export interface GoogleAppsCardV1ExpressionData {
 }
 
 export const GoogleAppsCardV1ExpressionData: Schema.Schema<GoogleAppsCardV1ExpressionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       conditions: Schema.optional(Schema.Array(GoogleAppsCardV1Condition)),
@@ -1254,7 +1255,7 @@ export interface GoogleAppsCardV1Card {
 }
 
 export const GoogleAppsCardV1Card: Schema.Schema<GoogleAppsCardV1Card> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       header: Schema.optional(GoogleAppsCardV1CardHeader),
       name: Schema.optional(Schema.String),
@@ -1282,7 +1283,7 @@ export interface GoogleAppsCardV1OpenLink {
 }
 
 export const GoogleAppsCardV1OpenLink: Schema.Schema<GoogleAppsCardV1OpenLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       openAs: Schema.optional(Schema.String),
       onClose: Schema.optional(Schema.String),
@@ -1304,7 +1305,7 @@ export interface GoogleAppsCardV1OverflowMenuItem {
 }
 
 export const GoogleAppsCardV1OverflowMenuItem: Schema.Schema<GoogleAppsCardV1OverflowMenuItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disabled: Schema.optional(Schema.Boolean),
       startIcon: Schema.optional(GoogleAppsCardV1Icon),
@@ -1321,7 +1322,7 @@ export interface GoogleAppsCardV1OverflowMenu {
 }
 
 export const GoogleAppsCardV1OverflowMenu: Schema.Schema<GoogleAppsCardV1OverflowMenu> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       items: Schema.optional(Schema.Array(GoogleAppsCardV1OverflowMenuItem)),
     }),
@@ -1343,7 +1344,7 @@ export interface GoogleAppsCardV1OnClick {
 }
 
 export const GoogleAppsCardV1OnClick: Schema.Schema<GoogleAppsCardV1OnClick> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       openDynamicLinkAction: Schema.optional(GoogleAppsCardV1Action),
       action: Schema.optional(GoogleAppsCardV1Action),
@@ -1365,7 +1366,7 @@ export interface GoogleAppsCardV1Image {
 }
 
 export const GoogleAppsCardV1Image: Schema.Schema<GoogleAppsCardV1Image> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       onClick: Schema.optional(GoogleAppsCardV1OnClick),
       altText: Schema.optional(Schema.String),
@@ -1382,29 +1383,29 @@ export interface ThreadReadState {
   lastReadTime?: string;
 }
 
-export const ThreadReadState: Schema.Schema<ThreadReadState> = Schema.suspend(
-  () =>
+export const ThreadReadState: Schema.Schema<ThreadReadState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       lastReadTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ThreadReadState",
-}) as any as Schema.Schema<ThreadReadState>;
+  ).annotate({
+    identifier: "ThreadReadState",
+  }) as any as Schema.Schema<ThreadReadState>;
 
 export interface SelectionItems {
   /** An array of the SelectionItem objects. */
   items?: Array<GoogleAppsCardV1SelectionItem>;
 }
 
-export const SelectionItems: Schema.Schema<SelectionItems> = Schema.suspend(
-  () =>
+export const SelectionItems: Schema.Schema<SelectionItems> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       items: Schema.optional(Schema.Array(GoogleAppsCardV1SelectionItem)),
     }),
-).annotate({
-  identifier: "SelectionItems",
-}) as any as Schema.Schema<SelectionItems>;
+  ).annotate({
+    identifier: "SelectionItems",
+  }) as any as Schema.Schema<SelectionItems>;
 
 export interface UpdatedWidget {
   /** List of widget autocomplete results */
@@ -1413,14 +1414,15 @@ export interface UpdatedWidget {
   widget?: string;
 }
 
-export const UpdatedWidget: Schema.Schema<UpdatedWidget> = Schema.suspend(() =>
-  Schema.Struct({
-    suggestions: Schema.optional(SelectionItems),
-    widget: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "UpdatedWidget",
-}) as any as Schema.Schema<UpdatedWidget>;
+export const UpdatedWidget: Schema.Schema<UpdatedWidget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      suggestions: Schema.optional(SelectionItems),
+      widget: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UpdatedWidget",
+  }) as any as Schema.Schema<UpdatedWidget>;
 
 export interface CalendarEventLinkData {
   /** The [Calendar identifier](https://developers.google.com/workspace/calendar/api/v3/reference/calendars) of the linked Calendar. */
@@ -1430,7 +1432,7 @@ export interface CalendarEventLinkData {
 }
 
 export const CalendarEventLinkData: Schema.Schema<CalendarEventLinkData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       calendarId: Schema.optional(Schema.String),
       eventId: Schema.optional(Schema.String),
@@ -1446,12 +1448,13 @@ export interface TimeInput {
   minutes?: number;
 }
 
-export const TimeInput: Schema.Schema<TimeInput> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeInput" }) as any as Schema.Schema<TimeInput>;
+export const TimeInput: Schema.Schema<TimeInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeInput" }) as any as Schema.Schema<TimeInput>;
 
 export interface CustomEmojiPayload {
   /** Required. Input only. The image used for the custom emoji. The payload must be under 256 KB and the dimension of the image must be square and between 64 and 500 pixels. The restrictions are subject to change. */
@@ -1461,7 +1464,7 @@ export interface CustomEmojiPayload {
 }
 
 export const CustomEmojiPayload: Schema.Schema<CustomEmojiPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileContent: Schema.optional(Schema.String),
       filename: Schema.optional(Schema.String),
@@ -1483,15 +1486,18 @@ export interface CustomEmoji {
   emojiName?: string;
 }
 
-export const CustomEmoji: Schema.Schema<CustomEmoji> = Schema.suspend(() =>
-  Schema.Struct({
-    uid: Schema.optional(Schema.String),
-    temporaryImageUri: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    payload: Schema.optional(CustomEmojiPayload),
-    emojiName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CustomEmoji" }) as any as Schema.Schema<CustomEmoji>;
+export const CustomEmoji: Schema.Schema<CustomEmoji> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+      temporaryImageUri: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      payload: Schema.optional(CustomEmojiPayload),
+      emojiName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomEmoji",
+  }) as any as Schema.Schema<CustomEmoji>;
 
 export interface Emoji {
   /** Optional. A basic emoji represented by a unicode string. */
@@ -1500,12 +1506,13 @@ export interface Emoji {
   customEmoji?: CustomEmoji;
 }
 
-export const Emoji: Schema.Schema<Emoji> = Schema.suspend(() =>
-  Schema.Struct({
-    unicode: Schema.optional(Schema.String),
-    customEmoji: Schema.optional(CustomEmoji),
-  }),
-).annotate({ identifier: "Emoji" }) as any as Schema.Schema<Emoji>;
+export const Emoji: Schema.Schema<Emoji> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unicode: Schema.optional(Schema.String),
+      customEmoji: Schema.optional(CustomEmoji),
+    }),
+  ).annotate({ identifier: "Emoji" }) as any as Schema.Schema<Emoji>;
 
 export interface User {
   /** Output only. The user's display name. */
@@ -1520,15 +1527,16 @@ export interface User {
   isAnonymous?: boolean;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    domainId: Schema.optional(Schema.String),
-    isAnonymous: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      domainId: Schema.optional(Schema.String),
+      isAnonymous: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface Reaction {
   /** Required. The emoji used in the reaction. */
@@ -1539,13 +1547,14 @@ export interface Reaction {
   user?: User;
 }
 
-export const Reaction: Schema.Schema<Reaction> = Schema.suspend(() =>
-  Schema.Struct({
-    emoji: Schema.optional(Emoji),
-    name: Schema.optional(Schema.String),
-    user: Schema.optional(User),
-  }),
-).annotate({ identifier: "Reaction" }) as any as Schema.Schema<Reaction>;
+export const Reaction: Schema.Schema<Reaction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      emoji: Schema.optional(Emoji),
+      name: Schema.optional(Schema.String),
+      user: Schema.optional(User),
+    }),
+  ).annotate({ identifier: "Reaction" }) as any as Schema.Schema<Reaction>;
 
 export interface ListReactionsResponse {
   /** List of reactions in the requested (or first) page. */
@@ -1555,7 +1564,7 @@ export interface ListReactionsResponse {
 }
 
 export const ListReactionsResponse: Schema.Schema<ListReactionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reactions: Schema.optional(Schema.Array(Reaction)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1570,7 +1579,7 @@ export interface ReactionCreatedEventData {
 }
 
 export const ReactionCreatedEventData: Schema.Schema<ReactionCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reaction: Schema.optional(Reaction),
     }),
@@ -1584,7 +1593,7 @@ export interface ReactionBatchCreatedEventData {
 }
 
 export const ReactionBatchCreatedEventData: Schema.Schema<ReactionBatchCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reactions: Schema.optional(Schema.Array(ReactionCreatedEventData)),
     }),
@@ -1600,7 +1609,7 @@ export interface EmojiReactionSummary {
 }
 
 export const EmojiReactionSummary: Schema.Schema<EmojiReactionSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emoji: Schema.optional(Emoji),
       reactionCount: Schema.optional(Schema.Number),
@@ -1619,7 +1628,7 @@ export interface PermissionSetting {
 }
 
 export const PermissionSetting: Schema.Schema<PermissionSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assistantManagersAllowed: Schema.optional(Schema.Boolean),
       membersAllowed: Schema.optional(Schema.Boolean),
@@ -1649,7 +1658,7 @@ export interface PermissionSettings {
 }
 
 export const PermissionSettings: Schema.Schema<PermissionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       useAtMentionAll: Schema.optional(PermissionSetting),
       postMessages: Schema.optional(PermissionSetting),
@@ -1671,14 +1680,15 @@ export interface SpaceDetails {
   guidelines?: string;
 }
 
-export const SpaceDetails: Schema.Schema<SpaceDetails> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    guidelines: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SpaceDetails",
-}) as any as Schema.Schema<SpaceDetails>;
+export const SpaceDetails: Schema.Schema<SpaceDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      guidelines: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SpaceDetails",
+  }) as any as Schema.Schema<SpaceDetails>;
 
 export interface MembershipCount {
   /** Output only. Count of all groups that have directly joined the space. */
@@ -1687,15 +1697,15 @@ export interface MembershipCount {
   joinedDirectHumanUserCount?: number;
 }
 
-export const MembershipCount: Schema.Schema<MembershipCount> = Schema.suspend(
-  () =>
+export const MembershipCount: Schema.Schema<MembershipCount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedGroupCount: Schema.optional(Schema.Number),
       joinedDirectHumanUserCount: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "MembershipCount",
-}) as any as Schema.Schema<MembershipCount>;
+  ).annotate({
+    identifier: "MembershipCount",
+  }) as any as Schema.Schema<MembershipCount>;
 
 export interface AccessSettings {
   /** Optional. The resource name of the [target audience](https://support.google.com/a/answer/9934697) who can discover the space, join the space, and preview the messages in the space. If unset, only users or Google Groups who have been individually invited or added to the space can access it. For details, see [Make a space discoverable to a target audience](https://developers.google.com/workspace/chat/space-target-audience). Format: `audiences/{audience}` To use the default target audience for the Google Workspace organization, set to `audiences/default`. Reading the target audience supports: - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. This field is not populated when using the `chat.bot` scope with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). Setting the target audience requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
@@ -1708,15 +1718,15 @@ export interface AccessSettings {
     | (string & {});
 }
 
-export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(
-  () =>
+export const AccessSettings: Schema.Schema<AccessSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audience: Schema.optional(Schema.String),
       accessState: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AccessSettings",
-}) as any as Schema.Schema<AccessSettings>;
+  ).annotate({
+    identifier: "AccessSettings",
+  }) as any as Schema.Schema<AccessSettings>;
 
 export interface Space {
   /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
@@ -1781,42 +1791,44 @@ export interface Space {
   type?: "TYPE_UNSPECIFIED" | "ROOM" | "DM" | (string & {});
 }
 
-export const Space: Schema.Schema<Space> = Schema.suspend(() =>
-  Schema.Struct({
-    adminInstalled: Schema.optional(Schema.Boolean),
-    permissionSettings: Schema.optional(PermissionSettings),
-    threaded: Schema.optional(Schema.Boolean),
-    importModeExpireTime: Schema.optional(Schema.String),
-    spaceHistoryState: Schema.optional(Schema.String),
-    spaceDetails: Schema.optional(SpaceDetails),
-    customer: Schema.optional(Schema.String),
-    predefinedPermissionSettings: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    membershipCount: Schema.optional(MembershipCount),
-    name: Schema.optional(Schema.String),
-    accessSettings: Schema.optional(AccessSettings),
-    spaceType: Schema.optional(Schema.String),
-    singleUserBotDm: Schema.optional(Schema.Boolean),
-    spaceThreadingState: Schema.optional(Schema.String),
-    importMode: Schema.optional(Schema.Boolean),
-    lastActiveTime: Schema.optional(Schema.String),
-    externalUserAllowed: Schema.optional(Schema.Boolean),
-    spaceUri: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
+export const Space: Schema.Schema<Space> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adminInstalled: Schema.optional(Schema.Boolean),
+      permissionSettings: Schema.optional(PermissionSettings),
+      threaded: Schema.optional(Schema.Boolean),
+      importModeExpireTime: Schema.optional(Schema.String),
+      spaceHistoryState: Schema.optional(Schema.String),
+      spaceDetails: Schema.optional(SpaceDetails),
+      customer: Schema.optional(Schema.String),
+      predefinedPermissionSettings: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      membershipCount: Schema.optional(MembershipCount),
+      name: Schema.optional(Schema.String),
+      accessSettings: Schema.optional(AccessSettings),
+      spaceType: Schema.optional(Schema.String),
+      singleUserBotDm: Schema.optional(Schema.Boolean),
+      spaceThreadingState: Schema.optional(Schema.String),
+      importMode: Schema.optional(Schema.Boolean),
+      lastActiveTime: Schema.optional(Schema.String),
+      externalUserAllowed: Schema.optional(Schema.Boolean),
+      spaceUri: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Space" }) as any as Schema.Schema<Space>;
 
 export interface Group {
   /** Resource name for a Google Group. Represents a [group](https://cloud.google.com/identity/docs/reference/rest/v1/groups) in Cloud Identity Groups API. Format: groups/{group} */
   name?: string;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface Membership {
   /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
@@ -1845,17 +1857,18 @@ export interface Membership {
     | (string & {});
 }
 
-export const Membership: Schema.Schema<Membership> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    member: Schema.optional(User),
-    deleteTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    groupMember: Schema.optional(Group),
-    createTime: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
+export const Membership: Schema.Schema<Membership> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      member: Schema.optional(User),
+      deleteTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      groupMember: Schema.optional(Group),
+      createTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Membership" }) as any as Schema.Schema<Membership>;
 
 export interface SetUpSpaceRequest {
   /** Optional. A unique identifier for this request. A random UUID is recommended. Specifying an existing request ID returns the space created with that ID instead of creating a new space. Specifying an existing request ID from the same Chat app with a different authenticated user returns an error. */
@@ -1867,7 +1880,7 @@ export interface SetUpSpaceRequest {
 }
 
 export const SetUpSpaceRequest: Schema.Schema<SetUpSpaceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       space: Schema.optional(Space),
@@ -1887,7 +1900,7 @@ export interface ChatSpaceLinkData {
 }
 
 export const ChatSpaceLinkData: Schema.Schema<ChatSpaceLinkData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thread: Schema.optional(Schema.String),
       space: Schema.optional(Schema.String),
@@ -1899,22 +1912,24 @@ export const ChatSpaceLinkData: Schema.Schema<ChatSpaceLinkData> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface DriveDataRef {
   /** The ID for the drive file. Use with the Drive API. */
   driveFileId?: string;
 }
 
-export const DriveDataRef: Schema.Schema<DriveDataRef> = Schema.suspend(() =>
-  Schema.Struct({
-    driveFileId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DriveDataRef",
-}) as any as Schema.Schema<DriveDataRef>;
+export const DriveDataRef: Schema.Schema<DriveDataRef> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      driveFileId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DriveDataRef",
+  }) as any as Schema.Schema<DriveDataRef>;
 
 export interface AttachmentDataRef {
   /** Optional. The resource name of the attachment data. This field is used with the media API to download the attachment data. */
@@ -1924,7 +1939,7 @@ export interface AttachmentDataRef {
 }
 
 export const AttachmentDataRef: Schema.Schema<AttachmentDataRef> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
       attachmentUploadToken: Schema.optional(Schema.String),
@@ -1956,18 +1971,19 @@ export interface Attachment {
   thumbnailUri?: string;
 }
 
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() =>
-  Schema.Struct({
-    driveDataRef: Schema.optional(DriveDataRef),
-    source: Schema.optional(Schema.String),
-    contentName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    attachmentDataRef: Schema.optional(AttachmentDataRef),
-    downloadUri: Schema.optional(Schema.String),
-    contentType: Schema.optional(Schema.String),
-    thumbnailUri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+export const Attachment: Schema.Schema<Attachment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      driveDataRef: Schema.optional(DriveDataRef),
+      source: Schema.optional(Schema.String),
+      contentName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      attachmentDataRef: Schema.optional(AttachmentDataRef),
+      downloadUri: Schema.optional(Schema.String),
+      contentType: Schema.optional(Schema.String),
+      thumbnailUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
 
 export interface DriveLinkData {
   /** The mime type of the linked Google Drive resource. */
@@ -1976,14 +1992,15 @@ export interface DriveLinkData {
   driveDataRef?: DriveDataRef;
 }
 
-export const DriveLinkData: Schema.Schema<DriveLinkData> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    driveDataRef: Schema.optional(DriveDataRef),
-  }),
-).annotate({
-  identifier: "DriveLinkData",
-}) as any as Schema.Schema<DriveLinkData>;
+export const DriveLinkData: Schema.Schema<DriveLinkData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      driveDataRef: Schema.optional(DriveDataRef),
+    }),
+  ).annotate({
+    identifier: "DriveLinkData",
+  }) as any as Schema.Schema<DriveLinkData>;
 
 export interface MeetSpaceLinkData {
   /** Meeting code of the linked Meet space. */
@@ -2000,7 +2017,7 @@ export interface MeetSpaceLinkData {
 }
 
 export const MeetSpaceLinkData: Schema.Schema<MeetSpaceLinkData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       meetingCode: Schema.optional(Schema.String),
       huddleStatus: Schema.optional(Schema.String),
@@ -2032,8 +2049,8 @@ export interface RichLinkMetadata {
   meetSpaceLinkData?: MeetSpaceLinkData;
 }
 
-export const RichLinkMetadata: Schema.Schema<RichLinkMetadata> = Schema.suspend(
-  () =>
+export const RichLinkMetadata: Schema.Schema<RichLinkMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       richLinkType: Schema.optional(Schema.String),
@@ -2042,9 +2059,9 @@ export const RichLinkMetadata: Schema.Schema<RichLinkMetadata> = Schema.suspend(
       driveLinkData: Schema.optional(DriveLinkData),
       meetSpaceLinkData: Schema.optional(MeetSpaceLinkData),
     }),
-).annotate({
-  identifier: "RichLinkMetadata",
-}) as any as Schema.Schema<RichLinkMetadata>;
+  ).annotate({
+    identifier: "RichLinkMetadata",
+  }) as any as Schema.Schema<RichLinkMetadata>;
 
 export interface CustomEmojiMetadata {
   /** The custom emoji. */
@@ -2052,7 +2069,7 @@ export interface CustomEmojiMetadata {
 }
 
 export const CustomEmojiMetadata: Schema.Schema<CustomEmojiMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customEmoji: Schema.optional(CustomEmoji),
     }),
@@ -2068,7 +2085,7 @@ export interface UserMentionMetadata {
 }
 
 export const UserMentionMetadata: Schema.Schema<UserMentionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       user: Schema.optional(User),
       type: Schema.optional(Schema.String),
@@ -2091,7 +2108,7 @@ export interface SlashCommandMetadata {
 }
 
 export const SlashCommandMetadata: Schema.Schema<SlashCommandMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggersDialog: Schema.optional(Schema.Boolean),
       commandName: Schema.optional(Schema.String),
@@ -2126,17 +2143,18 @@ export interface Annotation {
     | (string & {});
 }
 
-export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() =>
-  Schema.Struct({
-    richLinkMetadata: Schema.optional(RichLinkMetadata),
-    customEmojiMetadata: Schema.optional(CustomEmojiMetadata),
-    startIndex: Schema.optional(Schema.Number),
-    length: Schema.optional(Schema.Number),
-    userMention: Schema.optional(UserMentionMetadata),
-    slashCommand: Schema.optional(SlashCommandMetadata),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
+export const Annotation: Schema.Schema<Annotation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      richLinkMetadata: Schema.optional(RichLinkMetadata),
+      customEmojiMetadata: Schema.optional(CustomEmojiMetadata),
+      startIndex: Schema.optional(Schema.Number),
+      length: Schema.optional(Schema.Number),
+      userMention: Schema.optional(UserMentionMetadata),
+      slashCommand: Schema.optional(SlashCommandMetadata),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
 
 export interface QuotedMessageSnapshot {
   /** Output only. Snapshot of the quoted message's text content. */
@@ -2152,7 +2170,7 @@ export interface QuotedMessageSnapshot {
 }
 
 export const QuotedMessageSnapshot: Schema.Schema<QuotedMessageSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       formattedText: Schema.optional(Schema.String),
@@ -2172,7 +2190,7 @@ export interface ForwardedMetadata {
 }
 
 export const ForwardedMetadata: Schema.Schema<ForwardedMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spaceDisplayName: Schema.optional(Schema.String),
       space: Schema.optional(Schema.String),
@@ -2195,7 +2213,7 @@ export interface QuotedMessageMetadata {
 }
 
 export const QuotedMessageMetadata: Schema.Schema<QuotedMessageMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quoteType: Schema.optional(Schema.String),
       quotedMessageSnapshot: Schema.optional(QuotedMessageSnapshot),
@@ -2212,36 +2230,40 @@ export interface MatchedUrl {
   url?: string;
 }
 
-export const MatchedUrl: Schema.Schema<MatchedUrl> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MatchedUrl" }) as any as Schema.Schema<MatchedUrl>;
+export const MatchedUrl: Schema.Schema<MatchedUrl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "MatchedUrl" }) as any as Schema.Schema<MatchedUrl>;
 
 export interface AccessoryWidget {
   /** A list of buttons. */
   buttonList?: GoogleAppsCardV1ButtonList;
 }
 
-export const AccessoryWidget: Schema.Schema<AccessoryWidget> = Schema.suspend(
-  () =>
+export const AccessoryWidget: Schema.Schema<AccessoryWidget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buttonList: Schema.optional(GoogleAppsCardV1ButtonList),
     }),
-).annotate({
-  identifier: "AccessoryWidget",
-}) as any as Schema.Schema<AccessoryWidget>;
+  ).annotate({
+    identifier: "AccessoryWidget",
+  }) as any as Schema.Schema<AccessoryWidget>;
 
 export interface AttachedGif {
   /** Output only. The URL that hosts the GIF image. */
   uri?: string;
 }
 
-export const AttachedGif: Schema.Schema<AttachedGif> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AttachedGif" }) as any as Schema.Schema<AttachedGif>;
+export const AttachedGif: Schema.Schema<AttachedGif> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AttachedGif",
+  }) as any as Schema.Schema<AttachedGif>;
 
 export interface CardWithId {
   /** Required if the message contains multiple cards. A unique identifier for a card in a message. */
@@ -2250,25 +2272,27 @@ export interface CardWithId {
   card?: GoogleAppsCardV1Card;
 }
 
-export const CardWithId: Schema.Schema<CardWithId> = Schema.suspend(() =>
-  Schema.Struct({
-    cardId: Schema.optional(Schema.String),
-    card: Schema.optional(GoogleAppsCardV1Card),
-  }),
-).annotate({ identifier: "CardWithId" }) as any as Schema.Schema<CardWithId>;
+export const CardWithId: Schema.Schema<CardWithId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cardId: Schema.optional(Schema.String),
+      card: Schema.optional(GoogleAppsCardV1Card),
+    }),
+  ).annotate({ identifier: "CardWithId" }) as any as Schema.Schema<CardWithId>;
 
 export interface SlashCommand {
   /** The ID of the slash command. */
   commandId?: string;
 }
 
-export const SlashCommand: Schema.Schema<SlashCommand> = Schema.suspend(() =>
-  Schema.Struct({
-    commandId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SlashCommand",
-}) as any as Schema.Schema<SlashCommand>;
+export const SlashCommand: Schema.Schema<SlashCommand> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commandId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SlashCommand",
+  }) as any as Schema.Schema<SlashCommand>;
 
 export interface DeletionMetadata {
   /** Indicates who deleted the message. */
@@ -2284,25 +2308,26 @@ export interface DeletionMetadata {
     | (string & {});
 }
 
-export const DeletionMetadata: Schema.Schema<DeletionMetadata> = Schema.suspend(
-  () =>
+export const DeletionMetadata: Schema.Schema<DeletionMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletionType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DeletionMetadata",
-}) as any as Schema.Schema<DeletionMetadata>;
+  ).annotate({
+    identifier: "DeletionMetadata",
+  }) as any as Schema.Schema<DeletionMetadata>;
 
 export interface OpenLink {
   /** The URL to open. */
   url?: string;
 }
 
-export const OpenLink: Schema.Schema<OpenLink> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "OpenLink" }) as any as Schema.Schema<OpenLink>;
+export const OpenLink: Schema.Schema<OpenLink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "OpenLink" }) as any as Schema.Schema<OpenLink>;
 
 export interface ActionParameter {
   /** The name of the parameter for the action script. */
@@ -2311,15 +2336,15 @@ export interface ActionParameter {
   value?: string;
 }
 
-export const ActionParameter: Schema.Schema<ActionParameter> = Schema.suspend(
-  () =>
+export const ActionParameter: Schema.Schema<ActionParameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ActionParameter",
-}) as any as Schema.Schema<ActionParameter>;
+  ).annotate({
+    identifier: "ActionParameter",
+  }) as any as Schema.Schema<ActionParameter>;
 
 export interface FormAction {
   /** The method name is used to identify which part of the form triggered the form submission. This information is echoed back to the Chat app as part of the card click event. You can use the same method name for several elements that trigger a common behavior. */
@@ -2328,12 +2353,13 @@ export interface FormAction {
   parameters?: Array<ActionParameter>;
 }
 
-export const FormAction: Schema.Schema<FormAction> = Schema.suspend(() =>
-  Schema.Struct({
-    actionMethodName: Schema.optional(Schema.String),
-    parameters: Schema.optional(Schema.Array(ActionParameter)),
-  }),
-).annotate({ identifier: "FormAction" }) as any as Schema.Schema<FormAction>;
+export const FormAction: Schema.Schema<FormAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      actionMethodName: Schema.optional(Schema.String),
+      parameters: Schema.optional(Schema.Array(ActionParameter)),
+    }),
+  ).annotate({ identifier: "FormAction" }) as any as Schema.Schema<FormAction>;
 
 export interface OnClick {
   /** This `onclick` action triggers an open link action if specified. */
@@ -2342,12 +2368,13 @@ export interface OnClick {
   action?: FormAction;
 }
 
-export const OnClick: Schema.Schema<OnClick> = Schema.suspend(() =>
-  Schema.Struct({
-    openLink: Schema.optional(OpenLink),
-    action: Schema.optional(FormAction),
-  }),
-).annotate({ identifier: "OnClick" }) as any as Schema.Schema<OnClick>;
+export const OnClick: Schema.Schema<OnClick> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      openLink: Schema.optional(OpenLink),
+      action: Schema.optional(FormAction),
+    }),
+  ).annotate({ identifier: "OnClick" }) as any as Schema.Schema<OnClick>;
 
 export interface CardAction {
   /** The label used to be displayed in the action menu item. */
@@ -2356,12 +2383,13 @@ export interface CardAction {
   onClick?: OnClick;
 }
 
-export const CardAction: Schema.Schema<CardAction> = Schema.suspend(() =>
-  Schema.Struct({
-    actionLabel: Schema.optional(Schema.String),
-    onClick: Schema.optional(OnClick),
-  }),
-).annotate({ identifier: "CardAction" }) as any as Schema.Schema<CardAction>;
+export const CardAction: Schema.Schema<CardAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      actionLabel: Schema.optional(Schema.String),
+      onClick: Schema.optional(OnClick),
+    }),
+  ).annotate({ identifier: "CardAction" }) as any as Schema.Schema<CardAction>;
 
 export interface CardHeader {
   /** The subtitle of the card header. */
@@ -2374,14 +2402,15 @@ export interface CardHeader {
   imageUrl?: string;
 }
 
-export const CardHeader: Schema.Schema<CardHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    subtitle: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    imageStyle: Schema.optional(Schema.String),
-    imageUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CardHeader" }) as any as Schema.Schema<CardHeader>;
+export const CardHeader: Schema.Schema<CardHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subtitle: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      imageStyle: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "CardHeader" }) as any as Schema.Schema<CardHeader>;
 
 export interface Image {
   /** The URL of the image. */
@@ -2392,13 +2421,14 @@ export interface Image {
   onClick?: OnClick;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    imageUrl: Schema.optional(Schema.String),
-    aspectRatio: Schema.optional(Schema.Number),
-    onClick: Schema.optional(OnClick),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      imageUrl: Schema.optional(Schema.String),
+      aspectRatio: Schema.optional(Schema.Number),
+      onClick: Schema.optional(OnClick),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface TextButton {
   /** The text of the button. */
@@ -2407,12 +2437,13 @@ export interface TextButton {
   onClick?: OnClick;
 }
 
-export const TextButton: Schema.Schema<TextButton> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(Schema.String),
-    onClick: Schema.optional(OnClick),
-  }),
-).annotate({ identifier: "TextButton" }) as any as Schema.Schema<TextButton>;
+export const TextButton: Schema.Schema<TextButton> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      onClick: Schema.optional(OnClick),
+    }),
+  ).annotate({ identifier: "TextButton" }) as any as Schema.Schema<TextButton>;
 
 export interface ImageButton {
   /** The icon specified by an `enum` that indices to an icon provided by Chat API. */
@@ -2457,14 +2488,17 @@ export interface ImageButton {
   name?: string;
 }
 
-export const ImageButton: Schema.Schema<ImageButton> = Schema.suspend(() =>
-  Schema.Struct({
-    icon: Schema.optional(Schema.String),
-    onClick: Schema.optional(OnClick),
-    iconUrl: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ImageButton" }) as any as Schema.Schema<ImageButton>;
+export const ImageButton: Schema.Schema<ImageButton> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      icon: Schema.optional(Schema.String),
+      onClick: Schema.optional(OnClick),
+      iconUrl: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ImageButton",
+  }) as any as Schema.Schema<ImageButton>;
 
 export interface Button {
   /** A button with text and `onclick` action. */
@@ -2473,12 +2507,13 @@ export interface Button {
   imageButton?: ImageButton;
 }
 
-export const Button: Schema.Schema<Button> = Schema.suspend(() =>
-  Schema.Struct({
-    textButton: Schema.optional(TextButton),
-    imageButton: Schema.optional(ImageButton),
-  }),
-).annotate({ identifier: "Button" }) as any as Schema.Schema<Button>;
+export const Button: Schema.Schema<Button> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      textButton: Schema.optional(TextButton),
+      imageButton: Schema.optional(ImageButton),
+    }),
+  ).annotate({ identifier: "Button" }) as any as Schema.Schema<Button>;
 
 export interface KeyValue {
   /** The icon specified by a URL. */
@@ -2531,30 +2566,32 @@ export interface KeyValue {
   topLabel?: string;
 }
 
-export const KeyValue: Schema.Schema<KeyValue> = Schema.suspend(() =>
-  Schema.Struct({
-    iconUrl: Schema.optional(Schema.String),
-    button: Schema.optional(Button),
-    content: Schema.optional(Schema.String),
-    contentMultiline: Schema.optional(Schema.Boolean),
-    bottomLabel: Schema.optional(Schema.String),
-    icon: Schema.optional(Schema.String),
-    onClick: Schema.optional(OnClick),
-    topLabel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "KeyValue" }) as any as Schema.Schema<KeyValue>;
+export const KeyValue: Schema.Schema<KeyValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iconUrl: Schema.optional(Schema.String),
+      button: Schema.optional(Button),
+      content: Schema.optional(Schema.String),
+      contentMultiline: Schema.optional(Schema.Boolean),
+      bottomLabel: Schema.optional(Schema.String),
+      icon: Schema.optional(Schema.String),
+      onClick: Schema.optional(OnClick),
+      topLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "KeyValue" }) as any as Schema.Schema<KeyValue>;
 
 export interface TextParagraph {
   text?: string;
 }
 
-export const TextParagraph: Schema.Schema<TextParagraph> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TextParagraph",
-}) as any as Schema.Schema<TextParagraph>;
+export const TextParagraph: Schema.Schema<TextParagraph> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TextParagraph",
+  }) as any as Schema.Schema<TextParagraph>;
 
 export interface WidgetMarkup {
   /** Display an image in this widget. */
@@ -2567,16 +2604,17 @@ export interface WidgetMarkup {
   textParagraph?: TextParagraph;
 }
 
-export const WidgetMarkup: Schema.Schema<WidgetMarkup> = Schema.suspend(() =>
-  Schema.Struct({
-    image: Schema.optional(Image),
-    keyValue: Schema.optional(KeyValue),
-    buttons: Schema.optional(Schema.Array(Button)),
-    textParagraph: Schema.optional(TextParagraph),
-  }),
-).annotate({
-  identifier: "WidgetMarkup",
-}) as any as Schema.Schema<WidgetMarkup>;
+export const WidgetMarkup: Schema.Schema<WidgetMarkup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      image: Schema.optional(Image),
+      keyValue: Schema.optional(KeyValue),
+      buttons: Schema.optional(Schema.Array(Button)),
+      textParagraph: Schema.optional(TextParagraph),
+    }),
+  ).annotate({
+    identifier: "WidgetMarkup",
+  }) as any as Schema.Schema<WidgetMarkup>;
 
 export interface Section {
   /** The header of the section. Formatted text is supported. For more information about formatting text, see [Formatting text in Google Chat apps](https://developers.google.com/workspace/chat/format-messages#card-formatting) and [Formatting text in Google Workspace Add-ons](https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting). */
@@ -2585,12 +2623,13 @@ export interface Section {
   widgets?: Array<WidgetMarkup>;
 }
 
-export const Section: Schema.Schema<Section> = Schema.suspend(() =>
-  Schema.Struct({
-    header: Schema.optional(Schema.String),
-    widgets: Schema.optional(Schema.Array(WidgetMarkup)),
-  }),
-).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
+export const Section: Schema.Schema<Section> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      header: Schema.optional(Schema.String),
+      widgets: Schema.optional(Schema.Array(WidgetMarkup)),
+    }),
+  ).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
 
 export interface Card {
   /** The actions of this card. */
@@ -2603,14 +2642,15 @@ export interface Card {
   sections?: Array<Section>;
 }
 
-export const Card: Schema.Schema<Card> = Schema.suspend(() =>
-  Schema.Struct({
-    cardActions: Schema.optional(Schema.Array(CardAction)),
-    header: Schema.optional(CardHeader),
-    name: Schema.optional(Schema.String),
-    sections: Schema.optional(Schema.Array(Section)),
-  }),
-).annotate({ identifier: "Card" }) as any as Schema.Schema<Card>;
+export const Card: Schema.Schema<Card> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cardActions: Schema.optional(Schema.Array(CardAction)),
+      header: Schema.optional(CardHeader),
+      name: Schema.optional(Schema.String),
+      sections: Schema.optional(Schema.Array(Section)),
+    }),
+  ).annotate({ identifier: "Card" }) as any as Schema.Schema<Card>;
 
 export interface Thread {
   /** Identifier. Resource name of the thread. Example: `spaces/{space}/threads/{thread}` */
@@ -2619,23 +2659,25 @@ export interface Thread {
   threadKey?: string;
 }
 
-export const Thread: Schema.Schema<Thread> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    threadKey: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
+export const Thread: Schema.Schema<Thread> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      threadKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Thread" }) as any as Schema.Schema<Thread>;
 
 export interface Dialog {
   /** Input only. Body of the dialog, which is rendered in a modal. Google Chat apps don't support the following card entities: `DateTimePicker`, `OnChangeAction`. */
   body?: GoogleAppsCardV1Card;
 }
 
-export const Dialog: Schema.Schema<Dialog> = Schema.suspend(() =>
-  Schema.Struct({
-    body: Schema.optional(GoogleAppsCardV1Card),
-  }),
-).annotate({ identifier: "Dialog" }) as any as Schema.Schema<Dialog>;
+export const Dialog: Schema.Schema<Dialog> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      body: Schema.optional(GoogleAppsCardV1Card),
+    }),
+  ).annotate({ identifier: "Dialog" }) as any as Schema.Schema<Dialog>;
 
 export interface ActionStatus {
   /** The status code. */
@@ -2662,14 +2704,15 @@ export interface ActionStatus {
   userFacingMessage?: string;
 }
 
-export const ActionStatus: Schema.Schema<ActionStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    statusCode: Schema.optional(Schema.String),
-    userFacingMessage: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ActionStatus",
-}) as any as Schema.Schema<ActionStatus>;
+export const ActionStatus: Schema.Schema<ActionStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      statusCode: Schema.optional(Schema.String),
+      userFacingMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActionStatus",
+  }) as any as Schema.Schema<ActionStatus>;
 
 export interface DialogAction {
   /** Input only. [Dialog](https://developers.google.com/workspace/chat/dialogs) for the request. */
@@ -2678,14 +2721,15 @@ export interface DialogAction {
   actionStatus?: ActionStatus;
 }
 
-export const DialogAction: Schema.Schema<DialogAction> = Schema.suspend(() =>
-  Schema.Struct({
-    dialog: Schema.optional(Dialog),
-    actionStatus: Schema.optional(ActionStatus),
-  }),
-).annotate({
-  identifier: "DialogAction",
-}) as any as Schema.Schema<DialogAction>;
+export const DialogAction: Schema.Schema<DialogAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dialog: Schema.optional(Dialog),
+      actionStatus: Schema.optional(ActionStatus),
+    }),
+  ).annotate({
+    identifier: "DialogAction",
+  }) as any as Schema.Schema<DialogAction>;
 
 export interface ActionResponse {
   /** Input only. The type of Chat app response. */
@@ -2706,17 +2750,17 @@ export interface ActionResponse {
   url?: string;
 }
 
-export const ActionResponse: Schema.Schema<ActionResponse> = Schema.suspend(
-  () =>
+export const ActionResponse: Schema.Schema<ActionResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       dialogAction: Schema.optional(DialogAction),
       updatedWidget: Schema.optional(UpdatedWidget),
       url: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ActionResponse",
-}) as any as Schema.Schema<ActionResponse>;
+  ).annotate({
+    identifier: "ActionResponse",
+  }) as any as Schema.Schema<ActionResponse>;
 
 export interface Message {
   /** Output only. The list of emoji reaction summaries on the message. */
@@ -2773,36 +2817,39 @@ export interface Message {
   actionResponse?: ActionResponse;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() =>
-  Schema.Struct({
-    emojiReactionSummaries: Schema.optional(Schema.Array(EmojiReactionSummary)),
-    deleteTime: Schema.optional(Schema.String),
-    text: Schema.optional(Schema.String),
-    quotedMessageMetadata: Schema.optional(QuotedMessageMetadata),
-    matchedUrl: Schema.optional(MatchedUrl),
-    sender: Schema.optional(User),
-    name: Schema.optional(Schema.String),
-    accessoryWidgets: Schema.optional(Schema.Array(AccessoryWidget)),
-    lastUpdateTime: Schema.optional(Schema.String),
-    formattedText: Schema.optional(Schema.String),
-    annotations: Schema.optional(Schema.Array(Annotation)),
-    space: Schema.optional(Space),
-    attachedGifs: Schema.optional(Schema.Array(AttachedGif)),
-    privateMessageViewer: Schema.optional(User),
-    cardsV2: Schema.optional(Schema.Array(CardWithId)),
-    slashCommand: Schema.optional(SlashCommand),
-    deletionMetadata: Schema.optional(DeletionMetadata),
-    threadReply: Schema.optional(Schema.Boolean),
-    fallbackText: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    argumentText: Schema.optional(Schema.String),
-    clientAssignedMessageId: Schema.optional(Schema.String),
-    attachment: Schema.optional(Schema.Array(Attachment)),
-    cards: Schema.optional(Schema.Array(Card)),
-    thread: Schema.optional(Thread),
-    actionResponse: Schema.optional(ActionResponse),
-  }),
-).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      emojiReactionSummaries: Schema.optional(
+        Schema.Array(EmojiReactionSummary),
+      ),
+      deleteTime: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      quotedMessageMetadata: Schema.optional(QuotedMessageMetadata),
+      matchedUrl: Schema.optional(MatchedUrl),
+      sender: Schema.optional(User),
+      name: Schema.optional(Schema.String),
+      accessoryWidgets: Schema.optional(Schema.Array(AccessoryWidget)),
+      lastUpdateTime: Schema.optional(Schema.String),
+      formattedText: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Array(Annotation)),
+      space: Schema.optional(Space),
+      attachedGifs: Schema.optional(Schema.Array(AttachedGif)),
+      privateMessageViewer: Schema.optional(User),
+      cardsV2: Schema.optional(Schema.Array(CardWithId)),
+      slashCommand: Schema.optional(SlashCommand),
+      deletionMetadata: Schema.optional(DeletionMetadata),
+      threadReply: Schema.optional(Schema.Boolean),
+      fallbackText: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      argumentText: Schema.optional(Schema.String),
+      clientAssignedMessageId: Schema.optional(Schema.String),
+      attachment: Schema.optional(Schema.Array(Attachment)),
+      cards: Schema.optional(Schema.Array(Card)),
+      thread: Schema.optional(Thread),
+      actionResponse: Schema.optional(ActionResponse),
+    }),
+  ).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface MessageUpdatedEventData {
   /** The updated message. */
@@ -2810,7 +2857,7 @@ export interface MessageUpdatedEventData {
 }
 
 export const MessageUpdatedEventData: Schema.Schema<MessageUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Message),
     }),
@@ -2824,7 +2871,7 @@ export interface MessageBatchUpdatedEventData {
 }
 
 export const MessageBatchUpdatedEventData: Schema.Schema<MessageBatchUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messages: Schema.optional(Schema.Array(MessageUpdatedEventData)),
     }),
@@ -2838,7 +2885,7 @@ export interface CompleteImportSpaceResponse {
 }
 
 export const CompleteImportSpaceResponse: Schema.Schema<CompleteImportSpaceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       space: Schema.optional(Space),
     }),
@@ -2852,7 +2899,7 @@ export interface MessageCreatedEventData {
 }
 
 export const MessageCreatedEventData: Schema.Schema<MessageCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Message),
     }),
@@ -2866,7 +2913,7 @@ export interface MessageBatchCreatedEventData {
 }
 
 export const MessageBatchCreatedEventData: Schema.Schema<MessageBatchCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messages: Schema.optional(Schema.Array(MessageCreatedEventData)),
     }),
@@ -2880,7 +2927,7 @@ export interface MembershipUpdatedEventData {
 }
 
 export const MembershipUpdatedEventData: Schema.Schema<MembershipUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       membership: Schema.optional(Membership),
     }),
@@ -2894,7 +2941,7 @@ export interface MembershipBatchUpdatedEventData {
 }
 
 export const MembershipBatchUpdatedEventData: Schema.Schema<MembershipBatchUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(MembershipUpdatedEventData)),
     }),
@@ -2908,7 +2955,7 @@ export interface MembershipDeletedEventData {
 }
 
 export const MembershipDeletedEventData: Schema.Schema<MembershipDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       membership: Schema.optional(Membership),
     }),
@@ -2922,7 +2969,7 @@ export interface MembershipBatchDeletedEventData {
 }
 
 export const MembershipBatchDeletedEventData: Schema.Schema<MembershipBatchDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(MembershipDeletedEventData)),
     }),
@@ -2936,7 +2983,7 @@ export interface MessageDeletedEventData {
 }
 
 export const MessageDeletedEventData: Schema.Schema<MessageDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Message),
     }),
@@ -2950,7 +2997,7 @@ export interface ReactionDeletedEventData {
 }
 
 export const ReactionDeletedEventData: Schema.Schema<ReactionDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reaction: Schema.optional(Reaction),
     }),
@@ -2965,25 +3012,27 @@ export interface TimeZone {
   id?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    offset: Schema.optional(Schema.Number),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      offset: Schema.optional(Schema.Number),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface StringInputs {
   /** An list of strings entered by the user. */
   value?: Array<string>;
 }
 
-export const StringInputs: Schema.Schema<StringInputs> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "StringInputs",
-}) as any as Schema.Schema<StringInputs>;
+export const StringInputs: Schema.Schema<StringInputs> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "StringInputs",
+  }) as any as Schema.Schema<StringInputs>;
 
 export interface DateTimeInput {
   /** Time since epoch time, in milliseconds. */
@@ -2994,26 +3043,28 @@ export interface DateTimeInput {
   hasTime?: boolean;
 }
 
-export const DateTimeInput: Schema.Schema<DateTimeInput> = Schema.suspend(() =>
-  Schema.Struct({
-    msSinceEpoch: Schema.optional(Schema.String),
-    hasDate: Schema.optional(Schema.Boolean),
-    hasTime: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "DateTimeInput",
-}) as any as Schema.Schema<DateTimeInput>;
+export const DateTimeInput: Schema.Schema<DateTimeInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      msSinceEpoch: Schema.optional(Schema.String),
+      hasDate: Schema.optional(Schema.Boolean),
+      hasTime: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DateTimeInput",
+  }) as any as Schema.Schema<DateTimeInput>;
 
 export interface DateInput {
   /** Time since epoch time, in milliseconds. */
   msSinceEpoch?: string;
 }
 
-export const DateInput: Schema.Schema<DateInput> = Schema.suspend(() =>
-  Schema.Struct({
-    msSinceEpoch: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DateInput" }) as any as Schema.Schema<DateInput>;
+export const DateInput: Schema.Schema<DateInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      msSinceEpoch: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DateInput" }) as any as Schema.Schema<DateInput>;
 
 export interface Inputs {
   /** A list of strings that represent the values that the user inputs in a widget. If the widget only accepts one value, such as a [`TextInput`](https://developers.google.com/chat/api/reference/rest/v1/cards#TextInput) widget, the list contains one string object. If the widget accepts multiple values, such as a [`SelectionInput`](https://developers.google.com/chat/api/reference/rest/v1/cards#selectioninput) widget of checkboxes, the list contains a string object for each value that the user inputs or selects. */
@@ -3026,14 +3077,15 @@ export interface Inputs {
   dateInput?: DateInput;
 }
 
-export const Inputs: Schema.Schema<Inputs> = Schema.suspend(() =>
-  Schema.Struct({
-    stringInputs: Schema.optional(StringInputs),
-    dateTimeInput: Schema.optional(DateTimeInput),
-    timeInput: Schema.optional(TimeInput),
-    dateInput: Schema.optional(DateInput),
-  }),
-).annotate({ identifier: "Inputs" }) as any as Schema.Schema<Inputs>;
+export const Inputs: Schema.Schema<Inputs> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      stringInputs: Schema.optional(StringInputs),
+      dateTimeInput: Schema.optional(DateTimeInput),
+      timeInput: Schema.optional(TimeInput),
+      dateInput: Schema.optional(DateInput),
+    }),
+  ).annotate({ identifier: "Inputs" }) as any as Schema.Schema<Inputs>;
 
 export interface CommonEventObject {
   /** The platform enum which indicates the platform where the event originates (`WEB`, `IOS`, or `ANDROID`). Not supported by Chat apps. */
@@ -3065,7 +3117,7 @@ export interface CommonEventObject {
 }
 
 export const CommonEventObject: Schema.Schema<CommonEventObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       platform: Schema.optional(Schema.String),
       parameters: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -3091,7 +3143,7 @@ export interface AppCommandMetadata {
 }
 
 export const AppCommandMetadata: Schema.Schema<AppCommandMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appCommandType: Schema.optional(Schema.String),
       appCommandId: Schema.optional(Schema.Number),
@@ -3144,8 +3196,8 @@ export interface DeprecatedEvent {
   message?: Message;
 }
 
-export const DeprecatedEvent: Schema.Schema<DeprecatedEvent> = Schema.suspend(
-  () =>
+export const DeprecatedEvent: Schema.Schema<DeprecatedEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       common: Schema.optional(CommonEventObject),
       appCommandMetadata: Schema.optional(AppCommandMetadata),
@@ -3162,9 +3214,9 @@ export const DeprecatedEvent: Schema.Schema<DeprecatedEvent> = Schema.suspend(
       user: Schema.optional(User),
       message: Schema.optional(Message),
     }),
-).annotate({
-  identifier: "DeprecatedEvent",
-}) as any as Schema.Schema<DeprecatedEvent>;
+  ).annotate({
+    identifier: "DeprecatedEvent",
+  }) as any as Schema.Schema<DeprecatedEvent>;
 
 export interface SpaceUpdatedEventData {
   /** The updated space. */
@@ -3172,7 +3224,7 @@ export interface SpaceUpdatedEventData {
 }
 
 export const SpaceUpdatedEventData: Schema.Schema<SpaceUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       space: Schema.optional(Space),
     }),
@@ -3186,7 +3238,7 @@ export interface UploadAttachmentResponse {
 }
 
 export const UploadAttachmentResponse: Schema.Schema<UploadAttachmentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attachmentDataRef: Schema.optional(AttachmentDataRef),
     }),
@@ -3200,7 +3252,7 @@ export interface UploadAttachmentRequest {
 }
 
 export const UploadAttachmentRequest: Schema.Schema<UploadAttachmentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filename: Schema.optional(Schema.String),
     }),
@@ -3213,11 +3265,12 @@ export interface Media {
   resourceName?: string;
 }
 
-export const Media: Schema.Schema<Media> = Schema.suspend(() =>
-  Schema.Struct({
-    resourceName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
+export const Media: Schema.Schema<Media> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      resourceName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
 
 export interface ReactionBatchDeletedEventData {
   /** A list of deleted reactions. */
@@ -3225,7 +3278,7 @@ export interface ReactionBatchDeletedEventData {
 }
 
 export const ReactionBatchDeletedEventData: Schema.Schema<ReactionBatchDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reactions: Schema.optional(Schema.Array(ReactionDeletedEventData)),
     }),
@@ -3239,7 +3292,7 @@ export interface MembershipCreatedEventData {
 }
 
 export const MembershipCreatedEventData: Schema.Schema<MembershipCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       membership: Schema.optional(Membership),
     }),
@@ -3253,7 +3306,7 @@ export interface MembershipBatchCreatedEventData {
 }
 
 export const MembershipBatchCreatedEventData: Schema.Schema<MembershipBatchCreatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(MembershipCreatedEventData)),
     }),
@@ -3267,7 +3320,7 @@ export interface MessageBatchDeletedEventData {
 }
 
 export const MessageBatchDeletedEventData: Schema.Schema<MessageBatchDeletedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messages: Schema.optional(Schema.Array(MessageDeletedEventData)),
     }),
@@ -3281,7 +3334,7 @@ export interface SpaceBatchUpdatedEventData {
 }
 
 export const SpaceBatchUpdatedEventData: Schema.Schema<SpaceBatchUpdatedEventData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spaces: Schema.optional(Schema.Array(SpaceUpdatedEventData)),
     }),
@@ -3334,41 +3387,48 @@ export interface SpaceEvent {
   membershipBatchUpdatedEventData?: MembershipBatchUpdatedEventData;
 }
 
-export const SpaceEvent: Schema.Schema<SpaceEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    membershipBatchDeletedEventData: Schema.optional(
-      MembershipBatchDeletedEventData,
-    ),
-    reactionBatchDeletedEventData: Schema.optional(
-      ReactionBatchDeletedEventData,
-    ),
-    membershipUpdatedEventData: Schema.optional(MembershipUpdatedEventData),
-    name: Schema.optional(Schema.String),
-    membershipDeletedEventData: Schema.optional(MembershipDeletedEventData),
-    reactionDeletedEventData: Schema.optional(ReactionDeletedEventData),
-    membershipBatchCreatedEventData: Schema.optional(
-      MembershipBatchCreatedEventData,
-    ),
-    spaceUpdatedEventData: Schema.optional(SpaceUpdatedEventData),
-    reactionCreatedEventData: Schema.optional(ReactionCreatedEventData),
-    messageBatchCreatedEventData: Schema.optional(MessageBatchCreatedEventData),
-    messageDeletedEventData: Schema.optional(MessageDeletedEventData),
-    messageBatchDeletedEventData: Schema.optional(MessageBatchDeletedEventData),
-    reactionBatchCreatedEventData: Schema.optional(
-      ReactionBatchCreatedEventData,
-    ),
-    messageCreatedEventData: Schema.optional(MessageCreatedEventData),
-    membershipCreatedEventData: Schema.optional(MembershipCreatedEventData),
-    messageBatchUpdatedEventData: Schema.optional(MessageBatchUpdatedEventData),
-    eventType: Schema.optional(Schema.String),
-    messageUpdatedEventData: Schema.optional(MessageUpdatedEventData),
-    spaceBatchUpdatedEventData: Schema.optional(SpaceBatchUpdatedEventData),
-    eventTime: Schema.optional(Schema.String),
-    membershipBatchUpdatedEventData: Schema.optional(
-      MembershipBatchUpdatedEventData,
-    ),
-  }),
-).annotate({ identifier: "SpaceEvent" }) as any as Schema.Schema<SpaceEvent>;
+export const SpaceEvent: Schema.Schema<SpaceEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      membershipBatchDeletedEventData: Schema.optional(
+        MembershipBatchDeletedEventData,
+      ),
+      reactionBatchDeletedEventData: Schema.optional(
+        ReactionBatchDeletedEventData,
+      ),
+      membershipUpdatedEventData: Schema.optional(MembershipUpdatedEventData),
+      name: Schema.optional(Schema.String),
+      membershipDeletedEventData: Schema.optional(MembershipDeletedEventData),
+      reactionDeletedEventData: Schema.optional(ReactionDeletedEventData),
+      membershipBatchCreatedEventData: Schema.optional(
+        MembershipBatchCreatedEventData,
+      ),
+      spaceUpdatedEventData: Schema.optional(SpaceUpdatedEventData),
+      reactionCreatedEventData: Schema.optional(ReactionCreatedEventData),
+      messageBatchCreatedEventData: Schema.optional(
+        MessageBatchCreatedEventData,
+      ),
+      messageDeletedEventData: Schema.optional(MessageDeletedEventData),
+      messageBatchDeletedEventData: Schema.optional(
+        MessageBatchDeletedEventData,
+      ),
+      reactionBatchCreatedEventData: Schema.optional(
+        ReactionBatchCreatedEventData,
+      ),
+      messageCreatedEventData: Schema.optional(MessageCreatedEventData),
+      membershipCreatedEventData: Schema.optional(MembershipCreatedEventData),
+      messageBatchUpdatedEventData: Schema.optional(
+        MessageBatchUpdatedEventData,
+      ),
+      eventType: Schema.optional(Schema.String),
+      messageUpdatedEventData: Schema.optional(MessageUpdatedEventData),
+      spaceBatchUpdatedEventData: Schema.optional(SpaceBatchUpdatedEventData),
+      eventTime: Schema.optional(Schema.String),
+      membershipBatchUpdatedEventData: Schema.optional(
+        MembershipBatchUpdatedEventData,
+      ),
+    }),
+  ).annotate({ identifier: "SpaceEvent" }) as any as Schema.Schema<SpaceEvent>;
 
 export interface ListSpaceEventsResponse {
   /** Continuation token used to fetch more events. If this field is omitted, there are no subsequent pages. */
@@ -3378,7 +3438,7 @@ export interface ListSpaceEventsResponse {
 }
 
 export const ListSpaceEventsResponse: Schema.Schema<ListSpaceEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       spaceEvents: Schema.optional(Schema.Array(SpaceEvent)),
@@ -3394,15 +3454,15 @@ export interface SpaceReadState {
   name?: string;
 }
 
-export const SpaceReadState: Schema.Schema<SpaceReadState> = Schema.suspend(
-  () =>
+export const SpaceReadState: Schema.Schema<SpaceReadState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastReadTime: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SpaceReadState",
-}) as any as Schema.Schema<SpaceReadState>;
+  ).annotate({
+    identifier: "SpaceReadState",
+  }) as any as Schema.Schema<SpaceReadState>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -3413,15 +3473,16 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface ChatAppLogEntry {
   /** The deployment that caused the error. For Chat apps built in Apps Script, this is the deployment ID defined by Apps Script. */
@@ -3432,16 +3493,16 @@ export interface ChatAppLogEntry {
   error?: Status;
 }
 
-export const ChatAppLogEntry: Schema.Schema<ChatAppLogEntry> = Schema.suspend(
-  () =>
+export const ChatAppLogEntry: Schema.Schema<ChatAppLogEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deployment: Schema.optional(Schema.String),
       deploymentFunction: Schema.optional(Schema.String),
       error: Schema.optional(Status),
     }),
-).annotate({
-  identifier: "ChatAppLogEntry",
-}) as any as Schema.Schema<ChatAppLogEntry>;
+  ).annotate({
+    identifier: "ChatAppLogEntry",
+  }) as any as Schema.Schema<ChatAppLogEntry>;
 
 export interface ListSpacesResponse {
   /** List of spaces in the requested (or first) page. Note: The `permissionSettings` field is not returned in the Space object for list requests. */
@@ -3451,7 +3512,7 @@ export interface ListSpacesResponse {
 }
 
 export const ListSpacesResponse: Schema.Schema<ListSpacesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spaces: Schema.optional(Schema.Array(Space)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3470,7 +3531,7 @@ export interface SearchSpacesResponse {
 }
 
 export const SearchSpacesResponse: Schema.Schema<SearchSpacesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spaces: Schema.optional(Schema.Array(Space)),
       totalSize: Schema.optional(Schema.Number),
@@ -3488,7 +3549,7 @@ export interface ListMessagesResponse {
 }
 
 export const ListMessagesResponse: Schema.Schema<ListMessagesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messages: Schema.optional(Schema.Array(Message)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3505,7 +3566,7 @@ export interface ListCustomEmojisResponse {
 }
 
 export const ListCustomEmojisResponse: Schema.Schema<ListCustomEmojisResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customEmojis: Schema.optional(Schema.Array(CustomEmoji)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3522,7 +3583,7 @@ export interface ListMembershipsResponse {
 }
 
 export const ListMembershipsResponse: Schema.Schema<ListMembershipsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       memberships: Schema.optional(Schema.Array(Membership)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3551,7 +3612,7 @@ export interface SpaceNotificationSetting {
 }
 
 export const SpaceNotificationSetting: Schema.Schema<SpaceNotificationSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notificationSetting: Schema.optional(Schema.String),
       muteSetting: Schema.optional(Schema.String),
@@ -3564,7 +3625,7 @@ export const SpaceNotificationSetting: Schema.Schema<SpaceNotificationSetting> =
 export interface CompleteImportSpaceRequest {}
 
 export const CompleteImportSpaceRequest: Schema.Schema<CompleteImportSpaceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CompleteImportSpaceRequest",
   }) as any as Schema.Schema<CompleteImportSpaceRequest>;
 
@@ -3579,7 +3640,7 @@ export interface GetSpacesRequest {
   useAdminAccess?: boolean;
 }
 
-export const GetSpacesRequest = Schema.Struct({
+export const GetSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   useAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useAdminAccess"),
@@ -3590,7 +3651,7 @@ export const GetSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSpacesRequest>;
 
 export type GetSpacesResponse = Space;
-export const GetSpacesResponse = Space;
+export const GetSpacesResponse = /*@__PURE__*/ /*#__PURE__*/ Space;
 
 export type GetSpacesError = DefaultErrors;
 
@@ -3600,7 +3661,7 @@ export const getSpaces: API.OperationMethod<
   GetSpacesResponse,
   GetSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpacesRequest,
   output: GetSpacesResponse,
   errors: [],
@@ -3613,7 +3674,7 @@ export interface DeleteSpacesRequest {
   useAdminAccess?: boolean;
 }
 
-export const DeleteSpacesRequest = Schema.Struct({
+export const DeleteSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   useAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useAdminAccess"),
@@ -3624,7 +3685,7 @@ export const DeleteSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteSpacesRequest>;
 
 export type DeleteSpacesResponse = Empty;
-export const DeleteSpacesResponse = Empty;
+export const DeleteSpacesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteSpacesError = DefaultErrors;
 
@@ -3634,7 +3695,7 @@ export const deleteSpaces: API.OperationMethod<
   DeleteSpacesResponse,
   DeleteSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpacesRequest,
   output: DeleteSpacesResponse,
   errors: [],
@@ -3647,20 +3708,22 @@ export interface CompleteImportSpacesRequest {
   body?: CompleteImportSpaceRequest;
 }
 
-export const CompleteImportSpacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CompleteImportSpaceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/spaces/{spacesId}:completeImport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CompleteImportSpacesRequest>;
+export const CompleteImportSpacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CompleteImportSpaceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/spaces/{spacesId}:completeImport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CompleteImportSpacesRequest>;
 
 export type CompleteImportSpacesResponse = CompleteImportSpaceResponse;
-export const CompleteImportSpacesResponse = CompleteImportSpaceResponse;
+export const CompleteImportSpacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CompleteImportSpaceResponse;
 
 export type CompleteImportSpacesError = DefaultErrors;
 
@@ -3670,7 +3733,7 @@ export const completeImportSpaces: API.OperationMethod<
   CompleteImportSpacesResponse,
   CompleteImportSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteImportSpacesRequest,
   output: CompleteImportSpacesResponse,
   errors: [],
@@ -3685,7 +3748,7 @@ export interface ListSpacesRequest {
   pageSize?: number;
 }
 
-export const ListSpacesRequest = Schema.Struct({
+export const ListSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -3695,7 +3758,8 @@ export const ListSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSpacesRequest>;
 
 export type ListSpacesResponse_Op = ListSpacesResponse;
-export const ListSpacesResponse_Op = ListSpacesResponse;
+export const ListSpacesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListSpacesResponse;
 
 export type ListSpacesError = DefaultErrors;
 
@@ -3705,7 +3769,7 @@ export const listSpaces: API.PaginatedOperationMethod<
   ListSpacesResponse_Op,
   ListSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesRequest,
   output: ListSpacesResponse_Op,
   errors: [],
@@ -3722,7 +3786,7 @@ export interface CreateSpacesRequest {
   body?: Space;
 }
 
-export const CreateSpacesRequest = Schema.Struct({
+export const CreateSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Space).pipe(T.HttpBody()),
 }).pipe(
@@ -3731,7 +3795,7 @@ export const CreateSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateSpacesRequest>;
 
 export type CreateSpacesResponse = Space;
-export const CreateSpacesResponse = Space;
+export const CreateSpacesResponse = /*@__PURE__*/ /*#__PURE__*/ Space;
 
 export type CreateSpacesError = DefaultErrors;
 
@@ -3741,7 +3805,7 @@ export const createSpaces: API.OperationMethod<
   CreateSpacesResponse,
   CreateSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpacesRequest,
   output: CreateSpacesResponse,
   errors: [],
@@ -3760,7 +3824,7 @@ export interface SearchSpacesRequest {
   useAdminAccess?: boolean;
 }
 
-export const SearchSpacesRequest = Schema.Struct({
+export const SearchSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3774,7 +3838,8 @@ export const SearchSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchSpacesRequest>;
 
 export type SearchSpacesResponse_Op = SearchSpacesResponse;
-export const SearchSpacesResponse_Op = SearchSpacesResponse;
+export const SearchSpacesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchSpacesResponse;
 
 export type SearchSpacesError = DefaultErrors;
 
@@ -3784,7 +3849,7 @@ export const searchSpaces: API.PaginatedOperationMethod<
   SearchSpacesResponse_Op,
   SearchSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchSpacesRequest,
   output: SearchSpacesResponse_Op,
   errors: [],
@@ -3805,7 +3870,7 @@ export interface PatchSpacesRequest {
   body?: Space;
 }
 
-export const PatchSpacesRequest = Schema.Struct({
+export const PatchSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   useAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useAdminAccess"),
@@ -3818,7 +3883,7 @@ export const PatchSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchSpacesRequest>;
 
 export type PatchSpacesResponse = Space;
-export const PatchSpacesResponse = Space;
+export const PatchSpacesResponse = /*@__PURE__*/ /*#__PURE__*/ Space;
 
 export type PatchSpacesError = DefaultErrors;
 
@@ -3828,7 +3893,7 @@ export const patchSpaces: API.OperationMethod<
   PatchSpacesResponse,
   PatchSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSpacesRequest,
   output: PatchSpacesResponse,
   errors: [],
@@ -3839,15 +3904,17 @@ export interface FindDirectMessageSpacesRequest {
   name?: string;
 }
 
-export const FindDirectMessageSpacesRequest = Schema.Struct({
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces:findDirectMessage" }),
-  svc,
-) as unknown as Schema.Schema<FindDirectMessageSpacesRequest>;
+export const FindDirectMessageSpacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/spaces:findDirectMessage" }),
+    svc,
+  ) as unknown as Schema.Schema<FindDirectMessageSpacesRequest>;
 
 export type FindDirectMessageSpacesResponse = Space;
-export const FindDirectMessageSpacesResponse = Space;
+export const FindDirectMessageSpacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Space;
 
 export type FindDirectMessageSpacesError = DefaultErrors;
 
@@ -3857,7 +3924,7 @@ export const findDirectMessageSpaces: API.OperationMethod<
   FindDirectMessageSpacesResponse,
   FindDirectMessageSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FindDirectMessageSpacesRequest,
   output: FindDirectMessageSpacesResponse,
   errors: [],
@@ -3868,7 +3935,7 @@ export interface SetupSpacesRequest {
   body?: SetUpSpaceRequest;
 }
 
-export const SetupSpacesRequest = Schema.Struct({
+export const SetupSpacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(SetUpSpaceRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/spaces:setup", hasBody: true }),
@@ -3876,7 +3943,7 @@ export const SetupSpacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SetupSpacesRequest>;
 
 export type SetupSpacesResponse = Space;
-export const SetupSpacesResponse = Space;
+export const SetupSpacesResponse = /*@__PURE__*/ /*#__PURE__*/ Space;
 
 export type SetupSpacesError = DefaultErrors;
 
@@ -3886,7 +3953,7 @@ export const setupSpaces: API.OperationMethod<
   SetupSpacesResponse,
   SetupSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetupSpacesRequest,
   output: SetupSpacesResponse,
   errors: [],
@@ -3897,18 +3964,20 @@ export interface GetSpacesSpaceEventsRequest {
   name: string;
 }
 
-export const GetSpacesSpaceEventsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/spaces/{spacesId}/spaceEvents/{spaceEventsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSpacesSpaceEventsRequest>;
+export const GetSpacesSpaceEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/spaces/{spacesId}/spaceEvents/{spaceEventsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpacesSpaceEventsRequest>;
 
 export type GetSpacesSpaceEventsResponse = SpaceEvent;
-export const GetSpacesSpaceEventsResponse = SpaceEvent;
+export const GetSpacesSpaceEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SpaceEvent;
 
 export type GetSpacesSpaceEventsError = DefaultErrors;
 
@@ -3918,7 +3987,7 @@ export const getSpacesSpaceEvents: API.OperationMethod<
   GetSpacesSpaceEventsResponse,
   GetSpacesSpaceEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpacesSpaceEventsRequest,
   output: GetSpacesSpaceEventsResponse,
   errors: [],
@@ -3935,18 +4004,20 @@ export interface ListSpacesSpaceEventsRequest {
   pageSize?: number;
 }
 
-export const ListSpacesSpaceEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/spaceEvents" }),
-  svc,
-) as unknown as Schema.Schema<ListSpacesSpaceEventsRequest>;
+export const ListSpacesSpaceEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/spaces/{spacesId}/spaceEvents" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSpacesSpaceEventsRequest>;
 
 export type ListSpacesSpaceEventsResponse = ListSpaceEventsResponse;
-export const ListSpacesSpaceEventsResponse = ListSpaceEventsResponse;
+export const ListSpacesSpaceEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSpaceEventsResponse;
 
 export type ListSpacesSpaceEventsError = DefaultErrors;
 
@@ -3956,7 +4027,7 @@ export const listSpacesSpaceEvents: API.PaginatedOperationMethod<
   ListSpacesSpaceEventsResponse,
   ListSpacesSpaceEventsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesSpaceEventsRequest,
   output: ListSpacesSpaceEventsResponse,
   errors: [],
@@ -3975,23 +4046,25 @@ export interface CreateSpacesMembersRequest {
   body?: Membership;
 }
 
-export const CreateSpacesMembersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useAdminAccess"),
-  ),
-  body: Schema.optional(Membership).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/spaces/{spacesId}/members",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateSpacesMembersRequest>;
+export const CreateSpacesMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useAdminAccess"),
+    ),
+    body: Schema.optional(Membership).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/spaces/{spacesId}/members",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSpacesMembersRequest>;
 
 export type CreateSpacesMembersResponse = Membership;
-export const CreateSpacesMembersResponse = Membership;
+export const CreateSpacesMembersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Membership;
 
 export type CreateSpacesMembersError = DefaultErrors;
 
@@ -4001,7 +4074,7 @@ export const createSpacesMembers: API.OperationMethod<
   CreateSpacesMembersResponse,
   CreateSpacesMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpacesMembersRequest,
   output: CreateSpacesMembersResponse,
   errors: [],
@@ -4014,18 +4087,19 @@ export interface GetSpacesMembersRequest {
   useAdminAccess?: boolean;
 }
 
-export const GetSpacesMembersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useAdminAccess"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members/{membersId}" }),
-  svc,
-) as unknown as Schema.Schema<GetSpacesMembersRequest>;
+export const GetSpacesMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useAdminAccess"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members/{membersId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpacesMembersRequest>;
 
 export type GetSpacesMembersResponse = Membership;
-export const GetSpacesMembersResponse = Membership;
+export const GetSpacesMembersResponse = /*@__PURE__*/ /*#__PURE__*/ Membership;
 
 export type GetSpacesMembersError = DefaultErrors;
 
@@ -4035,7 +4109,7 @@ export const getSpacesMembers: API.OperationMethod<
   GetSpacesMembersResponse,
   GetSpacesMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpacesMembersRequest,
   output: GetSpacesMembersResponse,
   errors: [],
@@ -4048,21 +4122,23 @@ export interface DeleteSpacesMembersRequest {
   useAdminAccess?: boolean;
 }
 
-export const DeleteSpacesMembersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useAdminAccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/spaces/{spacesId}/members/{membersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteSpacesMembersRequest>;
+export const DeleteSpacesMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useAdminAccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/spaces/{spacesId}/members/{membersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSpacesMembersRequest>;
 
 export type DeleteSpacesMembersResponse = Membership;
-export const DeleteSpacesMembersResponse = Membership;
+export const DeleteSpacesMembersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Membership;
 
 export type DeleteSpacesMembersError = DefaultErrors;
 
@@ -4072,7 +4148,7 @@ export const deleteSpacesMembers: API.OperationMethod<
   DeleteSpacesMembersResponse,
   DeleteSpacesMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpacesMembersRequest,
   output: DeleteSpacesMembersResponse,
   errors: [],
@@ -4095,23 +4171,27 @@ export interface ListSpacesMembersRequest {
   showInvited?: boolean;
 }
 
-export const ListSpacesMembersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  showGroups: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showGroups")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useAdminAccess"),
-  ),
-  showInvited: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showInvited")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members" }),
-  svc,
-) as unknown as Schema.Schema<ListSpacesMembersRequest>;
+export const ListSpacesMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    showGroups: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showGroups")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useAdminAccess"),
+    ),
+    showInvited: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showInvited"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/spaces/{spacesId}/members" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSpacesMembersRequest>;
 
 export type ListSpacesMembersResponse = ListMembershipsResponse;
-export const ListSpacesMembersResponse = ListMembershipsResponse;
+export const ListSpacesMembersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListMembershipsResponse;
 
 export type ListSpacesMembersError = DefaultErrors;
 
@@ -4121,7 +4201,7 @@ export const listSpacesMembers: API.PaginatedOperationMethod<
   ListSpacesMembersResponse,
   ListSpacesMembersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesMembersRequest,
   output: ListSpacesMembersResponse,
   errors: [],
@@ -4142,24 +4222,26 @@ export interface PatchSpacesMembersRequest {
   body?: Membership;
 }
 
-export const PatchSpacesMembersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  useAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useAdminAccess"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Membership).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/spaces/{spacesId}/members/{membersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchSpacesMembersRequest>;
+export const PatchSpacesMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    useAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useAdminAccess"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Membership).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/spaces/{spacesId}/members/{membersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchSpacesMembersRequest>;
 
 export type PatchSpacesMembersResponse = Membership;
-export const PatchSpacesMembersResponse = Membership;
+export const PatchSpacesMembersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Membership;
 
 export type PatchSpacesMembersError = DefaultErrors;
 
@@ -4169,7 +4251,7 @@ export const patchSpacesMembers: API.OperationMethod<
   PatchSpacesMembersResponse,
   PatchSpacesMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSpacesMembersRequest,
   output: PatchSpacesMembersResponse,
   errors: [],
@@ -4186,24 +4268,25 @@ export interface UpdateSpacesMessagesRequest {
   body?: Message;
 }
 
-export const UpdateSpacesMessagesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Message).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSpacesMessagesRequest>;
+export const UpdateSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Message).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSpacesMessagesRequest>;
 
 export type UpdateSpacesMessagesResponse = Message;
-export const UpdateSpacesMessagesResponse = Message;
+export const UpdateSpacesMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Message;
 
 export type UpdateSpacesMessagesError = DefaultErrors;
 
@@ -4213,7 +4296,7 @@ export const updateSpacesMessages: API.OperationMethod<
   UpdateSpacesMessagesResponse,
   UpdateSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpacesMessagesRequest,
   output: UpdateSpacesMessagesResponse,
   errors: [],
@@ -4238,26 +4321,27 @@ export interface CreateSpacesMessagesRequest {
   body?: Message;
 }
 
-export const CreateSpacesMessagesRequest = Schema.Struct({
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  threadKey: Schema.optional(Schema.String).pipe(T.HttpQuery("threadKey")),
-  messageId: Schema.optional(Schema.String).pipe(T.HttpQuery("messageId")),
-  messageReplyOption: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("messageReplyOption"),
-  ),
-  body: Schema.optional(Message).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/spaces/{spacesId}/messages",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateSpacesMessagesRequest>;
+export const CreateSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    threadKey: Schema.optional(Schema.String).pipe(T.HttpQuery("threadKey")),
+    messageId: Schema.optional(Schema.String).pipe(T.HttpQuery("messageId")),
+    messageReplyOption: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("messageReplyOption"),
+    ),
+    body: Schema.optional(Message).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/spaces/{spacesId}/messages",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSpacesMessagesRequest>;
 
 export type CreateSpacesMessagesResponse = Message;
-export const CreateSpacesMessagesResponse = Message;
+export const CreateSpacesMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Message;
 
 export type CreateSpacesMessagesError = DefaultErrors;
 
@@ -4267,7 +4351,7 @@ export const createSpacesMessages: API.OperationMethod<
   CreateSpacesMessagesResponse,
   CreateSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpacesMessagesRequest,
   output: CreateSpacesMessagesResponse,
   errors: [],
@@ -4288,20 +4372,24 @@ export interface ListSpacesMessagesRequest {
   filter?: string;
 }
 
-export const ListSpacesMessagesRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/messages" }),
-  svc,
-) as unknown as Schema.Schema<ListSpacesMessagesRequest>;
+export const ListSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/spaces/{spacesId}/messages" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSpacesMessagesRequest>;
 
 export type ListSpacesMessagesResponse = ListMessagesResponse;
-export const ListSpacesMessagesResponse = ListMessagesResponse;
+export const ListSpacesMessagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListMessagesResponse;
 
 export type ListSpacesMessagesError = DefaultErrors;
 
@@ -4311,7 +4399,7 @@ export const listSpacesMessages: API.PaginatedOperationMethod<
   ListSpacesMessagesResponse,
   ListSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesMessagesRequest,
   output: ListSpacesMessagesResponse,
   errors: [],
@@ -4332,24 +4420,25 @@ export interface PatchSpacesMessagesRequest {
   body?: Message;
 }
 
-export const PatchSpacesMessagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Message).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchSpacesMessagesRequest>;
+export const PatchSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Message).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchSpacesMessagesRequest>;
 
 export type PatchSpacesMessagesResponse = Message;
-export const PatchSpacesMessagesResponse = Message;
+export const PatchSpacesMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Message;
 
 export type PatchSpacesMessagesError = DefaultErrors;
 
@@ -4359,7 +4448,7 @@ export const patchSpacesMessages: API.OperationMethod<
   PatchSpacesMessagesResponse,
   PatchSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSpacesMessagesRequest,
   output: PatchSpacesMessagesResponse,
   errors: [],
@@ -4372,19 +4461,20 @@ export interface DeleteSpacesMessagesRequest {
   name: string;
 }
 
-export const DeleteSpacesMessagesRequest = Schema.Struct({
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteSpacesMessagesRequest>;
+export const DeleteSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSpacesMessagesRequest>;
 
 export type DeleteSpacesMessagesResponse = Empty;
-export const DeleteSpacesMessagesResponse = Empty;
+export const DeleteSpacesMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteSpacesMessagesError = DefaultErrors;
 
@@ -4394,7 +4484,7 @@ export const deleteSpacesMessages: API.OperationMethod<
   DeleteSpacesMessagesResponse,
   DeleteSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpacesMessagesRequest,
   output: DeleteSpacesMessagesResponse,
   errors: [],
@@ -4405,15 +4495,19 @@ export interface GetSpacesMessagesRequest {
   name: string;
 }
 
-export const GetSpacesMessagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/spaces/{spacesId}/messages/{messagesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetSpacesMessagesRequest>;
+export const GetSpacesMessagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpacesMessagesRequest>;
 
 export type GetSpacesMessagesResponse = Message;
-export const GetSpacesMessagesResponse = Message;
+export const GetSpacesMessagesResponse = /*@__PURE__*/ /*#__PURE__*/ Message;
 
 export type GetSpacesMessagesError = DefaultErrors;
 
@@ -4423,7 +4517,7 @@ export const getSpacesMessages: API.OperationMethod<
   GetSpacesMessagesResponse,
   GetSpacesMessagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpacesMessagesRequest,
   output: GetSpacesMessagesResponse,
   errors: [],
@@ -4434,18 +4528,20 @@ export interface GetSpacesMessagesAttachmentsRequest {
   name: string;
 }
 
-export const GetSpacesMessagesAttachmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}/attachments/{attachmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSpacesMessagesAttachmentsRequest>;
+export const GetSpacesMessagesAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}/attachments/{attachmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpacesMessagesAttachmentsRequest>;
 
 export type GetSpacesMessagesAttachmentsResponse = Attachment;
-export const GetSpacesMessagesAttachmentsResponse = Attachment;
+export const GetSpacesMessagesAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attachment;
 
 export type GetSpacesMessagesAttachmentsError = DefaultErrors;
 
@@ -4455,7 +4551,7 @@ export const getSpacesMessagesAttachments: API.OperationMethod<
   GetSpacesMessagesAttachmentsResponse,
   GetSpacesMessagesAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpacesMessagesAttachmentsRequest,
   output: GetSpacesMessagesAttachmentsResponse,
   errors: [],
@@ -4468,20 +4564,22 @@ export interface CreateSpacesMessagesReactionsRequest {
   body?: Reaction;
 }
 
-export const CreateSpacesMessagesReactionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Reaction).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateSpacesMessagesReactionsRequest>;
+export const CreateSpacesMessagesReactionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Reaction).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSpacesMessagesReactionsRequest>;
 
 export type CreateSpacesMessagesReactionsResponse = Reaction;
-export const CreateSpacesMessagesReactionsResponse = Reaction;
+export const CreateSpacesMessagesReactionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Reaction;
 
 export type CreateSpacesMessagesReactionsError = DefaultErrors;
 
@@ -4491,7 +4589,7 @@ export const createSpacesMessagesReactions: API.OperationMethod<
   CreateSpacesMessagesReactionsResponse,
   CreateSpacesMessagesReactionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSpacesMessagesReactionsRequest,
   output: CreateSpacesMessagesReactionsResponse,
   errors: [],
@@ -4502,18 +4600,20 @@ export interface DeleteSpacesMessagesReactionsRequest {
   name: string;
 }
 
-export const DeleteSpacesMessagesReactionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions/{reactionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteSpacesMessagesReactionsRequest>;
+export const DeleteSpacesMessagesReactionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions/{reactionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSpacesMessagesReactionsRequest>;
 
 export type DeleteSpacesMessagesReactionsResponse = Empty;
-export const DeleteSpacesMessagesReactionsResponse = Empty;
+export const DeleteSpacesMessagesReactionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteSpacesMessagesReactionsError = DefaultErrors;
 
@@ -4523,7 +4623,7 @@ export const deleteSpacesMessagesReactions: API.OperationMethod<
   DeleteSpacesMessagesReactionsResponse,
   DeleteSpacesMessagesReactionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSpacesMessagesReactionsRequest,
   output: DeleteSpacesMessagesReactionsResponse,
   errors: [],
@@ -4540,21 +4640,23 @@ export interface ListSpacesMessagesReactionsRequest {
   filter?: string;
 }
 
-export const ListSpacesMessagesReactionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListSpacesMessagesReactionsRequest>;
+export const ListSpacesMessagesReactionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/spaces/{spacesId}/messages/{messagesId}/reactions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListSpacesMessagesReactionsRequest>;
 
 export type ListSpacesMessagesReactionsResponse = ListReactionsResponse;
-export const ListSpacesMessagesReactionsResponse = ListReactionsResponse;
+export const ListSpacesMessagesReactionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListReactionsResponse;
 
 export type ListSpacesMessagesReactionsError = DefaultErrors;
 
@@ -4564,7 +4666,7 @@ export const listSpacesMessagesReactions: API.PaginatedOperationMethod<
   ListSpacesMessagesReactionsResponse,
   ListSpacesMessagesReactionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSpacesMessagesReactionsRequest,
   output: ListSpacesMessagesReactionsResponse,
   errors: [],
@@ -4583,17 +4685,19 @@ export interface ListCustomEmojisRequest {
   filter?: string;
 }
 
-export const ListCustomEmojisRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customEmojis" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomEmojisRequest>;
+export const ListCustomEmojisRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/customEmojis" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomEmojisRequest>;
 
 export type ListCustomEmojisResponse_Op = ListCustomEmojisResponse;
-export const ListCustomEmojisResponse_Op = ListCustomEmojisResponse;
+export const ListCustomEmojisResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomEmojisResponse;
 
 export type ListCustomEmojisError = DefaultErrors;
 
@@ -4603,7 +4707,7 @@ export const listCustomEmojis: API.PaginatedOperationMethod<
   ListCustomEmojisResponse_Op,
   ListCustomEmojisError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomEmojisRequest,
   output: ListCustomEmojisResponse_Op,
   errors: [],
@@ -4618,15 +4722,16 @@ export interface DeleteCustomEmojisRequest {
   name: string;
 }
 
-export const DeleteCustomEmojisRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/customEmojis/{customEmojisId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCustomEmojisRequest>;
+export const DeleteCustomEmojisRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/customEmojis/{customEmojisId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCustomEmojisRequest>;
 
 export type DeleteCustomEmojisResponse = Empty;
-export const DeleteCustomEmojisResponse = Empty;
+export const DeleteCustomEmojisResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCustomEmojisError = DefaultErrors;
 
@@ -4636,7 +4741,7 @@ export const deleteCustomEmojis: API.OperationMethod<
   DeleteCustomEmojisResponse,
   DeleteCustomEmojisError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomEmojisRequest,
   output: DeleteCustomEmojisResponse,
   errors: [],
@@ -4647,15 +4752,17 @@ export interface CreateCustomEmojisRequest {
   body?: CustomEmoji;
 }
 
-export const CreateCustomEmojisRequest = Schema.Struct({
-  body: Schema.optional(CustomEmoji).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/customEmojis", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomEmojisRequest>;
+export const CreateCustomEmojisRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(CustomEmoji).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/customEmojis", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomEmojisRequest>;
 
 export type CreateCustomEmojisResponse = CustomEmoji;
-export const CreateCustomEmojisResponse = CustomEmoji;
+export const CreateCustomEmojisResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomEmoji;
 
 export type CreateCustomEmojisError = DefaultErrors;
 
@@ -4665,7 +4772,7 @@ export const createCustomEmojis: API.OperationMethod<
   CreateCustomEmojisResponse,
   CreateCustomEmojisError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomEmojisRequest,
   output: CreateCustomEmojisResponse,
   errors: [],
@@ -4676,15 +4783,17 @@ export interface GetCustomEmojisRequest {
   name: string;
 }
 
-export const GetCustomEmojisRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetCustomEmojisRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/customEmojis/{customEmojisId}" }),
   svc,
 ) as unknown as Schema.Schema<GetCustomEmojisRequest>;
 
 export type GetCustomEmojisResponse = CustomEmoji;
-export const GetCustomEmojisResponse = CustomEmoji;
+export const GetCustomEmojisResponse = /*@__PURE__*/ /*#__PURE__*/ CustomEmoji;
 
 export type GetCustomEmojisError = DefaultErrors;
 
@@ -4694,7 +4803,7 @@ export const getCustomEmojis: API.OperationMethod<
   GetCustomEmojisResponse,
   GetCustomEmojisError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomEmojisRequest,
   output: GetCustomEmojisResponse,
   errors: [],
@@ -4707,7 +4816,7 @@ export interface UploadMediaRequest {
   body?: UploadAttachmentRequest;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(UploadAttachmentRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -4720,7 +4829,8 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = UploadAttachmentResponse;
-export const UploadMediaResponse = UploadAttachmentResponse;
+export const UploadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UploadAttachmentResponse;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -4730,7 +4840,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
@@ -4741,7 +4851,7 @@ export interface DownloadMediaRequest {
   resourceName: string;
 }
 
-export const DownloadMediaRequest = Schema.Struct({
+export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/media/{mediaId}" }),
@@ -4749,7 +4859,7 @@ export const DownloadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
 export type DownloadMediaResponse = Media;
-export const DownloadMediaResponse = Media;
+export const DownloadMediaResponse = /*@__PURE__*/ /*#__PURE__*/ Media;
 
 export type DownloadMediaError = DefaultErrors;
 
@@ -4759,7 +4869,7 @@ export const downloadMedia: API.OperationMethod<
   DownloadMediaResponse,
   DownloadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -4770,18 +4880,20 @@ export interface GetSpaceReadStateUsersSpacesRequest {
   name: string;
 }
 
-export const GetSpaceReadStateUsersSpacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSpaceReadStateUsersSpacesRequest>;
+export const GetSpaceReadStateUsersSpacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSpaceReadStateUsersSpacesRequest>;
 
 export type GetSpaceReadStateUsersSpacesResponse = SpaceReadState;
-export const GetSpaceReadStateUsersSpacesResponse = SpaceReadState;
+export const GetSpaceReadStateUsersSpacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SpaceReadState;
 
 export type GetSpaceReadStateUsersSpacesError = DefaultErrors;
 
@@ -4791,7 +4903,7 @@ export const getSpaceReadStateUsersSpaces: API.OperationMethod<
   GetSpaceReadStateUsersSpacesResponse,
   GetSpaceReadStateUsersSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSpaceReadStateUsersSpacesRequest,
   output: GetSpaceReadStateUsersSpacesResponse,
   errors: [],
@@ -4806,21 +4918,23 @@ export interface UpdateSpaceReadStateUsersSpacesRequest {
   body?: SpaceReadState;
 }
 
-export const UpdateSpaceReadStateUsersSpacesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(SpaceReadState).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSpaceReadStateUsersSpacesRequest>;
+export const UpdateSpaceReadStateUsersSpacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(SpaceReadState).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/users/{usersId}/spaces/{spacesId}/spaceReadState",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSpaceReadStateUsersSpacesRequest>;
 
 export type UpdateSpaceReadStateUsersSpacesResponse = SpaceReadState;
-export const UpdateSpaceReadStateUsersSpacesResponse = SpaceReadState;
+export const UpdateSpaceReadStateUsersSpacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SpaceReadState;
 
 export type UpdateSpaceReadStateUsersSpacesError = DefaultErrors;
 
@@ -4830,7 +4944,7 @@ export const updateSpaceReadStateUsersSpaces: API.OperationMethod<
   UpdateSpaceReadStateUsersSpacesResponse,
   UpdateSpaceReadStateUsersSpacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSpaceReadStateUsersSpacesRequest,
   output: UpdateSpaceReadStateUsersSpacesResponse,
   errors: [],
@@ -4841,20 +4955,21 @@ export interface GetUsersSpacesSpaceNotificationSettingRequest {
   name: string;
 }
 
-export const GetUsersSpacesSpaceNotificationSettingRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUsersSpacesSpaceNotificationSettingRequest>;
+export const GetUsersSpacesSpaceNotificationSettingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUsersSpacesSpaceNotificationSettingRequest>;
 
 export type GetUsersSpacesSpaceNotificationSettingResponse =
   SpaceNotificationSetting;
 export const GetUsersSpacesSpaceNotificationSettingResponse =
-  SpaceNotificationSetting;
+  /*@__PURE__*/ /*#__PURE__*/ SpaceNotificationSetting;
 
 export type GetUsersSpacesSpaceNotificationSettingError = DefaultErrors;
 
@@ -4864,7 +4979,7 @@ export const getUsersSpacesSpaceNotificationSetting: API.OperationMethod<
   GetUsersSpacesSpaceNotificationSettingResponse,
   GetUsersSpacesSpaceNotificationSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersSpacesSpaceNotificationSettingRequest,
   output: GetUsersSpacesSpaceNotificationSettingResponse,
   errors: [],
@@ -4879,23 +4994,24 @@ export interface PatchUsersSpacesSpaceNotificationSettingRequest {
   body?: SpaceNotificationSetting;
 }
 
-export const PatchUsersSpacesSpaceNotificationSettingRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(SpaceNotificationSetting).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchUsersSpacesSpaceNotificationSettingRequest>;
+export const PatchUsersSpacesSpaceNotificationSettingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(SpaceNotificationSetting).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/users/{usersId}/spaces/{spacesId}/spaceNotificationSetting",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchUsersSpacesSpaceNotificationSettingRequest>;
 
 export type PatchUsersSpacesSpaceNotificationSettingResponse =
   SpaceNotificationSetting;
 export const PatchUsersSpacesSpaceNotificationSettingResponse =
-  SpaceNotificationSetting;
+  /*@__PURE__*/ /*#__PURE__*/ SpaceNotificationSetting;
 
 export type PatchUsersSpacesSpaceNotificationSettingError = DefaultErrors;
 
@@ -4905,7 +5021,7 @@ export const patchUsersSpacesSpaceNotificationSetting: API.OperationMethod<
   PatchUsersSpacesSpaceNotificationSettingResponse,
   PatchUsersSpacesSpaceNotificationSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUsersSpacesSpaceNotificationSettingRequest,
   output: PatchUsersSpacesSpaceNotificationSettingResponse,
   errors: [],
@@ -4916,18 +5032,20 @@ export interface GetThreadReadStateUsersSpacesThreadsRequest {
   name: string;
 }
 
-export const GetThreadReadStateUsersSpacesThreadsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/users/{usersId}/spaces/{spacesId}/threads/{threadsId}/threadReadState",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetThreadReadStateUsersSpacesThreadsRequest>;
+export const GetThreadReadStateUsersSpacesThreadsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/users/{usersId}/spaces/{spacesId}/threads/{threadsId}/threadReadState",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetThreadReadStateUsersSpacesThreadsRequest>;
 
 export type GetThreadReadStateUsersSpacesThreadsResponse = ThreadReadState;
-export const GetThreadReadStateUsersSpacesThreadsResponse = ThreadReadState;
+export const GetThreadReadStateUsersSpacesThreadsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ThreadReadState;
 
 export type GetThreadReadStateUsersSpacesThreadsError = DefaultErrors;
 
@@ -4937,7 +5055,7 @@ export const getThreadReadStateUsersSpacesThreads: API.OperationMethod<
   GetThreadReadStateUsersSpacesThreadsResponse,
   GetThreadReadStateUsersSpacesThreadsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetThreadReadStateUsersSpacesThreadsRequest,
   output: GetThreadReadStateUsersSpacesThreadsResponse,
   errors: [],

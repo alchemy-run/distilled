@@ -25,16 +25,17 @@ export interface GetAnalyticAggregateCurrentRequest {
   coloName?: string;
 }
 
-export const GetAnalyticAggregateCurrentRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  appID: Schema.optional(Schema.String).pipe(T.HttpQuery("appID")),
-  coloName: Schema.optional(Schema.String).pipe(T.HttpQuery("colo_name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/spectrum/analytics/aggregate/current",
-  }),
-) as unknown as Schema.Schema<GetAnalyticAggregateCurrentRequest>;
+export const GetAnalyticAggregateCurrentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    appID: Schema.optional(Schema.String).pipe(T.HttpQuery("appID")),
+    coloName: Schema.optional(Schema.String).pipe(T.HttpQuery("colo_name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/spectrum/analytics/aggregate/current",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentRequest>;
 
 export type GetAnalyticAggregateCurrentResponse = {
   appID: string;
@@ -44,15 +45,16 @@ export type GetAnalyticAggregateCurrentResponse = {
   durationAvg: number;
 }[];
 
-export const GetAnalyticAggregateCurrentResponse = Schema.Array(
-  Schema.Struct({
-    appID: Schema.String,
-    bytesEgress: Schema.Number,
-    bytesIngress: Schema.Number,
-    connections: Schema.Number,
-    durationAvg: Schema.Number,
-  }),
-) as unknown as Schema.Schema<GetAnalyticAggregateCurrentResponse>;
+export const GetAnalyticAggregateCurrentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      appID: Schema.String,
+      bytesEgress: Schema.Number,
+      bytesIngress: Schema.Number,
+      connections: Schema.Number,
+      durationAvg: Schema.Number,
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentResponse>;
 
 export type GetAnalyticAggregateCurrentError = DefaultErrors;
 
@@ -61,7 +63,7 @@ export const getAnalyticAggregateCurrent: API.OperationMethod<
   GetAnalyticAggregateCurrentResponse,
   GetAnalyticAggregateCurrentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticAggregateCurrentRequest,
   output: GetAnalyticAggregateCurrentResponse,
   errors: [],
@@ -106,44 +108,49 @@ export interface GetAnalyticEventBytimeRequest {
   until?: string;
 }
 
-export const GetAnalyticEventBytimeRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  timeDelta: Schema.Literals([
-    "year",
-    "quarter",
-    "month",
-    "week",
-    "day",
-    "hour",
-    "dekaminute",
-    "minute",
-  ]).pipe(T.HttpQuery("time_delta")),
-  dimensions: Schema.optional(
-    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
-  ).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  metrics: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "count",
-        "bytesIngress",
-        "bytesEgress",
-        "durationAvg",
-        "durationMedian",
-        "duration90th",
-        "duration99th",
-      ]),
+export const GetAnalyticEventBytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    timeDelta: Schema.Literals([
+      "year",
+      "quarter",
+      "month",
+      "week",
+      "day",
+      "hour",
+      "dekaminute",
+      "minute",
+    ]).pipe(T.HttpQuery("time_delta")),
+    dimensions: Schema.optional(
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
+    ).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    metrics: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "count",
+          "bytesIngress",
+          "bytesEgress",
+          "durationAvg",
+          "durationMedian",
+          "duration90th",
+          "duration99th",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("sort"),
     ),
-  ).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sort")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/spectrum/analytics/events/bytime",
-  }),
-) as unknown as Schema.Schema<GetAnalyticEventBytimeRequest>;
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/spectrum/analytics/events/bytime",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticEventBytimeRequest>;
 
 export interface GetAnalyticEventBytimeResponse {
   /** List of columns returned by the analytics query. */
@@ -184,76 +191,77 @@ export interface GetAnalyticEventBytimeResponse {
   timeIntervals?: string[][] | null;
 }
 
-export const GetAnalyticEventBytimeResponse = Schema.Struct({
-  data: Schema.Array(
-    Schema.Struct({
-      dimensions: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      metrics: Schema.optional(
-        Schema.Union([
+export const GetAnalyticEventBytimeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    data: Schema.Array(
+      Schema.Struct({
+        dimensions: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        metrics: Schema.optional(
           Schema.Union([
-            Schema.Array(Schema.Number),
-            Schema.Array(Schema.Array(Schema.Number)),
+            Schema.Union([
+              Schema.Array(Schema.Number),
+              Schema.Array(Schema.Array(Schema.Number)),
+            ]),
+            Schema.Null,
           ]),
+        ),
+      }),
+    ),
+    dataLag: Schema.Number,
+    max: Schema.Struct({}),
+    min: Schema.Struct({}),
+    query: Schema.Struct({
+      dimensions: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+          ),
           Schema.Null,
         ]),
       ),
+      filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      metrics: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "count",
+              "bytesIngress",
+              "bytesEgress",
+              "durationAvg",
+              "durationMedian",
+              "duration90th",
+              "duration99th",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      sort: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
-  ),
-  dataLag: Schema.Number,
-  max: Schema.Struct({}),
-  min: Schema.Struct({}),
-  query: Schema.Struct({
-    dimensions: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
-        ),
-        Schema.Null,
-      ]),
+    rows: Schema.Number,
+    totals: Schema.Struct({}),
+    timeIntervals: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
     ),
-    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    metrics: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "count",
-            "bytesIngress",
-            "bytesEgress",
-            "durationAvg",
-            "durationMedian",
-            "duration90th",
-            "duration99th",
-          ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    sort: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-  rows: Schema.Number,
-  totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    data: "data",
-    dataLag: "data_lag",
-    max: "max",
-    min: "min",
-    query: "query",
-    rows: "rows",
-    totals: "totals",
-    timeIntervals: "time_intervals",
-  }),
-) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
+  }).pipe(
+    Schema.encodeKeys({
+      data: "data",
+      dataLag: "data_lag",
+      max: "max",
+      min: "min",
+      query: "query",
+      rows: "rows",
+      totals: "totals",
+      timeIntervals: "time_intervals",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
 export type GetAnalyticEventBytimeError = DefaultErrors;
 
@@ -262,7 +270,7 @@ export const getAnalyticEventBytime: API.OperationMethod<
   GetAnalyticEventBytimeResponse,
   GetAnalyticEventBytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticEventBytimeRequest,
   output: GetAnalyticEventBytimeResponse,
   errors: [],
@@ -297,34 +305,39 @@ export interface GetAnalyticEventSummaryRequest {
   until?: string;
 }
 
-export const GetAnalyticEventSummaryRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  dimensions: Schema.optional(
-    Schema.Array(Schema.Literals(["event", "appID", "coloName", "ipVersion"])),
-  ).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  metrics: Schema.optional(
-    Schema.Array(
-      Schema.Literals([
-        "count",
-        "bytesIngress",
-        "bytesEgress",
-        "durationAvg",
-        "durationMedian",
-        "duration90th",
-        "duration99th",
-      ]),
+export const GetAnalyticEventSummaryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    dimensions: Schema.optional(
+      Schema.Array(
+        Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+      ),
+    ).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    metrics: Schema.optional(
+      Schema.Array(
+        Schema.Literals([
+          "count",
+          "bytesIngress",
+          "bytesEgress",
+          "durationAvg",
+          "durationMedian",
+          "duration90th",
+          "duration99th",
+        ]),
+      ),
+    ).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("sort"),
     ),
-  ).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("sort")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/spectrum/analytics/events/summary",
-  }),
-) as unknown as Schema.Schema<GetAnalyticEventSummaryRequest>;
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/spectrum/analytics/events/summary",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticEventSummaryRequest>;
 
 export interface GetAnalyticEventSummaryResponse {
   /** List of columns returned by the analytics query. */
@@ -365,76 +378,77 @@ export interface GetAnalyticEventSummaryResponse {
   timeIntervals?: string[][] | null;
 }
 
-export const GetAnalyticEventSummaryResponse = Schema.Struct({
-  data: Schema.Array(
-    Schema.Struct({
-      dimensions: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      metrics: Schema.optional(
-        Schema.Union([
+export const GetAnalyticEventSummaryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    data: Schema.Array(
+      Schema.Struct({
+        dimensions: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        metrics: Schema.optional(
           Schema.Union([
-            Schema.Array(Schema.Number),
-            Schema.Array(Schema.Array(Schema.Number)),
+            Schema.Union([
+              Schema.Array(Schema.Number),
+              Schema.Array(Schema.Array(Schema.Number)),
+            ]),
+            Schema.Null,
           ]),
+        ),
+      }),
+    ),
+    dataLag: Schema.Number,
+    max: Schema.Struct({}),
+    min: Schema.Struct({}),
+    query: Schema.Struct({
+      dimensions: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
+          ),
           Schema.Null,
         ]),
       ),
+      filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      metrics: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "count",
+              "bytesIngress",
+              "bytesEgress",
+              "durationAvg",
+              "durationMedian",
+              "duration90th",
+              "duration99th",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      sort: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
-  ),
-  dataLag: Schema.Number,
-  max: Schema.Struct({}),
-  min: Schema.Struct({}),
-  query: Schema.Struct({
-    dimensions: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals(["event", "appID", "coloName", "ipVersion"]),
-        ),
-        Schema.Null,
-      ]),
+    rows: Schema.Number,
+    totals: Schema.Struct({}),
+    timeIntervals: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
     ),
-    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    limit: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    metrics: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "count",
-            "bytesIngress",
-            "bytesEgress",
-            "durationAvg",
-            "durationMedian",
-            "duration90th",
-            "duration99th",
-          ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    sort: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    until: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-  rows: Schema.Number,
-  totals: Schema.Struct({}),
-  timeIntervals: Schema.optional(
-    Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    data: "data",
-    dataLag: "data_lag",
-    max: "max",
-    min: "min",
-    query: "query",
-    rows: "rows",
-    totals: "totals",
-    timeIntervals: "time_intervals",
-  }),
-) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
+  }).pipe(
+    Schema.encodeKeys({
+      data: "data",
+      dataLag: "data_lag",
+      max: "max",
+      min: "min",
+      query: "query",
+      rows: "rows",
+      totals: "totals",
+      timeIntervals: "time_intervals",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
 export type GetAnalyticEventSummaryError = DefaultErrors;
 
@@ -443,7 +457,7 @@ export const getAnalyticEventSummary: API.OperationMethod<
   GetAnalyticEventSummaryResponse,
   GetAnalyticEventSummaryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticEventSummaryRequest,
   output: GetAnalyticEventSummaryResponse,
   errors: [],
@@ -459,7 +473,7 @@ export interface GetAppRequest {
   zoneId: string;
 }
 
-export const GetAppRequest = Schema.Struct({
+export const GetAppRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -492,7 +506,7 @@ export type GetAppResponse =
       originDirect?: string[] | null;
     };
 
-export const GetAppResponse = Schema.Union([
+export const GetAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -570,7 +584,7 @@ export const getApp: API.OperationMethod<
   GetAppResponse,
   GetAppError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppRequest,
   output: GetAppResponse,
   errors: [],
@@ -585,7 +599,7 @@ export interface ListAppsRequest {
   order?: "protocol" | "app_id" | "created_on" | "modified_on" | "dns";
 }
 
-export const ListAppsRequest = Schema.Struct({
+export const ListAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
@@ -624,7 +638,7 @@ export type ListAppsResponse = (
     }
 )[];
 
-export const ListAppsResponse = Schema.Array(
+export const ListAppsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Union([
     Schema.Struct({
       id: Schema.String,
@@ -707,7 +721,7 @@ export const listApps: API.OperationMethod<
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [],
@@ -740,7 +754,7 @@ export interface CreateAppRequest {
   tls?: "off" | "flexible" | "full" | "strict";
 }
 
-export const CreateAppRequest = Schema.Struct({
+export const CreateAppRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dns: Schema.Unknown,
   protocol: Schema.String,
@@ -798,7 +812,7 @@ export type CreateAppResponse =
       originDirect?: string[] | null;
     };
 
-export const CreateAppResponse = Schema.Union([
+export const CreateAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -876,7 +890,7 @@ export const createApp: API.OperationMethod<
   CreateAppResponse,
   CreateAppError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppRequest,
   output: CreateAppResponse,
   errors: [],
@@ -910,7 +924,7 @@ export interface UpdateAppRequest {
   tls?: "off" | "flexible" | "full" | "strict";
 }
 
-export const UpdateAppRequest = Schema.Struct({
+export const UpdateAppRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dns: Schema.Unknown,
@@ -969,7 +983,7 @@ export type UpdateAppResponse =
       originDirect?: string[] | null;
     };
 
-export const UpdateAppResponse = Schema.Union([
+export const UpdateAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -1047,7 +1061,7 @@ export const updateApp: API.OperationMethod<
   UpdateAppResponse,
   UpdateAppError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAppRequest,
   output: UpdateAppResponse,
   errors: [],
@@ -1059,7 +1073,7 @@ export interface DeleteAppRequest {
   zoneId: string;
 }
 
-export const DeleteAppRequest = Schema.Struct({
+export const DeleteAppRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -1071,7 +1085,7 @@ export interface DeleteAppResponse {
   id: string;
 }
 
-export const DeleteAppResponse = Schema.Struct({
+export const DeleteAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAppResponse>;
 
@@ -1082,7 +1096,7 @@ export const deleteApp: API.OperationMethod<
   DeleteAppResponse,
   DeleteAppError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAppRequest,
   output: DeleteAppResponse,
   errors: [],

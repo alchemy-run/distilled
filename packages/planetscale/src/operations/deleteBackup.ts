@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteBackupInput = Schema.Struct({
+export const DeleteBackupInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.PathParam()),
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
@@ -18,7 +18,7 @@ export const DeleteBackupInput = Schema.Struct({
 export type DeleteBackupInput = typeof DeleteBackupInput.Type;
 
 // Output Schema
-export const DeleteBackupOutput = Schema.Void;
+export const DeleteBackupOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteBackupOutput = typeof DeleteBackupOutput.Type;
 
 // The operation

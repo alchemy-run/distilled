@@ -40,7 +40,7 @@ export interface DataMaskingPolicy {
 }
 
 export const DataMaskingPolicy: Schema.Schema<DataMaskingPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       predefinedExpression: Schema.optional(Schema.String),
       routine: Schema.optional(Schema.String),
@@ -66,15 +66,16 @@ export interface DataPolicy {
   dataPolicyId?: string;
 }
 
-export const DataPolicy: Schema.Schema<DataPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    policyTag: Schema.optional(Schema.String),
-    dataMaskingPolicy: Schema.optional(DataMaskingPolicy),
-    name: Schema.optional(Schema.String),
-    dataPolicyType: Schema.optional(Schema.String),
-    dataPolicyId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataPolicy" }) as any as Schema.Schema<DataPolicy>;
+export const DataPolicy: Schema.Schema<DataPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      policyTag: Schema.optional(Schema.String),
+      dataMaskingPolicy: Schema.optional(DataMaskingPolicy),
+      name: Schema.optional(Schema.String),
+      dataPolicyType: Schema.optional(Schema.String),
+      dataPolicyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DataPolicy" }) as any as Schema.Schema<DataPolicy>;
 
 export interface RenameDataPolicyRequest {
   /** Required. The new data policy id. */
@@ -82,7 +83,7 @@ export interface RenameDataPolicyRequest {
 }
 
 export const RenameDataPolicyRequest: Schema.Schema<RenameDataPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newDataPolicyId: Schema.optional(Schema.String),
     }),
@@ -92,9 +93,10 @@ export const RenameDataPolicyRequest: Schema.Schema<RenameDataPolicyRequest> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListDataPoliciesResponse {
   /** Data policies that belong to the requested project. */
@@ -104,7 +106,7 @@ export interface ListDataPoliciesResponse {
 }
 
 export const ListDataPoliciesResponse: Schema.Schema<ListDataPoliciesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataPolicies: Schema.optional(Schema.Array(DataPolicy)),
       nextPageToken: Schema.optional(Schema.String),
@@ -118,14 +120,14 @@ export interface GetPolicyOptions {
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
-  () =>
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedPolicyVersion: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GetPolicyOptions",
-}) as any as Schema.Schema<GetPolicyOptions>;
+  ).annotate({
+    identifier: "GetPolicyOptions",
+  }) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
@@ -133,7 +135,7 @@ export interface GetIamPolicyRequest {
 }
 
 export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(GetPolicyOptions),
     }),
@@ -152,14 +154,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -170,13 +173,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
@@ -190,15 +194,15 @@ export interface AuditLogConfig {
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
-  () =>
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logType: Schema.optional(Schema.String),
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AuditLogConfig",
-}) as any as Schema.Schema<AuditLogConfig>;
+  ).annotate({
+    identifier: "AuditLogConfig",
+  }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -207,12 +211,15 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    service: Schema.optional(Schema.String),
-    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "AuditConfig",
+  }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -225,14 +232,15 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -242,7 +250,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
       updateMask: Schema.optional(Schema.String),
@@ -257,7 +265,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -271,7 +279,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -290,20 +298,22 @@ export interface CreateProjectsLocationsDataPoliciesRequest {
   body?: DataPolicy;
 }
 
-export const CreateProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(DataPolicy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDataPoliciesRequest>;
+export const CreateProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(DataPolicy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDataPoliciesRequest>;
 
 export type CreateProjectsLocationsDataPoliciesResponse = DataPolicy;
-export const CreateProjectsLocationsDataPoliciesResponse = DataPolicy;
+export const CreateProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataPolicy;
 
 export type CreateProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -313,7 +323,7 @@ export const createProjectsLocationsDataPolicies: API.OperationMethod<
   CreateProjectsLocationsDataPoliciesResponse,
   CreateProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataPoliciesRequest,
   output: CreateProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -330,24 +340,26 @@ export interface PatchProjectsLocationsDataPoliciesRequest {
   body?: DataPolicy;
 }
 
-export const PatchProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  body: Schema.optional(DataPolicy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDataPoliciesRequest>;
+export const PatchProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+    body: Schema.optional(DataPolicy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDataPoliciesRequest>;
 
 export type PatchProjectsLocationsDataPoliciesResponse = DataPolicy;
-export const PatchProjectsLocationsDataPoliciesResponse = DataPolicy;
+export const PatchProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataPolicy;
 
 export type PatchProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -357,7 +369,7 @@ export const patchProjectsLocationsDataPolicies: API.OperationMethod<
   PatchProjectsLocationsDataPoliciesResponse,
   PatchProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataPoliciesRequest,
   output: PatchProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -370,20 +382,22 @@ export interface RenameProjectsLocationsDataPoliciesRequest {
   body?: RenameDataPolicyRequest;
 }
 
-export const RenameProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RenameDataPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:rename",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RenameProjectsLocationsDataPoliciesRequest>;
+export const RenameProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RenameDataPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:rename",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RenameProjectsLocationsDataPoliciesRequest>;
 
 export type RenameProjectsLocationsDataPoliciesResponse = DataPolicy;
-export const RenameProjectsLocationsDataPoliciesResponse = DataPolicy;
+export const RenameProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataPolicy;
 
 export type RenameProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -393,7 +407,7 @@ export const renameProjectsLocationsDataPolicies: API.OperationMethod<
   RenameProjectsLocationsDataPoliciesResponse,
   RenameProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsDataPoliciesRequest,
   output: RenameProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -406,19 +420,21 @@ export interface DeleteProjectsLocationsDataPoliciesRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDataPoliciesRequest>;
+export const DeleteProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDataPoliciesRequest>;
 
 export type DeleteProjectsLocationsDataPoliciesResponse = Empty;
-export const DeleteProjectsLocationsDataPoliciesResponse = Empty;
+export const DeleteProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -428,7 +444,7 @@ export const deleteProjectsLocationsDataPolicies: API.OperationMethod<
   DeleteProjectsLocationsDataPoliciesResponse,
   DeleteProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataPoliciesRequest,
   output: DeleteProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -439,18 +455,20 @@ export interface GetProjectsLocationsDataPoliciesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataPoliciesRequest>;
+export const GetProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataPoliciesRequest>;
 
 export type GetProjectsLocationsDataPoliciesResponse = DataPolicy;
-export const GetProjectsLocationsDataPoliciesResponse = DataPolicy;
+export const GetProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataPolicy;
 
 export type GetProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -460,7 +478,7 @@ export const getProjectsLocationsDataPolicies: API.OperationMethod<
   GetProjectsLocationsDataPoliciesResponse,
   GetProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataPoliciesRequest,
   output: GetProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -477,23 +495,24 @@ export interface ListProjectsLocationsDataPoliciesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataPoliciesRequest>;
+export const ListProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataPoliciesRequest>;
 
 export type ListProjectsLocationsDataPoliciesResponse =
   ListDataPoliciesResponse;
 export const ListProjectsLocationsDataPoliciesResponse =
-  ListDataPoliciesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDataPoliciesResponse;
 
 export type ListProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -503,7 +522,7 @@ export const listProjectsLocationsDataPolicies: API.PaginatedOperationMethod<
   ListProjectsLocationsDataPoliciesResponse,
   ListProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataPoliciesRequest,
   output: ListProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -520,20 +539,22 @@ export interface GetIamPolicyProjectsLocationsDataPoliciesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>;
+export const GetIamPolicyProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsDataPoliciesRequest>;
 
 export type GetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
-export const GetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
+export const GetIamPolicyProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -543,7 +564,7 @@ export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataPoliciesResponse,
   GetIamPolicyProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: GetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -556,20 +577,22 @@ export interface SetIamPolicyProjectsLocationsDataPoliciesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsDataPoliciesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>;
+export const SetIamPolicyProjectsLocationsDataPoliciesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataPolicies/{dataPoliciesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsDataPoliciesRequest>;
 
 export type SetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
-export const SetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
+export const SetIamPolicyProjectsLocationsDataPoliciesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsDataPoliciesError = DefaultErrors;
 
@@ -579,7 +602,7 @@ export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<
   SetIamPolicyProjectsLocationsDataPoliciesResponse,
   SetIamPolicyProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: SetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -593,7 +616,7 @@ export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
 }
 
 export const TestIamPermissionsProjectsLocationsDataPoliciesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -608,7 +631,7 @@ export const TestIamPermissionsProjectsLocationsDataPoliciesRequest =
 export type TestIamPermissionsProjectsLocationsDataPoliciesResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsDataPoliciesResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsDataPoliciesError =
   DefaultErrors;
@@ -619,7 +642,7 @@ export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMetho
   TestIamPermissionsProjectsLocationsDataPoliciesResponse,
   TestIamPermissionsProjectsLocationsDataPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDataPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsDataPoliciesResponse,
   errors: [],

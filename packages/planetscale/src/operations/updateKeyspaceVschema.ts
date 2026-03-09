@@ -4,24 +4,26 @@ import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
-export const UpdateKeyspaceVschemaInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  keyspace: Schema.String.pipe(T.PathParam()),
-  vschema: Schema.String,
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/vschema",
-  }),
-);
+export const UpdateKeyspaceVschemaInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    keyspace: Schema.String.pipe(T.PathParam()),
+    vschema: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/vschema",
+    }),
+  );
 export type UpdateKeyspaceVschemaInput = typeof UpdateKeyspaceVschemaInput.Type;
 
 // Output Schema
-export const UpdateKeyspaceVschemaOutput = Schema.Struct({
-  raw: Schema.String,
-});
+export const UpdateKeyspaceVschemaOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    raw: Schema.String,
+  });
 export type UpdateKeyspaceVschemaOutput =
   typeof UpdateKeyspaceVschemaOutput.Type;
 

@@ -31,16 +31,16 @@ export interface SearchResponse {
   itemListElement?: Array<unknown>;
 }
 
-export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(
-  () =>
+export const SearchResponse: Schema.Schema<SearchResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       "@context": Schema.optional(Schema.Unknown),
       "@type": Schema.optional(Schema.Unknown),
       itemListElement: Schema.optional(Schema.Array(Schema.Unknown)),
     }),
-).annotate({
-  identifier: "SearchResponse",
-}) as any as Schema.Schema<SearchResponse>;
+  ).annotate({
+    identifier: "SearchResponse",
+  }) as any as Schema.Schema<SearchResponse>;
 
 // ==========================================================================
 // Operations
@@ -63,7 +63,7 @@ export interface SearchEntitiesRequest {
   limit?: number;
 }
 
-export const SearchEntitiesRequest = Schema.Struct({
+export const SearchEntitiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   ids: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("ids")),
   languages: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -81,7 +81,8 @@ export const SearchEntitiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchEntitiesRequest>;
 
 export type SearchEntitiesResponse = SearchResponse;
-export const SearchEntitiesResponse = SearchResponse;
+export const SearchEntitiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchResponse;
 
 export type SearchEntitiesError = DefaultErrors;
 
@@ -91,7 +92,7 @@ export const searchEntities: API.OperationMethod<
   SearchEntitiesResponse,
   SearchEntitiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchEntitiesRequest,
   output: SearchEntitiesResponse,
   errors: [],

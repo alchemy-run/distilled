@@ -26,11 +26,12 @@ export interface DataPart {
   data?: Record<string, unknown>;
 }
 
-export const DataPart: Schema.Schema<DataPart> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "DataPart" }) as any as Schema.Schema<DataPart>;
+export const DataPart: Schema.Schema<DataPart> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "DataPart" }) as any as Schema.Schema<DataPart>;
 
 export interface FilePart {
   mimeType?: string;
@@ -39,14 +40,15 @@ export interface FilePart {
   fileWithBytes?: string;
 }
 
-export const FilePart: Schema.Schema<FilePart> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    fileWithUri: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    fileWithBytes: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FilePart" }) as any as Schema.Schema<FilePart>;
+export const FilePart: Schema.Schema<FilePart> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      fileWithUri: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      fileWithBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FilePart" }) as any as Schema.Schema<FilePart>;
 
 export interface Part {
   data?: DataPart;
@@ -56,14 +58,15 @@ export interface Part {
   file?: FilePart;
 }
 
-export const Part: Schema.Schema<Part> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(DataPart),
-    text: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    file: Schema.optional(FilePart),
-  }),
-).annotate({ identifier: "Part" }) as any as Schema.Schema<Part>;
+export const Part: Schema.Schema<Part> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(DataPart),
+      text: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      file: Schema.optional(FilePart),
+    }),
+  ).annotate({ identifier: "Part" }) as any as Schema.Schema<Part>;
 
 export interface Artifact {
   /** The URIs of extensions that are present or contributed to this Artifact. */
@@ -80,16 +83,17 @@ export interface Artifact {
   name?: string;
 }
 
-export const Artifact: Schema.Schema<Artifact> = Schema.suspend(() =>
-  Schema.Struct({
-    extensions: Schema.optional(Schema.Array(Schema.String)),
-    description: Schema.optional(Schema.String),
-    artifactId: Schema.optional(Schema.String),
-    parts: Schema.optional(Schema.Array(Part)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Artifact" }) as any as Schema.Schema<Artifact>;
+export const Artifact: Schema.Schema<Artifact> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      extensions: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      artifactId: Schema.optional(Schema.String),
+      parts: Schema.optional(Schema.Array(Part)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Artifact" }) as any as Schema.Schema<Artifact>;
 
 export interface Message {
   /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
@@ -108,17 +112,18 @@ export interface Message {
   metadata?: Record<string, unknown>;
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() =>
-  Schema.Struct({
-    taskId: Schema.optional(Schema.String),
-    extensions: Schema.optional(Schema.Array(Schema.String)),
-    messageId: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.Array(Part)),
-    contextId: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      taskId: Schema.optional(Schema.String),
+      extensions: Schema.optional(Schema.Array(Schema.String)),
+      messageId: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.Array(Part)),
+      contextId: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface TaskStatus {
   /** The current state of this task */
@@ -139,13 +144,14 @@ export interface TaskStatus {
   message?: Message;
 }
 
-export const TaskStatus: Schema.Schema<TaskStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    state: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    message: Schema.optional(Message),
-  }),
-).annotate({ identifier: "TaskStatus" }) as any as Schema.Schema<TaskStatus>;
+export const TaskStatus: Schema.Schema<TaskStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      message: Schema.optional(Message),
+    }),
+  ).annotate({ identifier: "TaskStatus" }) as any as Schema.Schema<TaskStatus>;
 
 export interface TaskStatusUpdateEvent {
   /** The id of the task that is changed */
@@ -161,7 +167,7 @@ export interface TaskStatusUpdateEvent {
 }
 
 export const TaskStatusUpdateEvent: Schema.Schema<TaskStatusUpdateEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskId: Schema.optional(Schema.String),
       contextId: Schema.optional(Schema.String),
@@ -181,7 +187,7 @@ export interface AuthenticationInfo {
 }
 
 export const AuthenticationInfo: Schema.Schema<AuthenticationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schemes: Schema.optional(Schema.Array(Schema.String)),
       credentials: Schema.optional(Schema.String),
@@ -202,7 +208,7 @@ export interface PushNotificationConfig {
 }
 
 export const PushNotificationConfig: Schema.Schema<PushNotificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       token: Schema.optional(Schema.String),
@@ -221,7 +227,7 @@ export interface TaskPushNotificationConfig {
 }
 
 export const TaskPushNotificationConfig: Schema.Schema<TaskPushNotificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       pushNotificationConfig: Schema.optional(PushNotificationConfig),
@@ -236,7 +242,7 @@ export interface NotificationEndpoint {
 }
 
 export const NotificationEndpoint: Schema.Schema<NotificationEndpoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pubsubTopic: Schema.optional(Schema.String),
     }),
@@ -251,15 +257,15 @@ export interface PayloadOptions {
   fieldMask?: string;
 }
 
-export const PayloadOptions: Schema.Schema<PayloadOptions> = Schema.suspend(
-  () =>
+export const PayloadOptions: Schema.Schema<PayloadOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeResource: Schema.optional(Schema.Boolean),
       fieldMask: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PayloadOptions",
-}) as any as Schema.Schema<PayloadOptions>;
+  ).annotate({
+    identifier: "PayloadOptions",
+  }) as any as Schema.Schema<PayloadOptions>;
 
 export interface Subscription {
   /** Output only. The state of the subscription. Determines whether the subscription can receive events and deliver them to the notification endpoint. */
@@ -308,27 +314,28 @@ export interface Subscription {
   payloadOptions?: PayloadOptions;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
-  Schema.Struct({
-    state: Schema.optional(Schema.String),
-    authority: Schema.optional(Schema.String),
-    notificationEndpoint: Schema.optional(NotificationEndpoint),
-    etag: Schema.optional(Schema.String),
-    expireTime: Schema.optional(Schema.String),
-    targetResource: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    reconciling: Schema.optional(Schema.Boolean),
-    createTime: Schema.optional(Schema.String),
-    suspensionReason: Schema.optional(Schema.String),
-    eventTypes: Schema.optional(Schema.Array(Schema.String)),
-    ttl: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    payloadOptions: Schema.optional(PayloadOptions),
-  }),
-).annotate({
-  identifier: "Subscription",
-}) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      authority: Schema.optional(Schema.String),
+      notificationEndpoint: Schema.optional(NotificationEndpoint),
+      etag: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      targetResource: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      reconciling: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      suspensionReason: Schema.optional(Schema.String),
+      eventTypes: Schema.optional(Schema.Array(Schema.String)),
+      ttl: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      payloadOptions: Schema.optional(PayloadOptions),
+    }),
+  ).annotate({
+    identifier: "Subscription",
+  }) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** List of subscriptions. */
@@ -338,7 +345,7 @@ export interface ListSubscriptionsResponse {
 }
 
 export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscriptions: Schema.optional(Schema.Array(Subscription)),
       nextPageToken: Schema.optional(Schema.String),
@@ -363,7 +370,7 @@ export interface TaskArtifactUpdateEvent {
 }
 
 export const TaskArtifactUpdateEvent: Schema.Schema<TaskArtifactUpdateEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskId: Schema.optional(Schema.String),
       contextId: Schema.optional(Schema.String),
@@ -388,7 +395,7 @@ export interface SendMessageConfiguration {
 }
 
 export const SendMessageConfiguration: Schema.Schema<SendMessageConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       acceptedOutputModes: Schema.optional(Schema.Array(Schema.String)),
       pushNotification: Schema.optional(PushNotificationConfig),
@@ -414,21 +421,22 @@ export interface Task {
   id?: string;
 }
 
-export const Task: Schema.Schema<Task> = Schema.suspend(() =>
-  Schema.Struct({
-    history: Schema.optional(Schema.Array(Message)),
-    artifacts: Schema.optional(Schema.Array(Artifact)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    contextId: Schema.optional(Schema.String),
-    status: Schema.optional(TaskStatus),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
+export const Task: Schema.Schema<Task> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      history: Schema.optional(Schema.Array(Message)),
+      artifacts: Schema.optional(Schema.Array(Artifact)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      contextId: Schema.optional(Schema.String),
+      status: Schema.optional(TaskStatus),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
 
 export interface ReactivateSubscriptionRequest {}
 
 export const ReactivateSubscriptionRequest: Schema.Schema<ReactivateSubscriptionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ReactivateSubscriptionRequest",
   }) as any as Schema.Schema<ReactivateSubscriptionRequest>;
 
@@ -441,15 +449,16 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -464,21 +473,23 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-    done: Schema.optional(Schema.Boolean),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      done: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface StreamResponse {
   task?: Task;
@@ -487,17 +498,17 @@ export interface StreamResponse {
   message?: Message;
 }
 
-export const StreamResponse: Schema.Schema<StreamResponse> = Schema.suspend(
-  () =>
+export const StreamResponse: Schema.Schema<StreamResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       task: Schema.optional(Task),
       statusUpdate: Schema.optional(TaskStatusUpdateEvent),
       artifactUpdate: Schema.optional(TaskArtifactUpdateEvent),
       message: Schema.optional(Message),
     }),
-).annotate({
-  identifier: "StreamResponse",
-}) as any as Schema.Schema<StreamResponse>;
+  ).annotate({
+    identifier: "StreamResponse",
+  }) as any as Schema.Schema<StreamResponse>;
 
 export interface ListTaskPushNotificationConfigResponse {
   /** The list of push notification configurations. */
@@ -507,7 +518,7 @@ export interface ListTaskPushNotificationConfigResponse {
 }
 
 export const ListTaskPushNotificationConfigResponse: Schema.Schema<ListTaskPushNotificationConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configs: Schema.optional(Schema.Array(TaskPushNotificationConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -528,7 +539,7 @@ export interface SendMessageRequest {
 }
 
 export const SendMessageRequest: Schema.Schema<SendMessageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configuration: Schema.optional(SendMessageConfiguration),
       message: Schema.optional(Message),
@@ -545,7 +556,7 @@ export interface CancelTaskRequest {
 }
 
 export const CancelTaskRequest: Schema.Schema<CancelTaskRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tenant: Schema.optional(Schema.String),
     }),
@@ -562,7 +573,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
@@ -570,7 +581,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -580,7 +591,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -595,17 +606,19 @@ export interface ListSubscriptionsRequest {
   filter?: string;
 }
 
-export const ListSubscriptionsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/subscriptions" }),
-  svc,
-) as unknown as Schema.Schema<ListSubscriptionsRequest>;
+export const ListSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/subscriptions" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSubscriptionsRequest>;
 
 export type ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
-export const ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
+export const ListSubscriptionsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListSubscriptionsResponse;
 
 export type ListSubscriptionsError = DefaultErrors;
 
@@ -615,7 +628,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsResponse_Op,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse_Op,
   errors: [],
@@ -636,24 +649,25 @@ export interface PatchSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const PatchSubscriptionsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/subscriptions/{subscriptionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchSubscriptionsRequest>;
+export const PatchSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/subscriptions/{subscriptionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchSubscriptionsRequest>;
 
 export type PatchSubscriptionsResponse = Operation;
-export const PatchSubscriptionsResponse = Operation;
+export const PatchSubscriptionsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchSubscriptionsError = DefaultErrors;
 
@@ -663,7 +677,7 @@ export const patchSubscriptions: API.OperationMethod<
   PatchSubscriptionsResponse,
   PatchSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSubscriptionsRequest,
   output: PatchSubscriptionsResponse,
   errors: [],
@@ -674,15 +688,17 @@ export interface GetSubscriptionsRequest {
   name: string;
 }
 
-export const GetSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/subscriptions/{subscriptionsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetSubscriptionsRequest>;
+export const GetSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/subscriptions/{subscriptionsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetSubscriptionsRequest>;
 
 export type GetSubscriptionsResponse = Subscription;
-export const GetSubscriptionsResponse = Subscription;
+export const GetSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type GetSubscriptionsError = DefaultErrors;
 
@@ -692,7 +708,7 @@ export const getSubscriptions: API.OperationMethod<
   GetSubscriptionsResponse,
   GetSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionsRequest,
   output: GetSubscriptionsResponse,
   errors: [],
@@ -705,18 +721,20 @@ export interface CreateSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const CreateSubscriptionsRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/subscriptions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateSubscriptionsRequest>;
+export const CreateSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/subscriptions", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSubscriptionsRequest>;
 
 export type CreateSubscriptionsResponse = Operation;
-export const CreateSubscriptionsResponse = Operation;
+export const CreateSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateSubscriptionsError = DefaultErrors;
 
@@ -726,7 +744,7 @@ export const createSubscriptions: API.OperationMethod<
   CreateSubscriptionsResponse,
   CreateSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionsRequest,
   output: CreateSubscriptionsResponse,
   errors: [],
@@ -743,22 +761,24 @@ export interface DeleteSubscriptionsRequest {
   allowMissing?: boolean;
 }
 
-export const DeleteSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/subscriptions/{subscriptionsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
+export const DeleteSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/subscriptions/{subscriptionsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
 
 export type DeleteSubscriptionsResponse = Operation;
-export const DeleteSubscriptionsResponse = Operation;
+export const DeleteSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteSubscriptionsError = DefaultErrors;
 
@@ -768,7 +788,7 @@ export const deleteSubscriptions: API.OperationMethod<
   DeleteSubscriptionsResponse,
   DeleteSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
@@ -781,20 +801,22 @@ export interface ReactivateSubscriptionsRequest {
   body?: ReactivateSubscriptionRequest;
 }
 
-export const ReactivateSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ReactivateSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/subscriptions/{subscriptionsId}:reactivate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReactivateSubscriptionsRequest>;
+export const ReactivateSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ReactivateSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/subscriptions/{subscriptionsId}:reactivate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReactivateSubscriptionsRequest>;
 
 export type ReactivateSubscriptionsResponse = Operation;
-export const ReactivateSubscriptionsResponse = Operation;
+export const ReactivateSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ReactivateSubscriptionsError = DefaultErrors;
 
@@ -804,7 +826,7 @@ export const reactivateSubscriptions: API.OperationMethod<
   ReactivateSubscriptionsResponse,
   ReactivateSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReactivateSubscriptionsRequest,
   output: ReactivateSubscriptionsResponse,
   errors: [],
@@ -815,7 +837,7 @@ export interface StreamMessageRequest {
   body?: SendMessageRequest;
 }
 
-export const StreamMessageRequest = Schema.Struct({
+export const StreamMessageRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(SendMessageRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/message:stream", hasBody: true }),
@@ -823,7 +845,7 @@ export const StreamMessageRequest = Schema.Struct({
 ) as unknown as Schema.Schema<StreamMessageRequest>;
 
 export type StreamMessageResponse = StreamResponse;
-export const StreamMessageResponse = StreamResponse;
+export const StreamMessageResponse = /*@__PURE__*/ /*#__PURE__*/ StreamResponse;
 
 export type StreamMessageError = DefaultErrors;
 
@@ -833,7 +855,7 @@ export const streamMessage: API.OperationMethod<
   StreamMessageResponse,
   StreamMessageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StreamMessageRequest,
   output: StreamMessageResponse,
   errors: [],
@@ -846,7 +868,7 @@ export interface CancelTasksRequest {
   body?: CancelTaskRequest;
 }
 
-export const CancelTasksRequest = Schema.Struct({
+export const CancelTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelTaskRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -855,7 +877,7 @@ export const CancelTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CancelTasksRequest>;
 
 export type CancelTasksResponse = Task;
-export const CancelTasksResponse = Task;
+export const CancelTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type CancelTasksError = DefaultErrors;
 
@@ -865,7 +887,7 @@ export const cancelTasks: API.OperationMethod<
   CancelTasksResponse,
   CancelTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelTasksRequest,
   output: CancelTasksResponse,
   errors: [],
@@ -878,7 +900,7 @@ export interface SubscribeTasksRequest {
   tenant?: string;
 }
 
-export const SubscribeTasksRequest = Schema.Struct({
+export const SubscribeTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
 }).pipe(
@@ -887,7 +909,8 @@ export const SubscribeTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SubscribeTasksRequest>;
 
 export type SubscribeTasksResponse = StreamResponse;
-export const SubscribeTasksResponse = StreamResponse;
+export const SubscribeTasksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ StreamResponse;
 
 export type SubscribeTasksError = DefaultErrors;
 
@@ -897,7 +920,7 @@ export const subscribeTasks: API.OperationMethod<
   SubscribeTasksResponse,
   SubscribeTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeTasksRequest,
   output: SubscribeTasksResponse,
   errors: [],
@@ -912,7 +935,7 @@ export interface GetTasksRequest {
   name: string;
 }
 
-export const GetTasksRequest = Schema.Struct({
+export const GetTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
   historyLength: Schema.optional(Schema.Number).pipe(
     T.HttpQuery("historyLength"),
@@ -924,7 +947,7 @@ export const GetTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTasksRequest>;
 
 export type GetTasksResponse = Task;
-export const GetTasksResponse = Task;
+export const GetTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type GetTasksError = DefaultErrors;
 
@@ -934,7 +957,7 @@ export const getTasks: API.OperationMethod<
   GetTasksResponse,
   GetTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
@@ -951,24 +974,25 @@ export interface CreateTasksPushNotificationConfigsRequest {
   body?: TaskPushNotificationConfig;
 }
 
-export const CreateTasksPushNotificationConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
-  configId: Schema.optional(Schema.String).pipe(T.HttpQuery("configId")),
-  body: Schema.optional(TaskPushNotificationConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/tasks/{tasksId}/pushNotificationConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateTasksPushNotificationConfigsRequest>;
+export const CreateTasksPushNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
+    configId: Schema.optional(Schema.String).pipe(T.HttpQuery("configId")),
+    body: Schema.optional(TaskPushNotificationConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/tasks/{tasksId}/pushNotificationConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateTasksPushNotificationConfigsRequest>;
 
 export type CreateTasksPushNotificationConfigsResponse =
   TaskPushNotificationConfig;
 export const CreateTasksPushNotificationConfigsResponse =
-  TaskPushNotificationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ TaskPushNotificationConfig;
 
 export type CreateTasksPushNotificationConfigsError = DefaultErrors;
 
@@ -978,7 +1002,7 @@ export const createTasksPushNotificationConfigs: API.OperationMethod<
   CreateTasksPushNotificationConfigsResponse,
   CreateTasksPushNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTasksPushNotificationConfigsRequest,
   output: CreateTasksPushNotificationConfigsResponse,
   errors: [],
@@ -995,20 +1019,24 @@ export interface ListTasksPushNotificationConfigsRequest {
   tenant?: string;
 }
 
-export const ListTasksPushNotificationConfigsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/tasks/{tasksId}/pushNotificationConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ListTasksPushNotificationConfigsRequest>;
+export const ListTasksPushNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/tasks/{tasksId}/pushNotificationConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListTasksPushNotificationConfigsRequest>;
 
 export type ListTasksPushNotificationConfigsResponse =
   ListTaskPushNotificationConfigResponse;
 export const ListTasksPushNotificationConfigsResponse =
-  ListTaskPushNotificationConfigResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTaskPushNotificationConfigResponse;
 
 export type ListTasksPushNotificationConfigsError = DefaultErrors;
 
@@ -1018,7 +1046,7 @@ export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
   ListTasksPushNotificationConfigsResponse,
   ListTasksPushNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksPushNotificationConfigsRequest,
   output: ListTasksPushNotificationConfigsResponse,
   errors: [],
@@ -1035,19 +1063,21 @@ export interface DeleteTasksPushNotificationConfigsRequest {
   tenant?: string;
 }
 
-export const DeleteTasksPushNotificationConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteTasksPushNotificationConfigsRequest>;
+export const DeleteTasksPushNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteTasksPushNotificationConfigsRequest>;
 
 export type DeleteTasksPushNotificationConfigsResponse = Empty;
-export const DeleteTasksPushNotificationConfigsResponse = Empty;
+export const DeleteTasksPushNotificationConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteTasksPushNotificationConfigsError = DefaultErrors;
 
@@ -1057,7 +1087,7 @@ export const deleteTasksPushNotificationConfigs: API.OperationMethod<
   DeleteTasksPushNotificationConfigsResponse,
   DeleteTasksPushNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTasksPushNotificationConfigsRequest,
   output: DeleteTasksPushNotificationConfigsResponse,
   errors: [],
@@ -1070,21 +1100,22 @@ export interface GetTasksPushNotificationConfigsRequest {
   tenant?: string;
 }
 
-export const GetTasksPushNotificationConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetTasksPushNotificationConfigsRequest>;
+export const GetTasksPushNotificationConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/tasks/{tasksId}/pushNotificationConfigs/{pushNotificationConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetTasksPushNotificationConfigsRequest>;
 
 export type GetTasksPushNotificationConfigsResponse =
   TaskPushNotificationConfig;
 export const GetTasksPushNotificationConfigsResponse =
-  TaskPushNotificationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ TaskPushNotificationConfig;
 
 export type GetTasksPushNotificationConfigsError = DefaultErrors;
 
@@ -1094,7 +1125,7 @@ export const getTasksPushNotificationConfigs: API.OperationMethod<
   GetTasksPushNotificationConfigsResponse,
   GetTasksPushNotificationConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTasksPushNotificationConfigsRequest,
   output: GetTasksPushNotificationConfigsResponse,
   errors: [],

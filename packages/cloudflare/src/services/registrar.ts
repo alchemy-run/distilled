@@ -22,7 +22,7 @@ export interface GetDomainRequest {
   accountId: string;
 }
 
-export const GetDomainRequest = Schema.Struct({
+export const GetDomainRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -35,7 +35,7 @@ export const GetDomainRequest = Schema.Struct({
 export type GetDomainResponse = unknown;
 
 export const GetDomainResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDomainResponse>;
 
 export type GetDomainError = DefaultErrors;
 
@@ -44,7 +44,7 @@ export const getDomain: API.OperationMethod<
   GetDomainResponse,
   GetDomainError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResponse,
   errors: [],
@@ -55,7 +55,7 @@ export interface ListDomainsRequest {
   accountId: string;
 }
 
-export const ListDomainsRequest = Schema.Struct({
+export const ListDomainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/registrar/domains" }),
@@ -104,7 +104,7 @@ export type ListDomainsResponse = {
   updatedAt?: string | null;
 }[];
 
-export const ListDomainsResponse = Schema.Array(
+export const ListDomainsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     available: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
@@ -240,7 +240,7 @@ export const listDomains: API.OperationMethod<
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
   errors: [],
@@ -258,7 +258,7 @@ export interface PutDomainRequest {
   privacy?: boolean;
 }
 
-export const PutDomainRequest = Schema.Struct({
+export const PutDomainRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   domainName: Schema.String.pipe(T.HttpPath("domainName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   autoRenew: Schema.optional(Schema.Boolean),
@@ -279,7 +279,7 @@ export const PutDomainRequest = Schema.Struct({
 export type PutDomainResponse = unknown;
 
 export const PutDomainResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutDomainResponse>;
 
 export type PutDomainError = DefaultErrors;
 
@@ -288,7 +288,7 @@ export const putDomain: API.OperationMethod<
   PutDomainResponse,
   PutDomainError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDomainRequest,
   output: PutDomainResponse,
   errors: [],

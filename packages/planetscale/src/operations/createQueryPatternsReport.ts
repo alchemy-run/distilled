@@ -4,33 +4,35 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CreateQueryPatternsReportInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns",
-  }),
-);
+export const CreateQueryPatternsReportInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns",
+    }),
+  );
 export type CreateQueryPatternsReportInput =
   typeof CreateQueryPatternsReportInput.Type;
 
 // Output Schema
-export const CreateQueryPatternsReportOutput = Schema.Struct({
-  id: Schema.String,
-  state: Schema.Literals(["pending", "completed", "failed"]),
-  created_at: Schema.String,
-  finished_at: Schema.String,
-  url: Schema.String,
-  download_url: Schema.String,
-  actor: Schema.Struct({
+export const CreateQueryPatternsReportOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-    display_name: Schema.String,
-    avatar_url: Schema.String,
-  }),
-});
+    state: Schema.Literals(["pending", "completed", "failed"]),
+    created_at: Schema.String,
+    finished_at: Schema.String,
+    url: Schema.String,
+    download_url: Schema.String,
+    actor: Schema.Struct({
+      id: Schema.String,
+      display_name: Schema.String,
+      avatar_url: Schema.String,
+    }),
+  });
 export type CreateQueryPatternsReportOutput =
   typeof CreateQueryPatternsReportOutput.Type;
 

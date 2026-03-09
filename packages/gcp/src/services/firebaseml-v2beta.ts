@@ -32,7 +32,7 @@ export interface GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams {
 }
 
 export const GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams: Schema.Schema<GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       index: Schema.optional(Schema.String),
       searchTemplate: Schema.optional(Schema.String),
@@ -53,7 +53,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRo
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelRoutingPreference: Schema.optional(Schema.String),
     }),
@@ -72,7 +72,7 @@ export interface GoogleCloudAiplatformV1beta1LogprobsResultCandidate {
 }
 
 export const GoogleCloudAiplatformV1beta1LogprobsResultCandidate: Schema.Schema<GoogleCloudAiplatformV1beta1LogprobsResultCandidate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logProbability: Schema.optional(Schema.Number),
       token: Schema.optional(Schema.String),
@@ -88,7 +88,7 @@ export interface GoogleCloudAiplatformV1beta1LogprobsResultTopCandidates {
 }
 
 export const GoogleCloudAiplatformV1beta1LogprobsResultTopCandidates: Schema.Schema<GoogleCloudAiplatformV1beta1LogprobsResultTopCandidates> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       candidates: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1LogprobsResultCandidate),
@@ -110,7 +110,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkImage {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkImage: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkImage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -137,7 +137,7 @@ export interface GoogleCloudAiplatformV1beta1EnterpriseWebSearch {
 }
 
 export const GoogleCloudAiplatformV1beta1EnterpriseWebSearch: Schema.Schema<GoogleCloudAiplatformV1beta1EnterpriseWebSearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludeDomains: Schema.optional(Schema.Array(Schema.String)),
       blockingConfidence: Schema.optional(Schema.String),
@@ -156,7 +156,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSource
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       googleMapsUri: Schema.optional(Schema.String),
@@ -173,7 +173,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSource
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reviewSnippets: Schema.optional(
         Schema.Array(
@@ -196,7 +196,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duration: Schema.optional(Schema.String),
       encodedPolyline: Schema.optional(Schema.String),
@@ -222,7 +222,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkMaps {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkMaps: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkMaps> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeId: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -245,7 +245,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingRankServic
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingRankService: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingRankService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
     }),
@@ -260,7 +260,7 @@ export interface GoogleCloudAiplatformV1beta1RetrievalMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1RetrievalMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1RetrievalMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleSearchDynamicRetrievalScore: Schema.optional(Schema.Number),
     }),
@@ -271,14 +271,14 @@ export const GoogleCloudAiplatformV1beta1RetrievalMetadata: Schema.Schema<Google
 export interface GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch {}
 
 export const GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch: Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch",
   }) as any as Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch>;
 
 export interface GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch {}
 
 export const GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch: Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch",
   }) as any as Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch>;
 
@@ -290,7 +290,7 @@ export interface GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes {
 }
 
 export const GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes: Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageSearch: Schema.optional(
         GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch,
@@ -321,7 +321,7 @@ export interface GoogleCloudAiplatformV1beta1ToolGoogleSearch {
 }
 
 export const GoogleCloudAiplatformV1beta1ToolGoogleSearch: Schema.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludeDomains: Schema.optional(Schema.Array(Schema.String)),
       searchTypes: Schema.optional(
@@ -339,7 +339,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingLlmRanker 
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingLlmRanker: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingLlmRanker> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
     }),
@@ -354,7 +354,7 @@ export interface GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig: Schema.Schema<GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voiceName: Schema.optional(Schema.String),
     }),
@@ -370,7 +370,7 @@ export interface GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig: Schema.Schema<GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voiceSampleAudio: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -387,7 +387,7 @@ export interface GoogleCloudAiplatformV1beta1VoiceConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1VoiceConfig: Schema.Schema<GoogleCloudAiplatformV1beta1VoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prebuiltVoiceConfig: Schema.optional(
         GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig,
@@ -408,7 +408,7 @@ export interface GoogleCloudAiplatformV1beta1SpeakerVoiceConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1SpeakerVoiceConfig: Schema.Schema<GoogleCloudAiplatformV1beta1SpeakerVoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speaker: Schema.optional(Schema.String),
       voiceConfig: Schema.optional(GoogleCloudAiplatformV1beta1VoiceConfig),
@@ -423,7 +423,7 @@ export interface GoogleCloudAiplatformV1beta1MultiSpeakerVoiceConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1MultiSpeakerVoiceConfig: Schema.Schema<GoogleCloudAiplatformV1beta1MultiSpeakerVoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speakerVoiceConfigs: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1SpeakerVoiceConfig),
@@ -443,7 +443,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionResponseFileData {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionResponseFileData: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionResponseFileData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileUri: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -463,7 +463,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionResponseBlob {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionResponseBlob: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionResponseBlob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -481,7 +481,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionResponsePart {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionResponsePart: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionResponsePart> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileData: Schema.optional(
         GoogleCloudAiplatformV1beta1FunctionResponseFileData,
@@ -513,7 +513,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionResponse {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionResponse: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parts: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1FunctionResponsePart),
@@ -590,7 +590,7 @@ export interface GoogleCloudAiplatformV1beta1Schema {
 }
 
 export const GoogleCloudAiplatformV1beta1Schema: Schema.Schema<GoogleCloudAiplatformV1beta1Schema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defs: Schema.optional(
         Schema.Record(Schema.String, GoogleCloudAiplatformV1beta1Schema),
@@ -642,7 +642,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionDeclaration {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionDeclaration: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionDeclaration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       parameters: Schema.optional(GoogleCloudAiplatformV1beta1Schema),
@@ -665,7 +665,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkWeb {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkWeb: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkWeb> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       domain: Schema.optional(Schema.String),
@@ -683,7 +683,7 @@ export interface GoogleCloudAiplatformV1beta1RagChunkPageSpan {
 }
 
 export const GoogleCloudAiplatformV1beta1RagChunkPageSpan: Schema.Schema<GoogleCloudAiplatformV1beta1RagChunkPageSpan> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastPage: Schema.optional(Schema.Number),
       firstPage: Schema.optional(Schema.Number),
@@ -700,7 +700,7 @@ export interface GoogleCloudAiplatformV1beta1RagChunk {
 }
 
 export const GoogleCloudAiplatformV1beta1RagChunk: Schema.Schema<GoogleCloudAiplatformV1beta1RagChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       pageSpan: Schema.optional(GoogleCloudAiplatformV1beta1RagChunkPageSpan),
@@ -723,7 +723,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -747,7 +747,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingChunk {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingChunk: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingChunk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       image: Schema.optional(GoogleCloudAiplatformV1beta1GroundingChunkImage),
       web: Schema.optional(GoogleCloudAiplatformV1beta1GroundingChunkWeb),
@@ -775,7 +775,7 @@ export interface GoogleCloudAiplatformV1beta1ModalityTokenCount {
 }
 
 export const GoogleCloudAiplatformV1beta1ModalityTokenCount: Schema.Schema<GoogleCloudAiplatformV1beta1ModalityTokenCount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modality: Schema.optional(Schema.String),
       tokenCount: Schema.optional(Schema.Number),
@@ -793,16 +793,16 @@ export interface Firebaseml_Date {
   month?: number;
 }
 
-export const Firebaseml_Date: Schema.Schema<Firebaseml_Date> = Schema.suspend(
-  () =>
+export const Firebaseml_Date: Schema.Schema<Firebaseml_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "Firebaseml_Date",
-}) as any as Schema.Schema<Firebaseml_Date>;
+  ).annotate({
+    identifier: "Firebaseml_Date",
+  }) as any as Schema.Schema<Firebaseml_Date>;
 
 export interface GoogleCloudAiplatformV1beta1CodeExecutionResult {
   /** Optional. Contains stdout when code execution is successful, stderr or other description otherwise. */
@@ -817,7 +817,7 @@ export interface GoogleCloudAiplatformV1beta1CodeExecutionResult {
 }
 
 export const GoogleCloudAiplatformV1beta1CodeExecutionResult: Schema.Schema<GoogleCloudAiplatformV1beta1CodeExecutionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       output: Schema.optional(Schema.String),
       outcome: Schema.optional(Schema.String),
@@ -838,7 +838,7 @@ export interface GoogleCloudAiplatformV1beta1PartMediaResolution {
 }
 
 export const GoogleCloudAiplatformV1beta1PartMediaResolution: Schema.Schema<GoogleCloudAiplatformV1beta1PartMediaResolution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       level: Schema.optional(Schema.String),
     }),
@@ -862,7 +862,7 @@ export interface GoogleCloudAiplatformV1beta1PartialArg {
 }
 
 export const GoogleCloudAiplatformV1beta1PartialArg: Schema.Schema<GoogleCloudAiplatformV1beta1PartialArg> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numberValue: Schema.optional(Schema.Number),
       stringValue: Schema.optional(Schema.String),
@@ -889,7 +889,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionCall {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionCall: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionCall> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -913,7 +913,7 @@ export interface GoogleCloudAiplatformV1beta1Blob {
 }
 
 export const GoogleCloudAiplatformV1beta1Blob: Schema.Schema<GoogleCloudAiplatformV1beta1Blob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       mimeType: Schema.optional(Schema.String),
@@ -931,7 +931,7 @@ export interface GoogleCloudAiplatformV1beta1ExecutableCode {
 }
 
 export const GoogleCloudAiplatformV1beta1ExecutableCode: Schema.Schema<GoogleCloudAiplatformV1beta1ExecutableCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       language: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -950,7 +950,7 @@ export interface GoogleCloudAiplatformV1beta1FileData {
 }
 
 export const GoogleCloudAiplatformV1beta1FileData: Schema.Schema<GoogleCloudAiplatformV1beta1FileData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileUri: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -970,7 +970,7 @@ export interface GoogleCloudAiplatformV1beta1VideoMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1VideoMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1VideoMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startOffset: Schema.optional(Schema.String),
       fps: Schema.optional(Schema.Number),
@@ -1006,7 +1006,7 @@ export interface GoogleCloudAiplatformV1beta1Part {
 }
 
 export const GoogleCloudAiplatformV1beta1Part: Schema.Schema<GoogleCloudAiplatformV1beta1Part> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeExecutionResult: Schema.optional(
         GoogleCloudAiplatformV1beta1CodeExecutionResult,
@@ -1081,7 +1081,7 @@ export interface GoogleCloudAiplatformV1beta1SafetyRating {
 }
 
 export const GoogleCloudAiplatformV1beta1SafetyRating: Schema.Schema<GoogleCloudAiplatformV1beta1SafetyRating> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       category: Schema.optional(Schema.String),
@@ -1102,12 +1102,13 @@ export interface LatLng {
   longitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    latitude: Schema.optional(Schema.Number),
-    longitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      latitude: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface GoogleCloudAiplatformV1beta1GenerationConfigModelConfig {
   /** Required. Feature selection preference. */
@@ -1120,7 +1121,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfigModelConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfigModelConfig: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfigModelConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       featureSelectionPreference: Schema.optional(Schema.String),
     }),
@@ -1140,7 +1141,7 @@ export interface GoogleCloudAiplatformV1beta1UrlMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1UrlMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1UrlMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       retrievedUrl: Schema.optional(Schema.String),
       urlRetrievalStatus: Schema.optional(Schema.String),
@@ -1152,7 +1153,7 @@ export const GoogleCloudAiplatformV1beta1UrlMetadata: Schema.Schema<GoogleCloudA
 export interface GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams {}
 
 export const GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams: Schema.Schema<GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams",
   }) as any as Schema.Schema<GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams>;
 
@@ -1189,7 +1190,7 @@ export interface GoogleCloudAiplatformV1beta1SafetySetting {
 }
 
 export const GoogleCloudAiplatformV1beta1SafetySetting: Schema.Schema<GoogleCloudAiplatformV1beta1SafetySetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threshold: Schema.optional(Schema.String),
       category: Schema.optional(Schema.String),
@@ -1231,7 +1232,7 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadat
 }
 
 export const GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolUsePromptTokensDetails: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1ModalityTokenCount),
@@ -1264,7 +1265,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfi
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccount: Schema.optional(Schema.String),
     }),
@@ -1279,7 +1280,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       credentialSecret: Schema.optional(Schema.String),
     }),
@@ -1295,7 +1296,7 @@ export interface GoogleCloudAiplatformV1beta1VertexRagStoreRagResource {
 }
 
 export const GoogleCloudAiplatformV1beta1VertexRagStoreRagResource: Schema.Schema<GoogleCloudAiplatformV1beta1VertexRagStoreRagResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ragCorpus: Schema.optional(Schema.String),
       ragFileIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1310,7 +1311,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch {
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alpha: Schema.optional(Schema.Number),
     }),
@@ -1328,7 +1329,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter {
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vectorSimilarityThreshold: Schema.optional(Schema.Number),
       metadataFilter: Schema.optional(Schema.String),
@@ -1346,7 +1347,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking {
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       llmRanker: Schema.optional(
         GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingLlmRanker,
@@ -1371,7 +1372,7 @@ export interface GoogleCloudAiplatformV1beta1RagRetrievalConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfig: Schema.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hybridSearch: Schema.optional(
         GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch,
@@ -1404,7 +1405,7 @@ export interface GoogleCloudAiplatformV1beta1VertexRagStore {
 }
 
 export const GoogleCloudAiplatformV1beta1VertexRagStore: Schema.Schema<GoogleCloudAiplatformV1beta1VertexRagStore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       similarityTopK: Schema.optional(Schema.Number),
       storeContext: Schema.optional(Schema.Boolean),
@@ -1429,7 +1430,7 @@ export interface GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec {
 }
 
 export const GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec: Schema.Schema<GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataStore: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -1452,7 +1453,7 @@ export interface GoogleCloudAiplatformV1beta1VertexAISearch {
 }
 
 export const GoogleCloudAiplatformV1beta1VertexAISearch: Schema.Schema<GoogleCloudAiplatformV1beta1VertexAISearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxResults: Schema.optional(Schema.Number),
       dataStoreSpecs: Schema.optional(
@@ -1485,7 +1486,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiKeySecret: Schema.optional(Schema.String),
       httpElementLocation: Schema.optional(Schema.String),
@@ -1504,7 +1505,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfigOauthConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfigOauthConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfigOauthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
       serviceAccount: Schema.optional(Schema.String),
@@ -1521,7 +1522,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfigOidcConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfigOidcConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfigOidcConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       idToken: Schema.optional(Schema.String),
       serviceAccount: Schema.optional(Schema.String),
@@ -1554,7 +1555,7 @@ export interface GoogleCloudAiplatformV1beta1AuthConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1AuthConfig: Schema.Schema<GoogleCloudAiplatformV1beta1AuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       httpBasicAuthConfig: Schema.optional(
         GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig,
@@ -1585,7 +1586,7 @@ export interface GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig: Schema.Schema<GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiKeySecretVersion: Schema.optional(Schema.String),
       apiKeyString: Schema.optional(Schema.String),
@@ -1600,7 +1601,7 @@ export interface GoogleCloudAiplatformV1beta1ApiAuth {
 }
 
 export const GoogleCloudAiplatformV1beta1ApiAuth: Schema.Schema<GoogleCloudAiplatformV1beta1ApiAuth> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiKeyConfig: Schema.optional(
         GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig,
@@ -1630,7 +1631,7 @@ export interface GoogleCloudAiplatformV1beta1ExternalApi {
 }
 
 export const GoogleCloudAiplatformV1beta1ExternalApi: Schema.Schema<GoogleCloudAiplatformV1beta1ExternalApi> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authConfig: Schema.optional(GoogleCloudAiplatformV1beta1AuthConfig),
       endpoint: Schema.optional(Schema.String),
@@ -1659,7 +1660,7 @@ export interface GoogleCloudAiplatformV1beta1Retrieval {
 }
 
 export const GoogleCloudAiplatformV1beta1Retrieval: Schema.Schema<GoogleCloudAiplatformV1beta1Retrieval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertexRagStore: Schema.optional(
         GoogleCloudAiplatformV1beta1VertexRagStore,
@@ -1690,7 +1691,7 @@ export interface GoogleCloudAiplatformV1beta1FunctionCallingConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1FunctionCallingConfig: Schema.Schema<GoogleCloudAiplatformV1beta1FunctionCallingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       streamFunctionCallArguments: Schema.optional(Schema.Boolean),
       mode: Schema.optional(Schema.String),
@@ -1708,7 +1709,7 @@ export interface GoogleCloudAiplatformV1beta1ToolParallelAiSearch {
 }
 
 export const GoogleCloudAiplatformV1beta1ToolParallelAiSearch: Schema.Schema<GoogleCloudAiplatformV1beta1ToolParallelAiSearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiKey: Schema.optional(Schema.String),
       customConfigs: Schema.optional(
@@ -1735,7 +1736,7 @@ export interface GoogleCloudAiplatformV1beta1Citation {
 }
 
 export const GoogleCloudAiplatformV1beta1Citation: Schema.Schema<GoogleCloudAiplatformV1beta1Citation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       startIndex: Schema.optional(Schema.Number),
@@ -1754,7 +1755,7 @@ export interface GoogleCloudAiplatformV1beta1CitationMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1CitationMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1CitationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citations: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1Citation),
@@ -1776,7 +1777,7 @@ export interface GoogleCloudAiplatformV1beta1Segment {
 }
 
 export const GoogleCloudAiplatformV1beta1Segment: Schema.Schema<GoogleCloudAiplatformV1beta1Segment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startIndex: Schema.optional(Schema.Number),
       partIndex: Schema.optional(Schema.Number),
@@ -1803,7 +1804,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thinkingBudget: Schema.optional(Schema.Number),
       thinkingLevel: Schema.optional(Schema.String),
@@ -1823,7 +1824,7 @@ export interface GoogleCloudAiplatformV1beta1SpeechConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1SpeechConfig: Schema.Schema<GoogleCloudAiplatformV1beta1SpeechConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voiceConfig: Schema.optional(GoogleCloudAiplatformV1beta1VoiceConfig),
       languageCode: Schema.optional(Schema.String),
@@ -1841,7 +1842,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManual
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelName: Schema.optional(Schema.String),
     }),
@@ -1858,7 +1859,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       autoMode: Schema.optional(
         GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode,
@@ -1879,7 +1880,7 @@ export interface GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions {
 }
 
 export const GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions: Schema.Schema<GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mimeType: Schema.optional(Schema.String),
       compressionQuality: Schema.optional(Schema.Number),
@@ -1911,7 +1912,7 @@ export interface GoogleCloudAiplatformV1beta1ImageConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1ImageConfig: Schema.Schema<GoogleCloudAiplatformV1beta1ImageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aspectRatio: Schema.optional(Schema.String),
       personGeneration: Schema.optional(Schema.String),
@@ -1982,7 +1983,7 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerationConfig: Schema.Schema<GoogleCloudAiplatformV1beta1GenerationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseSchema: Schema.optional(GoogleCloudAiplatformV1beta1Schema),
       enableAffectiveDialog: Schema.optional(Schema.Boolean),
@@ -2026,7 +2027,7 @@ export interface GoogleCloudAiplatformV1beta1LogprobsResult {
 }
 
 export const GoogleCloudAiplatformV1beta1LogprobsResult: Schema.Schema<GoogleCloudAiplatformV1beta1LogprobsResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chosenCandidates: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1LogprobsResultCandidate),
@@ -2047,7 +2048,7 @@ export interface GoogleCloudAiplatformV1beta1SearchEntryPoint {
 }
 
 export const GoogleCloudAiplatformV1beta1SearchEntryPoint: Schema.Schema<GoogleCloudAiplatformV1beta1SearchEntryPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdkBlob: Schema.optional(Schema.String),
       renderedContent: Schema.optional(Schema.String),
@@ -2068,7 +2069,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingSupport {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingSupport: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingSupport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confidenceScores: Schema.optional(Schema.Array(Schema.Number)),
       segment: Schema.optional(GoogleCloudAiplatformV1beta1Segment),
@@ -2087,7 +2088,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri 
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceId: Schema.optional(Schema.String),
       flagContentUri: Schema.optional(Schema.String),
@@ -2119,7 +2120,7 @@ export interface GoogleCloudAiplatformV1beta1GroundingMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1GroundingMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1GroundingMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchEntryPoint: Schema.optional(
         GoogleCloudAiplatformV1beta1SearchEntryPoint,
@@ -2155,7 +2156,7 @@ export interface GoogleCloudAiplatformV1beta1Content {
 }
 
 export const GoogleCloudAiplatformV1beta1Content: Schema.Schema<GoogleCloudAiplatformV1beta1Content> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parts: Schema.optional(Schema.Array(GoogleCloudAiplatformV1beta1Part)),
       role: Schema.optional(Schema.String),
@@ -2170,7 +2171,7 @@ export interface GoogleCloudAiplatformV1beta1UrlContextMetadata {
 }
 
 export const GoogleCloudAiplatformV1beta1UrlContextMetadata: Schema.Schema<GoogleCloudAiplatformV1beta1UrlContextMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlMetadata: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1UrlMetadata),
@@ -2222,7 +2223,7 @@ export interface GoogleCloudAiplatformV1beta1Candidate {
 }
 
 export const GoogleCloudAiplatformV1beta1Candidate: Schema.Schema<GoogleCloudAiplatformV1beta1Candidate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citationMetadata: Schema.optional(
         GoogleCloudAiplatformV1beta1CitationMetadata,
@@ -2268,7 +2269,7 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedba
 }
 
 export const GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback: Schema.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockReason: Schema.optional(Schema.String),
       safetyRatings: Schema.optional(
@@ -2297,7 +2298,7 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponse {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerateContentResponse: Schema.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       candidates: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1Candidate),
@@ -2324,7 +2325,7 @@ export interface GoogleCloudAiplatformV1beta1RetrievalConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1RetrievalConfig: Schema.Schema<GoogleCloudAiplatformV1beta1RetrievalConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       latLng: Schema.optional(LatLng),
       languageCode: Schema.optional(Schema.String),
@@ -2341,7 +2342,7 @@ export interface GoogleCloudAiplatformV1beta1ToolConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1ToolConfig: Schema.Schema<GoogleCloudAiplatformV1beta1ToolConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionCallingConfig: Schema.optional(
         GoogleCloudAiplatformV1beta1FunctionCallingConfig,
@@ -2362,7 +2363,7 @@ export interface GoogleCloudAiplatformV1beta1DynamicRetrievalConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1DynamicRetrievalConfig: Schema.Schema<GoogleCloudAiplatformV1beta1DynamicRetrievalConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
       dynamicThreshold: Schema.optional(Schema.Number),
@@ -2377,7 +2378,7 @@ export interface GoogleCloudAiplatformV1beta1GoogleSearchRetrieval {
 }
 
 export const GoogleCloudAiplatformV1beta1GoogleSearchRetrieval: Schema.Schema<GoogleCloudAiplatformV1beta1GoogleSearchRetrieval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dynamicRetrievalConfig: Schema.optional(
         GoogleCloudAiplatformV1beta1DynamicRetrievalConfig,
@@ -2397,7 +2398,7 @@ export interface GoogleCloudAiplatformV1beta1CountTokensResponse {
 }
 
 export const GoogleCloudAiplatformV1beta1CountTokensResponse: Schema.Schema<GoogleCloudAiplatformV1beta1CountTokensResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalBillableCharacters: Schema.optional(Schema.Number),
       promptTokensDetails: Schema.optional(
@@ -2417,7 +2418,7 @@ export interface GoogleCloudAiplatformV1beta1ModelArmorConfig {
 }
 
 export const GoogleCloudAiplatformV1beta1ModelArmorConfig: Schema.Schema<GoogleCloudAiplatformV1beta1ModelArmorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promptTemplateName: Schema.optional(Schema.String),
       responseTemplateName: Schema.optional(Schema.String),
@@ -2429,14 +2430,14 @@ export const GoogleCloudAiplatformV1beta1ModelArmorConfig: Schema.Schema<GoogleC
 export interface GoogleCloudAiplatformV1beta1ToolCodeExecution {}
 
 export const GoogleCloudAiplatformV1beta1ToolCodeExecution: Schema.Schema<GoogleCloudAiplatformV1beta1ToolCodeExecution> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAiplatformV1beta1ToolCodeExecution",
   }) as any as Schema.Schema<GoogleCloudAiplatformV1beta1ToolCodeExecution>;
 
 export interface GoogleCloudAiplatformV1beta1UrlContext {}
 
 export const GoogleCloudAiplatformV1beta1UrlContext: Schema.Schema<GoogleCloudAiplatformV1beta1UrlContext> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudAiplatformV1beta1UrlContext",
   }) as any as Schema.Schema<GoogleCloudAiplatformV1beta1UrlContext>;
 
@@ -2446,7 +2447,7 @@ export interface GoogleCloudAiplatformV1beta1GoogleMaps {
 }
 
 export const GoogleCloudAiplatformV1beta1GoogleMaps: Schema.Schema<GoogleCloudAiplatformV1beta1GoogleMaps> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableWidget: Schema.optional(Schema.Boolean),
     }),
@@ -2465,7 +2466,7 @@ export interface GoogleCloudAiplatformV1beta1ToolComputerUse {
 }
 
 export const GoogleCloudAiplatformV1beta1ToolComputerUse: Schema.Schema<GoogleCloudAiplatformV1beta1ToolComputerUse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environment: Schema.optional(Schema.String),
       excludedPredefinedFunctions: Schema.optional(Schema.Array(Schema.String)),
@@ -2498,7 +2499,7 @@ export interface GoogleCloudAiplatformV1beta1Tool {
 }
 
 export const GoogleCloudAiplatformV1beta1Tool: Schema.Schema<GoogleCloudAiplatformV1beta1Tool> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionDeclarations: Schema.optional(
         Schema.Array(GoogleCloudAiplatformV1beta1FunctionDeclaration),
@@ -2549,7 +2550,7 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
 }
 
 export const GoogleCloudAiplatformV1beta1GenerateContentRequest: Schema.Schema<GoogleCloudAiplatformV1beta1GenerateContentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolConfig: Schema.optional(GoogleCloudAiplatformV1beta1ToolConfig),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -2584,7 +2585,7 @@ export interface ModelOperationMetadata {
 }
 
 export const ModelOperationMetadata: Schema.Schema<ModelOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       basicOperationStatus: Schema.optional(Schema.String),
@@ -2609,7 +2610,7 @@ export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
 }
 
 export const GoogleCloudAiplatformV1beta1CountTokensRequest: Schema.Schema<GoogleCloudAiplatformV1beta1CountTokensRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instances: Schema.optional(Schema.Array(Schema.Unknown)),
       generationConfig: Schema.optional(
@@ -2638,7 +2639,7 @@ export interface GenerateContentProjectsLocationsPublishersModelsRequest {
 }
 
 export const GenerateContentProjectsLocationsPublishersModelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     model: Schema.String.pipe(T.HttpPath("model")),
     body: Schema.optional(
       GoogleCloudAiplatformV1beta1GenerateContentRequest,
@@ -2655,7 +2656,7 @@ export const GenerateContentProjectsLocationsPublishersModelsRequest =
 export type GenerateContentProjectsLocationsPublishersModelsResponse =
   GoogleCloudAiplatformV1beta1GenerateContentResponse;
 export const GenerateContentProjectsLocationsPublishersModelsResponse =
-  GoogleCloudAiplatformV1beta1GenerateContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAiplatformV1beta1GenerateContentResponse;
 
 export type GenerateContentProjectsLocationsPublishersModelsError =
   DefaultErrors;
@@ -2666,7 +2667,7 @@ export const generateContentProjectsLocationsPublishersModels: API.OperationMeth
   GenerateContentProjectsLocationsPublishersModelsResponse,
   GenerateContentProjectsLocationsPublishersModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateContentProjectsLocationsPublishersModelsRequest,
   output: GenerateContentProjectsLocationsPublishersModelsResponse,
   errors: [],
@@ -2680,7 +2681,7 @@ export interface CountTokensProjectsLocationsPublishersModelsRequest {
 }
 
 export const CountTokensProjectsLocationsPublishersModelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     endpoint: Schema.String.pipe(T.HttpPath("endpoint")),
     body: Schema.optional(GoogleCloudAiplatformV1beta1CountTokensRequest).pipe(
       T.HttpBody(),
@@ -2697,7 +2698,7 @@ export const CountTokensProjectsLocationsPublishersModelsRequest =
 export type CountTokensProjectsLocationsPublishersModelsResponse =
   GoogleCloudAiplatformV1beta1CountTokensResponse;
 export const CountTokensProjectsLocationsPublishersModelsResponse =
-  GoogleCloudAiplatformV1beta1CountTokensResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAiplatformV1beta1CountTokensResponse;
 
 export type CountTokensProjectsLocationsPublishersModelsError = DefaultErrors;
 
@@ -2707,7 +2708,7 @@ export const countTokensProjectsLocationsPublishersModels: API.OperationMethod<
   CountTokensProjectsLocationsPublishersModelsResponse,
   CountTokensProjectsLocationsPublishersModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CountTokensProjectsLocationsPublishersModelsRequest,
   output: CountTokensProjectsLocationsPublishersModelsResponse,
   errors: [],
@@ -2721,7 +2722,7 @@ export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest {
 }
 
 export const StreamGenerateContentProjectsLocationsPublishersModelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     model: Schema.String.pipe(T.HttpPath("model")),
     body: Schema.optional(
       GoogleCloudAiplatformV1beta1GenerateContentRequest,
@@ -2738,7 +2739,7 @@ export const StreamGenerateContentProjectsLocationsPublishersModelsRequest =
 export type StreamGenerateContentProjectsLocationsPublishersModelsResponse =
   GoogleCloudAiplatformV1beta1GenerateContentResponse;
 export const StreamGenerateContentProjectsLocationsPublishersModelsResponse =
-  GoogleCloudAiplatformV1beta1GenerateContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAiplatformV1beta1GenerateContentResponse;
 
 export type StreamGenerateContentProjectsLocationsPublishersModelsError =
   DefaultErrors;
@@ -2749,7 +2750,7 @@ export const streamGenerateContentProjectsLocationsPublishersModels: API.Operati
   StreamGenerateContentProjectsLocationsPublishersModelsResponse,
   StreamGenerateContentProjectsLocationsPublishersModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StreamGenerateContentProjectsLocationsPublishersModelsRequest,
   output: StreamGenerateContentProjectsLocationsPublishersModelsResponse,
   errors: [],

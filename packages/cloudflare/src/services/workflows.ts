@@ -62,7 +62,7 @@ export interface GetInstanceRequest {
   accountId: string;
 }
 
-export const GetInstanceRequest = Schema.Struct({
+export const GetInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -136,7 +136,7 @@ export interface GetInstanceResponse {
   versionId: string;
 }
 
-export const GetInstanceResponse = Schema.Struct({
+export const GetInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   end: Schema.Union([Schema.String, Schema.Null]),
   error: Schema.Union([
     Schema.Struct({
@@ -251,7 +251,7 @@ export const getInstance: API.OperationMethod<
   GetInstanceResponse,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceRequest,
   output: GetInstanceResponse,
   errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound],
@@ -281,7 +281,7 @@ export interface ListInstancesRequest {
     | "waiting";
 }
 
-export const ListInstancesRequest = Schema.Struct({
+export const ListInstancesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cursor: Schema.optional(Schema.String).pipe(T.HttpQuery("cursor")),
@@ -328,7 +328,7 @@ export type ListInstancesResponse = {
   workflowId: string;
 }[];
 
-export const ListInstancesResponse = Schema.Array(
+export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -372,7 +372,7 @@ export const listInstances: API.OperationMethod<
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
@@ -393,7 +393,7 @@ export interface CreateInstanceRequest {
   params?: unknown;
 }
 
-export const CreateInstanceRequest = Schema.Struct({
+export const CreateInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   instanceId: Schema.optional(Schema.String),
@@ -440,21 +440,23 @@ export interface CreateInstanceResponse {
   workflowId: string;
 }
 
-export const CreateInstanceResponse = Schema.Struct({
-  id: Schema.String,
-  status: Schema.Literals([
-    "queued",
-    "running",
-    "paused",
-    "errored",
-    "terminated",
-    "complete",
-    "waitingForPause",
-    "waiting",
-  ]),
-  versionId: Schema.String,
-  workflowId: Schema.String,
-}).pipe(
+export const CreateInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    status: Schema.Literals([
+      "queued",
+      "running",
+      "paused",
+      "errored",
+      "terminated",
+      "complete",
+      "waitingForPause",
+      "waiting",
+    ]),
+    versionId: Schema.String,
+    workflowId: Schema.String,
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     status: "status",
@@ -474,7 +476,7 @@ export const createInstance: API.OperationMethod<
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
   output: CreateInstanceResponse,
   errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
@@ -495,7 +497,7 @@ export interface BulkInstanceRequest {
   }[];
 }
 
-export const BulkInstanceRequest = Schema.Struct({
+export const BulkInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.optional(
@@ -549,7 +551,7 @@ export type BulkInstanceResponse = {
   workflowId: string;
 }[];
 
-export const BulkInstanceResponse = Schema.Array(
+export const BulkInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     status: Schema.Literals([
@@ -585,7 +587,7 @@ export const bulkInstance: API.OperationMethod<
   BulkInstanceResponse,
   BulkInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkInstanceRequest,
   output: BulkInstanceResponse,
   errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
@@ -605,23 +607,24 @@ export interface CreateInstanceEventRequest {
   body?: unknown;
 }
 
-export const CreateInstanceEventRequest = Schema.Struct({
-  workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
-  instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
-  eventType: Schema.String.pipe(T.HttpPath("eventType")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.optional(Schema.Unknown).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/events/{eventType}",
-  }),
-) as unknown as Schema.Schema<CreateInstanceEventRequest>;
+export const CreateInstanceEventRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
+    instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
+    eventType: Schema.String.pipe(T.HttpPath("eventType")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.optional(Schema.Unknown).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/events/{eventType}",
+    }),
+  ) as unknown as Schema.Schema<CreateInstanceEventRequest>;
 
 export type CreateInstanceEventResponse = unknown;
 
 export const CreateInstanceEventResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
 
 export type CreateInstanceEventError =
   | DefaultErrors
@@ -635,7 +638,7 @@ export const createInstanceEvent: API.OperationMethod<
   CreateInstanceEventResponse,
   CreateInstanceEventError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceEventRequest,
   output: CreateInstanceEventResponse,
   errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound, InvalidBody],
@@ -654,17 +657,18 @@ export interface PatchInstanceStatusRequest {
   status: "resume" | "pause" | "terminate" | "restart";
 }
 
-export const PatchInstanceStatusRequest = Schema.Struct({
-  workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
-  instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  status: Schema.Literals(["resume", "pause", "terminate", "restart"]),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/status",
-  }),
-) as unknown as Schema.Schema<PatchInstanceStatusRequest>;
+export const PatchInstanceStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
+    instanceId: Schema.String.pipe(T.HttpPath("instanceId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    status: Schema.Literals(["resume", "pause", "terminate", "restart"]),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/status",
+    }),
+  ) as unknown as Schema.Schema<PatchInstanceStatusRequest>;
 
 export interface PatchInstanceStatusResponse {
   status:
@@ -680,19 +684,20 @@ export interface PatchInstanceStatusResponse {
   timestamp: string;
 }
 
-export const PatchInstanceStatusResponse = Schema.Struct({
-  status: Schema.Literals([
-    "queued",
-    "running",
-    "paused",
-    "errored",
-    "terminated",
-    "complete",
-    "waitingForPause",
-    "waiting",
-  ]),
-  timestamp: Schema.String,
-}) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
+export const PatchInstanceStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    status: Schema.Literals([
+      "queued",
+      "running",
+      "paused",
+      "errored",
+      "terminated",
+      "complete",
+      "waitingForPause",
+      "waiting",
+    ]),
+    timestamp: Schema.String,
+  }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
 export type PatchInstanceStatusError =
   | DefaultErrors
@@ -705,7 +710,7 @@ export const patchInstanceStatus: API.OperationMethod<
   PatchInstanceStatusResponse,
   PatchInstanceStatusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInstanceStatusRequest,
   output: PatchInstanceStatusResponse,
   errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound],
@@ -721,7 +726,7 @@ export interface GetVersionRequest {
   accountId: string;
 }
 
-export const GetVersionRequest = Schema.Struct({
+export const GetVersionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   versionId: Schema.String.pipe(T.HttpPath("versionId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -740,7 +745,7 @@ export interface GetVersionResponse {
   workflowId: string;
 }
 
-export const GetVersionResponse = Schema.Struct({
+export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   className: Schema.String,
   createdOn: Schema.String,
@@ -767,7 +772,7 @@ export const getVersion: API.OperationMethod<
   GetVersionResponse,
   GetVersionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVersionRequest,
   output: GetVersionResponse,
   errors: [WorkflowNotFound, InvalidRoute, VersionNotFound],
@@ -779,7 +784,7 @@ export interface ListVersionsRequest {
   accountId: string;
 }
 
-export const ListVersionsRequest = Schema.Struct({
+export const ListVersionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -797,7 +802,7 @@ export type ListVersionsResponse = {
   workflowId: string;
 }[];
 
-export const ListVersionsResponse = Schema.Array(
+export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     className: Schema.String,
@@ -822,7 +827,7 @@ export const listVersions: API.OperationMethod<
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
   errors: [WorkflowNotFound, InvalidRoute],
@@ -837,7 +842,7 @@ export interface GetWorkflowRequest {
   accountId: string;
 }
 
-export const GetWorkflowRequest = Schema.Struct({
+export const GetWorkflowRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -867,7 +872,7 @@ export interface GetWorkflowResponse {
   triggeredOn: string | null;
 }
 
-export const GetWorkflowResponse = Schema.Struct({
+export const GetWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   className: Schema.String,
   createdOn: Schema.String,
@@ -907,7 +912,7 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [WorkflowNotFound, InvalidRoute],
@@ -920,7 +925,7 @@ export interface ListWorkflowsRequest {
   search?: string;
 }
 
-export const ListWorkflowsRequest = Schema.Struct({
+export const ListWorkflowsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
 }).pipe(
@@ -947,7 +952,7 @@ export type ListWorkflowsResponse = {
   triggeredOn: string | null;
 }[];
 
-export const ListWorkflowsResponse = Schema.Array(
+export const ListWorkflowsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     className: Schema.String,
@@ -989,7 +994,7 @@ export const listWorkflows: API.OperationMethod<
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListWorkflowsRequest,
   output: ListWorkflowsResponse,
   errors: [InvalidRoute],
@@ -1005,7 +1010,7 @@ export interface PutWorkflowRequest {
   scriptName: string;
 }
 
-export const PutWorkflowRequest = Schema.Struct({
+export const PutWorkflowRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   className: Schema.String,
@@ -1031,7 +1036,7 @@ export interface PutWorkflowResponse {
   versionId: string;
 }
 
-export const PutWorkflowResponse = Schema.Struct({
+export const PutWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   className: Schema.String,
   createdOn: Schema.String,
@@ -1069,7 +1074,7 @@ export const putWorkflow: API.OperationMethod<
   PutWorkflowResponse,
   PutWorkflowError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutWorkflowRequest,
   output: PutWorkflowResponse,
   errors: [WorkflowInternalError, InvalidRoute],
@@ -1080,7 +1085,7 @@ export interface DeleteWorkflowRequest {
   accountId: string;
 }
 
-export const DeleteWorkflowRequest = Schema.Struct({
+export const DeleteWorkflowRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   workflowName: Schema.String.pipe(T.HttpPath("workflowName")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1095,10 +1100,12 @@ export interface DeleteWorkflowResponse {
   success?: boolean | null;
 }
 
-export const DeleteWorkflowResponse = Schema.Struct({
-  status: Schema.Literal("ok"),
-  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteWorkflowResponse>;
+export const DeleteWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    status: Schema.Literal("ok"),
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  },
+) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
 export type DeleteWorkflowError =
   | DefaultErrors
@@ -1110,7 +1117,7 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
   errors: [WorkflowNotFound, InvalidRoute],

@@ -55,8 +55,8 @@ export interface PlaceActionLink {
   isPreferred?: boolean;
 }
 
-export const PlaceActionLink: Schema.Schema<PlaceActionLink> = Schema.suspend(
-  () =>
+export const PlaceActionLink: Schema.Schema<PlaceActionLink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       providerType: Schema.optional(Schema.String),
@@ -67,9 +67,9 @@ export const PlaceActionLink: Schema.Schema<PlaceActionLink> = Schema.suspend(
       placeActionType: Schema.optional(Schema.String),
       isPreferred: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "PlaceActionLink",
-}) as any as Schema.Schema<PlaceActionLink>;
+  ).annotate({
+    identifier: "PlaceActionLink",
+  }) as any as Schema.Schema<PlaceActionLink>;
 
 export interface ListPlaceActionLinksResponse {
   /** If there are more place action links than the requested page size, then this field is populated with a token to fetch the next page of results. */
@@ -79,7 +79,7 @@ export interface ListPlaceActionLinksResponse {
 }
 
 export const ListPlaceActionLinksResponse: Schema.Schema<ListPlaceActionLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       placeActionLinks: Schema.optional(Schema.Array(PlaceActionLink)),
@@ -90,9 +90,10 @@ export const ListPlaceActionLinksResponse: Schema.Schema<ListPlaceActionLinksRes
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface PlaceActionTypeMetadata {
   /** The place action type. */
@@ -112,7 +113,7 @@ export interface PlaceActionTypeMetadata {
 }
 
 export const PlaceActionTypeMetadata: Schema.Schema<PlaceActionTypeMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeActionType: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -129,7 +130,7 @@ export interface ListPlaceActionTypeMetadataResponse {
 }
 
 export const ListPlaceActionTypeMetadataResponse: Schema.Schema<ListPlaceActionTypeMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeActionTypeMetadata: Schema.optional(
         Schema.Array(PlaceActionTypeMetadata),
@@ -155,23 +156,24 @@ export interface ListLocationsPlaceActionLinksRequest {
   pageSize?: number;
 }
 
-export const ListLocationsPlaceActionLinksRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}/placeActionLinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListLocationsPlaceActionLinksRequest>;
+export const ListLocationsPlaceActionLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}/placeActionLinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLocationsPlaceActionLinksRequest>;
 
 export type ListLocationsPlaceActionLinksResponse =
   ListPlaceActionLinksResponse;
 export const ListLocationsPlaceActionLinksResponse =
-  ListPlaceActionLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPlaceActionLinksResponse;
 
 export type ListLocationsPlaceActionLinksError = DefaultErrors;
 
@@ -181,7 +183,7 @@ export const listLocationsPlaceActionLinks: API.PaginatedOperationMethod<
   ListLocationsPlaceActionLinksResponse,
   ListLocationsPlaceActionLinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLocationsPlaceActionLinksRequest,
   output: ListLocationsPlaceActionLinksResponse,
   errors: [],
@@ -200,21 +202,23 @@ export interface PatchLocationsPlaceActionLinksRequest {
   body?: PlaceActionLink;
 }
 
-export const PatchLocationsPlaceActionLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PlaceActionLink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchLocationsPlaceActionLinksRequest>;
+export const PatchLocationsPlaceActionLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PlaceActionLink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchLocationsPlaceActionLinksRequest>;
 
 export type PatchLocationsPlaceActionLinksResponse = PlaceActionLink;
-export const PatchLocationsPlaceActionLinksResponse = PlaceActionLink;
+export const PatchLocationsPlaceActionLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PlaceActionLink;
 
 export type PatchLocationsPlaceActionLinksError = DefaultErrors;
 
@@ -224,7 +228,7 @@ export const patchLocationsPlaceActionLinks: API.OperationMethod<
   PatchLocationsPlaceActionLinksResponse,
   PatchLocationsPlaceActionLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLocationsPlaceActionLinksRequest,
   output: PatchLocationsPlaceActionLinksResponse,
   errors: [],
@@ -235,18 +239,20 @@ export interface GetLocationsPlaceActionLinksRequest {
   name: string;
 }
 
-export const GetLocationsPlaceActionLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLocationsPlaceActionLinksRequest>;
+export const GetLocationsPlaceActionLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLocationsPlaceActionLinksRequest>;
 
 export type GetLocationsPlaceActionLinksResponse = PlaceActionLink;
-export const GetLocationsPlaceActionLinksResponse = PlaceActionLink;
+export const GetLocationsPlaceActionLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PlaceActionLink;
 
 export type GetLocationsPlaceActionLinksError = DefaultErrors;
 
@@ -256,7 +262,7 @@ export const getLocationsPlaceActionLinks: API.OperationMethod<
   GetLocationsPlaceActionLinksResponse,
   GetLocationsPlaceActionLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLocationsPlaceActionLinksRequest,
   output: GetLocationsPlaceActionLinksResponse,
   errors: [],
@@ -267,18 +273,20 @@ export interface DeleteLocationsPlaceActionLinksRequest {
   name: string;
 }
 
-export const DeleteLocationsPlaceActionLinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteLocationsPlaceActionLinksRequest>;
+export const DeleteLocationsPlaceActionLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/locations/{locationsId}/placeActionLinks/{placeActionLinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteLocationsPlaceActionLinksRequest>;
 
 export type DeleteLocationsPlaceActionLinksResponse = Empty;
-export const DeleteLocationsPlaceActionLinksResponse = Empty;
+export const DeleteLocationsPlaceActionLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteLocationsPlaceActionLinksError = DefaultErrors;
 
@@ -288,7 +296,7 @@ export const deleteLocationsPlaceActionLinks: API.OperationMethod<
   DeleteLocationsPlaceActionLinksResponse,
   DeleteLocationsPlaceActionLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLocationsPlaceActionLinksRequest,
   output: DeleteLocationsPlaceActionLinksResponse,
   errors: [],
@@ -301,20 +309,22 @@ export interface CreateLocationsPlaceActionLinksRequest {
   body?: PlaceActionLink;
 }
 
-export const CreateLocationsPlaceActionLinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PlaceActionLink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/locations/{locationsId}/placeActionLinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateLocationsPlaceActionLinksRequest>;
+export const CreateLocationsPlaceActionLinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PlaceActionLink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/locations/{locationsId}/placeActionLinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateLocationsPlaceActionLinksRequest>;
 
 export type CreateLocationsPlaceActionLinksResponse = PlaceActionLink;
-export const CreateLocationsPlaceActionLinksResponse = PlaceActionLink;
+export const CreateLocationsPlaceActionLinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PlaceActionLink;
 
 export type CreateLocationsPlaceActionLinksError = DefaultErrors;
 
@@ -324,7 +334,7 @@ export const createLocationsPlaceActionLinks: API.OperationMethod<
   CreateLocationsPlaceActionLinksResponse,
   CreateLocationsPlaceActionLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLocationsPlaceActionLinksRequest,
   output: CreateLocationsPlaceActionLinksResponse,
   errors: [],
@@ -341,22 +351,23 @@ export interface ListPlaceActionTypeMetadataRequest {
   filter?: string;
 }
 
-export const ListPlaceActionTypeMetadataRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/placeActionTypeMetadata" }),
-  svc,
-) as unknown as Schema.Schema<ListPlaceActionTypeMetadataRequest>;
+export const ListPlaceActionTypeMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/placeActionTypeMetadata" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPlaceActionTypeMetadataRequest>;
 
 export type ListPlaceActionTypeMetadataResponse_Op =
   ListPlaceActionTypeMetadataResponse;
 export const ListPlaceActionTypeMetadataResponse_Op =
-  ListPlaceActionTypeMetadataResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPlaceActionTypeMetadataResponse;
 
 export type ListPlaceActionTypeMetadataError = DefaultErrors;
 
@@ -366,7 +377,7 @@ export const listPlaceActionTypeMetadata: API.PaginatedOperationMethod<
   ListPlaceActionTypeMetadataResponse_Op,
   ListPlaceActionTypeMetadataError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPlaceActionTypeMetadataRequest,
   output: ListPlaceActionTypeMetadataResponse_Op,
   errors: [],

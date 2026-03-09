@@ -32,7 +32,7 @@ export interface UpdateFailureState {
 }
 
 export const UpdateFailureState: Schema.Schema<UpdateFailureState> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failedConfiguration: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -54,7 +54,7 @@ export interface DynamicRouteConfig {
 }
 
 export const DynamicRouteConfig: Schema.Schema<DynamicRouteConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       routeConfig: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -71,11 +71,14 @@ export interface PathSegment {
   key?: string;
 }
 
-export const PathSegment: Schema.Schema<PathSegment> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PathSegment" }) as any as Schema.Schema<PathSegment>;
+export const PathSegment: Schema.Schema<PathSegment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PathSegment",
+  }) as any as Schema.Schema<PathSegment>;
 
 export interface DoubleRange {
   /** start of the range (inclusive) */
@@ -84,12 +87,15 @@ export interface DoubleRange {
   end?: number;
 }
 
-export const DoubleRange: Schema.Schema<DoubleRange> = Schema.suspend(() =>
-  Schema.Struct({
-    start: Schema.optional(Schema.Number),
-    end: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "DoubleRange" }) as any as Schema.Schema<DoubleRange>;
+export const DoubleRange: Schema.Schema<DoubleRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      start: Schema.optional(Schema.Number),
+      end: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "DoubleRange",
+  }) as any as Schema.Schema<DoubleRange>;
 
 export interface DoubleMatcher {
   /** If specified, the input double value must be equal to the value specified here. */
@@ -98,42 +104,48 @@ export interface DoubleMatcher {
   range?: DoubleRange;
 }
 
-export const DoubleMatcher: Schema.Schema<DoubleMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    exact: Schema.optional(Schema.Number),
-    range: Schema.optional(DoubleRange),
-  }),
-).annotate({
-  identifier: "DoubleMatcher",
-}) as any as Schema.Schema<DoubleMatcher>;
+export const DoubleMatcher: Schema.Schema<DoubleMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      exact: Schema.optional(Schema.Number),
+      range: Schema.optional(DoubleRange),
+    }),
+  ).annotate({
+    identifier: "DoubleMatcher",
+  }) as any as Schema.Schema<DoubleMatcher>;
 
 export interface ListMatcher {
   /** If specified, at least one of the values in the list must match the value specified. */
   oneOf?: ValueMatcher;
 }
 
-export const ListMatcher: Schema.Schema<ListMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    oneOf: Schema.optional(ValueMatcher),
-  }),
-).annotate({ identifier: "ListMatcher" }) as any as Schema.Schema<ListMatcher>;
+export const ListMatcher: Schema.Schema<ListMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oneOf: Schema.optional(ValueMatcher),
+    }),
+  ).annotate({
+    identifier: "ListMatcher",
+  }) as any as Schema.Schema<ListMatcher>;
 
 export interface NullMatch {}
 
-export const NullMatch: Schema.Schema<NullMatch> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "NullMatch" }) as any as Schema.Schema<NullMatch>;
+export const NullMatch: Schema.Schema<NullMatch> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "NullMatch",
+  }) as any as Schema.Schema<NullMatch>;
 
 export interface GoogleRE2 {
   /** This field controls the RE2 "program size" which is a rough estimate of how complex a compiled regex is to evaluate. A regex that has a program size greater than the configured value will fail to compile. In this case, the configured max program size can be increased or the regex can be simplified. If not specified, the default is 100. This field is deprecated; regexp validation should be performed on the management server instead of being done by each individual client. */
   maxProgramSize?: number;
 }
 
-export const GoogleRE2: Schema.Schema<GoogleRE2> = Schema.suspend(() =>
-  Schema.Struct({
-    maxProgramSize: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "GoogleRE2" }) as any as Schema.Schema<GoogleRE2>;
+export const GoogleRE2: Schema.Schema<GoogleRE2> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      maxProgramSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "GoogleRE2" }) as any as Schema.Schema<GoogleRE2>;
 
 export interface RegexMatcher {
   /** Google's RE2 regex engine. */
@@ -142,14 +154,15 @@ export interface RegexMatcher {
   regex?: string;
 }
 
-export const RegexMatcher: Schema.Schema<RegexMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    googleRe2: Schema.optional(GoogleRE2),
-    regex: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "RegexMatcher",
-}) as any as Schema.Schema<RegexMatcher>;
+export const RegexMatcher: Schema.Schema<RegexMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      googleRe2: Schema.optional(GoogleRE2),
+      regex: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RegexMatcher",
+  }) as any as Schema.Schema<RegexMatcher>;
 
 export interface StringMatcher {
   /** The input string must match the regular expression specified here. The regex grammar is defined `here `_. Examples: * The regex ``\d{3}`` matches the value *123* * The regex ``\d{3}`` does not match the value *1234* * The regex ``\d{3}`` does not match the value *123.456* .. attention:: This field has been deprecated in favor of `safe_regex` as it is not safe for use with untrusted input in all cases. */
@@ -166,18 +179,19 @@ export interface StringMatcher {
   safeRegex?: RegexMatcher;
 }
 
-export const StringMatcher: Schema.Schema<StringMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    regex: Schema.optional(Schema.String),
-    exact: Schema.optional(Schema.String),
-    suffix: Schema.optional(Schema.String),
-    ignoreCase: Schema.optional(Schema.Boolean),
-    prefix: Schema.optional(Schema.String),
-    safeRegex: Schema.optional(RegexMatcher),
-  }),
-).annotate({
-  identifier: "StringMatcher",
-}) as any as Schema.Schema<StringMatcher>;
+export const StringMatcher: Schema.Schema<StringMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regex: Schema.optional(Schema.String),
+      exact: Schema.optional(Schema.String),
+      suffix: Schema.optional(Schema.String),
+      ignoreCase: Schema.optional(Schema.Boolean),
+      prefix: Schema.optional(Schema.String),
+      safeRegex: Schema.optional(RegexMatcher),
+    }),
+  ).annotate({
+    identifier: "StringMatcher",
+  }) as any as Schema.Schema<StringMatcher>;
 
 export interface ValueMatcher {
   /** If specified, a match occurs if and only if the target value is a double value and is matched to this field. */
@@ -194,18 +208,19 @@ export interface ValueMatcher {
   stringMatch?: StringMatcher;
 }
 
-export const ValueMatcher: Schema.Schema<ValueMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    doubleMatch: Schema.optional(DoubleMatcher),
-    listMatch: Schema.optional(ListMatcher),
-    boolMatch: Schema.optional(Schema.Boolean),
-    nullMatch: Schema.optional(NullMatch),
-    presentMatch: Schema.optional(Schema.Boolean),
-    stringMatch: Schema.optional(StringMatcher),
-  }),
-).annotate({
-  identifier: "ValueMatcher",
-}) as any as Schema.Schema<ValueMatcher>;
+export const ValueMatcher: Schema.Schema<ValueMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      doubleMatch: Schema.optional(DoubleMatcher),
+      listMatch: Schema.optional(ListMatcher),
+      boolMatch: Schema.optional(Schema.Boolean),
+      nullMatch: Schema.optional(NullMatch),
+      presentMatch: Schema.optional(Schema.Boolean),
+      stringMatch: Schema.optional(StringMatcher),
+    }),
+  ).annotate({
+    identifier: "ValueMatcher",
+  }) as any as Schema.Schema<ValueMatcher>;
 
 export interface StructMatcher {
   /** The path to retrieve the Value from the Struct. */
@@ -214,14 +229,15 @@ export interface StructMatcher {
   value?: ValueMatcher;
 }
 
-export const StructMatcher: Schema.Schema<StructMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    path: Schema.optional(Schema.Array(PathSegment)),
-    value: Schema.optional(ValueMatcher),
-  }),
-).annotate({
-  identifier: "StructMatcher",
-}) as any as Schema.Schema<StructMatcher>;
+export const StructMatcher: Schema.Schema<StructMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.Array(PathSegment)),
+      value: Schema.optional(ValueMatcher),
+    }),
+  ).annotate({
+    identifier: "StructMatcher",
+  }) as any as Schema.Schema<StructMatcher>;
 
 export interface NodeMatcher {
   /** Specifies match criteria on the node metadata. */
@@ -230,12 +246,15 @@ export interface NodeMatcher {
   nodeId?: StringMatcher;
 }
 
-export const NodeMatcher: Schema.Schema<NodeMatcher> = Schema.suspend(() =>
-  Schema.Struct({
-    nodeMetadatas: Schema.optional(Schema.Array(StructMatcher)),
-    nodeId: Schema.optional(StringMatcher),
-  }),
-).annotate({ identifier: "NodeMatcher" }) as any as Schema.Schema<NodeMatcher>;
+export const NodeMatcher: Schema.Schema<NodeMatcher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nodeMetadatas: Schema.optional(Schema.Array(StructMatcher)),
+      nodeId: Schema.optional(StringMatcher),
+    }),
+  ).annotate({
+    identifier: "NodeMatcher",
+  }) as any as Schema.Schema<NodeMatcher>;
 
 export interface Locality {
   /** Region this :ref:`zone ` belongs to. */
@@ -246,13 +265,14 @@ export interface Locality {
   zone?: string;
 }
 
-export const Locality: Schema.Schema<Locality> = Schema.suspend(() =>
-  Schema.Struct({
-    region: Schema.optional(Schema.String),
-    subZone: Schema.optional(Schema.String),
-    zone: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Locality" }) as any as Schema.Schema<Locality>;
+export const Locality: Schema.Schema<Locality> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      region: Schema.optional(Schema.String),
+      subZone: Schema.optional(Schema.String),
+      zone: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Locality" }) as any as Schema.Schema<Locality>;
 
 export interface InlineScopedRouteConfigs {
   /** The name assigned to the scoped route configurations. */
@@ -264,7 +284,7 @@ export interface InlineScopedRouteConfigs {
 }
 
 export const InlineScopedRouteConfigs: Schema.Schema<InlineScopedRouteConfigs> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       scopedRouteConfigs: Schema.optional(
@@ -288,7 +308,7 @@ export interface DynamicScopedRouteConfigs {
 }
 
 export const DynamicScopedRouteConfigs: Schema.Schema<DynamicScopedRouteConfigs> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scopedRouteConfigs: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -309,7 +329,7 @@ export interface ScopedRoutesConfigDump {
 }
 
 export const ScopedRoutesConfigDump: Schema.Schema<ScopedRoutesConfigDump> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineScopedRouteConfigs: Schema.optional(
         Schema.Array(InlineScopedRouteConfigs),
@@ -330,7 +350,7 @@ export interface StaticRouteConfig {
 }
 
 export const StaticRouteConfig: Schema.Schema<StaticRouteConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       routeConfig: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -348,15 +368,15 @@ export interface RoutesConfigDump {
   dynamicRouteConfigs?: Array<DynamicRouteConfig>;
 }
 
-export const RoutesConfigDump: Schema.Schema<RoutesConfigDump> = Schema.suspend(
-  () =>
+export const RoutesConfigDump: Schema.Schema<RoutesConfigDump> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       staticRouteConfigs: Schema.optional(Schema.Array(StaticRouteConfig)),
       dynamicRouteConfigs: Schema.optional(Schema.Array(DynamicRouteConfig)),
     }),
-).annotate({
-  identifier: "RoutesConfigDump",
-}) as any as Schema.Schema<RoutesConfigDump>;
+  ).annotate({
+    identifier: "RoutesConfigDump",
+  }) as any as Schema.Schema<RoutesConfigDump>;
 
 export interface DynamicListenerState {
   /** This is the per-resource version information. This version is currently taken from the :ref:`version_info ` field at the time that the listener was loaded. In the future, discrete per-listener versions may be supported by the API. */
@@ -368,7 +388,7 @@ export interface DynamicListenerState {
 }
 
 export const DynamicListenerState: Schema.Schema<DynamicListenerState> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       versionInfo: Schema.optional(Schema.String),
       listener: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -391,8 +411,8 @@ export interface DynamicListener {
   errorState?: UpdateFailureState;
 }
 
-export const DynamicListener: Schema.Schema<DynamicListener> = Schema.suspend(
-  () =>
+export const DynamicListener: Schema.Schema<DynamicListener> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       drainingState: Schema.optional(DynamicListenerState),
       warmingState: Schema.optional(DynamicListenerState),
@@ -400,9 +420,9 @@ export const DynamicListener: Schema.Schema<DynamicListener> = Schema.suspend(
       activeState: Schema.optional(DynamicListenerState),
       errorState: Schema.optional(UpdateFailureState),
     }),
-).annotate({
-  identifier: "DynamicListener",
-}) as any as Schema.Schema<DynamicListener>;
+  ).annotate({
+    identifier: "DynamicListener",
+  }) as any as Schema.Schema<DynamicListener>;
 
 export interface StaticListener {
   /** The listener config. */
@@ -411,15 +431,15 @@ export interface StaticListener {
   lastUpdated?: string;
 }
 
-export const StaticListener: Schema.Schema<StaticListener> = Schema.suspend(
-  () =>
+export const StaticListener: Schema.Schema<StaticListener> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       listener: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       lastUpdated: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "StaticListener",
-}) as any as Schema.Schema<StaticListener>;
+  ).annotate({
+    identifier: "StaticListener",
+  }) as any as Schema.Schema<StaticListener>;
 
 export interface ListenersConfigDump {
   /** State for any warming, active, or draining listeners. */
@@ -431,7 +451,7 @@ export interface ListenersConfigDump {
 }
 
 export const ListenersConfigDump: Schema.Schema<ListenersConfigDump> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dynamicListeners: Schema.optional(Schema.Array(DynamicListener)),
       staticListeners: Schema.optional(Schema.Array(StaticListener)),
@@ -450,16 +470,16 @@ export interface DynamicCluster {
   lastUpdated?: string;
 }
 
-export const DynamicCluster: Schema.Schema<DynamicCluster> = Schema.suspend(
-  () =>
+export const DynamicCluster: Schema.Schema<DynamicCluster> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       versionInfo: Schema.optional(Schema.String),
       cluster: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       lastUpdated: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DynamicCluster",
-}) as any as Schema.Schema<DynamicCluster>;
+  ).annotate({
+    identifier: "DynamicCluster",
+  }) as any as Schema.Schema<DynamicCluster>;
 
 export interface StaticCluster {
   /** The cluster config. */
@@ -468,14 +488,15 @@ export interface StaticCluster {
   lastUpdated?: string;
 }
 
-export const StaticCluster: Schema.Schema<StaticCluster> = Schema.suspend(() =>
-  Schema.Struct({
-    cluster: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    lastUpdated: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "StaticCluster",
-}) as any as Schema.Schema<StaticCluster>;
+export const StaticCluster: Schema.Schema<StaticCluster> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cluster: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      lastUpdated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StaticCluster",
+  }) as any as Schema.Schema<StaticCluster>;
 
 export interface ClustersConfigDump {
   /** This is the :ref:`version_info ` in the last processed CDS discovery response. If there are only static bootstrap clusters, this field will be "". */
@@ -489,7 +510,7 @@ export interface ClustersConfigDump {
 }
 
 export const ClustersConfigDump: Schema.Schema<ClustersConfigDump> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       versionInfo: Schema.optional(Schema.String),
       dynamicWarmingClusters: Schema.optional(Schema.Array(DynamicCluster)),
@@ -514,17 +535,18 @@ export interface PerXdsConfig {
     | (string & {});
 }
 
-export const PerXdsConfig: Schema.Schema<PerXdsConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    routeConfig: Schema.optional(RoutesConfigDump),
-    scopedRouteConfig: Schema.optional(ScopedRoutesConfigDump),
-    listenerConfig: Schema.optional(ListenersConfigDump),
-    clusterConfig: Schema.optional(ClustersConfigDump),
-    status: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PerXdsConfig",
-}) as any as Schema.Schema<PerXdsConfig>;
+export const PerXdsConfig: Schema.Schema<PerXdsConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      routeConfig: Schema.optional(RoutesConfigDump),
+      scopedRouteConfig: Schema.optional(ScopedRoutesConfigDump),
+      listenerConfig: Schema.optional(ListenersConfigDump),
+      clusterConfig: Schema.optional(ClustersConfigDump),
+      status: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PerXdsConfig",
+  }) as any as Schema.Schema<PerXdsConfig>;
 
 export interface SocketAddress {
   /** The name of the custom resolver. This must have been registered with Envoy. If this is empty, a context dependent default applies. If the address is a concrete IP address, no resolution will occur. If address is a hostname this should be set for resolution other than DNS. Specifying a custom resolver with *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime. */
@@ -539,18 +561,19 @@ export interface SocketAddress {
   ipv4Compat?: boolean;
 }
 
-export const SocketAddress: Schema.Schema<SocketAddress> = Schema.suspend(() =>
-  Schema.Struct({
-    resolverName: Schema.optional(Schema.String),
-    namedPort: Schema.optional(Schema.String),
-    portValue: Schema.optional(Schema.Number),
-    protocol: Schema.optional(Schema.String),
-    address: Schema.optional(Schema.String),
-    ipv4Compat: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "SocketAddress",
-}) as any as Schema.Schema<SocketAddress>;
+export const SocketAddress: Schema.Schema<SocketAddress> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      resolverName: Schema.optional(Schema.String),
+      namedPort: Schema.optional(Schema.String),
+      portValue: Schema.optional(Schema.Number),
+      protocol: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      ipv4Compat: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "SocketAddress",
+  }) as any as Schema.Schema<SocketAddress>;
 
 export interface Pipe {
   /** Unix Domain Socket path. On Linux, paths starting with '@' will use the abstract namespace. The starting '@' is replaced by a null byte by Envoy. Paths starting with '@' will result in an error in environments other than Linux. */
@@ -559,24 +582,26 @@ export interface Pipe {
   mode?: number;
 }
 
-export const Pipe: Schema.Schema<Pipe> = Schema.suspend(() =>
-  Schema.Struct({
-    path: Schema.optional(Schema.String),
-    mode: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Pipe" }) as any as Schema.Schema<Pipe>;
+export const Pipe: Schema.Schema<Pipe> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      mode: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Pipe" }) as any as Schema.Schema<Pipe>;
 
 export interface Address {
   socketAddress?: SocketAddress;
   pipe?: Pipe;
 }
 
-export const Address: Schema.Schema<Address> = Schema.suspend(() =>
-  Schema.Struct({
-    socketAddress: Schema.optional(SocketAddress),
-    pipe: Schema.optional(Pipe),
-  }),
-).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
+export const Address: Schema.Schema<Address> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      socketAddress: Schema.optional(SocketAddress),
+      pipe: Schema.optional(Pipe),
+    }),
+  ).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
 
 export interface SemanticVersion {
   majorNumber?: number;
@@ -584,16 +609,16 @@ export interface SemanticVersion {
   minorNumber?: number;
 }
 
-export const SemanticVersion: Schema.Schema<SemanticVersion> = Schema.suspend(
-  () =>
+export const SemanticVersion: Schema.Schema<SemanticVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       majorNumber: Schema.optional(Schema.Number),
       patch: Schema.optional(Schema.Number),
       minorNumber: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "SemanticVersion",
-}) as any as Schema.Schema<SemanticVersion>;
+  ).annotate({
+    identifier: "SemanticVersion",
+  }) as any as Schema.Schema<SemanticVersion>;
 
 export interface BuildVersion {
   /** SemVer version of extension. */
@@ -602,14 +627,15 @@ export interface BuildVersion {
   metadata?: Record<string, unknown>;
 }
 
-export const BuildVersion: Schema.Schema<BuildVersion> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(SemanticVersion),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({
-  identifier: "BuildVersion",
-}) as any as Schema.Schema<BuildVersion>;
+export const BuildVersion: Schema.Schema<BuildVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(SemanticVersion),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({
+    identifier: "BuildVersion",
+  }) as any as Schema.Schema<BuildVersion>;
 
 export interface Extension {
   /** [#not-implemented-hide:] Type descriptor of extension configuration proto. [#comment: */
@@ -624,15 +650,16 @@ export interface Extension {
   name?: string;
 }
 
-export const Extension: Schema.Schema<Extension> = Schema.suspend(() =>
-  Schema.Struct({
-    typeDescriptor: Schema.optional(Schema.String),
-    version: Schema.optional(BuildVersion),
-    category: Schema.optional(Schema.String),
-    disabled: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
+export const Extension: Schema.Schema<Extension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      typeDescriptor: Schema.optional(Schema.String),
+      version: Schema.optional(BuildVersion),
+      category: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
 
 export interface Node {
   /** Free-form string that identifies the version of the entity requesting config. E.g. "1.12.2" or "abcd1234", or "SpecialEnvoyBuild" */
@@ -659,21 +686,22 @@ export interface Node {
   metadata?: Record<string, unknown>;
 }
 
-export const Node: Schema.Schema<Node> = Schema.suspend(() =>
-  Schema.Struct({
-    userAgentVersion: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    listeningAddresses: Schema.optional(Schema.Array(Address)),
-    locality: Schema.optional(Locality),
-    extensions: Schema.optional(Schema.Array(Extension)),
-    userAgentName: Schema.optional(Schema.String),
-    userAgentBuildVersion: Schema.optional(BuildVersion),
-    clientFeatures: Schema.optional(Schema.Array(Schema.String)),
-    cluster: Schema.optional(Schema.String),
-    buildVersion: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
+export const Node: Schema.Schema<Node> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userAgentVersion: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      listeningAddresses: Schema.optional(Schema.Array(Address)),
+      locality: Schema.optional(Locality),
+      extensions: Schema.optional(Schema.Array(Extension)),
+      userAgentName: Schema.optional(Schema.String),
+      userAgentBuildVersion: Schema.optional(BuildVersion),
+      clientFeatures: Schema.optional(Schema.Array(Schema.String)),
+      cluster: Schema.optional(Schema.String),
+      buildVersion: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Node" }) as any as Schema.Schema<Node>;
 
 export interface ClientConfig {
   xdsConfig?: Array<PerXdsConfig>;
@@ -681,14 +709,15 @@ export interface ClientConfig {
   node?: Node;
 }
 
-export const ClientConfig: Schema.Schema<ClientConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    xdsConfig: Schema.optional(Schema.Array(PerXdsConfig)),
-    node: Schema.optional(Node),
-  }),
-).annotate({
-  identifier: "ClientConfig",
-}) as any as Schema.Schema<ClientConfig>;
+export const ClientConfig: Schema.Schema<ClientConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      xdsConfig: Schema.optional(Schema.Array(PerXdsConfig)),
+      node: Schema.optional(Node),
+    }),
+  ).annotate({
+    identifier: "ClientConfig",
+  }) as any as Schema.Schema<ClientConfig>;
 
 export interface ClientStatusResponse {
   /** Client configs for the clients specified in the ClientStatusRequest. */
@@ -696,7 +725,7 @@ export interface ClientStatusResponse {
 }
 
 export const ClientStatusResponse: Schema.Schema<ClientStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(Schema.Array(ClientConfig)),
     }),
@@ -710,7 +739,7 @@ export interface ClientStatusRequest {
 }
 
 export const ClientStatusRequest: Schema.Schema<ClientStatusRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nodeMatchers: Schema.optional(Schema.Array(NodeMatcher)),
     }),
@@ -727,15 +756,21 @@ export interface Client_statusDiscoveryRequest {
   body?: ClientStatusRequest;
 }
 
-export const Client_statusDiscoveryRequest = Schema.Struct({
-  body: Schema.optional(ClientStatusRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/discovery:client_status", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<Client_statusDiscoveryRequest>;
+export const Client_statusDiscoveryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ClientStatusRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/discovery:client_status",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Client_statusDiscoveryRequest>;
 
 export type Client_statusDiscoveryResponse = ClientStatusResponse;
-export const Client_statusDiscoveryResponse = ClientStatusResponse;
+export const Client_statusDiscoveryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientStatusResponse;
 
 export type Client_statusDiscoveryError = DefaultErrors;
 
@@ -744,7 +779,7 @@ export const client_statusDiscovery: API.OperationMethod<
   Client_statusDiscoveryResponse,
   Client_statusDiscoveryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Client_statusDiscoveryRequest,
   output: Client_statusDiscoveryResponse,
   errors: [],

@@ -31,13 +31,16 @@ export interface DriveFolder {
   title?: string;
 }
 
-export const DriveFolder: Schema.Schema<DriveFolder> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    alternateLink: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DriveFolder" }) as any as Schema.Schema<DriveFolder>;
+export const DriveFolder: Schema.Schema<DriveFolder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      alternateLink: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DriveFolder",
+  }) as any as Schema.Schema<DriveFolder>;
 
 export interface Form {
   /** Title of the Form. Read-only. */
@@ -50,14 +53,15 @@ export interface Form {
   formUrl?: string;
 }
 
-export const Form: Schema.Schema<Form> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    responseUrl: Schema.optional(Schema.String),
-    thumbnailUrl: Schema.optional(Schema.String),
-    formUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Form" }) as any as Schema.Schema<Form>;
+export const Form: Schema.Schema<Form> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      responseUrl: Schema.optional(Schema.String),
+      thumbnailUrl: Schema.optional(Schema.String),
+      formUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Form" }) as any as Schema.Schema<Form>;
 
 export interface DriveFile {
   /** Title of the Drive item. Read-only. */
@@ -70,14 +74,15 @@ export interface DriveFile {
   thumbnailUrl?: string;
 }
 
-export const DriveFile: Schema.Schema<DriveFile> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    alternateLink: Schema.optional(Schema.String),
-    thumbnailUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DriveFile" }) as any as Schema.Schema<DriveFile>;
+export const DriveFile: Schema.Schema<DriveFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      alternateLink: Schema.optional(Schema.String),
+      thumbnailUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DriveFile" }) as any as Schema.Schema<DriveFile>;
 
 export interface Link {
   /** Title of the target of the URL. Read-only. */
@@ -88,13 +93,14 @@ export interface Link {
   url?: string;
 }
 
-export const Link: Schema.Schema<Link> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    thumbnailUrl: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
+export const Link: Schema.Schema<Link> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      thumbnailUrl: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Link" }) as any as Schema.Schema<Link>;
 
 export interface YouTubeVideo {
   /** YouTube API resource ID. */
@@ -107,16 +113,17 @@ export interface YouTubeVideo {
   title?: string;
 }
 
-export const YouTubeVideo: Schema.Schema<YouTubeVideo> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    alternateLink: Schema.optional(Schema.String),
-    thumbnailUrl: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "YouTubeVideo",
-}) as any as Schema.Schema<YouTubeVideo>;
+export const YouTubeVideo: Schema.Schema<YouTubeVideo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      alternateLink: Schema.optional(Schema.String),
+      thumbnailUrl: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "YouTubeVideo",
+  }) as any as Schema.Schema<YouTubeVideo>;
 
 export interface CourseMaterial {
   /** Google Forms attachment. */
@@ -129,17 +136,17 @@ export interface CourseMaterial {
   youTubeVideo?: YouTubeVideo;
 }
 
-export const CourseMaterial: Schema.Schema<CourseMaterial> = Schema.suspend(
-  () =>
+export const CourseMaterial: Schema.Schema<CourseMaterial> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       form: Schema.optional(Form),
       driveFile: Schema.optional(DriveFile),
       link: Schema.optional(Link),
       youTubeVideo: Schema.optional(YouTubeVideo),
     }),
-).annotate({
-  identifier: "CourseMaterial",
-}) as any as Schema.Schema<CourseMaterial>;
+  ).annotate({
+    identifier: "CourseMaterial",
+  }) as any as Schema.Schema<CourseMaterial>;
 
 export interface CourseMaterialSet {
   /** Title for this set. */
@@ -149,7 +156,7 @@ export interface CourseMaterialSet {
 }
 
 export const CourseMaterialSet: Schema.Schema<CourseMaterialSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       materials: Schema.optional(Schema.Array(CourseMaterial)),
@@ -169,16 +176,17 @@ export interface GradeCategory {
   defaultGradeDenominator?: number;
 }
 
-export const GradeCategory: Schema.Schema<GradeCategory> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    weight: Schema.optional(Schema.Number),
-    defaultGradeDenominator: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "GradeCategory",
-}) as any as Schema.Schema<GradeCategory>;
+export const GradeCategory: Schema.Schema<GradeCategory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      weight: Schema.optional(Schema.Number),
+      defaultGradeDenominator: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GradeCategory",
+  }) as any as Schema.Schema<GradeCategory>;
 
 export interface GradebookSettings {
   /** Indicates who can see the overall grade.. */
@@ -199,7 +207,7 @@ export interface GradebookSettings {
 }
 
 export const GradebookSettings: Schema.Schema<GradebookSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displaySetting: Schema.optional(Schema.String),
       calculationType: Schema.optional(Schema.String),
@@ -259,30 +267,31 @@ export interface Course {
   calendarId?: string;
 }
 
-export const Course: Schema.Schema<Course> = Schema.suspend(() =>
-  Schema.Struct({
-    teacherFolder: Schema.optional(DriveFolder),
-    id: Schema.optional(Schema.String),
-    subject: Schema.optional(Schema.String),
-    room: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    teacherGroupEmail: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    descriptionHeading: Schema.optional(Schema.String),
-    courseMaterialSets: Schema.optional(Schema.Array(CourseMaterialSet)),
-    ownerId: Schema.optional(Schema.String),
-    courseState: Schema.optional(Schema.String),
-    courseGroupEmail: Schema.optional(Schema.String),
-    guardiansEnabled: Schema.optional(Schema.Boolean),
-    alternateLink: Schema.optional(Schema.String),
-    gradebookSettings: Schema.optional(GradebookSettings),
-    creationTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enrollmentCode: Schema.optional(Schema.String),
-    section: Schema.optional(Schema.String),
-    calendarId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Course" }) as any as Schema.Schema<Course>;
+export const Course: Schema.Schema<Course> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      teacherFolder: Schema.optional(DriveFolder),
+      id: Schema.optional(Schema.String),
+      subject: Schema.optional(Schema.String),
+      room: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      teacherGroupEmail: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      descriptionHeading: Schema.optional(Schema.String),
+      courseMaterialSets: Schema.optional(Schema.Array(CourseMaterialSet)),
+      ownerId: Schema.optional(Schema.String),
+      courseState: Schema.optional(Schema.String),
+      courseGroupEmail: Schema.optional(Schema.String),
+      guardiansEnabled: Schema.optional(Schema.Boolean),
+      alternateLink: Schema.optional(Schema.String),
+      gradebookSettings: Schema.optional(GradebookSettings),
+      creationTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      enrollmentCode: Schema.optional(Schema.String),
+      section: Schema.optional(Schema.String),
+      calendarId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Course" }) as any as Schema.Schema<Course>;
 
 export interface Invitation {
   /** Identifier assigned by Classroom. Read-only. */
@@ -300,14 +309,15 @@ export interface Invitation {
     | (string & {});
 }
 
-export const Invitation: Schema.Schema<Invitation> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Invitation" }) as any as Schema.Schema<Invitation>;
+export const Invitation: Schema.Schema<Invitation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Invitation" }) as any as Schema.Schema<Invitation>;
 
 export interface ListInvitationsResponse {
   /** Invitations that match the list request. */
@@ -317,7 +327,7 @@ export interface ListInvitationsResponse {
 }
 
 export const ListInvitationsResponse: Schema.Schema<ListInvitationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       invitations: Schema.optional(Schema.Array(Invitation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -335,27 +345,28 @@ export interface Name {
   givenName?: string;
 }
 
-export const Name: Schema.Schema<Name> = Schema.suspend(() =>
-  Schema.Struct({
-    familyName: Schema.optional(Schema.String),
-    fullName: Schema.optional(Schema.String),
-    givenName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Name" }) as any as Schema.Schema<Name>;
+export const Name: Schema.Schema<Name> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      familyName: Schema.optional(Schema.String),
+      fullName: Schema.optional(Schema.String),
+      givenName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Name" }) as any as Schema.Schema<Name>;
 
 export interface GlobalPermission {
   /** Permission value. */
   permission?: "PERMISSION_UNSPECIFIED" | "CREATE_COURSE" | (string & {});
 }
 
-export const GlobalPermission: Schema.Schema<GlobalPermission> = Schema.suspend(
-  () =>
+export const GlobalPermission: Schema.Schema<GlobalPermission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GlobalPermission",
-}) as any as Schema.Schema<GlobalPermission>;
+  ).annotate({
+    identifier: "GlobalPermission",
+  }) as any as Schema.Schema<GlobalPermission>;
 
 export interface UserProfile {
   /** Email address of the user. Must request `https://www.googleapis.com/auth/classroom.profile.emails` scope for this field to be populated in a response body. Read-only. */
@@ -372,16 +383,19 @@ export interface UserProfile {
   id?: string;
 }
 
-export const UserProfile: Schema.Schema<UserProfile> = Schema.suspend(() =>
-  Schema.Struct({
-    emailAddress: Schema.optional(Schema.String),
-    verifiedTeacher: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Name),
-    photoUrl: Schema.optional(Schema.String),
-    permissions: Schema.optional(Schema.Array(GlobalPermission)),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserProfile" }) as any as Schema.Schema<UserProfile>;
+export const UserProfile: Schema.Schema<UserProfile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      emailAddress: Schema.optional(Schema.String),
+      verifiedTeacher: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Name),
+      photoUrl: Schema.optional(Schema.String),
+      permissions: Schema.optional(Schema.Array(GlobalPermission)),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserProfile",
+  }) as any as Schema.Schema<UserProfile>;
 
 export interface Teacher {
   /** Identifier of the course. Read-only. */
@@ -392,13 +406,14 @@ export interface Teacher {
   profile?: UserProfile;
 }
 
-export const Teacher: Schema.Schema<Teacher> = Schema.suspend(() =>
-  Schema.Struct({
-    courseId: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    profile: Schema.optional(UserProfile),
-  }),
-).annotate({ identifier: "Teacher" }) as any as Schema.Schema<Teacher>;
+export const Teacher: Schema.Schema<Teacher> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      courseId: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      profile: Schema.optional(UserProfile),
+    }),
+  ).annotate({ identifier: "Teacher" }) as any as Schema.Schema<Teacher>;
 
 export interface ListTeachersResponse {
   /** Teachers who match the list request. */
@@ -408,7 +423,7 @@ export interface ListTeachersResponse {
 }
 
 export const ListTeachersResponse: Schema.Schema<ListTeachersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       teachers: Schema.optional(Schema.Array(Teacher)),
       nextPageToken: Schema.optional(Schema.String),
@@ -426,16 +441,16 @@ export interface Classroom_Date {
   year?: number;
 }
 
-export const Classroom_Date: Schema.Schema<Classroom_Date> = Schema.suspend(
-  () =>
+export const Classroom_Date: Schema.Schema<Classroom_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
       year: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "Classroom_Date",
-}) as any as Schema.Schema<Classroom_Date>;
+  ).annotate({
+    identifier: "Classroom_Date",
+  }) as any as Schema.Schema<Classroom_Date>;
 
 export interface GradingPeriod {
   /** Required. Start date, in UTC, of the grading period. Inclusive. */
@@ -448,16 +463,17 @@ export interface GradingPeriod {
   endDate?: Classroom_Date;
 }
 
-export const GradingPeriod: Schema.Schema<GradingPeriod> = Schema.suspend(() =>
-  Schema.Struct({
-    startDate: Schema.optional(Classroom_Date),
-    title: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    endDate: Schema.optional(Classroom_Date),
-  }),
-).annotate({
-  identifier: "GradingPeriod",
-}) as any as Schema.Schema<GradingPeriod>;
+export const GradingPeriod: Schema.Schema<GradingPeriod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startDate: Schema.optional(Classroom_Date),
+      title: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      endDate: Schema.optional(Classroom_Date),
+    }),
+  ).annotate({
+    identifier: "GradingPeriod",
+  }) as any as Schema.Schema<GradingPeriod>;
 
 export interface GradingPeriodSettings {
   /** The list of grading periods in a specific course. Grading periods must not have overlapping date ranges and must be listed in chronological order. Each grading period must have a unique title within a course. */
@@ -467,7 +483,7 @@ export interface GradingPeriodSettings {
 }
 
 export const GradingPeriodSettings: Schema.Schema<GradingPeriodSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gradingPeriods: Schema.optional(Schema.Array(GradingPeriod)),
       applyToExistingCoursework: Schema.optional(Schema.Boolean),
@@ -481,11 +497,12 @@ export interface EmbedUri {
   uri?: string;
 }
 
-export const EmbedUri: Schema.Schema<EmbedUri> = Schema.suspend(() =>
-  Schema.Struct({
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "EmbedUri" }) as any as Schema.Schema<EmbedUri>;
+export const EmbedUri: Schema.Schema<EmbedUri> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "EmbedUri" }) as any as Schema.Schema<EmbedUri>;
 
 export interface CopyHistory {
   /** Immutable. Identifier of the course. */
@@ -498,14 +515,17 @@ export interface CopyHistory {
   attachmentId?: string;
 }
 
-export const CopyHistory: Schema.Schema<CopyHistory> = Schema.suspend(() =>
-  Schema.Struct({
-    courseId: Schema.optional(Schema.String),
-    postId: Schema.optional(Schema.String),
-    itemId: Schema.optional(Schema.String),
-    attachmentId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CopyHistory" }) as any as Schema.Schema<CopyHistory>;
+export const CopyHistory: Schema.Schema<CopyHistory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      courseId: Schema.optional(Schema.String),
+      postId: Schema.optional(Schema.String),
+      itemId: Schema.optional(Schema.String),
+      attachmentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CopyHistory",
+  }) as any as Schema.Schema<CopyHistory>;
 
 export interface TimeOfDay {
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
@@ -518,14 +538,15 @@ export interface TimeOfDay {
   minutes?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    seconds: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      seconds: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface AddOnAttachment {
   /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
@@ -554,8 +575,8 @@ export interface AddOnAttachment {
   id?: string;
 }
 
-export const AddOnAttachment: Schema.Schema<AddOnAttachment> = Schema.suspend(
-  () =>
+export const AddOnAttachment: Schema.Schema<AddOnAttachment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       teacherViewUri: Schema.optional(EmbedUri),
       maxPoints: Schema.optional(Schema.Number),
@@ -570,9 +591,9 @@ export const AddOnAttachment: Schema.Schema<AddOnAttachment> = Schema.suspend(
       courseId: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AddOnAttachment",
-}) as any as Schema.Schema<AddOnAttachment>;
+  ).annotate({
+    identifier: "AddOnAttachment",
+  }) as any as Schema.Schema<AddOnAttachment>;
 
 export interface Student {
   /** Identifier of the course. Read-only. */
@@ -585,14 +606,15 @@ export interface Student {
   studentWorkFolder?: DriveFolder;
 }
 
-export const Student: Schema.Schema<Student> = Schema.suspend(() =>
-  Schema.Struct({
-    courseId: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    profile: Schema.optional(UserProfile),
-    studentWorkFolder: Schema.optional(DriveFolder),
-  }),
-).annotate({ identifier: "Student" }) as any as Schema.Schema<Student>;
+export const Student: Schema.Schema<Student> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      courseId: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      profile: Schema.optional(UserProfile),
+      studentWorkFolder: Schema.optional(DriveFolder),
+    }),
+  ).annotate({ identifier: "Student" }) as any as Schema.Schema<Student>;
 
 export interface NotebookLmNotebook {
   /** Notebook resource id. */
@@ -604,7 +626,7 @@ export interface NotebookLmNotebook {
 }
 
 export const NotebookLmNotebook: Schema.Schema<NotebookLmNotebook> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       url: Schema.optional(Schema.String),
@@ -623,13 +645,14 @@ export interface GeminiGem {
   title?: string;
 }
 
-export const GeminiGem: Schema.Schema<GeminiGem> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GeminiGem" }) as any as Schema.Schema<GeminiGem>;
+export const GeminiGem: Schema.Schema<GeminiGem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "GeminiGem" }) as any as Schema.Schema<GeminiGem>;
 
 export interface SharedDriveFile {
   /** Drive file details. */
@@ -643,15 +666,15 @@ export interface SharedDriveFile {
     | (string & {});
 }
 
-export const SharedDriveFile: Schema.Schema<SharedDriveFile> = Schema.suspend(
-  () =>
+export const SharedDriveFile: Schema.Schema<SharedDriveFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       driveFile: Schema.optional(DriveFile),
       shareMode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SharedDriveFile",
-}) as any as Schema.Schema<SharedDriveFile>;
+  ).annotate({
+    identifier: "SharedDriveFile",
+  }) as any as Schema.Schema<SharedDriveFile>;
 
 export interface Material {
   /** NotebookLM Notebook material. Read-only. */
@@ -668,16 +691,17 @@ export interface Material {
   link?: Link;
 }
 
-export const Material: Schema.Schema<Material> = Schema.suspend(() =>
-  Schema.Struct({
-    notebook: Schema.optional(NotebookLmNotebook),
-    form: Schema.optional(Form),
-    gem: Schema.optional(GeminiGem),
-    youtubeVideo: Schema.optional(YouTubeVideo),
-    driveFile: Schema.optional(SharedDriveFile),
-    link: Schema.optional(Link),
-  }),
-).annotate({ identifier: "Material" }) as any as Schema.Schema<Material>;
+export const Material: Schema.Schema<Material> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      notebook: Schema.optional(NotebookLmNotebook),
+      form: Schema.optional(Form),
+      gem: Schema.optional(GeminiGem),
+      youtubeVideo: Schema.optional(YouTubeVideo),
+      driveFile: Schema.optional(SharedDriveFile),
+      link: Schema.optional(Link),
+    }),
+  ).annotate({ identifier: "Material" }) as any as Schema.Schema<Material>;
 
 export interface IndividualStudentsOptions {
   /** Identifiers for the students that have access to the coursework/announcement. */
@@ -685,7 +709,7 @@ export interface IndividualStudentsOptions {
 }
 
 export const IndividualStudentsOptions: Schema.Schema<IndividualStudentsOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       studentIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -729,24 +753,25 @@ export interface Announcement {
   updateTime?: string;
 }
 
-export const Announcement: Schema.Schema<Announcement> = Schema.suspend(() =>
-  Schema.Struct({
-    scheduledTime: Schema.optional(Schema.String),
-    text: Schema.optional(Schema.String),
-    creationTime: Schema.optional(Schema.String),
-    assigneeMode: Schema.optional(Schema.String),
-    creatorUserId: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    materials: Schema.optional(Schema.Array(Material)),
-    state: Schema.optional(Schema.String),
-    alternateLink: Schema.optional(Schema.String),
-    individualStudentsOptions: Schema.optional(IndividualStudentsOptions),
-    updateTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Announcement",
-}) as any as Schema.Schema<Announcement>;
+export const Announcement: Schema.Schema<Announcement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      scheduledTime: Schema.optional(Schema.String),
+      text: Schema.optional(Schema.String),
+      creationTime: Schema.optional(Schema.String),
+      assigneeMode: Schema.optional(Schema.String),
+      creatorUserId: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      materials: Schema.optional(Schema.Array(Material)),
+      state: Schema.optional(Schema.String),
+      alternateLink: Schema.optional(Schema.String),
+      individualStudentsOptions: Schema.optional(IndividualStudentsOptions),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Announcement",
+  }) as any as Schema.Schema<Announcement>;
 
 export interface Level {
   /** The title of the level. If the level has no points set, title must be set. */
@@ -759,14 +784,15 @@ export interface Level {
   points?: number;
 }
 
-export const Level: Schema.Schema<Level> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    points: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Level" }) as any as Schema.Schema<Level>;
+export const Level: Schema.Schema<Level> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      points: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Level" }) as any as Schema.Schema<Level>;
 
 export interface Criterion {
   /** The list of levels within this criterion. */
@@ -779,14 +805,15 @@ export interface Criterion {
   title?: string;
 }
 
-export const Criterion: Schema.Schema<Criterion> = Schema.suspend(() =>
-  Schema.Struct({
-    levels: Schema.optional(Schema.Array(Level)),
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Criterion" }) as any as Schema.Schema<Criterion>;
+export const Criterion: Schema.Schema<Criterion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      levels: Schema.optional(Schema.Array(Level)),
+      id: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Criterion" }) as any as Schema.Schema<Criterion>;
 
 export interface Rubric {
   /** List of criteria. Each criterion is a dimension on which performance is rated. */
@@ -805,17 +832,18 @@ export interface Rubric {
   courseWorkId?: string;
 }
 
-export const Rubric: Schema.Schema<Rubric> = Schema.suspend(() =>
-  Schema.Struct({
-    criteria: Schema.optional(Schema.Array(Criterion)),
-    updateTime: Schema.optional(Schema.String),
-    creationTime: Schema.optional(Schema.String),
-    sourceSpreadsheetId: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    courseWorkId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Rubric" }) as any as Schema.Schema<Rubric>;
+export const Rubric: Schema.Schema<Rubric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      criteria: Schema.optional(Schema.Array(Criterion)),
+      updateTime: Schema.optional(Schema.String),
+      creationTime: Schema.optional(Schema.String),
+      sourceSpreadsheetId: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      courseWorkId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Rubric" }) as any as Schema.Schema<Rubric>;
 
 export interface GuardianInvitation {
   /** The time that this invitation was created. Read-only. */
@@ -835,7 +863,7 @@ export interface GuardianInvitation {
 }
 
 export const GuardianInvitation: Schema.Schema<GuardianInvitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creationTime: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -855,7 +883,7 @@ export interface ListGuardianInvitationsResponse {
 }
 
 export const ListGuardianInvitationsResponse: Schema.Schema<ListGuardianInvitationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guardianInvitations: Schema.optional(Schema.Array(GuardianInvitation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -875,14 +903,15 @@ export interface Guardian {
   invitedEmailAddress?: string;
 }
 
-export const Guardian: Schema.Schema<Guardian> = Schema.suspend(() =>
-  Schema.Struct({
-    studentId: Schema.optional(Schema.String),
-    guardianId: Schema.optional(Schema.String),
-    guardianProfile: Schema.optional(UserProfile),
-    invitedEmailAddress: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Guardian" }) as any as Schema.Schema<Guardian>;
+export const Guardian: Schema.Schema<Guardian> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      studentId: Schema.optional(Schema.String),
+      guardianId: Schema.optional(Schema.String),
+      guardianProfile: Schema.optional(UserProfile),
+      invitedEmailAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Guardian" }) as any as Schema.Schema<Guardian>;
 
 export interface StudentGroupMember {
   /** The identifier of the course. */
@@ -894,7 +923,7 @@ export interface StudentGroupMember {
 }
 
 export const StudentGroupMember: Schema.Schema<StudentGroupMember> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       courseId: Schema.optional(Schema.String),
       studentGroupId: Schema.optional(Schema.String),
@@ -909,11 +938,14 @@ export interface CourseAlias {
   alias?: string;
 }
 
-export const CourseAlias: Schema.Schema<CourseAlias> = Schema.suspend(() =>
-  Schema.Struct({
-    alias: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CourseAlias" }) as any as Schema.Schema<CourseAlias>;
+export const CourseAlias: Schema.Schema<CourseAlias> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      alias: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CourseAlias",
+  }) as any as Schema.Schema<CourseAlias>;
 
 export interface ListCourseAliasesResponse {
   /** The course aliases. */
@@ -923,7 +955,7 @@ export interface ListCourseAliasesResponse {
 }
 
 export const ListCourseAliasesResponse: Schema.Schema<ListCourseAliasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aliases: Schema.optional(Schema.Array(CourseAlias)),
       nextPageToken: Schema.optional(Schema.String),
@@ -940,7 +972,7 @@ export interface ListAddOnAttachmentsResponse {
 }
 
 export const ListAddOnAttachmentsResponse: Schema.Schema<ListAddOnAttachmentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       addOnAttachments: Schema.optional(Schema.Array(AddOnAttachment)),
       nextPageToken: Schema.optional(Schema.String),
@@ -957,7 +989,7 @@ export interface ModifyIndividualStudentsOptions {
 }
 
 export const ModifyIndividualStudentsOptions: Schema.Schema<ModifyIndividualStudentsOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       removeStudentIds: Schema.optional(Schema.Array(Schema.String)),
       addStudentIds: Schema.optional(Schema.Array(Schema.String)),
@@ -978,7 +1010,7 @@ export interface ModifyAnnouncementAssigneesRequest {
 }
 
 export const ModifyAnnouncementAssigneesRequest: Schema.Schema<ModifyAnnouncementAssigneesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assigneeMode: Schema.optional(Schema.String),
       modifyIndividualStudentsOptions: Schema.optional(
@@ -994,14 +1026,14 @@ export interface CloudPubsubTopic {
   topicName?: string;
 }
 
-export const CloudPubsubTopic: Schema.Schema<CloudPubsubTopic> = Schema.suspend(
-  () =>
+export const CloudPubsubTopic: Schema.Schema<CloudPubsubTopic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topicName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CloudPubsubTopic",
-}) as any as Schema.Schema<CloudPubsubTopic>;
+  ).annotate({
+    identifier: "CloudPubsubTopic",
+  }) as any as Schema.Schema<CloudPubsubTopic>;
 
 export interface GradeHistory {
   /** The denominator of the grade at this time in the submission grade history. */
@@ -1021,17 +1053,18 @@ export interface GradeHistory {
     | (string & {});
 }
 
-export const GradeHistory: Schema.Schema<GradeHistory> = Schema.suspend(() =>
-  Schema.Struct({
-    maxPoints: Schema.optional(Schema.Number),
-    gradeTimestamp: Schema.optional(Schema.String),
-    actorUserId: Schema.optional(Schema.String),
-    pointsEarned: Schema.optional(Schema.Number),
-    gradeChangeType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GradeHistory",
-}) as any as Schema.Schema<GradeHistory>;
+export const GradeHistory: Schema.Schema<GradeHistory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      maxPoints: Schema.optional(Schema.Number),
+      gradeTimestamp: Schema.optional(Schema.String),
+      actorUserId: Schema.optional(Schema.String),
+      pointsEarned: Schema.optional(Schema.Number),
+      gradeChangeType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GradeHistory",
+  }) as any as Schema.Schema<GradeHistory>;
 
 export interface CourseRosterChangesInfo {
   /** The `course_id` of the course to subscribe to roster changes for. */
@@ -1039,7 +1072,7 @@ export interface CourseRosterChangesInfo {
 }
 
 export const CourseRosterChangesInfo: Schema.Schema<CourseRosterChangesInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       courseId: Schema.optional(Schema.String),
     }),
@@ -1053,7 +1086,7 @@ export interface CourseWorkChangesInfo {
 }
 
 export const CourseWorkChangesInfo: Schema.Schema<CourseWorkChangesInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       courseId: Schema.optional(Schema.String),
     }),
@@ -1075,24 +1108,26 @@ export interface Feed {
     | (string & {});
 }
 
-export const Feed: Schema.Schema<Feed> = Schema.suspend(() =>
-  Schema.Struct({
-    courseRosterChangesInfo: Schema.optional(CourseRosterChangesInfo),
-    courseWorkChangesInfo: Schema.optional(CourseWorkChangesInfo),
-    feedType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Feed" }) as any as Schema.Schema<Feed>;
+export const Feed: Schema.Schema<Feed> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      courseRosterChangesInfo: Schema.optional(CourseRosterChangesInfo),
+      courseWorkChangesInfo: Schema.optional(CourseWorkChangesInfo),
+      feedType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Feed" }) as any as Schema.Schema<Feed>;
 
 export interface Assignment {
   /** Drive folder where attachments from student submissions are placed. This is only populated for course teachers and administrators. */
   studentWorkFolder?: DriveFolder;
 }
 
-export const Assignment: Schema.Schema<Assignment> = Schema.suspend(() =>
-  Schema.Struct({
-    studentWorkFolder: Schema.optional(DriveFolder),
-  }),
-).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
+export const Assignment: Schema.Schema<Assignment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      studentWorkFolder: Schema.optional(DriveFolder),
+    }),
+  ).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
 
 export interface RubricGrade {
   /** Optional. Optional points assigned for this criterion, typically based on the level. Levels might or might not have points. If unset, no points were set for this criterion. */
@@ -1103,13 +1138,16 @@ export interface RubricGrade {
   levelId?: string;
 }
 
-export const RubricGrade: Schema.Schema<RubricGrade> = Schema.suspend(() =>
-  Schema.Struct({
-    points: Schema.optional(Schema.Number),
-    criterionId: Schema.optional(Schema.String),
-    levelId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "RubricGrade" }) as any as Schema.Schema<RubricGrade>;
+export const RubricGrade: Schema.Schema<RubricGrade> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      points: Schema.optional(Schema.Number),
+      criterionId: Schema.optional(Schema.String),
+      levelId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RubricGrade",
+  }) as any as Schema.Schema<RubricGrade>;
 
 export interface ShortAnswerSubmission {
   /** Student response to a short-answer question. */
@@ -1117,7 +1155,7 @@ export interface ShortAnswerSubmission {
 }
 
 export const ShortAnswerSubmission: Schema.Schema<ShortAnswerSubmission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(Schema.String),
     }),
@@ -1136,14 +1174,15 @@ export interface Attachment {
   youTubeVideo?: YouTubeVideo;
 }
 
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() =>
-  Schema.Struct({
-    form: Schema.optional(Form),
-    driveFile: Schema.optional(DriveFile),
-    link: Schema.optional(Link),
-    youTubeVideo: Schema.optional(YouTubeVideo),
-  }),
-).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+export const Attachment: Schema.Schema<Attachment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      form: Schema.optional(Form),
+      driveFile: Schema.optional(DriveFile),
+      link: Schema.optional(Link),
+      youTubeVideo: Schema.optional(YouTubeVideo),
+    }),
+  ).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
 
 export interface AssignmentSubmission {
   /** Attachments added by the student. Drive files that correspond to materials with a share mode of STUDENT_COPY may not exist yet if the student has not accessed the assignment in Classroom. Some attachment metadata is only populated if the requesting user has permission to access it. Identifier and alternate_link fields are always available, but others (for example, title) may not be. */
@@ -1151,7 +1190,7 @@ export interface AssignmentSubmission {
 }
 
 export const AssignmentSubmission: Schema.Schema<AssignmentSubmission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attachments: Schema.optional(Schema.Array(Attachment)),
     }),
@@ -1175,15 +1214,16 @@ export interface StateHistory {
   actorUserId?: string;
 }
 
-export const StateHistory: Schema.Schema<StateHistory> = Schema.suspend(() =>
-  Schema.Struct({
-    state: Schema.optional(Schema.String),
-    stateTimestamp: Schema.optional(Schema.String),
-    actorUserId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "StateHistory",
-}) as any as Schema.Schema<StateHistory>;
+export const StateHistory: Schema.Schema<StateHistory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      state: Schema.optional(Schema.String),
+      stateTimestamp: Schema.optional(Schema.String),
+      actorUserId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StateHistory",
+  }) as any as Schema.Schema<StateHistory>;
 
 export interface SubmissionHistory {
   /** The state history information of the submission, if present. */
@@ -1193,7 +1233,7 @@ export interface SubmissionHistory {
 }
 
 export const SubmissionHistory: Schema.Schema<SubmissionHistory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stateHistory: Schema.optional(StateHistory),
       gradeHistory: Schema.optional(GradeHistory),
@@ -1208,7 +1248,7 @@ export interface MultipleChoiceSubmission {
 }
 
 export const MultipleChoiceSubmission: Schema.Schema<MultipleChoiceSubmission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(Schema.String),
     }),
@@ -1270,7 +1310,7 @@ export interface StudentSubmission {
 }
 
 export const StudentSubmission: Schema.Schema<StudentSubmission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedGrade: Schema.optional(Schema.Number),
       draftGrade: Schema.optional(Schema.Number),
@@ -1308,7 +1348,7 @@ export interface ListStudentSubmissionsResponse {
 }
 
 export const ListStudentSubmissionsResponse: Schema.Schema<ListStudentSubmissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       studentSubmissions: Schema.optional(Schema.Array(StudentSubmission)),
@@ -1325,7 +1365,7 @@ export interface ListStudentsResponse {
 }
 
 export const ListStudentsResponse: Schema.Schema<ListStudentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       students: Schema.optional(Schema.Array(Student)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1346,7 +1386,7 @@ export interface ModifyCourseWorkAssigneesRequest {
 }
 
 export const ModifyCourseWorkAssigneesRequest: Schema.Schema<ModifyCourseWorkAssigneesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assigneeMode: Schema.optional(Schema.String),
       modifyIndividualStudentsOptions: Schema.optional(
@@ -1365,7 +1405,7 @@ export interface ListStudentGroupMembersResponse {
 }
 
 export const ListStudentGroupMembersResponse: Schema.Schema<ListStudentGroupMembersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       studentGroupMembers: Schema.optional(Schema.Array(StudentGroupMember)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1415,7 +1455,7 @@ export interface CourseWorkMaterial {
 }
 
 export const CourseWorkMaterial: Schema.Schema<CourseWorkMaterial> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scheduledTime: Schema.optional(Schema.String),
       creatorUserId: Schema.optional(Schema.String),
@@ -1444,7 +1484,7 @@ export interface ListGuardiansResponse {
 }
 
 export const ListGuardiansResponse: Schema.Schema<ListGuardiansResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       guardians: Schema.optional(Schema.Array(Guardian)),
@@ -1459,7 +1499,7 @@ export interface MultipleChoiceQuestion {
 }
 
 export const MultipleChoiceQuestion: Schema.Schema<MultipleChoiceQuestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       choices: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1536,34 +1576,35 @@ export interface CourseWork {
     | (string & {});
 }
 
-export const CourseWork: Schema.Schema<CourseWork> = Schema.suspend(() =>
-  Schema.Struct({
-    associatedWithDeveloper: Schema.optional(Schema.Boolean),
-    topicId: Schema.optional(Schema.String),
-    multipleChoiceQuestion: Schema.optional(MultipleChoiceQuestion),
-    updateTime: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    creatorUserId: Schema.optional(Schema.String),
-    workType: Schema.optional(Schema.String),
-    gradingPeriodId: Schema.optional(Schema.String),
-    submissionModificationMode: Schema.optional(Schema.String),
-    gradeCategory: Schema.optional(GradeCategory),
-    scheduledTime: Schema.optional(Schema.String),
-    alternateLink: Schema.optional(Schema.String),
-    dueDate: Schema.optional(Classroom_Date),
-    individualStudentsOptions: Schema.optional(IndividualStudentsOptions),
-    courseId: Schema.optional(Schema.String),
-    materials: Schema.optional(Schema.Array(Material)),
-    dueTime: Schema.optional(TimeOfDay),
-    maxPoints: Schema.optional(Schema.Number),
-    description: Schema.optional(Schema.String),
-    assignment: Schema.optional(Assignment),
-    creationTime: Schema.optional(Schema.String),
-    assigneeMode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CourseWork" }) as any as Schema.Schema<CourseWork>;
+export const CourseWork: Schema.Schema<CourseWork> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      associatedWithDeveloper: Schema.optional(Schema.Boolean),
+      topicId: Schema.optional(Schema.String),
+      multipleChoiceQuestion: Schema.optional(MultipleChoiceQuestion),
+      updateTime: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      creatorUserId: Schema.optional(Schema.String),
+      workType: Schema.optional(Schema.String),
+      gradingPeriodId: Schema.optional(Schema.String),
+      submissionModificationMode: Schema.optional(Schema.String),
+      gradeCategory: Schema.optional(GradeCategory),
+      scheduledTime: Schema.optional(Schema.String),
+      alternateLink: Schema.optional(Schema.String),
+      dueDate: Schema.optional(Classroom_Date),
+      individualStudentsOptions: Schema.optional(IndividualStudentsOptions),
+      courseId: Schema.optional(Schema.String),
+      materials: Schema.optional(Schema.Array(Material)),
+      dueTime: Schema.optional(TimeOfDay),
+      maxPoints: Schema.optional(Schema.Number),
+      description: Schema.optional(Schema.String),
+      assignment: Schema.optional(Assignment),
+      creationTime: Schema.optional(Schema.String),
+      assigneeMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "CourseWork" }) as any as Schema.Schema<CourseWork>;
 
 export interface ListCourseWorkMaterialResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
@@ -1573,7 +1614,7 @@ export interface ListCourseWorkMaterialResponse {
 }
 
 export const ListCourseWorkMaterialResponse: Schema.Schema<ListCourseWorkMaterialResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       courseWorkMaterial: Schema.optional(Schema.Array(CourseWorkMaterial)),
@@ -1590,7 +1631,7 @@ export interface ListAnnouncementsResponse {
 }
 
 export const ListAnnouncementsResponse: Schema.Schema<ListAnnouncementsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       announcements: Schema.optional(Schema.Array(Announcement)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1608,15 +1649,16 @@ export interface StudentGroup {
   id?: string;
 }
 
-export const StudentGroup: Schema.Schema<StudentGroup> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "StudentGroup",
-}) as any as Schema.Schema<StudentGroup>;
+export const StudentGroup: Schema.Schema<StudentGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StudentGroup",
+  }) as any as Schema.Schema<StudentGroup>;
 
 export interface ListStudentGroupsResponse {
   /** The student groups. */
@@ -1626,7 +1668,7 @@ export interface ListStudentGroupsResponse {
 }
 
 export const ListStudentGroupsResponse: Schema.Schema<ListStudentGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       studentGroups: Schema.optional(Schema.Array(StudentGroup)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1646,14 +1688,15 @@ export interface Topic {
   topicId?: string;
 }
 
-export const Topic: Schema.Schema<Topic> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    topicId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
+export const Topic: Schema.Schema<Topic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      topicId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
 
 export interface ListTopicResponse {
   /** Topic items that match the request. */
@@ -1663,7 +1706,7 @@ export interface ListTopicResponse {
 }
 
 export const ListTopicResponse: Schema.Schema<ListTopicResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.Array(Topic)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1680,7 +1723,7 @@ export interface ListCoursesResponse {
 }
 
 export const ListCoursesResponse: Schema.Schema<ListCoursesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       courses: Schema.optional(Schema.Array(Course)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1692,7 +1735,7 @@ export const ListCoursesResponse: Schema.Schema<ListCoursesResponse> =
 export interface ReclaimStudentSubmissionRequest {}
 
 export const ReclaimStudentSubmissionRequest: Schema.Schema<ReclaimStudentSubmissionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ReclaimStudentSubmissionRequest",
   }) as any as Schema.Schema<ReclaimStudentSubmissionRequest>;
 
@@ -1701,22 +1744,21 @@ export interface StudentContext {
   submissionId?: string;
 }
 
-export const StudentContext: Schema.Schema<StudentContext> = Schema.suspend(
-  () =>
+export const StudentContext: Schema.Schema<StudentContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       submissionId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "StudentContext",
-}) as any as Schema.Schema<StudentContext>;
+  ).annotate({
+    identifier: "StudentContext",
+  }) as any as Schema.Schema<StudentContext>;
 
 export interface TeacherContext {}
 
-export const TeacherContext: Schema.Schema<TeacherContext> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "TeacherContext",
-}) as any as Schema.Schema<TeacherContext>;
+export const TeacherContext: Schema.Schema<TeacherContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "TeacherContext",
+  }) as any as Schema.Schema<TeacherContext>;
 
 export interface AddOnContext {
   /** Optional. Whether the post allows the teacher to see student work and passback grades. */
@@ -1733,18 +1775,19 @@ export interface AddOnContext {
   itemId?: string;
 }
 
-export const AddOnContext: Schema.Schema<AddOnContext> = Schema.suspend(() =>
-  Schema.Struct({
-    supportsStudentWork: Schema.optional(Schema.Boolean),
-    postId: Schema.optional(Schema.String),
-    courseId: Schema.optional(Schema.String),
-    studentContext: Schema.optional(StudentContext),
-    teacherContext: Schema.optional(TeacherContext),
-    itemId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AddOnContext",
-}) as any as Schema.Schema<AddOnContext>;
+export const AddOnContext: Schema.Schema<AddOnContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      supportsStudentWork: Schema.optional(Schema.Boolean),
+      postId: Schema.optional(Schema.String),
+      courseId: Schema.optional(Schema.String),
+      studentContext: Schema.optional(StudentContext),
+      teacherContext: Schema.optional(TeacherContext),
+      itemId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AddOnContext",
+  }) as any as Schema.Schema<AddOnContext>;
 
 export interface ListCourseWorkResponse {
   /** Course work items that match the request. */
@@ -1754,7 +1797,7 @@ export interface ListCourseWorkResponse {
 }
 
 export const ListCourseWorkResponse: Schema.Schema<ListCourseWorkResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       courseWork: Schema.optional(Schema.Array(CourseWork)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1774,16 +1817,17 @@ export interface Registration {
   cloudPubsubTopic?: CloudPubsubTopic;
 }
 
-export const Registration: Schema.Schema<Registration> = Schema.suspend(() =>
-  Schema.Struct({
-    registrationId: Schema.optional(Schema.String),
-    expiryTime: Schema.optional(Schema.String),
-    feed: Schema.optional(Feed),
-    cloudPubsubTopic: Schema.optional(CloudPubsubTopic),
-  }),
-).annotate({
-  identifier: "Registration",
-}) as any as Schema.Schema<Registration>;
+export const Registration: Schema.Schema<Registration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      registrationId: Schema.optional(Schema.String),
+      expiryTime: Schema.optional(Schema.String),
+      feed: Schema.optional(Feed),
+      cloudPubsubTopic: Schema.optional(CloudPubsubTopic),
+    }),
+  ).annotate({
+    identifier: "Registration",
+  }) as any as Schema.Schema<Registration>;
 
 export interface ListRubricsResponse {
   /** Rubrics that match the request. */
@@ -1793,7 +1837,7 @@ export interface ListRubricsResponse {
 }
 
 export const ListRubricsResponse: Schema.Schema<ListRubricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rubrics: Schema.optional(Schema.Array(Rubric)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1804,14 +1848,15 @@ export const ListRubricsResponse: Schema.Schema<ListRubricsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface TurnInStudentSubmissionRequest {}
 
 export const TurnInStudentSubmissionRequest: Schema.Schema<TurnInStudentSubmissionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "TurnInStudentSubmissionRequest",
   }) as any as Schema.Schema<TurnInStudentSubmissionRequest>;
 
@@ -1830,7 +1875,7 @@ export interface AddOnAttachmentStudentSubmission {
 }
 
 export const AddOnAttachmentStudentSubmission: Schema.Schema<AddOnAttachmentStudentSubmission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       postSubmissionState: Schema.optional(Schema.String),
       pointsEarned: Schema.optional(Schema.Number),
@@ -1842,7 +1887,7 @@ export const AddOnAttachmentStudentSubmission: Schema.Schema<AddOnAttachmentStud
 export interface ReturnStudentSubmissionRequest {}
 
 export const ReturnStudentSubmissionRequest: Schema.Schema<ReturnStudentSubmissionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ReturnStudentSubmissionRequest",
   }) as any as Schema.Schema<ReturnStudentSubmissionRequest>;
 
@@ -1852,7 +1897,7 @@ export interface ModifyAttachmentsRequest {
 }
 
 export const ModifyAttachmentsRequest: Schema.Schema<ModifyAttachmentsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       addAttachments: Schema.optional(Schema.Array(Attachment)),
     }),
@@ -1869,15 +1914,17 @@ export interface CreateRegistrationsRequest {
   body?: Registration;
 }
 
-export const CreateRegistrationsRequest = Schema.Struct({
-  body: Schema.optional(Registration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/registrations", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateRegistrationsRequest>;
+export const CreateRegistrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Registration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/registrations", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateRegistrationsRequest>;
 
 export type CreateRegistrationsResponse = Registration;
-export const CreateRegistrationsResponse = Registration;
+export const CreateRegistrationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Registration;
 
 export type CreateRegistrationsError = DefaultErrors;
 
@@ -1887,7 +1934,7 @@ export const createRegistrations: API.OperationMethod<
   CreateRegistrationsResponse,
   CreateRegistrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegistrationsRequest,
   output: CreateRegistrationsResponse,
   errors: [],
@@ -1898,15 +1945,16 @@ export interface DeleteRegistrationsRequest {
   registrationId: string;
 }
 
-export const DeleteRegistrationsRequest = Schema.Struct({
-  registrationId: Schema.String.pipe(T.HttpPath("registrationId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/registrations/{registrationId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteRegistrationsRequest>;
+export const DeleteRegistrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    registrationId: Schema.String.pipe(T.HttpPath("registrationId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/registrations/{registrationId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteRegistrationsRequest>;
 
 export type DeleteRegistrationsResponse = Empty;
-export const DeleteRegistrationsResponse = Empty;
+export const DeleteRegistrationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteRegistrationsError = DefaultErrors;
 
@@ -1916,7 +1964,7 @@ export const deleteRegistrations: API.OperationMethod<
   DeleteRegistrationsResponse,
   DeleteRegistrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegistrationsRequest,
   output: DeleteRegistrationsResponse,
   errors: [],
@@ -1929,7 +1977,7 @@ export interface UpdateCoursesRequest {
   body?: Course;
 }
 
-export const UpdateCoursesRequest = Schema.Struct({
+export const UpdateCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   body: Schema.optional(Course).pipe(T.HttpBody()),
 }).pipe(
@@ -1938,7 +1986,7 @@ export const UpdateCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateCoursesRequest>;
 
 export type UpdateCoursesResponse = Course;
-export const UpdateCoursesResponse = Course;
+export const UpdateCoursesResponse = /*@__PURE__*/ /*#__PURE__*/ Course;
 
 export type UpdateCoursesError = DefaultErrors;
 
@@ -1948,7 +1996,7 @@ export const updateCourses: API.OperationMethod<
   UpdateCoursesResponse,
   UpdateCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCoursesRequest,
   output: UpdateCoursesResponse,
   errors: [],
@@ -1963,7 +2011,7 @@ export interface PatchCoursesRequest {
   body?: Course;
 }
 
-export const PatchCoursesRequest = Schema.Struct({
+export const PatchCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Course).pipe(T.HttpBody()),
@@ -1973,7 +2021,7 @@ export const PatchCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchCoursesRequest>;
 
 export type PatchCoursesResponse = Course;
-export const PatchCoursesResponse = Course;
+export const PatchCoursesResponse = /*@__PURE__*/ /*#__PURE__*/ Course;
 
 export type PatchCoursesError = DefaultErrors;
 
@@ -1983,7 +2031,7 @@ export const patchCourses: API.OperationMethod<
   PatchCoursesResponse,
   PatchCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesRequest,
   output: PatchCoursesResponse,
   errors: [],
@@ -1994,7 +2042,7 @@ export interface CreateCoursesRequest {
   body?: Course;
 }
 
-export const CreateCoursesRequest = Schema.Struct({
+export const CreateCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Course).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/courses", hasBody: true }),
@@ -2002,7 +2050,7 @@ export const CreateCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateCoursesRequest>;
 
 export type CreateCoursesResponse = Course;
-export const CreateCoursesResponse = Course;
+export const CreateCoursesResponse = /*@__PURE__*/ /*#__PURE__*/ Course;
 
 export type CreateCoursesError = DefaultErrors;
 
@@ -2012,7 +2060,7 @@ export const createCourses: API.OperationMethod<
   CreateCoursesResponse,
   CreateCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesRequest,
   output: CreateCoursesResponse,
   errors: [],
@@ -2023,18 +2071,20 @@ export interface GetGradingPeriodSettingsCoursesRequest {
   courseId: string;
 }
 
-export const GetGradingPeriodSettingsCoursesRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/gradingPeriodSettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGradingPeriodSettingsCoursesRequest>;
+export const GetGradingPeriodSettingsCoursesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/gradingPeriodSettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGradingPeriodSettingsCoursesRequest>;
 
 export type GetGradingPeriodSettingsCoursesResponse = GradingPeriodSettings;
-export const GetGradingPeriodSettingsCoursesResponse = GradingPeriodSettings;
+export const GetGradingPeriodSettingsCoursesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GradingPeriodSettings;
 
 export type GetGradingPeriodSettingsCoursesError = DefaultErrors;
 
@@ -2044,7 +2094,7 @@ export const getGradingPeriodSettingsCourses: API.OperationMethod<
   GetGradingPeriodSettingsCoursesResponse,
   GetGradingPeriodSettingsCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGradingPeriodSettingsCoursesRequest,
   output: GetGradingPeriodSettingsCoursesResponse,
   errors: [],
@@ -2055,7 +2105,7 @@ export interface GetCoursesRequest {
   id: string;
 }
 
-export const GetCoursesRequest = Schema.Struct({
+export const GetCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/courses/{id}" }),
@@ -2063,7 +2113,7 @@ export const GetCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCoursesRequest>;
 
 export type GetCoursesResponse = Course;
-export const GetCoursesResponse = Course;
+export const GetCoursesResponse = /*@__PURE__*/ /*#__PURE__*/ Course;
 
 export type GetCoursesError = DefaultErrors;
 
@@ -2073,7 +2123,7 @@ export const getCourses: API.OperationMethod<
   GetCoursesResponse,
   GetCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesRequest,
   output: GetCoursesResponse,
   errors: [],
@@ -2088,21 +2138,23 @@ export interface UpdateGradingPeriodSettingsCoursesRequest {
   body?: GradingPeriodSettings;
 }
 
-export const UpdateGradingPeriodSettingsCoursesRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GradingPeriodSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/gradingPeriodSettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGradingPeriodSettingsCoursesRequest>;
+export const UpdateGradingPeriodSettingsCoursesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GradingPeriodSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/gradingPeriodSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGradingPeriodSettingsCoursesRequest>;
 
 export type UpdateGradingPeriodSettingsCoursesResponse = GradingPeriodSettings;
-export const UpdateGradingPeriodSettingsCoursesResponse = GradingPeriodSettings;
+export const UpdateGradingPeriodSettingsCoursesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GradingPeriodSettings;
 
 export type UpdateGradingPeriodSettingsCoursesError = DefaultErrors;
 
@@ -2112,7 +2164,7 @@ export const updateGradingPeriodSettingsCourses: API.OperationMethod<
   UpdateGradingPeriodSettingsCoursesResponse,
   UpdateGradingPeriodSettingsCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGradingPeriodSettingsCoursesRequest,
   output: UpdateGradingPeriodSettingsCoursesResponse,
   errors: [],
@@ -2123,7 +2175,7 @@ export interface DeleteCoursesRequest {
   id: string;
 }
 
-export const DeleteCoursesRequest = Schema.Struct({
+export const DeleteCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/courses/{id}" }),
@@ -2131,7 +2183,7 @@ export const DeleteCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteCoursesRequest>;
 
 export type DeleteCoursesResponse = Empty;
-export const DeleteCoursesResponse = Empty;
+export const DeleteCoursesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesError = DefaultErrors;
 
@@ -2141,7 +2193,7 @@ export const deleteCourses: API.OperationMethod<
   DeleteCoursesResponse,
   DeleteCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesRequest,
   output: DeleteCoursesResponse,
   errors: [],
@@ -2167,7 +2219,7 @@ export interface ListCoursesRequest {
   teacherId?: string;
 }
 
-export const ListCoursesRequest = Schema.Struct({
+export const ListCoursesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   studentId: Schema.optional(Schema.String).pipe(T.HttpQuery("studentId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   courseStates: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -2181,7 +2233,8 @@ export const ListCoursesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCoursesRequest>;
 
 export type ListCoursesResponse_Op = ListCoursesResponse;
-export const ListCoursesResponse_Op = ListCoursesResponse;
+export const ListCoursesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCoursesResponse;
 
 export type ListCoursesError = DefaultErrors;
 
@@ -2191,7 +2244,7 @@ export const listCourses: API.PaginatedOperationMethod<
   ListCoursesResponse_Op,
   ListCoursesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesRequest,
   output: ListCoursesResponse_Op,
   errors: [],
@@ -2208,20 +2261,22 @@ export interface CreateCoursesAliasesRequest {
   body?: CourseAlias;
 }
 
-export const CreateCoursesAliasesRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(CourseAlias).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/aliases",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesAliasesRequest>;
+export const CreateCoursesAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(CourseAlias).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/aliases",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesAliasesRequest>;
 
 export type CreateCoursesAliasesResponse = CourseAlias;
-export const CreateCoursesAliasesResponse = CourseAlias;
+export const CreateCoursesAliasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseAlias;
 
 export type CreateCoursesAliasesError = DefaultErrors;
 
@@ -2231,7 +2286,7 @@ export const createCoursesAliases: API.OperationMethod<
   CreateCoursesAliasesResponse,
   CreateCoursesAliasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesAliasesRequest,
   output: CreateCoursesAliasesResponse,
   errors: [],
@@ -2244,16 +2299,17 @@ export interface DeleteCoursesAliasesRequest {
   alias: string;
 }
 
-export const DeleteCoursesAliasesRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  alias: Schema.String.pipe(T.HttpPath("alias")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/courses/{courseId}/aliases/{alias}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesAliasesRequest>;
+export const DeleteCoursesAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    alias: Schema.String.pipe(T.HttpPath("alias")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/courses/{courseId}/aliases/{alias}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesAliasesRequest>;
 
 export type DeleteCoursesAliasesResponse = Empty;
-export const DeleteCoursesAliasesResponse = Empty;
+export const DeleteCoursesAliasesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesAliasesError = DefaultErrors;
 
@@ -2263,7 +2319,7 @@ export const deleteCoursesAliases: API.OperationMethod<
   DeleteCoursesAliasesResponse,
   DeleteCoursesAliasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesAliasesRequest,
   output: DeleteCoursesAliasesResponse,
   errors: [],
@@ -2278,17 +2334,19 @@ export interface ListCoursesAliasesRequest {
   pageToken?: string;
 }
 
-export const ListCoursesAliasesRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/aliases" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesAliasesRequest>;
+export const ListCoursesAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/aliases" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesAliasesRequest>;
 
 export type ListCoursesAliasesResponse = ListCourseAliasesResponse;
-export const ListCoursesAliasesResponse = ListCourseAliasesResponse;
+export const ListCoursesAliasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCourseAliasesResponse;
 
 export type ListCoursesAliasesError = DefaultErrors;
 
@@ -2298,7 +2356,7 @@ export const listCoursesAliases: API.PaginatedOperationMethod<
   ListCoursesAliasesResponse,
   ListCoursesAliasesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesAliasesRequest,
   output: ListCoursesAliasesResponse,
   errors: [],
@@ -2315,16 +2373,17 @@ export interface GetCoursesStudentsRequest {
   userId: string;
 }
 
-export const GetCoursesStudentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/students/{userId}" }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesStudentsRequest>;
+export const GetCoursesStudentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/students/{userId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesStudentsRequest>;
 
 export type GetCoursesStudentsResponse = Student;
-export const GetCoursesStudentsResponse = Student;
+export const GetCoursesStudentsResponse = /*@__PURE__*/ /*#__PURE__*/ Student;
 
 export type GetCoursesStudentsError = DefaultErrors;
 
@@ -2334,7 +2393,7 @@ export const getCoursesStudents: API.OperationMethod<
   GetCoursesStudentsResponse,
   GetCoursesStudentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesStudentsRequest,
   output: GetCoursesStudentsResponse,
   errors: [],
@@ -2349,23 +2408,25 @@ export interface CreateCoursesStudentsRequest {
   body?: Student;
 }
 
-export const CreateCoursesStudentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  enrollmentCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("enrollmentCode"),
-  ),
-  body: Schema.optional(Student).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/students",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesStudentsRequest>;
+export const CreateCoursesStudentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    enrollmentCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("enrollmentCode"),
+    ),
+    body: Schema.optional(Student).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/students",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesStudentsRequest>;
 
 export type CreateCoursesStudentsResponse = Student;
-export const CreateCoursesStudentsResponse = Student;
+export const CreateCoursesStudentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Student;
 
 export type CreateCoursesStudentsError = DefaultErrors;
 
@@ -2375,7 +2436,7 @@ export const createCoursesStudents: API.OperationMethod<
   CreateCoursesStudentsResponse,
   CreateCoursesStudentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesStudentsRequest,
   output: CreateCoursesStudentsResponse,
   errors: [],
@@ -2388,16 +2449,20 @@ export interface DeleteCoursesStudentsRequest {
   userId: string;
 }
 
-export const DeleteCoursesStudentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/courses/{courseId}/students/{userId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesStudentsRequest>;
+export const DeleteCoursesStudentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/students/{userId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesStudentsRequest>;
 
 export type DeleteCoursesStudentsResponse = Empty;
-export const DeleteCoursesStudentsResponse = Empty;
+export const DeleteCoursesStudentsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesStudentsError = DefaultErrors;
 
@@ -2407,7 +2472,7 @@ export const deleteCoursesStudents: API.OperationMethod<
   DeleteCoursesStudentsResponse,
   DeleteCoursesStudentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesStudentsRequest,
   output: DeleteCoursesStudentsResponse,
   errors: [],
@@ -2422,17 +2487,19 @@ export interface ListCoursesStudentsRequest {
   pageToken?: string;
 }
 
-export const ListCoursesStudentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/students" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesStudentsRequest>;
+export const ListCoursesStudentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/students" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesStudentsRequest>;
 
 export type ListCoursesStudentsResponse = ListStudentsResponse;
-export const ListCoursesStudentsResponse = ListStudentsResponse;
+export const ListCoursesStudentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListStudentsResponse;
 
 export type ListCoursesStudentsError = DefaultErrors;
 
@@ -2442,7 +2509,7 @@ export const listCoursesStudents: API.PaginatedOperationMethod<
   ListCoursesStudentsResponse,
   ListCoursesStudentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesStudentsRequest,
   output: ListCoursesStudentsResponse,
   errors: [],
@@ -2461,21 +2528,23 @@ export interface ModifyAssigneesCoursesCourseWorkRequest {
   body?: ModifyCourseWorkAssigneesRequest;
 }
 
-export const ModifyAssigneesCoursesCourseWorkRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(ModifyCourseWorkAssigneesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{id}:modifyAssignees",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyAssigneesCoursesCourseWorkRequest>;
+export const ModifyAssigneesCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(ModifyCourseWorkAssigneesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{id}:modifyAssignees",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyAssigneesCoursesCourseWorkRequest>;
 
 export type ModifyAssigneesCoursesCourseWorkResponse = CourseWork;
-export const ModifyAssigneesCoursesCourseWorkResponse = CourseWork;
+export const ModifyAssigneesCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWork;
 
 export type ModifyAssigneesCoursesCourseWorkError = DefaultErrors;
 
@@ -2485,7 +2554,7 @@ export const modifyAssigneesCoursesCourseWork: API.OperationMethod<
   ModifyAssigneesCoursesCourseWorkResponse,
   ModifyAssigneesCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyAssigneesCoursesCourseWorkRequest,
   output: ModifyAssigneesCoursesCourseWorkResponse,
   errors: [],
@@ -2502,22 +2571,24 @@ export interface PatchCoursesCourseWorkRequest {
   body?: CourseWork;
 }
 
-export const PatchCoursesCourseWorkRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(CourseWork).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWork/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesCourseWorkRequest>;
+export const PatchCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(CourseWork).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWork/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesCourseWorkRequest>;
 
 export type PatchCoursesCourseWorkResponse = CourseWork;
-export const PatchCoursesCourseWorkResponse = CourseWork;
+export const PatchCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWork;
 
 export type PatchCoursesCourseWorkError = DefaultErrors;
 
@@ -2527,7 +2598,7 @@ export const patchCoursesCourseWork: API.OperationMethod<
   PatchCoursesCourseWorkResponse,
   PatchCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkRequest,
   output: PatchCoursesCourseWorkResponse,
   errors: [],
@@ -2540,20 +2611,22 @@ export interface CreateCoursesCourseWorkRequest {
   body?: CourseWork;
 }
 
-export const CreateCoursesCourseWorkRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(CourseWork).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesCourseWorkRequest>;
+export const CreateCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(CourseWork).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesCourseWorkRequest>;
 
 export type CreateCoursesCourseWorkResponse = CourseWork;
-export const CreateCoursesCourseWorkResponse = CourseWork;
+export const CreateCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWork;
 
 export type CreateCoursesCourseWorkError = DefaultErrors;
 
@@ -2563,7 +2636,7 @@ export const createCoursesCourseWork: API.OperationMethod<
   CreateCoursesCourseWorkResponse,
   CreateCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesCourseWorkRequest,
   output: CreateCoursesCourseWorkResponse,
   errors: [],
@@ -2587,21 +2660,23 @@ export interface ListCoursesCourseWorkRequest {
   courseId: string;
 }
 
-export const ListCoursesCourseWorkRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  courseWorkStates: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("courseWorkStates"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/courseWork" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesCourseWorkRequest>;
+export const ListCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    courseWorkStates: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("courseWorkStates"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/courseWork" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesCourseWorkRequest>;
 
 export type ListCoursesCourseWorkResponse = ListCourseWorkResponse;
-export const ListCoursesCourseWorkResponse = ListCourseWorkResponse;
+export const ListCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCourseWorkResponse;
 
 export type ListCoursesCourseWorkError = DefaultErrors;
 
@@ -2611,7 +2686,7 @@ export const listCoursesCourseWork: API.PaginatedOperationMethod<
   ListCoursesCourseWorkResponse,
   ListCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkRequest,
   output: ListCoursesCourseWorkResponse,
   errors: [],
@@ -2628,16 +2703,18 @@ export interface GetCoursesCourseWorkRequest {
   id: string;
 }
 
-export const GetCoursesCourseWorkRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/courseWork/{id}" }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesCourseWorkRequest>;
+export const GetCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/courseWork/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesCourseWorkRequest>;
 
 export type GetCoursesCourseWorkResponse = CourseWork;
-export const GetCoursesCourseWorkResponse = CourseWork;
+export const GetCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWork;
 
 export type GetCoursesCourseWorkError = DefaultErrors;
 
@@ -2647,7 +2724,7 @@ export const getCoursesCourseWork: API.OperationMethod<
   GetCoursesCourseWorkResponse,
   GetCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkRequest,
   output: GetCoursesCourseWorkResponse,
   errors: [],
@@ -2666,24 +2743,26 @@ export interface GetAddOnContextCoursesCourseWorkRequest {
   postId?: string;
 }
 
-export const GetAddOnContextCoursesCourseWorkRequest = Schema.Struct({
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("attachmentId"),
-  ),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnContext",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAddOnContextCoursesCourseWorkRequest>;
+export const GetAddOnContextCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("attachmentId"),
+    ),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnContext",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAddOnContextCoursesCourseWorkRequest>;
 
 export type GetAddOnContextCoursesCourseWorkResponse = AddOnContext;
-export const GetAddOnContextCoursesCourseWorkResponse = AddOnContext;
+export const GetAddOnContextCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnContext;
 
 export type GetAddOnContextCoursesCourseWorkError = DefaultErrors;
 
@@ -2693,7 +2772,7 @@ export const getAddOnContextCoursesCourseWork: API.OperationMethod<
   GetAddOnContextCoursesCourseWorkResponse,
   GetAddOnContextCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddOnContextCoursesCourseWorkRequest,
   output: GetAddOnContextCoursesCourseWorkResponse,
   errors: [],
@@ -2712,23 +2791,25 @@ export interface UpdateRubricCoursesCourseWorkRequest {
   body?: Rubric;
 }
 
-export const UpdateRubricCoursesCourseWorkRequest = Schema.Struct({
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Rubric).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubric",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateRubricCoursesCourseWorkRequest>;
+export const UpdateRubricCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Rubric).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubric",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateRubricCoursesCourseWorkRequest>;
 
 export type UpdateRubricCoursesCourseWorkResponse = Rubric;
-export const UpdateRubricCoursesCourseWorkResponse = Rubric;
+export const UpdateRubricCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Rubric;
 
 export type UpdateRubricCoursesCourseWorkError = DefaultErrors;
 
@@ -2738,7 +2819,7 @@ export const updateRubricCoursesCourseWork: API.OperationMethod<
   UpdateRubricCoursesCourseWorkResponse,
   UpdateRubricCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRubricCoursesCourseWorkRequest,
   output: UpdateRubricCoursesCourseWorkResponse,
   errors: [],
@@ -2751,16 +2832,18 @@ export interface DeleteCoursesCourseWorkRequest {
   id: string;
 }
 
-export const DeleteCoursesCourseWorkRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/courses/{courseId}/courseWork/{id}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesCourseWorkRequest>;
+export const DeleteCoursesCourseWorkRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/courses/{courseId}/courseWork/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesCourseWorkRequest>;
 
 export type DeleteCoursesCourseWorkResponse = Empty;
-export const DeleteCoursesCourseWorkResponse = Empty;
+export const DeleteCoursesCourseWorkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesCourseWorkError = DefaultErrors;
 
@@ -2770,7 +2853,7 @@ export const deleteCoursesCourseWork: API.OperationMethod<
   DeleteCoursesCourseWorkResponse,
   DeleteCoursesCourseWorkError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesCourseWorkRequest,
   output: DeleteCoursesCourseWorkResponse,
   errors: [],
@@ -2789,25 +2872,26 @@ export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   body?: StudentSubmission;
 }
 
-export const PatchCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(StudentSubmission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesCourseWorkStudentSubmissionsRequest>;
+export const PatchCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(StudentSubmission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type PatchCoursesCourseWorkStudentSubmissionsResponse =
   StudentSubmission;
 export const PatchCoursesCourseWorkStudentSubmissionsResponse =
-  StudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ StudentSubmission;
 
 export type PatchCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -2817,7 +2901,7 @@ export const patchCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   PatchCoursesCourseWorkStudentSubmissionsResponse,
   PatchCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkStudentSubmissionsRequest,
   output: PatchCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -2851,28 +2935,29 @@ export interface ListCoursesCourseWorkStudentSubmissionsRequest {
     | (string & {});
 }
 
-export const ListCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("states"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  late: Schema.optional(Schema.String).pipe(T.HttpQuery("late")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesCourseWorkStudentSubmissionsRequest>;
+export const ListCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
+    states: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("states"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    late: Schema.optional(Schema.String).pipe(T.HttpQuery("late")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type ListCoursesCourseWorkStudentSubmissionsResponse =
   ListStudentSubmissionsResponse;
 export const ListCoursesCourseWorkStudentSubmissionsResponse =
-  ListStudentSubmissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListStudentSubmissionsResponse;
 
 export type ListCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -2882,7 +2967,7 @@ export const listCoursesCourseWorkStudentSubmissions: API.PaginatedOperationMeth
   ListCoursesCourseWorkStudentSubmissionsResponse,
   ListCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkStudentSubmissionsRequest,
   output: ListCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -2903,22 +2988,24 @@ export interface ReclaimCoursesCourseWorkStudentSubmissionsRequest {
   body?: ReclaimStudentSubmissionRequest;
 }
 
-export const ReclaimCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(ReclaimStudentSubmissionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:reclaim",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReclaimCoursesCourseWorkStudentSubmissionsRequest>;
+export const ReclaimCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(ReclaimStudentSubmissionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:reclaim",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReclaimCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type ReclaimCoursesCourseWorkStudentSubmissionsResponse = Empty;
-export const ReclaimCoursesCourseWorkStudentSubmissionsResponse = Empty;
+export const ReclaimCoursesCourseWorkStudentSubmissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ReclaimCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -2928,7 +3015,7 @@ export const reclaimCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   ReclaimCoursesCourseWorkStudentSubmissionsResponse,
   ReclaimCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReclaimCoursesCourseWorkStudentSubmissionsRequest,
   output: ReclaimCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -2945,22 +3032,24 @@ export interface ReturnCoursesCourseWorkStudentSubmissionsRequest {
   body?: ReturnStudentSubmissionRequest;
 }
 
-export const ReturnCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(ReturnStudentSubmissionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:return",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReturnCoursesCourseWorkStudentSubmissionsRequest>;
+export const ReturnCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(ReturnStudentSubmissionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:return",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReturnCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type ReturnCoursesCourseWorkStudentSubmissionsResponse = Empty;
-export const ReturnCoursesCourseWorkStudentSubmissionsResponse = Empty;
+export const ReturnCoursesCourseWorkStudentSubmissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ReturnCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -2970,7 +3059,7 @@ export const returnCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   ReturnCoursesCourseWorkStudentSubmissionsResponse,
   ReturnCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReturnCoursesCourseWorkStudentSubmissionsRequest,
   output: ReturnCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -2988,7 +3077,7 @@ export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
 }
 
 export const ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     id: Schema.String.pipe(T.HttpPath("id")),
     courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
@@ -3005,7 +3094,7 @@ export const ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest =
 export type ModifyAttachmentsCoursesCourseWorkStudentSubmissionsResponse =
   StudentSubmission;
 export const ModifyAttachmentsCoursesCourseWorkStudentSubmissionsResponse =
-  StudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ StudentSubmission;
 
 export type ModifyAttachmentsCoursesCourseWorkStudentSubmissionsError =
   DefaultErrors;
@@ -3016,7 +3105,7 @@ export const modifyAttachmentsCoursesCourseWorkStudentSubmissions: API.Operation
   ModifyAttachmentsCoursesCourseWorkStudentSubmissionsResponse,
   ModifyAttachmentsCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest,
   output: ModifyAttachmentsCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -3031,20 +3120,22 @@ export interface GetCoursesCourseWorkStudentSubmissionsRequest {
   id: string;
 }
 
-export const GetCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesCourseWorkStudentSubmissionsRequest>;
+export const GetCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type GetCoursesCourseWorkStudentSubmissionsResponse = StudentSubmission;
-export const GetCoursesCourseWorkStudentSubmissionsResponse = StudentSubmission;
+export const GetCoursesCourseWorkStudentSubmissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ StudentSubmission;
 
 export type GetCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -3054,7 +3145,7 @@ export const getCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   GetCoursesCourseWorkStudentSubmissionsResponse,
   GetCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkStudentSubmissionsRequest,
   output: GetCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -3071,22 +3162,24 @@ export interface TurnInCoursesCourseWorkStudentSubmissionsRequest {
   body?: TurnInStudentSubmissionRequest;
 }
 
-export const TurnInCoursesCourseWorkStudentSubmissionsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  body: Schema.optional(TurnInStudentSubmissionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:turnIn",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TurnInCoursesCourseWorkStudentSubmissionsRequest>;
+export const TurnInCoursesCourseWorkStudentSubmissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    body: Schema.optional(TurnInStudentSubmissionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/studentSubmissions/{id}:turnIn",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TurnInCoursesCourseWorkStudentSubmissionsRequest>;
 
 export type TurnInCoursesCourseWorkStudentSubmissionsResponse = Empty;
-export const TurnInCoursesCourseWorkStudentSubmissionsResponse = Empty;
+export const TurnInCoursesCourseWorkStudentSubmissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type TurnInCoursesCourseWorkStudentSubmissionsError = DefaultErrors;
 
@@ -3096,7 +3189,7 @@ export const turnInCoursesCourseWorkStudentSubmissions: API.OperationMethod<
   TurnInCoursesCourseWorkStudentSubmissionsResponse,
   TurnInCoursesCourseWorkStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TurnInCoursesCourseWorkStudentSubmissionsRequest,
   output: TurnInCoursesCourseWorkStudentSubmissionsResponse,
   errors: [],
@@ -3113,21 +3206,23 @@ export interface GetCoursesCourseWorkAddOnAttachmentsRequest {
   attachmentId: string;
 }
 
-export const GetCoursesCourseWorkAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesCourseWorkAddOnAttachmentsRequest>;
+export const GetCoursesCourseWorkAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesCourseWorkAddOnAttachmentsRequest>;
 
 export type GetCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
-export const GetCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
+export const GetCoursesCourseWorkAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type GetCoursesCourseWorkAddOnAttachmentsError = DefaultErrors;
 
@@ -3137,7 +3232,7 @@ export const getCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   GetCoursesCourseWorkAddOnAttachmentsResponse,
   GetCoursesCourseWorkAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkAddOnAttachmentsRequest,
   output: GetCoursesCourseWorkAddOnAttachmentsResponse,
   errors: [],
@@ -3154,21 +3249,23 @@ export interface DeleteCoursesCourseWorkAddOnAttachmentsRequest {
   postId?: string;
 }
 
-export const DeleteCoursesCourseWorkAddOnAttachmentsRequest = Schema.Struct({
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesCourseWorkAddOnAttachmentsRequest>;
+export const DeleteCoursesCourseWorkAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesCourseWorkAddOnAttachmentsRequest>;
 
 export type DeleteCoursesCourseWorkAddOnAttachmentsResponse = Empty;
-export const DeleteCoursesCourseWorkAddOnAttachmentsResponse = Empty;
+export const DeleteCoursesCourseWorkAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesCourseWorkAddOnAttachmentsError = DefaultErrors;
 
@@ -3178,7 +3275,7 @@ export const deleteCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   DeleteCoursesCourseWorkAddOnAttachmentsResponse,
   DeleteCoursesCourseWorkAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesCourseWorkAddOnAttachmentsRequest,
   output: DeleteCoursesCourseWorkAddOnAttachmentsResponse,
   errors: [],
@@ -3197,24 +3294,25 @@ export interface ListCoursesCourseWorkAddOnAttachmentsRequest {
   postId?: string;
 }
 
-export const ListCoursesCourseWorkAddOnAttachmentsRequest = Schema.Struct({
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesCourseWorkAddOnAttachmentsRequest>;
+export const ListCoursesCourseWorkAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesCourseWorkAddOnAttachmentsRequest>;
 
 export type ListCoursesCourseWorkAddOnAttachmentsResponse =
   ListAddOnAttachmentsResponse;
 export const ListCoursesCourseWorkAddOnAttachmentsResponse =
-  ListAddOnAttachmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAddOnAttachmentsResponse;
 
 export type ListCoursesCourseWorkAddOnAttachmentsError = DefaultErrors;
 
@@ -3224,7 +3322,7 @@ export const listCoursesCourseWorkAddOnAttachments: API.PaginatedOperationMethod
   ListCoursesCourseWorkAddOnAttachmentsResponse,
   ListCoursesCourseWorkAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkAddOnAttachmentsRequest,
   output: ListCoursesCourseWorkAddOnAttachmentsResponse,
   errors: [],
@@ -3249,24 +3347,26 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const PatchCoursesCourseWorkAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesCourseWorkAddOnAttachmentsRequest>;
+export const PatchCoursesCourseWorkAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments/{attachmentId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesCourseWorkAddOnAttachmentsRequest>;
 
 export type PatchCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
-export const PatchCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
+export const PatchCoursesCourseWorkAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type PatchCoursesCourseWorkAddOnAttachmentsError = DefaultErrors;
 
@@ -3276,7 +3376,7 @@ export const patchCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   PatchCoursesCourseWorkAddOnAttachmentsResponse,
   PatchCoursesCourseWorkAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkAddOnAttachmentsRequest,
   output: PatchCoursesCourseWorkAddOnAttachmentsResponse,
   errors: [],
@@ -3295,23 +3395,25 @@ export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const CreateCoursesCourseWorkAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesCourseWorkAddOnAttachmentsRequest>;
+export const CreateCoursesCourseWorkAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{itemId}/addOnAttachments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesCourseWorkAddOnAttachmentsRequest>;
 
 export type CreateCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
-export const CreateCoursesCourseWorkAddOnAttachmentsResponse = AddOnAttachment;
+export const CreateCoursesCourseWorkAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type CreateCoursesCourseWorkAddOnAttachmentsError = DefaultErrors;
 
@@ -3321,7 +3423,7 @@ export const createCoursesCourseWorkAddOnAttachments: API.OperationMethod<
   CreateCoursesCourseWorkAddOnAttachmentsResponse,
   CreateCoursesCourseWorkAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesCourseWorkAddOnAttachmentsRequest,
   output: CreateCoursesCourseWorkAddOnAttachmentsResponse,
   errors: [],
@@ -3345,7 +3447,7 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest
 }
 
 export const PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
@@ -3365,7 +3467,7 @@ export const PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest =
 export type PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse =
   AddOnAttachmentStudentSubmission;
 export const PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse =
-  AddOnAttachmentStudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachmentStudentSubmission;
 
 export type PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError =
   DefaultErrors;
@@ -3376,7 +3478,7 @@ export const patchCoursesCourseWorkAddOnAttachmentsStudentSubmissions: API.Opera
   PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse,
   PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest,
   output: PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse,
   errors: [],
@@ -3396,7 +3498,7 @@ export interface GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
 }
 
 export const GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
@@ -3413,7 +3515,7 @@ export const GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest =
 export type GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse =
   AddOnAttachmentStudentSubmission;
 export const GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse =
-  AddOnAttachmentStudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachmentStudentSubmission;
 
 export type GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError =
   DefaultErrors;
@@ -3424,7 +3526,7 @@ export const getCoursesCourseWorkAddOnAttachmentsStudentSubmissions: API.Operati
   GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse,
   GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest,
   output: GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsResponse,
   errors: [],
@@ -3441,21 +3543,23 @@ export interface ListCoursesCourseWorkRubricsRequest {
   pageToken?: string;
 }
 
-export const ListCoursesCourseWorkRubricsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesCourseWorkRubricsRequest>;
+export const ListCoursesCourseWorkRubricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesCourseWorkRubricsRequest>;
 
 export type ListCoursesCourseWorkRubricsResponse = ListRubricsResponse;
-export const ListCoursesCourseWorkRubricsResponse = ListRubricsResponse;
+export const ListCoursesCourseWorkRubricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListRubricsResponse;
 
 export type ListCoursesCourseWorkRubricsError = DefaultErrors;
 
@@ -3465,7 +3569,7 @@ export const listCoursesCourseWorkRubrics: API.PaginatedOperationMethod<
   ListCoursesCourseWorkRubricsResponse,
   ListCoursesCourseWorkRubricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkRubricsRequest,
   output: ListCoursesCourseWorkRubricsResponse,
   errors: [],
@@ -3484,20 +3588,22 @@ export interface GetCoursesCourseWorkRubricsRequest {
   courseWorkId: string;
 }
 
-export const GetCoursesCourseWorkRubricsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesCourseWorkRubricsRequest>;
+export const GetCoursesCourseWorkRubricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesCourseWorkRubricsRequest>;
 
 export type GetCoursesCourseWorkRubricsResponse = Rubric;
-export const GetCoursesCourseWorkRubricsResponse = Rubric;
+export const GetCoursesCourseWorkRubricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Rubric;
 
 export type GetCoursesCourseWorkRubricsError = DefaultErrors;
 
@@ -3507,7 +3613,7 @@ export const getCoursesCourseWorkRubrics: API.OperationMethod<
   GetCoursesCourseWorkRubricsResponse,
   GetCoursesCourseWorkRubricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkRubricsRequest,
   output: GetCoursesCourseWorkRubricsResponse,
   errors: [],
@@ -3522,20 +3628,22 @@ export interface DeleteCoursesCourseWorkRubricsRequest {
   id: string;
 }
 
-export const DeleteCoursesCourseWorkRubricsRequest = Schema.Struct({
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesCourseWorkRubricsRequest>;
+export const DeleteCoursesCourseWorkRubricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesCourseWorkRubricsRequest>;
 
 export type DeleteCoursesCourseWorkRubricsResponse = Empty;
-export const DeleteCoursesCourseWorkRubricsResponse = Empty;
+export const DeleteCoursesCourseWorkRubricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesCourseWorkRubricsError = DefaultErrors;
 
@@ -3545,7 +3653,7 @@ export const deleteCoursesCourseWorkRubrics: API.OperationMethod<
   DeleteCoursesCourseWorkRubricsResponse,
   DeleteCoursesCourseWorkRubricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesCourseWorkRubricsRequest,
   output: DeleteCoursesCourseWorkRubricsResponse,
   errors: [],
@@ -3564,23 +3672,25 @@ export interface PatchCoursesCourseWorkRubricsRequest {
   body?: Rubric;
 }
 
-export const PatchCoursesCourseWorkRubricsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Rubric).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesCourseWorkRubricsRequest>;
+export const PatchCoursesCourseWorkRubricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Rubric).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesCourseWorkRubricsRequest>;
 
 export type PatchCoursesCourseWorkRubricsResponse = Rubric;
-export const PatchCoursesCourseWorkRubricsResponse = Rubric;
+export const PatchCoursesCourseWorkRubricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Rubric;
 
 export type PatchCoursesCourseWorkRubricsError = DefaultErrors;
 
@@ -3590,7 +3700,7 @@ export const patchCoursesCourseWorkRubrics: API.OperationMethod<
   PatchCoursesCourseWorkRubricsResponse,
   PatchCoursesCourseWorkRubricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkRubricsRequest,
   output: PatchCoursesCourseWorkRubricsResponse,
   errors: [],
@@ -3605,21 +3715,23 @@ export interface CreateCoursesCourseWorkRubricsRequest {
   body?: Rubric;
 }
 
-export const CreateCoursesCourseWorkRubricsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
-  body: Schema.optional(Rubric).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesCourseWorkRubricsRequest>;
+export const CreateCoursesCourseWorkRubricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    courseWorkId: Schema.String.pipe(T.HttpPath("courseWorkId")),
+    body: Schema.optional(Rubric).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWork/{courseWorkId}/rubrics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesCourseWorkRubricsRequest>;
 
 export type CreateCoursesCourseWorkRubricsResponse = Rubric;
-export const CreateCoursesCourseWorkRubricsResponse = Rubric;
+export const CreateCoursesCourseWorkRubricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Rubric;
 
 export type CreateCoursesCourseWorkRubricsError = DefaultErrors;
 
@@ -3629,7 +3741,7 @@ export const createCoursesCourseWorkRubrics: API.OperationMethod<
   CreateCoursesCourseWorkRubricsResponse,
   CreateCoursesCourseWorkRubricsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesCourseWorkRubricsRequest,
   output: CreateCoursesCourseWorkRubricsResponse,
   errors: [],
@@ -3642,20 +3754,22 @@ export interface CreateCoursesTeachersRequest {
   body?: Teacher;
 }
 
-export const CreateCoursesTeachersRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(Teacher).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/teachers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesTeachersRequest>;
+export const CreateCoursesTeachersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(Teacher).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/teachers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesTeachersRequest>;
 
 export type CreateCoursesTeachersResponse = Teacher;
-export const CreateCoursesTeachersResponse = Teacher;
+export const CreateCoursesTeachersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Teacher;
 
 export type CreateCoursesTeachersError = DefaultErrors;
 
@@ -3665,7 +3779,7 @@ export const createCoursesTeachers: API.OperationMethod<
   CreateCoursesTeachersResponse,
   CreateCoursesTeachersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesTeachersRequest,
   output: CreateCoursesTeachersResponse,
   errors: [],
@@ -3678,16 +3792,20 @@ export interface DeleteCoursesTeachersRequest {
   userId: string;
 }
 
-export const DeleteCoursesTeachersRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/courses/{courseId}/teachers/{userId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesTeachersRequest>;
+export const DeleteCoursesTeachersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/teachers/{userId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesTeachersRequest>;
 
 export type DeleteCoursesTeachersResponse = Empty;
-export const DeleteCoursesTeachersResponse = Empty;
+export const DeleteCoursesTeachersResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesTeachersError = DefaultErrors;
 
@@ -3697,7 +3815,7 @@ export const deleteCoursesTeachers: API.OperationMethod<
   DeleteCoursesTeachersResponse,
   DeleteCoursesTeachersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesTeachersRequest,
   output: DeleteCoursesTeachersResponse,
   errors: [],
@@ -3710,16 +3828,17 @@ export interface GetCoursesTeachersRequest {
   userId: string;
 }
 
-export const GetCoursesTeachersRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/teachers/{userId}" }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesTeachersRequest>;
+export const GetCoursesTeachersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/teachers/{userId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesTeachersRequest>;
 
 export type GetCoursesTeachersResponse = Teacher;
-export const GetCoursesTeachersResponse = Teacher;
+export const GetCoursesTeachersResponse = /*@__PURE__*/ /*#__PURE__*/ Teacher;
 
 export type GetCoursesTeachersError = DefaultErrors;
 
@@ -3729,7 +3848,7 @@ export const getCoursesTeachers: API.OperationMethod<
   GetCoursesTeachersResponse,
   GetCoursesTeachersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesTeachersRequest,
   output: GetCoursesTeachersResponse,
   errors: [],
@@ -3744,17 +3863,19 @@ export interface ListCoursesTeachersRequest {
   pageToken?: string;
 }
 
-export const ListCoursesTeachersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/teachers" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesTeachersRequest>;
+export const ListCoursesTeachersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/teachers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesTeachersRequest>;
 
 export type ListCoursesTeachersResponse = ListTeachersResponse;
-export const ListCoursesTeachersResponse = ListTeachersResponse;
+export const ListCoursesTeachersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTeachersResponse;
 
 export type ListCoursesTeachersError = DefaultErrors;
 
@@ -3764,7 +3885,7 @@ export const listCoursesTeachers: API.PaginatedOperationMethod<
   ListCoursesTeachersResponse,
   ListCoursesTeachersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesTeachersRequest,
   output: ListCoursesTeachersResponse,
   errors: [],
@@ -3796,29 +3917,33 @@ export interface ListCoursesCourseWorkMaterialsRequest {
   orderBy?: string;
 }
 
-export const ListCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  materialLink: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("materialLink"),
-  ),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  materialDriveId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("materialDriveId"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  courseWorkMaterialStates: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("courseWorkMaterialStates"),
-  ),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/courseWorkMaterials" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesCourseWorkMaterialsRequest>;
+export const ListCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    materialLink: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("materialLink"),
+    ),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    materialDriveId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("materialDriveId"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    courseWorkMaterialStates: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("courseWorkMaterialStates"),
+    ),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWorkMaterials",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesCourseWorkMaterialsRequest>;
 
 export type ListCoursesCourseWorkMaterialsResponse =
   ListCourseWorkMaterialResponse;
 export const ListCoursesCourseWorkMaterialsResponse =
-  ListCourseWorkMaterialResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCourseWorkMaterialResponse;
 
 export type ListCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -3828,7 +3953,7 @@ export const listCoursesCourseWorkMaterials: API.PaginatedOperationMethod<
   ListCoursesCourseWorkMaterialsResponse,
   ListCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkMaterialsRequest,
   output: ListCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -3845,19 +3970,21 @@ export interface GetCoursesCourseWorkMaterialsRequest {
   id: string;
 }
 
-export const GetCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesCourseWorkMaterialsRequest>;
+export const GetCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesCourseWorkMaterialsRequest>;
 
 export type GetCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
-export const GetCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
+export const GetCoursesCourseWorkMaterialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWorkMaterial;
 
 export type GetCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -3867,7 +3994,7 @@ export const getCoursesCourseWorkMaterials: API.OperationMethod<
   GetCoursesCourseWorkMaterialsResponse,
   GetCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkMaterialsRequest,
   output: GetCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -3886,24 +4013,26 @@ export interface GetAddOnContextCoursesCourseWorkMaterialsRequest {
   courseId: string;
 }
 
-export const GetAddOnContextCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("attachmentId"),
-  ),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnContext",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAddOnContextCoursesCourseWorkMaterialsRequest>;
+export const GetAddOnContextCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("attachmentId"),
+    ),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/courseWorkMaterials/{itemId}/addOnContext",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAddOnContextCoursesCourseWorkMaterialsRequest>;
 
 export type GetAddOnContextCoursesCourseWorkMaterialsResponse = AddOnContext;
-export const GetAddOnContextCoursesCourseWorkMaterialsResponse = AddOnContext;
+export const GetAddOnContextCoursesCourseWorkMaterialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnContext;
 
 export type GetAddOnContextCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -3913,7 +4042,7 @@ export const getAddOnContextCoursesCourseWorkMaterials: API.OperationMethod<
   GetAddOnContextCoursesCourseWorkMaterialsResponse,
   GetAddOnContextCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddOnContextCoursesCourseWorkMaterialsRequest,
   output: GetAddOnContextCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -3926,19 +4055,21 @@ export interface DeleteCoursesCourseWorkMaterialsRequest {
   id: string;
 }
 
-export const DeleteCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesCourseWorkMaterialsRequest>;
+export const DeleteCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesCourseWorkMaterialsRequest>;
 
 export type DeleteCoursesCourseWorkMaterialsResponse = Empty;
-export const DeleteCoursesCourseWorkMaterialsResponse = Empty;
+export const DeleteCoursesCourseWorkMaterialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -3948,7 +4079,7 @@ export const deleteCoursesCourseWorkMaterials: API.OperationMethod<
   DeleteCoursesCourseWorkMaterialsResponse,
   DeleteCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesCourseWorkMaterialsRequest,
   output: DeleteCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -3965,22 +4096,24 @@ export interface PatchCoursesCourseWorkMaterialsRequest {
   body?: CourseWorkMaterial;
 }
 
-export const PatchCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(CourseWorkMaterial).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesCourseWorkMaterialsRequest>;
+export const PatchCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(CourseWorkMaterial).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/courseWorkMaterials/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesCourseWorkMaterialsRequest>;
 
 export type PatchCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
-export const PatchCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
+export const PatchCoursesCourseWorkMaterialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWorkMaterial;
 
 export type PatchCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -3990,7 +4123,7 @@ export const patchCoursesCourseWorkMaterials: API.OperationMethod<
   PatchCoursesCourseWorkMaterialsResponse,
   PatchCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkMaterialsRequest,
   output: PatchCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -4003,20 +4136,22 @@ export interface CreateCoursesCourseWorkMaterialsRequest {
   body?: CourseWorkMaterial;
 }
 
-export const CreateCoursesCourseWorkMaterialsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(CourseWorkMaterial).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/courseWorkMaterials",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesCourseWorkMaterialsRequest>;
+export const CreateCoursesCourseWorkMaterialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(CourseWorkMaterial).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/courseWorkMaterials",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesCourseWorkMaterialsRequest>;
 
 export type CreateCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
-export const CreateCoursesCourseWorkMaterialsResponse = CourseWorkMaterial;
+export const CreateCoursesCourseWorkMaterialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CourseWorkMaterial;
 
 export type CreateCoursesCourseWorkMaterialsError = DefaultErrors;
 
@@ -4026,7 +4161,7 @@ export const createCoursesCourseWorkMaterials: API.OperationMethod<
   CreateCoursesCourseWorkMaterialsResponse,
   CreateCoursesCourseWorkMaterialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesCourseWorkMaterialsRequest,
   output: CreateCoursesCourseWorkMaterialsResponse,
   errors: [],
@@ -4048,7 +4183,7 @@ export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
 }
 
 export const PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
@@ -4067,7 +4202,7 @@ export const PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
 export type PatchCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
   AddOnAttachment;
 export const PatchCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
-  AddOnAttachment;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type PatchCoursesCourseWorkMaterialsAddOnAttachmentsError =
   DefaultErrors;
@@ -4078,7 +4213,7 @@ export const patchCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMetho
   PatchCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   PatchCoursesCourseWorkMaterialsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest,
   output: PatchCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   errors: [],
@@ -4098,7 +4233,7 @@ export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
 }
 
 export const CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
@@ -4116,7 +4251,7 @@ export const CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
 export type CreateCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
   AddOnAttachment;
 export const CreateCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
-  AddOnAttachment;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type CreateCoursesCourseWorkMaterialsAddOnAttachmentsError =
   DefaultErrors;
@@ -4127,7 +4262,7 @@ export const createCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMeth
   CreateCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   CreateCoursesCourseWorkMaterialsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest,
   output: CreateCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   errors: [],
@@ -4147,7 +4282,7 @@ export interface ListCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
 }
 
 export const ListCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
@@ -4164,7 +4299,7 @@ export const ListCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
 export type ListCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
   ListAddOnAttachmentsResponse;
 export const ListCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
-  ListAddOnAttachmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAddOnAttachmentsResponse;
 
 export type ListCoursesCourseWorkMaterialsAddOnAttachmentsError = DefaultErrors;
 
@@ -4174,7 +4309,7 @@ export const listCoursesCourseWorkMaterialsAddOnAttachments: API.PaginatedOperat
   ListCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   ListCoursesCourseWorkMaterialsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesCourseWorkMaterialsAddOnAttachmentsRequest,
   output: ListCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   errors: [],
@@ -4196,7 +4331,7 @@ export interface GetCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
 }
 
 export const GetCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
@@ -4212,7 +4347,7 @@ export const GetCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
 export type GetCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
   AddOnAttachment;
 export const GetCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
-  AddOnAttachment;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type GetCoursesCourseWorkMaterialsAddOnAttachmentsError = DefaultErrors;
 
@@ -4222,7 +4357,7 @@ export const getCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMethod<
   GetCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   GetCoursesCourseWorkMaterialsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesCourseWorkMaterialsAddOnAttachmentsRequest,
   output: GetCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   errors: [],
@@ -4240,7 +4375,7 @@ export interface DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
 }
 
 export const DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     itemId: Schema.String.pipe(T.HttpPath("itemId")),
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
@@ -4254,7 +4389,8 @@ export const DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest =
   ) as unknown as Schema.Schema<DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest>;
 
 export type DeleteCoursesCourseWorkMaterialsAddOnAttachmentsResponse = Empty;
-export const DeleteCoursesCourseWorkMaterialsAddOnAttachmentsResponse = Empty;
+export const DeleteCoursesCourseWorkMaterialsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesCourseWorkMaterialsAddOnAttachmentsError =
   DefaultErrors;
@@ -4265,7 +4401,7 @@ export const deleteCoursesCourseWorkMaterialsAddOnAttachments: API.OperationMeth
   DeleteCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   DeleteCoursesCourseWorkMaterialsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest,
   output: DeleteCoursesCourseWorkMaterialsAddOnAttachmentsResponse,
   errors: [],
@@ -4282,22 +4418,23 @@ export interface PatchCoursesTopicsRequest {
   body?: Topic;
 }
 
-export const PatchCoursesTopicsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(Topic).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/topics/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesTopicsRequest>;
+export const PatchCoursesTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(Topic).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/topics/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesTopicsRequest>;
 
 export type PatchCoursesTopicsResponse = Topic;
-export const PatchCoursesTopicsResponse = Topic;
+export const PatchCoursesTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type PatchCoursesTopicsError = DefaultErrors;
 
@@ -4307,7 +4444,7 @@ export const patchCoursesTopics: API.OperationMethod<
   PatchCoursesTopicsResponse,
   PatchCoursesTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesTopicsRequest,
   output: PatchCoursesTopicsResponse,
   errors: [],
@@ -4320,20 +4457,21 @@ export interface CreateCoursesTopicsRequest {
   body?: Topic;
 }
 
-export const CreateCoursesTopicsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(Topic).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/topics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesTopicsRequest>;
+export const CreateCoursesTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(Topic).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/topics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesTopicsRequest>;
 
 export type CreateCoursesTopicsResponse = Topic;
-export const CreateCoursesTopicsResponse = Topic;
+export const CreateCoursesTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type CreateCoursesTopicsError = DefaultErrors;
 
@@ -4343,7 +4481,7 @@ export const createCoursesTopics: API.OperationMethod<
   CreateCoursesTopicsResponse,
   CreateCoursesTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesTopicsRequest,
   output: CreateCoursesTopicsResponse,
   errors: [],
@@ -4356,16 +4494,17 @@ export interface GetCoursesTopicsRequest {
   id: string;
 }
 
-export const GetCoursesTopicsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/topics/{id}" }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesTopicsRequest>;
+export const GetCoursesTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/topics/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesTopicsRequest>;
 
 export type GetCoursesTopicsResponse = Topic;
-export const GetCoursesTopicsResponse = Topic;
+export const GetCoursesTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type GetCoursesTopicsError = DefaultErrors;
 
@@ -4375,7 +4514,7 @@ export const getCoursesTopics: API.OperationMethod<
   GetCoursesTopicsResponse,
   GetCoursesTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesTopicsRequest,
   output: GetCoursesTopicsResponse,
   errors: [],
@@ -4388,16 +4527,17 @@ export interface DeleteCoursesTopicsRequest {
   id: string;
 }
 
-export const DeleteCoursesTopicsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/courses/{courseId}/topics/{id}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesTopicsRequest>;
+export const DeleteCoursesTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/courses/{courseId}/topics/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesTopicsRequest>;
 
 export type DeleteCoursesTopicsResponse = Empty;
-export const DeleteCoursesTopicsResponse = Empty;
+export const DeleteCoursesTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesTopicsError = DefaultErrors;
 
@@ -4407,7 +4547,7 @@ export const deleteCoursesTopics: API.OperationMethod<
   DeleteCoursesTopicsResponse,
   DeleteCoursesTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesTopicsRequest,
   output: DeleteCoursesTopicsResponse,
   errors: [],
@@ -4422,17 +4562,19 @@ export interface ListCoursesTopicsRequest {
   pageToken?: string;
 }
 
-export const ListCoursesTopicsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/topics" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesTopicsRequest>;
+export const ListCoursesTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/topics" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesTopicsRequest>;
 
 export type ListCoursesTopicsResponse = ListTopicResponse;
-export const ListCoursesTopicsResponse = ListTopicResponse;
+export const ListCoursesTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTopicResponse;
 
 export type ListCoursesTopicsError = DefaultErrors;
 
@@ -4442,7 +4584,7 @@ export const listCoursesTopics: API.PaginatedOperationMethod<
   ListCoursesTopicsResponse,
   ListCoursesTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesTopicsRequest,
   output: ListCoursesTopicsResponse,
   errors: [],
@@ -4465,24 +4607,26 @@ export interface GetAddOnContextCoursesPostsRequest {
   attachmentId?: string;
 }
 
-export const GetAddOnContextCoursesPostsRequest = Schema.Struct({
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-  attachmentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("attachmentId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnContext",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAddOnContextCoursesPostsRequest>;
+export const GetAddOnContextCoursesPostsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+    attachmentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("attachmentId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnContext",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAddOnContextCoursesPostsRequest>;
 
 export type GetAddOnContextCoursesPostsResponse = AddOnContext;
-export const GetAddOnContextCoursesPostsResponse = AddOnContext;
+export const GetAddOnContextCoursesPostsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnContext;
 
 export type GetAddOnContextCoursesPostsError = DefaultErrors;
 
@@ -4492,7 +4636,7 @@ export const getAddOnContextCoursesPosts: API.OperationMethod<
   GetAddOnContextCoursesPostsResponse,
   GetAddOnContextCoursesPostsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddOnContextCoursesPostsRequest,
   output: GetAddOnContextCoursesPostsResponse,
   errors: [],
@@ -4511,24 +4655,25 @@ export interface ListCoursesPostsAddOnAttachmentsRequest {
   itemId?: string;
 }
 
-export const ListCoursesPostsAddOnAttachmentsRequest = Schema.Struct({
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesPostsAddOnAttachmentsRequest>;
+export const ListCoursesPostsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesPostsAddOnAttachmentsRequest>;
 
 export type ListCoursesPostsAddOnAttachmentsResponse =
   ListAddOnAttachmentsResponse;
 export const ListCoursesPostsAddOnAttachmentsResponse =
-  ListAddOnAttachmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAddOnAttachmentsResponse;
 
 export type ListCoursesPostsAddOnAttachmentsError = DefaultErrors;
 
@@ -4538,7 +4683,7 @@ export const listCoursesPostsAddOnAttachments: API.PaginatedOperationMethod<
   ListCoursesPostsAddOnAttachmentsResponse,
   ListCoursesPostsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesPostsAddOnAttachmentsRequest,
   output: ListCoursesPostsAddOnAttachmentsResponse,
   errors: [],
@@ -4559,21 +4704,23 @@ export interface GetCoursesPostsAddOnAttachmentsRequest {
   itemId?: string;
 }
 
-export const GetCoursesPostsAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesPostsAddOnAttachmentsRequest>;
+export const GetCoursesPostsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesPostsAddOnAttachmentsRequest>;
 
 export type GetCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
-export const GetCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
+export const GetCoursesPostsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type GetCoursesPostsAddOnAttachmentsError = DefaultErrors;
 
@@ -4583,7 +4730,7 @@ export const getCoursesPostsAddOnAttachments: API.OperationMethod<
   GetCoursesPostsAddOnAttachmentsResponse,
   GetCoursesPostsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesPostsAddOnAttachmentsRequest,
   output: GetCoursesPostsAddOnAttachmentsResponse,
   errors: [],
@@ -4600,21 +4747,23 @@ export interface DeleteCoursesPostsAddOnAttachmentsRequest {
   postId: string;
 }
 
-export const DeleteCoursesPostsAddOnAttachmentsRequest = Schema.Struct({
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesPostsAddOnAttachmentsRequest>;
+export const DeleteCoursesPostsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesPostsAddOnAttachmentsRequest>;
 
 export type DeleteCoursesPostsAddOnAttachmentsResponse = Empty;
-export const DeleteCoursesPostsAddOnAttachmentsResponse = Empty;
+export const DeleteCoursesPostsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesPostsAddOnAttachmentsError = DefaultErrors;
 
@@ -4624,7 +4773,7 @@ export const deleteCoursesPostsAddOnAttachments: API.OperationMethod<
   DeleteCoursesPostsAddOnAttachmentsResponse,
   DeleteCoursesPostsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesPostsAddOnAttachmentsRequest,
   output: DeleteCoursesPostsAddOnAttachmentsResponse,
   errors: [],
@@ -4645,24 +4794,26 @@ export interface PatchCoursesPostsAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const PatchCoursesPostsAddOnAttachmentsRequest = Schema.Struct({
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesPostsAddOnAttachmentsRequest>;
+export const PatchCoursesPostsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments/{attachmentId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesPostsAddOnAttachmentsRequest>;
 
 export type PatchCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
-export const PatchCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
+export const PatchCoursesPostsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type PatchCoursesPostsAddOnAttachmentsError = DefaultErrors;
 
@@ -4672,7 +4823,7 @@ export const patchCoursesPostsAddOnAttachments: API.OperationMethod<
   PatchCoursesPostsAddOnAttachmentsResponse,
   PatchCoursesPostsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesPostsAddOnAttachmentsRequest,
   output: PatchCoursesPostsAddOnAttachmentsResponse,
   errors: [],
@@ -4691,23 +4842,25 @@ export interface CreateCoursesPostsAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const CreateCoursesPostsAddOnAttachmentsRequest = Schema.Struct({
-  itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.String.pipe(T.HttpPath("postId")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesPostsAddOnAttachmentsRequest>;
+export const CreateCoursesPostsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.String.pipe(T.HttpPath("postId")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/posts/{postId}/addOnAttachments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesPostsAddOnAttachmentsRequest>;
 
 export type CreateCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
-export const CreateCoursesPostsAddOnAttachmentsResponse = AddOnAttachment;
+export const CreateCoursesPostsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type CreateCoursesPostsAddOnAttachmentsError = DefaultErrors;
 
@@ -4717,7 +4870,7 @@ export const createCoursesPostsAddOnAttachments: API.OperationMethod<
   CreateCoursesPostsAddOnAttachmentsResponse,
   CreateCoursesPostsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesPostsAddOnAttachmentsRequest,
   output: CreateCoursesPostsAddOnAttachmentsResponse,
   errors: [],
@@ -4741,7 +4894,7 @@ export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
 }
 
 export const PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     submissionId: Schema.String.pipe(T.HttpPath("submissionId")),
     postId: Schema.String.pipe(T.HttpPath("postId")),
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
@@ -4761,7 +4914,7 @@ export const PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest =
 export type PatchCoursesPostsAddOnAttachmentsStudentSubmissionsResponse =
   AddOnAttachmentStudentSubmission;
 export const PatchCoursesPostsAddOnAttachmentsStudentSubmissionsResponse =
-  AddOnAttachmentStudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachmentStudentSubmission;
 
 export type PatchCoursesPostsAddOnAttachmentsStudentSubmissionsError =
   DefaultErrors;
@@ -4772,7 +4925,7 @@ export const patchCoursesPostsAddOnAttachmentsStudentSubmissions: API.OperationM
   PatchCoursesPostsAddOnAttachmentsStudentSubmissionsResponse,
   PatchCoursesPostsAddOnAttachmentsStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest,
   output: PatchCoursesPostsAddOnAttachmentsStudentSubmissionsResponse,
   errors: [],
@@ -4792,7 +4945,7 @@ export interface GetCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
 }
 
 export const GetCoursesPostsAddOnAttachmentsStudentSubmissionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
     itemId: Schema.optional(Schema.String).pipe(T.HttpQuery("itemId")),
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
@@ -4809,7 +4962,7 @@ export const GetCoursesPostsAddOnAttachmentsStudentSubmissionsRequest =
 export type GetCoursesPostsAddOnAttachmentsStudentSubmissionsResponse =
   AddOnAttachmentStudentSubmission;
 export const GetCoursesPostsAddOnAttachmentsStudentSubmissionsResponse =
-  AddOnAttachmentStudentSubmission;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachmentStudentSubmission;
 
 export type GetCoursesPostsAddOnAttachmentsStudentSubmissionsError =
   DefaultErrors;
@@ -4820,7 +4973,7 @@ export const getCoursesPostsAddOnAttachmentsStudentSubmissions: API.OperationMet
   GetCoursesPostsAddOnAttachmentsStudentSubmissionsResponse,
   GetCoursesPostsAddOnAttachmentsStudentSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesPostsAddOnAttachmentsStudentSubmissionsRequest,
   output: GetCoursesPostsAddOnAttachmentsStudentSubmissionsResponse,
   errors: [],
@@ -4835,21 +4988,25 @@ export interface ModifyAssigneesCoursesAnnouncementsRequest {
   body?: ModifyAnnouncementAssigneesRequest;
 }
 
-export const ModifyAssigneesCoursesAnnouncementsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(ModifyAnnouncementAssigneesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/announcements/{id}:modifyAssignees",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyAssigneesCoursesAnnouncementsRequest>;
+export const ModifyAssigneesCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(ModifyAnnouncementAssigneesRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/announcements/{id}:modifyAssignees",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyAssigneesCoursesAnnouncementsRequest>;
 
 export type ModifyAssigneesCoursesAnnouncementsResponse = Announcement;
-export const ModifyAssigneesCoursesAnnouncementsResponse = Announcement;
+export const ModifyAssigneesCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Announcement;
 
 export type ModifyAssigneesCoursesAnnouncementsError = DefaultErrors;
 
@@ -4859,7 +5016,7 @@ export const modifyAssigneesCoursesAnnouncements: API.OperationMethod<
   ModifyAssigneesCoursesAnnouncementsResponse,
   ModifyAssigneesCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyAssigneesCoursesAnnouncementsRequest,
   output: ModifyAssigneesCoursesAnnouncementsResponse,
   errors: [],
@@ -4872,20 +5029,22 @@ export interface CreateCoursesAnnouncementsRequest {
   body?: Announcement;
 }
 
-export const CreateCoursesAnnouncementsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(Announcement).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/announcements",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesAnnouncementsRequest>;
+export const CreateCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(Announcement).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/announcements",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesAnnouncementsRequest>;
 
 export type CreateCoursesAnnouncementsResponse = Announcement;
-export const CreateCoursesAnnouncementsResponse = Announcement;
+export const CreateCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Announcement;
 
 export type CreateCoursesAnnouncementsError = DefaultErrors;
 
@@ -4895,7 +5054,7 @@ export const createCoursesAnnouncements: API.OperationMethod<
   CreateCoursesAnnouncementsResponse,
   CreateCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesAnnouncementsRequest,
   output: CreateCoursesAnnouncementsResponse,
   errors: [],
@@ -4912,22 +5071,24 @@ export interface PatchCoursesAnnouncementsRequest {
   body?: Announcement;
 }
 
-export const PatchCoursesAnnouncementsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  body: Schema.optional(Announcement).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/announcements/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesAnnouncementsRequest>;
+export const PatchCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    body: Schema.optional(Announcement).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/announcements/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesAnnouncementsRequest>;
 
 export type PatchCoursesAnnouncementsResponse = Announcement;
-export const PatchCoursesAnnouncementsResponse = Announcement;
+export const PatchCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Announcement;
 
 export type PatchCoursesAnnouncementsError = DefaultErrors;
 
@@ -4937,7 +5098,7 @@ export const patchCoursesAnnouncements: API.OperationMethod<
   PatchCoursesAnnouncementsResponse,
   PatchCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesAnnouncementsRequest,
   output: PatchCoursesAnnouncementsResponse,
   errors: [],
@@ -4961,21 +5122,23 @@ export interface ListCoursesAnnouncementsRequest {
   orderBy?: string;
 }
 
-export const ListCoursesAnnouncementsRequest = Schema.Struct({
-  announcementStates: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("announcementStates"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/announcements" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesAnnouncementsRequest>;
+export const ListCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    announcementStates: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("announcementStates"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/announcements" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesAnnouncementsRequest>;
 
 export type ListCoursesAnnouncementsResponse = ListAnnouncementsResponse;
-export const ListCoursesAnnouncementsResponse = ListAnnouncementsResponse;
+export const ListCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAnnouncementsResponse;
 
 export type ListCoursesAnnouncementsError = DefaultErrors;
 
@@ -4985,7 +5148,7 @@ export const listCoursesAnnouncements: API.PaginatedOperationMethod<
   ListCoursesAnnouncementsResponse,
   ListCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesAnnouncementsRequest,
   output: ListCoursesAnnouncementsResponse,
   errors: [],
@@ -5002,19 +5165,21 @@ export interface DeleteCoursesAnnouncementsRequest {
   id: string;
 }
 
-export const DeleteCoursesAnnouncementsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/announcements/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesAnnouncementsRequest>;
+export const DeleteCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/announcements/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesAnnouncementsRequest>;
 
 export type DeleteCoursesAnnouncementsResponse = Empty;
-export const DeleteCoursesAnnouncementsResponse = Empty;
+export const DeleteCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesAnnouncementsError = DefaultErrors;
 
@@ -5024,7 +5189,7 @@ export const deleteCoursesAnnouncements: API.OperationMethod<
   DeleteCoursesAnnouncementsResponse,
   DeleteCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesAnnouncementsRequest,
   output: DeleteCoursesAnnouncementsResponse,
   errors: [],
@@ -5037,16 +5202,18 @@ export interface GetCoursesAnnouncementsRequest {
   id: string;
 }
 
-export const GetCoursesAnnouncementsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/announcements/{id}" }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesAnnouncementsRequest>;
+export const GetCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/announcements/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesAnnouncementsRequest>;
 
 export type GetCoursesAnnouncementsResponse = Announcement;
-export const GetCoursesAnnouncementsResponse = Announcement;
+export const GetCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Announcement;
 
 export type GetCoursesAnnouncementsError = DefaultErrors;
 
@@ -5056,7 +5223,7 @@ export const getCoursesAnnouncements: API.OperationMethod<
   GetCoursesAnnouncementsResponse,
   GetCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesAnnouncementsRequest,
   output: GetCoursesAnnouncementsResponse,
   errors: [],
@@ -5075,24 +5242,26 @@ export interface GetAddOnContextCoursesAnnouncementsRequest {
   courseId: string;
 }
 
-export const GetAddOnContextCoursesAnnouncementsRequest = Schema.Struct({
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("attachmentId"),
-  ),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnContext",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAddOnContextCoursesAnnouncementsRequest>;
+export const GetAddOnContextCoursesAnnouncementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("attachmentId"),
+    ),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnContext",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAddOnContextCoursesAnnouncementsRequest>;
 
 export type GetAddOnContextCoursesAnnouncementsResponse = AddOnContext;
-export const GetAddOnContextCoursesAnnouncementsResponse = AddOnContext;
+export const GetAddOnContextCoursesAnnouncementsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnContext;
 
 export type GetAddOnContextCoursesAnnouncementsError = DefaultErrors;
 
@@ -5102,7 +5271,7 @@ export const getAddOnContextCoursesAnnouncements: API.OperationMethod<
   GetAddOnContextCoursesAnnouncementsResponse,
   GetAddOnContextCoursesAnnouncementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAddOnContextCoursesAnnouncementsRequest,
   output: GetAddOnContextCoursesAnnouncementsResponse,
   errors: [],
@@ -5121,25 +5290,26 @@ export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const CreateCoursesAnnouncementsAddOnAttachmentsRequest = Schema.Struct({
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesAnnouncementsAddOnAttachmentsRequest>;
+export const CreateCoursesAnnouncementsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    addOnToken: Schema.optional(Schema.String).pipe(T.HttpQuery("addOnToken")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesAnnouncementsAddOnAttachmentsRequest>;
 
 export type CreateCoursesAnnouncementsAddOnAttachmentsResponse =
   AddOnAttachment;
 export const CreateCoursesAnnouncementsAddOnAttachmentsResponse =
-  AddOnAttachment;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type CreateCoursesAnnouncementsAddOnAttachmentsError = DefaultErrors;
 
@@ -5149,7 +5319,7 @@ export const createCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   CreateCoursesAnnouncementsAddOnAttachmentsResponse,
   CreateCoursesAnnouncementsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesAnnouncementsAddOnAttachmentsRequest,
   output: CreateCoursesAnnouncementsAddOnAttachmentsResponse,
   errors: [],
@@ -5170,25 +5340,26 @@ export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
   body?: AddOnAttachment;
 }
 
-export const PatchCoursesAnnouncementsAddOnAttachmentsRequest = Schema.Struct({
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesAnnouncementsAddOnAttachmentsRequest>;
+export const PatchCoursesAnnouncementsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(AddOnAttachment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesAnnouncementsAddOnAttachmentsRequest>;
 
 export type PatchCoursesAnnouncementsAddOnAttachmentsResponse = AddOnAttachment;
 export const PatchCoursesAnnouncementsAddOnAttachmentsResponse =
-  AddOnAttachment;
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type PatchCoursesAnnouncementsAddOnAttachmentsError = DefaultErrors;
 
@@ -5198,7 +5369,7 @@ export const patchCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   PatchCoursesAnnouncementsAddOnAttachmentsResponse,
   PatchCoursesAnnouncementsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesAnnouncementsAddOnAttachmentsRequest,
   output: PatchCoursesAnnouncementsAddOnAttachmentsResponse,
   errors: [],
@@ -5217,24 +5388,25 @@ export interface ListCoursesAnnouncementsAddOnAttachmentsRequest {
   pageSize?: number;
 }
 
-export const ListCoursesAnnouncementsAddOnAttachmentsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesAnnouncementsAddOnAttachmentsRequest>;
+export const ListCoursesAnnouncementsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesAnnouncementsAddOnAttachmentsRequest>;
 
 export type ListCoursesAnnouncementsAddOnAttachmentsResponse =
   ListAddOnAttachmentsResponse;
 export const ListCoursesAnnouncementsAddOnAttachmentsResponse =
-  ListAddOnAttachmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAddOnAttachmentsResponse;
 
 export type ListCoursesAnnouncementsAddOnAttachmentsError = DefaultErrors;
 
@@ -5244,7 +5416,7 @@ export const listCoursesAnnouncementsAddOnAttachments: API.PaginatedOperationMet
   ListCoursesAnnouncementsAddOnAttachmentsResponse,
   ListCoursesAnnouncementsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesAnnouncementsAddOnAttachmentsRequest,
   output: ListCoursesAnnouncementsAddOnAttachmentsResponse,
   errors: [],
@@ -5265,21 +5437,23 @@ export interface DeleteCoursesAnnouncementsAddOnAttachmentsRequest {
   attachmentId: string;
 }
 
-export const DeleteCoursesAnnouncementsAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesAnnouncementsAddOnAttachmentsRequest>;
+export const DeleteCoursesAnnouncementsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesAnnouncementsAddOnAttachmentsRequest>;
 
 export type DeleteCoursesAnnouncementsAddOnAttachmentsResponse = Empty;
-export const DeleteCoursesAnnouncementsAddOnAttachmentsResponse = Empty;
+export const DeleteCoursesAnnouncementsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesAnnouncementsAddOnAttachmentsError = DefaultErrors;
 
@@ -5289,7 +5463,7 @@ export const deleteCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   DeleteCoursesAnnouncementsAddOnAttachmentsResponse,
   DeleteCoursesAnnouncementsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesAnnouncementsAddOnAttachmentsRequest,
   output: DeleteCoursesAnnouncementsAddOnAttachmentsResponse,
   errors: [],
@@ -5306,21 +5480,23 @@ export interface GetCoursesAnnouncementsAddOnAttachmentsRequest {
   attachmentId: string;
 }
 
-export const GetCoursesAnnouncementsAddOnAttachmentsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCoursesAnnouncementsAddOnAttachmentsRequest>;
+export const GetCoursesAnnouncementsAddOnAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    postId: Schema.optional(Schema.String).pipe(T.HttpQuery("postId")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    attachmentId: Schema.String.pipe(T.HttpPath("attachmentId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/announcements/{itemId}/addOnAttachments/{attachmentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCoursesAnnouncementsAddOnAttachmentsRequest>;
 
 export type GetCoursesAnnouncementsAddOnAttachmentsResponse = AddOnAttachment;
-export const GetCoursesAnnouncementsAddOnAttachmentsResponse = AddOnAttachment;
+export const GetCoursesAnnouncementsAddOnAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AddOnAttachment;
 
 export type GetCoursesAnnouncementsAddOnAttachmentsError = DefaultErrors;
 
@@ -5330,7 +5506,7 @@ export const getCoursesAnnouncementsAddOnAttachments: API.OperationMethod<
   GetCoursesAnnouncementsAddOnAttachmentsResponse,
   GetCoursesAnnouncementsAddOnAttachmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCoursesAnnouncementsAddOnAttachmentsRequest,
   output: GetCoursesAnnouncementsAddOnAttachmentsResponse,
   errors: [],
@@ -5347,22 +5523,24 @@ export interface PatchCoursesStudentGroupsRequest {
   body?: StudentGroup;
 }
 
-export const PatchCoursesStudentGroupsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(StudentGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/courses/{courseId}/studentGroups/{id}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCoursesStudentGroupsRequest>;
+export const PatchCoursesStudentGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(StudentGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/courses/{courseId}/studentGroups/{id}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCoursesStudentGroupsRequest>;
 
 export type PatchCoursesStudentGroupsResponse = StudentGroup;
-export const PatchCoursesStudentGroupsResponse = StudentGroup;
+export const PatchCoursesStudentGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ StudentGroup;
 
 export type PatchCoursesStudentGroupsError = DefaultErrors;
 
@@ -5372,7 +5550,7 @@ export const patchCoursesStudentGroups: API.OperationMethod<
   PatchCoursesStudentGroupsResponse,
   PatchCoursesStudentGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCoursesStudentGroupsRequest,
   output: PatchCoursesStudentGroupsResponse,
   errors: [],
@@ -5385,20 +5563,22 @@ export interface CreateCoursesStudentGroupsRequest {
   body?: StudentGroup;
 }
 
-export const CreateCoursesStudentGroupsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  body: Schema.optional(StudentGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/courses/{courseId}/studentGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCoursesStudentGroupsRequest>;
+export const CreateCoursesStudentGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    body: Schema.optional(StudentGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/courses/{courseId}/studentGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCoursesStudentGroupsRequest>;
 
 export type CreateCoursesStudentGroupsResponse = StudentGroup;
-export const CreateCoursesStudentGroupsResponse = StudentGroup;
+export const CreateCoursesStudentGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ StudentGroup;
 
 export type CreateCoursesStudentGroupsError = DefaultErrors;
 
@@ -5408,7 +5588,7 @@ export const createCoursesStudentGroups: API.OperationMethod<
   CreateCoursesStudentGroupsResponse,
   CreateCoursesStudentGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesStudentGroupsRequest,
   output: CreateCoursesStudentGroupsResponse,
   errors: [],
@@ -5421,19 +5601,21 @@ export interface DeleteCoursesStudentGroupsRequest {
   id: string;
 }
 
-export const DeleteCoursesStudentGroupsRequest = Schema.Struct({
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/courses/{courseId}/studentGroups/{id}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCoursesStudentGroupsRequest>;
+export const DeleteCoursesStudentGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/courses/{courseId}/studentGroups/{id}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCoursesStudentGroupsRequest>;
 
 export type DeleteCoursesStudentGroupsResponse = Empty;
-export const DeleteCoursesStudentGroupsResponse = Empty;
+export const DeleteCoursesStudentGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesStudentGroupsError = DefaultErrors;
 
@@ -5443,7 +5625,7 @@ export const deleteCoursesStudentGroups: API.OperationMethod<
   DeleteCoursesStudentGroupsResponse,
   DeleteCoursesStudentGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesStudentGroupsRequest,
   output: DeleteCoursesStudentGroupsResponse,
   errors: [],
@@ -5458,17 +5640,19 @@ export interface ListCoursesStudentGroupsRequest {
   pageToken?: string;
 }
 
-export const ListCoursesStudentGroupsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  courseId: Schema.String.pipe(T.HttpPath("courseId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/courses/{courseId}/studentGroups" }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesStudentGroupsRequest>;
+export const ListCoursesStudentGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    courseId: Schema.String.pipe(T.HttpPath("courseId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/courses/{courseId}/studentGroups" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesStudentGroupsRequest>;
 
 export type ListCoursesStudentGroupsResponse = ListStudentGroupsResponse;
-export const ListCoursesStudentGroupsResponse = ListStudentGroupsResponse;
+export const ListCoursesStudentGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListStudentGroupsResponse;
 
 export type ListCoursesStudentGroupsError = DefaultErrors;
 
@@ -5478,7 +5662,7 @@ export const listCoursesStudentGroups: API.PaginatedOperationMethod<
   ListCoursesStudentGroupsResponse,
   ListCoursesStudentGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesStudentGroupsRequest,
   output: ListCoursesStudentGroupsResponse,
   errors: [],
@@ -5498,7 +5682,7 @@ export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
 }
 
 export const CreateCoursesStudentGroupsStudentGroupMembersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     studentGroupId: Schema.String.pipe(T.HttpPath("studentGroupId")),
     body: Schema.optional(StudentGroupMember).pipe(T.HttpBody()),
@@ -5514,7 +5698,7 @@ export const CreateCoursesStudentGroupsStudentGroupMembersRequest =
 export type CreateCoursesStudentGroupsStudentGroupMembersResponse =
   StudentGroupMember;
 export const CreateCoursesStudentGroupsStudentGroupMembersResponse =
-  StudentGroupMember;
+  /*@__PURE__*/ /*#__PURE__*/ StudentGroupMember;
 
 export type CreateCoursesStudentGroupsStudentGroupMembersError = DefaultErrors;
 
@@ -5524,7 +5708,7 @@ export const createCoursesStudentGroupsStudentGroupMembers: API.OperationMethod<
   CreateCoursesStudentGroupsStudentGroupMembersResponse,
   CreateCoursesStudentGroupsStudentGroupMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCoursesStudentGroupsStudentGroupMembersRequest,
   output: CreateCoursesStudentGroupsStudentGroupMembersResponse,
   errors: [],
@@ -5540,7 +5724,7 @@ export interface DeleteCoursesStudentGroupsStudentGroupMembersRequest {
 }
 
 export const DeleteCoursesStudentGroupsStudentGroupMembersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     studentGroupId: Schema.String.pipe(T.HttpPath("studentGroupId")),
     userId: Schema.String.pipe(T.HttpPath("userId")),
@@ -5553,7 +5737,8 @@ export const DeleteCoursesStudentGroupsStudentGroupMembersRequest =
   ) as unknown as Schema.Schema<DeleteCoursesStudentGroupsStudentGroupMembersRequest>;
 
 export type DeleteCoursesStudentGroupsStudentGroupMembersResponse = Empty;
-export const DeleteCoursesStudentGroupsStudentGroupMembersResponse = Empty;
+export const DeleteCoursesStudentGroupsStudentGroupMembersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCoursesStudentGroupsStudentGroupMembersError = DefaultErrors;
 
@@ -5563,7 +5748,7 @@ export const deleteCoursesStudentGroupsStudentGroupMembers: API.OperationMethod<
   DeleteCoursesStudentGroupsStudentGroupMembersResponse,
   DeleteCoursesStudentGroupsStudentGroupMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCoursesStudentGroupsStudentGroupMembersRequest,
   output: DeleteCoursesStudentGroupsStudentGroupMembersResponse,
   errors: [],
@@ -5580,25 +5765,24 @@ export interface ListCoursesStudentGroupsStudentGroupMembersRequest {
   studentGroupId: string;
 }
 
-export const ListCoursesStudentGroupsStudentGroupMembersRequest = Schema.Struct(
-  {
+export const ListCoursesStudentGroupsStudentGroupMembersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     courseId: Schema.String.pipe(T.HttpPath("courseId")),
     studentGroupId: Schema.String.pipe(T.HttpPath("studentGroupId")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/courses/{courseId}/studentGroups/{studentGroupId}/studentGroupMembers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCoursesStudentGroupsStudentGroupMembersRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/courses/{courseId}/studentGroups/{studentGroupId}/studentGroupMembers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCoursesStudentGroupsStudentGroupMembersRequest>;
 
 export type ListCoursesStudentGroupsStudentGroupMembersResponse =
   ListStudentGroupMembersResponse;
 export const ListCoursesStudentGroupsStudentGroupMembersResponse =
-  ListStudentGroupMembersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListStudentGroupMembersResponse;
 
 export type ListCoursesStudentGroupsStudentGroupMembersError = DefaultErrors;
 
@@ -5608,7 +5792,7 @@ export const listCoursesStudentGroupsStudentGroupMembers: API.PaginatedOperation
   ListCoursesStudentGroupsStudentGroupMembersResponse,
   ListCoursesStudentGroupsStudentGroupMembersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCoursesStudentGroupsStudentGroupMembersRequest,
   output: ListCoursesStudentGroupsStudentGroupMembersResponse,
   errors: [],
@@ -5623,15 +5807,17 @@ export interface GetUserProfilesRequest {
   userId: string;
 }
 
-export const GetUserProfilesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
+export const GetUserProfilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/userProfiles/{userId}" }),
   svc,
 ) as unknown as Schema.Schema<GetUserProfilesRequest>;
 
 export type GetUserProfilesResponse = UserProfile;
-export const GetUserProfilesResponse = UserProfile;
+export const GetUserProfilesResponse = /*@__PURE__*/ /*#__PURE__*/ UserProfile;
 
 export type GetUserProfilesError = DefaultErrors;
 
@@ -5641,7 +5827,7 @@ export const getUserProfiles: API.OperationMethod<
   GetUserProfilesResponse,
   GetUserProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserProfilesRequest,
   output: GetUserProfilesResponse,
   errors: [],
@@ -5664,28 +5850,29 @@ export interface ListUserProfilesGuardianInvitationsRequest {
   pageSize?: number;
 }
 
-export const ListUserProfilesGuardianInvitationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("states"),
-  ),
-  invitedEmailAddress: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("invitedEmailAddress"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/userProfiles/{studentId}/guardianInvitations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListUserProfilesGuardianInvitationsRequest>;
+export const ListUserProfilesGuardianInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    states: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("states"),
+    ),
+    invitedEmailAddress: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("invitedEmailAddress"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/userProfiles/{studentId}/guardianInvitations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListUserProfilesGuardianInvitationsRequest>;
 
 export type ListUserProfilesGuardianInvitationsResponse =
   ListGuardianInvitationsResponse;
 export const ListUserProfilesGuardianInvitationsResponse =
-  ListGuardianInvitationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListGuardianInvitationsResponse;
 
 export type ListUserProfilesGuardianInvitationsError = DefaultErrors;
 
@@ -5695,7 +5882,7 @@ export const listUserProfilesGuardianInvitations: API.PaginatedOperationMethod<
   ListUserProfilesGuardianInvitationsResponse,
   ListUserProfilesGuardianInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUserProfilesGuardianInvitationsRequest,
   output: ListUserProfilesGuardianInvitationsResponse,
   errors: [],
@@ -5712,20 +5899,22 @@ export interface CreateUserProfilesGuardianInvitationsRequest {
   body?: GuardianInvitation;
 }
 
-export const CreateUserProfilesGuardianInvitationsRequest = Schema.Struct({
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  body: Schema.optional(GuardianInvitation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/userProfiles/{studentId}/guardianInvitations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateUserProfilesGuardianInvitationsRequest>;
+export const CreateUserProfilesGuardianInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    body: Schema.optional(GuardianInvitation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/userProfiles/{studentId}/guardianInvitations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateUserProfilesGuardianInvitationsRequest>;
 
 export type CreateUserProfilesGuardianInvitationsResponse = GuardianInvitation;
-export const CreateUserProfilesGuardianInvitationsResponse = GuardianInvitation;
+export const CreateUserProfilesGuardianInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuardianInvitation;
 
 export type CreateUserProfilesGuardianInvitationsError = DefaultErrors;
 
@@ -5735,7 +5924,7 @@ export const createUserProfilesGuardianInvitations: API.OperationMethod<
   CreateUserProfilesGuardianInvitationsResponse,
   CreateUserProfilesGuardianInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUserProfilesGuardianInvitationsRequest,
   output: CreateUserProfilesGuardianInvitationsResponse,
   errors: [],
@@ -5748,19 +5937,21 @@ export interface GetUserProfilesGuardianInvitationsRequest {
   invitationId: string;
 }
 
-export const GetUserProfilesGuardianInvitationsRequest = Schema.Struct({
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/userProfiles/{studentId}/guardianInvitations/{invitationId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUserProfilesGuardianInvitationsRequest>;
+export const GetUserProfilesGuardianInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/userProfiles/{studentId}/guardianInvitations/{invitationId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUserProfilesGuardianInvitationsRequest>;
 
 export type GetUserProfilesGuardianInvitationsResponse = GuardianInvitation;
-export const GetUserProfilesGuardianInvitationsResponse = GuardianInvitation;
+export const GetUserProfilesGuardianInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuardianInvitation;
 
 export type GetUserProfilesGuardianInvitationsError = DefaultErrors;
 
@@ -5770,7 +5961,7 @@ export const getUserProfilesGuardianInvitations: API.OperationMethod<
   GetUserProfilesGuardianInvitationsResponse,
   GetUserProfilesGuardianInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserProfilesGuardianInvitationsRequest,
   output: GetUserProfilesGuardianInvitationsResponse,
   errors: [],
@@ -5787,22 +5978,24 @@ export interface PatchUserProfilesGuardianInvitationsRequest {
   body?: GuardianInvitation;
 }
 
-export const PatchUserProfilesGuardianInvitationsRequest = Schema.Struct({
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GuardianInvitation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/userProfiles/{studentId}/guardianInvitations/{invitationId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchUserProfilesGuardianInvitationsRequest>;
+export const PatchUserProfilesGuardianInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GuardianInvitation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/userProfiles/{studentId}/guardianInvitations/{invitationId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchUserProfilesGuardianInvitationsRequest>;
 
 export type PatchUserProfilesGuardianInvitationsResponse = GuardianInvitation;
-export const PatchUserProfilesGuardianInvitationsResponse = GuardianInvitation;
+export const PatchUserProfilesGuardianInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuardianInvitation;
 
 export type PatchUserProfilesGuardianInvitationsError = DefaultErrors;
 
@@ -5812,7 +6005,7 @@ export const patchUserProfilesGuardianInvitations: API.OperationMethod<
   PatchUserProfilesGuardianInvitationsResponse,
   PatchUserProfilesGuardianInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUserProfilesGuardianInvitationsRequest,
   output: PatchUserProfilesGuardianInvitationsResponse,
   errors: [],
@@ -5829,20 +6022,22 @@ export interface ListUserProfilesGuardiansRequest {
   pageSize?: number;
 }
 
-export const ListUserProfilesGuardiansRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  invitedEmailAddress: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("invitedEmailAddress"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/userProfiles/{studentId}/guardians" }),
-  svc,
-) as unknown as Schema.Schema<ListUserProfilesGuardiansRequest>;
+export const ListUserProfilesGuardiansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    invitedEmailAddress: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("invitedEmailAddress"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/userProfiles/{studentId}/guardians" }),
+    svc,
+  ) as unknown as Schema.Schema<ListUserProfilesGuardiansRequest>;
 
 export type ListUserProfilesGuardiansResponse = ListGuardiansResponse;
-export const ListUserProfilesGuardiansResponse = ListGuardiansResponse;
+export const ListUserProfilesGuardiansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListGuardiansResponse;
 
 export type ListUserProfilesGuardiansError = DefaultErrors;
 
@@ -5852,7 +6047,7 @@ export const listUserProfilesGuardians: API.PaginatedOperationMethod<
   ListUserProfilesGuardiansResponse,
   ListUserProfilesGuardiansError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUserProfilesGuardiansRequest,
   output: ListUserProfilesGuardiansResponse,
   errors: [],
@@ -5869,19 +6064,21 @@ export interface GetUserProfilesGuardiansRequest {
   guardianId: string;
 }
 
-export const GetUserProfilesGuardiansRequest = Schema.Struct({
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  guardianId: Schema.String.pipe(T.HttpPath("guardianId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/userProfiles/{studentId}/guardians/{guardianId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUserProfilesGuardiansRequest>;
+export const GetUserProfilesGuardiansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    guardianId: Schema.String.pipe(T.HttpPath("guardianId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/userProfiles/{studentId}/guardians/{guardianId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUserProfilesGuardiansRequest>;
 
 export type GetUserProfilesGuardiansResponse = Guardian;
-export const GetUserProfilesGuardiansResponse = Guardian;
+export const GetUserProfilesGuardiansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Guardian;
 
 export type GetUserProfilesGuardiansError = DefaultErrors;
 
@@ -5891,7 +6088,7 @@ export const getUserProfilesGuardians: API.OperationMethod<
   GetUserProfilesGuardiansResponse,
   GetUserProfilesGuardiansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserProfilesGuardiansRequest,
   output: GetUserProfilesGuardiansResponse,
   errors: [],
@@ -5904,19 +6101,21 @@ export interface DeleteUserProfilesGuardiansRequest {
   guardianId: string;
 }
 
-export const DeleteUserProfilesGuardiansRequest = Schema.Struct({
-  studentId: Schema.String.pipe(T.HttpPath("studentId")),
-  guardianId: Schema.String.pipe(T.HttpPath("guardianId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/userProfiles/{studentId}/guardians/{guardianId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteUserProfilesGuardiansRequest>;
+export const DeleteUserProfilesGuardiansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    studentId: Schema.String.pipe(T.HttpPath("studentId")),
+    guardianId: Schema.String.pipe(T.HttpPath("guardianId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/userProfiles/{studentId}/guardians/{guardianId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUserProfilesGuardiansRequest>;
 
 export type DeleteUserProfilesGuardiansResponse = Empty;
-export const DeleteUserProfilesGuardiansResponse = Empty;
+export const DeleteUserProfilesGuardiansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteUserProfilesGuardiansError = DefaultErrors;
 
@@ -5926,7 +6125,7 @@ export const deleteUserProfilesGuardians: API.OperationMethod<
   DeleteUserProfilesGuardiansResponse,
   DeleteUserProfilesGuardiansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUserProfilesGuardiansRequest,
   output: DeleteUserProfilesGuardiansResponse,
   errors: [],
@@ -5937,15 +6136,20 @@ export interface AcceptInvitationsRequest {
   id: string;
 }
 
-export const AcceptInvitationsRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/invitations/{id}:accept", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AcceptInvitationsRequest>;
+export const AcceptInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/invitations/{id}:accept",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptInvitationsRequest>;
 
 export type AcceptInvitationsResponse = Empty;
-export const AcceptInvitationsResponse = Empty;
+export const AcceptInvitationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AcceptInvitationsError = DefaultErrors;
 
@@ -5955,7 +6159,7 @@ export const acceptInvitations: API.OperationMethod<
   AcceptInvitationsResponse,
   AcceptInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptInvitationsRequest,
   output: AcceptInvitationsResponse,
   errors: [],
@@ -5966,15 +6170,16 @@ export interface CreateInvitationsRequest {
   body?: Invitation;
 }
 
-export const CreateInvitationsRequest = Schema.Struct({
-  body: Schema.optional(Invitation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/invitations", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInvitationsRequest>;
+export const CreateInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Invitation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/invitations", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInvitationsRequest>;
 
 export type CreateInvitationsResponse = Invitation;
-export const CreateInvitationsResponse = Invitation;
+export const CreateInvitationsResponse = /*@__PURE__*/ /*#__PURE__*/ Invitation;
 
 export type CreateInvitationsError = DefaultErrors;
 
@@ -5984,7 +6189,7 @@ export const createInvitations: API.OperationMethod<
   CreateInvitationsResponse,
   CreateInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInvitationsRequest,
   output: CreateInvitationsResponse,
   errors: [],
@@ -6001,18 +6206,21 @@ export interface ListInvitationsRequest {
   pageToken?: string;
 }
 
-export const ListInvitationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
-  courseId: Schema.optional(Schema.String).pipe(T.HttpQuery("courseId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
+export const ListInvitationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    userId: Schema.optional(Schema.String).pipe(T.HttpQuery("userId")),
+    courseId: Schema.optional(Schema.String).pipe(T.HttpQuery("courseId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/invitations" }),
   svc,
 ) as unknown as Schema.Schema<ListInvitationsRequest>;
 
 export type ListInvitationsResponse_Op = ListInvitationsResponse;
-export const ListInvitationsResponse_Op = ListInvitationsResponse;
+export const ListInvitationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListInvitationsResponse;
 
 export type ListInvitationsError = DefaultErrors;
 
@@ -6022,7 +6230,7 @@ export const listInvitations: API.PaginatedOperationMethod<
   ListInvitationsResponse_Op,
   ListInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInvitationsRequest,
   output: ListInvitationsResponse_Op,
   errors: [],
@@ -6037,15 +6245,16 @@ export interface DeleteInvitationsRequest {
   id: string;
 }
 
-export const DeleteInvitationsRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/invitations/{id}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteInvitationsRequest>;
+export const DeleteInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/invitations/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInvitationsRequest>;
 
 export type DeleteInvitationsResponse = Empty;
-export const DeleteInvitationsResponse = Empty;
+export const DeleteInvitationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteInvitationsError = DefaultErrors;
 
@@ -6055,7 +6264,7 @@ export const deleteInvitations: API.OperationMethod<
   DeleteInvitationsResponse,
   DeleteInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInvitationsRequest,
   output: DeleteInvitationsResponse,
   errors: [],
@@ -6066,7 +6275,7 @@ export interface GetInvitationsRequest {
   id: string;
 }
 
-export const GetInvitationsRequest = Schema.Struct({
+export const GetInvitationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/invitations/{id}" }),
@@ -6074,7 +6283,7 @@ export const GetInvitationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetInvitationsRequest>;
 
 export type GetInvitationsResponse = Invitation;
-export const GetInvitationsResponse = Invitation;
+export const GetInvitationsResponse = /*@__PURE__*/ /*#__PURE__*/ Invitation;
 
 export type GetInvitationsError = DefaultErrors;
 
@@ -6084,7 +6293,7 @@ export const getInvitations: API.OperationMethod<
   GetInvitationsResponse,
   GetInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInvitationsRequest,
   output: GetInvitationsResponse,
   errors: [],

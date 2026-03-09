@@ -29,15 +29,15 @@ export interface CustomLocalAqi {
   aqi?: string;
 }
 
-export const CustomLocalAqi: Schema.Schema<CustomLocalAqi> = Schema.suspend(
-  () =>
+export const CustomLocalAqi: Schema.Schema<CustomLocalAqi> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
       aqi: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomLocalAqi",
-}) as any as Schema.Schema<CustomLocalAqi>;
+  ).annotate({
+    identifier: "CustomLocalAqi",
+  }) as any as Schema.Schema<CustomLocalAqi>;
 
 export interface Concentration {
   /** Value of the pollutant concentration. */
@@ -50,14 +50,15 @@ export interface Concentration {
     | (string & {});
 }
 
-export const Concentration: Schema.Schema<Concentration> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.Number),
-    units: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Concentration",
-}) as any as Schema.Schema<Concentration>;
+export const Concentration: Schema.Schema<Concentration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Number),
+      units: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Concentration",
+  }) as any as Schema.Schema<Concentration>;
 
 export interface Color {
   /** The amount of blue in the color as a value in the interval [0, 1]. */
@@ -70,14 +71,15 @@ export interface Color {
   green?: number;
 }
 
-export const Color: Schema.Schema<Color> = Schema.suspend(() =>
-  Schema.Struct({
-    blue: Schema.optional(Schema.Number),
-    alpha: Schema.optional(Schema.Number),
-    red: Schema.optional(Schema.Number),
-    green: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
+export const Color: Schema.Schema<Color> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      blue: Schema.optional(Schema.Number),
+      alpha: Schema.optional(Schema.Number),
+      red: Schema.optional(Schema.Number),
+      green: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Color" }) as any as Schema.Schema<Color>;
 
 export interface AirQualityIndex {
   /** The chemical symbol of the dominant pollutant. For example: "CO". */
@@ -96,8 +98,8 @@ export interface AirQualityIndex {
   aqiDisplay?: string;
 }
 
-export const AirQualityIndex: Schema.Schema<AirQualityIndex> = Schema.suspend(
-  () =>
+export const AirQualityIndex: Schema.Schema<AirQualityIndex> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dominantPollutant: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -107,9 +109,9 @@ export const AirQualityIndex: Schema.Schema<AirQualityIndex> = Schema.suspend(
       aqi: Schema.optional(Schema.Number),
       aqiDisplay: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AirQualityIndex",
-}) as any as Schema.Schema<AirQualityIndex>;
+  ).annotate({
+    identifier: "AirQualityIndex",
+  }) as any as Schema.Schema<AirQualityIndex>;
 
 export interface AdditionalInfo {
   /** Text representing the pollutant's main emission sources. */
@@ -118,15 +120,15 @@ export interface AdditionalInfo {
   effects?: string;
 }
 
-export const AdditionalInfo: Schema.Schema<AdditionalInfo> = Schema.suspend(
-  () =>
+export const AdditionalInfo: Schema.Schema<AdditionalInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(Schema.String),
       effects: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AdditionalInfo",
-}) as any as Schema.Schema<AdditionalInfo>;
+  ).annotate({
+    identifier: "AdditionalInfo",
+  }) as any as Schema.Schema<AdditionalInfo>;
 
 export interface Pollutant {
   /** The pollutant's full name. For chemical compounds, this is the IUPAC name. Example: "Sulfur Dioxide". For more information about the IUPAC names table, see https://iupac.org/what-we-do/periodic-table-of-elements/. */
@@ -141,15 +143,16 @@ export interface Pollutant {
   additionalInfo?: AdditionalInfo;
 }
 
-export const Pollutant: Schema.Schema<Pollutant> = Schema.suspend(() =>
-  Schema.Struct({
-    fullName: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    concentration: Schema.optional(Concentration),
-    additionalInfo: Schema.optional(AdditionalInfo),
-  }),
-).annotate({ identifier: "Pollutant" }) as any as Schema.Schema<Pollutant>;
+export const Pollutant: Schema.Schema<Pollutant> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fullName: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      concentration: Schema.optional(Concentration),
+      additionalInfo: Schema.optional(AdditionalInfo),
+    }),
+  ).annotate({ identifier: "Pollutant" }) as any as Schema.Schema<Pollutant>;
 
 export interface HealthRecommendations {
   /** Sports and other strenuous outdoor activities. */
@@ -169,7 +172,7 @@ export interface HealthRecommendations {
 }
 
 export const HealthRecommendations: Schema.Schema<HealthRecommendations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       athletes: Schema.optional(Schema.String),
       elderly: Schema.optional(Schema.String),
@@ -194,14 +197,15 @@ export interface HourInfo {
   healthRecommendations?: HealthRecommendations;
 }
 
-export const HourInfo: Schema.Schema<HourInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    dateTime: Schema.optional(Schema.String),
-    indexes: Schema.optional(Schema.Array(AirQualityIndex)),
-    pollutants: Schema.optional(Schema.Array(Pollutant)),
-    healthRecommendations: Schema.optional(HealthRecommendations),
-  }),
-).annotate({ identifier: "HourInfo" }) as any as Schema.Schema<HourInfo>;
+export const HourInfo: Schema.Schema<HourInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dateTime: Schema.optional(Schema.String),
+      indexes: Schema.optional(Schema.Array(AirQualityIndex)),
+      pollutants: Schema.optional(Schema.Array(Pollutant)),
+      healthRecommendations: Schema.optional(HealthRecommendations),
+    }),
+  ).annotate({ identifier: "HourInfo" }) as any as Schema.Schema<HourInfo>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -210,12 +214,13 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface LatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
@@ -224,12 +229,13 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    longitude: Schema.optional(Schema.Number),
-    latitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      longitude: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface LookupForecastRequest {
   /** Optional. If set to true, the Universal AQI will be included in the 'indexes' field of the response (default = true). */
@@ -268,7 +274,7 @@ export interface LookupForecastRequest {
 }
 
 export const LookupForecastRequest: Schema.Schema<LookupForecastRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       universalAqi: Schema.optional(Schema.Boolean),
       uaqiColorPalette: Schema.optional(Schema.String),
@@ -295,7 +301,7 @@ export interface LookupHistoryResponse {
 }
 
 export const LookupHistoryResponse: Schema.Schema<LookupHistoryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
@@ -316,17 +322,17 @@ export interface HourlyForecast {
   healthRecommendations?: HealthRecommendations;
 }
 
-export const HourlyForecast: Schema.Schema<HourlyForecast> = Schema.suspend(
-  () =>
+export const HourlyForecast: Schema.Schema<HourlyForecast> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateTime: Schema.optional(Schema.String),
       indexes: Schema.optional(Schema.Array(AirQualityIndex)),
       pollutants: Schema.optional(Schema.Array(Pollutant)),
       healthRecommendations: Schema.optional(HealthRecommendations),
     }),
-).annotate({
-  identifier: "HourlyForecast",
-}) as any as Schema.Schema<HourlyForecast>;
+  ).annotate({
+    identifier: "HourlyForecast",
+  }) as any as Schema.Schema<HourlyForecast>;
 
 export interface LookupHistoryRequest {
   /** Optional. If set to true, the Universal AQI will be included in the 'indexes' field of the response. Default value is true. */
@@ -367,7 +373,7 @@ export interface LookupHistoryRequest {
 }
 
 export const LookupHistoryRequest: Schema.Schema<LookupHistoryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       universalAqi: Schema.optional(Schema.Boolean),
       pageSize: Schema.optional(Schema.Number),
@@ -399,7 +405,7 @@ export interface LookupCurrentConditionsResponse {
 }
 
 export const LookupCurrentConditionsResponse: Schema.Schema<LookupCurrentConditionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pollutants: Schema.optional(Schema.Array(Pollutant)),
       dateTime: Schema.optional(Schema.String),
@@ -420,15 +426,16 @@ export interface HttpBody {
   data?: string;
 }
 
-export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() =>
-  Schema.Struct({
-    contentType: Schema.optional(Schema.String),
-    extensions: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    data: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
+export const HttpBody: Schema.Schema<HttpBody> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentType: Schema.optional(Schema.String),
+      extensions: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      data: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
 
 export interface LookupForecastResponse {
   /** Optional. Contains the air quality information for each hour in the requested range. For example, if the request is for 48 hours of forecast there will be 48 elements of hourly forecasts. */
@@ -440,7 +447,7 @@ export interface LookupForecastResponse {
 }
 
 export const LookupForecastResponse: Schema.Schema<LookupForecastResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hourlyForecasts: Schema.optional(Schema.Array(HourlyForecast)),
       nextPageToken: Schema.optional(Schema.String),
@@ -479,7 +486,7 @@ export interface LookupCurrentConditionsRequest {
 }
 
 export const LookupCurrentConditionsRequest: Schema.Schema<LookupCurrentConditionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uaqiColorPalette: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -501,21 +508,22 @@ export interface LookupCurrentConditionsRequest_Op {
   body?: LookupCurrentConditionsRequest;
 }
 
-export const LookupCurrentConditionsRequest_Op = Schema.Struct({
-  body: Schema.optional(LookupCurrentConditionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/currentConditions:lookup",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LookupCurrentConditionsRequest_Op>;
+export const LookupCurrentConditionsRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LookupCurrentConditionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/currentConditions:lookup",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupCurrentConditionsRequest_Op>;
 
 export type LookupCurrentConditionsResponse_Op =
   LookupCurrentConditionsResponse;
 export const LookupCurrentConditionsResponse_Op =
-  LookupCurrentConditionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LookupCurrentConditionsResponse;
 
 export type LookupCurrentConditionsError = DefaultErrors;
 
@@ -525,7 +533,7 @@ export const lookupCurrentConditions: API.OperationMethod<
   LookupCurrentConditionsResponse_Op,
   LookupCurrentConditionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupCurrentConditionsRequest_Op,
   output: LookupCurrentConditionsResponse_Op,
   errors: [],
@@ -536,15 +544,17 @@ export interface LookupForecastRequest_Op {
   body?: LookupForecastRequest;
 }
 
-export const LookupForecastRequest_Op = Schema.Struct({
-  body: Schema.optional(LookupForecastRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/forecast:lookup", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<LookupForecastRequest_Op>;
+export const LookupForecastRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LookupForecastRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/forecast:lookup", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<LookupForecastRequest_Op>;
 
 export type LookupForecastResponse_Op = LookupForecastResponse;
-export const LookupForecastResponse_Op = LookupForecastResponse;
+export const LookupForecastResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ LookupForecastResponse;
 
 export type LookupForecastError = DefaultErrors;
 
@@ -554,7 +564,7 @@ export const lookupForecast: API.OperationMethod<
   LookupForecastResponse_Op,
   LookupForecastError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupForecastRequest_Op,
   output: LookupForecastResponse_Op,
   errors: [],
@@ -581,21 +591,23 @@ export interface LookupHeatmapTileMapTypesHeatmapTilesRequest {
   x: number;
 }
 
-export const LookupHeatmapTileMapTypesHeatmapTilesRequest = Schema.Struct({
-  mapType: Schema.String.pipe(T.HttpPath("mapType")),
-  zoom: Schema.Number.pipe(T.HttpPath("zoom")),
-  y: Schema.Number.pipe(T.HttpPath("y")),
-  x: Schema.Number.pipe(T.HttpPath("x")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/mapTypes/{mapType}/heatmapTiles/{zoom}/{x}/{y}",
-  }),
-  svc,
-) as unknown as Schema.Schema<LookupHeatmapTileMapTypesHeatmapTilesRequest>;
+export const LookupHeatmapTileMapTypesHeatmapTilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mapType: Schema.String.pipe(T.HttpPath("mapType")),
+    zoom: Schema.Number.pipe(T.HttpPath("zoom")),
+    y: Schema.Number.pipe(T.HttpPath("y")),
+    x: Schema.Number.pipe(T.HttpPath("x")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/mapTypes/{mapType}/heatmapTiles/{zoom}/{x}/{y}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupHeatmapTileMapTypesHeatmapTilesRequest>;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
-export const LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
+export const LookupHeatmapTileMapTypesHeatmapTilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ HttpBody;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = DefaultErrors;
 
@@ -605,7 +617,7 @@ export const lookupHeatmapTileMapTypesHeatmapTiles: API.OperationMethod<
   LookupHeatmapTileMapTypesHeatmapTilesResponse,
   LookupHeatmapTileMapTypesHeatmapTilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupHeatmapTileMapTypesHeatmapTilesRequest,
   output: LookupHeatmapTileMapTypesHeatmapTilesResponse,
   errors: [],
@@ -616,15 +628,17 @@ export interface LookupHistoryRequest_Op {
   body?: LookupHistoryRequest;
 }
 
-export const LookupHistoryRequest_Op = Schema.Struct({
-  body: Schema.optional(LookupHistoryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/history:lookup", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<LookupHistoryRequest_Op>;
+export const LookupHistoryRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LookupHistoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/history:lookup", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<LookupHistoryRequest_Op>;
 
 export type LookupHistoryResponse_Op = LookupHistoryResponse;
-export const LookupHistoryResponse_Op = LookupHistoryResponse;
+export const LookupHistoryResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ LookupHistoryResponse;
 
 export type LookupHistoryError = DefaultErrors;
 
@@ -634,7 +648,7 @@ export const lookupHistory: API.OperationMethod<
   LookupHistoryResponse_Op,
   LookupHistoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupHistoryRequest_Op,
   output: LookupHistoryResponse_Op,
   errors: [],

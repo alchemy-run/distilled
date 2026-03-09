@@ -28,7 +28,7 @@ export interface GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scriptId: Schema.optional(Schema.String),
     }),
@@ -42,7 +42,7 @@ export interface GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scriptId: Schema.optional(Schema.String),
     }),
@@ -58,7 +58,7 @@ export interface GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appsScriptProject: Schema.optional(Schema.String),
       authConfigId: Schema.optional(Schema.String),
@@ -73,7 +73,7 @@ export interface GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
     }),
@@ -95,7 +95,7 @@ export interface GoogleCloudIntegrationsV1alphaCloudKmsConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaCloudKmsConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaCloudKmsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kmsLocation: Schema.optional(Schema.String),
       kmsRing: Schema.optional(Schema.String),
@@ -125,7 +125,7 @@ export interface GoogleCloudIntegrationsV1alphaProvisionClientRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaProvisionClientRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaProvisionClientRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudKmsConfig: Schema.optional(
         GoogleCloudIntegrationsV1alphaCloudKmsConfig,
@@ -144,7 +144,7 @@ export const GoogleCloudIntegrationsV1alphaProvisionClientRequest: Schema.Schema
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -159,7 +159,7 @@ export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorReque
 }
 
 export const GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workflows: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -171,7 +171,7 @@ export const GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest: 
 export interface GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse {}
 
 export const GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse>;
@@ -179,7 +179,7 @@ export const GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse:
 export interface GoogleCloudIntegrationsV1alphaDeprovisionClientRequest {}
 
 export const GoogleCloudIntegrationsV1alphaDeprovisionClientRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaDeprovisionClientRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudIntegrationsV1alphaDeprovisionClientRequest",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaDeprovisionClientRequest>;
 
@@ -197,7 +197,7 @@ export interface GoogleCloudIntegrationsV1alphaCustomerConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaCustomerConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaCustomerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableManagedAiFeatures: Schema.optional(Schema.Boolean),
       runAsServiceAccount: Schema.optional(Schema.String),
@@ -254,7 +254,7 @@ export interface GoogleCloudIntegrationsV1alphaClientConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaClientConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaClientConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -287,7 +287,7 @@ export interface GoogleCloudIntegrationsV1alphaGetClientResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaGetClientResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaGetClientResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       client: Schema.optional(GoogleCloudIntegrationsV1alphaClientConfig),
     }),
@@ -303,7 +303,7 @@ export interface GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateMask: Schema.optional(Schema.String),
       customerConfig: Schema.optional(
@@ -320,7 +320,7 @@ export interface GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerConfig: Schema.optional(
         GoogleCloudIntegrationsV1alphaCustomerConfig,
@@ -352,7 +352,7 @@ export interface GoogleCloudIntegrationsV1alphaProjectProperties {
 }
 
 export const GoogleCloudIntegrationsV1alphaProjectProperties: Schema.Schema<GoogleCloudIntegrationsV1alphaProjectProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipEnablementState: Schema.optional(Schema.String),
       provisionedRegions: Schema.optional(Schema.Array(Schema.String)),
@@ -368,7 +368,7 @@ export interface GoogleCloudIntegrationsV1alphaGetClientMetadataResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaGetClientMetadataResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaGetClientMetadataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(
         GoogleCloudIntegrationsV1alphaProjectProperties,
@@ -384,7 +384,7 @@ export interface GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudKmsConfig: Schema.optional(
         GoogleCloudIntegrationsV1alphaCloudKmsConfig,
@@ -400,7 +400,7 @@ export interface GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runAsServiceAccount: Schema.optional(Schema.String),
     }),
@@ -414,7 +414,7 @@ export interface GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableVariableMasking: Schema.optional(Schema.Boolean),
     }),
@@ -428,7 +428,7 @@ export interface GoogleCloudIntegrationsV1alphaToggleHttpRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaToggleHttpRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaToggleHttpRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableHttpCall: Schema.optional(Schema.Boolean),
     }),
@@ -452,7 +452,7 @@ export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       functionName: Schema.optional(Schema.String),
@@ -469,7 +469,7 @@ export interface GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerUrl: Schema.optional(Schema.String),
     }),
@@ -487,7 +487,7 @@ export interface GoogleCloudIntegrationsV1alphaClientCertificate {
 }
 
 export const GoogleCloudIntegrationsV1alphaClientCertificate: Schema.Schema<GoogleCloudIntegrationsV1alphaClientCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sslCertificate: Schema.optional(Schema.String),
       encryptedPrivateKey: Schema.optional(Schema.String),
@@ -523,7 +523,7 @@ export interface GoogleCloudIntegrationsV1alphaCertificate {
 }
 
 export const GoogleCloudIntegrationsV1alphaCertificate: Schema.Schema<GoogleCloudIntegrationsV1alphaCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -549,7 +549,7 @@ export interface GoogleCloudIntegrationsV1alphaListCertificatesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListCertificatesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListCertificatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificates: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaCertificate),
@@ -568,7 +568,7 @@ export interface GoogleCloudIntegrationsV1alphaUsernameAndPassword {
 }
 
 export const GoogleCloudIntegrationsV1alphaUsernameAndPassword: Schema.Schema<GoogleCloudIntegrationsV1alphaUsernameAndPassword> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
       password: Schema.optional(Schema.String),
@@ -583,7 +583,7 @@ export interface GoogleCloudIntegrationsV1alphaStringParameterArray {
 }
 
 export const GoogleCloudIntegrationsV1alphaStringParameterArray: Schema.Schema<GoogleCloudIntegrationsV1alphaStringParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -597,7 +597,7 @@ export interface GoogleCloudIntegrationsV1alphaIntParameterArray {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntParameterArray: Schema.Schema<GoogleCloudIntegrationsV1alphaIntParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -611,7 +611,7 @@ export interface GoogleCloudIntegrationsV1alphaDoubleParameterArray {
 }
 
 export const GoogleCloudIntegrationsV1alphaDoubleParameterArray: Schema.Schema<GoogleCloudIntegrationsV1alphaDoubleParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       doubleValues: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -625,7 +625,7 @@ export interface GoogleCloudIntegrationsV1alphaBooleanParameterArray {
 }
 
 export const GoogleCloudIntegrationsV1alphaBooleanParameterArray: Schema.Schema<GoogleCloudIntegrationsV1alphaBooleanParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       booleanValues: Schema.optional(Schema.Array(Schema.Boolean)),
     }),
@@ -655,7 +655,7 @@ export interface GoogleCloudIntegrationsV1alphaValueType {
 }
 
 export const GoogleCloudIntegrationsV1alphaValueType: Schema.Schema<GoogleCloudIntegrationsV1alphaValueType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.String),
@@ -687,7 +687,7 @@ export interface GoogleCloudIntegrationsV1alphaParameterMapField {
 }
 
 export const GoogleCloudIntegrationsV1alphaParameterMapField: Schema.Schema<GoogleCloudIntegrationsV1alphaParameterMapField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceKey: Schema.optional(Schema.String),
       literalValue: Schema.optional(GoogleCloudIntegrationsV1alphaValueType),
@@ -704,7 +704,7 @@ export interface GoogleCloudIntegrationsV1alphaParameterMapEntry {
 }
 
 export const GoogleCloudIntegrationsV1alphaParameterMapEntry: Schema.Schema<GoogleCloudIntegrationsV1alphaParameterMapEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(GoogleCloudIntegrationsV1alphaParameterMapField),
       value: Schema.optional(GoogleCloudIntegrationsV1alphaParameterMapField),
@@ -761,7 +761,7 @@ export interface GoogleCloudIntegrationsV1alphaParameterMap {
 }
 
 export const GoogleCloudIntegrationsV1alphaParameterMap: Schema.Schema<GoogleCloudIntegrationsV1alphaParameterMap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaParameterMapEntry),
@@ -787,7 +787,7 @@ export interface GoogleCloudIntegrationsV1alphaAccessToken {
 }
 
 export const GoogleCloudIntegrationsV1alphaAccessToken: Schema.Schema<GoogleCloudIntegrationsV1alphaAccessToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
       accessTokenExpireTime: Schema.optional(Schema.String),
@@ -830,7 +830,7 @@ export interface GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode {
 }
 
 export const GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode: Schema.Schema<GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientId: Schema.optional(Schema.String),
       clientSecret: Schema.optional(Schema.String),
@@ -871,7 +871,7 @@ export interface GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials {
 }
 
 export const GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials: Schema.Schema<GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientId: Schema.optional(Schema.String),
       clientSecret: Schema.optional(Schema.String),
@@ -912,7 +912,7 @@ export interface GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials {
 }
 
 export const GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials: Schema.Schema<GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientId: Schema.optional(Schema.String),
       clientSecret: Schema.optional(Schema.String),
@@ -940,7 +940,7 @@ export interface GoogleCloudIntegrationsV1alphaJwt {
 }
 
 export const GoogleCloudIntegrationsV1alphaJwt: Schema.Schema<GoogleCloudIntegrationsV1alphaJwt> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jwtHeader: Schema.optional(Schema.String),
       jwtPayload: Schema.optional(Schema.String),
@@ -959,7 +959,7 @@ export interface GoogleCloudIntegrationsV1alphaAuthToken {
 }
 
 export const GoogleCloudIntegrationsV1alphaAuthToken: Schema.Schema<GoogleCloudIntegrationsV1alphaAuthToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       token: Schema.optional(Schema.String),
@@ -976,7 +976,7 @@ export interface GoogleCloudIntegrationsV1alphaServiceAccountCredentials {
 }
 
 export const GoogleCloudIntegrationsV1alphaServiceAccountCredentials: Schema.Schema<GoogleCloudIntegrationsV1alphaServiceAccountCredentials> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccount: Schema.optional(Schema.String),
       scope: Schema.optional(Schema.String),
@@ -997,7 +997,7 @@ export interface GoogleCloudIntegrationsV1alphaOidcToken {
 }
 
 export const GoogleCloudIntegrationsV1alphaOidcToken: Schema.Schema<GoogleCloudIntegrationsV1alphaOidcToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccountEmail: Schema.optional(Schema.String),
       audience: Schema.optional(Schema.String),
@@ -1043,7 +1043,7 @@ export interface GoogleCloudIntegrationsV1alphaCredential {
 }
 
 export const GoogleCloudIntegrationsV1alphaCredential: Schema.Schema<GoogleCloudIntegrationsV1alphaCredential> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       credentialType: Schema.optional(Schema.String),
       usernameAndPassword: Schema.optional(
@@ -1132,7 +1132,7 @@ export interface GoogleCloudIntegrationsV1alphaAuthConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaAuthConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaAuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1166,7 +1166,7 @@ export interface GoogleCloudIntegrationsV1alphaListAuthConfigsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListAuthConfigsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListAuthConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authConfigs: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaAuthConfig),
@@ -1183,7 +1183,7 @@ export interface GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegions
 }
 
 export const GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1211,7 +1211,7 @@ export interface GoogleCloudConnectorsV1ConnectionStatus {
 }
 
 export const GoogleCloudConnectorsV1ConnectionStatus: Schema.Schema<GoogleCloudConnectorsV1ConnectionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -1227,7 +1227,7 @@ export interface GoogleCloudConnectorsV1Secret {
 }
 
 export const GoogleCloudConnectorsV1Secret: Schema.Schema<GoogleCloudConnectorsV1Secret> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       secretVersion: Schema.optional(Schema.String),
     }),
@@ -1247,7 +1247,7 @@ export interface GoogleCloudConnectorsV1EncryptionKey {
 }
 
 export const GoogleCloudConnectorsV1EncryptionKey: Schema.Schema<GoogleCloudConnectorsV1EncryptionKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       kmsKeyName: Schema.optional(Schema.String),
@@ -1272,7 +1272,7 @@ export interface GoogleCloudConnectorsV1ConfigVariable {
 }
 
 export const GoogleCloudConnectorsV1ConfigVariable: Schema.Schema<GoogleCloudConnectorsV1ConfigVariable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.String),
@@ -1293,7 +1293,7 @@ export interface GoogleCloudConnectorsV1AuthConfigUserPassword {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigUserPassword: Schema.Schema<GoogleCloudConnectorsV1AuthConfigUserPassword> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
       password: Schema.optional(GoogleCloudConnectorsV1Secret),
@@ -1312,7 +1312,7 @@ export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims: Schema.Schema<GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issuer: Schema.optional(Schema.String),
       subject: Schema.optional(Schema.String),
@@ -1330,7 +1330,7 @@ export interface GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer: Schema.Schema<GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientKey: Schema.optional(GoogleCloudConnectorsV1Secret),
       jwtClaims: Schema.optional(
@@ -1349,7 +1349,7 @@ export interface GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials: Schema.Schema<GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientId: Schema.optional(Schema.String),
       clientSecret: Schema.optional(GoogleCloudConnectorsV1Secret),
@@ -1370,7 +1370,7 @@ export interface GoogleCloudConnectorsV1AuthConfigSshPublicKey {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigSshPublicKey: Schema.Schema<GoogleCloudConnectorsV1AuthConfigSshPublicKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
       sshClientCert: Schema.optional(GoogleCloudConnectorsV1Secret),
@@ -1401,7 +1401,7 @@ export interface GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow {
 }
 
 export const GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow: Schema.Schema<GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authCode: Schema.optional(Schema.String),
       pkceVerifier: Schema.optional(Schema.String),
@@ -1426,7 +1426,7 @@ export interface GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManage
 }
 
 export const GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged: Schema.Schema<GoogleCloudConnectorsV1AuthConfigOauth2AuthCodeFlowGoogleManaged> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authCode: Schema.optional(Schema.String),
       redirectUri: Schema.optional(Schema.String),
@@ -1468,7 +1468,7 @@ export interface GoogleCloudConnectorsV1AuthConfig {
 }
 
 export const GoogleCloudConnectorsV1AuthConfig: Schema.Schema<GoogleCloudConnectorsV1AuthConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authType: Schema.optional(Schema.String),
       userPassword: Schema.optional(
@@ -1506,7 +1506,7 @@ export interface GoogleCloudConnectorsV1LockConfig {
 }
 
 export const GoogleCloudConnectorsV1LockConfig: Schema.Schema<GoogleCloudConnectorsV1LockConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locked: Schema.optional(Schema.Boolean),
       reason: Schema.optional(Schema.String),
@@ -1525,7 +1525,7 @@ export interface GoogleCloudConnectorsV1Destination {
 }
 
 export const GoogleCloudConnectorsV1Destination: Schema.Schema<GoogleCloudConnectorsV1Destination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAttachment: Schema.optional(Schema.String),
       host: Schema.optional(Schema.String),
@@ -1543,7 +1543,7 @@ export interface GoogleCloudConnectorsV1DestinationConfig {
 }
 
 export const GoogleCloudConnectorsV1DestinationConfig: Schema.Schema<GoogleCloudConnectorsV1DestinationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       destinations: Schema.optional(
@@ -1562,7 +1562,7 @@ export interface GoogleCloudConnectorsV1NodeConfig {
 }
 
 export const GoogleCloudConnectorsV1NodeConfig: Schema.Schema<GoogleCloudConnectorsV1NodeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minNodeCount: Schema.optional(Schema.Number),
       maxNodeCount: Schema.optional(Schema.Number),
@@ -1579,7 +1579,7 @@ export interface GoogleCloudConnectorsV1LogConfig {
 }
 
 export const GoogleCloudConnectorsV1LogConfig: Schema.Schema<GoogleCloudConnectorsV1LogConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       level: Schema.optional(Schema.String),
@@ -1612,7 +1612,7 @@ export interface GoogleCloudConnectorsV1SslConfig {
 }
 
 export const GoogleCloudConnectorsV1SslConfig: Schema.Schema<GoogleCloudConnectorsV1SslConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       trustModel: Schema.optional(Schema.String),
@@ -1639,7 +1639,7 @@ export interface GoogleCloudConnectorsV1EventingConfigDeadLetterConfig {
 }
 
 export const GoogleCloudConnectorsV1EventingConfigDeadLetterConfig: Schema.Schema<GoogleCloudConnectorsV1EventingConfigDeadLetterConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -1654,7 +1654,7 @@ export interface GoogleCloudConnectorsV1EnrichmentConfig {
 }
 
 export const GoogleCloudConnectorsV1EnrichmentConfig: Schema.Schema<GoogleCloudConnectorsV1EnrichmentConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appendAcl: Schema.optional(Schema.Boolean),
     }),
@@ -1692,7 +1692,7 @@ export interface GoogleCloudConnectorsV1EventingConfig {
 }
 
 export const GoogleCloudConnectorsV1EventingConfig: Schema.Schema<GoogleCloudConnectorsV1EventingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       registrationDestinationConfig: Schema.optional(
         GoogleCloudConnectorsV1DestinationConfig,
@@ -1737,7 +1737,7 @@ export interface GoogleCloudConnectorsV1EventingStatus {
 }
 
 export const GoogleCloudConnectorsV1EventingStatus: Schema.Schema<GoogleCloudConnectorsV1EventingStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -1762,7 +1762,7 @@ export interface GoogleCloudConnectorsV1EventingRuntimeDataWebhookData {
 }
 
 export const GoogleCloudConnectorsV1EventingRuntimeDataWebhookData: Schema.Schema<GoogleCloudConnectorsV1EventingRuntimeDataWebhookData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -1783,7 +1783,7 @@ export interface GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions 
 }
 
 export const GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions: Schema.Schema<GoogleCloudConnectorsV1EventingRuntimeDataWebhookSubscriptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       webhookData: Schema.optional(
         Schema.Array(GoogleCloudConnectorsV1EventingRuntimeDataWebhookData),
@@ -1808,7 +1808,7 @@ export interface GoogleCloudConnectorsV1EventingRuntimeData {
 }
 
 export const GoogleCloudConnectorsV1EventingRuntimeData: Schema.Schema<GoogleCloudConnectorsV1EventingRuntimeData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleCloudConnectorsV1EventingStatus),
       eventsListenerEndpoint: Schema.optional(Schema.String),
@@ -1832,7 +1832,7 @@ export interface GoogleCloudConnectorsV1HPAConfig {
 }
 
 export const GoogleCloudConnectorsV1HPAConfig: Schema.Schema<GoogleCloudConnectorsV1HPAConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cpuUtilizationThreshold: Schema.optional(Schema.String),
       memoryUtilizationThreshold: Schema.optional(Schema.String),
@@ -1849,7 +1849,7 @@ export interface GoogleCloudConnectorsV1ResourceRequests {
 }
 
 export const GoogleCloudConnectorsV1ResourceRequests: Schema.Schema<GoogleCloudConnectorsV1ResourceRequests> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cpu: Schema.optional(Schema.String),
       memory: Schema.optional(Schema.String),
@@ -1866,7 +1866,7 @@ export interface GoogleCloudConnectorsV1ResourceLimits {
 }
 
 export const GoogleCloudConnectorsV1ResourceLimits: Schema.Schema<GoogleCloudConnectorsV1ResourceLimits> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cpu: Schema.optional(Schema.String),
       memory: Schema.optional(Schema.String),
@@ -1915,7 +1915,7 @@ export interface GoogleCloudConnectorsV1ConnectorVersionInfraConfig {
 }
 
 export const GoogleCloudConnectorsV1ConnectorVersionInfraConfig: Schema.Schema<GoogleCloudConnectorsV1ConnectorVersionInfraConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ratelimitThreshold: Schema.optional(Schema.String),
       internalclientRatelimitThreshold: Schema.optional(Schema.String),
@@ -1945,7 +1945,7 @@ export interface GoogleCloudConnectorsV1BillingConfig {
 }
 
 export const GoogleCloudConnectorsV1BillingConfig: Schema.Schema<GoogleCloudConnectorsV1BillingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingCategory: Schema.optional(Schema.String),
     }),
@@ -1961,7 +1961,7 @@ export interface GoogleCloudConnectorsV1TrafficShapingConfig {
 }
 
 export const GoogleCloudConnectorsV1TrafficShapingConfig: Schema.Schema<GoogleCloudConnectorsV1TrafficShapingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quotaLimit: Schema.optional(Schema.String),
       duration: Schema.optional(Schema.String),
@@ -2059,7 +2059,7 @@ export interface GoogleCloudConnectorsV1Connection {
 }
 
 export const GoogleCloudConnectorsV1Connection: Schema.Schema<GoogleCloudConnectorsV1Connection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -2119,7 +2119,7 @@ export interface GoogleCloudIntegrationsV1alphaListConnectionsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListConnectionsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connections: Schema.optional(
         Schema.Array(GoogleCloudConnectorsV1Connection),
@@ -2138,7 +2138,7 @@ export interface GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata {
 }
 
 export const GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata: Schema.Schema<GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entities: Schema.optional(Schema.Array(Schema.String)),
       actions: Schema.optional(Schema.Array(Schema.String)),
@@ -2157,7 +2157,7 @@ export interface GoogleCloudIntegrationsV1alphaRuntimeEntitySchema {
 }
 
 export const GoogleCloudIntegrationsV1alphaRuntimeEntitySchema: Schema.Schema<GoogleCloudIntegrationsV1alphaRuntimeEntitySchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entity: Schema.optional(Schema.String),
       fieldSchema: Schema.optional(Schema.String),
@@ -2175,7 +2175,7 @@ export interface GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse 
 }
 
 export const GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runtimeEntitySchemas: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaRuntimeEntitySchema),
@@ -2197,7 +2197,7 @@ export interface GoogleCloudIntegrationsV1alphaRuntimeActionSchema {
 }
 
 export const GoogleCloudIntegrationsV1alphaRuntimeActionSchema: Schema.Schema<GoogleCloudIntegrationsV1alphaRuntimeActionSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       action: Schema.optional(Schema.String),
       inputSchema: Schema.optional(Schema.String),
@@ -2215,7 +2215,7 @@ export interface GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse 
 }
 
 export const GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runtimeActionSchemas: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaRuntimeActionSchema),
@@ -2232,7 +2232,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectValue: Schema.optional(Schema.String),
     }),
@@ -2245,7 +2245,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoStringParameterArray {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoStringParameterArray: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoStringParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2258,7 +2258,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoIntParameterArray {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoIntParameterArray: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoIntParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2271,7 +2271,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       doubleValues: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -2284,7 +2284,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoProtoParameterArray {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoProtoParameterArray: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoProtoParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protoValues: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -2299,7 +2299,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       booleanValues: Schema.optional(Schema.Array(Schema.Boolean)),
     }),
@@ -2323,7 +2323,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterValueType {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParameterValueType: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParameterValueType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.String),
@@ -2385,7 +2385,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterEntry {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParameterEntry: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParameterEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(
@@ -2419,7 +2419,7 @@ export interface EnterpriseCrmEventbusProtoFailurePolicy {
 }
 
 export const EnterpriseCrmEventbusProtoFailurePolicy: Schema.Schema<EnterpriseCrmEventbusProtoFailurePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       retryStrategy: Schema.optional(Schema.String),
       maxNumRetries: Schema.optional(Schema.Number),
@@ -2438,7 +2438,7 @@ export interface EnterpriseCrmEventbusProtoConditionalFailurePolicies {
 }
 
 export const EnterpriseCrmEventbusProtoConditionalFailurePolicies: Schema.Schema<EnterpriseCrmEventbusProtoConditionalFailurePolicies> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failurePolicies: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoFailurePolicy),
@@ -2456,7 +2456,7 @@ export interface EnterpriseCrmEventbusProtoStringArray {
 }
 
 export const EnterpriseCrmEventbusProtoStringArray: Schema.Schema<EnterpriseCrmEventbusProtoStringArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2469,7 +2469,7 @@ export interface EnterpriseCrmEventbusProtoIntArray {
 }
 
 export const EnterpriseCrmEventbusProtoIntArray: Schema.Schema<EnterpriseCrmEventbusProtoIntArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2482,7 +2482,7 @@ export interface EnterpriseCrmEventbusProtoDoubleArray {
 }
 
 export const EnterpriseCrmEventbusProtoDoubleArray: Schema.Schema<EnterpriseCrmEventbusProtoDoubleArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -2502,7 +2502,7 @@ export interface EnterpriseCrmEventbusProtoValueType {
 }
 
 export const EnterpriseCrmEventbusProtoValueType: Schema.Schema<EnterpriseCrmEventbusProtoValueType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.String),
@@ -2537,7 +2537,7 @@ export interface EnterpriseCrmEventbusProtoCondition {
 }
 
 export const EnterpriseCrmEventbusProtoCondition: Schema.Schema<EnterpriseCrmEventbusProtoCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventPropertyKey: Schema.optional(Schema.String),
       operator: Schema.optional(Schema.String),
@@ -2553,7 +2553,7 @@ export interface EnterpriseCrmEventbusProtoCombinedCondition {
 }
 
 export const EnterpriseCrmEventbusProtoCombinedCondition: Schema.Schema<EnterpriseCrmEventbusProtoCombinedCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditions: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoCondition),
@@ -2579,7 +2579,7 @@ export interface EnterpriseCrmEventbusProtoNextTask {
 }
 
 export const EnterpriseCrmEventbusProtoNextTask: Schema.Schema<EnterpriseCrmEventbusProtoNextTask> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskConfigId: Schema.optional(Schema.String),
       taskNumber: Schema.optional(Schema.String),
@@ -2600,7 +2600,7 @@ export interface EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue {
 }
 
 export const EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue: Schema.Schema<EnterpriseCrmEventbusProtoBaseAlertConfigThresholdValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       absolute: Schema.optional(Schema.String),
       percentage: Schema.optional(Schema.Number),
@@ -2615,7 +2615,7 @@ export interface EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList {
 }
 
 export const EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList: Schema.Schema<EnterpriseCrmEventbusProtoBaseAlertConfigErrorEnumList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enumStrings: Schema.optional(Schema.Array(Schema.String)),
       filterType: Schema.optional(Schema.String),
@@ -2662,7 +2662,7 @@ export interface EnterpriseCrmEventbusProtoTaskAlertConfig {
 }
 
 export const EnterpriseCrmEventbusProtoTaskAlertConfig: Schema.Schema<EnterpriseCrmEventbusProtoTaskAlertConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertName: Schema.optional(Schema.String),
       metricType: Schema.optional(Schema.String),
@@ -2694,7 +2694,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventParameters {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoEventParameters: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoEventParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(
         Schema.Array(EnterpriseCrmFrontendsEventbusProtoParameterEntry),
@@ -2714,7 +2714,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoRollbackStrategy {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoRollbackStrategy: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoRollbackStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rollbackTaskImplementationClassName: Schema.optional(Schema.String),
       parameters: Schema.optional(
@@ -2732,7 +2732,7 @@ export interface EnterpriseCrmEventbusProtoCoordinate {
 }
 
 export const EnterpriseCrmEventbusProtoCoordinate: Schema.Schema<EnterpriseCrmEventbusProtoCoordinate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -2747,7 +2747,7 @@ export interface EnterpriseCrmEventbusProtoSuccessPolicy {
 }
 
 export const EnterpriseCrmEventbusProtoSuccessPolicy: Schema.Schema<EnterpriseCrmEventbusProtoSuccessPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       finalState: Schema.optional(Schema.String),
     }),
@@ -2761,7 +2761,7 @@ export interface EnterpriseCrmEventbusProtoTaskMetadataAdmin {
 }
 
 export const EnterpriseCrmEventbusProtoTaskMetadataAdmin: Schema.Schema<EnterpriseCrmEventbusProtoTaskMetadataAdmin> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEmail: Schema.optional(Schema.String),
       googleGroupEmail: Schema.optional(Schema.String),
@@ -2859,7 +2859,7 @@ export interface EnterpriseCrmEventbusProtoTaskMetadata {
 }
 
 export const EnterpriseCrmEventbusProtoTaskMetadata: Schema.Schema<EnterpriseCrmEventbusProtoTaskMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       admins: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoTaskMetadataAdmin),
@@ -2911,7 +2911,7 @@ export interface EnterpriseCrmEventbusStatsDimensions {
 }
 
 export const EnterpriseCrmEventbusStatsDimensions: Schema.Schema<EnterpriseCrmEventbusStatsDimensions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerId: Schema.optional(Schema.String),
       clientId: Schema.optional(Schema.String),
@@ -2942,7 +2942,7 @@ export interface EnterpriseCrmEventbusStats {
 }
 
 export const EnterpriseCrmEventbusStats: Schema.Schema<EnterpriseCrmEventbusStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(EnterpriseCrmEventbusStatsDimensions),
       qps: Schema.optional(Schema.Number),
@@ -2962,7 +2962,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition {
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryProtoDefinition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       path: Schema.optional(Schema.String),
       fullName: Schema.optional(Schema.String),
@@ -3001,7 +3001,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryConfig {
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryConfig: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       descriptivePhrase: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -3025,7 +3025,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange 
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(Schema.String),
       max: Schema.optional(Schema.String),
@@ -3043,7 +3043,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRan
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(Schema.Number),
       max: Schema.optional(Schema.Number),
@@ -3061,7 +3061,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringReg
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringRegex: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regex: Schema.optional(Schema.String),
       exclusive: Schema.optional(Schema.Boolean),
@@ -3078,7 +3078,7 @@ export interface EnterpriseCrmEventbusProtoParamSpecEntryValidationRule {
 }
 
 export const EnterpriseCrmEventbusProtoParamSpecEntryValidationRule: Schema.Schema<EnterpriseCrmEventbusProtoParamSpecEntryValidationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intRange: Schema.optional(
         EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange,
@@ -3140,7 +3140,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParamSpecEntry {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParamSpecEntry: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParamSpecEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       dataType: Schema.optional(Schema.String),
@@ -3170,7 +3170,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(
         Schema.Array(EnterpriseCrmFrontendsEventbusProtoParamSpecEntry),
@@ -3207,7 +3207,7 @@ export interface EnterpriseCrmEventbusProtoTaskUiModuleConfig {
 }
 
 export const EnterpriseCrmEventbusProtoTaskUiModuleConfig: Schema.Schema<EnterpriseCrmEventbusProtoTaskUiModuleConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       moduleId: Schema.optional(Schema.String),
     }),
@@ -3221,7 +3221,7 @@ export interface EnterpriseCrmEventbusProtoTaskUiConfig {
 }
 
 export const EnterpriseCrmEventbusProtoTaskUiConfig: Schema.Schema<EnterpriseCrmEventbusProtoTaskUiConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskUiModuleConfigs: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoTaskUiModuleConfig),
@@ -3247,7 +3247,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoTaskEntity {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoTaskEntity: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoTaskEntity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(EnterpriseCrmEventbusProtoTaskMetadata),
       stats: Schema.optional(EnterpriseCrmEventbusStats),
@@ -3344,7 +3344,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoTaskConfig {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoTaskConfig: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoTaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskName: Schema.optional(Schema.String),
       taskNumber: Schema.optional(Schema.String),
@@ -3407,7 +3407,7 @@ export interface GoogleCloudIntegrationsV1alphaEventParameter {
 }
 
 export const GoogleCloudIntegrationsV1alphaEventParameter: Schema.Schema<GoogleCloudIntegrationsV1alphaEventParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(GoogleCloudIntegrationsV1alphaValueType),
@@ -3438,7 +3438,7 @@ export interface GoogleCloudIntegrationsV1alphaFailurePolicy {
 }
 
 export const GoogleCloudIntegrationsV1alphaFailurePolicy: Schema.Schema<GoogleCloudIntegrationsV1alphaFailurePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       retryStrategy: Schema.optional(Schema.String),
       maxRetries: Schema.optional(Schema.Number),
@@ -3457,7 +3457,7 @@ export interface GoogleCloudIntegrationsV1alphaConditionalFailurePolicies {
 }
 
 export const GoogleCloudIntegrationsV1alphaConditionalFailurePolicies: Schema.Schema<GoogleCloudIntegrationsV1alphaConditionalFailurePolicies> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failurePolicies: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaFailurePolicy),
@@ -3484,7 +3484,7 @@ export interface GoogleCloudIntegrationsV1alphaNextTask {
 }
 
 export const GoogleCloudIntegrationsV1alphaNextTask: Schema.Schema<GoogleCloudIntegrationsV1alphaNextTask> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskConfigId: Schema.optional(Schema.String),
       taskId: Schema.optional(Schema.String),
@@ -3506,7 +3506,7 @@ export interface GoogleCloudIntegrationsV1alphaSuccessPolicy {
 }
 
 export const GoogleCloudIntegrationsV1alphaSuccessPolicy: Schema.Schema<GoogleCloudIntegrationsV1alphaSuccessPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       finalState: Schema.optional(Schema.String),
     }),
@@ -3522,7 +3522,7 @@ export interface GoogleCloudIntegrationsV1alphaCoordinate {
 }
 
 export const GoogleCloudIntegrationsV1alphaCoordinate: Schema.Schema<GoogleCloudIntegrationsV1alphaCoordinate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       x: Schema.optional(Schema.Number),
       y: Schema.optional(Schema.Number),
@@ -3588,7 +3588,7 @@ export interface GoogleCloudIntegrationsV1alphaTaskConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaTaskConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaTaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       task: Schema.optional(Schema.String),
       taskId: Schema.optional(Schema.String),
@@ -3670,7 +3670,7 @@ export interface EnterpriseCrmEventbusProtoWorkflowAlertConfig {
 }
 
 export const EnterpriseCrmEventbusProtoWorkflowAlertConfig: Schema.Schema<EnterpriseCrmEventbusProtoWorkflowAlertConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertName: Schema.optional(Schema.String),
       metricType: Schema.optional(Schema.String),
@@ -3701,7 +3701,7 @@ export interface EnterpriseCrmEventbusProtoSerializedObjectParameter {
 }
 
 export const EnterpriseCrmEventbusProtoSerializedObjectParameter: Schema.Schema<EnterpriseCrmEventbusProtoSerializedObjectParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectValue: Schema.optional(Schema.String),
     }),
@@ -3714,7 +3714,7 @@ export interface EnterpriseCrmEventbusProtoStringParameterArray {
 }
 
 export const EnterpriseCrmEventbusProtoStringParameterArray: Schema.Schema<EnterpriseCrmEventbusProtoStringParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3727,7 +3727,7 @@ export interface EnterpriseCrmEventbusProtoIntParameterArray {
 }
 
 export const EnterpriseCrmEventbusProtoIntParameterArray: Schema.Schema<EnterpriseCrmEventbusProtoIntParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intValues: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3740,7 +3740,7 @@ export interface EnterpriseCrmEventbusProtoDoubleParameterArray {
 }
 
 export const EnterpriseCrmEventbusProtoDoubleParameterArray: Schema.Schema<EnterpriseCrmEventbusProtoDoubleParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       doubleValues: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -3753,7 +3753,7 @@ export interface EnterpriseCrmEventbusProtoProtoParameterArray {
 }
 
 export const EnterpriseCrmEventbusProtoProtoParameterArray: Schema.Schema<EnterpriseCrmEventbusProtoProtoParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       protoValues: Schema.optional(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
@@ -3768,7 +3768,7 @@ export interface EnterpriseCrmEventbusProtoBooleanParameterArray {
 }
 
 export const EnterpriseCrmEventbusProtoBooleanParameterArray: Schema.Schema<EnterpriseCrmEventbusProtoBooleanParameterArray> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       booleanValues: Schema.optional(Schema.Array(Schema.Boolean)),
     }),
@@ -3791,7 +3791,7 @@ export interface EnterpriseCrmEventbusProtoParameterValueType {
 }
 
 export const EnterpriseCrmEventbusProtoParameterValueType: Schema.Schema<EnterpriseCrmEventbusProtoParameterValueType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.String),
@@ -3829,7 +3829,7 @@ export interface EnterpriseCrmEventbusProtoParameterEntry {
 }
 
 export const EnterpriseCrmEventbusProtoParameterEntry: Schema.Schema<EnterpriseCrmEventbusProtoParameterEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(EnterpriseCrmEventbusProtoParameterValueType),
@@ -3845,7 +3845,7 @@ export interface EnterpriseCrmEventbusProtoEventParameters {
 }
 
 export const EnterpriseCrmEventbusProtoEventParameters: Schema.Schema<EnterpriseCrmEventbusProtoEventParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoParameterEntry),
@@ -3865,7 +3865,7 @@ export interface EnterpriseCrmEventbusProtoTriggerCriteria {
 }
 
 export const EnterpriseCrmEventbusProtoTriggerCriteria: Schema.Schema<EnterpriseCrmEventbusProtoTriggerCriteria> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerCriteriaTaskImplementationClassName: Schema.optional(
         Schema.String,
@@ -3889,7 +3889,7 @@ export interface EnterpriseCrmEventbusProtoCloudSchedulerConfig {
 }
 
 export const EnterpriseCrmEventbusProtoCloudSchedulerConfig: Schema.Schema<EnterpriseCrmEventbusProtoCloudSchedulerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccountEmail: Schema.optional(Schema.String),
       cronTab: Schema.optional(Schema.String),
@@ -3906,7 +3906,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoTriggerConfigVariables> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3973,7 +3973,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoTriggerConfig {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoTriggerConfig: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoTriggerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       startTasks: Schema.optional(
@@ -4018,7 +4018,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdVa
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationAlertConfigThresholdValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       absolute: Schema.optional(Schema.String),
       percentage: Schema.optional(Schema.Number),
@@ -4066,7 +4066,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationAlertConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationAlertConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationAlertConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       metricType: Schema.optional(Schema.String),
@@ -4096,7 +4096,7 @@ export interface GoogleCloudIntegrationsV1alphaCloudSchedulerConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaCloudSchedulerConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaCloudSchedulerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceAccountEmail: Schema.optional(Schema.String),
       cronTab: Schema.optional(Schema.String),
@@ -4113,7 +4113,7 @@ export interface GoogleCloudIntegrationsV1alphaTriggerConfigVariables {
 }
 
 export const GoogleCloudIntegrationsV1alphaTriggerConfigVariables: Schema.Schema<GoogleCloudIntegrationsV1alphaTriggerConfigVariables> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4171,7 +4171,7 @@ export interface GoogleCloudIntegrationsV1alphaTriggerConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaTriggerConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaTriggerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       startTasks: Schema.optional(
@@ -4221,7 +4221,7 @@ export interface EnterpriseCrmEventbusProtoLogSettings {
 }
 
 export const EnterpriseCrmEventbusProtoLogSettings: Schema.Schema<EnterpriseCrmEventbusProtoLogSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logFieldName: Schema.optional(Schema.String),
       seedScope: Schema.optional(Schema.String),
@@ -4259,7 +4259,7 @@ export interface EnterpriseCrmEventbusProtoAttributes {
 }
 
 export const EnterpriseCrmEventbusProtoAttributes: Schema.Schema<EnterpriseCrmEventbusProtoAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataType: Schema.optional(Schema.String),
       isRequired: Schema.optional(Schema.Boolean),
@@ -4287,7 +4287,7 @@ export interface EnterpriseCrmEventbusProtoNodeIdentifier {
 }
 
 export const EnterpriseCrmEventbusProtoNodeIdentifier: Schema.Schema<EnterpriseCrmEventbusProtoNodeIdentifier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       elementType: Schema.optional(Schema.String),
       elementIdentifier: Schema.optional(Schema.String),
@@ -4354,7 +4354,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       dataType: Schema.optional(Schema.String),
@@ -4387,7 +4387,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoWorkflowParameters {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoWorkflowParameters: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoWorkflowParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(
         Schema.Array(EnterpriseCrmFrontendsEventbusProtoWorkflowParameterEntry),
@@ -4449,7 +4449,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationParameter {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationParameter: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       dataType: Schema.optional(Schema.String),
@@ -4476,7 +4476,7 @@ export interface EnterpriseCrmEventbusProtoPropertyEntry {
 }
 
 export const EnterpriseCrmEventbusProtoPropertyEntry: Schema.Schema<EnterpriseCrmEventbusProtoPropertyEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(EnterpriseCrmEventbusProtoValueType),
@@ -4491,7 +4491,7 @@ export interface EnterpriseCrmEventbusProtoEventBusProperties {
 }
 
 export const EnterpriseCrmEventbusProtoEventBusProperties: Schema.Schema<EnterpriseCrmEventbusProtoEventBusProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       properties: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoPropertyEntry),
@@ -4507,7 +4507,7 @@ export interface EnterpriseCrmEventbusProtoNextTeardownTask {
 }
 
 export const EnterpriseCrmEventbusProtoNextTeardownTask: Schema.Schema<EnterpriseCrmEventbusProtoNextTeardownTask> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -4529,7 +4529,7 @@ export interface EnterpriseCrmEventbusProtoTeardownTaskConfig {
 }
 
 export const EnterpriseCrmEventbusProtoTeardownTaskConfig: Schema.Schema<EnterpriseCrmEventbusProtoTeardownTaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       teardownTaskImplementationClassName: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -4550,7 +4550,7 @@ export interface EnterpriseCrmEventbusProtoTeardown {
 }
 
 export const EnterpriseCrmEventbusProtoTeardown: Schema.Schema<EnterpriseCrmEventbusProtoTeardown> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       teardownTaskConfigs: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoTeardownTaskConfig),
@@ -4576,7 +4576,7 @@ export interface GoogleCloudIntegrationsV1alphaErrorCatcherConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaErrorCatcherConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaErrorCatcherConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorCatcherId: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -4604,7 +4604,7 @@ export interface GoogleCloudIntegrationsV1alphaCloudLoggingDetails {
 }
 
 export const GoogleCloudIntegrationsV1alphaCloudLoggingDetails: Schema.Schema<GoogleCloudIntegrationsV1alphaCloudLoggingDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudLoggingSeverity: Schema.optional(Schema.String),
       enableCloudLogging: Schema.optional(Schema.Boolean),
@@ -4621,7 +4621,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationConfigParameter {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationConfigParameter: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationConfigParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameter: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationParameter,
@@ -4713,7 +4713,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationVersion {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationVersion: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -4775,7 +4775,7 @@ export interface GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersions: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaIntegrationVersion),
@@ -4793,7 +4793,7 @@ export interface GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest 
 }
 
 export const GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configParameters: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -4807,7 +4807,7 @@ export const GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest: Sch
 export interface GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse {}
 
 export const GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse>;
@@ -4820,7 +4820,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       fileFormat: Schema.optional(Schema.String),
@@ -4835,7 +4835,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse 
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4858,7 +4858,7 @@ export interface GoogleCloudIntegrationsV1alphaSerializedFile {
 }
 
 export const GoogleCloudIntegrationsV1alphaSerializedFile: Schema.Schema<GoogleCloudIntegrationsV1alphaSerializedFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       file: Schema.optional(Schema.String),
@@ -4875,7 +4875,7 @@ export interface GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionRespons
 }
 
 export const GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       files: Schema.optional(
@@ -4901,7 +4901,7 @@ export interface GoogleCloudIntegrationsV1alphaFile {
 }
 
 export const GoogleCloudIntegrationsV1alphaFile: Schema.Schema<GoogleCloudIntegrationsV1alphaFile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4921,7 +4921,7 @@ export interface GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       files: Schema.optional(Schema.Array(GoogleCloudIntegrationsV1alphaFile)),
     }),
@@ -4932,7 +4932,7 @@ export const GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse: Schema.S
 export interface GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest {}
 
 export const GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest>;
 
@@ -4942,7 +4942,7 @@ export interface GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -4955,7 +4955,7 @@ export const GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse: Schema.Sche
 export interface GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest {}
 
 export const GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest>;
@@ -4978,7 +4978,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerId: Schema.optional(Schema.String),
       parameters: Schema.optional(
@@ -5014,7 +5014,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionId: Schema.optional(Schema.String),
       eventParameters: Schema.optional(
@@ -5053,7 +5053,7 @@ export interface GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerId: Schema.optional(Schema.String),
       parameters: Schema.optional(EnterpriseCrmEventbusProtoEventParameters),
@@ -5077,7 +5077,7 @@ export interface GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionInfoIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -5091,7 +5091,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteEventResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteEventResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteEventResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionId: Schema.optional(Schema.String),
     }),
@@ -5119,7 +5119,7 @@ export interface EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionS
 }
 
 export const EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata: Schema.Schema<EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskNumber: Schema.optional(Schema.String),
       taskName: Schema.optional(Schema.String),
@@ -5143,7 +5143,7 @@ export interface EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats 
 }
 
 export const EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats: Schema.Schema<EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5177,7 +5177,7 @@ export interface EnterpriseCrmEventbusProtoTaskExecutionDetails {
 }
 
 export const EnterpriseCrmEventbusProtoTaskExecutionDetails: Schema.Schema<EnterpriseCrmEventbusProtoTaskExecutionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskNumber: Schema.optional(Schema.String),
       taskExecutionState: Schema.optional(Schema.String),
@@ -5202,7 +5202,7 @@ export interface EnterpriseCrmEventbusProtoConditionResult {
 }
 
 export const EnterpriseCrmEventbusProtoConditionResult: Schema.Schema<EnterpriseCrmEventbusProtoConditionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currentTaskNumber: Schema.optional(Schema.String),
       nextTaskNumber: Schema.optional(Schema.String),
@@ -5235,7 +5235,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoEventExecutionSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionSnapshotId: Schema.optional(Schema.String),
       eventExecutionInfoId: Schema.optional(Schema.String),
@@ -5270,7 +5270,7 @@ export interface EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStat
 }
 
 export const EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats: Schema.Schema<EnterpriseCrmEventbusProtoEventExecutionDetailsEventAttemptStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5312,7 +5312,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionState: Schema.optional(Schema.String),
       eventExecutionSnapshot: Schema.optional(
@@ -5402,14 +5402,14 @@ export interface CrmlogErrorCode {
     | (string & {});
 }
 
-export const CrmlogErrorCode: Schema.Schema<CrmlogErrorCode> = Schema.suspend(
-  () =>
+export const CrmlogErrorCode: Schema.Schema<CrmlogErrorCode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commonErrorCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CrmlogErrorCode",
-}) as any as Schema.Schema<CrmlogErrorCode>;
+  ).annotate({
+    identifier: "CrmlogErrorCode",
+  }) as any as Schema.Schema<CrmlogErrorCode>;
 
 export interface EnterpriseCrmEventbusProtoErrorDetail {
   /** The associated error-code, which can be a common or internal code. */
@@ -5423,7 +5423,7 @@ export interface EnterpriseCrmEventbusProtoErrorDetail {
 }
 
 export const EnterpriseCrmEventbusProtoErrorDetail: Schema.Schema<EnterpriseCrmEventbusProtoErrorDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorCode: Schema.optional(CrmlogErrorCode),
       errorMessage: Schema.optional(Schema.String),
@@ -5442,7 +5442,7 @@ export interface EnterpriseCrmEventbusProtoExecutionTraceInfo {
 }
 
 export const EnterpriseCrmEventbusProtoExecutionTraceInfo: Schema.Schema<EnterpriseCrmEventbusProtoExecutionTraceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       traceId: Schema.optional(Schema.String),
       parentEventExecutionInfoId: Schema.optional(Schema.String),
@@ -5467,7 +5467,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoEventExecutionInfoReplayInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originalExecutionInfoId: Schema.optional(Schema.String),
       replayedExecutionInfoIds: Schema.optional(Schema.Array(Schema.String)),
@@ -5492,7 +5492,7 @@ export interface EnterpriseCrmEventbusProtoCloudLoggingDetails {
 }
 
 export const EnterpriseCrmEventbusProtoCloudLoggingDetails: Schema.Schema<EnterpriseCrmEventbusProtoCloudLoggingDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableCloudLogging: Schema.optional(Schema.Boolean),
       cloudLoggingSeverity: Schema.optional(Schema.String),
@@ -5561,7 +5561,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionInfoId: Schema.optional(Schema.String),
       workflowName: Schema.optional(Schema.String),
@@ -5633,7 +5633,7 @@ export interface EnterpriseCrmEventbusProtoEventExecutionSnapshot {
 }
 
 export const EnterpriseCrmEventbusProtoEventExecutionSnapshot: Schema.Schema<EnterpriseCrmEventbusProtoEventExecutionSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionSnapshotId: Schema.optional(Schema.String),
       eventExecutionInfoId: Schema.optional(Schema.String),
@@ -5689,7 +5689,7 @@ export interface EnterpriseCrmEventbusProtoEventExecutionDetails {
 }
 
 export const EnterpriseCrmEventbusProtoEventExecutionDetails: Schema.Schema<EnterpriseCrmEventbusProtoEventExecutionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionState: Schema.optional(Schema.String),
       eventExecutionSnapshot: Schema.optional(
@@ -5732,7 +5732,7 @@ export interface GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapsho
 }
 
 export const GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata: Schema.Schema<GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskNumber: Schema.optional(Schema.String),
       task: Schema.optional(Schema.String),
@@ -5756,7 +5756,7 @@ export interface GoogleCloudIntegrationsV1alphaAttemptStats {
 }
 
 export const GoogleCloudIntegrationsV1alphaAttemptStats: Schema.Schema<GoogleCloudIntegrationsV1alphaAttemptStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5789,7 +5789,7 @@ export interface GoogleCloudIntegrationsV1alphaTaskExecutionDetails {
 }
 
 export const GoogleCloudIntegrationsV1alphaTaskExecutionDetails: Schema.Schema<GoogleCloudIntegrationsV1alphaTaskExecutionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskNumber: Schema.optional(Schema.String),
       taskExecutionState: Schema.optional(Schema.String),
@@ -5813,7 +5813,7 @@ export interface GoogleCloudIntegrationsV1alphaExecutionSnapshot {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecutionSnapshot: Schema.Schema<GoogleCloudIntegrationsV1alphaExecutionSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       checkpointTaskNumber: Schema.optional(Schema.String),
       executionSnapshotMetadata: Schema.optional(
@@ -5851,7 +5851,7 @@ export interface GoogleCloudIntegrationsV1alphaExecutionDetails {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecutionDetails: Schema.Schema<GoogleCloudIntegrationsV1alphaExecutionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       executionSnapshots: Schema.optional(
@@ -5882,7 +5882,7 @@ export interface GoogleCloudIntegrationsV1alphaExecutionReplayInfo {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecutionReplayInfo: Schema.Schema<GoogleCloudIntegrationsV1alphaExecutionReplayInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originalExecutionInfoId: Schema.optional(Schema.String),
       replayedExecutionInfoIds: Schema.optional(Schema.Array(Schema.String)),
@@ -5941,7 +5941,7 @@ export interface GoogleCloudIntegrationsV1alphaExecution {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecution: Schema.Schema<GoogleCloudIntegrationsV1alphaExecution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       triggerId: Schema.optional(Schema.String),
@@ -5993,7 +5993,7 @@ export interface GoogleCloudIntegrationsV1alphaListExecutionsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListExecutionsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListExecutionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionInfos: Schema.optional(
         Schema.Array(EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo),
@@ -6013,7 +6013,7 @@ export interface GoogleCloudIntegrationsV1alphaCancelExecutionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaCancelExecutionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaCancelExecutionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cancelReason: Schema.optional(Schema.String),
     }),
@@ -6027,7 +6027,7 @@ export interface GoogleCloudIntegrationsV1alphaCancelExecutionResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaCancelExecutionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaCancelExecutionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       isCanceled: Schema.optional(Schema.Boolean),
     }),
@@ -6055,7 +6055,7 @@ export interface GoogleCloudIntegrationsV1alphaTestIntegrationsRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaTestIntegrationsRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaTestIntegrationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -6092,7 +6092,7 @@ export interface GoogleCloudIntegrationsV1alphaTestIntegrationsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaTestIntegrationsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaTestIntegrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionId: Schema.optional(Schema.String),
       eventParameters: Schema.optional(
@@ -6116,7 +6116,7 @@ export interface GoogleCloudIntegrationsV1alphaDownloadExecutionResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaDownloadExecutionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaDownloadExecutionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
     }),
@@ -6140,7 +6140,7 @@ export interface GoogleCloudIntegrationsV1alphaReplayExecutionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaReplayExecutionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaReplayExecutionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       replayReason: Schema.optional(Schema.String),
       updateMask: Schema.optional(Schema.String),
@@ -6163,7 +6163,7 @@ export interface GoogleCloudIntegrationsV1alphaReplayExecutionResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaReplayExecutionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaReplayExecutionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionId: Schema.optional(Schema.String),
       replayedExecutionId: Schema.optional(Schema.String),
@@ -6193,7 +6193,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegration {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegration: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -6215,7 +6215,7 @@ export interface GoogleCloudIntegrationsV1alphaListIntegrationsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListIntegrationsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListIntegrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrations: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaIntegration),
@@ -6252,7 +6252,7 @@ export interface GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegra
 }
 
 export const GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResult: Schema.Schema<GoogleCloudIntegrationsV1alphaSearchIntegrationsResponseIntegrationSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -6276,7 +6276,7 @@ export interface GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrations: Schema.optional(
         Schema.Array(
@@ -6311,7 +6311,7 @@ export interface GoogleCloudIntegrationsV1alphaSfdcChannel {
 }
 
 export const GoogleCloudIntegrationsV1alphaSfdcChannel: Schema.Schema<GoogleCloudIntegrationsV1alphaSfdcChannel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -6335,7 +6335,7 @@ export interface GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sfdcChannels: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaSfdcChannel),
@@ -6368,7 +6368,7 @@ export interface GoogleCloudIntegrationsV1alphaSfdcInstance {
 }
 
 export const GoogleCloudIntegrationsV1alphaSfdcInstance: Schema.Schema<GoogleCloudIntegrationsV1alphaSfdcInstance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -6392,7 +6392,7 @@ export interface GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sfdcInstances: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaSfdcInstance),
@@ -6411,7 +6411,7 @@ export interface GoogleCloudIntegrationsV1alphaSuspensionAudit {
 }
 
 export const GoogleCloudIntegrationsV1alphaSuspensionAudit: Schema.Schema<GoogleCloudIntegrationsV1alphaSuspensionAudit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resolveTime: Schema.optional(Schema.String),
       resolver: Schema.optional(Schema.String),
@@ -6426,7 +6426,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
       gaiaId: Schema.optional(Schema.String),
@@ -6445,7 +6445,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionAuthPermissions {
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionAuthPermissions: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionAuthPermissions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mdbGroup: Schema.optional(Schema.String),
       loasRole: Schema.optional(Schema.String),
@@ -6466,7 +6466,7 @@ export interface EnterpriseCrmEventbusProtoToken {
 }
 
 export const EnterpriseCrmEventbusProtoToken: Schema.Schema<EnterpriseCrmEventbusProtoToken> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -6483,7 +6483,7 @@ export interface EnterpriseCrmEventbusProtoAddress {
 }
 
 export const EnterpriseCrmEventbusProtoAddress: Schema.Schema<EnterpriseCrmEventbusProtoAddress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -6505,7 +6505,7 @@ export interface EnterpriseCrmEventbusProtoBuganizerNotification {
 }
 
 export const EnterpriseCrmEventbusProtoBuganizerNotification: Schema.Schema<EnterpriseCrmEventbusProtoBuganizerNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       componentId: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -6550,7 +6550,7 @@ export interface GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest
 }
 
 export const GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest: Schema.Schema<GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       triggerId: Schema.optional(Schema.String),
       clientId: Schema.optional(Schema.String),
@@ -6578,7 +6578,7 @@ export interface EnterpriseCrmEventbusProtoCustomSuspensionRequest {
 }
 
 export const EnterpriseCrmEventbusProtoCustomSuspensionRequest: Schema.Schema<EnterpriseCrmEventbusProtoCustomSuspensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suspensionInfoEventParameterKey: Schema.optional(Schema.String),
       postToQueueWithTriggerIdRequest: Schema.optional(
@@ -6599,7 +6599,7 @@ export interface EnterpriseCrmEventbusProtoNotification {
 }
 
 export const EnterpriseCrmEventbusProtoNotification: Schema.Schema<EnterpriseCrmEventbusProtoNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(EnterpriseCrmEventbusProtoAddress),
       pubsubTopic: Schema.optional(Schema.String),
@@ -6625,7 +6625,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionExpiration {
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionExpiration: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionExpiration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       remindAfterMs: Schema.optional(Schema.Number),
       expireAfterMs: Schema.optional(Schema.Number),
@@ -6646,7 +6646,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionConfig {
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionConfig: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       whoMayResolve: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoSuspensionAuthPermissions),
@@ -6673,7 +6673,7 @@ export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration {
 }
 
 export const GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration: Schema.Schema<GoogleCloudIntegrationsV1alphaSuspensionApprovalExpiration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       remindTime: Schema.optional(Schema.String),
       expireTime: Schema.optional(Schema.String),
@@ -6693,7 +6693,7 @@ export interface GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customMessage: Schema.optional(Schema.String),
       emailAddresses: Schema.optional(Schema.Array(Schema.String)),
@@ -6734,7 +6734,7 @@ export interface GoogleCloudIntegrationsV1alphaSuspension {
 }
 
 export const GoogleCloudIntegrationsV1alphaSuspension: Schema.Schema<GoogleCloudIntegrationsV1alphaSuspension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       eventExecutionInfoId: Schema.optional(Schema.String),
@@ -6761,7 +6761,7 @@ export interface GoogleCloudIntegrationsV1alphaResolveSuspensionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaResolveSuspensionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suspension: Schema.optional(GoogleCloudIntegrationsV1alphaSuspension),
     }),
@@ -6772,7 +6772,7 @@ export const GoogleCloudIntegrationsV1alphaResolveSuspensionRequest: Schema.Sche
 export interface GoogleCloudIntegrationsV1alphaResolveSuspensionResponse {}
 
 export const GoogleCloudIntegrationsV1alphaResolveSuspensionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudIntegrationsV1alphaResolveSuspensionResponse",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaResolveSuspensionResponse>;
 
@@ -6784,7 +6784,7 @@ export interface GoogleCloudIntegrationsV1alphaListSuspensionsResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListSuspensionsResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListSuspensionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suspensions: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaSuspension),
@@ -6801,7 +6801,7 @@ export interface GoogleCloudIntegrationsV1alphaLiftSuspensionRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaLiftSuspensionRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suspensionResult: Schema.optional(Schema.String),
     }),
@@ -6815,7 +6815,7 @@ export interface GoogleCloudIntegrationsV1alphaLiftSuspensionResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaLiftSuspensionResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaLiftSuspensionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventExecutionInfoId: Schema.optional(Schema.String),
     }),
@@ -6839,7 +6839,7 @@ export interface GoogleCloudIntegrationsV1alphaMockConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaMockConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaMockConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mockStrategy: Schema.optional(Schema.String),
       parameters: Schema.optional(
@@ -6872,7 +6872,7 @@ export interface GoogleCloudIntegrationsV1alphaAssertion {
 }
 
 export const GoogleCloudIntegrationsV1alphaAssertion: Schema.Schema<GoogleCloudIntegrationsV1alphaAssertion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assertionStrategy: Schema.optional(Schema.String),
       parameter: Schema.optional(GoogleCloudIntegrationsV1alphaEventParameter),
@@ -6897,7 +6897,7 @@ export interface GoogleCloudIntegrationsV1alphaTestTaskConfig {
 }
 
 export const GoogleCloudIntegrationsV1alphaTestTaskConfig: Schema.Schema<GoogleCloudIntegrationsV1alphaTestTaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taskNumber: Schema.optional(Schema.String),
       mockConfig: Schema.optional(GoogleCloudIntegrationsV1alphaMockConfig),
@@ -6945,7 +6945,7 @@ export interface GoogleCloudIntegrationsV1alphaTestCase {
 }
 
 export const GoogleCloudIntegrationsV1alphaTestCase: Schema.Schema<GoogleCloudIntegrationsV1alphaTestCase> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -6979,7 +6979,7 @@ export interface GoogleCloudIntegrationsV1alphaListTestCasesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListTestCasesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListTestCasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testCases: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaTestCase),
@@ -6996,7 +6996,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputParameters: Schema.optional(
         Schema.Record(Schema.String, GoogleCloudIntegrationsV1alphaValueType),
@@ -7024,7 +7024,7 @@ export interface GoogleCloudIntegrationsV1alphaAssertionResult {
 }
 
 export const GoogleCloudIntegrationsV1alphaAssertionResult: Schema.Schema<GoogleCloudIntegrationsV1alphaAssertionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assertion: Schema.optional(GoogleCloudIntegrationsV1alphaAssertion),
       taskNumber: Schema.optional(Schema.String),
@@ -7052,7 +7052,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executionId: Schema.optional(Schema.String),
       outputParameters: Schema.optional(
@@ -7075,7 +7075,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadTestCaseRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadTestCaseRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadTestCaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       fileFormat: Schema.optional(Schema.String),
@@ -7090,7 +7090,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadTestCaseResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadTestCaseResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadTestCaseResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testCase: Schema.optional(GoogleCloudIntegrationsV1alphaTestCase),
     }),
@@ -7104,7 +7104,7 @@ export interface GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
     }),
@@ -7115,14 +7115,14 @@ export const GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse: Schema.Sche
 export interface GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest {}
 
 export const GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest>;
 
 export interface GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest {}
 
 export const GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest",
   }) as any as Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest>;
 
@@ -7132,7 +7132,7 @@ export interface GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       executeTestCaseResponses: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse),
@@ -7150,7 +7150,7 @@ export interface GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate {
 }
 
 export const GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate: Schema.Schema<GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       integrationVersion: Schema.optional(
@@ -7169,7 +7169,7 @@ export interface GoogleCloudIntegrationsV1alphaTemplateBundle {
 }
 
 export const GoogleCloudIntegrationsV1alphaTemplateBundle: Schema.Schema<GoogleCloudIntegrationsV1alphaTemplateBundle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersionTemplate: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersionTemplate,
@@ -7190,7 +7190,7 @@ export interface GoogleCloudIntegrationsV1alphaTemplateComponent {
 }
 
 export const GoogleCloudIntegrationsV1alphaTemplateComponent: Schema.Schema<GoogleCloudIntegrationsV1alphaTemplateComponent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -7259,7 +7259,7 @@ export interface GoogleCloudIntegrationsV1alphaTemplate {
 }
 
 export const GoogleCloudIntegrationsV1alphaTemplate: Schema.Schema<GoogleCloudIntegrationsV1alphaTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -7294,7 +7294,7 @@ export interface GoogleCloudIntegrationsV1alphaListTemplatesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaListTemplatesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaListTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       templates: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaTemplate),
@@ -7313,7 +7313,7 @@ export interface GoogleCloudIntegrationsV1alphaSearchTemplatesResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaSearchTemplatesResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaSearchTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       templates: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaTemplate),
@@ -7332,7 +7332,7 @@ export interface GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDeta
 }
 
 export const GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails: Schema.Schema<GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integration: Schema.optional(Schema.String),
       integrationDescription: Schema.optional(Schema.String),
@@ -7355,7 +7355,7 @@ export interface GoogleCloudIntegrationsV1alphaUseTemplateRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaUseTemplateRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUseTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationDetails: Schema.optional(
         GoogleCloudIntegrationsV1alphaUseTemplateRequestIntegrationDetails,
@@ -7380,7 +7380,7 @@ export interface GoogleCloudIntegrationsV1alphaUseTemplateResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaUseTemplateResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaUseTemplateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -7404,7 +7404,7 @@ export interface GoogleCloudIntegrationsV1alphaImportTemplateRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaImportTemplateRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaImportTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integration: Schema.optional(Schema.String),
       subIntegrations: Schema.optional(
@@ -7426,7 +7426,7 @@ export interface GoogleCloudIntegrationsV1alphaImportTemplateResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaImportTemplateResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaImportTemplateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationVersion: Schema.optional(
         GoogleCloudIntegrationsV1alphaIntegrationVersion,
@@ -7445,7 +7445,7 @@ export interface GoogleCloudIntegrationsV1alphaShareTemplateRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaShareTemplateRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaShareTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceNames: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -7459,7 +7459,7 @@ export interface GoogleCloudIntegrationsV1alphaUnshareTemplateRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaUnshareTemplateRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUnshareTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceNames: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -7475,7 +7475,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadTemplateRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadTemplateRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       fileFormat: Schema.optional(Schema.String),
@@ -7490,7 +7490,7 @@ export interface GoogleCloudIntegrationsV1alphaUploadTemplateResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaUploadTemplateResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaUploadTemplateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       template: Schema.optional(GoogleCloudIntegrationsV1alphaTemplate),
     }),
@@ -7504,7 +7504,7 @@ export interface GoogleCloudIntegrationsV1alphaDownloadTemplateResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaDownloadTemplateResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaDownloadTemplateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
     }),
@@ -7520,7 +7520,7 @@ export interface GoogleCloudIntegrationsV1alphaApiTriggerResource {
 }
 
 export const GoogleCloudIntegrationsV1alphaApiTriggerResource: Schema.Schema<GoogleCloudIntegrationsV1alphaApiTriggerResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integrationResource: Schema.optional(Schema.String),
       triggerId: Schema.optional(Schema.Array(Schema.String)),
@@ -7537,7 +7537,7 @@ export interface GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest {
 }
 
 export const GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest: Schema.Schema<GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiTriggerResources: Schema.optional(
         Schema.Array(GoogleCloudIntegrationsV1alphaApiTriggerResource),
@@ -7554,7 +7554,7 @@ export interface GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       openApiSpec: Schema.optional(Schema.String),
     }),
@@ -7568,7 +7568,7 @@ export interface GoogleCloudIntegrationsV1alphaGenerateTokenResponse {
 }
 
 export const GoogleCloudIntegrationsV1alphaGenerateTokenResponse: Schema.Schema<GoogleCloudIntegrationsV1alphaGenerateTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
     }),
@@ -7602,7 +7602,7 @@ export interface EnterpriseCrmEventbusAuthconfigAuthConfigTaskParam {
 }
 
 export const EnterpriseCrmEventbusAuthconfigAuthConfigTaskParam: Schema.Schema<EnterpriseCrmEventbusAuthconfigAuthConfigTaskParam> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authConfigId: Schema.optional(Schema.String),
       allowedCredentialTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -7629,7 +7629,7 @@ export interface EnterpriseCrmEventbusProtoBaseFunction {
 }
 
 export const EnterpriseCrmEventbusProtoBaseFunction: Schema.Schema<EnterpriseCrmEventbusProtoBaseFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7661,7 +7661,7 @@ export interface EnterpriseCrmEventbusProtoStringFunction {
 }
 
 export const EnterpriseCrmEventbusProtoStringFunction: Schema.Schema<EnterpriseCrmEventbusProtoStringFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7691,7 +7691,7 @@ export interface EnterpriseCrmEventbusProtoIntFunction {
 }
 
 export const EnterpriseCrmEventbusProtoIntFunction: Schema.Schema<EnterpriseCrmEventbusProtoIntFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7722,7 +7722,7 @@ export interface EnterpriseCrmEventbusProtoDoubleFunction {
 }
 
 export const EnterpriseCrmEventbusProtoDoubleFunction: Schema.Schema<EnterpriseCrmEventbusProtoDoubleFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7747,7 +7747,7 @@ export interface EnterpriseCrmEventbusProtoBooleanFunction {
 }
 
 export const EnterpriseCrmEventbusProtoBooleanFunction: Schema.Schema<EnterpriseCrmEventbusProtoBooleanFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7776,7 +7776,7 @@ export interface EnterpriseCrmEventbusProtoProtoFunction {
 }
 
 export const EnterpriseCrmEventbusProtoProtoFunction: Schema.Schema<EnterpriseCrmEventbusProtoProtoFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7803,7 +7803,7 @@ export interface EnterpriseCrmEventbusProtoStringArrayFunction {
 }
 
 export const EnterpriseCrmEventbusProtoStringArrayFunction: Schema.Schema<EnterpriseCrmEventbusProtoStringArrayFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7834,7 +7834,7 @@ export interface EnterpriseCrmEventbusProtoIntArrayFunction {
 }
 
 export const EnterpriseCrmEventbusProtoIntArrayFunction: Schema.Schema<EnterpriseCrmEventbusProtoIntArrayFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7865,7 +7865,7 @@ export interface EnterpriseCrmEventbusProtoDoubleArrayFunction {
 }
 
 export const EnterpriseCrmEventbusProtoDoubleArrayFunction: Schema.Schema<EnterpriseCrmEventbusProtoDoubleArrayFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7892,7 +7892,7 @@ export interface EnterpriseCrmEventbusProtoBooleanArrayFunction {
 }
 
 export const EnterpriseCrmEventbusProtoBooleanArrayFunction: Schema.Schema<EnterpriseCrmEventbusProtoBooleanArrayFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7919,7 +7919,7 @@ export interface EnterpriseCrmEventbusProtoProtoArrayFunction {
 }
 
 export const EnterpriseCrmEventbusProtoProtoArrayFunction: Schema.Schema<EnterpriseCrmEventbusProtoProtoArrayFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7957,7 +7957,7 @@ export interface EnterpriseCrmEventbusProtoJsonFunction {
 }
 
 export const EnterpriseCrmEventbusProtoJsonFunction: Schema.Schema<EnterpriseCrmEventbusProtoJsonFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -7982,7 +7982,7 @@ export interface EnterpriseCrmEventbusProtoFunctionType {
 }
 
 export const EnterpriseCrmEventbusProtoFunctionType: Schema.Schema<EnterpriseCrmEventbusProtoFunctionType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       baseFunction: Schema.optional(EnterpriseCrmEventbusProtoBaseFunction),
       stringFunction: Schema.optional(EnterpriseCrmEventbusProtoStringFunction),
@@ -8021,7 +8021,7 @@ export interface EnterpriseCrmEventbusProtoFunction {
 }
 
 export const EnterpriseCrmEventbusProtoFunction: Schema.Schema<EnterpriseCrmEventbusProtoFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionType: Schema.optional(EnterpriseCrmEventbusProtoFunctionType),
       parameters: Schema.optional(
@@ -8042,7 +8042,7 @@ export interface EnterpriseCrmEventbusProtoBaseValue {
 }
 
 export const EnterpriseCrmEventbusProtoBaseValue: Schema.Schema<EnterpriseCrmEventbusProtoBaseValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       literalValue: Schema.optional(
         EnterpriseCrmEventbusProtoParameterValueType,
@@ -8062,7 +8062,7 @@ export interface EnterpriseCrmEventbusProtoTransformExpression {
 }
 
 export const EnterpriseCrmEventbusProtoTransformExpression: Schema.Schema<EnterpriseCrmEventbusProtoTransformExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       initialValue: Schema.optional(EnterpriseCrmEventbusProtoBaseValue),
       transformationFunctions: Schema.optional(
@@ -8108,7 +8108,7 @@ export interface EnterpriseCrmEventbusProtoField {
 }
 
 export const EnterpriseCrmEventbusProtoField: Schema.Schema<EnterpriseCrmEventbusProtoField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceKey: Schema.optional(Schema.String),
       transformExpression: Schema.optional(
@@ -8133,7 +8133,7 @@ export interface EnterpriseCrmEventbusProtoMappedField {
 }
 
 export const EnterpriseCrmEventbusProtoMappedField: Schema.Schema<EnterpriseCrmEventbusProtoMappedField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputField: Schema.optional(EnterpriseCrmEventbusProtoField),
       outputField: Schema.optional(EnterpriseCrmEventbusProtoField),
@@ -8147,7 +8147,7 @@ export interface EnterpriseCrmEventbusProtoFieldMappingConfig {
 }
 
 export const EnterpriseCrmEventbusProtoFieldMappingConfig: Schema.Schema<EnterpriseCrmEventbusProtoFieldMappingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mappedFields: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoMappedField),
@@ -8178,7 +8178,7 @@ export interface EnterpriseCrmEventbusProtoLoopMetadata {
 }
 
 export const EnterpriseCrmEventbusProtoLoopMetadata: Schema.Schema<EnterpriseCrmEventbusProtoLoopMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currentIterationCount: Schema.optional(Schema.String),
       currentIterationDetail: Schema.optional(Schema.String),
@@ -8197,7 +8197,7 @@ export interface EnterpriseCrmEventbusProtoParameterMapField {
 }
 
 export const EnterpriseCrmEventbusProtoParameterMapField: Schema.Schema<EnterpriseCrmEventbusProtoParameterMapField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceKey: Schema.optional(Schema.String),
       literalValue: Schema.optional(
@@ -8214,7 +8214,7 @@ export interface EnterpriseCrmEventbusProtoParameterMapEntry {
 }
 
 export const EnterpriseCrmEventbusProtoParameterMapEntry: Schema.Schema<EnterpriseCrmEventbusProtoParameterMapEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(EnterpriseCrmEventbusProtoParameterMapField),
       value: Schema.optional(EnterpriseCrmEventbusProtoParameterMapField),
@@ -8269,7 +8269,7 @@ export interface EnterpriseCrmEventbusProtoParameterMap {
 }
 
 export const EnterpriseCrmEventbusProtoParameterMap: Schema.Schema<EnterpriseCrmEventbusProtoParameterMap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(EnterpriseCrmEventbusProtoParameterMapEntry),
@@ -8295,7 +8295,7 @@ export interface EnterpriseCrmEventbusProtoScatterResponse {
 }
 
 export const EnterpriseCrmEventbusProtoScatterResponse: Schema.Schema<EnterpriseCrmEventbusProtoScatterResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scatterElement: Schema.optional(
         EnterpriseCrmEventbusProtoParameterValueType,
@@ -8318,7 +8318,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionResolutionInfoAudit {
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionResolutionInfoAudit: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionResolutionInfoAudit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timestamp: Schema.optional(Schema.String),
       resolvedBy: Schema.optional(Schema.String),
@@ -8343,7 +8343,7 @@ export interface EnterpriseCrmEventbusProtoExternalTraffic {
 }
 
 export const EnterpriseCrmEventbusProtoExternalTraffic: Schema.Schema<EnterpriseCrmEventbusProtoExternalTraffic> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Schema.String),
       gcpProjectId: Schema.optional(Schema.String),
@@ -8372,7 +8372,7 @@ export interface EnterpriseCrmEventbusProtoCloudKmsConfig {
 }
 
 export const EnterpriseCrmEventbusProtoCloudKmsConfig: Schema.Schema<EnterpriseCrmEventbusProtoCloudKmsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationName: Schema.optional(Schema.String),
       keyRingName: Schema.optional(Schema.String),
@@ -8426,7 +8426,7 @@ export interface EnterpriseCrmEventbusProtoSuspensionResolutionInfo {
 }
 
 export const EnterpriseCrmEventbusProtoSuspensionResolutionInfo: Schema.Schema<EnterpriseCrmEventbusProtoSuspensionResolutionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suspensionId: Schema.optional(Schema.String),
       eventExecutionInfoId: Schema.optional(Schema.String),
@@ -8462,7 +8462,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterMapField {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParameterMapField: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParameterMapField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       referenceKey: Schema.optional(Schema.String),
       literalValue: Schema.optional(
@@ -8479,7 +8479,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterMapEntry {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParameterMapEntry: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParameterMapEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(
         EnterpriseCrmFrontendsEventbusProtoParameterMapField,
@@ -8538,7 +8538,7 @@ export interface EnterpriseCrmFrontendsEventbusProtoParameterMap {
 }
 
 export const EnterpriseCrmFrontendsEventbusProtoParameterMap: Schema.Schema<EnterpriseCrmFrontendsEventbusProtoParameterMap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(EnterpriseCrmFrontendsEventbusProtoParameterMapEntry),
@@ -8562,7 +8562,7 @@ export interface EnterpriseCrmEventbusProtoConnectorsConnection {
 }
 
 export const EnterpriseCrmEventbusProtoConnectorsConnection: Schema.Schema<EnterpriseCrmEventbusProtoConnectorsConnection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connectionName: Schema.optional(Schema.String),
       serviceName: Schema.optional(Schema.String),
@@ -8590,7 +8590,7 @@ export interface EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfig 
 }
 
 export const EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfig: Schema.Schema<EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connection: Schema.optional(
         EnterpriseCrmEventbusProtoConnectorsConnection,
@@ -8611,17 +8611,18 @@ export interface GetClientmetadataProjectsRequest {
   parent: string;
 }
 
-export const GetClientmetadataProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/clientmetadata" }),
-  svc,
-) as unknown as Schema.Schema<GetClientmetadataProjectsRequest>;
+export const GetClientmetadataProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/clientmetadata" }),
+    svc,
+  ) as unknown as Schema.Schema<GetClientmetadataProjectsRequest>;
 
 export type GetClientmetadataProjectsResponse =
   GoogleCloudIntegrationsV1alphaGetClientMetadataResponse;
 export const GetClientmetadataProjectsResponse =
-  GoogleCloudIntegrationsV1alphaGetClientMetadataResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaGetClientMetadataResponse;
 
 export type GetClientmetadataProjectsError = DefaultErrors;
 
@@ -8631,7 +8632,7 @@ export const getClientmetadataProjects: API.OperationMethod<
   GetClientmetadataProjectsResponse,
   GetClientmetadataProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClientmetadataProjectsRequest,
   output: GetClientmetadataProjectsResponse,
   errors: [],
@@ -8642,20 +8643,21 @@ export interface GetClientsProjectsLocationsRequest {
   parent: string;
 }
 
-export const GetClientsProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetClientsProjectsLocationsRequest>;
+export const GetClientsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetClientsProjectsLocationsRequest>;
 
 export type GetClientsProjectsLocationsResponse =
   GoogleCloudIntegrationsV1alphaGetClientResponse;
 export const GetClientsProjectsLocationsResponse =
-  GoogleCloudIntegrationsV1alphaGetClientResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaGetClientResponse;
 
 export type GetClientsProjectsLocationsError = DefaultErrors;
 
@@ -8665,7 +8667,7 @@ export const getClientsProjectsLocations: API.OperationMethod<
   GetClientsProjectsLocationsResponse,
   GetClientsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetClientsProjectsLocationsRequest,
   output: GetClientsProjectsLocationsResponse,
   errors: [],
@@ -8678,24 +8680,25 @@ export interface GenerateOpenApiSpecProjectsLocationsRequest {
   body?: GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest;
 }
 
-export const GenerateOpenApiSpecProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:generateOpenApiSpec",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateOpenApiSpecProjectsLocationsRequest>;
+export const GenerateOpenApiSpecProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:generateOpenApiSpec",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateOpenApiSpecProjectsLocationsRequest>;
 
 export type GenerateOpenApiSpecProjectsLocationsResponse =
   GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse;
 export const GenerateOpenApiSpecProjectsLocationsResponse =
-  GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaGenerateOpenApiSpecResponse;
 
 export type GenerateOpenApiSpecProjectsLocationsError = DefaultErrors;
 
@@ -8705,7 +8708,7 @@ export const generateOpenApiSpecProjectsLocations: API.OperationMethod<
   GenerateOpenApiSpecProjectsLocationsResponse,
   GenerateOpenApiSpecProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateOpenApiSpecProjectsLocationsRequest,
   output: GenerateOpenApiSpecProjectsLocationsResponse,
   errors: [],
@@ -8718,24 +8721,25 @@ export interface LinkProjectsLocationsAppsScriptProjectsRequest {
   body?: GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest;
 }
 
-export const LinkProjectsLocationsAppsScriptProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/appsScriptProjects:link",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>;
+export const LinkProjectsLocationsAppsScriptProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/appsScriptProjects:link",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LinkProjectsLocationsAppsScriptProjectsRequest>;
 
 export type LinkProjectsLocationsAppsScriptProjectsResponse =
   GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse;
 export const LinkProjectsLocationsAppsScriptProjectsResponse =
-  GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse;
 
 export type LinkProjectsLocationsAppsScriptProjectsError = DefaultErrors;
 
@@ -8745,7 +8749,7 @@ export const linkProjectsLocationsAppsScriptProjects: API.OperationMethod<
   LinkProjectsLocationsAppsScriptProjectsResponse,
   LinkProjectsLocationsAppsScriptProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LinkProjectsLocationsAppsScriptProjectsRequest,
   output: LinkProjectsLocationsAppsScriptProjectsResponse,
   errors: [],
@@ -8758,24 +8762,25 @@ export interface CreateProjectsLocationsAppsScriptProjectsRequest {
   body?: GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest;
 }
 
-export const CreateProjectsLocationsAppsScriptProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/appsScriptProjects",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>;
+export const CreateProjectsLocationsAppsScriptProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/appsScriptProjects",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAppsScriptProjectsRequest>;
 
 export type CreateProjectsLocationsAppsScriptProjectsResponse =
   GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse;
 export const CreateProjectsLocationsAppsScriptProjectsResponse =
-  GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse;
 
 export type CreateProjectsLocationsAppsScriptProjectsError = DefaultErrors;
 
@@ -8785,7 +8790,7 @@ export const createProjectsLocationsAppsScriptProjects: API.OperationMethod<
   CreateProjectsLocationsAppsScriptProjectsResponse,
   CreateProjectsLocationsAppsScriptProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAppsScriptProjectsRequest,
   output: CreateProjectsLocationsAppsScriptProjectsResponse,
   errors: [],
@@ -8798,22 +8803,24 @@ export interface ProvisionProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaProvisionClientRequest;
 }
 
-export const ProvisionProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaProvisionClientRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:provision",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionProjectsLocationsClientsRequest>;
+export const ProvisionProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaProvisionClientRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:provision",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionProjectsLocationsClientsRequest>;
 
 export type ProvisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
-export const ProvisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
+export const ProvisionProjectsLocationsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ProvisionProjectsLocationsClientsError = DefaultErrors;
 
@@ -8823,7 +8830,7 @@ export const provisionProjectsLocationsClients: API.OperationMethod<
   ProvisionProjectsLocationsClientsResponse,
   ProvisionProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionProjectsLocationsClientsRequest,
   output: ProvisionProjectsLocationsClientsResponse,
   errors: [],
@@ -8837,7 +8844,7 @@ export interface ProvisionClientPostProcessorProjectsLocationsClientsRequest {
 }
 
 export const ProvisionClientPostProcessorProjectsLocationsClientsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorRequest,
@@ -8854,7 +8861,7 @@ export const ProvisionClientPostProcessorProjectsLocationsClientsRequest =
 export type ProvisionClientPostProcessorProjectsLocationsClientsResponse =
   GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse;
 export const ProvisionClientPostProcessorProjectsLocationsClientsResponse =
-  GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaProvisionClientPostProcessorResponse;
 
 export type ProvisionClientPostProcessorProjectsLocationsClientsError =
   DefaultErrors;
@@ -8865,7 +8872,7 @@ export const provisionClientPostProcessorProjectsLocationsClients: API.Operation
   ProvisionClientPostProcessorProjectsLocationsClientsResponse,
   ProvisionClientPostProcessorProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionClientPostProcessorProjectsLocationsClientsRequest,
   output: ProvisionClientPostProcessorProjectsLocationsClientsResponse,
   errors: [],
@@ -8878,22 +8885,24 @@ export interface DeprovisionProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaDeprovisionClientRequest;
 }
 
-export const DeprovisionProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaDeprovisionClientRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:deprovision",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeprovisionProjectsLocationsClientsRequest>;
+export const DeprovisionProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaDeprovisionClientRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:deprovision",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeprovisionProjectsLocationsClientsRequest>;
 
 export type DeprovisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
-export const DeprovisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
+export const DeprovisionProjectsLocationsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeprovisionProjectsLocationsClientsError = DefaultErrors;
 
@@ -8903,7 +8912,7 @@ export const deprovisionProjectsLocationsClients: API.OperationMethod<
   DeprovisionProjectsLocationsClientsResponse,
   DeprovisionProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeprovisionProjectsLocationsClientsRequest,
   output: DeprovisionProjectsLocationsClientsResponse,
   errors: [],
@@ -8916,24 +8925,25 @@ export interface ChangeConfigProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest;
 }
 
-export const ChangeConfigProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:changeConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ChangeConfigProjectsLocationsClientsRequest>;
+export const ChangeConfigProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaChangeCustomerConfigRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:changeConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ChangeConfigProjectsLocationsClientsRequest>;
 
 export type ChangeConfigProjectsLocationsClientsResponse =
   GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse;
 export const ChangeConfigProjectsLocationsClientsResponse =
-  GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaChangeCustomerConfigResponse;
 
 export type ChangeConfigProjectsLocationsClientsError = DefaultErrors;
 
@@ -8943,7 +8953,7 @@ export const changeConfigProjectsLocationsClients: API.OperationMethod<
   ChangeConfigProjectsLocationsClientsResponse,
   ChangeConfigProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ChangeConfigProjectsLocationsClientsRequest,
   output: ChangeConfigProjectsLocationsClientsResponse,
   errors: [],
@@ -8956,22 +8966,24 @@ export interface SwitchProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest;
 }
 
-export const SwitchProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:switch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SwitchProjectsLocationsClientsRequest>;
+export const SwitchProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaSwitchEncryptionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:switch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SwitchProjectsLocationsClientsRequest>;
 
 export type SwitchProjectsLocationsClientsResponse = GoogleProtobufEmpty;
-export const SwitchProjectsLocationsClientsResponse = GoogleProtobufEmpty;
+export const SwitchProjectsLocationsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SwitchProjectsLocationsClientsError = DefaultErrors;
 
@@ -8981,7 +8993,7 @@ export const switchProjectsLocationsClients: API.OperationMethod<
   SwitchProjectsLocationsClientsResponse,
   SwitchProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchProjectsLocationsClientsRequest,
   output: SwitchProjectsLocationsClientsResponse,
   errors: [],
@@ -8994,22 +9006,24 @@ export interface ReplaceProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest;
 }
 
-export const ReplaceProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:replace",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReplaceProjectsLocationsClientsRequest>;
+export const ReplaceProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaReplaceServiceAccountRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:replace",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReplaceProjectsLocationsClientsRequest>;
 
 export type ReplaceProjectsLocationsClientsResponse = GoogleProtobufEmpty;
-export const ReplaceProjectsLocationsClientsResponse = GoogleProtobufEmpty;
+export const ReplaceProjectsLocationsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ReplaceProjectsLocationsClientsError = DefaultErrors;
 
@@ -9019,7 +9033,7 @@ export const replaceProjectsLocationsClients: API.OperationMethod<
   ReplaceProjectsLocationsClientsResponse,
   ReplaceProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceProjectsLocationsClientsRequest,
   output: ReplaceProjectsLocationsClientsResponse,
   errors: [],
@@ -9033,7 +9047,7 @@ export interface SwitchVariableMaskingProjectsLocationsClientsRequest {
 }
 
 export const SwitchVariableMaskingProjectsLocationsClientsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaSwitchVariableMaskingRequest,
@@ -9050,7 +9064,7 @@ export const SwitchVariableMaskingProjectsLocationsClientsRequest =
 export type SwitchVariableMaskingProjectsLocationsClientsResponse =
   GoogleProtobufEmpty;
 export const SwitchVariableMaskingProjectsLocationsClientsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SwitchVariableMaskingProjectsLocationsClientsError = DefaultErrors;
 
@@ -9060,7 +9074,7 @@ export const switchVariableMaskingProjectsLocationsClients: API.OperationMethod<
   SwitchVariableMaskingProjectsLocationsClientsResponse,
   SwitchVariableMaskingProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SwitchVariableMaskingProjectsLocationsClientsRequest,
   output: SwitchVariableMaskingProjectsLocationsClientsResponse,
   errors: [],
@@ -9073,22 +9087,24 @@ export interface ToggleHttpProjectsLocationsClientsRequest {
   body?: GoogleCloudIntegrationsV1alphaToggleHttpRequest;
 }
 
-export const ToggleHttpProjectsLocationsClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaToggleHttpRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clients:toggleHttp",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ToggleHttpProjectsLocationsClientsRequest>;
+export const ToggleHttpProjectsLocationsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaToggleHttpRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clients:toggleHttp",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ToggleHttpProjectsLocationsClientsRequest>;
 
 export type ToggleHttpProjectsLocationsClientsResponse = GoogleProtobufEmpty;
-export const ToggleHttpProjectsLocationsClientsResponse = GoogleProtobufEmpty;
+export const ToggleHttpProjectsLocationsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ToggleHttpProjectsLocationsClientsError = DefaultErrors;
 
@@ -9098,7 +9114,7 @@ export const toggleHttpProjectsLocationsClients: API.OperationMethod<
   ToggleHttpProjectsLocationsClientsResponse,
   ToggleHttpProjectsLocationsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ToggleHttpProjectsLocationsClientsRequest,
   output: ToggleHttpProjectsLocationsClientsResponse,
   errors: [],
@@ -9112,7 +9128,7 @@ export interface CreateProjectsLocationsProductsCloudFunctionsRequest {
 }
 
 export const CreateProjectsLocationsProductsCloudFunctionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest,
@@ -9129,7 +9145,7 @@ export const CreateProjectsLocationsProductsCloudFunctionsRequest =
 export type CreateProjectsLocationsProductsCloudFunctionsResponse =
   GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
 export const CreateProjectsLocationsProductsCloudFunctionsResponse =
-  GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
 
 export type CreateProjectsLocationsProductsCloudFunctionsError = DefaultErrors;
 
@@ -9139,7 +9155,7 @@ export const createProjectsLocationsProductsCloudFunctions: API.OperationMethod<
   CreateProjectsLocationsProductsCloudFunctionsResponse,
   CreateProjectsLocationsProductsCloudFunctionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsCloudFunctionsRequest,
   output: CreateProjectsLocationsProductsCloudFunctionsResponse,
   errors: [],
@@ -9158,24 +9174,25 @@ export interface ListProjectsLocationsProductsCertificatesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsProductsCertificatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsProductsCertificatesRequest>;
+export const ListProjectsLocationsProductsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsProductsCertificatesRequest>;
 
 export type ListProjectsLocationsProductsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaListCertificatesResponse;
 export const ListProjectsLocationsProductsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaListCertificatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListCertificatesResponse;
 
 export type ListProjectsLocationsProductsCertificatesError = DefaultErrors;
 
@@ -9185,7 +9202,7 @@ export const listProjectsLocationsProductsCertificates: API.PaginatedOperationMe
   ListProjectsLocationsProductsCertificatesResponse,
   ListProjectsLocationsProductsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsCertificatesRequest,
   output: ListProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -9200,20 +9217,21 @@ export interface GetProjectsLocationsProductsCertificatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsProductsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsProductsCertificatesRequest>;
+export const GetProjectsLocationsProductsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsProductsCertificatesRequest>;
 
 export type GetProjectsLocationsProductsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const GetProjectsLocationsProductsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type GetProjectsLocationsProductsCertificatesError = DefaultErrors;
 
@@ -9223,7 +9241,7 @@ export const getProjectsLocationsProductsCertificates: API.OperationMethod<
   GetProjectsLocationsProductsCertificatesResponse,
   GetProjectsLocationsProductsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsCertificatesRequest,
   output: GetProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -9236,26 +9254,25 @@ export interface CreateProjectsLocationsProductsCertificatesRequest {
   body?: GoogleCloudIntegrationsV1alphaCertificate;
 }
 
-export const CreateProjectsLocationsProductsCertificatesRequest = Schema.Struct(
-  {
+export const CreateProjectsLocationsProductsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsProductsCertificatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsProductsCertificatesRequest>;
 
 export type CreateProjectsLocationsProductsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const CreateProjectsLocationsProductsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type CreateProjectsLocationsProductsCertificatesError = DefaultErrors;
 
@@ -9265,7 +9282,7 @@ export const createProjectsLocationsProductsCertificates: API.OperationMethod<
   CreateProjectsLocationsProductsCertificatesResponse,
   CreateProjectsLocationsProductsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsCertificatesRequest,
   output: CreateProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -9280,25 +9297,26 @@ export interface PatchProjectsLocationsProductsCertificatesRequest {
   body?: GoogleCloudIntegrationsV1alphaCertificate;
 }
 
-export const PatchProjectsLocationsProductsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsProductsCertificatesRequest>;
+export const PatchProjectsLocationsProductsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsProductsCertificatesRequest>;
 
 export type PatchProjectsLocationsProductsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const PatchProjectsLocationsProductsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type PatchProjectsLocationsProductsCertificatesError = DefaultErrors;
 
@@ -9308,7 +9326,7 @@ export const patchProjectsLocationsProductsCertificates: API.OperationMethod<
   PatchProjectsLocationsProductsCertificatesResponse,
   PatchProjectsLocationsProductsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProductsCertificatesRequest,
   output: PatchProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -9319,22 +9337,21 @@ export interface DeleteProjectsLocationsProductsCertificatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsProductsCertificatesRequest = Schema.Struct(
-  {
+export const DeleteProjectsLocationsProductsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsProductsCertificatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsProductsCertificatesRequest>;
 
 export type DeleteProjectsLocationsProductsCertificatesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsProductsCertificatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsProductsCertificatesError = DefaultErrors;
 
@@ -9344,7 +9361,7 @@ export const deleteProjectsLocationsProductsCertificates: API.OperationMethod<
   DeleteProjectsLocationsProductsCertificatesResponse,
   DeleteProjectsLocationsProductsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsProductsCertificatesRequest,
   output: DeleteProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -9363,33 +9380,34 @@ export interface CreateProjectsLocationsProductsAuthConfigsRequest {
   body?: GoogleCloudIntegrationsV1alphaAuthConfig;
 }
 
-export const CreateProjectsLocationsProductsAuthConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.sslCertificate"),
-  ),
-  "clientCertificate.encryptedPrivateKey": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.encryptedPrivateKey"),
-  ),
-  "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.passphrase"),
-  ),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsProductsAuthConfigsRequest>;
+export const CreateProjectsLocationsProductsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.sslCertificate"),
+    ),
+    "clientCertificate.encryptedPrivateKey": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("clientCertificate.encryptedPrivateKey")),
+    "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.passphrase"),
+    ),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsProductsAuthConfigsRequest>;
 
 export type CreateProjectsLocationsProductsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const CreateProjectsLocationsProductsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type CreateProjectsLocationsProductsAuthConfigsError = DefaultErrors;
 
@@ -9399,7 +9417,7 @@ export const createProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   CreateProjectsLocationsProductsAuthConfigsResponse,
   CreateProjectsLocationsProductsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsAuthConfigsRequest,
   output: CreateProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -9420,34 +9438,35 @@ export interface PatchProjectsLocationsProductsAuthConfigsRequest {
   body?: GoogleCloudIntegrationsV1alphaAuthConfig;
 }
 
-export const PatchProjectsLocationsProductsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.sslCertificate"),
-  ),
-  "clientCertificate.encryptedPrivateKey": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.encryptedPrivateKey"),
-  ),
-  "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.passphrase"),
-  ),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>;
+export const PatchProjectsLocationsProductsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.sslCertificate"),
+    ),
+    "clientCertificate.encryptedPrivateKey": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("clientCertificate.encryptedPrivateKey")),
+    "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.passphrase"),
+    ),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsProductsAuthConfigsRequest>;
 
 export type PatchProjectsLocationsProductsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const PatchProjectsLocationsProductsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type PatchProjectsLocationsProductsAuthConfigsError = DefaultErrors;
 
@@ -9457,7 +9476,7 @@ export const patchProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsProductsAuthConfigsResponse,
   PatchProjectsLocationsProductsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProductsAuthConfigsRequest,
   output: PatchProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -9468,20 +9487,21 @@ export interface DeleteProjectsLocationsProductsAuthConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsProductsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>;
+export const DeleteProjectsLocationsProductsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsProductsAuthConfigsRequest>;
 
 export type DeleteProjectsLocationsProductsAuthConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsProductsAuthConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsProductsAuthConfigsError = DefaultErrors;
 
@@ -9491,7 +9511,7 @@ export const deleteProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsProductsAuthConfigsResponse,
   DeleteProjectsLocationsProductsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsProductsAuthConfigsRequest,
   output: DeleteProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -9502,20 +9522,21 @@ export interface GetProjectsLocationsProductsAuthConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsProductsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsProductsAuthConfigsRequest>;
+export const GetProjectsLocationsProductsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs/{authConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsProductsAuthConfigsRequest>;
 
 export type GetProjectsLocationsProductsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const GetProjectsLocationsProductsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type GetProjectsLocationsProductsAuthConfigsError = DefaultErrors;
 
@@ -9525,7 +9546,7 @@ export const getProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsProductsAuthConfigsResponse,
   GetProjectsLocationsProductsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsAuthConfigsRequest,
   output: GetProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -9544,24 +9565,25 @@ export interface ListProjectsLocationsProductsAuthConfigsRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsProductsAuthConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsProductsAuthConfigsRequest>;
+export const ListProjectsLocationsProductsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/authConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsProductsAuthConfigsRequest>;
 
 export type ListProjectsLocationsProductsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
 export const ListProjectsLocationsProductsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
 
 export type ListProjectsLocationsProductsAuthConfigsError = DefaultErrors;
 
@@ -9571,7 +9593,7 @@ export const listProjectsLocationsProductsAuthConfigs: API.PaginatedOperationMet
   ListProjectsLocationsProductsAuthConfigsResponse,
   ListProjectsLocationsProductsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsAuthConfigsRequest,
   output: ListProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -9589,7 +9611,7 @@ export interface ExecuteProjectsLocationsProductsIntegrationsRequest {
 }
 
 export const ExecuteProjectsLocationsProductsIntegrationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest,
@@ -9606,7 +9628,7 @@ export const ExecuteProjectsLocationsProductsIntegrationsRequest =
 export type ExecuteProjectsLocationsProductsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 export const ExecuteProjectsLocationsProductsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 
 export type ExecuteProjectsLocationsProductsIntegrationsError = DefaultErrors;
 
@@ -9616,7 +9638,7 @@ export const executeProjectsLocationsProductsIntegrations: API.OperationMethod<
   ExecuteProjectsLocationsProductsIntegrationsResponse,
   ExecuteProjectsLocationsProductsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProjectsLocationsProductsIntegrationsRequest,
   output: ExecuteProjectsLocationsProductsIntegrationsResponse,
   errors: [],
@@ -9630,7 +9652,7 @@ export interface ScheduleProjectsLocationsProductsIntegrationsRequest {
 }
 
 export const ScheduleProjectsLocationsProductsIntegrationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest,
@@ -9647,7 +9669,7 @@ export const ScheduleProjectsLocationsProductsIntegrationsRequest =
 export type ScheduleProjectsLocationsProductsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
 export const ScheduleProjectsLocationsProductsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
 
 export type ScheduleProjectsLocationsProductsIntegrationsError = DefaultErrors;
 
@@ -9657,7 +9679,7 @@ export const scheduleProjectsLocationsProductsIntegrations: API.OperationMethod<
   ScheduleProjectsLocationsProductsIntegrationsResponse,
   ScheduleProjectsLocationsProductsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleProjectsLocationsProductsIntegrationsRequest,
   output: ScheduleProjectsLocationsProductsIntegrationsResponse,
   errors: [],
@@ -9670,24 +9692,25 @@ export interface TestProjectsLocationsProductsIntegrationsRequest {
   body?: GoogleCloudIntegrationsV1alphaTestIntegrationsRequest;
 }
 
-export const TestProjectsLocationsProductsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/integrations/{integrationsId}:test",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestProjectsLocationsProductsIntegrationsRequest>;
+export const TestProjectsLocationsProductsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/integrations/{integrationsId}:test",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestProjectsLocationsProductsIntegrationsRequest>;
 
 export type TestProjectsLocationsProductsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 export const TestProjectsLocationsProductsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 
 export type TestProjectsLocationsProductsIntegrationsError = DefaultErrors;
 
@@ -9697,7 +9720,7 @@ export const testProjectsLocationsProductsIntegrations: API.OperationMethod<
   TestProjectsLocationsProductsIntegrationsResponse,
   TestProjectsLocationsProductsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestProjectsLocationsProductsIntegrationsRequest,
   output: TestProjectsLocationsProductsIntegrationsResponse,
   errors: [],
@@ -9716,24 +9739,25 @@ export interface ListProjectsLocationsProductsIntegrationsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsProductsIntegrationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/integrations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsProductsIntegrationsRequest>;
+export const ListProjectsLocationsProductsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/integrations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsProductsIntegrationsRequest>;
 
 export type ListProjectsLocationsProductsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 export const ListProjectsLocationsProductsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 
 export type ListProjectsLocationsProductsIntegrationsError = DefaultErrors;
 
@@ -9743,7 +9767,7 @@ export const listProjectsLocationsProductsIntegrations: API.PaginatedOperationMe
   ListProjectsLocationsProductsIntegrationsResponse,
   ListProjectsLocationsProductsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsRequest,
   output: ListProjectsLocationsProductsIntegrationsResponse,
   errors: [],
@@ -9769,7 +9793,7 @@ export interface ListProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const ListProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -9787,7 +9811,7 @@ export const ListProjectsLocationsProductsIntegrationsVersionsRequest =
 export type ListProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
 export const ListProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
 
 export type ListProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -9798,7 +9822,7 @@ export const listProjectsLocationsProductsIntegrationsVersions: API.PaginatedOpe
   ListProjectsLocationsProductsIntegrationsVersionsResponse,
   ListProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsVersionsRequest,
   output: ListProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -9820,7 +9844,7 @@ export interface CreateProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const CreateProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     newIntegration: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("newIntegration"),
@@ -9843,7 +9867,7 @@ export const CreateProjectsLocationsProductsIntegrationsVersionsRequest =
 export type CreateProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const CreateProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type CreateProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -9854,7 +9878,7 @@ export const createProjectsLocationsProductsIntegrationsVersions: API.OperationM
   CreateProjectsLocationsProductsIntegrationsVersionsResponse,
   CreateProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsIntegrationsVersionsRequest,
   output: CreateProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -9870,7 +9894,7 @@ export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const PatchProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -9888,7 +9912,7 @@ export const PatchProjectsLocationsProductsIntegrationsVersionsRequest =
 export type PatchProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const PatchProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type PatchProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -9899,7 +9923,7 @@ export const patchProjectsLocationsProductsIntegrationsVersions: API.OperationMe
   PatchProjectsLocationsProductsIntegrationsVersionsResponse,
   PatchProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProductsIntegrationsVersionsRequest,
   output: PatchProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -9911,7 +9935,7 @@ export interface GetProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const GetProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -9924,7 +9948,7 @@ export const GetProjectsLocationsProductsIntegrationsVersionsRequest =
 export type GetProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const GetProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type GetProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -9935,7 +9959,7 @@ export const getProjectsLocationsProductsIntegrationsVersions: API.OperationMeth
   GetProjectsLocationsProductsIntegrationsVersionsResponse,
   GetProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsIntegrationsVersionsRequest,
   output: GetProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -9949,7 +9973,7 @@ export interface PublishProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const PublishProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest,
@@ -9966,7 +9990,7 @@ export const PublishProjectsLocationsProductsIntegrationsVersionsRequest =
 export type PublishProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
 export const PublishProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
 
 export type PublishProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -9977,7 +10001,7 @@ export const publishProjectsLocationsProductsIntegrationsVersions: API.Operation
   PublishProjectsLocationsProductsIntegrationsVersionsResponse,
   PublishProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishProjectsLocationsProductsIntegrationsVersionsRequest,
   output: PublishProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -9989,7 +10013,7 @@ export interface DeleteProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const DeleteProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10002,7 +10026,7 @@ export const DeleteProjectsLocationsProductsIntegrationsVersionsRequest =
 export type DeleteProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -10013,7 +10037,7 @@ export const deleteProjectsLocationsProductsIntegrationsVersions: API.OperationM
   DeleteProjectsLocationsProductsIntegrationsVersionsResponse,
   DeleteProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsProductsIntegrationsVersionsRequest,
   output: DeleteProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -10027,7 +10051,7 @@ export interface UploadProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const UploadProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest,
@@ -10044,7 +10068,7 @@ export const UploadProjectsLocationsProductsIntegrationsVersionsRequest =
 export type UploadProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
 export const UploadProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
 
 export type UploadProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -10055,7 +10079,7 @@ export const uploadProjectsLocationsProductsIntegrationsVersions: API.OperationM
   UploadProjectsLocationsProductsIntegrationsVersionsResponse,
   UploadProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadProjectsLocationsProductsIntegrationsVersionsRequest,
   output: UploadProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -10075,7 +10099,7 @@ export interface DownloadProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const DownloadProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     fileFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("fileFormat")),
     files: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -10092,7 +10116,7 @@ export const DownloadProjectsLocationsProductsIntegrationsVersionsRequest =
 export type DownloadProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
 export const DownloadProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
 
 export type DownloadProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -10103,7 +10127,7 @@ export const downloadProjectsLocationsProductsIntegrationsVersions: API.Operatio
   DownloadProjectsLocationsProductsIntegrationsVersionsResponse,
   DownloadProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsProductsIntegrationsVersionsRequest,
   output: DownloadProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -10117,7 +10141,7 @@ export interface TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRe
 }
 
 export const TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     integrationVersion: Schema.String.pipe(T.HttpPath("integrationVersion")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaTakeoverEditLockRequest,
@@ -10134,7 +10158,7 @@ export const TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsReques
 export type TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse;
 export const TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTakeoverEditLockResponse;
 
 export type TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -10145,7 +10169,7 @@ export const takeoverEditLockProjectsLocationsProductsIntegrationsVersions: API.
   TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse,
   TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest,
   output: TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -10159,7 +10183,7 @@ export interface UnpublishProjectsLocationsProductsIntegrationsVersionsRequest {
 }
 
 export const UnpublishProjectsLocationsProductsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest,
@@ -10176,7 +10200,7 @@ export const UnpublishProjectsLocationsProductsIntegrationsVersionsRequest =
 export type UnpublishProjectsLocationsProductsIntegrationsVersionsResponse =
   GoogleProtobufEmpty;
 export const UnpublishProjectsLocationsProductsIntegrationsVersionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type UnpublishProjectsLocationsProductsIntegrationsVersionsError =
   DefaultErrors;
@@ -10187,7 +10211,7 @@ export const unpublishProjectsLocationsProductsIntegrationsVersions: API.Operati
   UnpublishProjectsLocationsProductsIntegrationsVersionsResponse,
   UnpublishProjectsLocationsProductsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnpublishProjectsLocationsProductsIntegrationsVersionsRequest,
   output: UnpublishProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -10239,7 +10263,7 @@ export interface ListProjectsLocationsProductsIntegrationsExecutionsRequest {
 }
 
 export const ListProjectsLocationsProductsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -10300,7 +10324,7 @@ export const ListProjectsLocationsProductsIntegrationsExecutionsRequest =
 export type ListProjectsLocationsProductsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaListExecutionsResponse;
 export const ListProjectsLocationsProductsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaListExecutionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListExecutionsResponse;
 
 export type ListProjectsLocationsProductsIntegrationsExecutionsError =
   DefaultErrors;
@@ -10311,7 +10335,7 @@ export const listProjectsLocationsProductsIntegrationsExecutions: API.PaginatedO
   ListProjectsLocationsProductsIntegrationsExecutionsResponse,
   ListProjectsLocationsProductsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: ListProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
@@ -10327,7 +10351,7 @@ export interface GetProjectsLocationsProductsIntegrationsExecutionsRequest {
 }
 
 export const GetProjectsLocationsProductsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10340,7 +10364,7 @@ export const GetProjectsLocationsProductsIntegrationsExecutionsRequest =
 export type GetProjectsLocationsProductsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaExecution;
 export const GetProjectsLocationsProductsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaExecution;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecution;
 
 export type GetProjectsLocationsProductsIntegrationsExecutionsError =
   DefaultErrors;
@@ -10351,7 +10375,7 @@ export const getProjectsLocationsProductsIntegrationsExecutions: API.OperationMe
   GetProjectsLocationsProductsIntegrationsExecutionsResponse,
   GetProjectsLocationsProductsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: GetProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
@@ -10363,7 +10387,7 @@ export interface DownloadProjectsLocationsProductsIntegrationsExecutionsRequest 
 }
 
 export const DownloadProjectsLocationsProductsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10376,7 +10400,7 @@ export const DownloadProjectsLocationsProductsIntegrationsExecutionsRequest =
 export type DownloadProjectsLocationsProductsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 export const DownloadProjectsLocationsProductsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 
 export type DownloadProjectsLocationsProductsIntegrationsExecutionsError =
   DefaultErrors;
@@ -10387,7 +10411,7 @@ export const downloadProjectsLocationsProductsIntegrationsExecutions: API.Operat
   DownloadProjectsLocationsProductsIntegrationsExecutionsResponse,
   DownloadProjectsLocationsProductsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: DownloadProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
@@ -10401,7 +10425,7 @@ export interface ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensio
 }
 
 export const ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaResolveSuspensionRequest,
@@ -10418,7 +10442,7 @@ export const ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRe
 export type ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
 export const ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
 
 export type ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -10429,7 +10453,7 @@ export const resolveProjectsLocationsProductsIntegrationsExecutionsSuspensions: 
   ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output:
@@ -10451,7 +10475,7 @@ export interface ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsR
 }
 
 export const ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -10468,7 +10492,7 @@ export const ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsReque
 export type ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
 export const ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
 
 export type ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -10479,7 +10503,7 @@ export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output:
     ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
@@ -10498,7 +10522,7 @@ export interface LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsR
 }
 
 export const LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaLiftSuspensionRequest,
@@ -10515,7 +10539,7 @@ export const LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsReque
 export type LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
 export const LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
 
 export type LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -10526,7 +10550,7 @@ export const liftProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output:
     LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
@@ -10541,7 +10565,7 @@ export interface CreateProjectsLocationsProductsSfdcInstancesRequest {
 }
 
 export const CreateProjectsLocationsProductsSfdcInstancesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
       T.HttpBody(),
@@ -10558,7 +10582,7 @@ export const CreateProjectsLocationsProductsSfdcInstancesRequest =
 export type CreateProjectsLocationsProductsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const CreateProjectsLocationsProductsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type CreateProjectsLocationsProductsSfdcInstancesError = DefaultErrors;
 
@@ -10568,7 +10592,7 @@ export const createProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   CreateProjectsLocationsProductsSfdcInstancesResponse,
   CreateProjectsLocationsProductsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsSfdcInstancesRequest,
   output: CreateProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -10583,27 +10607,26 @@ export interface PatchProjectsLocationsProductsSfdcInstancesRequest {
   body?: GoogleCloudIntegrationsV1alphaSfdcInstance;
 }
 
-export const PatchProjectsLocationsProductsSfdcInstancesRequest = Schema.Struct(
-  {
+export const PatchProjectsLocationsProductsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances/{sfdcInstancesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsProductsSfdcInstancesRequest>;
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances/{sfdcInstancesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsProductsSfdcInstancesRequest>;
 
 export type PatchProjectsLocationsProductsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const PatchProjectsLocationsProductsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type PatchProjectsLocationsProductsSfdcInstancesError = DefaultErrors;
 
@@ -10613,7 +10636,7 @@ export const patchProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   PatchProjectsLocationsProductsSfdcInstancesResponse,
   PatchProjectsLocationsProductsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProductsSfdcInstancesRequest,
   output: PatchProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -10625,7 +10648,7 @@ export interface DeleteProjectsLocationsProductsSfdcInstancesRequest {
 }
 
 export const DeleteProjectsLocationsProductsSfdcInstancesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10638,7 +10661,7 @@ export const DeleteProjectsLocationsProductsSfdcInstancesRequest =
 export type DeleteProjectsLocationsProductsSfdcInstancesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsProductsSfdcInstancesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsProductsSfdcInstancesError = DefaultErrors;
 
@@ -10648,7 +10671,7 @@ export const deleteProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   DeleteProjectsLocationsProductsSfdcInstancesResponse,
   DeleteProjectsLocationsProductsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsProductsSfdcInstancesRequest,
   output: DeleteProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -10659,20 +10682,21 @@ export interface GetProjectsLocationsProductsSfdcInstancesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsProductsSfdcInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances/{sfdcInstancesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>;
+export const GetProjectsLocationsProductsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances/{sfdcInstancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsProductsSfdcInstancesRequest>;
 
 export type GetProjectsLocationsProductsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const GetProjectsLocationsProductsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type GetProjectsLocationsProductsSfdcInstancesError = DefaultErrors;
 
@@ -10682,7 +10706,7 @@ export const getProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsProductsSfdcInstancesResponse,
   GetProjectsLocationsProductsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsSfdcInstancesRequest,
   output: GetProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -10701,24 +10725,25 @@ export interface ListProjectsLocationsProductsSfdcInstancesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsProductsSfdcInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>;
+export const ListProjectsLocationsProductsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/products/{productsId}/sfdcInstances",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsProductsSfdcInstancesRequest>;
 
 export type ListProjectsLocationsProductsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
 export const ListProjectsLocationsProductsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
 
 export type ListProjectsLocationsProductsSfdcInstancesError = DefaultErrors;
 
@@ -10728,7 +10753,7 @@ export const listProjectsLocationsProductsSfdcInstances: API.PaginatedOperationM
   ListProjectsLocationsProductsSfdcInstancesResponse,
   ListProjectsLocationsProductsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsSfdcInstancesRequest,
   output: ListProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -10746,7 +10771,7 @@ export interface CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest
 }
 
 export const CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcChannel).pipe(
       T.HttpBody(),
@@ -10763,7 +10788,7 @@ export const CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
 export type CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -10774,7 +10799,7 @@ export const createProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -10790,7 +10815,7 @@ export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest 
 }
 
 export const PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcChannel).pipe(
@@ -10808,7 +10833,7 @@ export const PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
 export type PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -10819,7 +10844,7 @@ export const patchProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operat
   PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -10831,7 +10856,7 @@ export interface DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest
 }
 
 export const DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10844,7 +10869,7 @@ export const DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
 export type DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -10855,7 +10880,7 @@ export const deleteProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Opera
   DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -10867,7 +10892,7 @@ export interface GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -10880,7 +10905,7 @@ export const GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
 export type GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type GetProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -10891,7 +10916,7 @@ export const getProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operatio
   GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   GetProjectsLocationsProductsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -10911,7 +10936,7 @@ export interface ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -10928,7 +10953,7 @@ export const ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest =
 export type ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
 export const ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
 
 export type ListProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -10939,7 +10964,7 @@ export const listProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Paginat
   ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   ListProjectsLocationsProductsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -10956,24 +10981,25 @@ export interface CreateProjectsLocationsCloudFunctionsRequest {
   body?: GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest;
 }
 
-export const CreateProjectsLocationsCloudFunctionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/cloudFunctions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCloudFunctionsRequest>;
+export const CreateProjectsLocationsCloudFunctionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaCreateCloudFunctionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/cloudFunctions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCloudFunctionsRequest>;
 
 export type CreateProjectsLocationsCloudFunctionsResponse =
   GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
 export const CreateProjectsLocationsCloudFunctionsResponse =
-  GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCreateCloudFunctionResponse;
 
 export type CreateProjectsLocationsCloudFunctionsError = DefaultErrors;
 
@@ -10983,7 +11009,7 @@ export const createProjectsLocationsCloudFunctions: API.OperationMethod<
   CreateProjectsLocationsCloudFunctionsResponse,
   CreateProjectsLocationsCloudFunctionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCloudFunctionsRequest,
   output: CreateProjectsLocationsCloudFunctionsResponse,
   errors: [],
@@ -11002,24 +11028,25 @@ export interface ListProjectsLocationsCertificatesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsCertificatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCertificatesRequest>;
+export const ListProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCertificatesRequest>;
 
 export type ListProjectsLocationsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaListCertificatesResponse;
 export const ListProjectsLocationsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaListCertificatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListCertificatesResponse;
 
 export type ListProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -11029,7 +11056,7 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   ListProjectsLocationsCertificatesResponse,
   ListProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCertificatesRequest,
   output: ListProjectsLocationsCertificatesResponse,
   errors: [],
@@ -11044,20 +11071,21 @@ export interface GetProjectsLocationsCertificatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCertificatesRequest>;
+export const GetProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCertificatesRequest>;
 
 export type GetProjectsLocationsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const GetProjectsLocationsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type GetProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -11067,7 +11095,7 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   GetProjectsLocationsCertificatesResponse,
   GetProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCertificatesRequest,
   output: GetProjectsLocationsCertificatesResponse,
   errors: [],
@@ -11080,24 +11108,25 @@ export interface CreateProjectsLocationsCertificatesRequest {
   body?: GoogleCloudIntegrationsV1alphaCertificate;
 }
 
-export const CreateProjectsLocationsCertificatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCertificatesRequest>;
+export const CreateProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCertificatesRequest>;
 
 export type CreateProjectsLocationsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const CreateProjectsLocationsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type CreateProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -11107,7 +11136,7 @@ export const createProjectsLocationsCertificates: API.OperationMethod<
   CreateProjectsLocationsCertificatesResponse,
   CreateProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCertificatesRequest,
   output: CreateProjectsLocationsCertificatesResponse,
   errors: [],
@@ -11122,25 +11151,26 @@ export interface PatchProjectsLocationsCertificatesRequest {
   body?: GoogleCloudIntegrationsV1alphaCertificate;
 }
 
-export const PatchProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCertificatesRequest>;
+export const PatchProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaCertificate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCertificatesRequest>;
 
 export type PatchProjectsLocationsCertificatesResponse =
   GoogleCloudIntegrationsV1alphaCertificate;
 export const PatchProjectsLocationsCertificatesResponse =
-  GoogleCloudIntegrationsV1alphaCertificate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCertificate;
 
 export type PatchProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -11150,7 +11180,7 @@ export const patchProjectsLocationsCertificates: API.OperationMethod<
   PatchProjectsLocationsCertificatesResponse,
   PatchProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCertificatesRequest,
   output: PatchProjectsLocationsCertificatesResponse,
   errors: [],
@@ -11161,18 +11191,20 @@ export interface DeleteProjectsLocationsCertificatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCertificatesRequest>;
+export const DeleteProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCertificatesRequest>;
 
 export type DeleteProjectsLocationsCertificatesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsCertificatesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -11182,7 +11214,7 @@ export const deleteProjectsLocationsCertificates: API.OperationMethod<
   DeleteProjectsLocationsCertificatesResponse,
   DeleteProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCertificatesRequest,
   output: DeleteProjectsLocationsCertificatesResponse,
   errors: [],
@@ -11201,33 +11233,34 @@ export interface CreateProjectsLocationsAuthConfigsRequest {
   body?: GoogleCloudIntegrationsV1alphaAuthConfig;
 }
 
-export const CreateProjectsLocationsAuthConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.sslCertificate"),
-  ),
-  "clientCertificate.encryptedPrivateKey": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.encryptedPrivateKey"),
-  ),
-  "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.passphrase"),
-  ),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAuthConfigsRequest>;
+export const CreateProjectsLocationsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.sslCertificate"),
+    ),
+    "clientCertificate.encryptedPrivateKey": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("clientCertificate.encryptedPrivateKey")),
+    "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.passphrase"),
+    ),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAuthConfigsRequest>;
 
 export type CreateProjectsLocationsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const CreateProjectsLocationsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type CreateProjectsLocationsAuthConfigsError = DefaultErrors;
 
@@ -11237,7 +11270,7 @@ export const createProjectsLocationsAuthConfigs: API.OperationMethod<
   CreateProjectsLocationsAuthConfigsResponse,
   CreateProjectsLocationsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAuthConfigsRequest,
   output: CreateProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -11258,34 +11291,35 @@ export interface PatchProjectsLocationsAuthConfigsRequest {
   body?: GoogleCloudIntegrationsV1alphaAuthConfig;
 }
 
-export const PatchProjectsLocationsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.sslCertificate"),
-  ),
-  "clientCertificate.encryptedPrivateKey": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.encryptedPrivateKey"),
-  ),
-  "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("clientCertificate.passphrase"),
-  ),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAuthConfigsRequest>;
+export const PatchProjectsLocationsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    "clientCertificate.sslCertificate": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.sslCertificate"),
+    ),
+    "clientCertificate.encryptedPrivateKey": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("clientCertificate.encryptedPrivateKey")),
+    "clientCertificate.passphrase": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("clientCertificate.passphrase"),
+    ),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaAuthConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAuthConfigsRequest>;
 
 export type PatchProjectsLocationsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const PatchProjectsLocationsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type PatchProjectsLocationsAuthConfigsError = DefaultErrors;
 
@@ -11295,7 +11329,7 @@ export const patchProjectsLocationsAuthConfigs: API.OperationMethod<
   PatchProjectsLocationsAuthConfigsResponse,
   PatchProjectsLocationsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAuthConfigsRequest,
   output: PatchProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -11306,18 +11340,20 @@ export interface DeleteProjectsLocationsAuthConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAuthConfigsRequest>;
+export const DeleteProjectsLocationsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAuthConfigsRequest>;
 
 export type DeleteProjectsLocationsAuthConfigsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsAuthConfigsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsAuthConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthConfigsError = DefaultErrors;
 
@@ -11327,7 +11363,7 @@ export const deleteProjectsLocationsAuthConfigs: API.OperationMethod<
   DeleteProjectsLocationsAuthConfigsResponse,
   DeleteProjectsLocationsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAuthConfigsRequest,
   output: DeleteProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -11338,20 +11374,21 @@ export interface GetProjectsLocationsAuthConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAuthConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAuthConfigsRequest>;
+export const GetProjectsLocationsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs/{authConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAuthConfigsRequest>;
 
 export type GetProjectsLocationsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaAuthConfig;
 export const GetProjectsLocationsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaAuthConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaAuthConfig;
 
 export type GetProjectsLocationsAuthConfigsError = DefaultErrors;
 
@@ -11361,7 +11398,7 @@ export const getProjectsLocationsAuthConfigs: API.OperationMethod<
   GetProjectsLocationsAuthConfigsResponse,
   GetProjectsLocationsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAuthConfigsRequest,
   output: GetProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -11380,24 +11417,25 @@ export interface ListProjectsLocationsAuthConfigsRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsAuthConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAuthConfigsRequest>;
+export const ListProjectsLocationsAuthConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAuthConfigsRequest>;
 
 export type ListProjectsLocationsAuthConfigsResponse =
   GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
 export const ListProjectsLocationsAuthConfigsResponse =
-  GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListAuthConfigsResponse;
 
 export type ListProjectsLocationsAuthConfigsError = DefaultErrors;
 
@@ -11407,7 +11445,7 @@ export const listProjectsLocationsAuthConfigs: API.PaginatedOperationMethod<
   ListProjectsLocationsAuthConfigsResponse,
   ListProjectsLocationsAuthConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAuthConfigsRequest,
   output: ListProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -11430,24 +11468,25 @@ export interface ListProjectsLocationsConnectionsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
+export const ListProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
 
 export type ListProjectsLocationsConnectionsResponse =
   GoogleCloudIntegrationsV1alphaListConnectionsResponse;
 export const ListProjectsLocationsConnectionsResponse =
-  GoogleCloudIntegrationsV1alphaListConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListConnectionsResponse;
 
 export type ListProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -11457,7 +11496,7 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   ListProjectsLocationsConnectionsResponse,
   ListProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -11473,7 +11512,7 @@ export interface GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest 
 }
 
 export const GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -11486,7 +11525,7 @@ export const GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest =
 export type GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse =
   GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata;
 export const GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse =
-  GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata;
 
 export type GetConnectionSchemaMetadataProjectsLocationsConnectionsError =
   DefaultErrors;
@@ -11497,7 +11536,7 @@ export const getConnectionSchemaMetadataProjectsLocationsConnections: API.Operat
   GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse,
   GetConnectionSchemaMetadataProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest,
   output: GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse,
   errors: [],
@@ -11515,7 +11554,7 @@ export interface ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest {
 }
 
 export const ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -11531,7 +11570,7 @@ export const ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest =
 export type ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse =
   GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse;
 export const ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse =
-  GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse;
 
 export type ListProjectsLocationsConnectionsRuntimeEntitySchemasError =
   DefaultErrors;
@@ -11542,7 +11581,7 @@ export const listProjectsLocationsConnectionsRuntimeEntitySchemas: API.Paginated
   ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse,
   ListProjectsLocationsConnectionsRuntimeEntitySchemasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest,
   output: ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse,
   errors: [],
@@ -11564,7 +11603,7 @@ export interface ListProjectsLocationsConnectionsRuntimeActionSchemasRequest {
 }
 
 export const ListProjectsLocationsConnectionsRuntimeActionSchemasRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -11580,7 +11619,7 @@ export const ListProjectsLocationsConnectionsRuntimeActionSchemasRequest =
 export type ListProjectsLocationsConnectionsRuntimeActionSchemasResponse =
   GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse;
 export const ListProjectsLocationsConnectionsRuntimeActionSchemasResponse =
-  GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse;
 
 export type ListProjectsLocationsConnectionsRuntimeActionSchemasError =
   DefaultErrors;
@@ -11591,7 +11630,7 @@ export const listProjectsLocationsConnectionsRuntimeActionSchemas: API.Paginated
   ListProjectsLocationsConnectionsRuntimeActionSchemasResponse,
   ListProjectsLocationsConnectionsRuntimeActionSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRuntimeActionSchemasRequest,
   output: ListProjectsLocationsConnectionsRuntimeActionSchemasResponse,
   errors: [],
@@ -11608,24 +11647,25 @@ export interface ExecuteProjectsLocationsIntegrationsRequest {
   body?: GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest;
 }
 
-export const ExecuteProjectsLocationsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:execute",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecuteProjectsLocationsIntegrationsRequest>;
+export const ExecuteProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:execute",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteProjectsLocationsIntegrationsRequest>;
 
 export type ExecuteProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 export const ExecuteProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 
 export type ExecuteProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11635,7 +11675,7 @@ export const executeProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteProjectsLocationsIntegrationsResponse,
   ExecuteProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProjectsLocationsIntegrationsRequest,
   output: ExecuteProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11648,24 +11688,25 @@ export interface ScheduleProjectsLocationsIntegrationsRequest {
   body?: GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest;
 }
 
-export const ScheduleProjectsLocationsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:schedule",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ScheduleProjectsLocationsIntegrationsRequest>;
+export const ScheduleProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:schedule",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ScheduleProjectsLocationsIntegrationsRequest>;
 
 export type ScheduleProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
 export const ScheduleProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
 
 export type ScheduleProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11675,7 +11716,7 @@ export const scheduleProjectsLocationsIntegrations: API.OperationMethod<
   ScheduleProjectsLocationsIntegrationsResponse,
   ScheduleProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleProjectsLocationsIntegrationsRequest,
   output: ScheduleProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11688,22 +11729,23 @@ export interface ExecuteEventProjectsLocationsIntegrationsRequest {
   triggerId?: string;
 }
 
-export const ExecuteEventProjectsLocationsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  triggerId: Schema.optional(Schema.String).pipe(T.HttpQuery("triggerId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:executeEvent",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>;
+export const ExecuteEventProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    triggerId: Schema.optional(Schema.String).pipe(T.HttpQuery("triggerId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:executeEvent",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteEventProjectsLocationsIntegrationsRequest>;
 
 export type ExecuteEventProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaExecuteEventResponse;
 export const ExecuteEventProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaExecuteEventResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecuteEventResponse;
 
 export type ExecuteEventProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11713,7 +11755,7 @@ export const executeEventProjectsLocationsIntegrations: API.OperationMethod<
   ExecuteEventProjectsLocationsIntegrationsResponse,
   ExecuteEventProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteEventProjectsLocationsIntegrationsRequest,
   output: ExecuteEventProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11726,24 +11768,25 @@ export interface TestProjectsLocationsIntegrationsRequest {
   body?: GoogleCloudIntegrationsV1alphaTestIntegrationsRequest;
 }
 
-export const TestProjectsLocationsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:test",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestProjectsLocationsIntegrationsRequest>;
+export const TestProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}:test",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestProjectsLocationsIntegrationsRequest>;
 
 export type TestProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 export const TestProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 
 export type TestProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11753,7 +11796,7 @@ export const testProjectsLocationsIntegrations: API.OperationMethod<
   TestProjectsLocationsIntegrationsResponse,
   TestProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestProjectsLocationsIntegrationsRequest,
   output: TestProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11772,24 +11815,25 @@ export interface ListProjectsLocationsIntegrationsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsIntegrationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsRequest>;
+export const ListProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsRequest>;
 
 export type ListProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 export const ListProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 
 export type ListProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11799,7 +11843,7 @@ export const listProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   ListProjectsLocationsIntegrationsResponse,
   ListProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsRequest,
   output: ListProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11824,27 +11868,28 @@ export interface SearchProjectsLocationsIntegrationsRequest {
   enableNaturalLanguageQueryUnderstanding?: boolean;
 }
 
-export const SearchProjectsLocationsIntegrationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  enableNaturalLanguageQueryUnderstanding: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enableNaturalLanguageQueryUnderstanding"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsLocationsIntegrationsRequest>;
+export const SearchProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    enableNaturalLanguageQueryUnderstanding: Schema.optional(
+      Schema.Boolean,
+    ).pipe(T.HttpQuery("enableNaturalLanguageQueryUnderstanding")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsIntegrationsRequest>;
 
 export type SearchProjectsLocationsIntegrationsResponse =
   GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse;
 export const SearchProjectsLocationsIntegrationsResponse =
-  GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSearchIntegrationsResponse;
 
 export type SearchProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11854,7 +11899,7 @@ export const searchProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   SearchProjectsLocationsIntegrationsResponse,
   SearchProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsLocationsIntegrationsRequest,
   output: SearchProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11869,18 +11914,20 @@ export interface DeleteProjectsLocationsIntegrationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsIntegrationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsIntegrationsRequest>;
+export const DeleteProjectsLocationsIntegrationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsIntegrationsRequest>;
 
 export type DeleteProjectsLocationsIntegrationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsIntegrationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsIntegrationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsIntegrationsError = DefaultErrors;
 
@@ -11890,7 +11937,7 @@ export const deleteProjectsLocationsIntegrations: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsResponse,
   DeleteProjectsLocationsIntegrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsRequest,
   output: DeleteProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -11911,25 +11958,26 @@ export interface ListProjectsLocationsIntegrationsVersionsRequest {
   fieldMask?: string;
 }
 
-export const ListProjectsLocationsIntegrationsVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  fieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("fieldMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsVersionsRequest>;
+export const ListProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    fieldMask: Schema.optional(Schema.String).pipe(T.HttpQuery("fieldMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsVersionsRequest>;
 
 export type ListProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
 export const ListProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListIntegrationVersionsResponse;
 
 export type ListProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -11939,7 +11987,7 @@ export const listProjectsLocationsIntegrationsVersions: API.PaginatedOperationMe
   ListProjectsLocationsIntegrationsVersionsResponse,
   ListProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsVersionsRequest,
   output: ListProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -11960,8 +12008,8 @@ export interface CreateProjectsLocationsIntegrationsVersionsRequest {
   body?: GoogleCloudIntegrationsV1alphaIntegrationVersion;
 }
 
-export const CreateProjectsLocationsIntegrationsVersionsRequest = Schema.Struct(
-  {
+export const CreateProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     newIntegration: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("newIntegration"),
@@ -11972,20 +12020,19 @@ export const CreateProjectsLocationsIntegrationsVersionsRequest = Schema.Struct(
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaIntegrationVersion,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsIntegrationsVersionsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsIntegrationsVersionsRequest>;
 
 export type CreateProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const CreateProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type CreateProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -11995,7 +12042,7 @@ export const createProjectsLocationsIntegrationsVersions: API.OperationMethod<
   CreateProjectsLocationsIntegrationsVersionsResponse,
   CreateProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsIntegrationsVersionsRequest,
   output: CreateProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12010,25 +12057,26 @@ export interface PatchProjectsLocationsIntegrationsVersionsRequest {
   body?: GoogleCloudIntegrationsV1alphaIntegrationVersion;
 }
 
-export const PatchProjectsLocationsIntegrationsVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaIntegrationVersion).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>;
+export const PatchProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaIntegrationVersion,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsIntegrationsVersionsRequest>;
 
 export type PatchProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const PatchProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type PatchProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12038,7 +12086,7 @@ export const patchProjectsLocationsIntegrationsVersions: API.OperationMethod<
   PatchProjectsLocationsIntegrationsVersionsResponse,
   PatchProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsIntegrationsVersionsRequest,
   output: PatchProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12049,20 +12097,21 @@ export interface GetProjectsLocationsIntegrationsVersionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsIntegrationsVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsIntegrationsVersionsRequest>;
+export const GetProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsIntegrationsVersionsRequest>;
 
 export type GetProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaIntegrationVersion;
 export const GetProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaIntegrationVersion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaIntegrationVersion;
 
 export type GetProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12072,7 +12121,7 @@ export const getProjectsLocationsIntegrationsVersions: API.OperationMethod<
   GetProjectsLocationsIntegrationsVersionsResponse,
   GetProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIntegrationsVersionsRequest,
   output: GetProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12086,7 +12135,7 @@ export interface PublishProjectsLocationsIntegrationsVersionsRequest {
 }
 
 export const PublishProjectsLocationsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaPublishIntegrationVersionRequest,
@@ -12103,7 +12152,7 @@ export const PublishProjectsLocationsIntegrationsVersionsRequest =
 export type PublishProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
 export const PublishProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaPublishIntegrationVersionResponse;
 
 export type PublishProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12113,7 +12162,7 @@ export const publishProjectsLocationsIntegrationsVersions: API.OperationMethod<
   PublishProjectsLocationsIntegrationsVersionsResponse,
   PublishProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishProjectsLocationsIntegrationsVersionsRequest,
   output: PublishProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12124,22 +12173,21 @@ export interface DeleteProjectsLocationsIntegrationsVersionsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsIntegrationsVersionsRequest = Schema.Struct(
-  {
+export const DeleteProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsIntegrationsVersionsRequest>;
 
 export type DeleteProjectsLocationsIntegrationsVersionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsIntegrationsVersionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12149,7 +12197,7 @@ export const deleteProjectsLocationsIntegrationsVersions: API.OperationMethod<
   DeleteProjectsLocationsIntegrationsVersionsResponse,
   DeleteProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsVersionsRequest,
   output: DeleteProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12162,26 +12210,25 @@ export interface UploadProjectsLocationsIntegrationsVersionsRequest {
   body?: GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest;
 }
 
-export const UploadProjectsLocationsIntegrationsVersionsRequest = Schema.Struct(
-  {
+export const UploadProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaUploadIntegrationVersionRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions:upload",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadProjectsLocationsIntegrationsVersionsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions:upload",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadProjectsLocationsIntegrationsVersionsRequest>;
 
 export type UploadProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
 export const UploadProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse;
 
 export type UploadProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12191,7 +12238,7 @@ export const uploadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   UploadProjectsLocationsIntegrationsVersionsResponse,
   UploadProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadProjectsLocationsIntegrationsVersionsRequest,
   output: UploadProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12211,7 +12258,7 @@ export interface DownloadProjectsLocationsIntegrationsVersionsRequest {
 }
 
 export const DownloadProjectsLocationsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     fileFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("fileFormat")),
     files: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -12228,7 +12275,7 @@ export const DownloadProjectsLocationsIntegrationsVersionsRequest =
 export type DownloadProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
 export const DownloadProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadIntegrationVersionResponse;
 
 export type DownloadProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12238,7 +12285,7 @@ export const downloadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   DownloadProjectsLocationsIntegrationsVersionsResponse,
   DownloadProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsVersionsRequest,
   output: DownloadProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12256,7 +12303,7 @@ export interface DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest
 }
 
 export const DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     files: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("files"),
@@ -12272,7 +12319,7 @@ export const DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest =
 export type DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse;
 export const DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadJsonPackageResponse;
 
 export type DownloadJsonPackageProjectsLocationsIntegrationsVersionsError =
   DefaultErrors;
@@ -12283,7 +12330,7 @@ export const downloadJsonPackageProjectsLocationsIntegrationsVersions: API.Opera
   DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse,
   DownloadJsonPackageProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest,
   output: DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12297,7 +12344,7 @@ export interface UnpublishProjectsLocationsIntegrationsVersionsRequest {
 }
 
 export const UnpublishProjectsLocationsIntegrationsVersionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaUnpublishIntegrationVersionRequest,
@@ -12314,7 +12361,7 @@ export const UnpublishProjectsLocationsIntegrationsVersionsRequest =
 export type UnpublishProjectsLocationsIntegrationsVersionsResponse =
   GoogleProtobufEmpty;
 export const UnpublishProjectsLocationsIntegrationsVersionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type UnpublishProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12324,7 +12371,7 @@ export const unpublishProjectsLocationsIntegrationsVersions: API.OperationMethod
   UnpublishProjectsLocationsIntegrationsVersionsResponse,
   UnpublishProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnpublishProjectsLocationsIntegrationsVersionsRequest,
   output: UnpublishProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12337,24 +12384,25 @@ export interface TestProjectsLocationsIntegrationsVersionsRequest {
   body?: GoogleCloudIntegrationsV1alphaTestIntegrationsRequest;
 }
 
-export const TestProjectsLocationsIntegrationsVersionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}:test",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestProjectsLocationsIntegrationsVersionsRequest>;
+export const TestProjectsLocationsIntegrationsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaTestIntegrationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/versions/{versionsId}:test",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestProjectsLocationsIntegrationsVersionsRequest>;
 
 export type TestProjectsLocationsIntegrationsVersionsResponse =
   GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 export const TestProjectsLocationsIntegrationsVersionsResponse =
-  GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestIntegrationsResponse;
 
 export type TestProjectsLocationsIntegrationsVersionsError = DefaultErrors;
 
@@ -12364,7 +12412,7 @@ export const testProjectsLocationsIntegrationsVersions: API.OperationMethod<
   TestProjectsLocationsIntegrationsVersionsResponse,
   TestProjectsLocationsIntegrationsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestProjectsLocationsIntegrationsVersionsRequest,
   output: TestProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -12380,7 +12428,7 @@ export interface CreateProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const CreateProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     testCaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("testCaseId")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaTestCase).pipe(
@@ -12398,7 +12446,7 @@ export const CreateProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type CreateProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaTestCase;
 export const CreateProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestCase;
 
 export type CreateProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12409,7 +12457,7 @@ export const createProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   CreateProjectsLocationsIntegrationsVersionsTestCasesResponse,
   CreateProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: CreateProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12421,7 +12469,7 @@ export interface GetProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const GetProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12434,7 +12482,7 @@ export const GetProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type GetProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaTestCase;
 export const GetProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestCase;
 
 export type GetProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12445,7 +12493,7 @@ export const getProjectsLocationsIntegrationsVersionsTestCases: API.OperationMet
   GetProjectsLocationsIntegrationsVersionsTestCasesResponse,
   GetProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: GetProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12461,7 +12509,7 @@ export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const PatchProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaTestCase).pipe(
@@ -12479,7 +12527,7 @@ export const PatchProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type PatchProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaTestCase;
 export const PatchProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestCase;
 
 export type PatchProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12490,7 +12538,7 @@ export const patchProjectsLocationsIntegrationsVersionsTestCases: API.OperationM
   PatchProjectsLocationsIntegrationsVersionsTestCasesResponse,
   PatchProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: PatchProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12502,7 +12550,7 @@ export interface DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12515,7 +12563,7 @@ export const DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12526,7 +12574,7 @@ export const deleteProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   DeleteProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12548,7 +12596,7 @@ export interface ListProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const ListProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -12566,7 +12614,7 @@ export const ListProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type ListProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaListTestCasesResponse;
 export const ListProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaListTestCasesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListTestCasesResponse;
 
 export type ListProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12577,7 +12625,7 @@ export const listProjectsLocationsIntegrationsVersionsTestCases: API.PaginatedOp
   ListProjectsLocationsIntegrationsVersionsTestCasesResponse,
   ListProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ListProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12595,7 +12643,7 @@ export interface ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesReques
 }
 
 export const ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     testCaseName: Schema.String.pipe(T.HttpPath("testCaseName")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaExecuteTestCaseRequest,
@@ -12612,7 +12660,7 @@ export const ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse;
 export const ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecuteTestCaseResponse;
 
 export type ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12623,7 +12671,7 @@ export const executeTestProjectsLocationsIntegrationsVersionsTestCases: API.Oper
   ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse,
   ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12637,7 +12685,7 @@ export interface UploadProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const UploadProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaUploadTestCaseRequest,
@@ -12654,7 +12702,7 @@ export const UploadProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type UploadProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaUploadTestCaseResponse;
 export const UploadProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaUploadTestCaseResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaUploadTestCaseResponse;
 
 export type UploadProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12665,7 +12713,7 @@ export const uploadProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   UploadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   UploadProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: UploadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12679,7 +12727,7 @@ export interface DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     fileFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("fileFormat")),
   }).pipe(
@@ -12693,7 +12741,7 @@ export const DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse;
 export const DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadTestCaseResponse;
 
 export type DownloadProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12704,7 +12752,7 @@ export const downloadProjectsLocationsIntegrationsVersionsTestCases: API.Operati
   DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   DownloadProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12718,7 +12766,7 @@ export interface TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesR
 }
 
 export const TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaTakeoverTestCaseEditLockRequest,
@@ -12735,7 +12783,7 @@ export const TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesReque
 export type TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaTestCase;
 export const TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTestCase;
 
 export type TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12746,7 +12794,7 @@ export const takeoverEditLockProjectsLocationsIntegrationsVersionsTestCases: API
   TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse,
   TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output:
     TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse,
@@ -12761,7 +12809,7 @@ export interface ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest {
 }
 
 export const ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaExecuteTestCasesRequest,
@@ -12778,7 +12826,7 @@ export const ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest =
 export type ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse =
   GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse;
 export const ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse =
-  GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecuteTestCasesResponse;
 
 export type ExecuteProjectsLocationsIntegrationsVersionsTestCasesError =
   DefaultErrors;
@@ -12789,7 +12837,7 @@ export const executeProjectsLocationsIntegrationsVersionsTestCases: API.Operatio
   ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   ExecuteProjectsLocationsIntegrationsVersionsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -12840,8 +12888,8 @@ export interface ListProjectsLocationsIntegrationsExecutionsRequest {
   snapshotMetadataWithoutParams?: boolean;
 }
 
-export const ListProjectsLocationsIntegrationsExecutionsRequest = Schema.Struct(
-  {
+export const ListProjectsLocationsIntegrationsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -12891,19 +12939,18 @@ export const ListProjectsLocationsIntegrationsExecutionsRequest = Schema.Struct(
     snapshotMetadataWithoutParams: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("snapshotMetadataWithoutParams"),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/executions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsExecutionsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/executions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIntegrationsExecutionsRequest>;
 
 export type ListProjectsLocationsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaListExecutionsResponse;
 export const ListProjectsLocationsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaListExecutionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListExecutionsResponse;
 
 export type ListProjectsLocationsIntegrationsExecutionsError = DefaultErrors;
 
@@ -12913,7 +12960,7 @@ export const listProjectsLocationsIntegrationsExecutions: API.PaginatedOperation
   ListProjectsLocationsIntegrationsExecutionsResponse,
   ListProjectsLocationsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsExecutionsRequest,
   output: ListProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -12928,20 +12975,21 @@ export interface GetProjectsLocationsIntegrationsExecutionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsIntegrationsExecutionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/executions/{executionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>;
+export const GetProjectsLocationsIntegrationsExecutionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/integrations/{integrationsId}/executions/{executionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsIntegrationsExecutionsRequest>;
 
 export type GetProjectsLocationsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaExecution;
 export const GetProjectsLocationsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaExecution;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaExecution;
 
 export type GetProjectsLocationsIntegrationsExecutionsError = DefaultErrors;
 
@@ -12951,7 +12999,7 @@ export const getProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   GetProjectsLocationsIntegrationsExecutionsResponse,
   GetProjectsLocationsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIntegrationsExecutionsRequest,
   output: GetProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -12965,7 +13013,7 @@ export interface CancelProjectsLocationsIntegrationsExecutionsRequest {
 }
 
 export const CancelProjectsLocationsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaCancelExecutionRequest,
@@ -12982,7 +13030,7 @@ export const CancelProjectsLocationsIntegrationsExecutionsRequest =
 export type CancelProjectsLocationsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaCancelExecutionResponse;
 export const CancelProjectsLocationsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaCancelExecutionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaCancelExecutionResponse;
 
 export type CancelProjectsLocationsIntegrationsExecutionsError = DefaultErrors;
 
@@ -12992,7 +13040,7 @@ export const cancelProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   CancelProjectsLocationsIntegrationsExecutionsResponse,
   CancelProjectsLocationsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsIntegrationsExecutionsRequest,
   output: CancelProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -13004,7 +13052,7 @@ export interface DownloadProjectsLocationsIntegrationsExecutionsRequest {
 }
 
 export const DownloadProjectsLocationsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -13017,7 +13065,7 @@ export const DownloadProjectsLocationsIntegrationsExecutionsRequest =
 export type DownloadProjectsLocationsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 export const DownloadProjectsLocationsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadExecutionResponse;
 
 export type DownloadProjectsLocationsIntegrationsExecutionsError =
   DefaultErrors;
@@ -13028,7 +13076,7 @@ export const downloadProjectsLocationsIntegrationsExecutions: API.OperationMetho
   DownloadProjectsLocationsIntegrationsExecutionsResponse,
   DownloadProjectsLocationsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsExecutionsRequest,
   output: DownloadProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -13042,7 +13090,7 @@ export interface ReplayProjectsLocationsIntegrationsExecutionsRequest {
 }
 
 export const ReplayProjectsLocationsIntegrationsExecutionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaReplayExecutionRequest,
@@ -13059,7 +13107,7 @@ export const ReplayProjectsLocationsIntegrationsExecutionsRequest =
 export type ReplayProjectsLocationsIntegrationsExecutionsResponse =
   GoogleCloudIntegrationsV1alphaReplayExecutionResponse;
 export const ReplayProjectsLocationsIntegrationsExecutionsResponse =
-  GoogleCloudIntegrationsV1alphaReplayExecutionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaReplayExecutionResponse;
 
 export type ReplayProjectsLocationsIntegrationsExecutionsError = DefaultErrors;
 
@@ -13069,7 +13117,7 @@ export const replayProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   ReplayProjectsLocationsIntegrationsExecutionsResponse,
   ReplayProjectsLocationsIntegrationsExecutionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplayProjectsLocationsIntegrationsExecutionsRequest,
   output: ReplayProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -13083,7 +13131,7 @@ export interface ResolveProjectsLocationsIntegrationsExecutionsSuspensionsReques
 }
 
 export const ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaResolveSuspensionRequest,
@@ -13100,7 +13148,7 @@ export const ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
 export type ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
 export const ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaResolveSuspensionResponse;
 
 export type ResolveProjectsLocationsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -13111,7 +13159,7 @@ export const resolveProjectsLocationsIntegrationsExecutionsSuspensions: API.Oper
   ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   ResolveProjectsLocationsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
@@ -13131,7 +13179,7 @@ export interface ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
 }
 
 export const ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -13148,7 +13196,7 @@ export const ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
 export type ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
 export const ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSuspensionsResponse;
 
 export type ListProjectsLocationsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -13159,7 +13207,7 @@ export const listProjectsLocationsIntegrationsExecutionsSuspensions: API.Paginat
   ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   ListProjectsLocationsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
@@ -13177,7 +13225,7 @@ export interface LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
 }
 
 export const LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudIntegrationsV1alphaLiftSuspensionRequest,
@@ -13194,7 +13242,7 @@ export const LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest =
 export type LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
   GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
 export const LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
-  GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaLiftSuspensionResponse;
 
 export type LiftProjectsLocationsIntegrationsExecutionsSuspensionsError =
   DefaultErrors;
@@ -13205,7 +13253,7 @@ export const liftProjectsLocationsIntegrationsExecutionsSuspensions: API.Operati
   LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   LiftProjectsLocationsIntegrationsExecutionsSuspensionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
@@ -13218,24 +13266,25 @@ export interface CreateProjectsLocationsSfdcInstancesRequest {
   body?: GoogleCloudIntegrationsV1alphaSfdcInstance;
 }
 
-export const CreateProjectsLocationsSfdcInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsSfdcInstancesRequest>;
+export const CreateProjectsLocationsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsSfdcInstancesRequest>;
 
 export type CreateProjectsLocationsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const CreateProjectsLocationsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type CreateProjectsLocationsSfdcInstancesError = DefaultErrors;
 
@@ -13245,7 +13294,7 @@ export const createProjectsLocationsSfdcInstances: API.OperationMethod<
   CreateProjectsLocationsSfdcInstancesResponse,
   CreateProjectsLocationsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSfdcInstancesRequest,
   output: CreateProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -13260,25 +13309,26 @@ export interface PatchProjectsLocationsSfdcInstancesRequest {
   body?: GoogleCloudIntegrationsV1alphaSfdcInstance;
 }
 
-export const PatchProjectsLocationsSfdcInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsSfdcInstancesRequest>;
+export const PatchProjectsLocationsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcInstance).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsSfdcInstancesRequest>;
 
 export type PatchProjectsLocationsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const PatchProjectsLocationsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type PatchProjectsLocationsSfdcInstancesError = DefaultErrors;
 
@@ -13288,7 +13338,7 @@ export const patchProjectsLocationsSfdcInstances: API.OperationMethod<
   PatchProjectsLocationsSfdcInstancesResponse,
   PatchProjectsLocationsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsSfdcInstancesRequest,
   output: PatchProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -13299,18 +13349,20 @@ export interface DeleteProjectsLocationsSfdcInstancesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsSfdcInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsSfdcInstancesRequest>;
+export const DeleteProjectsLocationsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsSfdcInstancesRequest>;
 
 export type DeleteProjectsLocationsSfdcInstancesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsSfdcInstancesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsSfdcInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSfdcInstancesError = DefaultErrors;
 
@@ -13320,7 +13372,7 @@ export const deleteProjectsLocationsSfdcInstances: API.OperationMethod<
   DeleteProjectsLocationsSfdcInstancesResponse,
   DeleteProjectsLocationsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSfdcInstancesRequest,
   output: DeleteProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -13331,20 +13383,21 @@ export interface GetProjectsLocationsSfdcInstancesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsSfdcInstancesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsSfdcInstancesRequest>;
+export const GetProjectsLocationsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances/{sfdcInstancesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsSfdcInstancesRequest>;
 
 export type GetProjectsLocationsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaSfdcInstance;
 export const GetProjectsLocationsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaSfdcInstance;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcInstance;
 
 export type GetProjectsLocationsSfdcInstancesError = DefaultErrors;
 
@@ -13354,7 +13407,7 @@ export const getProjectsLocationsSfdcInstances: API.OperationMethod<
   GetProjectsLocationsSfdcInstancesResponse,
   GetProjectsLocationsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSfdcInstancesRequest,
   output: GetProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -13373,24 +13426,25 @@ export interface ListProjectsLocationsSfdcInstancesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsSfdcInstancesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsSfdcInstancesRequest>;
+export const ListProjectsLocationsSfdcInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/sfdcInstances",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsSfdcInstancesRequest>;
 
 export type ListProjectsLocationsSfdcInstancesResponse =
   GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
 export const ListProjectsLocationsSfdcInstancesResponse =
-  GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse;
 
 export type ListProjectsLocationsSfdcInstancesError = DefaultErrors;
 
@@ -13400,7 +13454,7 @@ export const listProjectsLocationsSfdcInstances: API.PaginatedOperationMethod<
   ListProjectsLocationsSfdcInstancesResponse,
   ListProjectsLocationsSfdcInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsSfdcInstancesRequest,
   output: ListProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -13418,7 +13472,7 @@ export interface CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcChannel).pipe(
       T.HttpBody(),
@@ -13435,7 +13489,7 @@ export const CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest =
 export type CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type CreateProjectsLocationsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -13446,7 +13500,7 @@ export const createProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   CreateProjectsLocationsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -13462,7 +13516,7 @@ export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudIntegrationsV1alphaSfdcChannel).pipe(
@@ -13480,7 +13534,7 @@ export const PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest =
 export type PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type PatchProjectsLocationsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -13491,7 +13545,7 @@ export const patchProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMetho
   PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   PatchProjectsLocationsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -13503,7 +13557,7 @@ export interface DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -13516,7 +13570,7 @@ export const DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest =
 export type DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSfdcInstancesSfdcChannelsError =
   DefaultErrors;
@@ -13527,7 +13581,7 @@ export const deleteProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMeth
   DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   DeleteProjectsLocationsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -13539,7 +13593,7 @@ export interface GetProjectsLocationsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const GetProjectsLocationsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -13552,7 +13606,7 @@ export const GetProjectsLocationsSfdcInstancesSfdcChannelsRequest =
 export type GetProjectsLocationsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaSfdcChannel;
 export const GetProjectsLocationsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaSfdcChannel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSfdcChannel;
 
 export type GetProjectsLocationsSfdcInstancesSfdcChannelsError = DefaultErrors;
 
@@ -13562,7 +13616,7 @@ export const getProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<
   GetProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   GetProjectsLocationsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: GetProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -13582,7 +13636,7 @@ export interface ListProjectsLocationsSfdcInstancesSfdcChannelsRequest {
 }
 
 export const ListProjectsLocationsSfdcInstancesSfdcChannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -13599,7 +13653,7 @@ export const ListProjectsLocationsSfdcInstancesSfdcChannelsRequest =
 export type ListProjectsLocationsSfdcInstancesSfdcChannelsResponse =
   GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
 export const ListProjectsLocationsSfdcInstancesSfdcChannelsResponse =
-  GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListSfdcChannelsResponse;
 
 export type ListProjectsLocationsSfdcInstancesSfdcChannelsError = DefaultErrors;
 
@@ -13609,7 +13663,7 @@ export const listProjectsLocationsSfdcInstancesSfdcChannels: API.PaginatedOperat
   ListProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   ListProjectsLocationsSfdcInstancesSfdcChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: ListProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -13634,25 +13688,26 @@ export interface ListProjectsLocationsTemplatesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTemplatesRequest>;
+export const ListProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTemplatesRequest>;
 
 export type ListProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaListTemplatesResponse;
 export const ListProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaListTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaListTemplatesResponse;
 
 export type ListProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13662,7 +13717,7 @@ export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
   ListProjectsLocationsTemplatesResponse,
   ListProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTemplatesRequest,
   output: ListProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13677,20 +13732,21 @@ export interface GetProjectsLocationsTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTemplatesRequest>;
+export const GetProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTemplatesRequest>;
 
 export type GetProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaTemplate;
 export const GetProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTemplate;
 
 export type GetProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13700,7 +13756,7 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   GetProjectsLocationsTemplatesResponse,
   GetProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTemplatesRequest,
   output: GetProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13713,24 +13769,25 @@ export interface CreateProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaTemplate;
 }
 
-export const CreateProjectsLocationsTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaTemplate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTemplatesRequest>;
+export const CreateProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaTemplate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTemplatesRequest>;
 
 export type CreateProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaTemplate;
 export const CreateProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTemplate;
 
 export type CreateProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13740,7 +13797,7 @@ export const createProjectsLocationsTemplates: API.OperationMethod<
   CreateProjectsLocationsTemplatesResponse,
   CreateProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTemplatesRequest,
   output: CreateProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13755,25 +13812,26 @@ export interface PatchProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaTemplate;
 }
 
-export const PatchProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaTemplate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTemplatesRequest>;
+export const PatchProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudIntegrationsV1alphaTemplate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTemplatesRequest>;
 
 export type PatchProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaTemplate;
 export const PatchProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaTemplate;
 
 export type PatchProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13783,7 +13841,7 @@ export const patchProjectsLocationsTemplates: API.OperationMethod<
   PatchProjectsLocationsTemplatesResponse,
   PatchProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTemplatesRequest,
   output: PatchProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13794,18 +13852,20 @@ export interface DeleteProjectsLocationsTemplatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTemplatesRequest>;
+export const DeleteProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTemplatesRequest>;
 
 export type DeleteProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13815,7 +13875,7 @@ export const deleteProjectsLocationsTemplates: API.OperationMethod<
   DeleteProjectsLocationsTemplatesResponse,
   DeleteProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTemplatesRequest,
   output: DeleteProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13840,29 +13900,30 @@ export interface SearchProjectsLocationsTemplatesRequest {
   enableNaturalLanguageQueryUnderstanding?: boolean;
 }
 
-export const SearchProjectsLocationsTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  enableNaturalLanguageQueryUnderstanding: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enableNaturalLanguageQueryUnderstanding"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsLocationsTemplatesRequest>;
+export const SearchProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    enableNaturalLanguageQueryUnderstanding: Schema.optional(
+      Schema.Boolean,
+    ).pipe(T.HttpQuery("enableNaturalLanguageQueryUnderstanding")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsTemplatesRequest>;
 
 export type SearchProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaSearchTemplatesResponse;
 export const SearchProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaSearchTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaSearchTemplatesResponse;
 
 export type SearchProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13872,7 +13933,7 @@ export const searchProjectsLocationsTemplates: API.PaginatedOperationMethod<
   SearchProjectsLocationsTemplatesResponse,
   SearchProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsLocationsTemplatesRequest,
   output: SearchProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13889,24 +13950,25 @@ export interface UseProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaUseTemplateRequest;
 }
 
-export const UseProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudIntegrationsV1alphaUseTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:use",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UseProjectsLocationsTemplatesRequest>;
+export const UseProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaUseTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:use",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UseProjectsLocationsTemplatesRequest>;
 
 export type UseProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaUseTemplateResponse;
 export const UseProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaUseTemplateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaUseTemplateResponse;
 
 export type UseProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13916,7 +13978,7 @@ export const useProjectsLocationsTemplates: API.OperationMethod<
   UseProjectsLocationsTemplatesResponse,
   UseProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UseProjectsLocationsTemplatesRequest,
   output: UseProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13929,24 +13991,25 @@ export interface ImportProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaImportTemplateRequest;
 }
 
-export const ImportProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaImportTemplateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsTemplatesRequest>;
+export const ImportProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaImportTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsTemplatesRequest>;
 
 export type ImportProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaImportTemplateResponse;
 export const ImportProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaImportTemplateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaImportTemplateResponse;
 
 export type ImportProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13956,7 +14019,7 @@ export const importProjectsLocationsTemplates: API.OperationMethod<
   ImportProjectsLocationsTemplatesResponse,
   ImportProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsTemplatesRequest,
   output: ImportProjectsLocationsTemplatesResponse,
   errors: [],
@@ -13969,22 +14032,24 @@ export interface ShareProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaShareTemplateRequest;
 }
 
-export const ShareProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaShareTemplateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:share",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ShareProjectsLocationsTemplatesRequest>;
+export const ShareProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaShareTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:share",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShareProjectsLocationsTemplatesRequest>;
 
 export type ShareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
-export const ShareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
+export const ShareProjectsLocationsTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type ShareProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -13994,7 +14059,7 @@ export const shareProjectsLocationsTemplates: API.OperationMethod<
   ShareProjectsLocationsTemplatesResponse,
   ShareProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ShareProjectsLocationsTemplatesRequest,
   output: ShareProjectsLocationsTemplatesResponse,
   errors: [],
@@ -14007,22 +14072,24 @@ export interface UnshareProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaUnshareTemplateRequest;
 }
 
-export const UnshareProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaUnshareTemplateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:unshare",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnshareProjectsLocationsTemplatesRequest>;
+export const UnshareProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaUnshareTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:unshare",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnshareProjectsLocationsTemplatesRequest>;
 
 export type UnshareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
-export const UnshareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
+export const UnshareProjectsLocationsTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type UnshareProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -14032,7 +14099,7 @@ export const unshareProjectsLocationsTemplates: API.OperationMethod<
   UnshareProjectsLocationsTemplatesResponse,
   UnshareProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnshareProjectsLocationsTemplatesRequest,
   output: UnshareProjectsLocationsTemplatesResponse,
   errors: [],
@@ -14045,24 +14112,25 @@ export interface UploadProjectsLocationsTemplatesRequest {
   body?: GoogleCloudIntegrationsV1alphaUploadTemplateRequest;
 }
 
-export const UploadProjectsLocationsTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudIntegrationsV1alphaUploadTemplateRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates:upload",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadProjectsLocationsTemplatesRequest>;
+export const UploadProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudIntegrationsV1alphaUploadTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates:upload",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadProjectsLocationsTemplatesRequest>;
 
 export type UploadProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaUploadTemplateResponse;
 export const UploadProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaUploadTemplateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaUploadTemplateResponse;
 
 export type UploadProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -14072,7 +14140,7 @@ export const uploadProjectsLocationsTemplates: API.OperationMethod<
   UploadProjectsLocationsTemplatesResponse,
   UploadProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadProjectsLocationsTemplatesRequest,
   output: UploadProjectsLocationsTemplatesResponse,
   errors: [],
@@ -14085,21 +14153,22 @@ export interface DownloadProjectsLocationsTemplatesRequest {
   fileFormat?: "FILE_FORMAT_UNSPECIFIED" | "JSON" | "YAML" | (string & {});
 }
 
-export const DownloadProjectsLocationsTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  fileFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("fileFormat")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:download",
-  }),
-  svc,
-) as unknown as Schema.Schema<DownloadProjectsLocationsTemplatesRequest>;
+export const DownloadProjectsLocationsTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    fileFormat: Schema.optional(Schema.String).pipe(T.HttpQuery("fileFormat")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/templates/{templatesId}:download",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DownloadProjectsLocationsTemplatesRequest>;
 
 export type DownloadProjectsLocationsTemplatesResponse =
   GoogleCloudIntegrationsV1alphaDownloadTemplateResponse;
 export const DownloadProjectsLocationsTemplatesResponse =
-  GoogleCloudIntegrationsV1alphaDownloadTemplateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaDownloadTemplateResponse;
 
 export type DownloadProjectsLocationsTemplatesError = DefaultErrors;
 
@@ -14109,7 +14178,7 @@ export const downloadProjectsLocationsTemplates: API.OperationMethod<
   DownloadProjectsLocationsTemplatesResponse,
   DownloadProjectsLocationsTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadProjectsLocationsTemplatesRequest,
   output: DownloadProjectsLocationsTemplatesResponse,
   errors: [],
@@ -14117,15 +14186,16 @@ export const downloadProjectsLocationsTemplates: API.OperationMethod<
 
 export interface EnumerateConnectorPlatformRegionsRequest {}
 
-export const EnumerateConnectorPlatformRegionsRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "v1/connectorPlatformRegions:enumerate" }),
-  svc,
-) as unknown as Schema.Schema<EnumerateConnectorPlatformRegionsRequest>;
+export const EnumerateConnectorPlatformRegionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "v1/connectorPlatformRegions:enumerate" }),
+    svc,
+  ) as unknown as Schema.Schema<EnumerateConnectorPlatformRegionsRequest>;
 
 export type EnumerateConnectorPlatformRegionsResponse =
   GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse;
 export const EnumerateConnectorPlatformRegionsResponse =
-  GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaEnumerateConnectorPlatformRegionsResponse;
 
 export type EnumerateConnectorPlatformRegionsError = DefaultErrors;
 
@@ -14135,7 +14205,7 @@ export const enumerateConnectorPlatformRegions: API.OperationMethod<
   EnumerateConnectorPlatformRegionsResponse,
   EnumerateConnectorPlatformRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnumerateConnectorPlatformRegionsRequest,
   output: EnumerateConnectorPlatformRegionsResponse,
   errors: [],
@@ -14159,23 +14229,26 @@ export interface GenerateTokenCallbackRequest {
     | (string & {});
 }
 
-export const GenerateTokenCallbackRequest = Schema.Struct({
-  state: Schema.optional(Schema.String).pipe(T.HttpQuery("state")),
-  code: Schema.optional(Schema.String).pipe(T.HttpQuery("code")),
-  gcpProjectId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("gcpProjectId"),
-  ),
-  redirectUri: Schema.optional(Schema.String).pipe(T.HttpQuery("redirectUri")),
-  product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/callback:generateToken" }),
-  svc,
-) as unknown as Schema.Schema<GenerateTokenCallbackRequest>;
+export const GenerateTokenCallbackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    state: Schema.optional(Schema.String).pipe(T.HttpQuery("state")),
+    code: Schema.optional(Schema.String).pipe(T.HttpQuery("code")),
+    gcpProjectId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("gcpProjectId"),
+    ),
+    redirectUri: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("redirectUri"),
+    ),
+    product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/callback:generateToken" }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateTokenCallbackRequest>;
 
 export type GenerateTokenCallbackResponse =
   GoogleCloudIntegrationsV1alphaGenerateTokenResponse;
 export const GenerateTokenCallbackResponse =
-  GoogleCloudIntegrationsV1alphaGenerateTokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudIntegrationsV1alphaGenerateTokenResponse;
 
 export type GenerateTokenCallbackError = DefaultErrors;
 
@@ -14185,7 +14258,7 @@ export const generateTokenCallback: API.OperationMethod<
   GenerateTokenCallbackResponse,
   GenerateTokenCallbackError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateTokenCallbackRequest,
   output: GenerateTokenCallbackResponse,
   errors: [],

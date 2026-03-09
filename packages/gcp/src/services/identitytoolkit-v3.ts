@@ -44,7 +44,7 @@ export interface CreateAuthUriResponse {
 }
 
 export const CreateAuthUriResponse: Schema.Schema<CreateAuthUriResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allProviders: Schema.optional(Schema.Array(Schema.String)),
       authUri: Schema.optional(Schema.String),
@@ -66,7 +66,7 @@ export interface DeleteAccountResponse {
 }
 
 export const DeleteAccountResponse: Schema.Schema<DeleteAccountResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -124,42 +124,43 @@ export interface UserInfo {
   version?: number;
 }
 
-export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    createdAt: Schema.optional(Schema.String),
-    customAttributes: Schema.optional(Schema.String),
-    customAuth: Schema.optional(Schema.Boolean),
-    disabled: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    emailVerified: Schema.optional(Schema.Boolean),
-    lastLoginAt: Schema.optional(Schema.String),
-    localId: Schema.optional(Schema.String),
-    passwordHash: Schema.optional(Schema.String),
-    passwordUpdatedAt: Schema.optional(Schema.Number),
-    phoneNumber: Schema.optional(Schema.String),
-    photoUrl: Schema.optional(Schema.String),
-    providerUserInfo: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          displayName: Schema.optional(Schema.String),
-          email: Schema.optional(Schema.String),
-          federatedId: Schema.optional(Schema.String),
-          phoneNumber: Schema.optional(Schema.String),
-          photoUrl: Schema.optional(Schema.String),
-          providerId: Schema.optional(Schema.String),
-          rawId: Schema.optional(Schema.String),
-          screenName: Schema.optional(Schema.String),
-        }),
+export const UserInfo: Schema.Schema<UserInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createdAt: Schema.optional(Schema.String),
+      customAttributes: Schema.optional(Schema.String),
+      customAuth: Schema.optional(Schema.Boolean),
+      disabled: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      emailVerified: Schema.optional(Schema.Boolean),
+      lastLoginAt: Schema.optional(Schema.String),
+      localId: Schema.optional(Schema.String),
+      passwordHash: Schema.optional(Schema.String),
+      passwordUpdatedAt: Schema.optional(Schema.Number),
+      phoneNumber: Schema.optional(Schema.String),
+      photoUrl: Schema.optional(Schema.String),
+      providerUserInfo: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            displayName: Schema.optional(Schema.String),
+            email: Schema.optional(Schema.String),
+            federatedId: Schema.optional(Schema.String),
+            phoneNumber: Schema.optional(Schema.String),
+            photoUrl: Schema.optional(Schema.String),
+            providerId: Schema.optional(Schema.String),
+            rawId: Schema.optional(Schema.String),
+            screenName: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    rawPassword: Schema.optional(Schema.String),
-    salt: Schema.optional(Schema.String),
-    screenName: Schema.optional(Schema.String),
-    validSince: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
+      rawPassword: Schema.optional(Schema.String),
+      salt: Schema.optional(Schema.String),
+      screenName: Schema.optional(Schema.String),
+      validSince: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
 
 export interface DownloadAccountResponse {
   /** The fixed string "identitytoolkit#DownloadAccountResponse". */
@@ -171,7 +172,7 @@ export interface DownloadAccountResponse {
 }
 
 export const DownloadAccountResponse: Schema.Schema<DownloadAccountResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       nextPageToken: Schema.optional(Schema.String),
@@ -199,7 +200,7 @@ export interface EmailLinkSigninResponse {
 }
 
 export const EmailLinkSigninResponse: Schema.Schema<EmailLinkSigninResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       expiresIn: Schema.optional(Schema.String),
@@ -228,18 +229,19 @@ export interface EmailTemplate {
   subject?: string;
 }
 
-export const EmailTemplate: Schema.Schema<EmailTemplate> = Schema.suspend(() =>
-  Schema.Struct({
-    body: Schema.optional(Schema.String),
-    format: Schema.optional(Schema.String),
-    from: Schema.optional(Schema.String),
-    fromDisplayName: Schema.optional(Schema.String),
-    replyTo: Schema.optional(Schema.String),
-    subject: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "EmailTemplate",
-}) as any as Schema.Schema<EmailTemplate>;
+export const EmailTemplate: Schema.Schema<EmailTemplate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      body: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+      from: Schema.optional(Schema.String),
+      fromDisplayName: Schema.optional(Schema.String),
+      replyTo: Schema.optional(Schema.String),
+      subject: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EmailTemplate",
+  }) as any as Schema.Schema<EmailTemplate>;
 
 export interface GetAccountInfoResponse {
   /** The fixed string "identitytoolkit#GetAccountInfoResponse". */
@@ -249,7 +251,7 @@ export interface GetAccountInfoResponse {
 }
 
 export const GetAccountInfoResponse: Schema.Schema<GetAccountInfoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       users: Schema.optional(Schema.Array(UserInfo)),
@@ -268,7 +270,7 @@ export interface GetOobConfirmationCodeResponse {
 }
 
 export const GetOobConfirmationCodeResponse: Schema.Schema<GetOobConfirmationCodeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -288,7 +290,7 @@ export interface GetRecaptchaParamResponse {
 }
 
 export const GetRecaptchaParamResponse: Schema.Schema<GetRecaptchaParamResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       recaptchaSiteKey: Schema.optional(Schema.String),
@@ -334,7 +336,7 @@ export interface IdentitytoolkitRelyingpartyCreateAuthUriRequest {
 }
 
 export const IdentitytoolkitRelyingpartyCreateAuthUriRequest: Schema.Schema<IdentitytoolkitRelyingpartyCreateAuthUriRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appId: Schema.optional(Schema.String),
       authFlowType: Schema.optional(Schema.String),
@@ -369,7 +371,7 @@ export interface IdentitytoolkitRelyingpartyDeleteAccountRequest {
 }
 
 export const IdentitytoolkitRelyingpartyDeleteAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDeleteAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegatedProjectNumber: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -391,7 +393,7 @@ export interface IdentitytoolkitRelyingpartyDownloadAccountRequest {
 }
 
 export const IdentitytoolkitRelyingpartyDownloadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyDownloadAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegatedProjectNumber: Schema.optional(Schema.String),
       maxResults: Schema.optional(Schema.Number),
@@ -412,7 +414,7 @@ export interface IdentitytoolkitRelyingpartyEmailLinkSigninRequest {
 }
 
 export const IdentitytoolkitRelyingpartyEmailLinkSigninRequest: Schema.Schema<IdentitytoolkitRelyingpartyEmailLinkSigninRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -436,7 +438,7 @@ export interface IdentitytoolkitRelyingpartyGetAccountInfoRequest {
 }
 
 export const IdentitytoolkitRelyingpartyGetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartyGetAccountInfoRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegatedProjectNumber: Schema.optional(Schema.String),
       email: Schema.optional(Schema.Array(Schema.String)),
@@ -463,16 +465,17 @@ export interface IdpConfig {
   whitelistedAudiences?: Array<string>;
 }
 
-export const IdpConfig: Schema.Schema<IdpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    clientId: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    experimentPercent: Schema.optional(Schema.Number),
-    provider: Schema.optional(Schema.String),
-    secret: Schema.optional(Schema.String),
-    whitelistedAudiences: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "IdpConfig" }) as any as Schema.Schema<IdpConfig>;
+export const IdpConfig: Schema.Schema<IdpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      experimentPercent: Schema.optional(Schema.Number),
+      provider: Schema.optional(Schema.String),
+      secret: Schema.optional(Schema.String),
+      whitelistedAudiences: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "IdpConfig" }) as any as Schema.Schema<IdpConfig>;
 
 export interface IdentitytoolkitRelyingpartyGetProjectConfigResponse {
   /** Whether to allow password user sign in or sign up. */
@@ -501,7 +504,7 @@ export interface IdentitytoolkitRelyingpartyGetProjectConfigResponse {
 }
 
 export const IdentitytoolkitRelyingpartyGetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetProjectConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowPasswordUser: Schema.optional(Schema.Boolean),
       apiKey: Schema.optional(Schema.String),
@@ -525,7 +528,7 @@ export type IdentitytoolkitRelyingpartyGetPublicKeysResponse = Record<
   string
 >;
 export const IdentitytoolkitRelyingpartyGetPublicKeysResponse: Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse> =
-  Schema.Record(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Record(
     Schema.String,
     Schema.String,
   ) as any as Schema.Schema<IdentitytoolkitRelyingpartyGetPublicKeysResponse>;
@@ -542,7 +545,7 @@ export interface IdentitytoolkitRelyingpartyResetPasswordRequest {
 }
 
 export const IdentitytoolkitRelyingpartyResetPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyResetPasswordRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       newPassword: Schema.optional(Schema.String),
@@ -565,7 +568,7 @@ export interface IdentitytoolkitRelyingpartySendVerificationCodeRequest {
 }
 
 export const IdentitytoolkitRelyingpartySendVerificationCodeRequest: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iosReceipt: Schema.optional(Schema.String),
       iosSecret: Schema.optional(Schema.String),
@@ -582,7 +585,7 @@ export interface IdentitytoolkitRelyingpartySendVerificationCodeResponse {
 }
 
 export const IdentitytoolkitRelyingpartySendVerificationCodeResponse: Schema.Schema<IdentitytoolkitRelyingpartySendVerificationCodeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sessionInfo: Schema.optional(Schema.String),
     }),
@@ -640,7 +643,7 @@ export interface IdentitytoolkitRelyingpartySetAccountInfoRequest {
 }
 
 export const IdentitytoolkitRelyingpartySetAccountInfoRequest: Schema.Schema<IdentitytoolkitRelyingpartySetAccountInfoRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       captchaChallenge: Schema.optional(Schema.String),
       captchaResponse: Schema.optional(Schema.String),
@@ -696,7 +699,7 @@ export interface IdentitytoolkitRelyingpartySetProjectConfigRequest {
 }
 
 export const IdentitytoolkitRelyingpartySetProjectConfigRequest: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowPasswordUser: Schema.optional(Schema.Boolean),
       apiKey: Schema.optional(Schema.String),
@@ -720,7 +723,7 @@ export interface IdentitytoolkitRelyingpartySetProjectConfigResponse {
 }
 
 export const IdentitytoolkitRelyingpartySetProjectConfigResponse: Schema.Schema<IdentitytoolkitRelyingpartySetProjectConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
     }),
@@ -736,7 +739,7 @@ export interface IdentitytoolkitRelyingpartySignOutUserRequest {
 }
 
 export const IdentitytoolkitRelyingpartySignOutUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceId: Schema.optional(Schema.String),
       localId: Schema.optional(Schema.String),
@@ -751,7 +754,7 @@ export interface IdentitytoolkitRelyingpartySignOutUserResponse {
 }
 
 export const IdentitytoolkitRelyingpartySignOutUserResponse: Schema.Schema<IdentitytoolkitRelyingpartySignOutUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localId: Schema.optional(Schema.String),
     }),
@@ -791,7 +794,7 @@ export interface IdentitytoolkitRelyingpartySignupNewUserRequest {
 }
 
 export const IdentitytoolkitRelyingpartySignupNewUserRequest: Schema.Schema<IdentitytoolkitRelyingpartySignupNewUserRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       captchaChallenge: Schema.optional(Schema.String),
       captchaResponse: Schema.optional(Schema.String),
@@ -841,7 +844,7 @@ export interface IdentitytoolkitRelyingpartyUploadAccountRequest {
 }
 
 export const IdentitytoolkitRelyingpartyUploadAccountRequest: Schema.Schema<IdentitytoolkitRelyingpartyUploadAccountRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowOverwrite: Schema.optional(Schema.Boolean),
       blockSize: Schema.optional(Schema.Number),
@@ -892,7 +895,7 @@ export interface IdentitytoolkitRelyingpartyVerifyAssertionRequest {
 }
 
 export const IdentitytoolkitRelyingpartyVerifyAssertionRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyAssertionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       autoCreate: Schema.optional(Schema.Boolean),
       delegatedProjectNumber: Schema.optional(Schema.String),
@@ -924,7 +927,7 @@ export interface IdentitytoolkitRelyingpartyVerifyCustomTokenRequest {
 }
 
 export const IdentitytoolkitRelyingpartyVerifyCustomTokenRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyCustomTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegatedProjectNumber: Schema.optional(Schema.String),
       instanceId: Schema.optional(Schema.String),
@@ -961,7 +964,7 @@ export interface IdentitytoolkitRelyingpartyVerifyPasswordRequest {
 }
 
 export const IdentitytoolkitRelyingpartyVerifyPasswordRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPasswordRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       captchaChallenge: Schema.optional(Schema.String),
       captchaResponse: Schema.optional(Schema.String),
@@ -991,7 +994,7 @@ export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest {
 }
 
 export const IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -1019,7 +1022,7 @@ export interface IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse {
 }
 
 export const IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse: Schema.Schema<IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expiresIn: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -1069,27 +1072,28 @@ export interface Relyingparty {
   userIp?: string;
 }
 
-export const Relyingparty: Schema.Schema<Relyingparty> = Schema.suspend(() =>
-  Schema.Struct({
-    androidInstallApp: Schema.optional(Schema.Boolean),
-    androidMinimumVersion: Schema.optional(Schema.String),
-    androidPackageName: Schema.optional(Schema.String),
-    canHandleCodeInApp: Schema.optional(Schema.Boolean),
-    captchaResp: Schema.optional(Schema.String),
-    challenge: Schema.optional(Schema.String),
-    continueUrl: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    iOSAppStoreId: Schema.optional(Schema.String),
-    iOSBundleId: Schema.optional(Schema.String),
-    idToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    newEmail: Schema.optional(Schema.String),
-    requestType: Schema.optional(Schema.String),
-    userIp: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Relyingparty",
-}) as any as Schema.Schema<Relyingparty>;
+export const Relyingparty: Schema.Schema<Relyingparty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      androidInstallApp: Schema.optional(Schema.Boolean),
+      androidMinimumVersion: Schema.optional(Schema.String),
+      androidPackageName: Schema.optional(Schema.String),
+      canHandleCodeInApp: Schema.optional(Schema.Boolean),
+      captchaResp: Schema.optional(Schema.String),
+      challenge: Schema.optional(Schema.String),
+      continueUrl: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      iOSAppStoreId: Schema.optional(Schema.String),
+      iOSBundleId: Schema.optional(Schema.String),
+      idToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      newEmail: Schema.optional(Schema.String),
+      requestType: Schema.optional(Schema.String),
+      userIp: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Relyingparty",
+  }) as any as Schema.Schema<Relyingparty>;
 
 export interface ResetPasswordResponse {
   /** The user's email. If the out-of-band code is for email recovery, the user's original email. */
@@ -1103,7 +1107,7 @@ export interface ResetPasswordResponse {
 }
 
 export const ResetPasswordResponse: Schema.Schema<ResetPasswordResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -1147,7 +1151,7 @@ export interface SetAccountInfoResponse {
 }
 
 export const SetAccountInfoResponse: Schema.Schema<SetAccountInfoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -1193,7 +1197,7 @@ export interface SignupNewUserResponse {
 }
 
 export const SignupNewUserResponse: Schema.Schema<SignupNewUserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -1215,7 +1219,7 @@ export interface UploadAccountResponse {
 }
 
 export const UploadAccountResponse: Schema.Schema<UploadAccountResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       error: Schema.optional(
         Schema.Array(
@@ -1313,7 +1317,7 @@ export interface VerifyAssertionResponse {
 }
 
 export const VerifyAssertionResponse: Schema.Schema<VerifyAssertionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       action: Schema.optional(Schema.String),
       appInstallationUrl: Schema.optional(Schema.String),
@@ -1373,7 +1377,7 @@ export interface VerifyCustomTokenResponse {
 }
 
 export const VerifyCustomTokenResponse: Schema.Schema<VerifyCustomTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expiresIn: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -1413,7 +1417,7 @@ export interface VerifyPasswordResponse {
 }
 
 export const VerifyPasswordResponse: Schema.Schema<VerifyPasswordResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -1441,17 +1445,19 @@ export interface CreateAuthUriRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyCreateAuthUriRequest;
 }
 
-export const CreateAuthUriRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyCreateAuthUriRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "createAuthUri", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateAuthUriRelyingpartyRequest>;
+export const CreateAuthUriRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartyCreateAuthUriRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "createAuthUri", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAuthUriRelyingpartyRequest>;
 
 export type CreateAuthUriRelyingpartyResponse = CreateAuthUriResponse;
-export const CreateAuthUriRelyingpartyResponse = CreateAuthUriResponse;
+export const CreateAuthUriRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CreateAuthUriResponse;
 
 export type CreateAuthUriRelyingpartyError = DefaultErrors;
 
@@ -1461,7 +1467,7 @@ export const createAuthUriRelyingparty: API.OperationMethod<
   CreateAuthUriRelyingpartyResponse,
   CreateAuthUriRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAuthUriRelyingpartyRequest,
   output: CreateAuthUriRelyingpartyResponse,
   errors: [],
@@ -1472,17 +1478,19 @@ export interface DeleteAccountRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyDeleteAccountRequest;
 }
 
-export const DeleteAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyDeleteAccountRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "deleteAccount", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountRelyingpartyRequest>;
+export const DeleteAccountRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartyDeleteAccountRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "deleteAccount", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountRelyingpartyRequest>;
 
 export type DeleteAccountRelyingpartyResponse = DeleteAccountResponse;
-export const DeleteAccountRelyingpartyResponse = DeleteAccountResponse;
+export const DeleteAccountRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DeleteAccountResponse;
 
 export type DeleteAccountRelyingpartyError = DefaultErrors;
 
@@ -1492,7 +1500,7 @@ export const deleteAccountRelyingparty: API.OperationMethod<
   DeleteAccountRelyingpartyResponse,
   DeleteAccountRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountRelyingpartyRequest,
   output: DeleteAccountRelyingpartyResponse,
   errors: [],
@@ -1503,17 +1511,19 @@ export interface DownloadAccountRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyDownloadAccountRequest;
 }
 
-export const DownloadAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyDownloadAccountRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "downloadAccount", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DownloadAccountRelyingpartyRequest>;
+export const DownloadAccountRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyDownloadAccountRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "downloadAccount", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<DownloadAccountRelyingpartyRequest>;
 
 export type DownloadAccountRelyingpartyResponse = DownloadAccountResponse;
-export const DownloadAccountRelyingpartyResponse = DownloadAccountResponse;
+export const DownloadAccountRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DownloadAccountResponse;
 
 export type DownloadAccountRelyingpartyError = DefaultErrors;
 
@@ -1523,7 +1533,7 @@ export const downloadAccountRelyingparty: API.OperationMethod<
   DownloadAccountRelyingpartyResponse,
   DownloadAccountRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadAccountRelyingpartyRequest,
   output: DownloadAccountRelyingpartyResponse,
   errors: [],
@@ -1534,17 +1544,19 @@ export interface EmailLinkSigninRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyEmailLinkSigninRequest;
 }
 
-export const EmailLinkSigninRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyEmailLinkSigninRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "emailLinkSignin", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<EmailLinkSigninRelyingpartyRequest>;
+export const EmailLinkSigninRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyEmailLinkSigninRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "emailLinkSignin", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<EmailLinkSigninRelyingpartyRequest>;
 
 export type EmailLinkSigninRelyingpartyResponse = EmailLinkSigninResponse;
-export const EmailLinkSigninRelyingpartyResponse = EmailLinkSigninResponse;
+export const EmailLinkSigninRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EmailLinkSigninResponse;
 
 export type EmailLinkSigninRelyingpartyError = DefaultErrors;
 
@@ -1554,7 +1566,7 @@ export const emailLinkSigninRelyingparty: API.OperationMethod<
   EmailLinkSigninRelyingpartyResponse,
   EmailLinkSigninRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EmailLinkSigninRelyingpartyRequest,
   output: EmailLinkSigninRelyingpartyResponse,
   errors: [],
@@ -1565,17 +1577,19 @@ export interface GetAccountInfoRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyGetAccountInfoRequest;
 }
 
-export const GetAccountInfoRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyGetAccountInfoRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "getAccountInfo", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetAccountInfoRelyingpartyRequest>;
+export const GetAccountInfoRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyGetAccountInfoRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "getAccountInfo", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountInfoRelyingpartyRequest>;
 
 export type GetAccountInfoRelyingpartyResponse = GetAccountInfoResponse;
-export const GetAccountInfoRelyingpartyResponse = GetAccountInfoResponse;
+export const GetAccountInfoRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GetAccountInfoResponse;
 
 export type GetAccountInfoRelyingpartyError = DefaultErrors;
 
@@ -1585,7 +1599,7 @@ export const getAccountInfoRelyingparty: API.OperationMethod<
   GetAccountInfoRelyingpartyResponse,
   GetAccountInfoRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountInfoRelyingpartyRequest,
   output: GetAccountInfoRelyingpartyResponse,
   errors: [],
@@ -1596,17 +1610,18 @@ export interface GetOobConfirmationCodeRelyingpartyRequest {
   body?: Relyingparty;
 }
 
-export const GetOobConfirmationCodeRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(Relyingparty).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "getOobConfirmationCode", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<GetOobConfirmationCodeRelyingpartyRequest>;
+export const GetOobConfirmationCodeRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Relyingparty).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "getOobConfirmationCode", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<GetOobConfirmationCodeRelyingpartyRequest>;
 
 export type GetOobConfirmationCodeRelyingpartyResponse =
   GetOobConfirmationCodeResponse;
 export const GetOobConfirmationCodeRelyingpartyResponse =
-  GetOobConfirmationCodeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetOobConfirmationCodeResponse;
 
 export type GetOobConfirmationCodeRelyingpartyError = DefaultErrors;
 
@@ -1616,7 +1631,7 @@ export const getOobConfirmationCodeRelyingparty: API.OperationMethod<
   GetOobConfirmationCodeRelyingpartyResponse,
   GetOobConfirmationCodeRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOobConfirmationCodeRelyingpartyRequest,
   output: GetOobConfirmationCodeRelyingpartyResponse,
   errors: [],
@@ -1629,22 +1644,23 @@ export interface GetProjectConfigRelyingpartyRequest {
   projectNumber?: string;
 }
 
-export const GetProjectConfigRelyingpartyRequest = Schema.Struct({
-  delegatedProjectNumber: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("delegatedProjectNumber"),
-  ),
-  projectNumber: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("projectNumber"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "getProjectConfig" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectConfigRelyingpartyRequest>;
+export const GetProjectConfigRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    delegatedProjectNumber: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("delegatedProjectNumber"),
+    ),
+    projectNumber: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("projectNumber"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "getProjectConfig" }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectConfigRelyingpartyRequest>;
 
 export type GetProjectConfigRelyingpartyResponse =
   IdentitytoolkitRelyingpartyGetProjectConfigResponse;
 export const GetProjectConfigRelyingpartyResponse =
-  IdentitytoolkitRelyingpartyGetProjectConfigResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartyGetProjectConfigResponse;
 
 export type GetProjectConfigRelyingpartyError = DefaultErrors;
 
@@ -1654,7 +1670,7 @@ export const getProjectConfigRelyingparty: API.OperationMethod<
   GetProjectConfigRelyingpartyResponse,
   GetProjectConfigRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectConfigRelyingpartyRequest,
   output: GetProjectConfigRelyingpartyResponse,
   errors: [],
@@ -1662,15 +1678,16 @@ export const getProjectConfigRelyingparty: API.OperationMethod<
 
 export interface GetPublicKeysRelyingpartyRequest {}
 
-export const GetPublicKeysRelyingpartyRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "publicKeys" }),
-  svc,
-) as unknown as Schema.Schema<GetPublicKeysRelyingpartyRequest>;
+export const GetPublicKeysRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "publicKeys" }),
+    svc,
+  ) as unknown as Schema.Schema<GetPublicKeysRelyingpartyRequest>;
 
 export type GetPublicKeysRelyingpartyResponse =
   IdentitytoolkitRelyingpartyGetPublicKeysResponse;
 export const GetPublicKeysRelyingpartyResponse =
-  IdentitytoolkitRelyingpartyGetPublicKeysResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartyGetPublicKeysResponse;
 
 export type GetPublicKeysRelyingpartyError = DefaultErrors;
 
@@ -1680,7 +1697,7 @@ export const getPublicKeysRelyingparty: API.OperationMethod<
   GetPublicKeysRelyingpartyResponse,
   GetPublicKeysRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPublicKeysRelyingpartyRequest,
   output: GetPublicKeysRelyingpartyResponse,
   errors: [],
@@ -1688,13 +1705,15 @@ export const getPublicKeysRelyingparty: API.OperationMethod<
 
 export interface GetRecaptchaParamRelyingpartyRequest {}
 
-export const GetRecaptchaParamRelyingpartyRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "getRecaptchaParam" }),
-  svc,
-) as unknown as Schema.Schema<GetRecaptchaParamRelyingpartyRequest>;
+export const GetRecaptchaParamRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "getRecaptchaParam" }),
+    svc,
+  ) as unknown as Schema.Schema<GetRecaptchaParamRelyingpartyRequest>;
 
 export type GetRecaptchaParamRelyingpartyResponse = GetRecaptchaParamResponse;
-export const GetRecaptchaParamRelyingpartyResponse = GetRecaptchaParamResponse;
+export const GetRecaptchaParamRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GetRecaptchaParamResponse;
 
 export type GetRecaptchaParamRelyingpartyError = DefaultErrors;
 
@@ -1704,7 +1723,7 @@ export const getRecaptchaParamRelyingparty: API.OperationMethod<
   GetRecaptchaParamRelyingpartyResponse,
   GetRecaptchaParamRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecaptchaParamRelyingpartyRequest,
   output: GetRecaptchaParamRelyingpartyResponse,
   errors: [],
@@ -1715,17 +1734,19 @@ export interface ResetPasswordRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyResetPasswordRequest;
 }
 
-export const ResetPasswordRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyResetPasswordRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "resetPassword", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ResetPasswordRelyingpartyRequest>;
+export const ResetPasswordRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartyResetPasswordRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "resetPassword", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<ResetPasswordRelyingpartyRequest>;
 
 export type ResetPasswordRelyingpartyResponse = ResetPasswordResponse;
-export const ResetPasswordRelyingpartyResponse = ResetPasswordResponse;
+export const ResetPasswordRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ResetPasswordResponse;
 
 export type ResetPasswordRelyingpartyError = DefaultErrors;
 
@@ -1735,7 +1756,7 @@ export const resetPasswordRelyingparty: API.OperationMethod<
   ResetPasswordRelyingpartyResponse,
   ResetPasswordRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetPasswordRelyingpartyRequest,
   output: ResetPasswordRelyingpartyResponse,
   errors: [],
@@ -1746,19 +1767,20 @@ export interface SendVerificationCodeRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartySendVerificationCodeRequest;
 }
 
-export const SendVerificationCodeRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(
-    IdentitytoolkitRelyingpartySendVerificationCodeRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "sendVerificationCode", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SendVerificationCodeRelyingpartyRequest>;
+export const SendVerificationCodeRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartySendVerificationCodeRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "sendVerificationCode", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<SendVerificationCodeRelyingpartyRequest>;
 
 export type SendVerificationCodeRelyingpartyResponse =
   IdentitytoolkitRelyingpartySendVerificationCodeResponse;
 export const SendVerificationCodeRelyingpartyResponse =
-  IdentitytoolkitRelyingpartySendVerificationCodeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartySendVerificationCodeResponse;
 
 export type SendVerificationCodeRelyingpartyError = DefaultErrors;
 
@@ -1768,7 +1790,7 @@ export const sendVerificationCodeRelyingparty: API.OperationMethod<
   SendVerificationCodeRelyingpartyResponse,
   SendVerificationCodeRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendVerificationCodeRelyingpartyRequest,
   output: SendVerificationCodeRelyingpartyResponse,
   errors: [],
@@ -1779,17 +1801,19 @@ export interface SetAccountInfoRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartySetAccountInfoRequest;
 }
 
-export const SetAccountInfoRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySetAccountInfoRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "setAccountInfo", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetAccountInfoRelyingpartyRequest>;
+export const SetAccountInfoRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartySetAccountInfoRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "setAccountInfo", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<SetAccountInfoRelyingpartyRequest>;
 
 export type SetAccountInfoRelyingpartyResponse = SetAccountInfoResponse;
-export const SetAccountInfoRelyingpartyResponse = SetAccountInfoResponse;
+export const SetAccountInfoRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SetAccountInfoResponse;
 
 export type SetAccountInfoRelyingpartyError = DefaultErrors;
 
@@ -1799,7 +1823,7 @@ export const setAccountInfoRelyingparty: API.OperationMethod<
   SetAccountInfoRelyingpartyResponse,
   SetAccountInfoRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetAccountInfoRelyingpartyRequest,
   output: SetAccountInfoRelyingpartyResponse,
   errors: [],
@@ -1810,19 +1834,20 @@ export interface SetProjectConfigRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartySetProjectConfigRequest;
 }
 
-export const SetProjectConfigRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(
-    IdentitytoolkitRelyingpartySetProjectConfigRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "setProjectConfig", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SetProjectConfigRelyingpartyRequest>;
+export const SetProjectConfigRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartySetProjectConfigRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "setProjectConfig", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<SetProjectConfigRelyingpartyRequest>;
 
 export type SetProjectConfigRelyingpartyResponse =
   IdentitytoolkitRelyingpartySetProjectConfigResponse;
 export const SetProjectConfigRelyingpartyResponse =
-  IdentitytoolkitRelyingpartySetProjectConfigResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartySetProjectConfigResponse;
 
 export type SetProjectConfigRelyingpartyError = DefaultErrors;
 
@@ -1832,7 +1857,7 @@ export const setProjectConfigRelyingparty: API.OperationMethod<
   SetProjectConfigRelyingpartyResponse,
   SetProjectConfigRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetProjectConfigRelyingpartyRequest,
   output: SetProjectConfigRelyingpartyResponse,
   errors: [],
@@ -1843,19 +1868,20 @@ export interface SignOutUserRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartySignOutUserRequest;
 }
 
-export const SignOutUserRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySignOutUserRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "signOutUser", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SignOutUserRelyingpartyRequest>;
+export const SignOutUserRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartySignOutUserRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "signOutUser", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<SignOutUserRelyingpartyRequest>;
 
 export type SignOutUserRelyingpartyResponse =
   IdentitytoolkitRelyingpartySignOutUserResponse;
 export const SignOutUserRelyingpartyResponse =
-  IdentitytoolkitRelyingpartySignOutUserResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartySignOutUserResponse;
 
 export type SignOutUserRelyingpartyError = DefaultErrors;
 
@@ -1865,7 +1891,7 @@ export const signOutUserRelyingparty: API.OperationMethod<
   SignOutUserRelyingpartyResponse,
   SignOutUserRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignOutUserRelyingpartyRequest,
   output: SignOutUserRelyingpartyResponse,
   errors: [],
@@ -1876,17 +1902,19 @@ export interface SignupNewUserRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartySignupNewUserRequest;
 }
 
-export const SignupNewUserRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartySignupNewUserRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "signupNewUser", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<SignupNewUserRelyingpartyRequest>;
+export const SignupNewUserRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartySignupNewUserRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "signupNewUser", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<SignupNewUserRelyingpartyRequest>;
 
 export type SignupNewUserRelyingpartyResponse = SignupNewUserResponse;
-export const SignupNewUserRelyingpartyResponse = SignupNewUserResponse;
+export const SignupNewUserRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SignupNewUserResponse;
 
 export type SignupNewUserRelyingpartyError = DefaultErrors;
 
@@ -1896,7 +1924,7 @@ export const signupNewUserRelyingparty: API.OperationMethod<
   SignupNewUserRelyingpartyResponse,
   SignupNewUserRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignupNewUserRelyingpartyRequest,
   output: SignupNewUserRelyingpartyResponse,
   errors: [],
@@ -1907,17 +1935,19 @@ export interface UploadAccountRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyUploadAccountRequest;
 }
 
-export const UploadAccountRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyUploadAccountRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "uploadAccount", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UploadAccountRelyingpartyRequest>;
+export const UploadAccountRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(IdentitytoolkitRelyingpartyUploadAccountRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "uploadAccount", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<UploadAccountRelyingpartyRequest>;
 
 export type UploadAccountRelyingpartyResponse = UploadAccountResponse;
-export const UploadAccountRelyingpartyResponse = UploadAccountResponse;
+export const UploadAccountRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UploadAccountResponse;
 
 export type UploadAccountRelyingpartyError = DefaultErrors;
 
@@ -1927,7 +1957,7 @@ export const uploadAccountRelyingparty: API.OperationMethod<
   UploadAccountRelyingpartyResponse,
   UploadAccountRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadAccountRelyingpartyRequest,
   output: UploadAccountRelyingpartyResponse,
   errors: [],
@@ -1938,17 +1968,19 @@ export interface VerifyAssertionRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyVerifyAssertionRequest;
 }
 
-export const VerifyAssertionRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyAssertionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "verifyAssertion", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<VerifyAssertionRelyingpartyRequest>;
+export const VerifyAssertionRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyVerifyAssertionRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "verifyAssertion", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyAssertionRelyingpartyRequest>;
 
 export type VerifyAssertionRelyingpartyResponse = VerifyAssertionResponse;
-export const VerifyAssertionRelyingpartyResponse = VerifyAssertionResponse;
+export const VerifyAssertionRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyAssertionResponse;
 
 export type VerifyAssertionRelyingpartyError = DefaultErrors;
 
@@ -1958,7 +1990,7 @@ export const verifyAssertionRelyingparty: API.OperationMethod<
   VerifyAssertionRelyingpartyResponse,
   VerifyAssertionRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyAssertionRelyingpartyRequest,
   output: VerifyAssertionRelyingpartyResponse,
   errors: [],
@@ -1969,17 +2001,19 @@ export interface VerifyCustomTokenRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyVerifyCustomTokenRequest;
 }
 
-export const VerifyCustomTokenRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(
-    IdentitytoolkitRelyingpartyVerifyCustomTokenRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "verifyCustomToken", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<VerifyCustomTokenRelyingpartyRequest>;
+export const VerifyCustomTokenRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyVerifyCustomTokenRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "verifyCustomToken", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyCustomTokenRelyingpartyRequest>;
 
 export type VerifyCustomTokenRelyingpartyResponse = VerifyCustomTokenResponse;
-export const VerifyCustomTokenRelyingpartyResponse = VerifyCustomTokenResponse;
+export const VerifyCustomTokenRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyCustomTokenResponse;
 
 export type VerifyCustomTokenRelyingpartyError = DefaultErrors;
 
@@ -1989,7 +2023,7 @@ export const verifyCustomTokenRelyingparty: API.OperationMethod<
   VerifyCustomTokenRelyingpartyResponse,
   VerifyCustomTokenRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyCustomTokenRelyingpartyRequest,
   output: VerifyCustomTokenRelyingpartyResponse,
   errors: [],
@@ -2000,17 +2034,19 @@ export interface VerifyPasswordRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyVerifyPasswordRequest;
 }
 
-export const VerifyPasswordRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(IdentitytoolkitRelyingpartyVerifyPasswordRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "verifyPassword", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<VerifyPasswordRelyingpartyRequest>;
+export const VerifyPasswordRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyVerifyPasswordRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "verifyPassword", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyPasswordRelyingpartyRequest>;
 
 export type VerifyPasswordRelyingpartyResponse = VerifyPasswordResponse;
-export const VerifyPasswordRelyingpartyResponse = VerifyPasswordResponse;
+export const VerifyPasswordRelyingpartyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyPasswordResponse;
 
 export type VerifyPasswordRelyingpartyError = DefaultErrors;
 
@@ -2020,7 +2056,7 @@ export const verifyPasswordRelyingparty: API.OperationMethod<
   VerifyPasswordRelyingpartyResponse,
   VerifyPasswordRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyPasswordRelyingpartyRequest,
   output: VerifyPasswordRelyingpartyResponse,
   errors: [],
@@ -2031,19 +2067,20 @@ export interface VerifyPhoneNumberRelyingpartyRequest {
   body?: IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest;
 }
 
-export const VerifyPhoneNumberRelyingpartyRequest = Schema.Struct({
-  body: Schema.optional(
-    IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "verifyPhoneNumber", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<VerifyPhoneNumberRelyingpartyRequest>;
+export const VerifyPhoneNumberRelyingpartyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "verifyPhoneNumber", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyPhoneNumberRelyingpartyRequest>;
 
 export type VerifyPhoneNumberRelyingpartyResponse =
   IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
 export const VerifyPhoneNumberRelyingpartyResponse =
-  IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
+  /*@__PURE__*/ /*#__PURE__*/ IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse;
 
 export type VerifyPhoneNumberRelyingpartyError = DefaultErrors;
 
@@ -2053,7 +2090,7 @@ export const verifyPhoneNumberRelyingparty: API.OperationMethod<
   VerifyPhoneNumberRelyingpartyResponse,
   VerifyPhoneNumberRelyingpartyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyPhoneNumberRelyingpartyRequest,
   output: VerifyPhoneNumberRelyingpartyResponse,
   errors: [],

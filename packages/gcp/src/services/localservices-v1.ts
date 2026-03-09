@@ -30,7 +30,7 @@ export interface GoogleTypeTimeZone {
 }
 
 export const GoogleTypeTimeZone: Schema.Schema<GoogleTypeTimeZone> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -45,7 +45,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1AggregatorInfo {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1AggregatorInfo: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AggregatorInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregatorProviderId: Schema.optional(Schema.String),
     }),
@@ -65,7 +65,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1MessageLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1MessageLead> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobType: Schema.optional(Schema.String),
       consumerPhoneNumber: Schema.optional(Schema.String),
@@ -90,7 +90,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1BookingLead {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1BookingLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1BookingLead> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bookingAppointmentTimestamp: Schema.optional(Schema.String),
       consumerPhoneNumber: Schema.optional(Schema.String),
@@ -112,7 +112,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1PhoneLead: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1PhoneLead> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chargedCallTimestamp: Schema.optional(Schema.String),
       chargedConnectedCallDurationSeconds: Schema.optional(Schema.String),
@@ -169,7 +169,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       timezone: Schema.optional(GoogleTypeTimeZone),
@@ -237,7 +237,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1AccountReport {
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1AccountReport: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1AccountReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currentPeriodChargedLeads: Schema.optional(Schema.String),
       previousPeriodPhoneCalls: Schema.optional(Schema.String),
@@ -271,7 +271,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsRespons
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       accountReports: Schema.optional(
@@ -291,7 +291,7 @@ export interface GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsRe
 }
 
 export const GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse: Schema.Schema<GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedLeadReports: Schema.optional(
         Schema.Array(GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport),
@@ -328,37 +328,38 @@ export interface SearchAccountReportsRequest {
   "startDate.year"?: number;
 }
 
-export const SearchAccountReportsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accountReports:search" }),
-  svc,
-) as unknown as Schema.Schema<SearchAccountReportsRequest>;
+export const SearchAccountReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accountReports:search" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchAccountReportsRequest>;
 
 export type SearchAccountReportsResponse =
   GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
 export const SearchAccountReportsResponse =
-  GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse;
 
 export type SearchAccountReportsError = DefaultErrors;
 
@@ -368,7 +369,7 @@ export const searchAccountReports: API.PaginatedOperationMethod<
   SearchAccountReportsResponse,
   SearchAccountReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchAccountReportsRequest,
   output: SearchAccountReportsResponse,
   errors: [],
@@ -399,37 +400,38 @@ export interface SearchDetailedLeadReportsRequest {
   pageToken?: string;
 }
 
-export const SearchDetailedLeadReportsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/detailedLeadReports:search" }),
-  svc,
-) as unknown as Schema.Schema<SearchDetailedLeadReportsRequest>;
+export const SearchDetailedLeadReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/detailedLeadReports:search" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchDetailedLeadReportsRequest>;
 
 export type SearchDetailedLeadReportsResponse =
   GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
 export const SearchDetailedLeadReportsResponse =
-  GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse;
 
 export type SearchDetailedLeadReportsError = DefaultErrors;
 
@@ -439,7 +441,7 @@ export const searchDetailedLeadReports: API.PaginatedOperationMethod<
   SearchDetailedLeadReportsResponse,
   SearchDetailedLeadReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchDetailedLeadReportsRequest,
   output: SearchDetailedLeadReportsResponse,
   errors: [],

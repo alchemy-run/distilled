@@ -32,7 +32,7 @@ export interface Chromeuxreport_Date {
 }
 
 export const Chromeuxreport_Date: Schema.Schema<Chromeuxreport_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.Number),
       year: Schema.optional(Schema.Number),
@@ -56,13 +56,14 @@ export interface HistoryKey {
     | (string & {});
 }
 
-export const HistoryKey: Schema.Schema<HistoryKey> = Schema.suspend(() =>
-  Schema.Struct({
-    origin: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-    formFactor: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "HistoryKey" }) as any as Schema.Schema<HistoryKey>;
+export const HistoryKey: Schema.Schema<HistoryKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      origin: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      formFactor: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "HistoryKey" }) as any as Schema.Schema<HistoryKey>;
 
 export interface CollectionPeriod {
   /** The first day in the collection period, inclusive. */
@@ -71,15 +72,15 @@ export interface CollectionPeriod {
   lastDate?: Chromeuxreport_Date;
 }
 
-export const CollectionPeriod: Schema.Schema<CollectionPeriod> = Schema.suspend(
-  () =>
+export const CollectionPeriod: Schema.Schema<CollectionPeriod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstDate: Schema.optional(Chromeuxreport_Date),
       lastDate: Schema.optional(Chromeuxreport_Date),
     }),
-).annotate({
-  identifier: "CollectionPeriod",
-}) as any as Schema.Schema<CollectionPeriod>;
+  ).annotate({
+    identifier: "CollectionPeriod",
+  }) as any as Schema.Schema<CollectionPeriod>;
 
 export interface Key {
   /** Url specifies a specific url that this record is for. Note: When specifying a "url" only data for that specific url will be aggregated. */
@@ -97,14 +98,15 @@ export interface Key {
   effectiveConnectionType?: string;
 }
 
-export const Key: Schema.Schema<Key> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    formFactor: Schema.optional(Schema.String),
-    origin: Schema.optional(Schema.String),
-    effectiveConnectionType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
+export const Key: Schema.Schema<Key> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      formFactor: Schema.optional(Schema.String),
+      origin: Schema.optional(Schema.String),
+      effectiveConnectionType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Key" }) as any as Schema.Schema<Key>;
 
 export interface Bin {
   /** Start is the beginning of the data bin. */
@@ -115,24 +117,28 @@ export interface Bin {
   density?: unknown;
 }
 
-export const Bin: Schema.Schema<Bin> = Schema.suspend(() =>
-  Schema.Struct({
-    start: Schema.optional(Schema.Unknown),
-    end: Schema.optional(Schema.Unknown),
-    density: Schema.optional(Schema.Unknown),
-  }),
-).annotate({ identifier: "Bin" }) as any as Schema.Schema<Bin>;
+export const Bin: Schema.Schema<Bin> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      start: Schema.optional(Schema.Unknown),
+      end: Schema.optional(Schema.Unknown),
+      density: Schema.optional(Schema.Unknown),
+    }),
+  ).annotate({ identifier: "Bin" }) as any as Schema.Schema<Bin>;
 
 export interface Percentiles {
   /** 75% of users experienced the given metric at or below this value. */
   p75?: unknown;
 }
 
-export const Percentiles: Schema.Schema<Percentiles> = Schema.suspend(() =>
-  Schema.Struct({
-    p75: Schema.optional(Schema.Unknown),
-  }),
-).annotate({ identifier: "Percentiles" }) as any as Schema.Schema<Percentiles>;
+export const Percentiles: Schema.Schema<Percentiles> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      p75: Schema.optional(Schema.Unknown),
+    }),
+  ).annotate({
+    identifier: "Percentiles",
+  }) as any as Schema.Schema<Percentiles>;
 
 export interface Metric {
   /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1. */
@@ -143,13 +149,14 @@ export interface Metric {
   fractions?: Record<string, number>;
 }
 
-export const Metric: Schema.Schema<Metric> = Schema.suspend(() =>
-  Schema.Struct({
-    histogram: Schema.optional(Schema.Array(Bin)),
-    percentiles: Schema.optional(Percentiles),
-    fractions: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
-  }),
-).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
+export const Metric: Schema.Schema<Metric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      histogram: Schema.optional(Schema.Array(Bin)),
+      percentiles: Schema.optional(Percentiles),
+      fractions: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
+    }),
+  ).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
 
 export interface Chromeuxreport_Record {
   /** The collection period indicates when the data reflected in this record was collected. */
@@ -161,7 +168,7 @@ export interface Chromeuxreport_Record {
 }
 
 export const Chromeuxreport_Record: Schema.Schema<Chromeuxreport_Record> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collectionPeriod: Schema.optional(CollectionPeriod),
       key: Schema.optional(Key),
@@ -178,15 +185,15 @@ export interface UrlNormalization {
   normalizedUrl?: string;
 }
 
-export const UrlNormalization: Schema.Schema<UrlNormalization> = Schema.suspend(
-  () =>
+export const UrlNormalization: Schema.Schema<UrlNormalization> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originalUrl: Schema.optional(Schema.String),
       normalizedUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "UrlNormalization",
-}) as any as Schema.Schema<UrlNormalization>;
+  ).annotate({
+    identifier: "UrlNormalization",
+  }) as any as Schema.Schema<UrlNormalization>;
 
 export interface QueryResponse {
   /** The record that was found. */
@@ -195,14 +202,15 @@ export interface QueryResponse {
   urlNormalizationDetails?: UrlNormalization;
 }
 
-export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    record: Schema.optional(Chromeuxreport_Record),
-    urlNormalizationDetails: Schema.optional(UrlNormalization),
-  }),
-).annotate({
-  identifier: "QueryResponse",
-}) as any as Schema.Schema<QueryResponse>;
+export const QueryResponse: Schema.Schema<QueryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      record: Schema.optional(Chromeuxreport_Record),
+      urlNormalizationDetails: Schema.optional(UrlNormalization),
+    }),
+  ).annotate({
+    identifier: "QueryResponse",
+  }) as any as Schema.Schema<QueryResponse>;
 
 export interface TimeseriesPercentiles {
   /** 75% of users experienced the given metric at or below this value. The length of this list of densities is equal to the length of the CollectionPeriods field in the HistoryRecord message, which describes when the density was observed in the field. */
@@ -210,7 +218,7 @@ export interface TimeseriesPercentiles {
 }
 
 export const TimeseriesPercentiles: Schema.Schema<TimeseriesPercentiles> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       p75s: Schema.optional(Schema.Array(Schema.Unknown)),
     }),
@@ -237,7 +245,7 @@ export interface QueryHistoryRequest {
 }
 
 export const QueryHistoryRequest: Schema.Schema<QueryHistoryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       formFactor: Schema.optional(Schema.String),
       origin: Schema.optional(Schema.String),
@@ -267,17 +275,18 @@ export interface QueryRequest {
   origin?: string;
 }
 
-export const QueryRequest: Schema.Schema<QueryRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    effectiveConnectionType: Schema.optional(Schema.String),
-    metrics: Schema.optional(Schema.Array(Schema.String)),
-    formFactor: Schema.optional(Schema.String),
-    origin: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "QueryRequest",
-}) as any as Schema.Schema<QueryRequest>;
+export const QueryRequest: Schema.Schema<QueryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      effectiveConnectionType: Schema.optional(Schema.String),
+      metrics: Schema.optional(Schema.Array(Schema.String)),
+      formFactor: Schema.optional(Schema.String),
+      origin: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryRequest",
+  }) as any as Schema.Schema<QueryRequest>;
 
 export interface FractionTimeseries {
   /** Values between 0.0 and 1.0 (inclusive) and NaN. */
@@ -285,7 +294,7 @@ export interface FractionTimeseries {
 }
 
 export const FractionTimeseries: Schema.Schema<FractionTimeseries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fractions: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -302,15 +311,16 @@ export interface TimeseriesBin {
   densities?: Array<number>;
 }
 
-export const TimeseriesBin: Schema.Schema<TimeseriesBin> = Schema.suspend(() =>
-  Schema.Struct({
-    start: Schema.optional(Schema.Unknown),
-    end: Schema.optional(Schema.Unknown),
-    densities: Schema.optional(Schema.Array(Schema.Number)),
-  }),
-).annotate({
-  identifier: "TimeseriesBin",
-}) as any as Schema.Schema<TimeseriesBin>;
+export const TimeseriesBin: Schema.Schema<TimeseriesBin> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      start: Schema.optional(Schema.Unknown),
+      end: Schema.optional(Schema.Unknown),
+      densities: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+  ).annotate({
+    identifier: "TimeseriesBin",
+  }) as any as Schema.Schema<TimeseriesBin>;
 
 export interface MetricTimeseries {
   /** Mapping from labels to timeseries of fractions attributed to this label. */
@@ -321,8 +331,8 @@ export interface MetricTimeseries {
   percentilesTimeseries?: TimeseriesPercentiles;
 }
 
-export const MetricTimeseries: Schema.Schema<MetricTimeseries> = Schema.suspend(
-  () =>
+export const MetricTimeseries: Schema.Schema<MetricTimeseries> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fractionTimeseries: Schema.optional(
         Schema.Record(Schema.String, FractionTimeseries),
@@ -330,9 +340,9 @@ export const MetricTimeseries: Schema.Schema<MetricTimeseries> = Schema.suspend(
       histogramTimeseries: Schema.optional(Schema.Array(TimeseriesBin)),
       percentilesTimeseries: Schema.optional(TimeseriesPercentiles),
     }),
-).annotate({
-  identifier: "MetricTimeseries",
-}) as any as Schema.Schema<MetricTimeseries>;
+  ).annotate({
+    identifier: "MetricTimeseries",
+  }) as any as Schema.Schema<MetricTimeseries>;
 
 export interface HistoryRecord {
   /** Key defines all of the unique querying parameters needed to look up a user experience history record. */
@@ -343,15 +353,16 @@ export interface HistoryRecord {
   collectionPeriods?: Array<CollectionPeriod>;
 }
 
-export const HistoryRecord: Schema.Schema<HistoryRecord> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(HistoryKey),
-    metrics: Schema.optional(Schema.Record(Schema.String, MetricTimeseries)),
-    collectionPeriods: Schema.optional(Schema.Array(CollectionPeriod)),
-  }),
-).annotate({
-  identifier: "HistoryRecord",
-}) as any as Schema.Schema<HistoryRecord>;
+export const HistoryRecord: Schema.Schema<HistoryRecord> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(HistoryKey),
+      metrics: Schema.optional(Schema.Record(Schema.String, MetricTimeseries)),
+      collectionPeriods: Schema.optional(Schema.Array(CollectionPeriod)),
+    }),
+  ).annotate({
+    identifier: "HistoryRecord",
+  }) as any as Schema.Schema<HistoryRecord>;
 
 export interface QueryHistoryResponse {
   /** The record that was found. */
@@ -361,7 +372,7 @@ export interface QueryHistoryResponse {
 }
 
 export const QueryHistoryResponse: Schema.Schema<QueryHistoryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       record: Schema.optional(HistoryRecord),
       urlNormalizationDetails: Schema.optional(UrlNormalization),
@@ -379,15 +390,17 @@ export interface QueryRecordRecordsRequest {
   body?: QueryRequest;
 }
 
-export const QueryRecordRecordsRequest = Schema.Struct({
-  body: Schema.optional(QueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/records:queryRecord", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<QueryRecordRecordsRequest>;
+export const QueryRecordRecordsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(QueryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/records:queryRecord", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<QueryRecordRecordsRequest>;
 
 export type QueryRecordRecordsResponse = QueryResponse;
-export const QueryRecordRecordsResponse = QueryResponse;
+export const QueryRecordRecordsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryResponse;
 
 export type QueryRecordRecordsError = DefaultErrors;
 
@@ -397,7 +410,7 @@ export const queryRecordRecords: API.OperationMethod<
   QueryRecordRecordsResponse,
   QueryRecordRecordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryRecordRecordsRequest,
   output: QueryRecordRecordsResponse,
   errors: [],
@@ -408,19 +421,21 @@ export interface QueryHistoryRecordRecordsRequest {
   body?: QueryHistoryRequest;
 }
 
-export const QueryHistoryRecordRecordsRequest = Schema.Struct({
-  body: Schema.optional(QueryHistoryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/records:queryHistoryRecord",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<QueryHistoryRecordRecordsRequest>;
+export const QueryHistoryRecordRecordsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(QueryHistoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/records:queryHistoryRecord",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryHistoryRecordRecordsRequest>;
 
 export type QueryHistoryRecordRecordsResponse = QueryHistoryResponse;
-export const QueryHistoryRecordRecordsResponse = QueryHistoryResponse;
+export const QueryHistoryRecordRecordsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryHistoryResponse;
 
 export type QueryHistoryRecordRecordsError = DefaultErrors;
 
@@ -430,7 +445,7 @@ export const queryHistoryRecordRecords: API.OperationMethod<
   QueryHistoryRecordRecordsResponse,
   QueryHistoryRecordRecordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryHistoryRecordRecordsRequest,
   output: QueryHistoryRecordRecordsResponse,
   errors: [],

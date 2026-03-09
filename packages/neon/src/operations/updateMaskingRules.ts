@@ -3,40 +3,42 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const UpdateMaskingRulesInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  masking_rules: Schema.Array(
-    Schema.Struct({
-      database_name: Schema.String,
-      schema_name: Schema.String,
-      table_name: Schema.String,
-      column_name: Schema.String,
-      masking_function: Schema.optional(Schema.String),
-      masking_value: Schema.optional(Schema.String),
+export const UpdateMaskingRulesInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    masking_rules: Schema.Array(
+      Schema.Struct({
+        database_name: Schema.String,
+        schema_name: Schema.String,
+        table_name: Schema.String,
+        column_name: Schema.String,
+        masking_function: Schema.optional(Schema.String),
+        masking_value: Schema.optional(Schema.String),
+      }),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/projects/{project_id}/branches/{branch_id}/masking_rules",
     }),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/projects/{project_id}/branches/{branch_id}/masking_rules",
-  }),
-);
+  );
 export type UpdateMaskingRulesInput = typeof UpdateMaskingRulesInput.Type;
 
 // Output Schema
-export const UpdateMaskingRulesOutput = Schema.Struct({
-  masking_rules: Schema.Array(
-    Schema.Struct({
-      database_name: Schema.String,
-      schema_name: Schema.String,
-      table_name: Schema.String,
-      column_name: Schema.String,
-      masking_function: Schema.optional(Schema.String),
-      masking_value: Schema.optional(Schema.String),
-    }),
-  ),
-});
+export const UpdateMaskingRulesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    masking_rules: Schema.Array(
+      Schema.Struct({
+        database_name: Schema.String,
+        schema_name: Schema.String,
+        table_name: Schema.String,
+        column_name: Schema.String,
+        masking_function: Schema.optional(Schema.String),
+        masking_value: Schema.optional(Schema.String),
+      }),
+    ),
+  });
 export type UpdateMaskingRulesOutput = typeof UpdateMaskingRulesOutput.Type;
 
 // The operation

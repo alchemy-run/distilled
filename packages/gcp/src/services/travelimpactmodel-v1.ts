@@ -29,12 +29,13 @@ export interface Market {
   origin?: string;
 }
 
-export const Market: Schema.Schema<Market> = Schema.suspend(() =>
-  Schema.Struct({
-    destination: Schema.optional(Schema.String),
-    origin: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Market" }) as any as Schema.Schema<Market>;
+export const Market: Schema.Schema<Market> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+      origin: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Market" }) as any as Schema.Schema<Market>;
 
 export interface ComputeTypicalFlightEmissionsRequest {
   /** Required. Request the typical flight emissions estimates for this market pair. A maximum of 1000 markets can be requested. */
@@ -42,7 +43,7 @@ export interface ComputeTypicalFlightEmissionsRequest {
 }
 
 export const ComputeTypicalFlightEmissionsRequest: Schema.Schema<ComputeTypicalFlightEmissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       markets: Schema.optional(Schema.Array(Market)),
     }),
@@ -62,7 +63,7 @@ export interface EmissionsGramsPerPax {
 }
 
 export const EmissionsGramsPerPax: Schema.Schema<EmissionsGramsPerPax> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       first: Schema.optional(Schema.Number),
       premiumEconomy: Schema.optional(Schema.Number),
@@ -83,7 +84,7 @@ export interface Travelimpactmodel_Date {
 }
 
 export const Travelimpactmodel_Date: Schema.Schema<Travelimpactmodel_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
@@ -105,7 +106,7 @@ export interface EasaLabelMetadata {
 }
 
 export const EasaLabelMetadata: Schema.Schema<EasaLabelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelIssueDate: Schema.optional(Travelimpactmodel_Date),
       labelExpiryDate: Schema.optional(Travelimpactmodel_Date),
@@ -129,15 +130,16 @@ export interface Flight {
   departureDate?: Travelimpactmodel_Date;
 }
 
-export const Flight: Schema.Schema<Flight> = Schema.suspend(() =>
-  Schema.Struct({
-    origin: Schema.optional(Schema.String),
-    flightNumber: Schema.optional(Schema.Number),
-    operatingCarrierCode: Schema.optional(Schema.String),
-    destination: Schema.optional(Schema.String),
-    departureDate: Schema.optional(Travelimpactmodel_Date),
-  }),
-).annotate({ identifier: "Flight" }) as any as Schema.Schema<Flight>;
+export const Flight: Schema.Schema<Flight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      origin: Schema.optional(Schema.String),
+      flightNumber: Schema.optional(Schema.Number),
+      operatingCarrierCode: Schema.optional(Schema.String),
+      destination: Schema.optional(Schema.String),
+      departureDate: Schema.optional(Travelimpactmodel_Date),
+    }),
+  ).annotate({ identifier: "Flight" }) as any as Schema.Schema<Flight>;
 
 export interface ComputeFlightEmissionsRequest {
   /** Required. Direct flights to return emission estimates for. */
@@ -145,7 +147,7 @@ export interface ComputeFlightEmissionsRequest {
 }
 
 export const ComputeFlightEmissionsRequest: Schema.Schema<ComputeFlightEmissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       flights: Schema.optional(Schema.Array(Flight)),
     }),
@@ -177,7 +179,7 @@ export interface Scope3FlightSegment {
 }
 
 export const Scope3FlightSegment: Schema.Schema<Scope3FlightSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       distanceKm: Schema.optional(Schema.String),
       origin: Schema.optional(Schema.String),
@@ -199,7 +201,7 @@ export interface TypicalFlightEmissions {
 }
 
 export const TypicalFlightEmissions: Schema.Schema<TypicalFlightEmissions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       market: Schema.optional(Market),
       emissionsGramsPerPax: Schema.optional(EmissionsGramsPerPax),
@@ -219,16 +221,17 @@ export interface ModelVersion {
   dated?: string;
 }
 
-export const ModelVersion: Schema.Schema<ModelVersion> = Schema.suspend(() =>
-  Schema.Struct({
-    major: Schema.optional(Schema.Number),
-    minor: Schema.optional(Schema.Number),
-    patch: Schema.optional(Schema.Number),
-    dated: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ModelVersion",
-}) as any as Schema.Schema<ModelVersion>;
+export const ModelVersion: Schema.Schema<ModelVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      major: Schema.optional(Schema.Number),
+      minor: Schema.optional(Schema.Number),
+      patch: Schema.optional(Schema.Number),
+      dated: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ModelVersion",
+  }) as any as Schema.Schema<ModelVersion>;
 
 export interface ComputeTypicalFlightEmissionsResponse {
   /** Market's Typical Flight Emissions requested. */
@@ -238,7 +241,7 @@ export interface ComputeTypicalFlightEmissionsResponse {
 }
 
 export const ComputeTypicalFlightEmissionsResponse: Schema.Schema<ComputeTypicalFlightEmissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       typicalFlightEmissions: Schema.optional(
         Schema.Array(TypicalFlightEmissions),
@@ -273,7 +276,7 @@ export interface McpToolDataHandlingProfile {
 }
 
 export const McpToolDataHandlingProfile: Schema.Schema<McpToolDataHandlingProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputDataAccessLevel: Schema.optional(Schema.String),
       outputDataAccessLevel: Schema.optional(Schema.String),
@@ -301,7 +304,7 @@ export interface Scope3FlightEmissions {
 }
 
 export const Scope3FlightEmissions: Schema.Schema<Scope3FlightEmissions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Schema.String),
       wtwEmissionsGramsPerPax: Schema.optional(Schema.String),
@@ -321,7 +324,7 @@ export interface ComputeScope3FlightEmissionsResponse {
 }
 
 export const ComputeScope3FlightEmissionsResponse: Schema.Schema<ComputeScope3FlightEmissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       flightEmissions: Schema.optional(Schema.Array(Scope3FlightEmissions)),
       modelVersion: Schema.optional(ModelVersion),
@@ -349,7 +352,7 @@ export interface FlightWithEmissions {
 }
 
 export const FlightWithEmissions: Schema.Schema<FlightWithEmissions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emissionsGramsPerPax: Schema.optional(EmissionsGramsPerPax),
       flight: Schema.optional(Flight),
@@ -372,7 +375,7 @@ export interface McpToolLifecycleProfile {
 }
 
 export const McpToolLifecycleProfile: Schema.Schema<McpToolLifecycleProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       launchState: Schema.optional(Schema.String),
     }),
@@ -388,7 +391,7 @@ export interface ComputeFlightEmissionsResponse {
 }
 
 export const ComputeFlightEmissionsResponse: Schema.Schema<ComputeFlightEmissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       flightEmissions: Schema.optional(Schema.Array(FlightWithEmissions)),
       modelVersion: Schema.optional(ModelVersion),
@@ -405,7 +408,7 @@ export interface ComputeScope3FlightEmissionsRequest {
 }
 
 export const ComputeScope3FlightEmissionsRequest: Schema.Schema<ComputeScope3FlightEmissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modelVersion: Schema.optional(ModelVersion),
       flights: Schema.optional(Schema.Array(Scope3FlightSegment)),
@@ -423,21 +426,22 @@ export interface ComputeFlightEmissionsFlightsRequest {
   body?: ComputeFlightEmissionsRequest;
 }
 
-export const ComputeFlightEmissionsFlightsRequest = Schema.Struct({
-  body: Schema.optional(ComputeFlightEmissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/flights:computeFlightEmissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ComputeFlightEmissionsFlightsRequest>;
+export const ComputeFlightEmissionsFlightsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ComputeFlightEmissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/flights:computeFlightEmissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeFlightEmissionsFlightsRequest>;
 
 export type ComputeFlightEmissionsFlightsResponse =
   ComputeFlightEmissionsResponse;
 export const ComputeFlightEmissionsFlightsResponse =
-  ComputeFlightEmissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeFlightEmissionsResponse;
 
 export type ComputeFlightEmissionsFlightsError = DefaultErrors;
 
@@ -447,7 +451,7 @@ export const computeFlightEmissionsFlights: API.OperationMethod<
   ComputeFlightEmissionsFlightsResponse,
   ComputeFlightEmissionsFlightsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeFlightEmissionsFlightsRequest,
   output: ComputeFlightEmissionsFlightsResponse,
   errors: [],
@@ -458,23 +462,24 @@ export interface ComputeTypicalFlightEmissionsFlightsRequest {
   body?: ComputeTypicalFlightEmissionsRequest;
 }
 
-export const ComputeTypicalFlightEmissionsFlightsRequest = Schema.Struct({
-  body: Schema.optional(ComputeTypicalFlightEmissionsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/flights:computeTypicalFlightEmissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ComputeTypicalFlightEmissionsFlightsRequest>;
+export const ComputeTypicalFlightEmissionsFlightsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ComputeTypicalFlightEmissionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/flights:computeTypicalFlightEmissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeTypicalFlightEmissionsFlightsRequest>;
 
 export type ComputeTypicalFlightEmissionsFlightsResponse =
   ComputeTypicalFlightEmissionsResponse;
 export const ComputeTypicalFlightEmissionsFlightsResponse =
-  ComputeTypicalFlightEmissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeTypicalFlightEmissionsResponse;
 
 export type ComputeTypicalFlightEmissionsFlightsError = DefaultErrors;
 
@@ -484,7 +489,7 @@ export const computeTypicalFlightEmissionsFlights: API.OperationMethod<
   ComputeTypicalFlightEmissionsFlightsResponse,
   ComputeTypicalFlightEmissionsFlightsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeTypicalFlightEmissionsFlightsRequest,
   output: ComputeTypicalFlightEmissionsFlightsResponse,
   errors: [],
@@ -495,21 +500,24 @@ export interface ComputeScope3FlightEmissionsFlightsRequest {
   body?: ComputeScope3FlightEmissionsRequest;
 }
 
-export const ComputeScope3FlightEmissionsFlightsRequest = Schema.Struct({
-  body: Schema.optional(ComputeScope3FlightEmissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/flights:computeScope3FlightEmissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ComputeScope3FlightEmissionsFlightsRequest>;
+export const ComputeScope3FlightEmissionsFlightsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ComputeScope3FlightEmissionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/flights:computeScope3FlightEmissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeScope3FlightEmissionsFlightsRequest>;
 
 export type ComputeScope3FlightEmissionsFlightsResponse =
   ComputeScope3FlightEmissionsResponse;
 export const ComputeScope3FlightEmissionsFlightsResponse =
-  ComputeScope3FlightEmissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ComputeScope3FlightEmissionsResponse;
 
 export type ComputeScope3FlightEmissionsFlightsError = DefaultErrors;
 
@@ -519,7 +527,7 @@ export const computeScope3FlightEmissionsFlights: API.OperationMethod<
   ComputeScope3FlightEmissionsFlightsResponse,
   ComputeScope3FlightEmissionsFlightsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ComputeScope3FlightEmissionsFlightsRequest,
   output: ComputeScope3FlightEmissionsFlightsResponse,
   errors: [],

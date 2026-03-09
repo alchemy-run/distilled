@@ -27,11 +27,12 @@ export interface SpaceInfo {
   space?: string;
 }
 
-export const SpaceInfo: Schema.Schema<SpaceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    space: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SpaceInfo" }) as any as Schema.Schema<SpaceInfo>;
+export const SpaceInfo: Schema.Schema<SpaceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      space: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SpaceInfo" }) as any as Schema.Schema<SpaceInfo>;
 
 export interface DriveResourceInfo {
   /** Output only. Identifier of the file in the Drive API. */
@@ -41,7 +42,7 @@ export interface DriveResourceInfo {
 }
 
 export const DriveResourceInfo: Schema.Schema<DriveResourceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       driveFileId: Schema.optional(Schema.String),
       resourceKey: Schema.optional(Schema.String),
@@ -66,17 +67,17 @@ export interface AssignmentInfo {
   driveResourceInfo?: DriveResourceInfo;
 }
 
-export const AssignmentInfo: Schema.Schema<AssignmentInfo> = Schema.suspend(
-  () =>
+export const AssignmentInfo: Schema.Schema<AssignmentInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       surfaceType: Schema.optional(Schema.String),
       spaceInfo: Schema.optional(SpaceInfo),
       linkToTask: Schema.optional(Schema.String),
       driveResourceInfo: Schema.optional(DriveResourceInfo),
     }),
-).annotate({
-  identifier: "AssignmentInfo",
-}) as any as Schema.Schema<AssignmentInfo>;
+  ).annotate({
+    identifier: "AssignmentInfo",
+  }) as any as Schema.Schema<AssignmentInfo>;
 
 export interface Task {
   /** Output only. An absolute link to the task in the Google Tasks Web UI. */
@@ -115,35 +116,36 @@ export interface Task {
   position?: string;
 }
 
-export const Task: Schema.Schema<Task> = Schema.suspend(() =>
-  Schema.Struct({
-    webViewLink: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    completed: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    updated: Schema.optional(Schema.String),
-    assignmentInfo: Schema.optional(AssignmentInfo),
-    links: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          link: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.String),
-          description: Schema.optional(Schema.String),
-        }),
+export const Task: Schema.Schema<Task> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      webViewLink: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      completed: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      updated: Schema.optional(Schema.String),
+      assignmentInfo: Schema.optional(AssignmentInfo),
+      links: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            link: Schema.optional(Schema.String),
+            type: Schema.optional(Schema.String),
+            description: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    deleted: Schema.optional(Schema.Boolean),
-    kind: Schema.optional(Schema.String),
-    due: Schema.optional(Schema.String),
-    hidden: Schema.optional(Schema.Boolean),
-    selfLink: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    position: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
+      deleted: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      due: Schema.optional(Schema.String),
+      hidden: Schema.optional(Schema.Boolean),
+      selfLink: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      position: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Task" }) as any as Schema.Schema<Task>;
 
 export interface TaskList {
   /** Output only. Last modification time of the task list (as a RFC 3339 timestamp). */
@@ -160,16 +162,17 @@ export interface TaskList {
   etag?: string;
 }
 
-export const TaskList: Schema.Schema<TaskList> = Schema.suspend(() =>
-  Schema.Struct({
-    updated: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TaskList" }) as any as Schema.Schema<TaskList>;
+export const TaskList: Schema.Schema<TaskList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updated: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TaskList" }) as any as Schema.Schema<TaskList>;
 
 export interface Tasks {
   /** ETag of the resource. */
@@ -182,14 +185,15 @@ export interface Tasks {
   kind?: string;
 }
 
-export const Tasks: Schema.Schema<Tasks> = Schema.suspend(() =>
-  Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    nextPageToken: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Task)),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Tasks" }) as any as Schema.Schema<Tasks>;
+export const Tasks: Schema.Schema<Tasks> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Task)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Tasks" }) as any as Schema.Schema<Tasks>;
 
 export interface TaskLists {
   /** Type of the resource. This is always "tasks#taskLists". */
@@ -202,14 +206,15 @@ export interface TaskLists {
   items?: Array<TaskList>;
 }
 
-export const TaskLists: Schema.Schema<TaskLists> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    nextPageToken: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(TaskList)),
-  }),
-).annotate({ identifier: "TaskLists" }) as any as Schema.Schema<TaskLists>;
+export const TaskLists: Schema.Schema<TaskLists> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(TaskList)),
+    }),
+  ).annotate({ identifier: "TaskLists" }) as any as Schema.Schema<TaskLists>;
 
 // ==========================================================================
 // Operations
@@ -224,7 +229,7 @@ export interface UpdateTasksRequest {
   body?: Task;
 }
 
-export const UpdateTasksRequest = Schema.Struct({
+export const UpdateTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   task: Schema.String.pipe(T.HttpPath("task")),
   body: Schema.optional(Task).pipe(T.HttpBody()),
@@ -238,7 +243,7 @@ export const UpdateTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateTasksRequest>;
 
 export type UpdateTasksResponse = Task;
-export const UpdateTasksResponse = Task;
+export const UpdateTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type UpdateTasksError = DefaultErrors;
 
@@ -248,7 +253,7 @@ export const updateTasks: API.OperationMethod<
   UpdateTasksResponse,
   UpdateTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTasksRequest,
   output: UpdateTasksResponse,
   errors: [],
@@ -263,7 +268,7 @@ export interface PatchTasksRequest {
   body?: Task;
 }
 
-export const PatchTasksRequest = Schema.Struct({
+export const PatchTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   task: Schema.String.pipe(T.HttpPath("task")),
   body: Schema.optional(Task).pipe(T.HttpBody()),
@@ -277,7 +282,7 @@ export const PatchTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchTasksRequest>;
 
 export type PatchTasksResponse = Task;
-export const PatchTasksResponse = Task;
+export const PatchTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type PatchTasksError = DefaultErrors;
 
@@ -287,7 +292,7 @@ export const patchTasks: API.OperationMethod<
   PatchTasksResponse,
   PatchTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTasksRequest,
   output: PatchTasksResponse,
   errors: [],
@@ -298,7 +303,7 @@ export interface ClearTasksRequest {
   tasklist: string;
 }
 
-export const ClearTasksRequest = Schema.Struct({
+export const ClearTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
 }).pipe(
   T.Http({
@@ -311,7 +316,9 @@ export const ClearTasksRequest = Schema.Struct({
 
 export interface ClearTasksResponse {}
 export const ClearTasksResponse: Schema.Schema<ClearTasksResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ClearTasksResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ClearTasksResponse>;
 
 export type ClearTasksError = DefaultErrors;
 
@@ -321,7 +328,7 @@ export const clearTasks: API.OperationMethod<
   ClearTasksResponse,
   ClearTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearTasksRequest,
   output: ClearTasksResponse,
   errors: [],
@@ -334,7 +341,7 @@ export interface GetTasksRequest {
   task: string;
 }
 
-export const GetTasksRequest = Schema.Struct({
+export const GetTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   task: Schema.String.pipe(T.HttpPath("task")),
 }).pipe(
@@ -343,7 +350,7 @@ export const GetTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTasksRequest>;
 
 export type GetTasksResponse = Task;
-export const GetTasksResponse = Task;
+export const GetTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type GetTasksError = DefaultErrors;
 
@@ -353,7 +360,7 @@ export const getTasks: API.OperationMethod<
   GetTasksResponse,
   GetTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
@@ -386,7 +393,7 @@ export interface ListTasksRequest {
   showAssigned?: boolean;
 }
 
-export const ListTasksRequest = Schema.Struct({
+export const ListTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   completedMin: Schema.optional(Schema.String).pipe(
     T.HttpQuery("completedMin"),
   ),
@@ -413,7 +420,7 @@ export const ListTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTasksRequest>;
 
 export type ListTasksResponse = Tasks;
-export const ListTasksResponse = Tasks;
+export const ListTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Tasks;
 
 export type ListTasksError = DefaultErrors;
 
@@ -423,7 +430,7 @@ export const listTasks: API.PaginatedOperationMethod<
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [],
@@ -441,7 +448,7 @@ export interface DeleteTasksRequest {
   task: string;
 }
 
-export const DeleteTasksRequest = Schema.Struct({
+export const DeleteTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   task: Schema.String.pipe(T.HttpPath("task")),
 }).pipe(
@@ -451,7 +458,9 @@ export const DeleteTasksRequest = Schema.Struct({
 
 export interface DeleteTasksResponse {}
 export const DeleteTasksResponse: Schema.Schema<DeleteTasksResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteTasksResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteTasksResponse>;
 
 export type DeleteTasksError = DefaultErrors;
 
@@ -461,7 +470,7 @@ export const deleteTasks: API.OperationMethod<
   DeleteTasksResponse,
   DeleteTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTasksRequest,
   output: DeleteTasksResponse,
   errors: [],
@@ -478,7 +487,7 @@ export interface InsertTasksRequest {
   body?: Task;
 }
 
-export const InsertTasksRequest = Schema.Struct({
+export const InsertTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   previous: Schema.optional(Schema.String).pipe(T.HttpQuery("previous")),
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
@@ -493,7 +502,7 @@ export const InsertTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertTasksRequest>;
 
 export type InsertTasksResponse = Task;
-export const InsertTasksResponse = Task;
+export const InsertTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type InsertTasksError = DefaultErrors;
 
@@ -503,7 +512,7 @@ export const insertTasks: API.OperationMethod<
   InsertTasksResponse,
   InsertTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertTasksRequest,
   output: InsertTasksResponse,
   errors: [],
@@ -522,7 +531,7 @@ export interface MoveTasksRequest {
   task: string;
 }
 
-export const MoveTasksRequest = Schema.Struct({
+export const MoveTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   destinationTasklist: Schema.optional(Schema.String).pipe(
     T.HttpQuery("destinationTasklist"),
@@ -540,7 +549,7 @@ export const MoveTasksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<MoveTasksRequest>;
 
 export type MoveTasksResponse = Task;
-export const MoveTasksResponse = Task;
+export const MoveTasksResponse = /*@__PURE__*/ /*#__PURE__*/ Task;
 
 export type MoveTasksError = DefaultErrors;
 
@@ -550,7 +559,7 @@ export const moveTasks: API.OperationMethod<
   MoveTasksResponse,
   MoveTasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveTasksRequest,
   output: MoveTasksResponse,
   errors: [],
@@ -563,10 +572,12 @@ export interface UpdateTasklistsRequest {
   body?: TaskList;
 }
 
-export const UpdateTasklistsRequest = Schema.Struct({
-  tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
-  body: Schema.optional(TaskList).pipe(T.HttpBody()),
-}).pipe(
+export const UpdateTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
+    body: Schema.optional(TaskList).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "PUT",
     path: "tasks/v1/users/@me/lists/{tasklist}",
@@ -576,7 +587,7 @@ export const UpdateTasklistsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateTasklistsRequest>;
 
 export type UpdateTasklistsResponse = TaskList;
-export const UpdateTasklistsResponse = TaskList;
+export const UpdateTasklistsResponse = /*@__PURE__*/ /*#__PURE__*/ TaskList;
 
 export type UpdateTasklistsError = DefaultErrors;
 
@@ -586,7 +597,7 @@ export const updateTasklists: API.OperationMethod<
   UpdateTasklistsResponse,
   UpdateTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTasklistsRequest,
   output: UpdateTasklistsResponse,
   errors: [],
@@ -599,7 +610,7 @@ export interface PatchTasklistsRequest {
   body?: TaskList;
 }
 
-export const PatchTasklistsRequest = Schema.Struct({
+export const PatchTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
   body: Schema.optional(TaskList).pipe(T.HttpBody()),
 }).pipe(
@@ -612,7 +623,7 @@ export const PatchTasklistsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchTasklistsRequest>;
 
 export type PatchTasklistsResponse = TaskList;
-export const PatchTasklistsResponse = TaskList;
+export const PatchTasklistsResponse = /*@__PURE__*/ /*#__PURE__*/ TaskList;
 
 export type PatchTasklistsError = DefaultErrors;
 
@@ -622,7 +633,7 @@ export const patchTasklists: API.OperationMethod<
   PatchTasklistsResponse,
   PatchTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTasklistsRequest,
   output: PatchTasklistsResponse,
   errors: [],
@@ -633,7 +644,7 @@ export interface GetTasklistsRequest {
   tasklist: string;
 }
 
-export const GetTasklistsRequest = Schema.Struct({
+export const GetTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
 }).pipe(
   T.Http({ method: "GET", path: "tasks/v1/users/@me/lists/{tasklist}" }),
@@ -641,7 +652,7 @@ export const GetTasklistsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTasklistsRequest>;
 
 export type GetTasklistsResponse = TaskList;
-export const GetTasklistsResponse = TaskList;
+export const GetTasklistsResponse = /*@__PURE__*/ /*#__PURE__*/ TaskList;
 
 export type GetTasklistsError = DefaultErrors;
 
@@ -651,7 +662,7 @@ export const getTasklists: API.OperationMethod<
   GetTasklistsResponse,
   GetTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTasklistsRequest,
   output: GetTasklistsResponse,
   errors: [],
@@ -664,7 +675,7 @@ export interface ListTasklistsRequest {
   pageToken?: string;
 }
 
-export const ListTasklistsRequest = Schema.Struct({
+export const ListTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -673,7 +684,7 @@ export const ListTasklistsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTasklistsRequest>;
 
 export type ListTasklistsResponse = TaskLists;
-export const ListTasklistsResponse = TaskLists;
+export const ListTasklistsResponse = /*@__PURE__*/ /*#__PURE__*/ TaskLists;
 
 export type ListTasklistsError = DefaultErrors;
 
@@ -683,7 +694,7 @@ export const listTasklists: API.PaginatedOperationMethod<
   ListTasklistsResponse,
   ListTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTasklistsRequest,
   output: ListTasklistsResponse,
   errors: [],
@@ -699,16 +710,20 @@ export interface DeleteTasklistsRequest {
   tasklist: string;
 }
 
-export const DeleteTasklistsRequest = Schema.Struct({
-  tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
-}).pipe(
+export const DeleteTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    tasklist: Schema.String.pipe(T.HttpPath("tasklist")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "tasks/v1/users/@me/lists/{tasklist}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteTasklistsRequest>;
 
 export interface DeleteTasklistsResponse {}
 export const DeleteTasklistsResponse: Schema.Schema<DeleteTasklistsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteTasklistsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteTasklistsResponse>;
 
 export type DeleteTasklistsError = DefaultErrors;
 
@@ -718,7 +733,7 @@ export const deleteTasklists: API.OperationMethod<
   DeleteTasklistsResponse,
   DeleteTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTasklistsRequest,
   output: DeleteTasklistsResponse,
   errors: [],
@@ -729,15 +744,17 @@ export interface InsertTasklistsRequest {
   body?: TaskList;
 }
 
-export const InsertTasklistsRequest = Schema.Struct({
-  body: Schema.optional(TaskList).pipe(T.HttpBody()),
-}).pipe(
+export const InsertTasklistsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(TaskList).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "tasks/v1/users/@me/lists", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<InsertTasklistsRequest>;
 
 export type InsertTasklistsResponse = TaskList;
-export const InsertTasklistsResponse = TaskList;
+export const InsertTasklistsResponse = /*@__PURE__*/ /*#__PURE__*/ TaskList;
 
 export type InsertTasklistsError = DefaultErrors;
 
@@ -747,7 +764,7 @@ export const insertTasklists: API.OperationMethod<
   InsertTasklistsResponse,
   InsertTasklistsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertTasklistsRequest,
   output: InsertTasklistsResponse,
   errors: [],

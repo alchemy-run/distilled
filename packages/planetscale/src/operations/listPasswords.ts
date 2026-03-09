@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ListPasswordsInput = Schema.Struct({
+export const ListPasswordsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -20,7 +20,7 @@ export const ListPasswordsInput = Schema.Struct({
 export type ListPasswordsInput = typeof ListPasswordsInput.Type;
 
 // Output Schema
-export const ListPasswordsOutput = Schema.Struct({
+export const ListPasswordsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   current_page: Schema.Number,
   next_page: Schema.NullOr(Schema.Number),
   next_page_url: Schema.NullOr(Schema.String),

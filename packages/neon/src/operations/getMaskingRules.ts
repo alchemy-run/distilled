@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetMaskingRulesInput = Schema.Struct({
+export const GetMaskingRulesInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
 }).pipe(
@@ -15,7 +15,7 @@ export const GetMaskingRulesInput = Schema.Struct({
 export type GetMaskingRulesInput = typeof GetMaskingRulesInput.Type;
 
 // Output Schema
-export const GetMaskingRulesOutput = Schema.Struct({
+export const GetMaskingRulesOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   masking_rules: Schema.Array(
     Schema.Struct({
       database_name: Schema.String,

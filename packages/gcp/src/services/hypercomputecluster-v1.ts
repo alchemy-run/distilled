@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -86,14 +88,15 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -104,15 +107,15 @@ export interface NetworkReference {
   subnetwork?: string;
 }
 
-export const NetworkReference: Schema.Schema<NetworkReference> = Schema.suspend(
-  () =>
+export const NetworkReference: Schema.Schema<NetworkReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       network: Schema.optional(Schema.String),
       subnetwork: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "NetworkReference",
-}) as any as Schema.Schema<NetworkReference>;
+  ).annotate({
+    identifier: "NetworkReference",
+  }) as any as Schema.Schema<NetworkReference>;
 
 export interface NewNetworkConfig {
   /** Required. Immutable. Name of the network to create, in the format `projects/{project}/global/networks/{network}`. */
@@ -121,15 +124,15 @@ export interface NewNetworkConfig {
   description?: string;
 }
 
-export const NewNetworkConfig: Schema.Schema<NewNetworkConfig> = Schema.suspend(
-  () =>
+export const NewNetworkConfig: Schema.Schema<NewNetworkConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       network: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "NewNetworkConfig",
-}) as any as Schema.Schema<NewNetworkConfig>;
+  ).annotate({
+    identifier: "NewNetworkConfig",
+  }) as any as Schema.Schema<NewNetworkConfig>;
 
 export interface ExistingNetworkConfig {
   /** Required. Immutable. Name of the network to import, in the format `projects/{project}/global/networks/{network}`. */
@@ -139,7 +142,7 @@ export interface ExistingNetworkConfig {
 }
 
 export const ExistingNetworkConfig: Schema.Schema<ExistingNetworkConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       network: Schema.optional(Schema.String),
       subnetwork: Schema.optional(Schema.String),
@@ -156,7 +159,7 @@ export interface NetworkResourceConfig {
 }
 
 export const NetworkResourceConfig: Schema.Schema<NetworkResourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newNetwork: Schema.optional(NewNetworkConfig),
       existingNetwork: Schema.optional(ExistingNetworkConfig),
@@ -172,15 +175,15 @@ export interface NetworkResource {
   config?: NetworkResourceConfig;
 }
 
-export const NetworkResource: Schema.Schema<NetworkResource> = Schema.suspend(
-  () =>
+export const NetworkResource: Schema.Schema<NetworkResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       network: Schema.optional(NetworkReference),
       config: Schema.optional(NetworkResourceConfig),
     }),
-).annotate({
-  identifier: "NetworkResource",
-}) as any as Schema.Schema<NetworkResource>;
+  ).annotate({
+    identifier: "NetworkResource",
+  }) as any as Schema.Schema<NetworkResource>;
 
 export interface FilestoreReference {
   /** Output only. Name of the Filestore instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
@@ -188,7 +191,7 @@ export interface FilestoreReference {
 }
 
 export const FilestoreReference: Schema.Schema<FilestoreReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(Schema.String),
     }),
@@ -201,28 +204,28 @@ export interface BucketReference {
   bucket?: string;
 }
 
-export const BucketReference: Schema.Schema<BucketReference> = Schema.suspend(
-  () =>
+export const BucketReference: Schema.Schema<BucketReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BucketReference",
-}) as any as Schema.Schema<BucketReference>;
+  ).annotate({
+    identifier: "BucketReference",
+  }) as any as Schema.Schema<BucketReference>;
 
 export interface LustreReference {
   /** Output only. Name of the Managed Lustre instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
   lustre?: string;
 }
 
-export const LustreReference: Schema.Schema<LustreReference> = Schema.suspend(
-  () =>
+export const LustreReference: Schema.Schema<LustreReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lustre: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LustreReference",
-}) as any as Schema.Schema<LustreReference>;
+  ).annotate({
+    identifier: "LustreReference",
+  }) as any as Schema.Schema<LustreReference>;
 
 export interface FileShareConfig {
   /** Required. Size of the filestore in GB. Must be between 1024 and 102400, and must meet scalability requirements described at https://cloud.google.com/filestore/docs/service-tiers. */
@@ -231,15 +234,15 @@ export interface FileShareConfig {
   fileShare?: string;
 }
 
-export const FileShareConfig: Schema.Schema<FileShareConfig> = Schema.suspend(
-  () =>
+export const FileShareConfig: Schema.Schema<FileShareConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       capacityGb: Schema.optional(Schema.String),
       fileShare: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FileShareConfig",
-}) as any as Schema.Schema<FileShareConfig>;
+  ).annotate({
+    identifier: "FileShareConfig",
+  }) as any as Schema.Schema<FileShareConfig>;
 
 export interface NewFilestoreConfig {
   /** Required. Immutable. Name of the Filestore instance to create, in the format `projects/{project}/locations/{location}/instances/{instance}` */
@@ -255,7 +258,7 @@ export interface NewFilestoreConfig {
 }
 
 export const NewFilestoreConfig: Schema.Schema<NewFilestoreConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -273,7 +276,7 @@ export interface ExistingFilestoreConfig {
 }
 
 export const ExistingFilestoreConfig: Schema.Schema<ExistingFilestoreConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(Schema.String),
     }),
@@ -289,7 +292,7 @@ export interface GcsAutoclassConfig {
 }
 
 export const GcsAutoclassConfig: Schema.Schema<GcsAutoclassConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
       terminalStorageClass: Schema.optional(Schema.String),
@@ -304,7 +307,7 @@ export interface GcsHierarchicalNamespaceConfig {
 }
 
 export const GcsHierarchicalNamespaceConfig: Schema.Schema<GcsHierarchicalNamespaceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
     }),
@@ -329,17 +332,17 @@ export interface NewBucketConfig {
   hierarchicalNamespace?: GcsHierarchicalNamespaceConfig;
 }
 
-export const NewBucketConfig: Schema.Schema<NewBucketConfig> = Schema.suspend(
-  () =>
+export const NewBucketConfig: Schema.Schema<NewBucketConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       autoclass: Schema.optional(GcsAutoclassConfig),
       storageClass: Schema.optional(Schema.String),
       bucket: Schema.optional(Schema.String),
       hierarchicalNamespace: Schema.optional(GcsHierarchicalNamespaceConfig),
     }),
-).annotate({
-  identifier: "NewBucketConfig",
-}) as any as Schema.Schema<NewBucketConfig>;
+  ).annotate({
+    identifier: "NewBucketConfig",
+  }) as any as Schema.Schema<NewBucketConfig>;
 
 export interface ExistingBucketConfig {
   /** Required. Immutable. Name of the Cloud Storage bucket to import. */
@@ -347,7 +350,7 @@ export interface ExistingBucketConfig {
 }
 
 export const ExistingBucketConfig: Schema.Schema<ExistingBucketConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
     }),
@@ -366,17 +369,17 @@ export interface NewLustreConfig {
   capacityGb?: string;
 }
 
-export const NewLustreConfig: Schema.Schema<NewLustreConfig> = Schema.suspend(
-  () =>
+export const NewLustreConfig: Schema.Schema<NewLustreConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lustre: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       filesystem: Schema.optional(Schema.String),
       capacityGb: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "NewLustreConfig",
-}) as any as Schema.Schema<NewLustreConfig>;
+  ).annotate({
+    identifier: "NewLustreConfig",
+  }) as any as Schema.Schema<NewLustreConfig>;
 
 export interface ExistingLustreConfig {
   /** Required. Immutable. Name of the Managed Lustre instance to import, in the format `projects/{project}/locations/{location}/instances/{instance}` */
@@ -384,7 +387,7 @@ export interface ExistingLustreConfig {
 }
 
 export const ExistingLustreConfig: Schema.Schema<ExistingLustreConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lustre: Schema.optional(Schema.String),
     }),
@@ -408,7 +411,7 @@ export interface StorageResourceConfig {
 }
 
 export const StorageResourceConfig: Schema.Schema<StorageResourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newFilestore: Schema.optional(NewFilestoreConfig),
       existingFilestore: Schema.optional(ExistingFilestoreConfig),
@@ -432,17 +435,17 @@ export interface StorageResource {
   config?: StorageResourceConfig;
 }
 
-export const StorageResource: Schema.Schema<StorageResource> = Schema.suspend(
-  () =>
+export const StorageResource: Schema.Schema<StorageResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(FilestoreReference),
       bucket: Schema.optional(BucketReference),
       lustre: Schema.optional(LustreReference),
       config: Schema.optional(StorageResourceConfig),
     }),
-).annotate({
-  identifier: "StorageResource",
-}) as any as Schema.Schema<StorageResource>;
+  ).annotate({
+    identifier: "StorageResource",
+  }) as any as Schema.Schema<StorageResource>;
 
 export interface NewOnDemandInstancesConfig {
   /** Required. Immutable. Name of the zone in which VM instances should run, e.g., `us-central1-a`. Must be in the same region as the cluster, and must match the zone of any other resources specified in the cluster. */
@@ -452,7 +455,7 @@ export interface NewOnDemandInstancesConfig {
 }
 
 export const NewOnDemandInstancesConfig: Schema.Schema<NewOnDemandInstancesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zone: Schema.optional(Schema.String),
       machineType: Schema.optional(Schema.String),
@@ -475,7 +478,7 @@ export interface NewSpotInstancesConfig {
 }
 
 export const NewSpotInstancesConfig: Schema.Schema<NewSpotInstancesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zone: Schema.optional(Schema.String),
       machineType: Schema.optional(Schema.String),
@@ -491,7 +494,7 @@ export interface NewReservedInstancesConfig {
 }
 
 export const NewReservedInstancesConfig: Schema.Schema<NewReservedInstancesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reservation: Schema.optional(Schema.String),
     }),
@@ -509,7 +512,7 @@ export interface NewFlexStartInstancesConfig {
 }
 
 export const NewFlexStartInstancesConfig: Schema.Schema<NewFlexStartInstancesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zone: Schema.optional(Schema.String),
       machineType: Schema.optional(Schema.String),
@@ -531,7 +534,7 @@ export interface ComputeResourceConfig {
 }
 
 export const ComputeResourceConfig: Schema.Schema<ComputeResourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newOnDemandInstances: Schema.optional(NewOnDemandInstancesConfig),
       newSpotInstances: Schema.optional(NewSpotInstancesConfig),
@@ -547,14 +550,14 @@ export interface ComputeResource {
   config?: ComputeResourceConfig;
 }
 
-export const ComputeResource: Schema.Schema<ComputeResource> = Schema.suspend(
-  () =>
+export const ComputeResource: Schema.Schema<ComputeResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(ComputeResourceConfig),
     }),
-).annotate({
-  identifier: "ComputeResource",
-}) as any as Schema.Schema<ComputeResource>;
+  ).annotate({
+    identifier: "ComputeResource",
+  }) as any as Schema.Schema<ComputeResource>;
 
 export interface StorageConfig {
   /** Required. ID of the storage resource to mount, which must match a key in the cluster's storage_resources. */
@@ -563,28 +566,29 @@ export interface StorageConfig {
   localMount?: string;
 }
 
-export const StorageConfig: Schema.Schema<StorageConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    localMount: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "StorageConfig",
-}) as any as Schema.Schema<StorageConfig>;
+export const StorageConfig: Schema.Schema<StorageConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      localMount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StorageConfig",
+  }) as any as Schema.Schema<StorageConfig>;
 
 export interface ComputeInstance {
   /** Output only. Name of the VM instance, in the format `projects/{project}/zones/{zone}/instances/{instance}`. */
   instance?: string;
 }
 
-export const ComputeInstance: Schema.Schema<ComputeInstance> = Schema.suspend(
-  () =>
+export const ComputeInstance: Schema.Schema<ComputeInstance> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instance: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ComputeInstance",
-}) as any as Schema.Schema<ComputeInstance>;
+  ).annotate({
+    identifier: "ComputeInstance",
+  }) as any as Schema.Schema<ComputeInstance>;
 
 export interface BootDisk {
   /** Required. Immutable. [Persistent disk type](https://cloud.google.com/compute/docs/disks#disk-types), in the format `projects/{project}/zones/{zone}/diskTypes/{disk_type}`. */
@@ -593,12 +597,13 @@ export interface BootDisk {
   sizeGb?: string;
 }
 
-export const BootDisk: Schema.Schema<BootDisk> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    sizeGb: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "BootDisk" }) as any as Schema.Schema<BootDisk>;
+export const BootDisk: Schema.Schema<BootDisk> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      sizeGb: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "BootDisk" }) as any as Schema.Schema<BootDisk>;
 
 export interface SlurmLoginNodes {
   /** Required. Number of login node instances to create. */
@@ -623,8 +628,8 @@ export interface SlurmLoginNodes {
   bootDisk?: BootDisk;
 }
 
-export const SlurmLoginNodes: Schema.Schema<SlurmLoginNodes> = Schema.suspend(
-  () =>
+export const SlurmLoginNodes: Schema.Schema<SlurmLoginNodes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.String),
       zone: Schema.optional(Schema.String),
@@ -637,9 +642,9 @@ export const SlurmLoginNodes: Schema.Schema<SlurmLoginNodes> = Schema.suspend(
       instances: Schema.optional(Schema.Array(ComputeInstance)),
       bootDisk: Schema.optional(BootDisk),
     }),
-).annotate({
-  identifier: "SlurmLoginNodes",
-}) as any as Schema.Schema<SlurmLoginNodes>;
+  ).annotate({
+    identifier: "SlurmLoginNodes",
+  }) as any as Schema.Schema<SlurmLoginNodes>;
 
 export interface ComputeInstanceSlurmNodeSet {
   /** Optional. [Startup script](https://cloud.google.com/compute/docs/instances/startup-scripts/linux) to be run on each VM instance in the nodeset. Max 256KB. */
@@ -651,7 +656,7 @@ export interface ComputeInstanceSlurmNodeSet {
 }
 
 export const ComputeInstanceSlurmNodeSet: Schema.Schema<ComputeInstanceSlurmNodeSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startupScript: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -676,18 +681,19 @@ export interface SlurmNodeSet {
   maxDynamicNodeCount?: string;
 }
 
-export const SlurmNodeSet: Schema.Schema<SlurmNodeSet> = Schema.suspend(() =>
-  Schema.Struct({
-    computeInstance: Schema.optional(ComputeInstanceSlurmNodeSet),
-    id: Schema.optional(Schema.String),
-    computeId: Schema.optional(Schema.String),
-    storageConfigs: Schema.optional(Schema.Array(StorageConfig)),
-    staticNodeCount: Schema.optional(Schema.String),
-    maxDynamicNodeCount: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "SlurmNodeSet",
-}) as any as Schema.Schema<SlurmNodeSet>;
+export const SlurmNodeSet: Schema.Schema<SlurmNodeSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      computeInstance: Schema.optional(ComputeInstanceSlurmNodeSet),
+      id: Schema.optional(Schema.String),
+      computeId: Schema.optional(Schema.String),
+      storageConfigs: Schema.optional(Schema.Array(StorageConfig)),
+      staticNodeCount: Schema.optional(Schema.String),
+      maxDynamicNodeCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SlurmNodeSet",
+  }) as any as Schema.Schema<SlurmNodeSet>;
 
 export interface SlurmPartition {
   /** Required. ID of the partition, which is how users will identify it. Must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
@@ -696,15 +702,15 @@ export interface SlurmPartition {
   nodeSetIds?: Array<string>;
 }
 
-export const SlurmPartition: Schema.Schema<SlurmPartition> = Schema.suspend(
-  () =>
+export const SlurmPartition: Schema.Schema<SlurmPartition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       nodeSetIds: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "SlurmPartition",
-}) as any as Schema.Schema<SlurmPartition>;
+  ).annotate({
+    identifier: "SlurmPartition",
+  }) as any as Schema.Schema<SlurmPartition>;
 
 export interface SlurmOrchestrator {
   /** Required. Configuration for login nodes, which allow users to access the cluster over SSH. */
@@ -722,7 +728,7 @@ export interface SlurmOrchestrator {
 }
 
 export const SlurmOrchestrator: Schema.Schema<SlurmOrchestrator> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       loginNodes: Schema.optional(SlurmLoginNodes),
       nodeSets: Schema.optional(Schema.Array(SlurmNodeSet)),
@@ -740,13 +746,14 @@ export interface Orchestrator {
   slurm?: SlurmOrchestrator;
 }
 
-export const Orchestrator: Schema.Schema<Orchestrator> = Schema.suspend(() =>
-  Schema.Struct({
-    slurm: Schema.optional(SlurmOrchestrator),
-  }),
-).annotate({
-  identifier: "Orchestrator",
-}) as any as Schema.Schema<Orchestrator>;
+export const Orchestrator: Schema.Schema<Orchestrator> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      slurm: Schema.optional(SlurmOrchestrator),
+    }),
+  ).annotate({
+    identifier: "Orchestrator",
+  }) as any as Schema.Schema<Orchestrator>;
 
 export interface Cluster {
   /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
@@ -771,26 +778,27 @@ export interface Cluster {
   orchestrator?: Orchestrator;
 }
 
-export const Cluster: Schema.Schema<Cluster> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    reconciling: Schema.optional(Schema.Boolean),
-    networkResources: Schema.optional(
-      Schema.Record(Schema.String, NetworkResource),
-    ),
-    storageResources: Schema.optional(
-      Schema.Record(Schema.String, StorageResource),
-    ),
-    computeResources: Schema.optional(
-      Schema.Record(Schema.String, ComputeResource),
-    ),
-    orchestrator: Schema.optional(Orchestrator),
-  }),
-).annotate({ identifier: "Cluster" }) as any as Schema.Schema<Cluster>;
+export const Cluster: Schema.Schema<Cluster> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      reconciling: Schema.optional(Schema.Boolean),
+      networkResources: Schema.optional(
+        Schema.Record(Schema.String, NetworkResource),
+      ),
+      storageResources: Schema.optional(
+        Schema.Record(Schema.String, StorageResource),
+      ),
+      computeResources: Schema.optional(
+        Schema.Record(Schema.String, ComputeResource),
+      ),
+      orchestrator: Schema.optional(Orchestrator),
+    }),
+  ).annotate({ identifier: "Cluster" }) as any as Schema.Schema<Cluster>;
 
 export interface ListClustersResponse {
   /** Clusters in the specified location. */
@@ -802,7 +810,7 @@ export interface ListClustersResponse {
 }
 
 export const ListClustersResponse: Schema.Schema<ListClustersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clusters: Schema.optional(Schema.Array(Cluster)),
       nextPageToken: Schema.optional(Schema.String),
@@ -825,15 +833,16 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -843,7 +852,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -857,18 +866,19 @@ export interface CreateNetwork {
   network?: string;
 }
 
-export const CreateNetwork: Schema.Schema<CreateNetwork> = Schema.suspend(() =>
-  Schema.Struct({
-    network: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CreateNetwork",
-}) as any as Schema.Schema<CreateNetwork>;
+export const CreateNetwork: Schema.Schema<CreateNetwork> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      network: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateNetwork",
+  }) as any as Schema.Schema<CreateNetwork>;
 
 export interface CreatePrivateServiceAccess {}
 
 export const CreatePrivateServiceAccess: Schema.Schema<CreatePrivateServiceAccess> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreatePrivateServiceAccess",
   }) as any as Schema.Schema<CreatePrivateServiceAccess>;
 
@@ -878,7 +888,7 @@ export interface CreateFilestoreInstance {
 }
 
 export const CreateFilestoreInstance: Schema.Schema<CreateFilestoreInstance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(Schema.String),
     }),
@@ -892,7 +902,7 @@ export interface CreateStorageBucket {
 }
 
 export const CreateStorageBucket: Schema.Schema<CreateStorageBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
     }),
@@ -906,7 +916,7 @@ export interface CreateLustreInstance {
 }
 
 export const CreateLustreInstance: Schema.Schema<CreateLustreInstance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lustre: Schema.optional(Schema.String),
     }),
@@ -917,7 +927,7 @@ export const CreateLustreInstance: Schema.Schema<CreateLustreInstance> =
 export interface CreateOrchestrator {}
 
 export const CreateOrchestrator: Schema.Schema<CreateOrchestrator> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateOrchestrator",
   }) as any as Schema.Schema<CreateOrchestrator>;
 
@@ -926,47 +936,47 @@ export interface CreateNodeset {
   nodesets?: Array<string>;
 }
 
-export const CreateNodeset: Schema.Schema<CreateNodeset> = Schema.suspend(() =>
-  Schema.Struct({
-    nodesets: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "CreateNodeset",
-}) as any as Schema.Schema<CreateNodeset>;
+export const CreateNodeset: Schema.Schema<CreateNodeset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nodesets: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CreateNodeset",
+  }) as any as Schema.Schema<CreateNodeset>;
 
 export interface CreatePartition {
   /** Output only. Name of the partition to create */
   partitions?: Array<string>;
 }
 
-export const CreatePartition: Schema.Schema<CreatePartition> = Schema.suspend(
-  () =>
+export const CreatePartition: Schema.Schema<CreatePartition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitions: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "CreatePartition",
-}) as any as Schema.Schema<CreatePartition>;
+  ).annotate({
+    identifier: "CreatePartition",
+  }) as any as Schema.Schema<CreatePartition>;
 
 export interface CreateLoginNode {}
 
-export const CreateLoginNode: Schema.Schema<CreateLoginNode> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "CreateLoginNode",
-}) as any as Schema.Schema<CreateLoginNode>;
+export const CreateLoginNode: Schema.Schema<CreateLoginNode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CreateLoginNode",
+  }) as any as Schema.Schema<CreateLoginNode>;
 
 export interface CheckClusterHealth {}
 
 export const CheckClusterHealth: Schema.Schema<CheckClusterHealth> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CheckClusterHealth",
   }) as any as Schema.Schema<CheckClusterHealth>;
 
 export interface UpdateOrchestrator {}
 
 export const UpdateOrchestrator: Schema.Schema<UpdateOrchestrator> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateOrchestrator",
   }) as any as Schema.Schema<UpdateOrchestrator>;
 
@@ -975,40 +985,40 @@ export interface UpdateNodeset {
   nodesets?: Array<string>;
 }
 
-export const UpdateNodeset: Schema.Schema<UpdateNodeset> = Schema.suspend(() =>
-  Schema.Struct({
-    nodesets: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "UpdateNodeset",
-}) as any as Schema.Schema<UpdateNodeset>;
+export const UpdateNodeset: Schema.Schema<UpdateNodeset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nodesets: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UpdateNodeset",
+  }) as any as Schema.Schema<UpdateNodeset>;
 
 export interface UpdatePartition {
   /** Output only. Name of the partition to update */
   partitions?: Array<string>;
 }
 
-export const UpdatePartition: Schema.Schema<UpdatePartition> = Schema.suspend(
-  () =>
+export const UpdatePartition: Schema.Schema<UpdatePartition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitions: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "UpdatePartition",
-}) as any as Schema.Schema<UpdatePartition>;
+  ).annotate({
+    identifier: "UpdatePartition",
+  }) as any as Schema.Schema<UpdatePartition>;
 
 export interface UpdateLoginNode {}
 
-export const UpdateLoginNode: Schema.Schema<UpdateLoginNode> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "UpdateLoginNode",
-}) as any as Schema.Schema<UpdateLoginNode>;
+export const UpdateLoginNode: Schema.Schema<UpdateLoginNode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UpdateLoginNode",
+  }) as any as Schema.Schema<UpdateLoginNode>;
 
 export interface DeleteOrchestrator {}
 
 export const DeleteOrchestrator: Schema.Schema<DeleteOrchestrator> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteOrchestrator",
   }) as any as Schema.Schema<DeleteOrchestrator>;
 
@@ -1017,35 +1027,35 @@ export interface DeleteNodeset {
   nodesets?: Array<string>;
 }
 
-export const DeleteNodeset: Schema.Schema<DeleteNodeset> = Schema.suspend(() =>
-  Schema.Struct({
-    nodesets: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "DeleteNodeset",
-}) as any as Schema.Schema<DeleteNodeset>;
+export const DeleteNodeset: Schema.Schema<DeleteNodeset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nodesets: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DeleteNodeset",
+  }) as any as Schema.Schema<DeleteNodeset>;
 
 export interface DeletePartition {
   /** Output only. Name of the partition to delete */
   partitions?: Array<string>;
 }
 
-export const DeletePartition: Schema.Schema<DeletePartition> = Schema.suspend(
-  () =>
+export const DeletePartition: Schema.Schema<DeletePartition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitions: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "DeletePartition",
-}) as any as Schema.Schema<DeletePartition>;
+  ).annotate({
+    identifier: "DeletePartition",
+  }) as any as Schema.Schema<DeletePartition>;
 
 export interface DeleteLoginNode {}
 
-export const DeleteLoginNode: Schema.Schema<DeleteLoginNode> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "DeleteLoginNode",
-}) as any as Schema.Schema<DeleteLoginNode>;
+export const DeleteLoginNode: Schema.Schema<DeleteLoginNode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteLoginNode",
+  }) as any as Schema.Schema<DeleteLoginNode>;
 
 export interface DeleteFilestoreInstance {
   /** Output only. Name of the Filestore instance, in the format `projects/{project}/locations/{location}/instances/{instance}` */
@@ -1053,7 +1063,7 @@ export interface DeleteFilestoreInstance {
 }
 
 export const DeleteFilestoreInstance: Schema.Schema<DeleteFilestoreInstance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filestore: Schema.optional(Schema.String),
     }),
@@ -1067,7 +1077,7 @@ export interface DeleteStorageBucket {
 }
 
 export const DeleteStorageBucket: Schema.Schema<DeleteStorageBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.String),
     }),
@@ -1081,7 +1091,7 @@ export interface DeleteLustreInstance {
 }
 
 export const DeleteLustreInstance: Schema.Schema<DeleteLustreInstance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lustre: Schema.optional(Schema.String),
     }),
@@ -1092,7 +1102,7 @@ export const DeleteLustreInstance: Schema.Schema<DeleteLustreInstance> =
 export interface DeletePrivateServiceAccess {}
 
 export const DeletePrivateServiceAccess: Schema.Schema<DeletePrivateServiceAccess> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeletePrivateServiceAccess",
   }) as any as Schema.Schema<DeletePrivateServiceAccess>;
 
@@ -1101,13 +1111,14 @@ export interface DeleteNetwork {
   network?: string;
 }
 
-export const DeleteNetwork: Schema.Schema<DeleteNetwork> = Schema.suspend(() =>
-  Schema.Struct({
-    network: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DeleteNetwork",
-}) as any as Schema.Schema<DeleteNetwork>;
+export const DeleteNetwork: Schema.Schema<DeleteNetwork> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      network: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeleteNetwork",
+  }) as any as Schema.Schema<DeleteNetwork>;
 
 export interface OperationStep {
   /** Output only. If set, indicates that new network creation is part of the operation. */
@@ -1165,36 +1176,37 @@ export interface OperationStep {
     | (string & {});
 }
 
-export const OperationStep: Schema.Schema<OperationStep> = Schema.suspend(() =>
-  Schema.Struct({
-    createNetwork: Schema.optional(CreateNetwork),
-    createPrivateServiceAccess: Schema.optional(CreatePrivateServiceAccess),
-    createFilestoreInstance: Schema.optional(CreateFilestoreInstance),
-    createStorageBucket: Schema.optional(CreateStorageBucket),
-    createLustreInstance: Schema.optional(CreateLustreInstance),
-    createOrchestrator: Schema.optional(CreateOrchestrator),
-    createNodeset: Schema.optional(CreateNodeset),
-    createPartition: Schema.optional(CreatePartition),
-    createLoginNode: Schema.optional(CreateLoginNode),
-    checkClusterHealth: Schema.optional(CheckClusterHealth),
-    updateOrchestrator: Schema.optional(UpdateOrchestrator),
-    updateNodeset: Schema.optional(UpdateNodeset),
-    updatePartition: Schema.optional(UpdatePartition),
-    updateLoginNode: Schema.optional(UpdateLoginNode),
-    deleteOrchestrator: Schema.optional(DeleteOrchestrator),
-    deleteNodeset: Schema.optional(DeleteNodeset),
-    deletePartition: Schema.optional(DeletePartition),
-    deleteLoginNode: Schema.optional(DeleteLoginNode),
-    deleteFilestoreInstance: Schema.optional(DeleteFilestoreInstance),
-    deleteStorageBucket: Schema.optional(DeleteStorageBucket),
-    deleteLustreInstance: Schema.optional(DeleteLustreInstance),
-    deletePrivateServiceAccess: Schema.optional(DeletePrivateServiceAccess),
-    deleteNetwork: Schema.optional(DeleteNetwork),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "OperationStep",
-}) as any as Schema.Schema<OperationStep>;
+export const OperationStep: Schema.Schema<OperationStep> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createNetwork: Schema.optional(CreateNetwork),
+      createPrivateServiceAccess: Schema.optional(CreatePrivateServiceAccess),
+      createFilestoreInstance: Schema.optional(CreateFilestoreInstance),
+      createStorageBucket: Schema.optional(CreateStorageBucket),
+      createLustreInstance: Schema.optional(CreateLustreInstance),
+      createOrchestrator: Schema.optional(CreateOrchestrator),
+      createNodeset: Schema.optional(CreateNodeset),
+      createPartition: Schema.optional(CreatePartition),
+      createLoginNode: Schema.optional(CreateLoginNode),
+      checkClusterHealth: Schema.optional(CheckClusterHealth),
+      updateOrchestrator: Schema.optional(UpdateOrchestrator),
+      updateNodeset: Schema.optional(UpdateNodeset),
+      updatePartition: Schema.optional(UpdatePartition),
+      updateLoginNode: Schema.optional(UpdateLoginNode),
+      deleteOrchestrator: Schema.optional(DeleteOrchestrator),
+      deleteNodeset: Schema.optional(DeleteNodeset),
+      deletePartition: Schema.optional(DeletePartition),
+      deleteLoginNode: Schema.optional(DeleteLoginNode),
+      deleteFilestoreInstance: Schema.optional(DeleteFilestoreInstance),
+      deleteStorageBucket: Schema.optional(DeleteStorageBucket),
+      deleteLustreInstance: Schema.optional(DeleteLustreInstance),
+      deletePrivateServiceAccess: Schema.optional(DeletePrivateServiceAccess),
+      deleteNetwork: Schema.optional(DeleteNetwork),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationStep",
+  }) as any as Schema.Schema<OperationStep>;
 
 export interface OperationProgress {
   /** Output only. Steps and status of the operation. */
@@ -1202,7 +1214,7 @@ export interface OperationProgress {
 }
 
 export const OperationProgress: Schema.Schema<OperationProgress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       steps: Schema.optional(Schema.Array(OperationStep)),
     }),
@@ -1228,7 +1240,7 @@ export interface OperationMetadata {
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -1259,21 +1271,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -1283,7 +1297,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1298,18 +1312,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -1319,7 +1335,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1338,24 +1354,26 @@ export interface ListProjectsLocationsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1365,7 +1383,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1380,18 +1398,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1401,7 +1421,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1412,18 +1432,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export type DeleteProjectsLocationsOperationsResponse = Empty;
-export const DeleteProjectsLocationsOperationsResponse = Empty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1433,7 +1455,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsResponse,
   DeleteProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1446,20 +1468,22 @@ export interface CancelProjectsLocationsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export type CancelProjectsLocationsOperationsResponse = Empty;
-export const CancelProjectsLocationsOperationsResponse = Empty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1469,7 +1493,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsResponse,
   CancelProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1488,22 +1512,24 @@ export interface ListProjectsLocationsClustersRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsClustersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clusters",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsClustersRequest>;
+export const ListProjectsLocationsClustersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clusters",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsClustersRequest>;
 
 export type ListProjectsLocationsClustersResponse = ListClustersResponse;
-export const ListProjectsLocationsClustersResponse = ListClustersResponse;
+export const ListProjectsLocationsClustersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListClustersResponse;
 
 export type ListProjectsLocationsClustersError = DefaultErrors;
 
@@ -1513,7 +1539,7 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   ListProjectsLocationsClustersResponse,
   ListProjectsLocationsClustersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsClustersRequest,
   output: ListProjectsLocationsClustersResponse,
   errors: [],
@@ -1528,18 +1554,20 @@ export interface GetProjectsLocationsClustersRequest {
   name: string;
 }
 
-export const GetProjectsLocationsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsClustersRequest>;
+export const GetProjectsLocationsClustersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsClustersRequest>;
 
 export type GetProjectsLocationsClustersResponse = Cluster;
-export const GetProjectsLocationsClustersResponse = Cluster;
+export const GetProjectsLocationsClustersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Cluster;
 
 export type GetProjectsLocationsClustersError = DefaultErrors;
 
@@ -1549,7 +1577,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GetProjectsLocationsClustersResponse,
   GetProjectsLocationsClustersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsClustersRequest,
   output: GetProjectsLocationsClustersResponse,
   errors: [],
@@ -1566,22 +1594,24 @@ export interface CreateProjectsLocationsClustersRequest {
   body?: Cluster;
 }
 
-export const CreateProjectsLocationsClustersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  clusterId: Schema.optional(Schema.String).pipe(T.HttpQuery("clusterId")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(Cluster).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clusters",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsClustersRequest>;
+export const CreateProjectsLocationsClustersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    clusterId: Schema.optional(Schema.String).pipe(T.HttpQuery("clusterId")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(Cluster).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clusters",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsClustersRequest>;
 
 export type CreateProjectsLocationsClustersResponse = Operation;
-export const CreateProjectsLocationsClustersResponse = Operation;
+export const CreateProjectsLocationsClustersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsClustersError = DefaultErrors;
 
@@ -1591,7 +1621,7 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   CreateProjectsLocationsClustersResponse,
   CreateProjectsLocationsClustersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsClustersRequest,
   output: CreateProjectsLocationsClustersResponse,
   errors: [],
@@ -1608,22 +1638,24 @@ export interface PatchProjectsLocationsClustersRequest {
   body?: Cluster;
 }
 
-export const PatchProjectsLocationsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(Cluster).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsClustersRequest>;
+export const PatchProjectsLocationsClustersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(Cluster).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsClustersRequest>;
 
 export type PatchProjectsLocationsClustersResponse = Operation;
-export const PatchProjectsLocationsClustersResponse = Operation;
+export const PatchProjectsLocationsClustersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsClustersError = DefaultErrors;
 
@@ -1633,7 +1665,7 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   PatchProjectsLocationsClustersResponse,
   PatchProjectsLocationsClustersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsClustersRequest,
   output: PatchProjectsLocationsClustersResponse,
   errors: [],
@@ -1646,19 +1678,21 @@ export interface DeleteProjectsLocationsClustersRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsClustersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsClustersRequest>;
+export const DeleteProjectsLocationsClustersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/clusters/{clustersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsClustersRequest>;
 
 export type DeleteProjectsLocationsClustersResponse = Operation;
-export const DeleteProjectsLocationsClustersResponse = Operation;
+export const DeleteProjectsLocationsClustersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsClustersError = DefaultErrors;
 
@@ -1668,7 +1702,7 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   DeleteProjectsLocationsClustersResponse,
   DeleteProjectsLocationsClustersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsClustersRequest,
   output: DeleteProjectsLocationsClustersResponse,
   errors: [],

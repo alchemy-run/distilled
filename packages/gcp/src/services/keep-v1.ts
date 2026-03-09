@@ -29,40 +29,44 @@ export interface Attachment {
   mimeType?: Array<string>;
 }
 
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    mimeType: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+export const Attachment: Schema.Schema<Attachment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
 
 export interface User {
   /** The user's email. */
   email?: string;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface Group {
   /** The group email. */
   email?: string;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface Family {}
 
-export const Family: Schema.Schema<Family> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Family" }) as any as Schema.Schema<Family>;
+export const Family: Schema.Schema<Family> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Family",
+  }) as any as Schema.Schema<Family>;
 
 export interface Permission {
   /** Output only. The resource name. */
@@ -81,28 +85,32 @@ export interface Permission {
   deleted?: boolean;
 }
 
-export const Permission: Schema.Schema<Permission> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    user: Schema.optional(User),
-    group: Schema.optional(Group),
-    family: Schema.optional(Family),
-    deleted: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
+export const Permission: Schema.Schema<Permission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      user: Schema.optional(User),
+      group: Schema.optional(Group),
+      family: Schema.optional(Family),
+      deleted: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
 
 export interface TextContent {
   /** The text of the note. The limits on this vary with the specific field using this type. */
   text?: string;
 }
 
-export const TextContent: Schema.Schema<TextContent> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TextContent" }) as any as Schema.Schema<TextContent>;
+export const TextContent: Schema.Schema<TextContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TextContent",
+  }) as any as Schema.Schema<TextContent>;
 
 export interface ListItem {
   /** If set, list of list items nested under this list item. Only one level of nesting is allowed. */
@@ -113,24 +121,28 @@ export interface ListItem {
   checked?: boolean;
 }
 
-export const ListItem: Schema.Schema<ListItem> = Schema.suspend(() =>
-  Schema.Struct({
-    childListItems: Schema.optional(Schema.Array(ListItem)),
-    text: Schema.optional(TextContent),
-    checked: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "ListItem" }) as any as Schema.Schema<ListItem>;
+export const ListItem: Schema.Schema<ListItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      childListItems: Schema.optional(Schema.Array(ListItem)),
+      text: Schema.optional(TextContent),
+      checked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "ListItem" }) as any as Schema.Schema<ListItem>;
 
 export interface ListContent {
   /** The items in the list. The number of items must be less than 1,000. */
   listItems?: Array<ListItem>;
 }
 
-export const ListContent: Schema.Schema<ListContent> = Schema.suspend(() =>
-  Schema.Struct({
-    listItems: Schema.optional(Schema.Array(ListItem)),
-  }),
-).annotate({ identifier: "ListContent" }) as any as Schema.Schema<ListContent>;
+export const ListContent: Schema.Schema<ListContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      listItems: Schema.optional(Schema.Array(ListItem)),
+    }),
+  ).annotate({
+    identifier: "ListContent",
+  }) as any as Schema.Schema<ListContent>;
 
 export interface Section {
   /** Used if this section's content is a block of text. The length of the text content must be less than 20,000 characters. */
@@ -139,12 +151,13 @@ export interface Section {
   list?: ListContent;
 }
 
-export const Section: Schema.Schema<Section> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(TextContent),
-    list: Schema.optional(ListContent),
-  }),
-).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
+export const Section: Schema.Schema<Section> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(TextContent),
+      list: Schema.optional(ListContent),
+    }),
+  ).annotate({ identifier: "Section" }) as any as Schema.Schema<Section>;
 
 export interface Note {
   /** Output only. The resource name of this note. See general note on identifiers in KeepService. */
@@ -167,19 +180,20 @@ export interface Note {
   body?: Section;
 }
 
-export const Note: Schema.Schema<Note> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    trashTime: Schema.optional(Schema.String),
-    trashed: Schema.optional(Schema.Boolean),
-    attachments: Schema.optional(Schema.Array(Attachment)),
-    permissions: Schema.optional(Schema.Array(Permission)),
-    title: Schema.optional(Schema.String),
-    body: Schema.optional(Section),
-  }),
-).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
+export const Note: Schema.Schema<Note> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      trashTime: Schema.optional(Schema.String),
+      trashed: Schema.optional(Schema.Boolean),
+      attachments: Schema.optional(Schema.Array(Attachment)),
+      permissions: Schema.optional(Schema.Array(Permission)),
+      title: Schema.optional(Schema.String),
+      body: Schema.optional(Section),
+    }),
+  ).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
 
 export interface ListNotesResponse {
   /** A page of notes. */
@@ -189,7 +203,7 @@ export interface ListNotesResponse {
 }
 
 export const ListNotesResponse: Schema.Schema<ListNotesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notes: Schema.optional(Schema.Array(Note)),
       nextPageToken: Schema.optional(Schema.String),
@@ -200,9 +214,10 @@ export const ListNotesResponse: Schema.Schema<ListNotesResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CreatePermissionRequest {
   /** Required. The parent note where this permission will be created. Format: `notes/{note}` */
@@ -212,7 +227,7 @@ export interface CreatePermissionRequest {
 }
 
 export const CreatePermissionRequest: Schema.Schema<CreatePermissionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       permission: Schema.optional(Permission),
@@ -227,7 +242,7 @@ export interface BatchCreatePermissionsRequest {
 }
 
 export const BatchCreatePermissionsRequest: Schema.Schema<BatchCreatePermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(CreatePermissionRequest)),
     }),
@@ -241,7 +256,7 @@ export interface BatchCreatePermissionsResponse {
 }
 
 export const BatchCreatePermissionsResponse: Schema.Schema<BatchCreatePermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Permission)),
     }),
@@ -255,7 +270,7 @@ export interface BatchDeletePermissionsRequest {
 }
 
 export const BatchDeletePermissionsRequest: Schema.Schema<BatchDeletePermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -272,7 +287,7 @@ export interface CreateNotesRequest {
   body?: Note;
 }
 
-export const CreateNotesRequest = Schema.Struct({
+export const CreateNotesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Note).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/notes", hasBody: true }),
@@ -280,7 +295,7 @@ export const CreateNotesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateNotesRequest>;
 
 export type CreateNotesResponse = Note;
-export const CreateNotesResponse = Note;
+export const CreateNotesResponse = /*@__PURE__*/ /*#__PURE__*/ Note;
 
 export type CreateNotesError = DefaultErrors;
 
@@ -290,7 +305,7 @@ export const createNotes: API.OperationMethod<
   CreateNotesResponse,
   CreateNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNotesRequest,
   output: CreateNotesResponse,
   errors: [],
@@ -301,7 +316,7 @@ export interface GetNotesRequest {
   name: string;
 }
 
-export const GetNotesRequest = Schema.Struct({
+export const GetNotesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/notes/{notesId}" }),
@@ -309,7 +324,7 @@ export const GetNotesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetNotesRequest>;
 
 export type GetNotesResponse = Note;
-export const GetNotesResponse = Note;
+export const GetNotesResponse = /*@__PURE__*/ /*#__PURE__*/ Note;
 
 export type GetNotesError = DefaultErrors;
 
@@ -319,7 +334,7 @@ export const getNotes: API.OperationMethod<
   GetNotesResponse,
   GetNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotesRequest,
   output: GetNotesResponse,
   errors: [],
@@ -334,7 +349,7 @@ export interface ListNotesRequest {
   filter?: string;
 }
 
-export const ListNotesRequest = Schema.Struct({
+export const ListNotesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -344,7 +359,8 @@ export const ListNotesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListNotesRequest>;
 
 export type ListNotesResponse_Op = ListNotesResponse;
-export const ListNotesResponse_Op = ListNotesResponse;
+export const ListNotesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListNotesResponse;
 
 export type ListNotesError = DefaultErrors;
 
@@ -354,7 +370,7 @@ export const listNotes: API.PaginatedOperationMethod<
   ListNotesResponse_Op,
   ListNotesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNotesRequest,
   output: ListNotesResponse_Op,
   errors: [],
@@ -369,7 +385,7 @@ export interface DeleteNotesRequest {
   name: string;
 }
 
-export const DeleteNotesRequest = Schema.Struct({
+export const DeleteNotesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1/notes/{notesId}" }),
@@ -377,7 +393,7 @@ export const DeleteNotesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteNotesRequest>;
 
 export type DeleteNotesResponse = Empty;
-export const DeleteNotesResponse = Empty;
+export const DeleteNotesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteNotesError = DefaultErrors;
 
@@ -387,7 +403,7 @@ export const deleteNotes: API.OperationMethod<
   DeleteNotesResponse,
   DeleteNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNotesRequest,
   output: DeleteNotesResponse,
   errors: [],
@@ -400,22 +416,23 @@ export interface BatchCreateNotesPermissionsRequest {
   body?: BatchCreatePermissionsRequest;
 }
 
-export const BatchCreateNotesPermissionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchCreatePermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/notes/{notesId}/permissions:batchCreate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchCreateNotesPermissionsRequest>;
+export const BatchCreateNotesPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchCreatePermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/notes/{notesId}/permissions:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreateNotesPermissionsRequest>;
 
 export type BatchCreateNotesPermissionsResponse =
   BatchCreatePermissionsResponse;
 export const BatchCreateNotesPermissionsResponse =
-  BatchCreatePermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchCreatePermissionsResponse;
 
 export type BatchCreateNotesPermissionsError = DefaultErrors;
 
@@ -425,7 +442,7 @@ export const batchCreateNotesPermissions: API.OperationMethod<
   BatchCreateNotesPermissionsResponse,
   BatchCreateNotesPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateNotesPermissionsRequest,
   output: BatchCreateNotesPermissionsResponse,
   errors: [],
@@ -438,20 +455,22 @@ export interface BatchDeleteNotesPermissionsRequest {
   body?: BatchDeletePermissionsRequest;
 }
 
-export const BatchDeleteNotesPermissionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchDeletePermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/notes/{notesId}/permissions:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeleteNotesPermissionsRequest>;
+export const BatchDeleteNotesPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchDeletePermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/notes/{notesId}/permissions:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeleteNotesPermissionsRequest>;
 
 export type BatchDeleteNotesPermissionsResponse = Empty;
-export const BatchDeleteNotesPermissionsResponse = Empty;
+export const BatchDeleteNotesPermissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type BatchDeleteNotesPermissionsError = DefaultErrors;
 
@@ -461,7 +480,7 @@ export const batchDeleteNotesPermissions: API.OperationMethod<
   BatchDeleteNotesPermissionsResponse,
   BatchDeleteNotesPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteNotesPermissionsRequest,
   output: BatchDeleteNotesPermissionsResponse,
   errors: [],
@@ -474,7 +493,7 @@ export interface DownloadMediaRequest {
   mimeType?: string;
 }
 
-export const DownloadMediaRequest = Schema.Struct({
+export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   mimeType: Schema.optional(Schema.String).pipe(T.HttpQuery("mimeType")),
 }).pipe(
@@ -486,7 +505,7 @@ export const DownloadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
 export type DownloadMediaResponse = Attachment;
-export const DownloadMediaResponse = Attachment;
+export const DownloadMediaResponse = /*@__PURE__*/ /*#__PURE__*/ Attachment;
 
 export type DownloadMediaError = DefaultErrors;
 
@@ -496,7 +515,7 @@ export const downloadMedia: API.OperationMethod<
   DownloadMediaResponse,
   DownloadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],

@@ -31,15 +31,16 @@ export interface Adsense_Date {
   month?: number;
 }
 
-export const Adsense_Date: Schema.Schema<Adsense_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    day: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "Adsense_Date",
-}) as any as Schema.Schema<Adsense_Date>;
+export const Adsense_Date: Schema.Schema<Adsense_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      day: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Adsense_Date",
+  }) as any as Schema.Schema<Adsense_Date>;
 
 export interface SavedReport {
   /** Report title as specified by publisher. */
@@ -48,12 +49,15 @@ export interface SavedReport {
   name?: string;
 }
 
-export const SavedReport: Schema.Schema<SavedReport> = Schema.suspend(() =>
-  Schema.Struct({
-    title: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SavedReport" }) as any as Schema.Schema<SavedReport>;
+export const SavedReport: Schema.Schema<SavedReport> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      title: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SavedReport",
+  }) as any as Schema.Schema<SavedReport>;
 
 export interface ListSavedReportsResponse {
   /** Continuation token used to page through reports. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -63,7 +67,7 @@ export interface ListSavedReportsResponse {
 }
 
 export const ListSavedReportsResponse: Schema.Schema<ListSavedReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       savedReports: Schema.optional(Schema.Array(SavedReport)),
@@ -86,13 +90,16 @@ export interface PolicyTopic {
     | (string & {});
 }
 
-export const PolicyTopic: Schema.Schema<PolicyTopic> = Schema.suspend(() =>
-  Schema.Struct({
-    topic: Schema.optional(Schema.String),
-    mustFix: Schema.optional(Schema.Boolean),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PolicyTopic" }) as any as Schema.Schema<PolicyTopic>;
+export const PolicyTopic: Schema.Schema<PolicyTopic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      topic: Schema.optional(Schema.String),
+      mustFix: Schema.optional(Schema.Boolean),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PolicyTopic",
+  }) as any as Schema.Schema<PolicyTopic>;
 
 export interface PolicyIssue {
   /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
@@ -133,22 +140,25 @@ export interface PolicyIssue {
   lastDetectedDate?: Adsense_Date;
 }
 
-export const PolicyIssue: Schema.Schema<PolicyIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    adClients: Schema.optional(Schema.Array(Schema.String)),
-    warningEscalationDate: Schema.optional(Adsense_Date),
-    siteSection: Schema.optional(Schema.String),
-    action: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
-    adRequestCount: Schema.optional(Schema.String),
-    entityType: Schema.optional(Schema.String),
-    firstDetectedDate: Schema.optional(Adsense_Date),
-    site: Schema.optional(Schema.String),
-    uri: Schema.optional(Schema.String),
-    lastDetectedDate: Schema.optional(Adsense_Date),
-  }),
-).annotate({ identifier: "PolicyIssue" }) as any as Schema.Schema<PolicyIssue>;
+export const PolicyIssue: Schema.Schema<PolicyIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adClients: Schema.optional(Schema.Array(Schema.String)),
+      warningEscalationDate: Schema.optional(Adsense_Date),
+      siteSection: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      policyTopics: Schema.optional(Schema.Array(PolicyTopic)),
+      adRequestCount: Schema.optional(Schema.String),
+      entityType: Schema.optional(Schema.String),
+      firstDetectedDate: Schema.optional(Adsense_Date),
+      site: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      lastDetectedDate: Schema.optional(Adsense_Date),
+    }),
+  ).annotate({
+    identifier: "PolicyIssue",
+  }) as any as Schema.Schema<PolicyIssue>;
 
 export interface ListPolicyIssuesResponse {
   /** The policy issues returned in the list response. */
@@ -158,7 +168,7 @@ export interface ListPolicyIssuesResponse {
 }
 
 export const ListPolicyIssuesResponse: Schema.Schema<ListPolicyIssuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyIssues: Schema.optional(Schema.Array(PolicyIssue)),
       nextPageToken: Schema.optional(Schema.String),
@@ -175,7 +185,7 @@ export interface AdBlockingRecoveryTag {
 }
 
 export const AdBlockingRecoveryTag: Schema.Schema<AdBlockingRecoveryTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       errorProtectionCode: Schema.optional(Schema.String),
@@ -199,7 +209,7 @@ export interface ContentAdsSettings {
 }
 
 export const ContentAdsSettings: Schema.Schema<ContentAdsSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       size: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -221,15 +231,16 @@ export interface AdUnit {
   name?: string;
 }
 
-export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    contentAdsSettings: Schema.optional(ContentAdsSettings),
-    state: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    reportingDimensionId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
+export const AdUnit: Schema.Schema<AdUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentAdsSettings: Schema.optional(ContentAdsSettings),
+      state: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      reportingDimensionId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
 
 export interface Header {
   /** Required. Name of the header. */
@@ -248,35 +259,38 @@ export interface Header {
     | (string & {});
 }
 
-export const Header: Schema.Schema<Header> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
+export const Header: Schema.Schema<Header> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
 
 export interface Cell {
   /** Value in the cell. The dimension cells contain strings, and the metric cells contain numbers. */
   value?: string;
 }
 
-export const Cell: Schema.Schema<Cell> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
+export const Cell: Schema.Schema<Cell> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Cell" }) as any as Schema.Schema<Cell>;
 
 export interface Row {
   /** Cells in the row. */
   cells?: Array<Cell>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() =>
-  Schema.Struct({
-    cells: Schema.optional(Schema.Array(Cell)),
-  }),
-).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cells: Schema.optional(Schema.Array(Cell)),
+    }),
+  ).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface ReportResult {
   /** The total number of rows matched by the report request. */
@@ -297,20 +311,21 @@ export interface ReportResult {
   averages?: Row;
 }
 
-export const ReportResult: Schema.Schema<ReportResult> = Schema.suspend(() =>
-  Schema.Struct({
-    totalMatchedRows: Schema.optional(Schema.String),
-    headers: Schema.optional(Schema.Array(Header)),
-    endDate: Schema.optional(Adsense_Date),
-    startDate: Schema.optional(Adsense_Date),
-    rows: Schema.optional(Schema.Array(Row)),
-    warnings: Schema.optional(Schema.Array(Schema.String)),
-    totals: Schema.optional(Row),
-    averages: Schema.optional(Row),
-  }),
-).annotate({
-  identifier: "ReportResult",
-}) as any as Schema.Schema<ReportResult>;
+export const ReportResult: Schema.Schema<ReportResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      totalMatchedRows: Schema.optional(Schema.String),
+      headers: Schema.optional(Schema.Array(Header)),
+      endDate: Schema.optional(Adsense_Date),
+      startDate: Schema.optional(Adsense_Date),
+      rows: Schema.optional(Schema.Array(Row)),
+      warnings: Schema.optional(Schema.Array(Schema.String)),
+      totals: Schema.optional(Row),
+      averages: Schema.optional(Row),
+    }),
+  ).annotate({
+    identifier: "ReportResult",
+  }) as any as Schema.Schema<ReportResult>;
 
 export interface CustomChannel {
   /** Required. Display name of the custom channel. */
@@ -323,16 +338,17 @@ export interface CustomChannel {
   reportingDimensionId?: string;
 }
 
-export const CustomChannel: Schema.Schema<CustomChannel> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    active: Schema.optional(Schema.Boolean),
-    reportingDimensionId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CustomChannel",
-}) as any as Schema.Schema<CustomChannel>;
+export const CustomChannel: Schema.Schema<CustomChannel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      active: Schema.optional(Schema.Boolean),
+      reportingDimensionId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomChannel",
+  }) as any as Schema.Schema<CustomChannel>;
 
 export interface AdClient {
   /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
@@ -350,14 +366,15 @@ export interface AdClient {
   productCode?: string;
 }
 
-export const AdClient: Schema.Schema<AdClient> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    reportingDimensionId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    productCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
+export const AdClient: Schema.Schema<AdClient> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      reportingDimensionId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      productCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdClient" }) as any as Schema.Schema<AdClient>;
 
 export interface ListAdClientsResponse {
   /** The ad clients returned in this list response. */
@@ -367,7 +384,7 @@ export interface ListAdClientsResponse {
 }
 
 export const ListAdClientsResponse: Schema.Schema<ListAdClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adClients: Schema.optional(Schema.Array(AdClient)),
       nextPageToken: Schema.optional(Schema.String),
@@ -392,27 +409,29 @@ export interface Alert {
   message?: string;
 }
 
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+export const Alert: Schema.Schema<Alert> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
 
 export interface AdUnitAdCode {
   /** Output only. The code snippet to add to the body of an HTML page. */
   adCode?: string;
 }
 
-export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> = Schema.suspend(() =>
-  Schema.Struct({
-    adCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AdUnitAdCode",
-}) as any as Schema.Schema<AdUnitAdCode>;
+export const AdUnitAdCode: Schema.Schema<AdUnitAdCode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdUnitAdCode",
+  }) as any as Schema.Schema<AdUnitAdCode>;
 
 export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
@@ -421,12 +440,13 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface AdClientAdCode {
   /** Output only. The AdSense code snippet to add to the head of an HTML page. */
@@ -437,16 +457,16 @@ export interface AdClientAdCode {
   ampBody?: string;
 }
 
-export const AdClientAdCode: Schema.Schema<AdClientAdCode> = Schema.suspend(
-  () =>
+export const AdClientAdCode: Schema.Schema<AdClientAdCode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adCode: Schema.optional(Schema.String),
       ampHead: Schema.optional(Schema.String),
       ampBody: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AdClientAdCode",
-}) as any as Schema.Schema<AdClientAdCode>;
+  ).annotate({
+    identifier: "AdClientAdCode",
+  }) as any as Schema.Schema<AdClientAdCode>;
 
 export interface ListLinkedAdUnitsResponse {
   /** The ad units returned in the list response. */
@@ -456,7 +476,7 @@ export interface ListLinkedAdUnitsResponse {
 }
 
 export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnits: Schema.optional(Schema.Array(AdUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -467,9 +487,10 @@ export const ListLinkedAdUnitsResponse: Schema.Schema<ListLinkedAdUnitsResponse>
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface UrlChannel {
   /** Output only. Unique ID of the custom channel as used in the `URL_CHANNEL_ID` reporting dimension. */
@@ -480,13 +501,14 @@ export interface UrlChannel {
   uriPattern?: string;
 }
 
-export const UrlChannel: Schema.Schema<UrlChannel> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingDimensionId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uriPattern: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UrlChannel" }) as any as Schema.Schema<UrlChannel>;
+export const UrlChannel: Schema.Schema<UrlChannel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportingDimensionId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      uriPattern: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "UrlChannel" }) as any as Schema.Schema<UrlChannel>;
 
 export interface Site {
   /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
@@ -507,15 +529,16 @@ export interface Site {
   name?: string;
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() =>
-  Schema.Struct({
-    domain: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    reportingDimensionId: Schema.optional(Schema.String),
-    autoAdsEnabled: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+export const Site: Schema.Schema<Site> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      reportingDimensionId: Schema.optional(Schema.String),
+      autoAdsEnabled: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
 
 export interface ListCustomChannelsResponse {
   /** The custom channels returned in this list response. */
@@ -525,7 +548,7 @@ export interface ListCustomChannelsResponse {
 }
 
 export const ListCustomChannelsResponse: Schema.Schema<ListCustomChannelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customChannels: Schema.optional(Schema.Array(CustomChannel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -540,7 +563,7 @@ export interface ListAlertsResponse {
 }
 
 export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alerts: Schema.optional(Schema.Array(Alert)),
     }),
@@ -556,7 +579,7 @@ export interface ListLinkedCustomChannelsResponse {
 }
 
 export const ListLinkedCustomChannelsResponse: Schema.Schema<ListLinkedCustomChannelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customChannels: Schema.optional(Schema.Array(CustomChannel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -573,7 +596,7 @@ export interface ListSitesResponse {
 }
 
 export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sites: Schema.optional(Schema.Array(Site)),
       nextPageToken: Schema.optional(Schema.String),
@@ -590,7 +613,7 @@ export interface ListUrlChannelsResponse {
 }
 
 export const ListUrlChannelsResponse: Schema.Schema<ListUrlChannelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlChannels: Schema.optional(Schema.Array(UrlChannel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -608,13 +631,14 @@ export interface Payment {
   date?: Adsense_Date;
 }
 
-export const Payment: Schema.Schema<Payment> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    amount: Schema.optional(Schema.String),
-    date: Schema.optional(Adsense_Date),
-  }),
-).annotate({ identifier: "Payment" }) as any as Schema.Schema<Payment>;
+export const Payment: Schema.Schema<Payment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      amount: Schema.optional(Schema.String),
+      date: Schema.optional(Adsense_Date),
+    }),
+  ).annotate({ identifier: "Payment" }) as any as Schema.Schema<Payment>;
 
 export interface ListPaymentsResponse {
   /** The payments returned in this list response. */
@@ -622,7 +646,7 @@ export interface ListPaymentsResponse {
 }
 
 export const ListPaymentsResponse: Schema.Schema<ListPaymentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       payments: Schema.optional(Schema.Array(Payment)),
     }),
@@ -652,17 +676,18 @@ export interface Account {
   createTime?: string;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    pendingTasks: Schema.optional(Schema.Array(Schema.String)),
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    timeZone: Schema.optional(TimeZone),
-    state: Schema.optional(Schema.String),
-    premium: Schema.optional(Schema.Boolean),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pendingTasks: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      timeZone: Schema.optional(TimeZone),
+      state: Schema.optional(Schema.String),
+      premium: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface ListChildAccountsResponse {
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
@@ -672,7 +697,7 @@ export interface ListChildAccountsResponse {
 }
 
 export const ListChildAccountsResponse: Schema.Schema<ListChildAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       accounts: Schema.optional(Schema.Array(Account)),
@@ -689,7 +714,7 @@ export interface ListAccountsResponse {
 }
 
 export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accounts: Schema.optional(Schema.Array(Account)),
       nextPageToken: Schema.optional(Schema.String),
@@ -706,7 +731,7 @@ export interface ListAdUnitsResponse {
 }
 
 export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnits: Schema.optional(Schema.Array(AdUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -724,15 +749,16 @@ export interface HttpBody {
   extensions?: Array<Record<string, unknown>>;
 }
 
-export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() =>
-  Schema.Struct({
-    contentType: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.String),
-    extensions: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
+export const HttpBody: Schema.Schema<HttpBody> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentType: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+      extensions: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "HttpBody" }) as any as Schema.Schema<HttpBody>;
 
 // ==========================================================================
 // Operations
@@ -743,18 +769,20 @@ export interface GetAdBlockingRecoveryTagAccountsRequest {
   name: string;
 }
 
-export const GetAdBlockingRecoveryTagAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adBlockingRecoveryTag",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdBlockingRecoveryTagAccountsRequest>;
+export const GetAdBlockingRecoveryTagAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adBlockingRecoveryTag",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdBlockingRecoveryTagAccountsRequest>;
 
 export type GetAdBlockingRecoveryTagAccountsResponse = AdBlockingRecoveryTag;
-export const GetAdBlockingRecoveryTagAccountsResponse = AdBlockingRecoveryTag;
+export const GetAdBlockingRecoveryTagAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdBlockingRecoveryTag;
 
 export type GetAdBlockingRecoveryTagAccountsError = DefaultErrors;
 
@@ -764,7 +792,7 @@ export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<
   GetAdBlockingRecoveryTagAccountsResponse,
   GetAdBlockingRecoveryTagAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdBlockingRecoveryTagAccountsRequest,
   output: GetAdBlockingRecoveryTagAccountsResponse,
   errors: [],
@@ -775,7 +803,7 @@ export interface GetAccountsRequest {
   name: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/accounts/{accountsId}" }),
@@ -783,7 +811,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = Account;
-export const GetAccountsResponse = Account;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -793,7 +821,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -808,17 +836,22 @@ export interface ListChildAccountsAccountsRequest {
   pageSize?: number;
 }
 
-export const ListChildAccountsAccountsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}:listChildAccounts" }),
-  svc,
-) as unknown as Schema.Schema<ListChildAccountsAccountsRequest>;
+export const ListChildAccountsAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}:listChildAccounts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListChildAccountsAccountsRequest>;
 
 export type ListChildAccountsAccountsResponse = ListChildAccountsResponse;
-export const ListChildAccountsAccountsResponse = ListChildAccountsResponse;
+export const ListChildAccountsAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListChildAccountsResponse;
 
 export type ListChildAccountsAccountsError = DefaultErrors;
 
@@ -828,7 +861,7 @@ export const listChildAccountsAccounts: API.PaginatedOperationMethod<
   ListChildAccountsAccountsResponse,
   ListChildAccountsAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsAccountsResponse,
   errors: [],
@@ -845,7 +878,7 @@ export interface ListAccountsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -854,7 +887,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse_Op = ListAccountsResponse;
-export const ListAccountsResponse_Op = ListAccountsResponse;
+export const ListAccountsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -864,7 +898,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse_Op,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -879,15 +913,17 @@ export interface ListAccountsPaymentsRequest {
   parent: string;
 }
 
-export const ListAccountsPaymentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/payments" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsPaymentsRequest>;
+export const ListAccountsPaymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/payments" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsPaymentsRequest>;
 
 export type ListAccountsPaymentsResponse = ListPaymentsResponse;
-export const ListAccountsPaymentsResponse = ListPaymentsResponse;
+export const ListAccountsPaymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPaymentsResponse;
 
 export type ListAccountsPaymentsError = DefaultErrors;
 
@@ -897,7 +933,7 @@ export const listAccountsPayments: API.OperationMethod<
   ListAccountsPaymentsResponse,
   ListAccountsPaymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsPaymentsRequest,
   output: ListAccountsPaymentsResponse,
   errors: [],
@@ -908,15 +944,16 @@ export interface GetAccountsSitesRequest {
   name: string;
 }
 
-export const GetAccountsSitesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/sites/{sitesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsSitesRequest>;
+export const GetAccountsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/sites/{sitesId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsSitesRequest>;
 
 export type GetAccountsSitesResponse = Site;
-export const GetAccountsSitesResponse = Site;
+export const GetAccountsSitesResponse = /*@__PURE__*/ /*#__PURE__*/ Site;
 
 export type GetAccountsSitesError = DefaultErrors;
 
@@ -926,7 +963,7 @@ export const getAccountsSites: API.OperationMethod<
   GetAccountsSitesResponse,
   GetAccountsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsSitesRequest,
   output: GetAccountsSitesResponse,
   errors: [],
@@ -941,17 +978,19 @@ export interface ListAccountsSitesRequest {
   pageToken?: string;
 }
 
-export const ListAccountsSitesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/sites" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsSitesRequest>;
+export const ListAccountsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/sites" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsSitesRequest>;
 
 export type ListAccountsSitesResponse = ListSitesResponse;
-export const ListAccountsSitesResponse = ListSitesResponse;
+export const ListAccountsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSitesResponse;
 
 export type ListAccountsSitesError = DefaultErrors;
 
@@ -961,7 +1000,7 @@ export const listAccountsSites: API.PaginatedOperationMethod<
   ListAccountsSitesResponse,
   ListAccountsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsSitesRequest,
   output: ListAccountsSitesResponse,
   errors: [],
@@ -978,18 +1017,20 @@ export interface ListAccountsAlertsRequest {
   languageCode?: string;
 }
 
-export const ListAccountsAlertsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/alerts" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAlertsRequest>;
+export const ListAccountsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/alerts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAlertsRequest>;
 
 export type ListAccountsAlertsResponse = ListAlertsResponse;
-export const ListAccountsAlertsResponse = ListAlertsResponse;
+export const ListAccountsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAlertsResponse;
 
 export type ListAccountsAlertsError = DefaultErrors;
 
@@ -999,7 +1040,7 @@ export const listAccountsAlerts: API.OperationMethod<
   ListAccountsAlertsResponse,
   ListAccountsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsAlertsRequest,
   output: ListAccountsAlertsResponse,
   errors: [],
@@ -1014,17 +1055,19 @@ export interface ListAccountsPolicyIssuesRequest {
   pageToken?: string;
 }
 
-export const ListAccountsPolicyIssuesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/policyIssues" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsPolicyIssuesRequest>;
+export const ListAccountsPolicyIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/policyIssues" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsPolicyIssuesRequest>;
 
 export type ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
-export const ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
+export const ListAccountsPolicyIssuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPolicyIssuesResponse;
 
 export type ListAccountsPolicyIssuesError = DefaultErrors;
 
@@ -1034,7 +1077,7 @@ export const listAccountsPolicyIssues: API.PaginatedOperationMethod<
   ListAccountsPolicyIssuesResponse,
   ListAccountsPolicyIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsPolicyIssuesRequest,
   output: ListAccountsPolicyIssuesResponse,
   errors: [],
@@ -1049,18 +1092,20 @@ export interface GetAccountsPolicyIssuesRequest {
   name: string;
 }
 
-export const GetAccountsPolicyIssuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsPolicyIssuesRequest>;
+export const GetAccountsPolicyIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/policyIssues/{policyIssuesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsPolicyIssuesRequest>;
 
 export type GetAccountsPolicyIssuesResponse = PolicyIssue;
-export const GetAccountsPolicyIssuesResponse = PolicyIssue;
+export const GetAccountsPolicyIssuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PolicyIssue;
 
 export type GetAccountsPolicyIssuesError = DefaultErrors;
 
@@ -1070,7 +1115,7 @@ export const getAccountsPolicyIssues: API.OperationMethod<
   GetAccountsPolicyIssuesResponse,
   GetAccountsPolicyIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsPolicyIssuesRequest,
   output: GetAccountsPolicyIssuesResponse,
   errors: [],
@@ -1220,56 +1265,61 @@ export interface GenerateAccountsReportsRequest {
   currencyCode?: string;
 }
 
-export const GenerateAccountsReportsRequest = Schema.Struct({
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dimensions"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  account: Schema.String.pipe(T.HttpPath("account")),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("metrics"),
-  ),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("orderBy"),
-  ),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("filters"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports:generate" }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsReportsRequest>;
+export const GenerateAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dimensions"),
+    ),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+    dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+    reportingTimeZone: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("reportingTimeZone"),
+    ),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    account: Schema.String.pipe(T.HttpPath("account")),
+    metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("metrics"),
+    ),
+    orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("orderBy"),
+    ),
+    filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("filters"),
+    ),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/reports:generate",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsReportsRequest>;
 
 export type GenerateAccountsReportsResponse = ReportResult;
-export const GenerateAccountsReportsResponse = ReportResult;
+export const GenerateAccountsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReportResult;
 
 export type GenerateAccountsReportsError = DefaultErrors;
 
@@ -1279,7 +1329,7 @@ export const generateAccountsReports: API.OperationMethod<
   GenerateAccountsReportsResponse,
   GenerateAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsReportsRequest,
   output: GenerateAccountsReportsResponse,
   errors: [],
@@ -1429,59 +1479,61 @@ export interface GenerateCsvAccountsReportsRequest {
   account: string;
 }
 
-export const GenerateCsvAccountsReportsRequest = Schema.Struct({
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dimensions"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("metrics"),
-  ),
-  orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("orderBy"),
-  ),
-  filters: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("filters"),
-  ),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  account: Schema.String.pipe(T.HttpPath("account")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports:generateCsv",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateCsvAccountsReportsRequest>;
+export const GenerateCsvAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+    reportingTimeZone: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("reportingTimeZone"),
+    ),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    dimensions: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dimensions"),
+    ),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+    metrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("metrics"),
+    ),
+    orderBy: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("orderBy"),
+    ),
+    filters: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("filters"),
+    ),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    account: Schema.String.pipe(T.HttpPath("account")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/reports:generateCsv",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateCsvAccountsReportsRequest>;
 
 export type GenerateCsvAccountsReportsResponse = HttpBody;
-export const GenerateCsvAccountsReportsResponse = HttpBody;
+export const GenerateCsvAccountsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ HttpBody;
 
 export type GenerateCsvAccountsReportsError = DefaultErrors;
 
@@ -1491,7 +1543,7 @@ export const generateCsvAccountsReports: API.OperationMethod<
   GenerateCsvAccountsReportsResponse,
   GenerateCsvAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateCsvAccountsReportsRequest,
   output: GenerateCsvAccountsReportsResponse,
   errors: [],
@@ -1502,18 +1554,20 @@ export interface GetSavedAccountsReportsRequest {
   name: string;
 }
 
-export const GetSavedAccountsReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSavedAccountsReportsRequest>;
+export const GetSavedAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/reports/{reportsId}/saved",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSavedAccountsReportsRequest>;
 
 export type GetSavedAccountsReportsResponse = SavedReport;
-export const GetSavedAccountsReportsResponse = SavedReport;
+export const GetSavedAccountsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SavedReport;
 
 export type GetSavedAccountsReportsError = DefaultErrors;
 
@@ -1523,7 +1577,7 @@ export const getSavedAccountsReports: API.OperationMethod<
   GetSavedAccountsReportsResponse,
   GetSavedAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSavedAccountsReportsRequest,
   output: GetSavedAccountsReportsResponse,
   errors: [],
@@ -1567,46 +1621,48 @@ export interface GenerateCsvAccountsReportsSavedRequest {
   "startDate.year"?: number;
 }
 
-export const GenerateCsvAccountsReportsSavedRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateCsvAccountsReportsSavedRequest>;
+export const GenerateCsvAccountsReportsSavedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+    reportingTimeZone: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("reportingTimeZone"),
+    ),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generateCsv",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateCsvAccountsReportsSavedRequest>;
 
 export type GenerateCsvAccountsReportsSavedResponse = HttpBody;
-export const GenerateCsvAccountsReportsSavedResponse = HttpBody;
+export const GenerateCsvAccountsReportsSavedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ HttpBody;
 
 export type GenerateCsvAccountsReportsSavedError = DefaultErrors;
 
@@ -1616,7 +1672,7 @@ export const generateCsvAccountsReportsSaved: API.OperationMethod<
   GenerateCsvAccountsReportsSavedResponse,
   GenerateCsvAccountsReportsSavedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateCsvAccountsReportsSavedRequest,
   output: GenerateCsvAccountsReportsSavedResponse,
   errors: [],
@@ -1631,17 +1687,19 @@ export interface ListAccountsReportsSavedRequest {
   pageToken?: string;
 }
 
-export const ListAccountsReportsSavedRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/saved" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsReportsSavedRequest>;
+export const ListAccountsReportsSavedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/reports/saved" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsReportsSavedRequest>;
 
 export type ListAccountsReportsSavedResponse = ListSavedReportsResponse;
-export const ListAccountsReportsSavedResponse = ListSavedReportsResponse;
+export const ListAccountsReportsSavedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSavedReportsResponse;
 
 export type ListAccountsReportsSavedError = DefaultErrors;
 
@@ -1651,7 +1709,7 @@ export const listAccountsReportsSaved: API.PaginatedOperationMethod<
   ListAccountsReportsSavedResponse,
   ListAccountsReportsSavedError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsReportsSavedRequest,
   output: ListAccountsReportsSavedResponse,
   errors: [],
@@ -1699,46 +1757,48 @@ export interface GenerateAccountsReportsSavedRequest {
   "endDate.year"?: number;
 }
 
-export const GenerateAccountsReportsSavedRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  "startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.day"),
-  ),
-  "endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.month"),
-  ),
-  "endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.day"),
-  ),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  reportingTimeZone: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("reportingTimeZone"),
-  ),
-  dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
-  "startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.year"),
-  ),
-  "startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("startDate.month"),
-  ),
-  "endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("endDate.year"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsReportsSavedRequest>;
+export const GenerateAccountsReportsSavedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    "startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.day"),
+    ),
+    "endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.month"),
+    ),
+    "endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.day"),
+    ),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+    reportingTimeZone: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("reportingTimeZone"),
+    ),
+    dateRange: Schema.optional(Schema.String).pipe(T.HttpQuery("dateRange")),
+    "startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.year"),
+    ),
+    "startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("startDate.month"),
+    ),
+    "endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("endDate.year"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/reports/{reportsId}/saved:generate",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsReportsSavedRequest>;
 
 export type GenerateAccountsReportsSavedResponse = ReportResult;
-export const GenerateAccountsReportsSavedResponse = ReportResult;
+export const GenerateAccountsReportsSavedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReportResult;
 
 export type GenerateAccountsReportsSavedError = DefaultErrors;
 
@@ -1748,7 +1808,7 @@ export const generateAccountsReportsSaved: API.OperationMethod<
   GenerateAccountsReportsSavedResponse,
   GenerateAccountsReportsSavedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsReportsSavedRequest,
   output: GenerateAccountsReportsSavedResponse,
   errors: [],
@@ -1759,18 +1819,20 @@ export interface GetAccountsAdclientsRequest {
   name: string;
 }
 
-export const GetAccountsAdclientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsRequest>;
+export const GetAccountsAdclientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAdclientsRequest>;
 
 export type GetAccountsAdclientsResponse = AdClient;
-export const GetAccountsAdclientsResponse = AdClient;
+export const GetAccountsAdclientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdClient;
 
 export type GetAccountsAdclientsError = DefaultErrors;
 
@@ -1780,7 +1842,7 @@ export const getAccountsAdclients: API.OperationMethod<
   GetAccountsAdclientsResponse,
   GetAccountsAdclientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsRequest,
   output: GetAccountsAdclientsResponse,
   errors: [],
@@ -1795,17 +1857,19 @@ export interface ListAccountsAdclientsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsAdclientsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdclientsRequest>;
+export const ListAccountsAdclientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/accounts/{accountsId}/adclients" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdclientsRequest>;
 
 export type ListAccountsAdclientsResponse = ListAdClientsResponse;
-export const ListAccountsAdclientsResponse = ListAdClientsResponse;
+export const ListAccountsAdclientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdClientsResponse;
 
 export type ListAccountsAdclientsError = DefaultErrors;
 
@@ -1815,7 +1879,7 @@ export const listAccountsAdclients: API.PaginatedOperationMethod<
   ListAccountsAdclientsResponse,
   ListAccountsAdclientsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsRequest,
   output: ListAccountsAdclientsResponse,
   errors: [],
@@ -1830,18 +1894,20 @@ export interface GetAdcodeAccountsAdclientsRequest {
   name: string;
 }
 
-export const GetAdcodeAccountsAdclientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsRequest>;
+export const GetAdcodeAccountsAdclientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adcode",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsRequest>;
 
 export type GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
-export const GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
+export const GetAdcodeAccountsAdclientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdClientAdCode;
 
 export type GetAdcodeAccountsAdclientsError = DefaultErrors;
 
@@ -1851,7 +1917,7 @@ export const getAdcodeAccountsAdclients: API.OperationMethod<
   GetAdcodeAccountsAdclientsResponse,
   GetAdcodeAccountsAdclientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdcodeAccountsAdclientsRequest,
   output: GetAdcodeAccountsAdclientsResponse,
   errors: [],
@@ -1864,20 +1930,22 @@ export interface CreateAccountsAdclientsCustomchannelsRequest {
   body?: CustomChannel;
 }
 
-export const CreateAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdclientsCustomchannelsRequest>;
+export const CreateAccountsAdclientsCustomchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAdclientsCustomchannelsRequest>;
 
 export type CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const CreateAccountsAdclientsCustomchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomChannel;
 
 export type CreateAccountsAdclientsCustomchannelsError = DefaultErrors;
 
@@ -1887,7 +1955,7 @@ export const createAccountsAdclientsCustomchannels: API.OperationMethod<
   CreateAccountsAdclientsCustomchannelsResponse,
   CreateAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAdclientsCustomchannelsRequest,
   output: CreateAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1902,21 +1970,23 @@ export interface PatchAccountsAdclientsCustomchannelsRequest {
   body?: CustomChannel;
 }
 
-export const PatchAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsAdclientsCustomchannelsRequest>;
+export const PatchAccountsAdclientsCustomchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CustomChannel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsAdclientsCustomchannelsRequest>;
 
 export type PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const PatchAccountsAdclientsCustomchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomChannel;
 
 export type PatchAccountsAdclientsCustomchannelsError = DefaultErrors;
 
@@ -1926,7 +1996,7 @@ export const patchAccountsAdclientsCustomchannels: API.OperationMethod<
   PatchAccountsAdclientsCustomchannelsResponse,
   PatchAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsAdclientsCustomchannelsRequest,
   output: PatchAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1937,18 +2007,20 @@ export interface GetAccountsAdclientsCustomchannelsRequest {
   name: string;
 }
 
-export const GetAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsCustomchannelsRequest>;
+export const GetAccountsAdclientsCustomchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAdclientsCustomchannelsRequest>;
 
 export type GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
-export const GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
+export const GetAccountsAdclientsCustomchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomChannel;
 
 export type GetAccountsAdclientsCustomchannelsError = DefaultErrors;
 
@@ -1958,7 +2030,7 @@ export const getAccountsAdclientsCustomchannels: API.OperationMethod<
   GetAccountsAdclientsCustomchannelsResponse,
   GetAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsCustomchannelsRequest,
   output: GetAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1974,7 +2046,7 @@ export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
 }
 
 export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -1989,7 +2061,7 @@ export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest =
 export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
   ListLinkedAdUnitsResponse;
 export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse =
-  ListLinkedAdUnitsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListLinkedAdUnitsResponse;
 
 export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError =
   DefaultErrors;
@@ -2000,7 +2072,7 @@ export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOper
   ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
   ListLinkedAdUnitsAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
   output: ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -2019,22 +2091,23 @@ export interface ListAccountsAdclientsCustomchannelsRequest {
   parent: string;
 }
 
-export const ListAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdclientsCustomchannelsRequest>;
+export const ListAccountsAdclientsCustomchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdclientsCustomchannelsRequest>;
 
 export type ListAccountsAdclientsCustomchannelsResponse =
   ListCustomChannelsResponse;
 export const ListAccountsAdclientsCustomchannelsResponse =
-  ListCustomChannelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomChannelsResponse;
 
 export type ListAccountsAdclientsCustomchannelsError = DefaultErrors;
 
@@ -2044,7 +2117,7 @@ export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<
   ListAccountsAdclientsCustomchannelsResponse,
   ListAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsCustomchannelsRequest,
   output: ListAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -2059,18 +2132,20 @@ export interface DeleteAccountsAdclientsCustomchannelsRequest {
   name: string;
 }
 
-export const DeleteAccountsAdclientsCustomchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsAdclientsCustomchannelsRequest>;
+export const DeleteAccountsAdclientsCustomchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/customchannels/{customchannelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsAdclientsCustomchannelsRequest>;
 
 export type DeleteAccountsAdclientsCustomchannelsResponse = Empty;
-export const DeleteAccountsAdclientsCustomchannelsResponse = Empty;
+export const DeleteAccountsAdclientsCustomchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsAdclientsCustomchannelsError = DefaultErrors;
 
@@ -2080,7 +2155,7 @@ export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<
   DeleteAccountsAdclientsCustomchannelsResponse,
   DeleteAccountsAdclientsCustomchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsAdclientsCustomchannelsRequest,
   output: DeleteAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -2091,18 +2166,20 @@ export interface GetAccountsAdclientsAdunitsRequest {
   name: string;
 }
 
-export const GetAccountsAdclientsAdunitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsAdunitsRequest>;
+export const GetAccountsAdclientsAdunitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAdclientsAdunitsRequest>;
 
 export type GetAccountsAdclientsAdunitsResponse = AdUnit;
-export const GetAccountsAdclientsAdunitsResponse = AdUnit;
+export const GetAccountsAdclientsAdunitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdUnit;
 
 export type GetAccountsAdclientsAdunitsError = DefaultErrors;
 
@@ -2112,7 +2189,7 @@ export const getAccountsAdclientsAdunits: API.OperationMethod<
   GetAccountsAdclientsAdunitsResponse,
   GetAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsAdunitsRequest,
   output: GetAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2123,18 +2200,20 @@ export interface GetAdcodeAccountsAdclientsAdunitsRequest {
   name: string;
 }
 
-export const GetAdcodeAccountsAdclientsAdunitsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}/adcode",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsAdunitsRequest>;
+export const GetAdcodeAccountsAdclientsAdunitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}/adcode",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdcodeAccountsAdclientsAdunitsRequest>;
 
 export type GetAdcodeAccountsAdclientsAdunitsResponse = AdUnitAdCode;
-export const GetAdcodeAccountsAdclientsAdunitsResponse = AdUnitAdCode;
+export const GetAdcodeAccountsAdclientsAdunitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdUnitAdCode;
 
 export type GetAdcodeAccountsAdclientsAdunitsError = DefaultErrors;
 
@@ -2144,7 +2223,7 @@ export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<
   GetAdcodeAccountsAdclientsAdunitsResponse,
   GetAdcodeAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdcodeAccountsAdclientsAdunitsRequest,
   output: GetAdcodeAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2157,20 +2236,22 @@ export interface CreateAccountsAdclientsAdunitsRequest {
   body?: AdUnit;
 }
 
-export const CreateAccountsAdclientsAdunitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AdUnit).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdclientsAdunitsRequest>;
+export const CreateAccountsAdclientsAdunitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AdUnit).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAdclientsAdunitsRequest>;
 
 export type CreateAccountsAdclientsAdunitsResponse = AdUnit;
-export const CreateAccountsAdclientsAdunitsResponse = AdUnit;
+export const CreateAccountsAdclientsAdunitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdUnit;
 
 export type CreateAccountsAdclientsAdunitsError = DefaultErrors;
 
@@ -2180,7 +2261,7 @@ export const createAccountsAdclientsAdunits: API.OperationMethod<
   CreateAccountsAdclientsAdunitsResponse,
   CreateAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAdclientsAdunitsRequest,
   output: CreateAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2195,21 +2276,23 @@ export interface PatchAccountsAdclientsAdunitsRequest {
   body?: AdUnit;
 }
 
-export const PatchAccountsAdclientsAdunitsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AdUnit).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsAdclientsAdunitsRequest>;
+export const PatchAccountsAdclientsAdunitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AdUnit).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits/{adunitsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsAdclientsAdunitsRequest>;
 
 export type PatchAccountsAdclientsAdunitsResponse = AdUnit;
-export const PatchAccountsAdclientsAdunitsResponse = AdUnit;
+export const PatchAccountsAdclientsAdunitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdUnit;
 
 export type PatchAccountsAdclientsAdunitsError = DefaultErrors;
 
@@ -2219,7 +2302,7 @@ export const patchAccountsAdclientsAdunits: API.OperationMethod<
   PatchAccountsAdclientsAdunitsResponse,
   PatchAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsAdclientsAdunitsRequest,
   output: PatchAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2234,20 +2317,22 @@ export interface ListAccountsAdclientsAdunitsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsAdclientsAdunitsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdclientsAdunitsRequest>;
+export const ListAccountsAdclientsAdunitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/adunits",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdclientsAdunitsRequest>;
 
 export type ListAccountsAdclientsAdunitsResponse = ListAdUnitsResponse;
-export const ListAccountsAdclientsAdunitsResponse = ListAdUnitsResponse;
+export const ListAccountsAdclientsAdunitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdUnitsResponse;
 
 export type ListAccountsAdclientsAdunitsError = DefaultErrors;
 
@@ -2257,7 +2342,7 @@ export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<
   ListAccountsAdclientsAdunitsResponse,
   ListAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsAdunitsRequest,
   output: ListAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2277,7 +2362,7 @@ export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
 }
 
 export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
@@ -2292,7 +2377,7 @@ export const ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest =
 export type ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse =
   ListLinkedCustomChannelsResponse;
 export const ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse =
-  ListLinkedCustomChannelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListLinkedCustomChannelsResponse;
 
 export type ListLinkedCustomChannelsAccountsAdclientsAdunitsError =
   DefaultErrors;
@@ -2303,7 +2388,7 @@ export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOper
   ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse,
   ListLinkedCustomChannelsAccountsAdclientsAdunitsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest,
   output: ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -2318,18 +2403,20 @@ export interface GetAccountsAdclientsUrlchannelsRequest {
   name: string;
 }
 
-export const GetAccountsAdclientsUrlchannelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels/{urlchannelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAdclientsUrlchannelsRequest>;
+export const GetAccountsAdclientsUrlchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels/{urlchannelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAdclientsUrlchannelsRequest>;
 
 export type GetAccountsAdclientsUrlchannelsResponse = UrlChannel;
-export const GetAccountsAdclientsUrlchannelsResponse = UrlChannel;
+export const GetAccountsAdclientsUrlchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UrlChannel;
 
 export type GetAccountsAdclientsUrlchannelsError = DefaultErrors;
 
@@ -2339,7 +2426,7 @@ export const getAccountsAdclientsUrlchannels: API.OperationMethod<
   GetAccountsAdclientsUrlchannelsResponse,
   GetAccountsAdclientsUrlchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAdclientsUrlchannelsRequest,
   output: GetAccountsAdclientsUrlchannelsResponse,
   errors: [],
@@ -2354,20 +2441,22 @@ export interface ListAccountsAdclientsUrlchannelsRequest {
   parent: string;
 }
 
-export const ListAccountsAdclientsUrlchannelsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdclientsUrlchannelsRequest>;
+export const ListAccountsAdclientsUrlchannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/accounts/{accountsId}/adclients/{adclientsId}/urlchannels",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdclientsUrlchannelsRequest>;
 
 export type ListAccountsAdclientsUrlchannelsResponse = ListUrlChannelsResponse;
-export const ListAccountsAdclientsUrlchannelsResponse = ListUrlChannelsResponse;
+export const ListAccountsAdclientsUrlchannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUrlChannelsResponse;
 
 export type ListAccountsAdclientsUrlchannelsError = DefaultErrors;
 
@@ -2377,7 +2466,7 @@ export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<
   ListAccountsAdclientsUrlchannelsResponse,
   ListAccountsAdclientsUrlchannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdclientsUrlchannelsRequest,
   output: ListAccountsAdclientsUrlchannelsResponse,
   errors: [],

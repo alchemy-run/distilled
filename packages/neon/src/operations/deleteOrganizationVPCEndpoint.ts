@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteOrganizationVPCEndpointInput = Schema.Struct({
-  org_id: Schema.String.pipe(T.PathParam()),
-  region_id: Schema.String.pipe(T.PathParam()),
-  vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}",
-  }),
-);
+export const DeleteOrganizationVPCEndpointInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    org_id: Schema.String.pipe(T.PathParam()),
+    region_id: Schema.String.pipe(T.PathParam()),
+    vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{org_id}/vpc/region/{region_id}/vpc_endpoints/{vpc_endpoint_id}",
+    }),
+  );
 export type DeleteOrganizationVPCEndpointInput =
   typeof DeleteOrganizationVPCEndpointInput.Type;
 
 // Output Schema
-export const DeleteOrganizationVPCEndpointOutput = Schema.Void;
+export const DeleteOrganizationVPCEndpointOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteOrganizationVPCEndpointOutput =
   typeof DeleteOrganizationVPCEndpointOutput.Type;
 

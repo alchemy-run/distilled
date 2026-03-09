@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetWorkflowInput = Schema.Struct({
+export const GetWorkflowInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   number: Schema.Number.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const GetWorkflowInput = Schema.Struct({
 export type GetWorkflowInput = typeof GetWorkflowInput.Type;
 
 // Output Schema
-export const GetWorkflowOutput = Schema.Struct({
+export const GetWorkflowOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   number: Schema.Number,

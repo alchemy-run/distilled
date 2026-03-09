@@ -31,16 +31,16 @@ export interface TranslatedString {
   language?: string;
 }
 
-export const TranslatedString: Schema.Schema<TranslatedString> = Schema.suspend(
-  () =>
+export const TranslatedString: Schema.Schema<TranslatedString> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
       language: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TranslatedString",
-}) as any as Schema.Schema<TranslatedString>;
+  ).annotate({
+    identifier: "TranslatedString",
+  }) as any as Schema.Schema<TranslatedString>;
 
 export interface LocalizedString {
   /** Contains the translations for the string. */
@@ -51,16 +51,16 @@ export interface LocalizedString {
   defaultValue?: TranslatedString;
 }
 
-export const LocalizedString: Schema.Schema<LocalizedString> = Schema.suspend(
-  () =>
+export const LocalizedString: Schema.Schema<LocalizedString> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       translatedValues: Schema.optional(Schema.Array(TranslatedString)),
       kind: Schema.optional(Schema.String),
       defaultValue: Schema.optional(TranslatedString),
     }),
-).annotate({
-  identifier: "LocalizedString",
-}) as any as Schema.Schema<LocalizedString>;
+  ).annotate({
+    identifier: "LocalizedString",
+  }) as any as Schema.Schema<LocalizedString>;
 
 export interface ImageUri {
   /** Translated strings for the description, which are unused and retained only for backward compatibility. */
@@ -71,13 +71,14 @@ export interface ImageUri {
   description?: string;
 }
 
-export const ImageUri: Schema.Schema<ImageUri> = Schema.suspend(() =>
-  Schema.Struct({
-    localizedDescription: Schema.optional(LocalizedString),
-    uri: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ImageUri" }) as any as Schema.Schema<ImageUri>;
+export const ImageUri: Schema.Schema<ImageUri> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      localizedDescription: Schema.optional(LocalizedString),
+      uri: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ImageUri" }) as any as Schema.Schema<ImageUri>;
 
 export interface Image {
   /** An ID for an already uploaded private image. Either this or source_uri should be set. Requests setting both or neither will be rejected. Please contact support to use private images. */
@@ -90,14 +91,15 @@ export interface Image {
   contentDescription?: LocalizedString;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    privateImageId: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    sourceUri: Schema.optional(ImageUri),
-    contentDescription: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      privateImageId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      sourceUri: Schema.optional(ImageUri),
+      contentDescription: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface RotatingBarcodeTotpDetailsTotpParameters {
   /** The secret key used for the TOTP value generation, encoded as a Base16 string. */
@@ -107,7 +109,7 @@ export interface RotatingBarcodeTotpDetailsTotpParameters {
 }
 
 export const RotatingBarcodeTotpDetailsTotpParameters: Schema.Schema<RotatingBarcodeTotpDetailsTotpParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       valueLength: Schema.optional(Schema.Number),
@@ -126,7 +128,7 @@ export interface RotatingBarcodeTotpDetails {
 }
 
 export const RotatingBarcodeTotpDetails: Schema.Schema<RotatingBarcodeTotpDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       algorithm: Schema.optional(Schema.String),
       parameters: Schema.optional(
@@ -148,7 +150,7 @@ export interface RotatingBarcodeValues {
 }
 
 export const RotatingBarcodeValues: Schema.Schema<RotatingBarcodeValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startDateTime: Schema.optional(Schema.String),
       values: Schema.optional(Schema.Array(Schema.String)),
@@ -204,8 +206,8 @@ export interface RotatingBarcode {
   initialRotatingBarcodeValues?: RotatingBarcodeValues;
 }
 
-export const RotatingBarcode: Schema.Schema<RotatingBarcode> = Schema.suspend(
-  () =>
+export const RotatingBarcode: Schema.Schema<RotatingBarcode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alternateText: Schema.optional(Schema.String),
       totpDetails: Schema.optional(RotatingBarcodeTotpDetails),
@@ -215,20 +217,21 @@ export const RotatingBarcode: Schema.Schema<RotatingBarcode> = Schema.suspend(
       showCodeText: Schema.optional(LocalizedString),
       initialRotatingBarcodeValues: Schema.optional(RotatingBarcodeValues),
     }),
-).annotate({
-  identifier: "RotatingBarcode",
-}) as any as Schema.Schema<RotatingBarcode>;
+  ).annotate({
+    identifier: "RotatingBarcode",
+  }) as any as Schema.Schema<RotatingBarcode>;
 
 export interface DateTime {
   /** An ISO 8601 extended format date/time. Offset may or may not be required (refer to the parent field's documentation). Time may be specified up to nanosecond precision. Offsets may be specified with seconds precision (even though offset seconds is not part of ISO 8601). For example: `1985-04-12T23:20:50.52Z` would be 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC. `1985-04-12T19:20:50.52-04:00` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985, 4 hours before UTC (same instant in time as the above example). If the date/time is intended for a physical location in New York, this would be the equivalent of Eastern Daylight Time (EDT). Remember that offset varies in regions that observe Daylight Saving Time (or Summer Time), depending on the time of the year. `1985-04-12T19:20:50.52` would be 20 minutes and 50.52 seconds after the 19th hour of April 12th, 1985 with no offset information. Providing an offset makes this an absolute instant in time around the world. The date/time will be adjusted based on the user's time zone. For example, a time of `2018-06-19T18:30:00-04:00` will be 18:30:00 for a user in New York and 15:30:00 for a user in Los Angeles. Omitting the offset makes this a local date/time, representing several instants in time around the world. The date/time will always be in the user's current time zone. For example, a time of `2018-06-19T18:30:00` will be 18:30:00 for a user in New York and also 18:30:00 for a user in Los Angeles. This is useful when the same local date/time should apply to many physical locations across several time zones. */
   date?: string;
 }
 
-export const DateTime: Schema.Schema<DateTime> = Schema.suspend(() =>
-  Schema.Struct({
-    date: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
+export const DateTime: Schema.Schema<DateTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      date: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
 
 export interface TimeInterval {
   /** End time of the interval. Offset is not required. If an offset is provided and `start` time is set, `start` must also include an offset. */
@@ -239,15 +242,16 @@ export interface TimeInterval {
   start?: DateTime;
 }
 
-export const TimeInterval: Schema.Schema<TimeInterval> = Schema.suspend(() =>
-  Schema.Struct({
-    end: Schema.optional(DateTime),
-    kind: Schema.optional(Schema.String),
-    start: Schema.optional(DateTime),
-  }),
-).annotate({
-  identifier: "TimeInterval",
-}) as any as Schema.Schema<TimeInterval>;
+export const TimeInterval: Schema.Schema<TimeInterval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      end: Schema.optional(DateTime),
+      kind: Schema.optional(Schema.String),
+      start: Schema.optional(DateTime),
+    }),
+  ).annotate({
+    identifier: "TimeInterval",
+  }) as any as Schema.Schema<TimeInterval>;
 
 export interface Message {
   /** The message header. */
@@ -275,18 +279,19 @@ export interface Message {
     | (string & {});
 }
 
-export const Message: Schema.Schema<Message> = Schema.suspend(() =>
-  Schema.Struct({
-    header: Schema.optional(Schema.String),
-    displayInterval: Schema.optional(TimeInterval),
-    id: Schema.optional(Schema.String),
-    localizedBody: Schema.optional(LocalizedString),
-    kind: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    localizedHeader: Schema.optional(LocalizedString),
-    messageType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
+export const Message: Schema.Schema<Message> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      header: Schema.optional(Schema.String),
+      displayInterval: Schema.optional(TimeInterval),
+      id: Schema.optional(Schema.String),
+      localizedBody: Schema.optional(LocalizedString),
+      kind: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      localizedHeader: Schema.optional(LocalizedString),
+      messageType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Message" }) as any as Schema.Schema<Message>;
 
 export interface ModuleViewConstraints {
   /** The period of time that the module will be displayed to users. Can define both a `startTime` and `endTime`. The module is displayed immediately after insertion unless a `startTime` is set. The module is displayed indefinitely if `endTime` is not set. */
@@ -294,7 +299,7 @@ export interface ModuleViewConstraints {
 }
 
 export const ModuleViewConstraints: Schema.Schema<ModuleViewConstraints> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayInterval: Schema.optional(TimeInterval),
     }),
@@ -318,7 +323,7 @@ export interface ValueAddedModuleData {
 }
 
 export const ValueAddedModuleData: Schema.Schema<ValueAddedModuleData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sortIndex: Schema.optional(Schema.Number),
       body: Schema.optional(LocalizedString),
@@ -338,15 +343,15 @@ export interface ImageModuleData {
   id?: string;
 }
 
-export const ImageModuleData: Schema.Schema<ImageModuleData> = Schema.suspend(
-  () =>
+export const ImageModuleData: Schema.Schema<ImageModuleData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mainImage: Schema.optional(Image),
       id: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ImageModuleData",
-}) as any as Schema.Schema<ImageModuleData>;
+  ).annotate({
+    identifier: "ImageModuleData",
+  }) as any as Schema.Schema<ImageModuleData>;
 
 export interface TextModuleData {
   /** Translated strings for the body. Recommended maximum length is 500 characters to ensure full string is displayed on smaller screens. */
@@ -361,8 +366,8 @@ export interface TextModuleData {
   localizedHeader?: LocalizedString;
 }
 
-export const TextModuleData: Schema.Schema<TextModuleData> = Schema.suspend(
-  () =>
+export const TextModuleData: Schema.Schema<TextModuleData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localizedBody: Schema.optional(LocalizedString),
       id: Schema.optional(Schema.String),
@@ -370,9 +375,9 @@ export const TextModuleData: Schema.Schema<TextModuleData> = Schema.suspend(
       body: Schema.optional(Schema.String),
       localizedHeader: Schema.optional(LocalizedString),
     }),
-).annotate({
-  identifier: "TextModuleData",
-}) as any as Schema.Schema<TextModuleData>;
+  ).annotate({
+    identifier: "TextModuleData",
+  }) as any as Schema.Schema<TextModuleData>;
 
 export interface AirportInfo {
   /** Optional field that overrides the airport city name defined by IATA. By default, Google takes the `airportIataCode` provided and maps it to the official airport city name defined by IATA. Official IATA airport city names can be found at IATA airport city names website. For example, for the airport IATA code "LTN", IATA website tells us that the corresponding airport city is "London". If this field is not populated, Google would display "London". However, populating this field with a custom name (eg: "London Luton") would override it. */
@@ -387,15 +392,18 @@ export interface AirportInfo {
   kind?: string;
 }
 
-export const AirportInfo: Schema.Schema<AirportInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    airportNameOverride: Schema.optional(LocalizedString),
-    terminal: Schema.optional(Schema.String),
-    gate: Schema.optional(Schema.String),
-    airportIataCode: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AirportInfo" }) as any as Schema.Schema<AirportInfo>;
+export const AirportInfo: Schema.Schema<AirportInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      airportNameOverride: Schema.optional(LocalizedString),
+      terminal: Schema.optional(Schema.String),
+      gate: Schema.optional(Schema.String),
+      airportIataCode: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AirportInfo",
+  }) as any as Schema.Schema<AirportInfo>;
 
 export interface Uri {
   /** The ID associated with a uri. This field is here to enable ease of management of uris. */
@@ -410,15 +418,16 @@ export interface Uri {
   localizedDescription?: LocalizedString;
 }
 
-export const Uri: Schema.Schema<Uri> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    uri: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    localizedDescription: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "Uri" }) as any as Schema.Schema<Uri>;
+export const Uri: Schema.Schema<Uri> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      localizedDescription: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "Uri" }) as any as Schema.Schema<Uri>;
 
 export interface FlightCarrier {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#flightCarrier"`. */
@@ -437,19 +446,20 @@ export interface FlightCarrier {
   wideAirlineLogo?: Image;
 }
 
-export const FlightCarrier: Schema.Schema<FlightCarrier> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    carrierIataCode: Schema.optional(Schema.String),
-    airlineLogo: Schema.optional(Image),
-    carrierIcaoCode: Schema.optional(Schema.String),
-    airlineAllianceLogo: Schema.optional(Image),
-    airlineName: Schema.optional(LocalizedString),
-    wideAirlineLogo: Schema.optional(Image),
-  }),
-).annotate({
-  identifier: "FlightCarrier",
-}) as any as Schema.Schema<FlightCarrier>;
+export const FlightCarrier: Schema.Schema<FlightCarrier> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      carrierIataCode: Schema.optional(Schema.String),
+      airlineLogo: Schema.optional(Image),
+      carrierIcaoCode: Schema.optional(Schema.String),
+      airlineAllianceLogo: Schema.optional(Image),
+      airlineName: Schema.optional(LocalizedString),
+      wideAirlineLogo: Schema.optional(Image),
+    }),
+  ).annotate({
+    identifier: "FlightCarrier",
+  }) as any as Schema.Schema<FlightCarrier>;
 
 export interface FlightHeader {
   /** Information about airline carrier. This is a required property of `flightHeader`. */
@@ -466,18 +476,19 @@ export interface FlightHeader {
   operatingCarrier?: FlightCarrier;
 }
 
-export const FlightHeader: Schema.Schema<FlightHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    carrier: Schema.optional(FlightCarrier),
-    flightNumberDisplayOverride: Schema.optional(Schema.String),
-    operatingFlightNumber: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    flightNumber: Schema.optional(Schema.String),
-    operatingCarrier: Schema.optional(FlightCarrier),
-  }),
-).annotate({
-  identifier: "FlightHeader",
-}) as any as Schema.Schema<FlightHeader>;
+export const FlightHeader: Schema.Schema<FlightHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      carrier: Schema.optional(FlightCarrier),
+      flightNumberDisplayOverride: Schema.optional(Schema.String),
+      operatingFlightNumber: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      flightNumber: Schema.optional(Schema.String),
+      operatingCarrier: Schema.optional(FlightCarrier),
+    }),
+  ).annotate({
+    identifier: "FlightHeader",
+  }) as any as Schema.Schema<FlightHeader>;
 
 export interface FieldReference {
   /** Only valid if the `fieldPath` references a date field. Chooses how the date field will be formatted and displayed in the UI. */
@@ -500,28 +511,29 @@ export interface FieldReference {
   fieldPath?: string;
 }
 
-export const FieldReference: Schema.Schema<FieldReference> = Schema.suspend(
-  () =>
+export const FieldReference: Schema.Schema<FieldReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateFormat: Schema.optional(Schema.String),
       fieldPath: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FieldReference",
-}) as any as Schema.Schema<FieldReference>;
+  ).annotate({
+    identifier: "FieldReference",
+  }) as any as Schema.Schema<FieldReference>;
 
 export interface FieldSelector {
   /** If more than one reference is supplied, then the first one that references a non-empty field will be displayed. */
   fields?: Array<FieldReference>;
 }
 
-export const FieldSelector: Schema.Schema<FieldSelector> = Schema.suspend(() =>
-  Schema.Struct({
-    fields: Schema.optional(Schema.Array(FieldReference)),
-  }),
-).annotate({
-  identifier: "FieldSelector",
-}) as any as Schema.Schema<FieldSelector>;
+export const FieldSelector: Schema.Schema<FieldSelector> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fields: Schema.optional(Schema.Array(FieldReference)),
+    }),
+  ).annotate({
+    identifier: "FieldSelector",
+  }) as any as Schema.Schema<FieldSelector>;
 
 export interface TemplateItem {
   /** A reference to a field to display. If both `firstValue` and `secondValue` are populated, they will both appear as one item with a slash between them. For example, values A and B would be shown as "A / B". */
@@ -538,29 +550,30 @@ export interface TemplateItem {
     | (string & {});
 }
 
-export const TemplateItem: Schema.Schema<TemplateItem> = Schema.suspend(() =>
-  Schema.Struct({
-    firstValue: Schema.optional(FieldSelector),
-    secondValue: Schema.optional(FieldSelector),
-    predefinedItem: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TemplateItem",
-}) as any as Schema.Schema<TemplateItem>;
+export const TemplateItem: Schema.Schema<TemplateItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      firstValue: Schema.optional(FieldSelector),
+      secondValue: Schema.optional(FieldSelector),
+      predefinedItem: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TemplateItem",
+  }) as any as Schema.Schema<TemplateItem>;
 
 export interface DetailsItemInfo {
   /** The item to be displayed in the details list. */
   item?: TemplateItem;
 }
 
-export const DetailsItemInfo: Schema.Schema<DetailsItemInfo> = Schema.suspend(
-  () =>
+export const DetailsItemInfo: Schema.Schema<DetailsItemInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       item: Schema.optional(TemplateItem),
     }),
-).annotate({
-  identifier: "DetailsItemInfo",
-}) as any as Schema.Schema<DetailsItemInfo>;
+  ).annotate({
+    identifier: "DetailsItemInfo",
+  }) as any as Schema.Schema<DetailsItemInfo>;
 
 export interface DetailsTemplateOverride {
   /** Information for the "nth" item displayed in the details list. */
@@ -568,7 +581,7 @@ export interface DetailsTemplateOverride {
 }
 
 export const DetailsTemplateOverride: Schema.Schema<DetailsTemplateOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailsItemInfos: Schema.optional(Schema.Array(DetailsItemInfo)),
     }),
@@ -582,7 +595,7 @@ export interface BarcodeSectionDetail {
 }
 
 export const BarcodeSectionDetail: Schema.Schema<BarcodeSectionDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldSelector: Schema.optional(FieldSelector),
     }),
@@ -600,7 +613,7 @@ export interface CardBarcodeSectionDetails {
 }
 
 export const CardBarcodeSectionDetails: Schema.Schema<CardBarcodeSectionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstTopDetail: Schema.optional(BarcodeSectionDetail),
       firstBottomDetail: Schema.optional(BarcodeSectionDetail),
@@ -624,15 +637,15 @@ export interface FirstRowOption {
   fieldOption?: FieldSelector;
 }
 
-export const FirstRowOption: Schema.Schema<FirstRowOption> = Schema.suspend(
-  () =>
+export const FirstRowOption: Schema.Schema<FirstRowOption> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transitOption: Schema.optional(Schema.String),
       fieldOption: Schema.optional(FieldSelector),
     }),
-).annotate({
-  identifier: "FirstRowOption",
-}) as any as Schema.Schema<FirstRowOption>;
+  ).annotate({
+    identifier: "FirstRowOption",
+  }) as any as Schema.Schema<FirstRowOption>;
 
 export interface ListTemplateOverride {
   /** An unused/deprecated field. Setting it will have no effect on what the user sees. */
@@ -644,7 +657,7 @@ export interface ListTemplateOverride {
 }
 
 export const ListTemplateOverride: Schema.Schema<ListTemplateOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdRowOption: Schema.optional(FieldSelector),
       secondRowOption: Schema.optional(FieldSelector),
@@ -664,7 +677,7 @@ export interface CardRowThreeItems {
 }
 
 export const CardRowThreeItems: Schema.Schema<CardRowThreeItems> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endItem: Schema.optional(TemplateItem),
       startItem: Schema.optional(TemplateItem),
@@ -681,29 +694,29 @@ export interface CardRowTwoItems {
   endItem?: TemplateItem;
 }
 
-export const CardRowTwoItems: Schema.Schema<CardRowTwoItems> = Schema.suspend(
-  () =>
+export const CardRowTwoItems: Schema.Schema<CardRowTwoItems> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startItem: Schema.optional(TemplateItem),
       endItem: Schema.optional(TemplateItem),
     }),
-).annotate({
-  identifier: "CardRowTwoItems",
-}) as any as Schema.Schema<CardRowTwoItems>;
+  ).annotate({
+    identifier: "CardRowTwoItems",
+  }) as any as Schema.Schema<CardRowTwoItems>;
 
 export interface CardRowOneItem {
   /** The item to be displayed in the row. This item will be automatically centered. */
   item?: TemplateItem;
 }
 
-export const CardRowOneItem: Schema.Schema<CardRowOneItem> = Schema.suspend(
-  () =>
+export const CardRowOneItem: Schema.Schema<CardRowOneItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       item: Schema.optional(TemplateItem),
     }),
-).annotate({
-  identifier: "CardRowOneItem",
-}) as any as Schema.Schema<CardRowOneItem>;
+  ).annotate({
+    identifier: "CardRowOneItem",
+  }) as any as Schema.Schema<CardRowOneItem>;
 
 export interface CardRowTemplateInfo {
   /** Template for a row containing three items. Exactly one of "one_item", "two_items", "three_items" must be set. */
@@ -715,7 +728,7 @@ export interface CardRowTemplateInfo {
 }
 
 export const CardRowTemplateInfo: Schema.Schema<CardRowTemplateInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       threeItems: Schema.optional(CardRowThreeItems),
       twoItems: Schema.optional(CardRowTwoItems),
@@ -731,7 +744,7 @@ export interface CardTemplateOverride {
 }
 
 export const CardTemplateOverride: Schema.Schema<CardTemplateOverride> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cardRowTemplateInfos: Schema.optional(Schema.Array(CardRowTemplateInfo)),
     }),
@@ -751,7 +764,7 @@ export interface ClassTemplateInfo {
 }
 
 export const ClassTemplateInfo: Schema.Schema<ClassTemplateInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailsTemplateOverride: Schema.optional(DetailsTemplateOverride),
       cardBarcodeSectionDetails: Schema.optional(CardBarcodeSectionDetails),
@@ -790,7 +803,7 @@ export interface BoardingAndSeatingPolicy {
 }
 
 export const BoardingAndSeatingPolicy: Schema.Schema<BoardingAndSeatingPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       boardingPolicy: Schema.optional(Schema.String),
@@ -808,7 +821,7 @@ export interface AppLinkDataAppLinkInfoAppTarget {
 }
 
 export const AppLinkDataAppLinkInfoAppTarget: Schema.Schema<AppLinkDataAppLinkInfoAppTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetUri: Schema.optional(Uri),
       packageName: Schema.optional(Schema.String),
@@ -829,7 +842,7 @@ export interface AppLinkDataAppLinkInfo {
 }
 
 export const AppLinkDataAppLinkInfo: Schema.Schema<AppLinkDataAppLinkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appLogoImage: Schema.optional(Image),
       title: Schema.optional(LocalizedString),
@@ -851,14 +864,17 @@ export interface AppLinkData {
   androidAppLinkInfo?: AppLinkDataAppLinkInfo;
 }
 
-export const AppLinkData: Schema.Schema<AppLinkData> = Schema.suspend(() =>
-  Schema.Struct({
-    iosAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-    webAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-    displayText: Schema.optional(LocalizedString),
-    androidAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
-  }),
-).annotate({ identifier: "AppLinkData" }) as any as Schema.Schema<AppLinkData>;
+export const AppLinkData: Schema.Schema<AppLinkData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iosAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+      webAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+      displayText: Schema.optional(LocalizedString),
+      androidAppLinkInfo: Schema.optional(AppLinkDataAppLinkInfo),
+    }),
+  ).annotate({
+    identifier: "AppLinkData",
+  }) as any as Schema.Schema<AppLinkData>;
 
 export interface CallbackOptions {
   /** The HTTPS url configured by the merchant. The URL should be hosted on HTTPS and robots.txt should allow the URL path to be accessible by UserAgent:Googlebot. */
@@ -867,15 +883,15 @@ export interface CallbackOptions {
   updateRequestUrl?: string;
 }
 
-export const CallbackOptions: Schema.Schema<CallbackOptions> = Schema.suspend(
-  () =>
+export const CallbackOptions: Schema.Schema<CallbackOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       updateRequestUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CallbackOptions",
-}) as any as Schema.Schema<CallbackOptions>;
+  ).annotate({
+    identifier: "CallbackOptions",
+  }) as any as Schema.Schema<CallbackOptions>;
 
 export interface MerchantLocation {
   /** The longitude specified in the range -180.0 through +180.0, both inclusive. Values outside these bounds will be rejected. */
@@ -884,39 +900,40 @@ export interface MerchantLocation {
   latitude?: number;
 }
 
-export const MerchantLocation: Schema.Schema<MerchantLocation> = Schema.suspend(
-  () =>
+export const MerchantLocation: Schema.Schema<MerchantLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       longitude: Schema.optional(Schema.Number),
       latitude: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "MerchantLocation",
-}) as any as Schema.Schema<MerchantLocation>;
+  ).annotate({
+    identifier: "MerchantLocation",
+  }) as any as Schema.Schema<MerchantLocation>;
 
 export interface LinksModuleData {
   /** The list of URIs. */
   uris?: Array<Uri>;
 }
 
-export const LinksModuleData: Schema.Schema<LinksModuleData> = Schema.suspend(
-  () =>
+export const LinksModuleData: Schema.Schema<LinksModuleData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uris: Schema.optional(Schema.Array(Uri)),
     }),
-).annotate({
-  identifier: "LinksModuleData",
-}) as any as Schema.Schema<LinksModuleData>;
+  ).annotate({
+    identifier: "LinksModuleData",
+  }) as any as Schema.Schema<LinksModuleData>;
 
 export interface Review {
   comments?: string;
 }
 
-export const Review: Schema.Schema<Review> = Schema.suspend(() =>
-  Schema.Struct({
-    comments: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
+export const Review: Schema.Schema<Review> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      comments: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
 
 export interface SecurityAnimation {
   /** Type of animation. */
@@ -928,7 +945,7 @@ export interface SecurityAnimation {
 }
 
 export const SecurityAnimation: Schema.Schema<SecurityAnimation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       animationType: Schema.optional(Schema.String),
     }),
@@ -945,15 +962,16 @@ export interface LatLongPoint {
   longitude?: number;
 }
 
-export const LatLongPoint: Schema.Schema<LatLongPoint> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    latitude: Schema.optional(Schema.Number),
-    longitude: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "LatLongPoint",
-}) as any as Schema.Schema<LatLongPoint>;
+export const LatLongPoint: Schema.Schema<LatLongPoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      latitude: Schema.optional(Schema.Number),
+      longitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "LatLongPoint",
+  }) as any as Schema.Schema<LatLongPoint>;
 
 export interface LabelValue {
   /** The label for a specific row and column. Recommended maximum is 15 characters for a two-column layout and 30 characters for a one-column layout. */
@@ -966,27 +984,29 @@ export interface LabelValue {
   localizedValue?: LocalizedString;
 }
 
-export const LabelValue: Schema.Schema<LabelValue> = Schema.suspend(() =>
-  Schema.Struct({
-    label: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    localizedLabel: Schema.optional(LocalizedString),
-    localizedValue: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "LabelValue" }) as any as Schema.Schema<LabelValue>;
+export const LabelValue: Schema.Schema<LabelValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      label: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      localizedLabel: Schema.optional(LocalizedString),
+      localizedValue: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "LabelValue" }) as any as Schema.Schema<LabelValue>;
 
 export interface LabelValueRow {
   /** A list of labels and values. These will be displayed in a singular column, one after the other, not in multiple columns, despite the field name. */
   columns?: Array<LabelValue>;
 }
 
-export const LabelValueRow: Schema.Schema<LabelValueRow> = Schema.suspend(() =>
-  Schema.Struct({
-    columns: Schema.optional(Schema.Array(LabelValue)),
-  }),
-).annotate({
-  identifier: "LabelValueRow",
-}) as any as Schema.Schema<LabelValueRow>;
+export const LabelValueRow: Schema.Schema<LabelValueRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columns: Schema.optional(Schema.Array(LabelValue)),
+    }),
+  ).annotate({
+    identifier: "LabelValueRow",
+  }) as any as Schema.Schema<LabelValueRow>;
 
 export interface InfoModuleData {
   /** A list of collections of labels and values. These will be displayed one after the other in a singular column. */
@@ -994,15 +1014,15 @@ export interface InfoModuleData {
   showLastUpdateTime?: boolean;
 }
 
-export const InfoModuleData: Schema.Schema<InfoModuleData> = Schema.suspend(
-  () =>
+export const InfoModuleData: Schema.Schema<InfoModuleData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelValueRows: Schema.optional(Schema.Array(LabelValueRow)),
       showLastUpdateTime: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "InfoModuleData",
-}) as any as Schema.Schema<InfoModuleData>;
+  ).annotate({
+    identifier: "InfoModuleData",
+  }) as any as Schema.Schema<InfoModuleData>;
 
 export interface FlightClass {
   /** The boarding time as it would be printed on the boarding pass. This is an ISO 8601 extended format date/time without an offset. Time may be specified up to millisecond precision. eg: `2027-03-05T06:30:00` This should be the local date/time at the airport (not a UTC time). Google will reject the request if UTC offset is provided. Time zones will be calculated by Google based on departure airport. */
@@ -1130,52 +1150,55 @@ export interface FlightClass {
   id?: string;
 }
 
-export const FlightClass: Schema.Schema<FlightClass> = Schema.suspend(() =>
-  Schema.Struct({
-    localBoardingDateTime: Schema.optional(Schema.String),
-    destination: Schema.optional(AirportInfo),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    localEstimatedOrActualDepartureDateTime: Schema.optional(Schema.String),
-    reviewStatus: Schema.optional(Schema.String),
-    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-    homepageUri: Schema.optional(Uri),
-    messages: Schema.optional(Schema.Array(Message)),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    notifyPreference: Schema.optional(Schema.String),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    flightStatus: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    flightHeader: Schema.optional(FlightHeader),
-    localizedIssuerName: Schema.optional(LocalizedString),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-    localScheduledArrivalDateTime: Schema.optional(Schema.String),
-    boardingAndSeatingPolicy: Schema.optional(BoardingAndSeatingPolicy),
-    appLinkData: Schema.optional(AppLinkData),
-    callbackOptions: Schema.optional(CallbackOptions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    heroImage: Schema.optional(Image),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-    localGateClosingDateTime: Schema.optional(Schema.String),
-    linksModuleData: Schema.optional(LinksModuleData),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    review: Schema.optional(Review),
-    wordMark: Schema.optional(Image),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    countryCode: Schema.optional(Schema.String),
-    localEstimatedOrActualArrivalDateTime: Schema.optional(Schema.String),
-    localScheduledDepartureDateTime: Schema.optional(Schema.String),
-    issuerName: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    infoModuleData: Schema.optional(InfoModuleData),
-    languageOverride: Schema.optional(Schema.String),
-    origin: Schema.optional(AirportInfo),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FlightClass" }) as any as Schema.Schema<FlightClass>;
+export const FlightClass: Schema.Schema<FlightClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      localBoardingDateTime: Schema.optional(Schema.String),
+      destination: Schema.optional(AirportInfo),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      localEstimatedOrActualDepartureDateTime: Schema.optional(Schema.String),
+      reviewStatus: Schema.optional(Schema.String),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      homepageUri: Schema.optional(Uri),
+      messages: Schema.optional(Schema.Array(Message)),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      notifyPreference: Schema.optional(Schema.String),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      flightStatus: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      flightHeader: Schema.optional(FlightHeader),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      localScheduledArrivalDateTime: Schema.optional(Schema.String),
+      boardingAndSeatingPolicy: Schema.optional(BoardingAndSeatingPolicy),
+      appLinkData: Schema.optional(AppLinkData),
+      callbackOptions: Schema.optional(CallbackOptions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      heroImage: Schema.optional(Image),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      localGateClosingDateTime: Schema.optional(Schema.String),
+      linksModuleData: Schema.optional(LinksModuleData),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      review: Schema.optional(Review),
+      wordMark: Schema.optional(Image),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      countryCode: Schema.optional(Schema.String),
+      localEstimatedOrActualArrivalDateTime: Schema.optional(Schema.String),
+      localScheduledDepartureDateTime: Schema.optional(Schema.String),
+      issuerName: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      languageOverride: Schema.optional(Schema.String),
+      origin: Schema.optional(AirportInfo),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FlightClass",
+  }) as any as Schema.Schema<FlightClass>;
 
 export interface Barcode {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#barcode"`. */
@@ -1221,30 +1244,31 @@ export interface Barcode {
     | (string & {});
 }
 
-export const Barcode: Schema.Schema<Barcode> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    alternateText: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    renderEncoding: Schema.optional(Schema.String),
-    showCodeText: Schema.optional(LocalizedString),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Barcode" }) as any as Schema.Schema<Barcode>;
+export const Barcode: Schema.Schema<Barcode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      alternateText: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      renderEncoding: Schema.optional(Schema.String),
+      showCodeText: Schema.optional(LocalizedString),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Barcode" }) as any as Schema.Schema<Barcode>;
 
 export interface SaveRestrictions {
   /** Restrict the save of the referencing object to the given email address only. This is the hex output of SHA256 sum of the email address, all lowercase and without any notations like "." or "+", except "@". For example, for example@example.com, this value will be 31c5543c1734d25c7206f5fd591525d0295bec6fe84ff82f946a34fe970a1e66 and for Example@example.com, this value will be bc34f262c93ad7122763684ccea6f07fb7f5d8a2d11e60ce15a6f43fe70ce632 If email address of the logged-in user who tries to save this pass does not match with the defined value here, users won't be allowed to save this pass. They will instead be prompted with an error to contact the issuer. This information should be gathered from the user with an explicit consent via Sign in with Google integration https://developers.google.com/identity/authentication. Please contact with support before using Save Restrictions. */
   restrictToEmailSha256?: string;
 }
 
-export const SaveRestrictions: Schema.Schema<SaveRestrictions> = Schema.suspend(
-  () =>
+export const SaveRestrictions: Schema.Schema<SaveRestrictions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictToEmailSha256: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SaveRestrictions",
-}) as any as Schema.Schema<SaveRestrictions>;
+  ).annotate({
+    identifier: "SaveRestrictions",
+  }) as any as Schema.Schema<SaveRestrictions>;
 
 export interface GroupingInfo {
   /** Optional grouping ID for grouping the passes with the same ID visually together. Grouping with different types of passes is allowed. */
@@ -1253,14 +1277,15 @@ export interface GroupingInfo {
   sortIndex?: number;
 }
 
-export const GroupingInfo: Schema.Schema<GroupingInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    groupingId: Schema.optional(Schema.String),
-    sortIndex: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "GroupingInfo",
-}) as any as Schema.Schema<GroupingInfo>;
+export const GroupingInfo: Schema.Schema<GroupingInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      groupingId: Schema.optional(Schema.String),
+      sortIndex: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GroupingInfo",
+  }) as any as Schema.Schema<GroupingInfo>;
 
 export interface FrequentFlyerInfo {
   /** Frequent flyer program name. eg: "Lufthansa Miles & More" */
@@ -1272,7 +1297,7 @@ export interface FrequentFlyerInfo {
 }
 
 export const FrequentFlyerInfo: Schema.Schema<FrequentFlyerInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frequentFlyerProgramName: Schema.optional(LocalizedString),
       frequentFlyerNumber: Schema.optional(Schema.String),
@@ -1293,17 +1318,17 @@ export interface ReservationInfo {
   frequentFlyerInfo?: FrequentFlyerInfo;
 }
 
-export const ReservationInfo: Schema.Schema<ReservationInfo> = Schema.suspend(
-  () =>
+export const ReservationInfo: Schema.Schema<ReservationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confirmationCode: Schema.optional(Schema.String),
       eticketNumber: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
       frequentFlyerInfo: Schema.optional(FrequentFlyerInfo),
     }),
-).annotate({
-  identifier: "ReservationInfo",
-}) as any as Schema.Schema<ReservationInfo>;
+  ).annotate({
+    identifier: "ReservationInfo",
+  }) as any as Schema.Schema<ReservationInfo>;
 
 export interface BoardingAndSeatingInfo {
   /** The passenger's seat assignment. To be used when there is no specific identifier to use in `seatNumber`. eg: "assigned at gate" */
@@ -1333,7 +1358,7 @@ export interface BoardingAndSeatingInfo {
 }
 
 export const BoardingAndSeatingInfo: Schema.Schema<BoardingAndSeatingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       seatAssignment: Schema.optional(LocalizedString),
       boardingDoor: Schema.optional(Schema.String),
@@ -1365,15 +1390,15 @@ export interface PassConstraints {
     | (string & {});
 }
 
-export const PassConstraints: Schema.Schema<PassConstraints> = Schema.suspend(
-  () =>
+export const PassConstraints: Schema.Schema<PassConstraints> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nfcConstraint: Schema.optional(Schema.Array(Schema.String)),
       screenshotEligibility: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PassConstraints",
-}) as any as Schema.Schema<PassConstraints>;
+  ).annotate({
+    identifier: "PassConstraints",
+  }) as any as Schema.Schema<PassConstraints>;
 
 export interface FlightObject {
   /** An image for the security program that applies to the passenger. */
@@ -1457,45 +1482,46 @@ export interface FlightObject {
   smartTapRedemptionValue?: string;
 }
 
-export const FlightObject: Schema.Schema<FlightObject> = Schema.suspend(() =>
-  Schema.Struct({
-    securityProgramLogo: Schema.optional(Image),
-    disableExpirationNotification: Schema.optional(Schema.Boolean),
-    rotatingBarcode: Schema.optional(RotatingBarcode),
-    classId: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    hasLinkedDevice: Schema.optional(Schema.Boolean),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    kind: Schema.optional(Schema.String),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    classReference: Schema.optional(FlightClass),
-    barcode: Schema.optional(Barcode),
-    notifyPreference: Schema.optional(Schema.String),
-    hasUsers: Schema.optional(Schema.Boolean),
-    passengerName: Schema.optional(Schema.String),
-    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-    appLinkData: Schema.optional(AppLinkData),
-    saveRestrictions: Schema.optional(SaveRestrictions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    heroImage: Schema.optional(Image),
-    groupingInfo: Schema.optional(GroupingInfo),
-    reservationInfo: Schema.optional(ReservationInfo),
-    linksModuleData: Schema.optional(LinksModuleData),
-    state: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    validTimeInterval: Schema.optional(TimeInterval),
-    infoModuleData: Schema.optional(InfoModuleData),
-    boardingAndSeatingInfo: Schema.optional(BoardingAndSeatingInfo),
-    id: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    passConstraints: Schema.optional(PassConstraints),
-    smartTapRedemptionValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FlightObject",
-}) as any as Schema.Schema<FlightObject>;
+export const FlightObject: Schema.Schema<FlightObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      securityProgramLogo: Schema.optional(Image),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      classId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      kind: Schema.optional(Schema.String),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      classReference: Schema.optional(FlightClass),
+      barcode: Schema.optional(Barcode),
+      notifyPreference: Schema.optional(Schema.String),
+      hasUsers: Schema.optional(Schema.Boolean),
+      passengerName: Schema.optional(Schema.String),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      appLinkData: Schema.optional(AppLinkData),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      heroImage: Schema.optional(Image),
+      groupingInfo: Schema.optional(GroupingInfo),
+      reservationInfo: Schema.optional(ReservationInfo),
+      linksModuleData: Schema.optional(LinksModuleData),
+      state: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      validTimeInterval: Schema.optional(TimeInterval),
+      infoModuleData: Schema.optional(InfoModuleData),
+      boardingAndSeatingInfo: Schema.optional(BoardingAndSeatingInfo),
+      id: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      passConstraints: Schema.optional(PassConstraints),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FlightObject",
+  }) as any as Schema.Schema<FlightObject>;
 
 export interface OfferClass {
   /** Text module data. If text module data is also defined on the class, both will be displayed. The maximum number of these fields displayed is 10 from the object and 10 from the class. */
@@ -1623,54 +1649,55 @@ export interface OfferClass {
   classTemplateInfo?: ClassTemplateInfo;
 }
 
-export const OfferClass: Schema.Schema<OfferClass> = Schema.suspend(() =>
-  Schema.Struct({
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    localizedIssuerName: Schema.optional(LocalizedString),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    notifyPreference: Schema.optional(Schema.String),
-    redemptionChannel: Schema.optional(Schema.String),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    details: Schema.optional(Schema.String),
-    homepageUri: Schema.optional(Uri),
-    localizedTitle: Schema.optional(LocalizedString),
-    wideTitleImage: Schema.optional(Image),
-    messages: Schema.optional(Schema.Array(Message)),
-    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-    reviewStatus: Schema.optional(Schema.String),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    finePrint: Schema.optional(Schema.String),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    shortTitle: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    infoModuleData: Schema.optional(InfoModuleData),
-    version: Schema.optional(Schema.String),
-    localizedShortTitle: Schema.optional(LocalizedString),
-    localizedProvider: Schema.optional(LocalizedString),
-    titleImage: Schema.optional(Image),
-    issuerName: Schema.optional(Schema.String),
-    provider: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    countryCode: Schema.optional(Schema.String),
-    localizedDetails: Schema.optional(LocalizedString),
-    linksModuleData: Schema.optional(LinksModuleData),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    review: Schema.optional(Review),
-    wordMark: Schema.optional(Image),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    callbackOptions: Schema.optional(CallbackOptions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    localizedFinePrint: Schema.optional(LocalizedString),
-    appLinkData: Schema.optional(AppLinkData),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-    heroImage: Schema.optional(Image),
-    title: Schema.optional(Schema.String),
-    helpUri: Schema.optional(Uri),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-  }),
-).annotate({ identifier: "OfferClass" }) as any as Schema.Schema<OfferClass>;
+export const OfferClass: Schema.Schema<OfferClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      notifyPreference: Schema.optional(Schema.String),
+      redemptionChannel: Schema.optional(Schema.String),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      details: Schema.optional(Schema.String),
+      homepageUri: Schema.optional(Uri),
+      localizedTitle: Schema.optional(LocalizedString),
+      wideTitleImage: Schema.optional(Image),
+      messages: Schema.optional(Schema.Array(Message)),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      reviewStatus: Schema.optional(Schema.String),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      finePrint: Schema.optional(Schema.String),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      shortTitle: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      version: Schema.optional(Schema.String),
+      localizedShortTitle: Schema.optional(LocalizedString),
+      localizedProvider: Schema.optional(LocalizedString),
+      titleImage: Schema.optional(Image),
+      issuerName: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      countryCode: Schema.optional(Schema.String),
+      localizedDetails: Schema.optional(LocalizedString),
+      linksModuleData: Schema.optional(LinksModuleData),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      review: Schema.optional(Review),
+      wordMark: Schema.optional(Image),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      callbackOptions: Schema.optional(CallbackOptions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      localizedFinePrint: Schema.optional(LocalizedString),
+      appLinkData: Schema.optional(AppLinkData),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      heroImage: Schema.optional(Image),
+      title: Schema.optional(Schema.String),
+      helpUri: Schema.optional(Uri),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+    }),
+  ).annotate({ identifier: "OfferClass" }) as any as Schema.Schema<OfferClass>;
 
 export interface Pagination {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#pagination"`. */
@@ -1681,13 +1708,14 @@ export interface Pagination {
   nextPageToken?: string;
 }
 
-export const Pagination: Schema.Schema<Pagination> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    resultsPerPage: Schema.optional(Schema.Number),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Pagination" }) as any as Schema.Schema<Pagination>;
+export const Pagination: Schema.Schema<Pagination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      resultsPerPage: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Pagination" }) as any as Schema.Schema<Pagination>;
 
 export interface OfferClassListResponse {
   /** Resources corresponding to the list request. */
@@ -1697,7 +1725,7 @@ export interface OfferClassListResponse {
 }
 
 export const OfferClassListResponse: Schema.Schema<OfferClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(OfferClass)),
       pagination: Schema.optional(Pagination),
@@ -1723,8 +1751,8 @@ export interface Blobstore2Info {
   blobId?: string;
 }
 
-export const Blobstore2Info: Schema.Schema<Blobstore2Info> = Schema.suspend(
-  () =>
+export const Blobstore2Info: Schema.Schema<Blobstore2Info> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadReadHandle: Schema.optional(Schema.String),
       uploadMetadataContainer: Schema.optional(Schema.String),
@@ -1734,9 +1762,9 @@ export const Blobstore2Info: Schema.Schema<Blobstore2Info> = Schema.suspend(
       downloadExternalReadToken: Schema.optional(Schema.String),
       blobId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "Blobstore2Info",
-}) as any as Schema.Schema<Blobstore2Info>;
+  ).annotate({
+    identifier: "Blobstore2Info",
+  }) as any as Schema.Schema<Blobstore2Info>;
 
 export interface ObjectId {
   /** The name of the bucket to which this object belongs. */
@@ -1747,13 +1775,14 @@ export interface ObjectId {
   generation?: string;
 }
 
-export const ObjectId: Schema.Schema<ObjectId> = Schema.suspend(() =>
-  Schema.Struct({
-    bucketName: Schema.optional(Schema.String),
-    objectName: Schema.optional(Schema.String),
-    generation: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
+export const ObjectId: Schema.Schema<ObjectId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bucketName: Schema.optional(Schema.String),
+      objectName: Schema.optional(Schema.String),
+      generation: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
 
 export interface CompositeMedia {
   /** Size of the data, in bytes */
@@ -1786,8 +1815,8 @@ export interface CompositeMedia {
   objectId?: ObjectId;
 }
 
-export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(
-  () =>
+export const CompositeMedia: Schema.Schema<CompositeMedia> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       length: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
@@ -1801,9 +1830,9 @@ export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(
       cosmoBinaryReference: Schema.optional(Schema.String),
       objectId: Schema.optional(ObjectId),
     }),
-).annotate({
-  identifier: "CompositeMedia",
-}) as any as Schema.Schema<CompositeMedia>;
+  ).annotate({
+    identifier: "CompositeMedia",
+  }) as any as Schema.Schema<CompositeMedia>;
 
 export interface DiffDownloadResponse {
   /** The original object location. */
@@ -1811,7 +1840,7 @@ export interface DiffDownloadResponse {
 }
 
 export const DiffDownloadResponse: Schema.Schema<DiffDownloadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectLocation: Schema.optional(CompositeMedia),
     }),
@@ -1834,12 +1863,13 @@ export interface Permission {
   emailAddress?: string;
 }
 
-export const Permission: Schema.Schema<Permission> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    emailAddress: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
+export const Permission: Schema.Schema<Permission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      emailAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
 
 export interface ExpiryNotification {
   /** Indicates if the object needs to have expiry notification enabled. */
@@ -1847,7 +1877,7 @@ export interface ExpiryNotification {
 }
 
 export const ExpiryNotification: Schema.Schema<ExpiryNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableNotification: Schema.optional(Schema.Boolean),
     }),
@@ -1861,7 +1891,7 @@ export interface UpcomingNotification {
 }
 
 export const UpcomingNotification: Schema.Schema<UpcomingNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableNotification: Schema.optional(Schema.Boolean),
     }),
@@ -1876,14 +1906,15 @@ export interface Notifications {
   upcomingNotification?: UpcomingNotification;
 }
 
-export const Notifications: Schema.Schema<Notifications> = Schema.suspend(() =>
-  Schema.Struct({
-    expiryNotification: Schema.optional(ExpiryNotification),
-    upcomingNotification: Schema.optional(UpcomingNotification),
-  }),
-).annotate({
-  identifier: "Notifications",
-}) as any as Schema.Schema<Notifications>;
+export const Notifications: Schema.Schema<Notifications> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expiryNotification: Schema.optional(ExpiryNotification),
+      upcomingNotification: Schema.optional(UpcomingNotification),
+    }),
+  ).annotate({
+    identifier: "Notifications",
+  }) as any as Schema.Schema<Notifications>;
 
 export interface GenericObject {
   /** The barcode type and value. If pass does not have a barcode, we can allow the issuer to set Barcode.alternate_text and display just that. */
@@ -1969,40 +2000,41 @@ export interface GenericObject {
   groupingInfo?: GroupingInfo;
 }
 
-export const GenericObject: Schema.Schema<GenericObject> = Schema.suspend(() =>
-  Schema.Struct({
-    barcode: Schema.optional(Barcode),
-    hasUsers: Schema.optional(Schema.Boolean),
-    subheader: Schema.optional(LocalizedString),
-    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    genericType: Schema.optional(Schema.String),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    classId: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-    notifications: Schema.optional(Notifications),
-    rotatingBarcode: Schema.optional(RotatingBarcode),
-    smartTapRedemptionValue: Schema.optional(Schema.String),
-    wideLogo: Schema.optional(Image),
-    passConstraints: Schema.optional(PassConstraints),
-    id: Schema.optional(Schema.String),
-    validTimeInterval: Schema.optional(TimeInterval),
-    state: Schema.optional(Schema.String),
-    cardTitle: Schema.optional(LocalizedString),
-    header: Schema.optional(LocalizedString),
-    linksModuleData: Schema.optional(LinksModuleData),
-    logo: Schema.optional(Image),
-    appLinkData: Schema.optional(AppLinkData),
-    saveRestrictions: Schema.optional(SaveRestrictions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    heroImage: Schema.optional(Image),
-    groupingInfo: Schema.optional(GroupingInfo),
-  }),
-).annotate({
-  identifier: "GenericObject",
-}) as any as Schema.Schema<GenericObject>;
+export const GenericObject: Schema.Schema<GenericObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      barcode: Schema.optional(Barcode),
+      hasUsers: Schema.optional(Schema.Boolean),
+      subheader: Schema.optional(LocalizedString),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      genericType: Schema.optional(Schema.String),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      classId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+      notifications: Schema.optional(Notifications),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      wideLogo: Schema.optional(Image),
+      passConstraints: Schema.optional(PassConstraints),
+      id: Schema.optional(Schema.String),
+      validTimeInterval: Schema.optional(TimeInterval),
+      state: Schema.optional(Schema.String),
+      cardTitle: Schema.optional(LocalizedString),
+      header: Schema.optional(LocalizedString),
+      linksModuleData: Schema.optional(LinksModuleData),
+      logo: Schema.optional(Image),
+      appLinkData: Schema.optional(AppLinkData),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      heroImage: Schema.optional(Image),
+      groupingInfo: Schema.optional(GroupingInfo),
+    }),
+  ).annotate({
+    identifier: "GenericObject",
+  }) as any as Schema.Schema<GenericObject>;
 
 export interface GenericObjectAddMessageResponse {
   /** The updated GenericObject resource. */
@@ -2010,7 +2042,7 @@ export interface GenericObjectAddMessageResponse {
 }
 
 export const GenericObjectAddMessageResponse: Schema.Schema<GenericObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(GenericObject),
     }),
@@ -2024,7 +2056,7 @@ export interface UploadPrivateImageResponse {
 }
 
 export const UploadPrivateImageResponse: Schema.Schema<UploadPrivateImageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privateImageId: Schema.optional(Schema.String),
     }),
@@ -2041,13 +2073,14 @@ export interface EventVenue {
   address?: LocalizedString;
 }
 
-export const EventVenue: Schema.Schema<EventVenue> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    name: Schema.optional(LocalizedString),
-    address: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "EventVenue" }) as any as Schema.Schema<EventVenue>;
+export const EventVenue: Schema.Schema<EventVenue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      name: Schema.optional(LocalizedString),
+      address: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "EventVenue" }) as any as Schema.Schema<EventVenue>;
 
 export interface EventDateTime {
   /** The label to use for the doors open value (`doorsOpen`) on the card detail view. Each available option maps to a set of localized strings, so that translations are shown to the user based on their locale. Both `doorsOpenLabel` and `customDoorsOpenLabel` may not be set. If neither is set, the label will default to "Doors Open", localized. If the doors open field is unset, this label will not be used. */
@@ -2070,18 +2103,19 @@ export interface EventDateTime {
   customDoorsOpenLabel?: LocalizedString;
 }
 
-export const EventDateTime: Schema.Schema<EventDateTime> = Schema.suspend(() =>
-  Schema.Struct({
-    doorsOpenLabel: Schema.optional(Schema.String),
-    start: Schema.optional(Schema.String),
-    end: Schema.optional(Schema.String),
-    doorsOpen: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    customDoorsOpenLabel: Schema.optional(LocalizedString),
-  }),
-).annotate({
-  identifier: "EventDateTime",
-}) as any as Schema.Schema<EventDateTime>;
+export const EventDateTime: Schema.Schema<EventDateTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      doorsOpenLabel: Schema.optional(Schema.String),
+      start: Schema.optional(Schema.String),
+      end: Schema.optional(Schema.String),
+      doorsOpen: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      customDoorsOpenLabel: Schema.optional(LocalizedString),
+    }),
+  ).annotate({
+    identifier: "EventDateTime",
+  }) as any as Schema.Schema<EventDateTime>;
 
 export interface EventTicketClass {
   /** Required. The issuer name. Recommended maximum length is 20 characters to ensure full string is displayed on smaller screens. */
@@ -2229,8 +2263,8 @@ export interface EventTicketClass {
   customSectionLabel?: LocalizedString;
 }
 
-export const EventTicketClass: Schema.Schema<EventTicketClass> = Schema.suspend(
-  () =>
+export const EventTicketClass: Schema.Schema<EventTicketClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issuerName: Schema.optional(Schema.String),
       customRowLabel: Schema.optional(LocalizedString),
@@ -2280,9 +2314,9 @@ export const EventTicketClass: Schema.Schema<EventTicketClass> = Schema.suspend(
       rowLabel: Schema.optional(Schema.String),
       customSectionLabel: Schema.optional(LocalizedString),
     }),
-).annotate({
-  identifier: "EventTicketClass",
-}) as any as Schema.Schema<EventTicketClass>;
+  ).annotate({
+    identifier: "EventTicketClass",
+  }) as any as Schema.Schema<EventTicketClass>;
 
 export interface EventTicketClassListResponse {
   /** Pagination of the response. */
@@ -2292,7 +2326,7 @@ export interface EventTicketClassListResponse {
 }
 
 export const EventTicketClassListResponse: Schema.Schema<EventTicketClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(EventTicketClass)),
@@ -2309,7 +2343,7 @@ export interface DiffUploadResponse {
 }
 
 export const DiffUploadResponse: Schema.Schema<DiffUploadResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       originalObject: Schema.optional(CompositeMedia),
@@ -2326,7 +2360,7 @@ export interface ActivationOptions {
 }
 
 export const ActivationOptions: Schema.Schema<ActivationOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activationUrl: Schema.optional(Schema.String),
       allowReactivation: Schema.optional(Schema.Boolean),
@@ -2487,68 +2521,69 @@ export interface TransitClass {
   customFareClassLabel?: LocalizedString;
 }
 
-export const TransitClass: Schema.Schema<TransitClass> = Schema.suspend(() =>
-  Schema.Struct({
-    watermark: Schema.optional(Image),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    logo: Schema.optional(Image),
-    wordMark: Schema.optional(Image),
-    transitOperatorName: Schema.optional(LocalizedString),
-    appLinkData: Schema.optional(AppLinkData),
-    callbackOptions: Schema.optional(CallbackOptions),
-    heroImage: Schema.optional(Image),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-    customCarriageLabel: Schema.optional(LocalizedString),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    customTicketNumberLabel: Schema.optional(LocalizedString),
-    infoModuleData: Schema.optional(InfoModuleData),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    customPurchaseReceiptNumberLabel: Schema.optional(LocalizedString),
-    homepageUri: Schema.optional(Uri),
-    customTimeRestrictionsLabel: Schema.optional(LocalizedString),
-    customConfirmationCodeLabel: Schema.optional(LocalizedString),
-    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-    notifyPreference: Schema.optional(Schema.String),
-    customConcessionCategoryLabel: Schema.optional(LocalizedString),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    customSeatLabel: Schema.optional(LocalizedString),
-    customPurchasePriceLabel: Schema.optional(LocalizedString),
-    transitType: Schema.optional(Schema.String),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-    linksModuleData: Schema.optional(LinksModuleData),
-    review: Schema.optional(Review),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    activationOptions: Schema.optional(ActivationOptions),
-    customCoachLabel: Schema.optional(LocalizedString),
-    customPlatformLabel: Schema.optional(LocalizedString),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    customRouteRestrictionsLabel: Schema.optional(LocalizedString),
-    issuerName: Schema.optional(Schema.String),
-    countryCode: Schema.optional(Schema.String),
-    wideLogo: Schema.optional(Image),
-    enableSingleLegItinerary: Schema.optional(Schema.Boolean),
-    languageOverride: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    customFareNameLabel: Schema.optional(LocalizedString),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    customOtherRestrictionsLabel: Schema.optional(LocalizedString),
-    customZoneLabel: Schema.optional(LocalizedString),
-    messages: Schema.optional(Schema.Array(Message)),
-    customDiscountMessageLabel: Schema.optional(LocalizedString),
-    customTransitTerminusNameLabel: Schema.optional(LocalizedString),
-    reviewStatus: Schema.optional(Schema.String),
-    customPurchaseFaceValueLabel: Schema.optional(LocalizedString),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    customRouteRestrictionsDetailsLabel: Schema.optional(LocalizedString),
-    localizedIssuerName: Schema.optional(LocalizedString),
-    customFareClassLabel: Schema.optional(LocalizedString),
-  }),
-).annotate({
-  identifier: "TransitClass",
-}) as any as Schema.Schema<TransitClass>;
+export const TransitClass: Schema.Schema<TransitClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      watermark: Schema.optional(Image),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      logo: Schema.optional(Image),
+      wordMark: Schema.optional(Image),
+      transitOperatorName: Schema.optional(LocalizedString),
+      appLinkData: Schema.optional(AppLinkData),
+      callbackOptions: Schema.optional(CallbackOptions),
+      heroImage: Schema.optional(Image),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      customCarriageLabel: Schema.optional(LocalizedString),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      customTicketNumberLabel: Schema.optional(LocalizedString),
+      infoModuleData: Schema.optional(InfoModuleData),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      customPurchaseReceiptNumberLabel: Schema.optional(LocalizedString),
+      homepageUri: Schema.optional(Uri),
+      customTimeRestrictionsLabel: Schema.optional(LocalizedString),
+      customConfirmationCodeLabel: Schema.optional(LocalizedString),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      notifyPreference: Schema.optional(Schema.String),
+      customConcessionCategoryLabel: Schema.optional(LocalizedString),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      customSeatLabel: Schema.optional(LocalizedString),
+      customPurchasePriceLabel: Schema.optional(LocalizedString),
+      transitType: Schema.optional(Schema.String),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      linksModuleData: Schema.optional(LinksModuleData),
+      review: Schema.optional(Review),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      activationOptions: Schema.optional(ActivationOptions),
+      customCoachLabel: Schema.optional(LocalizedString),
+      customPlatformLabel: Schema.optional(LocalizedString),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      customRouteRestrictionsLabel: Schema.optional(LocalizedString),
+      issuerName: Schema.optional(Schema.String),
+      countryCode: Schema.optional(Schema.String),
+      wideLogo: Schema.optional(Image),
+      enableSingleLegItinerary: Schema.optional(Schema.Boolean),
+      languageOverride: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      customFareNameLabel: Schema.optional(LocalizedString),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      customOtherRestrictionsLabel: Schema.optional(LocalizedString),
+      customZoneLabel: Schema.optional(LocalizedString),
+      messages: Schema.optional(Schema.Array(Message)),
+      customDiscountMessageLabel: Schema.optional(LocalizedString),
+      customTransitTerminusNameLabel: Schema.optional(LocalizedString),
+      reviewStatus: Schema.optional(Schema.String),
+      customPurchaseFaceValueLabel: Schema.optional(LocalizedString),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      customRouteRestrictionsDetailsLabel: Schema.optional(LocalizedString),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      customFareClassLabel: Schema.optional(LocalizedString),
+    }),
+  ).annotate({
+    identifier: "TransitClass",
+  }) as any as Schema.Schema<TransitClass>;
 
 export interface AuthenticationKey {
   /** Available only to Smart Tap enabled partners. Contact support for additional guidance. */
@@ -2558,7 +2593,7 @@ export interface AuthenticationKey {
 }
 
 export const AuthenticationKey: Schema.Schema<AuthenticationKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.Number),
       publicKeyPem: Schema.optional(Schema.String),
@@ -2575,7 +2610,7 @@ export interface SmartTapMerchantData {
 }
 
 export const SmartTapMerchantData: Schema.Schema<SmartTapMerchantData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       smartTapMerchantId: Schema.optional(Schema.String),
       authenticationKeys: Schema.optional(Schema.Array(AuthenticationKey)),
@@ -2597,8 +2632,8 @@ export interface ContentTypeInfo {
   bestGuess?: string;
 }
 
-export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(
-  () =>
+export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fromFileName: Schema.optional(Schema.String),
       fromUrlPath: Schema.optional(Schema.String),
@@ -2606,9 +2641,9 @@ export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(
       fromBytes: Schema.optional(Schema.String),
       bestGuess: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ContentTypeInfo",
-}) as any as Schema.Schema<ContentTypeInfo>;
+  ).annotate({
+    identifier: "ContentTypeInfo",
+  }) as any as Schema.Schema<ContentTypeInfo>;
 
 export interface Money {
   /** Identifies what kind of resource this is. Value: the fixed string `"walletobjects#money"`. */
@@ -2619,13 +2654,14 @@ export interface Money {
   currencyCode?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    micros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      micros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface LoyaltyPointsBalance {
   /** The integer form of a balance. Only one of these subtypes (string, int, double, money) should be populated. */
@@ -2639,7 +2675,7 @@ export interface LoyaltyPointsBalance {
 }
 
 export const LoyaltyPointsBalance: Schema.Schema<LoyaltyPointsBalance> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       int: Schema.optional(Schema.Number),
       double: Schema.optional(Schema.Number),
@@ -2659,15 +2695,16 @@ export interface LoyaltyPoints {
   localizedLabel?: LocalizedString;
 }
 
-export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> = Schema.suspend(() =>
-  Schema.Struct({
-    balance: Schema.optional(LoyaltyPointsBalance),
-    label: Schema.optional(Schema.String),
-    localizedLabel: Schema.optional(LocalizedString),
-  }),
-).annotate({
-  identifier: "LoyaltyPoints",
-}) as any as Schema.Schema<LoyaltyPoints>;
+export const LoyaltyPoints: Schema.Schema<LoyaltyPoints> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      balance: Schema.optional(LoyaltyPointsBalance),
+      label: Schema.optional(Schema.String),
+      localizedLabel: Schema.optional(LocalizedString),
+    }),
+  ).annotate({
+    identifier: "LoyaltyPoints",
+  }) as any as Schema.Schema<LoyaltyPoints>;
 
 export interface DiscoverableProgramMerchantSignupInfo {
   /** The URL to direct the user to for the merchant's signup site. */
@@ -2692,7 +2729,7 @@ export interface DiscoverableProgramMerchantSignupInfo {
 }
 
 export const DiscoverableProgramMerchantSignupInfo: Schema.Schema<DiscoverableProgramMerchantSignupInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signupWebsite: Schema.optional(Uri),
       signupSharedDatas: Schema.optional(Schema.Array(Schema.String)),
@@ -2707,7 +2744,7 @@ export interface DiscoverableProgramMerchantSigninInfo {
 }
 
 export const DiscoverableProgramMerchantSigninInfo: Schema.Schema<DiscoverableProgramMerchantSigninInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signinWebsite: Schema.optional(Uri),
     }),
@@ -2733,7 +2770,7 @@ export interface DiscoverableProgram {
 }
 
 export const DiscoverableProgram: Schema.Schema<DiscoverableProgram> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantSignupInfo: Schema.optional(
         DiscoverableProgramMerchantSignupInfo,
@@ -2869,59 +2906,60 @@ export interface LoyaltyClass {
   secondaryRewardsTierLabel?: string;
 }
 
-export const LoyaltyClass: Schema.Schema<LoyaltyClass> = Schema.suspend(() =>
-  Schema.Struct({
-    hexBackgroundColor: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    localizedIssuerName: Schema.optional(LocalizedString),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    programLogo: Schema.optional(Image),
-    localizedSecondaryRewardsTierLabel: Schema.optional(LocalizedString),
-    secondaryRewardsTier: Schema.optional(Schema.String),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    localizedProgramName: Schema.optional(LocalizedString),
-    localizedAccountIdLabel: Schema.optional(LocalizedString),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    notifyPreference: Schema.optional(Schema.String),
-    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-    reviewStatus: Schema.optional(Schema.String),
-    localizedRewardsTier: Schema.optional(LocalizedString),
-    localizedAccountNameLabel: Schema.optional(LocalizedString),
-    messages: Schema.optional(Schema.Array(Message)),
-    wideProgramLogo: Schema.optional(Image),
-    homepageUri: Schema.optional(Uri),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    accountNameLabel: Schema.optional(Schema.String),
-    rewardsTierLabel: Schema.optional(Schema.String),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    localizedRewardsTierLabel: Schema.optional(LocalizedString),
-    infoModuleData: Schema.optional(InfoModuleData),
-    localizedSecondaryRewardsTier: Schema.optional(LocalizedString),
-    version: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    discoverableProgram: Schema.optional(DiscoverableProgram),
-    accountIdLabel: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    countryCode: Schema.optional(Schema.String),
-    issuerName: Schema.optional(Schema.String),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-    rewardsTier: Schema.optional(Schema.String),
-    heroImage: Schema.optional(Image),
-    callbackOptions: Schema.optional(CallbackOptions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    appLinkData: Schema.optional(AppLinkData),
-    review: Schema.optional(Review),
-    wordMark: Schema.optional(Image),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    linksModuleData: Schema.optional(LinksModuleData),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-    programName: Schema.optional(Schema.String),
-    secondaryRewardsTierLabel: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LoyaltyClass",
-}) as any as Schema.Schema<LoyaltyClass>;
+export const LoyaltyClass: Schema.Schema<LoyaltyClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hexBackgroundColor: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      programLogo: Schema.optional(Image),
+      localizedSecondaryRewardsTierLabel: Schema.optional(LocalizedString),
+      secondaryRewardsTier: Schema.optional(Schema.String),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      localizedProgramName: Schema.optional(LocalizedString),
+      localizedAccountIdLabel: Schema.optional(LocalizedString),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      notifyPreference: Schema.optional(Schema.String),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      reviewStatus: Schema.optional(Schema.String),
+      localizedRewardsTier: Schema.optional(LocalizedString),
+      localizedAccountNameLabel: Schema.optional(LocalizedString),
+      messages: Schema.optional(Schema.Array(Message)),
+      wideProgramLogo: Schema.optional(Image),
+      homepageUri: Schema.optional(Uri),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      accountNameLabel: Schema.optional(Schema.String),
+      rewardsTierLabel: Schema.optional(Schema.String),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      localizedRewardsTierLabel: Schema.optional(LocalizedString),
+      infoModuleData: Schema.optional(InfoModuleData),
+      localizedSecondaryRewardsTier: Schema.optional(LocalizedString),
+      version: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      discoverableProgram: Schema.optional(DiscoverableProgram),
+      accountIdLabel: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      countryCode: Schema.optional(Schema.String),
+      issuerName: Schema.optional(Schema.String),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      rewardsTier: Schema.optional(Schema.String),
+      heroImage: Schema.optional(Image),
+      callbackOptions: Schema.optional(CallbackOptions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      appLinkData: Schema.optional(AppLinkData),
+      review: Schema.optional(Review),
+      wordMark: Schema.optional(Image),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      linksModuleData: Schema.optional(LinksModuleData),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      programName: Schema.optional(Schema.String),
+      secondaryRewardsTierLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LoyaltyClass",
+  }) as any as Schema.Schema<LoyaltyClass>;
 
 export interface LoyaltyObject {
   /** Whether this object is currently linked to a single device. This field is set by the platform when a user saves the object, linking it to their device. Intended for use by select partners. Contact support for additional information. */
@@ -3005,45 +3043,46 @@ export interface LoyaltyObject {
   infoModuleData?: InfoModuleData;
 }
 
-export const LoyaltyObject: Schema.Schema<LoyaltyObject> = Schema.suspend(() =>
-  Schema.Struct({
-    hasLinkedDevice: Schema.optional(Schema.Boolean),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    secondaryLoyaltyPoints: Schema.optional(LoyaltyPoints),
-    classId: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-    disableExpirationNotification: Schema.optional(Schema.Boolean),
-    rotatingBarcode: Schema.optional(RotatingBarcode),
-    classReference: Schema.optional(LoyaltyClass),
-    barcode: Schema.optional(Barcode),
-    notifyPreference: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    hasUsers: Schema.optional(Schema.Boolean),
-    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    kind: Schema.optional(Schema.String),
-    accountName: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    linksModuleData: Schema.optional(LinksModuleData),
-    appLinkData: Schema.optional(AppLinkData),
-    saveRestrictions: Schema.optional(SaveRestrictions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    heroImage: Schema.optional(Image),
-    groupingInfo: Schema.optional(GroupingInfo),
-    smartTapRedemptionValue: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    passConstraints: Schema.optional(PassConstraints),
-    linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    loyaltyPoints: Schema.optional(LoyaltyPoints),
-    validTimeInterval: Schema.optional(TimeInterval),
-    infoModuleData: Schema.optional(InfoModuleData),
-  }),
-).annotate({
-  identifier: "LoyaltyObject",
-}) as any as Schema.Schema<LoyaltyObject>;
+export const LoyaltyObject: Schema.Schema<LoyaltyObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      secondaryLoyaltyPoints: Schema.optional(LoyaltyPoints),
+      classId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      classReference: Schema.optional(LoyaltyClass),
+      barcode: Schema.optional(Barcode),
+      notifyPreference: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      hasUsers: Schema.optional(Schema.Boolean),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      kind: Schema.optional(Schema.String),
+      accountName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      linksModuleData: Schema.optional(LinksModuleData),
+      appLinkData: Schema.optional(AppLinkData),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      heroImage: Schema.optional(Image),
+      groupingInfo: Schema.optional(GroupingInfo),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      passConstraints: Schema.optional(PassConstraints),
+      linkedOfferIds: Schema.optional(Schema.Array(Schema.String)),
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      loyaltyPoints: Schema.optional(LoyaltyPoints),
+      validTimeInterval: Schema.optional(TimeInterval),
+      infoModuleData: Schema.optional(InfoModuleData),
+    }),
+  ).annotate({
+    identifier: "LoyaltyObject",
+  }) as any as Schema.Schema<LoyaltyObject>;
 
 export interface LoyaltyObjectListResponse {
   /** Resources corresponding to the list request. */
@@ -3053,7 +3092,7 @@ export interface LoyaltyObjectListResponse {
 }
 
 export const LoyaltyObjectListResponse: Schema.Schema<LoyaltyObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(LoyaltyObject)),
       pagination: Schema.optional(Pagination),
@@ -3075,15 +3114,16 @@ export interface EventSeat {
   gate?: LocalizedString;
 }
 
-export const EventSeat: Schema.Schema<EventSeat> = Schema.suspend(() =>
-  Schema.Struct({
-    seat: Schema.optional(LocalizedString),
-    kind: Schema.optional(Schema.String),
-    section: Schema.optional(LocalizedString),
-    row: Schema.optional(LocalizedString),
-    gate: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "EventSeat" }) as any as Schema.Schema<EventSeat>;
+export const EventSeat: Schema.Schema<EventSeat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      seat: Schema.optional(LocalizedString),
+      kind: Schema.optional(Schema.String),
+      section: Schema.optional(LocalizedString),
+      row: Schema.optional(LocalizedString),
+      gate: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "EventSeat" }) as any as Schema.Schema<EventSeat>;
 
 export interface EventReservationInfo {
   /** The confirmation code of the event reservation. This may also take the form of an "order number", "confirmation number", "reservation number", or other equivalent. */
@@ -3093,7 +3133,7 @@ export interface EventReservationInfo {
 }
 
 export const EventReservationInfo: Schema.Schema<EventReservationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       confirmationCode: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -3191,7 +3231,7 @@ export interface EventTicketObject {
 }
 
 export const EventTicketObject: Schema.Schema<EventTicketObject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       faceValue: Schema.optional(Money),
       state: Schema.optional(Schema.String),
@@ -3344,53 +3384,54 @@ export interface GiftCardClass {
   enableSmartTap?: boolean;
 }
 
-export const GiftCardClass: Schema.Schema<GiftCardClass> = Schema.suspend(() =>
-  Schema.Struct({
-    notifyPreference: Schema.optional(Schema.String),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    programLogo: Schema.optional(Image),
-    localizedMerchantName: Schema.optional(LocalizedString),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    localizedEventNumberLabel: Schema.optional(LocalizedString),
-    localizedIssuerName: Schema.optional(LocalizedString),
-    kind: Schema.optional(Schema.String),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    cardNumberLabel: Schema.optional(Schema.String),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    homepageUri: Schema.optional(Uri),
-    messages: Schema.optional(Schema.Array(Message)),
-    wideProgramLogo: Schema.optional(Image),
-    localizedPinLabel: Schema.optional(LocalizedString),
-    reviewStatus: Schema.optional(Schema.String),
-    allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
-    issuerName: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    countryCode: Schema.optional(Schema.String),
-    localizedCardNumberLabel: Schema.optional(LocalizedString),
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    eventNumberLabel: Schema.optional(Schema.String),
-    infoModuleData: Schema.optional(InfoModuleData),
-    merchantName: Schema.optional(Schema.String),
-    pinLabel: Schema.optional(Schema.String),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-    linksModuleData: Schema.optional(LinksModuleData),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    review: Schema.optional(Review),
-    wordMark: Schema.optional(Image),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    appLinkData: Schema.optional(AppLinkData),
-    callbackOptions: Schema.optional(CallbackOptions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    allowBarcodeRedemption: Schema.optional(Schema.Boolean),
-    heroImage: Schema.optional(Image),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "GiftCardClass",
-}) as any as Schema.Schema<GiftCardClass>;
+export const GiftCardClass: Schema.Schema<GiftCardClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      notifyPreference: Schema.optional(Schema.String),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      programLogo: Schema.optional(Image),
+      localizedMerchantName: Schema.optional(LocalizedString),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      localizedEventNumberLabel: Schema.optional(LocalizedString),
+      localizedIssuerName: Schema.optional(LocalizedString),
+      kind: Schema.optional(Schema.String),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      cardNumberLabel: Schema.optional(Schema.String),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      homepageUri: Schema.optional(Uri),
+      messages: Schema.optional(Schema.Array(Message)),
+      wideProgramLogo: Schema.optional(Image),
+      localizedPinLabel: Schema.optional(LocalizedString),
+      reviewStatus: Schema.optional(Schema.String),
+      allowMultipleUsersPerObject: Schema.optional(Schema.Boolean),
+      issuerName: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      countryCode: Schema.optional(Schema.String),
+      localizedCardNumberLabel: Schema.optional(LocalizedString),
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      eventNumberLabel: Schema.optional(Schema.String),
+      infoModuleData: Schema.optional(InfoModuleData),
+      merchantName: Schema.optional(Schema.String),
+      pinLabel: Schema.optional(Schema.String),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      linksModuleData: Schema.optional(LinksModuleData),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      review: Schema.optional(Review),
+      wordMark: Schema.optional(Image),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      appLinkData: Schema.optional(AppLinkData),
+      callbackOptions: Schema.optional(CallbackOptions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      allowBarcodeRedemption: Schema.optional(Schema.Boolean),
+      heroImage: Schema.optional(Image),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GiftCardClass",
+  }) as any as Schema.Schema<GiftCardClass>;
 
 export interface OfferObject {
   /** Note: This field is currently not supported to trigger geo notifications. */
@@ -3464,38 +3505,41 @@ export interface OfferObject {
   messages?: Array<Message>;
 }
 
-export const OfferObject: Schema.Schema<OfferObject> = Schema.suspend(() =>
-  Schema.Struct({
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    passConstraints: Schema.optional(PassConstraints),
-    smartTapRedemptionValue: Schema.optional(Schema.String),
-    validTimeInterval: Schema.optional(TimeInterval),
-    infoModuleData: Schema.optional(InfoModuleData),
-    version: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    saveRestrictions: Schema.optional(SaveRestrictions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    appLinkData: Schema.optional(AppLinkData),
-    heroImage: Schema.optional(Image),
-    groupingInfo: Schema.optional(GroupingInfo),
-    linksModuleData: Schema.optional(LinksModuleData),
-    classReference: Schema.optional(OfferClass),
-    barcode: Schema.optional(Barcode),
-    notifyPreference: Schema.optional(Schema.String),
-    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-    hasUsers: Schema.optional(Schema.Boolean),
-    kind: Schema.optional(Schema.String),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    hasLinkedDevice: Schema.optional(Schema.Boolean),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    disableExpirationNotification: Schema.optional(Schema.Boolean),
-    rotatingBarcode: Schema.optional(RotatingBarcode),
-    classId: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-  }),
-).annotate({ identifier: "OfferObject" }) as any as Schema.Schema<OfferObject>;
+export const OfferObject: Schema.Schema<OfferObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      passConstraints: Schema.optional(PassConstraints),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      validTimeInterval: Schema.optional(TimeInterval),
+      infoModuleData: Schema.optional(InfoModuleData),
+      version: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      appLinkData: Schema.optional(AppLinkData),
+      heroImage: Schema.optional(Image),
+      groupingInfo: Schema.optional(GroupingInfo),
+      linksModuleData: Schema.optional(LinksModuleData),
+      classReference: Schema.optional(OfferClass),
+      barcode: Schema.optional(Barcode),
+      notifyPreference: Schema.optional(Schema.String),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      hasUsers: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      classId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+    }),
+  ).annotate({
+    identifier: "OfferObject",
+  }) as any as Schema.Schema<OfferObject>;
 
 export interface GiftCardObject {
   /** Required. The card's number. */
@@ -3579,8 +3623,8 @@ export interface GiftCardObject {
   smartTapRedemptionValue?: string;
 }
 
-export const GiftCardObject: Schema.Schema<GiftCardObject> = Schema.suspend(
-  () =>
+export const GiftCardObject: Schema.Schema<GiftCardObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cardNumber: Schema.optional(Schema.String),
       disableExpirationNotification: Schema.optional(Schema.Boolean),
@@ -3616,9 +3660,9 @@ export const GiftCardObject: Schema.Schema<GiftCardObject> = Schema.suspend(
       passConstraints: Schema.optional(PassConstraints),
       smartTapRedemptionValue: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GiftCardObject",
-}) as any as Schema.Schema<GiftCardObject>;
+  ).annotate({
+    identifier: "GiftCardObject",
+  }) as any as Schema.Schema<GiftCardObject>;
 
 export interface GenericClass {
   /** Image module data. If `imageModulesData` is also defined on the object, both will be displayed. Only one of the image from class and one from object level will be rendered when both set. */
@@ -3665,27 +3709,28 @@ export interface GenericClass {
   id?: string;
 }
 
-export const GenericClass: Schema.Schema<GenericClass> = Schema.suspend(() =>
-  Schema.Struct({
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    classTemplateInfo: Schema.optional(ClassTemplateInfo),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    linksModuleData: Schema.optional(LinksModuleData),
-    multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
-    securityAnimation: Schema.optional(SecurityAnimation),
-    messages: Schema.optional(Schema.Array(Message)),
-    appLinkData: Schema.optional(AppLinkData),
-    callbackOptions: Schema.optional(CallbackOptions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    enableSmartTap: Schema.optional(Schema.Boolean),
-    redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
-    viewUnlockRequirement: Schema.optional(Schema.String),
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GenericClass",
-}) as any as Schema.Schema<GenericClass>;
+export const GenericClass: Schema.Schema<GenericClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      classTemplateInfo: Schema.optional(ClassTemplateInfo),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      linksModuleData: Schema.optional(LinksModuleData),
+      multipleDevicesAndHoldersAllowedStatus: Schema.optional(Schema.String),
+      securityAnimation: Schema.optional(SecurityAnimation),
+      messages: Schema.optional(Schema.Array(Message)),
+      appLinkData: Schema.optional(AppLinkData),
+      callbackOptions: Schema.optional(CallbackOptions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      enableSmartTap: Schema.optional(Schema.Boolean),
+      redemptionIssuers: Schema.optional(Schema.Array(Schema.String)),
+      viewUnlockRequirement: Schema.optional(Schema.String),
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GenericClass",
+  }) as any as Schema.Schema<GenericClass>;
 
 export interface TicketSeat {
   /** The fare class of the ticketed seat. */
@@ -3708,15 +3753,16 @@ export interface TicketSeat {
   coach?: string;
 }
 
-export const TicketSeat: Schema.Schema<TicketSeat> = Schema.suspend(() =>
-  Schema.Struct({
-    fareClass: Schema.optional(Schema.String),
-    seatAssignment: Schema.optional(LocalizedString),
-    seat: Schema.optional(Schema.String),
-    customFareClass: Schema.optional(LocalizedString),
-    coach: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TicketSeat" }) as any as Schema.Schema<TicketSeat>;
+export const TicketSeat: Schema.Schema<TicketSeat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fareClass: Schema.optional(Schema.String),
+      seatAssignment: Schema.optional(LocalizedString),
+      seat: Schema.optional(Schema.String),
+      customFareClass: Schema.optional(LocalizedString),
+      coach: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TicketSeat" }) as any as Schema.Schema<TicketSeat>;
 
 export interface TicketLeg {
   /** The origin station code. This is required if `destinationStationCode` is present or if `originName` is not present. */
@@ -3749,24 +3795,25 @@ export interface TicketLeg {
   transitTerminusName?: LocalizedString;
 }
 
-export const TicketLeg: Schema.Schema<TicketLeg> = Schema.suspend(() =>
-  Schema.Struct({
-    originStationCode: Schema.optional(Schema.String),
-    ticketSeat: Schema.optional(TicketSeat),
-    platform: Schema.optional(Schema.String),
-    arrivalDateTime: Schema.optional(Schema.String),
-    zone: Schema.optional(Schema.String),
-    transitOperatorName: Schema.optional(LocalizedString),
-    destinationStationCode: Schema.optional(Schema.String),
-    ticketSeats: Schema.optional(Schema.Array(TicketSeat)),
-    carriage: Schema.optional(Schema.String),
-    destinationName: Schema.optional(LocalizedString),
-    departureDateTime: Schema.optional(Schema.String),
-    fareName: Schema.optional(LocalizedString),
-    originName: Schema.optional(LocalizedString),
-    transitTerminusName: Schema.optional(LocalizedString),
-  }),
-).annotate({ identifier: "TicketLeg" }) as any as Schema.Schema<TicketLeg>;
+export const TicketLeg: Schema.Schema<TicketLeg> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      originStationCode: Schema.optional(Schema.String),
+      ticketSeat: Schema.optional(TicketSeat),
+      platform: Schema.optional(Schema.String),
+      arrivalDateTime: Schema.optional(Schema.String),
+      zone: Schema.optional(Schema.String),
+      transitOperatorName: Schema.optional(LocalizedString),
+      destinationStationCode: Schema.optional(Schema.String),
+      ticketSeats: Schema.optional(Schema.Array(TicketSeat)),
+      carriage: Schema.optional(Schema.String),
+      destinationName: Schema.optional(LocalizedString),
+      departureDateTime: Schema.optional(Schema.String),
+      fareName: Schema.optional(LocalizedString),
+      originName: Schema.optional(LocalizedString),
+      transitTerminusName: Schema.optional(LocalizedString),
+    }),
+  ).annotate({ identifier: "TicketLeg" }) as any as Schema.Schema<TicketLeg>;
 
 export interface TicketRestrictions {
   /** Extra restrictions that don't fall under the "route" or "time" categories. */
@@ -3780,7 +3827,7 @@ export interface TicketRestrictions {
 }
 
 export const TicketRestrictions: Schema.Schema<TicketRestrictions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       otherRestrictions: Schema.optional(LocalizedString),
       routeRestrictions: Schema.optional(LocalizedString),
@@ -3796,13 +3843,14 @@ export interface DeviceContext {
   deviceToken?: string;
 }
 
-export const DeviceContext: Schema.Schema<DeviceContext> = Schema.suspend(() =>
-  Schema.Struct({
-    deviceToken: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DeviceContext",
-}) as any as Schema.Schema<DeviceContext>;
+export const DeviceContext: Schema.Schema<DeviceContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deviceToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeviceContext",
+  }) as any as Schema.Schema<DeviceContext>;
 
 export interface ActivationStatus {
   state?:
@@ -3814,14 +3862,14 @@ export interface ActivationStatus {
     | (string & {});
 }
 
-export const ActivationStatus: Schema.Schema<ActivationStatus> = Schema.suspend(
-  () =>
+export const ActivationStatus: Schema.Schema<ActivationStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ActivationStatus",
-}) as any as Schema.Schema<ActivationStatus>;
+  ).annotate({
+    identifier: "ActivationStatus",
+  }) as any as Schema.Schema<ActivationStatus>;
 
 export interface TicketCost {
   /** The face value of the ticket. */
@@ -3832,13 +3880,14 @@ export interface TicketCost {
   purchasePrice?: Money;
 }
 
-export const TicketCost: Schema.Schema<TicketCost> = Schema.suspend(() =>
-  Schema.Struct({
-    faceValue: Schema.optional(Money),
-    discountMessage: Schema.optional(LocalizedString),
-    purchasePrice: Schema.optional(Money),
-  }),
-).annotate({ identifier: "TicketCost" }) as any as Schema.Schema<TicketCost>;
+export const TicketCost: Schema.Schema<TicketCost> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      faceValue: Schema.optional(Money),
+      discountMessage: Schema.optional(LocalizedString),
+      purchasePrice: Schema.optional(Money),
+    }),
+  ).annotate({ identifier: "TicketCost" }) as any as Schema.Schema<TicketCost>;
 
 export interface PurchaseDetails {
   /** ID of the account used to purchase the ticket. */
@@ -3853,8 +3902,8 @@ export interface PurchaseDetails {
   purchaseDateTime?: string;
 }
 
-export const PurchaseDetails: Schema.Schema<PurchaseDetails> = Schema.suspend(
-  () =>
+export const PurchaseDetails: Schema.Schema<PurchaseDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       purchaseReceiptNumber: Schema.optional(Schema.String),
@@ -3862,9 +3911,9 @@ export const PurchaseDetails: Schema.Schema<PurchaseDetails> = Schema.suspend(
       ticketCost: Schema.optional(TicketCost),
       purchaseDateTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PurchaseDetails",
-}) as any as Schema.Schema<PurchaseDetails>;
+  ).annotate({
+    identifier: "PurchaseDetails",
+  }) as any as Schema.Schema<PurchaseDetails>;
 
 export interface TransitObject {
   /** Text module data. If text module data is also defined on the class, both will be displayed. The maximum number of these fields displayed is 10 from the object and 10 from the class. */
@@ -3996,55 +4045,56 @@ export interface TransitObject {
     | (string & {});
 }
 
-export const TransitObject: Schema.Schema<TransitObject> = Schema.suspend(() =>
-  Schema.Struct({
-    textModulesData: Schema.optional(Schema.Array(TextModuleData)),
-    ticketLegs: Schema.optional(Schema.Array(TicketLeg)),
-    ticketRestrictions: Schema.optional(TicketRestrictions),
-    hexBackgroundColor: Schema.optional(Schema.String),
-    classReference: Schema.optional(TransitClass),
-    barcode: Schema.optional(Barcode),
-    notifyPreference: Schema.optional(Schema.String),
-    linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
-    hasUsers: Schema.optional(Schema.Boolean),
-    customTicketStatus: Schema.optional(LocalizedString),
-    ticketLeg: Schema.optional(TicketLeg),
-    classId: Schema.optional(Schema.String),
-    messages: Schema.optional(Schema.Array(Message)),
-    passengerType: Schema.optional(Schema.String),
-    disableExpirationNotification: Schema.optional(Schema.Boolean),
-    rotatingBarcode: Schema.optional(RotatingBarcode),
-    hasLinkedDevice: Schema.optional(Schema.Boolean),
-    imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
-    deviceContext: Schema.optional(DeviceContext),
-    valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
-    id: Schema.optional(Schema.String),
-    validTimeInterval: Schema.optional(TimeInterval),
-    infoModuleData: Schema.optional(InfoModuleData),
-    ticketNumber: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    concessionCategory: Schema.optional(Schema.String),
-    smartTapRedemptionValue: Schema.optional(Schema.String),
-    tripId: Schema.optional(Schema.String),
-    ticketStatus: Schema.optional(Schema.String),
-    passengerNames: Schema.optional(Schema.String),
-    locations: Schema.optional(Schema.Array(LatLongPoint)),
-    customConcessionCategory: Schema.optional(LocalizedString),
-    passConstraints: Schema.optional(PassConstraints),
-    linksModuleData: Schema.optional(LinksModuleData),
-    activationStatus: Schema.optional(ActivationStatus),
-    saveRestrictions: Schema.optional(SaveRestrictions),
-    merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
-    purchaseDetails: Schema.optional(PurchaseDetails),
-    appLinkData: Schema.optional(AppLinkData),
-    heroImage: Schema.optional(Image),
-    groupingInfo: Schema.optional(GroupingInfo),
-    tripType: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TransitObject",
-}) as any as Schema.Schema<TransitObject>;
+export const TransitObject: Schema.Schema<TransitObject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      textModulesData: Schema.optional(Schema.Array(TextModuleData)),
+      ticketLegs: Schema.optional(Schema.Array(TicketLeg)),
+      ticketRestrictions: Schema.optional(TicketRestrictions),
+      hexBackgroundColor: Schema.optional(Schema.String),
+      classReference: Schema.optional(TransitClass),
+      barcode: Schema.optional(Barcode),
+      notifyPreference: Schema.optional(Schema.String),
+      linkedObjectIds: Schema.optional(Schema.Array(Schema.String)),
+      hasUsers: Schema.optional(Schema.Boolean),
+      customTicketStatus: Schema.optional(LocalizedString),
+      ticketLeg: Schema.optional(TicketLeg),
+      classId: Schema.optional(Schema.String),
+      messages: Schema.optional(Schema.Array(Message)),
+      passengerType: Schema.optional(Schema.String),
+      disableExpirationNotification: Schema.optional(Schema.Boolean),
+      rotatingBarcode: Schema.optional(RotatingBarcode),
+      hasLinkedDevice: Schema.optional(Schema.Boolean),
+      imageModulesData: Schema.optional(Schema.Array(ImageModuleData)),
+      deviceContext: Schema.optional(DeviceContext),
+      valueAddedModuleData: Schema.optional(Schema.Array(ValueAddedModuleData)),
+      id: Schema.optional(Schema.String),
+      validTimeInterval: Schema.optional(TimeInterval),
+      infoModuleData: Schema.optional(InfoModuleData),
+      ticketNumber: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      concessionCategory: Schema.optional(Schema.String),
+      smartTapRedemptionValue: Schema.optional(Schema.String),
+      tripId: Schema.optional(Schema.String),
+      ticketStatus: Schema.optional(Schema.String),
+      passengerNames: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(LatLongPoint)),
+      customConcessionCategory: Schema.optional(LocalizedString),
+      passConstraints: Schema.optional(PassConstraints),
+      linksModuleData: Schema.optional(LinksModuleData),
+      activationStatus: Schema.optional(ActivationStatus),
+      saveRestrictions: Schema.optional(SaveRestrictions),
+      merchantLocations: Schema.optional(Schema.Array(MerchantLocation)),
+      purchaseDetails: Schema.optional(PurchaseDetails),
+      appLinkData: Schema.optional(AppLinkData),
+      heroImage: Schema.optional(Image),
+      groupingInfo: Schema.optional(GroupingInfo),
+      tripType: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TransitObject",
+  }) as any as Schema.Schema<TransitObject>;
 
 export interface Resources {
   /** A list of flight classes. */
@@ -4077,24 +4127,25 @@ export interface Resources {
   transitObjects?: Array<TransitObject>;
 }
 
-export const Resources: Schema.Schema<Resources> = Schema.suspend(() =>
-  Schema.Struct({
-    flightClasses: Schema.optional(Schema.Array(FlightClass)),
-    loyaltyObjects: Schema.optional(Schema.Array(LoyaltyObject)),
-    eventTicketObjects: Schema.optional(Schema.Array(EventTicketObject)),
-    offerClasses: Schema.optional(Schema.Array(OfferClass)),
-    giftCardClasses: Schema.optional(Schema.Array(GiftCardClass)),
-    loyaltyClasses: Schema.optional(Schema.Array(LoyaltyClass)),
-    offerObjects: Schema.optional(Schema.Array(OfferObject)),
-    giftCardObjects: Schema.optional(Schema.Array(GiftCardObject)),
-    transitClasses: Schema.optional(Schema.Array(TransitClass)),
-    genericClasses: Schema.optional(Schema.Array(GenericClass)),
-    flightObjects: Schema.optional(Schema.Array(FlightObject)),
-    genericObjects: Schema.optional(Schema.Array(GenericObject)),
-    eventTicketClasses: Schema.optional(Schema.Array(EventTicketClass)),
-    transitObjects: Schema.optional(Schema.Array(TransitObject)),
-  }),
-).annotate({ identifier: "Resources" }) as any as Schema.Schema<Resources>;
+export const Resources: Schema.Schema<Resources> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      flightClasses: Schema.optional(Schema.Array(FlightClass)),
+      loyaltyObjects: Schema.optional(Schema.Array(LoyaltyObject)),
+      eventTicketObjects: Schema.optional(Schema.Array(EventTicketObject)),
+      offerClasses: Schema.optional(Schema.Array(OfferClass)),
+      giftCardClasses: Schema.optional(Schema.Array(GiftCardClass)),
+      loyaltyClasses: Schema.optional(Schema.Array(LoyaltyClass)),
+      offerObjects: Schema.optional(Schema.Array(OfferObject)),
+      giftCardObjects: Schema.optional(Schema.Array(GiftCardObject)),
+      transitClasses: Schema.optional(Schema.Array(TransitClass)),
+      genericClasses: Schema.optional(Schema.Array(GenericClass)),
+      flightObjects: Schema.optional(Schema.Array(FlightObject)),
+      genericObjects: Schema.optional(Schema.Array(GenericObject)),
+      eventTicketClasses: Schema.optional(Schema.Array(EventTicketClass)),
+      transitObjects: Schema.optional(Schema.Array(TransitObject)),
+    }),
+  ).annotate({ identifier: "Resources" }) as any as Schema.Schema<Resources>;
 
 export interface IssuerContactInfo {
   /** The primary contact name. */
@@ -4108,7 +4159,7 @@ export interface IssuerContactInfo {
 }
 
 export const IssuerContactInfo: Schema.Schema<IssuerContactInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -4134,16 +4185,17 @@ export interface Issuer {
   homepageUrl?: string;
 }
 
-export const Issuer: Schema.Schema<Issuer> = Schema.suspend(() =>
-  Schema.Struct({
-    callbackOptions: Schema.optional(CallbackOptions),
-    contactInfo: Schema.optional(IssuerContactInfo),
-    name: Schema.optional(Schema.String),
-    smartTapMerchantData: Schema.optional(SmartTapMerchantData),
-    issuerId: Schema.optional(Schema.String),
-    homepageUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Issuer" }) as any as Schema.Schema<Issuer>;
+export const Issuer: Schema.Schema<Issuer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      callbackOptions: Schema.optional(CallbackOptions),
+      contactInfo: Schema.optional(IssuerContactInfo),
+      name: Schema.optional(Schema.String),
+      smartTapMerchantData: Schema.optional(SmartTapMerchantData),
+      issuerId: Schema.optional(Schema.String),
+      homepageUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Issuer" }) as any as Schema.Schema<Issuer>;
 
 export interface DiffVersionResponse {
   /** The version of the object stored at the server. */
@@ -4153,7 +4205,7 @@ export interface DiffVersionResponse {
 }
 
 export const DiffVersionResponse: Schema.Schema<DiffVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       objectSizeBytes: Schema.optional(Schema.String),
@@ -4176,7 +4228,7 @@ export interface DiffChecksumsResponse {
 }
 
 export const DiffChecksumsResponse: Schema.Schema<DiffChecksumsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectSizeBytes: Schema.optional(Schema.String),
       chunkSizeBytes: Schema.optional(Schema.String),
@@ -4196,7 +4248,7 @@ export interface DownloadParameters {
 }
 
 export const DownloadParameters: Schema.Schema<DownloadParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowGzipCompression: Schema.optional(Schema.Boolean),
       ignoreRange: Schema.optional(Schema.Boolean),
@@ -4215,7 +4267,7 @@ export interface DiffUploadRequest {
 }
 
 export const DiffUploadRequest: Schema.Schema<DiffUploadRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectVersion: Schema.optional(Schema.String),
       objectInfo: Schema.optional(CompositeMedia),
@@ -4302,40 +4354,41 @@ export interface Media {
   bigstoreObjectRef?: string;
 }
 
-export const Media: Schema.Schema<Media> = Schema.suspend(() =>
-  Schema.Struct({
-    diffVersionResponse: Schema.optional(DiffVersionResponse),
-    hashVerified: Schema.optional(Schema.Boolean),
-    length: Schema.optional(Schema.String),
-    algorithm: Schema.optional(Schema.String),
-    token: Schema.optional(Schema.String),
-    blobRef: Schema.optional(Schema.String),
-    mediaId: Schema.optional(Schema.String),
-    objectId: Schema.optional(ObjectId),
-    path: Schema.optional(Schema.String),
-    crc32cHash: Schema.optional(Schema.Number),
-    filename: Schema.optional(Schema.String),
-    blobstore2Info: Schema.optional(Blobstore2Info),
-    diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
-    hash: Schema.optional(Schema.String),
-    sha256Hash: Schema.optional(Schema.String),
-    diffDownloadResponse: Schema.optional(DiffDownloadResponse),
-    md5Hash: Schema.optional(Schema.String),
-    isPotentialRetry: Schema.optional(Schema.Boolean),
-    downloadParameters: Schema.optional(DownloadParameters),
-    inline: Schema.optional(Schema.String),
-    contentType: Schema.optional(Schema.String),
-    diffUploadResponse: Schema.optional(DiffUploadResponse),
-    diffUploadRequest: Schema.optional(DiffUploadRequest),
-    contentTypeInfo: Schema.optional(ContentTypeInfo),
-    sha1Hash: Schema.optional(Schema.String),
-    compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
-    cosmoBinaryReference: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    referenceType: Schema.optional(Schema.String),
-    bigstoreObjectRef: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
+export const Media: Schema.Schema<Media> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      diffVersionResponse: Schema.optional(DiffVersionResponse),
+      hashVerified: Schema.optional(Schema.Boolean),
+      length: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      blobRef: Schema.optional(Schema.String),
+      mediaId: Schema.optional(Schema.String),
+      objectId: Schema.optional(ObjectId),
+      path: Schema.optional(Schema.String),
+      crc32cHash: Schema.optional(Schema.Number),
+      filename: Schema.optional(Schema.String),
+      blobstore2Info: Schema.optional(Blobstore2Info),
+      diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
+      hash: Schema.optional(Schema.String),
+      sha256Hash: Schema.optional(Schema.String),
+      diffDownloadResponse: Schema.optional(DiffDownloadResponse),
+      md5Hash: Schema.optional(Schema.String),
+      isPotentialRetry: Schema.optional(Schema.Boolean),
+      downloadParameters: Schema.optional(DownloadParameters),
+      inline: Schema.optional(Schema.String),
+      contentType: Schema.optional(Schema.String),
+      diffUploadResponse: Schema.optional(DiffUploadResponse),
+      diffUploadRequest: Schema.optional(DiffUploadRequest),
+      contentTypeInfo: Schema.optional(ContentTypeInfo),
+      sha1Hash: Schema.optional(Schema.String),
+      compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
+      cosmoBinaryReference: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      referenceType: Schema.optional(Schema.String),
+      bigstoreObjectRef: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
 
 export interface MediaRequestInfo {
   /** The existence of the final_status field indicates that this is the last call to the agent for this request_id. http://google3/uploader/agent/scotty_agent.proto?l=737&rcl=347601929 */
@@ -4366,8 +4419,8 @@ export interface MediaRequestInfo {
   totalBytesIsEstimated?: boolean;
 }
 
-export const MediaRequestInfo: Schema.Schema<MediaRequestInfo> = Schema.suspend(
-  () =>
+export const MediaRequestInfo: Schema.Schema<MediaRequestInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       finalStatus: Schema.optional(Schema.Number),
       totalBytes: Schema.optional(Schema.String),
@@ -4380,9 +4433,9 @@ export const MediaRequestInfo: Schema.Schema<MediaRequestInfo> = Schema.suspend(
       physicalHeaders: Schema.optional(Schema.String),
       totalBytesIsEstimated: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "MediaRequestInfo",
-}) as any as Schema.Schema<MediaRequestInfo>;
+  ).annotate({
+    identifier: "MediaRequestInfo",
+  }) as any as Schema.Schema<MediaRequestInfo>;
 
 export interface TransitObjectUploadRotatingBarcodeValuesRequest {
   /** A reference to the rotating barcode values payload that was uploaded. */
@@ -4392,7 +4445,7 @@ export interface TransitObjectUploadRotatingBarcodeValuesRequest {
 }
 
 export const TransitObjectUploadRotatingBarcodeValuesRequest: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blob: Schema.optional(Media),
       mediaRequestInfo: Schema.optional(MediaRequestInfo),
@@ -4409,7 +4462,7 @@ export interface EventTicketObjectListResponse {
 }
 
 export const EventTicketObjectListResponse: Schema.Schema<EventTicketObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(EventTicketObject)),
       pagination: Schema.optional(Pagination),
@@ -4426,7 +4479,7 @@ export interface GenericClassListResponse {
 }
 
 export const GenericClassListResponse: Schema.Schema<GenericClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(GenericClass)),
@@ -4441,7 +4494,7 @@ export interface GenericClassAddMessageResponse {
 }
 
 export const GenericClassAddMessageResponse: Schema.Schema<GenericClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(GenericClass),
     }),
@@ -4457,7 +4510,7 @@ export interface JwtInsertResponse {
 }
 
 export const JwtInsertResponse: Schema.Schema<JwtInsertResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       saveUri: Schema.optional(Schema.String),
       resources: Schema.optional(Resources),
@@ -4474,7 +4527,7 @@ export interface GiftCardClassListResponse {
 }
 
 export const GiftCardClassListResponse: Schema.Schema<GiftCardClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(GiftCardClass)),
@@ -4491,7 +4544,7 @@ export interface FlightObjectListResponse {
 }
 
 export const FlightObjectListResponse: Schema.Schema<FlightObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(FlightObject)),
@@ -4510,7 +4563,7 @@ export interface SetPassUpdateNoticeRequest {
 }
 
 export const SetPassUpdateNoticeRequest: Schema.Schema<SetPassUpdateNoticeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updatedPassJwtSignature: Schema.optional(Schema.String),
       updateUri: Schema.optional(Schema.String),
@@ -4526,7 +4579,7 @@ export interface LoyaltyObjectAddMessageResponse {
 }
 
 export const LoyaltyObjectAddMessageResponse: Schema.Schema<LoyaltyObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(LoyaltyObject),
     }),
@@ -4539,7 +4592,7 @@ export interface AddMessageRequest {
 }
 
 export const AddMessageRequest: Schema.Schema<AddMessageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Message),
     }),
@@ -4550,7 +4603,7 @@ export const AddMessageRequest: Schema.Schema<AddMessageRequest> =
 export interface TransitObjectUploadRotatingBarcodeValuesResponse {}
 
 export const TransitObjectUploadRotatingBarcodeValuesResponse: Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "TransitObjectUploadRotatingBarcodeValuesResponse",
   }) as any as Schema.Schema<TransitObjectUploadRotatingBarcodeValuesResponse>;
 
@@ -4560,7 +4613,7 @@ export interface FlightObjectAddMessageResponse {
 }
 
 export const FlightObjectAddMessageResponse: Schema.Schema<FlightObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(FlightObject),
     }),
@@ -4576,7 +4629,7 @@ export interface LoyaltyClassListResponse {
 }
 
 export const LoyaltyClassListResponse: Schema.Schema<LoyaltyClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(LoyaltyClass)),
       pagination: Schema.optional(Pagination),
@@ -4593,7 +4646,7 @@ export interface GiftCardObjectListResponse {
 }
 
 export const GiftCardObjectListResponse: Schema.Schema<GiftCardObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(GiftCardObject)),
       pagination: Schema.optional(Pagination),
@@ -4608,7 +4661,7 @@ export interface EventTicketObjectAddMessageResponse {
 }
 
 export const EventTicketObjectAddMessageResponse: Schema.Schema<EventTicketObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(EventTicketObject),
     }),
@@ -4624,7 +4677,7 @@ export interface ModifyLinkedOfferObjects {
 }
 
 export const ModifyLinkedOfferObjects: Schema.Schema<ModifyLinkedOfferObjects> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       addLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
       removeLinkedOfferObjectIds: Schema.optional(Schema.Array(Schema.String)),
@@ -4641,7 +4694,7 @@ export interface TransitObjectListResponse {
 }
 
 export const TransitObjectListResponse: Schema.Schema<TransitObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(TransitObject)),
       pagination: Schema.optional(Pagination),
@@ -4656,7 +4709,7 @@ export interface GiftCardObjectAddMessageResponse {
 }
 
 export const GiftCardObjectAddMessageResponse: Schema.Schema<GiftCardObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(GiftCardObject),
     }),
@@ -4670,7 +4723,7 @@ export interface OfferObjectAddMessageResponse {
 }
 
 export const OfferObjectAddMessageResponse: Schema.Schema<OfferObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(OfferObject),
     }),
@@ -4686,7 +4739,7 @@ export interface FlightClassListResponse {
 }
 
 export const FlightClassListResponse: Schema.Schema<FlightClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(FlightClass)),
@@ -4698,7 +4751,7 @@ export const FlightClassListResponse: Schema.Schema<FlightClassListResponse> =
 export interface SetPassUpdateNoticeResponse {}
 
 export const SetPassUpdateNoticeResponse: Schema.Schema<SetPassUpdateNoticeResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SetPassUpdateNoticeResponse",
   }) as any as Schema.Schema<SetPassUpdateNoticeResponse>;
 
@@ -4707,11 +4760,12 @@ export interface SignUpInfo {
   classId?: string;
 }
 
-export const SignUpInfo: Schema.Schema<SignUpInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    classId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SignUpInfo" }) as any as Schema.Schema<SignUpInfo>;
+export const SignUpInfo: Schema.Schema<SignUpInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      classId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SignUpInfo" }) as any as Schema.Schema<SignUpInfo>;
 
 export interface IssuerToUserInfo {
   action?:
@@ -4728,22 +4782,22 @@ export interface IssuerToUserInfo {
   signUpInfo?: SignUpInfo;
 }
 
-export const IssuerToUserInfo: Schema.Schema<IssuerToUserInfo> = Schema.suspend(
-  () =>
+export const IssuerToUserInfo: Schema.Schema<IssuerToUserInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       action: Schema.optional(Schema.String),
       url: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
       signUpInfo: Schema.optional(SignUpInfo),
     }),
-).annotate({
-  identifier: "IssuerToUserInfo",
-}) as any as Schema.Schema<IssuerToUserInfo>;
+  ).annotate({
+    identifier: "IssuerToUserInfo",
+  }) as any as Schema.Schema<IssuerToUserInfo>;
 
 export interface UploadPrivateImageRequest {}
 
 export const UploadPrivateImageRequest: Schema.Schema<UploadPrivateImageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UploadPrivateImageRequest",
   }) as any as Schema.Schema<UploadPrivateImageRequest>;
 
@@ -4753,7 +4807,7 @@ export interface LoyaltyClassAddMessageResponse {
 }
 
 export const LoyaltyClassAddMessageResponse: Schema.Schema<LoyaltyClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(LoyaltyClass),
     }),
@@ -4772,14 +4826,15 @@ export interface SmartTap {
   kind?: string;
 }
 
-export const SmartTap: Schema.Schema<SmartTap> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    merchantId: Schema.optional(Schema.String),
-    infos: Schema.optional(Schema.Array(IssuerToUserInfo)),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SmartTap" }) as any as Schema.Schema<SmartTap>;
+export const SmartTap: Schema.Schema<SmartTap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      merchantId: Schema.optional(Schema.String),
+      infos: Schema.optional(Schema.Array(IssuerToUserInfo)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SmartTap" }) as any as Schema.Schema<SmartTap>;
 
 export interface TransitClassListResponse {
   /** Pagination of the response. */
@@ -4789,7 +4844,7 @@ export interface TransitClassListResponse {
 }
 
 export const TransitClassListResponse: Schema.Schema<TransitClassListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(TransitClass)),
@@ -4804,7 +4859,7 @@ export interface FlightClassAddMessageResponse {
 }
 
 export const FlightClassAddMessageResponse: Schema.Schema<FlightClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(FlightClass),
     }),
@@ -4818,7 +4873,7 @@ export interface IssuerListResponse {
 }
 
 export const IssuerListResponse: Schema.Schema<IssuerListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(Issuer)),
     }),
@@ -4832,7 +4887,7 @@ export interface GiftCardClassAddMessageResponse {
 }
 
 export const GiftCardClassAddMessageResponse: Schema.Schema<GiftCardClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(GiftCardClass),
     }),
@@ -4846,7 +4901,7 @@ export interface OfferClassAddMessageResponse {
 }
 
 export const OfferClassAddMessageResponse: Schema.Schema<OfferClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(OfferClass),
     }),
@@ -4860,7 +4915,7 @@ export interface TransitClassAddMessageResponse {
 }
 
 export const TransitClassAddMessageResponse: Schema.Schema<TransitClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(TransitClass),
     }),
@@ -4876,7 +4931,7 @@ export interface GenericObjectListResponse {
 }
 
 export const GenericObjectListResponse: Schema.Schema<GenericObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(GenericObject)),
@@ -4893,7 +4948,7 @@ export interface OfferObjectListResponse {
 }
 
 export const OfferObjectListResponse: Schema.Schema<OfferObjectListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pagination: Schema.optional(Pagination),
       resources: Schema.optional(Schema.Array(OfferObject)),
@@ -4908,7 +4963,7 @@ export interface EventTicketClassAddMessageResponse {
 }
 
 export const EventTicketClassAddMessageResponse: Schema.Schema<EventTicketClassAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(EventTicketClass),
     }),
@@ -4922,7 +4977,7 @@ export interface ModifyLinkedOfferObjectsRequest {
 }
 
 export const ModifyLinkedOfferObjectsRequest: Schema.Schema<ModifyLinkedOfferObjectsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       linkedOfferObjectIds: Schema.optional(ModifyLinkedOfferObjects),
     }),
@@ -4937,23 +4992,29 @@ export interface Permissions {
   permissions?: Array<Permission>;
 }
 
-export const Permissions: Schema.Schema<Permissions> = Schema.suspend(() =>
-  Schema.Struct({
-    issuerId: Schema.optional(Schema.String),
-    permissions: Schema.optional(Schema.Array(Permission)),
-  }),
-).annotate({ identifier: "Permissions" }) as any as Schema.Schema<Permissions>;
+export const Permissions: Schema.Schema<Permissions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      issuerId: Schema.optional(Schema.String),
+      permissions: Schema.optional(Schema.Array(Permission)),
+    }),
+  ).annotate({
+    identifier: "Permissions",
+  }) as any as Schema.Schema<Permissions>;
 
 export interface JwtResource {
   /** Required. A string representing a JWT of the format described at https://developers.google.com/wallet/reference/rest/v1/Jwt */
   jwt?: string;
 }
 
-export const JwtResource: Schema.Schema<JwtResource> = Schema.suspend(() =>
-  Schema.Struct({
-    jwt: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "JwtResource" }) as any as Schema.Schema<JwtResource>;
+export const JwtResource: Schema.Schema<JwtResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      jwt: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "JwtResource",
+  }) as any as Schema.Schema<JwtResource>;
 
 export interface TransitObjectAddMessageResponse {
   /** The updated TransitObject resource. */
@@ -4961,7 +5022,7 @@ export interface TransitObjectAddMessageResponse {
 }
 
 export const TransitObjectAddMessageResponse: Schema.Schema<TransitObjectAddMessageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(TransitObject),
     }),
@@ -4980,20 +5041,22 @@ export interface UpdatePermissionsRequest {
   body?: Permissions;
 }
 
-export const UpdatePermissionsRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(Permissions).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/permissions/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatePermissionsRequest>;
+export const UpdatePermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(Permissions).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/permissions/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePermissionsRequest>;
 
 export type UpdatePermissionsResponse = Permissions;
-export const UpdatePermissionsResponse = Permissions;
+export const UpdatePermissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Permissions;
 
 export type UpdatePermissionsError = DefaultErrors;
 
@@ -5003,7 +5066,7 @@ export const updatePermissions: API.OperationMethod<
   UpdatePermissionsResponse,
   UpdatePermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [],
@@ -5014,7 +5077,7 @@ export interface GetPermissionsRequest {
   resourceId: string;
 }
 
-export const GetPermissionsRequest = Schema.Struct({
+export const GetPermissionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/permissions/{resourceId}" }),
@@ -5022,7 +5085,7 @@ export const GetPermissionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPermissionsRequest>;
 
 export type GetPermissionsResponse = Permissions;
-export const GetPermissionsResponse = Permissions;
+export const GetPermissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Permissions;
 
 export type GetPermissionsError = DefaultErrors;
 
@@ -5032,7 +5095,7 @@ export const getPermissions: API.OperationMethod<
   GetPermissionsResponse,
   GetPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
@@ -5045,20 +5108,22 @@ export interface AddmessageGenericclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageGenericclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/genericClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageGenericclassRequest>;
+export const AddmessageGenericclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/genericClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageGenericclassRequest>;
 
 export type AddmessageGenericclassResponse = GenericClassAddMessageResponse;
-export const AddmessageGenericclassResponse = GenericClassAddMessageResponse;
+export const AddmessageGenericclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericClassAddMessageResponse;
 
 export type AddmessageGenericclassError = DefaultErrors;
 
@@ -5068,7 +5133,7 @@ export const addmessageGenericclass: API.OperationMethod<
   AddmessageGenericclassResponse,
   AddmessageGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageGenericclassRequest,
   output: AddmessageGenericclassResponse,
   errors: [],
@@ -5079,19 +5144,21 @@ export interface InsertGenericclassRequest {
   body?: GenericClass;
 }
 
-export const InsertGenericclassRequest = Schema.Struct({
-  body: Schema.optional(GenericClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/genericClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertGenericclassRequest>;
+export const InsertGenericclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(GenericClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/genericClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertGenericclassRequest>;
 
 export type InsertGenericclassResponse = GenericClass;
-export const InsertGenericclassResponse = GenericClass;
+export const InsertGenericclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericClass;
 
 export type InsertGenericclassError = DefaultErrors;
 
@@ -5101,7 +5168,7 @@ export const insertGenericclass: API.OperationMethod<
   InsertGenericclassResponse,
   InsertGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGenericclassRequest,
   output: InsertGenericclassResponse,
   errors: [],
@@ -5112,15 +5179,17 @@ export interface GetGenericclassRequest {
   resourceId: string;
 }
 
-export const GetGenericclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
+export const GetGenericclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/genericClass/{resourceId}" }),
   svc,
 ) as unknown as Schema.Schema<GetGenericclassRequest>;
 
 export type GetGenericclassResponse = GenericClass;
-export const GetGenericclassResponse = GenericClass;
+export const GetGenericclassResponse = /*@__PURE__*/ /*#__PURE__*/ GenericClass;
 
 export type GetGenericclassError = DefaultErrors;
 
@@ -5130,7 +5199,7 @@ export const getGenericclass: API.OperationMethod<
   GetGenericclassResponse,
   GetGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGenericclassRequest,
   output: GetGenericclassResponse,
   errors: [],
@@ -5143,20 +5212,22 @@ export interface UpdateGenericclassRequest {
   body?: GenericClass;
 }
 
-export const UpdateGenericclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GenericClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/genericClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGenericclassRequest>;
+export const UpdateGenericclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GenericClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/genericClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGenericclassRequest>;
 
 export type UpdateGenericclassResponse = GenericClass;
-export const UpdateGenericclassResponse = GenericClass;
+export const UpdateGenericclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericClass;
 
 export type UpdateGenericclassError = DefaultErrors;
 
@@ -5166,7 +5237,7 @@ export const updateGenericclass: API.OperationMethod<
   UpdateGenericclassResponse,
   UpdateGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGenericclassRequest,
   output: UpdateGenericclassResponse,
   errors: [],
@@ -5179,20 +5250,22 @@ export interface PatchGenericclassRequest {
   body?: GenericClass;
 }
 
-export const PatchGenericclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GenericClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/genericClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchGenericclassRequest>;
+export const PatchGenericclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GenericClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/genericClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchGenericclassRequest>;
 
 export type PatchGenericclassResponse = GenericClass;
-export const PatchGenericclassResponse = GenericClass;
+export const PatchGenericclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericClass;
 
 export type PatchGenericclassError = DefaultErrors;
 
@@ -5202,7 +5275,7 @@ export const patchGenericclass: API.OperationMethod<
   PatchGenericclassResponse,
   PatchGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGenericclassRequest,
   output: PatchGenericclassResponse,
   errors: [],
@@ -5217,17 +5290,19 @@ export interface ListGenericclassRequest {
   issuerId?: string;
 }
 
-export const ListGenericclassRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/genericClass" }),
-  svc,
-) as unknown as Schema.Schema<ListGenericclassRequest>;
+export const ListGenericclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/genericClass" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGenericclassRequest>;
 
 export type ListGenericclassResponse = GenericClassListResponse;
-export const ListGenericclassResponse = GenericClassListResponse;
+export const ListGenericclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericClassListResponse;
 
 export type ListGenericclassError = DefaultErrors;
 
@@ -5237,7 +5312,7 @@ export const listGenericclass: API.OperationMethod<
   ListGenericclassResponse,
   ListGenericclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGenericclassRequest,
   output: ListGenericclassResponse,
   errors: [],
@@ -5250,20 +5325,22 @@ export interface AddmessageFlightclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageFlightclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/flightClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageFlightclassRequest>;
+export const AddmessageFlightclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/flightClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageFlightclassRequest>;
 
 export type AddmessageFlightclassResponse = FlightClassAddMessageResponse;
-export const AddmessageFlightclassResponse = FlightClassAddMessageResponse;
+export const AddmessageFlightclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightClassAddMessageResponse;
 
 export type AddmessageFlightclassError = DefaultErrors;
 
@@ -5273,7 +5350,7 @@ export const addmessageFlightclass: API.OperationMethod<
   AddmessageFlightclassResponse,
   AddmessageFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageFlightclassRequest,
   output: AddmessageFlightclassResponse,
   errors: [],
@@ -5284,19 +5361,21 @@ export interface InsertFlightclassRequest {
   body?: FlightClass;
 }
 
-export const InsertFlightclassRequest = Schema.Struct({
-  body: Schema.optional(FlightClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/flightClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertFlightclassRequest>;
+export const InsertFlightclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(FlightClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/flightClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertFlightclassRequest>;
 
 export type InsertFlightclassResponse = FlightClass;
-export const InsertFlightclassResponse = FlightClass;
+export const InsertFlightclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightClass;
 
 export type InsertFlightclassError = DefaultErrors;
 
@@ -5306,7 +5385,7 @@ export const insertFlightclass: API.OperationMethod<
   InsertFlightclassResponse,
   InsertFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertFlightclassRequest,
   output: InsertFlightclassResponse,
   errors: [],
@@ -5317,7 +5396,7 @@ export interface GetFlightclassRequest {
   resourceId: string;
 }
 
-export const GetFlightclassRequest = Schema.Struct({
+export const GetFlightclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/flightClass/{resourceId}" }),
@@ -5325,7 +5404,7 @@ export const GetFlightclassRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetFlightclassRequest>;
 
 export type GetFlightclassResponse = FlightClass;
-export const GetFlightclassResponse = FlightClass;
+export const GetFlightclassResponse = /*@__PURE__*/ /*#__PURE__*/ FlightClass;
 
 export type GetFlightclassError = DefaultErrors;
 
@@ -5335,7 +5414,7 @@ export const getFlightclass: API.OperationMethod<
   GetFlightclassResponse,
   GetFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlightclassRequest,
   output: GetFlightclassResponse,
   errors: [],
@@ -5348,20 +5427,22 @@ export interface UpdateFlightclassRequest {
   body?: FlightClass;
 }
 
-export const UpdateFlightclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(FlightClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/flightClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateFlightclassRequest>;
+export const UpdateFlightclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(FlightClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/flightClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateFlightclassRequest>;
 
 export type UpdateFlightclassResponse = FlightClass;
-export const UpdateFlightclassResponse = FlightClass;
+export const UpdateFlightclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightClass;
 
 export type UpdateFlightclassError = DefaultErrors;
 
@@ -5371,7 +5452,7 @@ export const updateFlightclass: API.OperationMethod<
   UpdateFlightclassResponse,
   UpdateFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlightclassRequest,
   output: UpdateFlightclassResponse,
   errors: [],
@@ -5384,20 +5465,21 @@ export interface PatchFlightclassRequest {
   body?: FlightClass;
 }
 
-export const PatchFlightclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(FlightClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/flightClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFlightclassRequest>;
+export const PatchFlightclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(FlightClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/flightClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFlightclassRequest>;
 
 export type PatchFlightclassResponse = FlightClass;
-export const PatchFlightclassResponse = FlightClass;
+export const PatchFlightclassResponse = /*@__PURE__*/ /*#__PURE__*/ FlightClass;
 
 export type PatchFlightclassError = DefaultErrors;
 
@@ -5407,7 +5489,7 @@ export const patchFlightclass: API.OperationMethod<
   PatchFlightclassResponse,
   PatchFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFlightclassRequest,
   output: PatchFlightclassResponse,
   errors: [],
@@ -5422,17 +5504,20 @@ export interface ListFlightclassRequest {
   token?: string;
 }
 
-export const ListFlightclassRequest = Schema.Struct({
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-}).pipe(
+export const ListFlightclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/flightClass" }),
   svc,
 ) as unknown as Schema.Schema<ListFlightclassRequest>;
 
 export type ListFlightclassResponse = FlightClassListResponse;
-export const ListFlightclassResponse = FlightClassListResponse;
+export const ListFlightclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightClassListResponse;
 
 export type ListFlightclassError = DefaultErrors;
 
@@ -5442,7 +5527,7 @@ export const listFlightclass: API.OperationMethod<
   ListFlightclassResponse,
   ListFlightclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFlightclassRequest,
   output: ListFlightclassResponse,
   errors: [],
@@ -5455,20 +5540,22 @@ export interface PatchTransitobjectRequest {
   body?: TransitObject;
 }
 
-export const PatchTransitobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(TransitObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/transitObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchTransitobjectRequest>;
+export const PatchTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(TransitObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/transitObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchTransitobjectRequest>;
 
 export type PatchTransitobjectResponse = TransitObject;
-export const PatchTransitobjectResponse = TransitObject;
+export const PatchTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObject;
 
 export type PatchTransitobjectError = DefaultErrors;
 
@@ -5478,7 +5565,7 @@ export const patchTransitobject: API.OperationMethod<
   PatchTransitobjectResponse,
   PatchTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTransitobjectRequest,
   output: PatchTransitobjectResponse,
   errors: [],
@@ -5491,20 +5578,22 @@ export interface UpdateTransitobjectRequest {
   body?: TransitObject;
 }
 
-export const UpdateTransitobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(TransitObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/transitObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateTransitobjectRequest>;
+export const UpdateTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(TransitObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/transitObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateTransitobjectRequest>;
 
 export type UpdateTransitobjectResponse = TransitObject;
-export const UpdateTransitobjectResponse = TransitObject;
+export const UpdateTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObject;
 
 export type UpdateTransitobjectError = DefaultErrors;
 
@@ -5514,7 +5603,7 @@ export const updateTransitobject: API.OperationMethod<
   UpdateTransitobjectResponse,
   UpdateTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTransitobjectRequest,
   output: UpdateTransitobjectResponse,
   errors: [],
@@ -5525,18 +5614,20 @@ export interface GetTransitobjectRequest {
   resourceId: string;
 }
 
-export const GetTransitobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/transitObject/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetTransitobjectRequest>;
+export const GetTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/transitObject/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetTransitobjectRequest>;
 
 export type GetTransitobjectResponse = TransitObject;
-export const GetTransitobjectResponse = TransitObject;
+export const GetTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObject;
 
 export type GetTransitobjectError = DefaultErrors;
 
@@ -5546,7 +5637,7 @@ export const getTransitobject: API.OperationMethod<
   GetTransitobjectResponse,
   GetTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransitobjectRequest,
   output: GetTransitobjectResponse,
   errors: [],
@@ -5559,20 +5650,22 @@ export interface AddmessageTransitobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageTransitobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/transitObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageTransitobjectRequest>;
+export const AddmessageTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/transitObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageTransitobjectRequest>;
 
 export type AddmessageTransitobjectResponse = TransitObjectAddMessageResponse;
-export const AddmessageTransitobjectResponse = TransitObjectAddMessageResponse;
+export const AddmessageTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObjectAddMessageResponse;
 
 export type AddmessageTransitobjectError = DefaultErrors;
 
@@ -5582,7 +5675,7 @@ export const addmessageTransitobject: API.OperationMethod<
   AddmessageTransitobjectResponse,
   AddmessageTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageTransitobjectRequest,
   output: AddmessageTransitobjectResponse,
   errors: [],
@@ -5593,19 +5686,21 @@ export interface InsertTransitobjectRequest {
   body?: TransitObject;
 }
 
-export const InsertTransitobjectRequest = Schema.Struct({
-  body: Schema.optional(TransitObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/transitObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertTransitobjectRequest>;
+export const InsertTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(TransitObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/transitObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertTransitobjectRequest>;
 
 export type InsertTransitobjectResponse = TransitObject;
-export const InsertTransitobjectResponse = TransitObject;
+export const InsertTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObject;
 
 export type InsertTransitobjectError = DefaultErrors;
 
@@ -5615,7 +5710,7 @@ export const insertTransitobject: API.OperationMethod<
   InsertTransitobjectResponse,
   InsertTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertTransitobjectRequest,
   output: InsertTransitobjectResponse,
   errors: [],
@@ -5630,17 +5725,19 @@ export interface ListTransitobjectRequest {
   classId?: string;
 }
 
-export const ListTransitobjectRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/transitObject" }),
-  svc,
-) as unknown as Schema.Schema<ListTransitobjectRequest>;
+export const ListTransitobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/transitObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListTransitobjectRequest>;
 
 export type ListTransitobjectResponse = TransitObjectListResponse;
-export const ListTransitobjectResponse = TransitObjectListResponse;
+export const ListTransitobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitObjectListResponse;
 
 export type ListTransitobjectError = DefaultErrors;
 
@@ -5650,7 +5747,7 @@ export const listTransitobject: API.OperationMethod<
   ListTransitobjectResponse,
   ListTransitobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTransitobjectRequest,
   output: ListTransitobjectResponse,
   errors: [],
@@ -5661,15 +5758,17 @@ export interface GetLoyaltyclassRequest {
   resourceId: string;
 }
 
-export const GetLoyaltyclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
+export const GetLoyaltyclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/loyaltyClass/{resourceId}" }),
   svc,
 ) as unknown as Schema.Schema<GetLoyaltyclassRequest>;
 
 export type GetLoyaltyclassResponse = LoyaltyClass;
-export const GetLoyaltyclassResponse = LoyaltyClass;
+export const GetLoyaltyclassResponse = /*@__PURE__*/ /*#__PURE__*/ LoyaltyClass;
 
 export type GetLoyaltyclassError = DefaultErrors;
 
@@ -5679,7 +5778,7 @@ export const getLoyaltyclass: API.OperationMethod<
   GetLoyaltyclassResponse,
   GetLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoyaltyclassRequest,
   output: GetLoyaltyclassResponse,
   errors: [],
@@ -5692,20 +5791,22 @@ export interface AddmessageLoyaltyclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageLoyaltyclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/loyaltyClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageLoyaltyclassRequest>;
+export const AddmessageLoyaltyclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/loyaltyClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageLoyaltyclassRequest>;
 
 export type AddmessageLoyaltyclassResponse = LoyaltyClassAddMessageResponse;
-export const AddmessageLoyaltyclassResponse = LoyaltyClassAddMessageResponse;
+export const AddmessageLoyaltyclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyClassAddMessageResponse;
 
 export type AddmessageLoyaltyclassError = DefaultErrors;
 
@@ -5715,7 +5816,7 @@ export const addmessageLoyaltyclass: API.OperationMethod<
   AddmessageLoyaltyclassResponse,
   AddmessageLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageLoyaltyclassRequest,
   output: AddmessageLoyaltyclassResponse,
   errors: [],
@@ -5726,19 +5827,21 @@ export interface InsertLoyaltyclassRequest {
   body?: LoyaltyClass;
 }
 
-export const InsertLoyaltyclassRequest = Schema.Struct({
-  body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/loyaltyClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertLoyaltyclassRequest>;
+export const InsertLoyaltyclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/loyaltyClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertLoyaltyclassRequest>;
 
 export type InsertLoyaltyclassResponse = LoyaltyClass;
-export const InsertLoyaltyclassResponse = LoyaltyClass;
+export const InsertLoyaltyclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyClass;
 
 export type InsertLoyaltyclassError = DefaultErrors;
 
@@ -5748,7 +5851,7 @@ export const insertLoyaltyclass: API.OperationMethod<
   InsertLoyaltyclassResponse,
   InsertLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertLoyaltyclassRequest,
   output: InsertLoyaltyclassResponse,
   errors: [],
@@ -5761,20 +5864,22 @@ export interface PatchLoyaltyclassRequest {
   body?: LoyaltyClass;
 }
 
-export const PatchLoyaltyclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/loyaltyClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchLoyaltyclassRequest>;
+export const PatchLoyaltyclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/loyaltyClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchLoyaltyclassRequest>;
 
 export type PatchLoyaltyclassResponse = LoyaltyClass;
-export const PatchLoyaltyclassResponse = LoyaltyClass;
+export const PatchLoyaltyclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyClass;
 
 export type PatchLoyaltyclassError = DefaultErrors;
 
@@ -5784,7 +5889,7 @@ export const patchLoyaltyclass: API.OperationMethod<
   PatchLoyaltyclassResponse,
   PatchLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLoyaltyclassRequest,
   output: PatchLoyaltyclassResponse,
   errors: [],
@@ -5797,20 +5902,22 @@ export interface UpdateLoyaltyclassRequest {
   body?: LoyaltyClass;
 }
 
-export const UpdateLoyaltyclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/loyaltyClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLoyaltyclassRequest>;
+export const UpdateLoyaltyclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(LoyaltyClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/loyaltyClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLoyaltyclassRequest>;
 
 export type UpdateLoyaltyclassResponse = LoyaltyClass;
-export const UpdateLoyaltyclassResponse = LoyaltyClass;
+export const UpdateLoyaltyclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyClass;
 
 export type UpdateLoyaltyclassError = DefaultErrors;
 
@@ -5820,7 +5927,7 @@ export const updateLoyaltyclass: API.OperationMethod<
   UpdateLoyaltyclassResponse,
   UpdateLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoyaltyclassRequest,
   output: UpdateLoyaltyclassResponse,
   errors: [],
@@ -5835,17 +5942,19 @@ export interface ListLoyaltyclassRequest {
   token?: string;
 }
 
-export const ListLoyaltyclassRequest = Schema.Struct({
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/loyaltyClass" }),
-  svc,
-) as unknown as Schema.Schema<ListLoyaltyclassRequest>;
+export const ListLoyaltyclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/loyaltyClass" }),
+    svc,
+  ) as unknown as Schema.Schema<ListLoyaltyclassRequest>;
 
 export type ListLoyaltyclassResponse = LoyaltyClassListResponse;
-export const ListLoyaltyclassResponse = LoyaltyClassListResponse;
+export const ListLoyaltyclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyClassListResponse;
 
 export type ListLoyaltyclassError = DefaultErrors;
 
@@ -5855,7 +5964,7 @@ export const listLoyaltyclass: API.OperationMethod<
   ListLoyaltyclassResponse,
   ListLoyaltyclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoyaltyclassRequest,
   output: ListLoyaltyclassResponse,
   errors: [],
@@ -5870,17 +5979,19 @@ export interface ListEventticketclassRequest {
   issuerId?: string;
 }
 
-export const ListEventticketclassRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/eventTicketClass" }),
-  svc,
-) as unknown as Schema.Schema<ListEventticketclassRequest>;
+export const ListEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/eventTicketClass" }),
+    svc,
+  ) as unknown as Schema.Schema<ListEventticketclassRequest>;
 
 export type ListEventticketclassResponse = EventTicketClassListResponse;
-export const ListEventticketclassResponse = EventTicketClassListResponse;
+export const ListEventticketclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClassListResponse;
 
 export type ListEventticketclassError = DefaultErrors;
 
@@ -5890,7 +6001,7 @@ export const listEventticketclass: API.OperationMethod<
   ListEventticketclassResponse,
   ListEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventticketclassRequest,
   output: ListEventticketclassResponse,
   errors: [],
@@ -5903,22 +6014,23 @@ export interface AddmessageEventticketclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageEventticketclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/eventTicketClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageEventticketclassRequest>;
+export const AddmessageEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/eventTicketClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageEventticketclassRequest>;
 
 export type AddmessageEventticketclassResponse =
   EventTicketClassAddMessageResponse;
 export const AddmessageEventticketclassResponse =
-  EventTicketClassAddMessageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClassAddMessageResponse;
 
 export type AddmessageEventticketclassError = DefaultErrors;
 
@@ -5928,7 +6040,7 @@ export const addmessageEventticketclass: API.OperationMethod<
   AddmessageEventticketclassResponse,
   AddmessageEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageEventticketclassRequest,
   output: AddmessageEventticketclassResponse,
   errors: [],
@@ -5939,19 +6051,21 @@ export interface InsertEventticketclassRequest {
   body?: EventTicketClass;
 }
 
-export const InsertEventticketclassRequest = Schema.Struct({
-  body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/eventTicketClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertEventticketclassRequest>;
+export const InsertEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/eventTicketClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertEventticketclassRequest>;
 
 export type InsertEventticketclassResponse = EventTicketClass;
-export const InsertEventticketclassResponse = EventTicketClass;
+export const InsertEventticketclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClass;
 
 export type InsertEventticketclassError = DefaultErrors;
 
@@ -5961,7 +6075,7 @@ export const insertEventticketclass: API.OperationMethod<
   InsertEventticketclassResponse,
   InsertEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertEventticketclassRequest,
   output: InsertEventticketclassResponse,
   errors: [],
@@ -5972,18 +6086,20 @@ export interface GetEventticketclassRequest {
   resourceId: string;
 }
 
-export const GetEventticketclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/eventTicketClass/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEventticketclassRequest>;
+export const GetEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/eventTicketClass/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEventticketclassRequest>;
 
 export type GetEventticketclassResponse = EventTicketClass;
-export const GetEventticketclassResponse = EventTicketClass;
+export const GetEventticketclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClass;
 
 export type GetEventticketclassError = DefaultErrors;
 
@@ -5993,7 +6109,7 @@ export const getEventticketclass: API.OperationMethod<
   GetEventticketclassResponse,
   GetEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventticketclassRequest,
   output: GetEventticketclassResponse,
   errors: [],
@@ -6006,20 +6122,22 @@ export interface UpdateEventticketclassRequest {
   body?: EventTicketClass;
 }
 
-export const UpdateEventticketclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/eventTicketClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateEventticketclassRequest>;
+export const UpdateEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/eventTicketClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateEventticketclassRequest>;
 
 export type UpdateEventticketclassResponse = EventTicketClass;
-export const UpdateEventticketclassResponse = EventTicketClass;
+export const UpdateEventticketclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClass;
 
 export type UpdateEventticketclassError = DefaultErrors;
 
@@ -6029,7 +6147,7 @@ export const updateEventticketclass: API.OperationMethod<
   UpdateEventticketclassResponse,
   UpdateEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventticketclassRequest,
   output: UpdateEventticketclassResponse,
   errors: [],
@@ -6042,20 +6160,22 @@ export interface PatchEventticketclassRequest {
   body?: EventTicketClass;
 }
 
-export const PatchEventticketclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/eventTicketClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchEventticketclassRequest>;
+export const PatchEventticketclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(EventTicketClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/eventTicketClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchEventticketclassRequest>;
 
 export type PatchEventticketclassResponse = EventTicketClass;
-export const PatchEventticketclassResponse = EventTicketClass;
+export const PatchEventticketclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketClass;
 
 export type PatchEventticketclassError = DefaultErrors;
 
@@ -6065,7 +6185,7 @@ export const patchEventticketclass: API.OperationMethod<
   PatchEventticketclassResponse,
   PatchEventticketclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchEventticketclassRequest,
   output: PatchEventticketclassResponse,
   errors: [],
@@ -6078,20 +6198,22 @@ export interface AddmessageOfferclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageOfferclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/offerClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageOfferclassRequest>;
+export const AddmessageOfferclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/offerClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageOfferclassRequest>;
 
 export type AddmessageOfferclassResponse = OfferClassAddMessageResponse;
-export const AddmessageOfferclassResponse = OfferClassAddMessageResponse;
+export const AddmessageOfferclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferClassAddMessageResponse;
 
 export type AddmessageOfferclassError = DefaultErrors;
 
@@ -6101,7 +6223,7 @@ export const addmessageOfferclass: API.OperationMethod<
   AddmessageOfferclassResponse,
   AddmessageOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageOfferclassRequest,
   output: AddmessageOfferclassResponse,
   errors: [],
@@ -6112,19 +6234,20 @@ export interface InsertOfferclassRequest {
   body?: OfferClass;
 }
 
-export const InsertOfferclassRequest = Schema.Struct({
-  body: Schema.optional(OfferClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/offerClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertOfferclassRequest>;
+export const InsertOfferclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(OfferClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/offerClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertOfferclassRequest>;
 
 export type InsertOfferclassResponse = OfferClass;
-export const InsertOfferclassResponse = OfferClass;
+export const InsertOfferclassResponse = /*@__PURE__*/ /*#__PURE__*/ OfferClass;
 
 export type InsertOfferclassError = DefaultErrors;
 
@@ -6134,7 +6257,7 @@ export const insertOfferclass: API.OperationMethod<
   InsertOfferclassResponse,
   InsertOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertOfferclassRequest,
   output: InsertOfferclassResponse,
   errors: [],
@@ -6145,7 +6268,7 @@ export interface GetOfferclassRequest {
   resourceId: string;
 }
 
-export const GetOfferclassRequest = Schema.Struct({
+export const GetOfferclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/offerClass/{resourceId}" }),
@@ -6153,7 +6276,7 @@ export const GetOfferclassRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOfferclassRequest>;
 
 export type GetOfferclassResponse = OfferClass;
-export const GetOfferclassResponse = OfferClass;
+export const GetOfferclassResponse = /*@__PURE__*/ /*#__PURE__*/ OfferClass;
 
 export type GetOfferclassError = DefaultErrors;
 
@@ -6163,7 +6286,7 @@ export const getOfferclass: API.OperationMethod<
   GetOfferclassResponse,
   GetOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOfferclassRequest,
   output: GetOfferclassResponse,
   errors: [],
@@ -6176,20 +6299,21 @@ export interface UpdateOfferclassRequest {
   body?: OfferClass;
 }
 
-export const UpdateOfferclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(OfferClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/offerClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateOfferclassRequest>;
+export const UpdateOfferclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(OfferClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/offerClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateOfferclassRequest>;
 
 export type UpdateOfferclassResponse = OfferClass;
-export const UpdateOfferclassResponse = OfferClass;
+export const UpdateOfferclassResponse = /*@__PURE__*/ /*#__PURE__*/ OfferClass;
 
 export type UpdateOfferclassError = DefaultErrors;
 
@@ -6199,7 +6323,7 @@ export const updateOfferclass: API.OperationMethod<
   UpdateOfferclassResponse,
   UpdateOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOfferclassRequest,
   output: UpdateOfferclassResponse,
   errors: [],
@@ -6212,10 +6336,12 @@ export interface PatchOfferclassRequest {
   body?: OfferClass;
 }
 
-export const PatchOfferclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(OfferClass).pipe(T.HttpBody()),
-}).pipe(
+export const PatchOfferclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(OfferClass).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "PATCH",
     path: "walletobjects/v1/offerClass/{resourceId}",
@@ -6225,7 +6351,7 @@ export const PatchOfferclassRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchOfferclassRequest>;
 
 export type PatchOfferclassResponse = OfferClass;
-export const PatchOfferclassResponse = OfferClass;
+export const PatchOfferclassResponse = /*@__PURE__*/ /*#__PURE__*/ OfferClass;
 
 export type PatchOfferclassError = DefaultErrors;
 
@@ -6235,7 +6361,7 @@ export const patchOfferclass: API.OperationMethod<
   PatchOfferclassResponse,
   PatchOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOfferclassRequest,
   output: PatchOfferclassResponse,
   errors: [],
@@ -6250,7 +6376,7 @@ export interface ListOfferclassRequest {
   maxResults?: number;
 }
 
-export const ListOfferclassRequest = Schema.Struct({
+export const ListOfferclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
   token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
@@ -6260,7 +6386,8 @@ export const ListOfferclassRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOfferclassRequest>;
 
 export type ListOfferclassResponse = OfferClassListResponse;
-export const ListOfferclassResponse = OfferClassListResponse;
+export const ListOfferclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferClassListResponse;
 
 export type ListOfferclassError = DefaultErrors;
 
@@ -6270,7 +6397,7 @@ export const listOfferclass: API.OperationMethod<
   ListOfferclassResponse,
   ListOfferclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOfferclassRequest,
   output: ListOfferclassResponse,
   errors: [],
@@ -6285,17 +6412,19 @@ export interface ListGiftcardclassRequest {
   issuerId?: string;
 }
 
-export const ListGiftcardclassRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/giftCardClass" }),
-  svc,
-) as unknown as Schema.Schema<ListGiftcardclassRequest>;
+export const ListGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/giftCardClass" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGiftcardclassRequest>;
 
 export type ListGiftcardclassResponse = GiftCardClassListResponse;
-export const ListGiftcardclassResponse = GiftCardClassListResponse;
+export const ListGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClassListResponse;
 
 export type ListGiftcardclassError = DefaultErrors;
 
@@ -6305,7 +6434,7 @@ export const listGiftcardclass: API.OperationMethod<
   ListGiftcardclassResponse,
   ListGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGiftcardclassRequest,
   output: ListGiftcardclassResponse,
   errors: [],
@@ -6318,20 +6447,22 @@ export interface UpdateGiftcardclassRequest {
   body?: GiftCardClass;
 }
 
-export const UpdateGiftcardclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/giftCardClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGiftcardclassRequest>;
+export const UpdateGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/giftCardClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGiftcardclassRequest>;
 
 export type UpdateGiftcardclassResponse = GiftCardClass;
-export const UpdateGiftcardclassResponse = GiftCardClass;
+export const UpdateGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClass;
 
 export type UpdateGiftcardclassError = DefaultErrors;
 
@@ -6341,7 +6472,7 @@ export const updateGiftcardclass: API.OperationMethod<
   UpdateGiftcardclassResponse,
   UpdateGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGiftcardclassRequest,
   output: UpdateGiftcardclassResponse,
   errors: [],
@@ -6354,20 +6485,22 @@ export interface PatchGiftcardclassRequest {
   body?: GiftCardClass;
 }
 
-export const PatchGiftcardclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/giftCardClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchGiftcardclassRequest>;
+export const PatchGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/giftCardClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchGiftcardclassRequest>;
 
 export type PatchGiftcardclassResponse = GiftCardClass;
-export const PatchGiftcardclassResponse = GiftCardClass;
+export const PatchGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClass;
 
 export type PatchGiftcardclassError = DefaultErrors;
 
@@ -6377,7 +6510,7 @@ export const patchGiftcardclass: API.OperationMethod<
   PatchGiftcardclassResponse,
   PatchGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGiftcardclassRequest,
   output: PatchGiftcardclassResponse,
   errors: [],
@@ -6390,20 +6523,22 @@ export interface AddmessageGiftcardclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageGiftcardclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/giftCardClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageGiftcardclassRequest>;
+export const AddmessageGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/giftCardClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageGiftcardclassRequest>;
 
 export type AddmessageGiftcardclassResponse = GiftCardClassAddMessageResponse;
-export const AddmessageGiftcardclassResponse = GiftCardClassAddMessageResponse;
+export const AddmessageGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClassAddMessageResponse;
 
 export type AddmessageGiftcardclassError = DefaultErrors;
 
@@ -6413,7 +6548,7 @@ export const addmessageGiftcardclass: API.OperationMethod<
   AddmessageGiftcardclassResponse,
   AddmessageGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageGiftcardclassRequest,
   output: AddmessageGiftcardclassResponse,
   errors: [],
@@ -6424,19 +6559,21 @@ export interface InsertGiftcardclassRequest {
   body?: GiftCardClass;
 }
 
-export const InsertGiftcardclassRequest = Schema.Struct({
-  body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/giftCardClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertGiftcardclassRequest>;
+export const InsertGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(GiftCardClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/giftCardClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertGiftcardclassRequest>;
 
 export type InsertGiftcardclassResponse = GiftCardClass;
-export const InsertGiftcardclassResponse = GiftCardClass;
+export const InsertGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClass;
 
 export type InsertGiftcardclassError = DefaultErrors;
 
@@ -6446,7 +6583,7 @@ export const insertGiftcardclass: API.OperationMethod<
   InsertGiftcardclassResponse,
   InsertGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGiftcardclassRequest,
   output: InsertGiftcardclassResponse,
   errors: [],
@@ -6457,18 +6594,20 @@ export interface GetGiftcardclassRequest {
   resourceId: string;
 }
 
-export const GetGiftcardclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/giftCardClass/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGiftcardclassRequest>;
+export const GetGiftcardclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/giftCardClass/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGiftcardclassRequest>;
 
 export type GetGiftcardclassResponse = GiftCardClass;
-export const GetGiftcardclassResponse = GiftCardClass;
+export const GetGiftcardclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardClass;
 
 export type GetGiftcardclassError = DefaultErrors;
 
@@ -6478,7 +6617,7 @@ export const getGiftcardclass: API.OperationMethod<
   GetGiftcardclassResponse,
   GetGiftcardclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGiftcardclassRequest,
   output: GetGiftcardclassResponse,
   errors: [],
@@ -6489,7 +6628,7 @@ export interface InsertJwtRequest {
   body?: JwtResource;
 }
 
-export const InsertJwtRequest = Schema.Struct({
+export const InsertJwtRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(JwtResource).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "walletobjects/v1/jwt", hasBody: true }),
@@ -6497,7 +6636,7 @@ export const InsertJwtRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertJwtRequest>;
 
 export type InsertJwtResponse = JwtInsertResponse;
-export const InsertJwtResponse = JwtInsertResponse;
+export const InsertJwtResponse = /*@__PURE__*/ /*#__PURE__*/ JwtInsertResponse;
 
 export type InsertJwtError = DefaultErrors;
 
@@ -6507,7 +6646,7 @@ export const insertJwt: API.OperationMethod<
   InsertJwtResponse,
   InsertJwtError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertJwtRequest,
   output: InsertJwtResponse,
   errors: [],
@@ -6520,20 +6659,21 @@ export interface PatchOfferobjectRequest {
   body?: OfferObject;
 }
 
-export const PatchOfferobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(OfferObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/offerObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOfferobjectRequest>;
+export const PatchOfferobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(OfferObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/offerObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOfferobjectRequest>;
 
 export type PatchOfferobjectResponse = OfferObject;
-export const PatchOfferobjectResponse = OfferObject;
+export const PatchOfferobjectResponse = /*@__PURE__*/ /*#__PURE__*/ OfferObject;
 
 export type PatchOfferobjectError = DefaultErrors;
 
@@ -6543,7 +6683,7 @@ export const patchOfferobject: API.OperationMethod<
   PatchOfferobjectResponse,
   PatchOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOfferobjectRequest,
   output: PatchOfferobjectResponse,
   errors: [],
@@ -6556,20 +6696,22 @@ export interface UpdateOfferobjectRequest {
   body?: OfferObject;
 }
 
-export const UpdateOfferobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(OfferObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/offerObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateOfferobjectRequest>;
+export const UpdateOfferobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(OfferObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/offerObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateOfferobjectRequest>;
 
 export type UpdateOfferobjectResponse = OfferObject;
-export const UpdateOfferobjectResponse = OfferObject;
+export const UpdateOfferobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferObject;
 
 export type UpdateOfferobjectError = DefaultErrors;
 
@@ -6579,7 +6721,7 @@ export const updateOfferobject: API.OperationMethod<
   UpdateOfferobjectResponse,
   UpdateOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateOfferobjectRequest,
   output: UpdateOfferobjectResponse,
   errors: [],
@@ -6590,7 +6732,7 @@ export interface GetOfferobjectRequest {
   resourceId: string;
 }
 
-export const GetOfferobjectRequest = Schema.Struct({
+export const GetOfferobjectRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/offerObject/{resourceId}" }),
@@ -6598,7 +6740,7 @@ export const GetOfferobjectRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOfferobjectRequest>;
 
 export type GetOfferobjectResponse = OfferObject;
-export const GetOfferobjectResponse = OfferObject;
+export const GetOfferobjectResponse = /*@__PURE__*/ /*#__PURE__*/ OfferObject;
 
 export type GetOfferobjectError = DefaultErrors;
 
@@ -6608,7 +6750,7 @@ export const getOfferobject: API.OperationMethod<
   GetOfferobjectResponse,
   GetOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOfferobjectRequest,
   output: GetOfferobjectResponse,
   errors: [],
@@ -6621,20 +6763,22 @@ export interface AddmessageOfferobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageOfferobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/offerObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageOfferobjectRequest>;
+export const AddmessageOfferobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/offerObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageOfferobjectRequest>;
 
 export type AddmessageOfferobjectResponse = OfferObjectAddMessageResponse;
-export const AddmessageOfferobjectResponse = OfferObjectAddMessageResponse;
+export const AddmessageOfferobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferObjectAddMessageResponse;
 
 export type AddmessageOfferobjectError = DefaultErrors;
 
@@ -6644,7 +6788,7 @@ export const addmessageOfferobject: API.OperationMethod<
   AddmessageOfferobjectResponse,
   AddmessageOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageOfferobjectRequest,
   output: AddmessageOfferobjectResponse,
   errors: [],
@@ -6655,19 +6799,21 @@ export interface InsertOfferobjectRequest {
   body?: OfferObject;
 }
 
-export const InsertOfferobjectRequest = Schema.Struct({
-  body: Schema.optional(OfferObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/offerObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertOfferobjectRequest>;
+export const InsertOfferobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(OfferObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/offerObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertOfferobjectRequest>;
 
 export type InsertOfferobjectResponse = OfferObject;
-export const InsertOfferobjectResponse = OfferObject;
+export const InsertOfferobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferObject;
 
 export type InsertOfferobjectError = DefaultErrors;
 
@@ -6677,7 +6823,7 @@ export const insertOfferobject: API.OperationMethod<
   InsertOfferobjectResponse,
   InsertOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertOfferobjectRequest,
   output: InsertOfferobjectResponse,
   errors: [],
@@ -6692,17 +6838,20 @@ export interface ListOfferobjectRequest {
   token?: string;
 }
 
-export const ListOfferobjectRequest = Schema.Struct({
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-}).pipe(
+export const ListOfferobjectRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/offerObject" }),
   svc,
 ) as unknown as Schema.Schema<ListOfferobjectRequest>;
 
 export type ListOfferobjectResponse = OfferObjectListResponse;
-export const ListOfferobjectResponse = OfferObjectListResponse;
+export const ListOfferobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OfferObjectListResponse;
 
 export type ListOfferobjectError = DefaultErrors;
 
@@ -6712,7 +6861,7 @@ export const listOfferobject: API.OperationMethod<
   ListOfferobjectResponse,
   ListOfferobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOfferobjectRequest,
   output: ListOfferobjectResponse,
   errors: [],
@@ -6723,7 +6872,7 @@ export interface InsertSmarttapRequest {
   body?: SmartTap;
 }
 
-export const InsertSmarttapRequest = Schema.Struct({
+export const InsertSmarttapRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(SmartTap).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "walletobjects/v1/smartTap", hasBody: true }),
@@ -6731,7 +6880,7 @@ export const InsertSmarttapRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertSmarttapRequest>;
 
 export type InsertSmarttapResponse = SmartTap;
-export const InsertSmarttapResponse = SmartTap;
+export const InsertSmarttapResponse = /*@__PURE__*/ /*#__PURE__*/ SmartTap;
 
 export type InsertSmarttapError = DefaultErrors;
 
@@ -6741,7 +6890,7 @@ export const insertSmarttap: API.OperationMethod<
   InsertSmarttapResponse,
   InsertSmarttapError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertSmarttapRequest,
   output: InsertSmarttapResponse,
   errors: [],
@@ -6754,20 +6903,22 @@ export interface AddmessageGenericobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageGenericobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/genericObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageGenericobjectRequest>;
+export const AddmessageGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/genericObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageGenericobjectRequest>;
 
 export type AddmessageGenericobjectResponse = GenericObjectAddMessageResponse;
-export const AddmessageGenericobjectResponse = GenericObjectAddMessageResponse;
+export const AddmessageGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObjectAddMessageResponse;
 
 export type AddmessageGenericobjectError = DefaultErrors;
 
@@ -6777,7 +6928,7 @@ export const addmessageGenericobject: API.OperationMethod<
   AddmessageGenericobjectResponse,
   AddmessageGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageGenericobjectRequest,
   output: AddmessageGenericobjectResponse,
   errors: [],
@@ -6788,19 +6939,21 @@ export interface InsertGenericobjectRequest {
   body?: GenericObject;
 }
 
-export const InsertGenericobjectRequest = Schema.Struct({
-  body: Schema.optional(GenericObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/genericObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertGenericobjectRequest>;
+export const InsertGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(GenericObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/genericObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertGenericobjectRequest>;
 
 export type InsertGenericobjectResponse = GenericObject;
-export const InsertGenericobjectResponse = GenericObject;
+export const InsertGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObject;
 
 export type InsertGenericobjectError = DefaultErrors;
 
@@ -6810,7 +6963,7 @@ export const insertGenericobject: API.OperationMethod<
   InsertGenericobjectResponse,
   InsertGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGenericobjectRequest,
   output: InsertGenericobjectResponse,
   errors: [],
@@ -6821,18 +6974,20 @@ export interface GetGenericobjectRequest {
   resourceId: string;
 }
 
-export const GetGenericobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/genericObject/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGenericobjectRequest>;
+export const GetGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/genericObject/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGenericobjectRequest>;
 
 export type GetGenericobjectResponse = GenericObject;
-export const GetGenericobjectResponse = GenericObject;
+export const GetGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObject;
 
 export type GetGenericobjectError = DefaultErrors;
 
@@ -6842,7 +6997,7 @@ export const getGenericobject: API.OperationMethod<
   GetGenericobjectResponse,
   GetGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGenericobjectRequest,
   output: GetGenericobjectResponse,
   errors: [],
@@ -6855,20 +7010,22 @@ export interface UpdateGenericobjectRequest {
   body?: GenericObject;
 }
 
-export const UpdateGenericobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GenericObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/genericObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGenericobjectRequest>;
+export const UpdateGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GenericObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/genericObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGenericobjectRequest>;
 
 export type UpdateGenericobjectResponse = GenericObject;
-export const UpdateGenericobjectResponse = GenericObject;
+export const UpdateGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObject;
 
 export type UpdateGenericobjectError = DefaultErrors;
 
@@ -6878,7 +7035,7 @@ export const updateGenericobject: API.OperationMethod<
   UpdateGenericobjectResponse,
   UpdateGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGenericobjectRequest,
   output: UpdateGenericobjectResponse,
   errors: [],
@@ -6891,20 +7048,22 @@ export interface PatchGenericobjectRequest {
   body?: GenericObject;
 }
 
-export const PatchGenericobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GenericObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/genericObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchGenericobjectRequest>;
+export const PatchGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GenericObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/genericObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchGenericobjectRequest>;
 
 export type PatchGenericobjectResponse = GenericObject;
-export const PatchGenericobjectResponse = GenericObject;
+export const PatchGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObject;
 
 export type PatchGenericobjectError = DefaultErrors;
 
@@ -6914,7 +7073,7 @@ export const patchGenericobject: API.OperationMethod<
   PatchGenericobjectResponse,
   PatchGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGenericobjectRequest,
   output: PatchGenericobjectResponse,
   errors: [],
@@ -6929,17 +7088,19 @@ export interface ListGenericobjectRequest {
   maxResults?: number;
 }
 
-export const ListGenericobjectRequest = Schema.Struct({
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/genericObject" }),
-  svc,
-) as unknown as Schema.Schema<ListGenericobjectRequest>;
+export const ListGenericobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/genericObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGenericobjectRequest>;
 
 export type ListGenericobjectResponse = GenericObjectListResponse;
-export const ListGenericobjectResponse = GenericObjectListResponse;
+export const ListGenericobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenericObjectListResponse;
 
 export type ListGenericobjectError = DefaultErrors;
 
@@ -6949,7 +7110,7 @@ export const listGenericobject: API.OperationMethod<
   ListGenericobjectResponse,
   ListGenericobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGenericobjectRequest,
   output: ListGenericobjectResponse,
   errors: [],
@@ -6962,7 +7123,7 @@ export interface UploadMediaRequest {
   body?: TransitObjectUploadRotatingBarcodeValuesRequest;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(TransitObjectUploadRotatingBarcodeValuesRequest).pipe(
     T.HttpBody(),
@@ -6979,7 +7140,7 @@ export const UploadMediaRequest = Schema.Struct({
 export type UploadMediaResponse =
   TransitObjectUploadRotatingBarcodeValuesResponse;
 export const UploadMediaResponse =
-  TransitObjectUploadRotatingBarcodeValuesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TransitObjectUploadRotatingBarcodeValuesResponse;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -6989,7 +7150,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
@@ -7000,7 +7161,7 @@ export interface DownloadMediaRequest {
   resourceId: string;
 }
 
-export const DownloadMediaRequest = Schema.Struct({
+export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({
@@ -7011,7 +7172,7 @@ export const DownloadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
 export type DownloadMediaResponse = Media;
-export const DownloadMediaResponse = Media;
+export const DownloadMediaResponse = /*@__PURE__*/ /*#__PURE__*/ Media;
 
 export type DownloadMediaError = DefaultErrors;
 
@@ -7021,7 +7182,7 @@ export const downloadMedia: API.OperationMethod<
   DownloadMediaResponse,
   DownloadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -7034,20 +7195,22 @@ export interface UpdateTransitclassRequest {
   body?: TransitClass;
 }
 
-export const UpdateTransitclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(TransitClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/transitClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateTransitclassRequest>;
+export const UpdateTransitclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(TransitClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/transitClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateTransitclassRequest>;
 
 export type UpdateTransitclassResponse = TransitClass;
-export const UpdateTransitclassResponse = TransitClass;
+export const UpdateTransitclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitClass;
 
 export type UpdateTransitclassError = DefaultErrors;
 
@@ -7057,7 +7220,7 @@ export const updateTransitclass: API.OperationMethod<
   UpdateTransitclassResponse,
   UpdateTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTransitclassRequest,
   output: UpdateTransitclassResponse,
   errors: [],
@@ -7070,20 +7233,22 @@ export interface PatchTransitclassRequest {
   body?: TransitClass;
 }
 
-export const PatchTransitclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(TransitClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/transitClass/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchTransitclassRequest>;
+export const PatchTransitclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(TransitClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/transitClass/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchTransitclassRequest>;
 
 export type PatchTransitclassResponse = TransitClass;
-export const PatchTransitclassResponse = TransitClass;
+export const PatchTransitclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitClass;
 
 export type PatchTransitclassError = DefaultErrors;
 
@@ -7093,7 +7258,7 @@ export const patchTransitclass: API.OperationMethod<
   PatchTransitclassResponse,
   PatchTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTransitclassRequest,
   output: PatchTransitclassResponse,
   errors: [],
@@ -7106,20 +7271,22 @@ export interface AddmessageTransitclassRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageTransitclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/transitClass/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageTransitclassRequest>;
+export const AddmessageTransitclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/transitClass/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageTransitclassRequest>;
 
 export type AddmessageTransitclassResponse = TransitClassAddMessageResponse;
-export const AddmessageTransitclassResponse = TransitClassAddMessageResponse;
+export const AddmessageTransitclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitClassAddMessageResponse;
 
 export type AddmessageTransitclassError = DefaultErrors;
 
@@ -7129,7 +7296,7 @@ export const addmessageTransitclass: API.OperationMethod<
   AddmessageTransitclassResponse,
   AddmessageTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageTransitclassRequest,
   output: AddmessageTransitclassResponse,
   errors: [],
@@ -7140,19 +7307,21 @@ export interface InsertTransitclassRequest {
   body?: TransitClass;
 }
 
-export const InsertTransitclassRequest = Schema.Struct({
-  body: Schema.optional(TransitClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/transitClass",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertTransitclassRequest>;
+export const InsertTransitclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(TransitClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/transitClass",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertTransitclassRequest>;
 
 export type InsertTransitclassResponse = TransitClass;
-export const InsertTransitclassResponse = TransitClass;
+export const InsertTransitclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitClass;
 
 export type InsertTransitclassError = DefaultErrors;
 
@@ -7162,7 +7331,7 @@ export const insertTransitclass: API.OperationMethod<
   InsertTransitclassResponse,
   InsertTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertTransitclassRequest,
   output: InsertTransitclassResponse,
   errors: [],
@@ -7173,15 +7342,17 @@ export interface GetTransitclassRequest {
   resourceId: string;
 }
 
-export const GetTransitclassRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
+export const GetTransitclassRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/transitClass/{resourceId}" }),
   svc,
 ) as unknown as Schema.Schema<GetTransitclassRequest>;
 
 export type GetTransitclassResponse = TransitClass;
-export const GetTransitclassResponse = TransitClass;
+export const GetTransitclassResponse = /*@__PURE__*/ /*#__PURE__*/ TransitClass;
 
 export type GetTransitclassError = DefaultErrors;
 
@@ -7191,7 +7362,7 @@ export const getTransitclass: API.OperationMethod<
   GetTransitclassResponse,
   GetTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTransitclassRequest,
   output: GetTransitclassResponse,
   errors: [],
@@ -7206,17 +7377,19 @@ export interface ListTransitclassRequest {
   issuerId?: string;
 }
 
-export const ListTransitclassRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/transitClass" }),
-  svc,
-) as unknown as Schema.Schema<ListTransitclassRequest>;
+export const ListTransitclassRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    issuerId: Schema.optional(Schema.String).pipe(T.HttpQuery("issuerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/transitClass" }),
+    svc,
+  ) as unknown as Schema.Schema<ListTransitclassRequest>;
 
 export type ListTransitclassResponse = TransitClassListResponse;
-export const ListTransitclassResponse = TransitClassListResponse;
+export const ListTransitclassResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransitClassListResponse;
 
 export type ListTransitclassError = DefaultErrors;
 
@@ -7226,7 +7399,7 @@ export const listTransitclass: API.OperationMethod<
   ListTransitclassResponse,
   ListTransitclassError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTransitclassRequest,
   output: ListTransitclassResponse,
   errors: [],
@@ -7241,17 +7414,19 @@ export interface ListFlightobjectRequest {
   classId?: string;
 }
 
-export const ListFlightobjectRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/flightObject" }),
-  svc,
-) as unknown as Schema.Schema<ListFlightobjectRequest>;
+export const ListFlightobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/flightObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListFlightobjectRequest>;
 
 export type ListFlightobjectResponse = FlightObjectListResponse;
-export const ListFlightobjectResponse = FlightObjectListResponse;
+export const ListFlightobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightObjectListResponse;
 
 export type ListFlightobjectError = DefaultErrors;
 
@@ -7261,7 +7436,7 @@ export const listFlightobject: API.OperationMethod<
   ListFlightobjectResponse,
   ListFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListFlightobjectRequest,
   output: ListFlightobjectResponse,
   errors: [],
@@ -7274,20 +7449,22 @@ export interface PatchFlightobjectRequest {
   body?: FlightObject;
 }
 
-export const PatchFlightobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(FlightObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/flightObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFlightobjectRequest>;
+export const PatchFlightobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(FlightObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/flightObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFlightobjectRequest>;
 
 export type PatchFlightobjectResponse = FlightObject;
-export const PatchFlightobjectResponse = FlightObject;
+export const PatchFlightobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightObject;
 
 export type PatchFlightobjectError = DefaultErrors;
 
@@ -7297,7 +7474,7 @@ export const patchFlightobject: API.OperationMethod<
   PatchFlightobjectResponse,
   PatchFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFlightobjectRequest,
   output: PatchFlightobjectResponse,
   errors: [],
@@ -7310,20 +7487,22 @@ export interface UpdateFlightobjectRequest {
   body?: FlightObject;
 }
 
-export const UpdateFlightobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(FlightObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/flightObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateFlightobjectRequest>;
+export const UpdateFlightobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(FlightObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/flightObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateFlightobjectRequest>;
 
 export type UpdateFlightobjectResponse = FlightObject;
-export const UpdateFlightobjectResponse = FlightObject;
+export const UpdateFlightobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightObject;
 
 export type UpdateFlightobjectError = DefaultErrors;
 
@@ -7333,7 +7512,7 @@ export const updateFlightobject: API.OperationMethod<
   UpdateFlightobjectResponse,
   UpdateFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFlightobjectRequest,
   output: UpdateFlightobjectResponse,
   errors: [],
@@ -7344,15 +7523,17 @@ export interface GetFlightobjectRequest {
   resourceId: string;
 }
 
-export const GetFlightobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
+export const GetFlightobjectRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/flightObject/{resourceId}" }),
   svc,
 ) as unknown as Schema.Schema<GetFlightobjectRequest>;
 
 export type GetFlightobjectResponse = FlightObject;
-export const GetFlightobjectResponse = FlightObject;
+export const GetFlightobjectResponse = /*@__PURE__*/ /*#__PURE__*/ FlightObject;
 
 export type GetFlightobjectError = DefaultErrors;
 
@@ -7362,7 +7543,7 @@ export const getFlightobject: API.OperationMethod<
   GetFlightobjectResponse,
   GetFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFlightobjectRequest,
   output: GetFlightobjectResponse,
   errors: [],
@@ -7375,20 +7556,22 @@ export interface AddmessageFlightobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageFlightobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/flightObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageFlightobjectRequest>;
+export const AddmessageFlightobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/flightObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageFlightobjectRequest>;
 
 export type AddmessageFlightobjectResponse = FlightObjectAddMessageResponse;
-export const AddmessageFlightobjectResponse = FlightObjectAddMessageResponse;
+export const AddmessageFlightobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightObjectAddMessageResponse;
 
 export type AddmessageFlightobjectError = DefaultErrors;
 
@@ -7398,7 +7581,7 @@ export const addmessageFlightobject: API.OperationMethod<
   AddmessageFlightobjectResponse,
   AddmessageFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageFlightobjectRequest,
   output: AddmessageFlightobjectResponse,
   errors: [],
@@ -7409,19 +7592,21 @@ export interface InsertFlightobjectRequest {
   body?: FlightObject;
 }
 
-export const InsertFlightobjectRequest = Schema.Struct({
-  body: Schema.optional(FlightObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/flightObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertFlightobjectRequest>;
+export const InsertFlightobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(FlightObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/flightObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertFlightobjectRequest>;
 
 export type InsertFlightobjectResponse = FlightObject;
-export const InsertFlightobjectResponse = FlightObject;
+export const InsertFlightobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FlightObject;
 
 export type InsertFlightobjectError = DefaultErrors;
 
@@ -7431,7 +7616,7 @@ export const insertFlightobject: API.OperationMethod<
   InsertFlightobjectResponse,
   InsertFlightobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertFlightobjectRequest,
   output: InsertFlightobjectResponse,
   errors: [],
@@ -7446,17 +7631,19 @@ export interface ListEventticketobjectRequest {
   classId?: string;
 }
 
-export const ListEventticketobjectRequest = Schema.Struct({
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/eventTicketObject" }),
-  svc,
-) as unknown as Schema.Schema<ListEventticketobjectRequest>;
+export const ListEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/eventTicketObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListEventticketobjectRequest>;
 
 export type ListEventticketobjectResponse = EventTicketObjectListResponse;
-export const ListEventticketobjectResponse = EventTicketObjectListResponse;
+export const ListEventticketobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObjectListResponse;
 
 export type ListEventticketobjectError = DefaultErrors;
 
@@ -7466,7 +7653,7 @@ export const listEventticketobject: API.OperationMethod<
   ListEventticketobjectResponse,
   ListEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEventticketobjectRequest,
   output: ListEventticketobjectResponse,
   errors: [],
@@ -7479,22 +7666,23 @@ export interface ModifylinkedofferobjectsEventticketobjectRequest {
   body?: ModifyLinkedOfferObjectsRequest;
 }
 
-export const ModifylinkedofferobjectsEventticketobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/eventTicketObject/{resourceId}/modifyLinkedOfferObjects",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifylinkedofferobjectsEventticketobjectRequest>;
+export const ModifylinkedofferobjectsEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/eventTicketObject/{resourceId}/modifyLinkedOfferObjects",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifylinkedofferobjectsEventticketobjectRequest>;
 
 export type ModifylinkedofferobjectsEventticketobjectResponse =
   EventTicketObject;
 export const ModifylinkedofferobjectsEventticketobjectResponse =
-  EventTicketObject;
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObject;
 
 export type ModifylinkedofferobjectsEventticketobjectError = DefaultErrors;
 
@@ -7504,7 +7692,7 @@ export const modifylinkedofferobjectsEventticketobject: API.OperationMethod<
   ModifylinkedofferobjectsEventticketobjectResponse,
   ModifylinkedofferobjectsEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifylinkedofferobjectsEventticketobjectRequest,
   output: ModifylinkedofferobjectsEventticketobjectResponse,
   errors: [],
@@ -7517,22 +7705,23 @@ export interface AddmessageEventticketobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageEventticketobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/eventTicketObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageEventticketobjectRequest>;
+export const AddmessageEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/eventTicketObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageEventticketobjectRequest>;
 
 export type AddmessageEventticketobjectResponse =
   EventTicketObjectAddMessageResponse;
 export const AddmessageEventticketobjectResponse =
-  EventTicketObjectAddMessageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObjectAddMessageResponse;
 
 export type AddmessageEventticketobjectError = DefaultErrors;
 
@@ -7542,7 +7731,7 @@ export const addmessageEventticketobject: API.OperationMethod<
   AddmessageEventticketobjectResponse,
   AddmessageEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageEventticketobjectRequest,
   output: AddmessageEventticketobjectResponse,
   errors: [],
@@ -7553,19 +7742,21 @@ export interface InsertEventticketobjectRequest {
   body?: EventTicketObject;
 }
 
-export const InsertEventticketobjectRequest = Schema.Struct({
-  body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/eventTicketObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertEventticketobjectRequest>;
+export const InsertEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/eventTicketObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertEventticketobjectRequest>;
 
 export type InsertEventticketobjectResponse = EventTicketObject;
-export const InsertEventticketobjectResponse = EventTicketObject;
+export const InsertEventticketobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObject;
 
 export type InsertEventticketobjectError = DefaultErrors;
 
@@ -7575,7 +7766,7 @@ export const insertEventticketobject: API.OperationMethod<
   InsertEventticketobjectResponse,
   InsertEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertEventticketobjectRequest,
   output: InsertEventticketobjectResponse,
   errors: [],
@@ -7586,18 +7777,20 @@ export interface GetEventticketobjectRequest {
   resourceId: string;
 }
 
-export const GetEventticketobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/eventTicketObject/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEventticketobjectRequest>;
+export const GetEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/eventTicketObject/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEventticketobjectRequest>;
 
 export type GetEventticketobjectResponse = EventTicketObject;
-export const GetEventticketobjectResponse = EventTicketObject;
+export const GetEventticketobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObject;
 
 export type GetEventticketobjectError = DefaultErrors;
 
@@ -7607,7 +7800,7 @@ export const getEventticketobject: API.OperationMethod<
   GetEventticketobjectResponse,
   GetEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEventticketobjectRequest,
   output: GetEventticketobjectResponse,
   errors: [],
@@ -7620,20 +7813,22 @@ export interface UpdateEventticketobjectRequest {
   body?: EventTicketObject;
 }
 
-export const UpdateEventticketobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/eventTicketObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateEventticketobjectRequest>;
+export const UpdateEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/eventTicketObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateEventticketobjectRequest>;
 
 export type UpdateEventticketobjectResponse = EventTicketObject;
-export const UpdateEventticketobjectResponse = EventTicketObject;
+export const UpdateEventticketobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObject;
 
 export type UpdateEventticketobjectError = DefaultErrors;
 
@@ -7643,7 +7838,7 @@ export const updateEventticketobject: API.OperationMethod<
   UpdateEventticketobjectResponse,
   UpdateEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateEventticketobjectRequest,
   output: UpdateEventticketobjectResponse,
   errors: [],
@@ -7656,20 +7851,22 @@ export interface PatchEventticketobjectRequest {
   body?: EventTicketObject;
 }
 
-export const PatchEventticketobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/eventTicketObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchEventticketobjectRequest>;
+export const PatchEventticketobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(EventTicketObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/eventTicketObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchEventticketobjectRequest>;
 
 export type PatchEventticketobjectResponse = EventTicketObject;
-export const PatchEventticketobjectResponse = EventTicketObject;
+export const PatchEventticketobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EventTicketObject;
 
 export type PatchEventticketobjectError = DefaultErrors;
 
@@ -7679,7 +7876,7 @@ export const patchEventticketobject: API.OperationMethod<
   PatchEventticketobjectResponse,
   PatchEventticketobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchEventticketobjectRequest,
   output: PatchEventticketobjectResponse,
   errors: [],
@@ -7691,7 +7888,7 @@ export interface SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest {
 }
 
 export const SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     body: Schema.optional(SetPassUpdateNoticeRequest).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
@@ -7705,7 +7902,7 @@ export const SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest =
 export type SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse =
   SetPassUpdateNoticeResponse;
 export const SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse =
-  SetPassUpdateNoticeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SetPassUpdateNoticeResponse;
 
 export type SetPassUpdateNoticeWalletobjectsV1PrivateContentError =
   DefaultErrors;
@@ -7716,7 +7913,7 @@ export const setPassUpdateNoticeWalletobjectsV1PrivateContent: API.OperationMeth
   SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse,
   SetPassUpdateNoticeWalletobjectsV1PrivateContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest,
   output: SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse,
   errors: [],
@@ -7731,17 +7928,19 @@ export interface ListGiftcardobjectRequest {
   token?: string;
 }
 
-export const ListGiftcardobjectRequest = Schema.Struct({
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/giftCardObject" }),
-  svc,
-) as unknown as Schema.Schema<ListGiftcardobjectRequest>;
+export const ListGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/giftCardObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGiftcardobjectRequest>;
 
 export type ListGiftcardobjectResponse = GiftCardObjectListResponse;
-export const ListGiftcardobjectResponse = GiftCardObjectListResponse;
+export const ListGiftcardobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObjectListResponse;
 
 export type ListGiftcardobjectError = DefaultErrors;
 
@@ -7751,7 +7950,7 @@ export const listGiftcardobject: API.OperationMethod<
   ListGiftcardobjectResponse,
   ListGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGiftcardobjectRequest,
   output: ListGiftcardobjectResponse,
   errors: [],
@@ -7764,20 +7963,22 @@ export interface UpdateGiftcardobjectRequest {
   body?: GiftCardObject;
 }
 
-export const UpdateGiftcardobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/giftCardObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateGiftcardobjectRequest>;
+export const UpdateGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/giftCardObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateGiftcardobjectRequest>;
 
 export type UpdateGiftcardobjectResponse = GiftCardObject;
-export const UpdateGiftcardobjectResponse = GiftCardObject;
+export const UpdateGiftcardobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObject;
 
 export type UpdateGiftcardobjectError = DefaultErrors;
 
@@ -7787,7 +7988,7 @@ export const updateGiftcardobject: API.OperationMethod<
   UpdateGiftcardobjectResponse,
   UpdateGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGiftcardobjectRequest,
   output: UpdateGiftcardobjectResponse,
   errors: [],
@@ -7800,20 +8001,22 @@ export interface PatchGiftcardobjectRequest {
   body?: GiftCardObject;
 }
 
-export const PatchGiftcardobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/giftCardObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchGiftcardobjectRequest>;
+export const PatchGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/giftCardObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchGiftcardobjectRequest>;
 
 export type PatchGiftcardobjectResponse = GiftCardObject;
-export const PatchGiftcardobjectResponse = GiftCardObject;
+export const PatchGiftcardobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObject;
 
 export type PatchGiftcardobjectError = DefaultErrors;
 
@@ -7823,7 +8026,7 @@ export const patchGiftcardobject: API.OperationMethod<
   PatchGiftcardobjectResponse,
   PatchGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGiftcardobjectRequest,
   output: PatchGiftcardobjectResponse,
   errors: [],
@@ -7836,21 +8039,22 @@ export interface AddmessageGiftcardobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageGiftcardobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageGiftcardobjectRequest>;
+export const AddmessageGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/giftCardObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageGiftcardobjectRequest>;
 
 export type AddmessageGiftcardobjectResponse = GiftCardObjectAddMessageResponse;
 export const AddmessageGiftcardobjectResponse =
-  GiftCardObjectAddMessageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObjectAddMessageResponse;
 
 export type AddmessageGiftcardobjectError = DefaultErrors;
 
@@ -7860,7 +8064,7 @@ export const addmessageGiftcardobject: API.OperationMethod<
   AddmessageGiftcardobjectResponse,
   AddmessageGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageGiftcardobjectRequest,
   output: AddmessageGiftcardobjectResponse,
   errors: [],
@@ -7871,19 +8075,21 @@ export interface InsertGiftcardobjectRequest {
   body?: GiftCardObject;
 }
 
-export const InsertGiftcardobjectRequest = Schema.Struct({
-  body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/giftCardObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertGiftcardobjectRequest>;
+export const InsertGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(GiftCardObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/giftCardObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertGiftcardobjectRequest>;
 
 export type InsertGiftcardobjectResponse = GiftCardObject;
-export const InsertGiftcardobjectResponse = GiftCardObject;
+export const InsertGiftcardobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObject;
 
 export type InsertGiftcardobjectError = DefaultErrors;
 
@@ -7893,7 +8099,7 @@ export const insertGiftcardobject: API.OperationMethod<
   InsertGiftcardobjectResponse,
   InsertGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGiftcardobjectRequest,
   output: InsertGiftcardobjectResponse,
   errors: [],
@@ -7904,18 +8110,20 @@ export interface GetGiftcardobjectRequest {
   resourceId: string;
 }
 
-export const GetGiftcardobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/giftCardObject/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetGiftcardobjectRequest>;
+export const GetGiftcardobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/giftCardObject/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetGiftcardobjectRequest>;
 
 export type GetGiftcardobjectResponse = GiftCardObject;
-export const GetGiftcardobjectResponse = GiftCardObject;
+export const GetGiftcardobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GiftCardObject;
 
 export type GetGiftcardobjectError = DefaultErrors;
 
@@ -7925,7 +8133,7 @@ export const getGiftcardobject: API.OperationMethod<
   GetGiftcardobjectResponse,
   GetGiftcardobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGiftcardobjectRequest,
   output: GetGiftcardobjectResponse,
   errors: [],
@@ -7936,7 +8144,7 @@ export interface GetIssuerRequest {
   resourceId: string;
 }
 
-export const GetIssuerRequest = Schema.Struct({
+export const GetIssuerRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
 }).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/issuer/{resourceId}" }),
@@ -7944,7 +8152,7 @@ export const GetIssuerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetIssuerRequest>;
 
 export type GetIssuerResponse = Issuer;
-export const GetIssuerResponse = Issuer;
+export const GetIssuerResponse = /*@__PURE__*/ /*#__PURE__*/ Issuer;
 
 export type GetIssuerError = DefaultErrors;
 
@@ -7954,7 +8162,7 @@ export const getIssuer: API.OperationMethod<
   GetIssuerResponse,
   GetIssuerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIssuerRequest,
   output: GetIssuerResponse,
   errors: [],
@@ -7965,7 +8173,7 @@ export interface InsertIssuerRequest {
   body?: Issuer;
 }
 
-export const InsertIssuerRequest = Schema.Struct({
+export const InsertIssuerRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Issuer).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "walletobjects/v1/issuer", hasBody: true }),
@@ -7973,7 +8181,7 @@ export const InsertIssuerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertIssuerRequest>;
 
 export type InsertIssuerResponse = Issuer;
-export const InsertIssuerResponse = Issuer;
+export const InsertIssuerResponse = /*@__PURE__*/ /*#__PURE__*/ Issuer;
 
 export type InsertIssuerError = DefaultErrors;
 
@@ -7983,7 +8191,7 @@ export const insertIssuer: API.OperationMethod<
   InsertIssuerResponse,
   InsertIssuerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertIssuerRequest,
   output: InsertIssuerResponse,
   errors: [],
@@ -7996,7 +8204,7 @@ export interface PatchIssuerRequest {
   body?: Issuer;
 }
 
-export const PatchIssuerRequest = Schema.Struct({
+export const PatchIssuerRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(Issuer).pipe(T.HttpBody()),
 }).pipe(
@@ -8009,7 +8217,7 @@ export const PatchIssuerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchIssuerRequest>;
 
 export type PatchIssuerResponse = Issuer;
-export const PatchIssuerResponse = Issuer;
+export const PatchIssuerResponse = /*@__PURE__*/ /*#__PURE__*/ Issuer;
 
 export type PatchIssuerError = DefaultErrors;
 
@@ -8019,7 +8227,7 @@ export const patchIssuer: API.OperationMethod<
   PatchIssuerResponse,
   PatchIssuerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchIssuerRequest,
   output: PatchIssuerResponse,
   errors: [],
@@ -8032,7 +8240,7 @@ export interface UpdateIssuerRequest {
   body?: Issuer;
 }
 
-export const UpdateIssuerRequest = Schema.Struct({
+export const UpdateIssuerRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
   body: Schema.optional(Issuer).pipe(T.HttpBody()),
 }).pipe(
@@ -8045,7 +8253,7 @@ export const UpdateIssuerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateIssuerRequest>;
 
 export type UpdateIssuerResponse = Issuer;
-export const UpdateIssuerResponse = Issuer;
+export const UpdateIssuerResponse = /*@__PURE__*/ /*#__PURE__*/ Issuer;
 
 export type UpdateIssuerError = DefaultErrors;
 
@@ -8055,7 +8263,7 @@ export const updateIssuer: API.OperationMethod<
   UpdateIssuerResponse,
   UpdateIssuerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIssuerRequest,
   output: UpdateIssuerResponse,
   errors: [],
@@ -8063,13 +8271,16 @@ export const updateIssuer: API.OperationMethod<
 
 export interface ListIssuerRequest {}
 
-export const ListIssuerRequest = Schema.Struct({}).pipe(
+export const ListIssuerRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "walletobjects/v1/issuer" }),
   svc,
 ) as unknown as Schema.Schema<ListIssuerRequest>;
 
 export type ListIssuerResponse = IssuerListResponse;
-export const ListIssuerResponse = IssuerListResponse;
+export const ListIssuerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IssuerListResponse;
 
 export type ListIssuerError = DefaultErrors;
 
@@ -8079,7 +8290,7 @@ export const listIssuer: API.OperationMethod<
   ListIssuerResponse,
   ListIssuerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIssuerRequest,
   output: ListIssuerResponse,
   errors: [],
@@ -8094,17 +8305,19 @@ export interface ListLoyaltyobjectRequest {
   classId?: string;
 }
 
-export const ListLoyaltyobjectRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
-  classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
-}).pipe(
-  T.Http({ method: "GET", path: "walletobjects/v1/loyaltyObject" }),
-  svc,
-) as unknown as Schema.Schema<ListLoyaltyobjectRequest>;
+export const ListLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    token: Schema.optional(Schema.String).pipe(T.HttpQuery("token")),
+    classId: Schema.optional(Schema.String).pipe(T.HttpQuery("classId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "walletobjects/v1/loyaltyObject" }),
+    svc,
+  ) as unknown as Schema.Schema<ListLoyaltyobjectRequest>;
 
 export type ListLoyaltyobjectResponse = LoyaltyObjectListResponse;
-export const ListLoyaltyobjectResponse = LoyaltyObjectListResponse;
+export const ListLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObjectListResponse;
 
 export type ListLoyaltyobjectError = DefaultErrors;
 
@@ -8114,7 +8327,7 @@ export const listLoyaltyobject: API.OperationMethod<
   ListLoyaltyobjectResponse,
   ListLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLoyaltyobjectRequest,
   output: ListLoyaltyobjectResponse,
   errors: [],
@@ -8127,20 +8340,22 @@ export interface ModifylinkedofferobjectsLoyaltyobjectRequest {
   body?: ModifyLinkedOfferObjectsRequest;
 }
 
-export const ModifylinkedofferobjectsLoyaltyobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/loyaltyObject/{resourceId}/modifyLinkedOfferObjects",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifylinkedofferobjectsLoyaltyobjectRequest>;
+export const ModifylinkedofferobjectsLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(ModifyLinkedOfferObjectsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/loyaltyObject/{resourceId}/modifyLinkedOfferObjects",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifylinkedofferobjectsLoyaltyobjectRequest>;
 
 export type ModifylinkedofferobjectsLoyaltyobjectResponse = LoyaltyObject;
-export const ModifylinkedofferobjectsLoyaltyobjectResponse = LoyaltyObject;
+export const ModifylinkedofferobjectsLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObject;
 
 export type ModifylinkedofferobjectsLoyaltyobjectError = DefaultErrors;
 
@@ -8150,7 +8365,7 @@ export const modifylinkedofferobjectsLoyaltyobject: API.OperationMethod<
   ModifylinkedofferobjectsLoyaltyobjectResponse,
   ModifylinkedofferobjectsLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifylinkedofferobjectsLoyaltyobjectRequest,
   output: ModifylinkedofferobjectsLoyaltyobjectResponse,
   errors: [],
@@ -8163,20 +8378,22 @@ export interface PatchLoyaltyobjectRequest {
   body?: LoyaltyObject;
 }
 
-export const PatchLoyaltyobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "walletobjects/v1/loyaltyObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchLoyaltyobjectRequest>;
+export const PatchLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "walletobjects/v1/loyaltyObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchLoyaltyobjectRequest>;
 
 export type PatchLoyaltyobjectResponse = LoyaltyObject;
-export const PatchLoyaltyobjectResponse = LoyaltyObject;
+export const PatchLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObject;
 
 export type PatchLoyaltyobjectError = DefaultErrors;
 
@@ -8186,7 +8403,7 @@ export const patchLoyaltyobject: API.OperationMethod<
   PatchLoyaltyobjectResponse,
   PatchLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLoyaltyobjectRequest,
   output: PatchLoyaltyobjectResponse,
   errors: [],
@@ -8199,20 +8416,22 @@ export interface UpdateLoyaltyobjectRequest {
   body?: LoyaltyObject;
 }
 
-export const UpdateLoyaltyobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "walletobjects/v1/loyaltyObject/{resourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLoyaltyobjectRequest>;
+export const UpdateLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "walletobjects/v1/loyaltyObject/{resourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLoyaltyobjectRequest>;
 
 export type UpdateLoyaltyobjectResponse = LoyaltyObject;
-export const UpdateLoyaltyobjectResponse = LoyaltyObject;
+export const UpdateLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObject;
 
 export type UpdateLoyaltyobjectError = DefaultErrors;
 
@@ -8222,7 +8441,7 @@ export const updateLoyaltyobject: API.OperationMethod<
   UpdateLoyaltyobjectResponse,
   UpdateLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoyaltyobjectRequest,
   output: UpdateLoyaltyobjectResponse,
   errors: [],
@@ -8233,18 +8452,20 @@ export interface GetLoyaltyobjectRequest {
   resourceId: string;
 }
 
-export const GetLoyaltyobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "walletobjects/v1/loyaltyObject/{resourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLoyaltyobjectRequest>;
+export const GetLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "walletobjects/v1/loyaltyObject/{resourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLoyaltyobjectRequest>;
 
 export type GetLoyaltyobjectResponse = LoyaltyObject;
-export const GetLoyaltyobjectResponse = LoyaltyObject;
+export const GetLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObject;
 
 export type GetLoyaltyobjectError = DefaultErrors;
 
@@ -8254,7 +8475,7 @@ export const getLoyaltyobject: API.OperationMethod<
   GetLoyaltyobjectResponse,
   GetLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoyaltyobjectRequest,
   output: GetLoyaltyobjectResponse,
   errors: [],
@@ -8267,20 +8488,22 @@ export interface AddmessageLoyaltyobjectRequest {
   body?: AddMessageRequest;
 }
 
-export const AddmessageLoyaltyobjectRequest = Schema.Struct({
-  resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
-  body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/loyaltyObject/{resourceId}/addMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddmessageLoyaltyobjectRequest>;
+export const AddmessageLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resourceId: Schema.String.pipe(T.HttpPath("resourceId")),
+    body: Schema.optional(AddMessageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/loyaltyObject/{resourceId}/addMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddmessageLoyaltyobjectRequest>;
 
 export type AddmessageLoyaltyobjectResponse = LoyaltyObjectAddMessageResponse;
-export const AddmessageLoyaltyobjectResponse = LoyaltyObjectAddMessageResponse;
+export const AddmessageLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObjectAddMessageResponse;
 
 export type AddmessageLoyaltyobjectError = DefaultErrors;
 
@@ -8290,7 +8513,7 @@ export const addmessageLoyaltyobject: API.OperationMethod<
   AddmessageLoyaltyobjectResponse,
   AddmessageLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddmessageLoyaltyobjectRequest,
   output: AddmessageLoyaltyobjectResponse,
   errors: [],
@@ -8301,19 +8524,21 @@ export interface InsertLoyaltyobjectRequest {
   body?: LoyaltyObject;
 }
 
-export const InsertLoyaltyobjectRequest = Schema.Struct({
-  body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "walletobjects/v1/loyaltyObject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertLoyaltyobjectRequest>;
+export const InsertLoyaltyobjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LoyaltyObject).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "walletobjects/v1/loyaltyObject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertLoyaltyobjectRequest>;
 
 export type InsertLoyaltyobjectResponse = LoyaltyObject;
-export const InsertLoyaltyobjectResponse = LoyaltyObject;
+export const InsertLoyaltyobjectResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LoyaltyObject;
 
 export type InsertLoyaltyobjectError = DefaultErrors;
 
@@ -8323,7 +8548,7 @@ export const insertLoyaltyobject: API.OperationMethod<
   InsertLoyaltyobjectResponse,
   InsertLoyaltyobjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertLoyaltyobjectRequest,
   output: InsertLoyaltyobjectResponse,
   errors: [],

@@ -27,14 +27,14 @@ export interface CertificateInfo {
   sha256Fingerprint?: string;
 }
 
-export const CertificateInfo: Schema.Schema<CertificateInfo> = Schema.suspend(
-  () =>
+export const CertificateInfo: Schema.Schema<CertificateInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sha256Fingerprint: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CertificateInfo",
-}) as any as Schema.Schema<CertificateInfo>;
+  ).annotate({
+    identifier: "CertificateInfo",
+  }) as any as Schema.Schema<CertificateInfo>;
 
 export interface AndroidAppAsset {
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
@@ -43,26 +43,27 @@ export interface AndroidAppAsset {
   certificate?: CertificateInfo;
 }
 
-export const AndroidAppAsset: Schema.Schema<AndroidAppAsset> = Schema.suspend(
-  () =>
+export const AndroidAppAsset: Schema.Schema<AndroidAppAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       packageName: Schema.optional(Schema.String),
       certificate: Schema.optional(CertificateInfo),
     }),
-).annotate({
-  identifier: "AndroidAppAsset",
-}) as any as Schema.Schema<AndroidAppAsset>;
+  ).annotate({
+    identifier: "AndroidAppAsset",
+  }) as any as Schema.Schema<AndroidAppAsset>;
 
 export interface WebAsset {
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
   site?: string;
 }
 
-export const WebAsset: Schema.Schema<WebAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    site: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "WebAsset" }) as any as Schema.Schema<WebAsset>;
+export const WebAsset: Schema.Schema<WebAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      site: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "WebAsset" }) as any as Schema.Schema<WebAsset>;
 
 export interface Asset {
   /** Set if this is an Android App asset. */
@@ -71,12 +72,13 @@ export interface Asset {
   web?: WebAsset;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
-  Schema.Struct({
-    androidApp: Schema.optional(AndroidAppAsset),
-    web: Schema.optional(WebAsset),
-  }),
-).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      androidApp: Schema.optional(AndroidAppAsset),
+      web: Schema.optional(WebAsset),
+    }),
+  ).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface StatementTemplate {
   /** The source asset that is asserting the statement. If omitted, you must specify a BulkCheckRequest.default_source value to use here. */
@@ -88,7 +90,7 @@ export interface StatementTemplate {
 }
 
 export const StatementTemplate: Schema.Schema<StatementTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       source: Schema.optional(Asset),
       relation: Schema.optional(Schema.String),
@@ -111,8 +113,8 @@ export interface BulkCheckRequest {
   defaultRelation?: string;
 }
 
-export const BulkCheckRequest: Schema.Schema<BulkCheckRequest> = Schema.suspend(
-  () =>
+export const BulkCheckRequest: Schema.Schema<BulkCheckRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultTarget: Schema.optional(Asset),
       statements: Schema.optional(Schema.Array(StatementTemplate)),
@@ -120,9 +122,9 @@ export const BulkCheckRequest: Schema.Schema<BulkCheckRequest> = Schema.suspend(
       returnRelationExtensions: Schema.optional(Schema.Boolean),
       defaultRelation: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BulkCheckRequest",
-}) as any as Schema.Schema<BulkCheckRequest>;
+  ).annotate({
+    identifier: "BulkCheckRequest",
+  }) as any as Schema.Schema<BulkCheckRequest>;
 
 export interface CheckResponse {
   /** Statements may specify relation level extensions/payloads to express more details when declaring permissions to grant from the source asset to the target asset. When requested, the API will return relation_extensions specified in any and all statements linking the requested source and target assets by the relation specified in the request. */
@@ -150,19 +152,20 @@ export interface CheckResponse {
   linked?: boolean;
 }
 
-export const CheckResponse: Schema.Schema<CheckResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    relationExtensions: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    errorCode: Schema.optional(Schema.Array(Schema.String)),
-    debugString: Schema.optional(Schema.String),
-    maxAge: Schema.optional(Schema.String),
-    linked: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "CheckResponse",
-}) as any as Schema.Schema<CheckResponse>;
+export const CheckResponse: Schema.Schema<CheckResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relationExtensions: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      errorCode: Schema.optional(Schema.Array(Schema.String)),
+      debugString: Schema.optional(Schema.String),
+      maxAge: Schema.optional(Schema.String),
+      linked: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CheckResponse",
+  }) as any as Schema.Schema<CheckResponse>;
 
 export interface BulkCheckResponse {
   /** Error code for the entire request. Present only if the entire request failed. Individual check errors will not trigger the presence of this field. */
@@ -184,7 +187,7 @@ export interface BulkCheckResponse {
 }
 
 export const BulkCheckResponse: Schema.Schema<BulkCheckResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bulkErrorCode: Schema.optional(Schema.String),
       checkResults: Schema.optional(Schema.Array(CheckResponse)),
@@ -204,16 +207,17 @@ export interface Statement {
   relationExtensions?: Record<string, unknown>;
 }
 
-export const Statement: Schema.Schema<Statement> = Schema.suspend(() =>
-  Schema.Struct({
-    source: Schema.optional(Asset),
-    relation: Schema.optional(Schema.String),
-    target: Schema.optional(Asset),
-    relationExtensions: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-  }),
-).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
+export const Statement: Schema.Schema<Statement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      source: Schema.optional(Asset),
+      relation: Schema.optional(Schema.String),
+      target: Schema.optional(Asset),
+      relationExtensions: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+    }),
+  ).annotate({ identifier: "Statement" }) as any as Schema.Schema<Statement>;
 
 export interface ListResponse {
   /** Error codes that describe the result of the List operation. */
@@ -239,16 +243,17 @@ export interface ListResponse {
   maxAge?: string;
 }
 
-export const ListResponse: Schema.Schema<ListResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    errorCode: Schema.optional(Schema.Array(Schema.String)),
-    statements: Schema.optional(Schema.Array(Statement)),
-    debugString: Schema.optional(Schema.String),
-    maxAge: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ListResponse",
-}) as any as Schema.Schema<ListResponse>;
+export const ListResponse: Schema.Schema<ListResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errorCode: Schema.optional(Schema.Array(Schema.String)),
+      statements: Schema.optional(Schema.Array(Statement)),
+      debugString: Schema.optional(Schema.String),
+      maxAge: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListResponse",
+  }) as any as Schema.Schema<ListResponse>;
 
 // ==========================================================================
 // Operations
@@ -273,36 +278,39 @@ export interface CheckAssetlinksRequest {
   "source.androidApp.certificate.sha256Fingerprint"?: string;
 }
 
-export const CheckAssetlinksRequest = Schema.Struct({
-  "target.web.site": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("target.web.site"),
-  ),
-  "target.androidApp.certificate.sha256Fingerprint": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("target.androidApp.certificate.sha256Fingerprint")),
-  returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnRelationExtensions"),
-  ),
-  "source.androidApp.packageName": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("source.androidApp.packageName"),
-  ),
-  relation: Schema.optional(Schema.String).pipe(T.HttpQuery("relation")),
-  "target.androidApp.packageName": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("target.androidApp.packageName"),
-  ),
-  "source.web.site": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("source.web.site"),
-  ),
-  "source.androidApp.certificate.sha256Fingerprint": Schema.optional(
-    Schema.String,
-  ).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
-}).pipe(
+export const CheckAssetlinksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    "target.web.site": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("target.web.site"),
+    ),
+    "target.androidApp.certificate.sha256Fingerprint": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("target.androidApp.certificate.sha256Fingerprint")),
+    returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnRelationExtensions"),
+    ),
+    "source.androidApp.packageName": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("source.androidApp.packageName"),
+    ),
+    relation: Schema.optional(Schema.String).pipe(T.HttpQuery("relation")),
+    "target.androidApp.packageName": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("target.androidApp.packageName"),
+    ),
+    "source.web.site": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("source.web.site"),
+    ),
+    "source.androidApp.certificate.sha256Fingerprint": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("source.androidApp.certificate.sha256Fingerprint")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/assetlinks:check" }),
   svc,
 ) as unknown as Schema.Schema<CheckAssetlinksRequest>;
 
 export type CheckAssetlinksResponse = CheckResponse;
-export const CheckAssetlinksResponse = CheckResponse;
+export const CheckAssetlinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CheckResponse;
 
 export type CheckAssetlinksError = DefaultErrors;
 
@@ -312,7 +320,7 @@ export const checkAssetlinks: API.OperationMethod<
   CheckAssetlinksResponse,
   CheckAssetlinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckAssetlinksRequest,
   output: CheckAssetlinksResponse,
   errors: [],
@@ -323,15 +331,17 @@ export interface BulkCheckAssetlinksRequest {
   body?: BulkCheckRequest;
 }
 
-export const BulkCheckAssetlinksRequest = Schema.Struct({
-  body: Schema.optional(BulkCheckRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/assetlinks:bulkCheck", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BulkCheckAssetlinksRequest>;
+export const BulkCheckAssetlinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(BulkCheckRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/assetlinks:bulkCheck", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<BulkCheckAssetlinksRequest>;
 
 export type BulkCheckAssetlinksResponse = BulkCheckResponse;
-export const BulkCheckAssetlinksResponse = BulkCheckResponse;
+export const BulkCheckAssetlinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BulkCheckResponse;
 
 export type BulkCheckAssetlinksError = DefaultErrors;
 
@@ -341,7 +351,7 @@ export const bulkCheckAssetlinks: API.OperationMethod<
   BulkCheckAssetlinksResponse,
   BulkCheckAssetlinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkCheckAssetlinksRequest,
   output: BulkCheckAssetlinksResponse,
   errors: [],
@@ -360,7 +370,7 @@ export interface ListStatementsRequest {
   "source.androidApp.packageName"?: string;
 }
 
-export const ListStatementsRequest = Schema.Struct({
+export const ListStatementsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   returnRelationExtensions: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("returnRelationExtensions"),
   ),
@@ -380,7 +390,7 @@ export const ListStatementsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListStatementsRequest>;
 
 export type ListStatementsResponse = ListResponse;
-export const ListStatementsResponse = ListResponse;
+export const ListStatementsResponse = /*@__PURE__*/ /*#__PURE__*/ ListResponse;
 
 export type ListStatementsError = DefaultErrors;
 
@@ -390,7 +400,7 @@ export const listStatements: API.OperationMethod<
   ListStatementsResponse,
   ListStatementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListStatementsRequest,
   output: ListStatementsResponse,
   errors: [],

@@ -39,17 +39,18 @@ export interface Tokeninfo {
   verified_email?: boolean;
 }
 
-export const Tokeninfo: Schema.Schema<Tokeninfo> = Schema.suspend(() =>
-  Schema.Struct({
-    audience: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    expires_in: Schema.optional(Schema.Number),
-    issued_to: Schema.optional(Schema.String),
-    scope: Schema.optional(Schema.String),
-    user_id: Schema.optional(Schema.String),
-    verified_email: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Tokeninfo" }) as any as Schema.Schema<Tokeninfo>;
+export const Tokeninfo: Schema.Schema<Tokeninfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      audience: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      expires_in: Schema.optional(Schema.Number),
+      issued_to: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      user_id: Schema.optional(Schema.String),
+      verified_email: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Tokeninfo" }) as any as Schema.Schema<Tokeninfo>;
 
 export interface Userinfo {
   /** The user's email address. */
@@ -76,21 +77,22 @@ export interface Userinfo {
   verified_email?: boolean;
 }
 
-export const Userinfo: Schema.Schema<Userinfo> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-    family_name: Schema.optional(Schema.String),
-    gender: Schema.optional(Schema.String),
-    given_name: Schema.optional(Schema.String),
-    hd: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-    locale: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    picture: Schema.optional(Schema.String),
-    verified_email: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Userinfo" }) as any as Schema.Schema<Userinfo>;
+export const Userinfo: Schema.Schema<Userinfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      family_name: Schema.optional(Schema.String),
+      gender: Schema.optional(Schema.String),
+      given_name: Schema.optional(Schema.String),
+      hd: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+      locale: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      picture: Schema.optional(Schema.String),
+      verified_email: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Userinfo" }) as any as Schema.Schema<Userinfo>;
 
 // ==========================================================================
 // Operations
@@ -100,7 +102,7 @@ export interface TokeninfoRequest {
   id_token?: string;
 }
 
-export const TokeninfoRequest = Schema.Struct({
+export const TokeninfoRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id_token: Schema.optional(Schema.String).pipe(T.HttpQuery("id_token")),
 }).pipe(
   T.Http({ method: "POST", path: "oauth2/v2/tokeninfo", hasBody: true }),
@@ -108,7 +110,7 @@ export const TokeninfoRequest = Schema.Struct({
 ) as unknown as Schema.Schema<TokeninfoRequest>;
 
 export type TokeninfoResponse = Tokeninfo;
-export const TokeninfoResponse = Tokeninfo;
+export const TokeninfoResponse = /*@__PURE__*/ /*#__PURE__*/ Tokeninfo;
 
 export type TokeninfoError = DefaultErrors;
 
@@ -117,7 +119,7 @@ export const tokeninfo: API.OperationMethod<
   TokeninfoResponse,
   TokeninfoError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TokeninfoRequest,
   output: TokeninfoResponse,
   errors: [],
@@ -125,13 +127,15 @@ export const tokeninfo: API.OperationMethod<
 
 export interface GetUserinfoRequest {}
 
-export const GetUserinfoRequest = Schema.Struct({}).pipe(
+export const GetUserinfoRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "oauth2/v2/userinfo" }),
   svc,
 ) as unknown as Schema.Schema<GetUserinfoRequest>;
 
 export type GetUserinfoResponse = Userinfo;
-export const GetUserinfoResponse = Userinfo;
+export const GetUserinfoResponse = /*@__PURE__*/ /*#__PURE__*/ Userinfo;
 
 export type GetUserinfoError = DefaultErrors;
 
@@ -140,7 +144,7 @@ export const getUserinfo: API.OperationMethod<
   GetUserinfoResponse,
   GetUserinfoError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserinfoRequest,
   output: GetUserinfoResponse,
   errors: [],
@@ -148,13 +152,15 @@ export const getUserinfo: API.OperationMethod<
 
 export interface GetUserinfoV2MeRequest {}
 
-export const GetUserinfoV2MeRequest = Schema.Struct({}).pipe(
+export const GetUserinfoV2MeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "userinfo/v2/me" }),
   svc,
 ) as unknown as Schema.Schema<GetUserinfoV2MeRequest>;
 
 export type GetUserinfoV2MeResponse = Userinfo;
-export const GetUserinfoV2MeResponse = Userinfo;
+export const GetUserinfoV2MeResponse = /*@__PURE__*/ /*#__PURE__*/ Userinfo;
 
 export type GetUserinfoV2MeError = DefaultErrors;
 
@@ -163,7 +169,7 @@ export const getUserinfoV2Me: API.OperationMethod<
   GetUserinfoV2MeResponse,
   GetUserinfoV2MeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserinfoV2MeRequest,
   output: GetUserinfoV2MeResponse,
   errors: [],

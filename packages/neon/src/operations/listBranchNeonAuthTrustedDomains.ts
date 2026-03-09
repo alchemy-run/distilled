@@ -3,32 +3,34 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListBranchNeonAuthTrustedDomainsInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/domains",
-  }),
-);
+export const ListBranchNeonAuthTrustedDomainsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/domains",
+    }),
+  );
 export type ListBranchNeonAuthTrustedDomainsInput =
   typeof ListBranchNeonAuthTrustedDomainsInput.Type;
 
 // Output Schema
-export const ListBranchNeonAuthTrustedDomainsOutput = Schema.Struct({
-  domains: Schema.Array(
-    Schema.Struct({
-      domain: Schema.String,
-      auth_provider: Schema.Literals([
-        "mock",
-        "stack",
-        "stack_v2",
-        "better_auth",
-      ]),
-    }),
-  ),
-});
+export const ListBranchNeonAuthTrustedDomainsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    domains: Schema.Array(
+      Schema.Struct({
+        domain: Schema.String,
+        auth_provider: Schema.Literals([
+          "mock",
+          "stack",
+          "stack_v2",
+          "better_auth",
+        ]),
+      }),
+    ),
+  });
 export type ListBranchNeonAuthTrustedDomainsOutput =
   typeof ListBranchNeonAuthTrustedDomainsOutput.Type;
 

@@ -143,21 +143,21 @@ export type EndPointPort = number;
 
 //# Schemas
 export type LoadBalancerNames = string[];
-export const LoadBalancerNames = S.Array(S.String);
+export const LoadBalancerNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.optional(S.String) }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface AddTagsInput {
   LoadBalancerNames: string[];
   Tags: Tag[];
 }
-export const AddTagsInput = S.suspend(() =>
+export const AddTagsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagList }).pipe(
     T.all(
       ns,
@@ -171,67 +171,74 @@ export const AddTagsInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "AddTagsOutput",
-}) as any as S.Schema<AddTagsOutput>;
+export const AddTagsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
 export type SecurityGroups = string[];
-export const SecurityGroups = S.Array(S.String);
+export const SecurityGroups = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ApplySecurityGroupsToLoadBalancerInput {
   LoadBalancerName: string;
   SecurityGroups: string[];
 }
-export const ApplySecurityGroupsToLoadBalancerInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, SecurityGroups: SecurityGroups }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ApplySecurityGroupsToLoadBalancerInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      SecurityGroups: SecurityGroups,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ApplySecurityGroupsToLoadBalancerInput",
-}) as any as S.Schema<ApplySecurityGroupsToLoadBalancerInput>;
+  ).annotate({
+    identifier: "ApplySecurityGroupsToLoadBalancerInput",
+  }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerInput>;
 export interface ApplySecurityGroupsToLoadBalancerOutput {
   SecurityGroups?: string[];
 }
-export const ApplySecurityGroupsToLoadBalancerOutput = S.suspend(() =>
-  S.Struct({ SecurityGroups: S.optional(SecurityGroups) }).pipe(ns),
-).annotate({
-  identifier: "ApplySecurityGroupsToLoadBalancerOutput",
-}) as any as S.Schema<ApplySecurityGroupsToLoadBalancerOutput>;
+export const ApplySecurityGroupsToLoadBalancerOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ SecurityGroups: S.optional(SecurityGroups) }).pipe(ns),
+  ).annotate({
+    identifier: "ApplySecurityGroupsToLoadBalancerOutput",
+  }) as any as S.Schema<ApplySecurityGroupsToLoadBalancerOutput>;
 export type Subnets = string[];
-export const Subnets = S.Array(S.String);
+export const Subnets = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface AttachLoadBalancerToSubnetsInput {
   LoadBalancerName: string;
   Subnets: string[];
 }
-export const AttachLoadBalancerToSubnetsInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AttachLoadBalancerToSubnetsInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AttachLoadBalancerToSubnetsInput",
-}) as any as S.Schema<AttachLoadBalancerToSubnetsInput>;
+  ).annotate({
+    identifier: "AttachLoadBalancerToSubnetsInput",
+  }) as any as S.Schema<AttachLoadBalancerToSubnetsInput>;
 export interface AttachLoadBalancerToSubnetsOutput {
   Subnets?: string[];
 }
-export const AttachLoadBalancerToSubnetsOutput = S.suspend(() =>
-  S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
-).annotate({
-  identifier: "AttachLoadBalancerToSubnetsOutput",
-}) as any as S.Schema<AttachLoadBalancerToSubnetsOutput>;
+export const AttachLoadBalancerToSubnetsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
+  ).annotate({
+    identifier: "AttachLoadBalancerToSubnetsOutput",
+  }) as any as S.Schema<AttachLoadBalancerToSubnetsOutput>;
 export interface HealthCheck {
   Target: string;
   Interval: number;
@@ -239,7 +246,7 @@ export interface HealthCheck {
   UnhealthyThreshold: number;
   HealthyThreshold: number;
 }
-export const HealthCheck = S.suspend(() =>
+export const HealthCheck = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Target: S.String,
     Interval: S.Number,
@@ -252,26 +259,27 @@ export interface ConfigureHealthCheckInput {
   LoadBalancerName: string;
   HealthCheck: HealthCheck;
 }
-export const ConfigureHealthCheckInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, HealthCheck: HealthCheck }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ConfigureHealthCheckInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ LoadBalancerName: S.String, HealthCheck: HealthCheck }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ConfigureHealthCheckInput",
 }) as any as S.Schema<ConfigureHealthCheckInput>;
 export interface ConfigureHealthCheckOutput {
   HealthCheck?: HealthCheck;
 }
-export const ConfigureHealthCheckOutput = S.suspend(() =>
-  S.Struct({ HealthCheck: S.optional(HealthCheck) }).pipe(ns),
+export const ConfigureHealthCheckOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ HealthCheck: S.optional(HealthCheck) }).pipe(ns),
 ).annotate({
   identifier: "ConfigureHealthCheckOutput",
 }) as any as S.Schema<ConfigureHealthCheckOutput>;
@@ -280,61 +288,61 @@ export interface CreateAppCookieStickinessPolicyInput {
   PolicyName: string;
   CookieName: string;
 }
-export const CreateAppCookieStickinessPolicyInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    PolicyName: S.String,
-    CookieName: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAppCookieStickinessPolicyInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      PolicyName: S.String,
+      CookieName: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateAppCookieStickinessPolicyInput",
-}) as any as S.Schema<CreateAppCookieStickinessPolicyInput>;
+  ).annotate({
+    identifier: "CreateAppCookieStickinessPolicyInput",
+  }) as any as S.Schema<CreateAppCookieStickinessPolicyInput>;
 export interface CreateAppCookieStickinessPolicyOutput {}
-export const CreateAppCookieStickinessPolicyOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateAppCookieStickinessPolicyOutput",
-}) as any as S.Schema<CreateAppCookieStickinessPolicyOutput>;
+export const CreateAppCookieStickinessPolicyOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CreateAppCookieStickinessPolicyOutput",
+  }) as any as S.Schema<CreateAppCookieStickinessPolicyOutput>;
 export interface CreateLBCookieStickinessPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
   CookieExpirationPeriod?: number;
 }
-export const CreateLBCookieStickinessPolicyInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    PolicyName: S.String,
-    CookieExpirationPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateLBCookieStickinessPolicyInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      PolicyName: S.String,
+      CookieExpirationPeriod: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateLBCookieStickinessPolicyInput",
-}) as any as S.Schema<CreateLBCookieStickinessPolicyInput>;
+  ).annotate({
+    identifier: "CreateLBCookieStickinessPolicyInput",
+  }) as any as S.Schema<CreateLBCookieStickinessPolicyInput>;
 export interface CreateLBCookieStickinessPolicyOutput {}
-export const CreateLBCookieStickinessPolicyOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateLBCookieStickinessPolicyOutput",
-}) as any as S.Schema<CreateLBCookieStickinessPolicyOutput>;
+export const CreateLBCookieStickinessPolicyOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CreateLBCookieStickinessPolicyOutput",
+  }) as any as S.Schema<CreateLBCookieStickinessPolicyOutput>;
 export interface Listener {
   Protocol: string;
   LoadBalancerPort: number;
@@ -342,7 +350,7 @@ export interface Listener {
   InstancePort: number;
   SSLCertificateId?: string;
 }
-export const Listener = S.suspend(() =>
+export const Listener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Protocol: S.String,
     LoadBalancerPort: S.Number,
@@ -352,9 +360,9 @@ export const Listener = S.suspend(() =>
   }),
 ).annotate({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type Listeners = Listener[];
-export const Listeners = S.Array(Listener);
+export const Listeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(Listener);
 export type AvailabilityZones = string[];
-export const AvailabilityZones = S.Array(S.String);
+export const AvailabilityZones = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface CreateAccessPointInput {
   LoadBalancerName: string;
   Listeners: Listener[];
@@ -364,34 +372,35 @@ export interface CreateAccessPointInput {
   Scheme?: string;
   Tags?: Tag[];
 }
-export const CreateAccessPointInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    Listeners: Listeners,
-    AvailabilityZones: S.optional(AvailabilityZones),
-    Subnets: S.optional(Subnets),
-    SecurityGroups: S.optional(SecurityGroups),
-    Scheme: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAccessPointInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      Listeners: Listeners,
+      AvailabilityZones: S.optional(AvailabilityZones),
+      Subnets: S.optional(Subnets),
+      SecurityGroups: S.optional(SecurityGroups),
+      Scheme: S.optional(S.String),
+      Tags: S.optional(TagList),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateAccessPointInput",
 }) as any as S.Schema<CreateAccessPointInput>;
 export interface CreateAccessPointOutput {
   DNSName?: string;
 }
-export const CreateAccessPointOutput = S.suspend(() =>
-  S.Struct({ DNSName: S.optional(S.String) }).pipe(ns),
+export const CreateAccessPointOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ DNSName: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "CreateAccessPointOutput",
 }) as any as S.Schema<CreateAccessPointOutput>;
@@ -399,32 +408,32 @@ export interface CreateLoadBalancerListenerInput {
   LoadBalancerName: string;
   Listeners: Listener[];
 }
-export const CreateLoadBalancerListenerInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, Listeners: Listeners }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateLoadBalancerListenerInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String, Listeners: Listeners }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateLoadBalancerListenerInput",
-}) as any as S.Schema<CreateLoadBalancerListenerInput>;
+  ).annotate({
+    identifier: "CreateLoadBalancerListenerInput",
+  }) as any as S.Schema<CreateLoadBalancerListenerInput>;
 export interface CreateLoadBalancerListenerOutput {}
-export const CreateLoadBalancerListenerOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateLoadBalancerListenerOutput",
-}) as any as S.Schema<CreateLoadBalancerListenerOutput>;
+export const CreateLoadBalancerListenerOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CreateLoadBalancerListenerOutput",
+  }) as any as S.Schema<CreateLoadBalancerListenerOutput>;
 export interface PolicyAttribute {
   AttributeName?: string;
   AttributeValue?: string;
 }
-export const PolicyAttribute = S.suspend(() =>
+export const PolicyAttribute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AttributeName: S.optional(S.String),
     AttributeValue: S.optional(S.String),
@@ -433,147 +442,150 @@ export const PolicyAttribute = S.suspend(() =>
   identifier: "PolicyAttribute",
 }) as any as S.Schema<PolicyAttribute>;
 export type PolicyAttributes = PolicyAttribute[];
-export const PolicyAttributes = S.Array(PolicyAttribute);
+export const PolicyAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PolicyAttribute);
 export interface CreateLoadBalancerPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
   PolicyTypeName: string;
   PolicyAttributes?: PolicyAttribute[];
 }
-export const CreateLoadBalancerPolicyInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    PolicyName: S.String,
-    PolicyTypeName: S.String,
-    PolicyAttributes: S.optional(PolicyAttributes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateLoadBalancerPolicyInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      PolicyName: S.String,
+      PolicyTypeName: S.String,
+      PolicyAttributes: S.optional(PolicyAttributes),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateLoadBalancerPolicyInput",
-}) as any as S.Schema<CreateLoadBalancerPolicyInput>;
+  ).annotate({
+    identifier: "CreateLoadBalancerPolicyInput",
+  }) as any as S.Schema<CreateLoadBalancerPolicyInput>;
 export interface CreateLoadBalancerPolicyOutput {}
-export const CreateLoadBalancerPolicyOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateLoadBalancerPolicyOutput",
-}) as any as S.Schema<CreateLoadBalancerPolicyOutput>;
+export const CreateLoadBalancerPolicyOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CreateLoadBalancerPolicyOutput",
+  }) as any as S.Schema<CreateLoadBalancerPolicyOutput>;
 export interface DeleteAccessPointInput {
   LoadBalancerName: string;
 }
-export const DeleteAccessPointInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAccessPointInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ LoadBalancerName: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteAccessPointInput",
 }) as any as S.Schema<DeleteAccessPointInput>;
 export interface DeleteAccessPointOutput {}
-export const DeleteAccessPointOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const DeleteAccessPointOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteAccessPointOutput",
 }) as any as S.Schema<DeleteAccessPointOutput>;
 export type Ports = number[];
-export const Ports = S.Array(S.Number);
+export const Ports = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.Number);
 export interface DeleteLoadBalancerListenerInput {
   LoadBalancerName: string;
   LoadBalancerPorts: number[];
 }
-export const DeleteLoadBalancerListenerInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, LoadBalancerPorts: Ports }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteLoadBalancerListenerInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String, LoadBalancerPorts: Ports }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteLoadBalancerListenerInput",
-}) as any as S.Schema<DeleteLoadBalancerListenerInput>;
+  ).annotate({
+    identifier: "DeleteLoadBalancerListenerInput",
+  }) as any as S.Schema<DeleteLoadBalancerListenerInput>;
 export interface DeleteLoadBalancerListenerOutput {}
-export const DeleteLoadBalancerListenerOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLoadBalancerListenerOutput",
-}) as any as S.Schema<DeleteLoadBalancerListenerOutput>;
+export const DeleteLoadBalancerListenerOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteLoadBalancerListenerOutput",
+  }) as any as S.Schema<DeleteLoadBalancerListenerOutput>;
 export interface DeleteLoadBalancerPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
 }
-export const DeleteLoadBalancerPolicyInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, PolicyName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteLoadBalancerPolicyInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String, PolicyName: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteLoadBalancerPolicyInput",
-}) as any as S.Schema<DeleteLoadBalancerPolicyInput>;
+  ).annotate({
+    identifier: "DeleteLoadBalancerPolicyInput",
+  }) as any as S.Schema<DeleteLoadBalancerPolicyInput>;
 export interface DeleteLoadBalancerPolicyOutput {}
-export const DeleteLoadBalancerPolicyOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLoadBalancerPolicyOutput",
-}) as any as S.Schema<DeleteLoadBalancerPolicyOutput>;
+export const DeleteLoadBalancerPolicyOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteLoadBalancerPolicyOutput",
+  }) as any as S.Schema<DeleteLoadBalancerPolicyOutput>;
 export interface Instance {
   InstanceId?: string;
 }
-export const Instance = S.suspend(() =>
+export const Instance = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ InstanceId: S.optional(S.String) }),
 ).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export type Instances = Instance[];
-export const Instances = S.Array(Instance);
+export const Instances = /*@__PURE__*/ /*#__PURE__*/ S.Array(Instance);
 export interface DeregisterEndPointsInput {
   LoadBalancerName: string;
   Instances: Instance[];
 }
-export const DeregisterEndPointsInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeregisterEndPointsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeregisterEndPointsInput",
 }) as any as S.Schema<DeregisterEndPointsInput>;
 export interface DeregisterEndPointsOutput {
   Instances?: Instance[];
 }
-export const DeregisterEndPointsOutput = S.suspend(() =>
-  S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
+export const DeregisterEndPointsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
 ).annotate({
   identifier: "DeregisterEndPointsOutput",
 }) as any as S.Schema<DeregisterEndPointsOutput>;
@@ -581,21 +593,22 @@ export interface DescribeAccountLimitsInput {
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeAccountLimitsInput = S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAccountLimitsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Marker: S.optional(S.String),
+      PageSize: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeAccountLimitsInput",
 }) as any as S.Schema<DescribeAccountLimitsInput>;
@@ -603,42 +616,44 @@ export interface Limit {
   Name?: string;
   Max?: string;
 }
-export const Limit = S.suspend(() =>
+export const Limit = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Max: S.optional(S.String) }),
 ).annotate({ identifier: "Limit" }) as any as S.Schema<Limit>;
 export type Limits = Limit[];
-export const Limits = S.Array(Limit);
+export const Limits = /*@__PURE__*/ /*#__PURE__*/ S.Array(Limit);
 export interface DescribeAccountLimitsOutput {
   Limits?: Limit[];
   NextMarker?: string;
 }
-export const DescribeAccountLimitsOutput = S.suspend(() =>
-  S.Struct({
-    Limits: S.optional(Limits),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeAccountLimitsOutput",
-}) as any as S.Schema<DescribeAccountLimitsOutput>;
+export const DescribeAccountLimitsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Limits: S.optional(Limits),
+      NextMarker: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeAccountLimitsOutput",
+  }) as any as S.Schema<DescribeAccountLimitsOutput>;
 export interface DescribeEndPointStateInput {
   LoadBalancerName: string;
   Instances?: Instance[];
 }
-export const DescribeEndPointStateInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    Instances: S.optional(Instances),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeEndPointStateInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      Instances: S.optional(Instances),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeEndPointStateInput",
 }) as any as S.Schema<DescribeEndPointStateInput>;
@@ -648,7 +663,7 @@ export interface InstanceState {
   ReasonCode?: string;
   Description?: string;
 }
-export const InstanceState = S.suspend(() =>
+export const InstanceState = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     InstanceId: S.optional(S.String),
     State: S.optional(S.String),
@@ -657,38 +672,41 @@ export const InstanceState = S.suspend(() =>
   }),
 ).annotate({ identifier: "InstanceState" }) as any as S.Schema<InstanceState>;
 export type InstanceStates = InstanceState[];
-export const InstanceStates = S.Array(InstanceState);
+export const InstanceStates =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(InstanceState);
 export interface DescribeEndPointStateOutput {
   InstanceStates?: InstanceState[];
 }
-export const DescribeEndPointStateOutput = S.suspend(() =>
-  S.Struct({ InstanceStates: S.optional(InstanceStates) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEndPointStateOutput",
-}) as any as S.Schema<DescribeEndPointStateOutput>;
+export const DescribeEndPointStateOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ InstanceStates: S.optional(InstanceStates) }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeEndPointStateOutput",
+  }) as any as S.Schema<DescribeEndPointStateOutput>;
 export interface DescribeLoadBalancerAttributesInput {
   LoadBalancerName: string;
 }
-export const DescribeLoadBalancerAttributesInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeLoadBalancerAttributesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerAttributesInput",
-}) as any as S.Schema<DescribeLoadBalancerAttributesInput>;
+  ).annotate({
+    identifier: "DescribeLoadBalancerAttributesInput",
+  }) as any as S.Schema<DescribeLoadBalancerAttributesInput>;
 export interface CrossZoneLoadBalancing {
   Enabled: boolean;
 }
-export const CrossZoneLoadBalancing = S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean }),
+export const CrossZoneLoadBalancing = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Enabled: S.Boolean }),
 ).annotate({
   identifier: "CrossZoneLoadBalancing",
 }) as any as S.Schema<CrossZoneLoadBalancing>;
@@ -698,7 +716,7 @@ export interface AccessLog {
   EmitInterval?: number;
   S3BucketPrefix?: string;
 }
-export const AccessLog = S.suspend(() =>
+export const AccessLog = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.Boolean,
     S3BucketName: S.optional(S.String),
@@ -710,7 +728,7 @@ export interface ConnectionDraining {
   Enabled: boolean;
   Timeout?: number;
 }
-export const ConnectionDraining = S.suspend(() =>
+export const ConnectionDraining = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.Boolean, Timeout: S.optional(S.Number) }),
 ).annotate({
   identifier: "ConnectionDraining",
@@ -718,7 +736,7 @@ export const ConnectionDraining = S.suspend(() =>
 export interface ConnectionSettings {
   IdleTimeout: number;
 }
-export const ConnectionSettings = S.suspend(() =>
+export const ConnectionSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ IdleTimeout: S.Number }),
 ).annotate({
   identifier: "ConnectionSettings",
@@ -727,13 +745,14 @@ export interface AdditionalAttribute {
   Key?: string;
   Value?: string;
 }
-export const AdditionalAttribute = S.suspend(() =>
+export const AdditionalAttribute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotate({
   identifier: "AdditionalAttribute",
 }) as any as S.Schema<AdditionalAttribute>;
 export type AdditionalAttributes = AdditionalAttribute[];
-export const AdditionalAttributes = S.Array(AdditionalAttribute);
+export const AdditionalAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AdditionalAttribute);
 export interface LoadBalancerAttributes {
   CrossZoneLoadBalancing?: CrossZoneLoadBalancing;
   AccessLog?: AccessLog;
@@ -741,71 +760,77 @@ export interface LoadBalancerAttributes {
   ConnectionSettings?: ConnectionSettings;
   AdditionalAttributes?: AdditionalAttribute[];
 }
-export const LoadBalancerAttributes = S.suspend(() =>
-  S.Struct({
-    CrossZoneLoadBalancing: S.optional(CrossZoneLoadBalancing),
-    AccessLog: S.optional(AccessLog),
-    ConnectionDraining: S.optional(ConnectionDraining),
-    ConnectionSettings: S.optional(ConnectionSettings),
-    AdditionalAttributes: S.optional(AdditionalAttributes),
-  }),
+export const LoadBalancerAttributes = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CrossZoneLoadBalancing: S.optional(CrossZoneLoadBalancing),
+      AccessLog: S.optional(AccessLog),
+      ConnectionDraining: S.optional(ConnectionDraining),
+      ConnectionSettings: S.optional(ConnectionSettings),
+      AdditionalAttributes: S.optional(AdditionalAttributes),
+    }),
 ).annotate({
   identifier: "LoadBalancerAttributes",
 }) as any as S.Schema<LoadBalancerAttributes>;
 export interface DescribeLoadBalancerAttributesOutput {
   LoadBalancerAttributes?: LoadBalancerAttributes;
 }
-export const DescribeLoadBalancerAttributesOutput = S.suspend(() =>
-  S.Struct({ LoadBalancerAttributes: S.optional(LoadBalancerAttributes) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerAttributesOutput",
-}) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
+export const DescribeLoadBalancerAttributesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerAttributes: S.optional(LoadBalancerAttributes),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeLoadBalancerAttributesOutput",
+  }) as any as S.Schema<DescribeLoadBalancerAttributesOutput>;
 export type PolicyNames = string[];
-export const PolicyNames = S.Array(S.String);
+export const PolicyNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeLoadBalancerPoliciesInput {
   LoadBalancerName?: string;
   PolicyNames?: string[];
 }
-export const DescribeLoadBalancerPoliciesInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.optional(S.String),
-    PolicyNames: S.optional(PolicyNames),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeLoadBalancerPoliciesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.optional(S.String),
+      PolicyNames: S.optional(PolicyNames),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerPoliciesInput",
-}) as any as S.Schema<DescribeLoadBalancerPoliciesInput>;
+  ).annotate({
+    identifier: "DescribeLoadBalancerPoliciesInput",
+  }) as any as S.Schema<DescribeLoadBalancerPoliciesInput>;
 export interface PolicyAttributeDescription {
   AttributeName?: string;
   AttributeValue?: string;
 }
-export const PolicyAttributeDescription = S.suspend(() =>
-  S.Struct({
-    AttributeName: S.optional(S.String),
-    AttributeValue: S.optional(S.String),
-  }),
+export const PolicyAttributeDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AttributeName: S.optional(S.String),
+      AttributeValue: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "PolicyAttributeDescription",
 }) as any as S.Schema<PolicyAttributeDescription>;
 export type PolicyAttributeDescriptions = PolicyAttributeDescription[];
-export const PolicyAttributeDescriptions = S.Array(PolicyAttributeDescription);
+export const PolicyAttributeDescriptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  PolicyAttributeDescription,
+);
 export interface PolicyDescription {
   PolicyName?: string;
   PolicyTypeName?: string;
   PolicyAttributeDescriptions?: PolicyAttributeDescription[];
 }
-export const PolicyDescription = S.suspend(() =>
+export const PolicyDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyName: S.optional(S.String),
     PolicyTypeName: S.optional(S.String),
@@ -815,35 +840,38 @@ export const PolicyDescription = S.suspend(() =>
   identifier: "PolicyDescription",
 }) as any as S.Schema<PolicyDescription>;
 export type PolicyDescriptions = PolicyDescription[];
-export const PolicyDescriptions = S.Array(PolicyDescription);
+export const PolicyDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PolicyDescription);
 export interface DescribeLoadBalancerPoliciesOutput {
   PolicyDescriptions?: PolicyDescription[];
 }
-export const DescribeLoadBalancerPoliciesOutput = S.suspend(() =>
-  S.Struct({ PolicyDescriptions: S.optional(PolicyDescriptions) }).pipe(ns),
-).annotate({
-  identifier: "DescribeLoadBalancerPoliciesOutput",
-}) as any as S.Schema<DescribeLoadBalancerPoliciesOutput>;
+export const DescribeLoadBalancerPoliciesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ PolicyDescriptions: S.optional(PolicyDescriptions) }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeLoadBalancerPoliciesOutput",
+  }) as any as S.Schema<DescribeLoadBalancerPoliciesOutput>;
 export type PolicyTypeNames = string[];
-export const PolicyTypeNames = S.Array(S.String);
+export const PolicyTypeNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeLoadBalancerPolicyTypesInput {
   PolicyTypeNames?: string[];
 }
-export const DescribeLoadBalancerPolicyTypesInput = S.suspend(() =>
-  S.Struct({ PolicyTypeNames: S.optional(PolicyTypeNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeLoadBalancerPolicyTypesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ PolicyTypeNames: S.optional(PolicyTypeNames) }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerPolicyTypesInput",
-}) as any as S.Schema<DescribeLoadBalancerPolicyTypesInput>;
+  ).annotate({
+    identifier: "DescribeLoadBalancerPolicyTypesInput",
+  }) as any as S.Schema<DescribeLoadBalancerPolicyTypesInput>;
 export interface PolicyAttributeTypeDescription {
   AttributeName?: string;
   AttributeType?: string;
@@ -851,27 +879,27 @@ export interface PolicyAttributeTypeDescription {
   DefaultValue?: string;
   Cardinality?: string;
 }
-export const PolicyAttributeTypeDescription = S.suspend(() =>
-  S.Struct({
-    AttributeName: S.optional(S.String),
-    AttributeType: S.optional(S.String),
-    Description: S.optional(S.String),
-    DefaultValue: S.optional(S.String),
-    Cardinality: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PolicyAttributeTypeDescription",
-}) as any as S.Schema<PolicyAttributeTypeDescription>;
+export const PolicyAttributeTypeDescription =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AttributeName: S.optional(S.String),
+      AttributeType: S.optional(S.String),
+      Description: S.optional(S.String),
+      DefaultValue: S.optional(S.String),
+      Cardinality: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "PolicyAttributeTypeDescription",
+  }) as any as S.Schema<PolicyAttributeTypeDescription>;
 export type PolicyAttributeTypeDescriptions = PolicyAttributeTypeDescription[];
-export const PolicyAttributeTypeDescriptions = S.Array(
-  PolicyAttributeTypeDescription,
-);
+export const PolicyAttributeTypeDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PolicyAttributeTypeDescription);
 export interface PolicyTypeDescription {
   PolicyTypeName?: string;
   Description?: string;
   PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[];
 }
-export const PolicyTypeDescription = S.suspend(() =>
+export const PolicyTypeDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyTypeName: S.optional(S.String),
     Description: S.optional(S.String),
@@ -883,38 +911,42 @@ export const PolicyTypeDescription = S.suspend(() =>
   identifier: "PolicyTypeDescription",
 }) as any as S.Schema<PolicyTypeDescription>;
 export type PolicyTypeDescriptions = PolicyTypeDescription[];
-export const PolicyTypeDescriptions = S.Array(PolicyTypeDescription);
+export const PolicyTypeDescriptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  PolicyTypeDescription,
+);
 export interface DescribeLoadBalancerPolicyTypesOutput {
   PolicyTypeDescriptions?: PolicyTypeDescription[];
 }
-export const DescribeLoadBalancerPolicyTypesOutput = S.suspend(() =>
-  S.Struct({ PolicyTypeDescriptions: S.optional(PolicyTypeDescriptions) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeLoadBalancerPolicyTypesOutput",
-}) as any as S.Schema<DescribeLoadBalancerPolicyTypesOutput>;
+export const DescribeLoadBalancerPolicyTypesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PolicyTypeDescriptions: S.optional(PolicyTypeDescriptions),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "DescribeLoadBalancerPolicyTypesOutput",
+  }) as any as S.Schema<DescribeLoadBalancerPolicyTypesOutput>;
 export interface DescribeAccessPointsInput {
   LoadBalancerNames?: string[];
   Marker?: string;
   PageSize?: number;
 }
-export const DescribeAccessPointsInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerNames: S.optional(LoadBalancerNames),
-    Marker: S.optional(S.String),
-    PageSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeAccessPointsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerNames: S.optional(LoadBalancerNames),
+      Marker: S.optional(S.String),
+      PageSize: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeAccessPointsInput",
 }) as any as S.Schema<DescribeAccessPointsInput>;
@@ -922,7 +954,7 @@ export interface ListenerDescription {
   Listener?: Listener;
   PolicyNames?: string[];
 }
-export const ListenerDescription = S.suspend(() =>
+export const ListenerDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Listener: S.optional(Listener),
     PolicyNames: S.optional(PolicyNames),
@@ -931,41 +963,48 @@ export const ListenerDescription = S.suspend(() =>
   identifier: "ListenerDescription",
 }) as any as S.Schema<ListenerDescription>;
 export type ListenerDescriptions = ListenerDescription[];
-export const ListenerDescriptions = S.Array(ListenerDescription);
+export const ListenerDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ListenerDescription);
 export interface AppCookieStickinessPolicy {
   PolicyName?: string;
   CookieName?: string;
 }
-export const AppCookieStickinessPolicy = S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    CookieName: S.optional(S.String),
-  }),
+export const AppCookieStickinessPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      PolicyName: S.optional(S.String),
+      CookieName: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "AppCookieStickinessPolicy",
 }) as any as S.Schema<AppCookieStickinessPolicy>;
 export type AppCookieStickinessPolicies = AppCookieStickinessPolicy[];
-export const AppCookieStickinessPolicies = S.Array(AppCookieStickinessPolicy);
+export const AppCookieStickinessPolicies = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AppCookieStickinessPolicy,
+);
 export interface LBCookieStickinessPolicy {
   PolicyName?: string;
   CookieExpirationPeriod?: number;
 }
-export const LBCookieStickinessPolicy = S.suspend(() =>
-  S.Struct({
-    PolicyName: S.optional(S.String),
-    CookieExpirationPeriod: S.optional(S.Number),
-  }),
+export const LBCookieStickinessPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      PolicyName: S.optional(S.String),
+      CookieExpirationPeriod: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "LBCookieStickinessPolicy",
 }) as any as S.Schema<LBCookieStickinessPolicy>;
 export type LBCookieStickinessPolicies = LBCookieStickinessPolicy[];
-export const LBCookieStickinessPolicies = S.Array(LBCookieStickinessPolicy);
+export const LBCookieStickinessPolicies = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  LBCookieStickinessPolicy,
+);
 export interface Policies {
   AppCookieStickinessPolicies?: AppCookieStickinessPolicy[];
   LBCookieStickinessPolicies?: LBCookieStickinessPolicy[];
   OtherPolicies?: string[];
 }
-export const Policies = S.suspend(() =>
+export const Policies = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AppCookieStickinessPolicies: S.optional(AppCookieStickinessPolicies),
     LBCookieStickinessPolicies: S.optional(LBCookieStickinessPolicies),
@@ -976,21 +1015,24 @@ export interface BackendServerDescription {
   InstancePort?: number;
   PolicyNames?: string[];
 }
-export const BackendServerDescription = S.suspend(() =>
-  S.Struct({
-    InstancePort: S.optional(S.Number),
-    PolicyNames: S.optional(PolicyNames),
-  }),
+export const BackendServerDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      InstancePort: S.optional(S.Number),
+      PolicyNames: S.optional(PolicyNames),
+    }),
 ).annotate({
   identifier: "BackendServerDescription",
 }) as any as S.Schema<BackendServerDescription>;
 export type BackendServerDescriptions = BackendServerDescription[];
-export const BackendServerDescriptions = S.Array(BackendServerDescription);
+export const BackendServerDescriptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  BackendServerDescription,
+);
 export interface SourceSecurityGroup {
   OwnerAlias?: string;
   GroupName?: string;
 }
-export const SourceSecurityGroup = S.suspend(() =>
+export const SourceSecurityGroup = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     OwnerAlias: S.optional(S.String),
     GroupName: S.optional(S.String),
@@ -1016,50 +1058,56 @@ export interface LoadBalancerDescription {
   CreatedTime?: Date;
   Scheme?: string;
 }
-export const LoadBalancerDescription = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.optional(S.String),
-    DNSName: S.optional(S.String),
-    CanonicalHostedZoneName: S.optional(S.String),
-    CanonicalHostedZoneNameID: S.optional(S.String),
-    ListenerDescriptions: S.optional(ListenerDescriptions),
-    Policies: S.optional(Policies),
-    BackendServerDescriptions: S.optional(BackendServerDescriptions),
-    AvailabilityZones: S.optional(AvailabilityZones),
-    Subnets: S.optional(Subnets),
-    VPCId: S.optional(S.String),
-    Instances: S.optional(Instances),
-    HealthCheck: S.optional(HealthCheck),
-    SourceSecurityGroup: S.optional(SourceSecurityGroup),
-    SecurityGroups: S.optional(SecurityGroups),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    Scheme: S.optional(S.String),
-  }),
+export const LoadBalancerDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerName: S.optional(S.String),
+      DNSName: S.optional(S.String),
+      CanonicalHostedZoneName: S.optional(S.String),
+      CanonicalHostedZoneNameID: S.optional(S.String),
+      ListenerDescriptions: S.optional(ListenerDescriptions),
+      Policies: S.optional(Policies),
+      BackendServerDescriptions: S.optional(BackendServerDescriptions),
+      AvailabilityZones: S.optional(AvailabilityZones),
+      Subnets: S.optional(Subnets),
+      VPCId: S.optional(S.String),
+      Instances: S.optional(Instances),
+      HealthCheck: S.optional(HealthCheck),
+      SourceSecurityGroup: S.optional(SourceSecurityGroup),
+      SecurityGroups: S.optional(SecurityGroups),
+      CreatedTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      Scheme: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "LoadBalancerDescription",
 }) as any as S.Schema<LoadBalancerDescription>;
 export type LoadBalancerDescriptions = LoadBalancerDescription[];
-export const LoadBalancerDescriptions = S.Array(LoadBalancerDescription);
+export const LoadBalancerDescriptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  LoadBalancerDescription,
+);
 export interface DescribeAccessPointsOutput {
   LoadBalancerDescriptions?: LoadBalancerDescription[];
   NextMarker?: string;
 }
-export const DescribeAccessPointsOutput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerDescriptions: S.optional(LoadBalancerDescriptions),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
+export const DescribeAccessPointsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerDescriptions: S.optional(LoadBalancerDescriptions),
+      NextMarker: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "DescribeAccessPointsOutput",
 }) as any as S.Schema<DescribeAccessPointsOutput>;
 export type LoadBalancerNamesMax20 = string[];
-export const LoadBalancerNamesMax20 = S.Array(S.String);
+export const LoadBalancerNamesMax20 = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface DescribeTagsInput {
   LoadBalancerNames: string[];
 }
-export const DescribeTagsInput = S.suspend(() =>
+export const DescribeTagsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNamesMax20 }).pipe(
     T.all(
       ns,
@@ -1078,18 +1126,19 @@ export interface TagDescription {
   LoadBalancerName?: string;
   Tags?: Tag[];
 }
-export const TagDescription = S.suspend(() =>
+export const TagDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     LoadBalancerName: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
 ).annotate({ identifier: "TagDescription" }) as any as S.Schema<TagDescription>;
 export type TagDescriptions = TagDescription[];
-export const TagDescriptions = S.Array(TagDescription);
+export const TagDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(TagDescription);
 export interface DescribeTagsOutput {
   TagDescriptions?: TagDescription[];
 }
-export const DescribeTagsOutput = S.suspend(() =>
+export const DescribeTagsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ TagDescriptions: S.optional(TagDescriptions) }).pipe(ns),
 ).annotate({
   identifier: "DescribeTagsOutput",
@@ -1098,86 +1147,91 @@ export interface DetachLoadBalancerFromSubnetsInput {
   LoadBalancerName: string;
   Subnets: string[];
 }
-export const DetachLoadBalancerFromSubnetsInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DetachLoadBalancerFromSubnetsInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ LoadBalancerName: S.String, Subnets: Subnets }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DetachLoadBalancerFromSubnetsInput",
-}) as any as S.Schema<DetachLoadBalancerFromSubnetsInput>;
+  ).annotate({
+    identifier: "DetachLoadBalancerFromSubnetsInput",
+  }) as any as S.Schema<DetachLoadBalancerFromSubnetsInput>;
 export interface DetachLoadBalancerFromSubnetsOutput {
   Subnets?: string[];
 }
-export const DetachLoadBalancerFromSubnetsOutput = S.suspend(() =>
-  S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
-).annotate({
-  identifier: "DetachLoadBalancerFromSubnetsOutput",
-}) as any as S.Schema<DetachLoadBalancerFromSubnetsOutput>;
+export const DetachLoadBalancerFromSubnetsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Subnets: S.optional(Subnets) }).pipe(ns),
+  ).annotate({
+    identifier: "DetachLoadBalancerFromSubnetsOutput",
+  }) as any as S.Schema<DetachLoadBalancerFromSubnetsOutput>;
 export interface RemoveAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
-export const RemoveAvailabilityZonesInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    AvailabilityZones: AvailabilityZones,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RemoveAvailabilityZonesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      AvailabilityZones: AvailabilityZones,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RemoveAvailabilityZonesInput",
-}) as any as S.Schema<RemoveAvailabilityZonesInput>;
+  ).annotate({
+    identifier: "RemoveAvailabilityZonesInput",
+  }) as any as S.Schema<RemoveAvailabilityZonesInput>;
 export interface RemoveAvailabilityZonesOutput {
   AvailabilityZones?: string[];
 }
-export const RemoveAvailabilityZonesOutput = S.suspend(() =>
-  S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
-).annotate({
-  identifier: "RemoveAvailabilityZonesOutput",
-}) as any as S.Schema<RemoveAvailabilityZonesOutput>;
+export const RemoveAvailabilityZonesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
+  ).annotate({
+    identifier: "RemoveAvailabilityZonesOutput",
+  }) as any as S.Schema<RemoveAvailabilityZonesOutput>;
 export interface AddAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
-export const AddAvailabilityZonesInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    AvailabilityZones: AvailabilityZones,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AddAvailabilityZonesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      AvailabilityZones: AvailabilityZones,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AddAvailabilityZonesInput",
 }) as any as S.Schema<AddAvailabilityZonesInput>;
 export interface AddAvailabilityZonesOutput {
   AvailabilityZones?: string[];
 }
-export const AddAvailabilityZonesOutput = S.suspend(() =>
-  S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
+export const AddAvailabilityZonesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ AvailabilityZones: S.optional(AvailabilityZones) }).pipe(ns),
 ).annotate({
   identifier: "AddAvailabilityZonesOutput",
 }) as any as S.Schema<AddAvailabilityZonesOutput>;
@@ -1185,76 +1239,79 @@ export interface ModifyLoadBalancerAttributesInput {
   LoadBalancerName: string;
   LoadBalancerAttributes: LoadBalancerAttributes;
 }
-export const ModifyLoadBalancerAttributesInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    LoadBalancerAttributes: LoadBalancerAttributes,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ModifyLoadBalancerAttributesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      LoadBalancerAttributes: LoadBalancerAttributes,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ModifyLoadBalancerAttributesInput",
-}) as any as S.Schema<ModifyLoadBalancerAttributesInput>;
+  ).annotate({
+    identifier: "ModifyLoadBalancerAttributesInput",
+  }) as any as S.Schema<ModifyLoadBalancerAttributesInput>;
 export interface ModifyLoadBalancerAttributesOutput {
   LoadBalancerName?: string;
   LoadBalancerAttributes?: LoadBalancerAttributes;
 }
-export const ModifyLoadBalancerAttributesOutput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.optional(S.String),
-    LoadBalancerAttributes: S.optional(LoadBalancerAttributes),
-  }).pipe(ns),
-).annotate({
-  identifier: "ModifyLoadBalancerAttributesOutput",
-}) as any as S.Schema<ModifyLoadBalancerAttributesOutput>;
+export const ModifyLoadBalancerAttributesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.optional(S.String),
+      LoadBalancerAttributes: S.optional(LoadBalancerAttributes),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ModifyLoadBalancerAttributesOutput",
+  }) as any as S.Schema<ModifyLoadBalancerAttributesOutput>;
 export interface RegisterEndPointsInput {
   LoadBalancerName: string;
   Instances: Instance[];
 }
-export const RegisterEndPointsInput = S.suspend(() =>
-  S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RegisterEndPointsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ LoadBalancerName: S.String, Instances: Instances }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "RegisterEndPointsInput",
 }) as any as S.Schema<RegisterEndPointsInput>;
 export interface RegisterEndPointsOutput {
   Instances?: Instance[];
 }
-export const RegisterEndPointsOutput = S.suspend(() =>
-  S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
+export const RegisterEndPointsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Instances: S.optional(Instances) }).pipe(ns),
 ).annotate({
   identifier: "RegisterEndPointsOutput",
 }) as any as S.Schema<RegisterEndPointsOutput>;
 export interface TagKeyOnly {
   Key?: string;
 }
-export const TagKeyOnly = S.suspend(() =>
+export const TagKeyOnly = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String) }),
 ).annotate({ identifier: "TagKeyOnly" }) as any as S.Schema<TagKeyOnly>;
 export type TagKeyList = TagKeyOnly[];
-export const TagKeyList = S.Array(TagKeyOnly);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(TagKeyOnly);
 export interface RemoveTagsInput {
   LoadBalancerNames: string[];
   Tags: TagKeyOnly[];
 }
-export const RemoveTagsInput = S.suspend(() =>
+export const RemoveTagsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ LoadBalancerNames: LoadBalancerNames, Tags: TagKeyList }).pipe(
     T.all(
       ns,
@@ -1270,99 +1327,101 @@ export const RemoveTagsInput = S.suspend(() =>
   identifier: "RemoveTagsInput",
 }) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  { identifier: "RemoveTagsOutput" },
-) as any as S.Schema<RemoveTagsOutput>;
+export const RemoveTagsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemoveTagsOutput",
+}) as any as S.Schema<RemoveTagsOutput>;
 export interface SetLoadBalancerListenerSSLCertificateInput {
   LoadBalancerName: string;
   LoadBalancerPort: number;
   SSLCertificateId: string;
 }
-export const SetLoadBalancerListenerSSLCertificateInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    LoadBalancerPort: S.Number,
-    SSLCertificateId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetLoadBalancerListenerSSLCertificateInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      LoadBalancerPort: S.Number,
+      SSLCertificateId: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetLoadBalancerListenerSSLCertificateInput",
-}) as any as S.Schema<SetLoadBalancerListenerSSLCertificateInput>;
+  ).annotate({
+    identifier: "SetLoadBalancerListenerSSLCertificateInput",
+  }) as any as S.Schema<SetLoadBalancerListenerSSLCertificateInput>;
 export interface SetLoadBalancerListenerSSLCertificateOutput {}
-export const SetLoadBalancerListenerSSLCertificateOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetLoadBalancerListenerSSLCertificateOutput",
-}) as any as S.Schema<SetLoadBalancerListenerSSLCertificateOutput>;
+export const SetLoadBalancerListenerSSLCertificateOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "SetLoadBalancerListenerSSLCertificateOutput",
+  }) as any as S.Schema<SetLoadBalancerListenerSSLCertificateOutput>;
 export interface SetLoadBalancerPoliciesForBackendServerInput {
   LoadBalancerName: string;
   InstancePort: number;
   PolicyNames: string[];
 }
-export const SetLoadBalancerPoliciesForBackendServerInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    InstancePort: S.Number,
-    PolicyNames: PolicyNames,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetLoadBalancerPoliciesForBackendServerInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      InstancePort: S.Number,
+      PolicyNames: PolicyNames,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetLoadBalancerPoliciesForBackendServerInput",
-}) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerInput>;
+  ).annotate({
+    identifier: "SetLoadBalancerPoliciesForBackendServerInput",
+  }) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerInput>;
 export interface SetLoadBalancerPoliciesForBackendServerOutput {}
-export const SetLoadBalancerPoliciesForBackendServerOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetLoadBalancerPoliciesForBackendServerOutput",
-}) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerOutput>;
+export const SetLoadBalancerPoliciesForBackendServerOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "SetLoadBalancerPoliciesForBackendServerOutput",
+  }) as any as S.Schema<SetLoadBalancerPoliciesForBackendServerOutput>;
 export interface SetLoadBalancerPoliciesOfListenerInput {
   LoadBalancerName: string;
   LoadBalancerPort: number;
   PolicyNames: string[];
 }
-export const SetLoadBalancerPoliciesOfListenerInput = S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.String,
-    LoadBalancerPort: S.Number,
-    PolicyNames: PolicyNames,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SetLoadBalancerPoliciesOfListenerInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LoadBalancerName: S.String,
+      LoadBalancerPort: S.Number,
+      PolicyNames: PolicyNames,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SetLoadBalancerPoliciesOfListenerInput",
-}) as any as S.Schema<SetLoadBalancerPoliciesOfListenerInput>;
+  ).annotate({
+    identifier: "SetLoadBalancerPoliciesOfListenerInput",
+  }) as any as S.Schema<SetLoadBalancerPoliciesOfListenerInput>;
 export interface SetLoadBalancerPoliciesOfListenerOutput {}
-export const SetLoadBalancerPoliciesOfListenerOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetLoadBalancerPoliciesOfListenerOutput",
-}) as any as S.Schema<SetLoadBalancerPoliciesOfListenerOutput>;
+export const SetLoadBalancerPoliciesOfListenerOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "SetLoadBalancerPoliciesOfListenerOutput",
+  }) as any as S.Schema<SetLoadBalancerPoliciesOfListenerOutput>;
 
 //# Errors
 export class AccessPointNotFoundException extends S.TaggedErrorClass<AccessPointNotFoundException>()(

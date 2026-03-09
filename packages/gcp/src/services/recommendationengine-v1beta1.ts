@@ -28,7 +28,7 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierar
 }
 
 export const GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchy: Schema.Schema<GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       categories: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -43,7 +43,7 @@ export interface GoogleCloudRecommendationengineV1beta1FeatureMapFloatList {
 }
 
 export const GoogleCloudRecommendationengineV1beta1FeatureMapFloatList: Schema.Schema<GoogleCloudRecommendationengineV1beta1FeatureMapFloatList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -57,7 +57,7 @@ export interface GoogleCloudRecommendationengineV1beta1FeatureMapStringList {
 }
 
 export const GoogleCloudRecommendationengineV1beta1FeatureMapStringList: Schema.Schema<GoogleCloudRecommendationengineV1beta1FeatureMapStringList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -79,7 +79,7 @@ export interface GoogleCloudRecommendationengineV1beta1FeatureMap {
 }
 
 export const GoogleCloudRecommendationengineV1beta1FeatureMap: Schema.Schema<GoogleCloudRecommendationengineV1beta1FeatureMap> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numericalFeatures: Schema.optional(
         Schema.Record(
@@ -106,7 +106,7 @@ export interface GoogleCloudRecommendationengineV1beta1ProductCatalogItemExactPr
 }
 
 export const GoogleCloudRecommendationengineV1beta1ProductCatalogItemExactPrice: Schema.Schema<GoogleCloudRecommendationengineV1beta1ProductCatalogItemExactPrice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayPrice: Schema.optional(Schema.Number),
       originalPrice: Schema.optional(Schema.Number),
@@ -124,7 +124,7 @@ export interface GoogleCloudRecommendationengineV1beta1ProductCatalogItemPriceRa
 }
 
 export const GoogleCloudRecommendationengineV1beta1ProductCatalogItemPriceRange: Schema.Schema<GoogleCloudRecommendationengineV1beta1ProductCatalogItemPriceRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(Schema.Number),
       max: Schema.optional(Schema.Number),
@@ -144,7 +144,7 @@ export interface GoogleCloudRecommendationengineV1beta1Image {
 }
 
 export const GoogleCloudRecommendationengineV1beta1Image: Schema.Schema<GoogleCloudRecommendationengineV1beta1Image> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       height: Schema.optional(Schema.Number),
       width: Schema.optional(Schema.Number),
@@ -180,7 +180,7 @@ export interface GoogleCloudRecommendationengineV1beta1ProductCatalogItem {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ProductCatalogItem: Schema.Schema<GoogleCloudRecommendationengineV1beta1ProductCatalogItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       canonicalProductUri: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
@@ -223,7 +223,7 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogItem {
 }
 
 export const GoogleCloudRecommendationengineV1beta1CatalogItem: Schema.Schema<GoogleCloudRecommendationengineV1beta1CatalogItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -253,7 +253,7 @@ export interface GoogleCloudRecommendationengineV1alphaTuningMetadata {
 }
 
 export const GoogleCloudRecommendationengineV1alphaTuningMetadata: Schema.Schema<GoogleCloudRecommendationengineV1alphaTuningMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recommendationModel: Schema.optional(Schema.String),
     }),
@@ -275,7 +275,7 @@ export interface GoogleCloudRecommendationengineV1beta1PurchaseTransaction {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PurchaseTransaction: Schema.Schema<GoogleCloudRecommendationengineV1beta1PurchaseTransaction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       revenue: Schema.optional(Schema.Number),
       currencyCode: Schema.optional(Schema.String),
@@ -313,7 +313,7 @@ export interface GoogleCloudRecommendationengineV1beta1ProductDetail {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ProductDetail: Schema.Schema<GoogleCloudRecommendationengineV1beta1ProductDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       quantity: Schema.optional(Schema.Number),
@@ -346,7 +346,7 @@ export interface GoogleCloudRecommendationengineV1beta1ProductEventDetail {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ProductEventDetail: Schema.Schema<GoogleCloudRecommendationengineV1beta1ProductEventDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purchaseTransaction: Schema.optional(
         GoogleCloudRecommendationengineV1beta1PurchaseTransaction,
@@ -381,7 +381,7 @@ export interface GoogleCloudRecommendationengineV1beta1UserInfo {
 }
 
 export const GoogleCloudRecommendationengineV1beta1UserInfo: Schema.Schema<GoogleCloudRecommendationengineV1beta1UserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userAgent: Schema.optional(Schema.String),
       visitorId: Schema.optional(Schema.String),
@@ -409,7 +409,7 @@ export interface GoogleCloudRecommendationengineV1beta1EventDetail {
 }
 
 export const GoogleCloudRecommendationengineV1beta1EventDetail: Schema.Schema<GoogleCloudRecommendationengineV1beta1EventDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventAttributes: Schema.optional(
         GoogleCloudRecommendationengineV1beta1FeatureMap,
@@ -445,7 +445,7 @@ export interface GoogleCloudRecommendationengineV1beta1UserEvent {
 }
 
 export const GoogleCloudRecommendationengineV1beta1UserEvent: Schema.Schema<GoogleCloudRecommendationengineV1beta1UserEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventType: Schema.optional(Schema.String),
       productEventDetail: Schema.optional(
@@ -470,7 +470,7 @@ export interface GoogleCloudRecommendationengineV1beta1PurgeUserEventsResponse {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PurgeUserEventsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1PurgeUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEventsSample: Schema.optional(
         Schema.Array(GoogleCloudRecommendationengineV1beta1UserEvent),
@@ -484,7 +484,7 @@ export const GoogleCloudRecommendationengineV1beta1PurgeUserEventsResponse: Sche
 export interface GoogleCloudRecommendationengineV1beta1RejoinUserEventsMetadata {}
 
 export const GoogleCloudRecommendationengineV1beta1RejoinUserEventsMetadata: Schema.Schema<GoogleCloudRecommendationengineV1beta1RejoinUserEventsMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudRecommendationengineV1beta1RejoinUserEventsMetadata",
   }) as any as Schema.Schema<GoogleCloudRecommendationengineV1beta1RejoinUserEventsMetadata>;
@@ -503,7 +503,7 @@ export interface GoogleCloudRecommendationengineV1beta1BigQuerySource {
 }
 
 export const GoogleCloudRecommendationengineV1beta1BigQuerySource: Schema.Schema<GoogleCloudRecommendationengineV1beta1BigQuerySource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsStagingDir: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -521,7 +521,7 @@ export interface GoogleCloudRecommendationengineV1beta1UserEventInlineSource {
 }
 
 export const GoogleCloudRecommendationengineV1beta1UserEventInlineSource: Schema.Schema<GoogleCloudRecommendationengineV1beta1UserEventInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvents: Schema.optional(
         Schema.Array(GoogleCloudRecommendationengineV1beta1UserEvent),
@@ -537,7 +537,7 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogInlineSource {
 }
 
 export const GoogleCloudRecommendationengineV1beta1CatalogInlineSource: Schema.Schema<GoogleCloudRecommendationengineV1beta1CatalogInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogItems: Schema.optional(
         Schema.Array(GoogleCloudRecommendationengineV1beta1CatalogItem),
@@ -555,7 +555,7 @@ export interface GoogleCloudRecommendationengineV1beta1GcsSource {
 }
 
 export const GoogleCloudRecommendationengineV1beta1GcsSource: Schema.Schema<GoogleCloudRecommendationengineV1beta1GcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jsonSchema: Schema.optional(Schema.String),
       inputUris: Schema.optional(Schema.Array(Schema.String)),
@@ -576,7 +576,7 @@ export interface GoogleCloudRecommendationengineV1beta1InputConfig {
 }
 
 export const GoogleCloudRecommendationengineV1beta1InputConfig: Schema.Schema<GoogleCloudRecommendationengineV1beta1InputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQuerySource: Schema.optional(
         GoogleCloudRecommendationengineV1beta1BigQuerySource,
@@ -601,7 +601,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportErrorsConfig {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportErrorsConfig: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -621,7 +621,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateMask: Schema.optional(Schema.String),
       requestId: Schema.optional(Schema.String),
@@ -643,7 +643,7 @@ export interface GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistrat
 }
 
 export const GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration: Schema.Schema<GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiKey: Schema.optional(Schema.String),
     }),
@@ -658,7 +658,7 @@ export interface GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyReg
 }
 
 export const GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       predictionApiKeyRegistration: Schema.optional(
         GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration,
@@ -679,7 +679,7 @@ export interface GoogleApiHttpBody {
 }
 
 export const GoogleApiHttpBody: Schema.Schema<GoogleApiHttpBody> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentType: Schema.optional(Schema.String),
       extensions: Schema.optional(
@@ -700,8 +700,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       code: Schema.optional(Schema.Number),
@@ -709,9 +709,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -727,7 +727,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       done: Schema.optional(Schema.Boolean),
@@ -749,7 +749,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unreachable: Schema.optional(Schema.Array(Schema.String)),
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
@@ -762,7 +762,7 @@ export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongru
 export interface GoogleCloudRecommendationengineV1alphaTuningResponse {}
 
 export const GoogleCloudRecommendationengineV1alphaTuningResponse: Schema.Schema<GoogleCloudRecommendationengineV1alphaTuningResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecommendationengineV1alphaTuningResponse",
   }) as any as Schema.Schema<GoogleCloudRecommendationengineV1alphaTuningResponse>;
 
@@ -774,7 +774,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRespons
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportCatalogItemsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportCatalogItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(
@@ -804,7 +804,7 @@ export interface GoogleCloudRecommendationengineV1beta1PredictRequest {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PredictRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1PredictRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvent: Schema.optional(
         GoogleCloudRecommendationengineV1beta1UserEvent,
@@ -823,7 +823,7 @@ export const GoogleCloudRecommendationengineV1beta1PredictRequest: Schema.Schema
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -835,7 +835,7 @@ export interface GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegis
 }
 
 export const GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       predictionApiKeyRegistrations: Schema.optional(
@@ -857,7 +857,7 @@ export interface GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse 
 }
 
 export const GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogItems: Schema.optional(
         Schema.Array(GoogleCloudRecommendationengineV1beta1CatalogItem),
@@ -885,7 +885,7 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig {
 }
 
 export const GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig: Schema.Schema<GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       predictItemLevel: Schema.optional(Schema.String),
       eventItemLevel: Schema.optional(Schema.String),
@@ -904,7 +904,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputConfig: Schema.optional(
         GoogleCloudRecommendationengineV1beta1InputConfig,
@@ -921,7 +921,7 @@ export const GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest: Sche
 export interface GoogleCloudRecommendationengineV1alphaRejoinCatalogMetadata {}
 
 export const GoogleCloudRecommendationengineV1alphaRejoinCatalogMetadata: Schema.Schema<GoogleCloudRecommendationengineV1alphaRejoinCatalogMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRecommendationengineV1alphaRejoinCatalogMetadata",
   }) as any as Schema.Schema<GoogleCloudRecommendationengineV1alphaRejoinCatalogMetadata>;
 
@@ -933,7 +933,7 @@ export interface GoogleCloudRecommendationengineV1beta1UserEventImportSummary {
 }
 
 export const GoogleCloudRecommendationengineV1beta1UserEventImportSummary: Schema.Schema<GoogleCloudRecommendationengineV1beta1UserEventImportSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unjoinedEventsCount: Schema.optional(Schema.String),
       joinedEventsCount: Schema.optional(Schema.String),
@@ -950,7 +950,7 @@ export interface GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       force: Schema.optional(Schema.Boolean),
@@ -971,7 +971,7 @@ export interface GoogleCloudRecommendationengineV1beta1Catalog {
 }
 
 export const GoogleCloudRecommendationengineV1beta1Catalog: Schema.Schema<GoogleCloudRecommendationengineV1beta1Catalog> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogItemLevelConfig: Schema.optional(
         GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig,
@@ -992,7 +992,7 @@ export interface GoogleCloudRecommendationengineV1beta1ListCatalogsResponse {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ListCatalogsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ListCatalogsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       catalogs: Schema.optional(
@@ -1019,7 +1019,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportMetadata {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportMetadata: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failureCount: Schema.optional(Schema.String),
       operationName: Schema.optional(Schema.String),
@@ -1040,7 +1040,7 @@ export interface GoogleCloudRecommendationengineV1beta1PurgeUserEventsMetadata {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PurgeUserEventsMetadata: Schema.Schema<GoogleCloudRecommendationengineV1beta1PurgeUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       operationName: Schema.optional(Schema.String),
@@ -1057,7 +1057,7 @@ export interface GoogleCloudRecommendationengineV1beta1PredictResponsePrediction
 }
 
 export const GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult: Schema.Schema<GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       itemMetadata: Schema.optional(
         Schema.Record(Schema.String, Schema.Unknown),
@@ -1077,7 +1077,7 @@ export interface GoogleCloudRecommendationengineV1beta1ListUserEventsResponse {
 }
 
 export const GoogleCloudRecommendationengineV1beta1ListUserEventsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ListUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvents: Schema.optional(
         Schema.Array(GoogleCloudRecommendationengineV1beta1UserEvent),
@@ -1098,7 +1098,7 @@ export interface GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest {
 }
 
 export const GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest: Schema.Schema<GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEventRejoinScope: Schema.optional(Schema.String),
     }),
@@ -1122,7 +1122,7 @@ export interface GoogleCloudRecommendationengineV1beta1PredictResponse {
 }
 
 export const GoogleCloudRecommendationengineV1beta1PredictResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1PredictResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recommendationToken: Schema.optional(Schema.String),
       results: Schema.optional(
@@ -1149,7 +1149,7 @@ export interface GoogleCloudRecommendationengineV1beta1ImportUserEventsResponse 
 }
 
 export const GoogleCloudRecommendationengineV1beta1ImportUserEventsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1ImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(
@@ -1170,7 +1170,7 @@ export interface GoogleCloudRecommendationengineV1alphaRejoinCatalogResponse {
 }
 
 export const GoogleCloudRecommendationengineV1alphaRejoinCatalogResponse: Schema.Schema<GoogleCloudRecommendationengineV1alphaRejoinCatalogResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rejoinedUserEventsCount: Schema.optional(Schema.String),
     }),
@@ -1184,7 +1184,7 @@ export interface GoogleCloudRecommendationengineV1beta1RejoinUserEventsResponse 
 }
 
 export const GoogleCloudRecommendationengineV1beta1RejoinUserEventsResponse: Schema.Schema<GoogleCloudRecommendationengineV1beta1RejoinUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rejoinedUserEventsCount: Schema.optional(Schema.String),
     }),
@@ -1206,22 +1206,23 @@ export interface ListProjectsLocationsCatalogsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsCatalogsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsRequest>;
+export const ListProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsRequest>;
 
 export type ListProjectsLocationsCatalogsResponse =
   GoogleCloudRecommendationengineV1beta1ListCatalogsResponse;
 export const ListProjectsLocationsCatalogsResponse =
-  GoogleCloudRecommendationengineV1beta1ListCatalogsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1ListCatalogsResponse;
 
 export type ListProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -1231,7 +1232,7 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   ListProjectsLocationsCatalogsResponse,
   ListProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -1250,25 +1251,26 @@ export interface PatchProjectsLocationsCatalogsRequest {
   body?: GoogleCloudRecommendationengineV1beta1Catalog;
 }
 
-export const PatchProjectsLocationsCatalogsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRecommendationengineV1beta1Catalog).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsRequest>;
+export const PatchProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRecommendationengineV1beta1Catalog).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsRequest>;
 
 export type PatchProjectsLocationsCatalogsResponse =
   GoogleCloudRecommendationengineV1beta1Catalog;
 export const PatchProjectsLocationsCatalogsResponse =
-  GoogleCloudRecommendationengineV1beta1Catalog;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1Catalog;
 
 export type PatchProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -1278,7 +1280,7 @@ export const patchProjectsLocationsCatalogs: API.OperationMethod<
   PatchProjectsLocationsCatalogsResponse,
   PatchProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsRequest,
   output: PatchProjectsLocationsCatalogsResponse,
   errors: [],
@@ -1291,26 +1293,25 @@ export interface ImportProjectsLocationsCatalogsCatalogItemsRequest {
   body?: GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest;
 }
 
-export const ImportProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct(
-  {
+export const ImportProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsCatalogsCatalogItemsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type ImportProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1320,7 +1321,7 @@ export const importProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   ImportProjectsLocationsCatalogsCatalogItemsResponse,
   ImportProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCatalogsCatalogItemsRequest,
   output: ImportProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1337,23 +1338,24 @@ export interface ListProjectsLocationsCatalogsCatalogItemsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsCatalogItemsRequest>;
+export const ListProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type ListProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse;
 export const ListProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1ListCatalogItemsResponse;
 
 export type ListProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1363,7 +1365,7 @@ export const listProjectsLocationsCatalogsCatalogItems: API.PaginatedOperationMe
   ListProjectsLocationsCatalogsCatalogItemsResponse,
   ListProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsCatalogItemsRequest,
   output: ListProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1382,25 +1384,26 @@ export interface PatchProjectsLocationsCatalogsCatalogItemsRequest {
   body?: GoogleCloudRecommendationengineV1beta1CatalogItem;
 }
 
-export const PatchProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRecommendationengineV1beta1CatalogItem).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsCatalogItemsRequest>;
+export const PatchProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudRecommendationengineV1beta1CatalogItem,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type PatchProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleCloudRecommendationengineV1beta1CatalogItem;
 export const PatchProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleCloudRecommendationengineV1beta1CatalogItem;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1CatalogItem;
 
 export type PatchProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1410,7 +1413,7 @@ export const patchProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   PatchProjectsLocationsCatalogsCatalogItemsResponse,
   PatchProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsCatalogItemsRequest,
   output: PatchProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1421,22 +1424,21 @@ export interface DeleteProjectsLocationsCatalogsCatalogItemsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct(
-  {
+export const DeleteProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsCatalogItemsRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type DeleteProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1446,7 +1448,7 @@ export const deleteProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   DeleteProjectsLocationsCatalogsCatalogItemsResponse,
   DeleteProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsCatalogItemsRequest,
   output: DeleteProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1457,20 +1459,21 @@ export interface GetProjectsLocationsCatalogsCatalogItemsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsCatalogItemsRequest>;
+export const GetProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems/{catalogItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type GetProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleCloudRecommendationengineV1beta1CatalogItem;
 export const GetProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleCloudRecommendationengineV1beta1CatalogItem;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1CatalogItem;
 
 export type GetProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1480,7 +1483,7 @@ export const getProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   GetProjectsLocationsCatalogsCatalogItemsResponse,
   GetProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsCatalogItemsRequest,
   output: GetProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1493,26 +1496,25 @@ export interface CreateProjectsLocationsCatalogsCatalogItemsRequest {
   body?: GoogleCloudRecommendationengineV1beta1CatalogItem;
 }
 
-export const CreateProjectsLocationsCatalogsCatalogItemsRequest = Schema.Struct(
-  {
+export const CreateProjectsLocationsCatalogsCatalogItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1CatalogItem,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsCatalogItemsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/catalogItems",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsCatalogItemsRequest>;
 
 export type CreateProjectsLocationsCatalogsCatalogItemsResponse =
   GoogleCloudRecommendationengineV1beta1CatalogItem;
 export const CreateProjectsLocationsCatalogsCatalogItemsResponse =
-  GoogleCloudRecommendationengineV1beta1CatalogItem;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1CatalogItem;
 
 export type CreateProjectsLocationsCatalogsCatalogItemsError = DefaultErrors;
 
@@ -1522,7 +1524,7 @@ export const createProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   CreateProjectsLocationsCatalogsCatalogItemsResponse,
   CreateProjectsLocationsCatalogsCatalogItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsCatalogItemsRequest,
   output: CreateProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1541,26 +1543,27 @@ export interface ListProjectsLocationsCatalogsOperationsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsCatalogsOperationsRequest = Schema.Struct({
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsOperationsRequest>;
+export const ListProjectsLocationsCatalogsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsOperationsRequest>;
 
 export type ListProjectsLocationsCatalogsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCatalogsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCatalogsOperationsError = DefaultErrors;
 
@@ -1570,7 +1573,7 @@ export const listProjectsLocationsCatalogsOperations: API.PaginatedOperationMeth
   ListProjectsLocationsCatalogsOperationsResponse,
   ListProjectsLocationsCatalogsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsOperationsRequest,
   output: ListProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -1585,20 +1588,21 @@ export interface GetProjectsLocationsCatalogsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsOperationsRequest>;
+export const GetProjectsLocationsCatalogsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsOperationsRequest>;
 
 export type GetProjectsLocationsCatalogsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCatalogsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCatalogsOperationsError = DefaultErrors;
 
@@ -1608,7 +1612,7 @@ export const getProjectsLocationsCatalogsOperations: API.OperationMethod<
   GetProjectsLocationsCatalogsOperationsResponse,
   GetProjectsLocationsCatalogsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsOperationsRequest,
   output: GetProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -1628,7 +1632,7 @@ export interface ListProjectsLocationsCatalogsEventStoresOperationsRequest {
 }
 
 export const ListProjectsLocationsCatalogsEventStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
     ),
@@ -1647,7 +1651,7 @@ export const ListProjectsLocationsCatalogsEventStoresOperationsRequest =
 export type ListProjectsLocationsCatalogsEventStoresOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCatalogsEventStoresOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCatalogsEventStoresOperationsError =
   DefaultErrors;
@@ -1658,7 +1662,7 @@ export const listProjectsLocationsCatalogsEventStoresOperations: API.PaginatedOp
   ListProjectsLocationsCatalogsEventStoresOperationsResponse,
   ListProjectsLocationsCatalogsEventStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsEventStoresOperationsRequest,
   output: ListProjectsLocationsCatalogsEventStoresOperationsResponse,
   errors: [],
@@ -1674,7 +1678,7 @@ export interface GetProjectsLocationsCatalogsEventStoresOperationsRequest {
 }
 
 export const GetProjectsLocationsCatalogsEventStoresOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1687,7 +1691,7 @@ export const GetProjectsLocationsCatalogsEventStoresOperationsRequest =
 export type GetProjectsLocationsCatalogsEventStoresOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCatalogsEventStoresOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCatalogsEventStoresOperationsError =
   DefaultErrors;
@@ -1698,7 +1702,7 @@ export const getProjectsLocationsCatalogsEventStoresOperations: API.OperationMet
   GetProjectsLocationsCatalogsEventStoresOperationsResponse,
   GetProjectsLocationsCatalogsEventStoresOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsEventStoresOperationsRequest,
   output: GetProjectsLocationsCatalogsEventStoresOperationsResponse,
   errors: [],
@@ -1714,7 +1718,7 @@ export interface ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistr
 }
 
 export const ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -1729,7 +1733,7 @@ export const ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistratio
 export type ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
   GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse;
 export const ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
-  GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse;
 
 export type ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError =
   DefaultErrors;
@@ -1740,7 +1744,7 @@ export const listProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistratio
   ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output:
@@ -1758,7 +1762,7 @@ export interface DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegis
 }
 
 export const DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1771,7 +1775,7 @@ export const DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
 export type DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError =
   DefaultErrors;
@@ -1782,7 +1786,7 @@ export const deleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
   DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output:
@@ -1798,7 +1802,7 @@ export interface CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegis
 }
 
 export const CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest,
@@ -1815,7 +1819,7 @@ export const CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
 export type CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
   GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration;
 export const CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse =
-  GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration;
 
 export type CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError =
   DefaultErrors;
@@ -1826,7 +1830,7 @@ export const createProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
   CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output:
@@ -1841,7 +1845,7 @@ export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest {
 }
 
 export const PredictProjectsLocationsCatalogsEventStoresPlacementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1PredictRequest,
@@ -1858,7 +1862,7 @@ export const PredictProjectsLocationsCatalogsEventStoresPlacementsRequest =
 export type PredictProjectsLocationsCatalogsEventStoresPlacementsResponse =
   GoogleCloudRecommendationengineV1beta1PredictResponse;
 export const PredictProjectsLocationsCatalogsEventStoresPlacementsResponse =
-  GoogleCloudRecommendationengineV1beta1PredictResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1PredictResponse;
 
 export type PredictProjectsLocationsCatalogsEventStoresPlacementsError =
   DefaultErrors;
@@ -1869,7 +1873,7 @@ export const predictProjectsLocationsCatalogsEventStoresPlacements: API.Operatio
   PredictProjectsLocationsCatalogsEventStoresPlacementsResponse,
   PredictProjectsLocationsCatalogsEventStoresPlacementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictProjectsLocationsCatalogsEventStoresPlacementsRequest,
   output: PredictProjectsLocationsCatalogsEventStoresPlacementsResponse,
   errors: [],
@@ -1883,7 +1887,7 @@ export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest,
@@ -1900,7 +1904,7 @@ export const RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RejoinProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -1911,7 +1915,7 @@ export const rejoinProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse,
   RejoinProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -1925,7 +1929,7 @@ export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const ImportProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest,
@@ -1942,7 +1946,7 @@ export const ImportProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type ImportProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -1953,7 +1957,7 @@ export const importProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   ImportProjectsLocationsCatalogsEventStoresUserEventsResponse,
   ImportProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: ImportProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -1967,7 +1971,7 @@ export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest,
@@ -1984,7 +1988,7 @@ export const PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -1995,7 +1999,7 @@ export const purgeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationM
   PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse,
   PurgeProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -2013,7 +2017,7 @@ export interface ListProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const ListProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2029,7 +2033,7 @@ export const ListProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type ListProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleCloudRecommendationengineV1beta1ListUserEventsResponse;
 export const ListProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleCloudRecommendationengineV1beta1ListUserEventsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1ListUserEventsResponse;
 
 export type ListProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -2040,7 +2044,7 @@ export const listProjectsLocationsCatalogsEventStoresUserEvents: API.PaginatedOp
   ListProjectsLocationsCatalogsEventStoresUserEventsResponse,
   ListProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: ListProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -2062,7 +2066,7 @@ export interface CollectProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const CollectProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ets: Schema.optional(Schema.String).pipe(T.HttpQuery("ets")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     uri: Schema.optional(Schema.String).pipe(T.HttpQuery("uri")),
@@ -2078,7 +2082,7 @@ export const CollectProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type CollectProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleApiHttpBody;
 export const CollectProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleApiHttpBody;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleApiHttpBody;
 
 export type CollectProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -2089,7 +2093,7 @@ export const collectProjectsLocationsCatalogsEventStoresUserEvents: API.Operatio
   CollectProjectsLocationsCatalogsEventStoresUserEventsResponse,
   CollectProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CollectProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: CollectProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -2103,7 +2107,7 @@ export interface WriteProjectsLocationsCatalogsEventStoresUserEventsRequest {
 }
 
 export const WriteProjectsLocationsCatalogsEventStoresUserEventsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudRecommendationengineV1beta1UserEvent).pipe(
       T.HttpBody(),
@@ -2120,7 +2124,7 @@ export const WriteProjectsLocationsCatalogsEventStoresUserEventsRequest =
 export type WriteProjectsLocationsCatalogsEventStoresUserEventsResponse =
   GoogleCloudRecommendationengineV1beta1UserEvent;
 export const WriteProjectsLocationsCatalogsEventStoresUserEventsResponse =
-  GoogleCloudRecommendationengineV1beta1UserEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommendationengineV1beta1UserEvent;
 
 export type WriteProjectsLocationsCatalogsEventStoresUserEventsError =
   DefaultErrors;
@@ -2131,7 +2135,7 @@ export const writeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationM
   WriteProjectsLocationsCatalogsEventStoresUserEventsResponse,
   WriteProjectsLocationsCatalogsEventStoresUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: WriteProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],

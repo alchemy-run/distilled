@@ -3,23 +3,25 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListProjectVPCEndpointsInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({ method: "GET", path: "/projects/{project_id}/vpc_endpoints" }),
-);
+export const ListProjectVPCEndpointsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({ method: "GET", path: "/projects/{project_id}/vpc_endpoints" }),
+  );
 export type ListProjectVPCEndpointsInput =
   typeof ListProjectVPCEndpointsInput.Type;
 
 // Output Schema
-export const ListProjectVPCEndpointsOutput = Schema.Struct({
-  endpoints: Schema.Array(
-    Schema.Struct({
-      vpc_endpoint_id: Schema.String,
-      label: Schema.String,
-    }),
-  ),
-});
+export const ListProjectVPCEndpointsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    endpoints: Schema.Array(
+      Schema.Struct({
+        vpc_endpoint_id: Schema.String,
+        label: Schema.String,
+      }),
+    ),
+  });
 export type ListProjectVPCEndpointsOutput =
   typeof ListProjectVPCEndpointsOutput.Type;
 

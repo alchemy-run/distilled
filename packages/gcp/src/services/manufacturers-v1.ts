@@ -45,13 +45,14 @@ export interface Image {
   imageUrl?: string;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    imageUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      imageUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface FeatureDescription {
   /** A short description of the feature. */
@@ -63,7 +64,7 @@ export interface FeatureDescription {
 }
 
 export const FeatureDescription: Schema.Schema<FeatureDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headline: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -80,12 +81,13 @@ export interface Price {
   currency?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amount: Schema.optional(Schema.String),
-    currency: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amount: Schema.optional(Schema.String),
+      currency: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface ProductDetail {
   /** A short section name that can be reused between multiple product details. */
@@ -96,15 +98,16 @@ export interface ProductDetail {
   attributeValue?: string;
 }
 
-export const ProductDetail: Schema.Schema<ProductDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    sectionName: Schema.optional(Schema.String),
-    attributeName: Schema.optional(Schema.String),
-    attributeValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductDetail",
-}) as any as Schema.Schema<ProductDetail>;
+export const ProductDetail: Schema.Schema<ProductDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sectionName: Schema.optional(Schema.String),
+      attributeName: Schema.optional(Schema.String),
+      attributeValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductDetail",
+  }) as any as Schema.Schema<ProductDetail>;
 
 export interface Capacity {
   /** The numeric value of the capacity. */
@@ -113,12 +116,13 @@ export interface Capacity {
   unit?: string;
 }
 
-export const Capacity: Schema.Schema<Capacity> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Capacity" }) as any as Schema.Schema<Capacity>;
+export const Capacity: Schema.Schema<Capacity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Capacity" }) as any as Schema.Schema<Capacity>;
 
 export interface Count {
   /** The numeric value of the number of products in a package. */
@@ -127,12 +131,13 @@ export interface Count {
   unit?: string;
 }
 
-export const Count: Schema.Schema<Count> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
+export const Count: Schema.Schema<Count> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Count" }) as any as Schema.Schema<Count>;
 
 export interface FloatUnit {
   /** amount. */
@@ -141,12 +146,13 @@ export interface FloatUnit {
   unit?: string;
 }
 
-export const FloatUnit: Schema.Schema<FloatUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    amount: Schema.optional(Schema.Number),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FloatUnit" }) as any as Schema.Schema<FloatUnit>;
+export const FloatUnit: Schema.Schema<FloatUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amount: Schema.optional(Schema.Number),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FloatUnit" }) as any as Schema.Schema<FloatUnit>;
 
 export interface VoluntaryNutritionFact {
   /** Name. */
@@ -158,7 +164,7 @@ export interface VoluntaryNutritionFact {
 }
 
 export const VoluntaryNutritionFact: Schema.Schema<VoluntaryNutritionFact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(FloatUnit),
@@ -257,55 +263,56 @@ export interface Nutrition {
   voluntaryNutritionFact?: Array<VoluntaryNutritionFact>;
 }
 
-export const Nutrition: Schema.Schema<Nutrition> = Schema.suspend(() =>
-  Schema.Struct({
-    servingSizeDescription: Schema.optional(Schema.String),
-    servingsPerContainer: Schema.optional(Schema.String),
-    servingSizeMeasure: Schema.optional(FloatUnit),
-    preparedSizeDescription: Schema.optional(Schema.String),
-    nutritionFactMeasure: Schema.optional(Schema.String),
-    energy: Schema.optional(FloatUnit),
-    energyFromFat: Schema.optional(FloatUnit),
-    totalFat: Schema.optional(FloatUnit),
-    totalFatDailyPercentage: Schema.optional(Schema.Number),
-    saturatedFat: Schema.optional(FloatUnit),
-    saturatedFatDailyPercentage: Schema.optional(Schema.Number),
-    monounsaturatedFat: Schema.optional(FloatUnit),
-    polyunsaturatedFat: Schema.optional(FloatUnit),
-    transFat: Schema.optional(FloatUnit),
-    transFatDailyPercentage: Schema.optional(Schema.Number),
-    cholesterol: Schema.optional(FloatUnit),
-    cholesterolDailyPercentage: Schema.optional(Schema.Number),
-    sodium: Schema.optional(FloatUnit),
-    sodiumDailyPercentage: Schema.optional(Schema.Number),
-    totalCarbohydrate: Schema.optional(FloatUnit),
-    totalCarbohydrateDailyPercentage: Schema.optional(Schema.Number),
-    dietaryFiber: Schema.optional(FloatUnit),
-    dietaryFiberDailyPercentage: Schema.optional(Schema.Number),
-    totalSugars: Schema.optional(FloatUnit),
-    totalSugarsDailyPercentage: Schema.optional(Schema.Number),
-    addedSugars: Schema.optional(FloatUnit),
-    addedSugarsDailyPercentage: Schema.optional(Schema.Number),
-    protein: Schema.optional(FloatUnit),
-    proteinDailyPercentage: Schema.optional(Schema.Number),
-    polyols: Schema.optional(FloatUnit),
-    starch: Schema.optional(FloatUnit),
-    vitaminD: Schema.optional(FloatUnit),
-    vitaminDDailyPercentage: Schema.optional(Schema.Number),
-    calcium: Schema.optional(FloatUnit),
-    calciumDailyPercentage: Schema.optional(Schema.Number),
-    iron: Schema.optional(FloatUnit),
-    ironDailyPercentage: Schema.optional(Schema.Number),
-    potassium: Schema.optional(FloatUnit),
-    potassiumDailyPercentage: Schema.optional(Schema.Number),
-    folateMcgDfe: Schema.optional(Schema.Number),
-    folateDailyPercentage: Schema.optional(Schema.Number),
-    folateFolicAcid: Schema.optional(FloatUnit),
-    voluntaryNutritionFact: Schema.optional(
-      Schema.Array(VoluntaryNutritionFact),
-    ),
-  }),
-).annotate({ identifier: "Nutrition" }) as any as Schema.Schema<Nutrition>;
+export const Nutrition: Schema.Schema<Nutrition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      servingSizeDescription: Schema.optional(Schema.String),
+      servingsPerContainer: Schema.optional(Schema.String),
+      servingSizeMeasure: Schema.optional(FloatUnit),
+      preparedSizeDescription: Schema.optional(Schema.String),
+      nutritionFactMeasure: Schema.optional(Schema.String),
+      energy: Schema.optional(FloatUnit),
+      energyFromFat: Schema.optional(FloatUnit),
+      totalFat: Schema.optional(FloatUnit),
+      totalFatDailyPercentage: Schema.optional(Schema.Number),
+      saturatedFat: Schema.optional(FloatUnit),
+      saturatedFatDailyPercentage: Schema.optional(Schema.Number),
+      monounsaturatedFat: Schema.optional(FloatUnit),
+      polyunsaturatedFat: Schema.optional(FloatUnit),
+      transFat: Schema.optional(FloatUnit),
+      transFatDailyPercentage: Schema.optional(Schema.Number),
+      cholesterol: Schema.optional(FloatUnit),
+      cholesterolDailyPercentage: Schema.optional(Schema.Number),
+      sodium: Schema.optional(FloatUnit),
+      sodiumDailyPercentage: Schema.optional(Schema.Number),
+      totalCarbohydrate: Schema.optional(FloatUnit),
+      totalCarbohydrateDailyPercentage: Schema.optional(Schema.Number),
+      dietaryFiber: Schema.optional(FloatUnit),
+      dietaryFiberDailyPercentage: Schema.optional(Schema.Number),
+      totalSugars: Schema.optional(FloatUnit),
+      totalSugarsDailyPercentage: Schema.optional(Schema.Number),
+      addedSugars: Schema.optional(FloatUnit),
+      addedSugarsDailyPercentage: Schema.optional(Schema.Number),
+      protein: Schema.optional(FloatUnit),
+      proteinDailyPercentage: Schema.optional(Schema.Number),
+      polyols: Schema.optional(FloatUnit),
+      starch: Schema.optional(FloatUnit),
+      vitaminD: Schema.optional(FloatUnit),
+      vitaminDDailyPercentage: Schema.optional(Schema.Number),
+      calcium: Schema.optional(FloatUnit),
+      calciumDailyPercentage: Schema.optional(Schema.Number),
+      iron: Schema.optional(FloatUnit),
+      ironDailyPercentage: Schema.optional(Schema.Number),
+      potassium: Schema.optional(FloatUnit),
+      potassiumDailyPercentage: Schema.optional(Schema.Number),
+      folateMcgDfe: Schema.optional(Schema.Number),
+      folateDailyPercentage: Schema.optional(Schema.Number),
+      folateFolicAcid: Schema.optional(FloatUnit),
+      voluntaryNutritionFact: Schema.optional(
+        Schema.Array(VoluntaryNutritionFact),
+      ),
+    }),
+  ).annotate({ identifier: "Nutrition" }) as any as Schema.Schema<Nutrition>;
 
 export interface Grocery {
   /** Ingredients. */
@@ -328,19 +335,20 @@ export interface Grocery {
   alcoholByVolume?: number;
 }
 
-export const Grocery: Schema.Schema<Grocery> = Schema.suspend(() =>
-  Schema.Struct({
-    ingredients: Schema.optional(Schema.String),
-    activeIngredients: Schema.optional(Schema.String),
-    allergens: Schema.optional(Schema.String),
-    directions: Schema.optional(Schema.String),
-    storageInstructions: Schema.optional(Schema.String),
-    indications: Schema.optional(Schema.String),
-    nutritionClaim: Schema.optional(Schema.Array(Schema.String)),
-    derivedNutritionClaim: Schema.optional(Schema.Array(Schema.String)),
-    alcoholByVolume: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Grocery" }) as any as Schema.Schema<Grocery>;
+export const Grocery: Schema.Schema<Grocery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ingredients: Schema.optional(Schema.String),
+      activeIngredients: Schema.optional(Schema.String),
+      allergens: Schema.optional(Schema.String),
+      directions: Schema.optional(Schema.String),
+      storageInstructions: Schema.optional(Schema.String),
+      indications: Schema.optional(Schema.String),
+      nutritionClaim: Schema.optional(Schema.Array(Schema.String)),
+      derivedNutritionClaim: Schema.optional(Schema.Array(Schema.String)),
+      alcoholByVolume: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Grocery" }) as any as Schema.Schema<Grocery>;
 
 export interface GoogleShoppingManufacturersV1ProductCertification {
   /** Required. Name of the certification. */
@@ -360,7 +368,7 @@ export interface GoogleShoppingManufacturersV1ProductCertification {
 }
 
 export const GoogleShoppingManufacturersV1ProductCertification: Schema.Schema<GoogleShoppingManufacturersV1ProductCertification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       authority: Schema.optional(Schema.String),
@@ -461,54 +469,55 @@ export interface Attributes {
   intendedCountry?: Array<string>;
 }
 
-export const Attributes: Schema.Schema<Attributes> = Schema.suspend(() =>
-  Schema.Struct({
-    gtin: Schema.optional(Schema.Array(Schema.String)),
-    mpn: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    brand: Schema.optional(Schema.String),
-    productName: Schema.optional(Schema.String),
-    productLine: Schema.optional(Schema.String),
-    productType: Schema.optional(Schema.Array(Schema.String)),
-    description: Schema.optional(Schema.String),
-    featureDescription: Schema.optional(Schema.Array(FeatureDescription)),
-    imageLink: Schema.optional(Image),
-    additionalImageLink: Schema.optional(Schema.Array(Image)),
-    videoLink: Schema.optional(Schema.Array(Schema.String)),
-    productPageUrl: Schema.optional(Schema.String),
-    disclosureDate: Schema.optional(Schema.String),
-    releaseDate: Schema.optional(Schema.String),
-    suggestedRetailPrice: Schema.optional(Price),
-    productDetail: Schema.optional(Schema.Array(ProductDetail)),
-    itemGroupId: Schema.optional(Schema.String),
-    scent: Schema.optional(Schema.String),
-    flavor: Schema.optional(Schema.String),
-    format: Schema.optional(Schema.String),
-    capacity: Schema.optional(Capacity),
-    gender: Schema.optional(Schema.String),
-    ageGroup: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.String),
-    sizeType: Schema.optional(Schema.Array(Schema.String)),
-    sizeSystem: Schema.optional(Schema.String),
-    color: Schema.optional(Schema.String),
-    theme: Schema.optional(Schema.String),
-    pattern: Schema.optional(Schema.String),
-    material: Schema.optional(Schema.String),
-    count: Schema.optional(Count),
-    targetClientId: Schema.optional(Schema.String),
-    excludedDestination: Schema.optional(Schema.Array(Schema.String)),
-    includedDestination: Schema.optional(Schema.Array(Schema.String)),
-    productHighlight: Schema.optional(Schema.Array(Schema.String)),
-    richProductContent: Schema.optional(Schema.Array(Schema.String)),
-    nutrition: Schema.optional(Nutrition),
-    grocery: Schema.optional(Grocery),
-    virtualModelLink: Schema.optional(Schema.String),
-    certification: Schema.optional(
-      Schema.Array(GoogleShoppingManufacturersV1ProductCertification),
-    ),
-    intendedCountry: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
+export const Attributes: Schema.Schema<Attributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gtin: Schema.optional(Schema.Array(Schema.String)),
+      mpn: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      productName: Schema.optional(Schema.String),
+      productLine: Schema.optional(Schema.String),
+      productType: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      featureDescription: Schema.optional(Schema.Array(FeatureDescription)),
+      imageLink: Schema.optional(Image),
+      additionalImageLink: Schema.optional(Schema.Array(Image)),
+      videoLink: Schema.optional(Schema.Array(Schema.String)),
+      productPageUrl: Schema.optional(Schema.String),
+      disclosureDate: Schema.optional(Schema.String),
+      releaseDate: Schema.optional(Schema.String),
+      suggestedRetailPrice: Schema.optional(Price),
+      productDetail: Schema.optional(Schema.Array(ProductDetail)),
+      itemGroupId: Schema.optional(Schema.String),
+      scent: Schema.optional(Schema.String),
+      flavor: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+      capacity: Schema.optional(Capacity),
+      gender: Schema.optional(Schema.String),
+      ageGroup: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      sizeType: Schema.optional(Schema.Array(Schema.String)),
+      sizeSystem: Schema.optional(Schema.String),
+      color: Schema.optional(Schema.String),
+      theme: Schema.optional(Schema.String),
+      pattern: Schema.optional(Schema.String),
+      material: Schema.optional(Schema.String),
+      count: Schema.optional(Count),
+      targetClientId: Schema.optional(Schema.String),
+      excludedDestination: Schema.optional(Schema.Array(Schema.String)),
+      includedDestination: Schema.optional(Schema.Array(Schema.String)),
+      productHighlight: Schema.optional(Schema.Array(Schema.String)),
+      richProductContent: Schema.optional(Schema.Array(Schema.String)),
+      nutrition: Schema.optional(Nutrition),
+      grocery: Schema.optional(Grocery),
+      virtualModelLink: Schema.optional(Schema.String),
+      certification: Schema.optional(
+        Schema.Array(GoogleShoppingManufacturersV1ProductCertification),
+      ),
+      intendedCountry: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Attributes" }) as any as Schema.Schema<Attributes>;
 
 export interface Issue {
   /** The server-generated type of the issue, for example, “INCORRECT_TEXT_FORMATTING”, “IMAGE_NOT_SERVEABLE”, etc. */
@@ -540,19 +549,20 @@ export interface Issue {
   applicableCountries?: Array<string>;
 }
 
-export const Issue: Schema.Schema<Issue> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-    attribute: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    resolution: Schema.optional(Schema.String),
-    destination: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    applicableCountries: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
+export const Issue: Schema.Schema<Issue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      resolution: Schema.optional(Schema.String),
+      destination: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      applicableCountries: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
 
 export interface DestinationStatus {
   /** The name of the destination. */
@@ -568,7 +578,7 @@ export interface DestinationStatus {
 }
 
 export const DestinationStatus: Schema.Schema<DestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -601,19 +611,20 @@ export interface Product {
   destinationStatuses?: Array<DestinationStatus>;
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() =>
-  Schema.Struct({
-    parent: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    targetCountry: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    productId: Schema.optional(Schema.String),
-    attributes: Schema.optional(Attributes),
-    issues: Schema.optional(Schema.Array(Issue)),
-    destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
-  }),
-).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      parent: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      targetCountry: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      productId: Schema.optional(Schema.String),
+      attributes: Schema.optional(Attributes),
+      issues: Schema.optional(Schema.Array(Issue)),
+      destinationStatuses: Schema.optional(Schema.Array(DestinationStatus)),
+    }),
+  ).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface ListProductsResponse {
   /** List of the products. */
@@ -623,7 +634,7 @@ export interface ListProductsResponse {
 }
 
 export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       products: Schema.optional(Schema.Array(Product)),
       nextPageToken: Schema.optional(Schema.String),
@@ -634,9 +645,10 @@ export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Certification {
   /** Required. Name of the certification. */
@@ -655,19 +667,20 @@ export interface Certification {
   validUntil?: string;
 }
 
-export const Certification: Schema.Schema<Certification> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    authority: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-    logo: Schema.optional(Schema.String),
-    validUntil: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Certification",
-}) as any as Schema.Schema<Certification>;
+export const Certification: Schema.Schema<Certification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      authority: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+      logo: Schema.optional(Schema.String),
+      validUntil: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Certification",
+  }) as any as Schema.Schema<Certification>;
 
 export interface ProductCertification {
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
@@ -693,7 +706,7 @@ export interface ProductCertification {
 }
 
 export const ProductCertification: Schema.Schema<ProductCertification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -718,7 +731,7 @@ export interface ListProductCertificationsResponse {
 }
 
 export const ListProductCertificationsResponse: Schema.Schema<ListProductCertificationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productCertifications: Schema.optional(
         Schema.Array(ProductCertification),
@@ -749,20 +762,22 @@ export interface ListAccountsProductsRequest {
     | (string & {})[];
 }
 
-export const ListAccountsProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  include: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("include"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/accounts/{accountsId}/products" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProductsRequest>;
+export const ListAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    include: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("include"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/accounts/{accountsId}/products" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsRequest>;
 
 export type ListAccountsProductsResponse = ListProductsResponse;
-export const ListAccountsProductsResponse = ListProductsResponse;
+export const ListAccountsProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProductsResponse;
 
 export type ListAccountsProductsError = DefaultErrors;
 
@@ -772,7 +787,7 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
   ListAccountsProductsResponse,
   ListAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListAccountsProductsResponse,
   errors: [],
@@ -796,22 +811,23 @@ export interface GetAccountsProductsRequest {
     | (string & {})[];
 }
 
-export const GetAccountsProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  include: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("include"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/products/{productsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsProductsRequest>;
+export const GetAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    include: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("include"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/products/{productsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsProductsRequest>;
 
 export type GetAccountsProductsResponse = Product;
-export const GetAccountsProductsResponse = Product;
+export const GetAccountsProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type GetAccountsProductsError = DefaultErrors;
 
@@ -821,7 +837,7 @@ export const getAccountsProducts: API.OperationMethod<
   GetAccountsProductsResponse,
   GetAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsProductsRequest,
   output: GetAccountsProductsResponse,
   errors: [],
@@ -836,21 +852,22 @@ export interface UpdateAccountsProductsRequest {
   body?: Attributes;
 }
 
-export const UpdateAccountsProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Attributes).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/accounts/{accountsId}/products/{productsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsProductsRequest>;
+export const UpdateAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Attributes).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/accounts/{accountsId}/products/{productsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsProductsRequest>;
 
 export type UpdateAccountsProductsResponse = Empty;
-export const UpdateAccountsProductsResponse = Empty;
+export const UpdateAccountsProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type UpdateAccountsProductsError = DefaultErrors;
 
@@ -860,7 +877,7 @@ export const updateAccountsProducts: API.OperationMethod<
   UpdateAccountsProductsResponse,
   UpdateAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsProductsRequest,
   output: UpdateAccountsProductsResponse,
   errors: [],
@@ -873,19 +890,20 @@ export interface DeleteAccountsProductsRequest {
   name: string;
 }
 
-export const DeleteAccountsProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/accounts/{accountsId}/products/{productsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsProductsRequest>;
+export const DeleteAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/accounts/{accountsId}/products/{productsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductsRequest>;
 
 export type DeleteAccountsProductsResponse = Empty;
-export const DeleteAccountsProductsResponse = Empty;
+export const DeleteAccountsProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsProductsError = DefaultErrors;
 
@@ -895,7 +913,7 @@ export const deleteAccountsProducts: API.OperationMethod<
   DeleteAccountsProductsResponse,
   DeleteAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsProductsRequest,
   output: DeleteAccountsProductsResponse,
   errors: [],
@@ -910,25 +928,24 @@ export interface PatchAccountsLanguagesProductCertificationsRequest {
   body?: ProductCertification;
 }
 
-export const PatchAccountsLanguagesProductCertificationsRequest = Schema.Struct(
-  {
+export const PatchAccountsLanguagesProductCertificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(ProductCertification).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications/{productCertificationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsLanguagesProductCertificationsRequest>;
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications/{productCertificationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsLanguagesProductCertificationsRequest>;
 
 export type PatchAccountsLanguagesProductCertificationsResponse =
   ProductCertification;
 export const PatchAccountsLanguagesProductCertificationsResponse =
-  ProductCertification;
+  /*@__PURE__*/ /*#__PURE__*/ ProductCertification;
 
 export type PatchAccountsLanguagesProductCertificationsError = DefaultErrors;
 
@@ -938,7 +955,7 @@ export const patchAccountsLanguagesProductCertifications: API.OperationMethod<
   PatchAccountsLanguagesProductCertificationsResponse,
   PatchAccountsLanguagesProductCertificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsLanguagesProductCertificationsRequest,
   output: PatchAccountsLanguagesProductCertificationsResponse,
   errors: [],
@@ -953,22 +970,23 @@ export interface ListAccountsLanguagesProductCertificationsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsLanguagesProductCertificationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsLanguagesProductCertificationsRequest>;
+export const ListAccountsLanguagesProductCertificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsLanguagesProductCertificationsRequest>;
 
 export type ListAccountsLanguagesProductCertificationsResponse =
   ListProductCertificationsResponse;
 export const ListAccountsLanguagesProductCertificationsResponse =
-  ListProductCertificationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListProductCertificationsResponse;
 
 export type ListAccountsLanguagesProductCertificationsError = DefaultErrors;
 
@@ -978,7 +996,7 @@ export const listAccountsLanguagesProductCertifications: API.PaginatedOperationM
   ListAccountsLanguagesProductCertificationsResponse,
   ListAccountsLanguagesProductCertificationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsLanguagesProductCertificationsRequest,
   output: ListAccountsLanguagesProductCertificationsResponse,
   errors: [],
@@ -993,20 +1011,21 @@ export interface GetAccountsLanguagesProductCertificationsRequest {
   name: string;
 }
 
-export const GetAccountsLanguagesProductCertificationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications/{productCertificationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsLanguagesProductCertificationsRequest>;
+export const GetAccountsLanguagesProductCertificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/languages/{languagesId}/productCertifications/{productCertificationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsLanguagesProductCertificationsRequest>;
 
 export type GetAccountsLanguagesProductCertificationsResponse =
   ProductCertification;
 export const GetAccountsLanguagesProductCertificationsResponse =
-  ProductCertification;
+  /*@__PURE__*/ /*#__PURE__*/ ProductCertification;
 
 export type GetAccountsLanguagesProductCertificationsError = DefaultErrors;
 
@@ -1016,7 +1035,7 @@ export const getAccountsLanguagesProductCertifications: API.OperationMethod<
   GetAccountsLanguagesProductCertificationsResponse,
   GetAccountsLanguagesProductCertificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsLanguagesProductCertificationsRequest,
   output: GetAccountsLanguagesProductCertificationsResponse,
   errors: [],
@@ -1028,7 +1047,7 @@ export interface DeleteAccountsLanguagesProductCertificationsRequest {
 }
 
 export const DeleteAccountsLanguagesProductCertificationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1039,7 +1058,8 @@ export const DeleteAccountsLanguagesProductCertificationsRequest =
   ) as unknown as Schema.Schema<DeleteAccountsLanguagesProductCertificationsRequest>;
 
 export type DeleteAccountsLanguagesProductCertificationsResponse = Empty;
-export const DeleteAccountsLanguagesProductCertificationsResponse = Empty;
+export const DeleteAccountsLanguagesProductCertificationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsLanguagesProductCertificationsError = DefaultErrors;
 
@@ -1049,7 +1069,7 @@ export const deleteAccountsLanguagesProductCertifications: API.OperationMethod<
   DeleteAccountsLanguagesProductCertificationsResponse,
   DeleteAccountsLanguagesProductCertificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsLanguagesProductCertificationsRequest,
   output: DeleteAccountsLanguagesProductCertificationsResponse,
   errors: [],

@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -72,7 +74,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -84,14 +86,14 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -104,11 +106,14 @@ export interface GethDetails {
     | (string & {});
 }
 
-export const GethDetails: Schema.Schema<GethDetails> = Schema.suspend(() =>
-  Schema.Struct({
-    garbageCollectionMode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GethDetails" }) as any as Schema.Schema<GethDetails>;
+export const GethDetails: Schema.Schema<GethDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      garbageCollectionMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GethDetails",
+  }) as any as Schema.Schema<GethDetails>;
 
 export interface EthereumEndpoints {
   /** Output only. The assigned URL for the node's Beacon API endpoint. */
@@ -120,7 +125,7 @@ export interface EthereumEndpoints {
 }
 
 export const EthereumEndpoints: Schema.Schema<EthereumEndpoints> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       beaconApiEndpoint: Schema.optional(Schema.String),
       beaconPrometheusMetricsApiEndpoint: Schema.optional(Schema.String),
@@ -141,16 +146,16 @@ export interface ValidatorConfig {
   beaconFeeRecipient?: string;
 }
 
-export const ValidatorConfig: Schema.Schema<ValidatorConfig> = Schema.suspend(
-  () =>
+export const ValidatorConfig: Schema.Schema<ValidatorConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mevRelayUrls: Schema.optional(Schema.Array(Schema.String)),
       managedValidatorClient: Schema.optional(Schema.Boolean),
       beaconFeeRecipient: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ValidatorConfig",
-}) as any as Schema.Schema<ValidatorConfig>;
+  ).annotate({
+    identifier: "ValidatorConfig",
+  }) as any as Schema.Schema<ValidatorConfig>;
 
 export interface EthereumDetails {
   /** Details for the Geth execution client. */
@@ -192,8 +197,8 @@ export interface EthereumDetails {
   validatorConfig?: ValidatorConfig;
 }
 
-export const EthereumDetails: Schema.Schema<EthereumDetails> = Schema.suspend(
-  () =>
+export const EthereumDetails: Schema.Schema<EthereumDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gethDetails: Schema.optional(GethDetails),
       network: Schema.optional(Schema.String),
@@ -205,9 +210,9 @@ export const EthereumDetails: Schema.Schema<EthereumDetails> = Schema.suspend(
       additionalEndpoints: Schema.optional(EthereumEndpoints),
       validatorConfig: Schema.optional(ValidatorConfig),
     }),
-).annotate({
-  identifier: "EthereumDetails",
-}) as any as Schema.Schema<EthereumDetails>;
+  ).annotate({
+    identifier: "EthereumDetails",
+  }) as any as Schema.Schema<EthereumDetails>;
 
 export interface EndpointInfo {
   /** Output only. The assigned URL for the node JSON-RPC API endpoint. */
@@ -216,14 +221,15 @@ export interface EndpointInfo {
   websocketsApiEndpoint?: string;
 }
 
-export const EndpointInfo: Schema.Schema<EndpointInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    jsonRpcApiEndpoint: Schema.optional(Schema.String),
-    websocketsApiEndpoint: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "EndpointInfo",
-}) as any as Schema.Schema<EndpointInfo>;
+export const EndpointInfo: Schema.Schema<EndpointInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      jsonRpcApiEndpoint: Schema.optional(Schema.String),
+      websocketsApiEndpoint: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "EndpointInfo",
+  }) as any as Schema.Schema<EndpointInfo>;
 
 export interface ConnectionInfo {
   /** Output only. The endpoint information through which to interact with a blockchain node. */
@@ -232,15 +238,15 @@ export interface ConnectionInfo {
   serviceAttachment?: string;
 }
 
-export const ConnectionInfo: Schema.Schema<ConnectionInfo> = Schema.suspend(
-  () =>
+export const ConnectionInfo: Schema.Schema<ConnectionInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpointInfo: Schema.optional(EndpointInfo),
       serviceAttachment: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConnectionInfo",
-}) as any as Schema.Schema<ConnectionInfo>;
+  ).annotate({
+    identifier: "ConnectionInfo",
+  }) as any as Schema.Schema<ConnectionInfo>;
 
 export interface BlockchainNode {
   /** Ethereum-specific blockchain node details. */
@@ -273,8 +279,8 @@ export interface BlockchainNode {
   privateServiceConnectEnabled?: boolean;
 }
 
-export const BlockchainNode: Schema.Schema<BlockchainNode> = Schema.suspend(
-  () =>
+export const BlockchainNode: Schema.Schema<BlockchainNode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ethereumDetails: Schema.optional(EthereumDetails),
       name: Schema.optional(Schema.String),
@@ -286,9 +292,9 @@ export const BlockchainNode: Schema.Schema<BlockchainNode> = Schema.suspend(
       state: Schema.optional(Schema.String),
       privateServiceConnectEnabled: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "BlockchainNode",
-}) as any as Schema.Schema<BlockchainNode>;
+  ).annotate({
+    identifier: "BlockchainNode",
+  }) as any as Schema.Schema<BlockchainNode>;
 
 export interface ListBlockchainNodesResponse {
   /** The list of nodes */
@@ -300,7 +306,7 @@ export interface ListBlockchainNodesResponse {
 }
 
 export const ListBlockchainNodesResponse: Schema.Schema<ListBlockchainNodesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       blockchainNodes: Schema.optional(Schema.Array(BlockchainNode)),
       nextPageToken: Schema.optional(Schema.String),
@@ -323,15 +329,16 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -341,7 +348,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -368,7 +375,7 @@ export interface OperationMetadata {
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -399,21 +406,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -423,7 +432,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -438,18 +447,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -459,7 +470,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -476,21 +487,23 @@ export interface ListProjectsLocationsOperationsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -500,7 +513,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -515,18 +528,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -536,7 +551,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -547,18 +562,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export type DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
@@ -568,7 +585,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsResponse,
   DeleteProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -581,20 +598,22 @@ export interface CancelProjectsLocationsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export type CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
-export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
@@ -604,7 +623,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsResponse,
   CancelProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -623,24 +642,25 @@ export interface ListProjectsLocationsBlockchainNodesRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsBlockchainNodesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsBlockchainNodesRequest>;
+export const ListProjectsLocationsBlockchainNodesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsBlockchainNodesRequest>;
 
 export type ListProjectsLocationsBlockchainNodesResponse =
   ListBlockchainNodesResponse;
 export const ListProjectsLocationsBlockchainNodesResponse =
-  ListBlockchainNodesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBlockchainNodesResponse;
 
 export type ListProjectsLocationsBlockchainNodesError = DefaultErrors;
 
@@ -650,7 +670,7 @@ export const listProjectsLocationsBlockchainNodes: API.PaginatedOperationMethod<
   ListProjectsLocationsBlockchainNodesResponse,
   ListProjectsLocationsBlockchainNodesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsBlockchainNodesRequest,
   output: ListProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -665,18 +685,20 @@ export interface GetProjectsLocationsBlockchainNodesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsBlockchainNodesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsBlockchainNodesRequest>;
+export const GetProjectsLocationsBlockchainNodesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsBlockchainNodesRequest>;
 
 export type GetProjectsLocationsBlockchainNodesResponse = BlockchainNode;
-export const GetProjectsLocationsBlockchainNodesResponse = BlockchainNode;
+export const GetProjectsLocationsBlockchainNodesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BlockchainNode;
 
 export type GetProjectsLocationsBlockchainNodesError = DefaultErrors;
 
@@ -686,7 +708,7 @@ export const getProjectsLocationsBlockchainNodes: API.OperationMethod<
   GetProjectsLocationsBlockchainNodesResponse,
   GetProjectsLocationsBlockchainNodesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsBlockchainNodesRequest,
   output: GetProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -703,24 +725,26 @@ export interface CreateProjectsLocationsBlockchainNodesRequest {
   body?: BlockchainNode;
 }
 
-export const CreateProjectsLocationsBlockchainNodesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  blockchainNodeId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("blockchainNodeId"),
-  ),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsBlockchainNodesRequest>;
+export const CreateProjectsLocationsBlockchainNodesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    blockchainNodeId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("blockchainNodeId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsBlockchainNodesRequest>;
 
 export type CreateProjectsLocationsBlockchainNodesResponse = Operation;
-export const CreateProjectsLocationsBlockchainNodesResponse = Operation;
+export const CreateProjectsLocationsBlockchainNodesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsBlockchainNodesError = DefaultErrors;
 
@@ -730,7 +754,7 @@ export const createProjectsLocationsBlockchainNodes: API.OperationMethod<
   CreateProjectsLocationsBlockchainNodesResponse,
   CreateProjectsLocationsBlockchainNodesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsBlockchainNodesRequest,
   output: CreateProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -747,22 +771,24 @@ export interface PatchProjectsLocationsBlockchainNodesRequest {
   body?: BlockchainNode;
 }
 
-export const PatchProjectsLocationsBlockchainNodesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsBlockchainNodesRequest>;
+export const PatchProjectsLocationsBlockchainNodesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(BlockchainNode).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsBlockchainNodesRequest>;
 
 export type PatchProjectsLocationsBlockchainNodesResponse = Operation;
-export const PatchProjectsLocationsBlockchainNodesResponse = Operation;
+export const PatchProjectsLocationsBlockchainNodesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsBlockchainNodesError = DefaultErrors;
 
@@ -772,7 +798,7 @@ export const patchProjectsLocationsBlockchainNodes: API.OperationMethod<
   PatchProjectsLocationsBlockchainNodesResponse,
   PatchProjectsLocationsBlockchainNodesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsBlockchainNodesRequest,
   output: PatchProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -785,19 +811,21 @@ export interface DeleteProjectsLocationsBlockchainNodesRequest {
   requestId?: string;
 }
 
-export const DeleteProjectsLocationsBlockchainNodesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsBlockchainNodesRequest>;
+export const DeleteProjectsLocationsBlockchainNodesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/blockchainNodes/{blockchainNodesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsBlockchainNodesRequest>;
 
 export type DeleteProjectsLocationsBlockchainNodesResponse = Operation;
-export const DeleteProjectsLocationsBlockchainNodesResponse = Operation;
+export const DeleteProjectsLocationsBlockchainNodesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsBlockchainNodesError = DefaultErrors;
 
@@ -807,7 +835,7 @@ export const deleteProjectsLocationsBlockchainNodes: API.OperationMethod<
   DeleteProjectsLocationsBlockchainNodesResponse,
   DeleteProjectsLocationsBlockchainNodesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsBlockchainNodesRequest,
   output: DeleteProjectsLocationsBlockchainNodesResponse,
   errors: [],

@@ -23,7 +23,7 @@ const svc = T.Service({
 // ==========================================================================
 
 export type DetectionsResource = unknown;
-export const DetectionsResource = Schema.Unknown;
+export const DetectionsResource = /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown;
 
 export interface DetectionsListResponse {
   /** A detections contains detection results of several text */
@@ -31,7 +31,7 @@ export interface DetectionsListResponse {
 }
 
 export const DetectionsListResponse: Schema.Schema<DetectionsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detections: Schema.optional(Schema.Array(DetectionsResource)),
     }),
@@ -47,7 +47,7 @@ export interface LanguagesResource {
 }
 
 export const LanguagesResource: Schema.Schema<LanguagesResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       language: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -62,7 +62,7 @@ export interface LanguagesListResponse {
 }
 
 export const LanguagesListResponse: Schema.Schema<LanguagesListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languages: Schema.optional(Schema.Array(LanguagesResource)),
     }),
@@ -80,7 +80,7 @@ export interface TranslationsResource {
 }
 
 export const TranslationsResource: Schema.Schema<TranslationsResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detectedSourceLanguage: Schema.optional(Schema.String),
       translatedText: Schema.optional(Schema.String),
@@ -96,7 +96,7 @@ export interface TranslationsListResponse {
 }
 
 export const TranslationsListResponse: Schema.Schema<TranslationsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       translations: Schema.optional(Schema.Array(TranslationsResource)),
     }),
@@ -118,7 +118,7 @@ export interface TranslateTextRequest {
 }
 
 export const TranslateTextRequest: Schema.Schema<TranslateTextRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       target: Schema.optional(Schema.String),
       q: Schema.optional(Schema.Array(Schema.String)),
@@ -136,7 +136,7 @@ export interface DetectLanguageRequest {
 }
 
 export const DetectLanguageRequest: Schema.Schema<DetectLanguageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       q: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -150,7 +150,7 @@ export interface GetSupportedLanguagesRequest {
 }
 
 export const GetSupportedLanguagesRequest: Schema.Schema<GetSupportedLanguagesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       target: Schema.optional(Schema.String),
     }),
@@ -171,7 +171,7 @@ export interface ListDetectionsRequest {
   q: string[];
 }
 
-export const ListDetectionsRequest = Schema.Struct({
+export const ListDetectionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
   bearer_token: Schema.optional(Schema.String).pipe(
     T.HttpQuery("bearer_token"),
@@ -183,7 +183,8 @@ export const ListDetectionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDetectionsRequest>;
 
 export type ListDetectionsResponse = DetectionsListResponse;
-export const ListDetectionsResponse = DetectionsListResponse;
+export const ListDetectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DetectionsListResponse;
 
 export type ListDetectionsError = DefaultErrors;
 
@@ -193,7 +194,7 @@ export const listDetections: API.OperationMethod<
   ListDetectionsResponse,
   ListDetectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectionsRequest,
   output: ListDetectionsResponse,
   errors: [],
@@ -208,19 +209,21 @@ export interface DetectDetectionsRequest {
   body?: DetectLanguageRequest;
 }
 
-export const DetectDetectionsRequest = Schema.Struct({
-  pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
-  bearer_token: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("bearer_token"),
-  ),
-  body: Schema.optional(DetectLanguageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/detect", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<DetectDetectionsRequest>;
+export const DetectDetectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
+    bearer_token: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("bearer_token"),
+    ),
+    body: Schema.optional(DetectLanguageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v2/detect", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<DetectDetectionsRequest>;
 
 export type DetectDetectionsResponse = DetectionsListResponse;
-export const DetectDetectionsResponse = DetectionsListResponse;
+export const DetectDetectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DetectionsListResponse;
 
 export type DetectDetectionsError = DefaultErrors;
 
@@ -230,7 +233,7 @@ export const detectDetections: API.OperationMethod<
   DetectDetectionsResponse,
   DetectDetectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DetectDetectionsRequest,
   output: DetectDetectionsResponse,
   errors: [],
@@ -247,7 +250,7 @@ export interface ListLanguagesRequest {
   model?: string;
 }
 
-export const ListLanguagesRequest = Schema.Struct({
+export const ListLanguagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
   bearer_token: Schema.optional(Schema.String).pipe(
     T.HttpQuery("bearer_token"),
@@ -260,7 +263,8 @@ export const ListLanguagesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListLanguagesRequest>;
 
 export type ListLanguagesResponse = LanguagesListResponse;
-export const ListLanguagesResponse = LanguagesListResponse;
+export const ListLanguagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LanguagesListResponse;
 
 export type ListLanguagesError = DefaultErrors;
 
@@ -270,7 +274,7 @@ export const listLanguages: API.OperationMethod<
   ListLanguagesResponse,
   ListLanguagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLanguagesRequest,
   output: ListLanguagesResponse,
   errors: [],
@@ -295,24 +299,26 @@ export interface ListTranslationsRequest {
   model?: string;
 }
 
-export const ListTranslationsRequest = Schema.Struct({
-  pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
-  bearer_token: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("bearer_token"),
-  ),
-  cid: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("cid")),
-  format: Schema.optional(Schema.String).pipe(T.HttpQuery("format")),
-  q: Schema.Array(Schema.String).pipe(T.HttpQuery("q")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  target: Schema.String.pipe(T.HttpQuery("target")),
-  model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2" }),
-  svc,
-) as unknown as Schema.Schema<ListTranslationsRequest>;
+export const ListTranslationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
+    bearer_token: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("bearer_token"),
+    ),
+    cid: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("cid")),
+    format: Schema.optional(Schema.String).pipe(T.HttpQuery("format")),
+    q: Schema.Array(Schema.String).pipe(T.HttpQuery("q")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    target: Schema.String.pipe(T.HttpQuery("target")),
+    model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2" }),
+    svc,
+  ) as unknown as Schema.Schema<ListTranslationsRequest>;
 
 export type ListTranslationsResponse = TranslationsListResponse;
-export const ListTranslationsResponse = TranslationsListResponse;
+export const ListTranslationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TranslationsListResponse;
 
 export type ListTranslationsError = DefaultErrors;
 
@@ -322,7 +328,7 @@ export const listTranslations: API.OperationMethod<
   ListTranslationsResponse,
   ListTranslationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTranslationsRequest,
   output: ListTranslationsResponse,
   errors: [],
@@ -337,19 +343,21 @@ export interface TranslateTranslationsRequest {
   body?: TranslateTextRequest;
 }
 
-export const TranslateTranslationsRequest = Schema.Struct({
-  pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
-  bearer_token: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("bearer_token"),
-  ),
-  body: Schema.optional(TranslateTextRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<TranslateTranslationsRequest>;
+export const TranslateTranslationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pp: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("pp")),
+    bearer_token: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("bearer_token"),
+    ),
+    body: Schema.optional(TranslateTextRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v2", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<TranslateTranslationsRequest>;
 
 export type TranslateTranslationsResponse = TranslationsListResponse;
-export const TranslateTranslationsResponse = TranslationsListResponse;
+export const TranslateTranslationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TranslationsListResponse;
 
 export type TranslateTranslationsError = DefaultErrors;
 
@@ -359,7 +367,7 @@ export const translateTranslations: API.OperationMethod<
   TranslateTranslationsResponse,
   TranslateTranslationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TranslateTranslationsRequest,
   output: TranslateTranslationsResponse,
   errors: [],

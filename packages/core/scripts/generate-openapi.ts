@@ -27,6 +27,12 @@ import * as fs from "fs";
 import * as path from "path";
 import { applyAllPatches } from "../src/json-patch.ts";
 
+const annotatePureExportConst = (definition: string) =>
+  definition.replace(
+    /^export const ([^=]+?)\s*=\s*/m,
+    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
+  );
+
 // ============================================================================
 // OpenAPI Types (unified across 2.0, 3.0, 3.1)
 // ============================================================================
@@ -620,9 +626,9 @@ function generateInputSchemaSwagger(
     }
   }
 
-  const inputSchemaCode = `export const ${inputSchemaName} = Schema.Struct({
+  const inputSchemaCode = annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));
+}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) + `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 
   return { inputSchemaCode, inputSchemaName };
@@ -735,9 +741,9 @@ function generateInputSchema3(
     }
   }
 
-  const inputSchemaCode = `export const ${inputSchemaName} = Schema.Struct({
+  const inputSchemaCode = annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));
+}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) + `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 
   return { inputSchemaCode, inputSchemaName };
@@ -800,7 +806,7 @@ function generateOutputSchema(
 
   if (!responseSchema) {
     return {
-      outputSchemaCode: `export const ${outputSchemaName} = Schema.Void;
+      outputSchemaCode: `export const ${outputSchemaName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
       outputSchemaName,
       sensitiveImports: {
@@ -825,7 +831,7 @@ export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
       ctx,
     );
     return {
-      outputSchemaCode: `export const ${outputSchemaName} = Schema.Array(${itemSchema});
+      outputSchemaCode: `export const ${outputSchemaName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(${itemSchema});
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
       outputSchemaName,
       sensitiveImports: {
@@ -843,7 +849,7 @@ export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
     ctx,
   );
   return {
-    outputSchemaCode: `export const ${outputSchemaName} = ${schemaCode};
+    outputSchemaCode: `export const ${outputSchemaName} = /*@__PURE__*/ /*#__PURE__*/ ${schemaCode};
 export type ${outputSchemaName} = typeof ${outputSchemaName}.Type;`,
     outputSchemaName,
     sensitiveImports: {

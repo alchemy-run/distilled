@@ -53,7 +53,7 @@ export interface CreateTraceRequest {
   skipResponse?: boolean;
 }
 
-export const CreateTraceRequest = Schema.Struct({
+export const CreateTraceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   method: Schema.String,
   url: Schema.String,
@@ -137,7 +137,7 @@ export interface CreateTraceResponse {
   trace?: unknown | null;
 }
 
-export const CreateTraceResponse = Schema.Struct({
+export const CreateTraceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   trace: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
@@ -151,7 +151,7 @@ export const createTrace: API.OperationMethod<
   CreateTraceResponse,
   CreateTraceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTraceRequest,
   output: CreateTraceResponse,
   errors: [],

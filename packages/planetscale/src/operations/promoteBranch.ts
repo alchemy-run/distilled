@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const PromoteBranchInput = Schema.Struct({
+export const PromoteBranchInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const PromoteBranchInput = Schema.Struct({
 export type PromoteBranchInput = typeof PromoteBranchInput.Type;
 
 // Output Schema
-export const PromoteBranchOutput = Schema.Struct({
+export const PromoteBranchOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   created_at: Schema.String,

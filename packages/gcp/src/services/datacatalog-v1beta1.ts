@@ -34,7 +34,7 @@ export interface GoogleCloudDatacatalogV1beta1SearchCatalogRequestScope {
 }
 
 export const GoogleCloudDatacatalogV1beta1SearchCatalogRequestScope: Schema.Schema<GoogleCloudDatacatalogV1beta1SearchCatalogRequestScope> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeOrgIds: Schema.optional(Schema.Array(Schema.String)),
       includeProjectIds: Schema.optional(Schema.Array(Schema.String)),
@@ -59,7 +59,7 @@ export interface GoogleCloudDatacatalogV1beta1SearchCatalogRequest {
 }
 
 export const GoogleCloudDatacatalogV1beta1SearchCatalogRequest: Schema.Schema<GoogleCloudDatacatalogV1beta1SearchCatalogRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scope: Schema.optional(
         GoogleCloudDatacatalogV1beta1SearchCatalogRequestScope,
@@ -92,7 +92,7 @@ export interface GoogleCloudDatacatalogV1beta1SearchCatalogResult {
 }
 
 export const GoogleCloudDatacatalogV1beta1SearchCatalogResult: Schema.Schema<GoogleCloudDatacatalogV1beta1SearchCatalogResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchResultType: Schema.optional(Schema.String),
       searchResultSubtype: Schema.optional(Schema.String),
@@ -116,7 +116,7 @@ export interface GoogleCloudDatacatalogV1beta1SearchCatalogResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1SearchCatalogResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1SearchCatalogResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1SearchCatalogResult),
@@ -139,7 +139,7 @@ export interface GoogleCloudDatacatalogV1beta1SystemTimestamps {
 }
 
 export const GoogleCloudDatacatalogV1beta1SystemTimestamps: Schema.Schema<GoogleCloudDatacatalogV1beta1SystemTimestamps> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -161,7 +161,7 @@ export interface GoogleCloudDatacatalogV1beta1EntryGroup {
 }
 
 export const GoogleCloudDatacatalogV1beta1EntryGroup: Schema.Schema<GoogleCloudDatacatalogV1beta1EntryGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -176,9 +176,10 @@ export const GoogleCloudDatacatalogV1beta1EntryGroup: Schema.Schema<GoogleCloudD
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse {
   /** EntryGroup details. */
@@ -188,7 +189,7 @@ export interface GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entryGroups: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1EntryGroup),
@@ -209,7 +210,7 @@ export interface GoogleCloudDatacatalogV1beta1GcsFileSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1GcsFileSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1GcsFileSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filePath: Schema.optional(Schema.String),
       gcsTimestamps: Schema.optional(
@@ -229,7 +230,7 @@ export interface GoogleCloudDatacatalogV1beta1GcsFilesetSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1GcsFilesetSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1GcsFilesetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filePatterns: Schema.optional(Schema.Array(Schema.String)),
       sampleGcsFileSpecs: Schema.optional(
@@ -246,7 +247,7 @@ export interface GoogleCloudDatacatalogV1beta1ViewSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1ViewSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1ViewSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewQuery: Schema.optional(Schema.String),
     }),
@@ -260,7 +261,7 @@ export interface GoogleCloudDatacatalogV1beta1TableSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1TableSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1TableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupedEntry: Schema.optional(Schema.String),
     }),
@@ -283,7 +284,7 @@ export interface GoogleCloudDatacatalogV1beta1BigQueryTableSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1BigQueryTableSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1BigQueryTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableSourceType: Schema.optional(Schema.String),
       viewSpec: Schema.optional(GoogleCloudDatacatalogV1beta1ViewSpec),
@@ -303,7 +304,7 @@ export interface GoogleCloudDatacatalogV1beta1BigQueryDateShardedSpec {
 }
 
 export const GoogleCloudDatacatalogV1beta1BigQueryDateShardedSpec: Schema.Schema<GoogleCloudDatacatalogV1beta1BigQueryDateShardedSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       tablePrefix: Schema.optional(Schema.String),
@@ -327,7 +328,7 @@ export interface GoogleCloudDatacatalogV1beta1ColumnSchema {
 }
 
 export const GoogleCloudDatacatalogV1beta1ColumnSchema: Schema.Schema<GoogleCloudDatacatalogV1beta1ColumnSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       column: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -347,7 +348,7 @@ export interface GoogleCloudDatacatalogV1beta1Schema {
 }
 
 export const GoogleCloudDatacatalogV1beta1Schema: Schema.Schema<GoogleCloudDatacatalogV1beta1Schema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columns: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1ColumnSchema),
@@ -369,7 +370,7 @@ export interface GoogleCloudDatacatalogV1beta1UsageStats {
 }
 
 export const GoogleCloudDatacatalogV1beta1UsageStats: Schema.Schema<GoogleCloudDatacatalogV1beta1UsageStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCompletions: Schema.optional(Schema.Number),
       totalFailures: Schema.optional(Schema.Number),
@@ -391,7 +392,7 @@ export interface GoogleCloudDatacatalogV1beta1UsageSignal {
 }
 
 export const GoogleCloudDatacatalogV1beta1UsageSignal: Schema.Schema<GoogleCloudDatacatalogV1beta1UsageSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       usageWithinTimeRange: Schema.optional(
@@ -444,7 +445,7 @@ export interface GoogleCloudDatacatalogV1beta1Entry {
 }
 
 export const GoogleCloudDatacatalogV1beta1Entry: Schema.Schema<GoogleCloudDatacatalogV1beta1Entry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       linkedResource: Schema.optional(Schema.String),
@@ -481,7 +482,7 @@ export interface GoogleCloudDatacatalogV1beta1ListEntriesResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ListEntriesResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ListEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1Entry),
@@ -498,7 +499,7 @@ export interface GoogleCloudDatacatalogV1beta1FieldTypeEnumTypeEnumValue {
 }
 
 export const GoogleCloudDatacatalogV1beta1FieldTypeEnumTypeEnumValue: Schema.Schema<GoogleCloudDatacatalogV1beta1FieldTypeEnumTypeEnumValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -511,7 +512,7 @@ export interface GoogleCloudDatacatalogV1beta1FieldTypeEnumType {
 }
 
 export const GoogleCloudDatacatalogV1beta1FieldTypeEnumType: Schema.Schema<GoogleCloudDatacatalogV1beta1FieldTypeEnumType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedValues: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1FieldTypeEnumTypeEnumValue),
@@ -535,7 +536,7 @@ export interface GoogleCloudDatacatalogV1beta1FieldType {
 }
 
 export const GoogleCloudDatacatalogV1beta1FieldType: Schema.Schema<GoogleCloudDatacatalogV1beta1FieldType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primitiveType: Schema.optional(Schema.String),
       enumType: Schema.optional(GoogleCloudDatacatalogV1beta1FieldTypeEnumType),
@@ -560,7 +561,7 @@ export interface GoogleCloudDatacatalogV1beta1TagTemplateField {
 }
 
 export const GoogleCloudDatacatalogV1beta1TagTemplateField: Schema.Schema<GoogleCloudDatacatalogV1beta1TagTemplateField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -588,7 +589,7 @@ export interface GoogleCloudDatacatalogV1beta1TagTemplate {
 }
 
 export const GoogleCloudDatacatalogV1beta1TagTemplate: Schema.Schema<GoogleCloudDatacatalogV1beta1TagTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -610,7 +611,7 @@ export interface GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest {
 }
 
 export const GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest: Schema.Schema<GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newTagTemplateFieldId: Schema.optional(Schema.String),
     }),
@@ -624,7 +625,7 @@ export interface GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldEnumValueReq
 }
 
 export const GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldEnumValueRequest: Schema.Schema<GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldEnumValueRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newEnumValueDisplayName: Schema.optional(Schema.String),
     }),
@@ -639,7 +640,7 @@ export interface GoogleCloudDatacatalogV1beta1TagFieldEnumValue {
 }
 
 export const GoogleCloudDatacatalogV1beta1TagFieldEnumValue: Schema.Schema<GoogleCloudDatacatalogV1beta1TagFieldEnumValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -665,7 +666,7 @@ export interface GoogleCloudDatacatalogV1beta1TagField {
 }
 
 export const GoogleCloudDatacatalogV1beta1TagField: Schema.Schema<GoogleCloudDatacatalogV1beta1TagField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       doubleValue: Schema.optional(Schema.Number),
@@ -695,7 +696,7 @@ export interface GoogleCloudDatacatalogV1beta1Tag {
 }
 
 export const GoogleCloudDatacatalogV1beta1Tag: Schema.Schema<GoogleCloudDatacatalogV1beta1Tag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       template: Schema.optional(Schema.String),
@@ -717,7 +718,7 @@ export interface GoogleCloudDatacatalogV1beta1ListTagsResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ListTagsResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ListTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tags: Schema.optional(Schema.Array(GoogleCloudDatacatalogV1beta1Tag)),
       nextPageToken: Schema.optional(Schema.String),
@@ -737,14 +738,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -755,13 +757,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -772,13 +775,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -786,7 +790,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
     }),
@@ -799,14 +803,14 @@ export interface GetPolicyOptions {
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
-  () =>
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedPolicyVersion: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GetPolicyOptions",
-}) as any as Schema.Schema<GetPolicyOptions>;
+  ).annotate({
+    identifier: "GetPolicyOptions",
+  }) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
@@ -814,7 +818,7 @@ export interface GetIamPolicyRequest {
 }
 
 export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(GetPolicyOptions),
     }),
@@ -828,7 +832,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -842,7 +846,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -862,7 +866,7 @@ export interface GoogleCloudDatacatalogV1beta1TaxonomyService {
 }
 
 export const GoogleCloudDatacatalogV1beta1TaxonomyService: Schema.Schema<GoogleCloudDatacatalogV1beta1TaxonomyService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       identity: Schema.optional(Schema.String),
@@ -891,7 +895,7 @@ export interface GoogleCloudDatacatalogV1beta1Taxonomy {
 }
 
 export const GoogleCloudDatacatalogV1beta1Taxonomy: Schema.Schema<GoogleCloudDatacatalogV1beta1Taxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -915,7 +919,7 @@ export interface GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomies: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1Taxonomy),
@@ -940,7 +944,7 @@ export interface GoogleCloudDatacatalogV1beta1PolicyTag {
 }
 
 export const GoogleCloudDatacatalogV1beta1PolicyTag: Schema.Schema<GoogleCloudDatacatalogV1beta1PolicyTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -960,7 +964,7 @@ export interface GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyTags: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1PolicyTag),
@@ -983,7 +987,7 @@ export interface GoogleCloudDatacatalogV1beta1SerializedPolicyTag {
 }
 
 export const GoogleCloudDatacatalogV1beta1SerializedPolicyTag: Schema.Schema<GoogleCloudDatacatalogV1beta1SerializedPolicyTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyTag: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1010,7 +1014,7 @@ export interface GoogleCloudDatacatalogV1beta1SerializedTaxonomy {
 }
 
 export const GoogleCloudDatacatalogV1beta1SerializedTaxonomy: Schema.Schema<GoogleCloudDatacatalogV1beta1SerializedTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -1029,7 +1033,7 @@ export interface GoogleCloudDatacatalogV1beta1InlineSource {
 }
 
 export const GoogleCloudDatacatalogV1beta1InlineSource: Schema.Schema<GoogleCloudDatacatalogV1beta1InlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomies: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1SerializedTaxonomy),
@@ -1045,7 +1049,7 @@ export interface GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest {
 }
 
 export const GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest: Schema.Schema<GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(GoogleCloudDatacatalogV1beta1InlineSource),
     }),
@@ -1059,7 +1063,7 @@ export interface GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomies: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1Taxonomy),
@@ -1075,7 +1079,7 @@ export interface GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse {
 }
 
 export const GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse: Schema.Schema<GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomies: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1beta1SerializedTaxonomy),
@@ -1094,15 +1098,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface GoogleCloudDatacatalogV1ReconcileTagsMetadata {
   /** State of the reconciliation operation. */
@@ -1117,7 +1122,7 @@ export interface GoogleCloudDatacatalogV1ReconcileTagsMetadata {
 }
 
 export const GoogleCloudDatacatalogV1ReconcileTagsMetadata: Schema.Schema<GoogleCloudDatacatalogV1ReconcileTagsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       errors: Schema.optional(Schema.Record(Schema.String, Status)),
@@ -1136,7 +1141,7 @@ export interface GoogleCloudDatacatalogV1ReconcileTagsResponse {
 }
 
 export const GoogleCloudDatacatalogV1ReconcileTagsResponse: Schema.Schema<GoogleCloudDatacatalogV1ReconcileTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdTagsCount: Schema.optional(Schema.String),
       updatedTagsCount: Schema.optional(Schema.String),
@@ -1160,7 +1165,7 @@ export interface GoogleCloudDatacatalogV1ImportEntriesMetadata {
 }
 
 export const GoogleCloudDatacatalogV1ImportEntriesMetadata: Schema.Schema<GoogleCloudDatacatalogV1ImportEntriesMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       errors: Schema.optional(Schema.Array(Status)),
@@ -1177,7 +1182,7 @@ export interface GoogleCloudDatacatalogV1ImportEntriesResponse {
 }
 
 export const GoogleCloudDatacatalogV1ImportEntriesResponse: Schema.Schema<GoogleCloudDatacatalogV1ImportEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       upsertedEntriesCount: Schema.optional(Schema.String),
       deletedEntriesCount: Schema.optional(Schema.String),
@@ -1196,7 +1201,7 @@ export interface GoogleCloudDatacatalogV1SqlDatabaseSystemSpec {
 }
 
 export const GoogleCloudDatacatalogV1SqlDatabaseSystemSpec: Schema.Schema<GoogleCloudDatacatalogV1SqlDatabaseSystemSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sqlEngine: Schema.optional(Schema.String),
       databaseVersion: Schema.optional(Schema.String),
@@ -1222,7 +1227,7 @@ export interface GoogleCloudDatacatalogV1LookerSystemSpec {
 }
 
 export const GoogleCloudDatacatalogV1LookerSystemSpec: Schema.Schema<GoogleCloudDatacatalogV1LookerSystemSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parentInstanceId: Schema.optional(Schema.String),
       parentInstanceDisplayName: Schema.optional(Schema.String),
@@ -1241,7 +1246,7 @@ export interface GoogleCloudDatacatalogV1CloudBigtableSystemSpec {
 }
 
 export const GoogleCloudDatacatalogV1CloudBigtableSystemSpec: Schema.Schema<GoogleCloudDatacatalogV1CloudBigtableSystemSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceDisplayName: Schema.optional(Schema.String),
     }),
@@ -1259,7 +1264,7 @@ export interface GoogleCloudDatacatalogV1SystemTimestamps {
 }
 
 export const GoogleCloudDatacatalogV1SystemTimestamps: Schema.Schema<GoogleCloudDatacatalogV1SystemTimestamps> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -1279,7 +1284,7 @@ export interface GoogleCloudDatacatalogV1GcsFileSpec {
 }
 
 export const GoogleCloudDatacatalogV1GcsFileSpec: Schema.Schema<GoogleCloudDatacatalogV1GcsFileSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filePath: Schema.optional(Schema.String),
       gcsTimestamps: Schema.optional(GoogleCloudDatacatalogV1SystemTimestamps),
@@ -1297,7 +1302,7 @@ export interface GoogleCloudDatacatalogV1GcsFilesetSpec {
 }
 
 export const GoogleCloudDatacatalogV1GcsFilesetSpec: Schema.Schema<GoogleCloudDatacatalogV1GcsFilesetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filePatterns: Schema.optional(Schema.Array(Schema.String)),
       sampleGcsFileSpecs: Schema.optional(
@@ -1314,7 +1319,7 @@ export interface GoogleCloudDatacatalogV1ViewSpec {
 }
 
 export const GoogleCloudDatacatalogV1ViewSpec: Schema.Schema<GoogleCloudDatacatalogV1ViewSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewQuery: Schema.optional(Schema.String),
     }),
@@ -1328,7 +1333,7 @@ export interface GoogleCloudDatacatalogV1TableSpec {
 }
 
 export const GoogleCloudDatacatalogV1TableSpec: Schema.Schema<GoogleCloudDatacatalogV1TableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       groupedEntry: Schema.optional(Schema.String),
     }),
@@ -1351,7 +1356,7 @@ export interface GoogleCloudDatacatalogV1BigQueryTableSpec {
 }
 
 export const GoogleCloudDatacatalogV1BigQueryTableSpec: Schema.Schema<GoogleCloudDatacatalogV1BigQueryTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableSourceType: Schema.optional(Schema.String),
       viewSpec: Schema.optional(GoogleCloudDatacatalogV1ViewSpec),
@@ -1373,7 +1378,7 @@ export interface GoogleCloudDatacatalogV1BigQueryDateShardedSpec {
 }
 
 export const GoogleCloudDatacatalogV1BigQueryDateShardedSpec: Schema.Schema<GoogleCloudDatacatalogV1BigQueryDateShardedSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataset: Schema.optional(Schema.String),
       tablePrefix: Schema.optional(Schema.String),
@@ -1407,7 +1412,7 @@ export interface GoogleCloudDatacatalogV1DataplexExternalTable {
 }
 
 export const GoogleCloudDatacatalogV1DataplexExternalTable: Schema.Schema<GoogleCloudDatacatalogV1DataplexExternalTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       system: Schema.optional(Schema.String),
       fullyQualifiedName: Schema.optional(Schema.String),
@@ -1424,7 +1429,7 @@ export interface GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema {
 }
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -1438,7 +1443,7 @@ export interface GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema {
 }
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -1452,7 +1457,7 @@ export interface GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema {
 }
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -1463,21 +1468,21 @@ export const GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema: Schema.Schema
 export interface GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema {}
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema",
   }) as any as Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema>;
 
 export interface GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema {}
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema",
   }) as any as Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema>;
 
 export interface GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema {}
 
 export const GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema",
   }) as any as Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema>;
 
@@ -1497,7 +1502,7 @@ export interface GoogleCloudDatacatalogV1PhysicalSchema {
 }
 
 export const GoogleCloudDatacatalogV1PhysicalSchema: Schema.Schema<GoogleCloudDatacatalogV1PhysicalSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       avro: Schema.optional(GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema),
       thrift: Schema.optional(
@@ -1528,7 +1533,7 @@ export interface GoogleCloudDatacatalogV1DataplexSpec {
 }
 
 export const GoogleCloudDatacatalogV1DataplexSpec: Schema.Schema<GoogleCloudDatacatalogV1DataplexSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       asset: Schema.optional(Schema.String),
       dataFormat: Schema.optional(GoogleCloudDatacatalogV1PhysicalSchema),
@@ -1549,7 +1554,7 @@ export interface GoogleCloudDatacatalogV1DataplexTableSpec {
 }
 
 export const GoogleCloudDatacatalogV1DataplexTableSpec: Schema.Schema<GoogleCloudDatacatalogV1DataplexTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalTables: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1DataplexExternalTable),
@@ -1575,7 +1580,7 @@ export interface GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec {
 }
 
 export const GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec: Schema.Schema<GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewType: Schema.optional(Schema.String),
       baseTable: Schema.optional(Schema.String),
@@ -1595,7 +1600,7 @@ export interface GoogleCloudDatacatalogV1DatabaseTableSpec {
 }
 
 export const GoogleCloudDatacatalogV1DatabaseTableSpec: Schema.Schema<GoogleCloudDatacatalogV1DatabaseTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       dataplexTable: Schema.optional(GoogleCloudDatacatalogV1DataplexTableSpec),
@@ -1617,7 +1622,7 @@ export interface GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec {
 }
 
 export const GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec: Schema.Schema<GoogleCloudDatacatalogV1CloudSqlBigQueryConnectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instanceId: Schema.optional(Schema.String),
       database: Schema.optional(Schema.String),
@@ -1637,7 +1642,7 @@ export interface GoogleCloudDatacatalogV1BigQueryConnectionSpec {
 }
 
 export const GoogleCloudDatacatalogV1BigQueryConnectionSpec: Schema.Schema<GoogleCloudDatacatalogV1BigQueryConnectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connectionType: Schema.optional(Schema.String),
       cloudSql: Schema.optional(
@@ -1655,7 +1660,7 @@ export interface GoogleCloudDatacatalogV1DataSourceConnectionSpec {
 }
 
 export const GoogleCloudDatacatalogV1DataSourceConnectionSpec: Schema.Schema<GoogleCloudDatacatalogV1DataSourceConnectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryConnectionSpec: Schema.optional(
         GoogleCloudDatacatalogV1BigQueryConnectionSpec,
@@ -1675,7 +1680,7 @@ export interface GoogleCloudDatacatalogV1RoutineSpecArgument {
 }
 
 export const GoogleCloudDatacatalogV1RoutineSpecArgument: Schema.Schema<GoogleCloudDatacatalogV1RoutineSpecArgument> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       mode: Schema.optional(Schema.String),
@@ -1691,7 +1696,7 @@ export interface GoogleCloudDatacatalogV1BigQueryRoutineSpec {
 }
 
 export const GoogleCloudDatacatalogV1BigQueryRoutineSpec: Schema.Schema<GoogleCloudDatacatalogV1BigQueryRoutineSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       importedLibraries: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1719,7 +1724,7 @@ export interface GoogleCloudDatacatalogV1RoutineSpec {
 }
 
 export const GoogleCloudDatacatalogV1RoutineSpec: Schema.Schema<GoogleCloudDatacatalogV1RoutineSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       routineType: Schema.optional(Schema.String),
       language: Schema.optional(Schema.String),
@@ -1758,7 +1763,7 @@ export interface GoogleCloudDatacatalogV1VertexDatasetSpec {
 }
 
 export const GoogleCloudDatacatalogV1VertexDatasetSpec: Schema.Schema<GoogleCloudDatacatalogV1VertexDatasetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataItemCount: Schema.optional(Schema.String),
       dataType: Schema.optional(Schema.String),
@@ -1773,7 +1778,7 @@ export interface GoogleCloudDatacatalogV1DatasetSpec {
 }
 
 export const GoogleCloudDatacatalogV1DatasetSpec: Schema.Schema<GoogleCloudDatacatalogV1DatasetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertexDatasetSpec: Schema.optional(
         GoogleCloudDatacatalogV1VertexDatasetSpec,
@@ -1789,7 +1794,7 @@ export interface GoogleCloudDatacatalogV1DataplexFilesetSpec {
 }
 
 export const GoogleCloudDatacatalogV1DataplexFilesetSpec: Schema.Schema<GoogleCloudDatacatalogV1DataplexFilesetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataplexSpec: Schema.optional(GoogleCloudDatacatalogV1DataplexSpec),
     }),
@@ -1803,7 +1808,7 @@ export interface GoogleCloudDatacatalogV1FilesetSpec {
 }
 
 export const GoogleCloudDatacatalogV1FilesetSpec: Schema.Schema<GoogleCloudDatacatalogV1FilesetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataplexFileset: Schema.optional(
         GoogleCloudDatacatalogV1DataplexFilesetSpec,
@@ -1825,7 +1830,7 @@ export interface GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableC
 }
 
 export const GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpec: Schema.Schema<GoogleCloudDatacatalogV1CloudBigtableInstanceSpecCloudBigtableClusterSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
@@ -1843,7 +1848,7 @@ export interface GoogleCloudDatacatalogV1CloudBigtableInstanceSpec {
 }
 
 export const GoogleCloudDatacatalogV1CloudBigtableInstanceSpec: Schema.Schema<GoogleCloudDatacatalogV1CloudBigtableInstanceSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudBigtableClusterSpecs: Schema.optional(
         Schema.Array(
@@ -1861,7 +1866,7 @@ export interface GoogleCloudDatacatalogV1ServiceSpec {
 }
 
 export const GoogleCloudDatacatalogV1ServiceSpec: Schema.Schema<GoogleCloudDatacatalogV1ServiceSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudBigtableInstanceSpec: Schema.optional(
         GoogleCloudDatacatalogV1CloudBigtableInstanceSpec,
@@ -1888,7 +1893,7 @@ export interface GoogleCloudDatacatalogV1VertexModelSourceInfo {
 }
 
 export const GoogleCloudDatacatalogV1VertexModelSourceInfo: Schema.Schema<GoogleCloudDatacatalogV1VertexModelSourceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       copy: Schema.optional(Schema.Boolean),
@@ -1911,7 +1916,7 @@ export interface GoogleCloudDatacatalogV1VertexModelSpec {
 }
 
 export const GoogleCloudDatacatalogV1VertexModelSpec: Schema.Schema<GoogleCloudDatacatalogV1VertexModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       versionId: Schema.optional(Schema.String),
       versionAliases: Schema.optional(Schema.Array(Schema.String)),
@@ -1931,7 +1936,7 @@ export interface GoogleCloudDatacatalogV1ModelSpec {
 }
 
 export const GoogleCloudDatacatalogV1ModelSpec: Schema.Schema<GoogleCloudDatacatalogV1ModelSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertexModelSpec: Schema.optional(GoogleCloudDatacatalogV1VertexModelSpec),
     }),
@@ -1949,7 +1954,7 @@ export interface GoogleCloudDatacatalogV1FeatureOnlineStoreSpec {
 }
 
 export const GoogleCloudDatacatalogV1FeatureOnlineStoreSpec: Schema.Schema<GoogleCloudDatacatalogV1FeatureOnlineStoreSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storageType: Schema.optional(Schema.String),
     }),
@@ -1965,7 +1970,7 @@ export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableProperty {
 }
 
 export const GoogleCloudDatacatalogV1GraphSpecGraphElementTableProperty: Schema.Schema<GoogleCloudDatacatalogV1GraphSpecGraphElementTableProperty> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -1982,7 +1987,7 @@ export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndPrope
 }
 
 export const GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndProperties: Schema.Schema<GoogleCloudDatacatalogV1GraphSpecGraphElementTableLabelAndProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       properties: Schema.optional(
@@ -2006,7 +2011,7 @@ export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeRefe
 }
 
 export const GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference: Schema.Schema<GoogleCloudDatacatalogV1GraphSpecGraphElementTableGraphNodeReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nodeAlias: Schema.optional(Schema.String),
       edgeTableColumns: Schema.optional(Schema.Array(Schema.String)),
@@ -2041,7 +2046,7 @@ export interface GoogleCloudDatacatalogV1GraphSpecGraphElementTable {
 }
 
 export const GoogleCloudDatacatalogV1GraphSpecGraphElementTable: Schema.Schema<GoogleCloudDatacatalogV1GraphSpecGraphElementTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(Schema.String),
       alias: Schema.optional(Schema.String),
@@ -2076,7 +2081,7 @@ export interface GoogleCloudDatacatalogV1GraphSpec {
 }
 
 export const GoogleCloudDatacatalogV1GraphSpec: Schema.Schema<GoogleCloudDatacatalogV1GraphSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       nodeTables: Schema.optional(
@@ -2096,7 +2101,7 @@ export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey {
 }
 
 export const GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey: Schema.Schema<GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columns: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2112,7 +2117,7 @@ export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeig
 }
 
 export const GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMapping: Schema.Schema<GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKeyForeignKeyColumnMapping> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       column: Schema.optional(Schema.String),
       referenceColumn: Schema.optional(Schema.String),
@@ -2132,7 +2137,7 @@ export interface GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKey {
 }
 
 export const GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKey: Schema.Schema<GoogleCloudDatacatalogV1SpannerTableSpecSpannerForeignKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       entry: Schema.optional(Schema.String),
@@ -2154,7 +2159,7 @@ export interface GoogleCloudDatacatalogV1SpannerTableSpec {
 }
 
 export const GoogleCloudDatacatalogV1SpannerTableSpec: Schema.Schema<GoogleCloudDatacatalogV1SpannerTableSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryKey: Schema.optional(
         GoogleCloudDatacatalogV1SpannerTableSpecSpannerPrimaryKey,
@@ -2173,7 +2178,7 @@ export interface GoogleCloudDatacatalogV1EntryOverview {
 }
 
 export const GoogleCloudDatacatalogV1EntryOverview: Schema.Schema<GoogleCloudDatacatalogV1EntryOverview> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overview: Schema.optional(Schema.String),
     }),
@@ -2189,7 +2194,7 @@ export interface GoogleCloudDatacatalogV1ContactsPerson {
 }
 
 export const GoogleCloudDatacatalogV1ContactsPerson: Schema.Schema<GoogleCloudDatacatalogV1ContactsPerson> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       designation: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -2204,7 +2209,7 @@ export interface GoogleCloudDatacatalogV1Contacts {
 }
 
 export const GoogleCloudDatacatalogV1Contacts: Schema.Schema<GoogleCloudDatacatalogV1Contacts> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       people: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1ContactsPerson),
@@ -2222,7 +2227,7 @@ export interface GoogleCloudDatacatalogV1BusinessContext {
 }
 
 export const GoogleCloudDatacatalogV1BusinessContext: Schema.Schema<GoogleCloudDatacatalogV1BusinessContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entryOverview: Schema.optional(GoogleCloudDatacatalogV1EntryOverview),
       contacts: Schema.optional(GoogleCloudDatacatalogV1Contacts),
@@ -2244,7 +2249,7 @@ export interface GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec {
 }
 
 export const GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec: Schema.Schema<GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -2258,7 +2263,7 @@ export interface GoogleCloudDatacatalogV1ColumnSchemaFieldElementType {
 }
 
 export const GoogleCloudDatacatalogV1ColumnSchemaFieldElementType: Schema.Schema<GoogleCloudDatacatalogV1ColumnSchemaFieldElementType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -2298,7 +2303,7 @@ export interface GoogleCloudDatacatalogV1ColumnSchema {
 }
 
 export const GoogleCloudDatacatalogV1ColumnSchema: Schema.Schema<GoogleCloudDatacatalogV1ColumnSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       column: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -2328,7 +2333,7 @@ export interface GoogleCloudDatacatalogV1Schema {
 }
 
 export const GoogleCloudDatacatalogV1Schema: Schema.Schema<GoogleCloudDatacatalogV1Schema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columns: Schema.optional(
         Schema.Array(GoogleCloudDatacatalogV1ColumnSchema),
@@ -2350,7 +2355,7 @@ export interface GoogleCloudDatacatalogV1UsageStats {
 }
 
 export const GoogleCloudDatacatalogV1UsageStats: Schema.Schema<GoogleCloudDatacatalogV1UsageStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalCompletions: Schema.optional(Schema.Number),
       totalFailures: Schema.optional(Schema.Number),
@@ -2367,7 +2372,7 @@ export interface GoogleCloudDatacatalogV1CommonUsageStats {
 }
 
 export const GoogleCloudDatacatalogV1CommonUsageStats: Schema.Schema<GoogleCloudDatacatalogV1CommonUsageStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewCount: Schema.optional(Schema.String),
     }),
@@ -2390,7 +2395,7 @@ export interface GoogleCloudDatacatalogV1UsageSignal {
 }
 
 export const GoogleCloudDatacatalogV1UsageSignal: Schema.Schema<GoogleCloudDatacatalogV1UsageSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateTime: Schema.optional(Schema.String),
       usageWithinTimeRange: Schema.optional(
@@ -2413,7 +2418,7 @@ export interface GoogleCloudDatacatalogV1StorageProperties {
 }
 
 export const GoogleCloudDatacatalogV1StorageProperties: Schema.Schema<GoogleCloudDatacatalogV1StorageProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filePattern: Schema.optional(Schema.Array(Schema.String)),
       fileType: Schema.optional(Schema.String),
@@ -2438,7 +2443,7 @@ export interface GoogleCloudDatacatalogV1DataSource {
 }
 
 export const GoogleCloudDatacatalogV1DataSource: Schema.Schema<GoogleCloudDatacatalogV1DataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
@@ -2459,7 +2464,7 @@ export interface GoogleCloudDatacatalogV1PersonalDetails {
 }
 
 export const GoogleCloudDatacatalogV1PersonalDetails: Schema.Schema<GoogleCloudDatacatalogV1PersonalDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       starred: Schema.optional(Schema.Boolean),
       starTime: Schema.optional(Schema.String),
@@ -2568,7 +2573,7 @@ export interface GoogleCloudDatacatalogV1Entry {
 }
 
 export const GoogleCloudDatacatalogV1Entry: Schema.Schema<GoogleCloudDatacatalogV1Entry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       linkedResource: Schema.optional(Schema.String),
@@ -2633,7 +2638,7 @@ export interface GoogleCloudDatacatalogV1TagFieldEnumValue {
 }
 
 export const GoogleCloudDatacatalogV1TagFieldEnumValue: Schema.Schema<GoogleCloudDatacatalogV1TagFieldEnumValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -2661,7 +2666,7 @@ export interface GoogleCloudDatacatalogV1TagField {
 }
 
 export const GoogleCloudDatacatalogV1TagField: Schema.Schema<GoogleCloudDatacatalogV1TagField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       doubleValue: Schema.optional(Schema.Number),
@@ -2696,7 +2701,7 @@ export interface GoogleCloudDatacatalogV1Tag {
 }
 
 export const GoogleCloudDatacatalogV1Tag: Schema.Schema<GoogleCloudDatacatalogV1Tag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       template: Schema.optional(Schema.String),
@@ -2721,7 +2726,7 @@ export interface GoogleCloudDatacatalogV1TaggedEntry {
 }
 
 export const GoogleCloudDatacatalogV1TaggedEntry: Schema.Schema<GoogleCloudDatacatalogV1TaggedEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       v1Entry: Schema.optional(GoogleCloudDatacatalogV1Entry),
       presentTags: Schema.optional(Schema.Array(GoogleCloudDatacatalogV1Tag)),
@@ -2737,7 +2742,7 @@ export interface GoogleCloudDatacatalogV1DumpItem {
 }
 
 export const GoogleCloudDatacatalogV1DumpItem: Schema.Schema<GoogleCloudDatacatalogV1DumpItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taggedEntry: Schema.optional(GoogleCloudDatacatalogV1TaggedEntry),
     }),
@@ -2754,7 +2759,7 @@ export interface SearchCatalogRequest {
   body?: GoogleCloudDatacatalogV1beta1SearchCatalogRequest;
 }
 
-export const SearchCatalogRequest = Schema.Struct({
+export const SearchCatalogRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(GoogleCloudDatacatalogV1beta1SearchCatalogRequest).pipe(
     T.HttpBody(),
   ),
@@ -2766,7 +2771,7 @@ export const SearchCatalogRequest = Schema.Struct({
 export type SearchCatalogResponse =
   GoogleCloudDatacatalogV1beta1SearchCatalogResponse;
 export const SearchCatalogResponse =
-  GoogleCloudDatacatalogV1beta1SearchCatalogResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1SearchCatalogResponse;
 
 export type SearchCatalogError = DefaultErrors;
 
@@ -2776,7 +2781,7 @@ export const searchCatalog: API.OperationMethod<
   SearchCatalogResponse,
   SearchCatalogError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchCatalogRequest,
   output: SearchCatalogResponse,
   errors: [],
@@ -2791,27 +2796,28 @@ export interface CreateProjectsLocationsEntryGroupsRequest {
   body?: GoogleCloudDatacatalogV1beta1EntryGroup;
 }
 
-export const CreateProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  entryGroupId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("entryGroupId"),
-  ),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1EntryGroup).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsRequest>;
+export const CreateProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    entryGroupId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("entryGroupId"),
+    ),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1EntryGroup).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsRequest>;
 
 export type CreateProjectsLocationsEntryGroupsResponse =
   GoogleCloudDatacatalogV1beta1EntryGroup;
 export const CreateProjectsLocationsEntryGroupsResponse =
-  GoogleCloudDatacatalogV1beta1EntryGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1EntryGroup;
 
 export type CreateProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -2821,7 +2827,7 @@ export const createProjectsLocationsEntryGroups: API.OperationMethod<
   CreateProjectsLocationsEntryGroupsResponse,
   CreateProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsRequest,
   output: CreateProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2836,25 +2842,26 @@ export interface PatchProjectsLocationsEntryGroupsRequest {
   body?: GoogleCloudDatacatalogV1beta1EntryGroup;
 }
 
-export const PatchProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1EntryGroup).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsRequest>;
+export const PatchProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1EntryGroup).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsRequest>;
 
 export type PatchProjectsLocationsEntryGroupsResponse =
   GoogleCloudDatacatalogV1beta1EntryGroup;
 export const PatchProjectsLocationsEntryGroupsResponse =
-  GoogleCloudDatacatalogV1beta1EntryGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1EntryGroup;
 
 export type PatchProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -2864,7 +2871,7 @@ export const patchProjectsLocationsEntryGroups: API.OperationMethod<
   PatchProjectsLocationsEntryGroupsResponse,
   PatchProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsRequest,
   output: PatchProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2877,21 +2884,22 @@ export interface GetProjectsLocationsEntryGroupsRequest {
   readMask?: string;
 }
 
-export const GetProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEntryGroupsRequest>;
+export const GetProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEntryGroupsRequest>;
 
 export type GetProjectsLocationsEntryGroupsResponse =
   GoogleCloudDatacatalogV1beta1EntryGroup;
 export const GetProjectsLocationsEntryGroupsResponse =
-  GoogleCloudDatacatalogV1beta1EntryGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1EntryGroup;
 
 export type GetProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -2901,7 +2909,7 @@ export const getProjectsLocationsEntryGroups: API.OperationMethod<
   GetProjectsLocationsEntryGroupsResponse,
   GetProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsEntryGroupsRequest,
   output: GetProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2914,19 +2922,21 @@ export interface DeleteProjectsLocationsEntryGroupsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsRequest>;
+export const DeleteProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsRequest>;
 
 export type DeleteProjectsLocationsEntryGroupsResponse = Empty;
-export const DeleteProjectsLocationsEntryGroupsResponse = Empty;
+export const DeleteProjectsLocationsEntryGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -2936,7 +2946,7 @@ export const deleteProjectsLocationsEntryGroups: API.OperationMethod<
   DeleteProjectsLocationsEntryGroupsResponse,
   DeleteProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsRequest,
   output: DeleteProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2951,22 +2961,23 @@ export interface ListProjectsLocationsEntryGroupsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsRequest>;
+export const ListProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsRequest>;
 
 export type ListProjectsLocationsEntryGroupsResponse =
   GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse;
 export const ListProjectsLocationsEntryGroupsResponse =
-  GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListEntryGroupsResponse;
 
 export type ListProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -2976,7 +2987,7 @@ export const listProjectsLocationsEntryGroups: API.PaginatedOperationMethod<
   ListProjectsLocationsEntryGroupsResponse,
   ListProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsRequest,
   output: ListProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2993,20 +3004,22 @@ export interface SetIamPolicyProjectsLocationsEntryGroupsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsEntryGroupsRequest>;
+export const SetIamPolicyProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsEntryGroupsRequest>;
 
 export type SetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
-export const SetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
+export const SetIamPolicyProjectsLocationsEntryGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -3016,7 +3029,7 @@ export const setIamPolicyProjectsLocationsEntryGroups: API.OperationMethod<
   SetIamPolicyProjectsLocationsEntryGroupsResponse,
   SetIamPolicyProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsEntryGroupsRequest,
   output: SetIamPolicyProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -3029,20 +3042,22 @@ export interface GetIamPolicyProjectsLocationsEntryGroupsRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsEntryGroupsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsEntryGroupsRequest>;
+export const GetIamPolicyProjectsLocationsEntryGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsEntryGroupsRequest>;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
-export const GetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
+export const GetIamPolicyProjectsLocationsEntryGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -3052,7 +3067,7 @@ export const getIamPolicyProjectsLocationsEntryGroups: API.OperationMethod<
   GetIamPolicyProjectsLocationsEntryGroupsResponse,
   GetIamPolicyProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsEntryGroupsRequest,
   output: GetIamPolicyProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -3066,7 +3081,7 @@ export interface TestIamPermissionsProjectsLocationsEntryGroupsRequest {
 }
 
 export const TestIamPermissionsProjectsLocationsEntryGroupsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -3081,7 +3096,7 @@ export const TestIamPermissionsProjectsLocationsEntryGroupsRequest =
 export type TestIamPermissionsProjectsLocationsEntryGroupsResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsEntryGroupsResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsEntryGroupsError = DefaultErrors;
 
@@ -3091,7 +3106,7 @@ export const testIamPermissionsProjectsLocationsEntryGroups: API.OperationMethod
   TestIamPermissionsProjectsLocationsEntryGroupsResponse,
   TestIamPermissionsProjectsLocationsEntryGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEntryGroupsRequest,
   output: TestIamPermissionsProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -3106,23 +3121,26 @@ export interface CreateProjectsLocationsEntryGroupsEntriesRequest {
   body?: GoogleCloudDatacatalogV1beta1Entry;
 }
 
-export const CreateProjectsLocationsEntryGroupsEntriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  entryId: Schema.optional(Schema.String).pipe(T.HttpQuery("entryId")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Entry).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsEntriesRequest>;
+export const CreateProjectsLocationsEntryGroupsEntriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    entryId: Schema.optional(Schema.String).pipe(T.HttpQuery("entryId")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Entry).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type CreateProjectsLocationsEntryGroupsEntriesResponse =
   GoogleCloudDatacatalogV1beta1Entry;
 export const CreateProjectsLocationsEntryGroupsEntriesResponse =
-  GoogleCloudDatacatalogV1beta1Entry;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Entry;
 
 export type CreateProjectsLocationsEntryGroupsEntriesError = DefaultErrors;
 
@@ -3132,7 +3150,7 @@ export const createProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   CreateProjectsLocationsEntryGroupsEntriesResponse,
   CreateProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsEntriesRequest,
   output: CreateProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3147,23 +3165,26 @@ export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
   body?: GoogleCloudDatacatalogV1beta1Entry;
 }
 
-export const PatchProjectsLocationsEntryGroupsEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Entry).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsEntriesRequest>;
+export const PatchProjectsLocationsEntryGroupsEntriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Entry).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type PatchProjectsLocationsEntryGroupsEntriesResponse =
   GoogleCloudDatacatalogV1beta1Entry;
 export const PatchProjectsLocationsEntryGroupsEntriesResponse =
-  GoogleCloudDatacatalogV1beta1Entry;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Entry;
 
 export type PatchProjectsLocationsEntryGroupsEntriesError = DefaultErrors;
 
@@ -3173,7 +3194,7 @@ export const patchProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   PatchProjectsLocationsEntryGroupsEntriesResponse,
   PatchProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsEntriesRequest,
   output: PatchProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3184,18 +3205,20 @@ export interface DeleteProjectsLocationsEntryGroupsEntriesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsEntryGroupsEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsEntriesRequest>;
+export const DeleteProjectsLocationsEntryGroupsEntriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesResponse = Empty;
-export const DeleteProjectsLocationsEntryGroupsEntriesResponse = Empty;
+export const DeleteProjectsLocationsEntryGroupsEntriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesError = DefaultErrors;
 
@@ -3205,7 +3228,7 @@ export const deleteProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   DeleteProjectsLocationsEntryGroupsEntriesResponse,
   DeleteProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsEntriesRequest,
   output: DeleteProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3216,20 +3239,21 @@ export interface GetProjectsLocationsEntryGroupsEntriesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsEntryGroupsEntriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsEntryGroupsEntriesRequest>;
+export const GetProjectsLocationsEntryGroupsEntriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type GetProjectsLocationsEntryGroupsEntriesResponse =
   GoogleCloudDatacatalogV1beta1Entry;
 export const GetProjectsLocationsEntryGroupsEntriesResponse =
-  GoogleCloudDatacatalogV1beta1Entry;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Entry;
 
 export type GetProjectsLocationsEntryGroupsEntriesError = DefaultErrors;
 
@@ -3239,7 +3263,7 @@ export const getProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   GetProjectsLocationsEntryGroupsEntriesResponse,
   GetProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsEntryGroupsEntriesRequest,
   output: GetProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3256,23 +3280,24 @@ export interface ListProjectsLocationsEntryGroupsEntriesRequest {
   readMask?: string;
 }
 
-export const ListProjectsLocationsEntryGroupsEntriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsEntriesRequest>;
+export const ListProjectsLocationsEntryGroupsEntriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type ListProjectsLocationsEntryGroupsEntriesResponse =
   GoogleCloudDatacatalogV1beta1ListEntriesResponse;
 export const ListProjectsLocationsEntryGroupsEntriesResponse =
-  GoogleCloudDatacatalogV1beta1ListEntriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListEntriesResponse;
 
 export type ListProjectsLocationsEntryGroupsEntriesError = DefaultErrors;
 
@@ -3282,7 +3307,7 @@ export const listProjectsLocationsEntryGroupsEntries: API.PaginatedOperationMeth
   ListProjectsLocationsEntryGroupsEntriesResponse,
   ListProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsEntriesRequest,
   output: ListProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3300,7 +3325,7 @@ export interface GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest {
 }
 
 export const GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -3313,7 +3338,8 @@ export const GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest =
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest>;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse = Policy;
-export const GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse = Policy;
+export const GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsEntriesError =
   DefaultErrors;
@@ -3324,7 +3350,7 @@ export const getIamPolicyProjectsLocationsEntryGroupsEntries: API.OperationMetho
   GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse,
   GetIamPolicyProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest,
   output: GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3338,7 +3364,7 @@ export interface TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest {
 }
 
 export const TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -3353,7 +3379,7 @@ export const TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest =
 export type TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsEntryGroupsEntriesError =
   DefaultErrors;
@@ -3364,7 +3390,7 @@ export const testIamPermissionsProjectsLocationsEntryGroupsEntries: API.Operatio
   TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse,
   TestIamPermissionsProjectsLocationsEntryGroupsEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest,
   output: TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -3378,7 +3404,7 @@ export interface CreateProjectsLocationsEntryGroupsEntriesTagsRequest {
 }
 
 export const CreateProjectsLocationsEntryGroupsEntriesTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
   }).pipe(
@@ -3393,7 +3419,7 @@ export const CreateProjectsLocationsEntryGroupsEntriesTagsRequest =
 export type CreateProjectsLocationsEntryGroupsEntriesTagsResponse =
   GoogleCloudDatacatalogV1beta1Tag;
 export const CreateProjectsLocationsEntryGroupsEntriesTagsResponse =
-  GoogleCloudDatacatalogV1beta1Tag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Tag;
 
 export type CreateProjectsLocationsEntryGroupsEntriesTagsError = DefaultErrors;
 
@@ -3403,7 +3429,7 @@ export const createProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   CreateProjectsLocationsEntryGroupsEntriesTagsResponse,
   CreateProjectsLocationsEntryGroupsEntriesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: CreateProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
@@ -3419,7 +3445,7 @@ export interface PatchProjectsLocationsEntryGroupsEntriesTagsRequest {
 }
 
 export const PatchProjectsLocationsEntryGroupsEntriesTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
@@ -3435,7 +3461,7 @@ export const PatchProjectsLocationsEntryGroupsEntriesTagsRequest =
 export type PatchProjectsLocationsEntryGroupsEntriesTagsResponse =
   GoogleCloudDatacatalogV1beta1Tag;
 export const PatchProjectsLocationsEntryGroupsEntriesTagsResponse =
-  GoogleCloudDatacatalogV1beta1Tag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Tag;
 
 export type PatchProjectsLocationsEntryGroupsEntriesTagsError = DefaultErrors;
 
@@ -3445,7 +3471,7 @@ export const patchProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   PatchProjectsLocationsEntryGroupsEntriesTagsResponse,
   PatchProjectsLocationsEntryGroupsEntriesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: PatchProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
@@ -3457,7 +3483,7 @@ export interface DeleteProjectsLocationsEntryGroupsEntriesTagsRequest {
 }
 
 export const DeleteProjectsLocationsEntryGroupsEntriesTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -3468,7 +3494,8 @@ export const DeleteProjectsLocationsEntryGroupsEntriesTagsRequest =
   ) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsEntriesTagsRequest>;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesTagsResponse = Empty;
-export const DeleteProjectsLocationsEntryGroupsEntriesTagsResponse = Empty;
+export const DeleteProjectsLocationsEntryGroupsEntriesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesTagsError = DefaultErrors;
 
@@ -3478,7 +3505,7 @@ export const deleteProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   DeleteProjectsLocationsEntryGroupsEntriesTagsResponse,
   DeleteProjectsLocationsEntryGroupsEntriesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: DeleteProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
@@ -3493,24 +3520,23 @@ export interface ListProjectsLocationsEntryGroupsEntriesTagsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEntryGroupsEntriesTagsRequest = Schema.Struct(
-  {
+export const ListProjectsLocationsEntryGroupsEntriesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}/tags",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsEntriesTagsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/entries/{entriesId}/tags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsEntriesTagsRequest>;
 
 export type ListProjectsLocationsEntryGroupsEntriesTagsResponse =
   GoogleCloudDatacatalogV1beta1ListTagsResponse;
 export const ListProjectsLocationsEntryGroupsEntriesTagsResponse =
-  GoogleCloudDatacatalogV1beta1ListTagsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListTagsResponse;
 
 export type ListProjectsLocationsEntryGroupsEntriesTagsError = DefaultErrors;
 
@@ -3520,7 +3546,7 @@ export const listProjectsLocationsEntryGroupsEntriesTags: API.PaginatedOperation
   ListProjectsLocationsEntryGroupsEntriesTagsResponse,
   ListProjectsLocationsEntryGroupsEntriesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: ListProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
@@ -3537,22 +3563,23 @@ export interface CreateProjectsLocationsEntryGroupsTagsRequest {
   body?: GoogleCloudDatacatalogV1beta1Tag;
 }
 
-export const CreateProjectsLocationsEntryGroupsTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsTagsRequest>;
+export const CreateProjectsLocationsEntryGroupsTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsEntryGroupsTagsRequest>;
 
 export type CreateProjectsLocationsEntryGroupsTagsResponse =
   GoogleCloudDatacatalogV1beta1Tag;
 export const CreateProjectsLocationsEntryGroupsTagsResponse =
-  GoogleCloudDatacatalogV1beta1Tag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Tag;
 
 export type CreateProjectsLocationsEntryGroupsTagsError = DefaultErrors;
 
@@ -3562,7 +3589,7 @@ export const createProjectsLocationsEntryGroupsTags: API.OperationMethod<
   CreateProjectsLocationsEntryGroupsTagsResponse,
   CreateProjectsLocationsEntryGroupsTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsTagsRequest,
   output: CreateProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
@@ -3577,23 +3604,24 @@ export interface PatchProjectsLocationsEntryGroupsTagsRequest {
   body?: GoogleCloudDatacatalogV1beta1Tag;
 }
 
-export const PatchProjectsLocationsEntryGroupsTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags/{tagsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsTagsRequest>;
+export const PatchProjectsLocationsEntryGroupsTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Tag).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags/{tagsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsEntryGroupsTagsRequest>;
 
 export type PatchProjectsLocationsEntryGroupsTagsResponse =
   GoogleCloudDatacatalogV1beta1Tag;
 export const PatchProjectsLocationsEntryGroupsTagsResponse =
-  GoogleCloudDatacatalogV1beta1Tag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Tag;
 
 export type PatchProjectsLocationsEntryGroupsTagsError = DefaultErrors;
 
@@ -3603,7 +3631,7 @@ export const patchProjectsLocationsEntryGroupsTags: API.OperationMethod<
   PatchProjectsLocationsEntryGroupsTagsResponse,
   PatchProjectsLocationsEntryGroupsTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsTagsRequest,
   output: PatchProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
@@ -3614,18 +3642,20 @@ export interface DeleteProjectsLocationsEntryGroupsTagsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsEntryGroupsTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags/{tagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsTagsRequest>;
+export const DeleteProjectsLocationsEntryGroupsTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags/{tagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsEntryGroupsTagsRequest>;
 
 export type DeleteProjectsLocationsEntryGroupsTagsResponse = Empty;
-export const DeleteProjectsLocationsEntryGroupsTagsResponse = Empty;
+export const DeleteProjectsLocationsEntryGroupsTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsEntryGroupsTagsError = DefaultErrors;
 
@@ -3635,7 +3665,7 @@ export const deleteProjectsLocationsEntryGroupsTags: API.OperationMethod<
   DeleteProjectsLocationsEntryGroupsTagsResponse,
   DeleteProjectsLocationsEntryGroupsTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsTagsRequest,
   output: DeleteProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
@@ -3650,22 +3680,23 @@ export interface ListProjectsLocationsEntryGroupsTagsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsEntryGroupsTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsTagsRequest>;
+export const ListProjectsLocationsEntryGroupsTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/entryGroups/{entryGroupsId}/tags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsEntryGroupsTagsRequest>;
 
 export type ListProjectsLocationsEntryGroupsTagsResponse =
   GoogleCloudDatacatalogV1beta1ListTagsResponse;
 export const ListProjectsLocationsEntryGroupsTagsResponse =
-  GoogleCloudDatacatalogV1beta1ListTagsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListTagsResponse;
 
 export type ListProjectsLocationsEntryGroupsTagsError = DefaultErrors;
 
@@ -3675,7 +3706,7 @@ export const listProjectsLocationsEntryGroupsTags: API.PaginatedOperationMethod<
   ListProjectsLocationsEntryGroupsTagsResponse,
   ListProjectsLocationsEntryGroupsTagsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsTagsRequest,
   output: ListProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
@@ -3694,27 +3725,28 @@ export interface CreateProjectsLocationsTagTemplatesRequest {
   body?: GoogleCloudDatacatalogV1beta1TagTemplate;
 }
 
-export const CreateProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  tagTemplateId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("tagTemplateId"),
-  ),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTagTemplatesRequest>;
+export const CreateProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    tagTemplateId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("tagTemplateId"),
+    ),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTagTemplatesRequest>;
 
 export type CreateProjectsLocationsTagTemplatesResponse =
   GoogleCloudDatacatalogV1beta1TagTemplate;
 export const CreateProjectsLocationsTagTemplatesResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplate;
 
 export type CreateProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3724,7 +3756,7 @@ export const createProjectsLocationsTagTemplates: API.OperationMethod<
   CreateProjectsLocationsTagTemplatesResponse,
   CreateProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTagTemplatesRequest,
   output: CreateProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3735,20 +3767,21 @@ export interface GetProjectsLocationsTagTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTagTemplatesRequest>;
+export const GetProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTagTemplatesRequest>;
 
 export type GetProjectsLocationsTagTemplatesResponse =
   GoogleCloudDatacatalogV1beta1TagTemplate;
 export const GetProjectsLocationsTagTemplatesResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplate;
 
 export type GetProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3758,7 +3791,7 @@ export const getProjectsLocationsTagTemplates: API.OperationMethod<
   GetProjectsLocationsTagTemplatesResponse,
   GetProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTagTemplatesRequest,
   output: GetProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3773,25 +3806,26 @@ export interface PatchProjectsLocationsTagTemplatesRequest {
   body?: GoogleCloudDatacatalogV1beta1TagTemplate;
 }
 
-export const PatchProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplate).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTagTemplatesRequest>;
+export const PatchProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplate).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTagTemplatesRequest>;
 
 export type PatchProjectsLocationsTagTemplatesResponse =
   GoogleCloudDatacatalogV1beta1TagTemplate;
 export const PatchProjectsLocationsTagTemplatesResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplate;
 
 export type PatchProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3801,7 +3835,7 @@ export const patchProjectsLocationsTagTemplates: API.OperationMethod<
   PatchProjectsLocationsTagTemplatesResponse,
   PatchProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTagTemplatesRequest,
   output: PatchProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3814,19 +3848,21 @@ export interface DeleteProjectsLocationsTagTemplatesRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTagTemplatesRequest>;
+export const DeleteProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTagTemplatesRequest>;
 
 export type DeleteProjectsLocationsTagTemplatesResponse = Empty;
-export const DeleteProjectsLocationsTagTemplatesResponse = Empty;
+export const DeleteProjectsLocationsTagTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3836,7 +3872,7 @@ export const deleteProjectsLocationsTagTemplates: API.OperationMethod<
   DeleteProjectsLocationsTagTemplatesResponse,
   DeleteProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTagTemplatesRequest,
   output: DeleteProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3849,20 +3885,22 @@ export interface SetIamPolicyProjectsLocationsTagTemplatesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTagTemplatesRequest>;
+export const SetIamPolicyProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTagTemplatesRequest>;
 
 export type SetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
-export const SetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
+export const SetIamPolicyProjectsLocationsTagTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3872,7 +3910,7 @@ export const setIamPolicyProjectsLocationsTagTemplates: API.OperationMethod<
   SetIamPolicyProjectsLocationsTagTemplatesResponse,
   SetIamPolicyProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsTagTemplatesRequest,
   output: SetIamPolicyProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3885,20 +3923,22 @@ export interface GetIamPolicyProjectsLocationsTagTemplatesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsTagTemplatesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTagTemplatesRequest>;
+export const GetIamPolicyProjectsLocationsTagTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTagTemplatesRequest>;
 
 export type GetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
-export const GetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
+export const GetIamPolicyProjectsLocationsTagTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsTagTemplatesError = DefaultErrors;
 
@@ -3908,7 +3948,7 @@ export const getIamPolicyProjectsLocationsTagTemplates: API.OperationMethod<
   GetIamPolicyProjectsLocationsTagTemplatesResponse,
   GetIamPolicyProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsTagTemplatesRequest,
   output: GetIamPolicyProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3922,7 +3962,7 @@ export interface TestIamPermissionsProjectsLocationsTagTemplatesRequest {
 }
 
 export const TestIamPermissionsProjectsLocationsTagTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -3937,7 +3977,7 @@ export const TestIamPermissionsProjectsLocationsTagTemplatesRequest =
 export type TestIamPermissionsProjectsLocationsTagTemplatesResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsTagTemplatesResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsTagTemplatesError =
   DefaultErrors;
@@ -3948,7 +3988,7 @@ export const testIamPermissionsProjectsLocationsTagTemplates: API.OperationMetho
   TestIamPermissionsProjectsLocationsTagTemplatesResponse,
   TestIamPermissionsProjectsLocationsTagTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTagTemplatesRequest,
   output: TestIamPermissionsProjectsLocationsTagTemplatesResponse,
   errors: [],
@@ -3963,27 +4003,28 @@ export interface CreateProjectsLocationsTagTemplatesFieldsRequest {
   body?: GoogleCloudDatacatalogV1beta1TagTemplateField;
 }
 
-export const CreateProjectsLocationsTagTemplatesFieldsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  tagTemplateFieldId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("tagTemplateFieldId"),
-  ),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplateField).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTagTemplatesFieldsRequest>;
+export const CreateProjectsLocationsTagTemplatesFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    tagTemplateFieldId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("tagTemplateFieldId"),
+    ),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplateField).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTagTemplatesFieldsRequest>;
 
 export type CreateProjectsLocationsTagTemplatesFieldsResponse =
   GoogleCloudDatacatalogV1beta1TagTemplateField;
 export const CreateProjectsLocationsTagTemplatesFieldsResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplateField;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplateField;
 
 export type CreateProjectsLocationsTagTemplatesFieldsError = DefaultErrors;
 
@@ -3993,7 +4034,7 @@ export const createProjectsLocationsTagTemplatesFields: API.OperationMethod<
   CreateProjectsLocationsTagTemplatesFieldsResponse,
   CreateProjectsLocationsTagTemplatesFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTagTemplatesFieldsRequest,
   output: CreateProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
@@ -4008,25 +4049,26 @@ export interface PatchProjectsLocationsTagTemplatesFieldsRequest {
   body?: GoogleCloudDatacatalogV1beta1TagTemplateField;
 }
 
-export const PatchProjectsLocationsTagTemplatesFieldsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplateField).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTagTemplatesFieldsRequest>;
+export const PatchProjectsLocationsTagTemplatesFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1TagTemplateField).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTagTemplatesFieldsRequest>;
 
 export type PatchProjectsLocationsTagTemplatesFieldsResponse =
   GoogleCloudDatacatalogV1beta1TagTemplateField;
 export const PatchProjectsLocationsTagTemplatesFieldsResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplateField;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplateField;
 
 export type PatchProjectsLocationsTagTemplatesFieldsError = DefaultErrors;
 
@@ -4036,7 +4078,7 @@ export const patchProjectsLocationsTagTemplatesFields: API.OperationMethod<
   PatchProjectsLocationsTagTemplatesFieldsResponse,
   PatchProjectsLocationsTagTemplatesFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTagTemplatesFieldsRequest,
   output: PatchProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
@@ -4049,24 +4091,25 @@ export interface RenameProjectsLocationsTagTemplatesFieldsRequest {
   body?: GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest;
 }
 
-export const RenameProjectsLocationsTagTemplatesFieldsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}:rename",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RenameProjectsLocationsTagTemplatesFieldsRequest>;
+export const RenameProjectsLocationsTagTemplatesFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}:rename",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RenameProjectsLocationsTagTemplatesFieldsRequest>;
 
 export type RenameProjectsLocationsTagTemplatesFieldsResponse =
   GoogleCloudDatacatalogV1beta1TagTemplateField;
 export const RenameProjectsLocationsTagTemplatesFieldsResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplateField;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplateField;
 
 export type RenameProjectsLocationsTagTemplatesFieldsError = DefaultErrors;
 
@@ -4076,7 +4119,7 @@ export const renameProjectsLocationsTagTemplatesFields: API.OperationMethod<
   RenameProjectsLocationsTagTemplatesFieldsResponse,
   RenameProjectsLocationsTagTemplatesFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsTagTemplatesFieldsRequest,
   output: RenameProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
@@ -4089,19 +4132,21 @@ export interface DeleteProjectsLocationsTagTemplatesFieldsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsTagTemplatesFieldsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTagTemplatesFieldsRequest>;
+export const DeleteProjectsLocationsTagTemplatesFieldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/tagTemplates/{tagTemplatesId}/fields/{fieldsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTagTemplatesFieldsRequest>;
 
 export type DeleteProjectsLocationsTagTemplatesFieldsResponse = Empty;
-export const DeleteProjectsLocationsTagTemplatesFieldsResponse = Empty;
+export const DeleteProjectsLocationsTagTemplatesFieldsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTagTemplatesFieldsError = DefaultErrors;
 
@@ -4111,7 +4156,7 @@ export const deleteProjectsLocationsTagTemplatesFields: API.OperationMethod<
   DeleteProjectsLocationsTagTemplatesFieldsResponse,
   DeleteProjectsLocationsTagTemplatesFieldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTagTemplatesFieldsRequest,
   output: DeleteProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
@@ -4125,7 +4170,7 @@ export interface RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest {
 }
 
 export const RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudDatacatalogV1beta1RenameTagTemplateFieldEnumValueRequest,
@@ -4142,7 +4187,7 @@ export const RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest =
 export type RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse =
   GoogleCloudDatacatalogV1beta1TagTemplateField;
 export const RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse =
-  GoogleCloudDatacatalogV1beta1TagTemplateField;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1TagTemplateField;
 
 export type RenameProjectsLocationsTagTemplatesFieldsEnumValuesError =
   DefaultErrors;
@@ -4153,7 +4198,7 @@ export const renameProjectsLocationsTagTemplatesFieldsEnumValues: API.OperationM
   RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse,
   RenameProjectsLocationsTagTemplatesFieldsEnumValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest,
   output: RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse,
   errors: [],
@@ -4166,24 +4211,25 @@ export interface CreateProjectsLocationsTaxonomiesRequest {
   body?: GoogleCloudDatacatalogV1beta1Taxonomy;
 }
 
-export const CreateProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Taxonomy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTaxonomiesRequest>;
+export const CreateProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Taxonomy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTaxonomiesRequest>;
 
 export type CreateProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1Taxonomy;
 export const CreateProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1Taxonomy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Taxonomy;
 
 export type CreateProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4193,7 +4239,7 @@ export const createProjectsLocationsTaxonomies: API.OperationMethod<
   CreateProjectsLocationsTaxonomiesResponse,
   CreateProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTaxonomiesRequest,
   output: CreateProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4204,18 +4250,20 @@ export interface DeleteProjectsLocationsTaxonomiesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTaxonomiesRequest>;
+export const DeleteProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTaxonomiesRequest>;
 
 export type DeleteProjectsLocationsTaxonomiesResponse = Empty;
-export const DeleteProjectsLocationsTaxonomiesResponse = Empty;
+export const DeleteProjectsLocationsTaxonomiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4225,7 +4273,7 @@ export const deleteProjectsLocationsTaxonomies: API.OperationMethod<
   DeleteProjectsLocationsTaxonomiesResponse,
   DeleteProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTaxonomiesRequest,
   output: DeleteProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4240,25 +4288,26 @@ export interface PatchProjectsLocationsTaxonomiesRequest {
   body?: GoogleCloudDatacatalogV1beta1Taxonomy;
 }
 
-export const PatchProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1Taxonomy).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTaxonomiesRequest>;
+export const PatchProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1Taxonomy).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTaxonomiesRequest>;
 
 export type PatchProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1Taxonomy;
 export const PatchProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1Taxonomy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Taxonomy;
 
 export type PatchProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4268,7 +4317,7 @@ export const patchProjectsLocationsTaxonomies: API.OperationMethod<
   PatchProjectsLocationsTaxonomiesResponse,
   PatchProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTaxonomiesRequest,
   output: PatchProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4285,23 +4334,24 @@ export interface ListProjectsLocationsTaxonomiesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTaxonomiesRequest>;
+export const ListProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTaxonomiesRequest>;
 
 export type ListProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse;
 export const ListProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListTaxonomiesResponse;
 
 export type ListProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4311,7 +4361,7 @@ export const listProjectsLocationsTaxonomies: API.PaginatedOperationMethod<
   ListProjectsLocationsTaxonomiesResponse,
   ListProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTaxonomiesRequest,
   output: ListProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4326,20 +4376,21 @@ export interface GetProjectsLocationsTaxonomiesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTaxonomiesRequest>;
+export const GetProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTaxonomiesRequest>;
 
 export type GetProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1Taxonomy;
 export const GetProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1Taxonomy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Taxonomy;
 
 export type GetProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4349,7 +4400,7 @@ export const getProjectsLocationsTaxonomies: API.OperationMethod<
   GetProjectsLocationsTaxonomiesResponse,
   GetProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTaxonomiesRequest,
   output: GetProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4362,20 +4413,22 @@ export interface GetIamPolicyProjectsLocationsTaxonomiesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTaxonomiesRequest>;
+export const GetIamPolicyProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTaxonomiesRequest>;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
-export const GetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
+export const GetIamPolicyProjectsLocationsTaxonomiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4385,7 +4438,7 @@ export const getIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<
   GetIamPolicyProjectsLocationsTaxonomiesResponse,
   GetIamPolicyProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsTaxonomiesRequest,
   output: GetIamPolicyProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4398,20 +4451,22 @@ export interface SetIamPolicyProjectsLocationsTaxonomiesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTaxonomiesRequest>;
+export const SetIamPolicyProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTaxonomiesRequest>;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
-export const SetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
+export const SetIamPolicyProjectsLocationsTaxonomiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4421,7 +4476,7 @@ export const setIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<
   SetIamPolicyProjectsLocationsTaxonomiesResponse,
   SetIamPolicyProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsTaxonomiesRequest,
   output: SetIamPolicyProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4435,7 +4490,7 @@ export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest {
 }
 
 export const TestIamPermissionsProjectsLocationsTaxonomiesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -4450,7 +4505,7 @@ export const TestIamPermissionsProjectsLocationsTaxonomiesRequest =
 export type TestIamPermissionsProjectsLocationsTaxonomiesResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsTaxonomiesResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4460,7 +4515,7 @@ export const testIamPermissionsProjectsLocationsTaxonomies: API.OperationMethod<
   TestIamPermissionsProjectsLocationsTaxonomiesResponse,
   TestIamPermissionsProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTaxonomiesRequest,
   output: TestIamPermissionsProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4473,24 +4528,25 @@ export interface ImportProjectsLocationsTaxonomiesRequest {
   body?: GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest;
 }
 
-export const ImportProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsTaxonomiesRequest>;
+export const ImportProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudDatacatalogV1beta1ImportTaxonomiesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsTaxonomiesRequest>;
 
 export type ImportProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse;
 export const ImportProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ImportTaxonomiesResponse;
 
 export type ImportProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4500,7 +4556,7 @@ export const importProjectsLocationsTaxonomies: API.OperationMethod<
   ImportProjectsLocationsTaxonomiesResponse,
   ImportProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsTaxonomiesRequest,
   output: ImportProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4515,26 +4571,27 @@ export interface ExportProjectsLocationsTaxonomiesRequest {
   serializedTaxonomies?: boolean;
 }
 
-export const ExportProjectsLocationsTaxonomiesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  taxonomies: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("taxonomies"),
-  ),
-  serializedTaxonomies: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("serializedTaxonomies"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies:export",
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportProjectsLocationsTaxonomiesRequest>;
+export const ExportProjectsLocationsTaxonomiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    taxonomies: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("taxonomies"),
+    ),
+    serializedTaxonomies: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("serializedTaxonomies"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies:export",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportProjectsLocationsTaxonomiesRequest>;
 
 export type ExportProjectsLocationsTaxonomiesResponse =
   GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse;
 export const ExportProjectsLocationsTaxonomiesResponse =
-  GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ExportTaxonomiesResponse;
 
 export type ExportProjectsLocationsTaxonomiesError = DefaultErrors;
 
@@ -4544,7 +4601,7 @@ export const exportProjectsLocationsTaxonomies: API.OperationMethod<
   ExportProjectsLocationsTaxonomiesResponse,
   ExportProjectsLocationsTaxonomiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsTaxonomiesRequest,
   output: ExportProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -4557,26 +4614,25 @@ export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
   body?: GoogleCloudDatacatalogV1beta1PolicyTag;
 }
 
-export const CreateProjectsLocationsTaxonomiesPolicyTagsRequest = Schema.Struct(
-  {
+export const CreateProjectsLocationsTaxonomiesPolicyTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudDatacatalogV1beta1PolicyTag).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTaxonomiesPolicyTagsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type CreateProjectsLocationsTaxonomiesPolicyTagsResponse =
   GoogleCloudDatacatalogV1beta1PolicyTag;
 export const CreateProjectsLocationsTaxonomiesPolicyTagsResponse =
-  GoogleCloudDatacatalogV1beta1PolicyTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1PolicyTag;
 
 export type CreateProjectsLocationsTaxonomiesPolicyTagsError = DefaultErrors;
 
@@ -4586,7 +4642,7 @@ export const createProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   CreateProjectsLocationsTaxonomiesPolicyTagsResponse,
   CreateProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: CreateProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4597,20 +4653,20 @@ export interface DeleteProjectsLocationsTaxonomiesPolicyTagsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTaxonomiesPolicyTagsRequest = Schema.Struct(
-  {
+export const DeleteProjectsLocationsTaxonomiesPolicyTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTaxonomiesPolicyTagsRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type DeleteProjectsLocationsTaxonomiesPolicyTagsResponse = Empty;
-export const DeleteProjectsLocationsTaxonomiesPolicyTagsResponse = Empty;
+export const DeleteProjectsLocationsTaxonomiesPolicyTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTaxonomiesPolicyTagsError = DefaultErrors;
 
@@ -4620,7 +4676,7 @@ export const deleteProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   DeleteProjectsLocationsTaxonomiesPolicyTagsResponse,
   DeleteProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: DeleteProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4635,25 +4691,26 @@ export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest {
   body?: GoogleCloudDatacatalogV1beta1PolicyTag;
 }
 
-export const PatchProjectsLocationsTaxonomiesPolicyTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudDatacatalogV1beta1PolicyTag).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTaxonomiesPolicyTagsRequest>;
+export const PatchProjectsLocationsTaxonomiesPolicyTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudDatacatalogV1beta1PolicyTag).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type PatchProjectsLocationsTaxonomiesPolicyTagsResponse =
   GoogleCloudDatacatalogV1beta1PolicyTag;
 export const PatchProjectsLocationsTaxonomiesPolicyTagsResponse =
-  GoogleCloudDatacatalogV1beta1PolicyTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1PolicyTag;
 
 export type PatchProjectsLocationsTaxonomiesPolicyTagsError = DefaultErrors;
 
@@ -4663,7 +4720,7 @@ export const patchProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   PatchProjectsLocationsTaxonomiesPolicyTagsResponse,
   PatchProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: PatchProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4678,22 +4735,23 @@ export interface ListProjectsLocationsTaxonomiesPolicyTagsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsTaxonomiesPolicyTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTaxonomiesPolicyTagsRequest>;
+export const ListProjectsLocationsTaxonomiesPolicyTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type ListProjectsLocationsTaxonomiesPolicyTagsResponse =
   GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse;
 export const ListProjectsLocationsTaxonomiesPolicyTagsResponse =
-  GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1ListPolicyTagsResponse;
 
 export type ListProjectsLocationsTaxonomiesPolicyTagsError = DefaultErrors;
 
@@ -4703,7 +4761,7 @@ export const listProjectsLocationsTaxonomiesPolicyTags: API.PaginatedOperationMe
   ListProjectsLocationsTaxonomiesPolicyTagsResponse,
   ListProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: ListProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4718,20 +4776,21 @@ export interface GetProjectsLocationsTaxonomiesPolicyTagsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTaxonomiesPolicyTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTaxonomiesPolicyTagsRequest>;
+export const GetProjectsLocationsTaxonomiesPolicyTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/taxonomies/{taxonomiesId}/policyTags/{policyTagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type GetProjectsLocationsTaxonomiesPolicyTagsResponse =
   GoogleCloudDatacatalogV1beta1PolicyTag;
 export const GetProjectsLocationsTaxonomiesPolicyTagsResponse =
-  GoogleCloudDatacatalogV1beta1PolicyTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1PolicyTag;
 
 export type GetProjectsLocationsTaxonomiesPolicyTagsError = DefaultErrors;
 
@@ -4741,7 +4800,7 @@ export const getProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   GetProjectsLocationsTaxonomiesPolicyTagsResponse,
   GetProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: GetProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4755,7 +4814,7 @@ export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
 }
 
 export const GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -4768,7 +4827,8 @@ export const GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest =
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
-export const GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
+export const GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError =
   DefaultErrors;
@@ -4779,7 +4839,7 @@ export const getIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMet
   GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4793,7 +4853,7 @@ export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
 }
 
 export const SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -4806,7 +4866,8 @@ export const SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest =
   ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest>;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
-export const SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
+export const SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError =
   DefaultErrors;
@@ -4817,7 +4878,7 @@ export const setIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMet
   SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4831,7 +4892,7 @@ export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest 
 }
 
 export const TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -4846,7 +4907,7 @@ export const TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest =
 export type TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsError =
   DefaultErrors;
@@ -4857,7 +4918,7 @@ export const testIamPermissionsProjectsLocationsTaxonomiesPolicyTags: API.Operat
   TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse,
   TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -4870,7 +4931,7 @@ export interface LookupEntriesRequest {
   sqlResource?: string;
 }
 
-export const LookupEntriesRequest = Schema.Struct({
+export const LookupEntriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   linkedResource: Schema.optional(Schema.String).pipe(
     T.HttpQuery("linkedResource"),
   ),
@@ -4881,7 +4942,8 @@ export const LookupEntriesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<LookupEntriesRequest>;
 
 export type LookupEntriesResponse = GoogleCloudDatacatalogV1beta1Entry;
-export const LookupEntriesResponse = GoogleCloudDatacatalogV1beta1Entry;
+export const LookupEntriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDatacatalogV1beta1Entry;
 
 export type LookupEntriesError = DefaultErrors;
 
@@ -4891,7 +4953,7 @@ export const lookupEntries: API.OperationMethod<
   LookupEntriesResponse,
   LookupEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupEntriesRequest,
   output: LookupEntriesResponse,
   errors: [],

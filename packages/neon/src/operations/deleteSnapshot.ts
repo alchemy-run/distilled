@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteSnapshotInput = Schema.Struct({
+export const DeleteSnapshotInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   snapshot_id: Schema.String.pipe(T.PathParam()),
 }).pipe(
@@ -15,7 +15,7 @@ export const DeleteSnapshotInput = Schema.Struct({
 export type DeleteSnapshotInput = typeof DeleteSnapshotInput.Type;
 
 // Output Schema
-export const DeleteSnapshotOutput = Schema.Void;
+export const DeleteSnapshotOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteSnapshotOutput = typeof DeleteSnapshotOutput.Type;
 
 // The operation

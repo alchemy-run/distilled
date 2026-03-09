@@ -27,13 +27,14 @@ export interface OutputConfig {
   destination?: string;
 }
 
-export const OutputConfig: Schema.Schema<OutputConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    destination: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "OutputConfig",
-}) as any as Schema.Schema<OutputConfig>;
+export const OutputConfig: Schema.Schema<OutputConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OutputConfig",
+  }) as any as Schema.Schema<OutputConfig>;
 
 export interface TraceSink {
   /** Identifier. The canonical sink resource name, unique within the project. Must be of the form: projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]. E.g.: `"projects/12345/traceSinks/my-project-trace-sink"`. Sink identifiers are limited to 256 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, and periods. */
@@ -44,13 +45,14 @@ export interface TraceSink {
   writerIdentity?: string;
 }
 
-export const TraceSink: Schema.Schema<TraceSink> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    outputConfig: Schema.optional(OutputConfig),
-    writerIdentity: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TraceSink" }) as any as Schema.Schema<TraceSink>;
+export const TraceSink: Schema.Schema<TraceSink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      outputConfig: Schema.optional(OutputConfig),
+      writerIdentity: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TraceSink" }) as any as Schema.Schema<TraceSink>;
 
 export interface ListTraceSinksResponse {
   /** A list of sinks. */
@@ -60,7 +62,7 @@ export interface ListTraceSinksResponse {
 }
 
 export const ListTraceSinksResponse: Schema.Schema<ListTraceSinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sinks: Schema.optional(Schema.Array(TraceSink)),
       nextPageToken: Schema.optional(Schema.String),
@@ -71,9 +73,10 @@ export const ListTraceSinksResponse: Schema.Schema<ListTraceSinksResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -88,17 +91,19 @@ export interface ListProjectsTraceSinksRequest {
   pageSize?: number;
 }
 
-export const ListProjectsTraceSinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/projects/{projectsId}/traceSinks" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTraceSinksRequest>;
+export const ListProjectsTraceSinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/projects/{projectsId}/traceSinks" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTraceSinksRequest>;
 
 export type ListProjectsTraceSinksResponse = ListTraceSinksResponse;
-export const ListProjectsTraceSinksResponse = ListTraceSinksResponse;
+export const ListProjectsTraceSinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTraceSinksResponse;
 
 export type ListProjectsTraceSinksError = DefaultErrors;
 
@@ -108,7 +113,7 @@ export const listProjectsTraceSinks: API.PaginatedOperationMethod<
   ListProjectsTraceSinksResponse,
   ListProjectsTraceSinksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTraceSinksRequest,
   output: ListProjectsTraceSinksResponse,
   errors: [],
@@ -123,18 +128,20 @@ export interface GetProjectsTraceSinksRequest {
   name: string;
 }
 
-export const GetProjectsTraceSinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsTraceSinksRequest>;
+export const GetProjectsTraceSinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsTraceSinksRequest>;
 
 export type GetProjectsTraceSinksResponse = TraceSink;
-export const GetProjectsTraceSinksResponse = TraceSink;
+export const GetProjectsTraceSinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TraceSink;
 
 export type GetProjectsTraceSinksError = DefaultErrors;
 
@@ -144,7 +151,7 @@ export const getProjectsTraceSinks: API.OperationMethod<
   GetProjectsTraceSinksResponse,
   GetProjectsTraceSinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsTraceSinksRequest,
   output: GetProjectsTraceSinksResponse,
   errors: [],
@@ -157,20 +164,22 @@ export interface CreateProjectsTraceSinksRequest {
   body?: TraceSink;
 }
 
-export const CreateProjectsTraceSinksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(TraceSink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/projects/{projectsId}/traceSinks",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsTraceSinksRequest>;
+export const CreateProjectsTraceSinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(TraceSink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/projects/{projectsId}/traceSinks",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsTraceSinksRequest>;
 
 export type CreateProjectsTraceSinksResponse = TraceSink;
-export const CreateProjectsTraceSinksResponse = TraceSink;
+export const CreateProjectsTraceSinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TraceSink;
 
 export type CreateProjectsTraceSinksError = DefaultErrors;
 
@@ -180,7 +189,7 @@ export const createProjectsTraceSinks: API.OperationMethod<
   CreateProjectsTraceSinksResponse,
   CreateProjectsTraceSinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsTraceSinksRequest,
   output: CreateProjectsTraceSinksResponse,
   errors: [],
@@ -195,21 +204,23 @@ export interface PatchProjectsTraceSinksRequest {
   body?: TraceSink;
 }
 
-export const PatchProjectsTraceSinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(TraceSink).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsTraceSinksRequest>;
+export const PatchProjectsTraceSinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(TraceSink).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsTraceSinksRequest>;
 
 export type PatchProjectsTraceSinksResponse = TraceSink;
-export const PatchProjectsTraceSinksResponse = TraceSink;
+export const PatchProjectsTraceSinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TraceSink;
 
 export type PatchProjectsTraceSinksError = DefaultErrors;
 
@@ -219,7 +230,7 @@ export const patchProjectsTraceSinks: API.OperationMethod<
   PatchProjectsTraceSinksResponse,
   PatchProjectsTraceSinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsTraceSinksRequest,
   output: PatchProjectsTraceSinksResponse,
   errors: [],
@@ -230,18 +241,20 @@ export interface DeleteProjectsTraceSinksRequest {
   name: string;
 }
 
-export const DeleteProjectsTraceSinksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsTraceSinksRequest>;
+export const DeleteProjectsTraceSinksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2beta1/projects/{projectsId}/traceSinks/{traceSinksId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsTraceSinksRequest>;
 
 export type DeleteProjectsTraceSinksResponse = Empty;
-export const DeleteProjectsTraceSinksResponse = Empty;
+export const DeleteProjectsTraceSinksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsTraceSinksError = DefaultErrors;
 
@@ -251,7 +264,7 @@ export const deleteProjectsTraceSinks: API.OperationMethod<
   DeleteProjectsTraceSinksResponse,
   DeleteProjectsTraceSinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsTraceSinksRequest,
   output: DeleteProjectsTraceSinksResponse,
   errors: [],

@@ -23,27 +23,29 @@ export interface GetHostnameAssociationRequest {
   mtlsCertificateId?: string;
 }
 
-export const GetHostnameAssociationRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  mtlsCertificateId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("mtls_certificate_id"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
-  }),
-) as unknown as Schema.Schema<GetHostnameAssociationRequest>;
+export const GetHostnameAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    mtlsCertificateId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("mtls_certificate_id"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
+    }),
+  ) as unknown as Schema.Schema<GetHostnameAssociationRequest>;
 
 export interface GetHostnameAssociationResponse {
   hostnames?: string[] | null;
 }
 
-export const GetHostnameAssociationResponse = Schema.Struct({
-  hostnames: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-}) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
+export const GetHostnameAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    hostnames: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+  }) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
 
 export type GetHostnameAssociationError = DefaultErrors;
 
@@ -52,7 +54,7 @@ export const getHostnameAssociation: API.OperationMethod<
   GetHostnameAssociationResponse,
   GetHostnameAssociationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHostnameAssociationRequest,
   output: GetHostnameAssociationResponse,
   errors: [],
@@ -67,30 +69,32 @@ export interface PutHostnameAssociationRequest {
   mtlsCertificateId?: string;
 }
 
-export const PutHostnameAssociationRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
-  mtlsCertificateId: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    hostnames: "hostnames",
-    mtlsCertificateId: "mtls_certificate_id",
-  }),
-  T.Http({
-    method: "PUT",
-    path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
-  }),
-) as unknown as Schema.Schema<PutHostnameAssociationRequest>;
+export const PutHostnameAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    hostnames: Schema.optional(Schema.Array(Schema.String)),
+    mtlsCertificateId: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      hostnames: "hostnames",
+      mtlsCertificateId: "mtls_certificate_id",
+    }),
+    T.Http({
+      method: "PUT",
+      path: "/zones/{zone_id}/certificate_authorities/hostname_associations",
+    }),
+  ) as unknown as Schema.Schema<PutHostnameAssociationRequest>;
 
 export interface PutHostnameAssociationResponse {
   hostnames?: string[] | null;
 }
 
-export const PutHostnameAssociationResponse = Schema.Struct({
-  hostnames: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-}) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
+export const PutHostnameAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    hostnames: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+  }) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
 
 export type PutHostnameAssociationError = DefaultErrors;
 
@@ -99,7 +103,7 @@ export const putHostnameAssociation: API.OperationMethod<
   PutHostnameAssociationResponse,
   PutHostnameAssociationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutHostnameAssociationRequest,
   output: PutHostnameAssociationResponse,
   errors: [],

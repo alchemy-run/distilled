@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetBackupInput = Schema.Struct({
+export const GetBackupInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.PathParam()),
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
@@ -18,7 +18,7 @@ export const GetBackupInput = Schema.Struct({
 export type GetBackupInput = typeof GetBackupInput.Type;
 
 // Output Schema
-export const GetBackupOutput = Schema.Struct({
+export const GetBackupOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   state: Schema.Literals([

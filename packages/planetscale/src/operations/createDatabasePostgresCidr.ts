@@ -4,36 +4,38 @@ import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
-export const CreateDatabasePostgresCidrInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  schema: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  cidrs: Schema.Array(Schema.String),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/organizations/{organization}/databases/{database}/cidrs",
-  }),
-);
+export const CreateDatabasePostgresCidrInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    schema: Schema.optional(Schema.String),
+    role: Schema.optional(Schema.String),
+    cidrs: Schema.Array(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/organizations/{organization}/databases/{database}/cidrs",
+    }),
+  );
 export type CreateDatabasePostgresCidrInput =
   typeof CreateDatabasePostgresCidrInput.Type;
 
 // Output Schema
-export const CreateDatabasePostgresCidrOutput = Schema.Struct({
-  id: Schema.String,
-  schema: Schema.String,
-  role: Schema.String,
-  cidrs: Schema.Array(Schema.String),
-  created_at: Schema.String,
-  updated_at: Schema.String,
-  deleted_at: Schema.String,
-  actor: Schema.Struct({
+export const CreateDatabasePostgresCidrOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-    display_name: Schema.String,
-    avatar_url: Schema.String,
-  }),
-});
+    schema: Schema.String,
+    role: Schema.String,
+    cidrs: Schema.Array(Schema.String),
+    created_at: Schema.String,
+    updated_at: Schema.String,
+    deleted_at: Schema.String,
+    actor: Schema.Struct({
+      id: Schema.String,
+      display_name: Schema.String,
+      avatar_url: Schema.String,
+    }),
+  });
 export type CreateDatabasePostgresCidrOutput =
   typeof CreateDatabasePostgresCidrOutput.Type;
 

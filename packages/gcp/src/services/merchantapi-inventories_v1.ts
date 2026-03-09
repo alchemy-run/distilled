@@ -29,12 +29,13 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amountMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amountMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -43,12 +44,13 @@ export interface Interval {
   endTime?: string;
 }
 
-export const Interval: Schema.Schema<Interval> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface InventoryLoyaltyProgram {
   /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
@@ -68,7 +70,7 @@ export interface InventoryLoyaltyProgram {
 }
 
 export const InventoryLoyaltyProgram: Schema.Schema<InventoryLoyaltyProgram> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tierLabel: Schema.optional(Schema.String),
       memberPriceEffectiveInterval: Schema.optional(Interval),
@@ -100,7 +102,7 @@ export interface RegionalInventoryAttributes {
 }
 
 export const RegionalInventoryAttributes: Schema.Schema<RegionalInventoryAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       salePrice: Schema.optional(Price),
       loyaltyPrograms: Schema.optional(Schema.Array(InventoryLoyaltyProgram)),
@@ -124,7 +126,7 @@ export interface RegionalInventory {
 }
 
 export const RegionalInventory: Schema.Schema<RegionalInventory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -143,7 +145,7 @@ export interface ListRegionalInventoriesResponse {
 }
 
 export const ListRegionalInventoriesResponse: Schema.Schema<ListRegionalInventoriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       regionalInventories: Schema.optional(Schema.Array(RegionalInventory)),
@@ -197,7 +199,7 @@ export interface LocalInventoryAttributes {
 }
 
 export const LocalInventoryAttributes: Schema.Schema<LocalInventoryAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pickupSla: Schema.optional(Schema.String),
       salePrice: Schema.optional(Price),
@@ -224,17 +226,17 @@ export interface LocalInventory {
   storeCode?: string;
 }
 
-export const LocalInventory: Schema.Schema<LocalInventory> = Schema.suspend(
-  () =>
+export const LocalInventory: Schema.Schema<LocalInventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(Schema.String),
       localInventoryAttributes: Schema.optional(LocalInventoryAttributes),
       name: Schema.optional(Schema.String),
       storeCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LocalInventory",
-}) as any as Schema.Schema<LocalInventory>;
+  ).annotate({
+    identifier: "LocalInventory",
+  }) as any as Schema.Schema<LocalInventory>;
 
 export interface ListLocalInventoriesResponse {
   /** The `LocalInventory` resources for the given product from the specified account. */
@@ -244,7 +246,7 @@ export interface ListLocalInventoriesResponse {
 }
 
 export const ListLocalInventoriesResponse: Schema.Schema<ListLocalInventoriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localInventories: Schema.optional(Schema.Array(LocalInventory)),
       nextPageToken: Schema.optional(Schema.String),
@@ -285,22 +287,24 @@ export interface ProductChange {
   regionCode?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ProductStatusChangeMessage {
   /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
@@ -324,7 +328,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventTime: Schema.optional(Schema.String),
       account: Schema.optional(Schema.String),
@@ -353,22 +357,23 @@ export interface ListAccountsProductsLocalInventoriesRequest {
   pageToken?: string;
 }
 
-export const ListAccountsProductsLocalInventoriesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
+export const ListAccountsProductsLocalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
 
 export type ListAccountsProductsLocalInventoriesResponse =
   ListLocalInventoriesResponse;
 export const ListAccountsProductsLocalInventoriesResponse =
-  ListLocalInventoriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListLocalInventoriesResponse;
 
 export type ListAccountsProductsLocalInventoriesError = DefaultErrors;
 
@@ -378,7 +383,7 @@ export const listAccountsProductsLocalInventories: API.PaginatedOperationMethod<
   ListAccountsProductsLocalInventoriesResponse,
   ListAccountsProductsLocalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsLocalInventoriesRequest,
   output: ListAccountsProductsLocalInventoriesResponse,
   errors: [],
@@ -393,18 +398,20 @@ export interface DeleteAccountsProductsLocalInventoriesRequest {
   name: string;
 }
 
-export const DeleteAccountsProductsLocalInventoriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories/{localInventoriesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
+export const DeleteAccountsProductsLocalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories/{localInventoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
 
 export type DeleteAccountsProductsLocalInventoriesResponse = Empty;
-export const DeleteAccountsProductsLocalInventoriesResponse = Empty;
+export const DeleteAccountsProductsLocalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsProductsLocalInventoriesError = DefaultErrors;
 
@@ -414,7 +421,7 @@ export const deleteAccountsProductsLocalInventories: API.OperationMethod<
   DeleteAccountsProductsLocalInventoriesResponse,
   DeleteAccountsProductsLocalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsProductsLocalInventoriesRequest,
   output: DeleteAccountsProductsLocalInventoriesResponse,
   errors: [],
@@ -427,20 +434,22 @@ export interface InsertAccountsProductsLocalInventoriesRequest {
   body?: LocalInventory;
 }
 
-export const InsertAccountsProductsLocalInventoriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(LocalInventory).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsProductsLocalInventoriesRequest>;
+export const InsertAccountsProductsLocalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(LocalInventory).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsProductsLocalInventoriesRequest>;
 
 export type InsertAccountsProductsLocalInventoriesResponse = LocalInventory;
-export const InsertAccountsProductsLocalInventoriesResponse = LocalInventory;
+export const InsertAccountsProductsLocalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LocalInventory;
 
 export type InsertAccountsProductsLocalInventoriesError = DefaultErrors;
 
@@ -450,7 +459,7 @@ export const insertAccountsProductsLocalInventories: API.OperationMethod<
   InsertAccountsProductsLocalInventoriesResponse,
   InsertAccountsProductsLocalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsProductsLocalInventoriesRequest,
   output: InsertAccountsProductsLocalInventoriesResponse,
   errors: [],
@@ -463,22 +472,23 @@ export interface InsertAccountsProductsRegionalInventoriesRequest {
   body?: RegionalInventory;
 }
 
-export const InsertAccountsProductsRegionalInventoriesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(RegionalInventory).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories:insert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertAccountsProductsRegionalInventoriesRequest>;
+export const InsertAccountsProductsRegionalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(RegionalInventory).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories:insert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertAccountsProductsRegionalInventoriesRequest>;
 
 export type InsertAccountsProductsRegionalInventoriesResponse =
   RegionalInventory;
 export const InsertAccountsProductsRegionalInventoriesResponse =
-  RegionalInventory;
+  /*@__PURE__*/ /*#__PURE__*/ RegionalInventory;
 
 export type InsertAccountsProductsRegionalInventoriesError = DefaultErrors;
 
@@ -488,7 +498,7 @@ export const insertAccountsProductsRegionalInventories: API.OperationMethod<
   InsertAccountsProductsRegionalInventoriesResponse,
   InsertAccountsProductsRegionalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsProductsRegionalInventoriesRequest,
   output: InsertAccountsProductsRegionalInventoriesResponse,
   errors: [],
@@ -503,22 +513,23 @@ export interface ListAccountsProductsRegionalInventoriesRequest {
   pageSize?: number;
 }
 
-export const ListAccountsProductsRegionalInventoriesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProductsRegionalInventoriesRequest>;
+export const ListAccountsProductsRegionalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsRegionalInventoriesRequest>;
 
 export type ListAccountsProductsRegionalInventoriesResponse =
   ListRegionalInventoriesResponse;
 export const ListAccountsProductsRegionalInventoriesResponse =
-  ListRegionalInventoriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListRegionalInventoriesResponse;
 
 export type ListAccountsProductsRegionalInventoriesError = DefaultErrors;
 
@@ -528,7 +539,7 @@ export const listAccountsProductsRegionalInventories: API.PaginatedOperationMeth
   ListAccountsProductsRegionalInventoriesResponse,
   ListAccountsProductsRegionalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsRegionalInventoriesRequest,
   output: ListAccountsProductsRegionalInventoriesResponse,
   errors: [],
@@ -543,18 +554,20 @@ export interface DeleteAccountsProductsRegionalInventoriesRequest {
   name: string;
 }
 
-export const DeleteAccountsProductsRegionalInventoriesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories/{regionalInventoriesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
+export const DeleteAccountsProductsRegionalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories/{regionalInventoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
 
 export type DeleteAccountsProductsRegionalInventoriesResponse = Empty;
-export const DeleteAccountsProductsRegionalInventoriesResponse = Empty;
+export const DeleteAccountsProductsRegionalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsProductsRegionalInventoriesError = DefaultErrors;
 
@@ -564,7 +577,7 @@ export const deleteAccountsProductsRegionalInventories: API.OperationMethod<
   DeleteAccountsProductsRegionalInventoriesResponse,
   DeleteAccountsProductsRegionalInventoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsProductsRegionalInventoriesRequest,
   output: DeleteAccountsProductsRegionalInventoriesResponse,
   errors: [],

@@ -32,7 +32,7 @@ export interface GoogleHomeEnterpriseSdmV1ParentRelation {
 }
 
 export const GoogleHomeEnterpriseSdmV1ParentRelation: Schema.Schema<GoogleHomeEnterpriseSdmV1ParentRelation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -56,7 +56,7 @@ export interface GoogleHomeEnterpriseSdmV1Device {
 }
 
 export const GoogleHomeEnterpriseSdmV1Device: Schema.Schema<GoogleHomeEnterpriseSdmV1Device> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -76,7 +76,7 @@ export interface GoogleHomeEnterpriseSdmV1ListDevicesResponse {
 }
 
 export const GoogleHomeEnterpriseSdmV1ListDevicesResponse: Schema.Schema<GoogleHomeEnterpriseSdmV1ListDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(Schema.Array(GoogleHomeEnterpriseSdmV1Device)),
     }),
@@ -92,7 +92,7 @@ export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest {
 }
 
 export const GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest: Schema.Schema<GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       command: Schema.optional(Schema.String),
       params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -107,7 +107,7 @@ export interface GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse {
 }
 
 export const GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse: Schema.Schema<GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     }),
@@ -125,7 +125,7 @@ export interface GoogleHomeEnterpriseSdmV1Structure {
 }
 
 export const GoogleHomeEnterpriseSdmV1Structure: Schema.Schema<GoogleHomeEnterpriseSdmV1Structure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       traits: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -141,7 +141,7 @@ export interface GoogleHomeEnterpriseSdmV1ListStructuresResponse {
 }
 
 export const GoogleHomeEnterpriseSdmV1ListStructuresResponse: Schema.Schema<GoogleHomeEnterpriseSdmV1ListStructuresResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       structures: Schema.optional(
         Schema.Array(GoogleHomeEnterpriseSdmV1Structure),
@@ -159,7 +159,7 @@ export interface GoogleHomeEnterpriseSdmV1Room {
 }
 
 export const GoogleHomeEnterpriseSdmV1Room: Schema.Schema<GoogleHomeEnterpriseSdmV1Room> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       traits: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -174,7 +174,7 @@ export interface GoogleHomeEnterpriseSdmV1ListRoomsResponse {
 }
 
 export const GoogleHomeEnterpriseSdmV1ListRoomsResponse: Schema.Schema<GoogleHomeEnterpriseSdmV1ListRoomsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rooms: Schema.optional(Schema.Array(GoogleHomeEnterpriseSdmV1Room)),
     }),
@@ -191,18 +191,20 @@ export interface GetEnterprisesDevicesRequest {
   name: string;
 }
 
-export const GetEnterprisesDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/enterprises/{enterprisesId}/devices/{devicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEnterprisesDevicesRequest>;
+export const GetEnterprisesDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/enterprises/{enterprisesId}/devices/{devicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEnterprisesDevicesRequest>;
 
 export type GetEnterprisesDevicesResponse = GoogleHomeEnterpriseSdmV1Device;
-export const GetEnterprisesDevicesResponse = GoogleHomeEnterpriseSdmV1Device;
+export const GetEnterprisesDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1Device;
 
 export type GetEnterprisesDevicesError = DefaultErrors;
 
@@ -212,7 +214,7 @@ export const getEnterprisesDevices: API.OperationMethod<
   GetEnterprisesDevicesResponse,
   GetEnterprisesDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnterprisesDevicesRequest,
   output: GetEnterprisesDevicesResponse,
   errors: [],
@@ -225,18 +227,19 @@ export interface ListEnterprisesDevicesRequest {
   filter?: string;
 }
 
-export const ListEnterprisesDevicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/enterprises/{enterprisesId}/devices" }),
-  svc,
-) as unknown as Schema.Schema<ListEnterprisesDevicesRequest>;
+export const ListEnterprisesDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/enterprises/{enterprisesId}/devices" }),
+    svc,
+  ) as unknown as Schema.Schema<ListEnterprisesDevicesRequest>;
 
 export type ListEnterprisesDevicesResponse =
   GoogleHomeEnterpriseSdmV1ListDevicesResponse;
 export const ListEnterprisesDevicesResponse =
-  GoogleHomeEnterpriseSdmV1ListDevicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1ListDevicesResponse;
 
 export type ListEnterprisesDevicesError = DefaultErrors;
 
@@ -246,7 +249,7 @@ export const listEnterprisesDevices: API.OperationMethod<
   ListEnterprisesDevicesResponse,
   ListEnterprisesDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnterprisesDevicesRequest,
   output: ListEnterprisesDevicesResponse,
   errors: [],
@@ -259,24 +262,25 @@ export interface ExecuteCommandEnterprisesDevicesRequest {
   body?: GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest;
 }
 
-export const ExecuteCommandEnterprisesDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/enterprises/{enterprisesId}/devices/{devicesId}:executeCommand",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExecuteCommandEnterprisesDevicesRequest>;
+export const ExecuteCommandEnterprisesDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/enterprises/{enterprisesId}/devices/{devicesId}:executeCommand",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExecuteCommandEnterprisesDevicesRequest>;
 
 export type ExecuteCommandEnterprisesDevicesResponse =
   GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse;
 export const ExecuteCommandEnterprisesDevicesResponse =
-  GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1ExecuteDeviceCommandResponse;
 
 export type ExecuteCommandEnterprisesDevicesError = DefaultErrors;
 
@@ -286,7 +290,7 @@ export const executeCommandEnterprisesDevices: API.OperationMethod<
   ExecuteCommandEnterprisesDevicesResponse,
   ExecuteCommandEnterprisesDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExecuteCommandEnterprisesDevicesRequest,
   output: ExecuteCommandEnterprisesDevicesResponse,
   errors: [],
@@ -297,20 +301,21 @@ export interface GetEnterprisesStructuresRequest {
   name: string;
 }
 
-export const GetEnterprisesStructuresRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/enterprises/{enterprisesId}/structures/{structuresId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEnterprisesStructuresRequest>;
+export const GetEnterprisesStructuresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/enterprises/{enterprisesId}/structures/{structuresId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEnterprisesStructuresRequest>;
 
 export type GetEnterprisesStructuresResponse =
   GoogleHomeEnterpriseSdmV1Structure;
 export const GetEnterprisesStructuresResponse =
-  GoogleHomeEnterpriseSdmV1Structure;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1Structure;
 
 export type GetEnterprisesStructuresError = DefaultErrors;
 
@@ -320,7 +325,7 @@ export const getEnterprisesStructures: API.OperationMethod<
   GetEnterprisesStructuresResponse,
   GetEnterprisesStructuresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnterprisesStructuresRequest,
   output: GetEnterprisesStructuresResponse,
   errors: [],
@@ -333,18 +338,22 @@ export interface ListEnterprisesStructuresRequest {
   filter?: string;
 }
 
-export const ListEnterprisesStructuresRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/enterprises/{enterprisesId}/structures" }),
-  svc,
-) as unknown as Schema.Schema<ListEnterprisesStructuresRequest>;
+export const ListEnterprisesStructuresRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/enterprises/{enterprisesId}/structures",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListEnterprisesStructuresRequest>;
 
 export type ListEnterprisesStructuresResponse =
   GoogleHomeEnterpriseSdmV1ListStructuresResponse;
 export const ListEnterprisesStructuresResponse =
-  GoogleHomeEnterpriseSdmV1ListStructuresResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1ListStructuresResponse;
 
 export type ListEnterprisesStructuresError = DefaultErrors;
 
@@ -354,7 +363,7 @@ export const listEnterprisesStructures: API.OperationMethod<
   ListEnterprisesStructuresResponse,
   ListEnterprisesStructuresError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnterprisesStructuresRequest,
   output: ListEnterprisesStructuresResponse,
   errors: [],
@@ -365,20 +374,21 @@ export interface GetEnterprisesStructuresRoomsRequest {
   name: string;
 }
 
-export const GetEnterprisesStructuresRoomsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/enterprises/{enterprisesId}/structures/{structuresId}/rooms/{roomsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEnterprisesStructuresRoomsRequest>;
+export const GetEnterprisesStructuresRoomsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/enterprises/{enterprisesId}/structures/{structuresId}/rooms/{roomsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEnterprisesStructuresRoomsRequest>;
 
 export type GetEnterprisesStructuresRoomsResponse =
   GoogleHomeEnterpriseSdmV1Room;
 export const GetEnterprisesStructuresRoomsResponse =
-  GoogleHomeEnterpriseSdmV1Room;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1Room;
 
 export type GetEnterprisesStructuresRoomsError = DefaultErrors;
 
@@ -388,7 +398,7 @@ export const getEnterprisesStructuresRooms: API.OperationMethod<
   GetEnterprisesStructuresRoomsResponse,
   GetEnterprisesStructuresRoomsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEnterprisesStructuresRoomsRequest,
   output: GetEnterprisesStructuresRoomsResponse,
   errors: [],
@@ -399,20 +409,21 @@ export interface ListEnterprisesStructuresRoomsRequest {
   parent: string;
 }
 
-export const ListEnterprisesStructuresRoomsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/enterprises/{enterprisesId}/structures/{structuresId}/rooms",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListEnterprisesStructuresRoomsRequest>;
+export const ListEnterprisesStructuresRoomsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/enterprises/{enterprisesId}/structures/{structuresId}/rooms",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListEnterprisesStructuresRoomsRequest>;
 
 export type ListEnterprisesStructuresRoomsResponse =
   GoogleHomeEnterpriseSdmV1ListRoomsResponse;
 export const ListEnterprisesStructuresRoomsResponse =
-  GoogleHomeEnterpriseSdmV1ListRoomsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleHomeEnterpriseSdmV1ListRoomsResponse;
 
 export type ListEnterprisesStructuresRoomsError = DefaultErrors;
 
@@ -422,7 +433,7 @@ export const listEnterprisesStructuresRooms: API.OperationMethod<
   ListEnterprisesStructuresRoomsResponse,
   ListEnterprisesStructuresRoomsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnterprisesStructuresRoomsRequest,
   output: ListEnterprisesStructuresRoomsResponse,
   errors: [],

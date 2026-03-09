@@ -51,41 +51,43 @@ export interface GetDatasetFieldRequest {
     | null;
 }
 
-export const GetDatasetFieldRequest = Schema.Struct({
-  datasetId: Schema.Union([
-    Schema.Literal("access_requests"),
-    Schema.Literal("audit_logs"),
-    Schema.Literal("audit_logs_v2"),
-    Schema.Literal("biso_user_actions"),
-    Schema.Literal("casb_findings"),
-    Schema.Literal("device_posture_results"),
-    Schema.Literal("dex_application_tests"),
-    Schema.Literal("dex_device_state_events"),
-    Schema.Literal("dlp_forensic_copies"),
-    Schema.Literal("dns_firewall_logs"),
-    Schema.Literal("dns_logs"),
-    Schema.Literal("email_security_alerts"),
-    Schema.Literal("firewall_events"),
-    Schema.Literal("gateway_dns"),
-    Schema.Literal("gateway_http"),
-    Schema.Literal("gateway_network"),
-    Schema.Literal("http_requests"),
-    Schema.Literal("ipsec_logs"),
-    Schema.Literal("magic_ids_detections"),
-    Schema.Literal("nel_reports"),
-    Schema.Literal("network_analytics_logs"),
-    Schema.Literal("page_shield_events"),
-    Schema.Literal("sinkhole_http_logs"),
-    Schema.Literal("spectrum_events"),
-    Schema.Literal("ssh_logs"),
-    Schema.Literal("warp_config_changes"),
-    Schema.Literal("warp_toggle_changes"),
-    Schema.Literal("workers_trace_events"),
-    Schema.Literal("zaraz_events"),
-    Schema.Literal("zero_trust_network_sessions"),
-    Schema.Null,
-  ]).pipe(T.HttpPath("datasetId")),
-}).pipe(
+export const GetDatasetFieldRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    datasetId: Schema.Union([
+      Schema.Literal("access_requests"),
+      Schema.Literal("audit_logs"),
+      Schema.Literal("audit_logs_v2"),
+      Schema.Literal("biso_user_actions"),
+      Schema.Literal("casb_findings"),
+      Schema.Literal("device_posture_results"),
+      Schema.Literal("dex_application_tests"),
+      Schema.Literal("dex_device_state_events"),
+      Schema.Literal("dlp_forensic_copies"),
+      Schema.Literal("dns_firewall_logs"),
+      Schema.Literal("dns_logs"),
+      Schema.Literal("email_security_alerts"),
+      Schema.Literal("firewall_events"),
+      Schema.Literal("gateway_dns"),
+      Schema.Literal("gateway_http"),
+      Schema.Literal("gateway_network"),
+      Schema.Literal("http_requests"),
+      Schema.Literal("ipsec_logs"),
+      Schema.Literal("magic_ids_detections"),
+      Schema.Literal("nel_reports"),
+      Schema.Literal("network_analytics_logs"),
+      Schema.Literal("page_shield_events"),
+      Schema.Literal("sinkhole_http_logs"),
+      Schema.Literal("spectrum_events"),
+      Schema.Literal("ssh_logs"),
+      Schema.Literal("warp_config_changes"),
+      Schema.Literal("warp_toggle_changes"),
+      Schema.Literal("workers_trace_events"),
+      Schema.Literal("zaraz_events"),
+      Schema.Literal("zero_trust_network_sessions"),
+      Schema.Null,
+    ]).pipe(T.HttpPath("datasetId")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/datasets/{datasetId}/fields",
@@ -95,7 +97,7 @@ export const GetDatasetFieldRequest = Schema.Struct({
 export type GetDatasetFieldResponse = unknown;
 
 export const GetDatasetFieldResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
 
 export type GetDatasetFieldError = DefaultErrors;
 
@@ -104,7 +106,7 @@ export const getDatasetField: API.OperationMethod<
   GetDatasetFieldResponse,
   GetDatasetFieldError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatasetFieldRequest,
   output: GetDatasetFieldResponse,
   errors: [],
@@ -149,7 +151,7 @@ export interface GetDatasetJobRequest {
     | null;
 }
 
-export const GetDatasetJobRequest = Schema.Struct({
+export const GetDatasetJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   datasetId: Schema.Union([
     Schema.Literal("access_requests"),
     Schema.Literal("audit_logs"),
@@ -193,7 +195,7 @@ export const GetDatasetJobRequest = Schema.Struct({
 export type GetDatasetJobResponse = unknown;
 
 export const GetDatasetJobResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDatasetJobResponse>;
 
 export type GetDatasetJobError = DefaultErrors;
 
@@ -202,7 +204,7 @@ export const getDatasetJob: API.OperationMethod<
   GetDatasetJobResponse,
   GetDatasetJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatasetJobRequest,
   output: GetDatasetJobResponse,
   errors: [],
@@ -217,7 +219,7 @@ export interface GetEdgeRequest {
   zoneId: string;
 }
 
-export const GetEdgeRequest = Schema.Struct({
+export const GetEdgeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/logpush/edge/jobs" }),
@@ -226,7 +228,7 @@ export const GetEdgeRequest = Schema.Struct({
 export type GetEdgeResponse = unknown;
 
 export const GetEdgeResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetEdgeResponse>;
 
 export type GetEdgeError = DefaultErrors;
 
@@ -235,7 +237,7 @@ export const getEdge: API.OperationMethod<
   GetEdgeResponse,
   GetEdgeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEdgeRequest,
   output: GetEdgeResponse,
   errors: [],
@@ -252,7 +254,7 @@ export interface CreateEdgeRequest {
   sample?: number;
 }
 
-export const CreateEdgeRequest = Schema.Struct({
+export const CreateEdgeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   fields: Schema.optional(Schema.String),
   filter: Schema.optional(Schema.String),
@@ -274,7 +276,7 @@ export interface CreateEdgeResponse {
   sessionId?: string | null;
 }
 
-export const CreateEdgeResponse = Schema.Struct({
+export const CreateEdgeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   fields: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -297,7 +299,7 @@ export const createEdge: API.OperationMethod<
   CreateEdgeResponse,
   CreateEdgeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateEdgeRequest,
   output: CreateEdgeResponse,
   errors: [],
@@ -316,25 +318,27 @@ export interface DestinationExistsValidateRequest {
   destinationConf: string;
 }
 
-export const DestinationExistsValidateRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
-  T.Http({
-    method: "POST",
-    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists",
-  }),
-) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
+export const DestinationExistsValidateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    destinationConf: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ destinationConf: "destination_conf" }),
+    T.Http({
+      method: "POST",
+      path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists",
+    }),
+  ) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
 
 export interface DestinationExistsValidateResponse {
   exists?: boolean | null;
 }
 
-export const DestinationExistsValidateResponse = Schema.Struct({
-  exists: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
+export const DestinationExistsValidateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    exists: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
 export type DestinationExistsValidateError = DefaultErrors;
 
@@ -343,7 +347,7 @@ export const destinationExistsValidate: API.OperationMethod<
   DestinationExistsValidateResponse,
   DestinationExistsValidateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DestinationExistsValidateRequest,
   output: DestinationExistsValidateResponse,
   errors: [],
@@ -357,7 +361,7 @@ export interface GetJobRequest {
   jobId: number;
 }
 
-export const GetJobRequest = Schema.Struct({
+export const GetJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
 }).pipe(
   T.Http({
@@ -443,7 +447,7 @@ export interface GetJobResponse {
   } | null;
 }
 
-export const GetJobResponse = Schema.Struct({
+export const GetJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
@@ -588,7 +592,7 @@ export const getJob: API.OperationMethod<
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJobRequest,
   output: GetJobResponse,
   errors: [],
@@ -596,7 +600,9 @@ export const getJob: API.OperationMethod<
 
 export interface ListJobsRequest {}
 
-export const ListJobsRequest = Schema.Struct({}).pipe(
+export const ListJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/logpush/jobs",
@@ -606,7 +612,7 @@ export const ListJobsRequest = Schema.Struct({}).pipe(
 export type ListJobsResponse = unknown;
 
 export const ListJobsResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListJobsResponse>;
 
 export type ListJobsError = DefaultErrors;
 
@@ -615,7 +621,7 @@ export const listJobs: API.OperationMethod<
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [],
@@ -698,7 +704,7 @@ export interface CreateJobRequest {
   ownershipChallenge?: string;
 }
 
-export const CreateJobRequest = Schema.Struct({
+export const CreateJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   destinationConf: Schema.String,
@@ -906,7 +912,7 @@ export interface CreateJobResponse {
   } | null;
 }
 
-export const CreateJobResponse = Schema.Struct({
+export const CreateJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
@@ -1051,7 +1057,7 @@ export const createJob: API.OperationMethod<
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateJobRequest,
   output: CreateJobResponse,
   errors: [],
@@ -1102,7 +1108,7 @@ export interface UpdateJobRequest {
   ownershipChallenge?: string;
 }
 
-export const UpdateJobRequest = Schema.Struct({
+export const UpdateJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
@@ -1275,7 +1281,7 @@ export interface UpdateJobResponse {
   } | null;
 }
 
-export const UpdateJobResponse = Schema.Struct({
+export const UpdateJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
@@ -1420,7 +1426,7 @@ export const updateJob: API.OperationMethod<
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateJobRequest,
   output: UpdateJobResponse,
   errors: [],
@@ -1430,7 +1436,7 @@ export interface DeleteJobRequest {
   jobId: number;
 }
 
-export const DeleteJobRequest = Schema.Struct({
+export const DeleteJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jobId: Schema.Number.pipe(T.HttpPath("jobId")),
 }).pipe(
   T.Http({
@@ -1444,7 +1450,7 @@ export interface DeleteJobResponse {
   id?: number | null;
 }
 
-export const DeleteJobResponse = Schema.Struct({
+export const DeleteJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
@@ -1455,7 +1461,7 @@ export const deleteJob: API.OperationMethod<
   DeleteJobResponse,
   DeleteJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteJobRequest,
   output: DeleteJobResponse,
   errors: [],
@@ -1474,11 +1480,13 @@ export interface CreateOwnershipRequest {
   destinationConf: string;
 }
 
-export const CreateOwnershipRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
-}).pipe(
+export const CreateOwnershipRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    destinationConf: Schema.String,
+  },
+).pipe(
   Schema.encodeKeys({ destinationConf: "destination_conf" }),
   T.Http({
     method: "POST",
@@ -1492,11 +1500,12 @@ export interface CreateOwnershipResponse {
   valid?: boolean | null;
 }
 
-export const CreateOwnershipResponse = Schema.Struct({
-  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<CreateOwnershipResponse>;
+export const CreateOwnershipResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
 export type CreateOwnershipError = DefaultErrors;
 
@@ -1505,7 +1514,7 @@ export const createOwnership: API.OperationMethod<
   CreateOwnershipResponse,
   CreateOwnershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOwnershipRequest,
   output: CreateOwnershipResponse,
   errors: [],
@@ -1522,29 +1531,31 @@ export interface ValidateOwnershipRequest {
   ownershipChallenge: string;
 }
 
-export const ValidateOwnershipRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
-  ownershipChallenge: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    destinationConf: "destination_conf",
-    ownershipChallenge: "ownership_challenge",
-  }),
-  T.Http({
-    method: "POST",
-    path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate",
-  }),
-) as unknown as Schema.Schema<ValidateOwnershipRequest>;
+export const ValidateOwnershipRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    destinationConf: Schema.String,
+    ownershipChallenge: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      destinationConf: "destination_conf",
+      ownershipChallenge: "ownership_challenge",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate",
+    }),
+  ) as unknown as Schema.Schema<ValidateOwnershipRequest>;
 
 export interface ValidateOwnershipResponse {
   valid?: boolean | null;
 }
 
-export const ValidateOwnershipResponse = Schema.Struct({
-  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<ValidateOwnershipResponse>;
+export const ValidateOwnershipResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
 export type ValidateOwnershipError = DefaultErrors;
 
@@ -1553,7 +1564,7 @@ export const validateOwnership: API.OperationMethod<
   ValidateOwnershipResponse,
   ValidateOwnershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateOwnershipRequest,
   output: ValidateOwnershipResponse,
   errors: [],
@@ -1572,27 +1583,29 @@ export interface DestinationValidateRequest {
   destinationConf: string;
 }
 
-export const DestinationValidateRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  destinationConf: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ destinationConf: "destination_conf" }),
-  T.Http({
-    method: "POST",
-    path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination",
-  }),
-) as unknown as Schema.Schema<DestinationValidateRequest>;
+export const DestinationValidateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    destinationConf: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ destinationConf: "destination_conf" }),
+    T.Http({
+      method: "POST",
+      path: "/{accountOrZone}/{accountOrZoneId}/logpush/validate/destination",
+    }),
+  ) as unknown as Schema.Schema<DestinationValidateRequest>;
 
 export interface DestinationValidateResponse {
   message?: string | null;
   valid?: boolean | null;
 }
 
-export const DestinationValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<DestinationValidateResponse>;
+export const DestinationValidateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
 export type DestinationValidateError = DefaultErrors;
 
@@ -1601,7 +1614,7 @@ export const destinationValidate: API.OperationMethod<
   DestinationValidateResponse,
   DestinationValidateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DestinationValidateRequest,
   output: DestinationValidateResponse,
   errors: [],
@@ -1616,7 +1629,7 @@ export interface OriginValidateRequest {
   logpullOptions: string | null;
 }
 
-export const OriginValidateRequest = Schema.Struct({
+export const OriginValidateRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   logpullOptions: Schema.Union([Schema.String, Schema.Null]),
@@ -1633,10 +1646,12 @@ export interface OriginValidateResponse {
   valid?: boolean | null;
 }
 
-export const OriginValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<OriginValidateResponse>;
+export const OriginValidateResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  },
+) as unknown as Schema.Schema<OriginValidateResponse>;
 
 export type OriginValidateError = DefaultErrors;
 
@@ -1645,7 +1660,7 @@ export const originValidate: API.OperationMethod<
   OriginValidateResponse,
   OriginValidateError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OriginValidateRequest,
   output: OriginValidateResponse,
   errors: [],

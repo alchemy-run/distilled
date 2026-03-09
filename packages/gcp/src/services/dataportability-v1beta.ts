@@ -32,7 +32,7 @@ export interface InitiatePortabilityArchiveRequest {
 }
 
 export const InitiatePortabilityArchiveRequest: Schema.Schema<InitiatePortabilityArchiveRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       resources: Schema.optional(Schema.Array(Schema.String)),
@@ -50,7 +50,7 @@ export interface CheckAccessTypeResponse {
 }
 
 export const CheckAccessTypeResponse: Schema.Schema<CheckAccessTypeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeBasedResources: Schema.optional(Schema.Array(Schema.String)),
       oneTimeResources: Schema.optional(Schema.Array(Schema.String)),
@@ -79,7 +79,7 @@ export interface PortabilityArchiveState {
 }
 
 export const PortabilityArchiveState: Schema.Schema<PortabilityArchiveState> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -94,34 +94,35 @@ export const PortabilityArchiveState: Schema.Schema<PortabilityArchiveState> =
 export interface CancelPortabilityArchiveResponse {}
 
 export const CancelPortabilityArchiveResponse: Schema.Schema<CancelPortabilityArchiveResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelPortabilityArchiveResponse",
   }) as any as Schema.Schema<CancelPortabilityArchiveResponse>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface RetryPortabilityArchiveRequest {}
 
 export const RetryPortabilityArchiveRequest: Schema.Schema<RetryPortabilityArchiveRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "RetryPortabilityArchiveRequest",
   }) as any as Schema.Schema<RetryPortabilityArchiveRequest>;
 
 export interface CancelPortabilityArchiveRequest {}
 
 export const CancelPortabilityArchiveRequest: Schema.Schema<CancelPortabilityArchiveRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelPortabilityArchiveRequest",
   }) as any as Schema.Schema<CancelPortabilityArchiveRequest>;
 
 export interface CheckAccessTypeRequest {}
 
 export const CheckAccessTypeRequest: Schema.Schema<CheckAccessTypeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CheckAccessTypeRequest",
   }) as any as Schema.Schema<CheckAccessTypeRequest>;
 
@@ -131,7 +132,7 @@ export interface RetryPortabilityArchiveResponse {
 }
 
 export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArchiveResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       archiveJobId: Schema.optional(Schema.String),
     }),
@@ -142,7 +143,7 @@ export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArch
 export interface ResetAuthorizationRequest {}
 
 export const ResetAuthorizationRequest: Schema.Schema<ResetAuthorizationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResetAuthorizationRequest",
   }) as any as Schema.Schema<ResetAuthorizationRequest>;
 
@@ -158,7 +159,7 @@ export interface InitiatePortabilityArchiveResponse {
 }
 
 export const InitiatePortabilityArchiveResponse: Schema.Schema<InitiatePortabilityArchiveResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       archiveJobId: Schema.optional(Schema.String),
       accessType: Schema.optional(Schema.String),
@@ -178,20 +179,22 @@ export interface CancelArchiveJobsRequest {
   body?: CancelPortabilityArchiveRequest;
 }
 
-export const CancelArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelPortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/archiveJobs/{archiveJobsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelArchiveJobsRequest>;
+export const CancelArchiveJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelPortabilityArchiveRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/archiveJobs/{archiveJobsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelArchiveJobsRequest>;
 
 export type CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
-export const CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
+export const CancelArchiveJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CancelPortabilityArchiveResponse;
 
 export type CancelArchiveJobsError = DefaultErrors;
 
@@ -201,7 +204,7 @@ export const cancelArchiveJobs: API.OperationMethod<
   CancelArchiveJobsResponse,
   CancelArchiveJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelArchiveJobsRequest,
   output: CancelArchiveJobsResponse,
   errors: [],
@@ -212,20 +215,21 @@ export interface GetPortabilityArchiveStateArchiveJobsRequest {
   name: string;
 }
 
-export const GetPortabilityArchiveStateArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/archiveJobs/{archiveJobsId}/portabilityArchiveState",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
+export const GetPortabilityArchiveStateArchiveJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/archiveJobs/{archiveJobsId}/portabilityArchiveState",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
 
 export type GetPortabilityArchiveStateArchiveJobsResponse =
   PortabilityArchiveState;
 export const GetPortabilityArchiveStateArchiveJobsResponse =
-  PortabilityArchiveState;
+  /*@__PURE__*/ /*#__PURE__*/ PortabilityArchiveState;
 
 export type GetPortabilityArchiveStateArchiveJobsError = DefaultErrors;
 
@@ -235,7 +239,7 @@ export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<
   GetPortabilityArchiveStateArchiveJobsResponse,
   GetPortabilityArchiveStateArchiveJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPortabilityArchiveStateArchiveJobsRequest,
   output: GetPortabilityArchiveStateArchiveJobsResponse,
   errors: [],
@@ -248,20 +252,22 @@ export interface RetryArchiveJobsRequest {
   body?: RetryPortabilityArchiveRequest;
 }
 
-export const RetryArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/archiveJobs/{archiveJobsId}:retry",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
+export const RetryArchiveJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/archiveJobs/{archiveJobsId}:retry",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
 
 export type RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
-export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
+export const RetryArchiveJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RetryPortabilityArchiveResponse;
 
 export type RetryArchiveJobsError = DefaultErrors;
 
@@ -271,7 +277,7 @@ export const retryArchiveJobs: API.OperationMethod<
   RetryArchiveJobsResponse,
   RetryArchiveJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RetryArchiveJobsRequest,
   output: RetryArchiveJobsResponse,
   errors: [],
@@ -282,21 +288,22 @@ export interface InitiatePortabilityArchiveRequest_Op {
   body?: InitiatePortabilityArchiveRequest;
 }
 
-export const InitiatePortabilityArchiveRequest_Op = Schema.Struct({
-  body: Schema.optional(InitiatePortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/portabilityArchive:initiate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InitiatePortabilityArchiveRequest_Op>;
+export const InitiatePortabilityArchiveRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(InitiatePortabilityArchiveRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/portabilityArchive:initiate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InitiatePortabilityArchiveRequest_Op>;
 
 export type InitiatePortabilityArchiveResponse_Op =
   InitiatePortabilityArchiveResponse;
 export const InitiatePortabilityArchiveResponse_Op =
-  InitiatePortabilityArchiveResponse;
+  /*@__PURE__*/ /*#__PURE__*/ InitiatePortabilityArchiveResponse;
 
 export type InitiatePortabilityArchiveError = DefaultErrors;
 
@@ -306,7 +313,7 @@ export const initiatePortabilityArchive: API.OperationMethod<
   InitiatePortabilityArchiveResponse_Op,
   InitiatePortabilityArchiveError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitiatePortabilityArchiveRequest_Op,
   output: InitiatePortabilityArchiveResponse_Op,
   errors: [],
@@ -317,15 +324,17 @@ export interface CheckAccessTypeRequest_Op {
   body?: CheckAccessTypeRequest;
 }
 
-export const CheckAccessTypeRequest_Op = Schema.Struct({
-  body: Schema.optional(CheckAccessTypeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/accessType:check", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CheckAccessTypeRequest_Op>;
+export const CheckAccessTypeRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(CheckAccessTypeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1beta/accessType:check", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CheckAccessTypeRequest_Op>;
 
 export type CheckAccessTypeResponse_Op = CheckAccessTypeResponse;
-export const CheckAccessTypeResponse_Op = CheckAccessTypeResponse;
+export const CheckAccessTypeResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ CheckAccessTypeResponse;
 
 export type CheckAccessTypeError = DefaultErrors;
 
@@ -335,7 +344,7 @@ export const checkAccessType: API.OperationMethod<
   CheckAccessTypeResponse_Op,
   CheckAccessTypeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckAccessTypeRequest_Op,
   output: CheckAccessTypeResponse_Op,
   errors: [],
@@ -346,15 +355,20 @@ export interface ResetAuthorizationRequest_Op {
   body?: ResetAuthorizationRequest;
 }
 
-export const ResetAuthorizationRequest_Op = Schema.Struct({
-  body: Schema.optional(ResetAuthorizationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta/authorization:reset", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ResetAuthorizationRequest_Op>;
+export const ResetAuthorizationRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ResetAuthorizationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/authorization:reset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetAuthorizationRequest_Op>;
 
 export type ResetAuthorizationResponse = Empty;
-export const ResetAuthorizationResponse = Empty;
+export const ResetAuthorizationResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ResetAuthorizationError = DefaultErrors;
 
@@ -364,7 +378,7 @@ export const resetAuthorization: API.OperationMethod<
   ResetAuthorizationResponse,
   ResetAuthorizationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetAuthorizationRequest_Op,
   output: ResetAuthorizationResponse,
   errors: [],

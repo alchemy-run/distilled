@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListApiKeysInput = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/api_keys" }),
-);
+export const ListApiKeysInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(T.Http({ method: "GET", path: "/api_keys" }));
 export type ListApiKeysInput = typeof ListApiKeysInput.Type;
 
 // Output Schema
-export const ListApiKeysOutput = Schema.Array(
+export const ListApiKeysOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.Number,
     name: Schema.String,

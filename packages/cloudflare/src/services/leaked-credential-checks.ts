@@ -22,7 +22,7 @@ export interface GetDetectionRequest {
   zoneId: string;
 }
 
-export const GetDetectionRequest = Schema.Struct({
+export const GetDetectionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   detectionId: Schema.String.pipe(T.HttpPath("detectionId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -41,7 +41,7 @@ export interface GetDetectionResponse {
   username?: string | null;
 }
 
-export const GetDetectionResponse = Schema.Struct({
+export const GetDetectionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -54,7 +54,7 @@ export const getDetection: API.OperationMethod<
   GetDetectionResponse,
   GetDetectionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDetectionRequest,
   output: GetDetectionResponse,
   errors: [],
@@ -65,7 +65,7 @@ export interface ListDetectionsRequest {
   zoneId: string;
 }
 
-export const ListDetectionsRequest = Schema.Struct({
+export const ListDetectionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({
@@ -80,7 +80,7 @@ export type ListDetectionsResponse = {
   username?: string | null;
 }[];
 
-export const ListDetectionsResponse = Schema.Array(
+export const ListDetectionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -95,7 +95,7 @@ export const listDetections: API.OperationMethod<
   ListDetectionsResponse,
   ListDetectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDetectionsRequest,
   output: ListDetectionsResponse,
   errors: [],
@@ -110,11 +110,13 @@ export interface CreateDetectionRequest {
   username?: string;
 }
 
-export const CreateDetectionRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-}).pipe(
+export const CreateDetectionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    password: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+  },
+).pipe(
   T.Http({
     method: "POST",
     path: "/zones/{zone_id}/leaked-credential-checks/detections",
@@ -130,11 +132,12 @@ export interface CreateDetectionResponse {
   username?: string | null;
 }
 
-export const CreateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<CreateDetectionResponse>;
+export const CreateDetectionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<CreateDetectionResponse>;
 
 export type CreateDetectionError = DefaultErrors;
 
@@ -143,7 +146,7 @@ export const createDetection: API.OperationMethod<
   CreateDetectionResponse,
   CreateDetectionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDetectionRequest,
   output: CreateDetectionResponse,
   errors: [],
@@ -159,12 +162,14 @@ export interface UpdateDetectionRequest {
   username?: string;
 }
 
-export const UpdateDetectionRequest = Schema.Struct({
-  detectionId: Schema.String.pipe(T.HttpPath("detectionId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
-}).pipe(
+export const UpdateDetectionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    detectionId: Schema.String.pipe(T.HttpPath("detectionId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    password: Schema.optional(Schema.String),
+    username: Schema.optional(Schema.String),
+  },
+).pipe(
   T.Http({
     method: "PUT",
     path: "/zones/{zone_id}/leaked-credential-checks/detections/{detectionId}",
@@ -180,11 +185,12 @@ export interface UpdateDetectionResponse {
   username?: string | null;
 }
 
-export const UpdateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateDetectionResponse>;
+export const UpdateDetectionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<UpdateDetectionResponse>;
 
 export type UpdateDetectionError = DefaultErrors;
 
@@ -193,7 +199,7 @@ export const updateDetection: API.OperationMethod<
   UpdateDetectionResponse,
   UpdateDetectionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDetectionRequest,
   output: UpdateDetectionResponse,
   errors: [],
@@ -205,10 +211,12 @@ export interface DeleteDetectionRequest {
   zoneId: string;
 }
 
-export const DeleteDetectionRequest = Schema.Struct({
-  detectionId: Schema.String.pipe(T.HttpPath("detectionId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
+export const DeleteDetectionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    detectionId: Schema.String.pipe(T.HttpPath("detectionId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  },
+).pipe(
   T.Http({
     method: "DELETE",
     path: "/zones/{zone_id}/leaked-credential-checks/detections/{detectionId}",
@@ -218,7 +226,7 @@ export const DeleteDetectionRequest = Schema.Struct({
 export type DeleteDetectionResponse = unknown;
 
 export const DeleteDetectionResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteDetectionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteDetectionResponse>;
 
 export type DeleteDetectionError = DefaultErrors;
 
@@ -227,7 +235,7 @@ export const deleteDetection: API.OperationMethod<
   DeleteDetectionResponse,
   DeleteDetectionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDetectionRequest,
   output: DeleteDetectionResponse,
   errors: [],
@@ -242,20 +250,25 @@ export interface GetLeakedCredentialCheckRequest {
   zoneId: string;
 }
 
-export const GetLeakedCredentialCheckRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/leaked-credential-checks" }),
-) as unknown as Schema.Schema<GetLeakedCredentialCheckRequest>;
+export const GetLeakedCredentialCheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/leaked-credential-checks",
+    }),
+  ) as unknown as Schema.Schema<GetLeakedCredentialCheckRequest>;
 
 export interface GetLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
   enabled?: boolean | null;
 }
 
-export const GetLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
+export const GetLeakedCredentialCheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
 
 export type GetLeakedCredentialCheckError = DefaultErrors;
 
@@ -264,7 +277,7 @@ export const getLeakedCredentialCheck: API.OperationMethod<
   GetLeakedCredentialCheckResponse,
   GetLeakedCredentialCheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLeakedCredentialCheckRequest,
   output: GetLeakedCredentialCheckResponse,
   errors: [],
@@ -277,21 +290,26 @@ export interface CreateLeakedCredentialCheckRequest {
   enabled?: boolean;
 }
 
-export const CreateLeakedCredentialCheckRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  enabled: Schema.optional(Schema.Boolean),
-}).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/leaked-credential-checks" }),
-) as unknown as Schema.Schema<CreateLeakedCredentialCheckRequest>;
+export const CreateLeakedCredentialCheckRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    enabled: Schema.optional(Schema.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/leaked-credential-checks",
+    }),
+  ) as unknown as Schema.Schema<CreateLeakedCredentialCheckRequest>;
 
 export interface CreateLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
   enabled?: boolean | null;
 }
 
-export const CreateLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
+export const CreateLeakedCredentialCheckResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
 
 export type CreateLeakedCredentialCheckError = DefaultErrors;
 
@@ -300,7 +318,7 @@ export const createLeakedCredentialCheck: API.OperationMethod<
   CreateLeakedCredentialCheckResponse,
   CreateLeakedCredentialCheckError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLeakedCredentialCheckRequest,
   output: CreateLeakedCredentialCheckResponse,
   errors: [],

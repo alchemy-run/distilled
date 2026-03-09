@@ -3,37 +3,39 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetAnonymizedBranchStatusInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/anonymized_status",
-  }),
-);
+export const GetAnonymizedBranchStatusInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/anonymized_status",
+    }),
+  );
 export type GetAnonymizedBranchStatusInput =
   typeof GetAnonymizedBranchStatusInput.Type;
 
 // Output Schema
-export const GetAnonymizedBranchStatusOutput = Schema.Struct({
-  project_id: Schema.String,
-  branch_id: Schema.String,
-  state: Schema.String,
-  status_message: Schema.optional(Schema.String),
-  created_at: Schema.String,
-  updated_at: Schema.String,
-  failed_at: Schema.optional(Schema.String),
-  last_run: Schema.optional(
-    Schema.Struct({
-      started_at: Schema.optional(Schema.String),
-      completed_at: Schema.optional(Schema.String),
-      triggered_by: Schema.optional(Schema.String),
-      triggered_by_username: Schema.optional(Schema.String),
-      masked_columns: Schema.optional(Schema.Number),
-    }),
-  ),
-});
+export const GetAnonymizedBranchStatusOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String,
+    branch_id: Schema.String,
+    state: Schema.String,
+    status_message: Schema.optional(Schema.String),
+    created_at: Schema.String,
+    updated_at: Schema.String,
+    failed_at: Schema.optional(Schema.String),
+    last_run: Schema.optional(
+      Schema.Struct({
+        started_at: Schema.optional(Schema.String),
+        completed_at: Schema.optional(Schema.String),
+        triggered_by: Schema.optional(Schema.String),
+        triggered_by_username: Schema.optional(Schema.String),
+        masked_columns: Schema.optional(Schema.Number),
+      }),
+    ),
+  });
 export type GetAnonymizedBranchStatusOutput =
   typeof GetAnonymizedBranchStatusOutput.Type;
 

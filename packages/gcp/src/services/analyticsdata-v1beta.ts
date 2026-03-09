@@ -29,15 +29,15 @@ export interface SamplingMetadata {
   samplingSpaceSize?: string;
 }
 
-export const SamplingMetadata: Schema.Schema<SamplingMetadata> = Schema.suspend(
-  () =>
+export const SamplingMetadata: Schema.Schema<SamplingMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       samplesReadCount: Schema.optional(Schema.String),
       samplingSpaceSize: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SamplingMetadata",
-}) as any as Schema.Schema<SamplingMetadata>;
+  ).annotate({
+    identifier: "SamplingMetadata",
+  }) as any as Schema.Schema<SamplingMetadata>;
 
 export interface ActiveMetricRestriction {
   /** The name of the restricted metric. */
@@ -52,7 +52,7 @@ export interface ActiveMetricRestriction {
 }
 
 export const ActiveMetricRestriction: Schema.Schema<ActiveMetricRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricName: Schema.optional(Schema.String),
       restrictedMetricTypes: Schema.optional(Schema.Array(Schema.String)),
@@ -67,7 +67,7 @@ export interface SchemaRestrictionResponse {
 }
 
 export const SchemaRestrictionResponse: Schema.Schema<SchemaRestrictionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activeMetricRestrictions: Schema.optional(
         Schema.Array(ActiveMetricRestriction),
@@ -94,8 +94,8 @@ export interface ResponseMetaData {
   subjectToThresholding?: boolean;
 }
 
-export const ResponseMetaData: Schema.Schema<ResponseMetaData> = Schema.suspend(
-  () =>
+export const ResponseMetaData: Schema.Schema<ResponseMetaData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZone: Schema.optional(Schema.String),
       samplingMetadatas: Schema.optional(Schema.Array(SamplingMetadata)),
@@ -105,34 +105,37 @@ export const ResponseMetaData: Schema.Schema<ResponseMetaData> = Schema.suspend(
       schemaRestrictionResponse: Schema.optional(SchemaRestrictionResponse),
       subjectToThresholding: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ResponseMetaData",
-}) as any as Schema.Schema<ResponseMetaData>;
+  ).annotate({
+    identifier: "ResponseMetaData",
+  }) as any as Schema.Schema<ResponseMetaData>;
 
 export interface MetricValue {
   /** Measurement value. See MetricHeader for type. */
   value?: string;
 }
 
-export const MetricValue: Schema.Schema<MetricValue> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MetricValue" }) as any as Schema.Schema<MetricValue>;
+export const MetricValue: Schema.Schema<MetricValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetricValue",
+  }) as any as Schema.Schema<MetricValue>;
 
 export interface DimensionValue {
   /** Value as a string if the dimension type is a string. */
   value?: string;
 }
 
-export const DimensionValue: Schema.Schema<DimensionValue> = Schema.suspend(
-  () =>
+export const DimensionValue: Schema.Schema<DimensionValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DimensionValue",
-}) as any as Schema.Schema<DimensionValue>;
+  ).annotate({
+    identifier: "DimensionValue",
+  }) as any as Schema.Schema<DimensionValue>;
 
 export interface Row {
   /** List of requested visible metric values. */
@@ -141,12 +144,13 @@ export interface Row {
   dimensionValues?: Array<DimensionValue>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() =>
-  Schema.Struct({
-    metricValues: Schema.optional(Schema.Array(MetricValue)),
-    dimensionValues: Schema.optional(Schema.Array(DimensionValue)),
-  }),
-).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metricValues: Schema.optional(Schema.Array(MetricValue)),
+      dimensionValues: Schema.optional(Schema.Array(DimensionValue)),
+    }),
+  ).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface NumericValue {
   /** Double value */
@@ -155,14 +159,15 @@ export interface NumericValue {
   int64Value?: string;
 }
 
-export const NumericValue: Schema.Schema<NumericValue> = Schema.suspend(() =>
-  Schema.Struct({
-    doubleValue: Schema.optional(Schema.Number),
-    int64Value: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "NumericValue",
-}) as any as Schema.Schema<NumericValue>;
+export const NumericValue: Schema.Schema<NumericValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      doubleValue: Schema.optional(Schema.Number),
+      int64Value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NumericValue",
+  }) as any as Schema.Schema<NumericValue>;
 
 export interface BetweenFilter {
   /** Ends with this number. */
@@ -171,14 +176,15 @@ export interface BetweenFilter {
   fromValue?: NumericValue;
 }
 
-export const BetweenFilter: Schema.Schema<BetweenFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    toValue: Schema.optional(NumericValue),
-    fromValue: Schema.optional(NumericValue),
-  }),
-).annotate({
-  identifier: "BetweenFilter",
-}) as any as Schema.Schema<BetweenFilter>;
+export const BetweenFilter: Schema.Schema<BetweenFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      toValue: Schema.optional(NumericValue),
+      fromValue: Schema.optional(NumericValue),
+    }),
+  ).annotate({
+    identifier: "BetweenFilter",
+  }) as any as Schema.Schema<BetweenFilter>;
 
 export interface FilterExpressionList {
   /** A list of filter expressions. */
@@ -186,7 +192,7 @@ export interface FilterExpressionList {
 }
 
 export const FilterExpressionList: Schema.Schema<FilterExpressionList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(Schema.Array(FilterExpression)),
     }),
@@ -201,20 +207,22 @@ export interface InListFilter {
   caseSensitive?: boolean;
 }
 
-export const InListFilter: Schema.Schema<InListFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Schema.String)),
-    caseSensitive: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "InListFilter",
-}) as any as Schema.Schema<InListFilter>;
+export const InListFilter: Schema.Schema<InListFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+      caseSensitive: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "InListFilter",
+  }) as any as Schema.Schema<InListFilter>;
 
 export interface EmptyFilter {}
 
-export const EmptyFilter: Schema.Schema<EmptyFilter> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "EmptyFilter" }) as any as Schema.Schema<EmptyFilter>;
+export const EmptyFilter: Schema.Schema<EmptyFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EmptyFilter",
+  }) as any as Schema.Schema<EmptyFilter>;
 
 export interface NumericFilter {
   /** A numeric value or a date value. */
@@ -230,14 +238,15 @@ export interface NumericFilter {
     | (string & {});
 }
 
-export const NumericFilter: Schema.Schema<NumericFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(NumericValue),
-    operation: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "NumericFilter",
-}) as any as Schema.Schema<NumericFilter>;
+export const NumericFilter: Schema.Schema<NumericFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(NumericValue),
+      operation: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NumericFilter",
+  }) as any as Schema.Schema<NumericFilter>;
 
 export interface StringFilter {
   /** The match type for this filter. */
@@ -256,15 +265,16 @@ export interface StringFilter {
   value?: string;
 }
 
-export const StringFilter: Schema.Schema<StringFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    matchType: Schema.optional(Schema.String),
-    caseSensitive: Schema.optional(Schema.Boolean),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "StringFilter",
-}) as any as Schema.Schema<StringFilter>;
+export const StringFilter: Schema.Schema<StringFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      matchType: Schema.optional(Schema.String),
+      caseSensitive: Schema.optional(Schema.Boolean),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "StringFilter",
+  }) as any as Schema.Schema<StringFilter>;
 
 export interface Filter {
   /** A filter for in list values. */
@@ -281,16 +291,17 @@ export interface Filter {
   stringFilter?: StringFilter;
 }
 
-export const Filter: Schema.Schema<Filter> = Schema.suspend(() =>
-  Schema.Struct({
-    inListFilter: Schema.optional(InListFilter),
-    betweenFilter: Schema.optional(BetweenFilter),
-    emptyFilter: Schema.optional(EmptyFilter),
-    numericFilter: Schema.optional(NumericFilter),
-    fieldName: Schema.optional(Schema.String),
-    stringFilter: Schema.optional(StringFilter),
-  }),
-).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
+export const Filter: Schema.Schema<Filter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inListFilter: Schema.optional(InListFilter),
+      betweenFilter: Schema.optional(BetweenFilter),
+      emptyFilter: Schema.optional(EmptyFilter),
+      numericFilter: Schema.optional(NumericFilter),
+      fieldName: Schema.optional(Schema.String),
+      stringFilter: Schema.optional(StringFilter),
+    }),
+  ).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface FilterExpression {
   /** The FilterExpressions in and_group have an AND relationship. */
@@ -303,17 +314,17 @@ export interface FilterExpression {
   filter?: Filter;
 }
 
-export const FilterExpression: Schema.Schema<FilterExpression> = Schema.suspend(
-  () =>
+export const FilterExpression: Schema.Schema<FilterExpression> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       andGroup: Schema.optional(FilterExpressionList),
       notExpression: Schema.optional(FilterExpression),
       orGroup: Schema.optional(FilterExpressionList),
       filter: Schema.optional(Filter),
     }),
-).annotate({
-  identifier: "FilterExpression",
-}) as any as Schema.Schema<FilterExpression>;
+  ).annotate({
+    identifier: "FilterExpression",
+  }) as any as Schema.Schema<FilterExpression>;
 
 export interface Metric {
   /** The name of the metric. See the [API Metrics](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema#metrics) for the list of metric names supported by core reporting methods such as `runReport` and `batchRunReports`. See [Realtime Metrics](https://developers.google.com/analytics/devguides/reporting/data/v1/realtime-api-schema#metrics) for the list of metric names supported by the `runRealtimeReport` method. See [Funnel Metrics](https://developers.google.com/analytics/devguides/reporting/data/v1/exploration-api-schema#metrics) for the list of metric names supported by the `runFunnelReport` method. If `expression` is specified, `name` can be any string that you would like within the allowed character set. For example if `expression` is `screenPageViews/sessions`, you could call that metric's name = `viewsPerSession`. Metric names that you choose must match the regular expression `^[a-zA-Z0-9_]$`. Metrics are referenced by `name` in `metricFilter`, `orderBys`, and metric `expression`. */
@@ -324,27 +335,28 @@ export interface Metric {
   invisible?: boolean;
 }
 
-export const Metric: Schema.Schema<Metric> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-    invisible: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
+export const Metric: Schema.Schema<Metric> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+      invisible: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Metric" }) as any as Schema.Schema<Metric>;
 
 export interface CaseExpression {
   /** Name of a dimension. The name must refer back to a name in dimensions field of the request. */
   dimensionName?: string;
 }
 
-export const CaseExpression: Schema.Schema<CaseExpression> = Schema.suspend(
-  () =>
+export const CaseExpression: Schema.Schema<CaseExpression> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CaseExpression",
-}) as any as Schema.Schema<CaseExpression>;
+  ).annotate({
+    identifier: "CaseExpression",
+  }) as any as Schema.Schema<CaseExpression>;
 
 export interface ConcatenateExpression {
   /** Names of dimensions. The names must refer back to names in the dimensions field of the request. */
@@ -354,7 +366,7 @@ export interface ConcatenateExpression {
 }
 
 export const ConcatenateExpression: Schema.Schema<ConcatenateExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionNames: Schema.optional(Schema.Array(Schema.String)),
       delimiter: Schema.optional(Schema.String),
@@ -373,7 +385,7 @@ export interface DimensionExpression {
 }
 
 export const DimensionExpression: Schema.Schema<DimensionExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       upperCase: Schema.optional(CaseExpression),
       lowerCase: Schema.optional(CaseExpression),
@@ -390,12 +402,13 @@ export interface Dimension {
   dimensionExpression?: DimensionExpression;
 }
 
-export const Dimension: Schema.Schema<Dimension> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    dimensionExpression: Schema.optional(DimensionExpression),
-  }),
-).annotate({ identifier: "Dimension" }) as any as Schema.Schema<Dimension>;
+export const Dimension: Schema.Schema<Dimension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      dimensionExpression: Schema.optional(DimensionExpression),
+    }),
+  ).annotate({ identifier: "Dimension" }) as any as Schema.Schema<Dimension>;
 
 export interface CheckCompatibilityRequest {
   /** Filters the dimensions and metrics in the response to just this compatibility. Commonly used as `”compatibilityFilter”: “COMPATIBLE”` to only return compatible dimensions & metrics. */
@@ -415,7 +428,7 @@ export interface CheckCompatibilityRequest {
 }
 
 export const CheckCompatibilityRequest: Schema.Schema<CheckCompatibilityRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       compatibilityFilter: Schema.optional(Schema.String),
       dimensionFilter: Schema.optional(FilterExpression),
@@ -439,15 +452,15 @@ export interface DimensionOrderBy {
     | (string & {});
 }
 
-export const DimensionOrderBy: Schema.Schema<DimensionOrderBy> = Schema.suspend(
-  () =>
+export const DimensionOrderBy: Schema.Schema<DimensionOrderBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
       orderType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DimensionOrderBy",
-}) as any as Schema.Schema<DimensionOrderBy>;
+  ).annotate({
+    identifier: "DimensionOrderBy",
+  }) as any as Schema.Schema<DimensionOrderBy>;
 
 export interface MetricMetadata {
   /** Description of how this metric is used and calculated. */
@@ -489,8 +502,8 @@ export interface MetricMetadata {
     | (string & {});
 }
 
-export const MetricMetadata: Schema.Schema<MetricMetadata> = Schema.suspend(
-  () =>
+export const MetricMetadata: Schema.Schema<MetricMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       uiName: Schema.optional(Schema.String),
@@ -502,9 +515,9 @@ export const MetricMetadata: Schema.Schema<MetricMetadata> = Schema.suspend(
       deprecatedApiNames: Schema.optional(Schema.Array(Schema.String)),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "MetricMetadata",
-}) as any as Schema.Schema<MetricMetadata>;
+  ).annotate({
+    identifier: "MetricMetadata",
+  }) as any as Schema.Schema<MetricMetadata>;
 
 export interface MetricCompatibility {
   /** The metric metadata contains the API name for this compatibility information. The metric metadata also contains other helpful information like the UI name and description. */
@@ -518,7 +531,7 @@ export interface MetricCompatibility {
 }
 
 export const MetricCompatibility: Schema.Schema<MetricCompatibility> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricMetadata: Schema.optional(MetricMetadata),
       compatibility: Schema.optional(Schema.String),
@@ -536,29 +549,30 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface DimensionHeader {
   /** The dimension's name. */
   name?: string;
 }
 
-export const DimensionHeader: Schema.Schema<DimensionHeader> = Schema.suspend(
-  () =>
+export const DimensionHeader: Schema.Schema<DimensionHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DimensionHeader",
-}) as any as Schema.Schema<DimensionHeader>;
+  ).annotate({
+    identifier: "DimensionHeader",
+  }) as any as Schema.Schema<DimensionHeader>;
 
 export interface MetricHeader {
   /** The metric's data type. */
@@ -581,14 +595,15 @@ export interface MetricHeader {
   name?: string;
 }
 
-export const MetricHeader: Schema.Schema<MetricHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MetricHeader",
-}) as any as Schema.Schema<MetricHeader>;
+export const MetricHeader: Schema.Schema<MetricHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetricHeader",
+  }) as any as Schema.Schema<MetricHeader>;
 
 export interface QuotaStatus {
   /** Quota consumed by this request. */
@@ -597,12 +612,15 @@ export interface QuotaStatus {
   remaining?: number;
 }
 
-export const QuotaStatus: Schema.Schema<QuotaStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    consumed: Schema.optional(Schema.Number),
-    remaining: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "QuotaStatus" }) as any as Schema.Schema<QuotaStatus>;
+export const QuotaStatus: Schema.Schema<QuotaStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      consumed: Schema.optional(Schema.Number),
+      remaining: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "QuotaStatus",
+  }) as any as Schema.Schema<QuotaStatus>;
 
 export interface PropertyQuota {
   /** Standard Analytics Properties can send up to 10 concurrent requests; Analytics 360 Properties can use up to 50 concurrent requests. */
@@ -619,18 +637,19 @@ export interface PropertyQuota {
   serverErrorsPerProjectPerHour?: QuotaStatus;
 }
 
-export const PropertyQuota: Schema.Schema<PropertyQuota> = Schema.suspend(() =>
-  Schema.Struct({
-    concurrentRequests: Schema.optional(QuotaStatus),
-    tokensPerDay: Schema.optional(QuotaStatus),
-    potentiallyThresholdedRequestsPerHour: Schema.optional(QuotaStatus),
-    tokensPerProjectPerHour: Schema.optional(QuotaStatus),
-    tokensPerHour: Schema.optional(QuotaStatus),
-    serverErrorsPerProjectPerHour: Schema.optional(QuotaStatus),
-  }),
-).annotate({
-  identifier: "PropertyQuota",
-}) as any as Schema.Schema<PropertyQuota>;
+export const PropertyQuota: Schema.Schema<PropertyQuota> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      concurrentRequests: Schema.optional(QuotaStatus),
+      tokensPerDay: Schema.optional(QuotaStatus),
+      potentiallyThresholdedRequestsPerHour: Schema.optional(QuotaStatus),
+      tokensPerProjectPerHour: Schema.optional(QuotaStatus),
+      tokensPerHour: Schema.optional(QuotaStatus),
+      serverErrorsPerProjectPerHour: Schema.optional(QuotaStatus),
+    }),
+  ).annotate({
+    identifier: "PropertyQuota",
+  }) as any as Schema.Schema<PropertyQuota>;
 
 export interface RunReportResponse {
   /** Describes dimension columns. The number of DimensionHeaders and ordering of DimensionHeaders matches the dimensions present in rows. */
@@ -656,7 +675,7 @@ export interface RunReportResponse {
 }
 
 export const RunReportResponse: Schema.Schema<RunReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionHeaders: Schema.optional(Schema.Array(DimensionHeader)),
       rows: Schema.optional(Schema.Array(Row)),
@@ -679,7 +698,7 @@ export interface V1betaAudienceDimensionValue {
 }
 
 export const V1betaAudienceDimensionValue: Schema.Schema<V1betaAudienceDimensionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -696,26 +715,30 @@ export interface MinuteRange {
   endMinutesAgo?: number;
 }
 
-export const MinuteRange: Schema.Schema<MinuteRange> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    startMinutesAgo: Schema.optional(Schema.Number),
-    endMinutesAgo: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "MinuteRange" }) as any as Schema.Schema<MinuteRange>;
+export const MinuteRange: Schema.Schema<MinuteRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      startMinutesAgo: Schema.optional(Schema.Number),
+      endMinutesAgo: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "MinuteRange",
+  }) as any as Schema.Schema<MinuteRange>;
 
 export interface MetricOrderBy {
   /** A metric name in the request to order by. */
   metricName?: string;
 }
 
-export const MetricOrderBy: Schema.Schema<MetricOrderBy> = Schema.suspend(() =>
-  Schema.Struct({
-    metricName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MetricOrderBy",
-}) as any as Schema.Schema<MetricOrderBy>;
+export const MetricOrderBy: Schema.Schema<MetricOrderBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metricName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetricOrderBy",
+  }) as any as Schema.Schema<MetricOrderBy>;
 
 export interface V1betaAudienceDimension {
   /** Optional. The API name of the dimension. See the [API Dimensions](https://developers.google.com/analytics/devguides/reporting/data/v1/audience-list-api-schema#dimensions) for the list of dimension names. */
@@ -723,7 +746,7 @@ export interface V1betaAudienceDimension {
 }
 
 export const V1betaAudienceDimension: Schema.Schema<V1betaAudienceDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
     }),
@@ -759,8 +782,8 @@ export interface AudienceExport {
   name?: string;
 }
 
-export const AudienceExport: Schema.Schema<AudienceExport> = Schema.suspend(
-  () =>
+export const AudienceExport: Schema.Schema<AudienceExport> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(Schema.Array(V1betaAudienceDimension)),
       state: Schema.optional(Schema.String),
@@ -773,9 +796,9 @@ export const AudienceExport: Schema.Schema<AudienceExport> = Schema.suspend(
       audienceDisplayName: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AudienceExport",
-}) as any as Schema.Schema<AudienceExport>;
+  ).annotate({
+    identifier: "AudienceExport",
+  }) as any as Schema.Schema<AudienceExport>;
 
 export interface ListAudienceExportsResponse {
   /** Each audience export for a property. */
@@ -785,7 +808,7 @@ export interface ListAudienceExportsResponse {
 }
 
 export const ListAudienceExportsResponse: Schema.Schema<ListAudienceExportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audienceExports: Schema.optional(Schema.Array(AudienceExport)),
       nextPageToken: Schema.optional(Schema.String),
@@ -803,13 +826,14 @@ export interface DateRange {
   name?: string;
 }
 
-export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startDate: Schema.optional(Schema.String),
-    endDate: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+export const DateRange: Schema.Schema<DateRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startDate: Schema.optional(Schema.String),
+      endDate: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
 
 export interface PivotSelection {
   /** Order by only when the named dimension is this value. */
@@ -818,15 +842,15 @@ export interface PivotSelection {
   dimensionName?: string;
 }
 
-export const PivotSelection: Schema.Schema<PivotSelection> = Schema.suspend(
-  () =>
+export const PivotSelection: Schema.Schema<PivotSelection> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionValue: Schema.optional(Schema.String),
       dimensionName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PivotSelection",
-}) as any as Schema.Schema<PivotSelection>;
+  ).annotate({
+    identifier: "PivotSelection",
+  }) as any as Schema.Schema<PivotSelection>;
 
 export interface PivotOrderBy {
   /** In the response to order by, order rows by this column. Must be a metric name from the request. */
@@ -835,14 +859,15 @@ export interface PivotOrderBy {
   pivotSelections?: Array<PivotSelection>;
 }
 
-export const PivotOrderBy: Schema.Schema<PivotOrderBy> = Schema.suspend(() =>
-  Schema.Struct({
-    metricName: Schema.optional(Schema.String),
-    pivotSelections: Schema.optional(Schema.Array(PivotSelection)),
-  }),
-).annotate({
-  identifier: "PivotOrderBy",
-}) as any as Schema.Schema<PivotOrderBy>;
+export const PivotOrderBy: Schema.Schema<PivotOrderBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metricName: Schema.optional(Schema.String),
+      pivotSelections: Schema.optional(Schema.Array(PivotSelection)),
+    }),
+  ).annotate({
+    identifier: "PivotOrderBy",
+  }) as any as Schema.Schema<PivotOrderBy>;
 
 export interface CohortsRange {
   /** Required. The granularity used to interpret the `startOffset` and `endOffset` for the extended reporting date range for a cohort report. */
@@ -858,15 +883,16 @@ export interface CohortsRange {
   endOffset?: number;
 }
 
-export const CohortsRange: Schema.Schema<CohortsRange> = Schema.suspend(() =>
-  Schema.Struct({
-    granularity: Schema.optional(Schema.String),
-    startOffset: Schema.optional(Schema.Number),
-    endOffset: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "CohortsRange",
-}) as any as Schema.Schema<CohortsRange>;
+export const CohortsRange: Schema.Schema<CohortsRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      granularity: Schema.optional(Schema.String),
+      startOffset: Schema.optional(Schema.Number),
+      endOffset: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CohortsRange",
+  }) as any as Schema.Schema<CohortsRange>;
 
 export interface Cohort {
   /** The cohort selects users whose first touch date is between start date and end date defined in the `dateRange`. This `dateRange` does not specify the full date range of event data that is present in a cohort report. In a cohort report, this `dateRange` is extended by the granularity and offset present in the `cohortsRange`; event data for the extended reporting date range is present in a cohort report. In a cohort request, this `dateRange` is required and the `dateRanges` in the `RunReportRequest` or `RunPivotReportRequest` must be unspecified. This `dateRange` should generally be aligned with the cohort's granularity. If `CohortsRange` uses daily granularity, this `dateRange` can be a single day. If `CohortsRange` uses weekly granularity, this `dateRange` can be aligned to a week boundary, starting at Sunday and ending Saturday. If `CohortsRange` uses monthly granularity, this `dateRange` can be aligned to a month, starting at the first and ending on the last day of the month. */
@@ -877,13 +903,14 @@ export interface Cohort {
   dimension?: string;
 }
 
-export const Cohort: Schema.Schema<Cohort> = Schema.suspend(() =>
-  Schema.Struct({
-    dateRange: Schema.optional(DateRange),
-    name: Schema.optional(Schema.String),
-    dimension: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Cohort" }) as any as Schema.Schema<Cohort>;
+export const Cohort: Schema.Schema<Cohort> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dateRange: Schema.optional(DateRange),
+      name: Schema.optional(Schema.String),
+      dimension: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Cohort" }) as any as Schema.Schema<Cohort>;
 
 export interface CohortReportSettings {
   /** If true, accumulates the result from first touch day to the end day. Not supported in `RunReportRequest`. */
@@ -891,7 +918,7 @@ export interface CohortReportSettings {
 }
 
 export const CohortReportSettings: Schema.Schema<CohortReportSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accumulate: Schema.optional(Schema.Boolean),
     }),
@@ -908,13 +935,14 @@ export interface CohortSpec {
   cohortReportSettings?: CohortReportSettings;
 }
 
-export const CohortSpec: Schema.Schema<CohortSpec> = Schema.suspend(() =>
-  Schema.Struct({
-    cohortsRange: Schema.optional(CohortsRange),
-    cohorts: Schema.optional(Schema.Array(Cohort)),
-    cohortReportSettings: Schema.optional(CohortReportSettings),
-  }),
-).annotate({ identifier: "CohortSpec" }) as any as Schema.Schema<CohortSpec>;
+export const CohortSpec: Schema.Schema<CohortSpec> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cohortsRange: Schema.optional(CohortsRange),
+      cohorts: Schema.optional(Schema.Array(Cohort)),
+      cohortReportSettings: Schema.optional(CohortReportSettings),
+    }),
+  ).annotate({ identifier: "CohortSpec" }) as any as Schema.Schema<CohortSpec>;
 
 export interface OrderBy {
   /** Sorts results by a metric's values. */
@@ -927,14 +955,15 @@ export interface OrderBy {
   desc?: boolean;
 }
 
-export const OrderBy: Schema.Schema<OrderBy> = Schema.suspend(() =>
-  Schema.Struct({
-    metric: Schema.optional(MetricOrderBy),
-    dimension: Schema.optional(DimensionOrderBy),
-    pivot: Schema.optional(PivotOrderBy),
-    desc: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "OrderBy" }) as any as Schema.Schema<OrderBy>;
+export const OrderBy: Schema.Schema<OrderBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metric: Schema.optional(MetricOrderBy),
+      dimension: Schema.optional(DimensionOrderBy),
+      pivot: Schema.optional(PivotOrderBy),
+      desc: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "OrderBy" }) as any as Schema.Schema<OrderBy>;
 
 export interface Pivot {
   /** Aggregate the metrics by dimensions in this pivot using the specified metric_aggregations. */
@@ -956,15 +985,16 @@ export interface Pivot {
   orderBys?: Array<OrderBy>;
 }
 
-export const Pivot: Schema.Schema<Pivot> = Schema.suspend(() =>
-  Schema.Struct({
-    metricAggregations: Schema.optional(Schema.Array(Schema.String)),
-    limit: Schema.optional(Schema.String),
-    fieldNames: Schema.optional(Schema.Array(Schema.String)),
-    offset: Schema.optional(Schema.String),
-    orderBys: Schema.optional(Schema.Array(OrderBy)),
-  }),
-).annotate({ identifier: "Pivot" }) as any as Schema.Schema<Pivot>;
+export const Pivot: Schema.Schema<Pivot> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metricAggregations: Schema.optional(Schema.Array(Schema.String)),
+      limit: Schema.optional(Schema.String),
+      fieldNames: Schema.optional(Schema.Array(Schema.String)),
+      offset: Schema.optional(Schema.String),
+      orderBys: Schema.optional(Schema.Array(OrderBy)),
+    }),
+  ).annotate({ identifier: "Pivot" }) as any as Schema.Schema<Pivot>;
 
 export interface Comparison {
   /** A basic comparison. */
@@ -975,13 +1005,14 @@ export interface Comparison {
   name?: string;
 }
 
-export const Comparison: Schema.Schema<Comparison> = Schema.suspend(() =>
-  Schema.Struct({
-    dimensionFilter: Schema.optional(FilterExpression),
-    comparison: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Comparison" }) as any as Schema.Schema<Comparison>;
+export const Comparison: Schema.Schema<Comparison> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dimensionFilter: Schema.optional(FilterExpression),
+      comparison: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Comparison" }) as any as Schema.Schema<Comparison>;
 
 export interface RunPivotReportRequest {
   /** Cohort group associated with this request. If there is a cohort group in the request the 'cohort' dimension must be present. */
@@ -1011,7 +1042,7 @@ export interface RunPivotReportRequest {
 }
 
 export const RunPivotReportRequest: Schema.Schema<RunPivotReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cohortSpec: Schema.optional(CohortSpec),
       pivots: Schema.optional(Schema.Array(Pivot)),
@@ -1038,7 +1069,7 @@ export interface BatchRunReportsResponse {
 }
 
 export const BatchRunReportsResponse: Schema.Schema<BatchRunReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reports: Schema.optional(Schema.Array(RunReportResponse)),
       kind: Schema.optional(Schema.String),
@@ -1053,7 +1084,7 @@ export interface PivotDimensionHeader {
 }
 
 export const PivotDimensionHeader: Schema.Schema<PivotDimensionHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionValues: Schema.optional(Schema.Array(DimensionValue)),
     }),
@@ -1068,12 +1099,17 @@ export interface PivotHeader {
   rowCount?: number;
 }
 
-export const PivotHeader: Schema.Schema<PivotHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    pivotDimensionHeaders: Schema.optional(Schema.Array(PivotDimensionHeader)),
-    rowCount: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "PivotHeader" }) as any as Schema.Schema<PivotHeader>;
+export const PivotHeader: Schema.Schema<PivotHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pivotDimensionHeaders: Schema.optional(
+        Schema.Array(PivotDimensionHeader),
+      ),
+      rowCount: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PivotHeader",
+  }) as any as Schema.Schema<PivotHeader>;
 
 export interface DimensionMetadata {
   /** True if the dimension is custom to this property. This includes user, event, & item scoped custom dimensions; to learn more about custom dimensions, see https://support.google.com/analytics/answer/14240153. This also include custom channel groups; to learn more about custom channel groups, see https://support.google.com/analytics/answer/13051316. */
@@ -1091,7 +1127,7 @@ export interface DimensionMetadata {
 }
 
 export const DimensionMetadata: Schema.Schema<DimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customDefinition: Schema.optional(Schema.Boolean),
       description: Schema.optional(Schema.String),
@@ -1116,7 +1152,7 @@ export interface DimensionCompatibility {
 }
 
 export const DimensionCompatibility: Schema.Schema<DimensionCompatibility> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionMetadata: Schema.optional(DimensionMetadata),
       compatibility: Schema.optional(Schema.String),
@@ -1131,7 +1167,7 @@ export interface V1betaAudienceRow {
 }
 
 export const V1betaAudienceRow: Schema.Schema<V1betaAudienceRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionValues: Schema.optional(
         Schema.Array(V1betaAudienceDimensionValue),
@@ -1151,7 +1187,7 @@ export interface QueryAudienceExportResponse {
 }
 
 export const QueryAudienceExportResponse: Schema.Schema<QueryAudienceExportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rowCount: Schema.optional(Schema.Number),
       audienceExport: Schema.optional(AudienceExport),
@@ -1201,8 +1237,8 @@ export interface RunReportRequest {
   currencyCode?: string;
 }
 
-export const RunReportRequest: Schema.Schema<RunReportRequest> = Schema.suspend(
-  () =>
+export const RunReportRequest: Schema.Schema<RunReportRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keepEmptyRows: Schema.optional(Schema.Boolean),
       metrics: Schema.optional(Schema.Array(Metric)),
@@ -1220,9 +1256,9 @@ export const RunReportRequest: Schema.Schema<RunReportRequest> = Schema.suspend(
       dateRanges: Schema.optional(Schema.Array(DateRange)),
       currencyCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RunReportRequest",
-}) as any as Schema.Schema<RunReportRequest>;
+  ).annotate({
+    identifier: "RunReportRequest",
+  }) as any as Schema.Schema<RunReportRequest>;
 
 export interface BatchRunReportsRequest {
   /** Individual requests. Each request has a separate report response. Each batch request is allowed up to 5 requests. */
@@ -1230,7 +1266,7 @@ export interface BatchRunReportsRequest {
 }
 
 export const BatchRunReportsRequest: Schema.Schema<BatchRunReportsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(RunReportRequest)),
     }),
@@ -1248,7 +1284,7 @@ export interface ComparisonMetadata {
 }
 
 export const ComparisonMetadata: Schema.Schema<ComparisonMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apiName: Schema.optional(Schema.String),
       uiName: Schema.optional(Schema.String),
@@ -1269,19 +1305,20 @@ export interface Metadata {
   comparisons?: Array<ComparisonMetadata>;
 }
 
-export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metrics: Schema.optional(Schema.Array(MetricMetadata)),
-    dimensions: Schema.optional(Schema.Array(DimensionMetadata)),
-    comparisons: Schema.optional(Schema.Array(ComparisonMetadata)),
-  }),
-).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
+export const Metadata: Schema.Schema<Metadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metrics: Schema.optional(Schema.Array(MetricMetadata)),
+      dimensions: Schema.optional(Schema.Array(DimensionMetadata)),
+      comparisons: Schema.optional(Schema.Array(ComparisonMetadata)),
+    }),
+  ).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
 
 export interface AudienceListMetadata {}
 
 export const AudienceListMetadata: Schema.Schema<AudienceListMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AudienceListMetadata",
   }) as any as Schema.Schema<AudienceListMetadata>;
 
@@ -1298,15 +1335,16 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface RunPivotReportResponse {
   /** Describes metric columns. The number of MetricHeaders and ordering of MetricHeaders matches the metrics present in rows. */
@@ -1328,7 +1366,7 @@ export interface RunPivotReportResponse {
 }
 
 export const RunPivotReportResponse: Schema.Schema<RunPivotReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metricHeaders: Schema.optional(Schema.Array(MetricHeader)),
       aggregates: Schema.optional(Schema.Array(Row)),
@@ -1351,7 +1389,7 @@ export interface BatchRunPivotReportsResponse {
 }
 
 export const BatchRunPivotReportsResponse: Schema.Schema<BatchRunPivotReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pivotReports: Schema.optional(Schema.Array(RunPivotReportResponse)),
       kind: Schema.optional(Schema.String),
@@ -1382,7 +1420,7 @@ export interface RunRealtimeReportResponse {
 }
 
 export const RunRealtimeReportResponse: Schema.Schema<RunRealtimeReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionHeaders: Schema.optional(Schema.Array(DimensionHeader)),
       rows: Schema.optional(Schema.Array(Row)),
@@ -1404,7 +1442,7 @@ export interface BatchRunPivotReportsRequest {
 }
 
 export const BatchRunPivotReportsRequest: Schema.Schema<BatchRunPivotReportsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(RunPivotReportRequest)),
     }),
@@ -1420,7 +1458,7 @@ export interface CheckCompatibilityResponse {
 }
 
 export const CheckCompatibilityResponse: Schema.Schema<CheckCompatibilityResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionCompatibilities: Schema.optional(
         Schema.Array(DimensionCompatibility),
@@ -1439,7 +1477,7 @@ export interface QueryAudienceExportRequest {
 }
 
 export const QueryAudienceExportRequest: Schema.Schema<QueryAudienceExportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offset: Schema.optional(Schema.String),
       limit: Schema.optional(Schema.String),
@@ -1477,7 +1515,7 @@ export interface RunRealtimeReportRequest {
 }
 
 export const RunRealtimeReportRequest: Schema.Schema<RunRealtimeReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minuteRanges: Schema.optional(Schema.Array(MinuteRange)),
       metricFilter: Schema.optional(FilterExpression),
@@ -1504,20 +1542,22 @@ export interface BatchRunReportsPropertiesRequest {
   body?: BatchRunReportsRequest;
 }
 
-export const BatchRunReportsPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(BatchRunReportsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:batchRunReports",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchRunReportsPropertiesRequest>;
+export const BatchRunReportsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(BatchRunReportsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:batchRunReports",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchRunReportsPropertiesRequest>;
 
 export type BatchRunReportsPropertiesResponse = BatchRunReportsResponse;
-export const BatchRunReportsPropertiesResponse = BatchRunReportsResponse;
+export const BatchRunReportsPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchRunReportsResponse;
 
 export type BatchRunReportsPropertiesError = DefaultErrors;
 
@@ -1527,7 +1567,7 @@ export const batchRunReportsProperties: API.OperationMethod<
   BatchRunReportsPropertiesResponse,
   BatchRunReportsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRunReportsPropertiesRequest,
   output: BatchRunReportsPropertiesResponse,
   errors: [],
@@ -1540,20 +1580,22 @@ export interface RunRealtimeReportPropertiesRequest {
   body?: RunRealtimeReportRequest;
 }
 
-export const RunRealtimeReportPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(RunRealtimeReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:runRealtimeReport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunRealtimeReportPropertiesRequest>;
+export const RunRealtimeReportPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(RunRealtimeReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:runRealtimeReport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunRealtimeReportPropertiesRequest>;
 
 export type RunRealtimeReportPropertiesResponse = RunRealtimeReportResponse;
-export const RunRealtimeReportPropertiesResponse = RunRealtimeReportResponse;
+export const RunRealtimeReportPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunRealtimeReportResponse;
 
 export type RunRealtimeReportPropertiesError = DefaultErrors;
 
@@ -1563,7 +1605,7 @@ export const runRealtimeReportProperties: API.OperationMethod<
   RunRealtimeReportPropertiesResponse,
   RunRealtimeReportPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunRealtimeReportPropertiesRequest,
   output: RunRealtimeReportPropertiesResponse,
   errors: [],
@@ -1574,15 +1616,20 @@ export interface GetMetadataPropertiesRequest {
   name: string;
 }
 
-export const GetMetadataPropertiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/properties/{propertiesId}/metadata" }),
-  svc,
-) as unknown as Schema.Schema<GetMetadataPropertiesRequest>;
+export const GetMetadataPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/properties/{propertiesId}/metadata",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetMetadataPropertiesRequest>;
 
 export type GetMetadataPropertiesResponse = Metadata;
-export const GetMetadataPropertiesResponse = Metadata;
+export const GetMetadataPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Metadata;
 
 export type GetMetadataPropertiesError = DefaultErrors;
 
@@ -1592,7 +1639,7 @@ export const getMetadataProperties: API.OperationMethod<
   GetMetadataPropertiesResponse,
   GetMetadataPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataPropertiesRequest,
   output: GetMetadataPropertiesResponse,
   errors: [],
@@ -1605,20 +1652,22 @@ export interface RunReportPropertiesRequest {
   body?: RunReportRequest;
 }
 
-export const RunReportPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(RunReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:runReport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunReportPropertiesRequest>;
+export const RunReportPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(RunReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:runReport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunReportPropertiesRequest>;
 
 export type RunReportPropertiesResponse = RunReportResponse;
-export const RunReportPropertiesResponse = RunReportResponse;
+export const RunReportPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunReportResponse;
 
 export type RunReportPropertiesError = DefaultErrors;
 
@@ -1628,7 +1677,7 @@ export const runReportProperties: API.OperationMethod<
   RunReportPropertiesResponse,
   RunReportPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunReportPropertiesRequest,
   output: RunReportPropertiesResponse,
   errors: [],
@@ -1641,20 +1690,22 @@ export interface RunPivotReportPropertiesRequest {
   body?: RunPivotReportRequest;
 }
 
-export const RunPivotReportPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(RunPivotReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:runPivotReport",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RunPivotReportPropertiesRequest>;
+export const RunPivotReportPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(RunPivotReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:runPivotReport",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RunPivotReportPropertiesRequest>;
 
 export type RunPivotReportPropertiesResponse = RunPivotReportResponse;
-export const RunPivotReportPropertiesResponse = RunPivotReportResponse;
+export const RunPivotReportPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RunPivotReportResponse;
 
 export type RunPivotReportPropertiesError = DefaultErrors;
 
@@ -1664,7 +1715,7 @@ export const runPivotReportProperties: API.OperationMethod<
   RunPivotReportPropertiesResponse,
   RunPivotReportPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunPivotReportPropertiesRequest,
   output: RunPivotReportPropertiesResponse,
   errors: [],
@@ -1677,20 +1728,22 @@ export interface CheckCompatibilityPropertiesRequest {
   body?: CheckCompatibilityRequest;
 }
 
-export const CheckCompatibilityPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(CheckCompatibilityRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:checkCompatibility",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckCompatibilityPropertiesRequest>;
+export const CheckCompatibilityPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(CheckCompatibilityRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:checkCompatibility",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckCompatibilityPropertiesRequest>;
 
 export type CheckCompatibilityPropertiesResponse = CheckCompatibilityResponse;
-export const CheckCompatibilityPropertiesResponse = CheckCompatibilityResponse;
+export const CheckCompatibilityPropertiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CheckCompatibilityResponse;
 
 export type CheckCompatibilityPropertiesError = DefaultErrors;
 
@@ -1700,7 +1753,7 @@ export const checkCompatibilityProperties: API.OperationMethod<
   CheckCompatibilityPropertiesResponse,
   CheckCompatibilityPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckCompatibilityPropertiesRequest,
   output: CheckCompatibilityPropertiesResponse,
   errors: [],
@@ -1713,22 +1766,23 @@ export interface BatchRunPivotReportsPropertiesRequest {
   body?: BatchRunPivotReportsRequest;
 }
 
-export const BatchRunPivotReportsPropertiesRequest = Schema.Struct({
-  property: Schema.String.pipe(T.HttpPath("property")),
-  body: Schema.optional(BatchRunPivotReportsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}:batchRunPivotReports",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchRunPivotReportsPropertiesRequest>;
+export const BatchRunPivotReportsPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    property: Schema.String.pipe(T.HttpPath("property")),
+    body: Schema.optional(BatchRunPivotReportsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}:batchRunPivotReports",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchRunPivotReportsPropertiesRequest>;
 
 export type BatchRunPivotReportsPropertiesResponse =
   BatchRunPivotReportsResponse;
 export const BatchRunPivotReportsPropertiesResponse =
-  BatchRunPivotReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchRunPivotReportsResponse;
 
 export type BatchRunPivotReportsPropertiesError = DefaultErrors;
 
@@ -1738,7 +1792,7 @@ export const batchRunPivotReportsProperties: API.OperationMethod<
   BatchRunPivotReportsPropertiesResponse,
   BatchRunPivotReportsPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRunPivotReportsPropertiesRequest,
   output: BatchRunPivotReportsPropertiesResponse,
   errors: [],
@@ -1751,22 +1805,23 @@ export interface QueryPropertiesAudienceExportsRequest {
   body?: QueryAudienceExportRequest;
 }
 
-export const QueryPropertiesAudienceExportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(QueryAudienceExportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}/audienceExports/{audienceExportsId}:query",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<QueryPropertiesAudienceExportsRequest>;
+export const QueryPropertiesAudienceExportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(QueryAudienceExportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}/audienceExports/{audienceExportsId}:query",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryPropertiesAudienceExportsRequest>;
 
 export type QueryPropertiesAudienceExportsResponse =
   QueryAudienceExportResponse;
 export const QueryPropertiesAudienceExportsResponse =
-  QueryAudienceExportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ QueryAudienceExportResponse;
 
 export type QueryPropertiesAudienceExportsError = DefaultErrors;
 
@@ -1776,7 +1831,7 @@ export const queryPropertiesAudienceExports: API.OperationMethod<
   QueryPropertiesAudienceExportsResponse,
   QueryPropertiesAudienceExportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryPropertiesAudienceExportsRequest,
   output: QueryPropertiesAudienceExportsResponse,
   errors: [],
@@ -1787,18 +1842,20 @@ export interface GetPropertiesAudienceExportsRequest {
   name: string;
 }
 
-export const GetPropertiesAudienceExportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/properties/{propertiesId}/audienceExports/{audienceExportsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPropertiesAudienceExportsRequest>;
+export const GetPropertiesAudienceExportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/properties/{propertiesId}/audienceExports/{audienceExportsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPropertiesAudienceExportsRequest>;
 
 export type GetPropertiesAudienceExportsResponse = AudienceExport;
-export const GetPropertiesAudienceExportsResponse = AudienceExport;
+export const GetPropertiesAudienceExportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AudienceExport;
 
 export type GetPropertiesAudienceExportsError = DefaultErrors;
 
@@ -1808,7 +1865,7 @@ export const getPropertiesAudienceExports: API.OperationMethod<
   GetPropertiesAudienceExportsResponse,
   GetPropertiesAudienceExportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesAudienceExportsRequest,
   output: GetPropertiesAudienceExportsResponse,
   errors: [],
@@ -1821,20 +1878,22 @@ export interface CreatePropertiesAudienceExportsRequest {
   body?: AudienceExport;
 }
 
-export const CreatePropertiesAudienceExportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AudienceExport).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/properties/{propertiesId}/audienceExports",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePropertiesAudienceExportsRequest>;
+export const CreatePropertiesAudienceExportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AudienceExport).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/properties/{propertiesId}/audienceExports",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePropertiesAudienceExportsRequest>;
 
 export type CreatePropertiesAudienceExportsResponse = Operation;
-export const CreatePropertiesAudienceExportsResponse = Operation;
+export const CreatePropertiesAudienceExportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreatePropertiesAudienceExportsError = DefaultErrors;
 
@@ -1844,7 +1903,7 @@ export const createPropertiesAudienceExports: API.OperationMethod<
   CreatePropertiesAudienceExportsResponse,
   CreatePropertiesAudienceExportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePropertiesAudienceExportsRequest,
   output: CreatePropertiesAudienceExportsResponse,
   errors: [],
@@ -1859,21 +1918,22 @@ export interface ListPropertiesAudienceExportsRequest {
   pageSize?: number;
 }
 
-export const ListPropertiesAudienceExportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/properties/{propertiesId}/audienceExports",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPropertiesAudienceExportsRequest>;
+export const ListPropertiesAudienceExportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/properties/{propertiesId}/audienceExports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPropertiesAudienceExportsRequest>;
 
 export type ListPropertiesAudienceExportsResponse = ListAudienceExportsResponse;
 export const ListPropertiesAudienceExportsResponse =
-  ListAudienceExportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAudienceExportsResponse;
 
 export type ListPropertiesAudienceExportsError = DefaultErrors;
 
@@ -1883,7 +1943,7 @@ export const listPropertiesAudienceExports: API.PaginatedOperationMethod<
   ListPropertiesAudienceExportsResponse,
   ListPropertiesAudienceExportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPropertiesAudienceExportsRequest,
   output: ListPropertiesAudienceExportsResponse,
   errors: [],

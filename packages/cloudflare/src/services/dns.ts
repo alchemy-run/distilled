@@ -35,18 +35,19 @@ export interface GetAnalyticReportRequest {
   until?: string;
 }
 
-export const GetAnalyticReportRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/dns_analytics/report" }),
-) as unknown as Schema.Schema<GetAnalyticReportRequest>;
+export const GetAnalyticReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/dns_analytics/report" }),
+  ) as unknown as Schema.Schema<GetAnalyticReportRequest>;
 
 export interface GetAnalyticReportResponse {
   /** Array with one row per combination of dimension values. */
@@ -72,40 +73,41 @@ export interface GetAnalyticReportResponse {
   totals: unknown;
 }
 
-export const GetAnalyticReportResponse = Schema.Struct({
-  data: Schema.Array(
-    Schema.Struct({
-      dimensions: Schema.Array(Schema.String),
-      metrics: Schema.Array(Schema.Number),
-    }),
-  ),
-  dataLag: Schema.Number,
-  max: Schema.Unknown,
-  min: Schema.Unknown,
-  query: Schema.Struct({
-    dimensions: Schema.Array(Schema.String),
-    limit: Schema.Number,
-    metrics: Schema.Array(Schema.String),
-    since: Schema.String,
-    until: Schema.String,
-    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    sort: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+export const GetAnalyticReportResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    data: Schema.Array(
+      Schema.Struct({
+        dimensions: Schema.Array(Schema.String),
+        metrics: Schema.Array(Schema.Number),
+      }),
     ),
-  }),
-  rows: Schema.Number,
-  totals: Schema.Unknown,
-}).pipe(
-  Schema.encodeKeys({
-    data: "data",
-    dataLag: "data_lag",
-    max: "max",
-    min: "min",
-    query: "query",
-    rows: "rows",
-    totals: "totals",
-  }),
-) as unknown as Schema.Schema<GetAnalyticReportResponse>;
+    dataLag: Schema.Number,
+    max: Schema.Unknown,
+    min: Schema.Unknown,
+    query: Schema.Struct({
+      dimensions: Schema.Array(Schema.String),
+      limit: Schema.Number,
+      metrics: Schema.Array(Schema.String),
+      since: Schema.String,
+      until: Schema.String,
+      filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      sort: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+    }),
+    rows: Schema.Number,
+    totals: Schema.Unknown,
+  }).pipe(
+    Schema.encodeKeys({
+      data: "data",
+      dataLag: "data_lag",
+      max: "max",
+      min: "min",
+      query: "query",
+      rows: "rows",
+      totals: "totals",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
 export type GetAnalyticReportError = DefaultErrors;
 
@@ -114,7 +116,7 @@ export const getAnalyticReport: API.OperationMethod<
   GetAnalyticReportResponse,
   GetAnalyticReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticReportRequest,
   output: GetAnalyticReportResponse,
   errors: [],
@@ -155,35 +157,36 @@ export interface GetAnalyticReportBytimeRequest {
   until?: string;
 }
 
-export const GetAnalyticReportBytimeRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
-  filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-  metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
-  since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  timeDelta: Schema.optional(
-    Schema.Literals([
-      "all",
-      "auto",
-      "year",
-      "quarter",
-      "month",
-      "week",
-      "day",
-      "hour",
-      "dekaminute",
-      "minute",
-    ]),
-  ).pipe(T.HttpQuery("time_delta")),
-  until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/dns_analytics/report/bytime",
-  }),
-) as unknown as Schema.Schema<GetAnalyticReportBytimeRequest>;
+export const GetAnalyticReportBytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    dimensions: Schema.optional(Schema.String).pipe(T.HttpQuery("dimensions")),
+    filters: Schema.optional(Schema.String).pipe(T.HttpQuery("filters")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+    metrics: Schema.optional(Schema.String).pipe(T.HttpQuery("metrics")),
+    since: Schema.optional(Schema.String).pipe(T.HttpQuery("since")),
+    sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+    timeDelta: Schema.optional(
+      Schema.Literals([
+        "all",
+        "auto",
+        "year",
+        "quarter",
+        "month",
+        "week",
+        "day",
+        "hour",
+        "dekaminute",
+        "minute",
+      ]),
+    ).pipe(T.HttpQuery("time_delta")),
+    until: Schema.optional(Schema.String).pipe(T.HttpQuery("until")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/dns_analytics/report/bytime",
+    }),
+  ) as unknown as Schema.Schema<GetAnalyticReportBytimeRequest>;
 
 export interface GetAnalyticReportBytimeResponse {
   /** Array with one row per combination of dimension values. */
@@ -222,65 +225,66 @@ export interface GetAnalyticReportBytimeResponse {
   totals: unknown;
 }
 
-export const GetAnalyticReportBytimeResponse = Schema.Struct({
-  data: Schema.Array(
-    Schema.Struct({
-      dimensions: Schema.Array(Schema.String),
-      metrics: Schema.Array(Schema.Array(Schema.Number)),
-    }),
-  ),
-  dataLag: Schema.Number,
-  max: Schema.Unknown,
-  min: Schema.Unknown,
-  query: Schema.Struct({
-    dimensions: Schema.Array(Schema.String),
-    limit: Schema.Number,
-    metrics: Schema.Array(Schema.String),
-    since: Schema.String,
-    timeDelta: Schema.Literals([
-      "all",
-      "auto",
-      "year",
-      "quarter",
-      "month",
-      "week",
-      "day",
-      "hour",
-      "dekaminute",
-      "minute",
-    ]),
-    until: Schema.String,
-    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    sort: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+export const GetAnalyticReportBytimeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    data: Schema.Array(
+      Schema.Struct({
+        dimensions: Schema.Array(Schema.String),
+        metrics: Schema.Array(Schema.Array(Schema.Number)),
+      }),
     ),
+    dataLag: Schema.Number,
+    max: Schema.Unknown,
+    min: Schema.Unknown,
+    query: Schema.Struct({
+      dimensions: Schema.Array(Schema.String),
+      limit: Schema.Number,
+      metrics: Schema.Array(Schema.String),
+      since: Schema.String,
+      timeDelta: Schema.Literals([
+        "all",
+        "auto",
+        "year",
+        "quarter",
+        "month",
+        "week",
+        "day",
+        "hour",
+        "dekaminute",
+        "minute",
+      ]),
+      until: Schema.String,
+      filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      sort: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        dimensions: "dimensions",
+        limit: "limit",
+        metrics: "metrics",
+        since: "since",
+        timeDelta: "time_delta",
+        until: "until",
+        filters: "filters",
+        sort: "sort",
+      }),
+    ),
+    rows: Schema.Number,
+    timeIntervals: Schema.Array(Schema.Array(Schema.String)),
+    totals: Schema.Unknown,
   }).pipe(
     Schema.encodeKeys({
-      dimensions: "dimensions",
-      limit: "limit",
-      metrics: "metrics",
-      since: "since",
-      timeDelta: "time_delta",
-      until: "until",
-      filters: "filters",
-      sort: "sort",
+      data: "data",
+      dataLag: "data_lag",
+      max: "max",
+      min: "min",
+      query: "query",
+      rows: "rows",
+      timeIntervals: "time_intervals",
+      totals: "totals",
     }),
-  ),
-  rows: Schema.Number,
-  timeIntervals: Schema.Array(Schema.Array(Schema.String)),
-  totals: Schema.Unknown,
-}).pipe(
-  Schema.encodeKeys({
-    data: "data",
-    dataLag: "data_lag",
-    max: "max",
-    min: "min",
-    query: "query",
-    rows: "rows",
-    timeIntervals: "time_intervals",
-    totals: "totals",
-  }),
-) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
+  ) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
 export type GetAnalyticReportBytimeError = DefaultErrors;
 
@@ -289,7 +293,7 @@ export const getAnalyticReportBytime: API.OperationMethod<
   GetAnalyticReportBytimeResponse,
   GetAnalyticReportBytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAnalyticReportBytimeRequest,
   output: GetAnalyticReportBytimeResponse,
   errors: [],
@@ -304,7 +308,7 @@ export interface GetDnssecRequest {
   zoneId: string;
 }
 
-export const GetDnssecRequest = Schema.Struct({
+export const GetDnssecRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/dnssec" }),
@@ -347,7 +351,7 @@ export interface GetDnssecResponse {
     | null;
 }
 
-export const GetDnssecResponse = Schema.Struct({
+export const GetDnssecResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   algorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -401,7 +405,7 @@ export const getDnssec: API.OperationMethod<
   GetDnssecResponse,
   GetDnssecError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDnssecRequest,
   output: GetDnssecResponse,
   errors: [],
@@ -420,7 +424,7 @@ export interface PatchDnssecRequest {
   status?: "active" | "disabled";
 }
 
-export const PatchDnssecRequest = Schema.Struct({
+export const PatchDnssecRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dnssecMultiSigner: Schema.optional(Schema.Boolean),
   dnssecPresigned: Schema.optional(Schema.Boolean),
@@ -473,7 +477,7 @@ export interface PatchDnssecResponse {
     | null;
 }
 
-export const PatchDnssecResponse = Schema.Struct({
+export const PatchDnssecResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   algorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -527,7 +531,7 @@ export const patchDnssec: API.OperationMethod<
   PatchDnssecResponse,
   PatchDnssecError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchDnssecRequest,
   output: PatchDnssecResponse,
   errors: [],
@@ -538,7 +542,7 @@ export interface DeleteDnssecRequest {
   zoneId: string;
 }
 
-export const DeleteDnssecRequest = Schema.Struct({
+export const DeleteDnssecRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/dnssec" }),
@@ -547,7 +551,7 @@ export const DeleteDnssecRequest = Schema.Struct({
 export type DeleteDnssecResponse = string;
 
 export const DeleteDnssecResponse =
-  Schema.String as unknown as Schema.Schema<DeleteDnssecResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DeleteDnssecResponse>;
 
 export type DeleteDnssecError = DefaultErrors;
 
@@ -556,7 +560,7 @@ export const deleteDnssec: API.OperationMethod<
   DeleteDnssecResponse,
   DeleteDnssecError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDnssecRequest,
   output: DeleteDnssecResponse,
   errors: [],
@@ -571,7 +575,7 @@ export interface ScanListRecordRequest {
   zoneId: string;
 }
 
-export const ScanListRecordRequest = Schema.Struct({
+export const ScanListRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/dns_records/scan/review" }),
@@ -606,7 +610,7 @@ export type ScanListRecordResponse = (
     }
 )[];
 
-export const ScanListRecordResponse = Schema.Array(
+export const ScanListRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Union([
     Schema.Struct({
       id: Schema.String,
@@ -685,7 +689,7 @@ export const scanListRecord: API.OperationMethod<
   ScanListRecordResponse,
   ScanListRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScanListRecordRequest,
   output: ScanListRecordResponse,
   errors: [],
@@ -702,20 +706,21 @@ export interface ForceNotifyZoneTransferOutgoingRequest {
   body: unknown;
 }
 
-export const ForceNotifyZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/secondary_dns/outgoing/force_notify",
-  }),
-) as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingRequest>;
+export const ForceNotifyZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/secondary_dns/outgoing/force_notify",
+    }),
+  ) as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingRequest>;
 
 export type ForceNotifyZoneTransferOutgoingResponse = string;
 
 export const ForceNotifyZoneTransferOutgoingResponse =
-  Schema.String as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
 
 export type ForceNotifyZoneTransferOutgoingError = DefaultErrors;
 
@@ -724,7 +729,7 @@ export const forceNotifyZoneTransferOutgoing: API.OperationMethod<
   ForceNotifyZoneTransferOutgoingResponse,
   ForceNotifyZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ForceNotifyZoneTransferOutgoingRequest,
   output: ForceNotifyZoneTransferOutgoingResponse,
   errors: [],
@@ -740,7 +745,7 @@ export interface GetRecordRequest {
   zoneId: string;
 }
 
-export const GetRecordRequest = Schema.Struct({
+export const GetRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsRecordId: Schema.String.pipe(T.HttpPath("dnsRecordId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -775,7 +780,7 @@ export type GetRecordResponse =
       tagsModifiedOn?: string | null;
     };
 
-export const GetRecordResponse = Schema.Union([
+export const GetRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -848,7 +853,7 @@ export const getRecord: API.OperationMethod<
   GetRecordResponse,
   GetRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecordRequest,
   output: GetRecordResponse,
   errors: [],
@@ -926,7 +931,7 @@ export interface ListRecordsRequest {
     | "URI";
 }
 
-export const ListRecordsRequest = Schema.Struct({
+export const ListRecordsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   comment: Schema.optional(
     Schema.Struct({
@@ -1036,7 +1041,7 @@ export type ListRecordsResponse = (
     }
 )[];
 
-export const ListRecordsResponse = Schema.Array(
+export const ListRecordsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Union([
     Schema.Struct({
       id: Schema.String,
@@ -1115,7 +1120,7 @@ export const listRecords: API.OperationMethod<
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRecordsRequest,
   output: ListRecordsResponse,
   errors: [],
@@ -1142,7 +1147,7 @@ export interface CreateRecordRequest {
   tags?: string[];
 }
 
-export const CreateRecordRequest = Schema.Struct({
+export const CreateRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   name: Schema.String,
   ttl: Schema.Number,
@@ -1191,7 +1196,7 @@ export type CreateRecordResponse =
       tagsModifiedOn?: string | null;
     };
 
-export const CreateRecordResponse = Schema.Union([
+export const CreateRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -1264,7 +1269,7 @@ export const createRecord: API.OperationMethod<
   CreateRecordResponse,
   CreateRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRecordRequest,
   output: CreateRecordResponse,
   errors: [],
@@ -1292,7 +1297,7 @@ export interface UpdateRecordRequest {
   tags?: string[];
 }
 
-export const UpdateRecordRequest = Schema.Struct({
+export const UpdateRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsRecordId: Schema.String.pipe(T.HttpPath("dnsRecordId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   name: Schema.String,
@@ -1342,7 +1347,7 @@ export type UpdateRecordResponse =
       tagsModifiedOn?: string | null;
     };
 
-export const UpdateRecordResponse = Schema.Union([
+export const UpdateRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -1415,7 +1420,7 @@ export const updateRecord: API.OperationMethod<
   UpdateRecordResponse,
   UpdateRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRecordRequest,
   output: UpdateRecordResponse,
   errors: [],
@@ -1443,7 +1448,7 @@ export interface PatchRecordRequest {
   tags?: string[];
 }
 
-export const PatchRecordRequest = Schema.Struct({
+export const PatchRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsRecordId: Schema.String.pipe(T.HttpPath("dnsRecordId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   name: Schema.String,
@@ -1496,7 +1501,7 @@ export type PatchRecordResponse =
       tagsModifiedOn?: string | null;
     };
 
-export const PatchRecordResponse = Schema.Union([
+export const PatchRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     id: Schema.String,
     createdOn: Schema.String,
@@ -1569,7 +1574,7 @@ export const patchRecord: API.OperationMethod<
   PatchRecordResponse,
   PatchRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRecordRequest,
   output: PatchRecordResponse,
   errors: [],
@@ -1581,7 +1586,7 @@ export interface DeleteRecordRequest {
   zoneId: string;
 }
 
-export const DeleteRecordRequest = Schema.Struct({
+export const DeleteRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dnsRecordId: Schema.String.pipe(T.HttpPath("dnsRecordId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -1596,7 +1601,7 @@ export interface DeleteRecordResponse {
   id?: string | null;
 }
 
-export const DeleteRecordResponse = Schema.Struct({
+export const DeleteRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteRecordResponse>;
 
@@ -1607,7 +1612,7 @@ export const deleteRecord: API.OperationMethod<
   DeleteRecordResponse,
   DeleteRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecordRequest,
   output: DeleteRecordResponse,
   errors: [],
@@ -2469,7 +2474,7 @@ export interface BatchRecordRequest {
   )[];
 }
 
-export const BatchRecordRequest = Schema.Struct({
+export const BatchRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   deletes: Schema.optional(
     Schema.Array(
@@ -4856,7 +4861,7 @@ export interface BatchRecordResponse {
     | null;
 }
 
-export const BatchRecordResponse = Schema.Struct({
+export const BatchRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   deletes: Schema.optional(
     Schema.Union([
       Schema.Array(
@@ -5198,7 +5203,7 @@ export const batchRecord: API.OperationMethod<
   BatchRecordResponse,
   BatchRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRecordRequest,
   output: BatchRecordResponse,
   errors: [],
@@ -5209,7 +5214,7 @@ export interface ExportRecordRequest {
   zoneId: string;
 }
 
-export const ExportRecordRequest = Schema.Struct({
+export const ExportRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/dns_records/export" }),
@@ -5218,7 +5223,7 @@ export const ExportRecordRequest = Schema.Struct({
 export type ExportRecordResponse = unknown;
 
 export const ExportRecordResponse =
-  Schema.Unknown as unknown as Schema.Schema<ExportRecordResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ExportRecordResponse>;
 
 export type ExportRecordError = DefaultErrors;
 
@@ -5227,7 +5232,7 @@ export const exportRecord: API.OperationMethod<
   ExportRecordResponse,
   ExportRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportRecordRequest,
   output: ExportRecordResponse,
   errors: [],
@@ -5242,7 +5247,7 @@ export interface ImportRecordRequest {
   proxied?: string;
 }
 
-export const ImportRecordRequest = Schema.Struct({
+export const ImportRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   file: Schema.String,
   proxied: Schema.optional(Schema.String),
@@ -5261,7 +5266,7 @@ export interface ImportRecordResponse {
   totalRecordsParsed?: number | null;
 }
 
-export const ImportRecordResponse = Schema.Struct({
+export const ImportRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   recsAdded: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   totalRecordsParsed: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
@@ -5280,7 +5285,7 @@ export const importRecord: API.OperationMethod<
   ImportRecordResponse,
   ImportRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportRecordRequest,
   output: ImportRecordResponse,
   errors: [],
@@ -5293,7 +5298,7 @@ export interface ScanRecordRequest {
   body: unknown;
 }
 
-export const ScanRecordRequest = Schema.Struct({
+export const ScanRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   body: Schema.Unknown.pipe(T.HttpBody()),
 }).pipe(
@@ -5307,7 +5312,7 @@ export interface ScanRecordResponse {
   totalRecordsParsed?: number | null;
 }
 
-export const ScanRecordResponse = Schema.Struct({
+export const ScanRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   recsAdded: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   totalRecordsParsed: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
@@ -5326,7 +5331,7 @@ export const scanRecord: API.OperationMethod<
   ScanRecordResponse,
   ScanRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScanRecordRequest,
   output: ScanRecordResponse,
   errors: [],
@@ -5612,593 +5617,597 @@ export interface ScanReviewRecordRequest {
   rejects?: { id: string }[];
 }
 
-export const ScanReviewRecordRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  accepts: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("A"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+export const ScanReviewRecordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    accepts: Schema.optional(
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("A"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("AAAA"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("CNAME"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                flattenCname: Schema.optional(Schema.Boolean),
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  flattenCname: "flatten_cname",
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("MX"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            priority: Schema.optional(Schema.Number),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("NS"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("PTR"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("TXT"),
+            comment: Schema.optional(Schema.String),
+            content: Schema.optional(Schema.String),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("CAA"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                flags: Schema.optional(Schema.Number),
+                tag: Schema.optional(Schema.String),
+                value: Schema.optional(Schema.String),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("AAAA"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("CERT"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                algorithm: Schema.optional(Schema.Number),
+                certificate: Schema.optional(Schema.String),
+                keyTag: Schema.optional(Schema.Number),
+                type: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({
+                  algorithm: "algorithm",
+                  certificate: "certificate",
+                  keyTag: "key_tag",
+                  type: "type",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("DNSKEY"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                algorithm: Schema.optional(Schema.Number),
+                flags: Schema.optional(Schema.Number),
+                protocol: Schema.optional(Schema.Number),
+                publicKey: Schema.optional(Schema.String),
+              }).pipe(
+                Schema.encodeKeys({
+                  algorithm: "algorithm",
+                  flags: "flags",
+                  protocol: "protocol",
+                  publicKey: "public_key",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("DS"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                algorithm: Schema.optional(Schema.Number),
+                digest: Schema.optional(Schema.String),
+                digestType: Schema.optional(Schema.Number),
+                keyTag: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({
+                  algorithm: "algorithm",
+                  digest: "digest",
+                  digestType: "digest_type",
+                  keyTag: "key_tag",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("HTTPS"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                priority: Schema.optional(Schema.Number),
+                target: Schema.optional(Schema.String),
+                value: Schema.optional(Schema.String),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("CNAME"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              flattenCname: Schema.optional(Schema.Boolean),
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                flattenCname: "flatten_cname",
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("LOC"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                altitude: Schema.optional(Schema.Number),
+                latDegrees: Schema.optional(Schema.Number),
+                latDirection: Schema.optional(Schema.Literals(["N", "S"])),
+                latMinutes: Schema.optional(Schema.Number),
+                latSeconds: Schema.optional(Schema.Number),
+                longDegrees: Schema.optional(Schema.Number),
+                longDirection: Schema.optional(Schema.Literals(["E", "W"])),
+                longMinutes: Schema.optional(Schema.Number),
+                longSeconds: Schema.optional(Schema.Number),
+                precisionHorz: Schema.optional(Schema.Number),
+                precisionVert: Schema.optional(Schema.Number),
+                size: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({
+                  altitude: "altitude",
+                  latDegrees: "lat_degrees",
+                  latDirection: "lat_direction",
+                  latMinutes: "lat_minutes",
+                  latSeconds: "lat_seconds",
+                  longDegrees: "long_degrees",
+                  longDirection: "long_direction",
+                  longMinutes: "long_minutes",
+                  longSeconds: "long_seconds",
+                  precisionHorz: "precision_horz",
+                  precisionVert: "precision_vert",
+                  size: "size",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("NAPTR"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                flags: Schema.optional(Schema.String),
+                order: Schema.optional(Schema.Number),
+                preference: Schema.optional(Schema.Number),
+                regex: Schema.optional(Schema.String),
+                replacement: Schema.optional(Schema.String),
+                service: Schema.optional(Schema.String),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("MX"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          priority: Schema.optional(Schema.Number),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("SMIMEA"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                certificate: Schema.optional(Schema.String),
+                matchingType: Schema.optional(Schema.Number),
+                selector: Schema.optional(Schema.Number),
+                usage: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({
+                  certificate: "certificate",
+                  matchingType: "matching_type",
+                  selector: "selector",
+                  usage: "usage",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("SRV"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                port: Schema.optional(Schema.Number),
+                priority: Schema.optional(Schema.Number),
+                target: Schema.optional(Schema.String),
+                weight: Schema.optional(Schema.Number),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("NS"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("SSHFP"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                algorithm: Schema.optional(Schema.Number),
+                fingerprint: Schema.optional(Schema.String),
+                type: Schema.optional(Schema.Number),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("SVCB"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                priority: Schema.optional(Schema.Number),
+                target: Schema.optional(Schema.String),
+                value: Schema.optional(Schema.String),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("PTR"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("TLSA"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                certificate: Schema.optional(Schema.String),
+                matchingType: Schema.optional(Schema.Number),
+                selector: Schema.optional(Schema.Number),
+                usage: Schema.optional(Schema.Number),
+              }).pipe(
+                Schema.encodeKeys({
+                  certificate: "certificate",
+                  matchingType: "matching_type",
+                  selector: "selector",
+                  usage: "usage",
+                }),
+              ),
+            ),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+            ),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+          Schema.Struct({
+            name: Schema.String,
+            ttl: Schema.Number,
+            type: Schema.Literal("URI"),
+            comment: Schema.optional(Schema.String),
+            data: Schema.optional(
+              Schema.Struct({
+                target: Schema.optional(Schema.String),
+                weight: Schema.optional(Schema.Number),
               }),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("TXT"),
-          comment: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
+            priority: Schema.optional(Schema.Number),
+            proxied: Schema.optional(Schema.Boolean),
+            settings: Schema.optional(
+              Schema.Struct({
+                ipv4Only: Schema.optional(Schema.Boolean),
+                ipv6Only: Schema.optional(Schema.Boolean),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
             ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("CAA"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              flags: Schema.optional(Schema.Number),
-              tag: Schema.optional(Schema.String),
-              value: Schema.optional(Schema.String),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("CERT"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              algorithm: Schema.optional(Schema.Number),
-              certificate: Schema.optional(Schema.String),
-              keyTag: Schema.optional(Schema.Number),
-              type: Schema.optional(Schema.Number),
-            }).pipe(
-              Schema.encodeKeys({
-                algorithm: "algorithm",
-                certificate: "certificate",
-                keyTag: "key_tag",
-                type: "type",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("DNSKEY"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              algorithm: Schema.optional(Schema.Number),
-              flags: Schema.optional(Schema.Number),
-              protocol: Schema.optional(Schema.Number),
-              publicKey: Schema.optional(Schema.String),
-            }).pipe(
-              Schema.encodeKeys({
-                algorithm: "algorithm",
-                flags: "flags",
-                protocol: "protocol",
-                publicKey: "public_key",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("DS"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              algorithm: Schema.optional(Schema.Number),
-              digest: Schema.optional(Schema.String),
-              digestType: Schema.optional(Schema.Number),
-              keyTag: Schema.optional(Schema.Number),
-            }).pipe(
-              Schema.encodeKeys({
-                algorithm: "algorithm",
-                digest: "digest",
-                digestType: "digest_type",
-                keyTag: "key_tag",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("HTTPS"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              priority: Schema.optional(Schema.Number),
-              target: Schema.optional(Schema.String),
-              value: Schema.optional(Schema.String),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("LOC"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              altitude: Schema.optional(Schema.Number),
-              latDegrees: Schema.optional(Schema.Number),
-              latDirection: Schema.optional(Schema.Literals(["N", "S"])),
-              latMinutes: Schema.optional(Schema.Number),
-              latSeconds: Schema.optional(Schema.Number),
-              longDegrees: Schema.optional(Schema.Number),
-              longDirection: Schema.optional(Schema.Literals(["E", "W"])),
-              longMinutes: Schema.optional(Schema.Number),
-              longSeconds: Schema.optional(Schema.Number),
-              precisionHorz: Schema.optional(Schema.Number),
-              precisionVert: Schema.optional(Schema.Number),
-              size: Schema.optional(Schema.Number),
-            }).pipe(
-              Schema.encodeKeys({
-                altitude: "altitude",
-                latDegrees: "lat_degrees",
-                latDirection: "lat_direction",
-                latMinutes: "lat_minutes",
-                latSeconds: "lat_seconds",
-                longDegrees: "long_degrees",
-                longDirection: "long_direction",
-                longMinutes: "long_minutes",
-                longSeconds: "long_seconds",
-                precisionHorz: "precision_horz",
-                precisionVert: "precision_vert",
-                size: "size",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("NAPTR"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              flags: Schema.optional(Schema.String),
-              order: Schema.optional(Schema.Number),
-              preference: Schema.optional(Schema.Number),
-              regex: Schema.optional(Schema.String),
-              replacement: Schema.optional(Schema.String),
-              service: Schema.optional(Schema.String),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("SMIMEA"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              certificate: Schema.optional(Schema.String),
-              matchingType: Schema.optional(Schema.Number),
-              selector: Schema.optional(Schema.Number),
-              usage: Schema.optional(Schema.Number),
-            }).pipe(
-              Schema.encodeKeys({
-                certificate: "certificate",
-                matchingType: "matching_type",
-                selector: "selector",
-                usage: "usage",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("SRV"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              port: Schema.optional(Schema.Number),
-              priority: Schema.optional(Schema.Number),
-              target: Schema.optional(Schema.String),
-              weight: Schema.optional(Schema.Number),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("SSHFP"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              algorithm: Schema.optional(Schema.Number),
-              fingerprint: Schema.optional(Schema.String),
-              type: Schema.optional(Schema.Number),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("SVCB"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              priority: Schema.optional(Schema.Number),
-              target: Schema.optional(Schema.String),
-              value: Schema.optional(Schema.String),
-            }),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("TLSA"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              certificate: Schema.optional(Schema.String),
-              matchingType: Schema.optional(Schema.Number),
-              selector: Schema.optional(Schema.Number),
-              usage: Schema.optional(Schema.Number),
-            }).pipe(
-              Schema.encodeKeys({
-                certificate: "certificate",
-                matchingType: "matching_type",
-                selector: "selector",
-                usage: "usage",
-              }),
-            ),
-          ),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-        Schema.Struct({
-          name: Schema.String,
-          ttl: Schema.Number,
-          type: Schema.Literal("URI"),
-          comment: Schema.optional(Schema.String),
-          data: Schema.optional(
-            Schema.Struct({
-              target: Schema.optional(Schema.String),
-              weight: Schema.optional(Schema.Number),
-            }),
-          ),
-          priority: Schema.optional(Schema.Number),
-          proxied: Schema.optional(Schema.Boolean),
-          settings: Schema.optional(
-            Schema.Struct({
-              ipv4Only: Schema.optional(Schema.Boolean),
-              ipv6Only: Schema.optional(Schema.Boolean),
-            }).pipe(
-              Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
-              }),
-            ),
-          ),
-          tags: Schema.optional(Schema.Array(Schema.String)),
-        }),
-      ]),
+            tags: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ]),
+      ),
     ),
-  ),
-  rejects: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-      }),
+    rejects: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+        }),
+      ),
     ),
-  ),
-}).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/dns_records/scan/review" }),
-) as unknown as Schema.Schema<ScanReviewRecordRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/dns_records/scan/review",
+    }),
+  ) as unknown as Schema.Schema<ScanReviewRecordRequest>;
 
 export interface ScanReviewRecordResponse {
   accepts?:
@@ -6234,94 +6243,95 @@ export interface ScanReviewRecordResponse {
   rejects?: string[] | null;
 }
 
-export const ScanReviewRecordResponse = Schema.Struct({
-  accepts: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Union([
-          Schema.Struct({
-            id: Schema.String,
-            createdOn: Schema.String,
-            meta: Schema.Unknown,
-            modifiedOn: Schema.String,
-            proxiable: Schema.Boolean,
-            commentModifiedOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            tagsModifiedOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              id: "id",
-              createdOn: "created_on",
-              meta: "meta",
-              modifiedOn: "modified_on",
-              proxiable: "proxiable",
-              commentModifiedOn: "comment_modified_on",
-              tagsModifiedOn: "tags_modified_on",
-            }),
-          ),
-          Schema.Struct({
-            id: Schema.String,
-            comment: Schema.String,
-            content: Schema.String,
-            createdOn: Schema.String,
-            meta: Schema.Unknown,
-            modifiedOn: Schema.String,
-            name: Schema.String,
-            proxiable: Schema.Boolean,
-            proxied: Schema.Boolean,
-            settings: Schema.Struct({
-              ipv4Only: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
+export const ScanReviewRecordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accepts: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Union([
+            Schema.Struct({
+              id: Schema.String,
+              createdOn: Schema.String,
+              meta: Schema.Unknown,
+              modifiedOn: Schema.String,
+              proxiable: Schema.Boolean,
+              commentModifiedOn: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
               ),
-              ipv6Only: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
+              tagsModifiedOn: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
               ),
             }).pipe(
               Schema.encodeKeys({
-                ipv4Only: "ipv4_only",
-                ipv6Only: "ipv6_only",
+                id: "id",
+                createdOn: "created_on",
+                meta: "meta",
+                modifiedOn: "modified_on",
+                proxiable: "proxiable",
+                commentModifiedOn: "comment_modified_on",
+                tagsModifiedOn: "tags_modified_on",
               }),
             ),
-            tags: Schema.Array(Schema.String),
-            ttl: Schema.Number,
-            type: Schema.Literal("OPENPGPKEY"),
-            commentModifiedOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+            Schema.Struct({
+              id: Schema.String,
+              comment: Schema.String,
+              content: Schema.String,
+              createdOn: Schema.String,
+              meta: Schema.Unknown,
+              modifiedOn: Schema.String,
+              name: Schema.String,
+              proxiable: Schema.Boolean,
+              proxied: Schema.Boolean,
+              settings: Schema.Struct({
+                ipv4Only: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                ipv6Only: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  ipv4Only: "ipv4_only",
+                  ipv6Only: "ipv6_only",
+                }),
+              ),
+              tags: Schema.Array(Schema.String),
+              ttl: Schema.Number,
+              type: Schema.Literal("OPENPGPKEY"),
+              commentModifiedOn: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              tagsModifiedOn: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                id: "id",
+                comment: "comment",
+                content: "content",
+                createdOn: "created_on",
+                meta: "meta",
+                modifiedOn: "modified_on",
+                name: "name",
+                proxiable: "proxiable",
+                proxied: "proxied",
+                settings: "settings",
+                tags: "tags",
+                ttl: "ttl",
+                type: "type",
+                commentModifiedOn: "comment_modified_on",
+                tagsModifiedOn: "tags_modified_on",
+              }),
             ),
-            tagsModifiedOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              id: "id",
-              comment: "comment",
-              content: "content",
-              createdOn: "created_on",
-              meta: "meta",
-              modifiedOn: "modified_on",
-              name: "name",
-              proxiable: "proxiable",
-              proxied: "proxied",
-              settings: "settings",
-              tags: "tags",
-              ttl: "ttl",
-              type: "type",
-              commentModifiedOn: "comment_modified_on",
-              tagsModifiedOn: "tags_modified_on",
-            }),
-          ),
-        ]),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  rejects: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-}) as unknown as Schema.Schema<ScanReviewRecordResponse>;
+          ]),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    rejects: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+  }) as unknown as Schema.Schema<ScanReviewRecordResponse>;
 
 export type ScanReviewRecordError = DefaultErrors;
 
@@ -6330,7 +6340,7 @@ export const scanReviewRecord: API.OperationMethod<
   ScanReviewRecordResponse,
   ScanReviewRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScanReviewRecordRequest,
   output: ScanReviewRecordResponse,
   errors: [],
@@ -6345,11 +6355,12 @@ export interface GetSettingAccountRequest {
   accountId: string;
 }
 
-export const GetSettingAccountRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/dns_settings" }),
-) as unknown as Schema.Schema<GetSettingAccountRequest>;
+export const GetSettingAccountRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/accounts/{account_id}/dns_settings" }),
+  ) as unknown as Schema.Schema<GetSettingAccountRequest>;
 
 export interface GetSettingAccountResponse {
   zoneDefaults: {
@@ -6380,67 +6391,68 @@ export interface GetSettingAccountResponse {
   };
 }
 
-export const GetSettingAccountResponse = Schema.Struct({
-  zoneDefaults: Schema.Struct({
-    flattenAllCnames: Schema.Boolean,
-    foundationDns: Schema.Boolean,
-    internalDns: Schema.Struct({
-      referenceZoneId: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-    multiProvider: Schema.Boolean,
-    nameservers: Schema.Struct({
-      type: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "cloudflare.standard",
-            "cloudflare.standard.random",
-            "custom.account",
-            "custom.tenant",
+export const GetSettingAccountResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneDefaults: Schema.Struct({
+      flattenAllCnames: Schema.Boolean,
+      foundationDns: Schema.Boolean,
+      internalDns: Schema.Struct({
+        referenceZoneId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
+      multiProvider: Schema.Boolean,
+      nameservers: Schema.Struct({
+        type: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "cloudflare.standard",
+              "cloudflare.standard.random",
+              "custom.account",
+              "custom.tenant",
+            ]),
+            Schema.Null,
           ]),
-          Schema.Null,
-        ]),
+        ),
+      }),
+      nsTtl: Schema.Number,
+      secondaryOverrides: Schema.Boolean,
+      soa: Schema.Struct({
+        expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          expire: "expire",
+          minTtl: "min_ttl",
+          mname: "mname",
+          refresh: "refresh",
+          retry: "retry",
+          rname: "rname",
+          ttl: "ttl",
+        }),
       ),
-    }),
-    nsTtl: Schema.Number,
-    secondaryOverrides: Schema.Boolean,
-    soa: Schema.Struct({
-      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
     }).pipe(
       Schema.encodeKeys({
-        expire: "expire",
-        minTtl: "min_ttl",
-        mname: "mname",
-        refresh: "refresh",
-        retry: "retry",
-        rname: "rname",
-        ttl: "ttl",
+        flattenAllCnames: "flatten_all_cnames",
+        foundationDns: "foundation_dns",
+        internalDns: "internal_dns",
+        multiProvider: "multi_provider",
+        nameservers: "nameservers",
+        nsTtl: "ns_ttl",
+        secondaryOverrides: "secondary_overrides",
+        soa: "soa",
+        zoneMode: "zone_mode",
       }),
     ),
-    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   }).pipe(
-    Schema.encodeKeys({
-      flattenAllCnames: "flatten_all_cnames",
-      foundationDns: "foundation_dns",
-      internalDns: "internal_dns",
-      multiProvider: "multi_provider",
-      nameservers: "nameservers",
-      nsTtl: "ns_ttl",
-      secondaryOverrides: "secondary_overrides",
-      soa: "soa",
-      zoneMode: "zone_mode",
-    }),
-  ),
-}).pipe(
-  Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
-) as unknown as Schema.Schema<GetSettingAccountResponse>;
+    Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
+  ) as unknown as Schema.Schema<GetSettingAccountResponse>;
 
 export type GetSettingAccountError = DefaultErrors;
 
@@ -6449,7 +6461,7 @@ export const getSettingAccount: API.OperationMethod<
   GetSettingAccountResponse,
   GetSettingAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingAccountRequest,
   output: GetSettingAccountResponse,
   errors: [],
@@ -6486,74 +6498,75 @@ export interface PatchSettingAccountRequest {
   };
 }
 
-export const PatchSettingAccountRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  zoneDefaults: Schema.optional(
-    Schema.Struct({
-      flattenAllCnames: Schema.optional(Schema.Boolean),
-      foundationDns: Schema.optional(Schema.Boolean),
-      internalDns: Schema.optional(
-        Schema.Struct({
-          referenceZoneId: Schema.optional(Schema.String),
-        }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-      ),
-      multiProvider: Schema.optional(Schema.Boolean),
-      nameservers: Schema.optional(
-        Schema.Struct({
-          type: Schema.optional(
-            Schema.Literals([
-              "cloudflare.standard",
-              "cloudflare.standard.random",
-              "custom.account",
-              "custom.tenant",
-            ]),
-          ),
-        }),
-      ),
-      nsTtl: Schema.optional(Schema.Number),
-      secondaryOverrides: Schema.optional(Schema.Boolean),
-      soa: Schema.optional(
-        Schema.Struct({
-          expire: Schema.optional(Schema.Number),
-          minTtl: Schema.optional(Schema.Number),
-          mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          refresh: Schema.optional(Schema.Number),
-          retry: Schema.optional(Schema.Number),
-          rname: Schema.optional(Schema.String),
-          ttl: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            expire: "expire",
-            minTtl: "min_ttl",
-            mname: "mname",
-            refresh: "refresh",
-            retry: "retry",
-            rname: "rname",
-            ttl: "ttl",
+export const PatchSettingAccountRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    zoneDefaults: Schema.optional(
+      Schema.Struct({
+        flattenAllCnames: Schema.optional(Schema.Boolean),
+        foundationDns: Schema.optional(Schema.Boolean),
+        internalDns: Schema.optional(
+          Schema.Struct({
+            referenceZoneId: Schema.optional(Schema.String),
+          }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
+        ),
+        multiProvider: Schema.optional(Schema.Boolean),
+        nameservers: Schema.optional(
+          Schema.Struct({
+            type: Schema.optional(
+              Schema.Literals([
+                "cloudflare.standard",
+                "cloudflare.standard.random",
+                "custom.account",
+                "custom.tenant",
+              ]),
+            ),
           }),
         ),
+        nsTtl: Schema.optional(Schema.Number),
+        secondaryOverrides: Schema.optional(Schema.Boolean),
+        soa: Schema.optional(
+          Schema.Struct({
+            expire: Schema.optional(Schema.Number),
+            minTtl: Schema.optional(Schema.Number),
+            mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            refresh: Schema.optional(Schema.Number),
+            retry: Schema.optional(Schema.Number),
+            rname: Schema.optional(Schema.String),
+            ttl: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              expire: "expire",
+              minTtl: "min_ttl",
+              mname: "mname",
+              refresh: "refresh",
+              retry: "retry",
+              rname: "rname",
+              ttl: "ttl",
+            }),
+          ),
+        ),
+        zoneMode: Schema.optional(
+          Schema.Literals(["standard", "cdn_only", "dns_only"]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          flattenAllCnames: "flatten_all_cnames",
+          foundationDns: "foundation_dns",
+          internalDns: "internal_dns",
+          multiProvider: "multi_provider",
+          nameservers: "nameservers",
+          nsTtl: "ns_ttl",
+          secondaryOverrides: "secondary_overrides",
+          soa: "soa",
+          zoneMode: "zone_mode",
+        }),
       ),
-      zoneMode: Schema.optional(
-        Schema.Literals(["standard", "cdn_only", "dns_only"]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        flattenAllCnames: "flatten_all_cnames",
-        foundationDns: "foundation_dns",
-        internalDns: "internal_dns",
-        multiProvider: "multi_provider",
-        nameservers: "nameservers",
-        nsTtl: "ns_ttl",
-        secondaryOverrides: "secondary_overrides",
-        soa: "soa",
-        zoneMode: "zone_mode",
-      }),
     ),
-  ),
-}).pipe(
-  Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
-  T.Http({ method: "PATCH", path: "/accounts/{account_id}/dns_settings" }),
-) as unknown as Schema.Schema<PatchSettingAccountRequest>;
+  }).pipe(
+    Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
+    T.Http({ method: "PATCH", path: "/accounts/{account_id}/dns_settings" }),
+  ) as unknown as Schema.Schema<PatchSettingAccountRequest>;
 
 export interface PatchSettingAccountResponse {
   zoneDefaults: {
@@ -6584,67 +6597,68 @@ export interface PatchSettingAccountResponse {
   };
 }
 
-export const PatchSettingAccountResponse = Schema.Struct({
-  zoneDefaults: Schema.Struct({
-    flattenAllCnames: Schema.Boolean,
-    foundationDns: Schema.Boolean,
-    internalDns: Schema.Struct({
-      referenceZoneId: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-    multiProvider: Schema.Boolean,
-    nameservers: Schema.Struct({
-      type: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "cloudflare.standard",
-            "cloudflare.standard.random",
-            "custom.account",
-            "custom.tenant",
+export const PatchSettingAccountResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneDefaults: Schema.Struct({
+      flattenAllCnames: Schema.Boolean,
+      foundationDns: Schema.Boolean,
+      internalDns: Schema.Struct({
+        referenceZoneId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
+      multiProvider: Schema.Boolean,
+      nameservers: Schema.Struct({
+        type: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "cloudflare.standard",
+              "cloudflare.standard.random",
+              "custom.account",
+              "custom.tenant",
+            ]),
+            Schema.Null,
           ]),
-          Schema.Null,
-        ]),
+        ),
+      }),
+      nsTtl: Schema.Number,
+      secondaryOverrides: Schema.Boolean,
+      soa: Schema.Struct({
+        expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          expire: "expire",
+          minTtl: "min_ttl",
+          mname: "mname",
+          refresh: "refresh",
+          retry: "retry",
+          rname: "rname",
+          ttl: "ttl",
+        }),
       ),
-    }),
-    nsTtl: Schema.Number,
-    secondaryOverrides: Schema.Boolean,
-    soa: Schema.Struct({
-      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
     }).pipe(
       Schema.encodeKeys({
-        expire: "expire",
-        minTtl: "min_ttl",
-        mname: "mname",
-        refresh: "refresh",
-        retry: "retry",
-        rname: "rname",
-        ttl: "ttl",
+        flattenAllCnames: "flatten_all_cnames",
+        foundationDns: "foundation_dns",
+        internalDns: "internal_dns",
+        multiProvider: "multi_provider",
+        nameservers: "nameservers",
+        nsTtl: "ns_ttl",
+        secondaryOverrides: "secondary_overrides",
+        soa: "soa",
+        zoneMode: "zone_mode",
       }),
     ),
-    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   }).pipe(
-    Schema.encodeKeys({
-      flattenAllCnames: "flatten_all_cnames",
-      foundationDns: "foundation_dns",
-      internalDns: "internal_dns",
-      multiProvider: "multi_provider",
-      nameservers: "nameservers",
-      nsTtl: "ns_ttl",
-      secondaryOverrides: "secondary_overrides",
-      soa: "soa",
-      zoneMode: "zone_mode",
-    }),
-  ),
-}).pipe(
-  Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
-) as unknown as Schema.Schema<PatchSettingAccountResponse>;
+    Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
+  ) as unknown as Schema.Schema<PatchSettingAccountResponse>;
 
 export type PatchSettingAccountError = DefaultErrors;
 
@@ -6653,7 +6667,7 @@ export const patchSettingAccount: API.OperationMethod<
   PatchSettingAccountResponse,
   PatchSettingAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSettingAccountRequest,
   output: PatchSettingAccountResponse,
   errors: [],
@@ -6669,15 +6683,16 @@ export interface GetSettingAccountViewRequest {
   accountId: string;
 }
 
-export const GetSettingAccountViewRequest = Schema.Struct({
-  viewId: Schema.String.pipe(T.HttpPath("viewId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/dns_settings/views/{viewId}",
-  }),
-) as unknown as Schema.Schema<GetSettingAccountViewRequest>;
+export const GetSettingAccountViewRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    viewId: Schema.String.pipe(T.HttpPath("viewId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/dns_settings/views/{viewId}",
+    }),
+  ) as unknown as Schema.Schema<GetSettingAccountViewRequest>;
 
 export interface GetSettingAccountViewResponse {
   /** Identifier. */
@@ -6692,21 +6707,22 @@ export interface GetSettingAccountViewResponse {
   zones: string[];
 }
 
-export const GetSettingAccountViewResponse = Schema.Struct({
-  id: Schema.String,
-  createdTime: Schema.String,
-  modifiedTime: Schema.String,
-  name: Schema.String,
-  zones: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    zones: "zones",
-  }),
-) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
+export const GetSettingAccountViewResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    createdTime: Schema.String,
+    modifiedTime: Schema.String,
+    name: Schema.String,
+    zones: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      zones: "zones",
+    }),
+  ) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
 
 export type GetSettingAccountViewError = DefaultErrors;
 
@@ -6715,7 +6731,7 @@ export const getSettingAccountView: API.OperationMethod<
   GetSettingAccountViewResponse,
   GetSettingAccountViewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingAccountViewRequest,
   output: GetSettingAccountViewResponse,
   errors: [],
@@ -6743,30 +6759,34 @@ export interface ListSettingAccountViewsRequest {
   zoneName?: string;
 }
 
-export const ListSettingAccountViewsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
-    T.HttpQuery("direction"),
-  ),
-  match: Schema.optional(Schema.Literals(["any", "all"])).pipe(
-    T.HttpQuery("match"),
-  ),
-  name: Schema.optional(
-    Schema.Struct({
-      contains: Schema.optional(Schema.String),
-      endswith: Schema.optional(Schema.String),
-      exact: Schema.optional(Schema.String),
-      startswith: Schema.optional(Schema.String),
+export const ListSettingAccountViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+      T.HttpQuery("direction"),
+    ),
+    match: Schema.optional(Schema.Literals(["any", "all"])).pipe(
+      T.HttpQuery("match"),
+    ),
+    name: Schema.optional(
+      Schema.Struct({
+        contains: Schema.optional(Schema.String),
+        endswith: Schema.optional(Schema.String),
+        exact: Schema.optional(Schema.String),
+        startswith: Schema.optional(Schema.String),
+      }),
+    ).pipe(T.HttpQuery("name")),
+    order: Schema.optional(
+      Schema.Literals(["name", "created_on", "modified_on"]),
+    ).pipe(T.HttpQuery("order")),
+    zoneId: Schema.optional(Schema.String).pipe(T.HttpQuery("zone_id")),
+    zoneName: Schema.optional(Schema.String).pipe(T.HttpQuery("zone_name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/dns_settings/views",
     }),
-  ).pipe(T.HttpQuery("name")),
-  order: Schema.optional(
-    Schema.Literals(["name", "created_on", "modified_on"]),
-  ).pipe(T.HttpQuery("order")),
-  zoneId: Schema.optional(Schema.String).pipe(T.HttpQuery("zone_id")),
-  zoneName: Schema.optional(Schema.String).pipe(T.HttpQuery("zone_name")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/dns_settings/views" }),
-) as unknown as Schema.Schema<ListSettingAccountViewsRequest>;
+  ) as unknown as Schema.Schema<ListSettingAccountViewsRequest>;
 
 export type ListSettingAccountViewsResponse = {
   id: string;
@@ -6776,23 +6796,24 @@ export type ListSettingAccountViewsResponse = {
   zones: string[];
 }[];
 
-export const ListSettingAccountViewsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    createdTime: Schema.String,
-    modifiedTime: Schema.String,
-    name: Schema.String,
-    zones: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      zones: "zones",
-    }),
-  ),
-) as unknown as Schema.Schema<ListSettingAccountViewsResponse>;
+export const ListSettingAccountViewsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      createdTime: Schema.String,
+      modifiedTime: Schema.String,
+      name: Schema.String,
+      zones: Schema.Array(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        zones: "zones",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListSettingAccountViewsResponse>;
 
 export type ListSettingAccountViewsError = DefaultErrors;
 
@@ -6801,7 +6822,7 @@ export const listSettingAccountViews: API.OperationMethod<
   ListSettingAccountViewsResponse,
   ListSettingAccountViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSettingAccountViewsRequest,
   output: ListSettingAccountViewsResponse,
   errors: [],
@@ -6816,13 +6837,17 @@ export interface CreateSettingAccountViewRequest {
   zones: string[];
 }
 
-export const CreateSettingAccountViewRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.String,
-  zones: Schema.Array(Schema.String),
-}).pipe(
-  T.Http({ method: "POST", path: "/accounts/{account_id}/dns_settings/views" }),
-) as unknown as Schema.Schema<CreateSettingAccountViewRequest>;
+export const CreateSettingAccountViewRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.String,
+    zones: Schema.Array(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/dns_settings/views",
+    }),
+  ) as unknown as Schema.Schema<CreateSettingAccountViewRequest>;
 
 export interface CreateSettingAccountViewResponse {
   /** Identifier. */
@@ -6837,21 +6862,22 @@ export interface CreateSettingAccountViewResponse {
   zones: string[];
 }
 
-export const CreateSettingAccountViewResponse = Schema.Struct({
-  id: Schema.String,
-  createdTime: Schema.String,
-  modifiedTime: Schema.String,
-  name: Schema.String,
-  zones: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    zones: "zones",
-  }),
-) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
+export const CreateSettingAccountViewResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    createdTime: Schema.String,
+    modifiedTime: Schema.String,
+    name: Schema.String,
+    zones: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      zones: "zones",
+    }),
+  ) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
 
 export type CreateSettingAccountViewError = DefaultErrors;
 
@@ -6860,7 +6886,7 @@ export const createSettingAccountView: API.OperationMethod<
   CreateSettingAccountViewResponse,
   CreateSettingAccountViewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSettingAccountViewRequest,
   output: CreateSettingAccountViewResponse,
   errors: [],
@@ -6876,17 +6902,18 @@ export interface PatchSettingAccountViewRequest {
   zones?: string[];
 }
 
-export const PatchSettingAccountViewRequest = Schema.Struct({
-  viewId: Schema.String.pipe(T.HttpPath("viewId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String),
-  zones: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/accounts/{account_id}/dns_settings/views/{viewId}",
-  }),
-) as unknown as Schema.Schema<PatchSettingAccountViewRequest>;
+export const PatchSettingAccountViewRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    viewId: Schema.String.pipe(T.HttpPath("viewId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.optional(Schema.String),
+    zones: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/dns_settings/views/{viewId}",
+    }),
+  ) as unknown as Schema.Schema<PatchSettingAccountViewRequest>;
 
 export interface PatchSettingAccountViewResponse {
   /** Identifier. */
@@ -6901,21 +6928,22 @@ export interface PatchSettingAccountViewResponse {
   zones: string[];
 }
 
-export const PatchSettingAccountViewResponse = Schema.Struct({
-  id: Schema.String,
-  createdTime: Schema.String,
-  modifiedTime: Schema.String,
-  name: Schema.String,
-  zones: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    zones: "zones",
-  }),
-) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
+export const PatchSettingAccountViewResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    createdTime: Schema.String,
+    modifiedTime: Schema.String,
+    name: Schema.String,
+    zones: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      zones: "zones",
+    }),
+  ) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
 
 export type PatchSettingAccountViewError = DefaultErrors;
 
@@ -6924,7 +6952,7 @@ export const patchSettingAccountView: API.OperationMethod<
   PatchSettingAccountViewResponse,
   PatchSettingAccountViewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSettingAccountViewRequest,
   output: PatchSettingAccountViewResponse,
   errors: [],
@@ -6936,24 +6964,26 @@ export interface DeleteSettingAccountViewRequest {
   accountId: string;
 }
 
-export const DeleteSettingAccountViewRequest = Schema.Struct({
-  viewId: Schema.String.pipe(T.HttpPath("viewId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/dns_settings/views/{viewId}",
-  }),
-) as unknown as Schema.Schema<DeleteSettingAccountViewRequest>;
+export const DeleteSettingAccountViewRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    viewId: Schema.String.pipe(T.HttpPath("viewId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/dns_settings/views/{viewId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteSettingAccountViewRequest>;
 
 export interface DeleteSettingAccountViewResponse {
   /** Identifier. */
   id?: string | null;
 }
 
-export const DeleteSettingAccountViewResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
+export const DeleteSettingAccountViewResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
 
 export type DeleteSettingAccountViewError = DefaultErrors;
 
@@ -6962,7 +6992,7 @@ export const deleteSettingAccountView: API.OperationMethod<
   DeleteSettingAccountViewResponse,
   DeleteSettingAccountViewError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSettingAccountViewRequest,
   output: DeleteSettingAccountViewResponse,
   errors: [],
@@ -6977,7 +7007,7 @@ export interface GetSettingZoneRequest {
   zoneId: string;
 }
 
-export const GetSettingZoneRequest = Schema.Struct({
+export const GetSettingZoneRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/dns_settings" }),
@@ -7019,47 +7049,49 @@ export interface GetSettingZoneResponse {
   zoneMode: "standard" | "cdn_only" | "dns_only";
 }
 
-export const GetSettingZoneResponse = Schema.Struct({
-  flattenAllCnames: Schema.Boolean,
-  foundationDns: Schema.Boolean,
-  internalDns: Schema.Struct({
-    referenceZoneId: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
+export const GetSettingZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    flattenAllCnames: Schema.Boolean,
+    foundationDns: Schema.Boolean,
+    internalDns: Schema.Struct({
+      referenceZoneId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+    }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
+    multiProvider: Schema.Boolean,
+    nameservers: Schema.Struct({
+      type: Schema.Literals([
+        "cloudflare.standard",
+        "custom.account",
+        "custom.tenant",
+        "custom.zone",
+      ]),
+      nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
+    nsTtl: Schema.Number,
+    secondaryOverrides: Schema.Boolean,
+    soa: Schema.Struct({
+      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        expire: "expire",
+        minTtl: "min_ttl",
+        mname: "mname",
+        refresh: "refresh",
+        retry: "retry",
+        rname: "rname",
+        ttl: "ttl",
+      }),
     ),
-  }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-  multiProvider: Schema.Boolean,
-  nameservers: Schema.Struct({
-    type: Schema.Literals([
-      "cloudflare.standard",
-      "custom.account",
-      "custom.tenant",
-      "custom.zone",
-    ]),
-    nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
-  nsTtl: Schema.Number,
-  secondaryOverrides: Schema.Boolean,
-  soa: Schema.Struct({
-    expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      expire: "expire",
-      minTtl: "min_ttl",
-      mname: "mname",
-      refresh: "refresh",
-      retry: "retry",
-      rname: "rname",
-      ttl: "ttl",
-    }),
-  ),
-  zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
-}).pipe(
+    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
+  },
+).pipe(
   Schema.encodeKeys({
     flattenAllCnames: "flatten_all_cnames",
     foundationDns: "foundation_dns",
@@ -7080,7 +7112,7 @@ export const getSettingZone: API.OperationMethod<
   GetSettingZoneResponse,
   GetSettingZoneError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingZoneRequest,
   output: GetSettingZoneResponse,
   errors: [],
@@ -7124,69 +7156,70 @@ export interface PatchSettingZoneRequest {
   zoneMode?: "standard" | "cdn_only" | "dns_only";
 }
 
-export const PatchSettingZoneRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  flattenAllCnames: Schema.optional(Schema.Boolean),
-  foundationDns: Schema.optional(Schema.Boolean),
-  internalDns: Schema.optional(
-    Schema.Struct({
-      referenceZoneId: Schema.optional(Schema.String),
-    }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-  ),
-  multiProvider: Schema.optional(Schema.Boolean),
-  nameservers: Schema.optional(
-    Schema.Struct({
-      nsSet: Schema.optional(Schema.Number),
-      type: Schema.optional(
-        Schema.Literals([
-          "cloudflare.standard",
-          "custom.account",
-          "custom.tenant",
-          "custom.zone",
-        ]),
-      ),
-    }).pipe(Schema.encodeKeys({ nsSet: "ns_set", type: "type" })),
-  ),
-  nsTtl: Schema.optional(Schema.Number),
-  secondaryOverrides: Schema.optional(Schema.Boolean),
-  soa: Schema.optional(
-    Schema.Struct({
-      expire: Schema.optional(Schema.Number),
-      minTtl: Schema.optional(Schema.Number),
-      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      refresh: Schema.optional(Schema.Number),
-      retry: Schema.optional(Schema.Number),
-      rname: Schema.optional(Schema.String),
-      ttl: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        expire: "expire",
-        minTtl: "min_ttl",
-        mname: "mname",
-        refresh: "refresh",
-        retry: "retry",
-        rname: "rname",
-        ttl: "ttl",
-      }),
+export const PatchSettingZoneRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    flattenAllCnames: Schema.optional(Schema.Boolean),
+    foundationDns: Schema.optional(Schema.Boolean),
+    internalDns: Schema.optional(
+      Schema.Struct({
+        referenceZoneId: Schema.optional(Schema.String),
+      }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
     ),
-  ),
-  zoneMode: Schema.optional(
-    Schema.Literals(["standard", "cdn_only", "dns_only"]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    flattenAllCnames: "flatten_all_cnames",
-    foundationDns: "foundation_dns",
-    internalDns: "internal_dns",
-    multiProvider: "multi_provider",
-    nameservers: "nameservers",
-    nsTtl: "ns_ttl",
-    secondaryOverrides: "secondary_overrides",
-    soa: "soa",
-    zoneMode: "zone_mode",
-  }),
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/dns_settings" }),
-) as unknown as Schema.Schema<PatchSettingZoneRequest>;
+    multiProvider: Schema.optional(Schema.Boolean),
+    nameservers: Schema.optional(
+      Schema.Struct({
+        nsSet: Schema.optional(Schema.Number),
+        type: Schema.optional(
+          Schema.Literals([
+            "cloudflare.standard",
+            "custom.account",
+            "custom.tenant",
+            "custom.zone",
+          ]),
+        ),
+      }).pipe(Schema.encodeKeys({ nsSet: "ns_set", type: "type" })),
+    ),
+    nsTtl: Schema.optional(Schema.Number),
+    secondaryOverrides: Schema.optional(Schema.Boolean),
+    soa: Schema.optional(
+      Schema.Struct({
+        expire: Schema.optional(Schema.Number),
+        minTtl: Schema.optional(Schema.Number),
+        mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        refresh: Schema.optional(Schema.Number),
+        retry: Schema.optional(Schema.Number),
+        rname: Schema.optional(Schema.String),
+        ttl: Schema.optional(Schema.Number),
+      }).pipe(
+        Schema.encodeKeys({
+          expire: "expire",
+          minTtl: "min_ttl",
+          mname: "mname",
+          refresh: "refresh",
+          retry: "retry",
+          rname: "rname",
+          ttl: "ttl",
+        }),
+      ),
+    ),
+    zoneMode: Schema.optional(
+      Schema.Literals(["standard", "cdn_only", "dns_only"]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      flattenAllCnames: "flatten_all_cnames",
+      foundationDns: "foundation_dns",
+      internalDns: "internal_dns",
+      multiProvider: "multi_provider",
+      nameservers: "nameservers",
+      nsTtl: "ns_ttl",
+      secondaryOverrides: "secondary_overrides",
+      soa: "soa",
+      zoneMode: "zone_mode",
+    }),
+    T.Http({ method: "PATCH", path: "/zones/{zone_id}/dns_settings" }),
+  ) as unknown as Schema.Schema<PatchSettingZoneRequest>;
 
 export interface PatchSettingZoneResponse {
   /** Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattened. */
@@ -7224,59 +7257,60 @@ export interface PatchSettingZoneResponse {
   zoneMode: "standard" | "cdn_only" | "dns_only";
 }
 
-export const PatchSettingZoneResponse = Schema.Struct({
-  flattenAllCnames: Schema.Boolean,
-  foundationDns: Schema.Boolean,
-  internalDns: Schema.Struct({
-    referenceZoneId: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
+export const PatchSettingZoneResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    flattenAllCnames: Schema.Boolean,
+    foundationDns: Schema.Boolean,
+    internalDns: Schema.Struct({
+      referenceZoneId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+    }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
+    multiProvider: Schema.Boolean,
+    nameservers: Schema.Struct({
+      type: Schema.Literals([
+        "cloudflare.standard",
+        "custom.account",
+        "custom.tenant",
+        "custom.zone",
+      ]),
+      nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
+    nsTtl: Schema.Number,
+    secondaryOverrides: Schema.Boolean,
+    soa: Schema.Struct({
+      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        expire: "expire",
+        minTtl: "min_ttl",
+        mname: "mname",
+        refresh: "refresh",
+        retry: "retry",
+        rname: "rname",
+        ttl: "ttl",
+      }),
     ),
-  }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
-  multiProvider: Schema.Boolean,
-  nameservers: Schema.Struct({
-    type: Schema.Literals([
-      "cloudflare.standard",
-      "custom.account",
-      "custom.tenant",
-      "custom.zone",
-    ]),
-    nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
-  nsTtl: Schema.Number,
-  secondaryOverrides: Schema.Boolean,
-  soa: Schema.Struct({
-    expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   }).pipe(
     Schema.encodeKeys({
-      expire: "expire",
-      minTtl: "min_ttl",
-      mname: "mname",
-      refresh: "refresh",
-      retry: "retry",
-      rname: "rname",
-      ttl: "ttl",
+      flattenAllCnames: "flatten_all_cnames",
+      foundationDns: "foundation_dns",
+      internalDns: "internal_dns",
+      multiProvider: "multi_provider",
+      nameservers: "nameservers",
+      nsTtl: "ns_ttl",
+      secondaryOverrides: "secondary_overrides",
+      soa: "soa",
+      zoneMode: "zone_mode",
     }),
-  ),
-  zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
-}).pipe(
-  Schema.encodeKeys({
-    flattenAllCnames: "flatten_all_cnames",
-    foundationDns: "foundation_dns",
-    internalDns: "internal_dns",
-    multiProvider: "multi_provider",
-    nameservers: "nameservers",
-    nsTtl: "ns_ttl",
-    secondaryOverrides: "secondary_overrides",
-    soa: "soa",
-    zoneMode: "zone_mode",
-  }),
-) as unknown as Schema.Schema<PatchSettingZoneResponse>;
+  ) as unknown as Schema.Schema<PatchSettingZoneResponse>;
 
 export type PatchSettingZoneError = DefaultErrors;
 
@@ -7285,7 +7319,7 @@ export const patchSettingZone: API.OperationMethod<
   PatchSettingZoneResponse,
   PatchSettingZoneError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSettingZoneRequest,
   output: PatchSettingZoneResponse,
   errors: [],
@@ -7300,11 +7334,15 @@ export interface ScanTriggerRecordRequest {
   zoneId: string;
 }
 
-export const ScanTriggerRecordRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/dns_records/scan/trigger" }),
-) as unknown as Schema.Schema<ScanTriggerRecordRequest>;
+export const ScanTriggerRecordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/dns_records/scan/trigger",
+    }),
+  ) as unknown as Schema.Schema<ScanTriggerRecordRequest>;
 
 export interface ScanTriggerRecordResponse {
   errors: {
@@ -7323,61 +7361,62 @@ export interface ScanTriggerRecordResponse {
   success: true;
 }
 
-export const ScanTriggerRecordResponse = Schema.Struct({
-  errors: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+export const ScanTriggerRecordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  messages: Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ),
-  success: Schema.Literal(true),
-}) as unknown as Schema.Schema<ScanTriggerRecordResponse>;
+    success: Schema.Literal(true),
+  }) as unknown as Schema.Schema<ScanTriggerRecordResponse>;
 
 export type ScanTriggerRecordError = DefaultErrors;
 
@@ -7386,7 +7425,7 @@ export const scanTriggerRecord: API.OperationMethod<
   ScanTriggerRecordResponse,
   ScanTriggerRecordError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScanTriggerRecordRequest,
   output: ScanTriggerRecordResponse,
   errors: [],
@@ -7401,15 +7440,16 @@ export interface GetZoneTransferAclRequest {
   accountId: string;
 }
 
-export const GetZoneTransferAclRequest = Schema.Struct({
-  aclId: Schema.String.pipe(T.HttpPath("aclId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferAclRequest>;
+export const GetZoneTransferAclRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    aclId: Schema.String.pipe(T.HttpPath("aclId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferAclRequest>;
 
 export interface GetZoneTransferAclResponse {
   id: string;
@@ -7419,13 +7459,14 @@ export interface GetZoneTransferAclResponse {
   name: string;
 }
 
-export const GetZoneTransferAclResponse = Schema.Struct({
-  id: Schema.String,
-  ipRange: Schema.String,
-  name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
+export const GetZoneTransferAclResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    ipRange: Schema.String,
+    name: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
+  ) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
 
 export type GetZoneTransferAclError = DefaultErrors;
 
@@ -7434,7 +7475,7 @@ export const getZoneTransferAcl: API.OperationMethod<
   GetZoneTransferAclResponse,
   GetZoneTransferAclError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetZoneTransferAclRequest,
   output: GetZoneTransferAclResponse,
   errors: [],
@@ -7444,11 +7485,15 @@ export interface ListZoneTransferAclsRequest {
   accountId: string;
 }
 
-export const ListZoneTransferAclsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/secondary_dns/acls" }),
-) as unknown as Schema.Schema<ListZoneTransferAclsRequest>;
+export const ListZoneTransferAclsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/acls",
+    }),
+  ) as unknown as Schema.Schema<ListZoneTransferAclsRequest>;
 
 export type ListZoneTransferAclsResponse = {
   id: string;
@@ -7456,13 +7501,14 @@ export type ListZoneTransferAclsResponse = {
   name: string;
 }[];
 
-export const ListZoneTransferAclsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    ipRange: Schema.String,
-    name: Schema.String,
-  }).pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" })),
-) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
+export const ListZoneTransferAclsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      ipRange: Schema.String,
+      name: Schema.String,
+    }).pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" })),
+  ) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
 
 export type ListZoneTransferAclsError = DefaultErrors;
 
@@ -7471,7 +7517,7 @@ export const listZoneTransferAcls: API.OperationMethod<
   ListZoneTransferAclsResponse,
   ListZoneTransferAclsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListZoneTransferAclsRequest,
   output: ListZoneTransferAclsResponse,
   errors: [],
@@ -7486,14 +7532,18 @@ export interface CreateZoneTransferAclRequest {
   name: string;
 }
 
-export const CreateZoneTransferAclRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  ipRange: Schema.String,
-  name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
-  T.Http({ method: "POST", path: "/accounts/{account_id}/secondary_dns/acls" }),
-) as unknown as Schema.Schema<CreateZoneTransferAclRequest>;
+export const CreateZoneTransferAclRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    ipRange: Schema.String,
+    name: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/secondary_dns/acls",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferAclRequest>;
 
 export interface CreateZoneTransferAclResponse {
   id: string;
@@ -7503,13 +7553,14 @@ export interface CreateZoneTransferAclResponse {
   name: string;
 }
 
-export const CreateZoneTransferAclResponse = Schema.Struct({
-  id: Schema.String,
-  ipRange: Schema.String,
-  name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
+export const CreateZoneTransferAclResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    ipRange: Schema.String,
+    name: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
+  ) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
 
 export type CreateZoneTransferAclError = DefaultErrors;
 
@@ -7518,7 +7569,7 @@ export const createZoneTransferAcl: API.OperationMethod<
   CreateZoneTransferAclResponse,
   CreateZoneTransferAclError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferAclRequest,
   output: CreateZoneTransferAclResponse,
   errors: [],
@@ -7534,18 +7585,19 @@ export interface UpdateZoneTransferAclRequest {
   name: string;
 }
 
-export const UpdateZoneTransferAclRequest = Schema.Struct({
-  aclId: Schema.String.pipe(T.HttpPath("aclId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  ipRange: Schema.String,
-  name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferAclRequest>;
+export const UpdateZoneTransferAclRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    aclId: Schema.String.pipe(T.HttpPath("aclId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    ipRange: Schema.String,
+    name: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ ipRange: "ip_range", name: "name" }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferAclRequest>;
 
 export interface UpdateZoneTransferAclResponse {
   id: string;
@@ -7555,13 +7607,14 @@ export interface UpdateZoneTransferAclResponse {
   name: string;
 }
 
-export const UpdateZoneTransferAclResponse = Schema.Struct({
-  id: Schema.String,
-  ipRange: Schema.String,
-  name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
+export const UpdateZoneTransferAclResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    ipRange: Schema.String,
+    name: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
 
 export type UpdateZoneTransferAclError = DefaultErrors;
 
@@ -7570,7 +7623,7 @@ export const updateZoneTransferAcl: API.OperationMethod<
   UpdateZoneTransferAclResponse,
   UpdateZoneTransferAclError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateZoneTransferAclRequest,
   output: UpdateZoneTransferAclResponse,
   errors: [],
@@ -7581,23 +7634,25 @@ export interface DeleteZoneTransferAclRequest {
   accountId: string;
 }
 
-export const DeleteZoneTransferAclRequest = Schema.Struct({
-  aclId: Schema.String.pipe(T.HttpPath("aclId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
-  }),
-) as unknown as Schema.Schema<DeleteZoneTransferAclRequest>;
+export const DeleteZoneTransferAclRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    aclId: Schema.String.pipe(T.HttpPath("aclId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/secondary_dns/acls/{aclId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteZoneTransferAclRequest>;
 
 export interface DeleteZoneTransferAclResponse {
   id?: string | null;
 }
 
-export const DeleteZoneTransferAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
+export const DeleteZoneTransferAclResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
 
 export type DeleteZoneTransferAclError = DefaultErrors;
 
@@ -7606,7 +7661,7 @@ export const deleteZoneTransferAcl: API.OperationMethod<
   DeleteZoneTransferAclResponse,
   DeleteZoneTransferAclError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteZoneTransferAclRequest,
   output: DeleteZoneTransferAclResponse,
   errors: [],
@@ -7623,17 +7678,21 @@ export interface CreateZoneTransferForceAxfrRequest {
   body: unknown;
 }
 
-export const CreateZoneTransferForceAxfrRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/force_axfr" }),
-) as unknown as Schema.Schema<CreateZoneTransferForceAxfrRequest>;
+export const CreateZoneTransferForceAxfrRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/secondary_dns/force_axfr",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferForceAxfrRequest>;
 
 export type CreateZoneTransferForceAxfrResponse = string;
 
 export const CreateZoneTransferForceAxfrResponse =
-  Schema.String as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
 
 export type CreateZoneTransferForceAxfrError = DefaultErrors;
 
@@ -7642,7 +7701,7 @@ export const createZoneTransferForceAxfr: API.OperationMethod<
   CreateZoneTransferForceAxfrResponse,
   CreateZoneTransferForceAxfrError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferForceAxfrRequest,
   output: CreateZoneTransferForceAxfrResponse,
   errors: [],
@@ -7656,11 +7715,12 @@ export interface GetZoneTransferIncomingRequest {
   zoneId: string;
 }
 
-export const GetZoneTransferIncomingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/secondary_dns/incoming" }),
-) as unknown as Schema.Schema<GetZoneTransferIncomingRequest>;
+export const GetZoneTransferIncomingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/secondary_dns/incoming" }),
+  ) as unknown as Schema.Schema<GetZoneTransferIncomingRequest>;
 
 export interface GetZoneTransferIncomingResponse {
   id?: string | null;
@@ -7680,31 +7740,32 @@ export interface GetZoneTransferIncomingResponse {
   soaSerial?: number | null;
 }
 
-export const GetZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  autoRefreshSeconds: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    autoRefreshSeconds: "auto_refresh_seconds",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
+export const GetZoneTransferIncomingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    autoRefreshSeconds: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      autoRefreshSeconds: "auto_refresh_seconds",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
 
 export type GetZoneTransferIncomingError = DefaultErrors;
 
@@ -7713,7 +7774,7 @@ export const getZoneTransferIncoming: API.OperationMethod<
   GetZoneTransferIncomingResponse,
   GetZoneTransferIncomingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetZoneTransferIncomingRequest,
   output: GetZoneTransferIncomingResponse,
   errors: [],
@@ -7730,19 +7791,20 @@ export interface CreateZoneTransferIncomingRequest {
   peers: string[];
 }
 
-export const CreateZoneTransferIncomingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  autoRefreshSeconds: Schema.Number,
-  name: Schema.String,
-  peers: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    autoRefreshSeconds: "auto_refresh_seconds",
-    name: "name",
-    peers: "peers",
-  }),
-  T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/incoming" }),
-) as unknown as Schema.Schema<CreateZoneTransferIncomingRequest>;
+export const CreateZoneTransferIncomingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    autoRefreshSeconds: Schema.Number,
+    name: Schema.String,
+    peers: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      autoRefreshSeconds: "auto_refresh_seconds",
+      name: "name",
+      peers: "peers",
+    }),
+    T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/incoming" }),
+  ) as unknown as Schema.Schema<CreateZoneTransferIncomingRequest>;
 
 export interface CreateZoneTransferIncomingResponse {
   id?: string | null;
@@ -7762,31 +7824,32 @@ export interface CreateZoneTransferIncomingResponse {
   soaSerial?: number | null;
 }
 
-export const CreateZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  autoRefreshSeconds: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    autoRefreshSeconds: "auto_refresh_seconds",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
+export const CreateZoneTransferIncomingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    autoRefreshSeconds: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      autoRefreshSeconds: "auto_refresh_seconds",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
 
 export type CreateZoneTransferIncomingError = DefaultErrors;
 
@@ -7795,7 +7858,7 @@ export const createZoneTransferIncoming: API.OperationMethod<
   CreateZoneTransferIncomingResponse,
   CreateZoneTransferIncomingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferIncomingRequest,
   output: CreateZoneTransferIncomingResponse,
   errors: [],
@@ -7812,19 +7875,20 @@ export interface UpdateZoneTransferIncomingRequest {
   peers: string[];
 }
 
-export const UpdateZoneTransferIncomingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  autoRefreshSeconds: Schema.Number,
-  name: Schema.String,
-  peers: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    autoRefreshSeconds: "auto_refresh_seconds",
-    name: "name",
-    peers: "peers",
-  }),
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/secondary_dns/incoming" }),
-) as unknown as Schema.Schema<UpdateZoneTransferIncomingRequest>;
+export const UpdateZoneTransferIncomingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    autoRefreshSeconds: Schema.Number,
+    name: Schema.String,
+    peers: Schema.Array(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      autoRefreshSeconds: "auto_refresh_seconds",
+      name: "name",
+      peers: "peers",
+    }),
+    T.Http({ method: "PUT", path: "/zones/{zone_id}/secondary_dns/incoming" }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferIncomingRequest>;
 
 export interface UpdateZoneTransferIncomingResponse {
   id?: string | null;
@@ -7844,31 +7908,32 @@ export interface UpdateZoneTransferIncomingResponse {
   soaSerial?: number | null;
 }
 
-export const UpdateZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  autoRefreshSeconds: Schema.optional(
-    Schema.Union([Schema.Number, Schema.Null]),
-  ),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    autoRefreshSeconds: "auto_refresh_seconds",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    modifiedTime: "modified_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
+export const UpdateZoneTransferIncomingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    autoRefreshSeconds: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      autoRefreshSeconds: "auto_refresh_seconds",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      modifiedTime: "modified_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
 
 export type UpdateZoneTransferIncomingError = DefaultErrors;
 
@@ -7877,7 +7942,7 @@ export const updateZoneTransferIncoming: API.OperationMethod<
   UpdateZoneTransferIncomingResponse,
   UpdateZoneTransferIncomingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateZoneTransferIncomingRequest,
   output: UpdateZoneTransferIncomingResponse,
   errors: [],
@@ -7887,19 +7952,24 @@ export interface DeleteZoneTransferIncomingRequest {
   zoneId: string;
 }
 
-export const DeleteZoneTransferIncomingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/secondary_dns/incoming" }),
-) as unknown as Schema.Schema<DeleteZoneTransferIncomingRequest>;
+export const DeleteZoneTransferIncomingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/secondary_dns/incoming",
+    }),
+  ) as unknown as Schema.Schema<DeleteZoneTransferIncomingRequest>;
 
 export interface DeleteZoneTransferIncomingResponse {
   id?: string | null;
 }
 
-export const DeleteZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
+export const DeleteZoneTransferIncomingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
 
 export type DeleteZoneTransferIncomingError = DefaultErrors;
 
@@ -7908,7 +7978,7 @@ export const deleteZoneTransferIncoming: API.OperationMethod<
   DeleteZoneTransferIncomingResponse,
   DeleteZoneTransferIncomingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteZoneTransferIncomingRequest,
   output: DeleteZoneTransferIncomingResponse,
   errors: [],
@@ -7922,11 +7992,12 @@ export interface GetZoneTransferOutgoingRequest {
   zoneId: string;
 }
 
-export const GetZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
-) as unknown as Schema.Schema<GetZoneTransferOutgoingRequest>;
+export const GetZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
+  ) as unknown as Schema.Schema<GetZoneTransferOutgoingRequest>;
 
 export interface GetZoneTransferOutgoingResponse {
   id?: string | null;
@@ -7944,29 +8015,30 @@ export interface GetZoneTransferOutgoingResponse {
   soaSerial?: number | null;
 }
 
-export const GetZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastTransferredTime: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    lastTransferredTime: "last_transferred_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
+export const GetZoneTransferOutgoingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastTransferredTime: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      lastTransferredTime: "last_transferred_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
 
 export type GetZoneTransferOutgoingError = DefaultErrors;
 
@@ -7975,7 +8047,7 @@ export const getZoneTransferOutgoing: API.OperationMethod<
   GetZoneTransferOutgoingResponse,
   GetZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetZoneTransferOutgoingRequest,
   output: GetZoneTransferOutgoingResponse,
   errors: [],
@@ -7990,13 +8062,14 @@ export interface CreateZoneTransferOutgoingRequest {
   peers: string[];
 }
 
-export const CreateZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  name: Schema.String,
-  peers: Schema.Array(Schema.String),
-}).pipe(
-  T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
-) as unknown as Schema.Schema<CreateZoneTransferOutgoingRequest>;
+export const CreateZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    name: Schema.String,
+    peers: Schema.Array(Schema.String),
+  }).pipe(
+    T.Http({ method: "POST", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
+  ) as unknown as Schema.Schema<CreateZoneTransferOutgoingRequest>;
 
 export interface CreateZoneTransferOutgoingResponse {
   id?: string | null;
@@ -8014,29 +8087,30 @@ export interface CreateZoneTransferOutgoingResponse {
   soaSerial?: number | null;
 }
 
-export const CreateZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastTransferredTime: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    lastTransferredTime: "last_transferred_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
+export const CreateZoneTransferOutgoingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastTransferredTime: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      lastTransferredTime: "last_transferred_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
 
 export type CreateZoneTransferOutgoingError = DefaultErrors;
 
@@ -8045,7 +8119,7 @@ export const createZoneTransferOutgoing: API.OperationMethod<
   CreateZoneTransferOutgoingResponse,
   CreateZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferOutgoingRequest,
   output: CreateZoneTransferOutgoingResponse,
   errors: [],
@@ -8060,13 +8134,14 @@ export interface UpdateZoneTransferOutgoingRequest {
   peers: string[];
 }
 
-export const UpdateZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  name: Schema.String,
-  peers: Schema.Array(Schema.String),
-}).pipe(
-  T.Http({ method: "PUT", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
-) as unknown as Schema.Schema<UpdateZoneTransferOutgoingRequest>;
+export const UpdateZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    name: Schema.String,
+    peers: Schema.Array(Schema.String),
+  }).pipe(
+    T.Http({ method: "PUT", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingRequest>;
 
 export interface UpdateZoneTransferOutgoingResponse {
   id?: string | null;
@@ -8084,29 +8159,30 @@ export interface UpdateZoneTransferOutgoingResponse {
   soaSerial?: number | null;
 }
 
-export const UpdateZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastTransferredTime: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  peers: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkedTime: "checked_time",
-    createdTime: "created_time",
-    lastTransferredTime: "last_transferred_time",
-    name: "name",
-    peers: "peers",
-    soaSerial: "soa_serial",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
+export const UpdateZoneTransferOutgoingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastTransferredTime: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    peers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkedTime: "checked_time",
+      createdTime: "created_time",
+      lastTransferredTime: "last_transferred_time",
+      name: "name",
+      peers: "peers",
+      soaSerial: "soa_serial",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
 
 export type UpdateZoneTransferOutgoingError = DefaultErrors;
 
@@ -8115,7 +8191,7 @@ export const updateZoneTransferOutgoing: API.OperationMethod<
   UpdateZoneTransferOutgoingResponse,
   UpdateZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateZoneTransferOutgoingRequest,
   output: UpdateZoneTransferOutgoingResponse,
   errors: [],
@@ -8125,19 +8201,24 @@ export interface DeleteZoneTransferOutgoingRequest {
   zoneId: string;
 }
 
-export const DeleteZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "/zones/{zone_id}/secondary_dns/outgoing" }),
-) as unknown as Schema.Schema<DeleteZoneTransferOutgoingRequest>;
+export const DeleteZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/secondary_dns/outgoing",
+    }),
+  ) as unknown as Schema.Schema<DeleteZoneTransferOutgoingRequest>;
 
 export interface DeleteZoneTransferOutgoingResponse {
   id?: string | null;
 }
 
-export const DeleteZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
+export const DeleteZoneTransferOutgoingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
 
 export type DeleteZoneTransferOutgoingError = DefaultErrors;
 
@@ -8146,7 +8227,7 @@ export const deleteZoneTransferOutgoing: API.OperationMethod<
   DeleteZoneTransferOutgoingResponse,
   DeleteZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteZoneTransferOutgoingRequest,
   output: DeleteZoneTransferOutgoingResponse,
   errors: [],
@@ -8159,20 +8240,21 @@ export interface EnableZoneTransferOutgoingRequest {
   body: unknown;
 }
 
-export const EnableZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/secondary_dns/outgoing/enable",
-  }),
-) as unknown as Schema.Schema<EnableZoneTransferOutgoingRequest>;
+export const EnableZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/secondary_dns/outgoing/enable",
+    }),
+  ) as unknown as Schema.Schema<EnableZoneTransferOutgoingRequest>;
 
 export type EnableZoneTransferOutgoingResponse = string;
 
 export const EnableZoneTransferOutgoingResponse =
-  Schema.String as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
 
 export type EnableZoneTransferOutgoingError = DefaultErrors;
 
@@ -8181,7 +8263,7 @@ export const enableZoneTransferOutgoing: API.OperationMethod<
   EnableZoneTransferOutgoingResponse,
   EnableZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableZoneTransferOutgoingRequest,
   output: EnableZoneTransferOutgoingResponse,
   errors: [],
@@ -8194,20 +8276,21 @@ export interface DisableZoneTransferOutgoingRequest {
   body: unknown;
 }
 
-export const DisableZoneTransferOutgoingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Unknown.pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/secondary_dns/outgoing/disable",
-  }),
-) as unknown as Schema.Schema<DisableZoneTransferOutgoingRequest>;
+export const DisableZoneTransferOutgoingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/secondary_dns/outgoing/disable",
+    }),
+  ) as unknown as Schema.Schema<DisableZoneTransferOutgoingRequest>;
 
 export type DisableZoneTransferOutgoingResponse = string;
 
 export const DisableZoneTransferOutgoingResponse =
-  Schema.String as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
 
 export type DisableZoneTransferOutgoingError = DefaultErrors;
 
@@ -8216,7 +8299,7 @@ export const disableZoneTransferOutgoing: API.OperationMethod<
   DisableZoneTransferOutgoingResponse,
   DisableZoneTransferOutgoingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableZoneTransferOutgoingRequest,
   output: DisableZoneTransferOutgoingResponse,
   errors: [],
@@ -8230,19 +8313,20 @@ export interface GetZoneTransferOutgoingStatusRequest {
   zoneId: string;
 }
 
-export const GetZoneTransferOutgoingStatusRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/secondary_dns/outgoing/status",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferOutgoingStatusRequest>;
+export const GetZoneTransferOutgoingStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/secondary_dns/outgoing/status",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferOutgoingStatusRequest>;
 
 export type GetZoneTransferOutgoingStatusResponse = unknown;
 
 export const GetZoneTransferOutgoingStatusResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetZoneTransferOutgoingStatusResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetZoneTransferOutgoingStatusResponse>;
 
 export type GetZoneTransferOutgoingStatusError = DefaultErrors;
 
@@ -8251,7 +8335,7 @@ export const getZoneTransferOutgoingStatus: API.OperationMethod<
   GetZoneTransferOutgoingStatusResponse,
   GetZoneTransferOutgoingStatusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetZoneTransferOutgoingStatusRequest,
   output: GetZoneTransferOutgoingStatusResponse,
   errors: [],
@@ -8266,15 +8350,16 @@ export interface GetZoneTransferPeerRequest {
   accountId: string;
 }
 
-export const GetZoneTransferPeerRequest = Schema.Struct({
-  peerId: Schema.String.pipe(T.HttpPath("peerId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferPeerRequest>;
+export const GetZoneTransferPeerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    peerId: Schema.String.pipe(T.HttpPath("peerId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferPeerRequest>;
 
 export interface GetZoneTransferPeerResponse {
   id: string;
@@ -8290,58 +8375,8 @@ export interface GetZoneTransferPeerResponse {
   tsigId?: string | null;
 }
 
-export const GetZoneTransferPeerResponse = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    ip: "ip",
-    ixfrEnable: "ixfr_enable",
-    port: "port",
-    tsigId: "tsig_id",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
-
-export type GetZoneTransferPeerError = DefaultErrors;
-
-export const getZoneTransferPeer: API.OperationMethod<
-  GetZoneTransferPeerRequest,
-  GetZoneTransferPeerResponse,
-  GetZoneTransferPeerError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetZoneTransferPeerRequest,
-  output: GetZoneTransferPeerResponse,
-  errors: [],
-}));
-
-export interface ListZoneTransferPeersRequest {
-  accountId: string;
-}
-
-export const ListZoneTransferPeersRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/secondary_dns/peers" }),
-) as unknown as Schema.Schema<ListZoneTransferPeersRequest>;
-
-export type ListZoneTransferPeersResponse = {
-  id: string;
-  name: string;
-  ip?: string | null;
-  ixfrEnable?: boolean | null;
-  port?: number | null;
-  tsigId?: string | null;
-}[];
-
-export const ListZoneTransferPeersResponse = Schema.Array(
-  Schema.Struct({
+export const GetZoneTransferPeerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     name: Schema.String,
     ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -8357,8 +8392,64 @@ export const ListZoneTransferPeersResponse = Schema.Array(
       port: "port",
       tsigId: "tsig_id",
     }),
-  ),
-) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
+  ) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
+
+export type GetZoneTransferPeerError = DefaultErrors;
+
+export const getZoneTransferPeer: API.OperationMethod<
+  GetZoneTransferPeerRequest,
+  GetZoneTransferPeerResponse,
+  GetZoneTransferPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetZoneTransferPeerRequest,
+  output: GetZoneTransferPeerResponse,
+  errors: [],
+}));
+
+export interface ListZoneTransferPeersRequest {
+  accountId: string;
+}
+
+export const ListZoneTransferPeersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/peers",
+    }),
+  ) as unknown as Schema.Schema<ListZoneTransferPeersRequest>;
+
+export type ListZoneTransferPeersResponse = {
+  id: string;
+  name: string;
+  ip?: string | null;
+  ixfrEnable?: boolean | null;
+  port?: number | null;
+  tsigId?: string | null;
+}[];
+
+export const ListZoneTransferPeersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        ip: "ip",
+        ixfrEnable: "ixfr_enable",
+        port: "port",
+        tsigId: "tsig_id",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
 
 export type ListZoneTransferPeersError = DefaultErrors;
 
@@ -8367,7 +8458,7 @@ export const listZoneTransferPeers: API.OperationMethod<
   ListZoneTransferPeersResponse,
   ListZoneTransferPeersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListZoneTransferPeersRequest,
   output: ListZoneTransferPeersResponse,
   errors: [],
@@ -8380,15 +8471,16 @@ export interface CreateZoneTransferPeerRequest {
   name: string;
 }
 
-export const CreateZoneTransferPeerRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.String,
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/secondary_dns/peers",
-  }),
-) as unknown as Schema.Schema<CreateZoneTransferPeerRequest>;
+export const CreateZoneTransferPeerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/secondary_dns/peers",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferPeerRequest>;
 
 export interface CreateZoneTransferPeerResponse {
   id: string;
@@ -8404,23 +8496,24 @@ export interface CreateZoneTransferPeerResponse {
   tsigId?: string | null;
 }
 
-export const CreateZoneTransferPeerResponse = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    ip: "ip",
-    ixfrEnable: "ixfr_enable",
-    port: "port",
-    tsigId: "tsig_id",
-  }),
-) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
+export const CreateZoneTransferPeerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    name: Schema.String,
+    ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      ip: "ip",
+      ixfrEnable: "ixfr_enable",
+      port: "port",
+      tsigId: "tsig_id",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
 
 export type CreateZoneTransferPeerError = DefaultErrors;
 
@@ -8429,7 +8522,7 @@ export const createZoneTransferPeer: API.OperationMethod<
   CreateZoneTransferPeerResponse,
   CreateZoneTransferPeerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferPeerRequest,
   output: CreateZoneTransferPeerResponse,
   errors: [],
@@ -8451,27 +8544,28 @@ export interface UpdateZoneTransferPeerRequest {
   tsigId?: string;
 }
 
-export const UpdateZoneTransferPeerRequest = Schema.Struct({
-  peerId: Schema.String.pipe(T.HttpPath("peerId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.String,
-  ip: Schema.optional(Schema.String),
-  ixfrEnable: Schema.optional(Schema.Boolean),
-  port: Schema.optional(Schema.Number),
-  tsigId: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    name: "name",
-    ip: "ip",
-    ixfrEnable: "ixfr_enable",
-    port: "port",
-    tsigId: "tsig_id",
-  }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferPeerRequest>;
+export const UpdateZoneTransferPeerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    peerId: Schema.String.pipe(T.HttpPath("peerId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.String,
+    ip: Schema.optional(Schema.String),
+    ixfrEnable: Schema.optional(Schema.Boolean),
+    port: Schema.optional(Schema.Number),
+    tsigId: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      name: "name",
+      ip: "ip",
+      ixfrEnable: "ixfr_enable",
+      port: "port",
+      tsigId: "tsig_id",
+    }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferPeerRequest>;
 
 export interface UpdateZoneTransferPeerResponse {
   id: string;
@@ -8487,23 +8581,24 @@ export interface UpdateZoneTransferPeerResponse {
   tsigId?: string | null;
 }
 
-export const UpdateZoneTransferPeerResponse = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    ip: "ip",
-    ixfrEnable: "ixfr_enable",
-    port: "port",
-    tsigId: "tsig_id",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
+export const UpdateZoneTransferPeerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    name: Schema.String,
+    ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      ip: "ip",
+      ixfrEnable: "ixfr_enable",
+      port: "port",
+      tsigId: "tsig_id",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
 
 export type UpdateZoneTransferPeerError = DefaultErrors;
 
@@ -8512,7 +8607,7 @@ export const updateZoneTransferPeer: API.OperationMethod<
   UpdateZoneTransferPeerResponse,
   UpdateZoneTransferPeerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateZoneTransferPeerRequest,
   output: UpdateZoneTransferPeerResponse,
   errors: [],
@@ -8523,23 +8618,25 @@ export interface DeleteZoneTransferPeerRequest {
   accountId: string;
 }
 
-export const DeleteZoneTransferPeerRequest = Schema.Struct({
-  peerId: Schema.String.pipe(T.HttpPath("peerId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
-  }),
-) as unknown as Schema.Schema<DeleteZoneTransferPeerRequest>;
+export const DeleteZoneTransferPeerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    peerId: Schema.String.pipe(T.HttpPath("peerId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/secondary_dns/peers/{peerId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteZoneTransferPeerRequest>;
 
 export interface DeleteZoneTransferPeerResponse {
   id?: string | null;
 }
 
-export const DeleteZoneTransferPeerResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
+export const DeleteZoneTransferPeerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
 
 export type DeleteZoneTransferPeerError = DefaultErrors;
 
@@ -8548,7 +8645,7 @@ export const deleteZoneTransferPeer: API.OperationMethod<
   DeleteZoneTransferPeerResponse,
   DeleteZoneTransferPeerError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteZoneTransferPeerRequest,
   output: DeleteZoneTransferPeerResponse,
   errors: [],
@@ -8563,15 +8660,16 @@ export interface GetZoneTransferTsigRequest {
   accountId: string;
 }
 
-export const GetZoneTransferTsigRequest = Schema.Struct({
-  tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
-  }),
-) as unknown as Schema.Schema<GetZoneTransferTsigRequest>;
+export const GetZoneTransferTsigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
+    }),
+  ) as unknown as Schema.Schema<GetZoneTransferTsigRequest>;
 
 export interface GetZoneTransferTsigResponse {
   id: string;
@@ -8583,12 +8681,13 @@ export interface GetZoneTransferTsigResponse {
   secret: string;
 }
 
-export const GetZoneTransferTsigResponse = Schema.Struct({
-  id: Schema.String,
-  algo: Schema.String,
-  name: Schema.String,
-  secret: Schema.String,
-}) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
+export const GetZoneTransferTsigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    algo: Schema.String,
+    name: Schema.String,
+    secret: Schema.String,
+  }) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
 
 export type GetZoneTransferTsigError = DefaultErrors;
 
@@ -8597,7 +8696,7 @@ export const getZoneTransferTsig: API.OperationMethod<
   GetZoneTransferTsigResponse,
   GetZoneTransferTsigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetZoneTransferTsigRequest,
   output: GetZoneTransferTsigResponse,
   errors: [],
@@ -8607,11 +8706,15 @@ export interface ListZoneTransferTsigsRequest {
   accountId: string;
 }
 
-export const ListZoneTransferTsigsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/accounts/{account_id}/secondary_dns/tsigs" }),
-) as unknown as Schema.Schema<ListZoneTransferTsigsRequest>;
+export const ListZoneTransferTsigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/secondary_dns/tsigs",
+    }),
+  ) as unknown as Schema.Schema<ListZoneTransferTsigsRequest>;
 
 export type ListZoneTransferTsigsResponse = {
   id: string;
@@ -8620,14 +8723,15 @@ export type ListZoneTransferTsigsResponse = {
   secret: string;
 }[];
 
-export const ListZoneTransferTsigsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    algo: Schema.String,
-    name: Schema.String,
-    secret: Schema.String,
-  }),
-) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
+export const ListZoneTransferTsigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      algo: Schema.String,
+      name: Schema.String,
+      secret: Schema.String,
+    }),
+  ) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
 
 export type ListZoneTransferTsigsError = DefaultErrors;
 
@@ -8636,7 +8740,7 @@ export const listZoneTransferTsigs: API.OperationMethod<
   ListZoneTransferTsigsResponse,
   ListZoneTransferTsigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListZoneTransferTsigsRequest,
   output: ListZoneTransferTsigsResponse,
   errors: [],
@@ -8653,17 +8757,18 @@ export interface CreateZoneTransferTsigRequest {
   secret: string;
 }
 
-export const CreateZoneTransferTsigRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  algo: Schema.String,
-  name: Schema.String,
-  secret: Schema.String,
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/secondary_dns/tsigs",
-  }),
-) as unknown as Schema.Schema<CreateZoneTransferTsigRequest>;
+export const CreateZoneTransferTsigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    algo: Schema.String,
+    name: Schema.String,
+    secret: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/secondary_dns/tsigs",
+    }),
+  ) as unknown as Schema.Schema<CreateZoneTransferTsigRequest>;
 
 export interface CreateZoneTransferTsigResponse {
   id: string;
@@ -8675,12 +8780,13 @@ export interface CreateZoneTransferTsigResponse {
   secret: string;
 }
 
-export const CreateZoneTransferTsigResponse = Schema.Struct({
-  id: Schema.String,
-  algo: Schema.String,
-  name: Schema.String,
-  secret: Schema.String,
-}) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
+export const CreateZoneTransferTsigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    algo: Schema.String,
+    name: Schema.String,
+    secret: Schema.String,
+  }) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
 
 export type CreateZoneTransferTsigError = DefaultErrors;
 
@@ -8689,7 +8795,7 @@ export const createZoneTransferTsig: API.OperationMethod<
   CreateZoneTransferTsigResponse,
   CreateZoneTransferTsigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneTransferTsigRequest,
   output: CreateZoneTransferTsigResponse,
   errors: [],
@@ -8707,18 +8813,19 @@ export interface UpdateZoneTransferTsigRequest {
   secret: string;
 }
 
-export const UpdateZoneTransferTsigRequest = Schema.Struct({
-  tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  algo: Schema.String,
-  name: Schema.String,
-  secret: Schema.String,
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
-  }),
-) as unknown as Schema.Schema<UpdateZoneTransferTsigRequest>;
+export const UpdateZoneTransferTsigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    algo: Schema.String,
+    name: Schema.String,
+    secret: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
+    }),
+  ) as unknown as Schema.Schema<UpdateZoneTransferTsigRequest>;
 
 export interface UpdateZoneTransferTsigResponse {
   id: string;
@@ -8730,12 +8837,13 @@ export interface UpdateZoneTransferTsigResponse {
   secret: string;
 }
 
-export const UpdateZoneTransferTsigResponse = Schema.Struct({
-  id: Schema.String,
-  algo: Schema.String,
-  name: Schema.String,
-  secret: Schema.String,
-}) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
+export const UpdateZoneTransferTsigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    algo: Schema.String,
+    name: Schema.String,
+    secret: Schema.String,
+  }) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
 
 export type UpdateZoneTransferTsigError = DefaultErrors;
 
@@ -8744,7 +8852,7 @@ export const updateZoneTransferTsig: API.OperationMethod<
   UpdateZoneTransferTsigResponse,
   UpdateZoneTransferTsigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateZoneTransferTsigRequest,
   output: UpdateZoneTransferTsigResponse,
   errors: [],
@@ -8755,23 +8863,25 @@ export interface DeleteZoneTransferTsigRequest {
   accountId: string;
 }
 
-export const DeleteZoneTransferTsigRequest = Schema.Struct({
-  tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
-  }),
-) as unknown as Schema.Schema<DeleteZoneTransferTsigRequest>;
+export const DeleteZoneTransferTsigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    tsigId: Schema.String.pipe(T.HttpPath("tsigId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/secondary_dns/tsigs/{tsigId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteZoneTransferTsigRequest>;
 
 export interface DeleteZoneTransferTsigResponse {
   id?: string | null;
 }
 
-export const DeleteZoneTransferTsigResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
+export const DeleteZoneTransferTsigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
 
 export type DeleteZoneTransferTsigError = DefaultErrors;
 
@@ -8780,7 +8890,7 @@ export const deleteZoneTransferTsig: API.OperationMethod<
   DeleteZoneTransferTsigResponse,
   DeleteZoneTransferTsigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteZoneTransferTsigRequest,
   output: DeleteZoneTransferTsigResponse,
   errors: [],

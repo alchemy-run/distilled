@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DisableNeonAuthInput = Schema.Struct({
+export const DisableNeonAuthInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
   branch_id: Schema.String.pipe(T.PathParam()),
   delete_data: Schema.optional(Schema.Boolean),
@@ -16,7 +16,7 @@ export const DisableNeonAuthInput = Schema.Struct({
 export type DisableNeonAuthInput = typeof DisableNeonAuthInput.Type;
 
 // Output Schema
-export const DisableNeonAuthOutput = Schema.Void;
+export const DisableNeonAuthOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DisableNeonAuthOutput = typeof DisableNeonAuthOutput.Type;
 
 // The operation

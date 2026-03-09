@@ -5,7 +5,7 @@ import { Forbidden, NotFound } from "../errors";
 import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
-export const GetPasswordInput = Schema.Struct({
+export const GetPasswordInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -19,7 +19,7 @@ export const GetPasswordInput = Schema.Struct({
 export type GetPasswordInput = typeof GetPasswordInput.Type;
 
 // Output Schema
-export const GetPasswordOutput = Schema.Struct({
+export const GetPasswordOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   role: Schema.Literals(["reader", "writer", "admin", "readwriter"]),

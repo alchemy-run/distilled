@@ -121,7 +121,7 @@ export interface GetAccountRequest {
   accountId: string;
 }
 
-export const GetAccountRequest = Schema.Struct({
+export const GetAccountRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}" }),
@@ -147,7 +147,7 @@ export interface GetAccountResponse {
   } | null;
 }
 
-export const GetAccountResponse = Schema.Struct({
+export const GetAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
@@ -206,7 +206,7 @@ export const getAccount: API.OperationMethod<
   GetAccountResponse,
   GetAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountRequest,
   output: GetAccountResponse,
   errors: [InvalidRoute],
@@ -214,7 +214,9 @@ export const getAccount: API.OperationMethod<
 
 export interface ListAccountsRequest {}
 
-export const ListAccountsRequest = Schema.Struct({}).pipe(
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/accounts" }),
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
@@ -233,7 +235,7 @@ export type ListAccountsResponse = {
   } | null;
 }[];
 
-export const ListAccountsResponse = Schema.Array(
+export const ListAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     name: Schema.String,
@@ -294,7 +296,7 @@ export const listAccounts: API.OperationMethod<
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -308,7 +310,7 @@ export interface CreateAccountRequest {
   unit?: { id?: string };
 }
 
-export const CreateAccountRequest = Schema.Struct({
+export const CreateAccountRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String,
   type: Schema.optional(Schema.Literals(["standard", "enterprise"])),
   unit: Schema.optional(
@@ -340,7 +342,7 @@ export interface CreateAccountResponse {
   } | null;
 }
 
-export const CreateAccountResponse = Schema.Struct({
+export const CreateAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
@@ -402,7 +404,7 @@ export const createAccount: API.OperationMethod<
   CreateAccountResponse,
   CreateAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountRequest,
   output: CreateAccountResponse,
   errors: [AccountCreationForbidden, MissingName],
@@ -423,7 +425,7 @@ export interface UpdateAccountRequest {
   settings?: { abuseContactEmail?: string; enforceTwofactor?: boolean };
 }
 
-export const UpdateAccountRequest = Schema.Struct({
+export const UpdateAccountRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   name: Schema.String,
@@ -471,7 +473,7 @@ export interface UpdateAccountResponse {
   } | null;
 }
 
-export const UpdateAccountResponse = Schema.Struct({
+export const UpdateAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   type: Schema.Literals(["standard", "enterprise"]),
@@ -536,7 +538,7 @@ export const updateAccount: API.OperationMethod<
   UpdateAccountResponse,
   UpdateAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountRequest,
   output: UpdateAccountResponse,
   errors: [
@@ -553,7 +555,7 @@ export interface DeleteAccountRequest {
   accountId: string;
 }
 
-export const DeleteAccountRequest = Schema.Struct({
+export const DeleteAccountRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "DELETE", path: "/accounts/{account_id}" }),
@@ -564,7 +566,7 @@ export interface DeleteAccountResponse {
   id: string;
 }
 
-export const DeleteAccountResponse = Schema.Struct({
+export const DeleteAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteAccountResponse>;
 
@@ -578,7 +580,7 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountResponse,
   DeleteAccountError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountRequest,
   output: DeleteAccountResponse,
   errors: [InvalidRoute, MethodNotAllowed],
@@ -647,7 +649,7 @@ export interface ListLogAuditsRequest {
   zoneName?: { not?: string[] };
 }
 
-export const ListLogAuditsRequest = Schema.Struct({
+export const ListLogAuditsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   before: Schema.String.pipe(T.HttpQuery("before")),
   since: Schema.String.pipe(T.HttpQuery("since")),
@@ -831,7 +833,7 @@ export type ListLogAuditsResponse = {
   zone?: { id?: string | null; name?: string | null } | null;
 }[];
 
-export const ListLogAuditsResponse = Schema.Array(
+export const ListLogAuditsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     account: Schema.optional(
@@ -963,7 +965,7 @@ export const listLogAudits: API.OperationMethod<
   ListLogAuditsResponse,
   ListLogAuditsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLogAuditsRequest,
   output: ListLogAuditsResponse,
   errors: [],
@@ -979,7 +981,7 @@ export interface GetMemberRequest {
   accountId: string;
 }
 
-export const GetMemberRequest = Schema.Struct({
+export const GetMemberRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   memberId: Schema.String.pipe(T.HttpPath("memberId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -989,7 +991,7 @@ export const GetMemberRequest = Schema.Struct({
 export type GetMemberResponse = unknown;
 
 export const GetMemberResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetMemberResponse>;
 
 export type GetMemberError = DefaultErrors | MemberNotFound | InvalidRoute;
 
@@ -998,7 +1000,7 @@ export const getMember: API.OperationMethod<
   GetMemberResponse,
   GetMemberError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMemberRequest,
   output: GetMemberResponse,
   errors: [MemberNotFound, InvalidRoute],
@@ -1015,7 +1017,7 @@ export interface ListMembersRequest {
   status?: "accepted" | "pending" | "rejected";
 }
 
-export const ListMembersRequest = Schema.Struct({
+export const ListMembersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
@@ -1038,7 +1040,7 @@ export const ListMembersRequest = Schema.Struct({
 export type ListMembersResponse = unknown;
 
 export const ListMembersResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListMembersResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListMembersResponse>;
 
 export type ListMembersError = DefaultErrors;
 
@@ -1047,7 +1049,7 @@ export const listMembers: API.OperationMethod<
   ListMembersResponse,
   ListMembersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMembersRequest,
   output: ListMembersResponse,
   errors: [],
@@ -1064,7 +1066,7 @@ export interface CreateMemberRequest {
   status?: "accepted" | "pending";
 }
 
-export const CreateMemberRequest = Schema.Struct({
+export const CreateMemberRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   email: Schema.String,
   roles: Schema.Array(Schema.String),
@@ -1076,7 +1078,7 @@ export const CreateMemberRequest = Schema.Struct({
 export type CreateMemberResponse = unknown;
 
 export const CreateMemberResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateMemberResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateMemberResponse>;
 
 export type CreateMemberError = DefaultErrors | InvalidRoute | ValidationError;
 
@@ -1085,7 +1087,7 @@ export const createMember: API.OperationMethod<
   CreateMemberResponse,
   CreateMemberError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateMemberRequest,
   output: CreateMemberResponse,
   errors: [InvalidRoute, ValidationError],
@@ -1099,7 +1101,7 @@ export interface UpdateMemberRequest {
   roles?: unknown[];
 }
 
-export const UpdateMemberRequest = Schema.Struct({
+export const UpdateMemberRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   memberId: Schema.String.pipe(T.HttpPath("memberId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   roles: Schema.optional(Schema.Array(Schema.Unknown)),
@@ -1110,7 +1112,7 @@ export const UpdateMemberRequest = Schema.Struct({
 export type UpdateMemberResponse = unknown;
 
 export const UpdateMemberResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateMemberResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateMemberResponse>;
 
 export type UpdateMemberError =
   | DefaultErrors
@@ -1124,7 +1126,7 @@ export const updateMember: API.OperationMethod<
   UpdateMemberResponse,
   UpdateMemberError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMemberRequest,
   output: UpdateMemberResponse,
   errors: [MemberNotFound, InvalidRoute, BadRequest, MethodNotAllowed],
@@ -1136,7 +1138,7 @@ export interface DeleteMemberRequest {
   accountId: string;
 }
 
-export const DeleteMemberRequest = Schema.Struct({
+export const DeleteMemberRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   memberId: Schema.String.pipe(T.HttpPath("memberId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1151,7 +1153,7 @@ export interface DeleteMemberResponse {
   id: string;
 }
 
-export const DeleteMemberResponse = Schema.Struct({
+export const DeleteMemberResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteMemberResponse>;
 
@@ -1162,7 +1164,7 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberResponse,
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMemberRequest,
   output: DeleteMemberResponse,
   errors: [MemberNotFound, InvalidRoute],
@@ -1178,7 +1180,7 @@ export interface GetRoleRequest {
   accountId: string;
 }
 
-export const GetRoleRequest = Schema.Struct({
+export const GetRoleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   roleId: Schema.String.pipe(T.HttpPath("roleId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1188,7 +1190,7 @@ export const GetRoleRequest = Schema.Struct({
 export type GetRoleResponse = unknown;
 
 export const GetRoleResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetRoleResponse>;
 
 export type GetRoleError = DefaultErrors | InvalidRoute;
 
@@ -1197,7 +1199,7 @@ export const getRole: API.OperationMethod<
   GetRoleResponse,
   GetRoleError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRoleRequest,
   output: GetRoleResponse,
   errors: [InvalidRoute],
@@ -1208,7 +1210,7 @@ export interface ListRolesRequest {
   accountId: string;
 }
 
-export const ListRolesRequest = Schema.Struct({
+export const ListRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/roles" }),
@@ -1217,7 +1219,7 @@ export const ListRolesRequest = Schema.Struct({
 export type ListRolesResponse = unknown;
 
 export const ListRolesResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListRolesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListRolesResponse>;
 
 export type ListRolesError = DefaultErrors;
 
@@ -1226,7 +1228,7 @@ export const listRoles: API.OperationMethod<
   ListRolesResponse,
   ListRolesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListRolesRequest,
   output: ListRolesResponse,
   errors: [],
@@ -1241,16 +1243,18 @@ export interface GetSubscriptionRequest {
   accountId: string;
 }
 
-export const GetSubscriptionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
+export const GetSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/subscriptions" }),
 ) as unknown as Schema.Schema<GetSubscriptionRequest>;
 
 export type GetSubscriptionResponse = unknown;
 
 export const GetSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
 
 export type GetSubscriptionError = DefaultErrors;
 
@@ -1259,7 +1263,7 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionResponse,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionRequest,
   output: GetSubscriptionResponse,
   errors: [],
@@ -1274,21 +1278,22 @@ export interface CreateSubscriptionRequest {
   ratePlan?: unknown;
 }
 
-export const CreateSubscriptionRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  frequency: Schema.optional(
-    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
-  ),
-  ratePlan: Schema.optional(Schema.Unknown),
-}).pipe(
-  Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
-  T.Http({ method: "POST", path: "/accounts/{account_id}/subscriptions" }),
-) as unknown as Schema.Schema<CreateSubscriptionRequest>;
+export const CreateSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    frequency: Schema.optional(
+      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+    ),
+    ratePlan: Schema.optional(Schema.Unknown),
+  }).pipe(
+    Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
+    T.Http({ method: "POST", path: "/accounts/{account_id}/subscriptions" }),
+  ) as unknown as Schema.Schema<CreateSubscriptionRequest>;
 
 export type CreateSubscriptionResponse = unknown;
 
 export const CreateSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateSubscriptionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
 export type CreateSubscriptionError =
   | DefaultErrors
@@ -1300,7 +1305,7 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionResponse,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
   errors: [JsonDecodeFailure, InvalidRoute],
@@ -1316,27 +1321,28 @@ export interface UpdateSubscriptionRequest {
   ratePlan?: unknown;
 }
 
-export const UpdateSubscriptionRequest = Schema.Struct({
-  subscriptionIdentifier: Schema.String.pipe(
-    T.HttpPath("subscriptionIdentifier"),
-  ),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  frequency: Schema.optional(
-    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
-  ),
-  ratePlan: Schema.optional(Schema.Unknown),
-}).pipe(
-  Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
-  T.Http({
-    method: "PUT",
-    path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
-  }),
-) as unknown as Schema.Schema<UpdateSubscriptionRequest>;
+export const UpdateSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscriptionIdentifier: Schema.String.pipe(
+      T.HttpPath("subscriptionIdentifier"),
+    ),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    frequency: Schema.optional(
+      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+    ),
+    ratePlan: Schema.optional(Schema.Unknown),
+  }).pipe(
+    Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
+    }),
+  ) as unknown as Schema.Schema<UpdateSubscriptionRequest>;
 
 export type UpdateSubscriptionResponse = unknown;
 
 export const UpdateSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateSubscriptionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
 export type UpdateSubscriptionError =
   | DefaultErrors
@@ -1349,7 +1355,7 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionResponse,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSubscriptionRequest,
   output: UpdateSubscriptionResponse,
   errors: [JsonDecodeFailure, InvalidRoute, EndpointNotFound],
@@ -1361,28 +1367,30 @@ export interface DeleteSubscriptionRequest {
   accountId: string;
 }
 
-export const DeleteSubscriptionRequest = Schema.Struct({
-  subscriptionIdentifier: Schema.String.pipe(
-    T.HttpPath("subscriptionIdentifier"),
-  ),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
-  }),
-) as unknown as Schema.Schema<DeleteSubscriptionRequest>;
+export const DeleteSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscriptionIdentifier: Schema.String.pipe(
+      T.HttpPath("subscriptionIdentifier"),
+    ),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/subscriptions/{subscriptionIdentifier}",
+    }),
+  ) as unknown as Schema.Schema<DeleteSubscriptionRequest>;
 
 export interface DeleteSubscriptionResponse {
   /** Subscription identifier tag. */
   subscriptionId?: string | null;
 }
 
-export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ subscriptionId: "subscription_id" }),
-) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+export const DeleteSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ subscriptionId: "subscription_id" }),
+  ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export type DeleteSubscriptionError =
   | DefaultErrors
@@ -1394,7 +1402,7 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionResponse,
   DeleteSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
   errors: [InvalidRoute, EndpointNotFound],
@@ -1410,7 +1418,7 @@ export interface GetTokenRequest {
   accountId: string;
 }
 
-export const GetTokenRequest = Schema.Struct({
+export const GetTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1420,7 +1428,7 @@ export const GetTokenRequest = Schema.Struct({
 export type GetTokenResponse = unknown;
 
 export const GetTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
 export type GetTokenError = DefaultErrors | InvalidRoute;
 
@@ -1429,7 +1437,7 @@ export const getToken: API.OperationMethod<
   GetTokenResponse,
   GetTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenRequest,
   output: GetTokenResponse,
   errors: [InvalidRoute],
@@ -1442,7 +1450,7 @@ export interface ListTokensRequest {
   direction?: "asc" | "desc";
 }
 
-export const ListTokensRequest = Schema.Struct({
+export const ListTokensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
@@ -1454,7 +1462,7 @@ export const ListTokensRequest = Schema.Struct({
 export type ListTokensResponse = unknown;
 
 export const ListTokensResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
 
 export type ListTokensError = DefaultErrors;
 
@@ -1463,7 +1471,7 @@ export const listTokens: API.OperationMethod<
   ListTokensResponse,
   ListTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokensRequest,
   output: ListTokensResponse,
   errors: [],
@@ -1484,7 +1492,7 @@ export interface CreateTokenRequest {
   notBefore?: string;
 }
 
-export const CreateTokenRequest = Schema.Struct({
+export const CreateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
   policies: Schema.Array(Schema.Unknown),
@@ -1537,7 +1545,7 @@ export interface CreateTokenResponse {
   value?: string | null;
 }
 
-export const CreateTokenResponse = Schema.Struct({
+export const CreateTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   condition: Schema.optional(
     Schema.Union([
@@ -1598,7 +1606,7 @@ export const createToken: API.OperationMethod<
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
   errors: [InvalidRoute, InvalidTokenName],
@@ -1622,7 +1630,7 @@ export interface UpdateTokenRequest {
   status?: "active" | "disabled" | "expired";
 }
 
-export const UpdateTokenRequest = Schema.Struct({
+export const UpdateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
@@ -1655,7 +1663,7 @@ export const UpdateTokenRequest = Schema.Struct({
 export type UpdateTokenResponse = unknown;
 
 export const UpdateTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
 export type UpdateTokenError = DefaultErrors | InvalidRoute | MethodNotAllowed;
 
@@ -1664,7 +1672,7 @@ export const updateToken: API.OperationMethod<
   UpdateTokenResponse,
   UpdateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTokenRequest,
   output: UpdateTokenResponse,
   errors: [InvalidRoute, MethodNotAllowed],
@@ -1676,7 +1684,7 @@ export interface DeleteTokenRequest {
   accountId: string;
 }
 
-export const DeleteTokenRequest = Schema.Struct({
+export const DeleteTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -1688,7 +1696,7 @@ export interface DeleteTokenResponse {
   id: string;
 }
 
-export const DeleteTokenResponse = Schema.Struct({
+export const DeleteTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteTokenResponse>;
 
@@ -1699,7 +1707,7 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
   errors: [InvalidRoute, MethodNotAllowed],
@@ -1710,7 +1718,7 @@ export interface VerifyTokenRequest {
   accountId: string;
 }
 
-export const VerifyTokenRequest = Schema.Struct({
+export const VerifyTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/tokens/verify" }),
@@ -1727,7 +1735,7 @@ export interface VerifyTokenResponse {
   notBefore?: string | null;
 }
 
-export const VerifyTokenResponse = Schema.Struct({
+export const VerifyTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   status: Schema.Literals(["active", "disabled", "expired"]),
   expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1751,7 +1759,7 @@ export const verifyToken: API.OperationMethod<
   VerifyTokenResponse,
   VerifyTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyTokenRequest,
   output: VerifyTokenResponse,
   errors: [MissingAuthenticationToken, InvalidRoute],
@@ -1770,16 +1778,17 @@ export interface GetTokenPermissionGroupRequest {
   scope?: string;
 }
 
-export const GetTokenPermissionGroupRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/tokens/permission_groups",
-  }),
-) as unknown as Schema.Schema<GetTokenPermissionGroupRequest>;
+export const GetTokenPermissionGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+    scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/tokens/permission_groups",
+    }),
+  ) as unknown as Schema.Schema<GetTokenPermissionGroupRequest>;
 
 export type GetTokenPermissionGroupResponse = {
   id?: string | null;
@@ -1794,25 +1803,26 @@ export type GetTokenPermissionGroupResponse = {
     | null;
 }[];
 
-export const GetTokenPermissionGroupResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    scopes: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "com.cloudflare.api.account",
-            "com.cloudflare.api.account.zone",
-            "com.cloudflare.api.user",
-            "com.cloudflare.edge.r2.bucket",
-          ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-  }),
-) as unknown as Schema.Schema<GetTokenPermissionGroupResponse>;
+export const GetTokenPermissionGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      scopes: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "com.cloudflare.api.account",
+              "com.cloudflare.api.account.zone",
+              "com.cloudflare.api.user",
+              "com.cloudflare.edge.r2.bucket",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+  ) as unknown as Schema.Schema<GetTokenPermissionGroupResponse>;
 
 export type GetTokenPermissionGroupError = DefaultErrors | InvalidRoute;
 
@@ -1821,7 +1831,7 @@ export const getTokenPermissionGroup: API.OperationMethod<
   GetTokenPermissionGroupResponse,
   GetTokenPermissionGroupError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenPermissionGroupRequest,
   output: GetTokenPermissionGroupResponse,
   errors: [InvalidRoute],
@@ -1836,16 +1846,17 @@ export interface ListTokenPermissionGroupsRequest {
   scope?: string;
 }
 
-export const ListTokenPermissionGroupsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/tokens/permission_groups",
-  }),
-) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
+export const ListTokenPermissionGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+    scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/tokens/permission_groups",
+    }),
+  ) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
 
 export type ListTokenPermissionGroupsResponse = {
   id?: string | null;
@@ -1860,25 +1871,26 @@ export type ListTokenPermissionGroupsResponse = {
     | null;
 }[];
 
-export const ListTokenPermissionGroupsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    scopes: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "com.cloudflare.api.account",
-            "com.cloudflare.api.account.zone",
-            "com.cloudflare.api.user",
-            "com.cloudflare.edge.r2.bucket",
-          ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-  }),
-) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
+export const ListTokenPermissionGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      scopes: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "com.cloudflare.api.account",
+              "com.cloudflare.api.account.zone",
+              "com.cloudflare.api.user",
+              "com.cloudflare.edge.r2.bucket",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+  ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
 export type ListTokenPermissionGroupsError = DefaultErrors;
 
@@ -1887,7 +1899,7 @@ export const listTokenPermissionGroups: API.OperationMethod<
   ListTokenPermissionGroupsResponse,
   ListTokenPermissionGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokenPermissionGroupsRequest,
   output: ListTokenPermissionGroupsResponse,
   errors: [],
@@ -1905,7 +1917,7 @@ export interface PutTokenValueRequest {
   body: unknown;
 }
 
-export const PutTokenValueRequest = Schema.Struct({
+export const PutTokenValueRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   body: Schema.Unknown.pipe(T.HttpBody()),
@@ -1919,7 +1931,7 @@ export const PutTokenValueRequest = Schema.Struct({
 export type PutTokenValueResponse = unknown;
 
 export const PutTokenValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
 
 export type PutTokenValueError = DefaultErrors | InvalidRoute;
 
@@ -1928,7 +1940,7 @@ export const putTokenValue: API.OperationMethod<
   PutTokenValueResponse,
   PutTokenValueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTokenValueRequest,
   output: PutTokenValueResponse,
   errors: [InvalidRoute],

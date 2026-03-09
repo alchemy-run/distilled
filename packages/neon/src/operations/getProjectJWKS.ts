@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetProjectJWKSInput = Schema.Struct({
+export const GetProjectJWKSInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/jwks" }));
 export type GetProjectJWKSInput = typeof GetProjectJWKSInput.Type;
 
 // Output Schema
-export const GetProjectJWKSOutput = Schema.Struct({
+export const GetProjectJWKSOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   jwks: Schema.Array(
     Schema.Struct({
       id: Schema.String,

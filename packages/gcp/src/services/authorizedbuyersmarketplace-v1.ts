@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface CancelNegotiationRequest {}
 
 export const CancelNegotiationRequest: Schema.Schema<CancelNegotiationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelNegotiationRequest",
   }) as any as Schema.Schema<CancelNegotiationRequest>;
 
@@ -37,7 +37,7 @@ export interface CriteriaTargeting {
 }
 
 export const CriteriaTargeting: Schema.Schema<CriteriaTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
       targetedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
@@ -55,13 +55,14 @@ export interface Money {
   units?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    nanos: Schema.optional(Schema.Number),
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nanos: Schema.optional(Schema.Number),
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface Price {
   /** The pricing type for the deal. */
@@ -70,12 +71,13 @@ export interface Price {
   amount?: Money;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    amount: Schema.optional(Money),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      amount: Schema.optional(Money),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface PreferredDealTerms {
   /** Fixed price for the deal. */
@@ -83,7 +85,7 @@ export interface PreferredDealTerms {
 }
 
 export const PreferredDealTerms: Schema.Schema<PreferredDealTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedPrice: Schema.optional(Price),
     }),
@@ -102,16 +104,17 @@ export interface MediaPlanner {
   ancestorNames?: Array<string>;
 }
 
-export const MediaPlanner: Schema.Schema<MediaPlanner> = Schema.suspend(() =>
-  Schema.Struct({
-    accountId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    ancestorNames: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "MediaPlanner",
-}) as any as Schema.Schema<MediaPlanner>;
+export const MediaPlanner: Schema.Schema<MediaPlanner> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      ancestorNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "MediaPlanner",
+  }) as any as Schema.Schema<MediaPlanner>;
 
 export interface AuctionPackage {
   /** Output only. If set, this field contains the DSP specific seat id set by the media planner account that is considered the owner of this deal. The seat ID is in the calling DSP's namespace. */
@@ -140,8 +143,8 @@ export interface AuctionPackage {
   updateTime?: string;
 }
 
-export const AuctionPackage: Schema.Schema<AuctionPackage> = Schema.suspend(
-  () =>
+export const AuctionPackage: Schema.Schema<AuctionPackage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dealOwnerSeatId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -156,9 +159,9 @@ export const AuctionPackage: Schema.Schema<AuctionPackage> = Schema.suspend(
       eligibleSeatIds: Schema.optional(Schema.Array(Schema.String)),
       updateTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AuctionPackage",
-}) as any as Schema.Schema<AuctionPackage>;
+  ).annotate({
+    identifier: "AuctionPackage",
+  }) as any as Schema.Schema<AuctionPackage>;
 
 export interface ListAuctionPackagesResponse {
   /** The list of auction packages. */
@@ -168,7 +171,7 @@ export interface ListAuctionPackagesResponse {
 }
 
 export const ListAuctionPackagesResponse: Schema.Schema<ListAuctionPackagesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       auctionPackages: Schema.optional(Schema.Array(AuctionPackage)),
       nextPageToken: Schema.optional(Schema.String),
@@ -184,12 +187,13 @@ export interface Contact {
   displayName?: string;
 }
 
-export const Contact: Schema.Schema<Contact> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Contact" }) as any as Schema.Schema<Contact>;
+export const Contact: Schema.Schema<Contact> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Contact" }) as any as Schema.Schema<Contact>;
 
 export interface ProgrammaticGuaranteedTerms {
   /** The reservation type for a Programmatic Guaranteed deal. This indicates whether the number of impressions is fixed, or a percent of available impressions. If not specified, the default reservation type is STANDARD. */
@@ -211,7 +215,7 @@ export interface ProgrammaticGuaranteedTerms {
 }
 
 export const ProgrammaticGuaranteedTerms: Schema.Schema<ProgrammaticGuaranteedTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reservationType: Schema.optional(Schema.String),
       fixedPrice: Schema.optional(Price),
@@ -239,13 +243,14 @@ export interface AdSize {
   height?: string;
 }
 
-export const AdSize: Schema.Schema<AdSize> = Schema.suspend(() =>
-  Schema.Struct({
-    width: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    height: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
+export const AdSize: Schema.Schema<AdSize> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
 
 export interface InventorySizeTargeting {
   /** A list of inventory sizes to be included. */
@@ -255,7 +260,7 @@ export interface InventorySizeTargeting {
 }
 
 export const InventorySizeTargeting: Schema.Schema<InventorySizeTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedInventorySizes: Schema.optional(Schema.Array(AdSize)),
       excludedInventorySizes: Schema.optional(Schema.Array(AdSize)),
@@ -291,8 +296,8 @@ export interface SendRfpRequest {
   inventorySizeTargeting?: InventorySizeTargeting;
 }
 
-export const SendRfpRequest: Schema.Schema<SendRfpRequest> = Schema.suspend(
-  () =>
+export const SendRfpRequest: Schema.Schema<SendRfpRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       client: Schema.optional(Schema.String),
       flightEndTime: Schema.optional(Schema.String),
@@ -307,9 +312,9 @@ export const SendRfpRequest: Schema.Schema<SendRfpRequest> = Schema.suspend(
       programmaticGuaranteedTerms: Schema.optional(ProgrammaticGuaranteedTerms),
       inventorySizeTargeting: Schema.optional(InventorySizeTargeting),
     }),
-).annotate({
-  identifier: "SendRfpRequest",
-}) as any as Schema.Schema<SendRfpRequest>;
+  ).annotate({
+    identifier: "SendRfpRequest",
+  }) as any as Schema.Schema<SendRfpRequest>;
 
 export interface PublisherProfileMobileApplication {
   /** The external ID for the app from its app store. Can be used to filter the response of the publisherProfiles.list method. */
@@ -336,7 +341,7 @@ export interface PublisherProfileMobileApplication {
 }
 
 export const PublisherProfileMobileApplication: Schema.Schema<PublisherProfileMobileApplication> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalAppId: Schema.optional(Schema.String),
       appStore: Schema.optional(Schema.String),
@@ -379,8 +384,8 @@ export interface PublisherProfile {
   samplePageUrl?: string;
 }
 
-export const PublisherProfile: Schema.Schema<PublisherProfile> = Schema.suspend(
-  () =>
+export const PublisherProfile: Schema.Schema<PublisherProfile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       mediaKitUrl: Schema.optional(Schema.String),
@@ -400,9 +405,9 @@ export const PublisherProfile: Schema.Schema<PublisherProfile> = Schema.suspend(
       programmaticDealsContact: Schema.optional(Schema.String),
       samplePageUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PublisherProfile",
-}) as any as Schema.Schema<PublisherProfile>;
+  ).annotate({
+    identifier: "PublisherProfile",
+  }) as any as Schema.Schema<PublisherProfile>;
 
 export interface ListPublisherProfilesResponse {
   /** The list of matching publisher profiles. */
@@ -412,7 +417,7 @@ export interface ListPublisherProfilesResponse {
 }
 
 export const ListPublisherProfilesResponse: Schema.Schema<ListPublisherProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherProfiles: Schema.optional(Schema.Array(PublisherProfile)),
       nextPageToken: Schema.optional(Schema.String),
@@ -424,7 +429,7 @@ export const ListPublisherProfilesResponse: Schema.Schema<ListPublisherProfilesR
 export interface UnsubscribeAuctionPackageRequest {}
 
 export const UnsubscribeAuctionPackageRequest: Schema.Schema<UnsubscribeAuctionPackageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UnsubscribeAuctionPackageRequest",
   }) as any as Schema.Schema<UnsubscribeAuctionPackageRequest>;
 
@@ -436,7 +441,7 @@ export interface FirstPartyMobileApplicationTargeting {
 }
 
 export const FirstPartyMobileApplicationTargeting: Schema.Schema<FirstPartyMobileApplicationTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedAppIds: Schema.optional(Schema.Array(Schema.String)),
       targetedAppIds: Schema.optional(Schema.Array(Schema.String)),
@@ -484,7 +489,7 @@ export interface CreativeRequirements {
 }
 
 export const CreativeRequirements: Schema.Schema<CreativeRequirements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativePreApprovalPolicy: Schema.optional(Schema.String),
       creativeSafeFrameCompatibility: Schema.optional(Schema.String),
@@ -510,24 +515,28 @@ export interface Note {
   note?: string;
 }
 
-export const Note: Schema.Schema<Note> = Schema.suspend(() =>
-  Schema.Struct({
-    createTime: Schema.optional(Schema.String),
-    creatorRole: Schema.optional(Schema.String),
-    note: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
+export const Note: Schema.Schema<Note> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      creatorRole: Schema.optional(Schema.String),
+      note: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
 
 export interface PrivateData {
   /** A buyer specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
   referenceId?: string;
 }
 
-export const PrivateData: Schema.Schema<PrivateData> = Schema.suspend(() =>
-  Schema.Struct({
-    referenceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PrivateData" }) as any as Schema.Schema<PrivateData>;
+export const PrivateData: Schema.Schema<PrivateData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      referenceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateData",
+  }) as any as Schema.Schema<PrivateData>;
 
 export interface Proposal {
   /** Whether pausing is allowed for the proposal. This is a negotiable term between buyers and publishers. */
@@ -590,41 +599,42 @@ export interface Proposal {
   client?: string;
 }
 
-export const Proposal: Schema.Schema<Proposal> = Schema.suspend(() =>
-  Schema.Struct({
-    pausingConsented: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-    buyerContacts: Schema.optional(Schema.Array(Contact)),
-    lastUpdaterOrCommentorRole: Schema.optional(Schema.String),
-    buyerPrivateData: Schema.optional(PrivateData),
-    isRenegotiating: Schema.optional(Schema.Boolean),
-    state: Schema.optional(Schema.String),
-    billedBuyer: Schema.optional(Schema.String),
-    sellerContacts: Schema.optional(Schema.Array(Contact)),
-    proposalRevision: Schema.optional(Schema.String),
-    dealType: Schema.optional(Schema.String),
-    originatorRole: Schema.optional(Schema.String),
-    termsAndConditions: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.Array(Note)),
-    displayName: Schema.optional(Schema.String),
-    publisherProfile: Schema.optional(Schema.String),
-    buyer: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    client: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Proposal" }) as any as Schema.Schema<Proposal>;
+export const Proposal: Schema.Schema<Proposal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pausingConsented: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      buyerContacts: Schema.optional(Schema.Array(Contact)),
+      lastUpdaterOrCommentorRole: Schema.optional(Schema.String),
+      buyerPrivateData: Schema.optional(PrivateData),
+      isRenegotiating: Schema.optional(Schema.Boolean),
+      state: Schema.optional(Schema.String),
+      billedBuyer: Schema.optional(Schema.String),
+      sellerContacts: Schema.optional(Schema.Array(Contact)),
+      proposalRevision: Schema.optional(Schema.String),
+      dealType: Schema.optional(Schema.String),
+      originatorRole: Schema.optional(Schema.String),
+      termsAndConditions: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.Array(Note)),
+      displayName: Schema.optional(Schema.String),
+      publisherProfile: Schema.optional(Schema.String),
+      buyer: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      client: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Proposal" }) as any as Schema.Schema<Proposal>;
 
 export interface ActivateClientRequest {}
 
 export const ActivateClientRequest: Schema.Schema<ActivateClientRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ActivateClientRequest",
   }) as any as Schema.Schema<ActivateClientRequest>;
 
 export interface DeactivateClientRequest {}
 
 export const DeactivateClientRequest: Schema.Schema<DeactivateClientRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeactivateClientRequest",
   }) as any as Schema.Schema<DeactivateClientRequest>;
 
@@ -635,19 +645,20 @@ export interface UriTargeting {
   targetedUris?: Array<string>;
 }
 
-export const UriTargeting: Schema.Schema<UriTargeting> = Schema.suspend(() =>
-  Schema.Struct({
-    excludedUris: Schema.optional(Schema.Array(Schema.String)),
-    targetedUris: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "UriTargeting",
-}) as any as Schema.Schema<UriTargeting>;
+export const UriTargeting: Schema.Schema<UriTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      excludedUris: Schema.optional(Schema.Array(Schema.String)),
+      targetedUris: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UriTargeting",
+  }) as any as Schema.Schema<UriTargeting>;
 
 export interface ResumeFinalizedDealRequest {}
 
 export const ResumeFinalizedDealRequest: Schema.Schema<ResumeFinalizedDealRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResumeFinalizedDealRequest",
   }) as any as Schema.Schema<ResumeFinalizedDealRequest>;
 
@@ -659,7 +670,7 @@ export interface PrivateAuctionTerms {
 }
 
 export const PrivateAuctionTerms: Schema.Schema<PrivateAuctionTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floorPrice: Schema.optional(Price),
       openAuctionAllowed: Schema.optional(Schema.Boolean),
@@ -676,7 +687,7 @@ export interface OperatingSystemTargeting {
 }
 
 export const OperatingSystemTargeting: Schema.Schema<OperatingSystemTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operatingSystemCriteria: Schema.optional(CriteriaTargeting),
       operatingSystemVersionCriteria: Schema.optional(CriteriaTargeting),
@@ -697,7 +708,7 @@ export interface InventoryTypeTargeting {
 }
 
 export const InventoryTypeTargeting: Schema.Schema<InventoryTypeTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventoryTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -720,16 +731,17 @@ export interface RtbMetrics {
   mustBidRateCurrentMonth?: number;
 }
 
-export const RtbMetrics: Schema.Schema<RtbMetrics> = Schema.suspend(() =>
-  Schema.Struct({
-    filteredBidRate7Days: Schema.optional(Schema.Number),
-    bids7Days: Schema.optional(Schema.String),
-    adImpressions7Days: Schema.optional(Schema.String),
-    bidRate7Days: Schema.optional(Schema.Number),
-    bidRequests7Days: Schema.optional(Schema.String),
-    mustBidRateCurrentMonth: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "RtbMetrics" }) as any as Schema.Schema<RtbMetrics>;
+export const RtbMetrics: Schema.Schema<RtbMetrics> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      filteredBidRate7Days: Schema.optional(Schema.Number),
+      bids7Days: Schema.optional(Schema.String),
+      adImpressions7Days: Schema.optional(Schema.String),
+      bidRate7Days: Schema.optional(Schema.Number),
+      bidRequests7Days: Schema.optional(Schema.String),
+      mustBidRateCurrentMonth: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "RtbMetrics" }) as any as Schema.Schema<RtbMetrics>;
 
 export interface PauseFinalizedDealRequest {
   /** The reason to pause the finalized deal, will be displayed to the seller. Maximum length is 1000 characters. */
@@ -737,7 +749,7 @@ export interface PauseFinalizedDealRequest {
 }
 
 export const PauseFinalizedDealRequest: Schema.Schema<PauseFinalizedDealRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -764,15 +776,16 @@ export interface FrequencyCap {
     | (string & {});
 }
 
-export const FrequencyCap: Schema.Schema<FrequencyCap> = Schema.suspend(() =>
-  Schema.Struct({
-    maxImpressions: Schema.optional(Schema.Number),
-    timeUnitsCount: Schema.optional(Schema.Number),
-    timeUnitType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FrequencyCap",
-}) as any as Schema.Schema<FrequencyCap>;
+export const FrequencyCap: Schema.Schema<FrequencyCap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      maxImpressions: Schema.optional(Schema.Number),
+      timeUnitsCount: Schema.optional(Schema.Number),
+      timeUnitType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FrequencyCap",
+  }) as any as Schema.Schema<FrequencyCap>;
 
 export interface DeliveryControl {
   /** Output only. Specifies the roadblocking type in display creatives. */
@@ -810,8 +823,8 @@ export interface DeliveryControl {
   frequencyCap?: Array<FrequencyCap>;
 }
 
-export const DeliveryControl: Schema.Schema<DeliveryControl> = Schema.suspend(
-  () =>
+export const DeliveryControl: Schema.Schema<DeliveryControl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       roadblockingType: Schema.optional(Schema.String),
       creativeRotationType: Schema.optional(Schema.String),
@@ -819,14 +832,14 @@ export const DeliveryControl: Schema.Schema<DeliveryControl> = Schema.suspend(
       companionDeliveryType: Schema.optional(Schema.String),
       frequencyCap: Schema.optional(Schema.Array(FrequencyCap)),
     }),
-).annotate({
-  identifier: "DeliveryControl",
-}) as any as Schema.Schema<DeliveryControl>;
+  ).annotate({
+    identifier: "DeliveryControl",
+  }) as any as Schema.Schema<DeliveryControl>;
 
 export interface SubscribeAuctionPackageRequest {}
 
 export const SubscribeAuctionPackageRequest: Schema.Schema<SubscribeAuctionPackageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SubscribeAuctionPackageRequest",
   }) as any as Schema.Schema<SubscribeAuctionPackageRequest>;
 
@@ -841,14 +854,15 @@ export interface TimeOfDay {
   hours?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    nanos: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nanos: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface DayPart {
   /** Day of week for the period. */
@@ -868,13 +882,14 @@ export interface DayPart {
   startTime?: TimeOfDay;
 }
 
-export const DayPart: Schema.Schema<DayPart> = Schema.suspend(() =>
-  Schema.Struct({
-    dayOfWeek: Schema.optional(Schema.String),
-    endTime: Schema.optional(TimeOfDay),
-    startTime: Schema.optional(TimeOfDay),
-  }),
-).annotate({ identifier: "DayPart" }) as any as Schema.Schema<DayPart>;
+export const DayPart: Schema.Schema<DayPart> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dayOfWeek: Schema.optional(Schema.String),
+      endTime: Schema.optional(TimeOfDay),
+      startTime: Schema.optional(TimeOfDay),
+    }),
+  ).annotate({ identifier: "DayPart" }) as any as Schema.Schema<DayPart>;
 
 export interface DayPartTargeting {
   /** The time zone type of the day parts */
@@ -887,15 +902,15 @@ export interface DayPartTargeting {
   dayParts?: Array<DayPart>;
 }
 
-export const DayPartTargeting: Schema.Schema<DayPartTargeting> = Schema.suspend(
-  () =>
+export const DayPartTargeting: Schema.Schema<DayPartTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZoneType: Schema.optional(Schema.String),
       dayParts: Schema.optional(Schema.Array(DayPart)),
     }),
-).annotate({
-  identifier: "DayPartTargeting",
-}) as any as Schema.Schema<DayPartTargeting>;
+  ).annotate({
+    identifier: "DayPartTargeting",
+  }) as any as Schema.Schema<DayPartTargeting>;
 
 export interface SubscribeClientsRequest {
   /** Optional. A list of client buyers to subscribe to the auction package, with client buyer in the format `buyers/{accountId}/clients/{clientAccountId}`. The current buyer will be subscribed to the auction package regardless of the list contents if not already. */
@@ -903,7 +918,7 @@ export interface SubscribeClientsRequest {
 }
 
 export const SubscribeClientsRequest: Schema.Schema<SubscribeClientsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clients: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -916,14 +931,14 @@ export interface AddNoteRequest {
   note?: Note;
 }
 
-export const AddNoteRequest: Schema.Schema<AddNoteRequest> = Schema.suspend(
-  () =>
+export const AddNoteRequest: Schema.Schema<AddNoteRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       note: Schema.optional(Note),
     }),
-).annotate({
-  identifier: "AddNoteRequest",
-}) as any as Schema.Schema<AddNoteRequest>;
+  ).annotate({
+    identifier: "AddNoteRequest",
+  }) as any as Schema.Schema<AddNoteRequest>;
 
 export interface AddCreativeRequest {
   /** Name of the creative to add to the finalized deal, in the format `buyers/{buyerAccountId}/creatives/{creativeId}`. See creative.name. */
@@ -931,7 +946,7 @@ export interface AddCreativeRequest {
 }
 
 export const AddCreativeRequest: Schema.Schema<AddCreativeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creative: Schema.optional(Schema.String),
     }),
@@ -946,12 +961,13 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface MobileApplicationTargeting {
   /** Publisher owned apps to be targeted or excluded by the publisher to display the ads in. */
@@ -959,7 +975,7 @@ export interface MobileApplicationTargeting {
 }
 
 export const MobileApplicationTargeting: Schema.Schema<MobileApplicationTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyTargeting: Schema.optional(
         FirstPartyMobileApplicationTargeting,
@@ -977,7 +993,7 @@ export interface PlacementTargeting {
 }
 
 export const PlacementTargeting: Schema.Schema<PlacementTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uriTargeting: Schema.optional(UriTargeting),
       mobileApplicationTargeting: Schema.optional(MobileApplicationTargeting),
@@ -1005,15 +1021,15 @@ export interface VideoTargeting {
   >;
 }
 
-export const VideoTargeting: Schema.Schema<VideoTargeting> = Schema.suspend(
-  () =>
+export const VideoTargeting: Schema.Schema<VideoTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedPositionTypes: Schema.optional(Schema.Array(Schema.String)),
       excludedPositionTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "VideoTargeting",
-}) as any as Schema.Schema<VideoTargeting>;
+  ).annotate({
+    identifier: "VideoTargeting",
+  }) as any as Schema.Schema<VideoTargeting>;
 
 export interface TechnologyTargeting {
   /** IDs of device categories to be included/excluded. */
@@ -1025,7 +1041,7 @@ export interface TechnologyTargeting {
 }
 
 export const TechnologyTargeting: Schema.Schema<TechnologyTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceCategoryTargeting: Schema.optional(CriteriaTargeting),
       deviceCapabilityTargeting: Schema.optional(CriteriaTargeting),
@@ -1059,7 +1075,7 @@ export interface MarketplaceTargeting {
 }
 
 export const MarketplaceTargeting: Schema.Schema<MarketplaceTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placementTargeting: Schema.optional(PlacementTargeting),
       daypartTargeting: Schema.optional(DayPartTargeting),
@@ -1138,34 +1154,35 @@ export interface Deal {
   client?: string;
 }
 
-export const Deal: Schema.Schema<Deal> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    flightStartTime: Schema.optional(Schema.String),
-    privateAuctionTerms: Schema.optional(PrivateAuctionTerms),
-    sellerTimeZone: Schema.optional(TimeZone),
-    mediaPlanner: Schema.optional(MediaPlanner),
-    buyerPermissionType: Schema.optional(Schema.String),
-    proposalRevision: Schema.optional(Schema.String),
-    dealType: Schema.optional(Schema.String),
-    billedBuyer: Schema.optional(Schema.String),
-    eligibleSeatIds: Schema.optional(Schema.Array(Schema.String)),
-    targeting: Schema.optional(MarketplaceTargeting),
-    programmaticGuaranteedTerms: Schema.optional(ProgrammaticGuaranteedTerms),
-    displayName: Schema.optional(Schema.String),
-    estimatedGrossSpend: Schema.optional(Money),
-    deliveryControl: Schema.optional(DeliveryControl),
-    buyer: Schema.optional(Schema.String),
-    preferredDealTerms: Schema.optional(PreferredDealTerms),
-    creativeRequirements: Schema.optional(CreativeRequirements),
-    publisherProfile: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    flightEndTime: Schema.optional(Schema.String),
-    client: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Deal" }) as any as Schema.Schema<Deal>;
+export const Deal: Schema.Schema<Deal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      flightStartTime: Schema.optional(Schema.String),
+      privateAuctionTerms: Schema.optional(PrivateAuctionTerms),
+      sellerTimeZone: Schema.optional(TimeZone),
+      mediaPlanner: Schema.optional(MediaPlanner),
+      buyerPermissionType: Schema.optional(Schema.String),
+      proposalRevision: Schema.optional(Schema.String),
+      dealType: Schema.optional(Schema.String),
+      billedBuyer: Schema.optional(Schema.String),
+      eligibleSeatIds: Schema.optional(Schema.Array(Schema.String)),
+      targeting: Schema.optional(MarketplaceTargeting),
+      programmaticGuaranteedTerms: Schema.optional(ProgrammaticGuaranteedTerms),
+      displayName: Schema.optional(Schema.String),
+      estimatedGrossSpend: Schema.optional(Money),
+      deliveryControl: Schema.optional(DeliveryControl),
+      buyer: Schema.optional(Schema.String),
+      preferredDealTerms: Schema.optional(PreferredDealTerms),
+      creativeRequirements: Schema.optional(CreativeRequirements),
+      publisherProfile: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      flightEndTime: Schema.optional(Schema.String),
+      client: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Deal" }) as any as Schema.Schema<Deal>;
 
 export interface DealPausingInfo {
   /** The party that first paused the deal; unspecified for active deals. */
@@ -1180,16 +1197,16 @@ export interface DealPausingInfo {
   pausingConsented?: boolean;
 }
 
-export const DealPausingInfo: Schema.Schema<DealPausingInfo> = Schema.suspend(
-  () =>
+export const DealPausingInfo: Schema.Schema<DealPausingInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pauseRole: Schema.optional(Schema.String),
       pauseReason: Schema.optional(Schema.String),
       pausingConsented: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "DealPausingInfo",
-}) as any as Schema.Schema<DealPausingInfo>;
+  ).annotate({
+    identifier: "DealPausingInfo",
+  }) as any as Schema.Schema<DealPausingInfo>;
 
 export interface FinalizedDeal {
   /** The resource name of the finalized deal. Format: `buyers/{accountId}/finalizedDeals/{finalizedDealId}` */
@@ -1212,18 +1229,19 @@ export interface FinalizedDeal {
     | (string & {});
 }
 
-export const FinalizedDeal: Schema.Schema<FinalizedDeal> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    deal: Schema.optional(Deal),
-    readyToServe: Schema.optional(Schema.Boolean),
-    dealPausingInfo: Schema.optional(DealPausingInfo),
-    rtbMetrics: Schema.optional(RtbMetrics),
-    dealServingStatus: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FinalizedDeal",
-}) as any as Schema.Schema<FinalizedDeal>;
+export const FinalizedDeal: Schema.Schema<FinalizedDeal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      deal: Schema.optional(Deal),
+      readyToServe: Schema.optional(Schema.Boolean),
+      dealPausingInfo: Schema.optional(DealPausingInfo),
+      rtbMetrics: Schema.optional(RtbMetrics),
+      dealServingStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FinalizedDeal",
+  }) as any as Schema.Schema<FinalizedDeal>;
 
 export interface ListProposalsResponse {
   /** The list of proposals. */
@@ -1233,7 +1251,7 @@ export interface ListProposalsResponse {
 }
 
 export const ListProposalsResponse: Schema.Schema<ListProposalsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proposals: Schema.optional(Schema.Array(Proposal)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1262,16 +1280,17 @@ export interface Client {
   name?: string;
 }
 
-export const Client: Schema.Schema<Client> = Schema.suspend(() =>
-  Schema.Struct({
-    sellerVisible: Schema.optional(Schema.Boolean),
-    partnerClientId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
+export const Client: Schema.Schema<Client> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sellerVisible: Schema.optional(Schema.Boolean),
+      partnerClientId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
 
 export interface ListClientsResponse {
   /** The returned list of clients. */
@@ -1281,7 +1300,7 @@ export interface ListClientsResponse {
 }
 
 export const ListClientsResponse: Schema.Schema<ListClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clients: Schema.optional(Schema.Array(Client)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1296,7 +1315,7 @@ export interface UnsubscribeClientsRequest {
 }
 
 export const UnsubscribeClientsRequest: Schema.Schema<UnsubscribeClientsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clients: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1306,9 +1325,10 @@ export const UnsubscribeClientsRequest: Schema.Schema<UnsubscribeClientsRequest>
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListDealsResponse {
   /** The list of deals. */
@@ -1318,7 +1338,7 @@ export interface ListDealsResponse {
 }
 
 export const ListDealsResponse: Schema.Schema<ListDealsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deals: Schema.optional(Schema.Array(Deal)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1333,7 +1353,7 @@ export interface AcceptProposalRequest {
 }
 
 export const AcceptProposalRequest: Schema.Schema<AcceptProposalRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proposalRevision: Schema.optional(Schema.String),
     }),
@@ -1349,7 +1369,7 @@ export interface UpdateDealRequest {
 }
 
 export const UpdateDealRequest: Schema.Schema<UpdateDealRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deal: Schema.optional(Deal),
       updateMask: Schema.optional(Schema.String),
@@ -1364,7 +1384,7 @@ export interface BatchUpdateDealsRequest {
 }
 
 export const BatchUpdateDealsRequest: Schema.Schema<BatchUpdateDealsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(UpdateDealRequest)),
     }),
@@ -1375,7 +1395,7 @@ export const BatchUpdateDealsRequest: Schema.Schema<BatchUpdateDealsRequest> =
 export interface DeactivateClientUserRequest {}
 
 export const DeactivateClientUserRequest: Schema.Schema<DeactivateClientUserRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeactivateClientUserRequest",
   }) as any as Schema.Schema<DeactivateClientUserRequest>;
 
@@ -1393,13 +1413,14 @@ export interface ClientUser {
     | (string & {});
 }
 
-export const ClientUser: Schema.Schema<ClientUser> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ClientUser" }) as any as Schema.Schema<ClientUser>;
+export const ClientUser: Schema.Schema<ClientUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ClientUser" }) as any as Schema.Schema<ClientUser>;
 
 export interface ListFinalizedDealsResponse {
   /** The list of finalized deals. */
@@ -1409,7 +1430,7 @@ export interface ListFinalizedDealsResponse {
 }
 
 export const ListFinalizedDealsResponse: Schema.Schema<ListFinalizedDealsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       finalizedDeals: Schema.optional(Schema.Array(FinalizedDeal)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1421,7 +1442,7 @@ export const ListFinalizedDealsResponse: Schema.Schema<ListFinalizedDealsRespons
 export interface ActivateClientUserRequest {}
 
 export const ActivateClientUserRequest: Schema.Schema<ActivateClientUserRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ActivateClientUserRequest",
   }) as any as Schema.Schema<ActivateClientUserRequest>;
 
@@ -1431,7 +1452,7 @@ export interface BatchUpdateDealsResponse {
 }
 
 export const BatchUpdateDealsResponse: Schema.Schema<BatchUpdateDealsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deals: Schema.optional(Schema.Array(Deal)),
     }),
@@ -1442,7 +1463,7 @@ export const BatchUpdateDealsResponse: Schema.Schema<BatchUpdateDealsResponse> =
 export interface SetReadyToServeRequest {}
 
 export const SetReadyToServeRequest: Schema.Schema<SetReadyToServeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SetReadyToServeRequest",
   }) as any as Schema.Schema<SetReadyToServeRequest>;
 
@@ -1454,7 +1475,7 @@ export interface ListClientUsersResponse {
 }
 
 export const ListClientUsersResponse: Schema.Schema<ListClientUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientUsers: Schema.optional(Schema.Array(ClientUser)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1474,20 +1495,22 @@ export interface AddNoteBuyersProposalsRequest {
   body?: AddNoteRequest;
 }
 
-export const AddNoteBuyersProposalsRequest = Schema.Struct({
-  proposal: Schema.String.pipe(T.HttpPath("proposal")),
-  body: Schema.optional(AddNoteRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}:addNote",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddNoteBuyersProposalsRequest>;
+export const AddNoteBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    proposal: Schema.String.pipe(T.HttpPath("proposal")),
+    body: Schema.optional(AddNoteRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}:addNote",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddNoteBuyersProposalsRequest>;
 
 export type AddNoteBuyersProposalsResponse = Proposal;
-export const AddNoteBuyersProposalsResponse = Proposal;
+export const AddNoteBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type AddNoteBuyersProposalsError = DefaultErrors;
 
@@ -1497,7 +1520,7 @@ export const addNoteBuyersProposals: API.OperationMethod<
   AddNoteBuyersProposalsResponse,
   AddNoteBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddNoteBuyersProposalsRequest,
   output: AddNoteBuyersProposalsResponse,
   errors: [],
@@ -1510,20 +1533,22 @@ export interface CancelNegotiationBuyersProposalsRequest {
   body?: CancelNegotiationRequest;
 }
 
-export const CancelNegotiationBuyersProposalsRequest = Schema.Struct({
-  proposal: Schema.String.pipe(T.HttpPath("proposal")),
-  body: Schema.optional(CancelNegotiationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}:cancelNegotiation",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelNegotiationBuyersProposalsRequest>;
+export const CancelNegotiationBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    proposal: Schema.String.pipe(T.HttpPath("proposal")),
+    body: Schema.optional(CancelNegotiationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}:cancelNegotiation",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelNegotiationBuyersProposalsRequest>;
 
 export type CancelNegotiationBuyersProposalsResponse = Proposal;
-export const CancelNegotiationBuyersProposalsResponse = Proposal;
+export const CancelNegotiationBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type CancelNegotiationBuyersProposalsError = DefaultErrors;
 
@@ -1533,7 +1558,7 @@ export const cancelNegotiationBuyersProposals: API.OperationMethod<
   CancelNegotiationBuyersProposalsResponse,
   CancelNegotiationBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelNegotiationBuyersProposalsRequest,
   output: CancelNegotiationBuyersProposalsResponse,
   errors: [],
@@ -1548,21 +1573,23 @@ export interface PatchBuyersProposalsRequest {
   body?: Proposal;
 }
 
-export const PatchBuyersProposalsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Proposal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBuyersProposalsRequest>;
+export const PatchBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Proposal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBuyersProposalsRequest>;
 
 export type PatchBuyersProposalsResponse = Proposal;
-export const PatchBuyersProposalsResponse = Proposal;
+export const PatchBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type PatchBuyersProposalsError = DefaultErrors;
 
@@ -1572,7 +1599,7 @@ export const patchBuyersProposals: API.OperationMethod<
   PatchBuyersProposalsResponse,
   PatchBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBuyersProposalsRequest,
   output: PatchBuyersProposalsResponse,
   errors: [],
@@ -1589,18 +1616,20 @@ export interface ListBuyersProposalsRequest {
   filter?: string;
 }
 
-export const ListBuyersProposalsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/proposals" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersProposalsRequest>;
+export const ListBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/proposals" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersProposalsRequest>;
 
 export type ListBuyersProposalsResponse = ListProposalsResponse;
-export const ListBuyersProposalsResponse = ListProposalsResponse;
+export const ListBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProposalsResponse;
 
 export type ListBuyersProposalsError = DefaultErrors;
 
@@ -1610,7 +1639,7 @@ export const listBuyersProposals: API.PaginatedOperationMethod<
   ListBuyersProposalsResponse,
   ListBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersProposalsRequest,
   output: ListBuyersProposalsResponse,
   errors: [],
@@ -1627,20 +1656,22 @@ export interface SendRfpBuyersProposalsRequest {
   body?: SendRfpRequest;
 }
 
-export const SendRfpBuyersProposalsRequest = Schema.Struct({
-  buyer: Schema.String.pipe(T.HttpPath("buyer")),
-  body: Schema.optional(SendRfpRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/proposals:sendRfp",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendRfpBuyersProposalsRequest>;
+export const SendRfpBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    buyer: Schema.String.pipe(T.HttpPath("buyer")),
+    body: Schema.optional(SendRfpRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/proposals:sendRfp",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendRfpBuyersProposalsRequest>;
 
 export type SendRfpBuyersProposalsResponse = Proposal;
-export const SendRfpBuyersProposalsResponse = Proposal;
+export const SendRfpBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type SendRfpBuyersProposalsError = DefaultErrors;
 
@@ -1650,7 +1681,7 @@ export const sendRfpBuyersProposals: API.OperationMethod<
   SendRfpBuyersProposalsResponse,
   SendRfpBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendRfpBuyersProposalsRequest,
   output: SendRfpBuyersProposalsResponse,
   errors: [],
@@ -1663,20 +1694,22 @@ export interface AcceptBuyersProposalsRequest {
   body?: AcceptProposalRequest;
 }
 
-export const AcceptBuyersProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AcceptProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}:accept",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcceptBuyersProposalsRequest>;
+export const AcceptBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AcceptProposalRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}:accept",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptBuyersProposalsRequest>;
 
 export type AcceptBuyersProposalsResponse = Proposal;
-export const AcceptBuyersProposalsResponse = Proposal;
+export const AcceptBuyersProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type AcceptBuyersProposalsError = DefaultErrors;
 
@@ -1686,7 +1719,7 @@ export const acceptBuyersProposals: API.OperationMethod<
   AcceptBuyersProposalsResponse,
   AcceptBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptBuyersProposalsRequest,
   output: AcceptBuyersProposalsResponse,
   errors: [],
@@ -1697,18 +1730,19 @@ export interface GetBuyersProposalsRequest {
   name: string;
 }
 
-export const GetBuyersProposalsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersProposalsRequest>;
+export const GetBuyersProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersProposalsRequest>;
 
 export type GetBuyersProposalsResponse = Proposal;
-export const GetBuyersProposalsResponse = Proposal;
+export const GetBuyersProposalsResponse = /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type GetBuyersProposalsError = DefaultErrors;
 
@@ -1718,7 +1752,7 @@ export const getBuyersProposals: API.OperationMethod<
   GetBuyersProposalsResponse,
   GetBuyersProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersProposalsRequest,
   output: GetBuyersProposalsResponse,
   errors: [],
@@ -1733,20 +1767,22 @@ export interface ListBuyersProposalsDealsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersProposalsDealsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersProposalsDealsRequest>;
+export const ListBuyersProposalsDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersProposalsDealsRequest>;
 
 export type ListBuyersProposalsDealsResponse = ListDealsResponse;
-export const ListBuyersProposalsDealsResponse = ListDealsResponse;
+export const ListBuyersProposalsDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDealsResponse;
 
 export type ListBuyersProposalsDealsError = DefaultErrors;
 
@@ -1756,7 +1792,7 @@ export const listBuyersProposalsDeals: API.PaginatedOperationMethod<
   ListBuyersProposalsDealsResponse,
   ListBuyersProposalsDealsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersProposalsDealsRequest,
   output: ListBuyersProposalsDealsResponse,
   errors: [],
@@ -1775,21 +1811,23 @@ export interface PatchBuyersProposalsDealsRequest {
   body?: Deal;
 }
 
-export const PatchBuyersProposalsDealsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Deal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals/{dealsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBuyersProposalsDealsRequest>;
+export const PatchBuyersProposalsDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Deal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals/{dealsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBuyersProposalsDealsRequest>;
 
 export type PatchBuyersProposalsDealsResponse = Deal;
-export const PatchBuyersProposalsDealsResponse = Deal;
+export const PatchBuyersProposalsDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deal;
 
 export type PatchBuyersProposalsDealsError = DefaultErrors;
 
@@ -1799,7 +1837,7 @@ export const patchBuyersProposalsDeals: API.OperationMethod<
   PatchBuyersProposalsDealsResponse,
   PatchBuyersProposalsDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBuyersProposalsDealsRequest,
   output: PatchBuyersProposalsDealsResponse,
   errors: [],
@@ -1812,20 +1850,22 @@ export interface BatchUpdateBuyersProposalsDealsRequest {
   body?: BatchUpdateDealsRequest;
 }
 
-export const BatchUpdateBuyersProposalsDealsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchUpdateDealsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateBuyersProposalsDealsRequest>;
+export const BatchUpdateBuyersProposalsDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchUpdateDealsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateBuyersProposalsDealsRequest>;
 
 export type BatchUpdateBuyersProposalsDealsResponse = BatchUpdateDealsResponse;
-export const BatchUpdateBuyersProposalsDealsResponse = BatchUpdateDealsResponse;
+export const BatchUpdateBuyersProposalsDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BatchUpdateDealsResponse;
 
 export type BatchUpdateBuyersProposalsDealsError = DefaultErrors;
 
@@ -1835,7 +1875,7 @@ export const batchUpdateBuyersProposalsDeals: API.OperationMethod<
   BatchUpdateBuyersProposalsDealsResponse,
   BatchUpdateBuyersProposalsDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateBuyersProposalsDealsRequest,
   output: BatchUpdateBuyersProposalsDealsResponse,
   errors: [],
@@ -1846,18 +1886,19 @@ export interface GetBuyersProposalsDealsRequest {
   name: string;
 }
 
-export const GetBuyersProposalsDealsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals/{dealsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersProposalsDealsRequest>;
+export const GetBuyersProposalsDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/proposals/{proposalsId}/deals/{dealsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersProposalsDealsRequest>;
 
 export type GetBuyersProposalsDealsResponse = Deal;
-export const GetBuyersProposalsDealsResponse = Deal;
+export const GetBuyersProposalsDealsResponse = /*@__PURE__*/ /*#__PURE__*/ Deal;
 
 export type GetBuyersProposalsDealsError = DefaultErrors;
 
@@ -1867,7 +1908,7 @@ export const getBuyersProposalsDeals: API.OperationMethod<
   GetBuyersProposalsDealsResponse,
   GetBuyersProposalsDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersProposalsDealsRequest,
   output: GetBuyersProposalsDealsResponse,
   errors: [],
@@ -1880,20 +1921,22 @@ export interface UnsubscribeBuyersAuctionPackagesRequest {
   body?: UnsubscribeAuctionPackageRequest;
 }
 
-export const UnsubscribeBuyersAuctionPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UnsubscribeAuctionPackageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:unsubscribe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnsubscribeBuyersAuctionPackagesRequest>;
+export const UnsubscribeBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UnsubscribeAuctionPackageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:unsubscribe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnsubscribeBuyersAuctionPackagesRequest>;
 
 export type UnsubscribeBuyersAuctionPackagesResponse = AuctionPackage;
-export const UnsubscribeBuyersAuctionPackagesResponse = AuctionPackage;
+export const UnsubscribeBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuctionPackage;
 
 export type UnsubscribeBuyersAuctionPackagesError = DefaultErrors;
 
@@ -1903,7 +1946,7 @@ export const unsubscribeBuyersAuctionPackages: API.OperationMethod<
   UnsubscribeBuyersAuctionPackagesResponse,
   UnsubscribeBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeBuyersAuctionPackagesRequest,
   output: UnsubscribeBuyersAuctionPackagesResponse,
   errors: [],
@@ -1922,19 +1965,21 @@ export interface ListBuyersAuctionPackagesRequest {
   pageToken?: string;
 }
 
-export const ListBuyersAuctionPackagesRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/auctionPackages" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersAuctionPackagesRequest>;
+export const ListBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/auctionPackages" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersAuctionPackagesRequest>;
 
 export type ListBuyersAuctionPackagesResponse = ListAuctionPackagesResponse;
-export const ListBuyersAuctionPackagesResponse = ListAuctionPackagesResponse;
+export const ListBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAuctionPackagesResponse;
 
 export type ListBuyersAuctionPackagesError = DefaultErrors;
 
@@ -1944,7 +1989,7 @@ export const listBuyersAuctionPackages: API.PaginatedOperationMethod<
   ListBuyersAuctionPackagesResponse,
   ListBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersAuctionPackagesRequest,
   output: ListBuyersAuctionPackagesResponse,
   errors: [],
@@ -1961,20 +2006,22 @@ export interface SubscribeBuyersAuctionPackagesRequest {
   body?: SubscribeAuctionPackageRequest;
 }
 
-export const SubscribeBuyersAuctionPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SubscribeAuctionPackageRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:subscribe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SubscribeBuyersAuctionPackagesRequest>;
+export const SubscribeBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SubscribeAuctionPackageRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:subscribe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SubscribeBuyersAuctionPackagesRequest>;
 
 export type SubscribeBuyersAuctionPackagesResponse = AuctionPackage;
-export const SubscribeBuyersAuctionPackagesResponse = AuctionPackage;
+export const SubscribeBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuctionPackage;
 
 export type SubscribeBuyersAuctionPackagesError = DefaultErrors;
 
@@ -1984,7 +2031,7 @@ export const subscribeBuyersAuctionPackages: API.OperationMethod<
   SubscribeBuyersAuctionPackagesResponse,
   SubscribeBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeBuyersAuctionPackagesRequest,
   output: SubscribeBuyersAuctionPackagesResponse,
   errors: [],
@@ -1997,20 +2044,22 @@ export interface SubscribeClientsBuyersAuctionPackagesRequest {
   body?: SubscribeClientsRequest;
 }
 
-export const SubscribeClientsBuyersAuctionPackagesRequest = Schema.Struct({
-  auctionPackage: Schema.String.pipe(T.HttpPath("auctionPackage")),
-  body: Schema.optional(SubscribeClientsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:subscribeClients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SubscribeClientsBuyersAuctionPackagesRequest>;
+export const SubscribeClientsBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    auctionPackage: Schema.String.pipe(T.HttpPath("auctionPackage")),
+    body: Schema.optional(SubscribeClientsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:subscribeClients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SubscribeClientsBuyersAuctionPackagesRequest>;
 
 export type SubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
-export const SubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
+export const SubscribeClientsBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuctionPackage;
 
 export type SubscribeClientsBuyersAuctionPackagesError = DefaultErrors;
 
@@ -2020,7 +2069,7 @@ export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<
   SubscribeClientsBuyersAuctionPackagesResponse,
   SubscribeClientsBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SubscribeClientsBuyersAuctionPackagesRequest,
   output: SubscribeClientsBuyersAuctionPackagesResponse,
   errors: [],
@@ -2031,18 +2080,20 @@ export interface GetBuyersAuctionPackagesRequest {
   name: string;
 }
 
-export const GetBuyersAuctionPackagesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersAuctionPackagesRequest>;
+export const GetBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersAuctionPackagesRequest>;
 
 export type GetBuyersAuctionPackagesResponse = AuctionPackage;
-export const GetBuyersAuctionPackagesResponse = AuctionPackage;
+export const GetBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuctionPackage;
 
 export type GetBuyersAuctionPackagesError = DefaultErrors;
 
@@ -2052,7 +2103,7 @@ export const getBuyersAuctionPackages: API.OperationMethod<
   GetBuyersAuctionPackagesResponse,
   GetBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersAuctionPackagesRequest,
   output: GetBuyersAuctionPackagesResponse,
   errors: [],
@@ -2065,20 +2116,22 @@ export interface UnsubscribeClientsBuyersAuctionPackagesRequest {
   body?: UnsubscribeClientsRequest;
 }
 
-export const UnsubscribeClientsBuyersAuctionPackagesRequest = Schema.Struct({
-  auctionPackage: Schema.String.pipe(T.HttpPath("auctionPackage")),
-  body: Schema.optional(UnsubscribeClientsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:unsubscribeClients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnsubscribeClientsBuyersAuctionPackagesRequest>;
+export const UnsubscribeClientsBuyersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    auctionPackage: Schema.String.pipe(T.HttpPath("auctionPackage")),
+    body: Schema.optional(UnsubscribeClientsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/auctionPackages/{auctionPackagesId}:unsubscribeClients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnsubscribeClientsBuyersAuctionPackagesRequest>;
 
 export type UnsubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
-export const UnsubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
+export const UnsubscribeClientsBuyersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuctionPackage;
 
 export type UnsubscribeClientsBuyersAuctionPackagesError = DefaultErrors;
 
@@ -2088,7 +2141,7 @@ export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<
   UnsubscribeClientsBuyersAuctionPackagesResponse,
   UnsubscribeClientsBuyersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnsubscribeClientsBuyersAuctionPackagesRequest,
   output: UnsubscribeClientsBuyersAuctionPackagesResponse,
   errors: [],
@@ -2105,19 +2158,20 @@ export interface ListBuyersPublisherProfilesRequest {
   filter?: string;
 }
 
-export const ListBuyersPublisherProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/publisherProfiles" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersPublisherProfilesRequest>;
+export const ListBuyersPublisherProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/publisherProfiles" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersPublisherProfilesRequest>;
 
 export type ListBuyersPublisherProfilesResponse = ListPublisherProfilesResponse;
 export const ListBuyersPublisherProfilesResponse =
-  ListPublisherProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPublisherProfilesResponse;
 
 export type ListBuyersPublisherProfilesError = DefaultErrors;
 
@@ -2127,7 +2181,7 @@ export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<
   ListBuyersPublisherProfilesResponse,
   ListBuyersPublisherProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersPublisherProfilesRequest,
   output: ListBuyersPublisherProfilesResponse,
   errors: [],
@@ -2142,18 +2196,20 @@ export interface GetBuyersPublisherProfilesRequest {
   name: string;
 }
 
-export const GetBuyersPublisherProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/publisherProfiles/{publisherProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersPublisherProfilesRequest>;
+export const GetBuyersPublisherProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/publisherProfiles/{publisherProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersPublisherProfilesRequest>;
 
 export type GetBuyersPublisherProfilesResponse = PublisherProfile;
-export const GetBuyersPublisherProfilesResponse = PublisherProfile;
+export const GetBuyersPublisherProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublisherProfile;
 
 export type GetBuyersPublisherProfilesError = DefaultErrors;
 
@@ -2163,7 +2219,7 @@ export const getBuyersPublisherProfiles: API.OperationMethod<
   GetBuyersPublisherProfilesResponse,
   GetBuyersPublisherProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersPublisherProfilesRequest,
   output: GetBuyersPublisherProfilesResponse,
   errors: [],
@@ -2178,21 +2234,22 @@ export interface PatchBuyersClientsRequest {
   body?: Client;
 }
 
-export const PatchBuyersClientsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBuyersClientsRequest>;
+export const PatchBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBuyersClientsRequest>;
 
 export type PatchBuyersClientsResponse = Client;
-export const PatchBuyersClientsResponse = Client;
+export const PatchBuyersClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type PatchBuyersClientsError = DefaultErrors;
 
@@ -2202,7 +2259,7 @@ export const patchBuyersClients: API.OperationMethod<
   PatchBuyersClientsResponse,
   PatchBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBuyersClientsRequest,
   output: PatchBuyersClientsResponse,
   errors: [],
@@ -2215,20 +2272,21 @@ export interface ActivateBuyersClientsRequest {
   body?: ActivateClientRequest;
 }
 
-export const ActivateBuyersClientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ActivateClientRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateBuyersClientsRequest>;
+export const ActivateBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ActivateClientRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateBuyersClientsRequest>;
 
 export type ActivateBuyersClientsResponse = Client;
-export const ActivateBuyersClientsResponse = Client;
+export const ActivateBuyersClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type ActivateBuyersClientsError = DefaultErrors;
 
@@ -2238,7 +2296,7 @@ export const activateBuyersClients: API.OperationMethod<
   ActivateBuyersClientsResponse,
   ActivateBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateBuyersClientsRequest,
   output: ActivateBuyersClientsResponse,
   errors: [],
@@ -2251,20 +2309,22 @@ export interface DeactivateBuyersClientsRequest {
   body?: DeactivateClientRequest;
 }
 
-export const DeactivateBuyersClientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeactivateClientRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}:deactivate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeactivateBuyersClientsRequest>;
+export const DeactivateBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeactivateClientRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}:deactivate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeactivateBuyersClientsRequest>;
 
 export type DeactivateBuyersClientsResponse = Client;
-export const DeactivateBuyersClientsResponse = Client;
+export const DeactivateBuyersClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type DeactivateBuyersClientsError = DefaultErrors;
 
@@ -2274,7 +2334,7 @@ export const deactivateBuyersClients: API.OperationMethod<
   DeactivateBuyersClientsResponse,
   DeactivateBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateBuyersClientsRequest,
   output: DeactivateBuyersClientsResponse,
   errors: [],
@@ -2285,15 +2345,16 @@ export interface GetBuyersClientsRequest {
   name: string;
 }
 
-export const GetBuyersClientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/clients/{clientsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersClientsRequest>;
+export const GetBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/clients/{clientsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersClientsRequest>;
 
 export type GetBuyersClientsResponse = Client;
-export const GetBuyersClientsResponse = Client;
+export const GetBuyersClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type GetBuyersClientsError = DefaultErrors;
 
@@ -2303,7 +2364,7 @@ export const getBuyersClients: API.OperationMethod<
   GetBuyersClientsResponse,
   GetBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersClientsRequest,
   output: GetBuyersClientsResponse,
   errors: [],
@@ -2320,18 +2381,20 @@ export interface ListBuyersClientsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersClientsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/clients" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersClientsRequest>;
+export const ListBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/clients" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersClientsRequest>;
 
 export type ListBuyersClientsResponse = ListClientsResponse;
-export const ListBuyersClientsResponse = ListClientsResponse;
+export const ListBuyersClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListClientsResponse;
 
 export type ListBuyersClientsError = DefaultErrors;
 
@@ -2341,7 +2404,7 @@ export const listBuyersClients: API.PaginatedOperationMethod<
   ListBuyersClientsResponse,
   ListBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersClientsRequest,
   output: ListBuyersClientsResponse,
   errors: [],
@@ -2358,20 +2421,21 @@ export interface CreateBuyersClientsRequest {
   body?: Client;
 }
 
-export const CreateBuyersClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBuyersClientsRequest>;
+export const CreateBuyersClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBuyersClientsRequest>;
 
 export type CreateBuyersClientsResponse = Client;
-export const CreateBuyersClientsResponse = Client;
+export const CreateBuyersClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type CreateBuyersClientsError = DefaultErrors;
 
@@ -2381,7 +2445,7 @@ export const createBuyersClients: API.OperationMethod<
   CreateBuyersClientsResponse,
   CreateBuyersClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuyersClientsRequest,
   output: CreateBuyersClientsResponse,
   errors: [],
@@ -2392,18 +2456,20 @@ export interface DeleteBuyersClientsUsersRequest {
   name: string;
 }
 
-export const DeleteBuyersClientsUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBuyersClientsUsersRequest>;
+export const DeleteBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBuyersClientsUsersRequest>;
 
 export type DeleteBuyersClientsUsersResponse = Empty;
-export const DeleteBuyersClientsUsersResponse = Empty;
+export const DeleteBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBuyersClientsUsersError = DefaultErrors;
 
@@ -2413,7 +2479,7 @@ export const deleteBuyersClientsUsers: API.OperationMethod<
   DeleteBuyersClientsUsersResponse,
   DeleteBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuyersClientsUsersRequest,
   output: DeleteBuyersClientsUsersResponse,
   errors: [],
@@ -2426,20 +2492,22 @@ export interface ActivateBuyersClientsUsersRequest {
   body?: ActivateClientUserRequest;
 }
 
-export const ActivateBuyersClientsUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ActivateClientUserRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateBuyersClientsUsersRequest>;
+export const ActivateBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ActivateClientUserRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateBuyersClientsUsersRequest>;
 
 export type ActivateBuyersClientsUsersResponse = ClientUser;
-export const ActivateBuyersClientsUsersResponse = ClientUser;
+export const ActivateBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type ActivateBuyersClientsUsersError = DefaultErrors;
 
@@ -2449,7 +2517,7 @@ export const activateBuyersClientsUsers: API.OperationMethod<
   ActivateBuyersClientsUsersResponse,
   ActivateBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateBuyersClientsUsersRequest,
   output: ActivateBuyersClientsUsersResponse,
   errors: [],
@@ -2462,20 +2530,22 @@ export interface DeactivateBuyersClientsUsersRequest {
   body?: DeactivateClientUserRequest;
 }
 
-export const DeactivateBuyersClientsUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(DeactivateClientUserRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}:deactivate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeactivateBuyersClientsUsersRequest>;
+export const DeactivateBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(DeactivateClientUserRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}:deactivate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeactivateBuyersClientsUsersRequest>;
 
 export type DeactivateBuyersClientsUsersResponse = ClientUser;
-export const DeactivateBuyersClientsUsersResponse = ClientUser;
+export const DeactivateBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type DeactivateBuyersClientsUsersError = DefaultErrors;
 
@@ -2485,7 +2555,7 @@ export const deactivateBuyersClientsUsers: API.OperationMethod<
   DeactivateBuyersClientsUsersResponse,
   DeactivateBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeactivateBuyersClientsUsersRequest,
   output: DeactivateBuyersClientsUsersResponse,
   errors: [],
@@ -2500,20 +2570,22 @@ export interface ListBuyersClientsUsersRequest {
   pageToken?: string;
 }
 
-export const ListBuyersClientsUsersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersClientsUsersRequest>;
+export const ListBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersClientsUsersRequest>;
 
 export type ListBuyersClientsUsersResponse = ListClientUsersResponse;
-export const ListBuyersClientsUsersResponse = ListClientUsersResponse;
+export const ListBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListClientUsersResponse;
 
 export type ListBuyersClientsUsersError = DefaultErrors;
 
@@ -2523,7 +2595,7 @@ export const listBuyersClientsUsers: API.PaginatedOperationMethod<
   ListBuyersClientsUsersResponse,
   ListBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersClientsUsersRequest,
   output: ListBuyersClientsUsersResponse,
   errors: [],
@@ -2540,20 +2612,22 @@ export interface CreateBuyersClientsUsersRequest {
   body?: ClientUser;
 }
 
-export const CreateBuyersClientsUsersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ClientUser).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBuyersClientsUsersRequest>;
+export const CreateBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ClientUser).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBuyersClientsUsersRequest>;
 
 export type CreateBuyersClientsUsersResponse = ClientUser;
-export const CreateBuyersClientsUsersResponse = ClientUser;
+export const CreateBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type CreateBuyersClientsUsersError = DefaultErrors;
 
@@ -2563,7 +2637,7 @@ export const createBuyersClientsUsers: API.OperationMethod<
   CreateBuyersClientsUsersResponse,
   CreateBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuyersClientsUsersRequest,
   output: CreateBuyersClientsUsersResponse,
   errors: [],
@@ -2574,18 +2648,20 @@ export interface GetBuyersClientsUsersRequest {
   name: string;
 }
 
-export const GetBuyersClientsUsersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersClientsUsersRequest>;
+export const GetBuyersClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/clients/{clientsId}/users/{usersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersClientsUsersRequest>;
 
 export type GetBuyersClientsUsersResponse = ClientUser;
-export const GetBuyersClientsUsersResponse = ClientUser;
+export const GetBuyersClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type GetBuyersClientsUsersError = DefaultErrors;
 
@@ -2595,7 +2671,7 @@ export const getBuyersClientsUsers: API.OperationMethod<
   GetBuyersClientsUsersResponse,
   GetBuyersClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersClientsUsersRequest,
   output: GetBuyersClientsUsersResponse,
   errors: [],
@@ -2608,20 +2684,22 @@ export interface PauseBuyersFinalizedDealsRequest {
   body?: PauseFinalizedDealRequest;
 }
 
-export const PauseBuyersFinalizedDealsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(PauseFinalizedDealRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseBuyersFinalizedDealsRequest>;
+export const PauseBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PauseFinalizedDealRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseBuyersFinalizedDealsRequest>;
 
 export type PauseBuyersFinalizedDealsResponse = FinalizedDeal;
-export const PauseBuyersFinalizedDealsResponse = FinalizedDeal;
+export const PauseBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type PauseBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2631,7 +2709,7 @@ export const pauseBuyersFinalizedDeals: API.OperationMethod<
   PauseBuyersFinalizedDealsResponse,
   PauseBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseBuyersFinalizedDealsRequest,
   output: PauseBuyersFinalizedDealsResponse,
   errors: [],
@@ -2642,18 +2720,20 @@ export interface GetBuyersFinalizedDealsRequest {
   name: string;
 }
 
-export const GetBuyersFinalizedDealsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersFinalizedDealsRequest>;
+export const GetBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersFinalizedDealsRequest>;
 
 export type GetBuyersFinalizedDealsResponse = FinalizedDeal;
-export const GetBuyersFinalizedDealsResponse = FinalizedDeal;
+export const GetBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type GetBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2663,7 +2743,7 @@ export const getBuyersFinalizedDeals: API.OperationMethod<
   GetBuyersFinalizedDealsResponse,
   GetBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersFinalizedDealsRequest,
   output: GetBuyersFinalizedDealsResponse,
   errors: [],
@@ -2676,20 +2756,22 @@ export interface ResumeBuyersFinalizedDealsRequest {
   body?: ResumeFinalizedDealRequest;
 }
 
-export const ResumeBuyersFinalizedDealsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ResumeFinalizedDealRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeBuyersFinalizedDealsRequest>;
+export const ResumeBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ResumeFinalizedDealRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeBuyersFinalizedDealsRequest>;
 
 export type ResumeBuyersFinalizedDealsResponse = FinalizedDeal;
-export const ResumeBuyersFinalizedDealsResponse = FinalizedDeal;
+export const ResumeBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type ResumeBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2699,7 +2781,7 @@ export const resumeBuyersFinalizedDeals: API.OperationMethod<
   ResumeBuyersFinalizedDealsResponse,
   ResumeBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeBuyersFinalizedDealsRequest,
   output: ResumeBuyersFinalizedDealsResponse,
   errors: [],
@@ -2712,20 +2794,22 @@ export interface AddCreativeBuyersFinalizedDealsRequest {
   body?: AddCreativeRequest;
 }
 
-export const AddCreativeBuyersFinalizedDealsRequest = Schema.Struct({
-  deal: Schema.String.pipe(T.HttpPath("deal")),
-  body: Schema.optional(AddCreativeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:addCreative",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddCreativeBuyersFinalizedDealsRequest>;
+export const AddCreativeBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    deal: Schema.String.pipe(T.HttpPath("deal")),
+    body: Schema.optional(AddCreativeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:addCreative",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddCreativeBuyersFinalizedDealsRequest>;
 
 export type AddCreativeBuyersFinalizedDealsResponse = FinalizedDeal;
-export const AddCreativeBuyersFinalizedDealsResponse = FinalizedDeal;
+export const AddCreativeBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type AddCreativeBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2735,7 +2819,7 @@ export const addCreativeBuyersFinalizedDeals: API.OperationMethod<
   AddCreativeBuyersFinalizedDealsResponse,
   AddCreativeBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCreativeBuyersFinalizedDealsRequest,
   output: AddCreativeBuyersFinalizedDealsResponse,
   errors: [],
@@ -2754,19 +2838,21 @@ export interface ListBuyersFinalizedDealsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFinalizedDealsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/finalizedDeals" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFinalizedDealsRequest>;
+export const ListBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/finalizedDeals" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFinalizedDealsRequest>;
 
 export type ListBuyersFinalizedDealsResponse = ListFinalizedDealsResponse;
-export const ListBuyersFinalizedDealsResponse = ListFinalizedDealsResponse;
+export const ListBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFinalizedDealsResponse;
 
 export type ListBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2776,7 +2862,7 @@ export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<
   ListBuyersFinalizedDealsResponse,
   ListBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFinalizedDealsRequest,
   output: ListBuyersFinalizedDealsResponse,
   errors: [],
@@ -2793,20 +2879,22 @@ export interface SetReadyToServeBuyersFinalizedDealsRequest {
   body?: SetReadyToServeRequest;
 }
 
-export const SetReadyToServeBuyersFinalizedDealsRequest = Schema.Struct({
-  deal: Schema.String.pipe(T.HttpPath("deal")),
-  body: Schema.optional(SetReadyToServeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:setReadyToServe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetReadyToServeBuyersFinalizedDealsRequest>;
+export const SetReadyToServeBuyersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    deal: Schema.String.pipe(T.HttpPath("deal")),
+    body: Schema.optional(SetReadyToServeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/finalizedDeals/{finalizedDealsId}:setReadyToServe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetReadyToServeBuyersFinalizedDealsRequest>;
 
 export type SetReadyToServeBuyersFinalizedDealsResponse = FinalizedDeal;
-export const SetReadyToServeBuyersFinalizedDealsResponse = FinalizedDeal;
+export const SetReadyToServeBuyersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type SetReadyToServeBuyersFinalizedDealsError = DefaultErrors;
 
@@ -2816,7 +2904,7 @@ export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<
   SetReadyToServeBuyersFinalizedDealsResponse,
   SetReadyToServeBuyersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetReadyToServeBuyersFinalizedDealsRequest,
   output: SetReadyToServeBuyersFinalizedDealsResponse,
   errors: [],
@@ -2835,19 +2923,21 @@ export interface ListBiddersAuctionPackagesRequest {
   orderBy?: string;
 }
 
-export const ListBiddersAuctionPackagesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/auctionPackages" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersAuctionPackagesRequest>;
+export const ListBiddersAuctionPackagesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/bidders/{biddersId}/auctionPackages" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersAuctionPackagesRequest>;
 
 export type ListBiddersAuctionPackagesResponse = ListAuctionPackagesResponse;
-export const ListBiddersAuctionPackagesResponse = ListAuctionPackagesResponse;
+export const ListBiddersAuctionPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAuctionPackagesResponse;
 
 export type ListBiddersAuctionPackagesError = DefaultErrors;
 
@@ -2857,7 +2947,7 @@ export const listBiddersAuctionPackages: API.PaginatedOperationMethod<
   ListBiddersAuctionPackagesResponse,
   ListBiddersAuctionPackagesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAuctionPackagesRequest,
   output: ListBiddersAuctionPackagesResponse,
   errors: [],
@@ -2880,19 +2970,21 @@ export interface ListBiddersFinalizedDealsRequest {
   orderBy?: string;
 }
 
-export const ListBiddersFinalizedDealsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/finalizedDeals" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFinalizedDealsRequest>;
+export const ListBiddersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/bidders/{biddersId}/finalizedDeals" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFinalizedDealsRequest>;
 
 export type ListBiddersFinalizedDealsResponse = ListFinalizedDealsResponse;
-export const ListBiddersFinalizedDealsResponse = ListFinalizedDealsResponse;
+export const ListBiddersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFinalizedDealsResponse;
 
 export type ListBiddersFinalizedDealsError = DefaultErrors;
 
@@ -2902,7 +2994,7 @@ export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<
   ListBiddersFinalizedDealsResponse,
   ListBiddersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFinalizedDealsRequest,
   output: ListBiddersFinalizedDealsResponse,
   errors: [],
@@ -2919,20 +3011,22 @@ export interface SetReadyToServeBiddersFinalizedDealsRequest {
   body?: SetReadyToServeRequest;
 }
 
-export const SetReadyToServeBiddersFinalizedDealsRequest = Schema.Struct({
-  deal: Schema.String.pipe(T.HttpPath("deal")),
-  body: Schema.optional(SetReadyToServeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/finalizedDeals/{finalizedDealsId}:setReadyToServe",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetReadyToServeBiddersFinalizedDealsRequest>;
+export const SetReadyToServeBiddersFinalizedDealsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    deal: Schema.String.pipe(T.HttpPath("deal")),
+    body: Schema.optional(SetReadyToServeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/finalizedDeals/{finalizedDealsId}:setReadyToServe",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetReadyToServeBiddersFinalizedDealsRequest>;
 
 export type SetReadyToServeBiddersFinalizedDealsResponse = FinalizedDeal;
-export const SetReadyToServeBiddersFinalizedDealsResponse = FinalizedDeal;
+export const SetReadyToServeBiddersFinalizedDealsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FinalizedDeal;
 
 export type SetReadyToServeBiddersFinalizedDealsError = DefaultErrors;
 
@@ -2942,7 +3036,7 @@ export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<
   SetReadyToServeBiddersFinalizedDealsResponse,
   SetReadyToServeBiddersFinalizedDealsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetReadyToServeBiddersFinalizedDealsRequest,
   output: SetReadyToServeBiddersFinalizedDealsResponse,
   errors: [],

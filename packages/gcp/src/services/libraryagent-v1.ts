@@ -30,7 +30,7 @@ export interface GoogleExampleLibraryagentV1Shelf {
 }
 
 export const GoogleExampleLibraryagentV1Shelf: Schema.Schema<GoogleExampleLibraryagentV1Shelf> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       theme: Schema.optional(Schema.String),
@@ -47,7 +47,7 @@ export interface GoogleExampleLibraryagentV1ListShelvesResponse {
 }
 
 export const GoogleExampleLibraryagentV1ListShelvesResponse: Schema.Schema<GoogleExampleLibraryagentV1ListShelvesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shelves: Schema.optional(Schema.Array(GoogleExampleLibraryagentV1Shelf)),
       nextPageToken: Schema.optional(Schema.String),
@@ -68,7 +68,7 @@ export interface GoogleExampleLibraryagentV1Book {
 }
 
 export const GoogleExampleLibraryagentV1Book: Schema.Schema<GoogleExampleLibraryagentV1Book> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       author: Schema.optional(Schema.String),
@@ -87,7 +87,7 @@ export interface GoogleExampleLibraryagentV1ListBooksResponse {
 }
 
 export const GoogleExampleLibraryagentV1ListBooksResponse: Schema.Schema<GoogleExampleLibraryagentV1ListBooksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       books: Schema.optional(Schema.Array(GoogleExampleLibraryagentV1Book)),
@@ -107,7 +107,7 @@ export interface ListShelvesRequest {
   pageToken?: string;
 }
 
-export const ListShelvesRequest = Schema.Struct({
+export const ListShelvesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -118,7 +118,7 @@ export const ListShelvesRequest = Schema.Struct({
 export type ListShelvesResponse =
   GoogleExampleLibraryagentV1ListShelvesResponse;
 export const ListShelvesResponse =
-  GoogleExampleLibraryagentV1ListShelvesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1ListShelvesResponse;
 
 export type ListShelvesError = DefaultErrors;
 
@@ -128,7 +128,7 @@ export const listShelves: API.PaginatedOperationMethod<
   ListShelvesResponse,
   ListShelvesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListShelvesRequest,
   output: ListShelvesResponse,
   errors: [],
@@ -143,7 +143,7 @@ export interface GetShelvesRequest {
   name: string;
 }
 
-export const GetShelvesRequest = Schema.Struct({
+export const GetShelvesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/shelves/{shelvesId}" }),
@@ -151,7 +151,8 @@ export const GetShelvesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetShelvesRequest>;
 
 export type GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
-export const GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
+export const GetShelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1Shelf;
 
 export type GetShelvesError = DefaultErrors;
 
@@ -161,7 +162,7 @@ export const getShelves: API.OperationMethod<
   GetShelvesResponse,
   GetShelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShelvesRequest,
   output: GetShelvesResponse,
   errors: [],
@@ -172,15 +173,18 @@ export interface GetShelvesBooksRequest {
   name: string;
 }
 
-export const GetShelvesBooksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetShelvesBooksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v1/shelves/{shelvesId}/books/{booksId}" }),
   svc,
 ) as unknown as Schema.Schema<GetShelvesBooksRequest>;
 
 export type GetShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
-export const GetShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
+export const GetShelvesBooksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1Book;
 
 export type GetShelvesBooksError = DefaultErrors;
 
@@ -190,7 +194,7 @@ export const getShelvesBooks: API.OperationMethod<
   GetShelvesBooksResponse,
   GetShelvesBooksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShelvesBooksRequest,
   output: GetShelvesBooksResponse,
   errors: [],
@@ -201,19 +205,21 @@ export interface BorrowShelvesBooksRequest {
   name: string;
 }
 
-export const BorrowShelvesBooksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/shelves/{shelvesId}/books/{booksId}:borrow",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BorrowShelvesBooksRequest>;
+export const BorrowShelvesBooksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/shelves/{shelvesId}/books/{booksId}:borrow",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BorrowShelvesBooksRequest>;
 
 export type BorrowShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
-export const BorrowShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
+export const BorrowShelvesBooksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1Book;
 
 export type BorrowShelvesBooksError = DefaultErrors;
 
@@ -223,7 +229,7 @@ export const borrowShelvesBooks: API.OperationMethod<
   BorrowShelvesBooksResponse,
   BorrowShelvesBooksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BorrowShelvesBooksRequest,
   output: BorrowShelvesBooksResponse,
   errors: [],
@@ -234,19 +240,21 @@ export interface ReturnShelvesBooksRequest {
   name: string;
 }
 
-export const ReturnShelvesBooksRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/shelves/{shelvesId}/books/{booksId}:return",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReturnShelvesBooksRequest>;
+export const ReturnShelvesBooksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/shelves/{shelvesId}/books/{booksId}:return",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReturnShelvesBooksRequest>;
 
 export type ReturnShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
-export const ReturnShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
+export const ReturnShelvesBooksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1Book;
 
 export type ReturnShelvesBooksError = DefaultErrors;
 
@@ -256,7 +264,7 @@ export const returnShelvesBooks: API.OperationMethod<
   ReturnShelvesBooksResponse,
   ReturnShelvesBooksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReturnShelvesBooksRequest,
   output: ReturnShelvesBooksResponse,
   errors: [],
@@ -271,19 +279,20 @@ export interface ListShelvesBooksRequest {
   pageSize?: number;
 }
 
-export const ListShelvesBooksRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/shelves/{shelvesId}/books" }),
-  svc,
-) as unknown as Schema.Schema<ListShelvesBooksRequest>;
+export const ListShelvesBooksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/shelves/{shelvesId}/books" }),
+    svc,
+  ) as unknown as Schema.Schema<ListShelvesBooksRequest>;
 
 export type ListShelvesBooksResponse =
   GoogleExampleLibraryagentV1ListBooksResponse;
 export const ListShelvesBooksResponse =
-  GoogleExampleLibraryagentV1ListBooksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleExampleLibraryagentV1ListBooksResponse;
 
 export type ListShelvesBooksError = DefaultErrors;
 
@@ -293,7 +302,7 @@ export const listShelvesBooks: API.PaginatedOperationMethod<
   ListShelvesBooksResponse,
   ListShelvesBooksError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListShelvesBooksRequest,
   output: ListShelvesBooksResponse,
   errors: [],

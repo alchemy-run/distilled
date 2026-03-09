@@ -32,7 +32,7 @@ export interface Businessprofileperformance_Date {
 }
 
 export const Businessprofileperformance_Date: Schema.Schema<Businessprofileperformance_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
@@ -49,23 +49,25 @@ export interface DatedValue {
   value?: string;
 }
 
-export const DatedValue: Schema.Schema<DatedValue> = Schema.suspend(() =>
-  Schema.Struct({
-    date: Schema.optional(Businessprofileperformance_Date),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DatedValue" }) as any as Schema.Schema<DatedValue>;
+export const DatedValue: Schema.Schema<DatedValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      date: Schema.optional(Businessprofileperformance_Date),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DatedValue" }) as any as Schema.Schema<DatedValue>;
 
 export interface TimeSeries {
   /** List of datapoints in the timeseries, where each datapoint is a date-value pair. */
   datedValues?: Array<DatedValue>;
 }
 
-export const TimeSeries: Schema.Schema<TimeSeries> = Schema.suspend(() =>
-  Schema.Struct({
-    datedValues: Schema.optional(Schema.Array(DatedValue)),
-  }),
-).annotate({ identifier: "TimeSeries" }) as any as Schema.Schema<TimeSeries>;
+export const TimeSeries: Schema.Schema<TimeSeries> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      datedValues: Schema.optional(Schema.Array(DatedValue)),
+    }),
+  ).annotate({ identifier: "TimeSeries" }) as any as Schema.Schema<TimeSeries>;
 
 export interface TimeOfDay {
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
@@ -78,14 +80,15 @@ export interface TimeOfDay {
   hours?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    minutes: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minutes: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface DailySubEntityType {
   /** Represents the day of the week. Eg: MONDAY. Currently supported DailyMetrics = NONE. */
@@ -104,7 +107,7 @@ export interface DailySubEntityType {
 }
 
 export const DailySubEntityType: Schema.Schema<DailySubEntityType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dayOfWeek: Schema.optional(Schema.String),
       timeOfDay: Schema.optional(TimeOfDay),
@@ -136,7 +139,7 @@ export interface DailyMetricTimeSeries {
 }
 
 export const DailyMetricTimeSeries: Schema.Schema<DailyMetricTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeSeries: Schema.optional(TimeSeries),
       dailySubEntityType: Schema.optional(DailySubEntityType),
@@ -152,7 +155,7 @@ export interface MultiDailyMetricTimeSeries {
 }
 
 export const MultiDailyMetricTimeSeries: Schema.Schema<MultiDailyMetricTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dailyMetricTimeSeries: Schema.optional(
         Schema.Array(DailyMetricTimeSeries),
@@ -168,7 +171,7 @@ export interface FetchMultiDailyMetricsTimeSeriesResponse {
 }
 
 export const FetchMultiDailyMetricsTimeSeriesResponse: Schema.Schema<FetchMultiDailyMetricsTimeSeriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       multiDailyMetricTimeSeries: Schema.optional(
         Schema.Array(MultiDailyMetricTimeSeries),
@@ -185,14 +188,15 @@ export interface InsightsValue {
   threshold?: string;
 }
 
-export const InsightsValue: Schema.Schema<InsightsValue> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    threshold: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "InsightsValue",
-}) as any as Schema.Schema<InsightsValue>;
+export const InsightsValue: Schema.Schema<InsightsValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      threshold: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InsightsValue",
+  }) as any as Schema.Schema<InsightsValue>;
 
 export interface SearchKeywordCount {
   /** The lower-cased string that the user entered. */
@@ -202,7 +206,7 @@ export interface SearchKeywordCount {
 }
 
 export const SearchKeywordCount: Schema.Schema<SearchKeywordCount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchKeyword: Schema.optional(Schema.String),
       insightsValue: Schema.optional(InsightsValue),
@@ -217,7 +221,7 @@ export interface GetDailyMetricsTimeSeriesResponse {
 }
 
 export const GetDailyMetricsTimeSeriesResponse: Schema.Schema<GetDailyMetricsTimeSeriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeSeries: Schema.optional(TimeSeries),
     }),
@@ -233,7 +237,7 @@ export interface ListSearchKeywordImpressionsMonthlyResponse {
 }
 
 export const ListSearchKeywordImpressionsMonthlyResponse: Schema.Schema<ListSearchKeywordImpressionsMonthlyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       searchKeywordsCounts: Schema.optional(Schema.Array(SearchKeywordCount)),
@@ -278,41 +282,42 @@ export interface FetchMultiDailyMetricsTimeSeriesLocationsRequest {
   "dailyRange.endDate.month"?: number;
 }
 
-export const FetchMultiDailyMetricsTimeSeriesLocationsRequest = Schema.Struct({
-  "dailyRange.startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.year"),
-  ),
-  "dailyRange.endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.year"),
-  ),
-  "dailyRange.startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.day"),
-  ),
-  "dailyRange.endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.day"),
-  ),
-  location: Schema.String.pipe(T.HttpPath("location")),
-  dailyMetrics: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dailyMetrics"),
-  ),
-  "dailyRange.startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.month"),
-  ),
-  "dailyRange.endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.month"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}:fetchMultiDailyMetricsTimeSeries",
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchMultiDailyMetricsTimeSeriesLocationsRequest>;
+export const FetchMultiDailyMetricsTimeSeriesLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "dailyRange.startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.year"),
+    ),
+    "dailyRange.endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.year"),
+    ),
+    "dailyRange.startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.day"),
+    ),
+    "dailyRange.endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.day"),
+    ),
+    location: Schema.String.pipe(T.HttpPath("location")),
+    dailyMetrics: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dailyMetrics"),
+    ),
+    "dailyRange.startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.month"),
+    ),
+    "dailyRange.endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.month"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}:fetchMultiDailyMetricsTimeSeries",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchMultiDailyMetricsTimeSeriesLocationsRequest>;
 
 export type FetchMultiDailyMetricsTimeSeriesLocationsResponse =
   FetchMultiDailyMetricsTimeSeriesResponse;
 export const FetchMultiDailyMetricsTimeSeriesLocationsResponse =
-  FetchMultiDailyMetricsTimeSeriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ FetchMultiDailyMetricsTimeSeriesResponse;
 
 export type FetchMultiDailyMetricsTimeSeriesLocationsError = DefaultErrors;
 
@@ -322,7 +327,7 @@ export const fetchMultiDailyMetricsTimeSeriesLocations: API.OperationMethod<
   FetchMultiDailyMetricsTimeSeriesLocationsResponse,
   FetchMultiDailyMetricsTimeSeriesLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchMultiDailyMetricsTimeSeriesLocationsRequest,
   output: FetchMultiDailyMetricsTimeSeriesLocationsResponse,
   errors: [],
@@ -379,54 +384,57 @@ export interface GetDailyMetricsTimeSeriesLocationsRequest {
   "dailyRange.startDate.day"?: number;
 }
 
-export const GetDailyMetricsTimeSeriesLocationsRequest = Schema.Struct({
-  "dailySubEntityType.timeOfDay.seconds": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailySubEntityType.timeOfDay.seconds"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  "dailyRange.startDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.year"),
-  ),
-  "dailyRange.endDate.year": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.year"),
-  ),
-  "dailySubEntityType.timeOfDay.nanos": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailySubEntityType.timeOfDay.nanos"),
-  ),
-  "dailyRange.endDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.month"),
-  ),
-  "dailyRange.endDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.endDate.day"),
-  ),
-  "dailySubEntityType.dayOfWeek": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("dailySubEntityType.dayOfWeek"),
-  ),
-  "dailyRange.startDate.month": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.month"),
-  ),
-  "dailySubEntityType.timeOfDay.minutes": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailySubEntityType.timeOfDay.minutes"),
-  ),
-  dailyMetric: Schema.optional(Schema.String).pipe(T.HttpQuery("dailyMetric")),
-  "dailySubEntityType.timeOfDay.hours": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailySubEntityType.timeOfDay.hours"),
-  ),
-  "dailyRange.startDate.day": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("dailyRange.startDate.day"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}:getDailyMetricsTimeSeries",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDailyMetricsTimeSeriesLocationsRequest>;
+export const GetDailyMetricsTimeSeriesLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "dailySubEntityType.timeOfDay.seconds": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailySubEntityType.timeOfDay.seconds"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    "dailyRange.startDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.year"),
+    ),
+    "dailyRange.endDate.year": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.year"),
+    ),
+    "dailySubEntityType.timeOfDay.nanos": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailySubEntityType.timeOfDay.nanos"),
+    ),
+    "dailyRange.endDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.month"),
+    ),
+    "dailyRange.endDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.endDate.day"),
+    ),
+    "dailySubEntityType.dayOfWeek": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dailySubEntityType.dayOfWeek"),
+    ),
+    "dailyRange.startDate.month": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.month"),
+    ),
+    "dailySubEntityType.timeOfDay.minutes": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailySubEntityType.timeOfDay.minutes"),
+    ),
+    dailyMetric: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dailyMetric"),
+    ),
+    "dailySubEntityType.timeOfDay.hours": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailySubEntityType.timeOfDay.hours"),
+    ),
+    "dailyRange.startDate.day": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("dailyRange.startDate.day"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}:getDailyMetricsTimeSeries",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDailyMetricsTimeSeriesLocationsRequest>;
 
 export type GetDailyMetricsTimeSeriesLocationsResponse =
   GetDailyMetricsTimeSeriesResponse;
 export const GetDailyMetricsTimeSeriesLocationsResponse =
-  GetDailyMetricsTimeSeriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetDailyMetricsTimeSeriesResponse;
 
 export type GetDailyMetricsTimeSeriesLocationsError = DefaultErrors;
 
@@ -436,7 +444,7 @@ export const getDailyMetricsTimeSeriesLocations: API.OperationMethod<
   GetDailyMetricsTimeSeriesLocationsResponse,
   GetDailyMetricsTimeSeriesLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDailyMetricsTimeSeriesLocationsRequest,
   output: GetDailyMetricsTimeSeriesLocationsResponse,
   errors: [],
@@ -464,7 +472,7 @@ export interface ListLocationsSearchkeywordsImpressionsMonthlyRequest {
 }
 
 export const ListLocationsSearchkeywordsImpressionsMonthlyRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     "monthlyRange.startMonth.month": Schema.optional(Schema.Number).pipe(
       T.HttpQuery("monthlyRange.startMonth.month"),
@@ -497,7 +505,7 @@ export const ListLocationsSearchkeywordsImpressionsMonthlyRequest =
 export type ListLocationsSearchkeywordsImpressionsMonthlyResponse =
   ListSearchKeywordImpressionsMonthlyResponse;
 export const ListLocationsSearchkeywordsImpressionsMonthlyResponse =
-  ListSearchKeywordImpressionsMonthlyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListSearchKeywordImpressionsMonthlyResponse;
 
 export type ListLocationsSearchkeywordsImpressionsMonthlyError = DefaultErrors;
 
@@ -507,7 +515,7 @@ export const listLocationsSearchkeywordsImpressionsMonthly: API.PaginatedOperati
   ListLocationsSearchkeywordsImpressionsMonthlyResponse,
   ListLocationsSearchkeywordsImpressionsMonthlyError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLocationsSearchkeywordsImpressionsMonthlyRequest,
   output: ListLocationsSearchkeywordsImpressionsMonthlyResponse,
   errors: [],

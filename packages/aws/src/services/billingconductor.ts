@@ -165,7 +165,7 @@ export interface BillingPeriodRange {
   InclusiveStartBillingPeriod: string;
   ExclusiveEndBillingPeriod: string;
 }
-export const BillingPeriodRange = S.suspend(() =>
+export const BillingPeriodRange = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     InclusiveStartBillingPeriod: S.String,
     ExclusiveEndBillingPeriod: S.String,
@@ -177,9 +177,10 @@ export type GroupByAttributeName =
   | "PRODUCT_NAME"
   | "BILLING_PERIOD"
   | (string & {});
-export const GroupByAttributeName = S.String;
+export const GroupByAttributeName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type GroupByAttributesList = GroupByAttributeName[];
-export const GroupByAttributesList = S.Array(GroupByAttributeName);
+export const GroupByAttributesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GroupByAttributeName);
 export interface GetBillingGroupCostReportInput {
   Arn: string;
   BillingPeriodRange?: BillingPeriodRange;
@@ -187,35 +188,36 @@ export interface GetBillingGroupCostReportInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetBillingGroupCostReportInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    BillingPeriodRange: S.optional(BillingPeriodRange),
-    GroupBy: S.optional(GroupByAttributesList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-billing-group-cost-report" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetBillingGroupCostReportInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.String,
+      BillingPeriodRange: S.optional(BillingPeriodRange),
+      GroupBy: S.optional(GroupByAttributesList),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/get-billing-group-cost-report" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetBillingGroupCostReportInput",
-}) as any as S.Schema<GetBillingGroupCostReportInput>;
+  ).annotate({
+    identifier: "GetBillingGroupCostReportInput",
+  }) as any as S.Schema<GetBillingGroupCostReportInput>;
 export interface Attribute {
   Key?: string;
   Value?: string;
 }
-export const Attribute = S.suspend(() =>
+export const Attribute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotate({ identifier: "Attribute" }) as any as S.Schema<Attribute>;
 export type AttributesList = Attribute[];
-export const AttributesList = S.Array(Attribute);
+export const AttributesList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Attribute);
 export interface BillingGroupCostReportResultElement {
   Arn?: string;
   AWSCost?: string;
@@ -225,38 +227,39 @@ export interface BillingGroupCostReportResultElement {
   Currency?: string;
   Attributes?: Attribute[];
 }
-export const BillingGroupCostReportResultElement = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AWSCost: S.optional(S.String),
-    ProformaCost: S.optional(S.String),
-    Margin: S.optional(S.String),
-    MarginPercentage: S.optional(S.String),
-    Currency: S.optional(S.String),
-    Attributes: S.optional(AttributesList),
-  }),
-).annotate({
-  identifier: "BillingGroupCostReportResultElement",
-}) as any as S.Schema<BillingGroupCostReportResultElement>;
+export const BillingGroupCostReportResultElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      AWSCost: S.optional(S.String),
+      ProformaCost: S.optional(S.String),
+      Margin: S.optional(S.String),
+      MarginPercentage: S.optional(S.String),
+      Currency: S.optional(S.String),
+      Attributes: S.optional(AttributesList),
+    }),
+  ).annotate({
+    identifier: "BillingGroupCostReportResultElement",
+  }) as any as S.Schema<BillingGroupCostReportResultElement>;
 export type BillingGroupCostReportResultsList =
   BillingGroupCostReportResultElement[];
-export const BillingGroupCostReportResultsList = S.Array(
-  BillingGroupCostReportResultElement,
-);
+export const BillingGroupCostReportResultsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BillingGroupCostReportResultElement);
 export interface GetBillingGroupCostReportOutput {
   BillingGroupCostReportResults?: BillingGroupCostReportResultElement[];
   NextToken?: string;
 }
-export const GetBillingGroupCostReportOutput = S.suspend(() =>
-  S.Struct({
-    BillingGroupCostReportResults: S.optional(
-      BillingGroupCostReportResultsList,
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBillingGroupCostReportOutput",
-}) as any as S.Schema<GetBillingGroupCostReportOutput>;
+export const GetBillingGroupCostReportOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingGroupCostReportResults: S.optional(
+        BillingGroupCostReportResultsList,
+      ),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetBillingGroupCostReportOutput",
+  }) as any as S.Schema<GetBillingGroupCostReportOutput>;
 export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
   | "CANNOT_PARSE"
@@ -325,122 +328,136 @@ export type ValidationExceptionReason =
   | "ILLEGAL_COMPUTATION_RULE"
   | "ILLEGAL_LINE_ITEM_FILTER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ValidationExceptionField {
   Name: string;
   Message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ Name: S.String, Message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Name: S.String, Message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export type AccountIdFilterList = string[];
-export const AccountIdFilterList = S.Array(S.String);
+export const AccountIdFilterList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface ListAccountAssociationsFilter {
   Association?: string;
   AccountId?: string;
   AccountIds?: string[];
 }
-export const ListAccountAssociationsFilter = S.suspend(() =>
-  S.Struct({
-    Association: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    AccountIds: S.optional(AccountIdFilterList),
-  }),
-).annotate({
-  identifier: "ListAccountAssociationsFilter",
-}) as any as S.Schema<ListAccountAssociationsFilter>;
+export const ListAccountAssociationsFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Association: S.optional(S.String),
+      AccountId: S.optional(S.String),
+      AccountIds: S.optional(AccountIdFilterList),
+    }),
+  ).annotate({
+    identifier: "ListAccountAssociationsFilter",
+  }) as any as S.Schema<ListAccountAssociationsFilter>;
 export interface ListAccountAssociationsInput {
   BillingPeriod?: string;
   Filters?: ListAccountAssociationsFilter;
   NextToken?: string;
 }
-export const ListAccountAssociationsInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    Filters: S.optional(ListAccountAssociationsFilter),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-account-associations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAccountAssociationsInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      Filters: S.optional(ListAccountAssociationsFilter),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/list-account-associations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAccountAssociationsInput",
-}) as any as S.Schema<ListAccountAssociationsInput>;
+  ).annotate({
+    identifier: "ListAccountAssociationsInput",
+  }) as any as S.Schema<ListAccountAssociationsInput>;
 export interface AccountAssociationsListElement {
   AccountId?: string;
   BillingGroupArn?: string;
   AccountName?: string | redacted.Redacted<string>;
   AccountEmail?: string | redacted.Redacted<string>;
 }
-export const AccountAssociationsListElement = S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    BillingGroupArn: S.optional(S.String),
-    AccountName: S.optional(SensitiveString),
-    AccountEmail: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "AccountAssociationsListElement",
-}) as any as S.Schema<AccountAssociationsListElement>;
+export const AccountAssociationsListElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AccountId: S.optional(S.String),
+      BillingGroupArn: S.optional(S.String),
+      AccountName: S.optional(SensitiveString),
+      AccountEmail: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "AccountAssociationsListElement",
+  }) as any as S.Schema<AccountAssociationsListElement>;
 export type AccountAssociationsList = AccountAssociationsListElement[];
-export const AccountAssociationsList = S.Array(AccountAssociationsListElement);
+export const AccountAssociationsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  AccountAssociationsListElement,
+);
 export interface ListAccountAssociationsOutput {
   LinkedAccounts?: AccountAssociationsListElement[];
   NextToken?: string;
 }
-export const ListAccountAssociationsOutput = S.suspend(() =>
-  S.Struct({
-    LinkedAccounts: S.optional(AccountAssociationsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccountAssociationsOutput",
-}) as any as S.Schema<ListAccountAssociationsOutput>;
+export const ListAccountAssociationsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      LinkedAccounts: S.optional(AccountAssociationsList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListAccountAssociationsOutput",
+  }) as any as S.Schema<ListAccountAssociationsOutput>;
 export type BillingGroupArnList = string[];
-export const BillingGroupArnList = S.Array(S.String);
+export const BillingGroupArnList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface ListBillingGroupCostReportsFilter {
   BillingGroupArns?: string[];
 }
-export const ListBillingGroupCostReportsFilter = S.suspend(() =>
-  S.Struct({ BillingGroupArns: S.optional(BillingGroupArnList) }),
-).annotate({
-  identifier: "ListBillingGroupCostReportsFilter",
-}) as any as S.Schema<ListBillingGroupCostReportsFilter>;
+export const ListBillingGroupCostReportsFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ BillingGroupArns: S.optional(BillingGroupArnList) }),
+  ).annotate({
+    identifier: "ListBillingGroupCostReportsFilter",
+  }) as any as S.Schema<ListBillingGroupCostReportsFilter>;
 export interface ListBillingGroupCostReportsInput {
   BillingPeriod?: string;
   MaxResults?: number;
   NextToken?: string;
   Filters?: ListBillingGroupCostReportsFilter;
 }
-export const ListBillingGroupCostReportsInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(ListBillingGroupCostReportsFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-billing-group-cost-reports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListBillingGroupCostReportsInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      Filters: S.optional(ListBillingGroupCostReportsFilter),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/list-billing-group-cost-reports" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListBillingGroupCostReportsInput",
-}) as any as S.Schema<ListBillingGroupCostReportsInput>;
+  ).annotate({
+    identifier: "ListBillingGroupCostReportsInput",
+  }) as any as S.Schema<ListBillingGroupCostReportsInput>;
 export interface BillingGroupCostReportElement {
   Arn?: string;
   AWSCost?: string;
@@ -449,66 +466,73 @@ export interface BillingGroupCostReportElement {
   MarginPercentage?: string;
   Currency?: string;
 }
-export const BillingGroupCostReportElement = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AWSCost: S.optional(S.String),
-    ProformaCost: S.optional(S.String),
-    Margin: S.optional(S.String),
-    MarginPercentage: S.optional(S.String),
-    Currency: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BillingGroupCostReportElement",
-}) as any as S.Schema<BillingGroupCostReportElement>;
+export const BillingGroupCostReportElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      AWSCost: S.optional(S.String),
+      ProformaCost: S.optional(S.String),
+      Margin: S.optional(S.String),
+      MarginPercentage: S.optional(S.String),
+      Currency: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "BillingGroupCostReportElement",
+  }) as any as S.Schema<BillingGroupCostReportElement>;
 export type BillingGroupCostReportList = BillingGroupCostReportElement[];
-export const BillingGroupCostReportList = S.Array(
+export const BillingGroupCostReportList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   BillingGroupCostReportElement,
 );
 export interface ListBillingGroupCostReportsOutput {
   BillingGroupCostReports?: BillingGroupCostReportElement[];
   NextToken?: string;
 }
-export const ListBillingGroupCostReportsOutput = S.suspend(() =>
-  S.Struct({
-    BillingGroupCostReports: S.optional(BillingGroupCostReportList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBillingGroupCostReportsOutput",
-}) as any as S.Schema<ListBillingGroupCostReportsOutput>;
+export const ListBillingGroupCostReportsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingGroupCostReports: S.optional(BillingGroupCostReportList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListBillingGroupCostReportsOutput",
+  }) as any as S.Schema<ListBillingGroupCostReportsOutput>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(TagMap) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
@@ -526,16 +550,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -553,17 +579,19 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type AccountIdList = string[];
-export const AccountIdList = S.Array(S.String);
+export const AccountIdList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface AccountGrouping {
   LinkedAccountIds?: string[];
   AutoAssociate?: boolean;
   ResponsibilityTransferArn?: string;
 }
-export const AccountGrouping = S.suspend(() =>
+export const AccountGrouping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     LinkedAccountIds: S.optional(AccountIdList),
     AutoAssociate: S.optional(S.Boolean),
@@ -575,7 +603,7 @@ export const AccountGrouping = S.suspend(() =>
 export interface ComputationPreference {
   PricingPlanArn: string;
 }
-export const ComputationPreference = S.suspend(() =>
+export const ComputationPreference = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ PricingPlanArn: S.String }),
 ).annotate({
   identifier: "ComputationPreference",
@@ -589,36 +617,37 @@ export interface CreateBillingGroupInput {
   Description?: string | redacted.Redacted<string>;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateBillingGroupInput = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-      T.IdempotencyToken(),
+export const CreateBillingGroupInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(
+        T.HttpHeader("X-Amzn-Client-Token"),
+        T.IdempotencyToken(),
+      ),
+      Name: SensitiveString,
+      AccountGrouping: AccountGrouping,
+      ComputationPreference: ComputationPreference,
+      PrimaryAccountId: S.optional(S.String),
+      Description: S.optional(SensitiveString),
+      Tags: S.optional(TagMap),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/create-billing-group" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: SensitiveString,
-    AccountGrouping: AccountGrouping,
-    ComputationPreference: ComputationPreference,
-    PrimaryAccountId: S.optional(S.String),
-    Description: S.optional(SensitiveString),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-billing-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateBillingGroupInput",
 }) as any as S.Schema<CreateBillingGroupInput>;
 export interface CreateBillingGroupOutput {
   Arn?: string;
 }
-export const CreateBillingGroupOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const CreateBillingGroupOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateBillingGroupOutput",
 }) as any as S.Schema<CreateBillingGroupOutput>;
@@ -629,25 +658,26 @@ export type ConflictExceptionReason =
   | "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
   | "WRITE_CONFLICT_RETRY"
   | (string & {});
-export const ConflictExceptionReason = S.String;
+export const ConflictExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type BillingGroupStatus =
   | "ACTIVE"
   | "PRIMARY_ACCOUNT_MISSING"
   | "PENDING"
   | (string & {});
-export const BillingGroupStatus = S.String;
+export const BillingGroupStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface UpdateBillingGroupAccountGrouping {
   AutoAssociate?: boolean;
   ResponsibilityTransferArn?: string;
 }
-export const UpdateBillingGroupAccountGrouping = S.suspend(() =>
-  S.Struct({
-    AutoAssociate: S.optional(S.Boolean),
-    ResponsibilityTransferArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateBillingGroupAccountGrouping",
-}) as any as S.Schema<UpdateBillingGroupAccountGrouping>;
+export const UpdateBillingGroupAccountGrouping =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutoAssociate: S.optional(S.Boolean),
+      ResponsibilityTransferArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateBillingGroupAccountGrouping",
+  }) as any as S.Schema<UpdateBillingGroupAccountGrouping>;
 export interface UpdateBillingGroupInput {
   Arn: string;
   Name?: string | redacted.Redacted<string>;
@@ -656,24 +686,25 @@ export interface UpdateBillingGroupInput {
   Description?: string | redacted.Redacted<string>;
   AccountGrouping?: UpdateBillingGroupAccountGrouping;
 }
-export const UpdateBillingGroupInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    Status: S.optional(BillingGroupStatus),
-    ComputationPreference: S.optional(ComputationPreference),
-    Description: S.optional(SensitiveString),
-    AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-billing-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateBillingGroupInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      Name: S.optional(SensitiveString),
+      Status: S.optional(BillingGroupStatus),
+      ComputationPreference: S.optional(ComputationPreference),
+      Description: S.optional(SensitiveString),
+      AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/update-billing-group" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateBillingGroupInput",
 }) as any as S.Schema<UpdateBillingGroupInput>;
@@ -689,68 +720,75 @@ export interface UpdateBillingGroupOutput {
   StatusReason?: string;
   AccountGrouping?: UpdateBillingGroupAccountGrouping;
 }
-export const UpdateBillingGroupOutput = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    PrimaryAccountId: S.optional(S.String),
-    PricingPlanArn: S.optional(S.String),
-    Size: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    Status: S.optional(BillingGroupStatus),
-    StatusReason: S.optional(S.String),
-    AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
-  }),
+export const UpdateBillingGroupOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      PrimaryAccountId: S.optional(S.String),
+      PricingPlanArn: S.optional(S.String),
+      Size: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      Status: S.optional(BillingGroupStatus),
+      StatusReason: S.optional(S.String),
+      AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
+    }),
 ).annotate({
   identifier: "UpdateBillingGroupOutput",
 }) as any as S.Schema<UpdateBillingGroupOutput>;
 export interface DeleteBillingGroupInput {
   Arn: string;
 }
-export const DeleteBillingGroupInput = S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-billing-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteBillingGroupInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/delete-billing-group" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteBillingGroupInput",
 }) as any as S.Schema<DeleteBillingGroupInput>;
 export interface DeleteBillingGroupOutput {
   Arn?: string;
 }
-export const DeleteBillingGroupOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const DeleteBillingGroupOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteBillingGroupOutput",
 }) as any as S.Schema<DeleteBillingGroupOutput>;
 export type BillingGroupStatusList = BillingGroupStatus[];
-export const BillingGroupStatusList = S.Array(BillingGroupStatus);
+export const BillingGroupStatusList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BillingGroupStatus);
 export type PrimaryAccountIdList = string[];
-export const PrimaryAccountIdList = S.Array(S.String);
+export const PrimaryAccountIdList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type BillingGroupType = "STANDARD" | "TRANSFER_BILLING" | (string & {});
-export const BillingGroupType = S.String;
+export const BillingGroupType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type BillingGroupTypeList = BillingGroupType[];
-export const BillingGroupTypeList = S.Array(BillingGroupType);
+export const BillingGroupTypeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BillingGroupType);
 export type SearchOption = "STARTS_WITH" | (string & {});
-export const SearchOption = S.String;
+export const SearchOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface StringSearch {
   SearchOption: SearchOption;
   SearchValue: string;
 }
-export const StringSearch = S.suspend(() =>
+export const StringSearch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ SearchOption: SearchOption, SearchValue: S.String }),
 ).annotate({ identifier: "StringSearch" }) as any as S.Schema<StringSearch>;
 export type StringSearches = StringSearch[];
-export const StringSearches = S.Array(StringSearch);
+export const StringSearches = /*@__PURE__*/ /*#__PURE__*/ S.Array(StringSearch);
 export type ResponsibilityTransferArnsList = string[];
-export const ResponsibilityTransferArnsList = S.Array(S.String);
+export const ResponsibilityTransferArnsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListBillingGroupsFilter {
   Arns?: string[];
   PricingPlan?: string;
@@ -761,17 +799,18 @@ export interface ListBillingGroupsFilter {
   Names?: StringSearch[];
   ResponsibilityTransferArns?: string[];
 }
-export const ListBillingGroupsFilter = S.suspend(() =>
-  S.Struct({
-    Arns: S.optional(BillingGroupArnList),
-    PricingPlan: S.optional(S.String),
-    Statuses: S.optional(BillingGroupStatusList),
-    AutoAssociate: S.optional(S.Boolean),
-    PrimaryAccountIds: S.optional(PrimaryAccountIdList),
-    BillingGroupTypes: S.optional(BillingGroupTypeList),
-    Names: S.optional(StringSearches),
-    ResponsibilityTransferArns: S.optional(ResponsibilityTransferArnsList),
-  }),
+export const ListBillingGroupsFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arns: S.optional(BillingGroupArnList),
+      PricingPlan: S.optional(S.String),
+      Statuses: S.optional(BillingGroupStatusList),
+      AutoAssociate: S.optional(S.Boolean),
+      PrimaryAccountIds: S.optional(PrimaryAccountIdList),
+      BillingGroupTypes: S.optional(BillingGroupTypeList),
+      Names: S.optional(StringSearches),
+      ResponsibilityTransferArns: S.optional(ResponsibilityTransferArnsList),
+    }),
 ).annotate({
   identifier: "ListBillingGroupsFilter",
 }) as any as S.Schema<ListBillingGroupsFilter>;
@@ -781,22 +820,23 @@ export interface ListBillingGroupsInput {
   NextToken?: string;
   Filters?: ListBillingGroupsFilter;
 }
-export const ListBillingGroupsInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(ListBillingGroupsFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-billing-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListBillingGroupsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      Filters: S.optional(ListBillingGroupsFilter),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/list-billing-groups" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListBillingGroupsInput",
 }) as any as S.Schema<ListBillingGroupsInput>;
@@ -804,14 +844,15 @@ export interface ListBillingGroupAccountGrouping {
   AutoAssociate?: boolean;
   ResponsibilityTransferArn?: string;
 }
-export const ListBillingGroupAccountGrouping = S.suspend(() =>
-  S.Struct({
-    AutoAssociate: S.optional(S.Boolean),
-    ResponsibilityTransferArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBillingGroupAccountGrouping",
-}) as any as S.Schema<ListBillingGroupAccountGrouping>;
+export const ListBillingGroupAccountGrouping =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutoAssociate: S.optional(S.Boolean),
+      ResponsibilityTransferArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListBillingGroupAccountGrouping",
+  }) as any as S.Schema<ListBillingGroupAccountGrouping>;
 export interface BillingGroupListElement {
   Name?: string | redacted.Redacted<string>;
   Arn?: string;
@@ -826,35 +867,39 @@ export interface BillingGroupListElement {
   AccountGrouping?: ListBillingGroupAccountGrouping;
   BillingGroupType?: BillingGroupType;
 }
-export const BillingGroupListElement = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SensitiveString),
-    Arn: S.optional(S.String),
-    Description: S.optional(SensitiveString),
-    PrimaryAccountId: S.optional(S.String),
-    ComputationPreference: S.optional(ComputationPreference),
-    Size: S.optional(S.Number),
-    CreationTime: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    Status: S.optional(BillingGroupStatus),
-    StatusReason: S.optional(S.String),
-    AccountGrouping: S.optional(ListBillingGroupAccountGrouping),
-    BillingGroupType: S.optional(BillingGroupType),
-  }),
+export const BillingGroupListElement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.optional(SensitiveString),
+      Arn: S.optional(S.String),
+      Description: S.optional(SensitiveString),
+      PrimaryAccountId: S.optional(S.String),
+      ComputationPreference: S.optional(ComputationPreference),
+      Size: S.optional(S.Number),
+      CreationTime: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      Status: S.optional(BillingGroupStatus),
+      StatusReason: S.optional(S.String),
+      AccountGrouping: S.optional(ListBillingGroupAccountGrouping),
+      BillingGroupType: S.optional(BillingGroupType),
+    }),
 ).annotate({
   identifier: "BillingGroupListElement",
 }) as any as S.Schema<BillingGroupListElement>;
 export type BillingGroupList = BillingGroupListElement[];
-export const BillingGroupList = S.Array(BillingGroupListElement);
+export const BillingGroupList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  BillingGroupListElement,
+);
 export interface ListBillingGroupsOutput {
   BillingGroups?: BillingGroupListElement[];
   NextToken?: string;
 }
-export const ListBillingGroupsOutput = S.suspend(() =>
-  S.Struct({
-    BillingGroups: S.optional(BillingGroupList),
-    NextToken: S.optional(S.String),
-  }),
+export const ListBillingGroupsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BillingGroups: S.optional(BillingGroupList),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListBillingGroupsOutput",
 }) as any as S.Schema<ListBillingGroupsOutput>;
@@ -862,25 +907,26 @@ export interface AssociateAccountsInput {
   Arn: string;
   AccountIds: string[];
 }
-export const AssociateAccountsInput = S.suspend(() =>
-  S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/associate-accounts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssociateAccountsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/associate-accounts" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AssociateAccountsInput",
 }) as any as S.Schema<AssociateAccountsInput>;
 export interface AssociateAccountsOutput {
   Arn?: string;
 }
-export const AssociateAccountsOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const AssociateAccountsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "AssociateAccountsOutput",
 }) as any as S.Schema<AssociateAccountsOutput>;
@@ -888,25 +934,26 @@ export interface DisassociateAccountsInput {
   Arn: string;
   AccountIds: string[];
 }
-export const DisassociateAccountsInput = S.suspend(() =>
-  S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/disassociate-accounts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisassociateAccountsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Arn: S.String, AccountIds: AccountIdList }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/disassociate-accounts" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DisassociateAccountsInput",
 }) as any as S.Schema<DisassociateAccountsInput>;
 export interface DisassociateAccountsOutput {
   Arn?: string;
 }
-export const DisassociateAccountsOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const DisassociateAccountsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "DisassociateAccountsOutput",
 }) as any as S.Schema<DisassociateAccountsOutput>;
@@ -914,58 +961,63 @@ export interface CustomLineItemBillingPeriodRange {
   InclusiveStartBillingPeriod: string;
   ExclusiveEndBillingPeriod?: string;
 }
-export const CustomLineItemBillingPeriodRange = S.suspend(() =>
-  S.Struct({
-    InclusiveStartBillingPeriod: S.String,
-    ExclusiveEndBillingPeriod: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomLineItemBillingPeriodRange",
-}) as any as S.Schema<CustomLineItemBillingPeriodRange>;
+export const CustomLineItemBillingPeriodRange =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      InclusiveStartBillingPeriod: S.String,
+      ExclusiveEndBillingPeriod: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CustomLineItemBillingPeriodRange",
+  }) as any as S.Schema<CustomLineItemBillingPeriodRange>;
 export interface CustomLineItemFlatChargeDetails {
   ChargeValue: number;
 }
-export const CustomLineItemFlatChargeDetails = S.suspend(() =>
-  S.Struct({ ChargeValue: S.Number }),
-).annotate({
-  identifier: "CustomLineItemFlatChargeDetails",
-}) as any as S.Schema<CustomLineItemFlatChargeDetails>;
+export const CustomLineItemFlatChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChargeValue: S.Number }),
+  ).annotate({
+    identifier: "CustomLineItemFlatChargeDetails",
+  }) as any as S.Schema<CustomLineItemFlatChargeDetails>;
 export type CustomLineItemAssociationsList = string[];
-export const CustomLineItemAssociationsList = S.Array(S.String);
+export const CustomLineItemAssociationsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface CustomLineItemPercentageChargeDetails {
   PercentageValue: number;
   AssociatedValues?: string[];
 }
-export const CustomLineItemPercentageChargeDetails = S.suspend(() =>
-  S.Struct({
-    PercentageValue: S.Number,
-    AssociatedValues: S.optional(CustomLineItemAssociationsList),
-  }),
-).annotate({
-  identifier: "CustomLineItemPercentageChargeDetails",
-}) as any as S.Schema<CustomLineItemPercentageChargeDetails>;
+export const CustomLineItemPercentageChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PercentageValue: S.Number,
+      AssociatedValues: S.optional(CustomLineItemAssociationsList),
+    }),
+  ).annotate({
+    identifier: "CustomLineItemPercentageChargeDetails",
+  }) as any as S.Schema<CustomLineItemPercentageChargeDetails>;
 export type CustomLineItemType = "CREDIT" | "FEE" | (string & {});
-export const CustomLineItemType = S.String;
+export const CustomLineItemType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LineItemFilterAttributeName =
   | "LINE_ITEM_TYPE"
   | "SERVICE"
   | (string & {});
-export const LineItemFilterAttributeName = S.String;
+export const LineItemFilterAttributeName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MatchOption = "NOT_EQUAL" | "EQUAL" | (string & {});
-export const MatchOption = S.String;
+export const MatchOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LineItemFilterValue = "SAVINGS_PLAN_NEGATION" | (string & {});
-export const LineItemFilterValue = S.String;
+export const LineItemFilterValue = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LineItemFilterValuesList = LineItemFilterValue[];
-export const LineItemFilterValuesList = S.Array(LineItemFilterValue);
+export const LineItemFilterValuesList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LineItemFilterValue);
 export type AttributeValueList = string[];
-export const AttributeValueList = S.Array(S.String);
+export const AttributeValueList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface LineItemFilter {
   Attribute: LineItemFilterAttributeName;
   MatchOption: MatchOption;
   Values?: LineItemFilterValue[];
   AttributeValues?: string[];
 }
-export const LineItemFilter = S.suspend(() =>
+export const LineItemFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Attribute: LineItemFilterAttributeName,
     MatchOption: MatchOption,
@@ -974,29 +1026,31 @@ export const LineItemFilter = S.suspend(() =>
   }),
 ).annotate({ identifier: "LineItemFilter" }) as any as S.Schema<LineItemFilter>;
 export type LineItemFiltersList = LineItemFilter[];
-export const LineItemFiltersList = S.Array(LineItemFilter);
+export const LineItemFiltersList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LineItemFilter);
 export interface CustomLineItemChargeDetails {
   Flat?: CustomLineItemFlatChargeDetails;
   Percentage?: CustomLineItemPercentageChargeDetails;
   Type: CustomLineItemType;
   LineItemFilters?: LineItemFilter[];
 }
-export const CustomLineItemChargeDetails = S.suspend(() =>
-  S.Struct({
-    Flat: S.optional(CustomLineItemFlatChargeDetails),
-    Percentage: S.optional(CustomLineItemPercentageChargeDetails),
-    Type: CustomLineItemType,
-    LineItemFilters: S.optional(LineItemFiltersList),
-  }),
-).annotate({
-  identifier: "CustomLineItemChargeDetails",
-}) as any as S.Schema<CustomLineItemChargeDetails>;
+export const CustomLineItemChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Flat: S.optional(CustomLineItemFlatChargeDetails),
+      Percentage: S.optional(CustomLineItemPercentageChargeDetails),
+      Type: CustomLineItemType,
+      LineItemFilters: S.optional(LineItemFiltersList),
+    }),
+  ).annotate({
+    identifier: "CustomLineItemChargeDetails",
+  }) as any as S.Schema<CustomLineItemChargeDetails>;
 export type ComputationRuleEnum = "ITEMIZED" | "CONSOLIDATED" | (string & {});
-export const ComputationRuleEnum = S.String;
+export const ComputationRuleEnum = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PresentationObject {
   Service: string;
 }
-export const PresentationObject = S.suspend(() =>
+export const PresentationObject = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Service: S.String }),
 ).annotate({
   identifier: "PresentationObject",
@@ -1013,72 +1067,76 @@ export interface CreateCustomLineItemInput {
   ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
-export const CreateCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-      T.IdempotencyToken(),
+export const CreateCustomLineItemInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(
+        T.HttpHeader("X-Amzn-Client-Token"),
+        T.IdempotencyToken(),
+      ),
+      Name: SensitiveString,
+      Description: SensitiveString,
+      BillingGroupArn: S.String,
+      BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
+      Tags: S.optional(TagMap),
+      ChargeDetails: CustomLineItemChargeDetails,
+      AccountId: S.optional(S.String),
+      ComputationRule: S.optional(ComputationRuleEnum),
+      PresentationDetails: S.optional(PresentationObject),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/create-custom-line-item" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: SensitiveString,
-    Description: SensitiveString,
-    BillingGroupArn: S.String,
-    BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
-    Tags: S.optional(TagMap),
-    ChargeDetails: CustomLineItemChargeDetails,
-    AccountId: S.optional(S.String),
-    ComputationRule: S.optional(ComputationRuleEnum),
-    PresentationDetails: S.optional(PresentationObject),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-custom-line-item" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreateCustomLineItemInput",
 }) as any as S.Schema<CreateCustomLineItemInput>;
 export interface CreateCustomLineItemOutput {
   Arn?: string;
 }
-export const CreateCustomLineItemOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const CreateCustomLineItemOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateCustomLineItemOutput",
 }) as any as S.Schema<CreateCustomLineItemOutput>;
 export interface UpdateCustomLineItemFlatChargeDetails {
   ChargeValue: number;
 }
-export const UpdateCustomLineItemFlatChargeDetails = S.suspend(() =>
-  S.Struct({ ChargeValue: S.Number }),
-).annotate({
-  identifier: "UpdateCustomLineItemFlatChargeDetails",
-}) as any as S.Schema<UpdateCustomLineItemFlatChargeDetails>;
+export const UpdateCustomLineItemFlatChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChargeValue: S.Number }),
+  ).annotate({
+    identifier: "UpdateCustomLineItemFlatChargeDetails",
+  }) as any as S.Schema<UpdateCustomLineItemFlatChargeDetails>;
 export interface UpdateCustomLineItemPercentageChargeDetails {
   PercentageValue: number;
 }
-export const UpdateCustomLineItemPercentageChargeDetails = S.suspend(() =>
-  S.Struct({ PercentageValue: S.Number }),
-).annotate({
-  identifier: "UpdateCustomLineItemPercentageChargeDetails",
-}) as any as S.Schema<UpdateCustomLineItemPercentageChargeDetails>;
+export const UpdateCustomLineItemPercentageChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ PercentageValue: S.Number }),
+  ).annotate({
+    identifier: "UpdateCustomLineItemPercentageChargeDetails",
+  }) as any as S.Schema<UpdateCustomLineItemPercentageChargeDetails>;
 export interface UpdateCustomLineItemChargeDetails {
   Flat?: UpdateCustomLineItemFlatChargeDetails;
   Percentage?: UpdateCustomLineItemPercentageChargeDetails;
   LineItemFilters?: LineItemFilter[];
 }
-export const UpdateCustomLineItemChargeDetails = S.suspend(() =>
-  S.Struct({
-    Flat: S.optional(UpdateCustomLineItemFlatChargeDetails),
-    Percentage: S.optional(UpdateCustomLineItemPercentageChargeDetails),
-    LineItemFilters: S.optional(LineItemFiltersList),
-  }),
-).annotate({
-  identifier: "UpdateCustomLineItemChargeDetails",
-}) as any as S.Schema<UpdateCustomLineItemChargeDetails>;
+export const UpdateCustomLineItemChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Flat: S.optional(UpdateCustomLineItemFlatChargeDetails),
+      Percentage: S.optional(UpdateCustomLineItemPercentageChargeDetails),
+      LineItemFilters: S.optional(LineItemFiltersList),
+    }),
+  ).annotate({
+    identifier: "UpdateCustomLineItemChargeDetails",
+  }) as any as S.Schema<UpdateCustomLineItemChargeDetails>;
 export interface UpdateCustomLineItemInput {
   Arn: string;
   Name?: string | redacted.Redacted<string>;
@@ -1086,58 +1144,62 @@ export interface UpdateCustomLineItemInput {
   ChargeDetails?: UpdateCustomLineItemChargeDetails;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
-export const UpdateCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    ChargeDetails: S.optional(UpdateCustomLineItemChargeDetails),
-    BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-custom-line-item" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateCustomLineItemInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      ChargeDetails: S.optional(UpdateCustomLineItemChargeDetails),
+      BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/update-custom-line-item" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateCustomLineItemInput",
 }) as any as S.Schema<UpdateCustomLineItemInput>;
 export interface ListCustomLineItemFlatChargeDetails {
   ChargeValue: number;
 }
-export const ListCustomLineItemFlatChargeDetails = S.suspend(() =>
-  S.Struct({ ChargeValue: S.Number }),
-).annotate({
-  identifier: "ListCustomLineItemFlatChargeDetails",
-}) as any as S.Schema<ListCustomLineItemFlatChargeDetails>;
+export const ListCustomLineItemFlatChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChargeValue: S.Number }),
+  ).annotate({
+    identifier: "ListCustomLineItemFlatChargeDetails",
+  }) as any as S.Schema<ListCustomLineItemFlatChargeDetails>;
 export interface ListCustomLineItemPercentageChargeDetails {
   PercentageValue: number;
 }
-export const ListCustomLineItemPercentageChargeDetails = S.suspend(() =>
-  S.Struct({ PercentageValue: S.Number }),
-).annotate({
-  identifier: "ListCustomLineItemPercentageChargeDetails",
-}) as any as S.Schema<ListCustomLineItemPercentageChargeDetails>;
+export const ListCustomLineItemPercentageChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ PercentageValue: S.Number }),
+  ).annotate({
+    identifier: "ListCustomLineItemPercentageChargeDetails",
+  }) as any as S.Schema<ListCustomLineItemPercentageChargeDetails>;
 export interface ListCustomLineItemChargeDetails {
   Flat?: ListCustomLineItemFlatChargeDetails;
   Percentage?: ListCustomLineItemPercentageChargeDetails;
   Type: CustomLineItemType;
   LineItemFilters?: LineItemFilter[];
 }
-export const ListCustomLineItemChargeDetails = S.suspend(() =>
-  S.Struct({
-    Flat: S.optional(ListCustomLineItemFlatChargeDetails),
-    Percentage: S.optional(ListCustomLineItemPercentageChargeDetails),
-    Type: CustomLineItemType,
-    LineItemFilters: S.optional(LineItemFiltersList),
-  }),
-).annotate({
-  identifier: "ListCustomLineItemChargeDetails",
-}) as any as S.Schema<ListCustomLineItemChargeDetails>;
+export const ListCustomLineItemChargeDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Flat: S.optional(ListCustomLineItemFlatChargeDetails),
+      Percentage: S.optional(ListCustomLineItemPercentageChargeDetails),
+      Type: CustomLineItemType,
+      LineItemFilters: S.optional(LineItemFiltersList),
+    }),
+  ).annotate({
+    identifier: "ListCustomLineItemChargeDetails",
+  }) as any as S.Schema<ListCustomLineItemChargeDetails>;
 export interface UpdateCustomLineItemOutput {
   Arn?: string;
   BillingGroupArn?: string;
@@ -1147,16 +1209,17 @@ export interface UpdateCustomLineItemOutput {
   LastModifiedTime?: number;
   AssociationSize?: number;
 }
-export const UpdateCustomLineItemOutput = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    BillingGroupArn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
-    LastModifiedTime: S.optional(S.Number),
-    AssociationSize: S.optional(S.Number),
-  }),
+export const UpdateCustomLineItemOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      BillingGroupArn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
+      LastModifiedTime: S.optional(S.Number),
+      AssociationSize: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "UpdateCustomLineItemOutput",
 }) as any as S.Schema<UpdateCustomLineItemOutput>;
@@ -1164,48 +1227,51 @@ export interface DeleteCustomLineItemInput {
   Arn: string;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
-export const DeleteCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-custom-line-item" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteCustomLineItemInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/delete-custom-line-item" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteCustomLineItemInput",
 }) as any as S.Schema<DeleteCustomLineItemInput>;
 export interface DeleteCustomLineItemOutput {
   Arn?: string;
 }
-export const DeleteCustomLineItemOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const DeleteCustomLineItemOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteCustomLineItemOutput",
 }) as any as S.Schema<DeleteCustomLineItemOutput>;
 export type CustomLineItemNameList = string | redacted.Redacted<string>[];
-export const CustomLineItemNameList = S.Array(SensitiveString);
+export const CustomLineItemNameList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SensitiveString);
 export type CustomLineItemArns = string[];
-export const CustomLineItemArns = S.Array(S.String);
+export const CustomLineItemArns = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListCustomLineItemsFilter {
   Names?: string | redacted.Redacted<string>[];
   BillingGroups?: string[];
   Arns?: string[];
   AccountIds?: string[];
 }
-export const ListCustomLineItemsFilter = S.suspend(() =>
-  S.Struct({
-    Names: S.optional(CustomLineItemNameList),
-    BillingGroups: S.optional(BillingGroupArnList),
-    Arns: S.optional(CustomLineItemArns),
-    AccountIds: S.optional(AccountIdList),
-  }),
+export const ListCustomLineItemsFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Names: S.optional(CustomLineItemNameList),
+      BillingGroups: S.optional(BillingGroupArnList),
+      Arns: S.optional(CustomLineItemArns),
+      AccountIds: S.optional(AccountIdList),
+    }),
 ).annotate({
   identifier: "ListCustomLineItemsFilter",
 }) as any as S.Schema<ListCustomLineItemsFilter>;
@@ -1215,27 +1281,28 @@ export interface ListCustomLineItemsInput {
   NextToken?: string;
   Filters?: ListCustomLineItemsFilter;
 }
-export const ListCustomLineItemsInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(ListCustomLineItemsFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-custom-line-items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListCustomLineItemsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      Filters: S.optional(ListCustomLineItemsFilter),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/list-custom-line-items" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListCustomLineItemsInput",
 }) as any as S.Schema<ListCustomLineItemsInput>;
 export type CurrencyCode = "USD" | "CNY" | (string & {});
-export const CurrencyCode = S.String;
+export const CurrencyCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CustomLineItemListElement {
   Arn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -1251,67 +1318,73 @@ export interface CustomLineItemListElement {
   ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
-export const CustomLineItemListElement = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
-    CurrencyCode: S.optional(CurrencyCode),
-    Description: S.optional(SensitiveString),
-    ProductCode: S.optional(S.String),
-    BillingGroupArn: S.optional(S.String),
-    CreationTime: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    AssociationSize: S.optional(S.Number),
-    AccountId: S.optional(S.String),
-    ComputationRule: S.optional(ComputationRuleEnum),
-    PresentationDetails: S.optional(PresentationObject),
-  }),
+export const CustomLineItemListElement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
+      CurrencyCode: S.optional(CurrencyCode),
+      Description: S.optional(SensitiveString),
+      ProductCode: S.optional(S.String),
+      BillingGroupArn: S.optional(S.String),
+      CreationTime: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      AssociationSize: S.optional(S.Number),
+      AccountId: S.optional(S.String),
+      ComputationRule: S.optional(ComputationRuleEnum),
+      PresentationDetails: S.optional(PresentationObject),
+    }),
 ).annotate({
   identifier: "CustomLineItemListElement",
 }) as any as S.Schema<CustomLineItemListElement>;
 export type CustomLineItemList = CustomLineItemListElement[];
-export const CustomLineItemList = S.Array(CustomLineItemListElement);
+export const CustomLineItemList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CustomLineItemListElement,
+);
 export interface ListCustomLineItemsOutput {
   CustomLineItems?: CustomLineItemListElement[];
   NextToken?: string;
 }
-export const ListCustomLineItemsOutput = S.suspend(() =>
-  S.Struct({
-    CustomLineItems: S.optional(CustomLineItemList),
-    NextToken: S.optional(S.String),
-  }),
+export const ListCustomLineItemsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CustomLineItems: S.optional(CustomLineItemList),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListCustomLineItemsOutput",
 }) as any as S.Schema<ListCustomLineItemsOutput>;
 export type CustomLineItemBatchAssociationsList = string[];
-export const CustomLineItemBatchAssociationsList = S.Array(S.String);
+export const CustomLineItemBatchAssociationsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface BatchAssociateResourcesToCustomLineItemInput {
   TargetArn: string;
   ResourceArns: string[];
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
-export const BatchAssociateResourcesToCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    TargetArn: S.String,
-    ResourceArns: CustomLineItemBatchAssociationsList,
-    BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/batch-associate-resources-to-custom-line-item",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const BatchAssociateResourcesToCustomLineItemInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      TargetArn: S.String,
+      ResourceArns: CustomLineItemBatchAssociationsList,
+      BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/batch-associate-resources-to-custom-line-item",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "BatchAssociateResourcesToCustomLineItemInput",
-}) as any as S.Schema<BatchAssociateResourcesToCustomLineItemInput>;
+  ).annotate({
+    identifier: "BatchAssociateResourcesToCustomLineItemInput",
+  }) as any as S.Schema<BatchAssociateResourcesToCustomLineItemInput>;
 export type AssociateResourceErrorReason =
   | "INVALID_ARN"
   | "SERVICE_LIMIT_EXCEEDED"
@@ -1319,16 +1392,18 @@ export type AssociateResourceErrorReason =
   | "INTERNAL_SERVER_EXCEPTION"
   | "INVALID_BILLING_PERIOD_RANGE"
   | (string & {});
-export const AssociateResourceErrorReason = S.String;
+export const AssociateResourceErrorReason =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AssociateResourceError {
   Message?: string;
   Reason?: AssociateResourceErrorReason;
 }
-export const AssociateResourceError = S.suspend(() =>
-  S.Struct({
-    Message: S.optional(S.String),
-    Reason: S.optional(AssociateResourceErrorReason),
-  }),
+export const AssociateResourceError = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Message: S.optional(S.String),
+      Reason: S.optional(AssociateResourceErrorReason),
+    }),
 ).annotate({
   identifier: "AssociateResourceError",
 }) as any as S.Schema<AssociateResourceError>;
@@ -1336,81 +1411,86 @@ export interface AssociateResourceResponseElement {
   Arn?: string;
   Error?: AssociateResourceError;
 }
-export const AssociateResourceResponseElement = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Error: S.optional(AssociateResourceError),
-  }),
-).annotate({
-  identifier: "AssociateResourceResponseElement",
-}) as any as S.Schema<AssociateResourceResponseElement>;
+export const AssociateResourceResponseElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Error: S.optional(AssociateResourceError),
+    }),
+  ).annotate({
+    identifier: "AssociateResourceResponseElement",
+  }) as any as S.Schema<AssociateResourceResponseElement>;
 export type AssociateResourcesResponseList = AssociateResourceResponseElement[];
-export const AssociateResourcesResponseList = S.Array(
-  AssociateResourceResponseElement,
-);
+export const AssociateResourcesResponseList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AssociateResourceResponseElement);
 export interface BatchAssociateResourcesToCustomLineItemOutput {
   SuccessfullyAssociatedResources?: AssociateResourceResponseElement[];
   FailedAssociatedResources?: AssociateResourceResponseElement[];
 }
-export const BatchAssociateResourcesToCustomLineItemOutput = S.suspend(() =>
-  S.Struct({
-    SuccessfullyAssociatedResources: S.optional(AssociateResourcesResponseList),
-    FailedAssociatedResources: S.optional(AssociateResourcesResponseList),
-  }),
-).annotate({
-  identifier: "BatchAssociateResourcesToCustomLineItemOutput",
-}) as any as S.Schema<BatchAssociateResourcesToCustomLineItemOutput>;
+export const BatchAssociateResourcesToCustomLineItemOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SuccessfullyAssociatedResources: S.optional(
+        AssociateResourcesResponseList,
+      ),
+      FailedAssociatedResources: S.optional(AssociateResourcesResponseList),
+    }),
+  ).annotate({
+    identifier: "BatchAssociateResourcesToCustomLineItemOutput",
+  }) as any as S.Schema<BatchAssociateResourcesToCustomLineItemOutput>;
 export type CustomLineItemBatchDisassociationsList = string[];
-export const CustomLineItemBatchDisassociationsList = S.Array(S.String);
+export const CustomLineItemBatchDisassociationsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface BatchDisassociateResourcesFromCustomLineItemInput {
   TargetArn: string;
   ResourceArns: string[];
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
-export const BatchDisassociateResourcesFromCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    TargetArn: S.String,
-    ResourceArns: CustomLineItemBatchDisassociationsList,
-    BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/batch-disassociate-resources-from-custom-line-item",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const BatchDisassociateResourcesFromCustomLineItemInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      TargetArn: S.String,
+      ResourceArns: CustomLineItemBatchDisassociationsList,
+      BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/batch-disassociate-resources-from-custom-line-item",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "BatchDisassociateResourcesFromCustomLineItemInput",
-}) as any as S.Schema<BatchDisassociateResourcesFromCustomLineItemInput>;
+  ).annotate({
+    identifier: "BatchDisassociateResourcesFromCustomLineItemInput",
+  }) as any as S.Schema<BatchDisassociateResourcesFromCustomLineItemInput>;
 export interface DisassociateResourceResponseElement {
   Arn?: string;
   Error?: AssociateResourceError;
 }
-export const DisassociateResourceResponseElement = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Error: S.optional(AssociateResourceError),
-  }),
-).annotate({
-  identifier: "DisassociateResourceResponseElement",
-}) as any as S.Schema<DisassociateResourceResponseElement>;
+export const DisassociateResourceResponseElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Error: S.optional(AssociateResourceError),
+    }),
+  ).annotate({
+    identifier: "DisassociateResourceResponseElement",
+  }) as any as S.Schema<DisassociateResourceResponseElement>;
 export type DisassociateResourcesResponseList =
   DisassociateResourceResponseElement[];
-export const DisassociateResourcesResponseList = S.Array(
-  DisassociateResourceResponseElement,
-);
+export const DisassociateResourcesResponseList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DisassociateResourceResponseElement);
 export interface BatchDisassociateResourcesFromCustomLineItemOutput {
   SuccessfullyDisassociatedResources?: DisassociateResourceResponseElement[];
   FailedDisassociatedResources?: DisassociateResourceResponseElement[];
 }
-export const BatchDisassociateResourcesFromCustomLineItemOutput = S.suspend(
-  () =>
+export const BatchDisassociateResourcesFromCustomLineItemOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     S.Struct({
       SuccessfullyDisassociatedResources: S.optional(
         DisassociateResourcesResponseList,
@@ -1419,59 +1499,61 @@ export const BatchDisassociateResourcesFromCustomLineItemOutput = S.suspend(
         DisassociateResourcesResponseList,
       ),
     }),
-).annotate({
-  identifier: "BatchDisassociateResourcesFromCustomLineItemOutput",
-}) as any as S.Schema<BatchDisassociateResourcesFromCustomLineItemOutput>;
+  ).annotate({
+    identifier: "BatchDisassociateResourcesFromCustomLineItemOutput",
+  }) as any as S.Schema<BatchDisassociateResourcesFromCustomLineItemOutput>;
 export interface ListCustomLineItemVersionsBillingPeriodRangeFilter {
   StartBillingPeriod?: string;
   EndBillingPeriod?: string;
 }
-export const ListCustomLineItemVersionsBillingPeriodRangeFilter = S.suspend(
-  () =>
+export const ListCustomLineItemVersionsBillingPeriodRangeFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     S.Struct({
       StartBillingPeriod: S.optional(S.String),
       EndBillingPeriod: S.optional(S.String),
     }),
-).annotate({
-  identifier: "ListCustomLineItemVersionsBillingPeriodRangeFilter",
-}) as any as S.Schema<ListCustomLineItemVersionsBillingPeriodRangeFilter>;
+  ).annotate({
+    identifier: "ListCustomLineItemVersionsBillingPeriodRangeFilter",
+  }) as any as S.Schema<ListCustomLineItemVersionsBillingPeriodRangeFilter>;
 export interface ListCustomLineItemVersionsFilter {
   BillingPeriodRange?: ListCustomLineItemVersionsBillingPeriodRangeFilter;
 }
-export const ListCustomLineItemVersionsFilter = S.suspend(() =>
-  S.Struct({
-    BillingPeriodRange: S.optional(
-      ListCustomLineItemVersionsBillingPeriodRangeFilter,
-    ),
-  }),
-).annotate({
-  identifier: "ListCustomLineItemVersionsFilter",
-}) as any as S.Schema<ListCustomLineItemVersionsFilter>;
+export const ListCustomLineItemVersionsFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriodRange: S.optional(
+        ListCustomLineItemVersionsBillingPeriodRangeFilter,
+      ),
+    }),
+  ).annotate({
+    identifier: "ListCustomLineItemVersionsFilter",
+  }) as any as S.Schema<ListCustomLineItemVersionsFilter>;
 export interface ListCustomLineItemVersionsInput {
   Arn: string;
   MaxResults?: number;
   NextToken?: string;
   Filters?: ListCustomLineItemVersionsFilter;
 }
-export const ListCustomLineItemVersionsInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(ListCustomLineItemVersionsFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-custom-line-item-versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListCustomLineItemVersionsInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      Filters: S.optional(ListCustomLineItemVersionsFilter),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/list-custom-line-item-versions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListCustomLineItemVersionsInput",
-}) as any as S.Schema<ListCustomLineItemVersionsInput>;
+  ).annotate({
+    identifier: "ListCustomLineItemVersionsInput",
+  }) as any as S.Schema<ListCustomLineItemVersionsInput>;
 export interface CustomLineItemVersionListElement {
   Name?: string | redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
@@ -1490,54 +1572,57 @@ export interface CustomLineItemVersionListElement {
   ComputationRule?: ComputationRuleEnum;
   PresentationDetails?: PresentationObject;
 }
-export const CustomLineItemVersionListElement = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SensitiveString),
-    ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
-    CurrencyCode: S.optional(CurrencyCode),
-    Description: S.optional(SensitiveString),
-    ProductCode: S.optional(S.String),
-    BillingGroupArn: S.optional(S.String),
-    CreationTime: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    AssociationSize: S.optional(S.Number),
-    StartBillingPeriod: S.optional(S.String),
-    EndBillingPeriod: S.optional(S.String),
-    Arn: S.optional(S.String),
-    StartTime: S.optional(S.Number),
-    AccountId: S.optional(S.String),
-    ComputationRule: S.optional(ComputationRuleEnum),
-    PresentationDetails: S.optional(PresentationObject),
-  }),
-).annotate({
-  identifier: "CustomLineItemVersionListElement",
-}) as any as S.Schema<CustomLineItemVersionListElement>;
+export const CustomLineItemVersionListElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.optional(SensitiveString),
+      ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
+      CurrencyCode: S.optional(CurrencyCode),
+      Description: S.optional(SensitiveString),
+      ProductCode: S.optional(S.String),
+      BillingGroupArn: S.optional(S.String),
+      CreationTime: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      AssociationSize: S.optional(S.Number),
+      StartBillingPeriod: S.optional(S.String),
+      EndBillingPeriod: S.optional(S.String),
+      Arn: S.optional(S.String),
+      StartTime: S.optional(S.Number),
+      AccountId: S.optional(S.String),
+      ComputationRule: S.optional(ComputationRuleEnum),
+      PresentationDetails: S.optional(PresentationObject),
+    }),
+  ).annotate({
+    identifier: "CustomLineItemVersionListElement",
+  }) as any as S.Schema<CustomLineItemVersionListElement>;
 export type CustomLineItemVersionList = CustomLineItemVersionListElement[];
-export const CustomLineItemVersionList = S.Array(
+export const CustomLineItemVersionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   CustomLineItemVersionListElement,
 );
 export interface ListCustomLineItemVersionsOutput {
   CustomLineItemVersions?: CustomLineItemVersionListElement[];
   NextToken?: string;
 }
-export const ListCustomLineItemVersionsOutput = S.suspend(() =>
-  S.Struct({
-    CustomLineItemVersions: S.optional(CustomLineItemVersionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomLineItemVersionsOutput",
-}) as any as S.Schema<ListCustomLineItemVersionsOutput>;
+export const ListCustomLineItemVersionsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CustomLineItemVersions: S.optional(CustomLineItemVersionList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomLineItemVersionsOutput",
+  }) as any as S.Schema<ListCustomLineItemVersionsOutput>;
 export type CustomLineItemRelationship = "PARENT" | "CHILD" | (string & {});
-export const CustomLineItemRelationship = S.String;
+export const CustomLineItemRelationship = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ListResourcesAssociatedToCustomLineItemFilter {
   Relationship?: CustomLineItemRelationship;
 }
-export const ListResourcesAssociatedToCustomLineItemFilter = S.suspend(() =>
-  S.Struct({ Relationship: S.optional(CustomLineItemRelationship) }),
-).annotate({
-  identifier: "ListResourcesAssociatedToCustomLineItemFilter",
-}) as any as S.Schema<ListResourcesAssociatedToCustomLineItemFilter>;
+export const ListResourcesAssociatedToCustomLineItemFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Relationship: S.optional(CustomLineItemRelationship) }),
+  ).annotate({
+    identifier: "ListResourcesAssociatedToCustomLineItemFilter",
+  }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemFilter>;
 export interface ListResourcesAssociatedToCustomLineItemInput {
   BillingPeriod?: string;
   Arn: string;
@@ -1545,67 +1630,72 @@ export interface ListResourcesAssociatedToCustomLineItemInput {
   NextToken?: string;
   Filters?: ListResourcesAssociatedToCustomLineItemFilter;
 }
-export const ListResourcesAssociatedToCustomLineItemInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    Arn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(ListResourcesAssociatedToCustomLineItemFilter),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/list-resources-associated-to-custom-line-item",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListResourcesAssociatedToCustomLineItemInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      Arn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      Filters: S.optional(ListResourcesAssociatedToCustomLineItemFilter),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/list-resources-associated-to-custom-line-item",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListResourcesAssociatedToCustomLineItemInput",
-}) as any as S.Schema<ListResourcesAssociatedToCustomLineItemInput>;
+  ).annotate({
+    identifier: "ListResourcesAssociatedToCustomLineItemInput",
+  }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemInput>;
 export interface ListResourcesAssociatedToCustomLineItemResponseElement {
   Arn?: string;
   Relationship?: CustomLineItemRelationship;
   EndBillingPeriod?: string;
 }
-export const ListResourcesAssociatedToCustomLineItemResponseElement = S.suspend(
-  () =>
+export const ListResourcesAssociatedToCustomLineItemResponseElement =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     S.Struct({
       Arn: S.optional(S.String),
       Relationship: S.optional(CustomLineItemRelationship),
       EndBillingPeriod: S.optional(S.String),
     }),
-).annotate({
-  identifier: "ListResourcesAssociatedToCustomLineItemResponseElement",
-}) as any as S.Schema<ListResourcesAssociatedToCustomLineItemResponseElement>;
+  ).annotate({
+    identifier: "ListResourcesAssociatedToCustomLineItemResponseElement",
+  }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemResponseElement>;
 export type ListResourcesAssociatedToCustomLineItemResponseList =
   ListResourcesAssociatedToCustomLineItemResponseElement[];
-export const ListResourcesAssociatedToCustomLineItemResponseList = S.Array(
-  ListResourcesAssociatedToCustomLineItemResponseElement,
-);
+export const ListResourcesAssociatedToCustomLineItemResponseList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(
+    ListResourcesAssociatedToCustomLineItemResponseElement,
+  );
 export interface ListResourcesAssociatedToCustomLineItemOutput {
   Arn?: string;
   AssociatedResources?: ListResourcesAssociatedToCustomLineItemResponseElement[];
   NextToken?: string;
 }
-export const ListResourcesAssociatedToCustomLineItemOutput = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    AssociatedResources: S.optional(
-      ListResourcesAssociatedToCustomLineItemResponseList,
-    ),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListResourcesAssociatedToCustomLineItemOutput",
-}) as any as S.Schema<ListResourcesAssociatedToCustomLineItemOutput>;
+export const ListResourcesAssociatedToCustomLineItemOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      AssociatedResources: S.optional(
+        ListResourcesAssociatedToCustomLineItemResponseList,
+      ),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListResourcesAssociatedToCustomLineItemOutput",
+  }) as any as S.Schema<ListResourcesAssociatedToCustomLineItemOutput>;
 export type PricingRuleArnsInput = string[];
-export const PricingRuleArnsInput = S.Array(S.String);
+export const PricingRuleArnsInput = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface CreatePricingPlanInput {
   ClientToken?: string;
   Name: string | redacted.Redacted<string>;
@@ -1613,34 +1703,35 @@ export interface CreatePricingPlanInput {
   PricingRuleArns?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreatePricingPlanInput = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-      T.IdempotencyToken(),
+export const CreatePricingPlanInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(
+        T.HttpHeader("X-Amzn-Client-Token"),
+        T.IdempotencyToken(),
+      ),
+      Name: SensitiveString,
+      Description: S.optional(SensitiveString),
+      PricingRuleArns: S.optional(PricingRuleArnsInput),
+      Tags: S.optional(TagMap),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/create-pricing-plan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: SensitiveString,
-    Description: S.optional(SensitiveString),
-    PricingRuleArns: S.optional(PricingRuleArnsInput),
-    Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-pricing-plan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreatePricingPlanInput",
 }) as any as S.Schema<CreatePricingPlanInput>;
 export interface CreatePricingPlanOutput {
   Arn?: string;
 }
-export const CreatePricingPlanOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const CreatePricingPlanOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreatePricingPlanOutput",
 }) as any as S.Schema<CreatePricingPlanOutput>;
@@ -1649,21 +1740,22 @@ export interface UpdatePricingPlanInput {
   Name?: string | redacted.Redacted<string>;
   Description?: string | redacted.Redacted<string>;
 }
-export const UpdatePricingPlanInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/update-pricing-plan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdatePricingPlanInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/update-pricing-plan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePricingPlanInput",
 }) as any as S.Schema<UpdatePricingPlanInput>;
@@ -1674,49 +1766,51 @@ export interface UpdatePricingPlanOutput {
   Size?: number;
   LastModifiedTime?: number;
 }
-export const UpdatePricingPlanOutput = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    Size: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-  }),
+export const UpdatePricingPlanOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      Size: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "UpdatePricingPlanOutput",
 }) as any as S.Schema<UpdatePricingPlanOutput>;
 export interface DeletePricingPlanInput {
   Arn: string;
 }
-export const DeletePricingPlanInput = S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-pricing-plan" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeletePricingPlanInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/delete-pricing-plan" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeletePricingPlanInput",
 }) as any as S.Schema<DeletePricingPlanInput>;
 export interface DeletePricingPlanOutput {
   Arn?: string;
 }
-export const DeletePricingPlanOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const DeletePricingPlanOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeletePricingPlanOutput",
 }) as any as S.Schema<DeletePricingPlanOutput>;
 export type PricingPlanArns = string[];
-export const PricingPlanArns = S.Array(S.String);
+export const PricingPlanArns = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListPricingPlansFilter {
   Arns?: string[];
 }
-export const ListPricingPlansFilter = S.suspend(() =>
-  S.Struct({ Arns: S.optional(PricingPlanArns) }),
+export const ListPricingPlansFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arns: S.optional(PricingPlanArns) }),
 ).annotate({
   identifier: "ListPricingPlansFilter",
 }) as any as S.Schema<ListPricingPlansFilter>;
@@ -1726,7 +1820,7 @@ export interface ListPricingPlansInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListPricingPlansInput = S.suspend(() =>
+export const ListPricingPlansInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BillingPeriod: S.optional(S.String),
     Filters: S.optional(ListPricingPlansFilter),
@@ -1753,151 +1847,163 @@ export interface PricingPlanListElement {
   CreationTime?: number;
   LastModifiedTime?: number;
 }
-export const PricingPlanListElement = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SensitiveString),
-    Arn: S.optional(S.String),
-    Description: S.optional(SensitiveString),
-    Size: S.optional(S.Number),
-    CreationTime: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-  }),
+export const PricingPlanListElement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.optional(SensitiveString),
+      Arn: S.optional(S.String),
+      Description: S.optional(SensitiveString),
+      Size: S.optional(S.Number),
+      CreationTime: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "PricingPlanListElement",
 }) as any as S.Schema<PricingPlanListElement>;
 export type PricingPlanList = PricingPlanListElement[];
-export const PricingPlanList = S.Array(PricingPlanListElement);
+export const PricingPlanList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  PricingPlanListElement,
+);
 export interface ListPricingPlansOutput {
   BillingPeriod?: string;
   PricingPlans?: PricingPlanListElement[];
   NextToken?: string;
 }
-export const ListPricingPlansOutput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingPlans: S.optional(PricingPlanList),
-    NextToken: S.optional(S.String),
-  }),
+export const ListPricingPlansOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingPlans: S.optional(PricingPlanList),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListPricingPlansOutput",
 }) as any as S.Schema<ListPricingPlansOutput>;
 export type PricingRuleArnsNonEmptyInput = string[];
-export const PricingRuleArnsNonEmptyInput = S.Array(S.String);
+export const PricingRuleArnsNonEmptyInput = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface AssociatePricingRulesInput {
   Arn: string;
   PricingRuleArns: string[];
 }
-export const AssociatePricingRulesInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    PricingRuleArns: PricingRuleArnsNonEmptyInput,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/associate-pricing-rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssociatePricingRulesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      PricingRuleArns: PricingRuleArnsNonEmptyInput,
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/associate-pricing-rules" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "AssociatePricingRulesInput",
 }) as any as S.Schema<AssociatePricingRulesInput>;
 export interface AssociatePricingRulesOutput {
   Arn?: string;
 }
-export const AssociatePricingRulesOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "AssociatePricingRulesOutput",
-}) as any as S.Schema<AssociatePricingRulesOutput>;
+export const AssociatePricingRulesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Arn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "AssociatePricingRulesOutput",
+  }) as any as S.Schema<AssociatePricingRulesOutput>;
 export interface DisassociatePricingRulesInput {
   Arn: string;
   PricingRuleArns: string[];
 }
-export const DisassociatePricingRulesInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    PricingRuleArns: PricingRuleArnsNonEmptyInput,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/disassociate-pricing-rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisassociatePricingRulesInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Arn: S.String,
+      PricingRuleArns: PricingRuleArnsNonEmptyInput,
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/disassociate-pricing-rules" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DisassociatePricingRulesInput",
-}) as any as S.Schema<DisassociatePricingRulesInput>;
+  ).annotate({
+    identifier: "DisassociatePricingRulesInput",
+  }) as any as S.Schema<DisassociatePricingRulesInput>;
 export interface DisassociatePricingRulesOutput {
   Arn?: string;
 }
-export const DisassociatePricingRulesOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "DisassociatePricingRulesOutput",
-}) as any as S.Schema<DisassociatePricingRulesOutput>;
+export const DisassociatePricingRulesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Arn: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DisassociatePricingRulesOutput",
+  }) as any as S.Schema<DisassociatePricingRulesOutput>;
 export interface ListPricingPlansAssociatedWithPricingRuleInput {
   BillingPeriod?: string;
   PricingRuleArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListPricingPlansAssociatedWithPricingRuleInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingRuleArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/list-pricing-plans-associated-with-pricing-rule",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListPricingPlansAssociatedWithPricingRuleInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingRuleArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/list-pricing-plans-associated-with-pricing-rule",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListPricingPlansAssociatedWithPricingRuleInput",
-}) as any as S.Schema<ListPricingPlansAssociatedWithPricingRuleInput>;
+  ).annotate({
+    identifier: "ListPricingPlansAssociatedWithPricingRuleInput",
+  }) as any as S.Schema<ListPricingPlansAssociatedWithPricingRuleInput>;
 export interface ListPricingPlansAssociatedWithPricingRuleOutput {
   BillingPeriod?: string;
   PricingRuleArn?: string;
   PricingPlanArns?: string[];
   NextToken?: string;
 }
-export const ListPricingPlansAssociatedWithPricingRuleOutput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingRuleArn: S.optional(S.String),
-    PricingPlanArns: S.optional(PricingPlanArns),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPricingPlansAssociatedWithPricingRuleOutput",
-}) as any as S.Schema<ListPricingPlansAssociatedWithPricingRuleOutput>;
+export const ListPricingPlansAssociatedWithPricingRuleOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingRuleArn: S.optional(S.String),
+      PricingPlanArns: S.optional(PricingPlanArns),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListPricingPlansAssociatedWithPricingRuleOutput",
+  }) as any as S.Schema<ListPricingPlansAssociatedWithPricingRuleOutput>;
 export type PricingRuleScope =
   | "GLOBAL"
   | "SERVICE"
   | "BILLING_ENTITY"
   | "SKU"
   | (string & {});
-export const PricingRuleScope = S.String;
+export const PricingRuleScope = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type PricingRuleType = "MARKUP" | "DISCOUNT" | "TIERING" | (string & {});
-export const PricingRuleType = S.String;
+export const PricingRuleType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateFreeTierConfig {
   Activated: boolean;
 }
-export const CreateFreeTierConfig = S.suspend(() =>
+export const CreateFreeTierConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Activated: S.Boolean }),
 ).annotate({
   identifier: "CreateFreeTierConfig",
@@ -1905,7 +2011,7 @@ export const CreateFreeTierConfig = S.suspend(() =>
 export interface CreateTieringInput {
   FreeTier: CreateFreeTierConfig;
 }
-export const CreateTieringInput = S.suspend(() =>
+export const CreateTieringInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ FreeTier: CreateFreeTierConfig }),
 ).annotate({
   identifier: "CreateTieringInput",
@@ -1924,48 +2030,49 @@ export interface CreatePricingRuleInput {
   UsageType?: string;
   Operation?: string;
 }
-export const CreatePricingRuleInput = S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Amzn-Client-Token"),
-      T.IdempotencyToken(),
+export const CreatePricingRuleInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientToken: S.optional(S.String).pipe(
+        T.HttpHeader("X-Amzn-Client-Token"),
+        T.IdempotencyToken(),
+      ),
+      Name: SensitiveString,
+      Description: S.optional(SensitiveString),
+      Scope: PricingRuleScope,
+      Type: PricingRuleType,
+      ModifierPercentage: S.optional(S.Number),
+      Service: S.optional(S.String),
+      Tags: S.optional(TagMap),
+      BillingEntity: S.optional(S.String),
+      Tiering: S.optional(CreateTieringInput),
+      UsageType: S.optional(S.String),
+      Operation: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/create-pricing-rule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    Name: SensitiveString,
-    Description: S.optional(SensitiveString),
-    Scope: PricingRuleScope,
-    Type: PricingRuleType,
-    ModifierPercentage: S.optional(S.Number),
-    Service: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    BillingEntity: S.optional(S.String),
-    Tiering: S.optional(CreateTieringInput),
-    UsageType: S.optional(S.String),
-    Operation: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-pricing-rule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "CreatePricingRuleInput",
 }) as any as S.Schema<CreatePricingRuleInput>;
 export interface CreatePricingRuleOutput {
   Arn?: string;
 }
-export const CreatePricingRuleOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const CreatePricingRuleOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreatePricingRuleOutput",
 }) as any as S.Schema<CreatePricingRuleOutput>;
 export interface UpdateFreeTierConfig {
   Activated: boolean;
 }
-export const UpdateFreeTierConfig = S.suspend(() =>
+export const UpdateFreeTierConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Activated: S.Boolean }),
 ).annotate({
   identifier: "UpdateFreeTierConfig",
@@ -1973,7 +2080,7 @@ export const UpdateFreeTierConfig = S.suspend(() =>
 export interface UpdateTieringInput {
   FreeTier: UpdateFreeTierConfig;
 }
-export const UpdateTieringInput = S.suspend(() =>
+export const UpdateTieringInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ FreeTier: UpdateFreeTierConfig }),
 ).annotate({
   identifier: "UpdateTieringInput",
@@ -1986,24 +2093,25 @@ export interface UpdatePricingRuleInput {
   ModifierPercentage?: number;
   Tiering?: UpdateTieringInput;
 }
-export const UpdatePricingRuleInput = S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    Type: S.optional(PricingRuleType),
-    ModifierPercentage: S.optional(S.Number),
-    Tiering: S.optional(UpdateTieringInput),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/update-pricing-rule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdatePricingRuleInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.String,
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      Type: S.optional(PricingRuleType),
+      ModifierPercentage: S.optional(S.Number),
+      Tiering: S.optional(UpdateTieringInput),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/update-pricing-rule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdatePricingRuleInput",
 }) as any as S.Schema<UpdatePricingRuleInput>;
@@ -2022,57 +2130,59 @@ export interface UpdatePricingRuleOutput {
   UsageType?: string;
   Operation?: string;
 }
-export const UpdatePricingRuleOutput = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Name: S.optional(SensitiveString),
-    Description: S.optional(SensitiveString),
-    Scope: S.optional(PricingRuleScope),
-    Type: S.optional(PricingRuleType),
-    ModifierPercentage: S.optional(S.Number),
-    Service: S.optional(S.String),
-    AssociatedPricingPlanCount: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    BillingEntity: S.optional(S.String),
-    Tiering: S.optional(UpdateTieringInput),
-    UsageType: S.optional(S.String),
-    Operation: S.optional(S.String),
-  }),
+export const UpdatePricingRuleOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      Name: S.optional(SensitiveString),
+      Description: S.optional(SensitiveString),
+      Scope: S.optional(PricingRuleScope),
+      Type: S.optional(PricingRuleType),
+      ModifierPercentage: S.optional(S.Number),
+      Service: S.optional(S.String),
+      AssociatedPricingPlanCount: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      BillingEntity: S.optional(S.String),
+      Tiering: S.optional(UpdateTieringInput),
+      UsageType: S.optional(S.String),
+      Operation: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "UpdatePricingRuleOutput",
 }) as any as S.Schema<UpdatePricingRuleOutput>;
 export interface DeletePricingRuleInput {
   Arn: string;
 }
-export const DeletePricingRuleInput = S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-pricing-rule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeletePricingRuleInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/delete-pricing-rule" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeletePricingRuleInput",
 }) as any as S.Schema<DeletePricingRuleInput>;
 export interface DeletePricingRuleOutput {
   Arn?: string;
 }
-export const DeletePricingRuleOutput = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }),
+export const DeletePricingRuleOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "DeletePricingRuleOutput",
 }) as any as S.Schema<DeletePricingRuleOutput>;
 export type PricingRuleArns = string[];
-export const PricingRuleArns = S.Array(S.String);
+export const PricingRuleArns = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListPricingRulesFilter {
   Arns?: string[];
 }
-export const ListPricingRulesFilter = S.suspend(() =>
-  S.Struct({ Arns: S.optional(PricingRuleArns) }),
+export const ListPricingRulesFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Arns: S.optional(PricingRuleArns) }),
 ).annotate({
   identifier: "ListPricingRulesFilter",
 }) as any as S.Schema<ListPricingRulesFilter>;
@@ -2082,7 +2192,7 @@ export interface ListPricingRulesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListPricingRulesInput = S.suspend(() =>
+export const ListPricingRulesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BillingPeriod: S.optional(S.String),
     Filters: S.optional(ListPricingRulesFilter),
@@ -2104,13 +2214,13 @@ export const ListPricingRulesInput = S.suspend(() =>
 export interface FreeTierConfig {
   Activated: boolean;
 }
-export const FreeTierConfig = S.suspend(() =>
+export const FreeTierConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Activated: S.Boolean }),
 ).annotate({ identifier: "FreeTierConfig" }) as any as S.Schema<FreeTierConfig>;
 export interface Tiering {
   FreeTier: FreeTierConfig;
 }
-export const Tiering = S.suspend(() =>
+export const Tiering = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ FreeTier: FreeTierConfig }),
 ).annotate({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
 export interface PricingRuleListElement {
@@ -2129,39 +2239,43 @@ export interface PricingRuleListElement {
   UsageType?: string;
   Operation?: string;
 }
-export const PricingRuleListElement = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SensitiveString),
-    Arn: S.optional(S.String),
-    Description: S.optional(SensitiveString),
-    Scope: S.optional(PricingRuleScope),
-    Type: S.optional(PricingRuleType),
-    ModifierPercentage: S.optional(S.Number),
-    Service: S.optional(S.String),
-    AssociatedPricingPlanCount: S.optional(S.Number),
-    CreationTime: S.optional(S.Number),
-    LastModifiedTime: S.optional(S.Number),
-    BillingEntity: S.optional(S.String),
-    Tiering: S.optional(Tiering),
-    UsageType: S.optional(S.String),
-    Operation: S.optional(S.String),
-  }),
+export const PricingRuleListElement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.optional(SensitiveString),
+      Arn: S.optional(S.String),
+      Description: S.optional(SensitiveString),
+      Scope: S.optional(PricingRuleScope),
+      Type: S.optional(PricingRuleType),
+      ModifierPercentage: S.optional(S.Number),
+      Service: S.optional(S.String),
+      AssociatedPricingPlanCount: S.optional(S.Number),
+      CreationTime: S.optional(S.Number),
+      LastModifiedTime: S.optional(S.Number),
+      BillingEntity: S.optional(S.String),
+      Tiering: S.optional(Tiering),
+      UsageType: S.optional(S.String),
+      Operation: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "PricingRuleListElement",
 }) as any as S.Schema<PricingRuleListElement>;
 export type PricingRuleList = PricingRuleListElement[];
-export const PricingRuleList = S.Array(PricingRuleListElement);
+export const PricingRuleList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  PricingRuleListElement,
+);
 export interface ListPricingRulesOutput {
   BillingPeriod?: string;
   PricingRules?: PricingRuleListElement[];
   NextToken?: string;
 }
-export const ListPricingRulesOutput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingRules: S.optional(PricingRuleList),
-    NextToken: S.optional(S.String),
-  }),
+export const ListPricingRulesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingRules: S.optional(PricingRuleList),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListPricingRulesOutput",
 }) as any as S.Schema<ListPricingRulesOutput>;
@@ -2171,44 +2285,46 @@ export interface ListPricingRulesAssociatedToPricingPlanInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListPricingRulesAssociatedToPricingPlanInput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingPlanArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/list-pricing-rules-associated-to-pricing-plan",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListPricingRulesAssociatedToPricingPlanInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingPlanArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/list-pricing-rules-associated-to-pricing-plan",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListPricingRulesAssociatedToPricingPlanInput",
-}) as any as S.Schema<ListPricingRulesAssociatedToPricingPlanInput>;
+  ).annotate({
+    identifier: "ListPricingRulesAssociatedToPricingPlanInput",
+  }) as any as S.Schema<ListPricingRulesAssociatedToPricingPlanInput>;
 export interface ListPricingRulesAssociatedToPricingPlanOutput {
   BillingPeriod?: string;
   PricingPlanArn?: string;
   PricingRuleArns?: string[];
   NextToken?: string;
 }
-export const ListPricingRulesAssociatedToPricingPlanOutput = S.suspend(() =>
-  S.Struct({
-    BillingPeriod: S.optional(S.String),
-    PricingPlanArn: S.optional(S.String),
-    PricingRuleArns: S.optional(PricingRuleArns),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPricingRulesAssociatedToPricingPlanOutput",
-}) as any as S.Schema<ListPricingRulesAssociatedToPricingPlanOutput>;
+export const ListPricingRulesAssociatedToPricingPlanOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BillingPeriod: S.optional(S.String),
+      PricingPlanArn: S.optional(S.String),
+      PricingRuleArns: S.optional(PricingRuleArns),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListPricingRulesAssociatedToPricingPlanOutput",
+  }) as any as S.Schema<ListPricingRulesAssociatedToPricingPlanOutput>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

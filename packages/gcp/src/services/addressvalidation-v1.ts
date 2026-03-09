@@ -30,7 +30,7 @@ export interface GoogleMapsAddressvalidationV1PlusCode {
 }
 
 export const GoogleMapsAddressvalidationV1PlusCode: Schema.Schema<GoogleMapsAddressvalidationV1PlusCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       globalCode: Schema.optional(Schema.String),
       compoundCode: Schema.optional(Schema.String),
@@ -61,7 +61,7 @@ export interface GoogleMapsAddressvalidationV1UspsAddress {
 }
 
 export const GoogleMapsAddressvalidationV1UspsAddress: Schema.Schema<GoogleMapsAddressvalidationV1UspsAddress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urbanization: Schema.optional(Schema.String),
       city: Schema.optional(Schema.String),
@@ -155,7 +155,7 @@ export interface GoogleMapsAddressvalidationV1UspsData {
 }
 
 export const GoogleMapsAddressvalidationV1UspsData: Schema.Schema<GoogleMapsAddressvalidationV1UspsData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       county: Schema.optional(Schema.String),
       carrierRouteIndicator: Schema.optional(Schema.String),
@@ -211,7 +211,7 @@ export interface GoogleMapsAddressvalidationV1AddressMetadata {
 }
 
 export const GoogleMapsAddressvalidationV1AddressMetadata: Schema.Schema<GoogleMapsAddressvalidationV1AddressMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       residential: Schema.optional(Schema.Boolean),
       business: Schema.optional(Schema.Boolean),
@@ -227,7 +227,7 @@ export interface GoogleMapsAddressvalidationV1LanguageOptions {
 }
 
 export const GoogleMapsAddressvalidationV1LanguageOptions: Schema.Schema<GoogleMapsAddressvalidationV1LanguageOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnEnglishLatinAddress: Schema.optional(Schema.Boolean),
     }),
@@ -242,15 +242,15 @@ export interface GoogleTypeLatLng {
   longitude?: number;
 }
 
-export const GoogleTypeLatLng: Schema.Schema<GoogleTypeLatLng> = Schema.suspend(
-  () =>
+export const GoogleTypeLatLng: Schema.Schema<GoogleTypeLatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       latitude: Schema.optional(Schema.Number),
       longitude: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeLatLng",
-}) as any as Schema.Schema<GoogleTypeLatLng>;
+  ).annotate({
+    identifier: "GoogleTypeLatLng",
+  }) as any as Schema.Schema<GoogleTypeLatLng>;
 
 export interface GoogleGeoTypeViewport {
   /** Required. The high point of the viewport. */
@@ -260,7 +260,7 @@ export interface GoogleGeoTypeViewport {
 }
 
 export const GoogleGeoTypeViewport: Schema.Schema<GoogleGeoTypeViewport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       high: Schema.optional(GoogleTypeLatLng),
       low: Schema.optional(GoogleTypeLatLng),
@@ -295,7 +295,7 @@ export interface GoogleTypePostalAddress {
 }
 
 export const GoogleTypePostalAddress: Schema.Schema<GoogleTypePostalAddress> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       organization: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
@@ -321,7 +321,7 @@ export interface GoogleMapsAddressvalidationV1ComponentName {
 }
 
 export const GoogleMapsAddressvalidationV1ComponentName: Schema.Schema<GoogleMapsAddressvalidationV1ComponentName> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -353,7 +353,7 @@ export interface GoogleMapsAddressvalidationV1AddressComponent {
 }
 
 export const GoogleMapsAddressvalidationV1AddressComponent: Schema.Schema<GoogleMapsAddressvalidationV1AddressComponent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       componentName: Schema.optional(
         GoogleMapsAddressvalidationV1ComponentName,
@@ -385,7 +385,7 @@ export interface GoogleMapsAddressvalidationV1Address {
 }
 
 export const GoogleMapsAddressvalidationV1Address: Schema.Schema<GoogleMapsAddressvalidationV1Address> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unresolvedTokens: Schema.optional(Schema.Array(Schema.String)),
       postalAddress: Schema.optional(GoogleTypePostalAddress),
@@ -416,7 +416,7 @@ export interface GoogleMapsAddressvalidationV1Geocode {
 }
 
 export const GoogleMapsAddressvalidationV1Geocode: Schema.Schema<GoogleMapsAddressvalidationV1Geocode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bounds: Schema.optional(GoogleGeoTypeViewport),
       location: Schema.optional(GoogleTypeLatLng),
@@ -481,7 +481,7 @@ export interface GoogleMapsAddressvalidationV1Verdict {
 }
 
 export const GoogleMapsAddressvalidationV1Verdict: Schema.Schema<GoogleMapsAddressvalidationV1Verdict> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       addressComplete: Schema.optional(Schema.Boolean),
       hasReplacedComponents: Schema.optional(Schema.Boolean),
@@ -513,7 +513,7 @@ export interface GoogleMapsAddressvalidationV1ValidationResult {
 }
 
 export const GoogleMapsAddressvalidationV1ValidationResult: Schema.Schema<GoogleMapsAddressvalidationV1ValidationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       address: Schema.optional(GoogleMapsAddressvalidationV1Address),
       geocode: Schema.optional(GoogleMapsAddressvalidationV1Geocode),
@@ -536,7 +536,7 @@ export interface GoogleMapsAddressvalidationV1ValidateAddressResponse {
 }
 
 export const GoogleMapsAddressvalidationV1ValidateAddressResponse: Schema.Schema<GoogleMapsAddressvalidationV1ValidateAddressResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(GoogleMapsAddressvalidationV1ValidationResult),
       responseId: Schema.optional(Schema.String),
@@ -548,7 +548,7 @@ export const GoogleMapsAddressvalidationV1ValidateAddressResponse: Schema.Schema
 export interface GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse {}
 
 export const GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse: Schema.Schema<GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse",
   }) as any as Schema.Schema<GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse>;
@@ -567,7 +567,7 @@ export interface GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest {
 }
 
 export const GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest: Schema.Schema<GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseId: Schema.optional(Schema.String),
       conclusion: Schema.optional(Schema.String),
@@ -590,7 +590,7 @@ export interface GoogleMapsAddressvalidationV1ValidateAddressRequest {
 }
 
 export const GoogleMapsAddressvalidationV1ValidateAddressRequest: Schema.Schema<GoogleMapsAddressvalidationV1ValidateAddressRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageOptions: Schema.optional(
         GoogleMapsAddressvalidationV1LanguageOptions,
@@ -613,19 +613,20 @@ export interface ValidateAddressV1Request {
   body?: GoogleMapsAddressvalidationV1ValidateAddressRequest;
 }
 
-export const ValidateAddressV1Request = Schema.Struct({
-  body: Schema.optional(
-    GoogleMapsAddressvalidationV1ValidateAddressRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1:validateAddress", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<ValidateAddressV1Request>;
+export const ValidateAddressV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleMapsAddressvalidationV1ValidateAddressRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1:validateAddress", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<ValidateAddressV1Request>;
 
 export type ValidateAddressV1Response =
   GoogleMapsAddressvalidationV1ValidateAddressResponse;
 export const ValidateAddressV1Response =
-  GoogleMapsAddressvalidationV1ValidateAddressResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleMapsAddressvalidationV1ValidateAddressResponse;
 
 export type ValidateAddressV1Error = DefaultErrors;
 
@@ -635,7 +636,7 @@ export const validateAddressV1: API.OperationMethod<
   ValidateAddressV1Response,
   ValidateAddressV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateAddressV1Request,
   output: ValidateAddressV1Response,
   errors: [],
@@ -646,23 +647,24 @@ export interface ProvideValidationFeedbackV1Request {
   body?: GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest;
 }
 
-export const ProvideValidationFeedbackV1Request = Schema.Struct({
-  body: Schema.optional(
-    GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1:provideValidationFeedback",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvideValidationFeedbackV1Request>;
+export const ProvideValidationFeedbackV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1:provideValidationFeedback",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvideValidationFeedbackV1Request>;
 
 export type ProvideValidationFeedbackV1Response =
   GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse;
 export const ProvideValidationFeedbackV1Response =
-  GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse;
 
 export type ProvideValidationFeedbackV1Error = DefaultErrors;
 
@@ -672,7 +674,7 @@ export const provideValidationFeedbackV1: API.OperationMethod<
   ProvideValidationFeedbackV1Response,
   ProvideValidationFeedbackV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvideValidationFeedbackV1Request,
   output: ProvideValidationFeedbackV1Response,
   errors: [],

@@ -3,29 +3,31 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListBranchNeonAuthOauthProvidersInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
-  }),
-);
+export const ListBranchNeonAuthOauthProvidersInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/oauth_providers",
+    }),
+  );
 export type ListBranchNeonAuthOauthProvidersInput =
   typeof ListBranchNeonAuthOauthProvidersInput.Type;
 
 // Output Schema
-export const ListBranchNeonAuthOauthProvidersOutput = Schema.Struct({
-  providers: Schema.Array(
-    Schema.Struct({
-      id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
-      type: Schema.Literals(["standard", "shared"]),
-      client_id: Schema.optional(Schema.String),
-      client_secret: Schema.optional(Schema.String),
-    }),
-  ),
-});
+export const ListBranchNeonAuthOauthProvidersOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    providers: Schema.Array(
+      Schema.Struct({
+        id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
+        type: Schema.Literals(["standard", "shared"]),
+        client_id: Schema.optional(Schema.String),
+        client_secret: Schema.optional(Schema.String),
+      }),
+    ),
+  });
 export type ListBranchNeonAuthOauthProvidersOutput =
   typeof ListBranchNeonAuthOauthProvidersOutput.Type;
 

@@ -28,7 +28,7 @@ export interface RealtimeTimeRange {
 }
 
 export const RealtimeTimeRange: Schema.Schema<RealtimeTimeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTimestamp: Schema.optional(Schema.String),
     }),
@@ -46,7 +46,7 @@ export interface Adexchangebuyer2_Date {
 }
 
 export const Adexchangebuyer2_Date: Schema.Schema<Adexchangebuyer2_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
@@ -64,7 +64,7 @@ export interface AbsoluteDateRange {
 }
 
 export const AbsoluteDateRange: Schema.Schema<AbsoluteDateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endDate: Schema.optional(Adexchangebuyer2_Date),
       startDate: Schema.optional(Adexchangebuyer2_Date),
@@ -81,7 +81,7 @@ export interface RelativeDateRange {
 }
 
 export const RelativeDateRange: Schema.Schema<RelativeDateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offsetDays: Schema.optional(Schema.Number),
       durationDays: Schema.optional(Schema.Number),
@@ -142,24 +142,25 @@ export interface FilterSet {
   relativeDateRange?: RelativeDateRange;
 }
 
-export const FilterSet: Schema.Schema<FilterSet> = Schema.suspend(() =>
-  Schema.Struct({
-    sellerNetworkIds: Schema.optional(Schema.Array(Schema.Number)),
-    dealId: Schema.optional(Schema.String),
-    platforms: Schema.optional(Schema.Array(Schema.String)),
-    creativeId: Schema.optional(Schema.String),
-    format: Schema.optional(Schema.String),
-    publisherIdentifiers: Schema.optional(Schema.Array(Schema.String)),
-    realtimeTimeRange: Schema.optional(RealtimeTimeRange),
-    timeSeriesGranularity: Schema.optional(Schema.String),
-    formats: Schema.optional(Schema.Array(Schema.String)),
-    absoluteDateRange: Schema.optional(AbsoluteDateRange),
-    environment: Schema.optional(Schema.String),
-    breakdownDimensions: Schema.optional(Schema.Array(Schema.String)),
-    name: Schema.optional(Schema.String),
-    relativeDateRange: Schema.optional(RelativeDateRange),
-  }),
-).annotate({ identifier: "FilterSet" }) as any as Schema.Schema<FilterSet>;
+export const FilterSet: Schema.Schema<FilterSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sellerNetworkIds: Schema.optional(Schema.Array(Schema.Number)),
+      dealId: Schema.optional(Schema.String),
+      platforms: Schema.optional(Schema.Array(Schema.String)),
+      creativeId: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+      publisherIdentifiers: Schema.optional(Schema.Array(Schema.String)),
+      realtimeTimeRange: Schema.optional(RealtimeTimeRange),
+      timeSeriesGranularity: Schema.optional(Schema.String),
+      formats: Schema.optional(Schema.Array(Schema.String)),
+      absoluteDateRange: Schema.optional(AbsoluteDateRange),
+      environment: Schema.optional(Schema.String),
+      breakdownDimensions: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      relativeDateRange: Schema.optional(RelativeDateRange),
+    }),
+  ).annotate({ identifier: "FilterSet" }) as any as Schema.Schema<FilterSet>;
 
 export interface Note {
   /** The actual note to attach. (max-length: 1024 unicode code units) Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
@@ -178,29 +179,30 @@ export interface Note {
   noteId?: string;
 }
 
-export const Note: Schema.Schema<Note> = Schema.suspend(() =>
-  Schema.Struct({
-    note: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    creatorRole: Schema.optional(Schema.String),
-    proposalRevision: Schema.optional(Schema.String),
-    noteId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
+export const Note: Schema.Schema<Note> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      note: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      creatorRole: Schema.optional(Schema.String),
+      proposalRevision: Schema.optional(Schema.String),
+      noteId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Note" }) as any as Schema.Schema<Note>;
 
 export interface AddNoteRequest {
   /** Details of the note to add. */
   note?: Note;
 }
 
-export const AddNoteRequest: Schema.Schema<AddNoteRequest> = Schema.suspend(
-  () =>
+export const AddNoteRequest: Schema.Schema<AddNoteRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       note: Schema.optional(Note),
     }),
-).annotate({
-  identifier: "AddNoteRequest",
-}) as any as Schema.Schema<AddNoteRequest>;
+  ).annotate({
+    identifier: "AddNoteRequest",
+  }) as any as Schema.Schema<AddNoteRequest>;
 
 export interface AdSize {
   /** The size type of the ad slot. */
@@ -217,13 +219,14 @@ export interface AdSize {
   height?: string;
 }
 
-export const AdSize: Schema.Schema<AdSize> = Schema.suspend(() =>
-  Schema.Struct({
-    sizeType: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.String),
-    height: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
+export const AdSize: Schema.Schema<AdSize> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sizeType: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.String),
+      height: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdSize" }) as any as Schema.Schema<AdSize>;
 
 export interface CreativeSpecification {
   /** Companion sizes may be filled in only when this is a video creative. */
@@ -233,7 +236,7 @@ export interface CreativeSpecification {
 }
 
 export const CreativeSpecification: Schema.Schema<CreativeSpecification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeCompanionSizes: Schema.optional(Schema.Array(AdSize)),
       creativeSize: Schema.optional(AdSize),
@@ -249,25 +252,29 @@ export interface VideoContent {
   videoUrl?: string;
 }
 
-export const VideoContent: Schema.Schema<VideoContent> = Schema.suspend(() =>
-  Schema.Struct({
-    videoVastXml: Schema.optional(Schema.String),
-    videoUrl: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "VideoContent",
-}) as any as Schema.Schema<VideoContent>;
+export const VideoContent: Schema.Schema<VideoContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      videoVastXml: Schema.optional(Schema.String),
+      videoUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VideoContent",
+  }) as any as Schema.Schema<VideoContent>;
 
 export interface PrivateData {
   /** A buyer or seller specified reference ID. This can be queried in the list operations (max-length: 1024 unicode code units). */
   referenceId?: string;
 }
 
-export const PrivateData: Schema.Schema<PrivateData> = Schema.suspend(() =>
-  Schema.Struct({
-    referenceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PrivateData" }) as any as Schema.Schema<PrivateData>;
+export const PrivateData: Schema.Schema<PrivateData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      referenceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrivateData",
+  }) as any as Schema.Schema<PrivateData>;
 
 export interface ClientUserInvitation {
   /** The email address to which the invitation is sent. Email addresses should be unique among all client users under each sponsor buyer. */
@@ -279,7 +286,7 @@ export interface ClientUserInvitation {
 }
 
 export const ClientUserInvitation: Schema.Schema<ClientUserInvitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       invitationId: Schema.optional(Schema.String),
@@ -299,7 +306,7 @@ export interface CreativeDealAssociation {
 }
 
 export const CreativeDealAssociation: Schema.Schema<CreativeDealAssociation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       creativeId: Schema.optional(Schema.String),
@@ -315,7 +322,7 @@ export interface AddDealAssociationRequest {
 }
 
 export const AddDealAssociationRequest: Schema.Schema<AddDealAssociationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       association: Schema.optional(CreativeDealAssociation),
     }),
@@ -329,7 +336,7 @@ export interface AcceptProposalRequest {
 }
 
 export const AcceptProposalRequest: Schema.Schema<AcceptProposalRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proposalRevision: Schema.optional(Schema.String),
     }),
@@ -346,13 +353,14 @@ export interface Money {
   units?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-    units: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+      units: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface Price {
   /** The actual price with currency specified. */
@@ -365,23 +373,25 @@ export interface Price {
     | (string & {});
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amount: Schema.optional(Money),
-    pricingType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amount: Schema.optional(Money),
+      pricingType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface Buyer {
   /** Authorized Buyers account ID of the buyer. */
   accountId?: string;
 }
 
-export const Buyer: Schema.Schema<Buyer> = Schema.suspend(() =>
-  Schema.Struct({
-    accountId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
+export const Buyer: Schema.Schema<Buyer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
 
 export interface PricePerBuyer {
   /** The specified price. */
@@ -392,15 +402,16 @@ export interface PricePerBuyer {
   buyer?: Buyer;
 }
 
-export const PricePerBuyer: Schema.Schema<PricePerBuyer> = Schema.suspend(() =>
-  Schema.Struct({
-    price: Schema.optional(Price),
-    advertiserIds: Schema.optional(Schema.Array(Schema.String)),
-    buyer: Schema.optional(Buyer),
-  }),
-).annotate({
-  identifier: "PricePerBuyer",
-}) as any as Schema.Schema<PricePerBuyer>;
+export const PricePerBuyer: Schema.Schema<PricePerBuyer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      price: Schema.optional(Price),
+      advertiserIds: Schema.optional(Schema.Array(Schema.String)),
+      buyer: Schema.optional(Buyer),
+    }),
+  ).annotate({
+    identifier: "PricePerBuyer",
+  }) as any as Schema.Schema<PricePerBuyer>;
 
 export interface NonGuaranteedFixedPriceTerms {
   /** Fixed price for the specified buyer. */
@@ -408,7 +419,7 @@ export interface NonGuaranteedFixedPriceTerms {
 }
 
 export const NonGuaranteedFixedPriceTerms: Schema.Schema<NonGuaranteedFixedPriceTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedPrices: Schema.optional(Schema.Array(PricePerBuyer)),
     }),
@@ -424,7 +435,7 @@ export interface NonGuaranteedAuctionTerms {
 }
 
 export const NonGuaranteedAuctionTerms: Schema.Schema<NonGuaranteedAuctionTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reservePricesPerBuyer: Schema.optional(Schema.Array(PricePerBuyer)),
       autoOptimizePrivateAuction: Schema.optional(Schema.Boolean),
@@ -455,7 +466,7 @@ export interface GuaranteedFixedPriceTerms {
 }
 
 export const GuaranteedFixedPriceTerms: Schema.Schema<GuaranteedFixedPriceTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedPrices: Schema.optional(Schema.Array(PricePerBuyer)),
       impressionCap: Schema.optional(Schema.String),
@@ -492,18 +503,21 @@ export interface DealTerms {
   estimatedGrossSpend?: Price;
 }
 
-export const DealTerms: Schema.Schema<DealTerms> = Schema.suspend(() =>
-  Schema.Struct({
-    brandingType: Schema.optional(Schema.String),
-    estimatedImpressionsPerDay: Schema.optional(Schema.String),
-    nonGuaranteedFixedPriceTerms: Schema.optional(NonGuaranteedFixedPriceTerms),
-    nonGuaranteedAuctionTerms: Schema.optional(NonGuaranteedAuctionTerms),
-    sellerTimeZone: Schema.optional(Schema.String),
-    guaranteedFixedPriceTerms: Schema.optional(GuaranteedFixedPriceTerms),
-    description: Schema.optional(Schema.String),
-    estimatedGrossSpend: Schema.optional(Price),
-  }),
-).annotate({ identifier: "DealTerms" }) as any as Schema.Schema<DealTerms>;
+export const DealTerms: Schema.Schema<DealTerms> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      brandingType: Schema.optional(Schema.String),
+      estimatedImpressionsPerDay: Schema.optional(Schema.String),
+      nonGuaranteedFixedPriceTerms: Schema.optional(
+        NonGuaranteedFixedPriceTerms,
+      ),
+      nonGuaranteedAuctionTerms: Schema.optional(NonGuaranteedAuctionTerms),
+      sellerTimeZone: Schema.optional(Schema.String),
+      guaranteedFixedPriceTerms: Schema.optional(GuaranteedFixedPriceTerms),
+      description: Schema.optional(Schema.String),
+      estimatedGrossSpend: Schema.optional(Price),
+    }),
+  ).annotate({ identifier: "DealTerms" }) as any as Schema.Schema<DealTerms>;
 
 export interface Image {
   /** The URL of the image. */
@@ -514,13 +528,14 @@ export interface Image {
   height?: number;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface ListFilterSetsResponse {
   /** The filter sets belonging to the buyer. */
@@ -530,7 +545,7 @@ export interface ListFilterSetsResponse {
 }
 
 export const ListFilterSetsResponse: Schema.Schema<ListFilterSetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterSets: Schema.optional(Schema.Array(FilterSet)),
       nextPageToken: Schema.optional(Schema.String),
@@ -555,14 +570,15 @@ export interface ClientUser {
   clientAccountId?: string;
 }
 
-export const ClientUser: Schema.Schema<ClientUser> = Schema.suspend(() =>
-  Schema.Struct({
-    userId: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    clientAccountId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ClientUser" }) as any as Schema.Schema<ClientUser>;
+export const ClientUser: Schema.Schema<ClientUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userId: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      clientAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ClientUser" }) as any as Schema.Schema<ClientUser>;
 
 export interface UrlTargeting {
   /** A list of URLs to be included. */
@@ -571,14 +587,15 @@ export interface UrlTargeting {
   excludedUrls?: Array<string>;
 }
 
-export const UrlTargeting: Schema.Schema<UrlTargeting> = Schema.suspend(() =>
-  Schema.Struct({
-    targetedUrls: Schema.optional(Schema.Array(Schema.String)),
-    excludedUrls: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "UrlTargeting",
-}) as any as Schema.Schema<UrlTargeting>;
+export const UrlTargeting: Schema.Schema<UrlTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetedUrls: Schema.optional(Schema.Array(Schema.String)),
+      excludedUrls: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "UrlTargeting",
+  }) as any as Schema.Schema<UrlTargeting>;
 
 export interface TimeInterval {
   /** The timestamp marking the start of the range (inclusive) for which data is included. */
@@ -587,14 +604,15 @@ export interface TimeInterval {
   endTime?: string;
 }
 
-export const TimeInterval: Schema.Schema<TimeInterval> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "TimeInterval",
-}) as any as Schema.Schema<TimeInterval>;
+export const TimeInterval: Schema.Schema<TimeInterval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TimeInterval",
+  }) as any as Schema.Schema<TimeInterval>;
 
 export interface RowDimensions {
   /** The time interval that this row represents. */
@@ -603,14 +621,15 @@ export interface RowDimensions {
   publisherIdentifier?: string;
 }
 
-export const RowDimensions: Schema.Schema<RowDimensions> = Schema.suspend(() =>
-  Schema.Struct({
-    timeInterval: Schema.optional(TimeInterval),
-    publisherIdentifier: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "RowDimensions",
-}) as any as Schema.Schema<RowDimensions>;
+export const RowDimensions: Schema.Schema<RowDimensions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeInterval: Schema.optional(TimeInterval),
+      publisherIdentifier: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RowDimensions",
+  }) as any as Schema.Schema<RowDimensions>;
 
 export interface MetricValue {
   /** The expected value of the metric. */
@@ -619,12 +638,15 @@ export interface MetricValue {
   variance?: string;
 }
 
-export const MetricValue: Schema.Schema<MetricValue> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    variance: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MetricValue" }) as any as Schema.Schema<MetricValue>;
+export const MetricValue: Schema.Schema<MetricValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      variance: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetricValue",
+  }) as any as Schema.Schema<MetricValue>;
 
 export interface FilteredBidDetailRow {
   /** The values of all dimensions associated with metric values in this row. */
@@ -638,7 +660,7 @@ export interface FilteredBidDetailRow {
 }
 
 export const FilteredBidDetailRow: Schema.Schema<FilteredBidDetailRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rowDimensions: Schema.optional(RowDimensions),
       bidCount: Schema.optional(MetricValue),
@@ -657,7 +679,7 @@ export interface CriteriaTargeting {
 }
 
 export const CriteriaTargeting: Schema.Schema<CriteriaTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
       excludedCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
@@ -683,7 +705,7 @@ export interface NonBillableWinningBidStatusRow {
 }
 
 export const NonBillableWinningBidStatusRow: Schema.Schema<NonBillableWinningBidStatusRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bidCount: Schema.optional(MetricValue),
       status: Schema.optional(Schema.String),
@@ -704,14 +726,15 @@ export interface TimeOfDay {
   seconds?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface DayPart {
   /** The day of the week to target. If unspecified, applicable to all days. */
@@ -731,13 +754,14 @@ export interface DayPart {
   endTime?: TimeOfDay;
 }
 
-export const DayPart: Schema.Schema<DayPart> = Schema.suspend(() =>
-  Schema.Struct({
-    dayOfWeek: Schema.optional(Schema.String),
-    startTime: Schema.optional(TimeOfDay),
-    endTime: Schema.optional(TimeOfDay),
-  }),
-).annotate({ identifier: "DayPart" }) as any as Schema.Schema<DayPart>;
+export const DayPart: Schema.Schema<DayPart> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dayOfWeek: Schema.optional(Schema.String),
+      startTime: Schema.optional(TimeOfDay),
+      endTime: Schema.optional(TimeOfDay),
+    }),
+  ).annotate({ identifier: "DayPart" }) as any as Schema.Schema<DayPart>;
 
 export interface DayPartTargeting {
   /** The timezone to use for interpreting the day part targeting. */
@@ -750,15 +774,15 @@ export interface DayPartTargeting {
   dayParts?: Array<DayPart>;
 }
 
-export const DayPartTargeting: Schema.Schema<DayPartTargeting> = Schema.suspend(
-  () =>
+export const DayPartTargeting: Schema.Schema<DayPartTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZoneType: Schema.optional(Schema.String),
       dayParts: Schema.optional(Schema.Array(DayPart)),
     }),
-).annotate({
-  identifier: "DayPartTargeting",
-}) as any as Schema.Schema<DayPartTargeting>;
+  ).annotate({
+    identifier: "DayPartTargeting",
+  }) as any as Schema.Schema<DayPartTargeting>;
 
 export interface Size {
   /** The width of the creative */
@@ -767,12 +791,13 @@ export interface Size {
   height?: number;
 }
 
-export const Size: Schema.Schema<Size> = Schema.suspend(() =>
-  Schema.Struct({
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
+export const Size: Schema.Schema<Size> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
 
 export interface CreativeSize {
   /** Output only. The native template for this creative. It will have a value only if creative_size_type = CreativeSizeType.NATIVE. */
@@ -806,18 +831,19 @@ export interface CreativeSize {
     | (string & {});
 }
 
-export const CreativeSize: Schema.Schema<CreativeSize> = Schema.suspend(() =>
-  Schema.Struct({
-    nativeTemplate: Schema.optional(Schema.String),
-    size: Schema.optional(Size),
-    allowedFormats: Schema.optional(Schema.Array(Schema.String)),
-    creativeSizeType: Schema.optional(Schema.String),
-    companionSizes: Schema.optional(Schema.Array(Size)),
-    skippableAdType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CreativeSize",
-}) as any as Schema.Schema<CreativeSize>;
+export const CreativeSize: Schema.Schema<CreativeSize> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nativeTemplate: Schema.optional(Schema.String),
+      size: Schema.optional(Size),
+      allowedFormats: Schema.optional(Schema.Array(Schema.String)),
+      creativeSizeType: Schema.optional(Schema.String),
+      companionSizes: Schema.optional(Schema.Array(Size)),
+      skippableAdType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreativeSize",
+  }) as any as Schema.Schema<CreativeSize>;
 
 export interface TargetingValue {
   /** The daypart targeting to include / exclude. Filled in when the key is GOOG_DAYPART_TARGETING. The definition of this targeting is derived from the structure used by Ad Manager. */
@@ -830,17 +856,17 @@ export interface TargetingValue {
   creativeSizeValue?: CreativeSize;
 }
 
-export const TargetingValue: Schema.Schema<TargetingValue> = Schema.suspend(
-  () =>
+export const TargetingValue: Schema.Schema<TargetingValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dayPartTargetingValue: Schema.optional(DayPartTargeting),
       longValue: Schema.optional(Schema.String),
       stringValue: Schema.optional(Schema.String),
       creativeSizeValue: Schema.optional(CreativeSize),
     }),
-).annotate({
-  identifier: "TargetingValue",
-}) as any as Schema.Schema<TargetingValue>;
+  ).annotate({
+    identifier: "TargetingValue",
+  }) as any as Schema.Schema<TargetingValue>;
 
 export interface PauseProposalRequest {
   /** The reason why the proposal is being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
@@ -848,7 +874,7 @@ export interface PauseProposalRequest {
 }
 
 export const PauseProposalRequest: Schema.Schema<PauseProposalRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -859,7 +885,7 @@ export const PauseProposalRequest: Schema.Schema<PauseProposalRequest> =
 export interface CompleteSetupRequest {}
 
 export const CompleteSetupRequest: Schema.Schema<CompleteSetupRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CompleteSetupRequest",
   }) as any as Schema.Schema<CompleteSetupRequest>;
 
@@ -871,7 +897,7 @@ export interface OperatingSystemTargeting {
 }
 
 export const OperatingSystemTargeting: Schema.Schema<OperatingSystemTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operatingSystemCriteria: Schema.optional(CriteriaTargeting),
       operatingSystemVersionCriteria: Schema.optional(CriteriaTargeting),
@@ -885,67 +911,68 @@ export interface AuctionContext {
   auctionTypes?: Array<"OPEN_AUCTION" | "DIRECT_DEALS" | (string & {})>;
 }
 
-export const AuctionContext: Schema.Schema<AuctionContext> = Schema.suspend(
-  () =>
+export const AuctionContext: Schema.Schema<AuctionContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       auctionTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AuctionContext",
-}) as any as Schema.Schema<AuctionContext>;
+  ).annotate({
+    identifier: "AuctionContext",
+  }) as any as Schema.Schema<AuctionContext>;
 
 export interface PlatformContext {
   /** The platforms this restriction applies to. */
   platforms?: Array<"DESKTOP" | "ANDROID" | "IOS" | (string & {})>;
 }
 
-export const PlatformContext: Schema.Schema<PlatformContext> = Schema.suspend(
-  () =>
+export const PlatformContext: Schema.Schema<PlatformContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       platforms: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "PlatformContext",
-}) as any as Schema.Schema<PlatformContext>;
+  ).annotate({
+    identifier: "PlatformContext",
+  }) as any as Schema.Schema<PlatformContext>;
 
 export interface SecurityContext {
   /** The security types in this context. */
   securities?: Array<"INSECURE" | "SSL" | (string & {})>;
 }
 
-export const SecurityContext: Schema.Schema<SecurityContext> = Schema.suspend(
-  () =>
+export const SecurityContext: Schema.Schema<SecurityContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       securities: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "SecurityContext",
-}) as any as Schema.Schema<SecurityContext>;
+  ).annotate({
+    identifier: "SecurityContext",
+  }) as any as Schema.Schema<SecurityContext>;
 
 export interface LocationContext {
   /** IDs representing the geo location for this context. Refer to the [geo-table.csv](https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv) file for different geo criteria IDs. */
   geoCriteriaIds?: Array<number>;
 }
 
-export const LocationContext: Schema.Schema<LocationContext> = Schema.suspend(
-  () =>
+export const LocationContext: Schema.Schema<LocationContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       geoCriteriaIds: Schema.optional(Schema.Array(Schema.Number)),
     }),
-).annotate({
-  identifier: "LocationContext",
-}) as any as Schema.Schema<LocationContext>;
+  ).annotate({
+    identifier: "LocationContext",
+  }) as any as Schema.Schema<LocationContext>;
 
 export interface AppContext {
   /** The app types this restriction applies to. */
   appTypes?: Array<"NATIVE" | "WEB" | (string & {})>;
 }
 
-export const AppContext: Schema.Schema<AppContext> = Schema.suspend(() =>
-  Schema.Struct({
-    appTypes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "AppContext" }) as any as Schema.Schema<AppContext>;
+export const AppContext: Schema.Schema<AppContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      appTypes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "AppContext" }) as any as Schema.Schema<AppContext>;
 
 export interface ServingContext {
   /** Matches impressions for a particular auction type. */
@@ -962,8 +989,8 @@ export interface ServingContext {
   appType?: AppContext;
 }
 
-export const ServingContext: Schema.Schema<ServingContext> = Schema.suspend(
-  () =>
+export const ServingContext: Schema.Schema<ServingContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       auctionType: Schema.optional(AuctionContext),
       all: Schema.optional(Schema.String),
@@ -972,9 +999,9 @@ export const ServingContext: Schema.Schema<ServingContext> = Schema.suspend(
       location: Schema.optional(LocationContext),
       appType: Schema.optional(AppContext),
     }),
-).annotate({
-  identifier: "ServingContext",
-}) as any as Schema.Schema<ServingContext>;
+  ).annotate({
+    identifier: "ServingContext",
+  }) as any as Schema.Schema<ServingContext>;
 
 export interface Correction {
   /** The type of correction that was applied to the creative. */
@@ -998,13 +1025,14 @@ export interface Correction {
   details?: Array<string>;
 }
 
-export const Correction: Schema.Schema<Correction> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    contexts: Schema.optional(Schema.Array(ServingContext)),
-    details: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Correction" }) as any as Schema.Schema<Correction>;
+export const Correction: Schema.Schema<Correction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      contexts: Schema.optional(Schema.Array(ServingContext)),
+      details: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Correction" }) as any as Schema.Schema<Correction>;
 
 export interface CreativeRestrictions {
   /** The format of the environment that the creatives will be displayed in. */
@@ -1024,7 +1052,7 @@ export interface CreativeRestrictions {
 }
 
 export const CreativeRestrictions: Schema.Schema<CreativeRestrictions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeFormat: Schema.optional(Schema.String),
       skippableAdType: Schema.optional(Schema.String),
@@ -1044,7 +1072,7 @@ export interface ListClientUsersResponse {
 }
 
 export const ListClientUsersResponse: Schema.Schema<ListClientUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       users: Schema.optional(Schema.Array(ClientUser)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1068,7 +1096,7 @@ export interface BidResponseWithoutBidsStatusRow {
 }
 
 export const BidResponseWithoutBidsStatusRow: Schema.Schema<BidResponseWithoutBidsStatusRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       impressionCount: Schema.optional(MetricValue),
       status: Schema.optional(Schema.String),
@@ -1088,7 +1116,7 @@ export interface TechnologyTargeting {
 }
 
 export const TechnologyTargeting: Schema.Schema<TechnologyTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceCapabilityTargeting: Schema.optional(CriteriaTargeting),
       deviceCategoryTargeting: Schema.optional(CriteriaTargeting),
@@ -1107,16 +1135,16 @@ export interface CalloutStatusRow {
   rowDimensions?: RowDimensions;
 }
 
-export const CalloutStatusRow: Schema.Schema<CalloutStatusRow> = Schema.suspend(
-  () =>
+export const CalloutStatusRow: Schema.Schema<CalloutStatusRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       impressionCount: Schema.optional(MetricValue),
       calloutStatusId: Schema.optional(Schema.Number),
       rowDimensions: Schema.optional(RowDimensions),
     }),
-).annotate({
-  identifier: "CalloutStatusRow",
-}) as any as Schema.Schema<CalloutStatusRow>;
+  ).annotate({
+    identifier: "CalloutStatusRow",
+  }) as any as Schema.Schema<CalloutStatusRow>;
 
 export interface ListFilteredBidRequestsResponse {
   /** List of rows, with counts of filtered bid requests aggregated by callout status. */
@@ -1126,7 +1154,7 @@ export interface ListFilteredBidRequestsResponse {
 }
 
 export const ListFilteredBidRequestsResponse: Schema.Schema<ListFilteredBidRequestsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       calloutStatusRows: Schema.optional(Schema.Array(CalloutStatusRow)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1145,7 +1173,7 @@ export interface CreativeStatusRow {
 }
 
 export const CreativeStatusRow: Schema.Schema<CreativeStatusRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeStatusId: Schema.optional(Schema.Number),
       rowDimensions: Schema.optional(RowDimensions),
@@ -1162,12 +1190,13 @@ export interface Seller {
   subAccountId?: string;
 }
 
-export const Seller: Schema.Schema<Seller> = Schema.suspend(() =>
-  Schema.Struct({
-    accountId: Schema.optional(Schema.String),
-    subAccountId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Seller" }) as any as Schema.Schema<Seller>;
+export const Seller: Schema.Schema<Seller> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      subAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Seller" }) as any as Schema.Schema<Seller>;
 
 export interface ContactInformation {
   /** Email address for the contact. */
@@ -1177,7 +1206,7 @@ export interface ContactInformation {
 }
 
 export const ContactInformation: Schema.Schema<ContactInformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1196,7 +1225,7 @@ export interface TargetingCriteria {
 }
 
 export const TargetingCriteria: Schema.Schema<TargetingCriteria> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inclusions: Schema.optional(Schema.Array(TargetingValue)),
       key: Schema.optional(Schema.String),
@@ -1225,15 +1254,16 @@ export interface FrequencyCap {
     | (string & {});
 }
 
-export const FrequencyCap: Schema.Schema<FrequencyCap> = Schema.suspend(() =>
-  Schema.Struct({
-    maxImpressions: Schema.optional(Schema.Number),
-    numTimeUnits: Schema.optional(Schema.Number),
-    timeUnitType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FrequencyCap",
-}) as any as Schema.Schema<FrequencyCap>;
+export const FrequencyCap: Schema.Schema<FrequencyCap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      maxImpressions: Schema.optional(Schema.Number),
+      numTimeUnits: Schema.optional(Schema.Number),
+      timeUnitType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FrequencyCap",
+  }) as any as Schema.Schema<FrequencyCap>;
 
 export interface DeliveryControl {
   /** Output only. Specifies how the impression delivery will be paced. */
@@ -1253,16 +1283,16 @@ export interface DeliveryControl {
   frequencyCaps?: Array<FrequencyCap>;
 }
 
-export const DeliveryControl: Schema.Schema<DeliveryControl> = Schema.suspend(
-  () =>
+export const DeliveryControl: Schema.Schema<DeliveryControl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deliveryRateType: Schema.optional(Schema.String),
       creativeBlockingLevel: Schema.optional(Schema.String),
       frequencyCaps: Schema.optional(Schema.Array(FrequencyCap)),
     }),
-).annotate({
-  identifier: "DeliveryControl",
-}) as any as Schema.Schema<DeliveryControl>;
+  ).annotate({
+    identifier: "DeliveryControl",
+  }) as any as Schema.Schema<DeliveryControl>;
 
 export interface VideoTargeting {
   /** A list of video positions to be excluded. Position types can either be included or excluded (XOR). */
@@ -1283,15 +1313,15 @@ export interface VideoTargeting {
   >;
 }
 
-export const VideoTargeting: Schema.Schema<VideoTargeting> = Schema.suspend(
-  () =>
+export const VideoTargeting: Schema.Schema<VideoTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedPositionTypes: Schema.optional(Schema.Array(Schema.String)),
       targetedPositionTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "VideoTargeting",
-}) as any as Schema.Schema<VideoTargeting>;
+  ).annotate({
+    identifier: "VideoTargeting",
+  }) as any as Schema.Schema<VideoTargeting>;
 
 export interface InventorySizeTargeting {
   /** A list of inventory sizes to be included. */
@@ -1301,7 +1331,7 @@ export interface InventorySizeTargeting {
 }
 
 export const InventorySizeTargeting: Schema.Schema<InventorySizeTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedInventorySizes: Schema.optional(Schema.Array(AdSize)),
       excludedInventorySizes: Schema.optional(Schema.Array(AdSize)),
@@ -1318,7 +1348,7 @@ export interface FirstPartyMobileApplicationTargeting {
 }
 
 export const FirstPartyMobileApplicationTargeting: Schema.Schema<FirstPartyMobileApplicationTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedAppIds: Schema.optional(Schema.Array(Schema.String)),
       excludedAppIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1333,7 +1363,7 @@ export interface MobileApplicationTargeting {
 }
 
 export const MobileApplicationTargeting: Schema.Schema<MobileApplicationTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyTargeting: Schema.optional(
         FirstPartyMobileApplicationTargeting,
@@ -1351,7 +1381,7 @@ export interface PlacementTargeting {
 }
 
 export const PlacementTargeting: Schema.Schema<PlacementTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlTargeting: Schema.optional(UrlTargeting),
       mobileApplicationTargeting: Schema.optional(MobileApplicationTargeting),
@@ -1374,7 +1404,7 @@ export interface MarketplaceTargeting {
 }
 
 export const MarketplaceTargeting: Schema.Schema<MarketplaceTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       videoTargeting: Schema.optional(VideoTargeting),
       geoTargeting: Schema.optional(CriteriaTargeting),
@@ -1403,8 +1433,8 @@ export interface DealPauseStatus {
   hasBuyerPaused?: boolean;
 }
 
-export const DealPauseStatus: Schema.Schema<DealPauseStatus> = Schema.suspend(
-  () =>
+export const DealPauseStatus: Schema.Schema<DealPauseStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buyerPauseReason: Schema.optional(Schema.String),
       hasSellerPaused: Schema.optional(Schema.Boolean),
@@ -1412,9 +1442,9 @@ export const DealPauseStatus: Schema.Schema<DealPauseStatus> = Schema.suspend(
       sellerPauseReason: Schema.optional(Schema.String),
       hasBuyerPaused: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "DealPauseStatus",
-}) as any as Schema.Schema<DealPauseStatus>;
+  ).annotate({
+    identifier: "DealPauseStatus",
+  }) as any as Schema.Schema<DealPauseStatus>;
 
 export interface DealServingMetadata {
   /** Output only. Tracks which parties (if any) have paused a deal. */
@@ -1422,7 +1452,7 @@ export interface DealServingMetadata {
 }
 
 export const DealServingMetadata: Schema.Schema<DealServingMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dealPauseStatus: Schema.optional(DealPauseStatus),
     }),
@@ -1501,35 +1531,36 @@ export interface Deal {
   dealServingMetadata?: DealServingMetadata;
 }
 
-export const Deal: Schema.Schema<Deal> = Schema.suspend(() =>
-  Schema.Struct({
-    targetingCriterion: Schema.optional(Schema.Array(TargetingCriteria)),
-    syndicationProduct: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    dealTerms: Schema.optional(DealTerms),
-    deliveryControl: Schema.optional(DeliveryControl),
-    createProductId: Schema.optional(Schema.String),
-    availableEndTime: Schema.optional(Schema.String),
-    externalDealId: Schema.optional(Schema.String),
-    buyerPrivateData: Schema.optional(PrivateData),
-    targeting: Schema.optional(MarketplaceTargeting),
-    creativePreApprovalPolicy: Schema.optional(Schema.String),
-    isSetupComplete: Schema.optional(Schema.Boolean),
-    dealId: Schema.optional(Schema.String),
-    creativeSafeFrameCompatibility: Schema.optional(Schema.String),
-    proposalId: Schema.optional(Schema.String),
-    webPropertyCode: Schema.optional(Schema.String),
-    sellerContacts: Schema.optional(Schema.Array(ContactInformation)),
-    availableStartTime: Schema.optional(Schema.String),
-    creativeRestrictions: Schema.optional(CreativeRestrictions),
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    programmaticCreativeSource: Schema.optional(Schema.String),
-    createProductRevision: Schema.optional(Schema.String),
-    dealServingMetadata: Schema.optional(DealServingMetadata),
-  }),
-).annotate({ identifier: "Deal" }) as any as Schema.Schema<Deal>;
+export const Deal: Schema.Schema<Deal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetingCriterion: Schema.optional(Schema.Array(TargetingCriteria)),
+      syndicationProduct: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      dealTerms: Schema.optional(DealTerms),
+      deliveryControl: Schema.optional(DeliveryControl),
+      createProductId: Schema.optional(Schema.String),
+      availableEndTime: Schema.optional(Schema.String),
+      externalDealId: Schema.optional(Schema.String),
+      buyerPrivateData: Schema.optional(PrivateData),
+      targeting: Schema.optional(MarketplaceTargeting),
+      creativePreApprovalPolicy: Schema.optional(Schema.String),
+      isSetupComplete: Schema.optional(Schema.Boolean),
+      dealId: Schema.optional(Schema.String),
+      creativeSafeFrameCompatibility: Schema.optional(Schema.String),
+      proposalId: Schema.optional(Schema.String),
+      webPropertyCode: Schema.optional(Schema.String),
+      sellerContacts: Schema.optional(Schema.Array(ContactInformation)),
+      availableStartTime: Schema.optional(Schema.String),
+      creativeRestrictions: Schema.optional(CreativeRestrictions),
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      programmaticCreativeSource: Schema.optional(Schema.String),
+      createProductRevision: Schema.optional(Schema.String),
+      dealServingMetadata: Schema.optional(DealServingMetadata),
+    }),
+  ).annotate({ identifier: "Deal" }) as any as Schema.Schema<Deal>;
 
 export interface Proposal {
   /** Reference to the buyer on the proposal. Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
@@ -1587,29 +1618,30 @@ export interface Proposal {
   buyerContacts?: Array<ContactInformation>;
 }
 
-export const Proposal: Schema.Schema<Proposal> = Schema.suspend(() =>
-  Schema.Struct({
-    buyer: Schema.optional(Buyer),
-    billedBuyer: Schema.optional(Buyer),
-    originatorRole: Schema.optional(Schema.String),
-    seller: Schema.optional(Seller),
-    isRenegotiating: Schema.optional(Schema.Boolean),
-    isSetupComplete: Schema.optional(Schema.Boolean),
-    lastUpdaterOrCommentorRole: Schema.optional(Schema.String),
-    proposalId: Schema.optional(Schema.String),
-    proposalRevision: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    proposalState: Schema.optional(Schema.String),
-    privateAuctionId: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.Array(Note)),
-    sellerContacts: Schema.optional(Schema.Array(ContactInformation)),
-    updateTime: Schema.optional(Schema.String),
-    termsAndConditions: Schema.optional(Schema.String),
-    deals: Schema.optional(Schema.Array(Deal)),
-    buyerPrivateData: Schema.optional(PrivateData),
-    buyerContacts: Schema.optional(Schema.Array(ContactInformation)),
-  }),
-).annotate({ identifier: "Proposal" }) as any as Schema.Schema<Proposal>;
+export const Proposal: Schema.Schema<Proposal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      buyer: Schema.optional(Buyer),
+      billedBuyer: Schema.optional(Buyer),
+      originatorRole: Schema.optional(Schema.String),
+      seller: Schema.optional(Seller),
+      isRenegotiating: Schema.optional(Schema.Boolean),
+      isSetupComplete: Schema.optional(Schema.Boolean),
+      lastUpdaterOrCommentorRole: Schema.optional(Schema.String),
+      proposalId: Schema.optional(Schema.String),
+      proposalRevision: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      proposalState: Schema.optional(Schema.String),
+      privateAuctionId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.Array(Note)),
+      sellerContacts: Schema.optional(Schema.Array(ContactInformation)),
+      updateTime: Schema.optional(Schema.String),
+      termsAndConditions: Schema.optional(Schema.String),
+      deals: Schema.optional(Schema.Array(Deal)),
+      buyerPrivateData: Schema.optional(PrivateData),
+      buyerContacts: Schema.optional(Schema.Array(ContactInformation)),
+    }),
+  ).annotate({ identifier: "Proposal" }) as any as Schema.Schema<Proposal>;
 
 export interface ListProposalsResponse {
   /** Continuation token for fetching the next page of results. */
@@ -1619,7 +1651,7 @@ export interface ListProposalsResponse {
 }
 
 export const ListProposalsResponse: Schema.Schema<ListProposalsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       proposals: Schema.optional(Schema.Array(Proposal)),
@@ -1657,25 +1689,26 @@ export interface NativeContent {
   headline?: string;
 }
 
-export const NativeContent: Schema.Schema<NativeContent> = Schema.suspend(() =>
-  Schema.Struct({
-    videoUrl: Schema.optional(Schema.String),
-    storeUrl: Schema.optional(Schema.String),
-    logo: Schema.optional(Image),
-    body: Schema.optional(Schema.String),
-    starRating: Schema.optional(Schema.Number),
-    appIcon: Schema.optional(Image),
-    image: Schema.optional(Image),
-    clickLinkUrl: Schema.optional(Schema.String),
-    priceDisplayText: Schema.optional(Schema.String),
-    advertiserName: Schema.optional(Schema.String),
-    callToAction: Schema.optional(Schema.String),
-    clickTrackingUrl: Schema.optional(Schema.String),
-    headline: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "NativeContent",
-}) as any as Schema.Schema<NativeContent>;
+export const NativeContent: Schema.Schema<NativeContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      videoUrl: Schema.optional(Schema.String),
+      storeUrl: Schema.optional(Schema.String),
+      logo: Schema.optional(Image),
+      body: Schema.optional(Schema.String),
+      starRating: Schema.optional(Schema.Number),
+      appIcon: Schema.optional(Image),
+      image: Schema.optional(Image),
+      clickLinkUrl: Schema.optional(Schema.String),
+      priceDisplayText: Schema.optional(Schema.String),
+      advertiserName: Schema.optional(Schema.String),
+      callToAction: Schema.optional(Schema.String),
+      clickTrackingUrl: Schema.optional(Schema.String),
+      headline: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NativeContent",
+  }) as any as Schema.Schema<NativeContent>;
 
 export interface RemoveDealAssociationRequest {
   /** The association between a creative and a deal that should be removed. */
@@ -1683,7 +1716,7 @@ export interface RemoveDealAssociationRequest {
 }
 
 export const RemoveDealAssociationRequest: Schema.Schema<RemoveDealAssociationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       association: Schema.optional(CreativeDealAssociation),
     }),
@@ -1699,7 +1732,7 @@ export interface PauseProposalDealsRequest {
 }
 
 export const PauseProposalDealsRequest: Schema.Schema<PauseProposalDealsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalDealIds: Schema.optional(Schema.Array(Schema.String)),
       reason: Schema.optional(Schema.String),
@@ -1727,20 +1760,21 @@ export interface BidMetricsRow {
   impressionsWon?: MetricValue;
 }
 
-export const BidMetricsRow: Schema.Schema<BidMetricsRow> = Schema.suspend(() =>
-  Schema.Struct({
-    bidsInAuction: Schema.optional(MetricValue),
-    viewableImpressions: Schema.optional(MetricValue),
-    reachedQueries: Schema.optional(MetricValue),
-    measurableImpressions: Schema.optional(MetricValue),
-    rowDimensions: Schema.optional(RowDimensions),
-    bids: Schema.optional(MetricValue),
-    billedImpressions: Schema.optional(MetricValue),
-    impressionsWon: Schema.optional(MetricValue),
-  }),
-).annotate({
-  identifier: "BidMetricsRow",
-}) as any as Schema.Schema<BidMetricsRow>;
+export const BidMetricsRow: Schema.Schema<BidMetricsRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bidsInAuction: Schema.optional(MetricValue),
+      viewableImpressions: Schema.optional(MetricValue),
+      reachedQueries: Schema.optional(MetricValue),
+      measurableImpressions: Schema.optional(MetricValue),
+      rowDimensions: Schema.optional(RowDimensions),
+      bids: Schema.optional(MetricValue),
+      billedImpressions: Schema.optional(MetricValue),
+      impressionsWon: Schema.optional(MetricValue),
+    }),
+  ).annotate({
+    identifier: "BidMetricsRow",
+  }) as any as Schema.Schema<BidMetricsRow>;
 
 export interface Client {
   /** The globally-unique numerical ID of the client. The value of this field is ignored in create and update operations. */
@@ -1774,19 +1808,20 @@ export interface Client {
   partnerClientId?: string;
 }
 
-export const Client: Schema.Schema<Client> = Schema.suspend(() =>
-  Schema.Struct({
-    clientAccountId: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    entityType: Schema.optional(Schema.String),
-    visibleToSeller: Schema.optional(Schema.Boolean),
-    entityId: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    clientName: Schema.optional(Schema.String),
-    entityName: Schema.optional(Schema.String),
-    partnerClientId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
+export const Client: Schema.Schema<Client> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientAccountId: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      entityType: Schema.optional(Schema.String),
+      visibleToSeller: Schema.optional(Schema.Boolean),
+      entityId: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      clientName: Schema.optional(Schema.String),
+      entityName: Schema.optional(Schema.String),
+      partnerClientId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
 
 export interface ListCreativeStatusBreakdownByDetailResponse {
   /** List of rows, with counts of bids with a given creative status aggregated by detail. */
@@ -1809,7 +1844,7 @@ export interface ListCreativeStatusBreakdownByDetailResponse {
 }
 
 export const ListCreativeStatusBreakdownByDetailResponse: Schema.Schema<ListCreativeStatusBreakdownByDetailResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filteredBidDetailRows: Schema.optional(
         Schema.Array(FilteredBidDetailRow),
@@ -1837,7 +1872,7 @@ export interface ImpressionMetricsRow {
 }
 
 export const ImpressionMetricsRow: Schema.Schema<ImpressionMetricsRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responsesWithBids: Schema.optional(MetricValue),
       bidRequests: Schema.optional(MetricValue),
@@ -1858,7 +1893,7 @@ export interface ListImpressionMetricsResponse {
 }
 
 export const ListImpressionMetricsResponse: Schema.Schema<ListImpressionMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       impressionMetricsRows: Schema.optional(
         Schema.Array(ImpressionMetricsRow),
@@ -1979,12 +2014,15 @@ export interface Disapproval {
   details?: Array<string>;
 }
 
-export const Disapproval: Schema.Schema<Disapproval> = Schema.suspend(() =>
-  Schema.Struct({
-    reason: Schema.optional(Schema.String),
-    details: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Disapproval" }) as any as Schema.Schema<Disapproval>;
+export const Disapproval: Schema.Schema<Disapproval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reason: Schema.optional(Schema.String),
+      details: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "Disapproval",
+  }) as any as Schema.Schema<Disapproval>;
 
 export interface WatchCreativeRequest {
   /** The Pub/Sub topic to publish notifications to. This topic must already exist and must give permission to ad-exchange-buyside-reports@google.com to write to the topic. This should be the full resource name in "projects/{project_id}/topics/{topic_id}" format. */
@@ -1992,7 +2030,7 @@ export interface WatchCreativeRequest {
 }
 
 export const WatchCreativeRequest: Schema.Schema<WatchCreativeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -2016,7 +2054,7 @@ export interface ServingRestriction {
 }
 
 export const ServingRestriction: Schema.Schema<ServingRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disapprovalReasons: Schema.optional(Schema.Array(Disapproval)),
       disapproval: Schema.optional(Disapproval),
@@ -2036,13 +2074,16 @@ export interface HtmlContent {
   height?: number;
 }
 
-export const HtmlContent: Schema.Schema<HtmlContent> = Schema.suspend(() =>
-  Schema.Struct({
-    snippet: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "HtmlContent" }) as any as Schema.Schema<HtmlContent>;
+export const HtmlContent: Schema.Schema<HtmlContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      snippet: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "HtmlContent",
+  }) as any as Schema.Schema<HtmlContent>;
 
 export interface AdTechnologyProviders {
   /** The detected ad technology provider IDs for this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/providers.csv for mapping of provider ID to provided name, a privacy policy URL, and a list of domains which can be attributed to the provider. If the creative contains provider IDs that are outside of those listed in the `BidRequest.adslot.consented_providers_settings.consented_providers` field on the (Google bid protocol)[https://developers.google.com/authorized-buyers/rtb/downloads/realtime-bidding-proto] and the `BidRequest.user.ext.consented_providers_settings.consented_providers` field on the (OpenRTB protocol)[https://developers.google.com/authorized-buyers/rtb/downloads/openrtb-adx-proto], and a bid is submitted with that creative for an impression that will serve to an EEA user, the bid will be filtered before the auction. */
@@ -2052,7 +2093,7 @@ export interface AdTechnologyProviders {
 }
 
 export const AdTechnologyProviders: Schema.Schema<AdTechnologyProviders> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detectedProviderIds: Schema.optional(Schema.Array(Schema.String)),
       hasUnidentifiedProvider: Schema.optional(Schema.Boolean),
@@ -2175,36 +2216,37 @@ export interface Creative {
   advertiserName?: string;
 }
 
-export const Creative: Schema.Schema<Creative> = Schema.suspend(() =>
-  Schema.Struct({
-    detectedSensitiveCategories: Schema.optional(Schema.Array(Schema.Number)),
-    servingRestrictions: Schema.optional(Schema.Array(ServingRestriction)),
-    detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
-    corrections: Schema.optional(Schema.Array(Correction)),
-    clickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
-    video: Schema.optional(VideoContent),
-    creativeId: Schema.optional(Schema.String),
-    html: Schema.optional(HtmlContent),
-    agencyId: Schema.optional(Schema.String),
-    restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
-    declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
-    detectedProductCategories: Schema.optional(Schema.Array(Schema.Number)),
-    native: Schema.optional(NativeContent),
-    dealsStatus: Schema.optional(Schema.String),
-    openAuctionStatus: Schema.optional(Schema.String),
-    vendorIds: Schema.optional(Schema.Array(Schema.Number)),
-    apiUpdateTime: Schema.optional(Schema.String),
-    detectedDomains: Schema.optional(Schema.Array(Schema.String)),
-    adTechnologyProviders: Schema.optional(AdTechnologyProviders),
-    version: Schema.optional(Schema.Number),
-    adChoicesDestinationUrl: Schema.optional(Schema.String),
-    attributes: Schema.optional(Schema.Array(Schema.String)),
-    impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
-    accountId: Schema.optional(Schema.String),
-    detectedAdvertiserIds: Schema.optional(Schema.Array(Schema.String)),
-    advertiserName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
+export const Creative: Schema.Schema<Creative> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      detectedSensitiveCategories: Schema.optional(Schema.Array(Schema.Number)),
+      servingRestrictions: Schema.optional(Schema.Array(ServingRestriction)),
+      detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
+      corrections: Schema.optional(Schema.Array(Correction)),
+      clickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
+      video: Schema.optional(VideoContent),
+      creativeId: Schema.optional(Schema.String),
+      html: Schema.optional(HtmlContent),
+      agencyId: Schema.optional(Schema.String),
+      restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
+      declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
+      detectedProductCategories: Schema.optional(Schema.Array(Schema.Number)),
+      native: Schema.optional(NativeContent),
+      dealsStatus: Schema.optional(Schema.String),
+      openAuctionStatus: Schema.optional(Schema.String),
+      vendorIds: Schema.optional(Schema.Array(Schema.Number)),
+      apiUpdateTime: Schema.optional(Schema.String),
+      detectedDomains: Schema.optional(Schema.Array(Schema.String)),
+      adTechnologyProviders: Schema.optional(AdTechnologyProviders),
+      version: Schema.optional(Schema.Number),
+      adChoicesDestinationUrl: Schema.optional(Schema.String),
+      attributes: Schema.optional(Schema.Array(Schema.String)),
+      impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
+      accountId: Schema.optional(Schema.String),
+      detectedAdvertiserIds: Schema.optional(Schema.Array(Schema.String)),
+      advertiserName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
 
 export interface ListCreativesResponse {
   /** A token to retrieve the next page of results. Pass this value in the ListCreativesRequest.page_token field in the subsequent call to `ListCreatives` method to retrieve the next page of results. */
@@ -2214,7 +2256,7 @@ export interface ListCreativesResponse {
 }
 
 export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       creatives: Schema.optional(Schema.Array(Creative)),
@@ -2226,7 +2268,7 @@ export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
 export interface StopWatchingCreativeRequest {}
 
 export const StopWatchingCreativeRequest: Schema.Schema<StopWatchingCreativeRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "StopWatchingCreativeRequest",
   }) as any as Schema.Schema<StopWatchingCreativeRequest>;
 
@@ -2238,7 +2280,7 @@ export interface ListBidResponseErrorsResponse {
 }
 
 export const ListBidResponseErrorsResponse: Schema.Schema<ListBidResponseErrorsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       calloutStatusRows: Schema.optional(Schema.Array(CalloutStatusRow)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2255,7 +2297,7 @@ export interface ListBidMetricsResponse {
 }
 
 export const ListBidMetricsResponse: Schema.Schema<ListBidMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       bidMetricsRows: Schema.optional(Schema.Array(BidMetricsRow)),
@@ -2289,7 +2331,7 @@ export interface PublisherProfileMobileApplication {
 }
 
 export const PublisherProfileMobileApplication: Schema.Schema<PublisherProfileMobileApplication> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalAppId: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -2336,8 +2378,8 @@ export interface PublisherProfile {
   isParent?: boolean;
 }
 
-export const PublisherProfile: Schema.Schema<PublisherProfile> = Schema.suspend(
-  () =>
+export const PublisherProfile: Schema.Schema<PublisherProfile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mobileApps: Schema.optional(
         Schema.Array(PublisherProfileMobileApplication),
@@ -2359,9 +2401,9 @@ export const PublisherProfile: Schema.Schema<PublisherProfile> = Schema.suspend(
       seller: Schema.optional(Seller),
       isParent: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "PublisherProfile",
-}) as any as Schema.Schema<PublisherProfile>;
+  ).annotate({
+    identifier: "PublisherProfile",
+  }) as any as Schema.Schema<PublisherProfile>;
 
 export interface Product {
   /** An ID which can be used by the Publisher Profile API to get more information about the seller that created this product. */
@@ -2402,25 +2444,26 @@ export interface Product {
   seller?: Seller;
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() =>
-  Schema.Struct({
-    publisherProfileId: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    productRevision: Schema.optional(Schema.String),
-    availableEndTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    terms: Schema.optional(DealTerms),
-    displayName: Schema.optional(Schema.String),
-    availableStartTime: Schema.optional(Schema.String),
-    webPropertyCode: Schema.optional(Schema.String),
-    targetingCriterion: Schema.optional(Schema.Array(TargetingCriteria)),
-    productId: Schema.optional(Schema.String),
-    syndicationProduct: Schema.optional(Schema.String),
-    creatorContacts: Schema.optional(Schema.Array(ContactInformation)),
-    hasCreatorSignedOff: Schema.optional(Schema.Boolean),
-    seller: Schema.optional(Seller),
-  }),
-).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publisherProfileId: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      productRevision: Schema.optional(Schema.String),
+      availableEndTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      terms: Schema.optional(DealTerms),
+      displayName: Schema.optional(Schema.String),
+      availableStartTime: Schema.optional(Schema.String),
+      webPropertyCode: Schema.optional(Schema.String),
+      targetingCriterion: Schema.optional(Schema.Array(TargetingCriteria)),
+      productId: Schema.optional(Schema.String),
+      syndicationProduct: Schema.optional(Schema.String),
+      creatorContacts: Schema.optional(Schema.Array(ContactInformation)),
+      hasCreatorSignedOff: Schema.optional(Schema.Boolean),
+      seller: Schema.optional(Seller),
+    }),
+  ).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface FilteredBidCreativeRow {
   /** The ID of the creative. */
@@ -2432,7 +2475,7 @@ export interface FilteredBidCreativeRow {
 }
 
 export const FilteredBidCreativeRow: Schema.Schema<FilteredBidCreativeRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeId: Schema.optional(Schema.String),
       bidCount: Schema.optional(MetricValue),
@@ -2450,7 +2493,7 @@ export interface ListNonBillableWinningBidsResponse {
 }
 
 export const ListNonBillableWinningBidsResponse: Schema.Schema<ListNonBillableWinningBidsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nonBillableWinningBidStatusRows: Schema.optional(
         Schema.Array(NonBillableWinningBidStatusRow),
@@ -2464,7 +2507,7 @@ export const ListNonBillableWinningBidsResponse: Schema.Schema<ListNonBillableWi
 export interface CancelNegotiationRequest {}
 
 export const CancelNegotiationRequest: Schema.Schema<CancelNegotiationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelNegotiationRequest",
   }) as any as Schema.Schema<CancelNegotiationRequest>;
 
@@ -2476,7 +2519,7 @@ export interface ListClientUserInvitationsResponse {
 }
 
 export const ListClientUserInvitationsResponse: Schema.Schema<ListClientUserInvitationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       invitations: Schema.optional(Schema.Array(ClientUserInvitation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2491,7 +2534,7 @@ export interface ResumeProposalDealsRequest {
 }
 
 export const ResumeProposalDealsRequest: Schema.Schema<ResumeProposalDealsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalDealIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2507,7 +2550,7 @@ export interface ListClientsResponse {
 }
 
 export const ListClientsResponse: Schema.Schema<ListClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clients: Schema.optional(Schema.Array(Client)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2524,7 +2567,7 @@ export interface ListDealAssociationsResponse {
 }
 
 export const ListDealAssociationsResponse: Schema.Schema<ListDealAssociationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       associations: Schema.optional(Schema.Array(CreativeDealAssociation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2536,7 +2579,7 @@ export const ListDealAssociationsResponse: Schema.Schema<ListDealAssociationsRes
 export interface ResumeProposalRequest {}
 
 export const ResumeProposalRequest: Schema.Schema<ResumeProposalRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResumeProposalRequest",
   }) as any as Schema.Schema<ResumeProposalRequest>;
 
@@ -2548,7 +2591,7 @@ export interface ListCreativeStatusBreakdownByCreativeResponse {
 }
 
 export const ListCreativeStatusBreakdownByCreativeResponse: Schema.Schema<ListCreativeStatusBreakdownByCreativeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filteredBidCreativeRows: Schema.optional(
         Schema.Array(FilteredBidCreativeRow),
@@ -2567,7 +2610,7 @@ export interface ListPublisherProfilesResponse {
 }
 
 export const ListPublisherProfilesResponse: Schema.Schema<ListPublisherProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       publisherProfiles: Schema.optional(Schema.Array(PublisherProfile)),
@@ -2584,7 +2627,7 @@ export interface ListBidResponsesWithoutBidsResponse {
 }
 
 export const ListBidResponsesWithoutBidsResponse: Schema.Schema<ListBidResponsesWithoutBidsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bidResponseWithoutBidsStatusRows: Schema.optional(
         Schema.Array(BidResponseWithoutBidsStatusRow),
@@ -2603,7 +2646,7 @@ export interface ListFilteredBidsResponse {
 }
 
 export const ListFilteredBidsResponse: Schema.Schema<ListFilteredBidsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeStatusRows: Schema.optional(Schema.Array(CreativeStatusRow)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2620,7 +2663,7 @@ export interface ListProductsResponse {
 }
 
 export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       products: Schema.optional(Schema.Array(Product)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2631,9 +2674,10 @@ export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListLosingBidsResponse {
   /** List of rows, with counts of losing bids aggregated by loss reason (for example, creative status). */
@@ -2643,7 +2687,7 @@ export interface ListLosingBidsResponse {
 }
 
 export const ListLosingBidsResponse: Schema.Schema<ListLosingBidsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeStatusRows: Schema.optional(Schema.Array(CreativeStatusRow)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2665,21 +2709,25 @@ export interface CreateBiddersAccountsFilterSetsRequest {
   body?: FilterSet;
 }
 
-export const CreateBiddersAccountsFilterSetsRequest = Schema.Struct({
-  isTransient: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("isTransient")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  body: Schema.optional(FilterSet).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBiddersAccountsFilterSetsRequest>;
+export const CreateBiddersAccountsFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    isTransient: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("isTransient"),
+    ),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    body: Schema.optional(FilterSet).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBiddersAccountsFilterSetsRequest>;
 
 export type CreateBiddersAccountsFilterSetsResponse = FilterSet;
-export const CreateBiddersAccountsFilterSetsResponse = FilterSet;
+export const CreateBiddersAccountsFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type CreateBiddersAccountsFilterSetsError = DefaultErrors;
 
@@ -2689,7 +2737,7 @@ export const createBiddersAccountsFilterSets: API.OperationMethod<
   CreateBiddersAccountsFilterSetsResponse,
   CreateBiddersAccountsFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBiddersAccountsFilterSetsRequest,
   output: CreateBiddersAccountsFilterSetsResponse,
   errors: [],
@@ -2704,20 +2752,22 @@ export interface ListBiddersAccountsFilterSetsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersAccountsFilterSetsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsRequest>;
+export const ListBiddersAccountsFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsRequest>;
 
 export type ListBiddersAccountsFilterSetsResponse = ListFilterSetsResponse;
-export const ListBiddersAccountsFilterSetsResponse = ListFilterSetsResponse;
+export const ListBiddersAccountsFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFilterSetsResponse;
 
 export type ListBiddersAccountsFilterSetsError = DefaultErrors;
 
@@ -2727,7 +2777,7 @@ export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<
   ListBiddersAccountsFilterSetsResponse,
   ListBiddersAccountsFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsRequest,
   output: ListBiddersAccountsFilterSetsResponse,
   errors: [],
@@ -2742,18 +2792,20 @@ export interface DeleteBiddersAccountsFilterSetsRequest {
   name: string;
 }
 
-export const DeleteBiddersAccountsFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBiddersAccountsFilterSetsRequest>;
+export const DeleteBiddersAccountsFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBiddersAccountsFilterSetsRequest>;
 
 export type DeleteBiddersAccountsFilterSetsResponse = Empty;
-export const DeleteBiddersAccountsFilterSetsResponse = Empty;
+export const DeleteBiddersAccountsFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBiddersAccountsFilterSetsError = DefaultErrors;
 
@@ -2763,7 +2815,7 @@ export const deleteBiddersAccountsFilterSets: API.OperationMethod<
   DeleteBiddersAccountsFilterSetsResponse,
   DeleteBiddersAccountsFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBiddersAccountsFilterSetsRequest,
   output: DeleteBiddersAccountsFilterSetsResponse,
   errors: [],
@@ -2774,18 +2826,20 @@ export interface GetBiddersAccountsFilterSetsRequest {
   name: string;
 }
 
-export const GetBiddersAccountsFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBiddersAccountsFilterSetsRequest>;
+export const GetBiddersAccountsFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBiddersAccountsFilterSetsRequest>;
 
 export type GetBiddersAccountsFilterSetsResponse = FilterSet;
-export const GetBiddersAccountsFilterSetsResponse = FilterSet;
+export const GetBiddersAccountsFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type GetBiddersAccountsFilterSetsError = DefaultErrors;
 
@@ -2795,7 +2849,7 @@ export const getBiddersAccountsFilterSets: API.OperationMethod<
   GetBiddersAccountsFilterSetsResponse,
   GetBiddersAccountsFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersAccountsFilterSetsRequest,
   output: GetBiddersAccountsFilterSetsResponse,
   errors: [],
@@ -2811,7 +2865,7 @@ export interface ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -2826,7 +2880,7 @@ export const ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest =
 export type ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse =
   ListBidResponsesWithoutBidsResponse;
 export const ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse =
-  ListBidResponsesWithoutBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponsesWithoutBidsResponse;
 
 export type ListBiddersAccountsFilterSetsBidResponsesWithoutBidsError =
   DefaultErrors;
@@ -2837,7 +2891,7 @@ export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.Paginated
   ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse,
   ListBiddersAccountsFilterSetsBidResponsesWithoutBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -2856,22 +2910,23 @@ export interface ListBiddersAccountsFilterSetsLosingBidsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersAccountsFilterSetsLosingBidsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/losingBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsLosingBidsRequest>;
+export const ListBiddersAccountsFilterSetsLosingBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/losingBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsLosingBidsRequest>;
 
 export type ListBiddersAccountsFilterSetsLosingBidsResponse =
   ListLosingBidsResponse;
 export const ListBiddersAccountsFilterSetsLosingBidsResponse =
-  ListLosingBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListLosingBidsResponse;
 
 export type ListBiddersAccountsFilterSetsLosingBidsError = DefaultErrors;
 
@@ -2881,7 +2936,7 @@ export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMeth
   ListBiddersAccountsFilterSetsLosingBidsResponse,
   ListBiddersAccountsFilterSetsLosingBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsLosingBidsRequest,
   output: ListBiddersAccountsFilterSetsLosingBidsResponse,
   errors: [],
@@ -2901,7 +2956,7 @@ export interface ListBiddersAccountsFilterSetsBidResponseErrorsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsBidResponseErrorsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -2916,7 +2971,7 @@ export const ListBiddersAccountsFilterSetsBidResponseErrorsRequest =
 export type ListBiddersAccountsFilterSetsBidResponseErrorsResponse =
   ListBidResponseErrorsResponse;
 export const ListBiddersAccountsFilterSetsBidResponseErrorsResponse =
-  ListBidResponseErrorsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponseErrorsResponse;
 
 export type ListBiddersAccountsFilterSetsBidResponseErrorsError = DefaultErrors;
 
@@ -2926,7 +2981,7 @@ export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperat
   ListBiddersAccountsFilterSetsBidResponseErrorsResponse,
   ListBiddersAccountsFilterSetsBidResponseErrorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponseErrorsRequest,
   output: ListBiddersAccountsFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -2945,22 +3000,23 @@ export interface ListBiddersAccountsFilterSetsFilteredBidsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersAccountsFilterSetsFilteredBidsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/filteredBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsFilteredBidsRequest>;
+export const ListBiddersAccountsFilterSetsFilteredBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/filteredBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsFilteredBidsRequest>;
 
 export type ListBiddersAccountsFilterSetsFilteredBidsResponse =
   ListFilteredBidsResponse;
 export const ListBiddersAccountsFilterSetsFilteredBidsResponse =
-  ListFilteredBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidsResponse;
 
 export type ListBiddersAccountsFilterSetsFilteredBidsError = DefaultErrors;
 
@@ -2970,7 +3026,7 @@ export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMe
   ListBiddersAccountsFilterSetsFilteredBidsResponse,
   ListBiddersAccountsFilterSetsFilteredBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsResponse,
   errors: [],
@@ -2992,7 +3048,7 @@ export interface ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -3008,7 +3064,7 @@ export const ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest =
 export type ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse =
   ListCreativeStatusBreakdownByDetailResponse;
 export const ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse =
-  ListCreativeStatusBreakdownByDetailResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByDetailResponse;
 
 export type ListBiddersAccountsFilterSetsFilteredBidsDetailsError =
   DefaultErrors;
@@ -3019,7 +3075,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOper
   ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse,
   ListBiddersAccountsFilterSetsFilteredBidsDetailsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -3041,7 +3097,7 @@ export interface ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest {
 }
 
 export const ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3057,7 +3113,7 @@ export const ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest =
 export type ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse =
   ListCreativeStatusBreakdownByCreativeResponse;
 export const ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse =
-  ListCreativeStatusBreakdownByCreativeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByCreativeResponse;
 
 export type ListBiddersAccountsFilterSetsFilteredBidsCreativesError =
   DefaultErrors;
@@ -3068,7 +3124,7 @@ export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOp
   ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse,
   ListBiddersAccountsFilterSetsFilteredBidsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -3088,7 +3144,7 @@ export interface ListBiddersAccountsFilterSetsImpressionMetricsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsImpressionMetricsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3103,7 +3159,7 @@ export const ListBiddersAccountsFilterSetsImpressionMetricsRequest =
 export type ListBiddersAccountsFilterSetsImpressionMetricsResponse =
   ListImpressionMetricsResponse;
 export const ListBiddersAccountsFilterSetsImpressionMetricsResponse =
-  ListImpressionMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListImpressionMetricsResponse;
 
 export type ListBiddersAccountsFilterSetsImpressionMetricsError = DefaultErrors;
 
@@ -3113,7 +3169,7 @@ export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperat
   ListBiddersAccountsFilterSetsImpressionMetricsResponse,
   ListBiddersAccountsFilterSetsImpressionMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsImpressionMetricsRequest,
   output: ListBiddersAccountsFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -3133,7 +3189,7 @@ export interface ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -3148,7 +3204,7 @@ export const ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest =
 export type ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse =
   ListNonBillableWinningBidsResponse;
 export const ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse =
-  ListNonBillableWinningBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNonBillableWinningBidsResponse;
 
 export type ListBiddersAccountsFilterSetsNonBillableWinningBidsError =
   DefaultErrors;
@@ -3159,7 +3215,7 @@ export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedO
   ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse,
   ListBiddersAccountsFilterSetsNonBillableWinningBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest,
   output: ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse,
   errors: [],
@@ -3179,7 +3235,7 @@ export interface ListBiddersAccountsFilterSetsFilteredBidRequestsRequest {
 }
 
 export const ListBiddersAccountsFilterSetsFilteredBidRequestsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3194,7 +3250,7 @@ export const ListBiddersAccountsFilterSetsFilteredBidRequestsRequest =
 export type ListBiddersAccountsFilterSetsFilteredBidRequestsResponse =
   ListFilteredBidRequestsResponse;
 export const ListBiddersAccountsFilterSetsFilteredBidRequestsResponse =
-  ListFilteredBidRequestsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidRequestsResponse;
 
 export type ListBiddersAccountsFilterSetsFilteredBidRequestsError =
   DefaultErrors;
@@ -3205,7 +3261,7 @@ export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOper
   ListBiddersAccountsFilterSetsFilteredBidRequestsResponse,
   ListBiddersAccountsFilterSetsFilteredBidRequestsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidRequestsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidRequestsResponse,
   errors: [],
@@ -3224,22 +3280,23 @@ export interface ListBiddersAccountsFilterSetsBidMetricsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersAccountsFilterSetsBidMetricsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/bidMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsBidMetricsRequest>;
+export const ListBiddersAccountsFilterSetsBidMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/accounts/{accountsId}/filterSets/{filterSetsId}/bidMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersAccountsFilterSetsBidMetricsRequest>;
 
 export type ListBiddersAccountsFilterSetsBidMetricsResponse =
   ListBidMetricsResponse;
 export const ListBiddersAccountsFilterSetsBidMetricsResponse =
-  ListBidMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidMetricsResponse;
 
 export type ListBiddersAccountsFilterSetsBidMetricsError = DefaultErrors;
 
@@ -3249,7 +3306,7 @@ export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMeth
   ListBiddersAccountsFilterSetsBidMetricsResponse,
   ListBiddersAccountsFilterSetsBidMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidMetricsRequest,
   output: ListBiddersAccountsFilterSetsBidMetricsResponse,
   errors: [],
@@ -3268,21 +3325,25 @@ export interface CreateBiddersFilterSetsRequest {
   body?: FilterSet;
 }
 
-export const CreateBiddersFilterSetsRequest = Schema.Struct({
-  isTransient: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("isTransient")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  body: Schema.optional(FilterSet).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/bidders/{biddersId}/filterSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBiddersFilterSetsRequest>;
+export const CreateBiddersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    isTransient: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("isTransient"),
+    ),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    body: Schema.optional(FilterSet).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/bidders/{biddersId}/filterSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBiddersFilterSetsRequest>;
 
 export type CreateBiddersFilterSetsResponse = FilterSet;
-export const CreateBiddersFilterSetsResponse = FilterSet;
+export const CreateBiddersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type CreateBiddersFilterSetsError = DefaultErrors;
 
@@ -3292,7 +3353,7 @@ export const createBiddersFilterSets: API.OperationMethod<
   CreateBiddersFilterSetsResponse,
   CreateBiddersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBiddersFilterSetsRequest,
   output: CreateBiddersFilterSetsResponse,
   errors: [],
@@ -3307,17 +3368,19 @@ export interface ListBiddersFilterSetsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersFilterSetsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/bidders/{biddersId}/filterSets" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsRequest>;
+export const ListBiddersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/bidders/{biddersId}/filterSets" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsRequest>;
 
 export type ListBiddersFilterSetsResponse = ListFilterSetsResponse;
-export const ListBiddersFilterSetsResponse = ListFilterSetsResponse;
+export const ListBiddersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFilterSetsResponse;
 
 export type ListBiddersFilterSetsError = DefaultErrors;
 
@@ -3327,7 +3390,7 @@ export const listBiddersFilterSets: API.PaginatedOperationMethod<
   ListBiddersFilterSetsResponse,
   ListBiddersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsRequest,
   output: ListBiddersFilterSetsResponse,
   errors: [],
@@ -3342,18 +3405,20 @@ export interface GetBiddersFilterSetsRequest {
   name: string;
 }
 
-export const GetBiddersFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBiddersFilterSetsRequest>;
+export const GetBiddersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBiddersFilterSetsRequest>;
 
 export type GetBiddersFilterSetsResponse = FilterSet;
-export const GetBiddersFilterSetsResponse = FilterSet;
+export const GetBiddersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type GetBiddersFilterSetsError = DefaultErrors;
 
@@ -3363,7 +3428,7 @@ export const getBiddersFilterSets: API.OperationMethod<
   GetBiddersFilterSetsResponse,
   GetBiddersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersFilterSetsRequest,
   output: GetBiddersFilterSetsResponse,
   errors: [],
@@ -3374,18 +3439,20 @@ export interface DeleteBiddersFilterSetsRequest {
   name: string;
 }
 
-export const DeleteBiddersFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBiddersFilterSetsRequest>;
+export const DeleteBiddersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBiddersFilterSetsRequest>;
 
 export type DeleteBiddersFilterSetsResponse = Empty;
-export const DeleteBiddersFilterSetsResponse = Empty;
+export const DeleteBiddersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBiddersFilterSetsError = DefaultErrors;
 
@@ -3395,7 +3462,7 @@ export const deleteBiddersFilterSets: API.OperationMethod<
   DeleteBiddersFilterSetsResponse,
   DeleteBiddersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBiddersFilterSetsRequest,
   output: DeleteBiddersFilterSetsResponse,
   errors: [],
@@ -3410,20 +3477,22 @@ export interface ListBiddersFilterSetsBidMetricsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersFilterSetsBidMetricsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/bidMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsBidMetricsRequest>;
+export const ListBiddersFilterSetsBidMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/bidMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsBidMetricsRequest>;
 
 export type ListBiddersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
-export const ListBiddersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
+export const ListBiddersFilterSetsBidMetricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListBidMetricsResponse;
 
 export type ListBiddersFilterSetsBidMetricsError = DefaultErrors;
 
@@ -3433,7 +3502,7 @@ export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<
   ListBiddersFilterSetsBidMetricsResponse,
   ListBiddersFilterSetsBidMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidMetricsRequest,
   output: ListBiddersFilterSetsBidMetricsResponse,
   errors: [],
@@ -3452,22 +3521,23 @@ export interface ListBiddersFilterSetsFilteredBidRequestsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersFilterSetsFilteredBidRequestsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBidRequests",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidRequestsRequest>;
+export const ListBiddersFilterSetsFilteredBidRequestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBidRequests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidRequestsRequest>;
 
 export type ListBiddersFilterSetsFilteredBidRequestsResponse =
   ListFilteredBidRequestsResponse;
 export const ListBiddersFilterSetsFilteredBidRequestsResponse =
-  ListFilteredBidRequestsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidRequestsResponse;
 
 export type ListBiddersFilterSetsFilteredBidRequestsError = DefaultErrors;
 
@@ -3477,7 +3547,7 @@ export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMet
   ListBiddersFilterSetsFilteredBidRequestsResponse,
   ListBiddersFilterSetsFilteredBidRequestsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidRequestsRequest,
   output: ListBiddersFilterSetsFilteredBidRequestsResponse,
   errors: [],
@@ -3496,22 +3566,23 @@ export interface ListBiddersFilterSetsImpressionMetricsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersFilterSetsImpressionMetricsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/impressionMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsImpressionMetricsRequest>;
+export const ListBiddersFilterSetsImpressionMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/impressionMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsImpressionMetricsRequest>;
 
 export type ListBiddersFilterSetsImpressionMetricsResponse =
   ListImpressionMetricsResponse;
 export const ListBiddersFilterSetsImpressionMetricsResponse =
-  ListImpressionMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListImpressionMetricsResponse;
 
 export type ListBiddersFilterSetsImpressionMetricsError = DefaultErrors;
 
@@ -3521,7 +3592,7 @@ export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMetho
   ListBiddersFilterSetsImpressionMetricsResponse,
   ListBiddersFilterSetsImpressionMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsImpressionMetricsRequest,
   output: ListBiddersFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -3540,24 +3611,23 @@ export interface ListBiddersFilterSetsNonBillableWinningBidsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersFilterSetsNonBillableWinningBidsRequest = Schema.Struct(
-  {
+export const ListBiddersFilterSetsNonBillableWinningBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/nonBillableWinningBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsNonBillableWinningBidsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/nonBillableWinningBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsNonBillableWinningBidsRequest>;
 
 export type ListBiddersFilterSetsNonBillableWinningBidsResponse =
   ListNonBillableWinningBidsResponse;
 export const ListBiddersFilterSetsNonBillableWinningBidsResponse =
-  ListNonBillableWinningBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNonBillableWinningBidsResponse;
 
 export type ListBiddersFilterSetsNonBillableWinningBidsError = DefaultErrors;
 
@@ -3567,7 +3637,7 @@ export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperation
   ListBiddersFilterSetsNonBillableWinningBidsResponse,
   ListBiddersFilterSetsNonBillableWinningBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsNonBillableWinningBidsRequest,
   output: ListBiddersFilterSetsNonBillableWinningBidsResponse,
   errors: [],
@@ -3586,22 +3656,23 @@ export interface ListBiddersFilterSetsBidResponseErrorsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersFilterSetsBidResponseErrorsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/bidResponseErrors",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsBidResponseErrorsRequest>;
+export const ListBiddersFilterSetsBidResponseErrorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/bidResponseErrors",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsBidResponseErrorsRequest>;
 
 export type ListBiddersFilterSetsBidResponseErrorsResponse =
   ListBidResponseErrorsResponse;
 export const ListBiddersFilterSetsBidResponseErrorsResponse =
-  ListBidResponseErrorsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponseErrorsResponse;
 
 export type ListBiddersFilterSetsBidResponseErrorsError = DefaultErrors;
 
@@ -3611,7 +3682,7 @@ export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMetho
   ListBiddersFilterSetsBidResponseErrorsResponse,
   ListBiddersFilterSetsBidResponseErrorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponseErrorsRequest,
   output: ListBiddersFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -3630,22 +3701,23 @@ export interface ListBiddersFilterSetsFilteredBidsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersFilterSetsFilteredBidsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsRequest>;
+export const ListBiddersFilterSetsFilteredBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsRequest>;
 
 export type ListBiddersFilterSetsFilteredBidsResponse =
   ListFilteredBidsResponse;
 export const ListBiddersFilterSetsFilteredBidsResponse =
-  ListFilteredBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidsResponse;
 
 export type ListBiddersFilterSetsFilteredBidsError = DefaultErrors;
 
@@ -3655,7 +3727,7 @@ export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<
   ListBiddersFilterSetsFilteredBidsResponse,
   ListBiddersFilterSetsFilteredBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsRequest,
   output: ListBiddersFilterSetsFilteredBidsResponse,
   errors: [],
@@ -3676,23 +3748,24 @@ export interface ListBiddersFilterSetsFilteredBidsDetailsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersFilterSetsFilteredBidsDetailsRequest = Schema.Struct({
-  creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/details",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsDetailsRequest>;
+export const ListBiddersFilterSetsFilteredBidsDetailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/details",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsDetailsRequest>;
 
 export type ListBiddersFilterSetsFilteredBidsDetailsResponse =
   ListCreativeStatusBreakdownByDetailResponse;
 export const ListBiddersFilterSetsFilteredBidsDetailsResponse =
-  ListCreativeStatusBreakdownByDetailResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByDetailResponse;
 
 export type ListBiddersFilterSetsFilteredBidsDetailsError = DefaultErrors;
 
@@ -3702,7 +3775,7 @@ export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMet
   ListBiddersFilterSetsFilteredBidsDetailsResponse,
   ListBiddersFilterSetsFilteredBidsDetailsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsDetailsRequest,
   output: ListBiddersFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -3723,23 +3796,24 @@ export interface ListBiddersFilterSetsFilteredBidsCreativesRequest {
   creativeStatusId: number;
 }
 
-export const ListBiddersFilterSetsFilteredBidsCreativesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/creatives",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsCreativesRequest>;
+export const ListBiddersFilterSetsFilteredBidsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/creatives",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsFilteredBidsCreativesRequest>;
 
 export type ListBiddersFilterSetsFilteredBidsCreativesResponse =
   ListCreativeStatusBreakdownByCreativeResponse;
 export const ListBiddersFilterSetsFilteredBidsCreativesResponse =
-  ListCreativeStatusBreakdownByCreativeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByCreativeResponse;
 
 export type ListBiddersFilterSetsFilteredBidsCreativesError = DefaultErrors;
 
@@ -3749,7 +3823,7 @@ export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationM
   ListBiddersFilterSetsFilteredBidsCreativesResponse,
   ListBiddersFilterSetsFilteredBidsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsCreativesRequest,
   output: ListBiddersFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -3769,7 +3843,7 @@ export interface ListBiddersFilterSetsBidResponsesWithoutBidsRequest {
 }
 
 export const ListBiddersFilterSetsBidResponsesWithoutBidsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -3784,7 +3858,7 @@ export const ListBiddersFilterSetsBidResponsesWithoutBidsRequest =
 export type ListBiddersFilterSetsBidResponsesWithoutBidsResponse =
   ListBidResponsesWithoutBidsResponse;
 export const ListBiddersFilterSetsBidResponsesWithoutBidsResponse =
-  ListBidResponsesWithoutBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponsesWithoutBidsResponse;
 
 export type ListBiddersFilterSetsBidResponsesWithoutBidsError = DefaultErrors;
 
@@ -3794,7 +3868,7 @@ export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperatio
   ListBiddersFilterSetsBidResponsesWithoutBidsResponse,
   ListBiddersFilterSetsBidResponsesWithoutBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBiddersFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -3813,20 +3887,22 @@ export interface ListBiddersFilterSetsLosingBidsRequest {
   pageSize?: number;
 }
 
-export const ListBiddersFilterSetsLosingBidsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/losingBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersFilterSetsLosingBidsRequest>;
+export const ListBiddersFilterSetsLosingBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/bidders/{biddersId}/filterSets/{filterSetsId}/losingBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersFilterSetsLosingBidsRequest>;
 
 export type ListBiddersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
-export const ListBiddersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
+export const ListBiddersFilterSetsLosingBidsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLosingBidsResponse;
 
 export type ListBiddersFilterSetsLosingBidsError = DefaultErrors;
 
@@ -3836,7 +3912,7 @@ export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<
   ListBiddersFilterSetsLosingBidsResponse,
   ListBiddersFilterSetsLosingBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersFilterSetsLosingBidsRequest,
   output: ListBiddersFilterSetsLosingBidsResponse,
   errors: [],
@@ -3855,21 +3931,23 @@ export interface UpdateAccountsProposalsRequest {
   body?: Proposal;
 }
 
-export const UpdateAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(Proposal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsProposalsRequest>;
+export const UpdateAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(Proposal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsProposalsRequest>;
 
 export type UpdateAccountsProposalsResponse = Proposal;
-export const UpdateAccountsProposalsResponse = Proposal;
+export const UpdateAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type UpdateAccountsProposalsError = DefaultErrors;
 
@@ -3879,7 +3957,7 @@ export const updateAccountsProposals: API.OperationMethod<
   UpdateAccountsProposalsResponse,
   UpdateAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsProposalsRequest,
   output: UpdateAccountsProposalsResponse,
   errors: [],
@@ -3894,21 +3972,23 @@ export interface CompleteSetupAccountsProposalsRequest {
   body?: CompleteSetupRequest;
 }
 
-export const CompleteSetupAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(CompleteSetupRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:completeSetup",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CompleteSetupAccountsProposalsRequest>;
+export const CompleteSetupAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(CompleteSetupRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:completeSetup",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CompleteSetupAccountsProposalsRequest>;
 
 export type CompleteSetupAccountsProposalsResponse = Proposal;
-export const CompleteSetupAccountsProposalsResponse = Proposal;
+export const CompleteSetupAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type CompleteSetupAccountsProposalsError = DefaultErrors;
 
@@ -3918,7 +3998,7 @@ export const completeSetupAccountsProposals: API.OperationMethod<
   CompleteSetupAccountsProposalsResponse,
   CompleteSetupAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteSetupAccountsProposalsRequest,
   output: CompleteSetupAccountsProposalsResponse,
   errors: [],
@@ -3933,21 +4013,23 @@ export interface PauseAccountsProposalsRequest {
   body?: PauseProposalRequest;
 }
 
-export const PauseAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(PauseProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseAccountsProposalsRequest>;
+export const PauseAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(PauseProposalRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseAccountsProposalsRequest>;
 
 export type PauseAccountsProposalsResponse = Proposal;
-export const PauseAccountsProposalsResponse = Proposal;
+export const PauseAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type PauseAccountsProposalsError = DefaultErrors;
 
@@ -3957,7 +4039,7 @@ export const pauseAccountsProposals: API.OperationMethod<
   PauseAccountsProposalsResponse,
   PauseAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseAccountsProposalsRequest,
   output: PauseAccountsProposalsResponse,
   errors: [],
@@ -3972,21 +4054,23 @@ export interface ResumeAccountsProposalsRequest {
   body?: ResumeProposalRequest;
 }
 
-export const ResumeAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(ResumeProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeAccountsProposalsRequest>;
+export const ResumeAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(ResumeProposalRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeAccountsProposalsRequest>;
 
 export type ResumeAccountsProposalsResponse = Proposal;
-export const ResumeAccountsProposalsResponse = Proposal;
+export const ResumeAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type ResumeAccountsProposalsError = DefaultErrors;
 
@@ -3996,7 +4080,7 @@ export const resumeAccountsProposals: API.OperationMethod<
   ResumeAccountsProposalsResponse,
   ResumeAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeAccountsProposalsRequest,
   output: ResumeAccountsProposalsResponse,
   errors: [],
@@ -4009,20 +4093,22 @@ export interface CreateAccountsProposalsRequest {
   body?: Proposal;
 }
 
-export const CreateAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(Proposal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsProposalsRequest>;
+export const CreateAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(Proposal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsProposalsRequest>;
 
 export type CreateAccountsProposalsResponse = Proposal;
-export const CreateAccountsProposalsResponse = Proposal;
+export const CreateAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type CreateAccountsProposalsError = DefaultErrors;
 
@@ -4032,7 +4118,7 @@ export const createAccountsProposals: API.OperationMethod<
   CreateAccountsProposalsResponse,
   CreateAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsProposalsRequest,
   output: CreateAccountsProposalsResponse,
   errors: [],
@@ -4055,21 +4141,23 @@ export interface ListAccountsProposalsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsProposalsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  filterSyntax: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("filterSyntax"),
-  ),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/proposals" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProposalsRequest>;
+export const ListAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    filterSyntax: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("filterSyntax"),
+    ),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/proposals" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProposalsRequest>;
 
 export type ListAccountsProposalsResponse = ListProposalsResponse;
-export const ListAccountsProposalsResponse = ListProposalsResponse;
+export const ListAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProposalsResponse;
 
 export type ListAccountsProposalsError = DefaultErrors;
 
@@ -4079,7 +4167,7 @@ export const listAccountsProposals: API.PaginatedOperationMethod<
   ListAccountsProposalsResponse,
   ListAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProposalsRequest,
   output: ListAccountsProposalsResponse,
   errors: [],
@@ -4098,21 +4186,23 @@ export interface AcceptAccountsProposalsRequest {
   body?: AcceptProposalRequest;
 }
 
-export const AcceptAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(AcceptProposalRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:accept",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcceptAccountsProposalsRequest>;
+export const AcceptAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(AcceptProposalRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:accept",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptAccountsProposalsRequest>;
 
 export type AcceptAccountsProposalsResponse = Proposal;
-export const AcceptAccountsProposalsResponse = Proposal;
+export const AcceptAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type AcceptAccountsProposalsError = DefaultErrors;
 
@@ -4122,7 +4212,7 @@ export const acceptAccountsProposals: API.OperationMethod<
   AcceptAccountsProposalsResponse,
   AcceptAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptAccountsProposalsRequest,
   output: AcceptAccountsProposalsResponse,
   errors: [],
@@ -4137,21 +4227,23 @@ export interface CancelNegotiationAccountsProposalsRequest {
   body?: CancelNegotiationRequest;
 }
 
-export const CancelNegotiationAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(CancelNegotiationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:cancelNegotiation",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelNegotiationAccountsProposalsRequest>;
+export const CancelNegotiationAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(CancelNegotiationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:cancelNegotiation",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelNegotiationAccountsProposalsRequest>;
 
 export type CancelNegotiationAccountsProposalsResponse = Proposal;
-export const CancelNegotiationAccountsProposalsResponse = Proposal;
+export const CancelNegotiationAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type CancelNegotiationAccountsProposalsError = DefaultErrors;
 
@@ -4161,7 +4253,7 @@ export const cancelNegotiationAccountsProposals: API.OperationMethod<
   CancelNegotiationAccountsProposalsResponse,
   CancelNegotiationAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelNegotiationAccountsProposalsRequest,
   output: CancelNegotiationAccountsProposalsResponse,
   errors: [],
@@ -4176,21 +4268,23 @@ export interface AddNoteAccountsProposalsRequest {
   body?: AddNoteRequest;
 }
 
-export const AddNoteAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(AddNoteRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:addNote",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddNoteAccountsProposalsRequest>;
+export const AddNoteAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(AddNoteRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}:addNote",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddNoteAccountsProposalsRequest>;
 
 export type AddNoteAccountsProposalsResponse = Note;
-export const AddNoteAccountsProposalsResponse = Note;
+export const AddNoteAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Note;
 
 export type AddNoteAccountsProposalsError = DefaultErrors;
 
@@ -4200,7 +4294,7 @@ export const addNoteAccountsProposals: API.OperationMethod<
   AddNoteAccountsProposalsResponse,
   AddNoteAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddNoteAccountsProposalsRequest,
   output: AddNoteAccountsProposalsResponse,
   errors: [],
@@ -4213,19 +4307,21 @@ export interface GetAccountsProposalsRequest {
   proposalId: string;
 }
 
-export const GetAccountsProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/proposals/{proposalId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsProposalsRequest>;
+export const GetAccountsProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/proposals/{proposalId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsProposalsRequest>;
 
 export type GetAccountsProposalsResponse = Proposal;
-export const GetAccountsProposalsResponse = Proposal;
+export const GetAccountsProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type GetAccountsProposalsError = DefaultErrors;
 
@@ -4235,7 +4331,7 @@ export const getAccountsProposals: API.OperationMethod<
   GetAccountsProposalsResponse,
   GetAccountsProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsProposalsRequest,
   output: GetAccountsProposalsResponse,
   errors: [],
@@ -4250,21 +4346,23 @@ export interface UpdateAccountsCreativesRequest {
   body?: Creative;
 }
 
-export const UpdateAccountsCreativesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsCreativesRequest>;
+export const UpdateAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsCreativesRequest>;
 
 export type UpdateAccountsCreativesResponse = Creative;
-export const UpdateAccountsCreativesResponse = Creative;
+export const UpdateAccountsCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type UpdateAccountsCreativesError = DefaultErrors;
 
@@ -4274,7 +4372,7 @@ export const updateAccountsCreatives: API.OperationMethod<
   UpdateAccountsCreativesResponse,
   UpdateAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsCreativesRequest,
   output: UpdateAccountsCreativesResponse,
   errors: [],
@@ -4292,23 +4390,25 @@ export interface CreateAccountsCreativesRequest {
   body?: Creative;
 }
 
-export const CreateAccountsCreativesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  duplicateIdMode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("duplicateIdMode"),
-  ),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/creatives",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsCreativesRequest>;
+export const CreateAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    duplicateIdMode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("duplicateIdMode"),
+    ),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/creatives",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsCreativesRequest>;
 
 export type CreateAccountsCreativesResponse = Creative;
-export const CreateAccountsCreativesResponse = Creative;
+export const CreateAccountsCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type CreateAccountsCreativesError = DefaultErrors;
 
@@ -4318,7 +4418,7 @@ export const createAccountsCreatives: API.OperationMethod<
   CreateAccountsCreativesResponse,
   CreateAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsCreativesRequest,
   output: CreateAccountsCreativesResponse,
   errors: [],
@@ -4335,18 +4435,20 @@ export interface ListAccountsCreativesRequest {
   pageSize?: number;
 }
 
-export const ListAccountsCreativesRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/creatives" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsCreativesRequest>;
+export const ListAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/creatives" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsCreativesRequest>;
 
 export type ListAccountsCreativesResponse = ListCreativesResponse;
-export const ListAccountsCreativesResponse = ListCreativesResponse;
+export const ListAccountsCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativesResponse;
 
 export type ListAccountsCreativesError = DefaultErrors;
 
@@ -4356,7 +4458,7 @@ export const listAccountsCreatives: API.PaginatedOperationMethod<
   ListAccountsCreativesResponse,
   ListAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCreativesRequest,
   output: ListAccountsCreativesResponse,
   errors: [],
@@ -4375,21 +4477,22 @@ export interface WatchAccountsCreativesRequest {
   body?: WatchCreativeRequest;
 }
 
-export const WatchAccountsCreativesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  body: Schema.optional(WatchCreativeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}:watch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WatchAccountsCreativesRequest>;
+export const WatchAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    body: Schema.optional(WatchCreativeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}:watch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WatchAccountsCreativesRequest>;
 
 export type WatchAccountsCreativesResponse = Empty;
-export const WatchAccountsCreativesResponse = Empty;
+export const WatchAccountsCreativesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type WatchAccountsCreativesError = DefaultErrors;
 
@@ -4399,7 +4502,7 @@ export const watchAccountsCreatives: API.OperationMethod<
   WatchAccountsCreativesResponse,
   WatchAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WatchAccountsCreativesRequest,
   output: WatchAccountsCreativesResponse,
   errors: [],
@@ -4414,21 +4517,23 @@ export interface StopWatchingAccountsCreativesRequest {
   body?: StopWatchingCreativeRequest;
 }
 
-export const StopWatchingAccountsCreativesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  body: Schema.optional(StopWatchingCreativeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}:stopWatching",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StopWatchingAccountsCreativesRequest>;
+export const StopWatchingAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    body: Schema.optional(StopWatchingCreativeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}:stopWatching",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StopWatchingAccountsCreativesRequest>;
 
 export type StopWatchingAccountsCreativesResponse = Empty;
-export const StopWatchingAccountsCreativesResponse = Empty;
+export const StopWatchingAccountsCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type StopWatchingAccountsCreativesError = DefaultErrors;
 
@@ -4438,7 +4543,7 @@ export const stopWatchingAccountsCreatives: API.OperationMethod<
   StopWatchingAccountsCreativesResponse,
   StopWatchingAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopWatchingAccountsCreativesRequest,
   output: StopWatchingAccountsCreativesResponse,
   errors: [],
@@ -4451,19 +4556,21 @@ export interface GetAccountsCreativesRequest {
   creativeId: string;
 }
 
-export const GetAccountsCreativesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsCreativesRequest>;
+export const GetAccountsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsCreativesRequest>;
 
 export type GetAccountsCreativesResponse = Creative;
-export const GetAccountsCreativesResponse = Creative;
+export const GetAccountsCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type GetAccountsCreativesError = DefaultErrors;
 
@@ -4473,7 +4580,7 @@ export const getAccountsCreatives: API.OperationMethod<
   GetAccountsCreativesResponse,
   GetAccountsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsCreativesRequest,
   output: GetAccountsCreativesResponse,
   errors: [],
@@ -4488,21 +4595,23 @@ export interface AddAccountsCreativesDealAssociationsRequest {
   body?: AddDealAssociationRequest;
 }
 
-export const AddAccountsCreativesDealAssociationsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  body: Schema.optional(AddDealAssociationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:add",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddAccountsCreativesDealAssociationsRequest>;
+export const AddAccountsCreativesDealAssociationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    body: Schema.optional(AddDealAssociationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:add",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddAccountsCreativesDealAssociationsRequest>;
 
 export type AddAccountsCreativesDealAssociationsResponse = Empty;
-export const AddAccountsCreativesDealAssociationsResponse = Empty;
+export const AddAccountsCreativesDealAssociationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AddAccountsCreativesDealAssociationsError = DefaultErrors;
 
@@ -4512,7 +4621,7 @@ export const addAccountsCreativesDealAssociations: API.OperationMethod<
   AddAccountsCreativesDealAssociationsResponse,
   AddAccountsCreativesDealAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddAccountsCreativesDealAssociationsRequest,
   output: AddAccountsCreativesDealAssociationsResponse,
   errors: [],
@@ -4527,21 +4636,23 @@ export interface RemoveAccountsCreativesDealAssociationsRequest {
   body?: RemoveDealAssociationRequest;
 }
 
-export const RemoveAccountsCreativesDealAssociationsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  body: Schema.optional(RemoveDealAssociationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:remove",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveAccountsCreativesDealAssociationsRequest>;
+export const RemoveAccountsCreativesDealAssociationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    body: Schema.optional(RemoveDealAssociationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations:remove",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveAccountsCreativesDealAssociationsRequest>;
 
 export type RemoveAccountsCreativesDealAssociationsResponse = Empty;
-export const RemoveAccountsCreativesDealAssociationsResponse = Empty;
+export const RemoveAccountsCreativesDealAssociationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RemoveAccountsCreativesDealAssociationsError = DefaultErrors;
 
@@ -4551,7 +4662,7 @@ export const removeAccountsCreativesDealAssociations: API.OperationMethod<
   RemoveAccountsCreativesDealAssociationsResponse,
   RemoveAccountsCreativesDealAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveAccountsCreativesDealAssociationsRequest,
   output: RemoveAccountsCreativesDealAssociationsResponse,
   errors: [],
@@ -4570,24 +4681,25 @@ export interface ListAccountsCreativesDealAssociationsRequest {
   query?: string;
 }
 
-export const ListAccountsCreativesDealAssociationsRequest = Schema.Struct({
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsCreativesDealAssociationsRequest>;
+export const ListAccountsCreativesDealAssociationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/creatives/{creativeId}/dealAssociations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsCreativesDealAssociationsRequest>;
 
 export type ListAccountsCreativesDealAssociationsResponse =
   ListDealAssociationsResponse;
 export const ListAccountsCreativesDealAssociationsResponse =
-  ListDealAssociationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDealAssociationsResponse;
 
 export type ListAccountsCreativesDealAssociationsError = DefaultErrors;
 
@@ -4597,7 +4709,7 @@ export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod
   ListAccountsCreativesDealAssociationsResponse,
   ListAccountsCreativesDealAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsCreativesDealAssociationsRequest,
   output: ListAccountsCreativesDealAssociationsResponse,
   errors: [],
@@ -4614,19 +4726,20 @@ export interface GetAccountsClientsRequest {
   clientAccountId: string;
 }
 
-export const GetAccountsClientsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsClientsRequest>;
+export const GetAccountsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsClientsRequest>;
 
 export type GetAccountsClientsResponse = Client;
-export const GetAccountsClientsResponse = Client;
+export const GetAccountsClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type GetAccountsClientsError = DefaultErrors;
 
@@ -4636,7 +4749,7 @@ export const getAccountsClients: API.OperationMethod<
   GetAccountsClientsResponse,
   GetAccountsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsClientsRequest,
   output: GetAccountsClientsResponse,
   errors: [],
@@ -4651,21 +4764,22 @@ export interface UpdateAccountsClientsRequest {
   body?: Client;
 }
 
-export const UpdateAccountsClientsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsClientsRequest>;
+export const UpdateAccountsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsClientsRequest>;
 
 export type UpdateAccountsClientsResponse = Client;
-export const UpdateAccountsClientsResponse = Client;
+export const UpdateAccountsClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type UpdateAccountsClientsError = DefaultErrors;
 
@@ -4675,7 +4789,7 @@ export const updateAccountsClients: API.OperationMethod<
   UpdateAccountsClientsResponse,
   UpdateAccountsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsClientsRequest,
   output: UpdateAccountsClientsResponse,
   errors: [],
@@ -4692,20 +4806,22 @@ export interface ListAccountsClientsRequest {
   partnerClientId?: string;
 }
 
-export const ListAccountsClientsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  partnerClientId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("partnerClientId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/clients" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsClientsRequest>;
+export const ListAccountsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    partnerClientId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("partnerClientId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/clients" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsClientsRequest>;
 
 export type ListAccountsClientsResponse = ListClientsResponse;
-export const ListAccountsClientsResponse = ListClientsResponse;
+export const ListAccountsClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListClientsResponse;
 
 export type ListAccountsClientsError = DefaultErrors;
 
@@ -4715,7 +4831,7 @@ export const listAccountsClients: API.PaginatedOperationMethod<
   ListAccountsClientsResponse,
   ListAccountsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsRequest,
   output: ListAccountsClientsResponse,
   errors: [],
@@ -4732,20 +4848,21 @@ export interface CreateAccountsClientsRequest {
   body?: Client;
 }
 
-export const CreateAccountsClientsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/clients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsClientsRequest>;
+export const CreateAccountsClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/clients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsClientsRequest>;
 
 export type CreateAccountsClientsResponse = Client;
-export const CreateAccountsClientsResponse = Client;
+export const CreateAccountsClientsResponse = /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type CreateAccountsClientsError = DefaultErrors;
 
@@ -4755,7 +4872,7 @@ export const createAccountsClients: API.OperationMethod<
   CreateAccountsClientsResponse,
   CreateAccountsClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsClientsRequest,
   output: CreateAccountsClientsResponse,
   errors: [],
@@ -4772,21 +4889,23 @@ export interface ListAccountsClientsUsersRequest {
   pageSize?: number;
 }
 
-export const ListAccountsClientsUsersRequest = Schema.Struct({
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsClientsUsersRequest>;
+export const ListAccountsClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsClientsUsersRequest>;
 
 export type ListAccountsClientsUsersResponse = ListClientUsersResponse;
-export const ListAccountsClientsUsersResponse = ListClientUsersResponse;
+export const ListAccountsClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListClientUsersResponse;
 
 export type ListAccountsClientsUsersError = DefaultErrors;
 
@@ -4796,7 +4915,7 @@ export const listAccountsClientsUsers: API.PaginatedOperationMethod<
   ListAccountsClientsUsersResponse,
   ListAccountsClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsUsersRequest,
   output: ListAccountsClientsUsersResponse,
   errors: [],
@@ -4815,20 +4934,22 @@ export interface GetAccountsClientsUsersRequest {
   clientAccountId: string;
 }
 
-export const GetAccountsClientsUsersRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users/{userId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsClientsUsersRequest>;
+export const GetAccountsClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users/{userId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsClientsUsersRequest>;
 
 export type GetAccountsClientsUsersResponse = ClientUser;
-export const GetAccountsClientsUsersResponse = ClientUser;
+export const GetAccountsClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type GetAccountsClientsUsersError = DefaultErrors;
 
@@ -4838,7 +4959,7 @@ export const getAccountsClientsUsers: API.OperationMethod<
   GetAccountsClientsUsersResponse,
   GetAccountsClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsClientsUsersRequest,
   output: GetAccountsClientsUsersResponse,
   errors: [],
@@ -4855,22 +4976,24 @@ export interface UpdateAccountsClientsUsersRequest {
   body?: ClientUser;
 }
 
-export const UpdateAccountsClientsUsersRequest = Schema.Struct({
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  body: Schema.optional(ClientUser).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users/{userId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsClientsUsersRequest>;
+export const UpdateAccountsClientsUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    body: Schema.optional(ClientUser).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/users/{userId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsClientsUsersRequest>;
 
 export type UpdateAccountsClientsUsersResponse = ClientUser;
-export const UpdateAccountsClientsUsersResponse = ClientUser;
+export const UpdateAccountsClientsUsersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUser;
 
 export type UpdateAccountsClientsUsersError = DefaultErrors;
 
@@ -4880,7 +5003,7 @@ export const updateAccountsClientsUsers: API.OperationMethod<
   UpdateAccountsClientsUsersResponse,
   UpdateAccountsClientsUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsClientsUsersRequest,
   output: UpdateAccountsClientsUsersResponse,
   errors: [],
@@ -4895,20 +5018,22 @@ export interface GetAccountsClientsInvitationsRequest {
   accountId: string;
 }
 
-export const GetAccountsClientsInvitationsRequest = Schema.Struct({
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations/{invitationId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsClientsInvitationsRequest>;
+export const GetAccountsClientsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    invitationId: Schema.String.pipe(T.HttpPath("invitationId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations/{invitationId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsClientsInvitationsRequest>;
 
 export type GetAccountsClientsInvitationsResponse = ClientUserInvitation;
-export const GetAccountsClientsInvitationsResponse = ClientUserInvitation;
+export const GetAccountsClientsInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUserInvitation;
 
 export type GetAccountsClientsInvitationsError = DefaultErrors;
 
@@ -4918,7 +5043,7 @@ export const getAccountsClientsInvitations: API.OperationMethod<
   GetAccountsClientsInvitationsResponse,
   GetAccountsClientsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsClientsInvitationsRequest,
   output: GetAccountsClientsInvitationsResponse,
   errors: [],
@@ -4933,21 +5058,23 @@ export interface CreateAccountsClientsInvitationsRequest {
   body?: ClientUserInvitation;
 }
 
-export const CreateAccountsClientsInvitationsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  body: Schema.optional(ClientUserInvitation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsClientsInvitationsRequest>;
+export const CreateAccountsClientsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    body: Schema.optional(ClientUserInvitation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsClientsInvitationsRequest>;
 
 export type CreateAccountsClientsInvitationsResponse = ClientUserInvitation;
-export const CreateAccountsClientsInvitationsResponse = ClientUserInvitation;
+export const CreateAccountsClientsInvitationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientUserInvitation;
 
 export type CreateAccountsClientsInvitationsError = DefaultErrors;
 
@@ -4957,7 +5084,7 @@ export const createAccountsClientsInvitations: API.OperationMethod<
   CreateAccountsClientsInvitationsResponse,
   CreateAccountsClientsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsClientsInvitationsRequest,
   output: CreateAccountsClientsInvitationsResponse,
   errors: [],
@@ -4974,23 +5101,24 @@ export interface ListAccountsClientsInvitationsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsClientsInvitationsRequest = Schema.Struct({
-  clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsClientsInvitationsRequest>;
+export const ListAccountsClientsInvitationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    clientAccountId: Schema.String.pipe(T.HttpPath("clientAccountId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/clients/{clientAccountId}/invitations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsClientsInvitationsRequest>;
 
 export type ListAccountsClientsInvitationsResponse =
   ListClientUserInvitationsResponse;
 export const ListAccountsClientsInvitationsResponse =
-  ListClientUserInvitationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListClientUserInvitationsResponse;
 
 export type ListAccountsClientsInvitationsError = DefaultErrors;
 
@@ -5000,7 +5128,7 @@ export const listAccountsClientsInvitations: API.PaginatedOperationMethod<
   ListAccountsClientsInvitationsResponse,
   ListAccountsClientsInvitationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsClientsInvitationsRequest,
   output: ListAccountsClientsInvitationsResponse,
   errors: [],
@@ -5019,21 +5147,23 @@ export interface PauseAccountsFinalizedProposalsRequest {
   body?: PauseProposalDealsRequest;
 }
 
-export const PauseAccountsFinalizedProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(PauseProposalDealsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseAccountsFinalizedProposalsRequest>;
+export const PauseAccountsFinalizedProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(PauseProposalDealsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseAccountsFinalizedProposalsRequest>;
 
 export type PauseAccountsFinalizedProposalsResponse = Proposal;
-export const PauseAccountsFinalizedProposalsResponse = Proposal;
+export const PauseAccountsFinalizedProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type PauseAccountsFinalizedProposalsError = DefaultErrors;
 
@@ -5043,7 +5173,7 @@ export const pauseAccountsFinalizedProposals: API.OperationMethod<
   PauseAccountsFinalizedProposalsResponse,
   PauseAccountsFinalizedProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseAccountsFinalizedProposalsRequest,
   output: PauseAccountsFinalizedProposalsResponse,
   errors: [],
@@ -5058,21 +5188,23 @@ export interface ResumeAccountsFinalizedProposalsRequest {
   body?: ResumeProposalDealsRequest;
 }
 
-export const ResumeAccountsFinalizedProposalsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
-  body: Schema.optional(ResumeProposalDealsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeAccountsFinalizedProposalsRequest>;
+export const ResumeAccountsFinalizedProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    proposalId: Schema.String.pipe(T.HttpPath("proposalId")),
+    body: Schema.optional(ResumeProposalDealsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/accounts/{accountId}/finalizedProposals/{proposalId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeAccountsFinalizedProposalsRequest>;
 
 export type ResumeAccountsFinalizedProposalsResponse = Proposal;
-export const ResumeAccountsFinalizedProposalsResponse = Proposal;
+export const ResumeAccountsFinalizedProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Proposal;
 
 export type ResumeAccountsFinalizedProposalsError = DefaultErrors;
 
@@ -5082,7 +5214,7 @@ export const resumeAccountsFinalizedProposals: API.OperationMethod<
   ResumeAccountsFinalizedProposalsResponse,
   ResumeAccountsFinalizedProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeAccountsFinalizedProposalsRequest,
   output: ResumeAccountsFinalizedProposalsResponse,
   errors: [],
@@ -5105,24 +5237,26 @@ export interface ListAccountsFinalizedProposalsRequest {
   filter?: string;
 }
 
-export const ListAccountsFinalizedProposalsRequest = Schema.Struct({
-  filterSyntax: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("filterSyntax"),
-  ),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/finalizedProposals",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsFinalizedProposalsRequest>;
+export const ListAccountsFinalizedProposalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSyntax: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("filterSyntax"),
+    ),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/finalizedProposals",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsFinalizedProposalsRequest>;
 
 export type ListAccountsFinalizedProposalsResponse = ListProposalsResponse;
-export const ListAccountsFinalizedProposalsResponse = ListProposalsResponse;
+export const ListAccountsFinalizedProposalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProposalsResponse;
 
 export type ListAccountsFinalizedProposalsError = DefaultErrors;
 
@@ -5132,7 +5266,7 @@ export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<
   ListAccountsFinalizedProposalsResponse,
   ListAccountsFinalizedProposalsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsFinalizedProposalsRequest,
   output: ListAccountsFinalizedProposalsResponse,
   errors: [],
@@ -5151,22 +5285,23 @@ export interface ListAccountsPublisherProfilesRequest {
   pageSize?: number;
 }
 
-export const ListAccountsPublisherProfilesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/publisherProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsPublisherProfilesRequest>;
+export const ListAccountsPublisherProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/publisherProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsPublisherProfilesRequest>;
 
 export type ListAccountsPublisherProfilesResponse =
   ListPublisherProfilesResponse;
 export const ListAccountsPublisherProfilesResponse =
-  ListPublisherProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPublisherProfilesResponse;
 
 export type ListAccountsPublisherProfilesError = DefaultErrors;
 
@@ -5176,7 +5311,7 @@ export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<
   ListAccountsPublisherProfilesResponse,
   ListAccountsPublisherProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsPublisherProfilesRequest,
   output: ListAccountsPublisherProfilesResponse,
   errors: [],
@@ -5193,19 +5328,21 @@ export interface GetAccountsPublisherProfilesRequest {
   accountId: string;
 }
 
-export const GetAccountsPublisherProfilesRequest = Schema.Struct({
-  publisherProfileId: Schema.String.pipe(T.HttpPath("publisherProfileId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/publisherProfiles/{publisherProfileId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsPublisherProfilesRequest>;
+export const GetAccountsPublisherProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    publisherProfileId: Schema.String.pipe(T.HttpPath("publisherProfileId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/publisherProfiles/{publisherProfileId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsPublisherProfilesRequest>;
 
 export type GetAccountsPublisherProfilesResponse = PublisherProfile;
-export const GetAccountsPublisherProfilesResponse = PublisherProfile;
+export const GetAccountsPublisherProfilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublisherProfile;
 
 export type GetAccountsPublisherProfilesError = DefaultErrors;
 
@@ -5215,7 +5352,7 @@ export const getAccountsPublisherProfiles: API.OperationMethod<
   GetAccountsPublisherProfilesResponse,
   GetAccountsPublisherProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsPublisherProfilesRequest,
   output: GetAccountsPublisherProfilesResponse,
   errors: [],
@@ -5228,19 +5365,20 @@ export interface GetAccountsProductsRequest {
   accountId: string;
 }
 
-export const GetAccountsProductsRequest = Schema.Struct({
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/accounts/{accountId}/products/{productId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsProductsRequest>;
+export const GetAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/accounts/{accountId}/products/{productId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsProductsRequest>;
 
 export type GetAccountsProductsResponse = Product;
-export const GetAccountsProductsResponse = Product;
+export const GetAccountsProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type GetAccountsProductsError = DefaultErrors;
 
@@ -5250,7 +5388,7 @@ export const getAccountsProducts: API.OperationMethod<
   GetAccountsProductsResponse,
   GetAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsProductsRequest,
   output: GetAccountsProductsResponse,
   errors: [],
@@ -5267,18 +5405,20 @@ export interface ListAccountsProductsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsProductsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/products" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsProductsRequest>;
+export const ListAccountsProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/accounts/{accountId}/products" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsRequest>;
 
 export type ListAccountsProductsResponse = ListProductsResponse;
-export const ListAccountsProductsResponse = ListProductsResponse;
+export const ListAccountsProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProductsResponse;
 
 export type ListAccountsProductsError = DefaultErrors;
 
@@ -5288,7 +5428,7 @@ export const listAccountsProducts: API.PaginatedOperationMethod<
   ListAccountsProductsResponse,
   ListAccountsProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListAccountsProductsResponse,
   errors: [],
@@ -5303,18 +5443,19 @@ export interface DeleteBuyersFilterSetsRequest {
   name: string;
 }
 
-export const DeleteBuyersFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBuyersFilterSetsRequest>;
+export const DeleteBuyersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBuyersFilterSetsRequest>;
 
 export type DeleteBuyersFilterSetsResponse = Empty;
-export const DeleteBuyersFilterSetsResponse = Empty;
+export const DeleteBuyersFilterSetsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBuyersFilterSetsError = DefaultErrors;
 
@@ -5324,7 +5465,7 @@ export const deleteBuyersFilterSets: API.OperationMethod<
   DeleteBuyersFilterSetsResponse,
   DeleteBuyersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBuyersFilterSetsRequest,
   output: DeleteBuyersFilterSetsResponse,
   errors: [],
@@ -5335,18 +5476,20 @@ export interface GetBuyersFilterSetsRequest {
   name: string;
 }
 
-export const GetBuyersFilterSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersFilterSetsRequest>;
+export const GetBuyersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersFilterSetsRequest>;
 
 export type GetBuyersFilterSetsResponse = FilterSet;
-export const GetBuyersFilterSetsResponse = FilterSet;
+export const GetBuyersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type GetBuyersFilterSetsError = DefaultErrors;
 
@@ -5356,7 +5499,7 @@ export const getBuyersFilterSets: API.OperationMethod<
   GetBuyersFilterSetsResponse,
   GetBuyersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersFilterSetsRequest,
   output: GetBuyersFilterSetsResponse,
   errors: [],
@@ -5371,21 +5514,25 @@ export interface CreateBuyersFilterSetsRequest {
   body?: FilterSet;
 }
 
-export const CreateBuyersFilterSetsRequest = Schema.Struct({
-  isTransient: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("isTransient")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  body: Schema.optional(FilterSet).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2beta1/buyers/{buyersId}/filterSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBuyersFilterSetsRequest>;
+export const CreateBuyersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    isTransient: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("isTransient"),
+    ),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    body: Schema.optional(FilterSet).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2beta1/buyers/{buyersId}/filterSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBuyersFilterSetsRequest>;
 
 export type CreateBuyersFilterSetsResponse = FilterSet;
-export const CreateBuyersFilterSetsResponse = FilterSet;
+export const CreateBuyersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FilterSet;
 
 export type CreateBuyersFilterSetsError = DefaultErrors;
 
@@ -5395,7 +5542,7 @@ export const createBuyersFilterSets: API.OperationMethod<
   CreateBuyersFilterSetsResponse,
   CreateBuyersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuyersFilterSetsRequest,
   output: CreateBuyersFilterSetsResponse,
   errors: [],
@@ -5410,17 +5557,19 @@ export interface ListBuyersFilterSetsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2beta1/buyers/{buyersId}/filterSets" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsRequest>;
+export const ListBuyersFilterSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    ownerName: Schema.String.pipe(T.HttpPath("ownerName")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2beta1/buyers/{buyersId}/filterSets" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsRequest>;
 
 export type ListBuyersFilterSetsResponse = ListFilterSetsResponse;
-export const ListBuyersFilterSetsResponse = ListFilterSetsResponse;
+export const ListBuyersFilterSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFilterSetsResponse;
 
 export type ListBuyersFilterSetsError = DefaultErrors;
 
@@ -5430,7 +5579,7 @@ export const listBuyersFilterSets: API.PaginatedOperationMethod<
   ListBuyersFilterSetsResponse,
   ListBuyersFilterSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsRequest,
   output: ListBuyersFilterSetsResponse,
   errors: [],
@@ -5449,22 +5598,23 @@ export interface ListBuyersFilterSetsImpressionMetricsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsImpressionMetricsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/impressionMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsImpressionMetricsRequest>;
+export const ListBuyersFilterSetsImpressionMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/impressionMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsImpressionMetricsRequest>;
 
 export type ListBuyersFilterSetsImpressionMetricsResponse =
   ListImpressionMetricsResponse;
 export const ListBuyersFilterSetsImpressionMetricsResponse =
-  ListImpressionMetricsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListImpressionMetricsResponse;
 
 export type ListBuyersFilterSetsImpressionMetricsError = DefaultErrors;
 
@@ -5474,7 +5624,7 @@ export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod
   ListBuyersFilterSetsImpressionMetricsResponse,
   ListBuyersFilterSetsImpressionMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsImpressionMetricsRequest,
   output: ListBuyersFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -5493,22 +5643,23 @@ export interface ListBuyersFilterSetsNonBillableWinningBidsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsNonBillableWinningBidsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/nonBillableWinningBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsNonBillableWinningBidsRequest>;
+export const ListBuyersFilterSetsNonBillableWinningBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/nonBillableWinningBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsNonBillableWinningBidsRequest>;
 
 export type ListBuyersFilterSetsNonBillableWinningBidsResponse =
   ListNonBillableWinningBidsResponse;
 export const ListBuyersFilterSetsNonBillableWinningBidsResponse =
-  ListNonBillableWinningBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNonBillableWinningBidsResponse;
 
 export type ListBuyersFilterSetsNonBillableWinningBidsError = DefaultErrors;
 
@@ -5518,7 +5669,7 @@ export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationM
   ListBuyersFilterSetsNonBillableWinningBidsResponse,
   ListBuyersFilterSetsNonBillableWinningBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsNonBillableWinningBidsRequest,
   output: ListBuyersFilterSetsNonBillableWinningBidsResponse,
   errors: [],
@@ -5537,22 +5688,23 @@ export interface ListBuyersFilterSetsBidResponseErrorsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsBidResponseErrorsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidResponseErrors",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsBidResponseErrorsRequest>;
+export const ListBuyersFilterSetsBidResponseErrorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidResponseErrors",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsBidResponseErrorsRequest>;
 
 export type ListBuyersFilterSetsBidResponseErrorsResponse =
   ListBidResponseErrorsResponse;
 export const ListBuyersFilterSetsBidResponseErrorsResponse =
-  ListBidResponseErrorsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponseErrorsResponse;
 
 export type ListBuyersFilterSetsBidResponseErrorsError = DefaultErrors;
 
@@ -5562,7 +5714,7 @@ export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod
   ListBuyersFilterSetsBidResponseErrorsResponse,
   ListBuyersFilterSetsBidResponseErrorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponseErrorsRequest,
   output: ListBuyersFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -5581,21 +5733,22 @@ export interface ListBuyersFilterSetsFilteredBidsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsFilteredBidsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsRequest>;
+export const ListBuyersFilterSetsFilteredBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsRequest>;
 
 export type ListBuyersFilterSetsFilteredBidsResponse = ListFilteredBidsResponse;
 export const ListBuyersFilterSetsFilteredBidsResponse =
-  ListFilteredBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidsResponse;
 
 export type ListBuyersFilterSetsFilteredBidsError = DefaultErrors;
 
@@ -5605,7 +5758,7 @@ export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
   ListBuyersFilterSetsFilteredBidsResponse,
   ListBuyersFilterSetsFilteredBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsRequest,
   output: ListBuyersFilterSetsFilteredBidsResponse,
   errors: [],
@@ -5626,23 +5779,24 @@ export interface ListBuyersFilterSetsFilteredBidsDetailsRequest {
   creativeStatusId: number;
 }
 
-export const ListBuyersFilterSetsFilteredBidsDetailsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/details",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsDetailsRequest>;
+export const ListBuyersFilterSetsFilteredBidsDetailsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/details",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsDetailsRequest>;
 
 export type ListBuyersFilterSetsFilteredBidsDetailsResponse =
   ListCreativeStatusBreakdownByDetailResponse;
 export const ListBuyersFilterSetsFilteredBidsDetailsResponse =
-  ListCreativeStatusBreakdownByDetailResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByDetailResponse;
 
 export type ListBuyersFilterSetsFilteredBidsDetailsError = DefaultErrors;
 
@@ -5652,7 +5806,7 @@ export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMeth
   ListBuyersFilterSetsFilteredBidsDetailsResponse,
   ListBuyersFilterSetsFilteredBidsDetailsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsDetailsRequest,
   output: ListBuyersFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -5673,23 +5827,24 @@ export interface ListBuyersFilterSetsFilteredBidsCreativesRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsFilteredBidsCreativesRequest = Schema.Struct({
-  creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/creatives",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsCreativesRequest>;
+export const ListBuyersFilterSetsFilteredBidsCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeStatusId: Schema.Number.pipe(T.HttpPath("creativeStatusId")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBids/{creativeStatusId}/creatives",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidsCreativesRequest>;
 
 export type ListBuyersFilterSetsFilteredBidsCreativesResponse =
   ListCreativeStatusBreakdownByCreativeResponse;
 export const ListBuyersFilterSetsFilteredBidsCreativesResponse =
-  ListCreativeStatusBreakdownByCreativeResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativeStatusBreakdownByCreativeResponse;
 
 export type ListBuyersFilterSetsFilteredBidsCreativesError = DefaultErrors;
 
@@ -5699,7 +5854,7 @@ export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMe
   ListBuyersFilterSetsFilteredBidsCreativesResponse,
   ListBuyersFilterSetsFilteredBidsCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsCreativesRequest,
   output: ListBuyersFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -5718,24 +5873,23 @@ export interface ListBuyersFilterSetsBidResponsesWithoutBidsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersFilterSetsBidResponsesWithoutBidsRequest = Schema.Struct(
-  {
+export const ListBuyersFilterSetsBidResponsesWithoutBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidResponsesWithoutBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsBidResponsesWithoutBidsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidResponsesWithoutBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsBidResponsesWithoutBidsRequest>;
 
 export type ListBuyersFilterSetsBidResponsesWithoutBidsResponse =
   ListBidResponsesWithoutBidsResponse;
 export const ListBuyersFilterSetsBidResponsesWithoutBidsResponse =
-  ListBidResponsesWithoutBidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListBidResponsesWithoutBidsResponse;
 
 export type ListBuyersFilterSetsBidResponsesWithoutBidsError = DefaultErrors;
 
@@ -5745,7 +5899,7 @@ export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperation
   ListBuyersFilterSetsBidResponsesWithoutBidsResponse,
   ListBuyersFilterSetsBidResponsesWithoutBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBuyersFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -5764,20 +5918,22 @@ export interface ListBuyersFilterSetsLosingBidsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersFilterSetsLosingBidsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/losingBids",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsLosingBidsRequest>;
+export const ListBuyersFilterSetsLosingBidsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/losingBids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsLosingBidsRequest>;
 
 export type ListBuyersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
-export const ListBuyersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
+export const ListBuyersFilterSetsLosingBidsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLosingBidsResponse;
 
 export type ListBuyersFilterSetsLosingBidsError = DefaultErrors;
 
@@ -5787,7 +5943,7 @@ export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
   ListBuyersFilterSetsLosingBidsResponse,
   ListBuyersFilterSetsLosingBidsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsLosingBidsRequest,
   output: ListBuyersFilterSetsLosingBidsResponse,
   errors: [],
@@ -5806,20 +5962,22 @@ export interface ListBuyersFilterSetsBidMetricsRequest {
   pageSize?: number;
 }
 
-export const ListBuyersFilterSetsBidMetricsRequest = Schema.Struct({
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidMetrics",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsBidMetricsRequest>;
+export const ListBuyersFilterSetsBidMetricsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/bidMetrics",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsBidMetricsRequest>;
 
 export type ListBuyersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
-export const ListBuyersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
+export const ListBuyersFilterSetsBidMetricsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListBidMetricsResponse;
 
 export type ListBuyersFilterSetsBidMetricsError = DefaultErrors;
 
@@ -5829,7 +5987,7 @@ export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
   ListBuyersFilterSetsBidMetricsResponse,
   ListBuyersFilterSetsBidMetricsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidMetricsRequest,
   output: ListBuyersFilterSetsBidMetricsResponse,
   errors: [],
@@ -5848,22 +6006,23 @@ export interface ListBuyersFilterSetsFilteredBidRequestsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersFilterSetsFilteredBidRequestsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBidRequests",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidRequestsRequest>;
+export const ListBuyersFilterSetsFilteredBidRequestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filterSetName: Schema.String.pipe(T.HttpPath("filterSetName")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2beta1/buyers/{buyersId}/filterSets/{filterSetsId}/filteredBidRequests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersFilterSetsFilteredBidRequestsRequest>;
 
 export type ListBuyersFilterSetsFilteredBidRequestsResponse =
   ListFilteredBidRequestsResponse;
 export const ListBuyersFilterSetsFilteredBidRequestsResponse =
-  ListFilteredBidRequestsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFilteredBidRequestsResponse;
 
 export type ListBuyersFilterSetsFilteredBidRequestsError = DefaultErrors;
 
@@ -5873,7 +6032,7 @@ export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMeth
   ListBuyersFilterSetsFilteredBidRequestsResponse,
   ListBuyersFilterSetsFilteredBidRequestsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidRequestsRequest,
   output: ListBuyersFilterSetsFilteredBidRequestsResponse,
   errors: [],

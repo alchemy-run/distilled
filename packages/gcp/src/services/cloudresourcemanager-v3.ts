@@ -37,16 +37,17 @@ export interface Lien {
   createTime?: string;
 }
 
-export const Lien: Schema.Schema<Lien> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    restrictions: Schema.optional(Schema.Array(Schema.String)),
-    reason: Schema.optional(Schema.String),
-    origin: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Lien" }) as any as Schema.Schema<Lien>;
+export const Lien: Schema.Schema<Lien> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      restrictions: Schema.optional(Schema.Array(Schema.String)),
+      reason: Schema.optional(Schema.String),
+      origin: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Lien" }) as any as Schema.Schema<Lien>;
 
 export interface ListLiensResponse {
   /** A list of Liens. */
@@ -56,7 +57,7 @@ export interface ListLiensResponse {
 }
 
 export const ListLiensResponse: Schema.Schema<ListLiensResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       liens: Schema.optional(Schema.Array(Lien)),
       nextPageToken: Schema.optional(Schema.String),
@@ -67,9 +68,10 @@ export const ListLiensResponse: Schema.Schema<ListLiensResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -80,15 +82,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -103,15 +106,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface Folder {
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
@@ -138,21 +142,22 @@ export interface Folder {
   managementProject?: string;
 }
 
-export const Folder: Schema.Schema<Folder> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
-    managementProject: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+export const Folder: Schema.Schema<Folder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
+      managementProject: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
 
 export interface ListFoldersResponse {
   /** A possibly paginated list of folders that are direct descendants of the specified parent resource. */
@@ -162,7 +167,7 @@ export interface ListFoldersResponse {
 }
 
 export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       folders: Schema.optional(Schema.Array(Folder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -179,7 +184,7 @@ export interface SearchFoldersResponse {
 }
 
 export const SearchFoldersResponse: Schema.Schema<SearchFoldersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       folders: Schema.optional(Schema.Array(Folder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -194,7 +199,7 @@ export interface MoveFolderRequest {
 }
 
 export const MoveFolderRequest: Schema.Schema<MoveFolderRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationParent: Schema.optional(Schema.String),
     }),
@@ -205,7 +210,7 @@ export const MoveFolderRequest: Schema.Schema<MoveFolderRequest> =
 export interface UndeleteFolderRequest {}
 
 export const UndeleteFolderRequest: Schema.Schema<UndeleteFolderRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteFolderRequest",
   }) as any as Schema.Schema<UndeleteFolderRequest>;
 
@@ -214,14 +219,14 @@ export interface GetPolicyOptions {
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
-  () =>
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedPolicyVersion: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GetPolicyOptions",
-}) as any as Schema.Schema<GetPolicyOptions>;
+  ).annotate({
+    identifier: "GetPolicyOptions",
+  }) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
@@ -229,7 +234,7 @@ export interface GetIamPolicyRequest {
 }
 
 export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(GetPolicyOptions),
     }),
@@ -248,14 +253,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -266,13 +272,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
@@ -286,15 +293,15 @@ export interface AuditLogConfig {
   exemptedMembers?: Array<string>;
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
-  () =>
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logType: Schema.optional(Schema.String),
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AuditLogConfig",
-}) as any as Schema.Schema<AuditLogConfig>;
+  ).annotate({
+    identifier: "AuditLogConfig",
+  }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -303,12 +310,15 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    service: Schema.optional(Schema.String),
-    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "AuditConfig",
+  }) as any as Schema.Schema<AuditConfig>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -321,14 +331,15 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -338,7 +349,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
       updateMask: Schema.optional(Schema.String),
@@ -353,7 +364,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -367,7 +378,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -394,20 +405,21 @@ export interface Organization {
   etag?: string;
 }
 
-export const Organization: Schema.Schema<Organization> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    directoryCustomerId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Organization",
-}) as any as Schema.Schema<Organization>;
+export const Organization: Schema.Schema<Organization> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      directoryCustomerId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Organization",
+  }) as any as Schema.Schema<Organization>;
 
 export interface SearchOrganizationsResponse {
   /** The list of Organizations that matched the search query, possibly paginated. */
@@ -417,7 +429,7 @@ export interface SearchOrganizationsResponse {
 }
 
 export const SearchOrganizationsResponse: Schema.Schema<SearchOrganizationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       organizations: Schema.optional(Schema.Array(Organization)),
       nextPageToken: Schema.optional(Schema.String),
@@ -453,22 +465,23 @@ export interface Project {
   configuredCapabilities?: Array<string>;
 }
 
-export const Project: Schema.Schema<Project> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    projectId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
+export const Project: Schema.Schema<Project> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      configuredCapabilities: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
 
 export interface ListProjectsResponse {
   /** The list of Projects under the parent. This list can be paginated. */
@@ -478,7 +491,7 @@ export interface ListProjectsResponse {
 }
 
 export const ListProjectsResponse: Schema.Schema<ListProjectsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projects: Schema.optional(Schema.Array(Project)),
       nextPageToken: Schema.optional(Schema.String),
@@ -495,7 +508,7 @@ export interface SearchProjectsResponse {
 }
 
 export const SearchProjectsResponse: Schema.Schema<SearchProjectsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projects: Schema.optional(Schema.Array(Project)),
       nextPageToken: Schema.optional(Schema.String),
@@ -510,7 +523,7 @@ export interface MoveProjectRequest {
 }
 
 export const MoveProjectRequest: Schema.Schema<MoveProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationParent: Schema.optional(Schema.String),
     }),
@@ -521,7 +534,7 @@ export const MoveProjectRequest: Schema.Schema<MoveProjectRequest> =
 export interface UndeleteProjectRequest {}
 
 export const UndeleteProjectRequest: Schema.Schema<UndeleteProjectRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteProjectRequest",
   }) as any as Schema.Schema<UndeleteProjectRequest>;
 
@@ -532,12 +545,13 @@ export interface Capability {
   value?: boolean;
 }
 
-export const Capability: Schema.Schema<Capability> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Capability" }) as any as Schema.Schema<Capability>;
+export const Capability: Schema.Schema<Capability> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Capability" }) as any as Schema.Schema<Capability>;
 
 export interface TagBindingCollection {
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
@@ -551,7 +565,7 @@ export interface TagBindingCollection {
 }
 
 export const TagBindingCollection: Schema.Schema<TagBindingCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       fullResourceName: Schema.optional(Schema.String),
@@ -572,7 +586,7 @@ export interface EffectiveTagBindingCollection {
 }
 
 export const EffectiveTagBindingCollection: Schema.Schema<EffectiveTagBindingCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       fullResourceName: Schema.optional(Schema.String),
@@ -595,14 +609,15 @@ export interface TagBinding {
   tagValueNamespacedName?: string;
 }
 
-export const TagBinding: Schema.Schema<TagBinding> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    tagValue: Schema.optional(Schema.String),
-    tagValueNamespacedName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TagBinding" }) as any as Schema.Schema<TagBinding>;
+export const TagBinding: Schema.Schema<TagBinding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      tagValue: Schema.optional(Schema.String),
+      tagValueNamespacedName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TagBinding" }) as any as Schema.Schema<TagBinding>;
 
 export interface ListTagBindingsResponse {
   /** A possibly paginated list of TagBindings for the specified resource. */
@@ -612,7 +627,7 @@ export interface ListTagBindingsResponse {
 }
 
 export const ListTagBindingsResponse: Schema.Schema<ListTagBindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagBindings: Schema.optional(Schema.Array(TagBinding)),
       nextPageToken: Schema.optional(Schema.String),
@@ -636,18 +651,19 @@ export interface EffectiveTag {
   inherited?: boolean;
 }
 
-export const EffectiveTag: Schema.Schema<EffectiveTag> = Schema.suspend(() =>
-  Schema.Struct({
-    tagValue: Schema.optional(Schema.String),
-    namespacedTagValue: Schema.optional(Schema.String),
-    tagKey: Schema.optional(Schema.String),
-    namespacedTagKey: Schema.optional(Schema.String),
-    tagKeyParentName: Schema.optional(Schema.String),
-    inherited: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "EffectiveTag",
-}) as any as Schema.Schema<EffectiveTag>;
+export const EffectiveTag: Schema.Schema<EffectiveTag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagValue: Schema.optional(Schema.String),
+      namespacedTagValue: Schema.optional(Schema.String),
+      tagKey: Schema.optional(Schema.String),
+      namespacedTagKey: Schema.optional(Schema.String),
+      tagKeyParentName: Schema.optional(Schema.String),
+      inherited: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "EffectiveTag",
+  }) as any as Schema.Schema<EffectiveTag>;
 
 export interface ListEffectiveTagsResponse {
   /** A possibly paginated list of effective tags for the specified resource. */
@@ -657,7 +673,7 @@ export interface ListEffectiveTagsResponse {
 }
 
 export const ListEffectiveTagsResponse: Schema.Schema<ListEffectiveTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       effectiveTags: Schema.optional(Schema.Array(EffectiveTag)),
       nextPageToken: Schema.optional(Schema.String),
@@ -679,15 +695,16 @@ export interface TagHold {
   createTime?: string;
 }
 
-export const TagHold: Schema.Schema<TagHold> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    holder: Schema.optional(Schema.String),
-    origin: Schema.optional(Schema.String),
-    helpLink: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TagHold" }) as any as Schema.Schema<TagHold>;
+export const TagHold: Schema.Schema<TagHold> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      holder: Schema.optional(Schema.String),
+      origin: Schema.optional(Schema.String),
+      helpLink: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TagHold" }) as any as Schema.Schema<TagHold>;
 
 export interface ListTagHoldsResponse {
   /** A possibly paginated list of TagHolds. */
@@ -697,7 +714,7 @@ export interface ListTagHoldsResponse {
 }
 
 export const ListTagHoldsResponse: Schema.Schema<ListTagHoldsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagHolds: Schema.optional(Schema.Array(TagHold)),
       nextPageToken: Schema.optional(Schema.String),
@@ -735,21 +752,22 @@ export interface TagKey {
   allowedValuesRegex?: string;
 }
 
-export const TagKey: Schema.Schema<TagKey> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    shortName: Schema.optional(Schema.String),
-    namespacedName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    purpose: Schema.optional(Schema.String),
-    purposeData: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    allowedValuesRegex: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TagKey" }) as any as Schema.Schema<TagKey>;
+export const TagKey: Schema.Schema<TagKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      shortName: Schema.optional(Schema.String),
+      namespacedName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      purpose: Schema.optional(Schema.String),
+      purposeData: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      allowedValuesRegex: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TagKey" }) as any as Schema.Schema<TagKey>;
 
 export interface ListTagKeysResponse {
   /** List of TagKeys that live under the specified parent in the request. */
@@ -759,7 +777,7 @@ export interface ListTagKeysResponse {
 }
 
 export const ListTagKeysResponse: Schema.Schema<ListTagKeysResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagKeys: Schema.optional(Schema.Array(TagKey)),
       nextPageToken: Schema.optional(Schema.String),
@@ -787,18 +805,19 @@ export interface TagValue {
   etag?: string;
 }
 
-export const TagValue: Schema.Schema<TagValue> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    shortName: Schema.optional(Schema.String),
-    namespacedName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TagValue" }) as any as Schema.Schema<TagValue>;
+export const TagValue: Schema.Schema<TagValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      shortName: Schema.optional(Schema.String),
+      namespacedName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TagValue" }) as any as Schema.Schema<TagValue>;
 
 export interface ListTagValuesResponse {
   /** A possibly paginated list of TagValues that are direct descendants of the specified parent TagKey. */
@@ -808,7 +827,7 @@ export interface ListTagValuesResponse {
 }
 
 export const ListTagValuesResponse: Schema.Schema<ListTagValuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagValues: Schema.optional(Schema.Array(TagValue)),
       nextPageToken: Schema.optional(Schema.String),
@@ -827,7 +846,7 @@ export interface ProjectCreationStatus {
 }
 
 export const ProjectCreationStatus: Schema.Schema<ProjectCreationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       gettable: Schema.optional(Schema.Boolean),
@@ -853,7 +872,7 @@ export interface CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOpe
 }
 
 export const CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2alpha1FolderOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       operationType: Schema.optional(Schema.String),
@@ -883,7 +902,7 @@ export interface FolderOperationError {
 }
 
 export const FolderOperationError: Schema.Schema<FolderOperationError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessageId: Schema.optional(Schema.String),
     }),
@@ -907,7 +926,7 @@ export interface CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOper
 }
 
 export const CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation: Schema.Schema<CloudresourcemanagerGoogleCloudResourcemanagerV2beta1FolderOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       operationType: Schema.optional(Schema.String),
@@ -934,29 +953,29 @@ export interface FolderOperation {
   destinationParent?: string;
 }
 
-export const FolderOperation: Schema.Schema<FolderOperation> = Schema.suspend(
-  () =>
+export const FolderOperation: Schema.Schema<FolderOperation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       operationType: Schema.optional(Schema.String),
       sourceParent: Schema.optional(Schema.String),
       destinationParent: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FolderOperation",
-}) as any as Schema.Schema<FolderOperation>;
+  ).annotate({
+    identifier: "FolderOperation",
+  }) as any as Schema.Schema<FolderOperation>;
 
 export interface DeleteOrganizationMetadata {}
 
 export const DeleteOrganizationMetadata: Schema.Schema<DeleteOrganizationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteOrganizationMetadata",
   }) as any as Schema.Schema<DeleteOrganizationMetadata>;
 
 export interface UndeleteOrganizationMetadata {}
 
 export const UndeleteOrganizationMetadata: Schema.Schema<UndeleteOrganizationMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteOrganizationMetadata",
   }) as any as Schema.Schema<UndeleteOrganizationMetadata>;
 
@@ -968,7 +987,7 @@ export interface CreateFolderMetadata {
 }
 
 export const CreateFolderMetadata: Schema.Schema<CreateFolderMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       parent: Schema.optional(Schema.String),
@@ -980,7 +999,7 @@ export const CreateFolderMetadata: Schema.Schema<CreateFolderMetadata> =
 export interface UpdateFolderMetadata {}
 
 export const UpdateFolderMetadata: Schema.Schema<UpdateFolderMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateFolderMetadata",
   }) as any as Schema.Schema<UpdateFolderMetadata>;
 
@@ -994,7 +1013,7 @@ export interface MoveFolderMetadata {
 }
 
 export const MoveFolderMetadata: Schema.Schema<MoveFolderMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       sourceParent: Schema.optional(Schema.String),
@@ -1007,14 +1026,14 @@ export const MoveFolderMetadata: Schema.Schema<MoveFolderMetadata> =
 export interface DeleteFolderMetadata {}
 
 export const DeleteFolderMetadata: Schema.Schema<DeleteFolderMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteFolderMetadata",
   }) as any as Schema.Schema<DeleteFolderMetadata>;
 
 export interface UndeleteFolderMetadata {}
 
 export const UndeleteFolderMetadata: Schema.Schema<UndeleteFolderMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteFolderMetadata",
   }) as any as Schema.Schema<UndeleteFolderMetadata>;
 
@@ -1028,7 +1047,7 @@ export interface CreateProjectMetadata {
 }
 
 export const CreateProjectMetadata: Schema.Schema<CreateProjectMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       gettable: Schema.optional(Schema.Boolean),
@@ -1041,84 +1060,84 @@ export const CreateProjectMetadata: Schema.Schema<CreateProjectMetadata> =
 export interface UpdateProjectMetadata {}
 
 export const UpdateProjectMetadata: Schema.Schema<UpdateProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateProjectMetadata",
   }) as any as Schema.Schema<UpdateProjectMetadata>;
 
 export interface MoveProjectMetadata {}
 
 export const MoveProjectMetadata: Schema.Schema<MoveProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MoveProjectMetadata",
   }) as any as Schema.Schema<MoveProjectMetadata>;
 
 export interface DeleteProjectMetadata {}
 
 export const DeleteProjectMetadata: Schema.Schema<DeleteProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteProjectMetadata",
   }) as any as Schema.Schema<DeleteProjectMetadata>;
 
 export interface UndeleteProjectMetadata {}
 
 export const UndeleteProjectMetadata: Schema.Schema<UndeleteProjectMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteProjectMetadata",
   }) as any as Schema.Schema<UndeleteProjectMetadata>;
 
 export interface CreateTagKeyMetadata {}
 
 export const CreateTagKeyMetadata: Schema.Schema<CreateTagKeyMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateTagKeyMetadata",
   }) as any as Schema.Schema<CreateTagKeyMetadata>;
 
 export interface UpdateTagKeyMetadata {}
 
 export const UpdateTagKeyMetadata: Schema.Schema<UpdateTagKeyMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateTagKeyMetadata",
   }) as any as Schema.Schema<UpdateTagKeyMetadata>;
 
 export interface DeleteTagKeyMetadata {}
 
 export const DeleteTagKeyMetadata: Schema.Schema<DeleteTagKeyMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteTagKeyMetadata",
   }) as any as Schema.Schema<DeleteTagKeyMetadata>;
 
 export interface CreateTagValueMetadata {}
 
 export const CreateTagValueMetadata: Schema.Schema<CreateTagValueMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateTagValueMetadata",
   }) as any as Schema.Schema<CreateTagValueMetadata>;
 
 export interface UpdateTagValueMetadata {}
 
 export const UpdateTagValueMetadata: Schema.Schema<UpdateTagValueMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UpdateTagValueMetadata",
   }) as any as Schema.Schema<UpdateTagValueMetadata>;
 
 export interface DeleteTagValueMetadata {}
 
 export const DeleteTagValueMetadata: Schema.Schema<DeleteTagValueMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteTagValueMetadata",
   }) as any as Schema.Schema<DeleteTagValueMetadata>;
 
 export interface CreateTagBindingMetadata {}
 
 export const CreateTagBindingMetadata: Schema.Schema<CreateTagBindingMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateTagBindingMetadata",
   }) as any as Schema.Schema<CreateTagBindingMetadata>;
 
 export interface DeleteTagBindingMetadata {}
 
 export const DeleteTagBindingMetadata: Schema.Schema<DeleteTagBindingMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteTagBindingMetadata",
   }) as any as Schema.Schema<DeleteTagBindingMetadata>;
 
@@ -1135,7 +1154,7 @@ export interface ListLiensRequest {
   pageToken?: string;
 }
 
-export const ListLiensRequest = Schema.Struct({
+export const ListLiensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1145,7 +1164,8 @@ export const ListLiensRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListLiensRequest>;
 
 export type ListLiensResponse_Op = ListLiensResponse;
-export const ListLiensResponse_Op = ListLiensResponse;
+export const ListLiensResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListLiensResponse;
 
 export type ListLiensError = DefaultErrors;
 
@@ -1155,7 +1175,7 @@ export const listLiens: API.PaginatedOperationMethod<
   ListLiensResponse_Op,
   ListLiensError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLiensRequest,
   output: ListLiensResponse_Op,
   errors: [],
@@ -1170,7 +1190,7 @@ export interface GetLiensRequest {
   name: string;
 }
 
-export const GetLiensRequest = Schema.Struct({
+export const GetLiensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/liens/{liensId}" }),
@@ -1178,7 +1198,7 @@ export const GetLiensRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetLiensRequest>;
 
 export type GetLiensResponse = Lien;
-export const GetLiensResponse = Lien;
+export const GetLiensResponse = /*@__PURE__*/ /*#__PURE__*/ Lien;
 
 export type GetLiensError = DefaultErrors;
 
@@ -1188,7 +1208,7 @@ export const getLiens: API.OperationMethod<
   GetLiensResponse,
   GetLiensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLiensRequest,
   output: GetLiensResponse,
   errors: [],
@@ -1199,7 +1219,7 @@ export interface CreateLiensRequest {
   body?: Lien;
 }
 
-export const CreateLiensRequest = Schema.Struct({
+export const CreateLiensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Lien).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/liens", hasBody: true }),
@@ -1207,7 +1227,7 @@ export const CreateLiensRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateLiensRequest>;
 
 export type CreateLiensResponse = Lien;
-export const CreateLiensResponse = Lien;
+export const CreateLiensResponse = /*@__PURE__*/ /*#__PURE__*/ Lien;
 
 export type CreateLiensError = DefaultErrors;
 
@@ -1217,7 +1237,7 @@ export const createLiens: API.OperationMethod<
   CreateLiensResponse,
   CreateLiensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateLiensRequest,
   output: CreateLiensResponse,
   errors: [],
@@ -1228,7 +1248,7 @@ export interface DeleteLiensRequest {
   name: string;
 }
 
-export const DeleteLiensRequest = Schema.Struct({
+export const DeleteLiensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v3/liens/{liensId}" }),
@@ -1236,7 +1256,7 @@ export const DeleteLiensRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteLiensRequest>;
 
 export type DeleteLiensResponse = Empty;
-export const DeleteLiensResponse = Empty;
+export const DeleteLiensResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteLiensError = DefaultErrors;
 
@@ -1246,7 +1266,7 @@ export const deleteLiens: API.OperationMethod<
   DeleteLiensResponse,
   DeleteLiensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteLiensRequest,
   output: DeleteLiensResponse,
   errors: [],
@@ -1257,7 +1277,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/operations/{operationsId}" }),
@@ -1265,7 +1285,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -1275,7 +1295,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -1286,7 +1306,7 @@ export interface GetFoldersRequest {
   name: string;
 }
 
-export const GetFoldersRequest = Schema.Struct({
+export const GetFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/folders/{foldersId}" }),
@@ -1294,7 +1314,7 @@ export const GetFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetFoldersRequest>;
 
 export type GetFoldersResponse = Folder;
-export const GetFoldersResponse = Folder;
+export const GetFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Folder;
 
 export type GetFoldersError = DefaultErrors;
 
@@ -1304,7 +1324,7 @@ export const getFolders: API.OperationMethod<
   GetFoldersResponse,
   GetFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoldersRequest,
   output: GetFoldersResponse,
   errors: [],
@@ -1321,7 +1341,7 @@ export interface ListFoldersRequest {
   showDeleted?: boolean;
 }
 
-export const ListFoldersRequest = Schema.Struct({
+export const ListFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1332,7 +1352,8 @@ export const ListFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListFoldersRequest>;
 
 export type ListFoldersResponse_Op = ListFoldersResponse;
-export const ListFoldersResponse_Op = ListFoldersResponse;
+export const ListFoldersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListFoldersResponse;
 
 export type ListFoldersError = DefaultErrors;
 
@@ -1342,7 +1363,7 @@ export const listFolders: API.PaginatedOperationMethod<
   ListFoldersResponse_Op,
   ListFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersRequest,
   output: ListFoldersResponse_Op,
   errors: [],
@@ -1361,7 +1382,7 @@ export interface SearchFoldersRequest {
   query?: string;
 }
 
-export const SearchFoldersRequest = Schema.Struct({
+export const SearchFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
@@ -1371,7 +1392,8 @@ export const SearchFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchFoldersRequest>;
 
 export type SearchFoldersResponse_Op = SearchFoldersResponse;
-export const SearchFoldersResponse_Op = SearchFoldersResponse;
+export const SearchFoldersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchFoldersResponse;
 
 export type SearchFoldersError = DefaultErrors;
 
@@ -1381,7 +1403,7 @@ export const searchFolders: API.PaginatedOperationMethod<
   SearchFoldersResponse_Op,
   SearchFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchFoldersRequest,
   output: SearchFoldersResponse_Op,
   errors: [],
@@ -1396,7 +1418,7 @@ export interface CreateFoldersRequest {
   body?: Folder;
 }
 
-export const CreateFoldersRequest = Schema.Struct({
+export const CreateFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Folder).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/folders", hasBody: true }),
@@ -1404,7 +1426,7 @@ export const CreateFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateFoldersRequest>;
 
 export type CreateFoldersResponse = Operation;
-export const CreateFoldersResponse = Operation;
+export const CreateFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateFoldersError = DefaultErrors;
 
@@ -1414,7 +1436,7 @@ export const createFolders: API.OperationMethod<
   CreateFoldersResponse,
   CreateFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFoldersRequest,
   output: CreateFoldersResponse,
   errors: [],
@@ -1429,7 +1451,7 @@ export interface PatchFoldersRequest {
   body?: Folder;
 }
 
-export const PatchFoldersRequest = Schema.Struct({
+export const PatchFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Folder).pipe(T.HttpBody()),
@@ -1439,7 +1461,7 @@ export const PatchFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchFoldersRequest>;
 
 export type PatchFoldersResponse = Operation;
-export const PatchFoldersResponse = Operation;
+export const PatchFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchFoldersError = DefaultErrors;
 
@@ -1449,7 +1471,7 @@ export const patchFolders: API.OperationMethod<
   PatchFoldersResponse,
   PatchFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFoldersRequest,
   output: PatchFoldersResponse,
   errors: [],
@@ -1462,7 +1484,7 @@ export interface MoveFoldersRequest {
   body?: MoveFolderRequest;
 }
 
-export const MoveFoldersRequest = Schema.Struct({
+export const MoveFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveFolderRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -1475,7 +1497,7 @@ export const MoveFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<MoveFoldersRequest>;
 
 export type MoveFoldersResponse = Operation;
-export const MoveFoldersResponse = Operation;
+export const MoveFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type MoveFoldersError = DefaultErrors;
 
@@ -1485,7 +1507,7 @@ export const moveFolders: API.OperationMethod<
   MoveFoldersResponse,
   MoveFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveFoldersRequest,
   output: MoveFoldersResponse,
   errors: [],
@@ -1496,7 +1518,7 @@ export interface DeleteFoldersRequest {
   name: string;
 }
 
-export const DeleteFoldersRequest = Schema.Struct({
+export const DeleteFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v3/folders/{foldersId}" }),
@@ -1504,7 +1526,7 @@ export const DeleteFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteFoldersRequest>;
 
 export type DeleteFoldersResponse = Operation;
-export const DeleteFoldersResponse = Operation;
+export const DeleteFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteFoldersError = DefaultErrors;
 
@@ -1514,7 +1536,7 @@ export const deleteFolders: API.OperationMethod<
   DeleteFoldersResponse,
   DeleteFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFoldersRequest,
   output: DeleteFoldersResponse,
   errors: [],
@@ -1527,10 +1549,12 @@ export interface UndeleteFoldersRequest {
   body?: UndeleteFolderRequest;
 }
 
-export const UndeleteFoldersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndeleteFolderRequest).pipe(T.HttpBody()),
-}).pipe(
+export const UndeleteFoldersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteFolderRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "POST",
     path: "v3/folders/{foldersId}:undelete",
@@ -1540,7 +1564,7 @@ export const UndeleteFoldersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UndeleteFoldersRequest>;
 
 export type UndeleteFoldersResponse = Operation;
-export const UndeleteFoldersResponse = Operation;
+export const UndeleteFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UndeleteFoldersError = DefaultErrors;
 
@@ -1550,7 +1574,7 @@ export const undeleteFolders: API.OperationMethod<
   UndeleteFoldersResponse,
   UndeleteFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteFoldersRequest,
   output: UndeleteFoldersResponse,
   errors: [],
@@ -1563,20 +1587,21 @@ export interface GetIamPolicyFoldersRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyFoldersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/folders/{foldersId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyFoldersRequest>;
+export const GetIamPolicyFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/folders/{foldersId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyFoldersRequest>;
 
 export type GetIamPolicyFoldersResponse = Policy;
-export const GetIamPolicyFoldersResponse = Policy;
+export const GetIamPolicyFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyFoldersError = DefaultErrors;
 
@@ -1586,7 +1611,7 @@ export const getIamPolicyFolders: API.OperationMethod<
   GetIamPolicyFoldersResponse,
   GetIamPolicyFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyFoldersRequest,
   output: GetIamPolicyFoldersResponse,
   errors: [],
@@ -1599,20 +1624,21 @@ export interface SetIamPolicyFoldersRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyFoldersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/folders/{foldersId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyFoldersRequest>;
+export const SetIamPolicyFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/folders/{foldersId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyFoldersRequest>;
 
 export type SetIamPolicyFoldersResponse = Policy;
-export const SetIamPolicyFoldersResponse = Policy;
+export const SetIamPolicyFoldersResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyFoldersError = DefaultErrors;
 
@@ -1622,7 +1648,7 @@ export const setIamPolicyFolders: API.OperationMethod<
   SetIamPolicyFoldersResponse,
   SetIamPolicyFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyFoldersRequest,
   output: SetIamPolicyFoldersResponse,
   errors: [],
@@ -1635,20 +1661,22 @@ export interface TestIamPermissionsFoldersRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsFoldersRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/folders/{foldersId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsFoldersRequest>;
+export const TestIamPermissionsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/folders/{foldersId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsFoldersRequest>;
 
 export type TestIamPermissionsFoldersResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsFoldersResponse = TestIamPermissionsResponse;
+export const TestIamPermissionsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsFoldersError = DefaultErrors;
 
@@ -1658,7 +1686,7 @@ export const testIamPermissionsFolders: API.OperationMethod<
   TestIamPermissionsFoldersResponse,
   TestIamPermissionsFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsFoldersRequest,
   output: TestIamPermissionsFoldersResponse,
   errors: [],
@@ -1669,18 +1697,20 @@ export interface GetFoldersCapabilitiesRequest {
   name: string;
 }
 
-export const GetFoldersCapabilitiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersCapabilitiesRequest>;
+export const GetFoldersCapabilitiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersCapabilitiesRequest>;
 
 export type GetFoldersCapabilitiesResponse = Capability;
-export const GetFoldersCapabilitiesResponse = Capability;
+export const GetFoldersCapabilitiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Capability;
 
 export type GetFoldersCapabilitiesError = DefaultErrors;
 
@@ -1690,7 +1720,7 @@ export const getFoldersCapabilities: API.OperationMethod<
   GetFoldersCapabilitiesResponse,
   GetFoldersCapabilitiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoldersCapabilitiesRequest,
   output: GetFoldersCapabilitiesResponse,
   errors: [],
@@ -1705,21 +1735,23 @@ export interface PatchFoldersCapabilitiesRequest {
   body?: Capability;
 }
 
-export const PatchFoldersCapabilitiesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Capability).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFoldersCapabilitiesRequest>;
+export const PatchFoldersCapabilitiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Capability).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v3/folders/{foldersId}/capabilities/{capabilitiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFoldersCapabilitiesRequest>;
 
 export type PatchFoldersCapabilitiesResponse = Operation;
-export const PatchFoldersCapabilitiesResponse = Operation;
+export const PatchFoldersCapabilitiesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchFoldersCapabilitiesError = DefaultErrors;
 
@@ -1729,7 +1761,7 @@ export const patchFoldersCapabilities: API.OperationMethod<
   PatchFoldersCapabilitiesResponse,
   PatchFoldersCapabilitiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFoldersCapabilitiesRequest,
   output: PatchFoldersCapabilitiesResponse,
   errors: [],
@@ -1740,15 +1772,17 @@ export interface GetOrganizationsRequest {
   name: string;
 }
 
-export const GetOrganizationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/organizations/{organizationsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsRequest>;
+export const GetOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/organizations/{organizationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsRequest>;
 
 export type GetOrganizationsResponse = Organization;
-export const GetOrganizationsResponse = Organization;
+export const GetOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Organization;
 
 export type GetOrganizationsError = DefaultErrors;
 
@@ -1758,7 +1792,7 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsResponse,
   GetOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
@@ -1773,17 +1807,19 @@ export interface SearchOrganizationsRequest {
   query?: string;
 }
 
-export const SearchOrganizationsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/organizations:search" }),
-  svc,
-) as unknown as Schema.Schema<SearchOrganizationsRequest>;
+export const SearchOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/organizations:search" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchOrganizationsRequest>;
 
 export type SearchOrganizationsResponse_Op = SearchOrganizationsResponse;
-export const SearchOrganizationsResponse_Op = SearchOrganizationsResponse;
+export const SearchOrganizationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchOrganizationsResponse;
 
 export type SearchOrganizationsError = DefaultErrors;
 
@@ -1793,7 +1829,7 @@ export const searchOrganizations: API.PaginatedOperationMethod<
   SearchOrganizationsResponse_Op,
   SearchOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchOrganizationsRequest,
   output: SearchOrganizationsResponse_Op,
   errors: [],
@@ -1810,20 +1846,22 @@ export interface GetIamPolicyOrganizationsRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyOrganizationsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/organizations/{organizationsId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyOrganizationsRequest>;
+export const GetIamPolicyOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/organizations/{organizationsId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyOrganizationsRequest>;
 
 export type GetIamPolicyOrganizationsResponse = Policy;
-export const GetIamPolicyOrganizationsResponse = Policy;
+export const GetIamPolicyOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyOrganizationsError = DefaultErrors;
 
@@ -1833,7 +1871,7 @@ export const getIamPolicyOrganizations: API.OperationMethod<
   GetIamPolicyOrganizationsResponse,
   GetIamPolicyOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsRequest,
   output: GetIamPolicyOrganizationsResponse,
   errors: [],
@@ -1846,20 +1884,22 @@ export interface SetIamPolicyOrganizationsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyOrganizationsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/organizations/{organizationsId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyOrganizationsRequest>;
+export const SetIamPolicyOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/organizations/{organizationsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyOrganizationsRequest>;
 
 export type SetIamPolicyOrganizationsResponse = Policy;
-export const SetIamPolicyOrganizationsResponse = Policy;
+export const SetIamPolicyOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyOrganizationsError = DefaultErrors;
 
@@ -1869,7 +1909,7 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   SetIamPolicyOrganizationsResponse,
   SetIamPolicyOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsRequest,
   output: SetIamPolicyOrganizationsResponse,
   errors: [],
@@ -1882,22 +1922,23 @@ export interface TestIamPermissionsOrganizationsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsOrganizationsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/organizations/{organizationsId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsOrganizationsRequest>;
+export const TestIamPermissionsOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/organizations/{organizationsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsOrganizationsRequest>;
 
 export type TestIamPermissionsOrganizationsResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsOrganizationsResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsOrganizationsError = DefaultErrors;
 
@@ -1907,7 +1948,7 @@ export const testIamPermissionsOrganizations: API.OperationMethod<
   TestIamPermissionsOrganizationsResponse,
   TestIamPermissionsOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsRequest,
   output: TestIamPermissionsOrganizationsResponse,
   errors: [],
@@ -1918,7 +1959,7 @@ export interface GetProjectsRequest {
   name: string;
 }
 
-export const GetProjectsRequest = Schema.Struct({
+export const GetProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/projects/{projectsId}" }),
@@ -1926,7 +1967,7 @@ export const GetProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetProjectsRequest>;
 
 export type GetProjectsResponse = Project;
-export const GetProjectsResponse = Project;
+export const GetProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Project;
 
 export type GetProjectsError = DefaultErrors;
 
@@ -1936,7 +1977,7 @@ export const getProjects: API.OperationMethod<
   GetProjectsResponse,
   GetProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
@@ -1953,7 +1994,7 @@ export interface ListProjectsRequest {
   showDeleted?: boolean;
 }
 
-export const ListProjectsRequest = Schema.Struct({
+export const ListProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -1964,7 +2005,8 @@ export const ListProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListProjectsRequest>;
 
 export type ListProjectsResponse_Op = ListProjectsResponse;
-export const ListProjectsResponse_Op = ListProjectsResponse;
+export const ListProjectsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListProjectsResponse;
 
 export type ListProjectsError = DefaultErrors;
 
@@ -1974,7 +2016,7 @@ export const listProjects: API.PaginatedOperationMethod<
   ListProjectsResponse_Op,
   ListProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsRequest,
   output: ListProjectsResponse_Op,
   errors: [],
@@ -1993,7 +2035,7 @@ export interface SearchProjectsRequest {
   pageSize?: number;
 }
 
-export const SearchProjectsRequest = Schema.Struct({
+export const SearchProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2003,7 +2045,8 @@ export const SearchProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchProjectsRequest>;
 
 export type SearchProjectsResponse_Op = SearchProjectsResponse;
-export const SearchProjectsResponse_Op = SearchProjectsResponse;
+export const SearchProjectsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ SearchProjectsResponse;
 
 export type SearchProjectsError = DefaultErrors;
 
@@ -2013,7 +2056,7 @@ export const searchProjects: API.PaginatedOperationMethod<
   SearchProjectsResponse_Op,
   SearchProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsRequest,
   output: SearchProjectsResponse_Op,
   errors: [],
@@ -2028,7 +2071,7 @@ export interface CreateProjectsRequest {
   body?: Project;
 }
 
-export const CreateProjectsRequest = Schema.Struct({
+export const CreateProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Project).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v3/projects", hasBody: true }),
@@ -2036,7 +2079,7 @@ export const CreateProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateProjectsRequest>;
 
 export type CreateProjectsResponse = Operation;
-export const CreateProjectsResponse = Operation;
+export const CreateProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsError = DefaultErrors;
 
@@ -2046,7 +2089,7 @@ export const createProjects: API.OperationMethod<
   CreateProjectsResponse,
   CreateProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsRequest,
   output: CreateProjectsResponse,
   errors: [],
@@ -2061,7 +2104,7 @@ export interface PatchProjectsRequest {
   body?: Project;
 }
 
-export const PatchProjectsRequest = Schema.Struct({
+export const PatchProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Project).pipe(T.HttpBody()),
@@ -2071,7 +2114,7 @@ export const PatchProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchProjectsRequest>;
 
 export type PatchProjectsResponse = Operation;
-export const PatchProjectsResponse = Operation;
+export const PatchProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsError = DefaultErrors;
 
@@ -2081,7 +2124,7 @@ export const patchProjects: API.OperationMethod<
   PatchProjectsResponse,
   PatchProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsRequest,
   output: PatchProjectsResponse,
   errors: [],
@@ -2094,7 +2137,7 @@ export interface MoveProjectsRequest {
   body?: MoveProjectRequest;
 }
 
-export const MoveProjectsRequest = Schema.Struct({
+export const MoveProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(MoveProjectRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -2107,7 +2150,7 @@ export const MoveProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<MoveProjectsRequest>;
 
 export type MoveProjectsResponse = Operation;
-export const MoveProjectsResponse = Operation;
+export const MoveProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type MoveProjectsError = DefaultErrors;
 
@@ -2117,7 +2160,7 @@ export const moveProjects: API.OperationMethod<
   MoveProjectsResponse,
   MoveProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveProjectsRequest,
   output: MoveProjectsResponse,
   errors: [],
@@ -2128,7 +2171,7 @@ export interface DeleteProjectsRequest {
   name: string;
 }
 
-export const DeleteProjectsRequest = Schema.Struct({
+export const DeleteProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v3/projects/{projectsId}" }),
@@ -2136,7 +2179,7 @@ export const DeleteProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteProjectsRequest>;
 
 export type DeleteProjectsResponse = Operation;
-export const DeleteProjectsResponse = Operation;
+export const DeleteProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsError = DefaultErrors;
 
@@ -2146,7 +2189,7 @@ export const deleteProjects: API.OperationMethod<
   DeleteProjectsResponse,
   DeleteProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsRequest,
   output: DeleteProjectsResponse,
   errors: [],
@@ -2159,20 +2202,21 @@ export interface UndeleteProjectsRequest {
   body?: UndeleteProjectRequest;
 }
 
-export const UndeleteProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndeleteProjectRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/projects/{projectsId}:undelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteProjectsRequest>;
+export const UndeleteProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteProjectRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteProjectsRequest>;
 
 export type UndeleteProjectsResponse = Operation;
-export const UndeleteProjectsResponse = Operation;
+export const UndeleteProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UndeleteProjectsError = DefaultErrors;
 
@@ -2182,7 +2226,7 @@ export const undeleteProjects: API.OperationMethod<
   UndeleteProjectsResponse,
   UndeleteProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteProjectsRequest,
   output: UndeleteProjectsResponse,
   errors: [],
@@ -2195,20 +2239,21 @@ export interface GetIamPolicyProjectsRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyProjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/projects/{projectsId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsRequest>;
+export const GetIamPolicyProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsRequest>;
 
 export type GetIamPolicyProjectsResponse = Policy;
-export const GetIamPolicyProjectsResponse = Policy;
+export const GetIamPolicyProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsError = DefaultErrors;
 
@@ -2218,7 +2263,7 @@ export const getIamPolicyProjects: API.OperationMethod<
   GetIamPolicyProjectsResponse,
   GetIamPolicyProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsRequest,
   output: GetIamPolicyProjectsResponse,
   errors: [],
@@ -2231,20 +2276,21 @@ export interface SetIamPolicyProjectsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/projects/{projectsId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsRequest>;
+export const SetIamPolicyProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsRequest>;
 
 export type SetIamPolicyProjectsResponse = Policy;
-export const SetIamPolicyProjectsResponse = Policy;
+export const SetIamPolicyProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsError = DefaultErrors;
 
@@ -2254,7 +2300,7 @@ export const setIamPolicyProjects: API.OperationMethod<
   SetIamPolicyProjectsResponse,
   SetIamPolicyProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsRequest,
   output: SetIamPolicyProjectsResponse,
   errors: [],
@@ -2267,20 +2313,22 @@ export interface TestIamPermissionsProjectsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/projects/{projectsId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsRequest>;
+export const TestIamPermissionsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/projects/{projectsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsRequest>;
 
 export type TestIamPermissionsProjectsResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsResponse = TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsError = DefaultErrors;
 
@@ -2290,7 +2338,7 @@ export const testIamPermissionsProjects: API.OperationMethod<
   TestIamPermissionsProjectsResponse,
   TestIamPermissionsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsRequest,
   output: TestIamPermissionsProjectsResponse,
   errors: [],
@@ -2301,18 +2349,20 @@ export interface GetLocationsTagBindingCollectionsRequest {
   name: string;
 }
 
-export const GetLocationsTagBindingCollectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLocationsTagBindingCollectionsRequest>;
+export const GetLocationsTagBindingCollectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLocationsTagBindingCollectionsRequest>;
 
 export type GetLocationsTagBindingCollectionsResponse = TagBindingCollection;
-export const GetLocationsTagBindingCollectionsResponse = TagBindingCollection;
+export const GetLocationsTagBindingCollectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TagBindingCollection;
 
 export type GetLocationsTagBindingCollectionsError = DefaultErrors;
 
@@ -2322,7 +2372,7 @@ export const getLocationsTagBindingCollections: API.OperationMethod<
   GetLocationsTagBindingCollectionsResponse,
   GetLocationsTagBindingCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLocationsTagBindingCollectionsRequest,
   output: GetLocationsTagBindingCollectionsResponse,
   errors: [],
@@ -2337,21 +2387,23 @@ export interface PatchLocationsTagBindingCollectionsRequest {
   body?: TagBindingCollection;
 }
 
-export const PatchLocationsTagBindingCollectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(TagBindingCollection).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchLocationsTagBindingCollectionsRequest>;
+export const PatchLocationsTagBindingCollectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(TagBindingCollection).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v3/locations/{locationsId}/tagBindingCollections/{tagBindingCollectionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchLocationsTagBindingCollectionsRequest>;
 
 export type PatchLocationsTagBindingCollectionsResponse = Operation;
-export const PatchLocationsTagBindingCollectionsResponse = Operation;
+export const PatchLocationsTagBindingCollectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchLocationsTagBindingCollectionsError = DefaultErrors;
 
@@ -2361,7 +2413,7 @@ export const patchLocationsTagBindingCollections: API.OperationMethod<
   PatchLocationsTagBindingCollectionsResponse,
   PatchLocationsTagBindingCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchLocationsTagBindingCollectionsRequest,
   output: PatchLocationsTagBindingCollectionsResponse,
   errors: [],
@@ -2372,20 +2424,21 @@ export interface GetLocationsEffectiveTagBindingCollectionsRequest {
   name: string;
 }
 
-export const GetLocationsEffectiveTagBindingCollectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v3/locations/{locationsId}/effectiveTagBindingCollections/{effectiveTagBindingCollectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLocationsEffectiveTagBindingCollectionsRequest>;
+export const GetLocationsEffectiveTagBindingCollectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3/locations/{locationsId}/effectiveTagBindingCollections/{effectiveTagBindingCollectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLocationsEffectiveTagBindingCollectionsRequest>;
 
 export type GetLocationsEffectiveTagBindingCollectionsResponse =
   EffectiveTagBindingCollection;
 export const GetLocationsEffectiveTagBindingCollectionsResponse =
-  EffectiveTagBindingCollection;
+  /*@__PURE__*/ /*#__PURE__*/ EffectiveTagBindingCollection;
 
 export type GetLocationsEffectiveTagBindingCollectionsError = DefaultErrors;
 
@@ -2395,7 +2448,7 @@ export const getLocationsEffectiveTagBindingCollections: API.OperationMethod<
   GetLocationsEffectiveTagBindingCollectionsResponse,
   GetLocationsEffectiveTagBindingCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLocationsEffectiveTagBindingCollectionsRequest,
   output: GetLocationsEffectiveTagBindingCollectionsResponse,
   errors: [],
@@ -2410,17 +2463,20 @@ export interface ListTagBindingsRequest {
   pageToken?: string;
 }
 
-export const ListTagBindingsRequest = Schema.Struct({
-  parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
+export const ListTagBindingsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v3/tagBindings" }),
   svc,
 ) as unknown as Schema.Schema<ListTagBindingsRequest>;
 
 export type ListTagBindingsResponse_Op = ListTagBindingsResponse;
-export const ListTagBindingsResponse_Op = ListTagBindingsResponse;
+export const ListTagBindingsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagBindingsResponse;
 
 export type ListTagBindingsError = DefaultErrors;
 
@@ -2430,7 +2486,7 @@ export const listTagBindings: API.PaginatedOperationMethod<
   ListTagBindingsResponse_Op,
   ListTagBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagBindingsRequest,
   output: ListTagBindingsResponse_Op,
   errors: [],
@@ -2447,18 +2503,19 @@ export interface CreateTagBindingsRequest {
   body?: TagBinding;
 }
 
-export const CreateTagBindingsRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(TagBinding).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v3/tagBindings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateTagBindingsRequest>;
+export const CreateTagBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(TagBinding).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v3/tagBindings", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateTagBindingsRequest>;
 
 export type CreateTagBindingsResponse = Operation;
-export const CreateTagBindingsResponse = Operation;
+export const CreateTagBindingsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateTagBindingsError = DefaultErrors;
 
@@ -2468,7 +2525,7 @@ export const createTagBindings: API.OperationMethod<
   CreateTagBindingsResponse,
   CreateTagBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagBindingsRequest,
   output: CreateTagBindingsResponse,
   errors: [],
@@ -2479,15 +2536,16 @@ export interface DeleteTagBindingsRequest {
   name: string;
 }
 
-export const DeleteTagBindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v3/tagBindings/{tagBindingsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteTagBindingsRequest>;
+export const DeleteTagBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v3/tagBindings/{tagBindingsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteTagBindingsRequest>;
 
 export type DeleteTagBindingsResponse = Operation;
-export const DeleteTagBindingsResponse = Operation;
+export const DeleteTagBindingsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteTagBindingsError = DefaultErrors;
 
@@ -2497,7 +2555,7 @@ export const deleteTagBindings: API.OperationMethod<
   DeleteTagBindingsResponse,
   DeleteTagBindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagBindingsRequest,
   output: DeleteTagBindingsResponse,
   errors: [],
@@ -2512,17 +2570,19 @@ export interface ListEffectiveTagsRequest {
   pageToken?: string;
 }
 
-export const ListEffectiveTagsRequest = Schema.Struct({
-  parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/effectiveTags" }),
-  svc,
-) as unknown as Schema.Schema<ListEffectiveTagsRequest>;
+export const ListEffectiveTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/effectiveTags" }),
+    svc,
+  ) as unknown as Schema.Schema<ListEffectiveTagsRequest>;
 
 export type ListEffectiveTagsResponse_Op = ListEffectiveTagsResponse;
-export const ListEffectiveTagsResponse_Op = ListEffectiveTagsResponse;
+export const ListEffectiveTagsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListEffectiveTagsResponse;
 
 export type ListEffectiveTagsError = DefaultErrors;
 
@@ -2532,7 +2592,7 @@ export const listEffectiveTags: API.PaginatedOperationMethod<
   ListEffectiveTagsResponse_Op,
   ListEffectiveTagsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEffectiveTagsRequest,
   output: ListEffectiveTagsResponse_Op,
   errors: [],
@@ -2551,7 +2611,7 @@ export interface ListTagKeysRequest {
   pageToken?: string;
 }
 
-export const ListTagKeysRequest = Schema.Struct({
+export const ListTagKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -2561,7 +2621,8 @@ export const ListTagKeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTagKeysRequest>;
 
 export type ListTagKeysResponse_Op = ListTagKeysResponse;
-export const ListTagKeysResponse_Op = ListTagKeysResponse;
+export const ListTagKeysResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagKeysResponse;
 
 export type ListTagKeysError = DefaultErrors;
 
@@ -2571,7 +2632,7 @@ export const listTagKeys: API.PaginatedOperationMethod<
   ListTagKeysResponse_Op,
   ListTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagKeysRequest,
   output: ListTagKeysResponse_Op,
   errors: [],
@@ -2586,7 +2647,7 @@ export interface GetTagKeysRequest {
   name: string;
 }
 
-export const GetTagKeysRequest = Schema.Struct({
+export const GetTagKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/tagKeys/{tagKeysId}" }),
@@ -2594,7 +2655,7 @@ export const GetTagKeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTagKeysRequest>;
 
 export type GetTagKeysResponse = TagKey;
-export const GetTagKeysResponse = TagKey;
+export const GetTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ TagKey;
 
 export type GetTagKeysError = DefaultErrors;
 
@@ -2604,7 +2665,7 @@ export const getTagKeys: API.OperationMethod<
   GetTagKeysResponse,
   GetTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagKeysRequest,
   output: GetTagKeysResponse,
   errors: [],
@@ -2615,15 +2676,16 @@ export interface GetNamespacedTagKeysRequest {
   name?: string;
 }
 
-export const GetNamespacedTagKeysRequest = Schema.Struct({
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/tagKeys/namespaced" }),
-  svc,
-) as unknown as Schema.Schema<GetNamespacedTagKeysRequest>;
+export const GetNamespacedTagKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/tagKeys/namespaced" }),
+    svc,
+  ) as unknown as Schema.Schema<GetNamespacedTagKeysRequest>;
 
 export type GetNamespacedTagKeysResponse = TagKey;
-export const GetNamespacedTagKeysResponse = TagKey;
+export const GetNamespacedTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ TagKey;
 
 export type GetNamespacedTagKeysError = DefaultErrors;
 
@@ -2633,7 +2695,7 @@ export const getNamespacedTagKeys: API.OperationMethod<
   GetNamespacedTagKeysResponse,
   GetNamespacedTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespacedTagKeysRequest,
   output: GetNamespacedTagKeysResponse,
   errors: [],
@@ -2646,7 +2708,7 @@ export interface CreateTagKeysRequest {
   body?: TagKey;
 }
 
-export const CreateTagKeysRequest = Schema.Struct({
+export const CreateTagKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validateOnly: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("validateOnly"),
   ),
@@ -2657,7 +2719,7 @@ export const CreateTagKeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateTagKeysRequest>;
 
 export type CreateTagKeysResponse = Operation;
-export const CreateTagKeysResponse = Operation;
+export const CreateTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateTagKeysError = DefaultErrors;
 
@@ -2667,7 +2729,7 @@ export const createTagKeys: API.OperationMethod<
   CreateTagKeysResponse,
   CreateTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagKeysRequest,
   output: CreateTagKeysResponse,
   errors: [],
@@ -2684,7 +2746,7 @@ export interface PatchTagKeysRequest {
   body?: TagKey;
 }
 
-export const PatchTagKeysRequest = Schema.Struct({
+export const PatchTagKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   validateOnly: Schema.optional(Schema.Boolean).pipe(
@@ -2697,7 +2759,7 @@ export const PatchTagKeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchTagKeysRequest>;
 
 export type PatchTagKeysResponse = Operation;
-export const PatchTagKeysResponse = Operation;
+export const PatchTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchTagKeysError = DefaultErrors;
 
@@ -2707,7 +2769,7 @@ export const patchTagKeys: API.OperationMethod<
   PatchTagKeysResponse,
   PatchTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTagKeysRequest,
   output: PatchTagKeysResponse,
   errors: [],
@@ -2722,7 +2784,7 @@ export interface DeleteTagKeysRequest {
   etag?: string;
 }
 
-export const DeleteTagKeysRequest = Schema.Struct({
+export const DeleteTagKeysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   validateOnly: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("validateOnly"),
@@ -2734,7 +2796,7 @@ export const DeleteTagKeysRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteTagKeysRequest>;
 
 export type DeleteTagKeysResponse = Operation;
-export const DeleteTagKeysResponse = Operation;
+export const DeleteTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteTagKeysError = DefaultErrors;
 
@@ -2744,7 +2806,7 @@ export const deleteTagKeys: API.OperationMethod<
   DeleteTagKeysResponse,
   DeleteTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagKeysRequest,
   output: DeleteTagKeysResponse,
   errors: [],
@@ -2757,20 +2819,21 @@ export interface GetIamPolicyTagKeysRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyTagKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagKeys/{tagKeysId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyTagKeysRequest>;
+export const GetIamPolicyTagKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagKeys/{tagKeysId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyTagKeysRequest>;
 
 export type GetIamPolicyTagKeysResponse = Policy;
-export const GetIamPolicyTagKeysResponse = Policy;
+export const GetIamPolicyTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyTagKeysError = DefaultErrors;
 
@@ -2780,7 +2843,7 @@ export const getIamPolicyTagKeys: API.OperationMethod<
   GetIamPolicyTagKeysResponse,
   GetIamPolicyTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyTagKeysRequest,
   output: GetIamPolicyTagKeysResponse,
   errors: [],
@@ -2793,20 +2856,21 @@ export interface SetIamPolicyTagKeysRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyTagKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagKeys/{tagKeysId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyTagKeysRequest>;
+export const SetIamPolicyTagKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagKeys/{tagKeysId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyTagKeysRequest>;
 
 export type SetIamPolicyTagKeysResponse = Policy;
-export const SetIamPolicyTagKeysResponse = Policy;
+export const SetIamPolicyTagKeysResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyTagKeysError = DefaultErrors;
 
@@ -2816,7 +2880,7 @@ export const setIamPolicyTagKeys: API.OperationMethod<
   SetIamPolicyTagKeysResponse,
   SetIamPolicyTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyTagKeysRequest,
   output: SetIamPolicyTagKeysResponse,
   errors: [],
@@ -2829,20 +2893,22 @@ export interface TestIamPermissionsTagKeysRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsTagKeysRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagKeys/{tagKeysId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsTagKeysRequest>;
+export const TestIamPermissionsTagKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagKeys/{tagKeysId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsTagKeysRequest>;
 
 export type TestIamPermissionsTagKeysResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsTagKeysResponse = TestIamPermissionsResponse;
+export const TestIamPermissionsTagKeysResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsTagKeysError = DefaultErrors;
 
@@ -2852,7 +2918,7 @@ export const testIamPermissionsTagKeys: API.OperationMethod<
   TestIamPermissionsTagKeysResponse,
   TestIamPermissionsTagKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsTagKeysRequest,
   output: TestIamPermissionsTagKeysResponse,
   errors: [],
@@ -2867,7 +2933,7 @@ export interface ListTagValuesRequest {
   pageToken?: string;
 }
 
-export const ListTagValuesRequest = Schema.Struct({
+export const ListTagValuesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -2877,7 +2943,8 @@ export const ListTagValuesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTagValuesRequest>;
 
 export type ListTagValuesResponse_Op = ListTagValuesResponse;
-export const ListTagValuesResponse_Op = ListTagValuesResponse;
+export const ListTagValuesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagValuesResponse;
 
 export type ListTagValuesError = DefaultErrors;
 
@@ -2887,7 +2954,7 @@ export const listTagValues: API.PaginatedOperationMethod<
   ListTagValuesResponse_Op,
   ListTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagValuesRequest,
   output: ListTagValuesResponse_Op,
   errors: [],
@@ -2902,7 +2969,7 @@ export interface GetTagValuesRequest {
   name: string;
 }
 
-export const GetTagValuesRequest = Schema.Struct({
+export const GetTagValuesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v3/tagValues/{tagValuesId}" }),
@@ -2910,7 +2977,7 @@ export const GetTagValuesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTagValuesRequest>;
 
 export type GetTagValuesResponse = TagValue;
-export const GetTagValuesResponse = TagValue;
+export const GetTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ TagValue;
 
 export type GetTagValuesError = DefaultErrors;
 
@@ -2920,7 +2987,7 @@ export const getTagValues: API.OperationMethod<
   GetTagValuesResponse,
   GetTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTagValuesRequest,
   output: GetTagValuesResponse,
   errors: [],
@@ -2931,15 +2998,17 @@ export interface GetNamespacedTagValuesRequest {
   name?: string;
 }
 
-export const GetNamespacedTagValuesRequest = Schema.Struct({
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/tagValues/namespaced" }),
-  svc,
-) as unknown as Schema.Schema<GetNamespacedTagValuesRequest>;
+export const GetNamespacedTagValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/tagValues/namespaced" }),
+    svc,
+  ) as unknown as Schema.Schema<GetNamespacedTagValuesRequest>;
 
 export type GetNamespacedTagValuesResponse = TagValue;
-export const GetNamespacedTagValuesResponse = TagValue;
+export const GetNamespacedTagValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TagValue;
 
 export type GetNamespacedTagValuesError = DefaultErrors;
 
@@ -2949,7 +3018,7 @@ export const getNamespacedTagValues: API.OperationMethod<
   GetNamespacedTagValuesResponse,
   GetNamespacedTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNamespacedTagValuesRequest,
   output: GetNamespacedTagValuesResponse,
   errors: [],
@@ -2962,18 +3031,20 @@ export interface CreateTagValuesRequest {
   body?: TagValue;
 }
 
-export const CreateTagValuesRequest = Schema.Struct({
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(TagValue).pipe(T.HttpBody()),
-}).pipe(
+export const CreateTagValuesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(TagValue).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v3/tagValues", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<CreateTagValuesRequest>;
 
 export type CreateTagValuesResponse = Operation;
-export const CreateTagValuesResponse = Operation;
+export const CreateTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateTagValuesError = DefaultErrors;
 
@@ -2983,7 +3054,7 @@ export const createTagValues: API.OperationMethod<
   CreateTagValuesResponse,
   CreateTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagValuesRequest,
   output: CreateTagValuesResponse,
   errors: [],
@@ -3000,7 +3071,7 @@ export interface PatchTagValuesRequest {
   body?: TagValue;
 }
 
-export const PatchTagValuesRequest = Schema.Struct({
+export const PatchTagValuesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   validateOnly: Schema.optional(Schema.Boolean).pipe(
@@ -3017,7 +3088,7 @@ export const PatchTagValuesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchTagValuesRequest>;
 
 export type PatchTagValuesResponse = Operation;
-export const PatchTagValuesResponse = Operation;
+export const PatchTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchTagValuesError = DefaultErrors;
 
@@ -3027,7 +3098,7 @@ export const patchTagValues: API.OperationMethod<
   PatchTagValuesResponse,
   PatchTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchTagValuesRequest,
   output: PatchTagValuesResponse,
   errors: [],
@@ -3042,19 +3113,21 @@ export interface DeleteTagValuesRequest {
   etag?: string;
 }
 
-export const DeleteTagValuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
+export const DeleteTagValuesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "v3/tagValues/{tagValuesId}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteTagValuesRequest>;
 
 export type DeleteTagValuesResponse = Operation;
-export const DeleteTagValuesResponse = Operation;
+export const DeleteTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteTagValuesError = DefaultErrors;
 
@@ -3064,7 +3137,7 @@ export const deleteTagValues: API.OperationMethod<
   DeleteTagValuesResponse,
   DeleteTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagValuesRequest,
   output: DeleteTagValuesResponse,
   errors: [],
@@ -3077,20 +3150,21 @@ export interface GetIamPolicyTagValuesRequest {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyTagValuesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagValues/{tagValuesId}:getIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyTagValuesRequest>;
+export const GetIamPolicyTagValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagValues/{tagValuesId}:getIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyTagValuesRequest>;
 
 export type GetIamPolicyTagValuesResponse = Policy;
-export const GetIamPolicyTagValuesResponse = Policy;
+export const GetIamPolicyTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyTagValuesError = DefaultErrors;
 
@@ -3100,7 +3174,7 @@ export const getIamPolicyTagValues: API.OperationMethod<
   GetIamPolicyTagValuesResponse,
   GetIamPolicyTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyTagValuesRequest,
   output: GetIamPolicyTagValuesResponse,
   errors: [],
@@ -3113,20 +3187,21 @@ export interface SetIamPolicyTagValuesRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyTagValuesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagValues/{tagValuesId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyTagValuesRequest>;
+export const SetIamPolicyTagValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagValues/{tagValuesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyTagValuesRequest>;
 
 export type SetIamPolicyTagValuesResponse = Policy;
-export const SetIamPolicyTagValuesResponse = Policy;
+export const SetIamPolicyTagValuesResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyTagValuesError = DefaultErrors;
 
@@ -3136,7 +3211,7 @@ export const setIamPolicyTagValues: API.OperationMethod<
   SetIamPolicyTagValuesResponse,
   SetIamPolicyTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyTagValuesRequest,
   output: SetIamPolicyTagValuesResponse,
   errors: [],
@@ -3149,20 +3224,22 @@ export interface TestIamPermissionsTagValuesRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsTagValuesRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagValues/{tagValuesId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsTagValuesRequest>;
+export const TestIamPermissionsTagValuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagValues/{tagValuesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsTagValuesRequest>;
 
 export type TestIamPermissionsTagValuesResponse = TestIamPermissionsResponse;
-export const TestIamPermissionsTagValuesResponse = TestIamPermissionsResponse;
+export const TestIamPermissionsTagValuesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsTagValuesError = DefaultErrors;
 
@@ -3172,7 +3249,7 @@ export const testIamPermissionsTagValues: API.OperationMethod<
   TestIamPermissionsTagValuesResponse,
   TestIamPermissionsTagValuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsTagValuesRequest,
   output: TestIamPermissionsTagValuesResponse,
   errors: [],
@@ -3187,23 +3264,25 @@ export interface CreateTagValuesTagHoldsRequest {
   body?: TagHold;
 }
 
-export const CreateTagValuesTagHoldsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-  body: Schema.optional(TagHold).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/tagValues/{tagValuesId}/tagHolds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateTagValuesTagHoldsRequest>;
+export const CreateTagValuesTagHoldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    body: Schema.optional(TagHold).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/tagValues/{tagValuesId}/tagHolds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateTagValuesTagHoldsRequest>;
 
 export type CreateTagValuesTagHoldsResponse = Operation;
-export const CreateTagValuesTagHoldsResponse = Operation;
+export const CreateTagValuesTagHoldsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateTagValuesTagHoldsError = DefaultErrors;
 
@@ -3213,7 +3292,7 @@ export const createTagValuesTagHolds: API.OperationMethod<
   CreateTagValuesTagHoldsResponse,
   CreateTagValuesTagHoldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTagValuesTagHoldsRequest,
   output: CreateTagValuesTagHoldsResponse,
   errors: [],
@@ -3226,21 +3305,23 @@ export interface DeleteTagValuesTagHoldsRequest {
   validateOnly?: boolean;
 }
 
-export const DeleteTagValuesTagHoldsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  validateOnly: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("validateOnly"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v3/tagValues/{tagValuesId}/tagHolds/{tagHoldsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteTagValuesTagHoldsRequest>;
+export const DeleteTagValuesTagHoldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v3/tagValues/{tagValuesId}/tagHolds/{tagHoldsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteTagValuesTagHoldsRequest>;
 
 export type DeleteTagValuesTagHoldsResponse = Operation;
-export const DeleteTagValuesTagHoldsResponse = Operation;
+export const DeleteTagValuesTagHoldsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteTagValuesTagHoldsError = DefaultErrors;
 
@@ -3250,7 +3331,7 @@ export const deleteTagValuesTagHolds: API.OperationMethod<
   DeleteTagValuesTagHoldsResponse,
   DeleteTagValuesTagHoldsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTagValuesTagHoldsRequest,
   output: DeleteTagValuesTagHoldsResponse,
   errors: [],
@@ -3267,18 +3348,20 @@ export interface ListTagValuesTagHoldsRequest {
   filter?: string;
 }
 
-export const ListTagValuesTagHoldsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/tagValues/{tagValuesId}/tagHolds" }),
-  svc,
-) as unknown as Schema.Schema<ListTagValuesTagHoldsRequest>;
+export const ListTagValuesTagHoldsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/tagValues/{tagValuesId}/tagHolds" }),
+    svc,
+  ) as unknown as Schema.Schema<ListTagValuesTagHoldsRequest>;
 
 export type ListTagValuesTagHoldsResponse = ListTagHoldsResponse;
-export const ListTagValuesTagHoldsResponse = ListTagHoldsResponse;
+export const ListTagValuesTagHoldsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagHoldsResponse;
 
 export type ListTagValuesTagHoldsError = DefaultErrors;
 
@@ -3288,7 +3371,7 @@ export const listTagValuesTagHolds: API.PaginatedOperationMethod<
   ListTagValuesTagHoldsResponse,
   ListTagValuesTagHoldsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTagValuesTagHoldsRequest,
   output: ListTagValuesTagHoldsResponse,
   errors: [],

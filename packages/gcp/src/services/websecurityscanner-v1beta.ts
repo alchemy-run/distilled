@@ -28,7 +28,7 @@ export interface VulnerableParameters {
 }
 
 export const VulnerableParameters: Schema.Schema<VulnerableParameters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameterNames: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -46,12 +46,13 @@ export interface Xxe {
     | (string & {});
 }
 
-export const Xxe: Schema.Schema<Xxe> = Schema.suspend(() =>
-  Schema.Struct({
-    payloadValue: Schema.optional(Schema.String),
-    payloadLocation: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Xxe" }) as any as Schema.Schema<Xxe>;
+export const Xxe: Schema.Schema<Xxe> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      payloadValue: Schema.optional(Schema.String),
+      payloadLocation: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Xxe" }) as any as Schema.Schema<Xxe>;
 
 export interface Form {
   /** ! The URI where to send the form when it's submitted. */
@@ -60,12 +61,13 @@ export interface Form {
   fields?: Array<string>;
 }
 
-export const Form: Schema.Schema<Form> = Schema.suspend(() =>
-  Schema.Struct({
-    actionUri: Schema.optional(Schema.String),
-    fields: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Form" }) as any as Schema.Schema<Form>;
+export const Form: Schema.Schema<Form> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      actionUri: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Form" }) as any as Schema.Schema<Form>;
 
 export interface ViolatingResource {
   /** The MIME type of this resource. */
@@ -75,7 +77,7 @@ export interface ViolatingResource {
 }
 
 export const ViolatingResource: Schema.Schema<ViolatingResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentType: Schema.optional(Schema.String),
       resourceUrl: Schema.optional(Schema.String),
@@ -91,12 +93,13 @@ export interface Header {
   name?: string;
 }
 
-export const Header: Schema.Schema<Header> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
+export const Header: Schema.Schema<Header> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Header" }) as any as Schema.Schema<Header>;
 
 export interface VulnerableHeaders {
   /** List of missing headers. */
@@ -106,7 +109,7 @@ export interface VulnerableHeaders {
 }
 
 export const VulnerableHeaders: Schema.Schema<VulnerableHeaders> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       missingHeaders: Schema.optional(Schema.Array(Header)),
       headers: Schema.optional(Schema.Array(Header)),
@@ -124,16 +127,16 @@ export interface OutdatedLibrary {
   libraryName?: string;
 }
 
-export const OutdatedLibrary: Schema.Schema<OutdatedLibrary> = Schema.suspend(
-  () =>
+export const OutdatedLibrary: Schema.Schema<OutdatedLibrary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       learnMoreUrls: Schema.optional(Schema.Array(Schema.String)),
       libraryName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "OutdatedLibrary",
-}) as any as Schema.Schema<OutdatedLibrary>;
+  ).annotate({
+    identifier: "OutdatedLibrary",
+  }) as any as Schema.Schema<OutdatedLibrary>;
 
 export interface Xss {
   /** Stack traces leading to the point where the XSS occurred. */
@@ -142,12 +145,13 @@ export interface Xss {
   errorMessage?: string;
 }
 
-export const Xss: Schema.Schema<Xss> = Schema.suspend(() =>
-  Schema.Struct({
-    stackTraces: Schema.optional(Schema.Array(Schema.String)),
-    errorMessage: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Xss" }) as any as Schema.Schema<Xss>;
+export const Xss: Schema.Schema<Xss> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      stackTraces: Schema.optional(Schema.Array(Schema.String)),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Xss" }) as any as Schema.Schema<Xss>;
 
 export interface Finding {
   /** The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns. */
@@ -194,46 +198,48 @@ export interface Finding {
   xss?: Xss;
 }
 
-export const Finding: Schema.Schema<Finding> = Schema.suspend(() =>
-  Schema.Struct({
-    trackingId: Schema.optional(Schema.String),
-    vulnerableParameters: Schema.optional(VulnerableParameters),
-    xxe: Schema.optional(Xxe),
-    httpMethod: Schema.optional(Schema.String),
-    frameUrl: Schema.optional(Schema.String),
-    severity: Schema.optional(Schema.String),
-    form: Schema.optional(Form),
-    violatingResource: Schema.optional(ViolatingResource),
-    findingType: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    fuzzedUrl: Schema.optional(Schema.String),
-    finalUrl: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    vulnerableHeaders: Schema.optional(VulnerableHeaders),
-    outdatedLibrary: Schema.optional(OutdatedLibrary),
-    reproductionUrl: Schema.optional(Schema.String),
-    xss: Schema.optional(Xss),
-  }),
-).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
+export const Finding: Schema.Schema<Finding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      trackingId: Schema.optional(Schema.String),
+      vulnerableParameters: Schema.optional(VulnerableParameters),
+      xxe: Schema.optional(Xxe),
+      httpMethod: Schema.optional(Schema.String),
+      frameUrl: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      form: Schema.optional(Form),
+      violatingResource: Schema.optional(ViolatingResource),
+      findingType: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      fuzzedUrl: Schema.optional(Schema.String),
+      finalUrl: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      vulnerableHeaders: Schema.optional(VulnerableHeaders),
+      outdatedLibrary: Schema.optional(OutdatedLibrary),
+      reproductionUrl: Schema.optional(Schema.String),
+      xss: Schema.optional(Xss),
+    }),
+  ).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
 
 export interface StartScanRunRequest {}
 
 export const StartScanRunRequest: Schema.Schema<StartScanRunRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "StartScanRunRequest",
   }) as any as Schema.Schema<StartScanRunRequest>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface StopScanRunRequest {}
 
 export const StopScanRunRequest: Schema.Schema<StopScanRunRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "StopScanRunRequest",
   }) as any as Schema.Schema<StopScanRunRequest>;
 
@@ -245,7 +251,7 @@ export interface ListFindingsResponse {
 }
 
 export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findings: Schema.optional(Schema.Array(Finding)),
       nextPageToken: Schema.optional(Schema.String),
@@ -261,14 +267,15 @@ export interface GoogleAccount {
   password?: string;
 }
 
-export const GoogleAccount: Schema.Schema<GoogleAccount> = Schema.suspend(() =>
-  Schema.Struct({
-    username: Schema.optional(Schema.String),
-    password: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GoogleAccount",
-}) as any as Schema.Schema<GoogleAccount>;
+export const GoogleAccount: Schema.Schema<GoogleAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleAccount",
+  }) as any as Schema.Schema<GoogleAccount>;
 
 export interface CustomAccount {
   /** Required. The login form URL of the website. */
@@ -279,15 +286,16 @@ export interface CustomAccount {
   password?: string;
 }
 
-export const CustomAccount: Schema.Schema<CustomAccount> = Schema.suspend(() =>
-  Schema.Struct({
-    loginUrl: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
-    password: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CustomAccount",
-}) as any as Schema.Schema<CustomAccount>;
+export const CustomAccount: Schema.Schema<CustomAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      loginUrl: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomAccount",
+  }) as any as Schema.Schema<CustomAccount>;
 
 export interface IapTestServiceAccountInfo {
   /** Required. Describes OAuth2 Client ID of resources protected by Identity-Aware-Proxy(IAP). */
@@ -295,7 +303,7 @@ export interface IapTestServiceAccountInfo {
 }
 
 export const IapTestServiceAccountInfo: Schema.Schema<IapTestServiceAccountInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetAudienceClientId: Schema.optional(Schema.String),
     }),
@@ -308,13 +316,14 @@ export interface IapCredential {
   iapTestServiceAccountInfo?: IapTestServiceAccountInfo;
 }
 
-export const IapCredential: Schema.Schema<IapCredential> = Schema.suspend(() =>
-  Schema.Struct({
-    iapTestServiceAccountInfo: Schema.optional(IapTestServiceAccountInfo),
-  }),
-).annotate({
-  identifier: "IapCredential",
-}) as any as Schema.Schema<IapCredential>;
+export const IapCredential: Schema.Schema<IapCredential> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iapTestServiceAccountInfo: Schema.optional(IapTestServiceAccountInfo),
+    }),
+  ).annotate({
+    identifier: "IapCredential",
+  }) as any as Schema.Schema<IapCredential>;
 
 export interface Authentication {
   /** Authentication using a Google account. */
@@ -325,16 +334,16 @@ export interface Authentication {
   iapCredential?: IapCredential;
 }
 
-export const Authentication: Schema.Schema<Authentication> = Schema.suspend(
-  () =>
+export const Authentication: Schema.Schema<Authentication> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleAccount: Schema.optional(GoogleAccount),
       customAccount: Schema.optional(CustomAccount),
       iapCredential: Schema.optional(IapCredential),
     }),
-).annotate({
-  identifier: "Authentication",
-}) as any as Schema.Schema<Authentication>;
+  ).annotate({
+    identifier: "Authentication",
+  }) as any as Schema.Schema<Authentication>;
 
 export interface FindingTypeStats {
   /** The count of findings belonging to this finding type. */
@@ -343,15 +352,15 @@ export interface FindingTypeStats {
   findingType?: string;
 }
 
-export const FindingTypeStats: Schema.Schema<FindingTypeStats> = Schema.suspend(
-  () =>
+export const FindingTypeStats: Schema.Schema<FindingTypeStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findingCount: Schema.optional(Schema.Number),
       findingType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FindingTypeStats",
-}) as any as Schema.Schema<FindingTypeStats>;
+  ).annotate({
+    identifier: "FindingTypeStats",
+  }) as any as Schema.Schema<FindingTypeStats>;
 
 export interface ScanConfigError {
   /** Indicates the reason code for a configuration failure. */
@@ -404,15 +413,15 @@ export interface ScanConfigError {
   fieldName?: string;
 }
 
-export const ScanConfigError: Schema.Schema<ScanConfigError> = Schema.suspend(
-  () =>
+export const ScanConfigError: Schema.Schema<ScanConfigError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       fieldName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ScanConfigError",
-}) as any as Schema.Schema<ScanConfigError>;
+  ).annotate({
+    identifier: "ScanConfigError",
+  }) as any as Schema.Schema<ScanConfigError>;
 
 export interface ScanRunErrorTrace {
   /** If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error message encountered during scan configuration validation that is performed before each scan run. */
@@ -433,7 +442,7 @@ export interface ScanRunErrorTrace {
 }
 
 export const ScanRunErrorTrace: Schema.Schema<ScanRunErrorTrace> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scanConfigError: Schema.optional(ScanConfigError),
       code: Schema.optional(Schema.String),
@@ -450,12 +459,13 @@ export interface Schedule {
   scheduleTime?: string;
 }
 
-export const Schedule: Schema.Schema<Schedule> = Schema.suspend(() =>
-  Schema.Struct({
-    intervalDurationDays: Schema.optional(Schema.Number),
-    scheduleTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
+export const Schedule: Schema.Schema<Schedule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      intervalDurationDays: Schema.optional(Schema.Number),
+      scheduleTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Schedule" }) as any as Schema.Schema<Schedule>;
 
 export interface ScanRunWarningTrace {
   /** Indicates the warning code. */
@@ -470,7 +480,7 @@ export interface ScanRunWarningTrace {
 }
 
 export const ScanRunWarningTrace: Schema.Schema<ScanRunWarningTrace> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
     }),
@@ -513,21 +523,22 @@ export interface ScanRun {
   hasVulnerabilities?: boolean;
 }
 
-export const ScanRun: Schema.Schema<ScanRun> = Schema.suspend(() =>
-  Schema.Struct({
-    errorTrace: Schema.optional(ScanRunErrorTrace),
-    warningTraces: Schema.optional(Schema.Array(ScanRunWarningTrace)),
-    name: Schema.optional(Schema.String),
-    urlsTestedCount: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    executionState: Schema.optional(Schema.String),
-    resultState: Schema.optional(Schema.String),
-    urlsCrawledCount: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    progressPercent: Schema.optional(Schema.Number),
-    hasVulnerabilities: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "ScanRun" }) as any as Schema.Schema<ScanRun>;
+export const ScanRun: Schema.Schema<ScanRun> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errorTrace: Schema.optional(ScanRunErrorTrace),
+      warningTraces: Schema.optional(Schema.Array(ScanRunWarningTrace)),
+      name: Schema.optional(Schema.String),
+      urlsTestedCount: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      executionState: Schema.optional(Schema.String),
+      resultState: Schema.optional(Schema.String),
+      urlsCrawledCount: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      progressPercent: Schema.optional(Schema.Number),
+      hasVulnerabilities: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "ScanRun" }) as any as Schema.Schema<ScanRun>;
 
 export interface ScanConfig {
   /** Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default. */
@@ -578,25 +589,26 @@ export interface ScanConfig {
   name?: string;
 }
 
-export const ScanConfig: Schema.Schema<ScanConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    targetPlatforms: Schema.optional(Schema.Array(Schema.String)),
-    schedule: Schema.optional(Schedule),
-    ignoreHttpStatusErrors: Schema.optional(Schema.Boolean),
-    startingUrls: Schema.optional(Schema.Array(Schema.String)),
-    displayName: Schema.optional(Schema.String),
-    maxQps: Schema.optional(Schema.Number),
-    exportToSecurityCommandCenter: Schema.optional(Schema.String),
-    latestRun: Schema.optional(ScanRun),
-    managedScan: Schema.optional(Schema.Boolean),
-    blacklistPatterns: Schema.optional(Schema.Array(Schema.String)),
-    staticIpScan: Schema.optional(Schema.Boolean),
-    userAgent: Schema.optional(Schema.String),
-    authentication: Schema.optional(Authentication),
-    riskLevel: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ScanConfig" }) as any as Schema.Schema<ScanConfig>;
+export const ScanConfig: Schema.Schema<ScanConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetPlatforms: Schema.optional(Schema.Array(Schema.String)),
+      schedule: Schema.optional(Schedule),
+      ignoreHttpStatusErrors: Schema.optional(Schema.Boolean),
+      startingUrls: Schema.optional(Schema.Array(Schema.String)),
+      displayName: Schema.optional(Schema.String),
+      maxQps: Schema.optional(Schema.Number),
+      exportToSecurityCommandCenter: Schema.optional(Schema.String),
+      latestRun: Schema.optional(ScanRun),
+      managedScan: Schema.optional(Schema.Boolean),
+      blacklistPatterns: Schema.optional(Schema.Array(Schema.String)),
+      staticIpScan: Schema.optional(Schema.Boolean),
+      userAgent: Schema.optional(Schema.String),
+      authentication: Schema.optional(Authentication),
+      riskLevel: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ScanConfig" }) as any as Schema.Schema<ScanConfig>;
 
 export interface ListScanConfigsResponse {
   /** The list of ScanConfigs returned. */
@@ -606,7 +618,7 @@ export interface ListScanConfigsResponse {
 }
 
 export const ListScanConfigsResponse: Schema.Schema<ListScanConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scanConfigs: Schema.optional(Schema.Array(ScanConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -624,13 +636,14 @@ export interface CrawledUrl {
   httpMethod?: string;
 }
 
-export const CrawledUrl: Schema.Schema<CrawledUrl> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    httpMethod: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CrawledUrl" }) as any as Schema.Schema<CrawledUrl>;
+export const CrawledUrl: Schema.Schema<CrawledUrl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      httpMethod: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "CrawledUrl" }) as any as Schema.Schema<CrawledUrl>;
 
 export interface ListCrawledUrlsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
@@ -640,7 +653,7 @@ export interface ListCrawledUrlsResponse {
 }
 
 export const ListCrawledUrlsResponse: Schema.Schema<ListCrawledUrlsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       crawledUrls: Schema.optional(Schema.Array(CrawledUrl)),
@@ -657,7 +670,7 @@ export interface ListScanRunsResponse {
 }
 
 export const ListScanRunsResponse: Schema.Schema<ListScanRunsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scanRuns: Schema.optional(Schema.Array(ScanRun)),
       nextPageToken: Schema.optional(Schema.String),
@@ -672,7 +685,7 @@ export interface ListFindingTypeStatsResponse {
 }
 
 export const ListFindingTypeStatsResponse: Schema.Schema<ListFindingTypeStatsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findingTypeStats: Schema.optional(Schema.Array(FindingTypeStats)),
     }),
@@ -689,18 +702,20 @@ export interface GetProjectsScanConfigsRequest {
   name: string;
 }
 
-export const GetProjectsScanConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsScanConfigsRequest>;
+export const GetProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsScanConfigsRequest>;
 
 export type GetProjectsScanConfigsResponse = ScanConfig;
-export const GetProjectsScanConfigsResponse = ScanConfig;
+export const GetProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanConfig;
 
 export type GetProjectsScanConfigsError = DefaultErrors;
 
@@ -710,7 +725,7 @@ export const getProjectsScanConfigs: API.OperationMethod<
   GetProjectsScanConfigsResponse,
   GetProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsScanConfigsRequest,
   output: GetProjectsScanConfigsResponse,
   errors: [],
@@ -725,17 +740,19 @@ export interface ListProjectsScanConfigsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsScanConfigsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/scanConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsScanConfigsRequest>;
+export const ListProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/scanConfigs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsScanConfigsRequest>;
 
 export type ListProjectsScanConfigsResponse = ListScanConfigsResponse;
-export const ListProjectsScanConfigsResponse = ListScanConfigsResponse;
+export const ListProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListScanConfigsResponse;
 
 export type ListProjectsScanConfigsError = DefaultErrors;
 
@@ -745,7 +762,7 @@ export const listProjectsScanConfigs: API.PaginatedOperationMethod<
   ListProjectsScanConfigsResponse,
   ListProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsScanConfigsRequest,
   output: ListProjectsScanConfigsResponse,
   errors: [],
@@ -760,18 +777,20 @@ export interface DeleteProjectsScanConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsScanConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsScanConfigsRequest>;
+export const DeleteProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsScanConfigsRequest>;
 
 export type DeleteProjectsScanConfigsResponse = Empty;
-export const DeleteProjectsScanConfigsResponse = Empty;
+export const DeleteProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsScanConfigsError = DefaultErrors;
 
@@ -781,7 +800,7 @@ export const deleteProjectsScanConfigs: API.OperationMethod<
   DeleteProjectsScanConfigsResponse,
   DeleteProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsScanConfigsRequest,
   output: DeleteProjectsScanConfigsResponse,
   errors: [],
@@ -796,21 +815,23 @@ export interface PatchProjectsScanConfigsRequest {
   body?: ScanConfig;
 }
 
-export const PatchProjectsScanConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(ScanConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsScanConfigsRequest>;
+export const PatchProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(ScanConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsScanConfigsRequest>;
 
 export type PatchProjectsScanConfigsResponse = ScanConfig;
-export const PatchProjectsScanConfigsResponse = ScanConfig;
+export const PatchProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanConfig;
 
 export type PatchProjectsScanConfigsError = DefaultErrors;
 
@@ -820,7 +841,7 @@ export const patchProjectsScanConfigs: API.OperationMethod<
   PatchProjectsScanConfigsResponse,
   PatchProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsScanConfigsRequest,
   output: PatchProjectsScanConfigsResponse,
   errors: [],
@@ -833,20 +854,22 @@ export interface StartProjectsScanConfigsRequest {
   body?: StartScanRunRequest;
 }
 
-export const StartProjectsScanConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(StartScanRunRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}:start",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StartProjectsScanConfigsRequest>;
+export const StartProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(StartScanRunRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}:start",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StartProjectsScanConfigsRequest>;
 
 export type StartProjectsScanConfigsResponse = ScanRun;
-export const StartProjectsScanConfigsResponse = ScanRun;
+export const StartProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanRun;
 
 export type StartProjectsScanConfigsError = DefaultErrors;
 
@@ -856,7 +879,7 @@ export const startProjectsScanConfigs: API.OperationMethod<
   StartProjectsScanConfigsResponse,
   StartProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartProjectsScanConfigsRequest,
   output: StartProjectsScanConfigsResponse,
   errors: [],
@@ -869,20 +892,22 @@ export interface CreateProjectsScanConfigsRequest {
   body?: ScanConfig;
 }
 
-export const CreateProjectsScanConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ScanConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/scanConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsScanConfigsRequest>;
+export const CreateProjectsScanConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ScanConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/scanConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsScanConfigsRequest>;
 
 export type CreateProjectsScanConfigsResponse = ScanConfig;
-export const CreateProjectsScanConfigsResponse = ScanConfig;
+export const CreateProjectsScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanConfig;
 
 export type CreateProjectsScanConfigsError = DefaultErrors;
 
@@ -892,7 +917,7 @@ export const createProjectsScanConfigs: API.OperationMethod<
   CreateProjectsScanConfigsResponse,
   CreateProjectsScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsScanConfigsRequest,
   output: CreateProjectsScanConfigsResponse,
   errors: [],
@@ -905,20 +930,22 @@ export interface StopProjectsScanConfigsScanRunsRequest {
   body?: StopScanRunRequest;
 }
 
-export const StopProjectsScanConfigsScanRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(StopScanRunRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}:stop",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StopProjectsScanConfigsScanRunsRequest>;
+export const StopProjectsScanConfigsScanRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(StopScanRunRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}:stop",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StopProjectsScanConfigsScanRunsRequest>;
 
 export type StopProjectsScanConfigsScanRunsResponse = ScanRun;
-export const StopProjectsScanConfigsScanRunsResponse = ScanRun;
+export const StopProjectsScanConfigsScanRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanRun;
 
 export type StopProjectsScanConfigsScanRunsError = DefaultErrors;
 
@@ -928,7 +955,7 @@ export const stopProjectsScanConfigsScanRuns: API.OperationMethod<
   StopProjectsScanConfigsScanRunsResponse,
   StopProjectsScanConfigsScanRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopProjectsScanConfigsScanRunsRequest,
   output: StopProjectsScanConfigsScanRunsResponse,
   errors: [],
@@ -939,18 +966,20 @@ export interface GetProjectsScanConfigsScanRunsRequest {
   name: string;
 }
 
-export const GetProjectsScanConfigsScanRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsScanConfigsScanRunsRequest>;
+export const GetProjectsScanConfigsScanRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsScanConfigsScanRunsRequest>;
 
 export type GetProjectsScanConfigsScanRunsResponse = ScanRun;
-export const GetProjectsScanConfigsScanRunsResponse = ScanRun;
+export const GetProjectsScanConfigsScanRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ScanRun;
 
 export type GetProjectsScanConfigsScanRunsError = DefaultErrors;
 
@@ -960,7 +989,7 @@ export const getProjectsScanConfigsScanRuns: API.OperationMethod<
   GetProjectsScanConfigsScanRunsResponse,
   GetProjectsScanConfigsScanRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsScanConfigsScanRunsRequest,
   output: GetProjectsScanConfigsScanRunsResponse,
   errors: [],
@@ -975,20 +1004,22 @@ export interface ListProjectsScanConfigsScanRunsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsScanConfigsScanRunsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsRequest>;
+export const ListProjectsScanConfigsScanRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsRequest>;
 
 export type ListProjectsScanConfigsScanRunsResponse = ListScanRunsResponse;
-export const ListProjectsScanConfigsScanRunsResponse = ListScanRunsResponse;
+export const ListProjectsScanConfigsScanRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListScanRunsResponse;
 
 export type ListProjectsScanConfigsScanRunsError = DefaultErrors;
 
@@ -998,7 +1029,7 @@ export const listProjectsScanConfigsScanRuns: API.PaginatedOperationMethod<
   ListProjectsScanConfigsScanRunsResponse,
   ListProjectsScanConfigsScanRunsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsRequest,
   output: ListProjectsScanConfigsScanRunsResponse,
   errors: [],
@@ -1014,7 +1045,7 @@ export interface ListProjectsScanConfigsScanRunsFindingTypeStatsRequest {
 }
 
 export const ListProjectsScanConfigsScanRunsFindingTypeStatsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
@@ -1027,7 +1058,7 @@ export const ListProjectsScanConfigsScanRunsFindingTypeStatsRequest =
 export type ListProjectsScanConfigsScanRunsFindingTypeStatsResponse =
   ListFindingTypeStatsResponse;
 export const ListProjectsScanConfigsScanRunsFindingTypeStatsResponse =
-  ListFindingTypeStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFindingTypeStatsResponse;
 
 export type ListProjectsScanConfigsScanRunsFindingTypeStatsError =
   DefaultErrors;
@@ -1038,7 +1069,7 @@ export const listProjectsScanConfigsScanRunsFindingTypeStats: API.OperationMetho
   ListProjectsScanConfigsScanRunsFindingTypeStatsResponse,
   ListProjectsScanConfigsScanRunsFindingTypeStatsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsScanConfigsScanRunsFindingTypeStatsRequest,
   output: ListProjectsScanConfigsScanRunsFindingTypeStatsResponse,
   errors: [],
@@ -1049,18 +1080,20 @@ export interface GetProjectsScanConfigsScanRunsFindingsRequest {
   name: string;
 }
 
-export const GetProjectsScanConfigsScanRunsFindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/findings/{findingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsScanConfigsScanRunsFindingsRequest>;
+export const GetProjectsScanConfigsScanRunsFindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/findings/{findingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsScanConfigsScanRunsFindingsRequest>;
 
 export type GetProjectsScanConfigsScanRunsFindingsResponse = Finding;
-export const GetProjectsScanConfigsScanRunsFindingsResponse = Finding;
+export const GetProjectsScanConfigsScanRunsFindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Finding;
 
 export type GetProjectsScanConfigsScanRunsFindingsError = DefaultErrors;
 
@@ -1070,7 +1103,7 @@ export const getProjectsScanConfigsScanRunsFindings: API.OperationMethod<
   GetProjectsScanConfigsScanRunsFindingsResponse,
   GetProjectsScanConfigsScanRunsFindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsScanConfigsScanRunsFindingsRequest,
   output: GetProjectsScanConfigsScanRunsFindingsResponse,
   errors: [],
@@ -1087,23 +1120,24 @@ export interface ListProjectsScanConfigsScanRunsFindingsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsScanConfigsScanRunsFindingsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/findings",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsFindingsRequest>;
+export const ListProjectsScanConfigsScanRunsFindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/findings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsFindingsRequest>;
 
 export type ListProjectsScanConfigsScanRunsFindingsResponse =
   ListFindingsResponse;
 export const ListProjectsScanConfigsScanRunsFindingsResponse =
-  ListFindingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFindingsResponse;
 
 export type ListProjectsScanConfigsScanRunsFindingsError = DefaultErrors;
 
@@ -1113,7 +1147,7 @@ export const listProjectsScanConfigsScanRunsFindings: API.PaginatedOperationMeth
   ListProjectsScanConfigsScanRunsFindingsResponse,
   ListProjectsScanConfigsScanRunsFindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsFindingsRequest,
   output: ListProjectsScanConfigsScanRunsFindingsResponse,
   errors: [],
@@ -1132,22 +1166,23 @@ export interface ListProjectsScanConfigsScanRunsCrawledUrlsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsScanConfigsScanRunsCrawledUrlsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/crawledUrls",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsCrawledUrlsRequest>;
+export const ListProjectsScanConfigsScanRunsCrawledUrlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/scanConfigs/{scanConfigsId}/scanRuns/{scanRunsId}/crawledUrls",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsScanConfigsScanRunsCrawledUrlsRequest>;
 
 export type ListProjectsScanConfigsScanRunsCrawledUrlsResponse =
   ListCrawledUrlsResponse;
 export const ListProjectsScanConfigsScanRunsCrawledUrlsResponse =
-  ListCrawledUrlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCrawledUrlsResponse;
 
 export type ListProjectsScanConfigsScanRunsCrawledUrlsError = DefaultErrors;
 
@@ -1157,7 +1192,7 @@ export const listProjectsScanConfigsScanRunsCrawledUrls: API.PaginatedOperationM
   ListProjectsScanConfigsScanRunsCrawledUrlsResponse,
   ListProjectsScanConfigsScanRunsCrawledUrlsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsCrawledUrlsRequest,
   output: ListProjectsScanConfigsScanRunsCrawledUrlsResponse,
   errors: [],

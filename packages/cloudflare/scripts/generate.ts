@@ -28,6 +28,12 @@ import {
 } from "./model.ts";
 import { parseCode } from "./parse.ts";
 
+const annotatePureExportConst = (definition: string) =>
+  definition.replace(
+    /^export const ([^=]+?)\s*=\s*/m,
+    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
+  );
+
 /** Returns true if the string is a valid JavaScript identifier (no quoting needed). */
 function isValidIdentifier(name: string): boolean {
   return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
@@ -832,7 +838,7 @@ function generateOperationSchema(
   // Convert URL template to OpenAPI style
   const openApiPath = op.urlTemplate.replace(/\{(\w+)\}/g, "{$1}");
 
-  lines.push(`export const ${requestTypeName} = Schema.Struct({`);
+  lines.push(`export const ${requestTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
   if (requestProps.length > 0) {
     lines.push(requestProps.join(",\n"));
   }
@@ -925,7 +931,7 @@ function generateOperationSchema(
     lines.push(`export type ${responseTypeName} = ${tsType};`);
     lines.push("");
     lines.push(
-      `export const ${responseTypeName} = ${schema} as unknown as Schema.Schema<${responseTypeName}>;`,
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ ${schema} as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   } else if (
@@ -982,7 +988,7 @@ function generateOperationSchema(
           .join(", ")} }))`
       : "";
 
-    lines.push(`export const ${responseTypeName} = Schema.Struct({`);
+    lines.push(`export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
@@ -995,7 +1001,7 @@ function generateOperationSchema(
     lines.push(`export type ${responseTypeName} = unknown;`);
     lines.push("");
     lines.push(
-      `export const ${responseTypeName} = Schema.Unknown as unknown as Schema.Schema<${responseTypeName}>;`,
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   }
@@ -1017,7 +1023,7 @@ function generateOperationSchema(
   lines.push(`  ${responseTypeName},`);
   lines.push(`  ${errorTypeName},`);
   lines.push(`  Credentials | HttpClient.HttpClient`);
-  lines.push(`> = API.make(() => ({`);
+  lines.push(`> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`);
   lines.push(`  input: ${requestTypeName},`);
   lines.push(`  output: ${responseTypeName},`);
   lines.push(`  errors: ${errorsArray},`);

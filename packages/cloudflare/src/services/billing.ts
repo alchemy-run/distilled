@@ -21,7 +21,7 @@ export interface GetProfileRequest {
   accountId: string;
 }
 
-export const GetProfileRequest = Schema.Struct({
+export const GetProfileRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/billing/profile" }),
@@ -70,7 +70,7 @@ export interface GetProfileResponse {
   zipcode?: string | null;
 }
 
-export const GetProfileResponse = Schema.Struct({
+export const GetProfileResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -165,7 +165,7 @@ export const getProfile: API.OperationMethod<
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProfileRequest,
   output: GetProfileResponse,
   errors: [],

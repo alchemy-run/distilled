@@ -29,14 +29,15 @@ export interface ItemIssueType {
   canonicalAttribute?: string;
 }
 
-export const ItemIssueType: Schema.Schema<ItemIssueType> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.String),
-    canonicalAttribute: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ItemIssueType",
-}) as any as Schema.Schema<ItemIssueType>;
+export const ItemIssueType: Schema.Schema<ItemIssueType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      canonicalAttribute: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ItemIssueType",
+  }) as any as Schema.Schema<ItemIssueType>;
 
 export interface IssueSeverityPerReportingContext {
   /** List of disapproved countries in the reporting context, represented in ISO 3166 format. */
@@ -69,7 +70,7 @@ export interface IssueSeverityPerReportingContext {
 }
 
 export const IssueSeverityPerReportingContext: Schema.Schema<IssueSeverityPerReportingContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disapprovedCountries: Schema.optional(Schema.Array(Schema.String)),
       demotedCountries: Schema.optional(Schema.Array(Schema.String)),
@@ -92,7 +93,7 @@ export interface ItemIssueSeverity {
 }
 
 export const ItemIssueSeverity: Schema.Schema<ItemIssueSeverity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severityPerReportingContext: Schema.optional(
         Schema.Array(IssueSeverityPerReportingContext),
@@ -116,13 +117,14 @@ export interface ItemIssue {
     | (string & {});
 }
 
-export const ItemIssue: Schema.Schema<ItemIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(ItemIssueType),
-    severity: Schema.optional(ItemIssueSeverity),
-    resolution: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ItemIssue" }) as any as Schema.Schema<ItemIssue>;
+export const ItemIssue: Schema.Schema<ItemIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(ItemIssueType),
+      severity: Schema.optional(ItemIssueSeverity),
+      resolution: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ItemIssue" }) as any as Schema.Schema<ItemIssue>;
 
 export interface StatusPerReportingContext {
   /** List of pending countries in the reporting context, represented in [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format, for example, `US`. */
@@ -157,7 +159,7 @@ export interface StatusPerReportingContext {
 }
 
 export const StatusPerReportingContext: Schema.Schema<StatusPerReportingContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pendingCountries: Schema.optional(Schema.Array(Schema.String)),
       reportingContext: Schema.optional(Schema.String),
@@ -177,16 +179,16 @@ export interface Merchantapi_Date {
   month?: number;
 }
 
-export const Merchantapi_Date: Schema.Schema<Merchantapi_Date> = Schema.suspend(
-  () =>
+export const Merchantapi_Date: Schema.Schema<Merchantapi_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "Merchantapi_Date",
-}) as any as Schema.Schema<Merchantapi_Date>;
+  ).annotate({
+    identifier: "Merchantapi_Date",
+  }) as any as Schema.Schema<Merchantapi_Date>;
 
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
@@ -195,12 +197,13 @@ export interface Price {
   currencyCode?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    amountMicros: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      amountMicros: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface ProductView {
   /** REST ID of the product, in the form of `channel~languageCode~feedLabel~offerId`. Merchant API methods that operate on products take this as their `name` parameter. Required in the `SELECT` clause. */
@@ -301,44 +304,47 @@ export interface ProductView {
   itemGroupId?: string;
 }
 
-export const ProductView: Schema.Schema<ProductView> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    creationTime: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-    productTypeL1: Schema.optional(Schema.String),
-    productTypeL4: Schema.optional(Schema.String),
-    shippingLabel: Schema.optional(Schema.String),
-    itemIssues: Schema.optional(Schema.Array(ItemIssue)),
-    productTypeL2: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    categoryL3: Schema.optional(Schema.String),
-    statusPerReportingContext: Schema.optional(
-      Schema.Array(StatusPerReportingContext),
-    ),
-    reportingContext: Schema.optional(Schema.String),
-    clickPotentialRank: Schema.optional(Schema.String),
-    productTypeL5: Schema.optional(Schema.String),
-    condition: Schema.optional(Schema.String),
-    expirationDate: Schema.optional(Merchantapi_Date),
-    brand: Schema.optional(Schema.String),
-    categoryL2: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    categoryL4: Schema.optional(Schema.String),
-    productTypeL3: Schema.optional(Schema.String),
-    availability: Schema.optional(Schema.String),
-    aggregatedReportingContextStatus: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    categoryL5: Schema.optional(Schema.String),
-    gtin: Schema.optional(Schema.Array(Schema.String)),
-    clickPotential: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    thumbnailLink: Schema.optional(Schema.String),
-    categoryL1: Schema.optional(Schema.String),
-    itemGroupId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ProductView" }) as any as Schema.Schema<ProductView>;
+export const ProductView: Schema.Schema<ProductView> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      creationTime: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      productTypeL1: Schema.optional(Schema.String),
+      productTypeL4: Schema.optional(Schema.String),
+      shippingLabel: Schema.optional(Schema.String),
+      itemIssues: Schema.optional(Schema.Array(ItemIssue)),
+      productTypeL2: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      categoryL3: Schema.optional(Schema.String),
+      statusPerReportingContext: Schema.optional(
+        Schema.Array(StatusPerReportingContext),
+      ),
+      reportingContext: Schema.optional(Schema.String),
+      clickPotentialRank: Schema.optional(Schema.String),
+      productTypeL5: Schema.optional(Schema.String),
+      condition: Schema.optional(Schema.String),
+      expirationDate: Schema.optional(Merchantapi_Date),
+      brand: Schema.optional(Schema.String),
+      categoryL2: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      categoryL4: Schema.optional(Schema.String),
+      productTypeL3: Schema.optional(Schema.String),
+      availability: Schema.optional(Schema.String),
+      aggregatedReportingContextStatus: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      categoryL5: Schema.optional(Schema.String),
+      gtin: Schema.optional(Schema.Array(Schema.String)),
+      clickPotential: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      thumbnailLink: Schema.optional(Schema.String),
+      categoryL1: Schema.optional(Schema.String),
+      itemGroupId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductView",
+  }) as any as Schema.Schema<ProductView>;
 
 export interface CompetitiveVisibilityTopMerchantView {
   /** Google product category ID to calculate the report for, represented in [Google's product taxonomy](https://support.google.com/merchants/answer/6324436). Required in the `SELECT` clause. A condition on `report_category_id` is required in the `WHERE` clause. */
@@ -369,7 +375,7 @@ export interface CompetitiveVisibilityTopMerchantView {
 }
 
 export const CompetitiveVisibilityTopMerchantView: Schema.Schema<CompetitiveVisibilityTopMerchantView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportCategoryId: Schema.optional(Schema.String),
       domain: Schema.optional(Schema.String),
@@ -395,15 +401,16 @@ export interface SearchRequest {
   pageSize?: number;
 }
 
-export const SearchRequest: Schema.Schema<SearchRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    query: Schema.optional(Schema.String),
-    pageToken: Schema.optional(Schema.String),
-    pageSize: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "SearchRequest",
-}) as any as Schema.Schema<SearchRequest>;
+export const SearchRequest: Schema.Schema<SearchRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      query: Schema.optional(Schema.String),
+      pageToken: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SearchRequest",
+  }) as any as Schema.Schema<SearchRequest>;
 
 export interface NonProductPerformanceView {
   /** Click-through rate - the number of clicks (`clicks`) divided by the number of impressions (`impressions`) of images and online store links leading to your non-product pages. Metric. */
@@ -419,7 +426,7 @@ export interface NonProductPerformanceView {
 }
 
 export const NonProductPerformanceView: Schema.Schema<NonProductPerformanceView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clickThroughRate: Schema.optional(Schema.Number),
       week: Schema.optional(Merchantapi_Date),
@@ -478,7 +485,7 @@ export interface BestSellersBrandView {
 }
 
 export const BestSellersBrandView: Schema.Schema<BestSellersBrandView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportCategoryId: Schema.optional(Schema.String),
       relativeDemandChange: Schema.optional(Schema.String),
@@ -544,7 +551,7 @@ export interface PriceInsightsProductView {
 }
 
 export const PriceInsightsProductView: Schema.Schema<PriceInsightsProductView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestedPrice: Schema.optional(Price),
       categoryL5: Schema.optional(Schema.String),
@@ -635,7 +642,7 @@ export interface ProductPerformanceView {
 }
 
 export const ProductPerformanceView: Schema.Schema<ProductPerformanceView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productTypeL2: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -708,7 +715,7 @@ export interface PriceCompetitivenessProductView {
 }
 
 export const PriceCompetitivenessProductView: Schema.Schema<PriceCompetitivenessProductView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productTypeL3: Schema.optional(Schema.String),
       productTypeL1: Schema.optional(Schema.String),
@@ -807,7 +814,7 @@ export interface BestSellersProductClusterView {
 }
 
 export const BestSellersProductClusterView: Schema.Schema<BestSellersProductClusterView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventoryStatus: Schema.optional(Schema.String),
       variantGtins: Schema.optional(Schema.Array(Schema.String)),
@@ -864,7 +871,7 @@ export interface CompetitiveVisibilityCompetitorView {
 }
 
 export const CompetitiveVisibilityCompetitorView: Schema.Schema<CompetitiveVisibilityCompetitorView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trafficSource: Schema.optional(Schema.String),
       higherPositionRate: Schema.optional(Schema.Number),
@@ -903,7 +910,7 @@ export interface CompetitiveVisibilityBenchmarkView {
 }
 
 export const CompetitiveVisibilityBenchmarkView: Schema.Schema<CompetitiveVisibilityBenchmarkView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trafficSource: Schema.optional(Schema.String),
       categoryBenchmarkVisibilityTrend: Schema.optional(Schema.Number),
@@ -939,30 +946,31 @@ export interface ReportRow {
   competitiveVisibilityBenchmarkView?: CompetitiveVisibilityBenchmarkView;
 }
 
-export const ReportRow: Schema.Schema<ReportRow> = Schema.suspend(() =>
-  Schema.Struct({
-    bestSellersBrandView: Schema.optional(BestSellersBrandView),
-    priceInsightsProductView: Schema.optional(PriceInsightsProductView),
-    productPerformanceView: Schema.optional(ProductPerformanceView),
-    nonProductPerformanceView: Schema.optional(NonProductPerformanceView),
-    productView: Schema.optional(ProductView),
-    priceCompetitivenessProductView: Schema.optional(
-      PriceCompetitivenessProductView,
-    ),
-    bestSellersProductClusterView: Schema.optional(
-      BestSellersProductClusterView,
-    ),
-    competitiveVisibilityCompetitorView: Schema.optional(
-      CompetitiveVisibilityCompetitorView,
-    ),
-    competitiveVisibilityTopMerchantView: Schema.optional(
-      CompetitiveVisibilityTopMerchantView,
-    ),
-    competitiveVisibilityBenchmarkView: Schema.optional(
-      CompetitiveVisibilityBenchmarkView,
-    ),
-  }),
-).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
+export const ReportRow: Schema.Schema<ReportRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bestSellersBrandView: Schema.optional(BestSellersBrandView),
+      priceInsightsProductView: Schema.optional(PriceInsightsProductView),
+      productPerformanceView: Schema.optional(ProductPerformanceView),
+      nonProductPerformanceView: Schema.optional(NonProductPerformanceView),
+      productView: Schema.optional(ProductView),
+      priceCompetitivenessProductView: Schema.optional(
+        PriceCompetitivenessProductView,
+      ),
+      bestSellersProductClusterView: Schema.optional(
+        BestSellersProductClusterView,
+      ),
+      competitiveVisibilityCompetitorView: Schema.optional(
+        CompetitiveVisibilityCompetitorView,
+      ),
+      competitiveVisibilityTopMerchantView: Schema.optional(
+        CompetitiveVisibilityTopMerchantView,
+      ),
+      competitiveVisibilityBenchmarkView: Schema.optional(
+        CompetitiveVisibilityBenchmarkView,
+      ),
+    }),
+  ).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
 
 export interface ProductChange {
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
@@ -996,16 +1004,17 @@ export interface ProductChange {
   oldValue?: string;
 }
 
-export const ProductChange: Schema.Schema<ProductChange> = Schema.suspend(() =>
-  Schema.Struct({
-    newValue: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    reportingContext: Schema.optional(Schema.String),
-    oldValue: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductChange",
-}) as any as Schema.Schema<ProductChange>;
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+      oldValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
   /** A message to describe the change that happened to the product */
@@ -1029,7 +1038,7 @@ export interface ProductStatusChangeMessage {
 }
 
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changes: Schema.optional(Schema.Array(ProductChange)),
       resourceId: Schema.optional(Schema.String),
@@ -1052,15 +1061,15 @@ export interface SearchResponse {
   nextPageToken?: string;
 }
 
-export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(
-  () =>
+export const SearchResponse: Schema.Schema<SearchResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Array(ReportRow)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SearchResponse",
-}) as any as Schema.Schema<SearchResponse>;
+  ).annotate({
+    identifier: "SearchResponse",
+  }) as any as Schema.Schema<SearchResponse>;
 
 // ==========================================================================
 // Operations
@@ -1073,20 +1082,22 @@ export interface SearchAccountsReportsRequest {
   body?: SearchRequest;
 }
 
-export const SearchAccountsReportsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SearchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "reports/v1/accounts/{accountsId}/reports:search",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchAccountsReportsRequest>;
+export const SearchAccountsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SearchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "reports/v1/accounts/{accountsId}/reports:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchAccountsReportsRequest>;
 
 export type SearchAccountsReportsResponse = SearchResponse;
-export const SearchAccountsReportsResponse = SearchResponse;
+export const SearchAccountsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchResponse;
 
 export type SearchAccountsReportsError = DefaultErrors;
 
@@ -1096,7 +1107,7 @@ export const searchAccountsReports: API.OperationMethod<
   SearchAccountsReportsResponse,
   SearchAccountsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchAccountsReportsRequest,
   output: SearchAccountsReportsResponse,
   errors: [],

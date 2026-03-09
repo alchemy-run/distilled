@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -86,14 +88,15 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -105,7 +108,7 @@ export interface SelfManagedCertificate {
 }
 
 export const SelfManagedCertificate: Schema.Schema<SelfManagedCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pemCertificate: Schema.optional(Schema.String),
       pemPrivateKey: Schema.optional(Schema.String),
@@ -126,7 +129,7 @@ export interface ProvisioningIssue {
 }
 
 export const ProvisioningIssue: Schema.Schema<ProvisioningIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
       details: Schema.optional(Schema.String),
@@ -144,13 +147,14 @@ export interface CNAME {
   resolvedData?: Array<string>;
 }
 
-export const CNAME: Schema.Schema<CNAME> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    expectedData: Schema.optional(Schema.String),
-    resolvedData: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "CNAME" }) as any as Schema.Schema<CNAME>;
+export const CNAME: Schema.Schema<CNAME> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      expectedData: Schema.optional(Schema.String),
+      resolvedData: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "CNAME" }) as any as Schema.Schema<CNAME>;
 
 export interface IPs {
   /** Output only. The list of IP addresses, where the certificate is attached and port 443 is open. */
@@ -161,13 +165,14 @@ export interface IPs {
   resolved?: Array<string>;
 }
 
-export const IPs: Schema.Schema<IPs> = Schema.suspend(() =>
-  Schema.Struct({
-    serving: Schema.optional(Schema.Array(Schema.String)),
-    servingOnAltPorts: Schema.optional(Schema.Array(Schema.String)),
-    resolved: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "IPs" }) as any as Schema.Schema<IPs>;
+export const IPs: Schema.Schema<IPs> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serving: Schema.optional(Schema.Array(Schema.String)),
+      servingOnAltPorts: Schema.optional(Schema.Array(Schema.String)),
+      resolved: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "IPs" }) as any as Schema.Schema<IPs>;
 
 export interface Troubleshooting {
   /** Output only. The list of issues discovered during the authorization attempt. */
@@ -186,16 +191,16 @@ export interface Troubleshooting {
   ips?: IPs;
 }
 
-export const Troubleshooting: Schema.Schema<Troubleshooting> = Schema.suspend(
-  () =>
+export const Troubleshooting: Schema.Schema<Troubleshooting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issues: Schema.optional(Schema.Array(Schema.String)),
       cname: Schema.optional(CNAME),
       ips: Schema.optional(IPs),
     }),
-).annotate({
-  identifier: "Troubleshooting",
-}) as any as Schema.Schema<Troubleshooting>;
+  ).annotate({
+    identifier: "Troubleshooting",
+  }) as any as Schema.Schema<Troubleshooting>;
 
 export interface AuthorizationAttemptInfo {
   /** Output only. Domain name of the authorization attempt. */
@@ -223,7 +228,7 @@ export interface AuthorizationAttemptInfo {
 }
 
 export const AuthorizationAttemptInfo: Schema.Schema<AuthorizationAttemptInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -257,7 +262,7 @@ export interface ManagedCertificate {
 }
 
 export const ManagedCertificate: Schema.Schema<ManagedCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domains: Schema.optional(Schema.Array(Schema.String)),
       dnsAuthorizations: Schema.optional(Schema.Array(Schema.String)),
@@ -287,7 +292,7 @@ export interface ManagedIdentityCertificate {
 }
 
 export const ManagedIdentityCertificate: Schema.Schema<ManagedIdentityCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identity: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -302,11 +307,12 @@ export interface UsedBy {
   name?: string;
 }
 
-export const UsedBy: Schema.Schema<UsedBy> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UsedBy" }) as any as Schema.Schema<UsedBy>;
+export const UsedBy: Schema.Schema<UsedBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "UsedBy" }) as any as Schema.Schema<UsedBy>;
 
 export interface Certificate {
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/* /locations/* /certificates/*`. */
@@ -342,23 +348,26 @@ export interface Certificate {
   usedBy?: Array<UsedBy>;
 }
 
-export const Certificate: Schema.Schema<Certificate> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    selfManaged: Schema.optional(SelfManagedCertificate),
-    managed: Schema.optional(ManagedCertificate),
-    managedIdentity: Schema.optional(ManagedIdentityCertificate),
-    sanDnsnames: Schema.optional(Schema.Array(Schema.String)),
-    pemCertificate: Schema.optional(Schema.String),
-    expireTime: Schema.optional(Schema.String),
-    scope: Schema.optional(Schema.String),
-    usedBy: Schema.optional(Schema.Array(UsedBy)),
-  }),
-).annotate({ identifier: "Certificate" }) as any as Schema.Schema<Certificate>;
+export const Certificate: Schema.Schema<Certificate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      selfManaged: Schema.optional(SelfManagedCertificate),
+      managed: Schema.optional(ManagedCertificate),
+      managedIdentity: Schema.optional(ManagedIdentityCertificate),
+      sanDnsnames: Schema.optional(Schema.Array(Schema.String)),
+      pemCertificate: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      scope: Schema.optional(Schema.String),
+      usedBy: Schema.optional(Schema.Array(UsedBy)),
+    }),
+  ).annotate({
+    identifier: "Certificate",
+  }) as any as Schema.Schema<Certificate>;
 
 export interface ListCertificatesResponse {
   /** A list of certificates for the parent resource. */
@@ -370,7 +379,7 @@ export interface ListCertificatesResponse {
 }
 
 export const ListCertificatesResponse: Schema.Schema<ListCertificatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificates: Schema.optional(Schema.Array(Certificate)),
       nextPageToken: Schema.optional(Schema.String),
@@ -387,12 +396,13 @@ export interface IpConfig {
   ports?: Array<number>;
 }
 
-export const IpConfig: Schema.Schema<IpConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    ipAddress: Schema.optional(Schema.String),
-    ports: Schema.optional(Schema.Array(Schema.Number)),
-  }),
-).annotate({ identifier: "IpConfig" }) as any as Schema.Schema<IpConfig>;
+export const IpConfig: Schema.Schema<IpConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ipAddress: Schema.optional(Schema.String),
+      ports: Schema.optional(Schema.Array(Schema.Number)),
+    }),
+  ).annotate({ identifier: "IpConfig" }) as any as Schema.Schema<IpConfig>;
 
 export interface GclbTarget {
   /** Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/* /global/targetHttpsProxies/*`. */
@@ -403,13 +413,14 @@ export interface GclbTarget {
   ipConfigs?: Array<IpConfig>;
 }
 
-export const GclbTarget: Schema.Schema<GclbTarget> = Schema.suspend(() =>
-  Schema.Struct({
-    targetHttpsProxy: Schema.optional(Schema.String),
-    targetSslProxy: Schema.optional(Schema.String),
-    ipConfigs: Schema.optional(Schema.Array(IpConfig)),
-  }),
-).annotate({ identifier: "GclbTarget" }) as any as Schema.Schema<GclbTarget>;
+export const GclbTarget: Schema.Schema<GclbTarget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetHttpsProxy: Schema.optional(Schema.String),
+      targetSslProxy: Schema.optional(Schema.String),
+      ipConfigs: Schema.optional(Schema.Array(IpConfig)),
+    }),
+  ).annotate({ identifier: "GclbTarget" }) as any as Schema.Schema<GclbTarget>;
 
 export interface CertificateMap {
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/* /locations/* /certificateMaps/*`. */
@@ -426,8 +437,8 @@ export interface CertificateMap {
   gclbTargets?: Array<GclbTarget>;
 }
 
-export const CertificateMap: Schema.Schema<CertificateMap> = Schema.suspend(
-  () =>
+export const CertificateMap: Schema.Schema<CertificateMap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -436,9 +447,9 @@ export const CertificateMap: Schema.Schema<CertificateMap> = Schema.suspend(
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       gclbTargets: Schema.optional(Schema.Array(GclbTarget)),
     }),
-).annotate({
-  identifier: "CertificateMap",
-}) as any as Schema.Schema<CertificateMap>;
+  ).annotate({
+    identifier: "CertificateMap",
+  }) as any as Schema.Schema<CertificateMap>;
 
 export interface ListCertificateMapsResponse {
   /** A list of certificate maps for the parent resource. */
@@ -450,7 +461,7 @@ export interface ListCertificateMapsResponse {
 }
 
 export const ListCertificateMapsResponse: Schema.Schema<ListCertificateMapsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateMaps: Schema.optional(Schema.Array(CertificateMap)),
       nextPageToken: Schema.optional(Schema.String),
@@ -482,7 +493,7 @@ export interface CertificateMapEntry {
 }
 
 export const CertificateMapEntry: Schema.Schema<CertificateMapEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -508,7 +519,7 @@ export interface ListCertificateMapEntriesResponse {
 }
 
 export const ListCertificateMapEntriesResponse: Schema.Schema<ListCertificateMapEntriesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateMapEntries: Schema.optional(Schema.Array(CertificateMapEntry)),
       nextPageToken: Schema.optional(Schema.String),
@@ -528,7 +539,7 @@ export interface DnsResourceRecord {
 }
 
 export const DnsResourceRecord: Schema.Schema<DnsResourceRecord> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -561,8 +572,8 @@ export interface DnsAuthorization {
     | (string & {});
 }
 
-export const DnsAuthorization: Schema.Schema<DnsAuthorization> = Schema.suspend(
-  () =>
+export const DnsAuthorization: Schema.Schema<DnsAuthorization> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -573,9 +584,9 @@ export const DnsAuthorization: Schema.Schema<DnsAuthorization> = Schema.suspend(
       dnsResourceRecord: Schema.optional(DnsResourceRecord),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DnsAuthorization",
-}) as any as Schema.Schema<DnsAuthorization>;
+  ).annotate({
+    identifier: "DnsAuthorization",
+  }) as any as Schema.Schema<DnsAuthorization>;
 
 export interface ListDnsAuthorizationsResponse {
   /** A list of dns authorizations for the parent resource. */
@@ -587,7 +598,7 @@ export interface ListDnsAuthorizationsResponse {
 }
 
 export const ListDnsAuthorizationsResponse: Schema.Schema<ListDnsAuthorizationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dnsAuthorizations: Schema.optional(Schema.Array(DnsAuthorization)),
       nextPageToken: Schema.optional(Schema.String),
@@ -603,7 +614,7 @@ export interface CertificateAuthorityServiceConfig {
 }
 
 export const CertificateAuthorityServiceConfig: Schema.Schema<CertificateAuthorityServiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caPool: Schema.optional(Schema.String),
     }),
@@ -617,7 +628,7 @@ export interface CertificateAuthorityConfig {
 }
 
 export const CertificateAuthorityConfig: Schema.Schema<CertificateAuthorityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateAuthorityServiceConfig: Schema.optional(
         CertificateAuthorityServiceConfig,
@@ -653,7 +664,7 @@ export interface CertificateIssuanceConfig {
 }
 
 export const CertificateIssuanceConfig: Schema.Schema<CertificateIssuanceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -679,7 +690,7 @@ export interface ListCertificateIssuanceConfigsResponse {
 }
 
 export const ListCertificateIssuanceConfigsResponse: Schema.Schema<ListCertificateIssuanceConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateIssuanceConfigs: Schema.optional(
         Schema.Array(CertificateIssuanceConfig),
@@ -696,25 +707,28 @@ export interface TrustAnchor {
   pemCertificate?: string;
 }
 
-export const TrustAnchor: Schema.Schema<TrustAnchor> = Schema.suspend(() =>
-  Schema.Struct({
-    pemCertificate: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TrustAnchor" }) as any as Schema.Schema<TrustAnchor>;
+export const TrustAnchor: Schema.Schema<TrustAnchor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pemCertificate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "TrustAnchor",
+  }) as any as Schema.Schema<TrustAnchor>;
 
 export interface IntermediateCA {
   /** PEM intermediate certificate used for building up paths for validation. Each certificate provided in PEM format may occupy up to 5kB. */
   pemCertificate?: string;
 }
 
-export const IntermediateCA: Schema.Schema<IntermediateCA> = Schema.suspend(
-  () =>
+export const IntermediateCA: Schema.Schema<IntermediateCA> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pemCertificate: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "IntermediateCA",
-}) as any as Schema.Schema<IntermediateCA>;
+  ).annotate({
+    identifier: "IntermediateCA",
+  }) as any as Schema.Schema<IntermediateCA>;
 
 export interface TrustStore {
   /** Optional. List of Trust Anchors to be used while performing validation against a given TrustStore. */
@@ -723,12 +737,13 @@ export interface TrustStore {
   intermediateCas?: Array<IntermediateCA>;
 }
 
-export const TrustStore: Schema.Schema<TrustStore> = Schema.suspend(() =>
-  Schema.Struct({
-    trustAnchors: Schema.optional(Schema.Array(TrustAnchor)),
-    intermediateCas: Schema.optional(Schema.Array(IntermediateCA)),
-  }),
-).annotate({ identifier: "TrustStore" }) as any as Schema.Schema<TrustStore>;
+export const TrustStore: Schema.Schema<TrustStore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      trustAnchors: Schema.optional(Schema.Array(TrustAnchor)),
+      intermediateCas: Schema.optional(Schema.Array(IntermediateCA)),
+    }),
+  ).annotate({ identifier: "TrustStore" }) as any as Schema.Schema<TrustStore>;
 
 export interface AllowlistedCertificate {
   /** Required. PEM certificate that is allowlisted. The certificate can be up to 5k bytes, and must be a parseable X.509 certificate. */
@@ -736,7 +751,7 @@ export interface AllowlistedCertificate {
 }
 
 export const AllowlistedCertificate: Schema.Schema<AllowlistedCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pemCertificate: Schema.optional(Schema.String),
     }),
@@ -765,23 +780,26 @@ export interface TrustConfig {
   allowlistedCertificates?: Array<AllowlistedCertificate>;
 }
 
-export const TrustConfig: Schema.Schema<TrustConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    description: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    spiffeTrustStores: Schema.optional(
-      Schema.Record(Schema.String, TrustStore),
-    ),
-    trustStores: Schema.optional(Schema.Array(TrustStore)),
-    allowlistedCertificates: Schema.optional(
-      Schema.Array(AllowlistedCertificate),
-    ),
-  }),
-).annotate({ identifier: "TrustConfig" }) as any as Schema.Schema<TrustConfig>;
+export const TrustConfig: Schema.Schema<TrustConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      description: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      spiffeTrustStores: Schema.optional(
+        Schema.Record(Schema.String, TrustStore),
+      ),
+      trustStores: Schema.optional(Schema.Array(TrustStore)),
+      allowlistedCertificates: Schema.optional(
+        Schema.Array(AllowlistedCertificate),
+      ),
+    }),
+  ).annotate({
+    identifier: "TrustConfig",
+  }) as any as Schema.Schema<TrustConfig>;
 
 export interface ListTrustConfigsResponse {
   /** A list of TrustConfigs for the parent resource. */
@@ -793,7 +811,7 @@ export interface ListTrustConfigsResponse {
 }
 
 export const ListTrustConfigsResponse: Schema.Schema<ListTrustConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trustConfigs: Schema.optional(Schema.Array(TrustConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -816,15 +834,16 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -834,7 +853,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -861,7 +880,7 @@ export interface OperationMetadata {
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -892,21 +911,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -916,7 +937,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -931,18 +952,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -952,7 +975,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -971,24 +994,26 @@ export interface ListProjectsLocationsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -998,7 +1023,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1013,18 +1038,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1034,7 +1061,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -1045,18 +1072,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export type DeleteProjectsLocationsOperationsResponse = Empty;
-export const DeleteProjectsLocationsOperationsResponse = Empty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1066,7 +1095,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsResponse,
   DeleteProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
@@ -1079,20 +1108,22 @@ export interface CancelProjectsLocationsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export type CancelProjectsLocationsOperationsResponse = Empty;
-export const CancelProjectsLocationsOperationsResponse = Empty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
@@ -1102,7 +1133,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsResponse,
   CancelProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -1121,24 +1152,25 @@ export interface ListProjectsLocationsCertificatesRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsCertificatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCertificatesRequest>;
+export const ListProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCertificatesRequest>;
 
 export type ListProjectsLocationsCertificatesResponse =
   ListCertificatesResponse;
 export const ListProjectsLocationsCertificatesResponse =
-  ListCertificatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCertificatesResponse;
 
 export type ListProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -1148,7 +1180,7 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   ListProjectsLocationsCertificatesResponse,
   ListProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCertificatesRequest,
   output: ListProjectsLocationsCertificatesResponse,
   errors: [],
@@ -1163,18 +1195,20 @@ export interface GetProjectsLocationsCertificatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCertificatesRequest>;
+export const GetProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCertificatesRequest>;
 
 export type GetProjectsLocationsCertificatesResponse = Certificate;
-export const GetProjectsLocationsCertificatesResponse = Certificate;
+export const GetProjectsLocationsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Certificate;
 
 export type GetProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -1184,7 +1218,7 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   GetProjectsLocationsCertificatesResponse,
   GetProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCertificatesRequest,
   output: GetProjectsLocationsCertificatesResponse,
   errors: [],
@@ -1199,23 +1233,25 @@ export interface CreateProjectsLocationsCertificatesRequest {
   body?: Certificate;
 }
 
-export const CreateProjectsLocationsCertificatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  certificateId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("certificateId"),
-  ),
-  body: Schema.optional(Certificate).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCertificatesRequest>;
+export const CreateProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    certificateId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("certificateId"),
+    ),
+    body: Schema.optional(Certificate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCertificatesRequest>;
 
 export type CreateProjectsLocationsCertificatesResponse = Operation;
-export const CreateProjectsLocationsCertificatesResponse = Operation;
+export const CreateProjectsLocationsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -1225,7 +1261,7 @@ export const createProjectsLocationsCertificates: API.OperationMethod<
   CreateProjectsLocationsCertificatesResponse,
   CreateProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCertificatesRequest,
   output: CreateProjectsLocationsCertificatesResponse,
   errors: [],
@@ -1240,21 +1276,23 @@ export interface PatchProjectsLocationsCertificatesRequest {
   body?: Certificate;
 }
 
-export const PatchProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Certificate).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCertificatesRequest>;
+export const PatchProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Certificate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCertificatesRequest>;
 
 export type PatchProjectsLocationsCertificatesResponse = Operation;
-export const PatchProjectsLocationsCertificatesResponse = Operation;
+export const PatchProjectsLocationsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -1264,7 +1302,7 @@ export const patchProjectsLocationsCertificates: API.OperationMethod<
   PatchProjectsLocationsCertificatesResponse,
   PatchProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCertificatesRequest,
   output: PatchProjectsLocationsCertificatesResponse,
   errors: [],
@@ -1275,18 +1313,20 @@ export interface DeleteProjectsLocationsCertificatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCertificatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCertificatesRequest>;
+export const DeleteProjectsLocationsCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificates/{certificatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCertificatesRequest>;
 
 export type DeleteProjectsLocationsCertificatesResponse = Operation;
-export const DeleteProjectsLocationsCertificatesResponse = Operation;
+export const DeleteProjectsLocationsCertificatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsCertificatesError = DefaultErrors;
 
@@ -1296,7 +1336,7 @@ export const deleteProjectsLocationsCertificates: API.OperationMethod<
   DeleteProjectsLocationsCertificatesResponse,
   DeleteProjectsLocationsCertificatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCertificatesRequest,
   output: DeleteProjectsLocationsCertificatesResponse,
   errors: [],
@@ -1315,24 +1355,25 @@ export interface ListProjectsLocationsCertificateMapsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsCertificateMapsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCertificateMapsRequest>;
+export const ListProjectsLocationsCertificateMapsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCertificateMapsRequest>;
 
 export type ListProjectsLocationsCertificateMapsResponse =
   ListCertificateMapsResponse;
 export const ListProjectsLocationsCertificateMapsResponse =
-  ListCertificateMapsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCertificateMapsResponse;
 
 export type ListProjectsLocationsCertificateMapsError = DefaultErrors;
 
@@ -1342,7 +1383,7 @@ export const listProjectsLocationsCertificateMaps: API.PaginatedOperationMethod<
   ListProjectsLocationsCertificateMapsResponse,
   ListProjectsLocationsCertificateMapsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateMapsRequest,
   output: ListProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1357,18 +1398,20 @@ export interface GetProjectsLocationsCertificateMapsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCertificateMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCertificateMapsRequest>;
+export const GetProjectsLocationsCertificateMapsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCertificateMapsRequest>;
 
 export type GetProjectsLocationsCertificateMapsResponse = CertificateMap;
-export const GetProjectsLocationsCertificateMapsResponse = CertificateMap;
+export const GetProjectsLocationsCertificateMapsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CertificateMap;
 
 export type GetProjectsLocationsCertificateMapsError = DefaultErrors;
 
@@ -1378,7 +1421,7 @@ export const getProjectsLocationsCertificateMaps: API.OperationMethod<
   GetProjectsLocationsCertificateMapsResponse,
   GetProjectsLocationsCertificateMapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCertificateMapsRequest,
   output: GetProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1393,23 +1436,25 @@ export interface CreateProjectsLocationsCertificateMapsRequest {
   body?: CertificateMap;
 }
 
-export const CreateProjectsLocationsCertificateMapsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  certificateMapId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("certificateMapId"),
-  ),
-  body: Schema.optional(CertificateMap).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCertificateMapsRequest>;
+export const CreateProjectsLocationsCertificateMapsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    certificateMapId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("certificateMapId"),
+    ),
+    body: Schema.optional(CertificateMap).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCertificateMapsRequest>;
 
 export type CreateProjectsLocationsCertificateMapsResponse = Operation;
-export const CreateProjectsLocationsCertificateMapsResponse = Operation;
+export const CreateProjectsLocationsCertificateMapsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsCertificateMapsError = DefaultErrors;
 
@@ -1419,7 +1464,7 @@ export const createProjectsLocationsCertificateMaps: API.OperationMethod<
   CreateProjectsLocationsCertificateMapsResponse,
   CreateProjectsLocationsCertificateMapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCertificateMapsRequest,
   output: CreateProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1434,21 +1479,23 @@ export interface PatchProjectsLocationsCertificateMapsRequest {
   body?: CertificateMap;
 }
 
-export const PatchProjectsLocationsCertificateMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CertificateMap).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCertificateMapsRequest>;
+export const PatchProjectsLocationsCertificateMapsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CertificateMap).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCertificateMapsRequest>;
 
 export type PatchProjectsLocationsCertificateMapsResponse = Operation;
-export const PatchProjectsLocationsCertificateMapsResponse = Operation;
+export const PatchProjectsLocationsCertificateMapsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsCertificateMapsError = DefaultErrors;
 
@@ -1458,7 +1505,7 @@ export const patchProjectsLocationsCertificateMaps: API.OperationMethod<
   PatchProjectsLocationsCertificateMapsResponse,
   PatchProjectsLocationsCertificateMapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCertificateMapsRequest,
   output: PatchProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1469,18 +1516,20 @@ export interface DeleteProjectsLocationsCertificateMapsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCertificateMapsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCertificateMapsRequest>;
+export const DeleteProjectsLocationsCertificateMapsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/certificateMaps/{certificateMapsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCertificateMapsRequest>;
 
 export type DeleteProjectsLocationsCertificateMapsResponse = Operation;
-export const DeleteProjectsLocationsCertificateMapsResponse = Operation;
+export const DeleteProjectsLocationsCertificateMapsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsCertificateMapsError = DefaultErrors;
 
@@ -1490,7 +1539,7 @@ export const deleteProjectsLocationsCertificateMaps: API.OperationMethod<
   DeleteProjectsLocationsCertificateMapsResponse,
   DeleteProjectsLocationsCertificateMapsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCertificateMapsRequest,
   output: DeleteProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1510,7 +1559,7 @@ export interface ListProjectsLocationsCertificateMapsCertificateMapEntriesReques
 }
 
 export const ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1527,7 +1576,7 @@ export const ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
 export type ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
   ListCertificateMapEntriesResponse;
 export const ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
-  ListCertificateMapEntriesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCertificateMapEntriesResponse;
 
 export type ListProjectsLocationsCertificateMapsCertificateMapEntriesError =
   DefaultErrors;
@@ -1538,7 +1587,7 @@ export const listProjectsLocationsCertificateMapsCertificateMapEntries: API.Pagi
   ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   ListProjectsLocationsCertificateMapsCertificateMapEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1554,7 +1603,7 @@ export interface GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest
 }
 
 export const GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1567,7 +1616,7 @@ export const GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
 export type GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
   CertificateMapEntry;
 export const GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
-  CertificateMapEntry;
+  /*@__PURE__*/ /*#__PURE__*/ CertificateMapEntry;
 
 export type GetProjectsLocationsCertificateMapsCertificateMapEntriesError =
   DefaultErrors;
@@ -1578,7 +1627,7 @@ export const getProjectsLocationsCertificateMapsCertificateMapEntries: API.Opera
   GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   GetProjectsLocationsCertificateMapsCertificateMapEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1594,7 +1643,7 @@ export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequ
 }
 
 export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     certificateMapEntryId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("certificateMapEntryId"),
@@ -1612,7 +1661,7 @@ export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest 
 export type CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
   Operation;
 export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsCertificateMapsCertificateMapEntriesError =
   DefaultErrors;
@@ -1623,7 +1672,7 @@ export const createProjectsLocationsCertificateMapsCertificateMapEntries: API.Op
   CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   CreateProjectsLocationsCertificateMapsCertificateMapEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1639,7 +1688,7 @@ export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesReque
 }
 
 export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(CertificateMapEntry).pipe(T.HttpBody()),
@@ -1655,7 +1704,7 @@ export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
 export type PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
   Operation;
 export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsCertificateMapsCertificateMapEntriesError =
   DefaultErrors;
@@ -1666,7 +1715,7 @@ export const patchProjectsLocationsCertificateMapsCertificateMapEntries: API.Ope
   PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   PatchProjectsLocationsCertificateMapsCertificateMapEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1678,7 +1727,7 @@ export interface DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequ
 }
 
 export const DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1691,7 +1740,7 @@ export const DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest 
 export type DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
   Operation;
 export const DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsCertificateMapsCertificateMapEntriesError =
   DefaultErrors;
@@ -1702,7 +1751,7 @@ export const deleteProjectsLocationsCertificateMapsCertificateMapEntries: API.Op
   DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   DeleteProjectsLocationsCertificateMapsCertificateMapEntriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1721,24 +1770,25 @@ export interface ListProjectsLocationsDnsAuthorizationsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsDnsAuthorizationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDnsAuthorizationsRequest>;
+export const ListProjectsLocationsDnsAuthorizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDnsAuthorizationsRequest>;
 
 export type ListProjectsLocationsDnsAuthorizationsResponse =
   ListDnsAuthorizationsResponse;
 export const ListProjectsLocationsDnsAuthorizationsResponse =
-  ListDnsAuthorizationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDnsAuthorizationsResponse;
 
 export type ListProjectsLocationsDnsAuthorizationsError = DefaultErrors;
 
@@ -1748,7 +1798,7 @@ export const listProjectsLocationsDnsAuthorizations: API.PaginatedOperationMetho
   ListProjectsLocationsDnsAuthorizationsResponse,
   ListProjectsLocationsDnsAuthorizationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDnsAuthorizationsRequest,
   output: ListProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1763,18 +1813,20 @@ export interface GetProjectsLocationsDnsAuthorizationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDnsAuthorizationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDnsAuthorizationsRequest>;
+export const GetProjectsLocationsDnsAuthorizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDnsAuthorizationsRequest>;
 
 export type GetProjectsLocationsDnsAuthorizationsResponse = DnsAuthorization;
-export const GetProjectsLocationsDnsAuthorizationsResponse = DnsAuthorization;
+export const GetProjectsLocationsDnsAuthorizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DnsAuthorization;
 
 export type GetProjectsLocationsDnsAuthorizationsError = DefaultErrors;
 
@@ -1784,7 +1836,7 @@ export const getProjectsLocationsDnsAuthorizations: API.OperationMethod<
   GetProjectsLocationsDnsAuthorizationsResponse,
   GetProjectsLocationsDnsAuthorizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDnsAuthorizationsRequest,
   output: GetProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1799,23 +1851,25 @@ export interface CreateProjectsLocationsDnsAuthorizationsRequest {
   body?: DnsAuthorization;
 }
 
-export const CreateProjectsLocationsDnsAuthorizationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dnsAuthorizationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("dnsAuthorizationId"),
-  ),
-  body: Schema.optional(DnsAuthorization).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDnsAuthorizationsRequest>;
+export const CreateProjectsLocationsDnsAuthorizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dnsAuthorizationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dnsAuthorizationId"),
+    ),
+    body: Schema.optional(DnsAuthorization).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDnsAuthorizationsRequest>;
 
 export type CreateProjectsLocationsDnsAuthorizationsResponse = Operation;
-export const CreateProjectsLocationsDnsAuthorizationsResponse = Operation;
+export const CreateProjectsLocationsDnsAuthorizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsDnsAuthorizationsError = DefaultErrors;
 
@@ -1825,7 +1879,7 @@ export const createProjectsLocationsDnsAuthorizations: API.OperationMethod<
   CreateProjectsLocationsDnsAuthorizationsResponse,
   CreateProjectsLocationsDnsAuthorizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDnsAuthorizationsRequest,
   output: CreateProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1840,21 +1894,23 @@ export interface PatchProjectsLocationsDnsAuthorizationsRequest {
   body?: DnsAuthorization;
 }
 
-export const PatchProjectsLocationsDnsAuthorizationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(DnsAuthorization).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDnsAuthorizationsRequest>;
+export const PatchProjectsLocationsDnsAuthorizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(DnsAuthorization).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDnsAuthorizationsRequest>;
 
 export type PatchProjectsLocationsDnsAuthorizationsResponse = Operation;
-export const PatchProjectsLocationsDnsAuthorizationsResponse = Operation;
+export const PatchProjectsLocationsDnsAuthorizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsDnsAuthorizationsError = DefaultErrors;
 
@@ -1864,7 +1920,7 @@ export const patchProjectsLocationsDnsAuthorizations: API.OperationMethod<
   PatchProjectsLocationsDnsAuthorizationsResponse,
   PatchProjectsLocationsDnsAuthorizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDnsAuthorizationsRequest,
   output: PatchProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1875,18 +1931,20 @@ export interface DeleteProjectsLocationsDnsAuthorizationsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDnsAuthorizationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDnsAuthorizationsRequest>;
+export const DeleteProjectsLocationsDnsAuthorizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dnsAuthorizations/{dnsAuthorizationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDnsAuthorizationsRequest>;
 
 export type DeleteProjectsLocationsDnsAuthorizationsResponse = Operation;
-export const DeleteProjectsLocationsDnsAuthorizationsResponse = Operation;
+export const DeleteProjectsLocationsDnsAuthorizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsDnsAuthorizationsError = DefaultErrors;
 
@@ -1896,7 +1954,7 @@ export const deleteProjectsLocationsDnsAuthorizations: API.OperationMethod<
   DeleteProjectsLocationsDnsAuthorizationsResponse,
   DeleteProjectsLocationsDnsAuthorizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDnsAuthorizationsRequest,
   output: DeleteProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1916,7 +1974,7 @@ export interface ListProjectsLocationsCertificateIssuanceConfigsRequest {
 }
 
 export const ListProjectsLocationsCertificateIssuanceConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1933,7 +1991,7 @@ export const ListProjectsLocationsCertificateIssuanceConfigsRequest =
 export type ListProjectsLocationsCertificateIssuanceConfigsResponse =
   ListCertificateIssuanceConfigsResponse;
 export const ListProjectsLocationsCertificateIssuanceConfigsResponse =
-  ListCertificateIssuanceConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCertificateIssuanceConfigsResponse;
 
 export type ListProjectsLocationsCertificateIssuanceConfigsError =
   DefaultErrors;
@@ -1944,7 +2002,7 @@ export const listProjectsLocationsCertificateIssuanceConfigs: API.PaginatedOpera
   ListProjectsLocationsCertificateIssuanceConfigsResponse,
   ListProjectsLocationsCertificateIssuanceConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateIssuanceConfigsRequest,
   output: ListProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -1960,7 +2018,7 @@ export interface GetProjectsLocationsCertificateIssuanceConfigsRequest {
 }
 
 export const GetProjectsLocationsCertificateIssuanceConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1973,7 +2031,7 @@ export const GetProjectsLocationsCertificateIssuanceConfigsRequest =
 export type GetProjectsLocationsCertificateIssuanceConfigsResponse =
   CertificateIssuanceConfig;
 export const GetProjectsLocationsCertificateIssuanceConfigsResponse =
-  CertificateIssuanceConfig;
+  /*@__PURE__*/ /*#__PURE__*/ CertificateIssuanceConfig;
 
 export type GetProjectsLocationsCertificateIssuanceConfigsError = DefaultErrors;
 
@@ -1983,7 +2041,7 @@ export const getProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod
   GetProjectsLocationsCertificateIssuanceConfigsResponse,
   GetProjectsLocationsCertificateIssuanceConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCertificateIssuanceConfigsRequest,
   output: GetProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -1999,7 +2057,7 @@ export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest {
 }
 
 export const CreateProjectsLocationsCertificateIssuanceConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     certificateIssuanceConfigId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("certificateIssuanceConfigId"),
@@ -2017,7 +2075,7 @@ export const CreateProjectsLocationsCertificateIssuanceConfigsRequest =
 export type CreateProjectsLocationsCertificateIssuanceConfigsResponse =
   Operation;
 export const CreateProjectsLocationsCertificateIssuanceConfigsResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsCertificateIssuanceConfigsError =
   DefaultErrors;
@@ -2028,7 +2086,7 @@ export const createProjectsLocationsCertificateIssuanceConfigs: API.OperationMet
   CreateProjectsLocationsCertificateIssuanceConfigsResponse,
   CreateProjectsLocationsCertificateIssuanceConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCertificateIssuanceConfigsRequest,
   output: CreateProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -2044,7 +2102,7 @@ export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest {
 }
 
 export const PatchProjectsLocationsCertificateIssuanceConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(CertificateIssuanceConfig).pipe(T.HttpBody()),
@@ -2060,7 +2118,7 @@ export const PatchProjectsLocationsCertificateIssuanceConfigsRequest =
 export type PatchProjectsLocationsCertificateIssuanceConfigsResponse =
   Operation;
 export const PatchProjectsLocationsCertificateIssuanceConfigsResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsCertificateIssuanceConfigsError =
   DefaultErrors;
@@ -2071,7 +2129,7 @@ export const patchProjectsLocationsCertificateIssuanceConfigs: API.OperationMeth
   PatchProjectsLocationsCertificateIssuanceConfigsResponse,
   PatchProjectsLocationsCertificateIssuanceConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCertificateIssuanceConfigsRequest,
   output: PatchProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -2083,7 +2141,7 @@ export interface DeleteProjectsLocationsCertificateIssuanceConfigsRequest {
 }
 
 export const DeleteProjectsLocationsCertificateIssuanceConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -2096,7 +2154,7 @@ export const DeleteProjectsLocationsCertificateIssuanceConfigsRequest =
 export type DeleteProjectsLocationsCertificateIssuanceConfigsResponse =
   Operation;
 export const DeleteProjectsLocationsCertificateIssuanceConfigsResponse =
-  Operation;
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsCertificateIssuanceConfigsError =
   DefaultErrors;
@@ -2107,7 +2165,7 @@ export const deleteProjectsLocationsCertificateIssuanceConfigs: API.OperationMet
   DeleteProjectsLocationsCertificateIssuanceConfigsResponse,
   DeleteProjectsLocationsCertificateIssuanceConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCertificateIssuanceConfigsRequest,
   output: DeleteProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -2126,24 +2184,25 @@ export interface ListProjectsLocationsTrustConfigsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsTrustConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTrustConfigsRequest>;
+export const ListProjectsLocationsTrustConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTrustConfigsRequest>;
 
 export type ListProjectsLocationsTrustConfigsResponse =
   ListTrustConfigsResponse;
 export const ListProjectsLocationsTrustConfigsResponse =
-  ListTrustConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTrustConfigsResponse;
 
 export type ListProjectsLocationsTrustConfigsError = DefaultErrors;
 
@@ -2153,7 +2212,7 @@ export const listProjectsLocationsTrustConfigs: API.PaginatedOperationMethod<
   ListProjectsLocationsTrustConfigsResponse,
   ListProjectsLocationsTrustConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTrustConfigsRequest,
   output: ListProjectsLocationsTrustConfigsResponse,
   errors: [],
@@ -2168,18 +2227,20 @@ export interface GetProjectsLocationsTrustConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTrustConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTrustConfigsRequest>;
+export const GetProjectsLocationsTrustConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTrustConfigsRequest>;
 
 export type GetProjectsLocationsTrustConfigsResponse = TrustConfig;
-export const GetProjectsLocationsTrustConfigsResponse = TrustConfig;
+export const GetProjectsLocationsTrustConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TrustConfig;
 
 export type GetProjectsLocationsTrustConfigsError = DefaultErrors;
 
@@ -2189,7 +2250,7 @@ export const getProjectsLocationsTrustConfigs: API.OperationMethod<
   GetProjectsLocationsTrustConfigsResponse,
   GetProjectsLocationsTrustConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTrustConfigsRequest,
   output: GetProjectsLocationsTrustConfigsResponse,
   errors: [],
@@ -2204,23 +2265,25 @@ export interface CreateProjectsLocationsTrustConfigsRequest {
   body?: TrustConfig;
 }
 
-export const CreateProjectsLocationsTrustConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  trustConfigId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("trustConfigId"),
-  ),
-  body: Schema.optional(TrustConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTrustConfigsRequest>;
+export const CreateProjectsLocationsTrustConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    trustConfigId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("trustConfigId"),
+    ),
+    body: Schema.optional(TrustConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTrustConfigsRequest>;
 
 export type CreateProjectsLocationsTrustConfigsResponse = Operation;
-export const CreateProjectsLocationsTrustConfigsResponse = Operation;
+export const CreateProjectsLocationsTrustConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsTrustConfigsError = DefaultErrors;
 
@@ -2230,7 +2293,7 @@ export const createProjectsLocationsTrustConfigs: API.OperationMethod<
   CreateProjectsLocationsTrustConfigsResponse,
   CreateProjectsLocationsTrustConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTrustConfigsRequest,
   output: CreateProjectsLocationsTrustConfigsResponse,
   errors: [],
@@ -2245,21 +2308,23 @@ export interface PatchProjectsLocationsTrustConfigsRequest {
   body?: TrustConfig;
 }
 
-export const PatchProjectsLocationsTrustConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(TrustConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTrustConfigsRequest>;
+export const PatchProjectsLocationsTrustConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(TrustConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTrustConfigsRequest>;
 
 export type PatchProjectsLocationsTrustConfigsResponse = Operation;
-export const PatchProjectsLocationsTrustConfigsResponse = Operation;
+export const PatchProjectsLocationsTrustConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsTrustConfigsError = DefaultErrors;
 
@@ -2269,7 +2334,7 @@ export const patchProjectsLocationsTrustConfigs: API.OperationMethod<
   PatchProjectsLocationsTrustConfigsResponse,
   PatchProjectsLocationsTrustConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTrustConfigsRequest,
   output: PatchProjectsLocationsTrustConfigsResponse,
   errors: [],
@@ -2282,19 +2347,21 @@ export interface DeleteProjectsLocationsTrustConfigsRequest {
   etag?: string;
 }
 
-export const DeleteProjectsLocationsTrustConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTrustConfigsRequest>;
+export const DeleteProjectsLocationsTrustConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/trustConfigs/{trustConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTrustConfigsRequest>;
 
 export type DeleteProjectsLocationsTrustConfigsResponse = Operation;
-export const DeleteProjectsLocationsTrustConfigsResponse = Operation;
+export const DeleteProjectsLocationsTrustConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsTrustConfigsError = DefaultErrors;
 
@@ -2304,7 +2371,7 @@ export const deleteProjectsLocationsTrustConfigs: API.OperationMethod<
   DeleteProjectsLocationsTrustConfigsResponse,
   DeleteProjectsLocationsTrustConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTrustConfigsRequest,
   output: DeleteProjectsLocationsTrustConfigsResponse,
   errors: [],

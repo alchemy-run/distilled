@@ -37,7 +37,7 @@ export interface GoogleCloudAdvisorynotificationsV1Text {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Text: Schema.Schema<GoogleCloudAdvisorynotificationsV1Text> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enText: Schema.optional(Schema.String),
       localizedText: Schema.optional(Schema.String),
@@ -53,7 +53,7 @@ export interface GoogleCloudAdvisorynotificationsV1Subject {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Subject: Schema.Schema<GoogleCloudAdvisorynotificationsV1Subject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
     }),
@@ -67,7 +67,7 @@ export interface GoogleCloudAdvisorynotificationsV1MessageBody {
 }
 
 export const GoogleCloudAdvisorynotificationsV1MessageBody: Schema.Schema<GoogleCloudAdvisorynotificationsV1MessageBody> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
     }),
@@ -81,7 +81,7 @@ export interface GoogleCloudAdvisorynotificationsV1CsvCsvRow {
 }
 
 export const GoogleCloudAdvisorynotificationsV1CsvCsvRow: Schema.Schema<GoogleCloudAdvisorynotificationsV1CsvCsvRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -97,7 +97,7 @@ export interface GoogleCloudAdvisorynotificationsV1Csv {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Csv: Schema.Schema<GoogleCloudAdvisorynotificationsV1Csv> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headers: Schema.optional(Schema.Array(Schema.String)),
       dataRows: Schema.optional(
@@ -116,7 +116,7 @@ export interface GoogleCloudAdvisorynotificationsV1Attachment {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Attachment: Schema.Schema<GoogleCloudAdvisorynotificationsV1Attachment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       csv: Schema.optional(GoogleCloudAdvisorynotificationsV1Csv),
       displayName: Schema.optional(Schema.String),
@@ -137,7 +137,7 @@ export interface GoogleCloudAdvisorynotificationsV1Message {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Message: Schema.Schema<GoogleCloudAdvisorynotificationsV1Message> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       body: Schema.optional(GoogleCloudAdvisorynotificationsV1MessageBody),
       attachments: Schema.optional(
@@ -170,7 +170,7 @@ export interface GoogleCloudAdvisorynotificationsV1Notification {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Notification: Schema.Schema<GoogleCloudAdvisorynotificationsV1Notification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       subject: Schema.optional(GoogleCloudAdvisorynotificationsV1Subject),
@@ -194,7 +194,7 @@ export interface GoogleCloudAdvisorynotificationsV1ListNotificationsResponse {
 }
 
 export const GoogleCloudAdvisorynotificationsV1ListNotificationsResponse: Schema.Schema<GoogleCloudAdvisorynotificationsV1ListNotificationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notifications: Schema.optional(
         Schema.Array(GoogleCloudAdvisorynotificationsV1Notification),
@@ -212,7 +212,7 @@ export interface GoogleCloudAdvisorynotificationsV1NotificationSettings {
 }
 
 export const GoogleCloudAdvisorynotificationsV1NotificationSettings: Schema.Schema<GoogleCloudAdvisorynotificationsV1NotificationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
     }),
@@ -233,7 +233,7 @@ export interface GoogleCloudAdvisorynotificationsV1Settings {
 }
 
 export const GoogleCloudAdvisorynotificationsV1Settings: Schema.Schema<GoogleCloudAdvisorynotificationsV1Settings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       notificationSettings: Schema.optional(
@@ -257,20 +257,21 @@ export interface GetSettingsOrganizationsLocationsRequest {
   name: string;
 }
 
-export const GetSettingsOrganizationsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSettingsOrganizationsLocationsRequest>;
+export const GetSettingsOrganizationsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSettingsOrganizationsLocationsRequest>;
 
 export type GetSettingsOrganizationsLocationsResponse =
   GoogleCloudAdvisorynotificationsV1Settings;
 export const GetSettingsOrganizationsLocationsResponse =
-  GoogleCloudAdvisorynotificationsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
 
 export type GetSettingsOrganizationsLocationsError = DefaultErrors;
 
@@ -280,7 +281,7 @@ export const getSettingsOrganizationsLocations: API.OperationMethod<
   GetSettingsOrganizationsLocationsResponse,
   GetSettingsOrganizationsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingsOrganizationsLocationsRequest,
   output: GetSettingsOrganizationsLocationsResponse,
   errors: [],
@@ -293,24 +294,25 @@ export interface UpdateSettingsOrganizationsLocationsRequest {
   body?: GoogleCloudAdvisorynotificationsV1Settings;
 }
 
-export const UpdateSettingsOrganizationsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudAdvisorynotificationsV1Settings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSettingsOrganizationsLocationsRequest>;
+export const UpdateSettingsOrganizationsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudAdvisorynotificationsV1Settings).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/settings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSettingsOrganizationsLocationsRequest>;
 
 export type UpdateSettingsOrganizationsLocationsResponse =
   GoogleCloudAdvisorynotificationsV1Settings;
 export const UpdateSettingsOrganizationsLocationsResponse =
-  GoogleCloudAdvisorynotificationsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
 
 export type UpdateSettingsOrganizationsLocationsError = DefaultErrors;
 
@@ -320,7 +322,7 @@ export const updateSettingsOrganizationsLocations: API.OperationMethod<
   UpdateSettingsOrganizationsLocationsResponse,
   UpdateSettingsOrganizationsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsOrganizationsLocationsRequest,
   output: UpdateSettingsOrganizationsLocationsResponse,
   errors: [],
@@ -339,26 +341,27 @@ export interface ListOrganizationsLocationsNotificationsRequest {
   languageCode?: string;
 }
 
-export const ListOrganizationsLocationsNotificationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/locations/{locationsId}/notifications",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsNotificationsRequest>;
+export const ListOrganizationsLocationsNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/notifications",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsNotificationsRequest>;
 
 export type ListOrganizationsLocationsNotificationsResponse =
   GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
 export const ListOrganizationsLocationsNotificationsResponse =
-  GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
 
 export type ListOrganizationsLocationsNotificationsError = DefaultErrors;
 
@@ -368,7 +371,7 @@ export const listOrganizationsLocationsNotifications: API.PaginatedOperationMeth
   ListOrganizationsLocationsNotificationsResponse,
   ListOrganizationsLocationsNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsNotificationsRequest,
   output: ListOrganizationsLocationsNotificationsResponse,
   errors: [],
@@ -385,23 +388,24 @@ export interface GetOrganizationsLocationsNotificationsRequest {
   languageCode?: string;
 }
 
-export const GetOrganizationsLocationsNotificationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/locations/{locationsId}/notifications/{notificationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsNotificationsRequest>;
+export const GetOrganizationsLocationsNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/locations/{locationsId}/notifications/{notificationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsNotificationsRequest>;
 
 export type GetOrganizationsLocationsNotificationsResponse =
   GoogleCloudAdvisorynotificationsV1Notification;
 export const GetOrganizationsLocationsNotificationsResponse =
-  GoogleCloudAdvisorynotificationsV1Notification;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Notification;
 
 export type GetOrganizationsLocationsNotificationsError = DefaultErrors;
 
@@ -411,7 +415,7 @@ export const getOrganizationsLocationsNotifications: API.OperationMethod<
   GetOrganizationsLocationsNotificationsResponse,
   GetOrganizationsLocationsNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsNotificationsRequest,
   output: GetOrganizationsLocationsNotificationsResponse,
   errors: [],
@@ -422,20 +426,21 @@ export interface GetSettingsProjectsLocationsRequest {
   name: string;
 }
 
-export const GetSettingsProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
+export const GetSettingsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
 
 export type GetSettingsProjectsLocationsResponse =
   GoogleCloudAdvisorynotificationsV1Settings;
 export const GetSettingsProjectsLocationsResponse =
-  GoogleCloudAdvisorynotificationsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
 
 export type GetSettingsProjectsLocationsError = DefaultErrors;
 
@@ -445,7 +450,7 @@ export const getSettingsProjectsLocations: API.OperationMethod<
   GetSettingsProjectsLocationsResponse,
   GetSettingsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
@@ -458,24 +463,25 @@ export interface UpdateSettingsProjectsLocationsRequest {
   body?: GoogleCloudAdvisorynotificationsV1Settings;
 }
 
-export const UpdateSettingsProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudAdvisorynotificationsV1Settings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
+export const UpdateSettingsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudAdvisorynotificationsV1Settings).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
 
 export type UpdateSettingsProjectsLocationsResponse =
   GoogleCloudAdvisorynotificationsV1Settings;
 export const UpdateSettingsProjectsLocationsResponse =
-  GoogleCloudAdvisorynotificationsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
 
 export type UpdateSettingsProjectsLocationsError = DefaultErrors;
 
@@ -485,7 +491,7 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   UpdateSettingsProjectsLocationsResponse,
   UpdateSettingsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
@@ -504,26 +510,27 @@ export interface ListProjectsLocationsNotificationsRequest {
   languageCode?: string;
 }
 
-export const ListProjectsLocationsNotificationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/notifications",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsNotificationsRequest>;
+export const ListProjectsLocationsNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/notifications",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsNotificationsRequest>;
 
 export type ListProjectsLocationsNotificationsResponse =
   GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
 export const ListProjectsLocationsNotificationsResponse =
-  GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1ListNotificationsResponse;
 
 export type ListProjectsLocationsNotificationsError = DefaultErrors;
 
@@ -533,7 +540,7 @@ export const listProjectsLocationsNotifications: API.PaginatedOperationMethod<
   ListProjectsLocationsNotificationsResponse,
   ListProjectsLocationsNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsNotificationsRequest,
   output: ListProjectsLocationsNotificationsResponse,
   errors: [],
@@ -550,23 +557,24 @@ export interface GetProjectsLocationsNotificationsRequest {
   languageCode?: string;
 }
 
-export const GetProjectsLocationsNotificationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/notifications/{notificationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsNotificationsRequest>;
+export const GetProjectsLocationsNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/notifications/{notificationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsNotificationsRequest>;
 
 export type GetProjectsLocationsNotificationsResponse =
   GoogleCloudAdvisorynotificationsV1Notification;
 export const GetProjectsLocationsNotificationsResponse =
-  GoogleCloudAdvisorynotificationsV1Notification;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Notification;
 
 export type GetProjectsLocationsNotificationsError = DefaultErrors;
 
@@ -576,7 +584,7 @@ export const getProjectsLocationsNotifications: API.OperationMethod<
   GetProjectsLocationsNotificationsResponse,
   GetProjectsLocationsNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsNotificationsRequest,
   output: GetProjectsLocationsNotificationsResponse,
   errors: [],

@@ -33,14 +33,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -51,13 +52,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -68,13 +70,14 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -82,7 +85,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(Policy),
     }),
@@ -95,14 +98,14 @@ export interface GetPolicyOptions {
   requestedPolicyVersion?: number;
 }
 
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> = Schema.suspend(
-  () =>
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedPolicyVersion: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GetPolicyOptions",
-}) as any as Schema.Schema<GetPolicyOptions>;
+  ).annotate({
+    identifier: "GetPolicyOptions",
+  }) as any as Schema.Schema<GetPolicyOptions>;
 
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
@@ -110,7 +113,7 @@ export interface GetIamPolicyRequest {
 }
 
 export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(GetPolicyOptions),
     }),
@@ -124,7 +127,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -138,7 +141,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -153,27 +156,29 @@ export interface GcipSettings {
   loginPageUri?: string;
 }
 
-export const GcipSettings: Schema.Schema<GcipSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    tenantIds: Schema.optional(Schema.Array(Schema.String)),
-    loginPageUri: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GcipSettings",
-}) as any as Schema.Schema<GcipSettings>;
+export const GcipSettings: Schema.Schema<GcipSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tenantIds: Schema.optional(Schema.Array(Schema.String)),
+      loginPageUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GcipSettings",
+  }) as any as Schema.Schema<GcipSettings>;
 
 export interface CorsSettings {
   /** Configuration to allow HTTP `OPTIONS` calls to skip authentication and authorization. If undefined, IAP will not apply any special logic to `OPTIONS` requests. */
   allowHttpOptions?: boolean;
 }
 
-export const CorsSettings: Schema.Schema<CorsSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    allowHttpOptions: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "CorsSettings",
-}) as any as Schema.Schema<CorsSettings>;
+export const CorsSettings: Schema.Schema<CorsSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      allowHttpOptions: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CorsSettings",
+  }) as any as Schema.Schema<CorsSettings>;
 
 export interface OAuthSettings {
   /** Domain hint to send as hd=? parameter in OAuth request flow. Enables redirect to primary IDP by skipping Google's login screen. https://developers.google.com/identity/protocols/OpenIDConnect#hd-param Note: IAP does not verify that the id token's hd claim matches this value since access behavior is managed by IAM policies. */
@@ -188,30 +193,32 @@ export interface OAuthSettings {
   programmaticClients?: Array<string>;
 }
 
-export const OAuthSettings: Schema.Schema<OAuthSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    loginHint: Schema.optional(Schema.String),
-    clientId: Schema.optional(Schema.String),
-    clientSecret: Schema.optional(Schema.String),
-    clientSecretSha256: Schema.optional(Schema.String),
-    programmaticClients: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "OAuthSettings",
-}) as any as Schema.Schema<OAuthSettings>;
+export const OAuthSettings: Schema.Schema<OAuthSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      loginHint: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      clientSecretSha256: Schema.optional(Schema.String),
+      programmaticClients: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "OAuthSettings",
+  }) as any as Schema.Schema<OAuthSettings>;
 
 export interface TagsFullState {
   /** If TagsFullState is initialized, the values in this field fully represent all the tags in the next state (the current tag values are not used). If tags.size() == 0, the next state of tags would be no tags for evaluation purposes. Only one type of tags reference (numeric or namespace) is required to be passed. */
   tags?: Record<string, string>;
 }
 
-export const TagsFullState: Schema.Schema<TagsFullState> = Schema.suspend(() =>
-  Schema.Struct({
-    tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-  }),
-).annotate({
-  identifier: "TagsFullState",
-}) as any as Schema.Schema<TagsFullState>;
+export const TagsFullState: Schema.Schema<TagsFullState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TagsFullState",
+  }) as any as Schema.Schema<TagsFullState>;
 
 export interface TagsPartialState {
   /** Tags that’ll be updated or added to the current state of tags for evaluation purposes. If a key exists in both "tags_to_upsert" and "tag_keys_to_remove", the one in "tag_keys_to_remove" is ignored. Only one type of tags reference (numeric or namespace) is required to be passed. */
@@ -220,17 +227,17 @@ export interface TagsPartialState {
   tagKeysToRemove?: Array<string>;
 }
 
-export const TagsPartialState: Schema.Schema<TagsPartialState> = Schema.suspend(
-  () =>
+export const TagsPartialState: Schema.Schema<TagsPartialState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagsToUpsert: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
       ),
       tagKeysToRemove: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "TagsPartialState",
-}) as any as Schema.Schema<TagsPartialState>;
+  ).annotate({
+    identifier: "TagsPartialState",
+  }) as any as Schema.Schema<TagsPartialState>;
 
 export interface TagsFullStateForChildResource {
   /** If TagsFullStateForChildResource is initialized, the values in this field represent all the tags in the next state for the child resource. Only one type of tags reference (numeric or namespace) is required to be passed. IMPORTANT: This field should only be used when the target resource IAM policy name is UNKNOWN and the resource's parent IAM policy name is being passed in the request. */
@@ -238,7 +245,7 @@ export interface TagsFullStateForChildResource {
 }
 
 export const TagsFullStateForChildResource: Schema.Schema<TagsFullStateForChildResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
@@ -252,8 +259,8 @@ export interface NextStateOfTags {
   tagsFullStateForChildResource?: TagsFullStateForChildResource;
 }
 
-export const NextStateOfTags: Schema.Schema<NextStateOfTags> = Schema.suspend(
-  () =>
+export const NextStateOfTags: Schema.Schema<NextStateOfTags> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagsFullState: Schema.optional(TagsFullState),
       tagsPartialState: Schema.optional(TagsPartialState),
@@ -261,9 +268,9 @@ export const NextStateOfTags: Schema.Schema<NextStateOfTags> = Schema.suspend(
         TagsFullStateForChildResource,
       ),
     }),
-).annotate({
-  identifier: "NextStateOfTags",
-}) as any as Schema.Schema<NextStateOfTags>;
+  ).annotate({
+    identifier: "NextStateOfTags",
+  }) as any as Schema.Schema<NextStateOfTags>;
 
 export interface Resource {
   /** The **relative** name of the resource, which is the URI path of the resource without the leading "/". See https://cloud.google.com/iam/docs/conditions-resource-attributes#resource-name for examples used by other GCP Services. This field is **required** for services integrated with resource-attribute-based IAM conditions and/or CustomOrgPolicy. This field requires special handling for parents-only permissions such as `create` and `list`. See the document linked below for further details. See go/iam-conditions-sig-g3#populate-resource-attributes for specific details on populating this field. */
@@ -282,19 +289,20 @@ export interface Resource {
   locations?: Array<string>;
 }
 
-export const Resource: Schema.Schema<Resource> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    service: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    expectedNextState: Schema.optional(
-      Schema.Record(Schema.String, Schema.Unknown),
-    ),
-    nextStateOfTags: Schema.optional(NextStateOfTags),
-    locations: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+export const Resource: Schema.Schema<Resource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      service: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      expectedNextState: Schema.optional(
+        Schema.Record(Schema.String, Schema.Unknown),
+      ),
+      nextStateOfTags: Schema.optional(NextStateOfTags),
+      locations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
 
 export interface PolicyName {
   /** Resource type. Types are defined in IAM's .service files. Valid values for type might be 'storage_buckets', 'compute_instances', 'resourcemanager_customers', 'billing_accounts', etc. */
@@ -305,13 +313,14 @@ export interface PolicyName {
   region?: string;
 }
 
-export const PolicyName: Schema.Schema<PolicyName> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    region: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PolicyName" }) as any as Schema.Schema<PolicyName>;
+export const PolicyName: Schema.Schema<PolicyName> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PolicyName" }) as any as Schema.Schema<PolicyName>;
 
 export interface PolicyDelegationSettings {
   /** The DNS name of the service (e.g. "resourcemanager.googleapis.com"). This should be the domain name part of the full resource names (see https://aip.dev/122#full-resource-names), which is usually the same as IamServiceSpec.service of the service where the resource type is defined. */
@@ -325,7 +334,7 @@ export interface PolicyDelegationSettings {
 }
 
 export const PolicyDelegationSettings: Schema.Schema<PolicyDelegationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iamServiceName: Schema.optional(Schema.String),
       iamPermission: Schema.optional(Schema.String),
@@ -355,16 +364,16 @@ export interface ReauthSettings {
     | (string & {});
 }
 
-export const ReauthSettings: Schema.Schema<ReauthSettings> = Schema.suspend(
-  () =>
+export const ReauthSettings: Schema.Schema<ReauthSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       method: Schema.optional(Schema.String),
       maxAge: Schema.optional(Schema.String),
       policyType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ReauthSettings",
-}) as any as Schema.Schema<ReauthSettings>;
+  ).annotate({
+    identifier: "ReauthSettings",
+  }) as any as Schema.Schema<ReauthSettings>;
 
 export interface AllowedDomainsSettings {
   /** Optional. Configuration for customers to opt in for the feature. */
@@ -374,7 +383,7 @@ export interface AllowedDomainsSettings {
 }
 
 export const AllowedDomainsSettings: Schema.Schema<AllowedDomainsSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enable: Schema.optional(Schema.Boolean),
       domains: Schema.optional(Schema.Array(Schema.String)),
@@ -392,13 +401,14 @@ export interface OAuth2 {
   clientSecretSha256?: string;
 }
 
-export const OAuth2: Schema.Schema<OAuth2> = Schema.suspend(() =>
-  Schema.Struct({
-    clientId: Schema.optional(Schema.String),
-    clientSecret: Schema.optional(Schema.String),
-    clientSecretSha256: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "OAuth2" }) as any as Schema.Schema<OAuth2>;
+export const OAuth2: Schema.Schema<OAuth2> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clientId: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(Schema.String),
+      clientSecretSha256: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "OAuth2" }) as any as Schema.Schema<OAuth2>;
 
 export interface WorkforceIdentitySettings {
   /** The workforce pool resources. Only one workforce pool is accepted. */
@@ -408,7 +418,7 @@ export interface WorkforceIdentitySettings {
 }
 
 export const WorkforceIdentitySettings: Schema.Schema<WorkforceIdentitySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workforcePools: Schema.optional(Schema.Array(Schema.String)),
       oauth2: Schema.optional(OAuth2),
@@ -440,8 +450,8 @@ export interface AccessSettings {
   >;
 }
 
-export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(
-  () =>
+export const AccessSettings: Schema.Schema<AccessSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcipSettings: Schema.optional(GcipSettings),
       corsSettings: Schema.optional(CorsSettings),
@@ -452,20 +462,23 @@ export const AccessSettings: Schema.Schema<AccessSettings> = Schema.suspend(
       workforceIdentitySettings: Schema.optional(WorkforceIdentitySettings),
       identitySources: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AccessSettings",
-}) as any as Schema.Schema<AccessSettings>;
+  ).annotate({
+    identifier: "AccessSettings",
+  }) as any as Schema.Schema<AccessSettings>;
 
 export interface CsmSettings {
   /** Audience claim set in the generated RCToken. This value is not validated by IAP. */
   rctokenAud?: string;
 }
 
-export const CsmSettings: Schema.Schema<CsmSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    rctokenAud: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CsmSettings" }) as any as Schema.Schema<CsmSettings>;
+export const CsmSettings: Schema.Schema<CsmSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rctokenAud: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CsmSettings",
+  }) as any as Schema.Schema<CsmSettings>;
 
 export interface AccessDeniedPageSettings {
   /** The URI to be redirected to when access is denied. */
@@ -477,7 +490,7 @@ export interface AccessDeniedPageSettings {
 }
 
 export const AccessDeniedPageSettings: Schema.Schema<AccessDeniedPageSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessDeniedPageUri: Schema.optional(Schema.String),
       generateTroubleshootingUri: Schema.optional(Schema.Boolean),
@@ -503,7 +516,7 @@ export interface AttributePropagationSettings {
 }
 
 export const AttributePropagationSettings: Schema.Schema<AttributePropagationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       outputCredentials: Schema.optional(Schema.Array(Schema.String)),
@@ -525,7 +538,7 @@ export interface ApplicationSettings {
 }
 
 export const ApplicationSettings: Schema.Schema<ApplicationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       csmSettings: Schema.optional(CsmSettings),
       accessDeniedPageSettings: Schema.optional(AccessDeniedPageSettings),
@@ -547,18 +560,21 @@ export interface IapSettings {
   applicationSettings?: ApplicationSettings;
 }
 
-export const IapSettings: Schema.Schema<IapSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    accessSettings: Schema.optional(AccessSettings),
-    applicationSettings: Schema.optional(ApplicationSettings),
-  }),
-).annotate({ identifier: "IapSettings" }) as any as Schema.Schema<IapSettings>;
+export const IapSettings: Schema.Schema<IapSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      accessSettings: Schema.optional(AccessSettings),
+      applicationSettings: Schema.optional(ApplicationSettings),
+    }),
+  ).annotate({
+    identifier: "IapSettings",
+  }) as any as Schema.Schema<IapSettings>;
 
 export interface ValidateIapAttributeExpressionResponse {}
 
 export const ValidateIapAttributeExpressionResponse: Schema.Schema<ValidateIapAttributeExpressionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ValidateIapAttributeExpressionResponse",
   }) as any as Schema.Schema<ValidateIapAttributeExpressionResponse>;
 
@@ -571,16 +587,16 @@ export interface TunnelDestGroup {
   fqdns?: Array<string>;
 }
 
-export const TunnelDestGroup: Schema.Schema<TunnelDestGroup> = Schema.suspend(
-  () =>
+export const TunnelDestGroup: Schema.Schema<TunnelDestGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       cidrs: Schema.optional(Schema.Array(Schema.String)),
       fqdns: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "TunnelDestGroup",
-}) as any as Schema.Schema<TunnelDestGroup>;
+  ).annotate({
+    identifier: "TunnelDestGroup",
+  }) as any as Schema.Schema<TunnelDestGroup>;
 
 export interface ListTunnelDestGroupsResponse {
   /** TunnelDestGroup existing in the project. */
@@ -590,7 +606,7 @@ export interface ListTunnelDestGroupsResponse {
 }
 
 export const ListTunnelDestGroupsResponse: Schema.Schema<ListTunnelDestGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tunnelDestGroups: Schema.optional(Schema.Array(TunnelDestGroup)),
       nextPageToken: Schema.optional(Schema.String),
@@ -601,9 +617,10 @@ export const ListTunnelDestGroupsResponse: Schema.Schema<ListTunnelDestGroupsRes
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Brand {
   /** Output only. Identifier of the brand. NOTE: GCP project number achieves the same brand identification purpose as only one brand per project can be created. */
@@ -616,14 +633,15 @@ export interface Brand {
   orgInternalOnly?: boolean;
 }
 
-export const Brand: Schema.Schema<Brand> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    supportEmail: Schema.optional(Schema.String),
-    applicationTitle: Schema.optional(Schema.String),
-    orgInternalOnly: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Brand" }) as any as Schema.Schema<Brand>;
+export const Brand: Schema.Schema<Brand> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      supportEmail: Schema.optional(Schema.String),
+      applicationTitle: Schema.optional(Schema.String),
+      orgInternalOnly: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Brand" }) as any as Schema.Schema<Brand>;
 
 export interface ListBrandsResponse {
   /** Brands existing in the project. */
@@ -631,7 +649,7 @@ export interface ListBrandsResponse {
 }
 
 export const ListBrandsResponse: Schema.Schema<ListBrandsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       brands: Schema.optional(Schema.Array(Brand)),
     }),
@@ -649,7 +667,7 @@ export interface IdentityAwareProxyClient {
 }
 
 export const IdentityAwareProxyClient: Schema.Schema<IdentityAwareProxyClient> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       secret: Schema.optional(Schema.String),
@@ -667,7 +685,7 @@ export interface ListIdentityAwareProxyClientsResponse {
 }
 
 export const ListIdentityAwareProxyClientsResponse: Schema.Schema<ListIdentityAwareProxyClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityAwareProxyClients: Schema.optional(
         Schema.Array(IdentityAwareProxyClient),
@@ -681,7 +699,7 @@ export const ListIdentityAwareProxyClientsResponse: Schema.Schema<ListIdentityAw
 export interface ResetIdentityAwareProxyClientSecretRequest {}
 
 export const ResetIdentityAwareProxyClientSecretRequest: Schema.Schema<ResetIdentityAwareProxyClientSecretRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ResetIdentityAwareProxyClientSecretRequest",
   }) as any as Schema.Schema<ResetIdentityAwareProxyClientSecretRequest>;
 
@@ -696,7 +714,7 @@ export interface SetIamPolicyV1Request {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyV1Request = Schema.Struct({
+export const SetIamPolicyV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -705,7 +723,7 @@ export const SetIamPolicyV1Request = Schema.Struct({
 ) as unknown as Schema.Schema<SetIamPolicyV1Request>;
 
 export type SetIamPolicyV1Response = Policy;
-export const SetIamPolicyV1Response = Policy;
+export const SetIamPolicyV1Response = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyV1Error = DefaultErrors;
 
@@ -715,7 +733,7 @@ export const setIamPolicyV1: API.OperationMethod<
   SetIamPolicyV1Response,
   SetIamPolicyV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyV1Request,
   output: SetIamPolicyV1Response,
   errors: [],
@@ -728,7 +746,7 @@ export interface GetIamPolicyV1Request {
   body?: GetIamPolicyRequest;
 }
 
-export const GetIamPolicyV1Request = Schema.Struct({
+export const GetIamPolicyV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -737,7 +755,7 @@ export const GetIamPolicyV1Request = Schema.Struct({
 ) as unknown as Schema.Schema<GetIamPolicyV1Request>;
 
 export type GetIamPolicyV1Response = Policy;
-export const GetIamPolicyV1Response = Policy;
+export const GetIamPolicyV1Response = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyV1Error = DefaultErrors;
 
@@ -747,7 +765,7 @@ export const getIamPolicyV1: API.OperationMethod<
   GetIamPolicyV1Response,
   GetIamPolicyV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyV1Request,
   output: GetIamPolicyV1Response,
   errors: [],
@@ -760,20 +778,22 @@ export interface TestIamPermissionsV1Request {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsV1Request = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsV1Request>;
+export const TestIamPermissionsV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsV1Request>;
 
 export type TestIamPermissionsV1Response = TestIamPermissionsResponse;
-export const TestIamPermissionsV1Response = TestIamPermissionsResponse;
+export const TestIamPermissionsV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsV1Error = DefaultErrors;
 
@@ -783,7 +803,7 @@ export const testIamPermissionsV1: API.OperationMethod<
   TestIamPermissionsV1Response,
   TestIamPermissionsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsV1Request,
   output: TestIamPermissionsV1Response,
   errors: [],
@@ -794,15 +814,16 @@ export interface GetIapSettingsV1Request {
   name: string;
 }
 
-export const GetIapSettingsV1Request = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/{v1Id}:iapSettings" }),
-  svc,
-) as unknown as Schema.Schema<GetIapSettingsV1Request>;
+export const GetIapSettingsV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/{v1Id}:iapSettings" }),
+    svc,
+  ) as unknown as Schema.Schema<GetIapSettingsV1Request>;
 
 export type GetIapSettingsV1Response = IapSettings;
-export const GetIapSettingsV1Response = IapSettings;
+export const GetIapSettingsV1Response = /*@__PURE__*/ /*#__PURE__*/ IapSettings;
 
 export type GetIapSettingsV1Error = DefaultErrors;
 
@@ -812,7 +833,7 @@ export const getIapSettingsV1: API.OperationMethod<
   GetIapSettingsV1Response,
   GetIapSettingsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIapSettingsV1Request,
   output: GetIapSettingsV1Response,
   errors: [],
@@ -827,17 +848,19 @@ export interface UpdateIapSettingsV1Request {
   body?: IapSettings;
 }
 
-export const UpdateIapSettingsV1Request = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(IapSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v1/{v1Id}:iapSettings", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateIapSettingsV1Request>;
+export const UpdateIapSettingsV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(IapSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "PATCH", path: "v1/{v1Id}:iapSettings", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateIapSettingsV1Request>;
 
 export type UpdateIapSettingsV1Response = IapSettings;
-export const UpdateIapSettingsV1Response = IapSettings;
+export const UpdateIapSettingsV1Response =
+  /*@__PURE__*/ /*#__PURE__*/ IapSettings;
 
 export type UpdateIapSettingsV1Error = DefaultErrors;
 
@@ -847,7 +870,7 @@ export const updateIapSettingsV1: API.OperationMethod<
   UpdateIapSettingsV1Response,
   UpdateIapSettingsV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateIapSettingsV1Request,
   output: UpdateIapSettingsV1Response,
   errors: [],
@@ -860,22 +883,23 @@ export interface ValidateAttributeExpressionV1Request {
   expression?: string;
 }
 
-export const ValidateAttributeExpressionV1Request = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  expression: Schema.optional(Schema.String).pipe(T.HttpQuery("expression")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/{v1Id}:validateAttributeExpression",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ValidateAttributeExpressionV1Request>;
+export const ValidateAttributeExpressionV1Request =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    expression: Schema.optional(Schema.String).pipe(T.HttpQuery("expression")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/{v1Id}:validateAttributeExpression",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ValidateAttributeExpressionV1Request>;
 
 export type ValidateAttributeExpressionV1Response =
   ValidateIapAttributeExpressionResponse;
 export const ValidateAttributeExpressionV1Response =
-  ValidateIapAttributeExpressionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ValidateIapAttributeExpressionResponse;
 
 export type ValidateAttributeExpressionV1Error = DefaultErrors;
 
@@ -885,7 +909,7 @@ export const validateAttributeExpressionV1: API.OperationMethod<
   ValidateAttributeExpressionV1Response,
   ValidateAttributeExpressionV1Error,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateAttributeExpressionV1Request,
   output: ValidateAttributeExpressionV1Response,
   errors: [],
@@ -900,22 +924,23 @@ export interface ListProjectsIap_tunnelLocationsDestGroupsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsIap_tunnelLocationsDestGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsIap_tunnelLocationsDestGroupsRequest>;
+export const ListProjectsIap_tunnelLocationsDestGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsIap_tunnelLocationsDestGroupsRequest>;
 
 export type ListProjectsIap_tunnelLocationsDestGroupsResponse =
   ListTunnelDestGroupsResponse;
 export const ListProjectsIap_tunnelLocationsDestGroupsResponse =
-  ListTunnelDestGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTunnelDestGroupsResponse;
 
 export type ListProjectsIap_tunnelLocationsDestGroupsError = DefaultErrors;
 
@@ -925,7 +950,7 @@ export const listProjectsIap_tunnelLocationsDestGroups: API.PaginatedOperationMe
   ListProjectsIap_tunnelLocationsDestGroupsResponse,
   ListProjectsIap_tunnelLocationsDestGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsIap_tunnelLocationsDestGroupsRequest,
   output: ListProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -944,27 +969,26 @@ export interface CreateProjectsIap_tunnelLocationsDestGroupsRequest {
   body?: TunnelDestGroup;
 }
 
-export const CreateProjectsIap_tunnelLocationsDestGroupsRequest = Schema.Struct(
-  {
+export const CreateProjectsIap_tunnelLocationsDestGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     tunnelDestGroupId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("tunnelDestGroupId"),
     ),
     body: Schema.optional(TunnelDestGroup).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsIap_tunnelLocationsDestGroupsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsIap_tunnelLocationsDestGroupsRequest>;
 
 export type CreateProjectsIap_tunnelLocationsDestGroupsResponse =
   TunnelDestGroup;
 export const CreateProjectsIap_tunnelLocationsDestGroupsResponse =
-  TunnelDestGroup;
+  /*@__PURE__*/ /*#__PURE__*/ TunnelDestGroup;
 
 export type CreateProjectsIap_tunnelLocationsDestGroupsError = DefaultErrors;
 
@@ -974,7 +998,7 @@ export const createProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   CreateProjectsIap_tunnelLocationsDestGroupsResponse,
   CreateProjectsIap_tunnelLocationsDestGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsIap_tunnelLocationsDestGroupsRequest,
   output: CreateProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -985,18 +1009,20 @@ export interface GetProjectsIap_tunnelLocationsDestGroupsRequest {
   name: string;
 }
 
-export const GetProjectsIap_tunnelLocationsDestGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsIap_tunnelLocationsDestGroupsRequest>;
+export const GetProjectsIap_tunnelLocationsDestGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsIap_tunnelLocationsDestGroupsRequest>;
 
 export type GetProjectsIap_tunnelLocationsDestGroupsResponse = TunnelDestGroup;
-export const GetProjectsIap_tunnelLocationsDestGroupsResponse = TunnelDestGroup;
+export const GetProjectsIap_tunnelLocationsDestGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TunnelDestGroup;
 
 export type GetProjectsIap_tunnelLocationsDestGroupsError = DefaultErrors;
 
@@ -1006,7 +1032,7 @@ export const getProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   GetProjectsIap_tunnelLocationsDestGroupsResponse,
   GetProjectsIap_tunnelLocationsDestGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsIap_tunnelLocationsDestGroupsRequest,
   output: GetProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -1017,20 +1043,20 @@ export interface DeleteProjectsIap_tunnelLocationsDestGroupsRequest {
   name: string;
 }
 
-export const DeleteProjectsIap_tunnelLocationsDestGroupsRequest = Schema.Struct(
-  {
+export const DeleteProjectsIap_tunnelLocationsDestGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsIap_tunnelLocationsDestGroupsRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsIap_tunnelLocationsDestGroupsRequest>;
 
 export type DeleteProjectsIap_tunnelLocationsDestGroupsResponse = Empty;
-export const DeleteProjectsIap_tunnelLocationsDestGroupsResponse = Empty;
+export const DeleteProjectsIap_tunnelLocationsDestGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsIap_tunnelLocationsDestGroupsError = DefaultErrors;
 
@@ -1040,7 +1066,7 @@ export const deleteProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   DeleteProjectsIap_tunnelLocationsDestGroupsResponse,
   DeleteProjectsIap_tunnelLocationsDestGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsIap_tunnelLocationsDestGroupsRequest,
   output: DeleteProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -1055,23 +1081,24 @@ export interface PatchProjectsIap_tunnelLocationsDestGroupsRequest {
   body?: TunnelDestGroup;
 }
 
-export const PatchProjectsIap_tunnelLocationsDestGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(TunnelDestGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsIap_tunnelLocationsDestGroupsRequest>;
+export const PatchProjectsIap_tunnelLocationsDestGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(TunnelDestGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/iap_tunnel/locations/{locationsId}/destGroups/{destGroupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsIap_tunnelLocationsDestGroupsRequest>;
 
 export type PatchProjectsIap_tunnelLocationsDestGroupsResponse =
   TunnelDestGroup;
 export const PatchProjectsIap_tunnelLocationsDestGroupsResponse =
-  TunnelDestGroup;
+  /*@__PURE__*/ /*#__PURE__*/ TunnelDestGroup;
 
 export type PatchProjectsIap_tunnelLocationsDestGroupsError = DefaultErrors;
 
@@ -1081,7 +1108,7 @@ export const patchProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<
   PatchProjectsIap_tunnelLocationsDestGroupsResponse,
   PatchProjectsIap_tunnelLocationsDestGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsIap_tunnelLocationsDestGroupsRequest,
   output: PatchProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -1092,15 +1119,17 @@ export interface ListProjectsBrandsRequest {
   parent: string;
 }
 
-export const ListProjectsBrandsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/brands" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsBrandsRequest>;
+export const ListProjectsBrandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/brands" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsBrandsRequest>;
 
 export type ListProjectsBrandsResponse = ListBrandsResponse;
-export const ListProjectsBrandsResponse = ListBrandsResponse;
+export const ListProjectsBrandsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListBrandsResponse;
 
 export type ListProjectsBrandsError = DefaultErrors;
 
@@ -1110,7 +1139,7 @@ export const listProjectsBrands: API.OperationMethod<
   ListProjectsBrandsResponse,
   ListProjectsBrandsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsBrandsRequest,
   output: ListProjectsBrandsResponse,
   errors: [],
@@ -1123,20 +1152,21 @@ export interface CreateProjectsBrandsRequest {
   body?: Brand;
 }
 
-export const CreateProjectsBrandsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Brand).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/brands",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsBrandsRequest>;
+export const CreateProjectsBrandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Brand).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/brands",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsBrandsRequest>;
 
 export type CreateProjectsBrandsResponse = Brand;
-export const CreateProjectsBrandsResponse = Brand;
+export const CreateProjectsBrandsResponse = /*@__PURE__*/ /*#__PURE__*/ Brand;
 
 export type CreateProjectsBrandsError = DefaultErrors;
 
@@ -1146,7 +1176,7 @@ export const createProjectsBrands: API.OperationMethod<
   CreateProjectsBrandsResponse,
   CreateProjectsBrandsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsBrandsRequest,
   output: CreateProjectsBrandsResponse,
   errors: [],
@@ -1157,15 +1187,19 @@ export interface GetProjectsBrandsRequest {
   name: string;
 }
 
-export const GetProjectsBrandsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/brands/{brandsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsBrandsRequest>;
+export const GetProjectsBrandsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/brands/{brandsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsBrandsRequest>;
 
 export type GetProjectsBrandsResponse = Brand;
-export const GetProjectsBrandsResponse = Brand;
+export const GetProjectsBrandsResponse = /*@__PURE__*/ /*#__PURE__*/ Brand;
 
 export type GetProjectsBrandsError = DefaultErrors;
 
@@ -1175,7 +1209,7 @@ export const getProjectsBrands: API.OperationMethod<
   GetProjectsBrandsResponse,
   GetProjectsBrandsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsBrandsRequest,
   output: GetProjectsBrandsResponse,
   errors: [],
@@ -1189,7 +1223,7 @@ export interface CreateProjectsBrandsIdentityAwareProxyClientsRequest {
 }
 
 export const CreateProjectsBrandsIdentityAwareProxyClientsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(IdentityAwareProxyClient).pipe(T.HttpBody()),
   }).pipe(
@@ -1204,7 +1238,7 @@ export const CreateProjectsBrandsIdentityAwareProxyClientsRequest =
 export type CreateProjectsBrandsIdentityAwareProxyClientsResponse =
   IdentityAwareProxyClient;
 export const CreateProjectsBrandsIdentityAwareProxyClientsResponse =
-  IdentityAwareProxyClient;
+  /*@__PURE__*/ /*#__PURE__*/ IdentityAwareProxyClient;
 
 export type CreateProjectsBrandsIdentityAwareProxyClientsError = DefaultErrors;
 
@@ -1214,7 +1248,7 @@ export const createProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   CreateProjectsBrandsIdentityAwareProxyClientsResponse,
   CreateProjectsBrandsIdentityAwareProxyClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsBrandsIdentityAwareProxyClientsRequest,
   output: CreateProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
@@ -1229,24 +1263,23 @@ export interface ListProjectsBrandsIdentityAwareProxyClientsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsBrandsIdentityAwareProxyClientsRequest = Schema.Struct(
-  {
+export const ListProjectsBrandsIdentityAwareProxyClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/brands/{brandsId}/identityAwareProxyClients",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsBrandsIdentityAwareProxyClientsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/brands/{brandsId}/identityAwareProxyClients",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsBrandsIdentityAwareProxyClientsRequest>;
 
 export type ListProjectsBrandsIdentityAwareProxyClientsResponse =
   ListIdentityAwareProxyClientsResponse;
 export const ListProjectsBrandsIdentityAwareProxyClientsResponse =
-  ListIdentityAwareProxyClientsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListIdentityAwareProxyClientsResponse;
 
 export type ListProjectsBrandsIdentityAwareProxyClientsError = DefaultErrors;
 
@@ -1256,7 +1289,7 @@ export const listProjectsBrandsIdentityAwareProxyClients: API.PaginatedOperation
   ListProjectsBrandsIdentityAwareProxyClientsResponse,
   ListProjectsBrandsIdentityAwareProxyClientsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsBrandsIdentityAwareProxyClientsRequest,
   output: ListProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
@@ -1271,20 +1304,21 @@ export interface GetProjectsBrandsIdentityAwareProxyClientsRequest {
   name: string;
 }
 
-export const GetProjectsBrandsIdentityAwareProxyClientsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/brands/{brandsId}/identityAwareProxyClients/{identityAwareProxyClientsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsBrandsIdentityAwareProxyClientsRequest>;
+export const GetProjectsBrandsIdentityAwareProxyClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/brands/{brandsId}/identityAwareProxyClients/{identityAwareProxyClientsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsBrandsIdentityAwareProxyClientsRequest>;
 
 export type GetProjectsBrandsIdentityAwareProxyClientsResponse =
   IdentityAwareProxyClient;
 export const GetProjectsBrandsIdentityAwareProxyClientsResponse =
-  IdentityAwareProxyClient;
+  /*@__PURE__*/ /*#__PURE__*/ IdentityAwareProxyClient;
 
 export type GetProjectsBrandsIdentityAwareProxyClientsError = DefaultErrors;
 
@@ -1294,7 +1328,7 @@ export const getProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   GetProjectsBrandsIdentityAwareProxyClientsResponse,
   GetProjectsBrandsIdentityAwareProxyClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsBrandsIdentityAwareProxyClientsRequest,
   output: GetProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
@@ -1308,7 +1342,7 @@ export interface ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest {
 }
 
 export const ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(ResetIdentityAwareProxyClientSecretRequest).pipe(
       T.HttpBody(),
@@ -1325,7 +1359,7 @@ export const ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest =
 export type ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse =
   IdentityAwareProxyClient;
 export const ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse =
-  IdentityAwareProxyClient;
+  /*@__PURE__*/ /*#__PURE__*/ IdentityAwareProxyClient;
 
 export type ResetSecretProjectsBrandsIdentityAwareProxyClientsError =
   DefaultErrors;
@@ -1336,7 +1370,7 @@ export const resetSecretProjectsBrandsIdentityAwareProxyClients: API.OperationMe
   ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse,
   ResetSecretProjectsBrandsIdentityAwareProxyClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest,
   output: ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
@@ -1348,7 +1382,7 @@ export interface DeleteProjectsBrandsIdentityAwareProxyClientsRequest {
 }
 
 export const DeleteProjectsBrandsIdentityAwareProxyClientsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -1359,7 +1393,8 @@ export const DeleteProjectsBrandsIdentityAwareProxyClientsRequest =
   ) as unknown as Schema.Schema<DeleteProjectsBrandsIdentityAwareProxyClientsRequest>;
 
 export type DeleteProjectsBrandsIdentityAwareProxyClientsResponse = Empty;
-export const DeleteProjectsBrandsIdentityAwareProxyClientsResponse = Empty;
+export const DeleteProjectsBrandsIdentityAwareProxyClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsBrandsIdentityAwareProxyClientsError = DefaultErrors;
 
@@ -1369,7 +1404,7 @@ export const deleteProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<
   DeleteProjectsBrandsIdentityAwareProxyClientsResponse,
   DeleteProjectsBrandsIdentityAwareProxyClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsBrandsIdentityAwareProxyClientsRequest,
   output: DeleteProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],

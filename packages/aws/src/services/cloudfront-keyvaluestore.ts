@@ -152,7 +152,7 @@ export interface DeleteKeyRequest {
   Key: string;
   IfMatch: string;
 }
-export const DeleteKeyRequest = S.suspend(() =>
+export const DeleteKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     Key: S.String.pipe(T.HttpLabel("Key")),
@@ -178,7 +178,7 @@ export interface DeleteKeyResponse {
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const DeleteKeyResponse = S.suspend(() =>
+export const DeleteKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ItemCount: S.Number,
     TotalSizeInBytes: S.Number,
@@ -190,22 +190,23 @@ export const DeleteKeyResponse = S.suspend(() =>
 export interface DescribeKeyValueStoreRequest {
   KvsARN: string;
 }
-export const DescribeKeyValueStoreRequest = S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeKeyValueStoreRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeKeyValueStoreRequest",
-}) as any as S.Schema<DescribeKeyValueStoreRequest>;
+  ).annotate({
+    identifier: "DescribeKeyValueStoreRequest",
+  }) as any as S.Schema<DescribeKeyValueStoreRequest>;
 export interface DescribeKeyValueStoreResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -216,25 +217,26 @@ export interface DescribeKeyValueStoreResponse {
   Status?: string;
   FailureReason?: string;
 }
-export const DescribeKeyValueStoreResponse = S.suspend(() =>
-  S.Struct({
-    ItemCount: S.Number,
-    TotalSizeInBytes: S.Number,
-    KvsARN: S.String,
-    Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ETag: S.String.pipe(T.HttpHeader("ETag")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    FailureReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeKeyValueStoreResponse",
-}) as any as S.Schema<DescribeKeyValueStoreResponse>;
+export const DescribeKeyValueStoreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ItemCount: S.Number,
+      TotalSizeInBytes: S.Number,
+      KvsARN: S.String,
+      Created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ETag: S.String.pipe(T.HttpHeader("ETag")),
+      LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Status: S.optional(S.String),
+      FailureReason: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeKeyValueStoreResponse",
+  }) as any as S.Schema<DescribeKeyValueStoreResponse>;
 export interface GetKeyRequest {
   KvsARN: string;
   Key: string;
 }
-export const GetKeyRequest = S.suspend(() =>
+export const GetKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     Key: S.String.pipe(T.HttpLabel("Key")),
@@ -255,7 +257,7 @@ export interface GetKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
 }
-export const GetKeyResponse = S.suspend(() =>
+export const GetKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Key: S.String,
     Value: SensitiveString,
@@ -268,7 +270,7 @@ export interface ListKeysRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListKeysRequest = S.suspend(() =>
+export const ListKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -290,18 +292,20 @@ export interface ListKeysResponseListItem {
   Key: string;
   Value: string | redacted.Redacted<string>;
 }
-export const ListKeysResponseListItem = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: SensitiveString }),
+export const ListKeysResponseListItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Key: S.String, Value: SensitiveString }),
 ).annotate({
   identifier: "ListKeysResponseListItem",
 }) as any as S.Schema<ListKeysResponseListItem>;
 export type ListKeysResponseList = ListKeysResponseListItem[];
-export const ListKeysResponseList = S.Array(ListKeysResponseListItem);
+export const ListKeysResponseList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ListKeysResponseListItem,
+);
 export interface ListKeysResponse {
   NextToken?: string;
   Items?: ListKeysResponseListItem[];
 }
-export const ListKeysResponse = S.suspend(() =>
+export const ListKeysResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     Items: S.optional(ListKeysResponseList),
@@ -315,7 +319,7 @@ export interface PutKeyRequest {
   KvsARN: string;
   IfMatch: string;
 }
-export const PutKeyRequest = S.suspend(() =>
+export const PutKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Key: S.String.pipe(T.HttpLabel("Key")),
     Value: SensitiveString,
@@ -337,7 +341,7 @@ export interface PutKeyResponse {
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const PutKeyResponse = S.suspend(() =>
+export const PutKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ItemCount: S.Number,
     TotalSizeInBytes: S.Number,
@@ -348,30 +352,34 @@ export interface PutKeyRequestListItem {
   Key: string;
   Value: string | redacted.Redacted<string>;
 }
-export const PutKeyRequestListItem = S.suspend(() =>
+export const PutKeyRequestListItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: SensitiveString }),
 ).annotate({
   identifier: "PutKeyRequestListItem",
 }) as any as S.Schema<PutKeyRequestListItem>;
 export type PutKeyRequestsList = PutKeyRequestListItem[];
-export const PutKeyRequestsList = S.Array(PutKeyRequestListItem);
+export const PutKeyRequestsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  PutKeyRequestListItem,
+);
 export interface DeleteKeyRequestListItem {
   Key: string;
 }
-export const DeleteKeyRequestListItem = S.suspend(() =>
-  S.Struct({ Key: S.String }),
+export const DeleteKeyRequestListItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Key: S.String }),
 ).annotate({
   identifier: "DeleteKeyRequestListItem",
 }) as any as S.Schema<DeleteKeyRequestListItem>;
 export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
-export const DeleteKeyRequestsList = S.Array(DeleteKeyRequestListItem);
+export const DeleteKeyRequestsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DeleteKeyRequestListItem,
+);
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
   Puts?: PutKeyRequestListItem[];
   Deletes?: DeleteKeyRequestListItem[];
 }
-export const UpdateKeysRequest = S.suspend(() =>
+export const UpdateKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
@@ -395,7 +403,7 @@ export interface UpdateKeysResponse {
   TotalSizeInBytes: number;
   ETag: string;
 }
-export const UpdateKeysResponse = S.suspend(() =>
+export const UpdateKeysResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ItemCount: S.Number,
     TotalSizeInBytes: S.Number,

@@ -69,7 +69,7 @@ export interface DataSourceParameter {
 }
 
 export const DataSourceParameter: Schema.Schema<DataSourceParameter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       paramId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -145,28 +145,29 @@ export interface DataSource {
   minimumScheduleInterval?: string;
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    clientId: Schema.optional(Schema.String),
-    scopes: Schema.optional(Schema.Array(Schema.String)),
-    transferType: Schema.optional(Schema.String),
-    supportsMultipleTransfers: Schema.optional(Schema.Boolean),
-    updateDeadlineSeconds: Schema.optional(Schema.Number),
-    defaultSchedule: Schema.optional(Schema.String),
-    supportsCustomSchedule: Schema.optional(Schema.Boolean),
-    parameters: Schema.optional(Schema.Array(DataSourceParameter)),
-    helpUrl: Schema.optional(Schema.String),
-    authorizationType: Schema.optional(Schema.String),
-    dataRefreshType: Schema.optional(Schema.String),
-    defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
-    manualRunsDisabled: Schema.optional(Schema.Boolean),
-    minimumScheduleInterval: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      scopes: Schema.optional(Schema.Array(Schema.String)),
+      transferType: Schema.optional(Schema.String),
+      supportsMultipleTransfers: Schema.optional(Schema.Boolean),
+      updateDeadlineSeconds: Schema.optional(Schema.Number),
+      defaultSchedule: Schema.optional(Schema.String),
+      supportsCustomSchedule: Schema.optional(Schema.Boolean),
+      parameters: Schema.optional(Schema.Array(DataSourceParameter)),
+      helpUrl: Schema.optional(Schema.String),
+      authorizationType: Schema.optional(Schema.String),
+      dataRefreshType: Schema.optional(Schema.String),
+      defaultDataRefreshWindowDays: Schema.optional(Schema.Number),
+      manualRunsDisabled: Schema.optional(Schema.Boolean),
+      minimumScheduleInterval: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface ListDataSourcesResponse {
   /** List of supported data sources and their transfer settings. */
@@ -176,7 +177,7 @@ export interface ListDataSourcesResponse {
 }
 
 export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSources: Schema.optional(Schema.Array(DataSource)),
       nextPageToken: Schema.optional(Schema.String),
@@ -194,16 +195,16 @@ export interface ScheduleOptions {
   endTime?: string;
 }
 
-export const ScheduleOptions: Schema.Schema<ScheduleOptions> = Schema.suspend(
-  () =>
+export const ScheduleOptions: Schema.Schema<ScheduleOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       disableAutoScheduling: Schema.optional(Schema.Boolean),
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ScheduleOptions",
-}) as any as Schema.Schema<ScheduleOptions>;
+  ).annotate({
+    identifier: "ScheduleOptions",
+  }) as any as Schema.Schema<ScheduleOptions>;
 
 export interface TimeBasedSchedule {
   /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
@@ -215,7 +216,7 @@ export interface TimeBasedSchedule {
 }
 
 export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schedule: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -227,11 +228,10 @@ export const TimeBasedSchedule: Schema.Schema<TimeBasedSchedule> =
 
 export interface ManualSchedule {}
 
-export const ManualSchedule: Schema.Schema<ManualSchedule> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "ManualSchedule",
-}) as any as Schema.Schema<ManualSchedule>;
+export const ManualSchedule: Schema.Schema<ManualSchedule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ManualSchedule",
+  }) as any as Schema.Schema<ManualSchedule>;
 
 export interface EventDrivenSchedule {
   /** Pub/Sub subscription name used to receive events. Only Google Cloud Storage data source support this option. Format: projects/{project}/subscriptions/{subscription} */
@@ -239,7 +239,7 @@ export interface EventDrivenSchedule {
 }
 
 export const EventDrivenSchedule: Schema.Schema<EventDrivenSchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pubsubSubscription: Schema.optional(Schema.String),
     }),
@@ -257,7 +257,7 @@ export interface ScheduleOptionsV2 {
 }
 
 export const ScheduleOptionsV2: Schema.Schema<ScheduleOptionsV2> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeBasedSchedule: Schema.optional(TimeBasedSchedule),
       manualSchedule: Schema.optional(ManualSchedule),
@@ -272,25 +272,26 @@ export interface EmailPreferences {
   enableFailureEmail?: boolean;
 }
 
-export const EmailPreferences: Schema.Schema<EmailPreferences> = Schema.suspend(
-  () =>
+export const EmailPreferences: Schema.Schema<EmailPreferences> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableFailureEmail: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "EmailPreferences",
-}) as any as Schema.Schema<EmailPreferences>;
+  ).annotate({
+    identifier: "EmailPreferences",
+  }) as any as Schema.Schema<EmailPreferences>;
 
 export interface UserInfo {
   /** E-mail address of the user. */
   email?: string;
 }
 
-export const UserInfo: Schema.Schema<UserInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
+export const UserInfo: Schema.Schema<UserInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "UserInfo" }) as any as Schema.Schema<UserInfo>;
 
 export interface EncryptionConfiguration {
   /** The name of the KMS key used for encrypting BigQuery data. */
@@ -298,7 +299,7 @@ export interface EncryptionConfiguration {
 }
 
 export const EncryptionConfiguration: Schema.Schema<EncryptionConfiguration> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kmsKeyName: Schema.optional(Schema.String),
     }),
@@ -315,15 +316,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface TransferConfig {
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
@@ -381,8 +383,8 @@ export interface TransferConfig {
     | (string & {});
 }
 
-export const TransferConfig: Schema.Schema<TransferConfig> = Schema.suspend(
-  () =>
+export const TransferConfig: Schema.Schema<TransferConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       destinationDatasetId: Schema.optional(Schema.String),
@@ -406,15 +408,16 @@ export const TransferConfig: Schema.Schema<TransferConfig> = Schema.suspend(
       error: Schema.optional(Status),
       managedTableType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TransferConfig",
-}) as any as Schema.Schema<TransferConfig>;
+  ).annotate({
+    identifier: "TransferConfig",
+  }) as any as Schema.Schema<TransferConfig>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListTransferConfigsResponse {
   /** Output only. The stored pipeline transfer configurations. */
@@ -424,7 +427,7 @@ export interface ListTransferConfigsResponse {
 }
 
 export const ListTransferConfigsResponse: Schema.Schema<ListTransferConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transferConfigs: Schema.optional(Schema.Array(TransferConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -441,7 +444,7 @@ export interface ScheduleTransferRunsRequest {
 }
 
 export const ScheduleTransferRunsRequest: Schema.Schema<ScheduleTransferRunsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -490,25 +493,28 @@ export interface TransferRun {
   emailPreferences?: EmailPreferences;
 }
 
-export const TransferRun: Schema.Schema<TransferRun> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    scheduleTime: Schema.optional(Schema.String),
-    runTime: Schema.optional(Schema.String),
-    errorStatus: Schema.optional(Status),
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    destinationDatasetId: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    schedule: Schema.optional(Schema.String),
-    notificationPubsubTopic: Schema.optional(Schema.String),
-    emailPreferences: Schema.optional(EmailPreferences),
-  }),
-).annotate({ identifier: "TransferRun" }) as any as Schema.Schema<TransferRun>;
+export const TransferRun: Schema.Schema<TransferRun> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      scheduleTime: Schema.optional(Schema.String),
+      runTime: Schema.optional(Schema.String),
+      errorStatus: Schema.optional(Status),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      destinationDatasetId: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      schedule: Schema.optional(Schema.String),
+      notificationPubsubTopic: Schema.optional(Schema.String),
+      emailPreferences: Schema.optional(EmailPreferences),
+    }),
+  ).annotate({
+    identifier: "TransferRun",
+  }) as any as Schema.Schema<TransferRun>;
 
 export interface ScheduleTransferRunsResponse {
   /** The transfer runs that were scheduled. */
@@ -516,7 +522,7 @@ export interface ScheduleTransferRunsResponse {
 }
 
 export const ScheduleTransferRunsResponse: Schema.Schema<ScheduleTransferRunsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runs: Schema.optional(Schema.Array(TransferRun)),
     }),
@@ -531,12 +537,13 @@ export interface TimeRange {
   endTime?: string;
 }
 
-export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
+export const TimeRange: Schema.Schema<TimeRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
 
 export interface StartManualTransferRunsRequest {
   /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
@@ -546,7 +553,7 @@ export interface StartManualTransferRunsRequest {
 }
 
 export const StartManualTransferRunsRequest: Schema.Schema<StartManualTransferRunsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedTimeRange: Schema.optional(TimeRange),
       requestedRunTime: Schema.optional(Schema.String),
@@ -561,7 +568,7 @@ export interface StartManualTransferRunsResponse {
 }
 
 export const StartManualTransferRunsResponse: Schema.Schema<StartManualTransferRunsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runs: Schema.optional(Schema.Array(TransferRun)),
     }),
@@ -577,7 +584,7 @@ export interface ListTransferRunsResponse {
 }
 
 export const ListTransferRunsResponse: Schema.Schema<ListTransferRunsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transferRuns: Schema.optional(Schema.Array(TransferRun)),
       nextPageToken: Schema.optional(Schema.String),
@@ -600,16 +607,16 @@ export interface TransferMessage {
   messageText?: string;
 }
 
-export const TransferMessage: Schema.Schema<TransferMessage> = Schema.suspend(
-  () =>
+export const TransferMessage: Schema.Schema<TransferMessage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageTime: Schema.optional(Schema.String),
       severity: Schema.optional(Schema.String),
       messageText: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TransferMessage",
-}) as any as Schema.Schema<TransferMessage>;
+  ).annotate({
+    identifier: "TransferMessage",
+  }) as any as Schema.Schema<TransferMessage>;
 
 export interface ListTransferLogsResponse {
   /** Output only. The stored pipeline transfer messages. */
@@ -619,7 +626,7 @@ export interface ListTransferLogsResponse {
 }
 
 export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transferMessages: Schema.optional(Schema.Array(TransferMessage)),
       nextPageToken: Schema.optional(Schema.String),
@@ -631,7 +638,7 @@ export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
 export interface CheckValidCredsRequest {}
 
 export const CheckValidCredsRequest: Schema.Schema<CheckValidCredsRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CheckValidCredsRequest",
   }) as any as Schema.Schema<CheckValidCredsRequest>;
 
@@ -641,7 +648,7 @@ export interface CheckValidCredsResponse {
 }
 
 export const CheckValidCredsResponse: Schema.Schema<CheckValidCredsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hasValidCreds: Schema.optional(Schema.Boolean),
     }),
@@ -655,7 +662,7 @@ export interface EnrollDataSourcesRequest {
 }
 
 export const EnrollDataSourcesRequest: Schema.Schema<EnrollDataSourcesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -669,7 +676,7 @@ export interface UnenrollDataSourcesRequest {
 }
 
 export const UnenrollDataSourcesRequest: Schema.Schema<UnenrollDataSourcesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -690,15 +697,16 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -708,7 +716,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -728,20 +736,22 @@ export interface EnrollDataSourcesProjectsRequest {
   body?: EnrollDataSourcesRequest;
 }
 
-export const EnrollDataSourcesProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}:enrollDataSources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EnrollDataSourcesProjectsRequest>;
+export const EnrollDataSourcesProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}:enrollDataSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnrollDataSourcesProjectsRequest>;
 
 export type EnrollDataSourcesProjectsResponse = Empty;
-export const EnrollDataSourcesProjectsResponse = Empty;
+export const EnrollDataSourcesProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type EnrollDataSourcesProjectsError = DefaultErrors;
 
@@ -751,7 +761,7 @@ export const enrollDataSourcesProjects: API.OperationMethod<
   EnrollDataSourcesProjectsResponse,
   EnrollDataSourcesProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnrollDataSourcesProjectsRequest,
   output: EnrollDataSourcesProjectsResponse,
   errors: [],
@@ -762,18 +772,20 @@ export interface GetProjectsDataSourcesRequest {
   name: string;
 }
 
-export const GetProjectsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDataSourcesRequest>;
+export const GetProjectsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDataSourcesRequest>;
 
 export type GetProjectsDataSourcesResponse = DataSource;
-export const GetProjectsDataSourcesResponse = DataSource;
+export const GetProjectsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type GetProjectsDataSourcesError = DefaultErrors;
 
@@ -783,7 +795,7 @@ export const getProjectsDataSources: API.OperationMethod<
   GetProjectsDataSourcesResponse,
   GetProjectsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDataSourcesRequest,
   output: GetProjectsDataSourcesResponse,
   errors: [],
@@ -798,17 +810,19 @@ export interface ListProjectsDataSourcesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDataSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/dataSources" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDataSourcesRequest>;
+export const ListProjectsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/dataSources" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDataSourcesRequest>;
 
 export type ListProjectsDataSourcesResponse = ListDataSourcesResponse;
-export const ListProjectsDataSourcesResponse = ListDataSourcesResponse;
+export const ListProjectsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
 
 export type ListProjectsDataSourcesError = DefaultErrors;
 
@@ -818,7 +832,7 @@ export const listProjectsDataSources: API.PaginatedOperationMethod<
   ListProjectsDataSourcesResponse,
   ListProjectsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDataSourcesRequest,
   output: ListProjectsDataSourcesResponse,
   errors: [],
@@ -835,22 +849,23 @@ export interface CheckValidCredsProjectsDataSourcesRequest {
   body?: CheckValidCredsRequest;
 }
 
-export const CheckValidCredsProjectsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}:checkValidCreds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckValidCredsProjectsDataSourcesRequest>;
+export const CheckValidCredsProjectsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/dataSources/{dataSourcesId}:checkValidCreds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckValidCredsProjectsDataSourcesRequest>;
 
 export type CheckValidCredsProjectsDataSourcesResponse =
   CheckValidCredsResponse;
 export const CheckValidCredsProjectsDataSourcesResponse =
-  CheckValidCredsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CheckValidCredsResponse;
 
 export type CheckValidCredsProjectsDataSourcesError = DefaultErrors;
 
@@ -860,7 +875,7 @@ export const checkValidCredsProjectsDataSources: API.OperationMethod<
   CheckValidCredsProjectsDataSourcesResponse,
   CheckValidCredsProjectsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckValidCredsProjectsDataSourcesRequest,
   output: CheckValidCredsProjectsDataSourcesResponse,
   errors: [],
@@ -879,27 +894,31 @@ export interface CreateProjectsTransferConfigsRequest {
   body?: TransferConfig;
 }
 
-export const CreateProjectsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/transferConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsTransferConfigsRequest>;
+export const CreateProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    authorizationCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("authorizationCode"),
+    ),
+    versionInfo: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("versionInfo"),
+    ),
+    serviceAccountName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("serviceAccountName"),
+    ),
+    body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/transferConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsTransferConfigsRequest>;
 
 export type CreateProjectsTransferConfigsResponse = TransferConfig;
-export const CreateProjectsTransferConfigsResponse = TransferConfig;
+export const CreateProjectsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type CreateProjectsTransferConfigsError = DefaultErrors;
 
@@ -909,7 +928,7 @@ export const createProjectsTransferConfigs: API.OperationMethod<
   CreateProjectsTransferConfigsResponse,
   CreateProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsTransferConfigsRequest,
   output: CreateProjectsTransferConfigsResponse,
   errors: [],
@@ -930,28 +949,32 @@ export interface PatchProjectsTransferConfigsRequest {
   body?: TransferConfig;
 }
 
-export const PatchProjectsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsTransferConfigsRequest>;
+export const PatchProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    authorizationCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("authorizationCode"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    versionInfo: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("versionInfo"),
+    ),
+    serviceAccountName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("serviceAccountName"),
+    ),
+    body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsTransferConfigsRequest>;
 
 export type PatchProjectsTransferConfigsResponse = TransferConfig;
-export const PatchProjectsTransferConfigsResponse = TransferConfig;
+export const PatchProjectsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type PatchProjectsTransferConfigsError = DefaultErrors;
 
@@ -961,7 +984,7 @@ export const patchProjectsTransferConfigs: API.OperationMethod<
   PatchProjectsTransferConfigsResponse,
   PatchProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsTransferConfigsRequest,
   output: PatchProjectsTransferConfigsResponse,
   errors: [],
@@ -972,18 +995,20 @@ export interface DeleteProjectsTransferConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRequest>;
+export const DeleteProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRequest>;
 
 export type DeleteProjectsTransferConfigsResponse = Empty;
-export const DeleteProjectsTransferConfigsResponse = Empty;
+export const DeleteProjectsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsTransferConfigsError = DefaultErrors;
 
@@ -993,7 +1018,7 @@ export const deleteProjectsTransferConfigs: API.OperationMethod<
   DeleteProjectsTransferConfigsResponse,
   DeleteProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsTransferConfigsRequest,
   output: DeleteProjectsTransferConfigsResponse,
   errors: [],
@@ -1004,18 +1029,20 @@ export interface GetProjectsTransferConfigsRequest {
   name: string;
 }
 
-export const GetProjectsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsTransferConfigsRequest>;
+export const GetProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsTransferConfigsRequest>;
 
 export type GetProjectsTransferConfigsResponse = TransferConfig;
-export const GetProjectsTransferConfigsResponse = TransferConfig;
+export const GetProjectsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type GetProjectsTransferConfigsError = DefaultErrors;
 
@@ -1025,7 +1052,7 @@ export const getProjectsTransferConfigs: API.OperationMethod<
   GetProjectsTransferConfigsResponse,
   GetProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsTransferConfigsRequest,
   output: GetProjectsTransferConfigsResponse,
   errors: [],
@@ -1042,20 +1069,22 @@ export interface ListProjectsTransferConfigsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dataSourceIds"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTransferConfigsRequest>;
+export const ListProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dataSourceIds"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/transferConfigs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTransferConfigsRequest>;
 
 export type ListProjectsTransferConfigsResponse = ListTransferConfigsResponse;
-export const ListProjectsTransferConfigsResponse = ListTransferConfigsResponse;
+export const ListProjectsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferConfigsResponse;
 
 export type ListProjectsTransferConfigsError = DefaultErrors;
 
@@ -1065,7 +1094,7 @@ export const listProjectsTransferConfigs: API.PaginatedOperationMethod<
   ListProjectsTransferConfigsResponse,
   ListProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRequest,
   output: ListProjectsTransferConfigsResponse,
   errors: [],
@@ -1082,22 +1111,23 @@ export interface ScheduleRunsProjectsTransferConfigsRequest {
   body?: ScheduleTransferRunsRequest;
 }
 
-export const ScheduleRunsProjectsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:scheduleRuns",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ScheduleRunsProjectsTransferConfigsRequest>;
+export const ScheduleRunsProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:scheduleRuns",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ScheduleRunsProjectsTransferConfigsRequest>;
 
 export type ScheduleRunsProjectsTransferConfigsResponse =
   ScheduleTransferRunsResponse;
 export const ScheduleRunsProjectsTransferConfigsResponse =
-  ScheduleTransferRunsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ScheduleTransferRunsResponse;
 
 export type ScheduleRunsProjectsTransferConfigsError = DefaultErrors;
 
@@ -1107,7 +1137,7 @@ export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<
   ScheduleRunsProjectsTransferConfigsResponse,
   ScheduleRunsProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleRunsProjectsTransferConfigsRequest,
   output: ScheduleRunsProjectsTransferConfigsResponse,
   errors: [],
@@ -1120,22 +1150,23 @@ export interface StartManualRunsProjectsTransferConfigsRequest {
   body?: StartManualTransferRunsRequest;
 }
 
-export const StartManualRunsProjectsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StartManualRunsProjectsTransferConfigsRequest>;
+export const StartManualRunsProjectsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}:startManualRuns",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StartManualRunsProjectsTransferConfigsRequest>;
 
 export type StartManualRunsProjectsTransferConfigsResponse =
   StartManualTransferRunsResponse;
 export const StartManualRunsProjectsTransferConfigsResponse =
-  StartManualTransferRunsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ StartManualTransferRunsResponse;
 
 export type StartManualRunsProjectsTransferConfigsError = DefaultErrors;
 
@@ -1145,7 +1176,7 @@ export const startManualRunsProjectsTransferConfigs: API.OperationMethod<
   StartManualRunsProjectsTransferConfigsResponse,
   StartManualRunsProjectsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartManualRunsProjectsTransferConfigsRequest,
   output: StartManualRunsProjectsTransferConfigsResponse,
   errors: [],
@@ -1156,18 +1187,20 @@ export interface GetProjectsTransferConfigsRunsRequest {
   name: string;
 }
 
-export const GetProjectsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsTransferConfigsRunsRequest>;
+export const GetProjectsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsTransferConfigsRunsRequest>;
 
 export type GetProjectsTransferConfigsRunsResponse = TransferRun;
-export const GetProjectsTransferConfigsRunsResponse = TransferRun;
+export const GetProjectsTransferConfigsRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferRun;
 
 export type GetProjectsTransferConfigsRunsError = DefaultErrors;
 
@@ -1177,7 +1210,7 @@ export const getProjectsTransferConfigsRuns: API.OperationMethod<
   GetProjectsTransferConfigsRunsResponse,
   GetProjectsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsTransferConfigsRunsRequest,
   output: GetProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -1188,18 +1221,20 @@ export interface DeleteProjectsTransferConfigsRunsRequest {
   name: string;
 }
 
-export const DeleteProjectsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRunsRequest>;
+export const DeleteProjectsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsTransferConfigsRunsRequest>;
 
 export type DeleteProjectsTransferConfigsRunsResponse = Empty;
-export const DeleteProjectsTransferConfigsRunsResponse = Empty;
+export const DeleteProjectsTransferConfigsRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsTransferConfigsRunsError = DefaultErrors;
 
@@ -1209,7 +1244,7 @@ export const deleteProjectsTransferConfigsRuns: API.OperationMethod<
   DeleteProjectsTransferConfigsRunsResponse,
   DeleteProjectsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsTransferConfigsRunsRequest,
   output: DeleteProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -1235,24 +1270,26 @@ export interface ListProjectsTransferConfigsRunsRequest {
   runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
 }
 
-export const ListProjectsTransferConfigsRunsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("states"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsRequest>;
+export const ListProjectsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    states: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("states"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsRequest>;
 
 export type ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
-export const ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
+export const ListProjectsTransferConfigsRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferRunsResponse;
 
 export type ListProjectsTransferConfigsRunsError = DefaultErrors;
 
@@ -1262,7 +1299,7 @@ export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<
   ListProjectsTransferConfigsRunsResponse,
   ListProjectsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsRequest,
   output: ListProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -1288,27 +1325,26 @@ export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
     | (string & {})[];
 }
 
-export const ListProjectsTransferConfigsRunsTransferLogsRequest = Schema.Struct(
-  {
+export const ListProjectsTransferConfigsRunsTransferLogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     messageTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("messageTypes"),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsTransferLogsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/transferConfigs/{transferConfigsId}/runs/{runsId}/transferLogs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsTransferConfigsRunsTransferLogsRequest>;
 
 export type ListProjectsTransferConfigsRunsTransferLogsResponse =
   ListTransferLogsResponse;
 export const ListProjectsTransferConfigsRunsTransferLogsResponse =
-  ListTransferLogsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferLogsResponse;
 
 export type ListProjectsTransferConfigsRunsTransferLogsError = DefaultErrors;
 
@@ -1318,7 +1354,7 @@ export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperation
   ListProjectsTransferConfigsRunsTransferLogsResponse,
   ListProjectsTransferConfigsRunsTransferLogsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsTransferConfigsRunsTransferLogsResponse,
   errors: [],
@@ -1335,20 +1371,22 @@ export interface EnrollDataSourcesProjectsLocationsRequest {
   body?: EnrollDataSourcesRequest;
 }
 
-export const EnrollDataSourcesProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EnrollDataSourcesProjectsLocationsRequest>;
+export const EnrollDataSourcesProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(EnrollDataSourcesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:enrollDataSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnrollDataSourcesProjectsLocationsRequest>;
 
 export type EnrollDataSourcesProjectsLocationsResponse = Empty;
-export const EnrollDataSourcesProjectsLocationsResponse = Empty;
+export const EnrollDataSourcesProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type EnrollDataSourcesProjectsLocationsError = DefaultErrors;
 
@@ -1358,7 +1396,7 @@ export const enrollDataSourcesProjectsLocations: API.OperationMethod<
   EnrollDataSourcesProjectsLocationsResponse,
   EnrollDataSourcesProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnrollDataSourcesProjectsLocationsRequest,
   output: EnrollDataSourcesProjectsLocationsResponse,
   errors: [],
@@ -1371,20 +1409,22 @@ export interface UnenrollDataSourcesProjectsLocationsRequest {
   body?: UnenrollDataSourcesRequest;
 }
 
-export const UnenrollDataSourcesProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UnenrollDataSourcesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnenrollDataSourcesProjectsLocationsRequest>;
+export const UnenrollDataSourcesProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UnenrollDataSourcesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:unenrollDataSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnenrollDataSourcesProjectsLocationsRequest>;
 
 export type UnenrollDataSourcesProjectsLocationsResponse = Empty;
-export const UnenrollDataSourcesProjectsLocationsResponse = Empty;
+export const UnenrollDataSourcesProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type UnenrollDataSourcesProjectsLocationsError = DefaultErrors;
 
@@ -1394,7 +1434,7 @@ export const unenrollDataSourcesProjectsLocations: API.OperationMethod<
   UnenrollDataSourcesProjectsLocationsResponse,
   UnenrollDataSourcesProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnenrollDataSourcesProjectsLocationsRequest,
   output: UnenrollDataSourcesProjectsLocationsResponse,
   errors: [],
@@ -1413,21 +1453,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -1437,7 +1479,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1452,18 +1494,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -1473,7 +1517,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -1484,18 +1528,20 @@ export interface GetProjectsLocationsDataSourcesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDataSourcesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDataSourcesRequest>;
+export const GetProjectsLocationsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDataSourcesRequest>;
 
 export type GetProjectsLocationsDataSourcesResponse = DataSource;
-export const GetProjectsLocationsDataSourcesResponse = DataSource;
+export const GetProjectsLocationsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type GetProjectsLocationsDataSourcesError = DefaultErrors;
 
@@ -1505,7 +1551,7 @@ export const getProjectsLocationsDataSources: API.OperationMethod<
   GetProjectsLocationsDataSourcesResponse,
   GetProjectsLocationsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataSourcesRequest,
   output: GetProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1520,20 +1566,22 @@ export interface ListProjectsLocationsDataSourcesRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsDataSourcesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDataSourcesRequest>;
+export const ListProjectsLocationsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDataSourcesRequest>;
 
 export type ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
-export const ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
+export const ListProjectsLocationsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
 
 export type ListProjectsLocationsDataSourcesError = DefaultErrors;
 
@@ -1543,7 +1591,7 @@ export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
   ListProjectsLocationsDataSourcesResponse,
   ListProjectsLocationsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDataSourcesRequest,
   output: ListProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1560,24 +1608,23 @@ export interface CheckValidCredsProjectsLocationsDataSourcesRequest {
   body?: CheckValidCredsRequest;
 }
 
-export const CheckValidCredsProjectsLocationsDataSourcesRequest = Schema.Struct(
-  {
+export const CheckValidCredsProjectsLocationsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CheckValidCredsRequest).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}:checkValidCreds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CheckValidCredsProjectsLocationsDataSourcesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dataSources/{dataSourcesId}:checkValidCreds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CheckValidCredsProjectsLocationsDataSourcesRequest>;
 
 export type CheckValidCredsProjectsLocationsDataSourcesResponse =
   CheckValidCredsResponse;
 export const CheckValidCredsProjectsLocationsDataSourcesResponse =
-  CheckValidCredsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CheckValidCredsResponse;
 
 export type CheckValidCredsProjectsLocationsDataSourcesError = DefaultErrors;
 
@@ -1587,7 +1634,7 @@ export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<
   CheckValidCredsProjectsLocationsDataSourcesResponse,
   CheckValidCredsProjectsLocationsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CheckValidCredsProjectsLocationsDataSourcesRequest,
   output: CheckValidCredsProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -1606,27 +1653,31 @@ export interface CreateProjectsLocationsTransferConfigsRequest {
   body?: TransferConfig;
 }
 
-export const CreateProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsTransferConfigsRequest>;
+export const CreateProjectsLocationsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    authorizationCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("authorizationCode"),
+    ),
+    versionInfo: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("versionInfo"),
+    ),
+    serviceAccountName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("serviceAccountName"),
+    ),
+    body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTransferConfigsRequest>;
 
 export type CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const CreateProjectsLocationsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type CreateProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1636,7 +1687,7 @@ export const createProjectsLocationsTransferConfigs: API.OperationMethod<
   CreateProjectsLocationsTransferConfigsResponse,
   CreateProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsTransferConfigsRequest,
   output: CreateProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1657,28 +1708,32 @@ export interface PatchProjectsLocationsTransferConfigsRequest {
   body?: TransferConfig;
 }
 
-export const PatchProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  authorizationCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizationCode"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  versionInfo: Schema.optional(Schema.String).pipe(T.HttpQuery("versionInfo")),
-  serviceAccountName: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("serviceAccountName"),
-  ),
-  body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsTransferConfigsRequest>;
+export const PatchProjectsLocationsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    authorizationCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("authorizationCode"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    versionInfo: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("versionInfo"),
+    ),
+    serviceAccountName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("serviceAccountName"),
+    ),
+    body: Schema.optional(TransferConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTransferConfigsRequest>;
 
 export type PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const PatchProjectsLocationsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type PatchProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1688,7 +1743,7 @@ export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
   PatchProjectsLocationsTransferConfigsResponse,
   PatchProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsTransferConfigsRequest,
   output: PatchProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1699,18 +1754,20 @@ export interface DeleteProjectsLocationsTransferConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRequest>;
+export const DeleteProjectsLocationsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRequest>;
 
 export type DeleteProjectsLocationsTransferConfigsResponse = Empty;
-export const DeleteProjectsLocationsTransferConfigsResponse = Empty;
+export const DeleteProjectsLocationsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1720,7 +1777,7 @@ export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<
   DeleteProjectsLocationsTransferConfigsResponse,
   DeleteProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRequest,
   output: DeleteProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1731,18 +1788,20 @@ export interface GetProjectsLocationsTransferConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRequest>;
+export const GetProjectsLocationsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRequest>;
 
 export type GetProjectsLocationsTransferConfigsResponse = TransferConfig;
-export const GetProjectsLocationsTransferConfigsResponse = TransferConfig;
+export const GetProjectsLocationsTransferConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferConfig;
 
 export type GetProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1752,7 +1811,7 @@ export const getProjectsLocationsTransferConfigs: API.OperationMethod<
   GetProjectsLocationsTransferConfigsResponse,
   GetProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRequest,
   output: GetProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1769,25 +1828,26 @@ export interface ListProjectsLocationsTransferConfigsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsLocationsTransferConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dataSourceIds"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRequest>;
+export const ListProjectsLocationsTransferConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dataSourceIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dataSourceIds"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRequest>;
 
 export type ListProjectsLocationsTransferConfigsResponse =
   ListTransferConfigsResponse;
 export const ListProjectsLocationsTransferConfigsResponse =
-  ListTransferConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferConfigsResponse;
 
 export type ListProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1797,7 +1857,7 @@ export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
   ListProjectsLocationsTransferConfigsResponse,
   ListProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRequest,
   output: ListProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1815,7 +1875,7 @@ export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
 }
 
 export const ScheduleRunsProjectsLocationsTransferConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(ScheduleTransferRunsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1830,7 +1890,7 @@ export const ScheduleRunsProjectsLocationsTransferConfigsRequest =
 export type ScheduleRunsProjectsLocationsTransferConfigsResponse =
   ScheduleTransferRunsResponse;
 export const ScheduleRunsProjectsLocationsTransferConfigsResponse =
-  ScheduleTransferRunsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ScheduleTransferRunsResponse;
 
 export type ScheduleRunsProjectsLocationsTransferConfigsError = DefaultErrors;
 
@@ -1840,7 +1900,7 @@ export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
   ScheduleRunsProjectsLocationsTransferConfigsResponse,
   ScheduleRunsProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ScheduleRunsProjectsLocationsTransferConfigsRequest,
   output: ScheduleRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1854,7 +1914,7 @@ export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
 }
 
 export const StartManualRunsProjectsLocationsTransferConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(StartManualTransferRunsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1869,7 +1929,7 @@ export const StartManualRunsProjectsLocationsTransferConfigsRequest =
 export type StartManualRunsProjectsLocationsTransferConfigsResponse =
   StartManualTransferRunsResponse;
 export const StartManualRunsProjectsLocationsTransferConfigsResponse =
-  StartManualTransferRunsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ StartManualTransferRunsResponse;
 
 export type StartManualRunsProjectsLocationsTransferConfigsError =
   DefaultErrors;
@@ -1880,7 +1940,7 @@ export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMetho
   StartManualRunsProjectsLocationsTransferConfigsResponse,
   StartManualRunsProjectsLocationsTransferConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartManualRunsProjectsLocationsTransferConfigsRequest,
   output: StartManualRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -1891,18 +1951,20 @@ export interface GetProjectsLocationsTransferConfigsRunsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRunsRequest>;
+export const GetProjectsLocationsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTransferConfigsRunsRequest>;
 
 export type GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
-export const GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
+export const GetProjectsLocationsTransferConfigsRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TransferRun;
 
 export type GetProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
@@ -1912,7 +1974,7 @@ export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   GetProjectsLocationsTransferConfigsRunsResponse,
   GetProjectsLocationsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRunsRequest,
   output: GetProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1923,18 +1985,20 @@ export interface DeleteProjectsLocationsTransferConfigsRunsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRunsRequest>;
+export const DeleteProjectsLocationsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs/{runsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTransferConfigsRunsRequest>;
 
 export type DeleteProjectsLocationsTransferConfigsRunsResponse = Empty;
-export const DeleteProjectsLocationsTransferConfigsRunsResponse = Empty;
+export const DeleteProjectsLocationsTransferConfigsRunsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
@@ -1944,7 +2008,7 @@ export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   DeleteProjectsLocationsTransferConfigsRunsResponse,
   DeleteProjectsLocationsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRunsRequest,
   output: DeleteProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1970,26 +2034,27 @@ export interface ListProjectsLocationsTransferConfigsRunsRequest {
   runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
 }
 
-export const ListProjectsLocationsTransferConfigsRunsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  states: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("states"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRunsRequest>;
+export const ListProjectsLocationsTransferConfigsRunsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    states: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("states"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    runAttempt: Schema.optional(Schema.String).pipe(T.HttpQuery("runAttempt")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/transferConfigs/{transferConfigsId}/runs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTransferConfigsRunsRequest>;
 
 export type ListProjectsLocationsTransferConfigsRunsResponse =
   ListTransferRunsResponse;
 export const ListProjectsLocationsTransferConfigsRunsResponse =
-  ListTransferRunsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferRunsResponse;
 
 export type ListProjectsLocationsTransferConfigsRunsError = DefaultErrors;
 
@@ -1999,7 +2064,7 @@ export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMet
   ListProjectsLocationsTransferConfigsRunsResponse,
   ListProjectsLocationsTransferConfigsRunsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsRequest,
   output: ListProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -2026,7 +2091,7 @@ export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
 }
 
 export const ListProjectsLocationsTransferConfigsRunsTransferLogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -2044,7 +2109,7 @@ export const ListProjectsLocationsTransferConfigsRunsTransferLogsRequest =
 export type ListProjectsLocationsTransferConfigsRunsTransferLogsResponse =
   ListTransferLogsResponse;
 export const ListProjectsLocationsTransferConfigsRunsTransferLogsResponse =
-  ListTransferLogsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTransferLogsResponse;
 
 export type ListProjectsLocationsTransferConfigsRunsTransferLogsError =
   DefaultErrors;
@@ -2055,7 +2120,7 @@ export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.Paginated
   ListProjectsLocationsTransferConfigsRunsTransferLogsResponse,
   ListProjectsLocationsTransferConfigsRunsTransferLogsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsLocationsTransferConfigsRunsTransferLogsResponse,
   errors: [],

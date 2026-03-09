@@ -29,12 +29,13 @@ export interface Turn {
   speaker?: string;
 }
 
-export const Turn: Schema.Schema<Turn> = Schema.suspend(() =>
-  Schema.Struct({
-    text: Schema.optional(Schema.String),
-    speaker: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Turn" }) as any as Schema.Schema<Turn>;
+export const Turn: Schema.Schema<Turn> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(Schema.String),
+      speaker: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Turn" }) as any as Schema.Schema<Turn>;
 
 export interface MultiSpeakerMarkup {
   /** Required. Speaker turns. */
@@ -42,7 +43,7 @@ export interface MultiSpeakerMarkup {
 }
 
 export const MultiSpeakerMarkup: Schema.Schema<MultiSpeakerMarkup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       turns: Schema.optional(Schema.Array(Turn)),
     }),
@@ -66,7 +67,7 @@ export interface CustomPronunciationParams {
 }
 
 export const CustomPronunciationParams: Schema.Schema<CustomPronunciationParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pronunciation: Schema.optional(Schema.String),
       phoneticEncoding: Schema.optional(Schema.String),
@@ -82,7 +83,7 @@ export interface CustomPronunciations {
 }
 
 export const CustomPronunciations: Schema.Schema<CustomPronunciations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pronunciations: Schema.optional(Schema.Array(CustomPronunciationParams)),
     }),
@@ -105,8 +106,8 @@ export interface SynthesisInput {
   markup?: string;
 }
 
-export const SynthesisInput: Schema.Schema<SynthesisInput> = Schema.suspend(
-  () =>
+export const SynthesisInput: Schema.Schema<SynthesisInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prompt: Schema.optional(Schema.String),
       multiSpeakerMarkup: Schema.optional(MultiSpeakerMarkup),
@@ -115,9 +116,9 @@ export const SynthesisInput: Schema.Schema<SynthesisInput> = Schema.suspend(
       customPronunciations: Schema.optional(CustomPronunciations),
       markup: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SynthesisInput",
-}) as any as Schema.Schema<SynthesisInput>;
+  ).annotate({
+    identifier: "SynthesisInput",
+  }) as any as Schema.Schema<SynthesisInput>;
 
 export interface CustomVoiceParams {
   /** Optional. Deprecated. The usage of the synthesized audio to be reported. */
@@ -131,7 +132,7 @@ export interface CustomVoiceParams {
 }
 
 export const CustomVoiceParams: Schema.Schema<CustomVoiceParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportedUsage: Schema.optional(Schema.String),
       model: Schema.optional(Schema.String),
@@ -148,7 +149,7 @@ export interface MultispeakerPrebuiltVoice {
 }
 
 export const MultispeakerPrebuiltVoice: Schema.Schema<MultispeakerPrebuiltVoice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speakerAlias: Schema.optional(Schema.String),
       speakerId: Schema.optional(Schema.String),
@@ -163,7 +164,7 @@ export interface MultiSpeakerVoiceConfig {
 }
 
 export const MultiSpeakerVoiceConfig: Schema.Schema<MultiSpeakerVoiceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speakerVoiceConfigs: Schema.optional(
         Schema.Array(MultispeakerPrebuiltVoice),
@@ -178,14 +179,14 @@ export interface VoiceCloneParams {
   voiceCloningKey?: string;
 }
 
-export const VoiceCloneParams: Schema.Schema<VoiceCloneParams> = Schema.suspend(
-  () =>
+export const VoiceCloneParams: Schema.Schema<VoiceCloneParams> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voiceCloningKey: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "VoiceCloneParams",
-}) as any as Schema.Schema<VoiceCloneParams>;
+  ).annotate({
+    identifier: "VoiceCloneParams",
+  }) as any as Schema.Schema<VoiceCloneParams>;
 
 export interface VoiceSelectionParams {
   /** Required. The language (and potentially also the region) of the voice expressed as a [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag, e.g. "en-US". This should not include a script tag (e.g. use "cmn-cn" rather than "cmn-Hant-cn"), because the script will be inferred from the input provided in the SynthesisInput. The TTS service will use this parameter to help choose an appropriate voice. Note that the TTS service may choose a voice with a slightly different language code than the one selected; it may substitute a different region (e.g. using en-US rather than en-CA if there isn't a Canadian voice available), or even a different language, e.g. using "nb" (Norwegian Bokmal) instead of "no" (Norwegian)". */
@@ -210,7 +211,7 @@ export interface VoiceSelectionParams {
 }
 
 export const VoiceSelectionParams: Schema.Schema<VoiceSelectionParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       customVoice: Schema.optional(CustomVoiceParams),
@@ -234,7 +235,7 @@ export interface AdvancedVoiceOptions {
 }
 
 export const AdvancedVoiceOptions: Schema.Schema<AdvancedVoiceOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lowLatencyJourneySynthesis: Schema.optional(Schema.Boolean),
       enableTextnorm: Schema.optional(Schema.Boolean),
@@ -269,16 +270,19 @@ export interface AudioConfig {
   speakingRate?: number;
 }
 
-export const AudioConfig: Schema.Schema<AudioConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    effectsProfileId: Schema.optional(Schema.Array(Schema.String)),
-    volumeGainDb: Schema.optional(Schema.Number),
-    pitch: Schema.optional(Schema.Number),
-    sampleRateHertz: Schema.optional(Schema.Number),
-    audioEncoding: Schema.optional(Schema.String),
-    speakingRate: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "AudioConfig" }) as any as Schema.Schema<AudioConfig>;
+export const AudioConfig: Schema.Schema<AudioConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      effectsProfileId: Schema.optional(Schema.Array(Schema.String)),
+      volumeGainDb: Schema.optional(Schema.Number),
+      pitch: Schema.optional(Schema.Number),
+      sampleRateHertz: Schema.optional(Schema.Number),
+      audioEncoding: Schema.optional(Schema.String),
+      speakingRate: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "AudioConfig",
+  }) as any as Schema.Schema<AudioConfig>;
 
 export interface SynthesizeSpeechRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
@@ -296,7 +300,7 @@ export interface SynthesizeSpeechRequest {
 }
 
 export const SynthesizeSpeechRequest: Schema.Schema<SynthesizeSpeechRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       input: Schema.optional(SynthesisInput),
       enableTimePointing: Schema.optional(Schema.Array(Schema.String)),
@@ -315,12 +319,13 @@ export interface Timepoint {
   markName?: string;
 }
 
-export const Timepoint: Schema.Schema<Timepoint> = Schema.suspend(() =>
-  Schema.Struct({
-    timeSeconds: Schema.optional(Schema.Number),
-    markName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Timepoint" }) as any as Schema.Schema<Timepoint>;
+export const Timepoint: Schema.Schema<Timepoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeSeconds: Schema.optional(Schema.Number),
+      markName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Timepoint" }) as any as Schema.Schema<Timepoint>;
 
 export interface SynthesizeSpeechResponse {
   /** The audio data bytes encoded as specified in the request, including the header for encodings that are wrapped in containers (e.g. MP3, OGG_OPUS). For LINEAR16 audio, we include the WAV header. Note: as with all bytes fields, protobuffers use a pure binary representation, whereas JSON representations use base64. */
@@ -332,7 +337,7 @@ export interface SynthesizeSpeechResponse {
 }
 
 export const SynthesizeSpeechResponse: Schema.Schema<SynthesizeSpeechResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioContent: Schema.optional(Schema.String),
       audioConfig: Schema.optional(AudioConfig),
@@ -351,15 +356,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -374,15 +380,16 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
@@ -394,7 +401,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unreachable: Schema.optional(Schema.Array(Schema.String)),
       operations: Schema.optional(Schema.Array(Operation)),
@@ -420,14 +427,15 @@ export interface Voice {
   naturalSampleRateHertz?: number;
 }
 
-export const Voice: Schema.Schema<Voice> = Schema.suspend(() =>
-  Schema.Struct({
-    languageCodes: Schema.optional(Schema.Array(Schema.String)),
-    name: Schema.optional(Schema.String),
-    ssmlGender: Schema.optional(Schema.String),
-    naturalSampleRateHertz: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Voice" }) as any as Schema.Schema<Voice>;
+export const Voice: Schema.Schema<Voice> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      languageCodes: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      ssmlGender: Schema.optional(Schema.String),
+      naturalSampleRateHertz: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Voice" }) as any as Schema.Schema<Voice>;
 
 export interface SynthesizeLongAudioRequest {
   /** Required. The Synthesizer requires either plain text or SSML as input. */
@@ -441,7 +449,7 @@ export interface SynthesizeLongAudioRequest {
 }
 
 export const SynthesizeLongAudioRequest: Schema.Schema<SynthesizeLongAudioRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       input: Schema.optional(SynthesisInput),
       audioConfig: Schema.optional(AudioConfig),
@@ -462,7 +470,7 @@ export interface SynthesizeLongAudioMetadata {
 }
 
 export const SynthesizeLongAudioMetadata: Schema.Schema<SynthesizeLongAudioMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       progressPercentage: Schema.optional(Schema.Number),
@@ -482,7 +490,7 @@ export interface GoogleCloudTexttospeechV1beta1SynthesizeLongAudioMetadata {
 }
 
 export const GoogleCloudTexttospeechV1beta1SynthesizeLongAudioMetadata: Schema.Schema<GoogleCloudTexttospeechV1beta1SynthesizeLongAudioMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastUpdateTime: Schema.optional(Schema.String),
       startTime: Schema.optional(Schema.String),
@@ -498,7 +506,7 @@ export interface ListVoicesResponse {
 }
 
 export const ListVoicesResponse: Schema.Schema<ListVoicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       voices: Schema.optional(Schema.Array(Voice)),
     }),
@@ -515,7 +523,7 @@ export interface ListVoicesRequest {
   languageCode?: string;
 }
 
-export const ListVoicesRequest = Schema.Struct({
+export const ListVoicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   languageCode: Schema.optional(Schema.String).pipe(
     T.HttpQuery("languageCode"),
   ),
@@ -525,7 +533,8 @@ export const ListVoicesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListVoicesRequest>;
 
 export type ListVoicesResponse_Op = ListVoicesResponse;
-export const ListVoicesResponse_Op = ListVoicesResponse;
+export const ListVoicesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListVoicesResponse;
 
 export type ListVoicesError = DefaultErrors;
 
@@ -535,7 +544,7 @@ export const listVoices: API.OperationMethod<
   ListVoicesResponse_Op,
   ListVoicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVoicesRequest,
   output: ListVoicesResponse_Op,
   errors: [],
@@ -546,7 +555,7 @@ export interface SynthesizeTextRequest {
   body?: SynthesizeSpeechRequest;
 }
 
-export const SynthesizeTextRequest = Schema.Struct({
+export const SynthesizeTextRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(SynthesizeSpeechRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1beta1/text:synthesize", hasBody: true }),
@@ -554,7 +563,8 @@ export const SynthesizeTextRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SynthesizeTextRequest>;
 
 export type SynthesizeTextResponse = SynthesizeSpeechResponse;
-export const SynthesizeTextResponse = SynthesizeSpeechResponse;
+export const SynthesizeTextResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SynthesizeSpeechResponse;
 
 export type SynthesizeTextError = DefaultErrors;
 
@@ -564,7 +574,7 @@ export const synthesizeText: API.OperationMethod<
   SynthesizeTextResponse,
   SynthesizeTextError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SynthesizeTextRequest,
   output: SynthesizeTextResponse,
   errors: [],
@@ -577,20 +587,22 @@ export interface SynthesizeLongAudioProjectsLocationsRequest {
   body?: SynthesizeLongAudioRequest;
 }
 
-export const SynthesizeLongAudioProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SynthesizeLongAudioRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}:synthesizeLongAudio",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SynthesizeLongAudioProjectsLocationsRequest>;
+export const SynthesizeLongAudioProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SynthesizeLongAudioRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}:synthesizeLongAudio",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SynthesizeLongAudioProjectsLocationsRequest>;
 
 export type SynthesizeLongAudioProjectsLocationsResponse = Operation;
-export const SynthesizeLongAudioProjectsLocationsResponse = Operation;
+export const SynthesizeLongAudioProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type SynthesizeLongAudioProjectsLocationsError = DefaultErrors;
 
@@ -600,7 +612,7 @@ export const synthesizeLongAudioProjectsLocations: API.OperationMethod<
   SynthesizeLongAudioProjectsLocationsResponse,
   SynthesizeLongAudioProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SynthesizeLongAudioProjectsLocationsRequest,
   output: SynthesizeLongAudioProjectsLocationsResponse,
   errors: [],
@@ -619,24 +631,26 @@ export interface ListProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -646,7 +660,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -661,18 +675,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -682,7 +698,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],

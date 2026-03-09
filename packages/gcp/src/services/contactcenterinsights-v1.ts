@@ -31,8 +31,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -40,9 +40,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -58,7 +58,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -80,7 +80,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -93,7 +93,7 @@ export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongru
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -108,17 +108,17 @@ export interface GoogleTypeExpr {
   location?: string;
 }
 
-export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> = Schema.suspend(
-  () =>
+export const GoogleTypeExpr: Schema.Schema<GoogleTypeExpr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expression: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleTypeExpr",
-}) as any as Schema.Schema<GoogleTypeExpr>;
+  ).annotate({
+    identifier: "GoogleTypeExpr",
+  }) as any as Schema.Schema<GoogleTypeExpr>;
 
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -130,7 +130,7 @@ export interface GoogleIamV1Binding {
 }
 
 export const GoogleIamV1Binding: Schema.Schema<GoogleIamV1Binding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       role: Schema.optional(Schema.String),
       members: Schema.optional(Schema.Array(Schema.String)),
@@ -153,7 +153,7 @@ export interface GoogleIamV1AuditLogConfig {
 }
 
 export const GoogleIamV1AuditLogConfig: Schema.Schema<GoogleIamV1AuditLogConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logType: Schema.optional(Schema.String),
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
@@ -170,7 +170,7 @@ export interface GoogleIamV1AuditConfig {
 }
 
 export const GoogleIamV1AuditConfig: Schema.Schema<GoogleIamV1AuditConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
       auditLogConfigs: Schema.optional(Schema.Array(GoogleIamV1AuditLogConfig)),
@@ -191,7 +191,7 @@ export interface GoogleIamV1Policy {
 }
 
 export const GoogleIamV1Policy: Schema.Schema<GoogleIamV1Policy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.Number),
       bindings: Schema.optional(Schema.Array(GoogleIamV1Binding)),
@@ -210,7 +210,7 @@ export interface GoogleIamV1SetIamPolicyRequest {
 }
 
 export const GoogleIamV1SetIamPolicyRequest: Schema.Schema<GoogleIamV1SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(GoogleIamV1Policy),
       updateMask: Schema.optional(Schema.String),
@@ -225,7 +225,7 @@ export interface GoogleIamV1TestIamPermissionsRequest {
 }
 
 export const GoogleIamV1TestIamPermissionsRequest: Schema.Schema<GoogleIamV1TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -239,7 +239,7 @@ export interface GoogleIamV1TestIamPermissionsResponse {
 }
 
 export const GoogleIamV1TestIamPermissionsResponse: Schema.Schema<GoogleIamV1TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -255,7 +255,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationCallMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationCallMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationCallMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerChannel: Schema.optional(Schema.Number),
       agentChannel: Schema.optional(Schema.Number),
@@ -272,7 +272,7 @@ export interface GoogleCloudContactcenterinsightsV1GcsSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1GcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1GcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioUri: Schema.optional(Schema.String),
       transcriptUri: Schema.optional(Schema.String),
@@ -289,7 +289,7 @@ export interface GoogleCloudContactcenterinsightsV1DialogflowSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1DialogflowSource: Schema.Schema<GoogleCloudContactcenterinsightsV1DialogflowSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowConversation: Schema.optional(Schema.String),
       audioUri: Schema.optional(Schema.String),
@@ -308,7 +308,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationDataSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationDataSource: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(GoogleCloudContactcenterinsightsV1GcsSource),
       dialogflowSource: Schema.optional(
@@ -352,7 +352,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAg
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationQualityMetadataAgentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -393,7 +393,7 @@ export interface GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue: Schema.Schema<GoogleCloudContactcenterinsightsV1QaAnswerAnswerValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       strValue: Schema.optional(Schema.String),
       numValue: Schema.optional(Schema.Number),
@@ -425,7 +425,7 @@ export interface GoogleCloudContactcenterinsightsV1FeedbackLabel {
 }
 
 export const GoogleCloudContactcenterinsightsV1FeedbackLabel: Schema.Schema<GoogleCloudContactcenterinsightsV1FeedbackLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       qaAnswerLabel: Schema.optional(
@@ -454,7 +454,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationQualityMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationQualityMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationQualityMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerSatisfactionRating: Schema.optional(Schema.Number),
       waitDuration: Schema.optional(Schema.String),
@@ -484,7 +484,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscr
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentWordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startOffset: Schema.optional(Schema.String),
       endOffset: Schema.optional(Schema.String),
@@ -516,7 +516,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationParticipant {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationParticipant: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationParticipant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowParticipantName: Schema.optional(Schema.String),
       userId: Schema.optional(Schema.String),
@@ -534,7 +534,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscr
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       smartReplyAllowlistCovered: Schema.optional(Schema.Boolean),
     }),
@@ -551,7 +551,7 @@ export interface GoogleCloudContactcenterinsightsV1SentimentData {
 }
 
 export const GoogleCloudContactcenterinsightsV1SentimentData: Schema.Schema<GoogleCloudContactcenterinsightsV1SentimentData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       magnitude: Schema.optional(Schema.Number),
       score: Schema.optional(Schema.Number),
@@ -582,7 +582,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscr
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegment: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationTranscriptTranscriptSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageTime: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -615,7 +615,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationTranscript {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcriptSegments: Schema.optional(
         Schema.Array(
@@ -630,21 +630,21 @@ export const GoogleCloudContactcenterinsightsV1ConversationTranscript: Schema.Sc
 export interface GoogleCloudContactcenterinsightsV1InterruptionData {}
 
 export const GoogleCloudContactcenterinsightsV1InterruptionData: Schema.Schema<GoogleCloudContactcenterinsightsV1InterruptionData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1InterruptionData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1InterruptionData>;
 
 export interface GoogleCloudContactcenterinsightsV1SilenceData {}
 
 export const GoogleCloudContactcenterinsightsV1SilenceData: Schema.Schema<GoogleCloudContactcenterinsightsV1SilenceData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1SilenceData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1SilenceData>;
 
 export interface GoogleCloudContactcenterinsightsV1HoldData {}
 
 export const GoogleCloudContactcenterinsightsV1HoldData: Schema.Schema<GoogleCloudContactcenterinsightsV1HoldData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1HoldData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1HoldData>;
 
@@ -658,7 +658,7 @@ export interface GoogleCloudContactcenterinsightsV1EntityMentionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1EntityMentionData: Schema.Schema<GoogleCloudContactcenterinsightsV1EntityMentionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityUniqueId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -676,7 +676,7 @@ export interface GoogleCloudContactcenterinsightsV1IntentMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1IntentMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1IntentMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intentUniqueId: Schema.optional(Schema.String),
     }),
@@ -692,7 +692,7 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1PhraseMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1PhraseMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseMatcher: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -711,7 +711,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueAssignment {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueAssignment: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueAssignment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -727,7 +727,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueAssignment: Schema.optional(
         GoogleCloudContactcenterinsightsV1IssueAssignment,
@@ -745,7 +745,7 @@ export interface GoogleCloudContactcenterinsightsV1AnnotationBoundary {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnnotationBoundary: Schema.Schema<GoogleCloudContactcenterinsightsV1AnnotationBoundary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wordIndex: Schema.optional(Schema.Number),
       transcriptIndex: Schema.optional(Schema.Number),
@@ -780,7 +780,7 @@ export interface GoogleCloudContactcenterinsightsV1CallAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1CallAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1CallAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interruptionData: Schema.optional(
         GoogleCloudContactcenterinsightsV1InterruptionData,
@@ -844,7 +844,7 @@ export interface GoogleCloudContactcenterinsightsV1Entity {
 }
 
 export const GoogleCloudContactcenterinsightsV1Entity: Schema.Schema<GoogleCloudContactcenterinsightsV1Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -866,7 +866,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationLevelSentiment {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationLevelSentiment: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationLevelSentiment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelTag: Schema.optional(Schema.Number),
       sentimentData: Schema.optional(
@@ -885,7 +885,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationLevelSilence {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationLevelSilence: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationLevelSilence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       silenceDuration: Schema.optional(Schema.String),
       silencePercentage: Schema.optional(Schema.Number),
@@ -902,7 +902,7 @@ export interface GoogleCloudContactcenterinsightsV1Intent {
 }
 
 export const GoogleCloudContactcenterinsightsV1Intent: Schema.Schema<GoogleCloudContactcenterinsightsV1Intent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -919,7 +919,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueModelResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueModelResult: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueModelResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(Schema.String),
       issues: Schema.optional(
@@ -942,7 +942,7 @@ export interface GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource: Schema.Schema<GoogleCloudContactcenterinsightsV1QaAnswerAnswerSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       answerValue: Schema.optional(
@@ -969,7 +969,7 @@ export interface GoogleCloudContactcenterinsightsV1QaAnswer {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaAnswer: Schema.Schema<GoogleCloudContactcenterinsightsV1QaAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestion: Schema.optional(Schema.String),
       conversation: Schema.optional(Schema.String),
@@ -998,7 +998,7 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult 
 }
 
 export const GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult: Schema.Schema<GoogleCloudContactcenterinsightsV1QaScorecardResultQaTagResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -1028,7 +1028,7 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource 
 }
 
 export const GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource: Schema.Schema<GoogleCloudContactcenterinsightsV1QaScorecardResultScoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -1071,7 +1071,7 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaScorecardResult: Schema.Schema<GoogleCloudContactcenterinsightsV1QaScorecardResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       qaScorecardRevision: Schema.optional(Schema.String),
@@ -1122,7 +1122,7 @@ export interface GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMet
 }
 
 export const GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotations: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1CallAnnotation),
@@ -1167,7 +1167,7 @@ export interface GoogleCloudContactcenterinsightsV1AnalysisResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnalysisResult: Schema.Schema<GoogleCloudContactcenterinsightsV1AnalysisResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callAnalysisMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata,
@@ -1192,7 +1192,7 @@ export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizatio
 }
 
 export const GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfile: Schema.optional(Schema.String),
       summarizationModel: Schema.optional(Schema.String),
@@ -1209,7 +1209,7 @@ export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfigScor
 }
 
 export const GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfigScorecardList: Schema.Schema<GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfigScorecardList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardRevisions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1224,7 +1224,7 @@ export interface GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scorecardList: Schema.optional(
         GoogleCloudContactcenterinsightsV1AnnotatorSelectorQaConfigScorecardList,
@@ -1264,7 +1264,7 @@ export interface GoogleCloudContactcenterinsightsV1AnnotatorSelector {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnnotatorSelector: Schema.Schema<GoogleCloudContactcenterinsightsV1AnnotatorSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runInterruptionAnnotator: Schema.optional(Schema.Boolean),
       runSilenceAnnotator: Schema.optional(Schema.Boolean),
@@ -1302,7 +1302,7 @@ export interface GoogleCloudContactcenterinsightsV1Analysis {
 }
 
 export const GoogleCloudContactcenterinsightsV1Analysis: Schema.Schema<GoogleCloudContactcenterinsightsV1Analysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       requestTime: Schema.optional(Schema.String),
@@ -1336,7 +1336,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationSummarizationSugg
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       textSections: Schema.optional(
@@ -1369,7 +1369,7 @@ export interface GoogleCloudContactcenterinsightsV1ArticleSuggestionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1ArticleSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1ArticleSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -1398,7 +1398,7 @@ export interface GoogleCloudContactcenterinsightsV1FaqAnswerData {
 }
 
 export const GoogleCloudContactcenterinsightsV1FaqAnswerData: Schema.Schema<GoogleCloudContactcenterinsightsV1FaqAnswerData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -1423,7 +1423,7 @@ export interface GoogleCloudContactcenterinsightsV1SmartReplyData {
 }
 
 export const GoogleCloudContactcenterinsightsV1SmartReplyData: Schema.Schema<GoogleCloudContactcenterinsightsV1SmartReplyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reply: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -1446,7 +1446,7 @@ export interface GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1SmartComposeSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestion: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -1465,7 +1465,7 @@ export interface GoogleCloudContactcenterinsightsV1DialogflowInteractionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1DialogflowInteractionData: Schema.Schema<GoogleCloudContactcenterinsightsV1DialogflowInteractionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowIntentId: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -1489,7 +1489,7 @@ export interface GoogleCloudContactcenterinsightsV1AnswerFeedback {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnswerFeedback: Schema.Schema<GoogleCloudContactcenterinsightsV1AnswerFeedback> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correctnessLevel: Schema.optional(Schema.String),
       clicked: Schema.optional(Schema.Boolean),
@@ -1513,7 +1513,7 @@ export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput {
 }
 
 export const GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput: Schema.Schema<GoogleCloudContactcenterinsightsV1RuntimeAnnotationUserInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       generatorName: Schema.optional(Schema.String),
@@ -1551,7 +1551,7 @@ export interface GoogleCloudContactcenterinsightsV1RuntimeAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1RuntimeAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1RuntimeAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       articleSuggestion: Schema.optional(
         GoogleCloudContactcenterinsightsV1ArticleSuggestionData,
@@ -1596,7 +1596,7 @@ export interface GoogleCloudContactcenterinsightsV1DialogflowIntent {
 }
 
 export const GoogleCloudContactcenterinsightsV1DialogflowIntent: Schema.Schema<GoogleCloudContactcenterinsightsV1DialogflowIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -1621,7 +1621,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationCorrelationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullConversationCorrelationId: Schema.optional(Schema.String),
       mergedFullConversationCorrelationId: Schema.optional(Schema.String),
@@ -1684,7 +1684,7 @@ export interface GoogleCloudContactcenterinsightsV1Conversation {
 }
 
 export const GoogleCloudContactcenterinsightsV1Conversation: Schema.Schema<GoogleCloudContactcenterinsightsV1Conversation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1ConversationCallMetadata,
@@ -1743,7 +1743,7 @@ export interface GoogleCloudContactcenterinsightsV1RedactionConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1RedactionConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1RedactionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(Schema.String),
       inspectTemplate: Schema.optional(Schema.String),
@@ -1760,7 +1760,7 @@ export interface GoogleCloudContactcenterinsightsV1SpeechConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1SpeechConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1SpeechConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speechRecognizer: Schema.optional(Schema.String),
       disableWordTimeOffsets: Schema.optional(Schema.Boolean),
@@ -1783,7 +1783,7 @@ export interface GoogleCloudContactcenterinsightsV1UploadConversationRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1UploadConversationRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1UploadConversationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       conversation: Schema.optional(
@@ -1809,7 +1809,7 @@ export interface GoogleCloudContactcenterinsightsV1ListConversationsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversations: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Conversation),
@@ -1828,7 +1828,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLev
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationDataSourceTurnLevelAudio> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioGcsUri: Schema.optional(Schema.String),
       audioDuration: Schema.optional(Schema.String),
@@ -1848,7 +1848,7 @@ export interface GoogleCloudContactcenterinsightsV1SignedAudioUris {
 }
 
 export const GoogleCloudContactcenterinsightsV1SignedAudioUris: Schema.Schema<GoogleCloudContactcenterinsightsV1SignedAudioUris> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signedGcsAudioUri: Schema.optional(Schema.String),
       signedDialogflowAudioUri: Schema.optional(Schema.String),
@@ -1868,7 +1868,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerateConversationSignedAud
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       signedAudioUris: Schema.optional(
         GoogleCloudContactcenterinsightsV1SignedAudioUris,
@@ -1897,7 +1897,7 @@ export interface GoogleCloudContactcenterinsightsV1Dataset {
 }
 
 export const GoogleCloudContactcenterinsightsV1Dataset: Schema.Schema<GoogleCloudContactcenterinsightsV1Dataset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1919,7 +1919,7 @@ export interface GoogleCloudContactcenterinsightsV1ListDatasetsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListDatasetsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListDatasetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasets: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Dataset),
@@ -1942,7 +1942,7 @@ export interface GoogleCloudContactcenterinsightsV1SampleRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1SampleRule: Schema.Schema<GoogleCloudContactcenterinsightsV1SampleRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       samplePercentage: Schema.optional(Schema.Number),
       sampleRow: Schema.optional(Schema.String),
@@ -1963,7 +1963,7 @@ export interface GoogleCloudContactcenterinsightsV1SampleConversationsRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1SampleConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1SampleConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationDataset: Schema.optional(
         GoogleCloudContactcenterinsightsV1Dataset,
@@ -1983,7 +1983,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAnalysesResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAnalysesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAnalysesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyses: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Analysis),
@@ -2006,7 +2006,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsReque
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -2032,7 +2032,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -2064,7 +2064,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcs
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketUri: Schema.optional(Schema.String),
       bucketObjectType: Schema.optional(Schema.String),
@@ -2084,7 +2084,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestTra
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsRequestTranscriptObjectConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsRequestTranscriptObjectConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -2103,7 +2103,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequestCon
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentChannel: Schema.optional(Schema.Number),
@@ -2132,7 +2132,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource,
@@ -2166,7 +2166,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQ
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -2217,7 +2217,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQueryDestination: Schema.optional(
         GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination,
@@ -2242,7 +2242,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
       trainingConversationsCount: Schema.optional(Schema.String),
@@ -2262,7 +2262,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStat
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStats: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       labeledConversationsCount: Schema.optional(Schema.String),
@@ -2286,7 +2286,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueModelLabelStats {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueModelLabelStats: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueModelLabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyzedConversationsCount: Schema.optional(Schema.String),
       unclassifiedConversationsCount: Schema.optional(Schema.String),
@@ -2332,7 +2332,7 @@ export interface GoogleCloudContactcenterinsightsV1IssueModel {
 }
 
 export const GoogleCloudContactcenterinsightsV1IssueModel: Schema.Schema<GoogleCloudContactcenterinsightsV1IssueModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2359,7 +2359,7 @@ export interface GoogleCloudContactcenterinsightsV1ListIssueModelsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListIssueModelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListIssueModelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1IssueModel),
@@ -2375,7 +2375,7 @@ export interface GoogleCloudContactcenterinsightsV1DeployIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1DeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -2389,7 +2389,7 @@ export interface GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -2403,7 +2403,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDes
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -2420,7 +2420,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudContactcenterinsightsV1ExportIssueModelRequestGcsDestination,
@@ -2437,7 +2437,7 @@ export interface GoogleCloudContactcenterinsightsV1ImportIssueModelRequestGcsSou
 }
 
 export const GoogleCloudContactcenterinsightsV1ImportIssueModelRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1ImportIssueModelRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -2456,7 +2456,7 @@ export interface GoogleCloudContactcenterinsightsV1ImportIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1ImportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1ImportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1ImportIssueModelRequestGcsSource,
@@ -2484,7 +2484,7 @@ export interface GoogleCloudContactcenterinsightsV1Issue {
 }
 
 export const GoogleCloudContactcenterinsightsV1Issue: Schema.Schema<GoogleCloudContactcenterinsightsV1Issue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2503,7 +2503,7 @@ export interface GoogleCloudContactcenterinsightsV1ListIssuesResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListIssuesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListIssuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issues: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Issue),
@@ -2519,7 +2519,7 @@ export interface GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currentStats: Schema.optional(
         GoogleCloudContactcenterinsightsV1IssueModelLabelStats,
@@ -2536,7 +2536,7 @@ export interface GoogleCloudContactcenterinsightsV1ExactMatchConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1ExactMatchConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1ExactMatchConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       caseSensitive: Schema.optional(Schema.Boolean),
     }),
@@ -2547,7 +2547,7 @@ export const GoogleCloudContactcenterinsightsV1ExactMatchConfig: Schema.Schema<G
 export interface GoogleCloudContactcenterinsightsV1RegexMatchConfig {}
 
 export const GoogleCloudContactcenterinsightsV1RegexMatchConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1RegexMatchConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1RegexMatchConfig",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1RegexMatchConfig>;
 
@@ -2559,7 +2559,7 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exactMatchConfig: Schema.optional(
         GoogleCloudContactcenterinsightsV1ExactMatchConfig,
@@ -2582,7 +2582,7 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatchRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1PhraseMatchRule: Schema.Schema<GoogleCloudContactcenterinsightsV1PhraseMatchRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       negated: Schema.optional(Schema.Boolean),
@@ -2606,7 +2606,7 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup {
 }
 
 export const GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup: Schema.Schema<GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       phraseMatchRules: Schema.optional(
@@ -2653,7 +2653,7 @@ export interface GoogleCloudContactcenterinsightsV1PhraseMatcher {
 }
 
 export const GoogleCloudContactcenterinsightsV1PhraseMatcher: Schema.Schema<GoogleCloudContactcenterinsightsV1PhraseMatcher> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       revisionId: Schema.optional(Schema.String),
@@ -2681,7 +2681,7 @@ export interface GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseMatchers: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1PhraseMatcher),
@@ -2700,7 +2700,7 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSer
 }
 
 export const GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeriesInterval: Schema.Schema<GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeriesInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       conversationCount: Schema.optional(Schema.Number),
@@ -2718,7 +2718,7 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSer
 }
 
 export const GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeries: Schema.Schema<GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intervalDuration: Schema.optional(Schema.String),
       points: Schema.optional(
@@ -2755,7 +2755,7 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1CalculateStatsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1CalculateStatsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       averageDuration: Schema.optional(Schema.String),
       averageTurnCount: Schema.optional(Schema.Number),
@@ -2789,7 +2789,7 @@ export interface GoogleCloudContactcenterinsightsV1CalculateStatsRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1CalculateStatsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1CalculateStatsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
     }),
@@ -2809,7 +2809,7 @@ export interface GoogleCloudContactcenterinsightsV1CorrelationRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1CorrelationRule: Schema.Schema<GoogleCloudContactcenterinsightsV1CorrelationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ruleId: Schema.optional(Schema.String),
       active: Schema.optional(Schema.Boolean),
@@ -2826,7 +2826,7 @@ export interface GoogleCloudContactcenterinsightsV1CorrelationTypeConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1CorrelationTypeConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1CorrelationTypeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correlationRules: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1CorrelationRule),
@@ -2848,7 +2848,7 @@ export interface GoogleCloudContactcenterinsightsV1CorrelationConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1CorrelationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1CorrelationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -2867,7 +2867,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestC
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestConversations: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequestConversations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversations: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Conversation),
@@ -2890,7 +2890,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest 
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       conversations: Schema.optional(
@@ -2916,7 +2916,7 @@ export interface GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runtimeIntegrationAnalysisPercentage: Schema.optional(Schema.Number),
       uploadConversationAnalysisPercentage: Schema.optional(Schema.Number),
@@ -2952,7 +2952,7 @@ export interface GoogleCloudContactcenterinsightsV1Settings {
 }
 
 export const GoogleCloudContactcenterinsightsV1Settings: Schema.Schema<GoogleCloudContactcenterinsightsV1Settings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -2997,7 +2997,7 @@ export interface GoogleCloudContactcenterinsightsV1AnalysisRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1AnalysisRule: Schema.Schema<GoogleCloudContactcenterinsightsV1AnalysisRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -3022,7 +3022,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analysisRules: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AnalysisRule),
@@ -3041,7 +3041,7 @@ export interface GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingCondi
 }
 
 export const GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingCondition: Schema.Schema<GoogleCloudContactcenterinsightsV1AutoLabelingRuleLabelingCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -3076,7 +3076,7 @@ export interface GoogleCloudContactcenterinsightsV1AutoLabelingRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1AutoLabelingRule: Schema.Schema<GoogleCloudContactcenterinsightsV1AutoLabelingRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       active: Schema.optional(Schema.Boolean),
@@ -3104,7 +3104,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       autoLabelingRules: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AutoLabelingRule),
@@ -3124,7 +3124,7 @@ export interface GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(
         GoogleCloudContactcenterinsightsV1Conversation,
@@ -3143,7 +3143,7 @@ export interface GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse 
 }
 
 export const GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelResult: Schema.optional(Schema.String),
     }),
@@ -3164,7 +3164,7 @@ export interface GoogleCloudContactcenterinsightsV1ScheduleInfo {
 }
 
 export const GoogleCloudContactcenterinsightsV1ScheduleInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1ScheduleInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -3193,7 +3193,7 @@ export interface GoogleCloudContactcenterinsightsV1AssessmentRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1AssessmentRule: Schema.Schema<GoogleCloudContactcenterinsightsV1AssessmentRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -3217,7 +3217,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assessmentRules: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AssessmentRule),
@@ -3236,7 +3236,7 @@ export interface GoogleCloudContactcenterinsightsV1EncryptionSpec {
 }
 
 export const GoogleCloudContactcenterinsightsV1EncryptionSpec: Schema.Schema<GoogleCloudContactcenterinsightsV1EncryptionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       kmsKey: Schema.optional(Schema.String),
@@ -3251,7 +3251,7 @@ export interface GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecReque
 }
 
 export const GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encryptionSpec: Schema.optional(
         GoogleCloudContactcenterinsightsV1EncryptionSpec,
@@ -3276,7 +3276,7 @@ export interface GoogleCloudContactcenterinsightsV1View {
 }
 
 export const GoogleCloudContactcenterinsightsV1View: Schema.Schema<GoogleCloudContactcenterinsightsV1View> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -3296,7 +3296,7 @@ export interface GoogleCloudContactcenterinsightsV1ListViewsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListViewsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListViewsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       views: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1View),
@@ -3317,7 +3317,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueId: Schema.optional(Schema.String),
       issueDisplayName: Schema.optional(Schema.String),
@@ -3346,7 +3346,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionAgentDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentDisplayName: Schema.optional(Schema.String),
@@ -3371,7 +3371,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionM
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionQaQuestionDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -3394,7 +3394,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDime
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionQaQuestionAnswerDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -3412,7 +3412,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimension
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionQaScorecardDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
     }),
@@ -3427,7 +3427,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionConversationProfileD
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionConversationProfileDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfileId: Schema.optional(Schema.String),
     }),
@@ -3442,7 +3442,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionMediumDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -3459,7 +3459,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgents
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsPlaybookDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       playbookId: Schema.optional(Schema.String),
       playbookDisplayName: Schema.optional(Schema.String),
@@ -3477,7 +3477,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionConversationalAgents
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionConversationalAgentsToolDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolId: Schema.optional(Schema.String),
       toolDisplayName: Schema.optional(Schema.String),
@@ -3493,7 +3493,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionClientSentimentCateg
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionClientSentimentCategoryDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionClientSentimentCategoryDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sentimentCategory: Schema.optional(Schema.String),
     }),
@@ -3510,7 +3510,7 @@ export interface GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DimensionLabelDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelKey: Schema.optional(Schema.String),
       labelValue: Schema.optional(Schema.String),
@@ -3570,7 +3570,7 @@ export interface GoogleCloudContactcenterinsightsV1Dimension {
 }
 
 export const GoogleCloudContactcenterinsightsV1Dimension: Schema.Schema<GoogleCloudContactcenterinsightsV1Dimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueDimensionMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1DimensionIssueDimensionMetadata,
@@ -3631,7 +3631,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       timeGranularity: Schema.optional(Schema.String),
@@ -3666,7 +3666,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       naturalLanguageQuery: Schema.optional(Schema.String),
       chart: Schema.optional(Schema.String),
@@ -3690,7 +3690,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewReque
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
     }),
@@ -3707,7 +3707,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryInterval {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryInterval: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -3728,7 +3728,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewReque
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentPerformanceSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequestAgentSource,
@@ -3752,7 +3752,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationDataOptions {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationDataOptions: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationDataOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeDialogflowInteractionData: Schema.optional(Schema.Boolean),
     }),
@@ -3766,7 +3766,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptio
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptions: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionQaQuestionDataOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationDataOptions: Schema.optional(
         GoogleCloudContactcenterinsightsV1ConversationDataOptions,
@@ -3787,7 +3787,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionC
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionPredefinedQuestionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -3812,7 +3812,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionAnswerChoice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       strValue: Schema.optional(Schema.String),
       numValue: Schema.optional(Schema.Number),
@@ -3831,7 +3831,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionMetrics {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionMetrics: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accuracy: Schema.optional(Schema.Number),
     }),
@@ -3856,7 +3856,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionTuningMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalValidLabelCount: Schema.optional(Schema.String),
       datasetValidationWarnings: Schema.optional(Schema.Array(Schema.String)),
@@ -3902,7 +3902,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestion {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestion: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       abbreviation: Schema.optional(Schema.String),
@@ -3941,7 +3941,7 @@ export interface GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestions: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1QaQuestion),
@@ -3966,7 +3966,7 @@ export interface GoogleCloudContactcenterinsightsV1QaQuestionTag {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaQuestionTag: Schema.Schema<GoogleCloudContactcenterinsightsV1QaQuestionTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -3986,7 +3986,7 @@ export interface GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestionTags: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1QaQuestionTag),
@@ -4019,7 +4019,7 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecard {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaScorecard: Schema.Schema<GoogleCloudContactcenterinsightsV1QaScorecard> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4041,7 +4041,7 @@ export interface GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecards: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1QaScorecard),
@@ -4074,7 +4074,7 @@ export interface GoogleCloudContactcenterinsightsV1QaScorecardRevision {
 }
 
 export const GoogleCloudContactcenterinsightsV1QaScorecardRevision: Schema.Schema<GoogleCloudContactcenterinsightsV1QaScorecardRevision> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       snapshot: Schema.optional(GoogleCloudContactcenterinsightsV1QaScorecard),
@@ -4094,7 +4094,7 @@ export interface GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionReques
 }
 
 export const GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       validateOnly: Schema.optional(Schema.Boolean),
@@ -4107,7 +4107,7 @@ export const GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest: S
 export interface GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest {}
 
 export const GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest>;
@@ -4115,7 +4115,7 @@ export const GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest:
 export interface GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest {}
 
 export const GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest>;
@@ -4128,7 +4128,7 @@ export interface GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardRevisions: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1QaScorecardRevision),
@@ -4148,7 +4148,7 @@ export interface GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1FeedbackLabel),
@@ -4167,7 +4167,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1FeedbackLabel),
@@ -4187,7 +4187,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsReque
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       format: Schema.optional(Schema.String),
       objectUri: Schema.optional(Schema.String),
@@ -4203,7 +4203,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsReque
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestSheetsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetUri: Schema.optional(Schema.String),
     }),
@@ -4222,7 +4222,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsReque
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequestGcsSource,
@@ -4251,7 +4251,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsReq
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       format: Schema.optional(Schema.String),
       objectUri: Schema.optional(Schema.String),
@@ -4272,7 +4272,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsReq
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestSheetsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetUri: Schema.optional(Schema.String),
       sheetTitle: Schema.optional(Schema.String),
@@ -4307,7 +4307,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsReq
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequestGcsDestination,
@@ -4335,7 +4335,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsReque
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -4357,7 +4357,7 @@ export interface GoogleCloudContactcenterinsightsV1AuthorizedViewSet {
 }
 
 export const GoogleCloudContactcenterinsightsV1AuthorizedViewSet: Schema.Schema<GoogleCloudContactcenterinsightsV1AuthorizedViewSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4376,7 +4376,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authorizedViewSets: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AuthorizedViewSet),
@@ -4402,7 +4402,7 @@ export interface GoogleCloudContactcenterinsightsV1AuthorizedView {
 }
 
 export const GoogleCloudContactcenterinsightsV1AuthorizedView: Schema.Schema<GoogleCloudContactcenterinsightsV1AuthorizedView> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4422,7 +4422,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authorizedViews: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AuthorizedView),
@@ -4441,7 +4441,7 @@ export interface GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse
 }
 
 export const GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authorizedViews: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1AuthorizedView),
@@ -4473,7 +4473,7 @@ export interface GoogleCloudContactcenterinsightsV1Assessment {
 }
 
 export const GoogleCloudContactcenterinsightsV1Assessment: Schema.Schema<GoogleCloudContactcenterinsightsV1Assessment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -4495,7 +4495,7 @@ export interface GoogleCloudContactcenterinsightsV1ListAssessmentsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListAssessmentsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListAssessmentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assessments: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Assessment),
@@ -4509,21 +4509,21 @@ export const GoogleCloudContactcenterinsightsV1ListAssessmentsResponse: Schema.S
 export interface GoogleCloudContactcenterinsightsV1PublishAssessmentRequest {}
 
 export const GoogleCloudContactcenterinsightsV1PublishAssessmentRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1PublishAssessmentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1PublishAssessmentRequest",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1PublishAssessmentRequest>;
 
 export interface GoogleCloudContactcenterinsightsV1AppealAssessmentRequest {}
 
 export const GoogleCloudContactcenterinsightsV1AppealAssessmentRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1AppealAssessmentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1AppealAssessmentRequest",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1AppealAssessmentRequest>;
 
 export interface GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest {}
 
 export const GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest>;
 
@@ -4533,7 +4533,7 @@ export interface GoogleCloudContactcenterinsightsV1NoteConversationTurnNote {
 }
 
 export const GoogleCloudContactcenterinsightsV1NoteConversationTurnNote: Schema.Schema<GoogleCloudContactcenterinsightsV1NoteConversationTurnNote> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       turnIndex: Schema.optional(Schema.Number),
     }),
@@ -4547,7 +4547,7 @@ export interface GoogleCloudContactcenterinsightsV1NoteQaQuestionNote {
 }
 
 export const GoogleCloudContactcenterinsightsV1NoteQaQuestionNote: Schema.Schema<GoogleCloudContactcenterinsightsV1NoteQaQuestionNote> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestion: Schema.optional(Schema.String),
     }),
@@ -4558,7 +4558,7 @@ export const GoogleCloudContactcenterinsightsV1NoteQaQuestionNote: Schema.Schema
 export interface GoogleCloudContactcenterinsightsV1NoteAssessmentNote {}
 
 export const GoogleCloudContactcenterinsightsV1NoteAssessmentNote: Schema.Schema<GoogleCloudContactcenterinsightsV1NoteAssessmentNote> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1NoteAssessmentNote",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1NoteAssessmentNote>;
 
@@ -4568,7 +4568,7 @@ export interface GoogleCloudContactcenterinsightsV1UserInfo {
 }
 
 export const GoogleCloudContactcenterinsightsV1UserInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1UserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
     }),
@@ -4596,7 +4596,7 @@ export interface GoogleCloudContactcenterinsightsV1Note {
 }
 
 export const GoogleCloudContactcenterinsightsV1Note: Schema.Schema<GoogleCloudContactcenterinsightsV1Note> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationTurnNote: Schema.optional(
         GoogleCloudContactcenterinsightsV1NoteConversationTurnNote,
@@ -4625,7 +4625,7 @@ export interface GoogleCloudContactcenterinsightsV1ListNotesResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListNotesResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListNotesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notes: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Note),
@@ -4642,7 +4642,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConver
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -4664,7 +4664,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConver
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       texts: Schema.optional(Schema.Array(Schema.String)),
       type: Schema.optional(Schema.String),
@@ -4684,7 +4684,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConver
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textOutput: Schema.optional(
         GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageSystemMessageTextOutput,
@@ -4709,7 +4709,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConver
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversationMessageUserMessage,
@@ -4737,7 +4737,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConver
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartConversation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -4761,7 +4761,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckp
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsChartCheckpoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sessionId: Schema.optional(Schema.String),
       revisionId: Schema.optional(Schema.String),
@@ -4786,7 +4786,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsights {
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsights: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsights> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       chartSpec: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -4810,7 +4810,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetrics {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetrics: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetrics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       request: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     }),
@@ -4826,7 +4826,7 @@ export interface GoogleCloudContactcenterinsightsV1ChartDataSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1ChartDataSource: Schema.Schema<GoogleCloudContactcenterinsightsV1ChartDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeInsights: Schema.optional(
         GoogleCloudContactcenterinsightsV1GenerativeInsights,
@@ -4854,7 +4854,7 @@ export interface GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRa
 }
 
 export const GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange: Schema.Schema<GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quantity: Schema.optional(Schema.String),
       unit: Schema.optional(Schema.String),
@@ -4872,7 +4872,7 @@ export interface GoogleCloudContactcenterinsightsV1DateRangeConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1DateRangeConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1DateRangeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relativeDateRange: Schema.optional(
         GoogleCloudContactcenterinsightsV1DateRangeConfigRelativeDateRange,
@@ -4928,7 +4928,7 @@ export interface GoogleCloudContactcenterinsightsV1Chart {
 }
 
 export const GoogleCloudContactcenterinsightsV1Chart: Schema.Schema<GoogleCloudContactcenterinsightsV1Chart> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4963,7 +4963,7 @@ export interface GoogleCloudContactcenterinsightsV1Widget {
 }
 
 export const GoogleCloudContactcenterinsightsV1Widget: Schema.Schema<GoogleCloudContactcenterinsightsV1Widget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       container: Schema.optional(GoogleCloudContactcenterinsightsV1Container),
       chart: Schema.optional(GoogleCloudContactcenterinsightsV1Chart),
@@ -4994,7 +4994,7 @@ export interface GoogleCloudContactcenterinsightsV1Container {
 }
 
 export const GoogleCloudContactcenterinsightsV1Container: Schema.Schema<GoogleCloudContactcenterinsightsV1Container> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       widgets: Schema.optional(
@@ -5035,7 +5035,7 @@ export interface GoogleCloudContactcenterinsightsV1Dashboard {
 }
 
 export const GoogleCloudContactcenterinsightsV1Dashboard: Schema.Schema<GoogleCloudContactcenterinsightsV1Dashboard> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -5063,7 +5063,7 @@ export interface GoogleCloudContactcenterinsightsV1ListDashboardsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListDashboardsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListDashboardsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dashboards: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Dashboard),
@@ -5082,7 +5082,7 @@ export interface GoogleCloudContactcenterinsightsV1ListChartsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ListChartsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ListChartsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       charts: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Chart),
@@ -5111,7 +5111,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5136,7 +5136,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulAnalysisCount: Schema.optional(Schema.Number),
       failedAnalysisCount: Schema.optional(Schema.Number),
@@ -5158,7 +5158,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5175,7 +5175,7 @@ export const GoogleCloudContactcenterinsightsV1BulkDeleteConversationsMetadata: 
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1BulkDeleteConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteConversationsResponse>;
@@ -5188,7 +5188,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       request: Schema.optional(
         GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
@@ -5203,7 +5203,7 @@ export const GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsMetadata:
 export interface GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsResponse>;
@@ -5220,7 +5220,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMet
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMetadataDownloadStats: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMetadataDownloadStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedObjectCount: Schema.optional(Schema.Number),
       successfulDownloadCount: Schema.optional(Schema.Number),
@@ -5246,7 +5246,7 @@ export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMet
 }
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5266,7 +5266,7 @@ export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsMetadat
 export interface GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsResponse>;
@@ -5283,7 +5283,7 @@ export interface GoogleCloudContactcenterinsightsV1CreateAnalysisOperationMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1CreateAnalysisOperationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1CreateAnalysisOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5305,7 +5305,7 @@ export interface GoogleCloudContactcenterinsightsV1CreateIssueRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1CreateIssueRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1CreateIssueRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issue: Schema.optional(GoogleCloudContactcenterinsightsV1Issue),
@@ -5324,7 +5324,7 @@ export interface GoogleCloudContactcenterinsightsV1CreateIssueMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1CreateIssueMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1CreateIssueMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5344,7 +5344,7 @@ export interface GoogleCloudContactcenterinsightsV1CreateIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1CreateIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1CreateIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issueModel: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel),
@@ -5363,7 +5363,7 @@ export interface GoogleCloudContactcenterinsightsV1CreateIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1CreateIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1CreateIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5381,7 +5381,7 @@ export interface GoogleCloudContactcenterinsightsV1DeleteIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeleteIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1DeleteIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -5399,7 +5399,7 @@ export interface GoogleCloudContactcenterinsightsV1DeleteIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeleteIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DeleteIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5417,7 +5417,7 @@ export interface GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -5435,7 +5435,7 @@ export interface GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DeleteQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5457,7 +5457,7 @@ export interface GoogleCloudContactcenterinsightsV1DeployIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1DeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1DeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5472,7 +5472,7 @@ export const GoogleCloudContactcenterinsightsV1DeployIssueModelMetadata: Schema.
 export interface GoogleCloudContactcenterinsightsV1DeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1DeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1DeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1DeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1DeployIssueModelResponse>;
 
@@ -5492,7 +5492,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportInsightsDataMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportInsightsDataMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5510,7 +5510,7 @@ export const GoogleCloudContactcenterinsightsV1ExportInsightsDataMetadata: Schem
 export interface GoogleCloudContactcenterinsightsV1ExportInsightsDataResponse {}
 
 export const GoogleCloudContactcenterinsightsV1ExportInsightsDataResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportInsightsDataResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1ExportInsightsDataResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1ExportInsightsDataResponse>;
 
@@ -5524,7 +5524,7 @@ export interface GoogleCloudContactcenterinsightsV1ExportIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1ExportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5539,7 +5539,7 @@ export const GoogleCloudContactcenterinsightsV1ExportIssueModelMetadata: Schema.
 export interface GoogleCloudContactcenterinsightsV1ExportIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1ExportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ExportIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1ExportIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1ExportIssueModelResponse>;
 
@@ -5549,7 +5549,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessages: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -5570,7 +5570,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGen
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGenerativeResponseTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGenerativeResponseTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -5592,7 +5592,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGen
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGenerativeResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsResponseGenerativeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textOutput: Schema.optional(Schema.String),
       generatedSqlQuery: Schema.optional(Schema.String),
@@ -5612,7 +5612,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageUserMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageUserMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -5634,7 +5634,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -5658,7 +5658,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput,
@@ -5681,7 +5681,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessages: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageSystemMessages> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       systemMessages: Schema.optional(
         Schema.Array(
@@ -5706,7 +5706,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscriptMessageUserMessage,
@@ -5734,7 +5734,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -5758,7 +5758,7 @@ export interface GoogleCloudContactcenterinsightsV1GenerativeInsightsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1GenerativeInsightsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1GenerativeInsightsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeResponses: Schema.optional(
         Schema.Array(
@@ -5783,7 +5783,7 @@ export interface GoogleCloudContactcenterinsightsV1ImportIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1ImportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1ImportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5801,7 +5801,7 @@ export interface GoogleCloudContactcenterinsightsV1ImportIssueModelResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1ImportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1ImportIssueModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel),
     }),
@@ -5821,7 +5821,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsMetadataIn
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsMetadataIngestConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsMetadataIngestConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedObjectCount: Schema.optional(Schema.Number),
       duplicatesSkippedCount: Schema.optional(Schema.Number),
@@ -5849,7 +5849,7 @@ export interface GoogleCloudContactcenterinsightsV1IngestConversationsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5869,7 +5869,7 @@ export const GoogleCloudContactcenterinsightsV1IngestConversationsMetadata: Sche
 export interface GoogleCloudContactcenterinsightsV1IngestConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1IngestConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1IngestConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1IngestConversationsResponse>;
 
@@ -5885,7 +5885,7 @@ export interface GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -5902,7 +5902,7 @@ export const GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecMetadata:
 export interface GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecResponse {}
 
 export const GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecResponse>;
@@ -5913,7 +5913,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resultIsTruncated: Schema.optional(Schema.Boolean),
     }),
@@ -5929,7 +5929,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceData
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointConversationMeasureQaTagScore: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointConversationMeasureQaTagScore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       averageTagNormalizedScore: Schema.optional(Schema.Number),
@@ -6053,7 +6053,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceData
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointConversationMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointConversationMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationCount: Schema.optional(Schema.Number),
       averageSilencePercentage: Schema.optional(Schema.Number),
@@ -6144,7 +6144,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceData
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointPercentileResult: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointPercentileResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       p50: Schema.optional(Schema.Number),
       p90: Schema.optional(Schema.Number),
@@ -6169,7 +6169,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceData
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointDialogflowInteractionMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointDialogflowInteractionMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentileAudioInAudioOutLatency: Schema.optional(
         GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointPercentileResult,
@@ -6200,7 +6200,7 @@ export interface GoogleTypeInterval {
 }
 
 export const GoogleTypeInterval: Schema.Schema<GoogleTypeInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6219,7 +6219,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceData
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPoint: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationMeasure: Schema.optional(
         GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceDataPointConversationMeasure,
@@ -6240,7 +6240,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceTime
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceTimeSeries: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSliceTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataPoints: Schema.optional(
         Schema.Array(
@@ -6263,7 +6263,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponseSlice {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponseSlice: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponseSlice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1Dimension),
@@ -6291,7 +6291,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryMetricsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryMetricsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -6311,7 +6311,7 @@ export const GoogleCloudContactcenterinsightsV1QueryMetricsResponse: Schema.Sche
 export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewMetadata {}
 
 export const GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewMetadata",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewMetadata>;
@@ -6322,7 +6322,7 @@ export interface GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       summaryText: Schema.optional(Schema.String),
     }),
@@ -6339,7 +6339,7 @@ export interface GoogleCloudContactcenterinsightsV1SampleConversationsMetadataSa
 }
 
 export const GoogleCloudContactcenterinsightsV1SampleConversationsMetadataSampleConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1SampleConversationsMetadataSampleConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulSampleCount: Schema.optional(Schema.Number),
       failedSampleCount: Schema.optional(Schema.Number),
@@ -6363,7 +6363,7 @@ export interface GoogleCloudContactcenterinsightsV1SampleConversationsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1SampleConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1SampleConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6382,7 +6382,7 @@ export const GoogleCloudContactcenterinsightsV1SampleConversationsMetadata: Sche
 export interface GoogleCloudContactcenterinsightsV1SampleConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1SampleConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1SampleConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1SampleConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1SampleConversationsResponse>;
 
@@ -6394,7 +6394,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadata
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       status: Schema.optional(GoogleRpcStatus),
@@ -6418,7 +6418,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadata
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadataFullConversationCorrelationStats: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadataFullConversationCorrelationStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampledConversationsCount: Schema.optional(Schema.Number),
       correlatedConversationsCount: Schema.optional(Schema.Number),
@@ -6445,7 +6445,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadata
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -6468,7 +6468,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationCorrelationResult
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationCorrelationResultRuleCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationCorrelationResultRuleCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correlationId: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpcStatus),
@@ -6487,7 +6487,7 @@ export interface GoogleCloudContactcenterinsightsV1ConversationCorrelationResult
 }
 
 export const GoogleCloudContactcenterinsightsV1ConversationCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1ConversationCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       ruleResults: Schema.optional(
@@ -6511,7 +6511,7 @@ export interface GoogleCloudContactcenterinsightsV1ConstraintEvaluationResultRul
 }
 
 export const GoogleCloudContactcenterinsightsV1ConstraintEvaluationResultRuleConstraintResult: Schema.Schema<GoogleCloudContactcenterinsightsV1ConstraintEvaluationResultRuleConstraintResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       constraintMet: Schema.optional(Schema.Boolean),
       error: Schema.optional(GoogleRpcStatus),
@@ -6532,7 +6532,7 @@ export interface GoogleCloudContactcenterinsightsV1ConstraintEvaluationResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1ConstraintEvaluationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1ConstraintEvaluationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationA: Schema.optional(Schema.String),
       conversationB: Schema.optional(Schema.String),
@@ -6554,7 +6554,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponse
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponseDetailedCorrelationResults: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponseDetailedCorrelationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinKeyResults: Schema.optional(
         Schema.Array(
@@ -6580,7 +6580,7 @@ export interface GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponse
 }
 
 export const GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedResults: Schema.optional(
         GoogleCloudContactcenterinsightsV1TestCorrelationConfigResponseDetailedCorrelationResults,
@@ -6602,7 +6602,7 @@ export interface GoogleCloudContactcenterinsightsV1UndeployIssueModelMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1UndeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6617,7 +6617,7 @@ export const GoogleCloudContactcenterinsightsV1UndeployIssueModelMetadata: Schem
 export interface GoogleCloudContactcenterinsightsV1UndeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1UndeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1UndeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1UndeployIssueModelResponse>;
 
@@ -6629,7 +6629,7 @@ export interface GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestionTag: Schema.optional(
         GoogleCloudContactcenterinsightsV1QaQuestionTag,
@@ -6650,7 +6650,7 @@ export interface GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1UpdateQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6676,7 +6676,7 @@ export interface GoogleCloudContactcenterinsightsV1UploadConversationMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1UploadConversationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1UploadConversationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6706,7 +6706,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorSummar
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorSummarizationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorSummarizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfile: Schema.optional(Schema.String),
       summarizationModel: Schema.optional(Schema.String),
@@ -6723,7 +6723,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConf
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConfigScorecardList: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConfigScorecardList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardRevisions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -6738,7 +6738,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConf
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scorecardList: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelectorQaConfigScorecardList,
@@ -6779,7 +6779,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runInterruptionAnnotator: Schema.optional(Schema.Boolean),
       runSilenceAnnotator: Schema.optional(Schema.Boolean),
@@ -6815,7 +6815,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -6847,7 +6847,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6872,7 +6872,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkAnalyzeConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulAnalysisCount: Schema.optional(Schema.Number),
       failedAnalysisCount: Schema.optional(Schema.Number),
@@ -6894,7 +6894,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversations
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -6918,7 +6918,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversations
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -6935,7 +6935,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsMeta
 export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteConversationsResponse>;
@@ -6948,7 +6948,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -6966,7 +6966,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       request: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsRequest,
@@ -6981,7 +6981,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsMet
 export interface GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1BulkDeleteFeedbackLabelsResponse>;
@@ -6998,7 +6998,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CreateAnalysisOperation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CreateAnalysisOperationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CreateAnalysisOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7028,7 +7028,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Issue {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Issue: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Issue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -7049,7 +7049,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CreateIssueRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CreateIssueRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CreateIssueRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issue: Schema.optional(GoogleCloudContactcenterinsightsV1alpha1Issue),
@@ -7068,7 +7068,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CreateIssueMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CreateIssueMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CreateIssueMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7090,7 +7090,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueModelInputDataConf
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueModelInputDataConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueModelInputDataConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
       trainingConversationsCount: Schema.optional(Schema.String),
@@ -7111,7 +7111,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStatsIss
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStatsIssueStats: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStatsIssueStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       labeledConversationsCount: Schema.optional(Schema.String),
@@ -7135,7 +7135,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStats {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStats: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyzedConversationsCount: Schema.optional(Schema.String),
       unclassifiedConversationsCount: Schema.optional(Schema.String),
@@ -7181,7 +7181,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueModel {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueModel: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -7210,7 +7210,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issueModel: Schema.optional(
@@ -7232,7 +7232,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CreateIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7251,7 +7251,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -7270,7 +7270,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7289,7 +7289,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -7308,7 +7308,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeleteQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7327,7 +7327,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -7346,7 +7346,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7362,7 +7362,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelMetadata: S
 export interface GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelResponse>;
@@ -7377,7 +7377,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataReque
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequestBigQueryDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequestBigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -7428,7 +7428,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataReque
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQueryDestination: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataRequestBigQueryDestination,
@@ -7460,7 +7460,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7479,7 +7479,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataMetadata:
 export interface GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportInsightsDataResponse>;
@@ -7490,7 +7490,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequestGcsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequestGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -7507,7 +7507,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelRequestGcsDestination,
@@ -7529,7 +7529,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7545,7 +7545,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelMetadata: S
 export interface GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ExportIssueModelResponse>;
@@ -7556,7 +7556,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessages: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -7578,7 +7578,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponseGenerativeResponseTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponseGenerativeResponseTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -7600,7 +7600,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponseGenerativeResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponseGenerativeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textOutput: Schema.optional(Schema.String),
       generatedSqlQuery: Schema.optional(Schema.String),
@@ -7620,7 +7620,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageUserMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageUserMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -7642,7 +7642,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -7666,7 +7666,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessageTextOutput,
@@ -7689,7 +7689,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessages: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageSystemMessages> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       systemMessages: Schema.optional(
         Schema.Array(
@@ -7714,7 +7714,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscriptMessageUserMessage,
@@ -7742,7 +7742,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConver
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -7766,7 +7766,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GenerativeInsightsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeResponses: Schema.optional(
         Schema.Array(
@@ -7788,7 +7788,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -7807,7 +7807,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRequestGcsSource,
@@ -7830,7 +7830,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -7849,7 +7849,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ImportIssueModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1IssueModel,
@@ -7880,7 +7880,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketUri: Schema.optional(Schema.String),
       bucketObjectType: Schema.optional(Schema.String),
@@ -7900,7 +7900,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -7919,7 +7919,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentChannel: Schema.optional(Schema.Number),
@@ -7938,7 +7938,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1RedactionConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1RedactionConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1RedactionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(Schema.String),
       inspectTemplate: Schema.optional(Schema.String),
@@ -7955,7 +7955,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SpeechConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SpeechConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SpeechConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speechRecognizer: Schema.optional(Schema.String),
       disableWordTimeOffsets: Schema.optional(Schema.Boolean),
@@ -7982,7 +7982,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource,
@@ -8019,7 +8019,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadataIngestConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadataIngestConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedObjectCount: Schema.optional(Schema.Number),
       duplicatesSkippedCount: Schema.optional(Schema.Number),
@@ -8047,7 +8047,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -8068,7 +8068,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadata
 export interface GoogleCloudContactcenterinsightsV1alpha1IngestConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1IngestConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1IngestConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IngestConversationsResponse>;
@@ -8081,7 +8081,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1EncryptionSpec {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1EncryptionSpec: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1EncryptionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       kmsKey: Schema.optional(Schema.String),
@@ -8096,7 +8096,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encryptionSpec: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1EncryptionSpec,
@@ -8119,7 +8119,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -8136,7 +8136,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecMet
 export interface GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InitializeEncryptionSpecResponse>;
@@ -8163,7 +8163,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerValue {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerValue: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       strValue: Schema.optional(Schema.String),
       numValue: Schema.optional(Schema.Number),
@@ -8195,7 +8195,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1FeedbackLabel {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1FeedbackLabel: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1FeedbackLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(Schema.String),
       qaAnswerLabel: Schema.optional(
@@ -8218,7 +8218,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ListAllFeedbackLabelsRe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ListAllFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ListAllFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1alpha1FeedbackLabel),
@@ -8238,7 +8238,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ListFeedbackLabelsRespo
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ListFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ListFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1alpha1FeedbackLabel),
@@ -8256,7 +8256,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resultIsTruncated: Schema.optional(Schema.Boolean),
     }),
@@ -8274,7 +8274,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionIssueDimension
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionIssueDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionIssueDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueId: Schema.optional(Schema.String),
       issueDisplayName: Schema.optional(Schema.String),
@@ -8303,7 +8303,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionAgentDimension
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionAgentDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionAgentDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentDisplayName: Schema.optional(Schema.String),
@@ -8328,7 +8328,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionDime
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -8351,7 +8351,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionAnsw
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionAnswerDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionQaQuestionAnswerDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -8369,7 +8369,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionQaScorecardDim
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionQaScorecardDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionQaScorecardDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
     }),
@@ -8384,7 +8384,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionConversationPr
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionConversationProfileDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionConversationProfileDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfileId: Schema.optional(Schema.String),
     }),
@@ -8399,7 +8399,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionMediumDimensio
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionMediumDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionMediumDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -8416,7 +8416,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionConversational
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionConversationalAgentsPlaybookDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionConversationalAgentsPlaybookDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       playbookId: Schema.optional(Schema.String),
       playbookDisplayName: Schema.optional(Schema.String),
@@ -8434,7 +8434,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionConversational
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionConversationalAgentsToolDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionConversationalAgentsToolDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolId: Schema.optional(Schema.String),
       toolDisplayName: Schema.optional(Schema.String),
@@ -8450,7 +8450,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionClientSentimen
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionClientSentimentCategoryDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionClientSentimentCategoryDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sentimentCategory: Schema.optional(Schema.String),
     }),
@@ -8467,7 +8467,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DimensionLabelDimension
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DimensionLabelDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DimensionLabelDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelKey: Schema.optional(Schema.String),
       labelValue: Schema.optional(Schema.String),
@@ -8527,7 +8527,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Dimension {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Dimension: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Dimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueDimensionMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1DimensionIssueDimensionMetadata,
@@ -8576,7 +8576,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointConversationMeasureQaTagScore: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointConversationMeasureQaTagScore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       averageTagNormalizedScore: Schema.optional(Schema.Number),
@@ -8700,7 +8700,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointConversationMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointConversationMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationCount: Schema.optional(Schema.Number),
       averageSilencePercentage: Schema.optional(Schema.Number),
@@ -8791,7 +8791,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointPercentileResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointPercentileResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       p50: Schema.optional(Schema.Number),
       p90: Schema.optional(Schema.Number),
@@ -8816,7 +8816,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointDialogflowInteractionMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointDialogflowInteractionMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentileAudioInAudioOutLatency: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointPercentileResult,
@@ -8849,7 +8849,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPoint: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationMeasure: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceDataPointConversationMeasure,
@@ -8870,7 +8870,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceTimeSeries: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSliceTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataPoints: Schema.optional(
         Schema.Array(
@@ -8893,7 +8893,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSli
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSlice: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponseSlice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1alpha1Dimension),
@@ -8922,7 +8922,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -8942,7 +8942,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1QueryMetricsResponse: Schem
 export interface GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewMetadata {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewMetadata",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewMetadata>;
@@ -8953,7 +8953,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOvervie
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QueryPerformanceOverviewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       summaryText: Schema.optional(Schema.String),
     }),
@@ -8980,7 +8980,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Dataset {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Dataset: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Dataset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -9006,7 +9006,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SampleRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SampleRule: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       samplePercentage: Schema.optional(Schema.Number),
       sampleRow: Schema.optional(Schema.String),
@@ -9027,7 +9027,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SampleConversationsRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SampleConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationDataset: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1Dataset,
@@ -9050,7 +9050,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMetadataSampleConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMetadataSampleConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulSampleCount: Schema.optional(Schema.Number),
       failedSampleCount: Schema.optional(Schema.Number),
@@ -9074,7 +9074,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -9094,7 +9094,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1SampleConversationsMetadata
 export interface GoogleCloudContactcenterinsightsV1alpha1SampleConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1SampleConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1SampleConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SampleConversationsResponse>;
@@ -9107,7 +9107,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       status: Schema.optional(GoogleRpcStatus),
@@ -9131,7 +9131,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadataFullConversationCorrelationStats: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadataFullConversationCorrelationStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampledConversationsCount: Schema.optional(Schema.Number),
       correlatedConversationsCount: Schema.optional(Schema.Number),
@@ -9158,7 +9158,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -9181,7 +9181,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationResultRuleCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationResultRuleCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correlationId: Schema.optional(Schema.String),
       error: Schema.optional(GoogleRpcStatus),
@@ -9200,7 +9200,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       ruleResults: Schema.optional(
@@ -9224,7 +9224,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationRes
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationResultRuleConstraintResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationResultRuleConstraintResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       constraintMet: Schema.optional(Schema.Boolean),
       error: Schema.optional(GoogleRpcStatus),
@@ -9245,7 +9245,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationRes
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConstraintEvaluationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationA: Schema.optional(Schema.String),
       conversationB: Schema.optional(Schema.String),
@@ -9268,7 +9268,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigRe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigResponseDetailedCorrelationResults: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigResponseDetailedCorrelationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinKeyResults: Schema.optional(
         Schema.Array(
@@ -9294,7 +9294,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigRe
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedResults: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1TestCorrelationConfigResponseDetailedCorrelationResults,
@@ -9312,7 +9312,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelReque
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -9331,7 +9331,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -9347,7 +9347,7 @@ export const GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelMetadata:
 export interface GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UndeployIssueModelResponse>;
@@ -9366,7 +9366,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaQuestionTag {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaQuestionTag: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaQuestionTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -9386,7 +9386,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagRequ
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestionTag: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1QaQuestionTag,
@@ -9408,7 +9408,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UpdateQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -9429,7 +9429,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationCallMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationCallMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationCallMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerChannel: Schema.optional(Schema.Number),
       agentChannel: Schema.optional(Schema.Number),
@@ -9447,7 +9447,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1GcsSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1GcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1GcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioUri: Schema.optional(Schema.String),
       transcriptUri: Schema.optional(Schema.String),
@@ -9464,7 +9464,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DialogflowSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DialogflowSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DialogflowSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowConversation: Schema.optional(Schema.String),
       audioUri: Schema.optional(Schema.String),
@@ -9483,7 +9483,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationDataSource 
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationDataSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1GcsSource,
@@ -9530,7 +9530,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMetadataAgentInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMetadataAgentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -9563,7 +9563,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationQualityMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerSatisfactionRating: Schema.optional(Schema.Number),
       waitDuration: Schema.optional(Schema.String),
@@ -9594,7 +9594,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptT
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegmentWordInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegmentWordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startOffset: Schema.optional(Schema.String),
       endOffset: Schema.optional(Schema.String),
@@ -9626,7 +9626,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationParticipant
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationParticipant: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationParticipant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowParticipantName: Schema.optional(Schema.String),
       userId: Schema.optional(Schema.String),
@@ -9645,7 +9645,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptT
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       smartReplyAllowlistCovered: Schema.optional(Schema.Boolean),
     }),
@@ -9662,7 +9662,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SentimentData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SentimentData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SentimentData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       magnitude: Schema.optional(Schema.Number),
       score: Schema.optional(Schema.Number),
@@ -9693,7 +9693,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptT
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegment: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationTranscriptTranscriptSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageTime: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -9726,7 +9726,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationTranscript 
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcriptSegments: Schema.optional(
         Schema.Array(
@@ -9742,21 +9742,21 @@ export const GoogleCloudContactcenterinsightsV1alpha1ConversationTranscript: Sch
 export interface GoogleCloudContactcenterinsightsV1alpha1InterruptionData {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1InterruptionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InterruptionData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1alpha1InterruptionData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1InterruptionData>;
 
 export interface GoogleCloudContactcenterinsightsV1alpha1SilenceData {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1SilenceData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SilenceData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1alpha1SilenceData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SilenceData>;
 
 export interface GoogleCloudContactcenterinsightsV1alpha1HoldData {}
 
 export const GoogleCloudContactcenterinsightsV1alpha1HoldData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1HoldData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1alpha1HoldData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1HoldData>;
 
@@ -9770,7 +9770,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1EntityMentionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1EntityMentionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1EntityMentionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityUniqueId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -9788,7 +9788,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IntentMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IntentMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IntentMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intentUniqueId: Schema.optional(Schema.String),
     }),
@@ -9804,7 +9804,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1PhraseMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1PhraseMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1PhraseMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseMatcher: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -9823,7 +9823,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueAssignment {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueAssignment: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueAssignment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -9839,7 +9839,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueAssignment: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1IssueAssignment,
@@ -9857,7 +9857,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnnotationBoundary {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnnotationBoundary: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnnotationBoundary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wordIndex: Schema.optional(Schema.Number),
       transcriptIndex: Schema.optional(Schema.Number),
@@ -9892,7 +9892,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1CallAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1CallAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1CallAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interruptionData: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1InterruptionData,
@@ -9958,7 +9958,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Entity {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Entity: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Entity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -9980,7 +9980,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSentim
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSentiment: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSentiment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelTag: Schema.optional(Schema.Number),
       sentimentData: Schema.optional(
@@ -10000,7 +10000,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSilenc
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSilence: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationLevelSilence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       silenceDuration: Schema.optional(Schema.String),
       silencePercentage: Schema.optional(Schema.Number),
@@ -10018,7 +10018,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Intent {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Intent: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Intent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -10035,7 +10035,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1IssueModelResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1IssueModelResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1IssueModelResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(Schema.String),
       issues: Schema.optional(
@@ -10058,7 +10058,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaAnswerAnswerSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       answerValue: Schema.optional(
@@ -10085,7 +10085,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaAnswer {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaAnswer: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestion: Schema.optional(Schema.String),
       conversation: Schema.optional(Schema.String),
@@ -10116,7 +10116,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultQaTagR
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultQaTagResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultQaTagResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -10146,7 +10146,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultScoreS
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultScoreSource: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaScorecardResultScoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -10189,7 +10189,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1QaScorecardResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1QaScorecardResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1QaScorecardResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       qaScorecardRevision: Schema.optional(Schema.String),
@@ -10240,7 +10240,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnalysisResultCallAnaly
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnalysisResultCallAnalysisMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnalysisResultCallAnalysisMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotations: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1alpha1CallAnnotation),
@@ -10291,7 +10291,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnalysisResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnalysisResult: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnalysisResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callAnalysisMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1AnalysisResultCallAnalysisMetadata,
@@ -10316,7 +10316,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Analysis {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Analysis: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Analysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       requestTime: Schema.optional(Schema.String),
@@ -10350,7 +10350,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationSummarizati
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationSummarizationSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationSummarizationSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       textSections: Schema.optional(
@@ -10383,7 +10383,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ArticleSuggestionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ArticleSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ArticleSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -10412,7 +10412,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1FaqAnswerData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1FaqAnswerData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1FaqAnswerData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -10437,7 +10437,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SmartReplyData {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SmartReplyData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SmartReplyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reply: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -10460,7 +10460,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1SmartComposeSuggestionD
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1SmartComposeSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1SmartComposeSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestion: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -10480,7 +10480,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DialogflowInteractionDa
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DialogflowInteractionData: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DialogflowInteractionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowIntentId: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -10505,7 +10505,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1AnswerFeedback {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1AnswerFeedback: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1AnswerFeedback> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correctnessLevel: Schema.optional(Schema.String),
       clicked: Schema.optional(Schema.Boolean),
@@ -10529,7 +10529,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserIn
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotationUserInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       generatorName: Schema.optional(Schema.String),
@@ -10568,7 +10568,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1RuntimeAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       articleSuggestion: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1ArticleSuggestionData,
@@ -10613,7 +10613,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1DialogflowIntent {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1DialogflowIntent: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1DialogflowIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -10638,7 +10638,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelation
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1ConversationCorrelationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullConversationCorrelationId: Schema.optional(Schema.String),
       mergedFullConversationCorrelationId: Schema.optional(Schema.String),
@@ -10702,7 +10702,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1Conversation {
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1Conversation: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1Conversation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       callMetadata: Schema.optional(
         GoogleCloudContactcenterinsightsV1alpha1ConversationCallMetadata,
@@ -10767,7 +10767,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UploadConversationReque
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UploadConversationRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UploadConversationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       conversation: Schema.optional(
@@ -10800,7 +10800,7 @@ export interface GoogleCloudContactcenterinsightsV1alpha1UploadConversationMetad
 }
 
 export const GoogleCloudContactcenterinsightsV1alpha1UploadConversationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1alpha1UploadConversationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -10831,7 +10831,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorSummariz
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorSummarizationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorSummarizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfile: Schema.optional(Schema.String),
       summarizationModel: Schema.optional(Schema.String),
@@ -10848,7 +10848,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfig
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfigScorecardList: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfigScorecardList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardRevisions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -10863,7 +10863,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfig
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scorecardList: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainAnnotatorSelectorQaConfigScorecardList,
@@ -10904,7 +10904,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnnotatorSelector {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnnotatorSelector: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnnotatorSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       runInterruptionAnnotator: Schema.optional(Schema.Boolean),
       runSilenceAnnotator: Schema.optional(Schema.Boolean),
@@ -10940,7 +10940,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsR
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -10972,7 +10972,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsM
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -10997,7 +10997,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsR
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkAnalyzeConversationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulAnalysisCount: Schema.optional(Schema.Number),
       failedAnalysisCount: Schema.optional(Schema.Number),
@@ -11019,7 +11019,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsRe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -11043,7 +11043,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsMe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11060,7 +11060,7 @@ export const GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsMetada
 export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteConversationsResponse>;
@@ -11073,7 +11073,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsR
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -11091,7 +11091,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsM
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       request: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsRequest,
@@ -11106,7 +11106,7 @@ export const GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsMetad
 export interface GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDeleteFeedbackLabelsResponse>;
@@ -11125,7 +11125,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequestGcsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequestGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       format: Schema.optional(Schema.String),
       objectUri: Schema.optional(Schema.String),
@@ -11146,7 +11146,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequestSheetsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequestSheetsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       spreadsheetUri: Schema.optional(Schema.String),
       sheetTitle: Schema.optional(Schema.String),
@@ -11181,7 +11181,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       filter: Schema.optional(Schema.String),
@@ -11213,7 +11213,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsMetadataDownloadStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsMetadataDownloadStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedObjectCount: Schema.optional(Schema.Number),
       successfulDownloadCount: Schema.optional(Schema.Number),
@@ -11239,7 +11239,7 @@ export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabel
 }
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11259,7 +11259,7 @@ export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsMet
 export interface GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainBulkDownloadFeedbackLabelsResponse>;
@@ -11276,7 +11276,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCreateAnalysisOperationMe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCreateAnalysisOperationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCreateAnalysisOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11306,7 +11306,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssue {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssue: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -11327,7 +11327,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCreateIssueRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCreateIssueRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCreateIssueRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issue: Schema.optional(GoogleCloudContactcenterinsightsV1mainIssue),
@@ -11346,7 +11346,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCreateIssueMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCreateIssueMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCreateIssueMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11368,7 +11368,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueModelInputDataConfig
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueModelInputDataConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueModelInputDataConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
       trainingConversationsCount: Schema.optional(Schema.String),
@@ -11389,7 +11389,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueModelLabelStatsIssue
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueModelLabelStatsIssueStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueModelLabelStatsIssueStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       labeledConversationsCount: Schema.optional(Schema.String),
@@ -11413,7 +11413,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueModelLabelStats {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueModelLabelStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueModelLabelStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       analyzedConversationsCount: Schema.optional(Schema.String),
       unclassifiedConversationsCount: Schema.optional(Schema.String),
@@ -11459,7 +11459,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueModel {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueModel: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -11488,7 +11488,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCreateIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCreateIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCreateIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       issueModel: Schema.optional(
@@ -11509,7 +11509,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCreateIssueModelMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCreateIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCreateIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11528,7 +11528,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeleteIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeleteIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeleteIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -11546,7 +11546,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeleteIssueModelMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeleteIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeleteIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11565,7 +11565,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -11584,7 +11584,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeleteQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11603,7 +11603,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeployIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -11621,7 +11621,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDeployIssueModelMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11637,7 +11637,7 @@ export const GoogleCloudContactcenterinsightsV1mainDeployIssueModelMetadata: Sch
 export interface GoogleCloudContactcenterinsightsV1mainDeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainDeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainDeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainDeployIssueModelResponse>;
@@ -11652,7 +11652,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequestBigQueryDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequestBigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -11703,7 +11703,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportInsightsDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       bigQueryDestination: Schema.optional(
@@ -11735,7 +11735,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportInsightsDataMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportInsightsDataMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportInsightsDataMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11754,7 +11754,7 @@ export const GoogleCloudContactcenterinsightsV1mainExportInsightsDataMetadata: S
 export interface GoogleCloudContactcenterinsightsV1mainExportInsightsDataResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainExportInsightsDataResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportInsightsDataResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainExportInsightsDataResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportInsightsDataResponse>;
@@ -11765,7 +11765,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportIssueModelRequestGc
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportIssueModelRequestGcsDestination: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportIssueModelRequestGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -11782,7 +11782,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       gcsDestination: Schema.optional(
@@ -11803,7 +11803,7 @@ export interface GoogleCloudContactcenterinsightsV1mainExportIssueModelMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainExportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -11819,7 +11819,7 @@ export const GoogleCloudContactcenterinsightsV1mainExportIssueModelMetadata: Sch
 export interface GoogleCloudContactcenterinsightsV1mainExportIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainExportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainExportIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainExportIssueModelResponse>;
@@ -11830,7 +11830,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightsMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorMessages: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -11852,7 +11852,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightsRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponseGenerativeResponseTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponseGenerativeResponseTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -11874,7 +11874,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightsRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponseGenerativeResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponseGenerativeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textOutput: Schema.optional(Schema.String),
       generatedSqlQuery: Schema.optional(Schema.String),
@@ -11894,7 +11894,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageUserMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageUserMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -11916,7 +11916,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessageTextOutput: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessageTextOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       textType: Schema.optional(Schema.String),
@@ -11940,7 +11940,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textMessage: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessageTextOutput,
@@ -11963,7 +11963,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessages: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessageSystemMessages> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       systemMessages: Schema.optional(
         Schema.Array(
@@ -11988,7 +11988,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessage: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscriptMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -12016,7 +12016,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversa
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -12040,7 +12040,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGenerativeInsightsRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGenerativeInsightsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeResponses: Schema.optional(
         Schema.Array(
@@ -12062,7 +12062,7 @@ export interface GoogleCloudContactcenterinsightsV1mainImportIssueModelRequestGc
 }
 
 export const GoogleCloudContactcenterinsightsV1mainImportIssueModelRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainImportIssueModelRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       objectUri: Schema.optional(Schema.String),
     }),
@@ -12081,7 +12081,7 @@ export interface GoogleCloudContactcenterinsightsV1mainImportIssueModelRequest {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainImportIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainImportIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       gcsSource: Schema.optional(
@@ -12103,7 +12103,7 @@ export interface GoogleCloudContactcenterinsightsV1mainImportIssueModelMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainImportIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainImportIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -12122,7 +12122,7 @@ export interface GoogleCloudContactcenterinsightsV1mainImportIssueModelResponse 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainImportIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainImportIssueModelResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainIssueModel,
@@ -12153,7 +12153,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketUri: Schema.optional(Schema.String),
       bucketObjectType: Schema.optional(Schema.String),
@@ -12173,7 +12173,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestTranscriptObjectConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestTranscriptObjectConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -12192,7 +12192,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestConversationConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsRequestConversationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentChannel: Schema.optional(Schema.Number),
@@ -12211,7 +12211,7 @@ export interface GoogleCloudContactcenterinsightsV1mainRedactionConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainRedactionConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainRedactionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(Schema.String),
       inspectTemplate: Schema.optional(Schema.String),
@@ -12228,7 +12228,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSpeechConfig {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSpeechConfig: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSpeechConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       speechRecognizer: Schema.optional(Schema.String),
       disableWordTimeOffsets: Schema.optional(Schema.Boolean),
@@ -12255,7 +12255,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       gcsSource: Schema.optional(
@@ -12292,7 +12292,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsMetadataIngestConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsMetadataIngestConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedObjectCount: Schema.optional(Schema.Number),
       duplicatesSkippedCount: Schema.optional(Schema.Number),
@@ -12320,7 +12320,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -12341,7 +12341,7 @@ export const GoogleCloudContactcenterinsightsV1mainIngestConversationsMetadata: 
 export interface GoogleCloudContactcenterinsightsV1mainIngestConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainIngestConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainIngestConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainIngestConversationsResponse>;
@@ -12354,7 +12354,7 @@ export interface GoogleCloudContactcenterinsightsV1mainEncryptionSpec {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainEncryptionSpec: Schema.Schema<GoogleCloudContactcenterinsightsV1mainEncryptionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       kmsKey: Schema.optional(Schema.String),
@@ -12369,7 +12369,7 @@ export interface GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecR
 }
 
 export const GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encryptionSpec: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainEncryptionSpec,
@@ -12392,7 +12392,7 @@ export interface GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecM
 }
 
 export const GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -12409,7 +12409,7 @@ export const GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecMetad
 export interface GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainInitializeEncryptionSpecResponse>;
@@ -12436,7 +12436,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerValue {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerValue: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       strValue: Schema.optional(Schema.String),
@@ -12468,7 +12468,7 @@ export interface GoogleCloudContactcenterinsightsV1mainFeedbackLabel {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainFeedbackLabel: Schema.Schema<GoogleCloudContactcenterinsightsV1mainFeedbackLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       labeledResource: Schema.optional(Schema.String),
@@ -12491,7 +12491,7 @@ export interface GoogleCloudContactcenterinsightsV1mainListAllFeedbackLabelsResp
 }
 
 export const GoogleCloudContactcenterinsightsV1mainListAllFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainListAllFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1mainFeedbackLabel),
@@ -12511,7 +12511,7 @@ export interface GoogleCloudContactcenterinsightsV1mainListFeedbackLabelsRespons
 }
 
 export const GoogleCloudContactcenterinsightsV1mainListFeedbackLabelsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainListFeedbackLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedbackLabels: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1mainFeedbackLabel),
@@ -12529,7 +12529,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsMetadata {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resultIsTruncated: Schema.optional(Schema.Boolean),
     }),
@@ -12547,7 +12547,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionIssueDimensionMe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionIssueDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionIssueDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueId: Schema.optional(Schema.String),
       issueDisplayName: Schema.optional(Schema.String),
@@ -12576,7 +12576,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionAgentDimensionMe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionAgentDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionAgentDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       agentDisplayName: Schema.optional(Schema.String),
@@ -12601,7 +12601,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionDimens
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -12624,7 +12624,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionAnswer
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionAnswerDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionQaQuestionAnswerDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
       qaQuestionId: Schema.optional(Schema.String),
@@ -12642,7 +12642,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionQaScorecardDimen
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionQaScorecardDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionQaScorecardDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaScorecardId: Schema.optional(Schema.String),
     }),
@@ -12657,7 +12657,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionConversationProf
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionConversationProfileDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionConversationProfileDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationProfileId: Schema.optional(Schema.String),
     }),
@@ -12672,7 +12672,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionMediumDimensionM
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionMediumDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionMediumDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       medium: Schema.optional(Schema.String),
     }),
@@ -12689,7 +12689,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionConversationalAg
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionConversationalAgentsPlaybookDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionConversationalAgentsPlaybookDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       playbookId: Schema.optional(Schema.String),
       playbookDisplayName: Schema.optional(Schema.String),
@@ -12707,7 +12707,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionConversationalAg
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionConversationalAgentsToolDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionConversationalAgentsToolDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       toolId: Schema.optional(Schema.String),
       toolDisplayName: Schema.optional(Schema.String),
@@ -12723,7 +12723,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionClientSentimentC
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionClientSentimentCategoryDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionClientSentimentCategoryDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sentimentCategory: Schema.optional(Schema.String),
     }),
@@ -12740,7 +12740,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimensionLabelDimensionMe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimensionLabelDimensionMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimensionLabelDimensionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelKey: Schema.optional(Schema.String),
       labelValue: Schema.optional(Schema.String),
@@ -12800,7 +12800,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDimension {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDimension: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionKey: Schema.optional(Schema.String),
       issueDimensionMetadata: Schema.optional(
@@ -12849,7 +12849,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointConversationMeasureQaTagScore: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointConversationMeasureQaTagScore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       averageTagNormalizedScore: Schema.optional(Schema.Number),
@@ -12973,7 +12973,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointConversationMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointConversationMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationCount: Schema.optional(Schema.Number),
       averageSilencePercentage: Schema.optional(Schema.Number),
@@ -13064,7 +13064,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointPercentileResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointPercentileResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       p50: Schema.optional(Schema.Number),
       p90: Schema.optional(Schema.Number),
@@ -13089,7 +13089,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointDialogflowInteractionMeasure: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointDialogflowInteractionMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentileAudioInAudioOutLatency: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPointPercentileResult,
@@ -13122,7 +13122,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPoint: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceDataPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interval: Schema.optional(GoogleTypeInterval),
       conversationMeasure: Schema.optional(
@@ -13143,7 +13143,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceTimeSeries: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSliceTimeSeries> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataPoints: Schema.optional(
         Schema.Array(
@@ -13166,7 +13166,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponseSlice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensions: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1mainDimension),
@@ -13195,7 +13195,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryMetricsResponse {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -13215,7 +13215,7 @@ export const GoogleCloudContactcenterinsightsV1mainQueryMetricsResponse: Schema.
 export interface GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewMetadata {}
 
 export const GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewMetadata",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewMetadata>;
@@ -13226,7 +13226,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewR
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQueryPerformanceOverviewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       summaryText: Schema.optional(Schema.String),
     }),
@@ -13247,7 +13247,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSampleRule {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSampleRule: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       samplePercentage: Schema.optional(Schema.Number),
       sampleRow: Schema.optional(Schema.String),
@@ -13276,7 +13276,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDataset {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDataset: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDataset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -13300,7 +13300,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSampleConversationsReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSampleConversationsRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleConversationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       sampleRule: Schema.optional(
@@ -13323,7 +13323,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSampleConversationsMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSampleConversationsMetadataSampleConversationsStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleConversationsMetadataSampleConversationsStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successfulSampleCount: Schema.optional(Schema.Number),
       failedSampleCount: Schema.optional(Schema.Number),
@@ -13347,7 +13347,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSampleConversationsMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSampleConversationsMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleConversationsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -13367,7 +13367,7 @@ export const GoogleCloudContactcenterinsightsV1mainSampleConversationsMetadata: 
 export interface GoogleCloudContactcenterinsightsV1mainSampleConversationsResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainSampleConversationsResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleConversationsResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainSampleConversationsResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainSampleConversationsResponse>;
@@ -13380,7 +13380,7 @@ export interface GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError: Schema.Schema<GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadataFullConversationCorrelationStatsConversationCorrelationError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       status: Schema.optional(GoogleRpcStatus),
@@ -13404,7 +13404,7 @@ export interface GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadataFullConversationCorrelationStats: Schema.Schema<GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadataFullConversationCorrelationStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sampledConversationsCount: Schema.optional(Schema.Number),
       correlatedConversationsCount: Schema.optional(Schema.Number),
@@ -13431,7 +13431,7 @@ export interface GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMeta
 }
 
 export const GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.String),
@@ -13454,7 +13454,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationCorrelationRe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationCorrelationResultRuleCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationCorrelationResultRuleCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ruleId: Schema.optional(Schema.String),
       correlationId: Schema.optional(Schema.String),
@@ -13473,7 +13473,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationCorrelationRe
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationCorrelationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationCorrelationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversation: Schema.optional(Schema.String),
       ruleResults: Schema.optional(
@@ -13497,7 +13497,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResul
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResultRuleConstraintResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResultRuleConstraintResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ruleId: Schema.optional(Schema.String),
       constraintMet: Schema.optional(Schema.Boolean),
@@ -13518,7 +13518,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResul
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConstraintEvaluationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationA: Schema.optional(Schema.String),
       conversationB: Schema.optional(Schema.String),
@@ -13541,7 +13541,7 @@ export interface GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResp
 }
 
 export const GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResponseDetailedCorrelationResults: Schema.Schema<GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResponseDetailedCorrelationResults> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinKeyResults: Schema.optional(
         Schema.Array(
@@ -13567,7 +13567,7 @@ export interface GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResp
 }
 
 export const GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detailedResults: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainTestCorrelationConfigResponseDetailedCorrelationResults,
@@ -13585,7 +13585,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUndeployIssueModelRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUndeployIssueModelRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUndeployIssueModelRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -13604,7 +13604,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUndeployIssueModelMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUndeployIssueModelMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUndeployIssueModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -13620,7 +13620,7 @@ export const GoogleCloudContactcenterinsightsV1mainUndeployIssueModelMetadata: S
 export interface GoogleCloudContactcenterinsightsV1mainUndeployIssueModelResponse {}
 
 export const GoogleCloudContactcenterinsightsV1mainUndeployIssueModelResponse: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUndeployIssueModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudContactcenterinsightsV1mainUndeployIssueModelResponse",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainUndeployIssueModelResponse>;
@@ -13639,7 +13639,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaQuestionTag {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaQuestionTag: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaQuestionTag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -13659,7 +13659,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagReques
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestionTag: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainQaQuestionTag,
@@ -13681,7 +13681,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUpdateQaQuestionTagMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -13702,7 +13702,7 @@ export interface GoogleCloudContactcenterinsightsV1mainGcsSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainGcsSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioUri: Schema.optional(Schema.String),
       transcriptUri: Schema.optional(Schema.String),
@@ -13719,7 +13719,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDialogflowSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDialogflowSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDialogflowSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowConversation: Schema.optional(Schema.String),
       audioUri: Schema.optional(Schema.String),
@@ -13738,7 +13738,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationDataSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationDataSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationDataSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsSource: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainGcsSource,
@@ -13760,7 +13760,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationCallMetadata 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationCallMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationCallMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerChannel: Schema.optional(Schema.Number),
       agentChannel: Schema.optional(Schema.Number),
@@ -13802,7 +13802,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationQualityMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationQualityMetadataAgentInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationQualityMetadataAgentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       agentId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -13835,7 +13835,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationQualityMetada
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationQualityMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationQualityMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerSatisfactionRating: Schema.optional(Schema.Number),
       waitDuration: Schema.optional(Schema.String),
@@ -13866,7 +13866,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationTranscriptTra
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegmentWordInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegmentWordInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startOffset: Schema.optional(Schema.String),
       endOffset: Schema.optional(Schema.String),
@@ -13898,7 +13898,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationParticipant {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationParticipant: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationParticipant> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowParticipant: Schema.optional(Schema.String),
       dialogflowParticipantName: Schema.optional(Schema.String),
@@ -13916,7 +13916,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationTranscriptTra
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegmentDialogflowSegmentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       smartReplyAllowlistCovered: Schema.optional(Schema.Boolean),
     }),
@@ -13933,7 +13933,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSentimentData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSentimentData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSentimentData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       magnitude: Schema.optional(Schema.Number),
       score: Schema.optional(Schema.Number),
@@ -13964,7 +13964,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationTranscriptTra
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegment: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationTranscriptTranscriptSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageTime: Schema.optional(Schema.String),
       text: Schema.optional(Schema.String),
@@ -13997,7 +13997,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationTranscript {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationTranscript: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationTranscript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcriptSegments: Schema.optional(
         Schema.Array(
@@ -14017,7 +14017,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnnotationBoundary {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnnotationBoundary: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnnotationBoundary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcriptIndex: Schema.optional(Schema.Number),
       wordIndex: Schema.optional(Schema.Number),
@@ -14029,21 +14029,21 @@ export const GoogleCloudContactcenterinsightsV1mainAnnotationBoundary: Schema.Sc
 export interface GoogleCloudContactcenterinsightsV1mainInterruptionData {}
 
 export const GoogleCloudContactcenterinsightsV1mainInterruptionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainInterruptionData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1mainInterruptionData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainInterruptionData>;
 
 export interface GoogleCloudContactcenterinsightsV1mainSilenceData {}
 
 export const GoogleCloudContactcenterinsightsV1mainSilenceData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSilenceData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1mainSilenceData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainSilenceData>;
 
 export interface GoogleCloudContactcenterinsightsV1mainHoldData {}
 
 export const GoogleCloudContactcenterinsightsV1mainHoldData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainHoldData> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudContactcenterinsightsV1mainHoldData",
   }) as any as Schema.Schema<GoogleCloudContactcenterinsightsV1mainHoldData>;
 
@@ -14057,7 +14057,7 @@ export interface GoogleCloudContactcenterinsightsV1mainEntityMentionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainEntityMentionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainEntityMentionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityUniqueId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -14075,7 +14075,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIntentMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIntentMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIntentMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intentUniqueId: Schema.optional(Schema.String),
     }),
@@ -14091,7 +14091,7 @@ export interface GoogleCloudContactcenterinsightsV1mainPhraseMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainPhraseMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainPhraseMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseMatcher: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -14110,7 +14110,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueAssignment {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueAssignment: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueAssignment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issue: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -14126,7 +14126,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueMatchData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueMatchData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueMatchData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueAssignment: Schema.optional(
         GoogleCloudContactcenterinsightsV1mainIssueAssignment,
@@ -14162,7 +14162,7 @@ export interface GoogleCloudContactcenterinsightsV1mainCallAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainCallAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1mainCallAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelTag: Schema.optional(Schema.Number),
       annotationStartBoundary: Schema.optional(
@@ -14226,7 +14226,7 @@ export interface GoogleCloudContactcenterinsightsV1mainEntity {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainEntity: Schema.Schema<GoogleCloudContactcenterinsightsV1mainEntity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -14248,7 +14248,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationLevelSentimen
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationLevelSentiment: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationLevelSentiment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelTag: Schema.optional(Schema.Number),
       sentimentData: Schema.optional(
@@ -14268,7 +14268,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationLevelSilence 
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationLevelSilence: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationLevelSilence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       silenceDuration: Schema.optional(Schema.String),
       silencePercentage: Schema.optional(Schema.Number),
@@ -14286,7 +14286,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIntent {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIntent: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -14303,7 +14303,7 @@ export interface GoogleCloudContactcenterinsightsV1mainIssueModelResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainIssueModelResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainIssueModelResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueModel: Schema.optional(Schema.String),
       issues: Schema.optional(
@@ -14326,7 +14326,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerSource {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaAnswerAnswerSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       answerValue: Schema.optional(
@@ -14353,7 +14353,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaAnswer {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaAnswer: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       qaQuestion: Schema.optional(Schema.String),
       conversation: Schema.optional(Schema.String),
@@ -14384,7 +14384,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaScorecardResultQaTagRes
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaScorecardResultQaTagResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaScorecardResultQaTagResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -14414,7 +14414,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaScorecardResultScoreSou
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaScorecardResultScoreSource: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaScorecardResultScoreSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceType: Schema.optional(Schema.String),
       score: Schema.optional(Schema.Number),
@@ -14457,7 +14457,7 @@ export interface GoogleCloudContactcenterinsightsV1mainQaScorecardResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainQaScorecardResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainQaScorecardResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       qaScorecardRevision: Schema.optional(Schema.String),
@@ -14508,7 +14508,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnalysisResultCallAnalysi
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnalysisResultCallAnalysisMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnalysisResultCallAnalysisMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotations: Schema.optional(
         Schema.Array(GoogleCloudContactcenterinsightsV1mainCallAnnotation),
@@ -14559,7 +14559,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnalysisResult {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnalysisResult: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnalysisResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       callAnalysisMetadata: Schema.optional(
@@ -14584,7 +14584,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnalysis {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnalysis: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       requestTime: Schema.optional(Schema.String),
@@ -14618,7 +14618,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationSummarization
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationSummarizationSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationSummarizationSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       textSections: Schema.optional(
@@ -14650,7 +14650,7 @@ export interface GoogleCloudContactcenterinsightsV1mainAnswerFeedback {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainAnswerFeedback: Schema.Schema<GoogleCloudContactcenterinsightsV1mainAnswerFeedback> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       correctnessLevel: Schema.optional(Schema.String),
       clicked: Schema.optional(Schema.Boolean),
@@ -14676,7 +14676,7 @@ export interface GoogleCloudContactcenterinsightsV1mainArticleSuggestionData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainArticleSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainArticleSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -14705,7 +14705,7 @@ export interface GoogleCloudContactcenterinsightsV1mainFaqAnswerData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainFaqAnswerData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainFaqAnswerData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       answer: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -14730,7 +14730,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSmartReplyData {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSmartReplyData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSmartReplyData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reply: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -14753,7 +14753,7 @@ export interface GoogleCloudContactcenterinsightsV1mainSmartComposeSuggestionDat
 }
 
 export const GoogleCloudContactcenterinsightsV1mainSmartComposeSuggestionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainSmartComposeSuggestionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestion: Schema.optional(Schema.String),
       confidenceScore: Schema.optional(Schema.Number),
@@ -14773,7 +14773,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDialogflowInteractionData
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDialogflowInteractionData: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDialogflowInteractionData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dialogflowIntentId: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -14797,7 +14797,7 @@ export interface GoogleCloudContactcenterinsightsV1mainRuntimeAnnotationUserInpu
 }
 
 export const GoogleCloudContactcenterinsightsV1mainRuntimeAnnotationUserInput: Schema.Schema<GoogleCloudContactcenterinsightsV1mainRuntimeAnnotationUserInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       generatorName: Schema.optional(Schema.String),
@@ -14836,7 +14836,7 @@ export interface GoogleCloudContactcenterinsightsV1mainRuntimeAnnotation {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainRuntimeAnnotation: Schema.Schema<GoogleCloudContactcenterinsightsV1mainRuntimeAnnotation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotationId: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -14881,7 +14881,7 @@ export interface GoogleCloudContactcenterinsightsV1mainDialogflowIntent {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainDialogflowIntent: Schema.Schema<GoogleCloudContactcenterinsightsV1mainDialogflowIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -14906,7 +14906,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversationCorrelationIn
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversationCorrelationInfo: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversationCorrelationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullConversationCorrelationId: Schema.optional(Schema.String),
       mergedFullConversationCorrelationId: Schema.optional(Schema.String),
@@ -14970,7 +14970,7 @@ export interface GoogleCloudContactcenterinsightsV1mainConversation {
 }
 
 export const GoogleCloudContactcenterinsightsV1mainConversation: Schema.Schema<GoogleCloudContactcenterinsightsV1mainConversation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       dataSource: Schema.optional(
@@ -15035,7 +15035,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUploadConversationRequest
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUploadConversationRequest: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUploadConversationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parent: Schema.optional(Schema.String),
       conversation: Schema.optional(
@@ -15068,7 +15068,7 @@ export interface GoogleCloudContactcenterinsightsV1mainUploadConversationMetadat
 }
 
 export const GoogleCloudContactcenterinsightsV1mainUploadConversationMetadata: Schema.Schema<GoogleCloudContactcenterinsightsV1mainUploadConversationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -15094,20 +15094,21 @@ export interface GetCorrelationConfigProjectsLocationsRequest {
   name: string;
 }
 
-export const GetCorrelationConfigProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/correlationConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCorrelationConfigProjectsLocationsRequest>;
+export const GetCorrelationConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/correlationConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCorrelationConfigProjectsLocationsRequest>;
 
 export type GetCorrelationConfigProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1CorrelationConfig;
 export const GetCorrelationConfigProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1CorrelationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CorrelationConfig;
 
 export type GetCorrelationConfigProjectsLocationsError = DefaultErrors;
 
@@ -15117,7 +15118,7 @@ export const getCorrelationConfigProjectsLocations: API.OperationMethod<
   GetCorrelationConfigProjectsLocationsResponse,
   GetCorrelationConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCorrelationConfigProjectsLocationsRequest,
   output: GetCorrelationConfigProjectsLocationsResponse,
   errors: [],
@@ -15132,25 +15133,26 @@ export interface UpdateCorrelationConfigProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1CorrelationConfig;
 }
 
-export const UpdateCorrelationConfigProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1CorrelationConfig,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/correlationConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateCorrelationConfigProjectsLocationsRequest>;
+export const UpdateCorrelationConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1CorrelationConfig,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/correlationConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateCorrelationConfigProjectsLocationsRequest>;
 
 export type UpdateCorrelationConfigProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1CorrelationConfig;
 export const UpdateCorrelationConfigProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1CorrelationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CorrelationConfig;
 
 export type UpdateCorrelationConfigProjectsLocationsError = DefaultErrors;
 
@@ -15160,7 +15162,7 @@ export const updateCorrelationConfigProjectsLocations: API.OperationMethod<
   UpdateCorrelationConfigProjectsLocationsResponse,
   UpdateCorrelationConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCorrelationConfigProjectsLocationsRequest,
   output: UpdateCorrelationConfigProjectsLocationsResponse,
   errors: [],
@@ -15173,24 +15175,25 @@ export interface TestCorrelationConfigProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest;
 }
 
-export const TestCorrelationConfigProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:testCorrelationConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestCorrelationConfigProjectsLocationsRequest>;
+export const TestCorrelationConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1TestCorrelationConfigRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:testCorrelationConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestCorrelationConfigProjectsLocationsRequest>;
 
 export type TestCorrelationConfigProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const TestCorrelationConfigProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TestCorrelationConfigProjectsLocationsError = DefaultErrors;
 
@@ -15200,7 +15203,7 @@ export const testCorrelationConfigProjectsLocations: API.OperationMethod<
   TestCorrelationConfigProjectsLocationsResponse,
   TestCorrelationConfigProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestCorrelationConfigProjectsLocationsRequest,
   output: TestCorrelationConfigProjectsLocationsResponse,
   errors: [],
@@ -15211,20 +15214,21 @@ export interface GetSettingsProjectsLocationsRequest {
   name: string;
 }
 
-export const GetSettingsProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
+export const GetSettingsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
 
 export type GetSettingsProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1Settings;
 export const GetSettingsProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Settings;
 
 export type GetSettingsProjectsLocationsError = DefaultErrors;
 
@@ -15234,7 +15238,7 @@ export const getSettingsProjectsLocations: API.OperationMethod<
   GetSettingsProjectsLocationsResponse,
   GetSettingsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
@@ -15249,25 +15253,26 @@ export interface UpdateSettingsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1Settings;
 }
 
-export const UpdateSettingsProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Settings).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
+export const UpdateSettingsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Settings).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
 
 export type UpdateSettingsProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1Settings;
 export const UpdateSettingsProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1Settings;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Settings;
 
 export type UpdateSettingsProjectsLocationsError = DefaultErrors;
 
@@ -15277,7 +15282,7 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   UpdateSettingsProjectsLocationsResponse,
   UpdateSettingsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
@@ -15288,20 +15293,21 @@ export interface GetEncryptionSpecProjectsLocationsRequest {
   name: string;
 }
 
-export const GetEncryptionSpecProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/encryptionSpec",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetEncryptionSpecProjectsLocationsRequest>;
+export const GetEncryptionSpecProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/encryptionSpec",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetEncryptionSpecProjectsLocationsRequest>;
 
 export type GetEncryptionSpecProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1EncryptionSpec;
 export const GetEncryptionSpecProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1EncryptionSpec;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1EncryptionSpec;
 
 export type GetEncryptionSpecProjectsLocationsError = DefaultErrors;
 
@@ -15311,7 +15317,7 @@ export const getEncryptionSpecProjectsLocations: API.OperationMethod<
   GetEncryptionSpecProjectsLocationsResponse,
   GetEncryptionSpecProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetEncryptionSpecProjectsLocationsRequest,
   output: GetEncryptionSpecProjectsLocationsResponse,
   errors: [],
@@ -15324,22 +15330,24 @@ export interface QueryMetricsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1QueryMetricsRequest;
 }
 
-export const QueryMetricsProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1QueryMetricsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:queryMetrics",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<QueryMetricsProjectsLocationsRequest>;
+export const QueryMetricsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1QueryMetricsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:queryMetrics",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryMetricsProjectsLocationsRequest>;
 
 export type QueryMetricsProjectsLocationsResponse = GoogleLongrunningOperation;
-export const QueryMetricsProjectsLocationsResponse = GoogleLongrunningOperation;
+export const QueryMetricsProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type QueryMetricsProjectsLocationsError = DefaultErrors;
 
@@ -15349,7 +15357,7 @@ export const queryMetricsProjectsLocations: API.OperationMethod<
   QueryMetricsProjectsLocationsResponse,
   QueryMetricsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryMetricsProjectsLocationsRequest,
   output: QueryMetricsProjectsLocationsResponse,
   errors: [],
@@ -15362,24 +15370,25 @@ export interface GenerativeInsightsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest;
 }
 
-export const GenerativeInsightsProjectsLocationsRequest = Schema.Struct({
-  location: Schema.String.pipe(T.HttpPath("location")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:generativeInsights",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerativeInsightsProjectsLocationsRequest>;
+export const GenerativeInsightsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:generativeInsights",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerativeInsightsProjectsLocationsRequest>;
 
 export type GenerativeInsightsProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const GenerativeInsightsProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GenerativeInsightsProjectsLocationsError = DefaultErrors;
 
@@ -15389,7 +15398,7 @@ export const generativeInsightsProjectsLocations: API.OperationMethod<
   GenerativeInsightsProjectsLocationsResponse,
   GenerativeInsightsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerativeInsightsProjectsLocationsRequest,
   output: GenerativeInsightsProjectsLocationsResponse,
   errors: [],
@@ -15402,24 +15411,25 @@ export interface QueryPerformanceOverviewProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest;
 }
 
-export const QueryPerformanceOverviewProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:queryPerformanceOverview",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<QueryPerformanceOverviewProjectsLocationsRequest>;
+export const QueryPerformanceOverviewProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:queryPerformanceOverview",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryPerformanceOverviewProjectsLocationsRequest>;
 
 export type QueryPerformanceOverviewProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const QueryPerformanceOverviewProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type QueryPerformanceOverviewProjectsLocationsError = DefaultErrors;
 
@@ -15429,7 +15439,7 @@ export const queryPerformanceOverviewProjectsLocations: API.OperationMethod<
   QueryPerformanceOverviewProjectsLocationsResponse,
   QueryPerformanceOverviewProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryPerformanceOverviewProjectsLocationsRequest,
   output: QueryPerformanceOverviewProjectsLocationsResponse,
   errors: [],
@@ -15446,23 +15456,24 @@ export interface ListAllFeedbackLabelsProjectsLocationsRequest {
   filter?: string;
 }
 
-export const ListAllFeedbackLabelsProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:listAllFeedbackLabels",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAllFeedbackLabelsProjectsLocationsRequest>;
+export const ListAllFeedbackLabelsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:listAllFeedbackLabels",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAllFeedbackLabelsProjectsLocationsRequest>;
 
 export type ListAllFeedbackLabelsProjectsLocationsResponse =
   GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
 export const ListAllFeedbackLabelsProjectsLocationsResponse =
-  GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
 
 export type ListAllFeedbackLabelsProjectsLocationsError = DefaultErrors;
 
@@ -15472,7 +15483,7 @@ export const listAllFeedbackLabelsProjectsLocations: API.PaginatedOperationMetho
   ListAllFeedbackLabelsProjectsLocationsResponse,
   ListAllFeedbackLabelsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAllFeedbackLabelsProjectsLocationsRequest,
   output: ListAllFeedbackLabelsProjectsLocationsResponse,
   errors: [],
@@ -15489,24 +15500,25 @@ export interface BulkUploadFeedbackLabelsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest;
 }
 
-export const BulkUploadFeedbackLabelsProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:bulkUploadFeedbackLabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkUploadFeedbackLabelsProjectsLocationsRequest>;
+export const BulkUploadFeedbackLabelsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:bulkUploadFeedbackLabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkUploadFeedbackLabelsProjectsLocationsRequest>;
 
 export type BulkUploadFeedbackLabelsProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const BulkUploadFeedbackLabelsProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkUploadFeedbackLabelsProjectsLocationsError = DefaultErrors;
 
@@ -15516,7 +15528,7 @@ export const bulkUploadFeedbackLabelsProjectsLocations: API.OperationMethod<
   BulkUploadFeedbackLabelsProjectsLocationsResponse,
   BulkUploadFeedbackLabelsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkUploadFeedbackLabelsProjectsLocationsRequest,
   output: BulkUploadFeedbackLabelsProjectsLocationsResponse,
   errors: [],
@@ -15529,26 +15541,25 @@ export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest;
 }
 
-export const BulkDownloadFeedbackLabelsProjectsLocationsRequest = Schema.Struct(
-  {
+export const BulkDownloadFeedbackLabelsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:bulkDownloadFeedbackLabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkDownloadFeedbackLabelsProjectsLocationsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:bulkDownloadFeedbackLabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkDownloadFeedbackLabelsProjectsLocationsRequest>;
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const BulkDownloadFeedbackLabelsProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsError = DefaultErrors;
 
@@ -15558,7 +15569,7 @@ export const bulkDownloadFeedbackLabelsProjectsLocations: API.OperationMethod<
   BulkDownloadFeedbackLabelsProjectsLocationsResponse,
   BulkDownloadFeedbackLabelsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDownloadFeedbackLabelsProjectsLocationsRequest,
   output: BulkDownloadFeedbackLabelsProjectsLocationsResponse,
   errors: [],
@@ -15571,24 +15582,25 @@ export interface BulkDeleteFeedbackLabelsProjectsLocationsRequest {
   body?: GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest;
 }
 
-export const BulkDeleteFeedbackLabelsProjectsLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}:bulkDeleteFeedbackLabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkDeleteFeedbackLabelsProjectsLocationsRequest>;
+export const BulkDeleteFeedbackLabelsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}:bulkDeleteFeedbackLabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkDeleteFeedbackLabelsProjectsLocationsRequest>;
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsResponse =
   GoogleLongrunningOperation;
 export const BulkDeleteFeedbackLabelsProjectsLocationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsError = DefaultErrors;
 
@@ -15598,7 +15610,7 @@ export const bulkDeleteFeedbackLabelsProjectsLocations: API.OperationMethod<
   BulkDeleteFeedbackLabelsProjectsLocationsResponse,
   BulkDeleteFeedbackLabelsProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDeleteFeedbackLabelsProjectsLocationsRequest,
   output: BulkDeleteFeedbackLabelsProjectsLocationsResponse,
   errors: [],
@@ -15617,26 +15629,27 @@ export interface ListProjectsLocationsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -15646,7 +15659,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -15661,19 +15674,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation;
 export const GetProjectsLocationsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -15683,7 +15697,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -15694,19 +15708,21 @@ export interface CancelProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const CancelProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
 export type CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
-export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = DefaultErrors;
 
@@ -15716,7 +15732,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsResponse,
   CancelProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
@@ -15731,27 +15747,28 @@ export interface CreateProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1Conversation;
 }
 
-export const CreateProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  conversationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("conversationId"),
-  ),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Conversation).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsConversationsRequest>;
+export const CreateProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    conversationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("conversationId"),
+    ),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Conversation).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsConversationsRequest>;
 
 export type CreateProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1Conversation;
 export const CreateProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1Conversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Conversation;
 
 export type CreateProjectsLocationsConversationsError = DefaultErrors;
 
@@ -15761,7 +15778,7 @@ export const createProjectsLocationsConversations: API.OperationMethod<
   CreateProjectsLocationsConversationsResponse,
   CreateProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConversationsRequest,
   output: CreateProjectsLocationsConversationsResponse,
   errors: [],
@@ -15774,24 +15791,25 @@ export interface UploadProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1UploadConversationRequest;
 }
 
-export const UploadProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1UploadConversationRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:upload",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadProjectsLocationsConversationsRequest>;
+export const UploadProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1UploadConversationRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:upload",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadProjectsLocationsConversationsRequest>;
 
 export type UploadProjectsLocationsConversationsResponse =
   GoogleLongrunningOperation;
 export const UploadProjectsLocationsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type UploadProjectsLocationsConversationsError = DefaultErrors;
 
@@ -15801,7 +15819,7 @@ export const uploadProjectsLocationsConversations: API.OperationMethod<
   UploadProjectsLocationsConversationsResponse,
   UploadProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadProjectsLocationsConversationsRequest,
   output: UploadProjectsLocationsConversationsResponse,
   errors: [],
@@ -15820,34 +15838,35 @@ export interface PatchProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1Conversation;
 }
 
-export const PatchProjectsLocationsConversationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate":
-    Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery(
-        "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate",
-      ),
+export const PatchProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
     ),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Conversation).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsConversationsRequest>;
+    "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate":
+      Schema.optional(Schema.Boolean).pipe(
+        T.HttpQuery(
+          "conversationAutoLabelingUpdateConfig.allowAutoLabelingUpdate",
+        ),
+      ),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Conversation).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsConversationsRequest>;
 
 export type PatchProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1Conversation;
 export const PatchProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1Conversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Conversation;
 
 export type PatchProjectsLocationsConversationsError = DefaultErrors;
 
@@ -15857,7 +15876,7 @@ export const patchProjectsLocationsConversations: API.OperationMethod<
   PatchProjectsLocationsConversationsResponse,
   PatchProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsConversationsRequest,
   output: PatchProjectsLocationsConversationsResponse,
   errors: [],
@@ -15870,21 +15889,22 @@ export interface GetProjectsLocationsConversationsRequest {
   view?: "CONVERSATION_VIEW_UNSPECIFIED" | "FULL" | "BASIC" | (string & {});
 }
 
-export const GetProjectsLocationsConversationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsConversationsRequest>;
+export const GetProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsConversationsRequest>;
 
 export type GetProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1Conversation;
 export const GetProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1Conversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Conversation;
 
 export type GetProjectsLocationsConversationsError = DefaultErrors;
 
@@ -15894,7 +15914,7 @@ export const getProjectsLocationsConversations: API.OperationMethod<
   GetProjectsLocationsConversationsResponse,
   GetProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsConversationsRequest,
   output: GetProjectsLocationsConversationsResponse,
   errors: [],
@@ -15915,25 +15935,26 @@ export interface ListProjectsLocationsConversationsRequest {
   view?: "CONVERSATION_VIEW_UNSPECIFIED" | "FULL" | "BASIC" | (string & {});
 }
 
-export const ListProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsConversationsRequest>;
+export const ListProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConversationsRequest>;
 
 export type ListProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 export const ListProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1ListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 
 export type ListProjectsLocationsConversationsError = DefaultErrors;
 
@@ -15943,7 +15964,7 @@ export const listProjectsLocationsConversations: API.PaginatedOperationMethod<
   ListProjectsLocationsConversationsResponse,
   ListProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsRequest,
   output: ListProjectsLocationsConversationsResponse,
   errors: [],
@@ -15959,7 +15980,7 @@ export interface GenerateSignedAudioProjectsLocationsConversationsRequest {
 }
 
 export const GenerateSignedAudioProjectsLocationsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -15972,7 +15993,7 @@ export const GenerateSignedAudioProjectsLocationsConversationsRequest =
 export type GenerateSignedAudioProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 export const GenerateSignedAudioProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 
 export type GenerateSignedAudioProjectsLocationsConversationsError =
   DefaultErrors;
@@ -15983,7 +16004,7 @@ export const generateSignedAudioProjectsLocationsConversations: API.OperationMet
   GenerateSignedAudioProjectsLocationsConversationsResponse,
   GenerateSignedAudioProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateSignedAudioProjectsLocationsConversationsRequest,
   output: GenerateSignedAudioProjectsLocationsConversationsResponse,
   errors: [],
@@ -15996,19 +16017,21 @@ export interface DeleteProjectsLocationsConversationsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsConversationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsConversationsRequest>;
+export const DeleteProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsConversationsRequest>;
 
 export type DeleteProjectsLocationsConversationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsConversationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsConversationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16018,7 +16041,7 @@ export const deleteProjectsLocationsConversations: API.OperationMethod<
   DeleteProjectsLocationsConversationsResponse,
   DeleteProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConversationsRequest,
   output: DeleteProjectsLocationsConversationsResponse,
   errors: [],
@@ -16031,24 +16054,25 @@ export interface SampleProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1SampleConversationsRequest;
 }
 
-export const SampleProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:sample",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SampleProjectsLocationsConversationsRequest>;
+export const SampleProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:sample",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SampleProjectsLocationsConversationsRequest>;
 
 export type SampleProjectsLocationsConversationsResponse =
   GoogleLongrunningOperation;
 export const SampleProjectsLocationsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SampleProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16058,7 +16082,7 @@ export const sampleProjectsLocationsConversations: API.OperationMethod<
   SampleProjectsLocationsConversationsResponse,
   SampleProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SampleProjectsLocationsConversationsRequest,
   output: SampleProjectsLocationsConversationsResponse,
   errors: [],
@@ -16071,24 +16095,25 @@ export interface BulkAnalyzeProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest;
 }
 
-export const BulkAnalyzeProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:bulkAnalyze",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkAnalyzeProjectsLocationsConversationsRequest>;
+export const BulkAnalyzeProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:bulkAnalyze",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkAnalyzeProjectsLocationsConversationsRequest>;
 
 export type BulkAnalyzeProjectsLocationsConversationsResponse =
   GoogleLongrunningOperation;
 export const BulkAnalyzeProjectsLocationsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkAnalyzeProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16098,7 +16123,7 @@ export const bulkAnalyzeProjectsLocationsConversations: API.OperationMethod<
   BulkAnalyzeProjectsLocationsConversationsResponse,
   BulkAnalyzeProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkAnalyzeProjectsLocationsConversationsRequest,
   output: BulkAnalyzeProjectsLocationsConversationsResponse,
   errors: [],
@@ -16111,24 +16136,25 @@ export interface BulkDeleteProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest;
 }
 
-export const BulkDeleteProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:bulkDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkDeleteProjectsLocationsConversationsRequest>;
+export const BulkDeleteProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:bulkDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkDeleteProjectsLocationsConversationsRequest>;
 
 export type BulkDeleteProjectsLocationsConversationsResponse =
   GoogleLongrunningOperation;
 export const BulkDeleteProjectsLocationsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDeleteProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16138,7 +16164,7 @@ export const bulkDeleteProjectsLocationsConversations: API.OperationMethod<
   BulkDeleteProjectsLocationsConversationsResponse,
   BulkDeleteProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDeleteProjectsLocationsConversationsRequest,
   output: BulkDeleteProjectsLocationsConversationsResponse,
   errors: [],
@@ -16151,24 +16177,25 @@ export interface IngestProjectsLocationsConversationsRequest {
   body?: GoogleCloudContactcenterinsightsV1IngestConversationsRequest;
 }
 
-export const IngestProjectsLocationsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:ingest",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<IngestProjectsLocationsConversationsRequest>;
+export const IngestProjectsLocationsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations:ingest",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<IngestProjectsLocationsConversationsRequest>;
 
 export type IngestProjectsLocationsConversationsResponse =
   GoogleLongrunningOperation;
 export const IngestProjectsLocationsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type IngestProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16178,7 +16205,7 @@ export const ingestProjectsLocationsConversations: API.OperationMethod<
   IngestProjectsLocationsConversationsResponse,
   IngestProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IngestProjectsLocationsConversationsRequest,
   output: IngestProjectsLocationsConversationsResponse,
   errors: [],
@@ -16192,7 +16219,7 @@ export interface CalculateStatsProjectsLocationsConversationsRequest {
 }
 
 export const CalculateStatsProjectsLocationsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String.pipe(T.HttpPath("location")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
@@ -16206,7 +16233,7 @@ export const CalculateStatsProjectsLocationsConversationsRequest =
 export type CalculateStatsProjectsLocationsConversationsResponse =
   GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 export const CalculateStatsProjectsLocationsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 
 export type CalculateStatsProjectsLocationsConversationsError = DefaultErrors;
 
@@ -16216,7 +16243,7 @@ export const calculateStatsProjectsLocationsConversations: API.OperationMethod<
   CalculateStatsProjectsLocationsConversationsResponse,
   CalculateStatsProjectsLocationsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateStatsProjectsLocationsConversationsRequest,
   output: CalculateStatsProjectsLocationsConversationsResponse,
   errors: [],
@@ -16230,7 +16257,7 @@ export interface CreateProjectsLocationsConversationsAnalysesRequest {
 }
 
 export const CreateProjectsLocationsConversationsAnalysesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Analysis).pipe(
       T.HttpBody(),
@@ -16247,7 +16274,7 @@ export const CreateProjectsLocationsConversationsAnalysesRequest =
 export type CreateProjectsLocationsConversationsAnalysesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsConversationsAnalysesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsConversationsAnalysesError = DefaultErrors;
 
@@ -16257,7 +16284,7 @@ export const createProjectsLocationsConversationsAnalyses: API.OperationMethod<
   CreateProjectsLocationsConversationsAnalysesResponse,
   CreateProjectsLocationsConversationsAnalysesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConversationsAnalysesRequest,
   output: CreateProjectsLocationsConversationsAnalysesResponse,
   errors: [],
@@ -16268,20 +16295,21 @@ export interface GetProjectsLocationsConversationsAnalysesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsConversationsAnalysesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}/analyses/{analysesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsConversationsAnalysesRequest>;
+export const GetProjectsLocationsConversationsAnalysesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}/analyses/{analysesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsConversationsAnalysesRequest>;
 
 export type GetProjectsLocationsConversationsAnalysesResponse =
   GoogleCloudContactcenterinsightsV1Analysis;
 export const GetProjectsLocationsConversationsAnalysesResponse =
-  GoogleCloudContactcenterinsightsV1Analysis;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Analysis;
 
 export type GetProjectsLocationsConversationsAnalysesError = DefaultErrors;
 
@@ -16291,7 +16319,7 @@ export const getProjectsLocationsConversationsAnalyses: API.OperationMethod<
   GetProjectsLocationsConversationsAnalysesResponse,
   GetProjectsLocationsConversationsAnalysesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsConversationsAnalysesRequest,
   output: GetProjectsLocationsConversationsAnalysesResponse,
   errors: [],
@@ -16308,23 +16336,24 @@ export interface ListProjectsLocationsConversationsAnalysesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsConversationsAnalysesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}/analyses",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsConversationsAnalysesRequest>;
+export const ListProjectsLocationsConversationsAnalysesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/conversations/{conversationsId}/analyses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConversationsAnalysesRequest>;
 
 export type ListProjectsLocationsConversationsAnalysesResponse =
   GoogleCloudContactcenterinsightsV1ListAnalysesResponse;
 export const ListProjectsLocationsConversationsAnalysesResponse =
-  GoogleCloudContactcenterinsightsV1ListAnalysesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAnalysesResponse;
 
 export type ListProjectsLocationsConversationsAnalysesError = DefaultErrors;
 
@@ -16334,7 +16363,7 @@ export const listProjectsLocationsConversationsAnalyses: API.PaginatedOperationM
   ListProjectsLocationsConversationsAnalysesResponse,
   ListProjectsLocationsConversationsAnalysesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAnalysesRequest,
   output: ListProjectsLocationsConversationsAnalysesResponse,
   errors: [],
@@ -16350,7 +16379,7 @@ export interface DeleteProjectsLocationsConversationsAnalysesRequest {
 }
 
 export const DeleteProjectsLocationsConversationsAnalysesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -16363,7 +16392,7 @@ export const DeleteProjectsLocationsConversationsAnalysesRequest =
 export type DeleteProjectsLocationsConversationsAnalysesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsConversationsAnalysesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsAnalysesError = DefaultErrors;
 
@@ -16373,7 +16402,7 @@ export const deleteProjectsLocationsConversationsAnalyses: API.OperationMethod<
   DeleteProjectsLocationsConversationsAnalysesResponse,
   DeleteProjectsLocationsConversationsAnalysesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConversationsAnalysesRequest,
   output: DeleteProjectsLocationsConversationsAnalysesResponse,
   errors: [],
@@ -16387,7 +16416,7 @@ export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest {
 }
 
 export const BulkAnalyzeProjectsLocationsConversationsSegmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest,
@@ -16404,7 +16433,7 @@ export const BulkAnalyzeProjectsLocationsConversationsSegmentsRequest =
 export type BulkAnalyzeProjectsLocationsConversationsSegmentsResponse =
   GoogleLongrunningOperation;
 export const BulkAnalyzeProjectsLocationsConversationsSegmentsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkAnalyzeProjectsLocationsConversationsSegmentsError =
   DefaultErrors;
@@ -16415,7 +16444,7 @@ export const bulkAnalyzeProjectsLocationsConversationsSegments: API.OperationMet
   BulkAnalyzeProjectsLocationsConversationsSegmentsResponse,
   BulkAnalyzeProjectsLocationsConversationsSegmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkAnalyzeProjectsLocationsConversationsSegmentsRequest,
   output: BulkAnalyzeProjectsLocationsConversationsSegmentsResponse,
   errors: [],
@@ -16431,7 +16460,7 @@ export interface CreateProjectsLocationsConversationsFeedbackLabelsRequest {
 }
 
 export const CreateProjectsLocationsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     feedbackLabelId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("feedbackLabelId"),
@@ -16451,7 +16480,7 @@ export const CreateProjectsLocationsConversationsFeedbackLabelsRequest =
 export type CreateProjectsLocationsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const CreateProjectsLocationsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type CreateProjectsLocationsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -16462,7 +16491,7 @@ export const createProjectsLocationsConversationsFeedbackLabels: API.OperationMe
   CreateProjectsLocationsConversationsFeedbackLabelsResponse,
   CreateProjectsLocationsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConversationsFeedbackLabelsRequest,
   output: CreateProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -16480,7 +16509,7 @@ export interface ListProjectsLocationsConversationsFeedbackLabelsRequest {
 }
 
 export const ListProjectsLocationsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -16496,7 +16525,7 @@ export const ListProjectsLocationsConversationsFeedbackLabelsRequest =
 export type ListProjectsLocationsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 export const ListProjectsLocationsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 
 export type ListProjectsLocationsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -16507,7 +16536,7 @@ export const listProjectsLocationsConversationsFeedbackLabels: API.PaginatedOper
   ListProjectsLocationsConversationsFeedbackLabelsResponse,
   ListProjectsLocationsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsFeedbackLabelsRequest,
   output: ListProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -16523,7 +16552,7 @@ export interface GetProjectsLocationsConversationsFeedbackLabelsRequest {
 }
 
 export const GetProjectsLocationsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -16536,7 +16565,7 @@ export const GetProjectsLocationsConversationsFeedbackLabelsRequest =
 export type GetProjectsLocationsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const GetProjectsLocationsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type GetProjectsLocationsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -16547,7 +16576,7 @@ export const getProjectsLocationsConversationsFeedbackLabels: API.OperationMetho
   GetProjectsLocationsConversationsFeedbackLabelsResponse,
   GetProjectsLocationsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsConversationsFeedbackLabelsRequest,
   output: GetProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -16563,7 +16592,7 @@ export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest {
 }
 
 export const PatchProjectsLocationsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1FeedbackLabel).pipe(
@@ -16581,7 +16610,7 @@ export const PatchProjectsLocationsConversationsFeedbackLabelsRequest =
 export type PatchProjectsLocationsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const PatchProjectsLocationsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type PatchProjectsLocationsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -16592,7 +16621,7 @@ export const patchProjectsLocationsConversationsFeedbackLabels: API.OperationMet
   PatchProjectsLocationsConversationsFeedbackLabelsResponse,
   PatchProjectsLocationsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsConversationsFeedbackLabelsRequest,
   output: PatchProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -16604,7 +16633,7 @@ export interface DeleteProjectsLocationsConversationsFeedbackLabelsRequest {
 }
 
 export const DeleteProjectsLocationsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -16617,7 +16646,7 @@ export const DeleteProjectsLocationsConversationsFeedbackLabelsRequest =
 export type DeleteProjectsLocationsConversationsFeedbackLabelsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsConversationsFeedbackLabelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -16628,7 +16657,7 @@ export const deleteProjectsLocationsConversationsFeedbackLabels: API.OperationMe
   DeleteProjectsLocationsConversationsFeedbackLabelsResponse,
   DeleteProjectsLocationsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConversationsFeedbackLabelsRequest,
   output: DeleteProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -16642,7 +16671,7 @@ export interface CreateProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const CreateProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Assessment).pipe(
       T.HttpBody(),
@@ -16659,7 +16688,7 @@ export const CreateProjectsLocationsConversationsAssessmentsRequest =
 export type CreateProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const CreateProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type CreateProjectsLocationsConversationsAssessmentsError =
   DefaultErrors;
@@ -16670,7 +16699,7 @@ export const createProjectsLocationsConversationsAssessments: API.OperationMetho
   CreateProjectsLocationsConversationsAssessmentsResponse,
   CreateProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConversationsAssessmentsRequest,
   output: CreateProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16682,7 +16711,7 @@ export interface GetProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const GetProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -16695,7 +16724,7 @@ export const GetProjectsLocationsConversationsAssessmentsRequest =
 export type GetProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const GetProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type GetProjectsLocationsConversationsAssessmentsError = DefaultErrors;
 
@@ -16705,7 +16734,7 @@ export const getProjectsLocationsConversationsAssessments: API.OperationMethod<
   GetProjectsLocationsConversationsAssessmentsResponse,
   GetProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsConversationsAssessmentsRequest,
   output: GetProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16723,7 +16752,7 @@ export interface ListProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const ListProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -16739,7 +16768,7 @@ export const ListProjectsLocationsConversationsAssessmentsRequest =
 export type ListProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
 export const ListProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
 
 export type ListProjectsLocationsConversationsAssessmentsError = DefaultErrors;
 
@@ -16749,7 +16778,7 @@ export const listProjectsLocationsConversationsAssessments: API.PaginatedOperati
   ListProjectsLocationsConversationsAssessmentsResponse,
   ListProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAssessmentsRequest,
   output: ListProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16767,7 +16796,7 @@ export interface DeleteProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const DeleteProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -16781,7 +16810,7 @@ export const DeleteProjectsLocationsConversationsAssessmentsRequest =
 export type DeleteProjectsLocationsConversationsAssessmentsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsConversationsAssessmentsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsAssessmentsError =
   DefaultErrors;
@@ -16792,7 +16821,7 @@ export const deleteProjectsLocationsConversationsAssessments: API.OperationMetho
   DeleteProjectsLocationsConversationsAssessmentsResponse,
   DeleteProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConversationsAssessmentsRequest,
   output: DeleteProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16806,7 +16835,7 @@ export interface PublishProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const PublishProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1PublishAssessmentRequest,
@@ -16823,7 +16852,7 @@ export const PublishProjectsLocationsConversationsAssessmentsRequest =
 export type PublishProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const PublishProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type PublishProjectsLocationsConversationsAssessmentsError =
   DefaultErrors;
@@ -16834,7 +16863,7 @@ export const publishProjectsLocationsConversationsAssessments: API.OperationMeth
   PublishProjectsLocationsConversationsAssessmentsResponse,
   PublishProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishProjectsLocationsConversationsAssessmentsRequest,
   output: PublishProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16848,7 +16877,7 @@ export interface AppealProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const AppealProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1AppealAssessmentRequest,
@@ -16865,7 +16894,7 @@ export const AppealProjectsLocationsConversationsAssessmentsRequest =
 export type AppealProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const AppealProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type AppealProjectsLocationsConversationsAssessmentsError =
   DefaultErrors;
@@ -16876,7 +16905,7 @@ export const appealProjectsLocationsConversationsAssessments: API.OperationMetho
   AppealProjectsLocationsConversationsAssessmentsResponse,
   AppealProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AppealProjectsLocationsConversationsAssessmentsRequest,
   output: AppealProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16890,7 +16919,7 @@ export interface FinalizeProjectsLocationsConversationsAssessmentsRequest {
 }
 
 export const FinalizeProjectsLocationsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest,
@@ -16907,7 +16936,7 @@ export const FinalizeProjectsLocationsConversationsAssessmentsRequest =
 export type FinalizeProjectsLocationsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const FinalizeProjectsLocationsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type FinalizeProjectsLocationsConversationsAssessmentsError =
   DefaultErrors;
@@ -16918,7 +16947,7 @@ export const finalizeProjectsLocationsConversationsAssessments: API.OperationMet
   FinalizeProjectsLocationsConversationsAssessmentsResponse,
   FinalizeProjectsLocationsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FinalizeProjectsLocationsConversationsAssessmentsRequest,
   output: FinalizeProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -16932,7 +16961,7 @@ export interface CreateProjectsLocationsConversationsAssessmentsNotesRequest {
 }
 
 export const CreateProjectsLocationsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Note).pipe(
       T.HttpBody(),
@@ -16949,7 +16978,7 @@ export const CreateProjectsLocationsConversationsAssessmentsNotesRequest =
 export type CreateProjectsLocationsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1Note;
 export const CreateProjectsLocationsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1Note;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Note;
 
 export type CreateProjectsLocationsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -16960,7 +16989,7 @@ export const createProjectsLocationsConversationsAssessmentsNotes: API.Operation
   CreateProjectsLocationsConversationsAssessmentsNotesResponse,
   CreateProjectsLocationsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConversationsAssessmentsNotesRequest,
   output: CreateProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -16976,7 +17005,7 @@ export interface ListProjectsLocationsConversationsAssessmentsNotesRequest {
 }
 
 export const ListProjectsLocationsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -16991,7 +17020,7 @@ export const ListProjectsLocationsConversationsAssessmentsNotesRequest =
 export type ListProjectsLocationsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1ListNotesResponse;
 export const ListProjectsLocationsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1ListNotesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListNotesResponse;
 
 export type ListProjectsLocationsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -17002,7 +17031,7 @@ export const listProjectsLocationsConversationsAssessmentsNotes: API.PaginatedOp
   ListProjectsLocationsConversationsAssessmentsNotesResponse,
   ListProjectsLocationsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAssessmentsNotesRequest,
   output: ListProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -17022,7 +17051,7 @@ export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest {
 }
 
 export const PatchProjectsLocationsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Note).pipe(
@@ -17040,7 +17069,7 @@ export const PatchProjectsLocationsConversationsAssessmentsNotesRequest =
 export type PatchProjectsLocationsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1Note;
 export const PatchProjectsLocationsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1Note;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Note;
 
 export type PatchProjectsLocationsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -17051,7 +17080,7 @@ export const patchProjectsLocationsConversationsAssessmentsNotes: API.OperationM
   PatchProjectsLocationsConversationsAssessmentsNotesResponse,
   PatchProjectsLocationsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsConversationsAssessmentsNotesRequest,
   output: PatchProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -17063,7 +17092,7 @@ export interface DeleteProjectsLocationsConversationsAssessmentsNotesRequest {
 }
 
 export const DeleteProjectsLocationsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -17076,7 +17105,7 @@ export const DeleteProjectsLocationsConversationsAssessmentsNotesRequest =
 export type DeleteProjectsLocationsConversationsAssessmentsNotesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsConversationsAssessmentsNotesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -17087,7 +17116,7 @@ export const deleteProjectsLocationsConversationsAssessmentsNotes: API.Operation
   DeleteProjectsLocationsConversationsAssessmentsNotesResponse,
   DeleteProjectsLocationsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConversationsAssessmentsNotesRequest,
   output: DeleteProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -17102,25 +17131,26 @@ export interface CreateProjectsLocationsDatasetsRequest {
   body?: GoogleCloudContactcenterinsightsV1Dataset;
 }
 
-export const CreateProjectsLocationsDatasetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  datasetId: Schema.optional(Schema.String).pipe(T.HttpQuery("datasetId")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Dataset).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDatasetsRequest>;
+export const CreateProjectsLocationsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    datasetId: Schema.optional(Schema.String).pipe(T.HttpQuery("datasetId")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Dataset).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDatasetsRequest>;
 
 export type CreateProjectsLocationsDatasetsResponse =
   GoogleCloudContactcenterinsightsV1Dataset;
 export const CreateProjectsLocationsDatasetsResponse =
-  GoogleCloudContactcenterinsightsV1Dataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dataset;
 
 export type CreateProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17130,7 +17160,7 @@ export const createProjectsLocationsDatasets: API.OperationMethod<
   CreateProjectsLocationsDatasetsResponse,
   CreateProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDatasetsRequest,
   output: CreateProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17147,23 +17177,24 @@ export interface ListProjectsLocationsDatasetsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsDatasetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDatasetsRequest>;
+export const ListProjectsLocationsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDatasetsRequest>;
 
 export type ListProjectsLocationsDatasetsResponse =
   GoogleCloudContactcenterinsightsV1ListDatasetsResponse;
 export const ListProjectsLocationsDatasetsResponse =
-  GoogleCloudContactcenterinsightsV1ListDatasetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListDatasetsResponse;
 
 export type ListProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17173,7 +17204,7 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   ListProjectsLocationsDatasetsResponse,
   ListProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsRequest,
   output: ListProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17188,20 +17219,21 @@ export interface GetProjectsLocationsDatasetsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDatasetsRequest>;
+export const GetProjectsLocationsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDatasetsRequest>;
 
 export type GetProjectsLocationsDatasetsResponse =
   GoogleCloudContactcenterinsightsV1Dataset;
 export const GetProjectsLocationsDatasetsResponse =
-  GoogleCloudContactcenterinsightsV1Dataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dataset;
 
 export type GetProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17211,7 +17243,7 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   GetProjectsLocationsDatasetsResponse,
   GetProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDatasetsRequest,
   output: GetProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17226,25 +17258,26 @@ export interface PatchProjectsLocationsDatasetsRequest {
   body?: GoogleCloudContactcenterinsightsV1Dataset;
 }
 
-export const PatchProjectsLocationsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Dataset).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDatasetsRequest>;
+export const PatchProjectsLocationsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Dataset).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDatasetsRequest>;
 
 export type PatchProjectsLocationsDatasetsResponse =
   GoogleCloudContactcenterinsightsV1Dataset;
 export const PatchProjectsLocationsDatasetsResponse =
-  GoogleCloudContactcenterinsightsV1Dataset;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dataset;
 
 export type PatchProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17254,7 +17287,7 @@ export const patchProjectsLocationsDatasets: API.OperationMethod<
   PatchProjectsLocationsDatasetsResponse,
   PatchProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDatasetsRequest,
   output: PatchProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17265,20 +17298,21 @@ export interface DeleteProjectsLocationsDatasetsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDatasetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDatasetsRequest>;
+export const DeleteProjectsLocationsDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDatasetsRequest>;
 
 export type DeleteProjectsLocationsDatasetsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsDatasetsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17288,7 +17322,7 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   DeleteProjectsLocationsDatasetsResponse,
   DeleteProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDatasetsRequest,
   output: DeleteProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17306,7 +17340,7 @@ export interface ListAllFeedbackLabelsProjectsLocationsDatasetsRequest {
 }
 
 export const ListAllFeedbackLabelsProjectsLocationsDatasetsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -17322,7 +17356,7 @@ export const ListAllFeedbackLabelsProjectsLocationsDatasetsRequest =
 export type ListAllFeedbackLabelsProjectsLocationsDatasetsResponse =
   GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
 export const ListAllFeedbackLabelsProjectsLocationsDatasetsResponse =
-  GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAllFeedbackLabelsResponse;
 
 export type ListAllFeedbackLabelsProjectsLocationsDatasetsError = DefaultErrors;
 
@@ -17332,7 +17366,7 @@ export const listAllFeedbackLabelsProjectsLocationsDatasets: API.PaginatedOperat
   ListAllFeedbackLabelsProjectsLocationsDatasetsResponse,
   ListAllFeedbackLabelsProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAllFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: ListAllFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17350,7 +17384,7 @@ export interface BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest {
 }
 
 export const BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkUploadFeedbackLabelsRequest,
@@ -17367,7 +17401,7 @@ export const BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest =
 export type BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse =
   GoogleLongrunningOperation;
 export const BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkUploadFeedbackLabelsProjectsLocationsDatasetsError =
   DefaultErrors;
@@ -17378,7 +17412,7 @@ export const bulkUploadFeedbackLabelsProjectsLocationsDatasets: API.OperationMet
   BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse,
   BulkUploadFeedbackLabelsProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17392,7 +17426,7 @@ export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest {
 }
 
 export const BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkDownloadFeedbackLabelsRequest,
@@ -17409,7 +17443,7 @@ export const BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest =
 export type BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse =
   GoogleLongrunningOperation;
 export const BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsDatasetsError =
   DefaultErrors;
@@ -17420,7 +17454,7 @@ export const bulkDownloadFeedbackLabelsProjectsLocationsDatasets: API.OperationM
   BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse,
   BulkDownloadFeedbackLabelsProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17434,7 +17468,7 @@ export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest {
 }
 
 export const BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkDeleteFeedbackLabelsRequest,
@@ -17451,7 +17485,7 @@ export const BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest =
 export type BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse =
   GoogleLongrunningOperation;
 export const BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsDatasetsError =
   DefaultErrors;
@@ -17462,7 +17496,7 @@ export const bulkDeleteFeedbackLabelsProjectsLocationsDatasets: API.OperationMet
   BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse,
   BulkDeleteFeedbackLabelsProjectsLocationsDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
@@ -17475,21 +17509,22 @@ export interface GetProjectsLocationsDatasetsConversationsRequest {
   view?: "CONVERSATION_VIEW_UNSPECIFIED" | "FULL" | "BASIC" | (string & {});
 }
 
-export const GetProjectsLocationsDatasetsConversationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/conversations/{conversationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDatasetsConversationsRequest>;
+export const GetProjectsLocationsDatasetsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/conversations/{conversationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDatasetsConversationsRequest>;
 
 export type GetProjectsLocationsDatasetsConversationsResponse =
   GoogleCloudContactcenterinsightsV1Conversation;
 export const GetProjectsLocationsDatasetsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1Conversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Conversation;
 
 export type GetProjectsLocationsDatasetsConversationsError = DefaultErrors;
 
@@ -17499,7 +17534,7 @@ export const getProjectsLocationsDatasetsConversations: API.OperationMethod<
   GetProjectsLocationsDatasetsConversationsResponse,
   GetProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDatasetsConversationsRequest,
   output: GetProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17520,25 +17555,26 @@ export interface ListProjectsLocationsDatasetsConversationsRequest {
   view?: "CONVERSATION_VIEW_UNSPECIFIED" | "FULL" | "BASIC" | (string & {});
 }
 
-export const ListProjectsLocationsDatasetsConversationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/conversations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDatasetsConversationsRequest>;
+export const ListProjectsLocationsDatasetsConversationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/conversations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDatasetsConversationsRequest>;
 
 export type ListProjectsLocationsDatasetsConversationsResponse =
   GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 export const ListProjectsLocationsDatasetsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1ListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 
 export type ListProjectsLocationsDatasetsConversationsError = DefaultErrors;
 
@@ -17548,7 +17584,7 @@ export const listProjectsLocationsDatasetsConversations: API.PaginatedOperationM
   ListProjectsLocationsDatasetsConversationsResponse,
   ListProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsConversationsRequest,
   output: ListProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17564,7 +17600,7 @@ export interface GenerateSignedAudioProjectsLocationsDatasetsConversationsReques
 }
 
 export const GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -17577,7 +17613,7 @@ export const GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest =
 export type GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse =
   GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 export const GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 
 export type GenerateSignedAudioProjectsLocationsDatasetsConversationsError =
   DefaultErrors;
@@ -17588,7 +17624,7 @@ export const generateSignedAudioProjectsLocationsDatasetsConversations: API.Oper
   GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse,
   GenerateSignedAudioProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest,
   output: GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17602,7 +17638,7 @@ export interface DeleteProjectsLocationsDatasetsConversationsRequest {
 }
 
 export const DeleteProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -17616,7 +17652,7 @@ export const DeleteProjectsLocationsDatasetsConversationsRequest =
 export type DeleteProjectsLocationsDatasetsConversationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDatasetsConversationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDatasetsConversationsError = DefaultErrors;
 
@@ -17626,7 +17662,7 @@ export const deleteProjectsLocationsDatasetsConversations: API.OperationMethod<
   DeleteProjectsLocationsDatasetsConversationsResponse,
   DeleteProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDatasetsConversationsRequest,
   output: DeleteProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17640,7 +17676,7 @@ export interface SampleProjectsLocationsDatasetsConversationsRequest {
 }
 
 export const SampleProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1SampleConversationsRequest,
@@ -17657,7 +17693,7 @@ export const SampleProjectsLocationsDatasetsConversationsRequest =
 export type SampleProjectsLocationsDatasetsConversationsResponse =
   GoogleLongrunningOperation;
 export const SampleProjectsLocationsDatasetsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SampleProjectsLocationsDatasetsConversationsError = DefaultErrors;
 
@@ -17667,7 +17703,7 @@ export const sampleProjectsLocationsDatasetsConversations: API.OperationMethod<
   SampleProjectsLocationsDatasetsConversationsResponse,
   SampleProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SampleProjectsLocationsDatasetsConversationsRequest,
   output: SampleProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17681,7 +17717,7 @@ export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest {
 }
 
 export const BulkDeleteProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest,
@@ -17698,7 +17734,7 @@ export const BulkDeleteProjectsLocationsDatasetsConversationsRequest =
 export type BulkDeleteProjectsLocationsDatasetsConversationsResponse =
   GoogleLongrunningOperation;
 export const BulkDeleteProjectsLocationsDatasetsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type BulkDeleteProjectsLocationsDatasetsConversationsError =
   DefaultErrors;
@@ -17709,7 +17745,7 @@ export const bulkDeleteProjectsLocationsDatasetsConversations: API.OperationMeth
   BulkDeleteProjectsLocationsDatasetsConversationsResponse,
   BulkDeleteProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkDeleteProjectsLocationsDatasetsConversationsRequest,
   output: BulkDeleteProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17723,7 +17759,7 @@ export interface IngestProjectsLocationsDatasetsConversationsRequest {
 }
 
 export const IngestProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1IngestConversationsRequest,
@@ -17740,7 +17776,7 @@ export const IngestProjectsLocationsDatasetsConversationsRequest =
 export type IngestProjectsLocationsDatasetsConversationsResponse =
   GoogleLongrunningOperation;
 export const IngestProjectsLocationsDatasetsConversationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type IngestProjectsLocationsDatasetsConversationsError = DefaultErrors;
 
@@ -17750,7 +17786,7 @@ export const ingestProjectsLocationsDatasetsConversations: API.OperationMethod<
   IngestProjectsLocationsDatasetsConversationsResponse,
   IngestProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: IngestProjectsLocationsDatasetsConversationsRequest,
   output: IngestProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17764,7 +17800,7 @@ export interface CalculateStatsProjectsLocationsDatasetsConversationsRequest {
 }
 
 export const CalculateStatsProjectsLocationsDatasetsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String.pipe(T.HttpPath("location")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1CalculateStatsRequest,
@@ -17781,7 +17817,7 @@ export const CalculateStatsProjectsLocationsDatasetsConversationsRequest =
 export type CalculateStatsProjectsLocationsDatasetsConversationsResponse =
   GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 export const CalculateStatsProjectsLocationsDatasetsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 
 export type CalculateStatsProjectsLocationsDatasetsConversationsError =
   DefaultErrors;
@@ -17792,7 +17828,7 @@ export const calculateStatsProjectsLocationsDatasetsConversations: API.Operation
   CalculateStatsProjectsLocationsDatasetsConversationsResponse,
   CalculateStatsProjectsLocationsDatasetsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateStatsProjectsLocationsDatasetsConversationsRequest,
   output: CalculateStatsProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -17808,7 +17844,7 @@ export interface CreateProjectsLocationsDatasetsConversationsFeedbackLabelsReque
 }
 
 export const CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     feedbackLabelId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("feedbackLabelId"),
@@ -17828,7 +17864,7 @@ export const CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
 export type CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type CreateProjectsLocationsDatasetsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -17839,7 +17875,7 @@ export const createProjectsLocationsDatasetsConversationsFeedbackLabels: API.Ope
   CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   CreateProjectsLocationsDatasetsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -17857,7 +17893,7 @@ export interface ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest
 }
 
 export const ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -17873,7 +17909,7 @@ export const ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
 export type ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 export const ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 
 export type ListProjectsLocationsDatasetsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -17884,7 +17920,7 @@ export const listProjectsLocationsDatasetsConversationsFeedbackLabels: API.Pagin
   ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   ListProjectsLocationsDatasetsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -17900,7 +17936,7 @@ export interface GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest 
 }
 
 export const GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -17913,7 +17949,7 @@ export const GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
 export type GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type GetProjectsLocationsDatasetsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -17924,7 +17960,7 @@ export const getProjectsLocationsDatasetsConversationsFeedbackLabels: API.Operat
   GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   GetProjectsLocationsDatasetsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -17940,7 +17976,7 @@ export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsReques
 }
 
 export const PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1FeedbackLabel).pipe(
@@ -17958,7 +17994,7 @@ export const PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
 export type PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type PatchProjectsLocationsDatasetsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -17969,7 +18005,7 @@ export const patchProjectsLocationsDatasetsConversationsFeedbackLabels: API.Oper
   PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   PatchProjectsLocationsDatasetsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -17981,7 +18017,7 @@ export interface DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsReque
 }
 
 export const DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -17994,7 +18030,7 @@ export const DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest =
 export type DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -18005,7 +18041,7 @@ export const deleteProjectsLocationsDatasetsConversationsFeedbackLabels: API.Ope
   DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -18018,26 +18054,25 @@ export interface ExportProjectsLocationsDatasetsInsightsdataRequest {
   body?: GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest;
 }
 
-export const ExportProjectsLocationsDatasetsInsightsdataRequest = Schema.Struct(
-  {
+export const ExportProjectsLocationsDatasetsInsightsdataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
     ).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/insightsdata:export",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportProjectsLocationsDatasetsInsightsdataRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/datasets/{datasetsId}/insightsdata:export",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportProjectsLocationsDatasetsInsightsdataRequest>;
 
 export type ExportProjectsLocationsDatasetsInsightsdataResponse =
   GoogleLongrunningOperation;
 export const ExportProjectsLocationsDatasetsInsightsdataResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsLocationsDatasetsInsightsdataError = DefaultErrors;
 
@@ -18047,7 +18082,7 @@ export const exportProjectsLocationsDatasetsInsightsdata: API.OperationMethod<
   ExportProjectsLocationsDatasetsInsightsdataResponse,
   ExportProjectsLocationsDatasetsInsightsdataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsDatasetsInsightsdataRequest,
   output: ExportProjectsLocationsDatasetsInsightsdataResponse,
   errors: [],
@@ -18060,24 +18095,25 @@ export interface ExportProjectsLocationsInsightsdataRequest {
   body?: GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest;
 }
 
-export const ExportProjectsLocationsInsightsdataRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/insightsdata:export",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportProjectsLocationsInsightsdataRequest>;
+export const ExportProjectsLocationsInsightsdataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/insightsdata:export",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportProjectsLocationsInsightsdataRequest>;
 
 export type ExportProjectsLocationsInsightsdataResponse =
   GoogleLongrunningOperation;
 export const ExportProjectsLocationsInsightsdataResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsLocationsInsightsdataError = DefaultErrors;
 
@@ -18087,7 +18123,7 @@ export const exportProjectsLocationsInsightsdata: API.OperationMethod<
   ExportProjectsLocationsInsightsdataResponse,
   ExportProjectsLocationsInsightsdataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsInsightsdataRequest,
   output: ExportProjectsLocationsInsightsdataResponse,
   errors: [],
@@ -18100,24 +18136,25 @@ export interface CreateProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1IssueModel;
 }
 
-export const CreateProjectsLocationsIssueModelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsIssueModelsRequest>;
+export const CreateProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsIssueModelsRequest>;
 
 export type CreateProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18127,7 +18164,7 @@ export const createProjectsLocationsIssueModels: API.OperationMethod<
   CreateProjectsLocationsIssueModelsResponse,
   CreateProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsIssueModelsRequest,
   output: CreateProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18142,25 +18179,26 @@ export interface PatchProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1IssueModel;
 }
 
-export const PatchProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsIssueModelsRequest>;
+export const PatchProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1IssueModel).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsIssueModelsRequest>;
 
 export type PatchProjectsLocationsIssueModelsResponse =
   GoogleCloudContactcenterinsightsV1IssueModel;
 export const PatchProjectsLocationsIssueModelsResponse =
-  GoogleCloudContactcenterinsightsV1IssueModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1IssueModel;
 
 export type PatchProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18170,7 +18208,7 @@ export const patchProjectsLocationsIssueModels: API.OperationMethod<
   PatchProjectsLocationsIssueModelsResponse,
   PatchProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsIssueModelsRequest,
   output: PatchProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18181,20 +18219,21 @@ export interface GetProjectsLocationsIssueModelsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsIssueModelsRequest>;
+export const GetProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsIssueModelsRequest>;
 
 export type GetProjectsLocationsIssueModelsResponse =
   GoogleCloudContactcenterinsightsV1IssueModel;
 export const GetProjectsLocationsIssueModelsResponse =
-  GoogleCloudContactcenterinsightsV1IssueModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1IssueModel;
 
 export type GetProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18204,7 +18243,7 @@ export const getProjectsLocationsIssueModels: API.OperationMethod<
   GetProjectsLocationsIssueModelsResponse,
   GetProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIssueModelsRequest,
   output: GetProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18215,20 +18254,21 @@ export interface ListProjectsLocationsIssueModelsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsIssueModelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIssueModelsRequest>;
+export const ListProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIssueModelsRequest>;
 
 export type ListProjectsLocationsIssueModelsResponse =
   GoogleCloudContactcenterinsightsV1ListIssueModelsResponse;
 export const ListProjectsLocationsIssueModelsResponse =
-  GoogleCloudContactcenterinsightsV1ListIssueModelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListIssueModelsResponse;
 
 export type ListProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18238,7 +18278,7 @@ export const listProjectsLocationsIssueModels: API.OperationMethod<
   ListProjectsLocationsIssueModelsResponse,
   ListProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsIssueModelsRequest,
   output: ListProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18249,20 +18289,21 @@ export interface DeleteProjectsLocationsIssueModelsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsIssueModelsRequest>;
+export const DeleteProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsIssueModelsRequest>;
 
 export type DeleteProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18272,7 +18313,7 @@ export const deleteProjectsLocationsIssueModels: API.OperationMethod<
   DeleteProjectsLocationsIssueModelsResponse,
   DeleteProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIssueModelsRequest,
   output: DeleteProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18285,24 +18326,25 @@ export interface DeployProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1DeployIssueModelRequest;
 }
 
-export const DeployProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1DeployIssueModelRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:deploy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeployProjectsLocationsIssueModelsRequest>;
+export const DeployProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1DeployIssueModelRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:deploy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeployProjectsLocationsIssueModelsRequest>;
 
 export type DeployProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const DeployProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeployProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18312,7 +18354,7 @@ export const deployProjectsLocationsIssueModels: API.OperationMethod<
   DeployProjectsLocationsIssueModelsResponse,
   DeployProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeployProjectsLocationsIssueModelsRequest,
   output: DeployProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18325,24 +18367,25 @@ export interface UndeployProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest;
 }
 
-export const UndeployProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:undeploy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeployProjectsLocationsIssueModelsRequest>;
+export const UndeployProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1UndeployIssueModelRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:undeploy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeployProjectsLocationsIssueModelsRequest>;
 
 export type UndeployProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const UndeployProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type UndeployProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18352,7 +18395,7 @@ export const undeployProjectsLocationsIssueModels: API.OperationMethod<
   UndeployProjectsLocationsIssueModelsResponse,
   UndeployProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeployProjectsLocationsIssueModelsRequest,
   output: UndeployProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18365,24 +18408,25 @@ export interface ExportProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1ExportIssueModelRequest;
 }
 
-export const ExportProjectsLocationsIssueModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1ExportIssueModelRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:export",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportProjectsLocationsIssueModelsRequest>;
+export const ExportProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1ExportIssueModelRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}:export",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportProjectsLocationsIssueModelsRequest>;
 
 export type ExportProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const ExportProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18392,7 +18436,7 @@ export const exportProjectsLocationsIssueModels: API.OperationMethod<
   ExportProjectsLocationsIssueModelsResponse,
   ExportProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsIssueModelsRequest,
   output: ExportProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18405,24 +18449,25 @@ export interface ImportProjectsLocationsIssueModelsRequest {
   body?: GoogleCloudContactcenterinsightsV1ImportIssueModelRequest;
 }
 
-export const ImportProjectsLocationsIssueModelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1ImportIssueModelRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsIssueModelsRequest>;
+export const ImportProjectsLocationsIssueModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1ImportIssueModelRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsIssueModelsRequest>;
 
 export type ImportProjectsLocationsIssueModelsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsIssueModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsIssueModelsError = DefaultErrors;
 
@@ -18432,7 +18477,7 @@ export const importProjectsLocationsIssueModels: API.OperationMethod<
   ImportProjectsLocationsIssueModelsResponse,
   ImportProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsIssueModelsRequest,
   output: ImportProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18444,7 +18489,7 @@ export interface CalculateIssueModelStatsProjectsLocationsIssueModelsRequest {
 }
 
 export const CalculateIssueModelStatsProjectsLocationsIssueModelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     issueModel: Schema.String.pipe(T.HttpPath("issueModel")),
   }).pipe(
     T.Http({
@@ -18457,7 +18502,7 @@ export const CalculateIssueModelStatsProjectsLocationsIssueModelsRequest =
 export type CalculateIssueModelStatsProjectsLocationsIssueModelsResponse =
   GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse;
 export const CalculateIssueModelStatsProjectsLocationsIssueModelsResponse =
-  GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse;
 
 export type CalculateIssueModelStatsProjectsLocationsIssueModelsError =
   DefaultErrors;
@@ -18468,7 +18513,7 @@ export const calculateIssueModelStatsProjectsLocationsIssueModels: API.Operation
   CalculateIssueModelStatsProjectsLocationsIssueModelsResponse,
   CalculateIssueModelStatsProjectsLocationsIssueModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CalculateIssueModelStatsProjectsLocationsIssueModelsRequest,
   output: CalculateIssueModelStatsProjectsLocationsIssueModelsResponse,
   errors: [],
@@ -18479,20 +18524,21 @@ export interface GetProjectsLocationsIssueModelsIssuesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsIssueModelsIssuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsIssueModelsIssuesRequest>;
+export const GetProjectsLocationsIssueModelsIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsIssueModelsIssuesRequest>;
 
 export type GetProjectsLocationsIssueModelsIssuesResponse =
   GoogleCloudContactcenterinsightsV1Issue;
 export const GetProjectsLocationsIssueModelsIssuesResponse =
-  GoogleCloudContactcenterinsightsV1Issue;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Issue;
 
 export type GetProjectsLocationsIssueModelsIssuesError = DefaultErrors;
 
@@ -18502,7 +18548,7 @@ export const getProjectsLocationsIssueModelsIssues: API.OperationMethod<
   GetProjectsLocationsIssueModelsIssuesResponse,
   GetProjectsLocationsIssueModelsIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsIssueModelsIssuesRequest,
   output: GetProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
@@ -18513,20 +18559,21 @@ export interface ListProjectsLocationsIssueModelsIssuesRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsIssueModelsIssuesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsIssueModelsIssuesRequest>;
+export const ListProjectsLocationsIssueModelsIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsIssueModelsIssuesRequest>;
 
 export type ListProjectsLocationsIssueModelsIssuesResponse =
   GoogleCloudContactcenterinsightsV1ListIssuesResponse;
 export const ListProjectsLocationsIssueModelsIssuesResponse =
-  GoogleCloudContactcenterinsightsV1ListIssuesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListIssuesResponse;
 
 export type ListProjectsLocationsIssueModelsIssuesError = DefaultErrors;
 
@@ -18536,7 +18583,7 @@ export const listProjectsLocationsIssueModelsIssues: API.OperationMethod<
   ListProjectsLocationsIssueModelsIssuesResponse,
   ListProjectsLocationsIssueModelsIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsIssueModelsIssuesRequest,
   output: ListProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
@@ -18551,25 +18598,26 @@ export interface PatchProjectsLocationsIssueModelsIssuesRequest {
   body?: GoogleCloudContactcenterinsightsV1Issue;
 }
 
-export const PatchProjectsLocationsIssueModelsIssuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Issue).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsIssueModelsIssuesRequest>;
+export const PatchProjectsLocationsIssueModelsIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Issue).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsIssueModelsIssuesRequest>;
 
 export type PatchProjectsLocationsIssueModelsIssuesResponse =
   GoogleCloudContactcenterinsightsV1Issue;
 export const PatchProjectsLocationsIssueModelsIssuesResponse =
-  GoogleCloudContactcenterinsightsV1Issue;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Issue;
 
 export type PatchProjectsLocationsIssueModelsIssuesError = DefaultErrors;
 
@@ -18579,7 +18627,7 @@ export const patchProjectsLocationsIssueModelsIssues: API.OperationMethod<
   PatchProjectsLocationsIssueModelsIssuesResponse,
   PatchProjectsLocationsIssueModelsIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsIssueModelsIssuesRequest,
   output: PatchProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
@@ -18592,24 +18640,25 @@ export interface CreateProjectsLocationsIssueModelsIssuesRequest {
   body?: GoogleCloudContactcenterinsightsV1Issue;
 }
 
-export const CreateProjectsLocationsIssueModelsIssuesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Issue).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsIssueModelsIssuesRequest>;
+export const CreateProjectsLocationsIssueModelsIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Issue).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsIssueModelsIssuesRequest>;
 
 export type CreateProjectsLocationsIssueModelsIssuesResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsIssueModelsIssuesResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsIssueModelsIssuesError = DefaultErrors;
 
@@ -18619,7 +18668,7 @@ export const createProjectsLocationsIssueModelsIssues: API.OperationMethod<
   CreateProjectsLocationsIssueModelsIssuesResponse,
   CreateProjectsLocationsIssueModelsIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsIssueModelsIssuesRequest,
   output: CreateProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
@@ -18630,20 +18679,21 @@ export interface DeleteProjectsLocationsIssueModelsIssuesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsIssueModelsIssuesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsIssueModelsIssuesRequest>;
+export const DeleteProjectsLocationsIssueModelsIssuesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/issueModels/{issueModelsId}/issues/{issuesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsIssueModelsIssuesRequest>;
 
 export type DeleteProjectsLocationsIssueModelsIssuesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsIssueModelsIssuesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsIssueModelsIssuesError = DefaultErrors;
 
@@ -18653,7 +18703,7 @@ export const deleteProjectsLocationsIssueModelsIssues: API.OperationMethod<
   DeleteProjectsLocationsIssueModelsIssuesResponse,
   DeleteProjectsLocationsIssueModelsIssuesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsIssueModelsIssuesRequest,
   output: DeleteProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
@@ -18666,24 +18716,25 @@ export interface CreateProjectsLocationsPhraseMatchersRequest {
   body?: GoogleCloudContactcenterinsightsV1PhraseMatcher;
 }
 
-export const CreateProjectsLocationsPhraseMatchersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1PhraseMatcher).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPhraseMatchersRequest>;
+export const CreateProjectsLocationsPhraseMatchersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1PhraseMatcher).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPhraseMatchersRequest>;
 
 export type CreateProjectsLocationsPhraseMatchersResponse =
   GoogleCloudContactcenterinsightsV1PhraseMatcher;
 export const CreateProjectsLocationsPhraseMatchersResponse =
-  GoogleCloudContactcenterinsightsV1PhraseMatcher;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1PhraseMatcher;
 
 export type CreateProjectsLocationsPhraseMatchersError = DefaultErrors;
 
@@ -18693,7 +18744,7 @@ export const createProjectsLocationsPhraseMatchers: API.OperationMethod<
   CreateProjectsLocationsPhraseMatchersResponse,
   CreateProjectsLocationsPhraseMatchersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsPhraseMatchersRequest,
   output: CreateProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -18704,20 +18755,21 @@ export interface GetProjectsLocationsPhraseMatchersRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPhraseMatchersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPhraseMatchersRequest>;
+export const GetProjectsLocationsPhraseMatchersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPhraseMatchersRequest>;
 
 export type GetProjectsLocationsPhraseMatchersResponse =
   GoogleCloudContactcenterinsightsV1PhraseMatcher;
 export const GetProjectsLocationsPhraseMatchersResponse =
-  GoogleCloudContactcenterinsightsV1PhraseMatcher;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1PhraseMatcher;
 
 export type GetProjectsLocationsPhraseMatchersError = DefaultErrors;
 
@@ -18727,7 +18779,7 @@ export const getProjectsLocationsPhraseMatchers: API.OperationMethod<
   GetProjectsLocationsPhraseMatchersResponse,
   GetProjectsLocationsPhraseMatchersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsPhraseMatchersRequest,
   output: GetProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -18744,23 +18796,24 @@ export interface ListProjectsLocationsPhraseMatchersRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsPhraseMatchersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPhraseMatchersRequest>;
+export const ListProjectsLocationsPhraseMatchersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPhraseMatchersRequest>;
 
 export type ListProjectsLocationsPhraseMatchersResponse =
   GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse;
 export const ListProjectsLocationsPhraseMatchersResponse =
-  GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse;
 
 export type ListProjectsLocationsPhraseMatchersError = DefaultErrors;
 
@@ -18770,7 +18823,7 @@ export const listProjectsLocationsPhraseMatchers: API.PaginatedOperationMethod<
   ListProjectsLocationsPhraseMatchersResponse,
   ListProjectsLocationsPhraseMatchersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsPhraseMatchersRequest,
   output: ListProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -18785,19 +18838,20 @@ export interface DeleteProjectsLocationsPhraseMatchersRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsPhraseMatchersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseMatchersRequest>;
+export const DeleteProjectsLocationsPhraseMatchersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseMatchersRequest>;
 
 export type DeleteProjectsLocationsPhraseMatchersResponse = GoogleProtobufEmpty;
 export const DeleteProjectsLocationsPhraseMatchersResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsPhraseMatchersError = DefaultErrors;
 
@@ -18807,7 +18861,7 @@ export const deleteProjectsLocationsPhraseMatchers: API.OperationMethod<
   DeleteProjectsLocationsPhraseMatchersResponse,
   DeleteProjectsLocationsPhraseMatchersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsPhraseMatchersRequest,
   output: DeleteProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -18822,25 +18876,26 @@ export interface PatchProjectsLocationsPhraseMatchersRequest {
   body?: GoogleCloudContactcenterinsightsV1PhraseMatcher;
 }
 
-export const PatchProjectsLocationsPhraseMatchersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1PhraseMatcher).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPhraseMatchersRequest>;
+export const PatchProjectsLocationsPhraseMatchersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1PhraseMatcher).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/phraseMatchers/{phraseMatchersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPhraseMatchersRequest>;
 
 export type PatchProjectsLocationsPhraseMatchersResponse =
   GoogleCloudContactcenterinsightsV1PhraseMatcher;
 export const PatchProjectsLocationsPhraseMatchersResponse =
-  GoogleCloudContactcenterinsightsV1PhraseMatcher;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1PhraseMatcher;
 
 export type PatchProjectsLocationsPhraseMatchersError = DefaultErrors;
 
@@ -18850,7 +18905,7 @@ export const patchProjectsLocationsPhraseMatchers: API.OperationMethod<
   PatchProjectsLocationsPhraseMatchersResponse,
   PatchProjectsLocationsPhraseMatchersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsPhraseMatchersRequest,
   output: PatchProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -18863,24 +18918,25 @@ export interface CreateProjectsLocationsAnalysisRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AnalysisRule;
 }
 
-export const CreateProjectsLocationsAnalysisRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1AnalysisRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAnalysisRulesRequest>;
+export const CreateProjectsLocationsAnalysisRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1AnalysisRule).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAnalysisRulesRequest>;
 
 export type CreateProjectsLocationsAnalysisRulesResponse =
   GoogleCloudContactcenterinsightsV1AnalysisRule;
 export const CreateProjectsLocationsAnalysisRulesResponse =
-  GoogleCloudContactcenterinsightsV1AnalysisRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AnalysisRule;
 
 export type CreateProjectsLocationsAnalysisRulesError = DefaultErrors;
 
@@ -18890,7 +18946,7 @@ export const createProjectsLocationsAnalysisRules: API.OperationMethod<
   CreateProjectsLocationsAnalysisRulesResponse,
   CreateProjectsLocationsAnalysisRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAnalysisRulesRequest,
   output: CreateProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -18901,20 +18957,21 @@ export interface GetProjectsLocationsAnalysisRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAnalysisRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAnalysisRulesRequest>;
+export const GetProjectsLocationsAnalysisRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAnalysisRulesRequest>;
 
 export type GetProjectsLocationsAnalysisRulesResponse =
   GoogleCloudContactcenterinsightsV1AnalysisRule;
 export const GetProjectsLocationsAnalysisRulesResponse =
-  GoogleCloudContactcenterinsightsV1AnalysisRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AnalysisRule;
 
 export type GetProjectsLocationsAnalysisRulesError = DefaultErrors;
 
@@ -18924,7 +18981,7 @@ export const getProjectsLocationsAnalysisRules: API.OperationMethod<
   GetProjectsLocationsAnalysisRulesResponse,
   GetProjectsLocationsAnalysisRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAnalysisRulesRequest,
   output: GetProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -18939,22 +18996,23 @@ export interface ListProjectsLocationsAnalysisRulesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAnalysisRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAnalysisRulesRequest>;
+export const ListProjectsLocationsAnalysisRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAnalysisRulesRequest>;
 
 export type ListProjectsLocationsAnalysisRulesResponse =
   GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse;
 export const ListProjectsLocationsAnalysisRulesResponse =
-  GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAnalysisRulesResponse;
 
 export type ListProjectsLocationsAnalysisRulesError = DefaultErrors;
 
@@ -18964,7 +19022,7 @@ export const listProjectsLocationsAnalysisRules: API.PaginatedOperationMethod<
   ListProjectsLocationsAnalysisRulesResponse,
   ListProjectsLocationsAnalysisRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAnalysisRulesRequest,
   output: ListProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -18983,25 +19041,26 @@ export interface PatchProjectsLocationsAnalysisRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AnalysisRule;
 }
 
-export const PatchProjectsLocationsAnalysisRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1AnalysisRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAnalysisRulesRequest>;
+export const PatchProjectsLocationsAnalysisRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1AnalysisRule).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAnalysisRulesRequest>;
 
 export type PatchProjectsLocationsAnalysisRulesResponse =
   GoogleCloudContactcenterinsightsV1AnalysisRule;
 export const PatchProjectsLocationsAnalysisRulesResponse =
-  GoogleCloudContactcenterinsightsV1AnalysisRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AnalysisRule;
 
 export type PatchProjectsLocationsAnalysisRulesError = DefaultErrors;
 
@@ -19011,7 +19070,7 @@ export const patchProjectsLocationsAnalysisRules: API.OperationMethod<
   PatchProjectsLocationsAnalysisRulesResponse,
   PatchProjectsLocationsAnalysisRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAnalysisRulesRequest,
   output: PatchProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -19022,18 +19081,20 @@ export interface DeleteProjectsLocationsAnalysisRulesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAnalysisRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAnalysisRulesRequest>;
+export const DeleteProjectsLocationsAnalysisRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/analysisRules/{analysisRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAnalysisRulesRequest>;
 
 export type DeleteProjectsLocationsAnalysisRulesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsAnalysisRulesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsAnalysisRulesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAnalysisRulesError = DefaultErrors;
 
@@ -19043,7 +19104,7 @@ export const deleteProjectsLocationsAnalysisRules: API.OperationMethod<
   DeleteProjectsLocationsAnalysisRulesResponse,
   DeleteProjectsLocationsAnalysisRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAnalysisRulesRequest,
   output: DeleteProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -19058,22 +19119,23 @@ export interface ListProjectsLocationsAutoLabelingRulesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAutoLabelingRulesRequest>;
+export const ListProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAutoLabelingRulesRequest>;
 
 export type ListProjectsLocationsAutoLabelingRulesResponse =
   GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse;
 export const ListProjectsLocationsAutoLabelingRulesResponse =
-  GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAutoLabelingRulesResponse;
 
 export type ListProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19083,7 +19145,7 @@ export const listProjectsLocationsAutoLabelingRules: API.PaginatedOperationMetho
   ListProjectsLocationsAutoLabelingRulesResponse,
   ListProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAutoLabelingRulesRequest,
   output: ListProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19098,20 +19160,21 @@ export interface GetProjectsLocationsAutoLabelingRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAutoLabelingRulesRequest>;
+export const GetProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAutoLabelingRulesRequest>;
 
 export type GetProjectsLocationsAutoLabelingRulesResponse =
   GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 export const GetProjectsLocationsAutoLabelingRulesResponse =
-  GoogleCloudContactcenterinsightsV1AutoLabelingRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 
 export type GetProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19121,7 +19184,7 @@ export const getProjectsLocationsAutoLabelingRules: API.OperationMethod<
   GetProjectsLocationsAutoLabelingRulesResponse,
   GetProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAutoLabelingRulesRequest,
   output: GetProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19136,27 +19199,28 @@ export interface CreateProjectsLocationsAutoLabelingRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 }
 
-export const CreateProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  autoLabelingRuleId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("autoLabelingRuleId"),
-  ),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1AutoLabelingRule,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAutoLabelingRulesRequest>;
+export const CreateProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    autoLabelingRuleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("autoLabelingRuleId"),
+    ),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AutoLabelingRule,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAutoLabelingRulesRequest>;
 
 export type CreateProjectsLocationsAutoLabelingRulesResponse =
   GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 export const CreateProjectsLocationsAutoLabelingRulesResponse =
-  GoogleCloudContactcenterinsightsV1AutoLabelingRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 
 export type CreateProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19166,7 +19230,7 @@ export const createProjectsLocationsAutoLabelingRules: API.OperationMethod<
   CreateProjectsLocationsAutoLabelingRulesResponse,
   CreateProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAutoLabelingRulesRequest,
   output: CreateProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19181,25 +19245,26 @@ export interface PatchProjectsLocationsAutoLabelingRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 }
 
-export const PatchProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1AutoLabelingRule,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAutoLabelingRulesRequest>;
+export const PatchProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AutoLabelingRule,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAutoLabelingRulesRequest>;
 
 export type PatchProjectsLocationsAutoLabelingRulesResponse =
   GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 export const PatchProjectsLocationsAutoLabelingRulesResponse =
-  GoogleCloudContactcenterinsightsV1AutoLabelingRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AutoLabelingRule;
 
 export type PatchProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19209,7 +19274,7 @@ export const patchProjectsLocationsAutoLabelingRules: API.OperationMethod<
   PatchProjectsLocationsAutoLabelingRulesResponse,
   PatchProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAutoLabelingRulesRequest,
   output: PatchProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19220,20 +19285,21 @@ export interface DeleteProjectsLocationsAutoLabelingRulesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAutoLabelingRulesRequest>;
+export const DeleteProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules/{autoLabelingRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAutoLabelingRulesRequest>;
 
 export type DeleteProjectsLocationsAutoLabelingRulesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAutoLabelingRulesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19243,7 +19309,7 @@ export const deleteProjectsLocationsAutoLabelingRules: API.OperationMethod<
   DeleteProjectsLocationsAutoLabelingRulesResponse,
   DeleteProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAutoLabelingRulesRequest,
   output: DeleteProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19256,24 +19322,25 @@ export interface TestProjectsLocationsAutoLabelingRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest;
 }
 
-export const TestProjectsLocationsAutoLabelingRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules:test",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestProjectsLocationsAutoLabelingRulesRequest>;
+export const TestProjectsLocationsAutoLabelingRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/autoLabelingRules:test",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestProjectsLocationsAutoLabelingRulesRequest>;
 
 export type TestProjectsLocationsAutoLabelingRulesResponse =
   GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse;
 export const TestProjectsLocationsAutoLabelingRulesResponse =
-  GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1TestAutoLabelingRuleResponse;
 
 export type TestProjectsLocationsAutoLabelingRulesError = DefaultErrors;
 
@@ -19283,7 +19350,7 @@ export const testProjectsLocationsAutoLabelingRules: API.OperationMethod<
   TestProjectsLocationsAutoLabelingRulesResponse,
   TestProjectsLocationsAutoLabelingRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestProjectsLocationsAutoLabelingRulesRequest,
   output: TestProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -19298,27 +19365,28 @@ export interface CreateProjectsLocationsAssessmentRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AssessmentRule;
 }
 
-export const CreateProjectsLocationsAssessmentRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  assessmentRuleId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("assessmentRuleId"),
-  ),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1AssessmentRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAssessmentRulesRequest>;
+export const CreateProjectsLocationsAssessmentRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    assessmentRuleId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("assessmentRuleId"),
+    ),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AssessmentRule,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAssessmentRulesRequest>;
 
 export type CreateProjectsLocationsAssessmentRulesResponse =
   GoogleCloudContactcenterinsightsV1AssessmentRule;
 export const CreateProjectsLocationsAssessmentRulesResponse =
-  GoogleCloudContactcenterinsightsV1AssessmentRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AssessmentRule;
 
 export type CreateProjectsLocationsAssessmentRulesError = DefaultErrors;
 
@@ -19328,7 +19396,7 @@ export const createProjectsLocationsAssessmentRules: API.OperationMethod<
   CreateProjectsLocationsAssessmentRulesResponse,
   CreateProjectsLocationsAssessmentRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAssessmentRulesRequest,
   output: CreateProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -19339,20 +19407,21 @@ export interface GetProjectsLocationsAssessmentRulesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAssessmentRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAssessmentRulesRequest>;
+export const GetProjectsLocationsAssessmentRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAssessmentRulesRequest>;
 
 export type GetProjectsLocationsAssessmentRulesResponse =
   GoogleCloudContactcenterinsightsV1AssessmentRule;
 export const GetProjectsLocationsAssessmentRulesResponse =
-  GoogleCloudContactcenterinsightsV1AssessmentRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AssessmentRule;
 
 export type GetProjectsLocationsAssessmentRulesError = DefaultErrors;
 
@@ -19362,7 +19431,7 @@ export const getProjectsLocationsAssessmentRules: API.OperationMethod<
   GetProjectsLocationsAssessmentRulesResponse,
   GetProjectsLocationsAssessmentRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAssessmentRulesRequest,
   output: GetProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -19377,22 +19446,23 @@ export interface ListProjectsLocationsAssessmentRulesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsAssessmentRulesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAssessmentRulesRequest>;
+export const ListProjectsLocationsAssessmentRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAssessmentRulesRequest>;
 
 export type ListProjectsLocationsAssessmentRulesResponse =
   GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse;
 export const ListProjectsLocationsAssessmentRulesResponse =
-  GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAssessmentRulesResponse;
 
 export type ListProjectsLocationsAssessmentRulesError = DefaultErrors;
 
@@ -19402,7 +19472,7 @@ export const listProjectsLocationsAssessmentRules: API.PaginatedOperationMethod<
   ListProjectsLocationsAssessmentRulesResponse,
   ListProjectsLocationsAssessmentRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAssessmentRulesRequest,
   output: ListProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -19421,25 +19491,26 @@ export interface PatchProjectsLocationsAssessmentRulesRequest {
   body?: GoogleCloudContactcenterinsightsV1AssessmentRule;
 }
 
-export const PatchProjectsLocationsAssessmentRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1AssessmentRule).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAssessmentRulesRequest>;
+export const PatchProjectsLocationsAssessmentRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AssessmentRule,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAssessmentRulesRequest>;
 
 export type PatchProjectsLocationsAssessmentRulesResponse =
   GoogleCloudContactcenterinsightsV1AssessmentRule;
 export const PatchProjectsLocationsAssessmentRulesResponse =
-  GoogleCloudContactcenterinsightsV1AssessmentRule;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AssessmentRule;
 
 export type PatchProjectsLocationsAssessmentRulesError = DefaultErrors;
 
@@ -19449,7 +19520,7 @@ export const patchProjectsLocationsAssessmentRules: API.OperationMethod<
   PatchProjectsLocationsAssessmentRulesResponse,
   PatchProjectsLocationsAssessmentRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAssessmentRulesRequest,
   output: PatchProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -19460,20 +19531,21 @@ export interface DeleteProjectsLocationsAssessmentRulesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsAssessmentRulesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAssessmentRulesRequest>;
+export const DeleteProjectsLocationsAssessmentRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/assessmentRules/{assessmentRulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAssessmentRulesRequest>;
 
 export type DeleteProjectsLocationsAssessmentRulesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAssessmentRulesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAssessmentRulesError = DefaultErrors;
 
@@ -19483,7 +19555,7 @@ export const deleteProjectsLocationsAssessmentRules: API.OperationMethod<
   DeleteProjectsLocationsAssessmentRulesResponse,
   DeleteProjectsLocationsAssessmentRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAssessmentRulesRequest,
   output: DeleteProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -19496,24 +19568,25 @@ export interface InitializeProjectsLocationsEncryptionSpecRequest {
   body?: GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest;
 }
 
-export const InitializeProjectsLocationsEncryptionSpecRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/encryptionSpec:initialize",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InitializeProjectsLocationsEncryptionSpecRequest>;
+export const InitializeProjectsLocationsEncryptionSpecRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1InitializeEncryptionSpecRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/encryptionSpec:initialize",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InitializeProjectsLocationsEncryptionSpecRequest>;
 
 export type InitializeProjectsLocationsEncryptionSpecResponse =
   GoogleLongrunningOperation;
 export const InitializeProjectsLocationsEncryptionSpecResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type InitializeProjectsLocationsEncryptionSpecError = DefaultErrors;
 
@@ -19523,7 +19596,7 @@ export const initializeProjectsLocationsEncryptionSpec: API.OperationMethod<
   InitializeProjectsLocationsEncryptionSpecResponse,
   InitializeProjectsLocationsEncryptionSpecError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InitializeProjectsLocationsEncryptionSpecRequest,
   output: InitializeProjectsLocationsEncryptionSpecResponse,
   errors: [],
@@ -19536,24 +19609,25 @@ export interface CreateProjectsLocationsViewsRequest {
   body?: GoogleCloudContactcenterinsightsV1View;
 }
 
-export const CreateProjectsLocationsViewsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1View).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/views",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsViewsRequest>;
+export const CreateProjectsLocationsViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1View).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/views",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsViewsRequest>;
 
 export type CreateProjectsLocationsViewsResponse =
   GoogleCloudContactcenterinsightsV1View;
 export const CreateProjectsLocationsViewsResponse =
-  GoogleCloudContactcenterinsightsV1View;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1View;
 
 export type CreateProjectsLocationsViewsError = DefaultErrors;
 
@@ -19563,7 +19637,7 @@ export const createProjectsLocationsViews: API.OperationMethod<
   CreateProjectsLocationsViewsResponse,
   CreateProjectsLocationsViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsViewsRequest,
   output: CreateProjectsLocationsViewsResponse,
   errors: [],
@@ -19574,20 +19648,21 @@ export interface GetProjectsLocationsViewsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsViewsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsViewsRequest>;
+export const GetProjectsLocationsViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsViewsRequest>;
 
 export type GetProjectsLocationsViewsResponse =
   GoogleCloudContactcenterinsightsV1View;
 export const GetProjectsLocationsViewsResponse =
-  GoogleCloudContactcenterinsightsV1View;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1View;
 
 export type GetProjectsLocationsViewsError = DefaultErrors;
 
@@ -19597,7 +19672,7 @@ export const getProjectsLocationsViews: API.OperationMethod<
   GetProjectsLocationsViewsResponse,
   GetProjectsLocationsViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsViewsRequest,
   output: GetProjectsLocationsViewsResponse,
   errors: [],
@@ -19612,22 +19687,23 @@ export interface ListProjectsLocationsViewsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsViewsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/views",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsViewsRequest>;
+export const ListProjectsLocationsViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/views",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsViewsRequest>;
 
 export type ListProjectsLocationsViewsResponse =
   GoogleCloudContactcenterinsightsV1ListViewsResponse;
 export const ListProjectsLocationsViewsResponse =
-  GoogleCloudContactcenterinsightsV1ListViewsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListViewsResponse;
 
 export type ListProjectsLocationsViewsError = DefaultErrors;
 
@@ -19637,7 +19713,7 @@ export const listProjectsLocationsViews: API.PaginatedOperationMethod<
   ListProjectsLocationsViewsResponse,
   ListProjectsLocationsViewsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsViewsRequest,
   output: ListProjectsLocationsViewsResponse,
   errors: [],
@@ -19656,25 +19732,26 @@ export interface PatchProjectsLocationsViewsRequest {
   body?: GoogleCloudContactcenterinsightsV1View;
 }
 
-export const PatchProjectsLocationsViewsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1View).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsViewsRequest>;
+export const PatchProjectsLocationsViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1View).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsViewsRequest>;
 
 export type PatchProjectsLocationsViewsResponse =
   GoogleCloudContactcenterinsightsV1View;
 export const PatchProjectsLocationsViewsResponse =
-  GoogleCloudContactcenterinsightsV1View;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1View;
 
 export type PatchProjectsLocationsViewsError = DefaultErrors;
 
@@ -19684,7 +19761,7 @@ export const patchProjectsLocationsViews: API.OperationMethod<
   PatchProjectsLocationsViewsResponse,
   PatchProjectsLocationsViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsViewsRequest,
   output: PatchProjectsLocationsViewsResponse,
   errors: [],
@@ -19695,18 +19772,20 @@ export interface DeleteProjectsLocationsViewsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsViewsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsViewsRequest>;
+export const DeleteProjectsLocationsViewsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/views/{viewsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsViewsRequest>;
 
 export type DeleteProjectsLocationsViewsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsViewsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsViewsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsViewsError = DefaultErrors;
 
@@ -19716,7 +19795,7 @@ export const deleteProjectsLocationsViews: API.OperationMethod<
   DeleteProjectsLocationsViewsResponse,
   DeleteProjectsLocationsViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsViewsRequest,
   output: DeleteProjectsLocationsViewsResponse,
   errors: [],
@@ -19731,27 +19810,28 @@ export interface CreateProjectsLocationsQaQuestionTagsRequest {
   body?: GoogleCloudContactcenterinsightsV1QaQuestionTag;
 }
 
-export const CreateProjectsLocationsQaQuestionTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  qaQuestionTagId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("qaQuestionTagId"),
-  ),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1QaQuestionTag).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsQaQuestionTagsRequest>;
+export const CreateProjectsLocationsQaQuestionTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    qaQuestionTagId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("qaQuestionTagId"),
+    ),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1QaQuestionTag).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsQaQuestionTagsRequest>;
 
 export type CreateProjectsLocationsQaQuestionTagsResponse =
   GoogleCloudContactcenterinsightsV1QaQuestionTag;
 export const CreateProjectsLocationsQaQuestionTagsResponse =
-  GoogleCloudContactcenterinsightsV1QaQuestionTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaQuestionTag;
 
 export type CreateProjectsLocationsQaQuestionTagsError = DefaultErrors;
 
@@ -19761,7 +19841,7 @@ export const createProjectsLocationsQaQuestionTags: API.OperationMethod<
   CreateProjectsLocationsQaQuestionTagsResponse,
   CreateProjectsLocationsQaQuestionTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaQuestionTagsRequest,
   output: CreateProjectsLocationsQaQuestionTagsResponse,
   errors: [],
@@ -19772,20 +19852,21 @@ export interface GetProjectsLocationsQaQuestionTagsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsQaQuestionTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsQaQuestionTagsRequest>;
+export const GetProjectsLocationsQaQuestionTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsQaQuestionTagsRequest>;
 
 export type GetProjectsLocationsQaQuestionTagsResponse =
   GoogleCloudContactcenterinsightsV1QaQuestionTag;
 export const GetProjectsLocationsQaQuestionTagsResponse =
-  GoogleCloudContactcenterinsightsV1QaQuestionTag;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaQuestionTag;
 
 export type GetProjectsLocationsQaQuestionTagsError = DefaultErrors;
 
@@ -19795,7 +19876,7 @@ export const getProjectsLocationsQaQuestionTags: API.OperationMethod<
   GetProjectsLocationsQaQuestionTagsResponse,
   GetProjectsLocationsQaQuestionTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsQaQuestionTagsRequest,
   output: GetProjectsLocationsQaQuestionTagsResponse,
   errors: [],
@@ -19810,25 +19891,26 @@ export interface PatchProjectsLocationsQaQuestionTagsRequest {
   body?: GoogleCloudContactcenterinsightsV1QaQuestionTag;
 }
 
-export const PatchProjectsLocationsQaQuestionTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1QaQuestionTag).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsQaQuestionTagsRequest>;
+export const PatchProjectsLocationsQaQuestionTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1QaQuestionTag).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsQaQuestionTagsRequest>;
 
 export type PatchProjectsLocationsQaQuestionTagsResponse =
   GoogleLongrunningOperation;
 export const PatchProjectsLocationsQaQuestionTagsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsQaQuestionTagsError = DefaultErrors;
 
@@ -19838,7 +19920,7 @@ export const patchProjectsLocationsQaQuestionTags: API.OperationMethod<
   PatchProjectsLocationsQaQuestionTagsResponse,
   PatchProjectsLocationsQaQuestionTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsQaQuestionTagsRequest,
   output: PatchProjectsLocationsQaQuestionTagsResponse,
   errors: [],
@@ -19849,20 +19931,21 @@ export interface DeleteProjectsLocationsQaQuestionTagsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsQaQuestionTagsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsQaQuestionTagsRequest>;
+export const DeleteProjectsLocationsQaQuestionTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags/{qaQuestionTagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsQaQuestionTagsRequest>;
 
 export type DeleteProjectsLocationsQaQuestionTagsResponse =
   GoogleLongrunningOperation;
 export const DeleteProjectsLocationsQaQuestionTagsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsQaQuestionTagsError = DefaultErrors;
 
@@ -19872,7 +19955,7 @@ export const deleteProjectsLocationsQaQuestionTags: API.OperationMethod<
   DeleteProjectsLocationsQaQuestionTagsResponse,
   DeleteProjectsLocationsQaQuestionTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaQuestionTagsRequest,
   output: DeleteProjectsLocationsQaQuestionTagsResponse,
   errors: [],
@@ -19885,21 +19968,22 @@ export interface ListProjectsLocationsQaQuestionTagsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsQaQuestionTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsQaQuestionTagsRequest>;
+export const ListProjectsLocationsQaQuestionTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaQuestionTags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsQaQuestionTagsRequest>;
 
 export type ListProjectsLocationsQaQuestionTagsResponse =
   GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse;
 export const ListProjectsLocationsQaQuestionTagsResponse =
-  GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListQaQuestionTagsResponse;
 
 export type ListProjectsLocationsQaQuestionTagsError = DefaultErrors;
 
@@ -19909,7 +19993,7 @@ export const listProjectsLocationsQaQuestionTags: API.OperationMethod<
   ListProjectsLocationsQaQuestionTagsResponse,
   ListProjectsLocationsQaQuestionTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsQaQuestionTagsRequest,
   output: ListProjectsLocationsQaQuestionTagsResponse,
   errors: [],
@@ -19924,27 +20008,28 @@ export interface CreateProjectsLocationsQaScorecardsRequest {
   body?: GoogleCloudContactcenterinsightsV1QaScorecard;
 }
 
-export const CreateProjectsLocationsQaScorecardsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  qaScorecardId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("qaScorecardId"),
-  ),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1QaScorecard).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsQaScorecardsRequest>;
+export const CreateProjectsLocationsQaScorecardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    qaScorecardId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("qaScorecardId"),
+    ),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1QaScorecard).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsQaScorecardsRequest>;
 
 export type CreateProjectsLocationsQaScorecardsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecard;
 export const CreateProjectsLocationsQaScorecardsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecard;
 
 export type CreateProjectsLocationsQaScorecardsError = DefaultErrors;
 
@@ -19954,7 +20039,7 @@ export const createProjectsLocationsQaScorecards: API.OperationMethod<
   CreateProjectsLocationsQaScorecardsResponse,
   CreateProjectsLocationsQaScorecardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRequest,
   output: CreateProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -19965,20 +20050,21 @@ export interface GetProjectsLocationsQaScorecardsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsQaScorecardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsQaScorecardsRequest>;
+export const GetProjectsLocationsQaScorecardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsQaScorecardsRequest>;
 
 export type GetProjectsLocationsQaScorecardsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecard;
 export const GetProjectsLocationsQaScorecardsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecard;
 
 export type GetProjectsLocationsQaScorecardsError = DefaultErrors;
 
@@ -19988,7 +20074,7 @@ export const getProjectsLocationsQaScorecards: API.OperationMethod<
   GetProjectsLocationsQaScorecardsResponse,
   GetProjectsLocationsQaScorecardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRequest,
   output: GetProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -20003,25 +20089,26 @@ export interface PatchProjectsLocationsQaScorecardsRequest {
   body?: GoogleCloudContactcenterinsightsV1QaScorecard;
 }
 
-export const PatchProjectsLocationsQaScorecardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1QaScorecard).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsQaScorecardsRequest>;
+export const PatchProjectsLocationsQaScorecardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1QaScorecard).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsQaScorecardsRequest>;
 
 export type PatchProjectsLocationsQaScorecardsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecard;
 export const PatchProjectsLocationsQaScorecardsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecard;
 
 export type PatchProjectsLocationsQaScorecardsError = DefaultErrors;
 
@@ -20031,7 +20118,7 @@ export const patchProjectsLocationsQaScorecards: API.OperationMethod<
   PatchProjectsLocationsQaScorecardsResponse,
   PatchProjectsLocationsQaScorecardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsQaScorecardsRequest,
   output: PatchProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -20044,19 +20131,21 @@ export interface DeleteProjectsLocationsQaScorecardsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsQaScorecardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsQaScorecardsRequest>;
+export const DeleteProjectsLocationsQaScorecardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsQaScorecardsRequest>;
 
 export type DeleteProjectsLocationsQaScorecardsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsQaScorecardsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsQaScorecardsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsQaScorecardsError = DefaultErrors;
 
@@ -20066,7 +20155,7 @@ export const deleteProjectsLocationsQaScorecards: API.OperationMethod<
   DeleteProjectsLocationsQaScorecardsResponse,
   DeleteProjectsLocationsQaScorecardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRequest,
   output: DeleteProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -20087,25 +20176,26 @@ export interface ListProjectsLocationsQaScorecardsRequest {
     | (string & {})[];
 }
 
-export const ListProjectsLocationsQaScorecardsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  qaScorecardSources: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("qaScorecardSources"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsQaScorecardsRequest>;
+export const ListProjectsLocationsQaScorecardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    qaScorecardSources: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("qaScorecardSources"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsQaScorecardsRequest>;
 
 export type ListProjectsLocationsQaScorecardsResponse =
   GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse;
 export const ListProjectsLocationsQaScorecardsResponse =
-  GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListQaScorecardsResponse;
 
 export type ListProjectsLocationsQaScorecardsError = DefaultErrors;
 
@@ -20115,7 +20205,7 @@ export const listProjectsLocationsQaScorecards: API.PaginatedOperationMethod<
   ListProjectsLocationsQaScorecardsResponse,
   ListProjectsLocationsQaScorecardsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRequest,
   output: ListProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -20135,7 +20225,7 @@ export interface CreateProjectsLocationsQaScorecardsRevisionsRequest {
 }
 
 export const CreateProjectsLocationsQaScorecardsRevisionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     qaScorecardRevisionId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("qaScorecardRevisionId"),
@@ -20155,7 +20245,7 @@ export const CreateProjectsLocationsQaScorecardsRevisionsRequest =
 export type CreateProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 export const CreateProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecardRevision;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 
 export type CreateProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20165,7 +20255,7 @@ export const createProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   CreateProjectsLocationsQaScorecardsRevisionsResponse,
   CreateProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsRequest,
   output: CreateProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20176,20 +20266,21 @@ export interface GetProjectsLocationsQaScorecardsRevisionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsQaScorecardsRevisionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}/revisions/{revisionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsQaScorecardsRevisionsRequest>;
+export const GetProjectsLocationsQaScorecardsRevisionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}/revisions/{revisionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsQaScorecardsRevisionsRequest>;
 
 export type GetProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 export const GetProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecardRevision;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 
 export type GetProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20199,7 +20290,7 @@ export const getProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   GetProjectsLocationsQaScorecardsRevisionsResponse,
   GetProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRevisionsRequest,
   output: GetProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20213,7 +20304,7 @@ export interface TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRe
 }
 
 export const TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1TuneQaScorecardRevisionRequest,
@@ -20230,7 +20321,7 @@ export const TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsReques
 export type TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleLongrunningOperation;
 export const TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsError =
   DefaultErrors;
@@ -20241,7 +20332,7 @@ export const tuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisions: API.
   TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse,
   TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest,
   output: TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20255,7 +20346,7 @@ export interface DeployProjectsLocationsQaScorecardsRevisionsRequest {
 }
 
 export const DeployProjectsLocationsQaScorecardsRevisionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1DeployQaScorecardRevisionRequest,
@@ -20272,7 +20363,7 @@ export const DeployProjectsLocationsQaScorecardsRevisionsRequest =
 export type DeployProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 export const DeployProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecardRevision;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 
 export type DeployProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20282,7 +20373,7 @@ export const deployProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   DeployProjectsLocationsQaScorecardsRevisionsResponse,
   DeployProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeployProjectsLocationsQaScorecardsRevisionsRequest,
   output: DeployProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20296,7 +20387,7 @@ export interface UndeployProjectsLocationsQaScorecardsRevisionsRequest {
 }
 
 export const UndeployProjectsLocationsQaScorecardsRevisionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1UndeployQaScorecardRevisionRequest,
@@ -20313,7 +20404,7 @@ export const UndeployProjectsLocationsQaScorecardsRevisionsRequest =
 export type UndeployProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 export const UndeployProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleCloudContactcenterinsightsV1QaScorecardRevision;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaScorecardRevision;
 
 export type UndeployProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20323,7 +20414,7 @@ export const undeployProjectsLocationsQaScorecardsRevisions: API.OperationMethod
   UndeployProjectsLocationsQaScorecardsRevisionsResponse,
   UndeployProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeployProjectsLocationsQaScorecardsRevisionsRequest,
   output: UndeployProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20337,7 +20428,7 @@ export interface DeleteProjectsLocationsQaScorecardsRevisionsRequest {
 }
 
 export const DeleteProjectsLocationsQaScorecardsRevisionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -20351,7 +20442,7 @@ export const DeleteProjectsLocationsQaScorecardsRevisionsRequest =
 export type DeleteProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20361,7 +20452,7 @@ export const deleteProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   DeleteProjectsLocationsQaScorecardsRevisionsResponse,
   DeleteProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsRequest,
   output: DeleteProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20384,26 +20475,27 @@ export interface ListProjectsLocationsQaScorecardsRevisionsRequest {
     | (string & {})[];
 }
 
-export const ListProjectsLocationsQaScorecardsRevisionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  qaScorecardSources: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("qaScorecardSources"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}/revisions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsQaScorecardsRevisionsRequest>;
+export const ListProjectsLocationsQaScorecardsRevisionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    qaScorecardSources: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("qaScorecardSources"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/qaScorecards/{qaScorecardsId}/revisions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsQaScorecardsRevisionsRequest>;
 
 export type ListProjectsLocationsQaScorecardsRevisionsResponse =
   GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsResponse;
 export const ListProjectsLocationsQaScorecardsRevisionsResponse =
-  GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListQaScorecardRevisionsResponse;
 
 export type ListProjectsLocationsQaScorecardsRevisionsError = DefaultErrors;
 
@@ -20413,7 +20505,7 @@ export const listProjectsLocationsQaScorecardsRevisions: API.PaginatedOperationM
   ListProjectsLocationsQaScorecardsRevisionsResponse,
   ListProjectsLocationsQaScorecardsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRevisionsRequest,
   output: ListProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -20433,7 +20525,7 @@ export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest 
 }
 
 export const CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     qaQuestionId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("qaQuestionId"),
@@ -20453,7 +20545,7 @@ export const CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
 export type CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
   GoogleCloudContactcenterinsightsV1QaQuestion;
 export const CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
-  GoogleCloudContactcenterinsightsV1QaQuestion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaQuestion;
 
 export type CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   DefaultErrors;
@@ -20464,7 +20556,7 @@ export const createProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operat
   CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -20476,7 +20568,7 @@ export interface GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
 }
 
 export const GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -20489,7 +20581,7 @@ export const GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
 export type GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
   GoogleCloudContactcenterinsightsV1QaQuestion;
 export const GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
-  GoogleCloudContactcenterinsightsV1QaQuestion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaQuestion;
 
 export type GetProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   DefaultErrors;
@@ -20500,7 +20592,7 @@ export const getProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operation
   GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   GetProjectsLocationsQaScorecardsRevisionsQaQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -20516,7 +20608,7 @@ export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
 }
 
 export const PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1QaQuestion).pipe(
@@ -20534,7 +20626,7 @@ export const PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
 export type PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
   GoogleCloudContactcenterinsightsV1QaQuestion;
 export const PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
-  GoogleCloudContactcenterinsightsV1QaQuestion;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1QaQuestion;
 
 export type PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   DefaultErrors;
@@ -20545,7 +20637,7 @@ export const patchProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operati
   PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -20557,7 +20649,7 @@ export interface DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest 
 }
 
 export const DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -20570,7 +20662,7 @@ export const DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
 export type DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   DefaultErrors;
@@ -20581,7 +20673,7 @@ export const deleteProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operat
   DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -20597,7 +20689,7 @@ export interface ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
 }
 
 export const ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -20612,7 +20704,7 @@ export const ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest =
 export type ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
   GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse;
 export const ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse =
-  GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListQaQuestionsResponse;
 
 export type ListProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
   DefaultErrors;
@@ -20623,7 +20715,7 @@ export const listProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Paginate
   ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   ListProjectsLocationsQaScorecardsRevisionsQaQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -20642,27 +20734,28 @@ export interface CreateProjectsLocationsAuthorizedViewSetsRequest {
   body?: GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 }
 
-export const CreateProjectsLocationsAuthorizedViewSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  authorizedViewSetId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("authorizedViewSetId"),
-  ),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsAuthorizedViewSetsRequest>;
+export const CreateProjectsLocationsAuthorizedViewSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    authorizedViewSetId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("authorizedViewSetId"),
+    ),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsAuthorizedViewSetsRequest>;
 
 export type CreateProjectsLocationsAuthorizedViewSetsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 export const CreateProjectsLocationsAuthorizedViewSetsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 
 export type CreateProjectsLocationsAuthorizedViewSetsError = DefaultErrors;
 
@@ -20672,7 +20765,7 @@ export const createProjectsLocationsAuthorizedViewSets: API.OperationMethod<
   CreateProjectsLocationsAuthorizedViewSetsResponse,
   CreateProjectsLocationsAuthorizedViewSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -20683,20 +20776,21 @@ export interface GetProjectsLocationsAuthorizedViewSetsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsAuthorizedViewSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsAuthorizedViewSetsRequest>;
+export const GetProjectsLocationsAuthorizedViewSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsAuthorizedViewSetsRequest>;
 
 export type GetProjectsLocationsAuthorizedViewSetsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 export const GetProjectsLocationsAuthorizedViewSetsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 
 export type GetProjectsLocationsAuthorizedViewSetsError = DefaultErrors;
 
@@ -20706,7 +20800,7 @@ export const getProjectsLocationsAuthorizedViewSets: API.OperationMethod<
   GetProjectsLocationsAuthorizedViewSetsResponse,
   GetProjectsLocationsAuthorizedViewSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -20725,24 +20819,25 @@ export interface ListProjectsLocationsAuthorizedViewSetsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsAuthorizedViewSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsAuthorizedViewSetsRequest>;
+export const ListProjectsLocationsAuthorizedViewSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsAuthorizedViewSetsRequest>;
 
 export type ListProjectsLocationsAuthorizedViewSetsResponse =
   GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsResponse =
-  GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAuthorizedViewSetsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsError = DefaultErrors;
 
@@ -20752,7 +20847,7 @@ export const listProjectsLocationsAuthorizedViewSets: API.PaginatedOperationMeth
   ListProjectsLocationsAuthorizedViewSetsResponse,
   ListProjectsLocationsAuthorizedViewSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -20771,25 +20866,26 @@ export interface PatchProjectsLocationsAuthorizedViewSetsRequest {
   body?: GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 }
 
-export const PatchProjectsLocationsAuthorizedViewSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(
-    GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsAuthorizedViewSetsRequest>;
+export const PatchProjectsLocationsAuthorizedViewSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(
+      GoogleCloudContactcenterinsightsV1AuthorizedViewSet,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsAuthorizedViewSetsRequest>;
 
 export type PatchProjectsLocationsAuthorizedViewSetsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 export const PatchProjectsLocationsAuthorizedViewSetsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedViewSet;
 
 export type PatchProjectsLocationsAuthorizedViewSetsError = DefaultErrors;
 
@@ -20799,7 +20895,7 @@ export const patchProjectsLocationsAuthorizedViewSets: API.OperationMethod<
   PatchProjectsLocationsAuthorizedViewSetsResponse,
   PatchProjectsLocationsAuthorizedViewSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -20812,21 +20908,22 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsRequest {
   force?: boolean;
 }
 
-export const DeleteProjectsLocationsAuthorizedViewSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsAuthorizedViewSetsRequest>;
+export const DeleteProjectsLocationsAuthorizedViewSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/authorizedViewSets/{authorizedViewSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsAuthorizedViewSetsRequest>;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsError = DefaultErrors;
 
@@ -20836,7 +20933,7 @@ export const deleteProjectsLocationsAuthorizedViewSets: API.OperationMethod<
   DeleteProjectsLocationsAuthorizedViewSetsResponse,
   DeleteProjectsLocationsAuthorizedViewSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -20850,7 +20947,7 @@ export interface SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsR
 }
 
 export const SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GoogleIamV1SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -20865,7 +20962,7 @@ export const SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsReque
 export type SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleIamV1Policy;
 export const SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleIamV1Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIamV1Policy;
 
 export type SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -20876,7 +20973,7 @@ export const setIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViews: API
   SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
     SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
@@ -20891,7 +20988,7 @@ export interface GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsR
 }
 
 export const GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
       T.HttpQuery("options.requestedPolicyVersion"),
@@ -20907,7 +21004,7 @@ export const GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsReque
 export type GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleIamV1Policy;
 export const GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleIamV1Policy;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIamV1Policy;
 
 export type GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -20918,7 +21015,7 @@ export const getIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViews: API
   GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
     GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
@@ -20933,7 +21030,7 @@ export interface TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorized
 }
 
 export const TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GoogleIamV1TestIamPermissionsRequest).pipe(
       T.HttpBody(),
@@ -20950,7 +21047,7 @@ export const TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedView
 export type TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleIamV1TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleIamV1TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleIamV1TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -20961,7 +21058,7 @@ export const testIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedView
   TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
@@ -20977,7 +21074,7 @@ export interface QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsR
 }
 
 export const QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String.pipe(T.HttpPath("location")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1QueryMetricsRequest,
@@ -20994,7 +21091,7 @@ export const QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsReque
 export type QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleLongrunningOperation;
 export const QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21005,7 +21102,7 @@ export const queryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViews: API
   QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
     QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
@@ -21020,7 +21117,7 @@ export interface GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorized
 }
 
 export const GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String.pipe(T.HttpPath("location")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1GenerativeInsightsRequest,
@@ -21037,7 +21134,7 @@ export const GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedView
 export type GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleLongrunningOperation;
 export const GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21048,7 +21145,7 @@ export const generativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedView
   GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
@@ -21064,7 +21161,7 @@ export interface QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuth
 }
 
 export const QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1QueryPerformanceOverviewRequest,
@@ -21081,7 +21178,7 @@ export const QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthoriz
 export type QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleLongrunningOperation;
 export const QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21092,7 +21189,7 @@ export const queryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthoriz
   QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output:
@@ -21110,7 +21207,7 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest
 }
 
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     authorizedViewId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("authorizedViewId"),
@@ -21130,7 +21227,7 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedView;
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedView;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedView;
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21141,7 +21238,7 @@ export const createProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Opera
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21153,7 +21250,7 @@ export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
 }
 
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21166,7 +21263,7 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedView;
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedView;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedView;
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21177,7 +21274,7 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Operatio
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21197,7 +21294,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -21214,7 +21311,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAuthorizedViewsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21225,7 +21322,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Paginat
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21249,7 +21346,7 @@ export interface SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest
 }
 
 export const SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -21266,7 +21363,7 @@ export const SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse;
 export const SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1SearchAuthorizedViewsResponse;
 
 export type SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21277,7 +21374,7 @@ export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Pagin
   SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21297,7 +21394,7 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest 
 }
 
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -21315,7 +21412,7 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleCloudContactcenterinsightsV1AuthorizedView;
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleCloudContactcenterinsightsV1AuthorizedView;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1AuthorizedView;
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21326,7 +21423,7 @@ export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Operat
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21338,7 +21435,7 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest
 }
 
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21351,7 +21448,7 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest =
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
   DefaultErrors;
@@ -21362,7 +21459,7 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Opera
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -21382,7 +21479,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperation
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -21401,7 +21498,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsReq
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError =
   DefaultErrors;
@@ -21412,7 +21509,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations: A
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output:
@@ -21430,7 +21527,7 @@ export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations
 }
 
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21443,7 +21540,7 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequ
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError =
   DefaultErrors;
@@ -21454,7 +21551,7 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations: AP
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output:
     GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
@@ -21467,7 +21564,7 @@ export interface CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperati
 }
 
 export const CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21481,7 +21578,7 @@ export const CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsR
 export type CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
   GoogleProtobufEmpty;
 export const CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError =
   DefaultErrors;
@@ -21492,7 +21589,7 @@ export const cancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations:
   CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output:
@@ -21508,7 +21605,7 @@ export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
 }
 
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
@@ -21522,7 +21619,7 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsR
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
   GoogleCloudContactcenterinsightsV1Conversation;
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1Conversation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Conversation;
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
   DefaultErrors;
@@ -21533,7 +21630,7 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations:
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output:
@@ -21557,7 +21654,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -21575,7 +21672,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
   GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1ListConversationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListConversationsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
   DefaultErrors;
@@ -21586,7 +21683,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output:
@@ -21604,7 +21701,7 @@ export interface GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorize
 }
 
 export const GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21617,7 +21714,7 @@ export const GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedVie
 export type GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
   GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 export const GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1GenerateConversationSignedAudioResponse;
 
 export type GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
   DefaultErrors;
@@ -21628,7 +21725,7 @@ export const generateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedVie
   GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output:
@@ -21644,7 +21741,7 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -21658,7 +21755,7 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
   DefaultErrors;
@@ -21669,7 +21766,7 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output:
@@ -21685,7 +21782,7 @@ export interface CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedView
 }
 
 export const CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String.pipe(T.HttpPath("location")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
@@ -21699,7 +21796,7 @@ export const CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsCon
 export type CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
   GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 export const CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse =
-  GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 
 export type CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
   DefaultErrors;
@@ -21710,7 +21807,7 @@ export const calculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsCon
   CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output:
@@ -21728,7 +21825,7 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     feedbackLabelId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("feedbackLabelId"),
@@ -21748,7 +21845,7 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -21759,7 +21856,7 @@ export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output:
@@ -21779,7 +21876,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -21795,7 +21892,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListFeedbackLabelsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -21806,7 +21903,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output:
@@ -21824,7 +21921,7 @@ export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
 }
 
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21837,7 +21934,7 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsF
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -21848,7 +21945,7 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsF
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output:
@@ -21866,7 +21963,7 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversa
 }
 
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1FeedbackLabel).pipe(
@@ -21884,7 +21981,7 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
   GoogleCloudContactcenterinsightsV1FeedbackLabel;
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
-  GoogleCloudContactcenterinsightsV1FeedbackLabel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1FeedbackLabel;
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -21895,7 +21992,7 @@ export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output:
@@ -21909,7 +22006,7 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -21922,7 +22019,7 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
   DefaultErrors;
@@ -21933,7 +22030,7 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output:
@@ -21949,7 +22046,7 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Assessment).pipe(
       T.HttpBody(),
@@ -21966,7 +22063,7 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -21977,7 +22074,7 @@ export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -21991,7 +22088,7 @@ export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
 }
 
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -22004,7 +22101,7 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsA
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22015,7 +22112,7 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsA
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22035,7 +22132,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -22051,7 +22148,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListAssessmentsResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22062,7 +22159,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22082,7 +22179,7 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -22096,7 +22193,7 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22107,7 +22204,7 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22123,7 +22220,7 @@ export interface PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConver
 }
 
 export const PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1PublishAssessmentRequest,
@@ -22140,7 +22237,7 @@ export const PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
 export type PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22151,7 +22248,7 @@ export const publishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
   PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22167,7 +22264,7 @@ export interface AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1AppealAssessmentRequest,
@@ -22184,7 +22281,7 @@ export const AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22195,7 +22292,7 @@ export const appealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22211,7 +22308,7 @@ export interface FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConve
 }
 
 export const FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GoogleCloudContactcenterinsightsV1FinalizeAssessmentRequest,
@@ -22228,7 +22325,7 @@ export const FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 export type FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
   GoogleCloudContactcenterinsightsV1Assessment;
 export const FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse =
-  GoogleCloudContactcenterinsightsV1Assessment;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Assessment;
 
 export type FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
   DefaultErrors;
@@ -22239,7 +22336,7 @@ export const finalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
   FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output:
@@ -22255,7 +22352,7 @@ export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Note).pipe(
       T.HttpBody(),
@@ -22272,7 +22369,7 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1Note;
 export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1Note;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Note;
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -22283,7 +22380,7 @@ export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output:
@@ -22301,7 +22398,7 @@ export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 }
 
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -22316,7 +22413,7 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1ListNotesResponse;
 export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1ListNotesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListNotesResponse;
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -22327,7 +22424,7 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output:
@@ -22349,7 +22446,7 @@ export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversa
 }
 
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudContactcenterinsightsV1Note).pipe(
@@ -22367,7 +22464,7 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
   GoogleCloudContactcenterinsightsV1Note;
 export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
-  GoogleCloudContactcenterinsightsV1Note;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Note;
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -22378,7 +22475,7 @@ export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output:
@@ -22392,7 +22489,7 @@ export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConvers
 }
 
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -22405,7 +22502,7 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError =
   DefaultErrors;
@@ -22416,7 +22513,7 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output:
@@ -22433,25 +22530,28 @@ export interface CreateProjectsLocationsDashboardsRequest {
   body?: GoogleCloudContactcenterinsightsV1Dashboard;
 }
 
-export const CreateProjectsLocationsDashboardsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dashboardId: Schema.optional(Schema.String).pipe(T.HttpQuery("dashboardId")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Dashboard).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDashboardsRequest>;
+export const CreateProjectsLocationsDashboardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dashboardId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dashboardId"),
+    ),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Dashboard).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDashboardsRequest>;
 
 export type CreateProjectsLocationsDashboardsResponse =
   GoogleCloudContactcenterinsightsV1Dashboard;
 export const CreateProjectsLocationsDashboardsResponse =
-  GoogleCloudContactcenterinsightsV1Dashboard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dashboard;
 
 export type CreateProjectsLocationsDashboardsError = DefaultErrors;
 
@@ -22461,7 +22561,7 @@ export const createProjectsLocationsDashboards: API.OperationMethod<
   CreateProjectsLocationsDashboardsResponse,
   CreateProjectsLocationsDashboardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDashboardsRequest,
   output: CreateProjectsLocationsDashboardsResponse,
   errors: [],
@@ -22472,20 +22572,21 @@ export interface GetProjectsLocationsDashboardsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDashboardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDashboardsRequest>;
+export const GetProjectsLocationsDashboardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDashboardsRequest>;
 
 export type GetProjectsLocationsDashboardsResponse =
   GoogleCloudContactcenterinsightsV1Dashboard;
 export const GetProjectsLocationsDashboardsResponse =
-  GoogleCloudContactcenterinsightsV1Dashboard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dashboard;
 
 export type GetProjectsLocationsDashboardsError = DefaultErrors;
 
@@ -22495,7 +22596,7 @@ export const getProjectsLocationsDashboards: API.OperationMethod<
   GetProjectsLocationsDashboardsResponse,
   GetProjectsLocationsDashboardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDashboardsRequest,
   output: GetProjectsLocationsDashboardsResponse,
   errors: [],
@@ -22514,24 +22615,25 @@ export interface ListProjectsLocationsDashboardsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsDashboardsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDashboardsRequest>;
+export const ListProjectsLocationsDashboardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDashboardsRequest>;
 
 export type ListProjectsLocationsDashboardsResponse =
   GoogleCloudContactcenterinsightsV1ListDashboardsResponse;
 export const ListProjectsLocationsDashboardsResponse =
-  GoogleCloudContactcenterinsightsV1ListDashboardsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListDashboardsResponse;
 
 export type ListProjectsLocationsDashboardsError = DefaultErrors;
 
@@ -22541,7 +22643,7 @@ export const listProjectsLocationsDashboards: API.PaginatedOperationMethod<
   ListProjectsLocationsDashboardsResponse,
   ListProjectsLocationsDashboardsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDashboardsRequest,
   output: ListProjectsLocationsDashboardsResponse,
   errors: [],
@@ -22560,25 +22662,26 @@ export interface PatchProjectsLocationsDashboardsRequest {
   body?: GoogleCloudContactcenterinsightsV1Dashboard;
 }
 
-export const PatchProjectsLocationsDashboardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Dashboard).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDashboardsRequest>;
+export const PatchProjectsLocationsDashboardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Dashboard).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDashboardsRequest>;
 
 export type PatchProjectsLocationsDashboardsResponse =
   GoogleCloudContactcenterinsightsV1Dashboard;
 export const PatchProjectsLocationsDashboardsResponse =
-  GoogleCloudContactcenterinsightsV1Dashboard;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Dashboard;
 
 export type PatchProjectsLocationsDashboardsError = DefaultErrors;
 
@@ -22588,7 +22691,7 @@ export const patchProjectsLocationsDashboards: API.OperationMethod<
   PatchProjectsLocationsDashboardsResponse,
   PatchProjectsLocationsDashboardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDashboardsRequest,
   output: PatchProjectsLocationsDashboardsResponse,
   errors: [],
@@ -22599,18 +22702,20 @@ export interface DeleteProjectsLocationsDashboardsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDashboardsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDashboardsRequest>;
+export const DeleteProjectsLocationsDashboardsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDashboardsRequest>;
 
 export type DeleteProjectsLocationsDashboardsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsDashboardsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsDashboardsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDashboardsError = DefaultErrors;
 
@@ -22620,7 +22725,7 @@ export const deleteProjectsLocationsDashboards: API.OperationMethod<
   DeleteProjectsLocationsDashboardsResponse,
   DeleteProjectsLocationsDashboardsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDashboardsRequest,
   output: DeleteProjectsLocationsDashboardsResponse,
   errors: [],
@@ -22635,25 +22740,26 @@ export interface CreateProjectsLocationsDashboardsChartsRequest {
   body?: GoogleCloudContactcenterinsightsV1Chart;
 }
 
-export const CreateProjectsLocationsDashboardsChartsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  chartId: Schema.optional(Schema.String).pipe(T.HttpQuery("chartId")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Chart).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDashboardsChartsRequest>;
+export const CreateProjectsLocationsDashboardsChartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    chartId: Schema.optional(Schema.String).pipe(T.HttpQuery("chartId")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Chart).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDashboardsChartsRequest>;
 
 export type CreateProjectsLocationsDashboardsChartsResponse =
   GoogleCloudContactcenterinsightsV1Chart;
 export const CreateProjectsLocationsDashboardsChartsResponse =
-  GoogleCloudContactcenterinsightsV1Chart;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Chart;
 
 export type CreateProjectsLocationsDashboardsChartsError = DefaultErrors;
 
@@ -22663,7 +22769,7 @@ export const createProjectsLocationsDashboardsCharts: API.OperationMethod<
   CreateProjectsLocationsDashboardsChartsResponse,
   CreateProjectsLocationsDashboardsChartsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDashboardsChartsRequest,
   output: CreateProjectsLocationsDashboardsChartsResponse,
   errors: [],
@@ -22674,20 +22780,21 @@ export interface GetProjectsLocationsDashboardsChartsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDashboardsChartsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDashboardsChartsRequest>;
+export const GetProjectsLocationsDashboardsChartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDashboardsChartsRequest>;
 
 export type GetProjectsLocationsDashboardsChartsResponse =
   GoogleCloudContactcenterinsightsV1Chart;
 export const GetProjectsLocationsDashboardsChartsResponse =
-  GoogleCloudContactcenterinsightsV1Chart;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Chart;
 
 export type GetProjectsLocationsDashboardsChartsError = DefaultErrors;
 
@@ -22697,7 +22804,7 @@ export const getProjectsLocationsDashboardsCharts: API.OperationMethod<
   GetProjectsLocationsDashboardsChartsResponse,
   GetProjectsLocationsDashboardsChartsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDashboardsChartsRequest,
   output: GetProjectsLocationsDashboardsChartsResponse,
   errors: [],
@@ -22708,20 +22815,21 @@ export interface ListProjectsLocationsDashboardsChartsRequest {
   parent: string;
 }
 
-export const ListProjectsLocationsDashboardsChartsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDashboardsChartsRequest>;
+export const ListProjectsLocationsDashboardsChartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDashboardsChartsRequest>;
 
 export type ListProjectsLocationsDashboardsChartsResponse =
   GoogleCloudContactcenterinsightsV1ListChartsResponse;
 export const ListProjectsLocationsDashboardsChartsResponse =
-  GoogleCloudContactcenterinsightsV1ListChartsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1ListChartsResponse;
 
 export type ListProjectsLocationsDashboardsChartsError = DefaultErrors;
 
@@ -22731,7 +22839,7 @@ export const listProjectsLocationsDashboardsCharts: API.OperationMethod<
   ListProjectsLocationsDashboardsChartsResponse,
   ListProjectsLocationsDashboardsChartsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsDashboardsChartsRequest,
   output: ListProjectsLocationsDashboardsChartsResponse,
   errors: [],
@@ -22746,25 +22854,26 @@ export interface PatchProjectsLocationsDashboardsChartsRequest {
   body?: GoogleCloudContactcenterinsightsV1Chart;
 }
 
-export const PatchProjectsLocationsDashboardsChartsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudContactcenterinsightsV1Chart).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDashboardsChartsRequest>;
+export const PatchProjectsLocationsDashboardsChartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudContactcenterinsightsV1Chart).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDashboardsChartsRequest>;
 
 export type PatchProjectsLocationsDashboardsChartsResponse =
   GoogleCloudContactcenterinsightsV1Chart;
 export const PatchProjectsLocationsDashboardsChartsResponse =
-  GoogleCloudContactcenterinsightsV1Chart;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudContactcenterinsightsV1Chart;
 
 export type PatchProjectsLocationsDashboardsChartsError = DefaultErrors;
 
@@ -22774,7 +22883,7 @@ export const patchProjectsLocationsDashboardsCharts: API.OperationMethod<
   PatchProjectsLocationsDashboardsChartsResponse,
   PatchProjectsLocationsDashboardsChartsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDashboardsChartsRequest,
   output: PatchProjectsLocationsDashboardsChartsResponse,
   errors: [],
@@ -22785,20 +22894,21 @@ export interface DeleteProjectsLocationsDashboardsChartsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDashboardsChartsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDashboardsChartsRequest>;
+export const DeleteProjectsLocationsDashboardsChartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/dashboards/{dashboardsId}/charts/{chartsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDashboardsChartsRequest>;
 
 export type DeleteProjectsLocationsDashboardsChartsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDashboardsChartsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDashboardsChartsError = DefaultErrors;
 
@@ -22808,7 +22918,7 @@ export const deleteProjectsLocationsDashboardsCharts: API.OperationMethod<
   DeleteProjectsLocationsDashboardsChartsResponse,
   DeleteProjectsLocationsDashboardsChartsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDashboardsChartsRequest,
   output: DeleteProjectsLocationsDashboardsChartsResponse,
   errors: [],

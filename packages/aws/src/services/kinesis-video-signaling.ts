@@ -95,41 +95,42 @@ export type Answer = string;
 
 //# Schemas
 export type Service = "TURN" | (string & {});
-export const Service = S.String;
+export const Service = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetIceServerConfigRequest {
   ChannelARN?: string;
   ClientId?: string;
   Service?: Service;
   Username?: string;
 }
-export const GetIceServerConfigRequest = S.suspend(() =>
-  S.Struct({
-    ChannelARN: S.optional(S.String),
-    ClientId: S.optional(S.String),
-    Service: S.optional(Service),
-    Username: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/get-ice-server-config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetIceServerConfigRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ChannelARN: S.optional(S.String),
+      ClientId: S.optional(S.String),
+      Service: S.optional(Service),
+      Username: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/get-ice-server-config" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetIceServerConfigRequest",
 }) as any as S.Schema<GetIceServerConfigRequest>;
 export type Uris = string[];
-export const Uris = S.Array(S.String);
+export const Uris = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface IceServer {
   Uris?: string[];
   Username?: string;
   Password?: string;
   Ttl?: number;
 }
-export const IceServer = S.suspend(() =>
+export const IceServer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Uris: S.optional(Uris),
     Username: S.optional(S.String),
@@ -138,12 +139,12 @@ export const IceServer = S.suspend(() =>
   }),
 ).annotate({ identifier: "IceServer" }) as any as S.Schema<IceServer>;
 export type IceServerList = IceServer[];
-export const IceServerList = S.Array(IceServer);
+export const IceServerList = /*@__PURE__*/ /*#__PURE__*/ S.Array(IceServer);
 export interface GetIceServerConfigResponse {
   IceServerList?: IceServer[];
 }
-export const GetIceServerConfigResponse = S.suspend(() =>
-  S.Struct({ IceServerList: S.optional(IceServerList) }),
+export const GetIceServerConfigResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ IceServerList: S.optional(IceServerList) }),
 ).annotate({
   identifier: "GetIceServerConfigResponse",
 }) as any as S.Schema<GetIceServerConfigResponse>;
@@ -152,32 +153,34 @@ export interface SendAlexaOfferToMasterRequest {
   SenderClientId?: string;
   MessagePayload?: string;
 }
-export const SendAlexaOfferToMasterRequest = S.suspend(() =>
-  S.Struct({
-    ChannelARN: S.optional(S.String),
-    SenderClientId: S.optional(S.String),
-    MessagePayload: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/send-alexa-offer-to-master" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SendAlexaOfferToMasterRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ChannelARN: S.optional(S.String),
+      SenderClientId: S.optional(S.String),
+      MessagePayload: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/send-alexa-offer-to-master" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SendAlexaOfferToMasterRequest",
-}) as any as S.Schema<SendAlexaOfferToMasterRequest>;
+  ).annotate({
+    identifier: "SendAlexaOfferToMasterRequest",
+  }) as any as S.Schema<SendAlexaOfferToMasterRequest>;
 export interface SendAlexaOfferToMasterResponse {
   Answer?: string;
 }
-export const SendAlexaOfferToMasterResponse = S.suspend(() =>
-  S.Struct({ Answer: S.optional(S.String) }),
-).annotate({
-  identifier: "SendAlexaOfferToMasterResponse",
-}) as any as S.Schema<SendAlexaOfferToMasterResponse>;
+export const SendAlexaOfferToMasterResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Answer: S.optional(S.String) }),
+  ).annotate({
+    identifier: "SendAlexaOfferToMasterResponse",
+  }) as any as S.Schema<SendAlexaOfferToMasterResponse>;
 
 //# Errors
 export class ClientLimitExceededException extends S.TaggedErrorClass<ClientLimitExceededException>()(

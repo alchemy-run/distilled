@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -91,12 +93,13 @@ export interface Phrase {
   boost?: number;
 }
 
-export const Phrase: Schema.Schema<Phrase> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    boost: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Phrase" }) as any as Schema.Schema<Phrase>;
+export const Phrase: Schema.Schema<Phrase> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      boost: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Phrase" }) as any as Schema.Schema<Phrase>;
 
 export interface PhraseSet {
   /** The resource name of the phrase set. */
@@ -127,23 +130,24 @@ export interface PhraseSet {
   reconciling?: boolean;
 }
 
-export const PhraseSet: Schema.Schema<PhraseSet> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    phrases: Schema.optional(Schema.Array(Phrase)),
-    boost: Schema.optional(Schema.Number),
-    kmsKeyName: Schema.optional(Schema.String),
-    kmsKeyVersionName: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    expireTime: Schema.optional(Schema.String),
-    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    etag: Schema.optional(Schema.String),
-    reconciling: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "PhraseSet" }) as any as Schema.Schema<PhraseSet>;
+export const PhraseSet: Schema.Schema<PhraseSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      phrases: Schema.optional(Schema.Array(Phrase)),
+      boost: Schema.optional(Schema.Number),
+      kmsKeyName: Schema.optional(Schema.String),
+      kmsKeyVersionName: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      etag: Schema.optional(Schema.String),
+      reconciling: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "PhraseSet" }) as any as Schema.Schema<PhraseSet>;
 
 export interface CreatePhraseSetRequest {
   /** Required. The ID to use for the phrase set, which will become the final component of the phrase set's resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
@@ -153,7 +157,7 @@ export interface CreatePhraseSetRequest {
 }
 
 export const CreatePhraseSetRequest: Schema.Schema<CreatePhraseSetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseSetId: Schema.optional(Schema.String),
       phraseSet: Schema.optional(PhraseSet),
@@ -170,7 +174,7 @@ export interface ListPhraseSetResponse {
 }
 
 export const ListPhraseSetResponse: Schema.Schema<ListPhraseSetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseSets: Schema.optional(Schema.Array(PhraseSet)),
       nextPageToken: Schema.optional(Schema.String),
@@ -181,20 +185,22 @@ export const ListPhraseSetResponse: Schema.Schema<ListPhraseSetResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ClassItem {
   /** The class item's value. */
   value?: string;
 }
 
-export const ClassItem: Schema.Schema<ClassItem> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ClassItem" }) as any as Schema.Schema<ClassItem>;
+export const ClassItem: Schema.Schema<ClassItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ClassItem" }) as any as Schema.Schema<ClassItem>;
 
 export interface CustomClass {
   /** The resource name of the custom class. */
@@ -225,23 +231,26 @@ export interface CustomClass {
   reconciling?: boolean;
 }
 
-export const CustomClass: Schema.Schema<CustomClass> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    customClassId: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(ClassItem)),
-    kmsKeyName: Schema.optional(Schema.String),
-    kmsKeyVersionName: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    deleteTime: Schema.optional(Schema.String),
-    expireTime: Schema.optional(Schema.String),
-    annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    etag: Schema.optional(Schema.String),
-    reconciling: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "CustomClass" }) as any as Schema.Schema<CustomClass>;
+export const CustomClass: Schema.Schema<CustomClass> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      customClassId: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(ClassItem)),
+      kmsKeyName: Schema.optional(Schema.String),
+      kmsKeyVersionName: Schema.optional(Schema.String),
+      uid: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      deleteTime: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+      annotations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      etag: Schema.optional(Schema.String),
+      reconciling: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CustomClass",
+  }) as any as Schema.Schema<CustomClass>;
 
 export interface CreateCustomClassRequest {
   /** Required. The ID to use for the custom class, which will become the final component of the custom class' resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
@@ -251,7 +260,7 @@ export interface CreateCustomClassRequest {
 }
 
 export const CreateCustomClassRequest: Schema.Schema<CreateCustomClassRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customClassId: Schema.optional(Schema.String),
       customClass: Schema.optional(CustomClass),
@@ -268,7 +277,7 @@ export interface ListCustomClassesResponse {
 }
 
 export const ListCustomClassesResponse: Schema.Schema<ListCustomClassesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customClasses: Schema.optional(Schema.Array(CustomClass)),
       nextPageToken: Schema.optional(Schema.String),
@@ -282,11 +291,14 @@ export interface ABNFGrammar {
   abnfStrings?: Array<string>;
 }
 
-export const ABNFGrammar: Schema.Schema<ABNFGrammar> = Schema.suspend(() =>
-  Schema.Struct({
-    abnfStrings: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "ABNFGrammar" }) as any as Schema.Schema<ABNFGrammar>;
+export const ABNFGrammar: Schema.Schema<ABNFGrammar> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      abnfStrings: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ABNFGrammar",
+  }) as any as Schema.Schema<ABNFGrammar>;
 
 export interface SpeechAdaptation {
   /** A collection of phrase sets. To specify the hints inline, leave the phrase set's `name` blank and fill in the rest of its fields. Any phrase set can use any custom class. */
@@ -299,17 +311,17 @@ export interface SpeechAdaptation {
   abnfGrammar?: ABNFGrammar;
 }
 
-export const SpeechAdaptation: Schema.Schema<SpeechAdaptation> = Schema.suspend(
-  () =>
+export const SpeechAdaptation: Schema.Schema<SpeechAdaptation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phraseSets: Schema.optional(Schema.Array(PhraseSet)),
       phraseSetReferences: Schema.optional(Schema.Array(Schema.String)),
       customClasses: Schema.optional(Schema.Array(CustomClass)),
       abnfGrammar: Schema.optional(ABNFGrammar),
     }),
-).annotate({
-  identifier: "SpeechAdaptation",
-}) as any as Schema.Schema<SpeechAdaptation>;
+  ).annotate({
+    identifier: "SpeechAdaptation",
+  }) as any as Schema.Schema<SpeechAdaptation>;
 
 export interface Entry {
   /** What to replace. Max length is 100 characters. */
@@ -320,13 +332,14 @@ export interface Entry {
   caseSensitive?: boolean;
 }
 
-export const Entry: Schema.Schema<Entry> = Schema.suspend(() =>
-  Schema.Struct({
-    search: Schema.optional(Schema.String),
-    replace: Schema.optional(Schema.String),
-    caseSensitive: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Entry" }) as any as Schema.Schema<Entry>;
+export const Entry: Schema.Schema<Entry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      search: Schema.optional(Schema.String),
+      replace: Schema.optional(Schema.String),
+      caseSensitive: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Entry" }) as any as Schema.Schema<Entry>;
 
 export interface TranscriptNormalization {
   /** A list of replacement entries. We will perform replacement with one entry at a time. For example, the second entry in ["cat" => "dog", "mountain cat" => "mountain dog"] will never be applied because we will always process the first entry before it. At most 100 entries. */
@@ -334,7 +347,7 @@ export interface TranscriptNormalization {
 }
 
 export const TranscriptNormalization: Schema.Schema<TranscriptNormalization> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(Entry)),
     }),
@@ -349,14 +362,15 @@ export interface SpeechContext {
   boost?: number;
 }
 
-export const SpeechContext: Schema.Schema<SpeechContext> = Schema.suspend(() =>
-  Schema.Struct({
-    phrases: Schema.optional(Schema.Array(Schema.String)),
-    boost: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "SpeechContext",
-}) as any as Schema.Schema<SpeechContext>;
+export const SpeechContext: Schema.Schema<SpeechContext> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      phrases: Schema.optional(Schema.Array(Schema.String)),
+      boost: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SpeechContext",
+  }) as any as Schema.Schema<SpeechContext>;
 
 export interface SpeakerDiarizationConfig {
   /** If 'true', enables speaker detection for each recognized word in the top alternative of the recognition result using a speaker_label provided in the WordInfo. */
@@ -370,7 +384,7 @@ export interface SpeakerDiarizationConfig {
 }
 
 export const SpeakerDiarizationConfig: Schema.Schema<SpeakerDiarizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableSpeakerDiarization: Schema.optional(Schema.Boolean),
       minSpeakerCount: Schema.optional(Schema.Number),
@@ -430,7 +444,7 @@ export interface RecognitionMetadata {
 }
 
 export const RecognitionMetadata: Schema.Schema<RecognitionMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       interactionType: Schema.optional(Schema.String),
       industryNaicsCodeOfAudio: Schema.optional(Schema.Number),
@@ -506,7 +520,7 @@ export interface RecognitionConfig {
 }
 
 export const RecognitionConfig: Schema.Schema<RecognitionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encoding: Schema.optional(Schema.String),
       sampleRateHertz: Schema.optional(Schema.Number),
@@ -542,15 +556,15 @@ export interface RecognitionAudio {
   uri?: string;
 }
 
-export const RecognitionAudio: Schema.Schema<RecognitionAudio> = Schema.suspend(
-  () =>
+export const RecognitionAudio: Schema.Schema<RecognitionAudio> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RecognitionAudio",
-}) as any as Schema.Schema<RecognitionAudio>;
+  ).annotate({
+    identifier: "RecognitionAudio",
+  }) as any as Schema.Schema<RecognitionAudio>;
 
 export interface RecognizeRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
@@ -559,15 +573,15 @@ export interface RecognizeRequest {
   audio?: RecognitionAudio;
 }
 
-export const RecognizeRequest: Schema.Schema<RecognizeRequest> = Schema.suspend(
-  () =>
+export const RecognizeRequest: Schema.Schema<RecognizeRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(RecognitionConfig),
       audio: Schema.optional(RecognitionAudio),
     }),
-).annotate({
-  identifier: "RecognizeRequest",
-}) as any as Schema.Schema<RecognizeRequest>;
+  ).annotate({
+    identifier: "RecognizeRequest",
+  }) as any as Schema.Schema<RecognizeRequest>;
 
 export interface WordInfo {
   /** Time offset relative to the beginning of the audio, and corresponding to the start of the spoken word. This field is only set if `enable_word_time_offsets=true` and only in the top hypothesis. This is an experimental feature and the accuracy of the time offset can vary. */
@@ -584,16 +598,17 @@ export interface WordInfo {
   speakerLabel?: string;
 }
 
-export const WordInfo: Schema.Schema<WordInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    word: Schema.optional(Schema.String),
-    confidence: Schema.optional(Schema.Number),
-    speakerTag: Schema.optional(Schema.Number),
-    speakerLabel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "WordInfo" }) as any as Schema.Schema<WordInfo>;
+export const WordInfo: Schema.Schema<WordInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      word: Schema.optional(Schema.String),
+      confidence: Schema.optional(Schema.Number),
+      speakerTag: Schema.optional(Schema.Number),
+      speakerLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "WordInfo" }) as any as Schema.Schema<WordInfo>;
 
 export interface SpeechRecognitionAlternative {
   /** Transcript text representing the words that the user spoke. In languages that use spaces to separate words, the transcript might have a leading space if it isn't the first result. You can concatenate each result to obtain the full transcript without using a separator. */
@@ -605,7 +620,7 @@ export interface SpeechRecognitionAlternative {
 }
 
 export const SpeechRecognitionAlternative: Schema.Schema<SpeechRecognitionAlternative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transcript: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.Number),
@@ -627,7 +642,7 @@ export interface SpeechRecognitionResult {
 }
 
 export const SpeechRecognitionResult: Schema.Schema<SpeechRecognitionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alternatives: Schema.optional(Schema.Array(SpeechRecognitionAlternative)),
       channelTag: Schema.optional(Schema.Number),
@@ -646,7 +661,7 @@ export interface SpeechAdaptationInfo {
 }
 
 export const SpeechAdaptationInfo: Schema.Schema<SpeechAdaptationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adaptationTimeout: Schema.optional(Schema.Boolean),
       timeoutMessage: Schema.optional(Schema.String),
@@ -669,7 +684,7 @@ export interface RecognizeResponse {
 }
 
 export const RecognizeResponse: Schema.Schema<RecognizeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
       totalBilledTime: Schema.optional(Schema.String),
@@ -687,7 +702,7 @@ export interface TranscriptOutputConfig {
 }
 
 export const TranscriptOutputConfig: Schema.Schema<TranscriptOutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsUri: Schema.optional(Schema.String),
     }),
@@ -705,7 +720,7 @@ export interface LongRunningRecognizeRequest {
 }
 
 export const LongRunningRecognizeRequest: Schema.Schema<LongRunningRecognizeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(RecognitionConfig),
       audio: Schema.optional(RecognitionAudio),
@@ -729,7 +744,7 @@ export interface LongRunningRecognizeMetadata {
 }
 
 export const LongRunningRecognizeMetadata: Schema.Schema<LongRunningRecognizeMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progressPercent: Schema.optional(Schema.Number),
       startTime: Schema.optional(Schema.String),
@@ -757,7 +772,7 @@ export interface LongRunningRecognizeResponse {
 }
 
 export const LongRunningRecognizeResponse: Schema.Schema<LongRunningRecognizeResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Array(SpeechRecognitionResult)),
       totalBilledTime: Schema.optional(Schema.String),
@@ -787,7 +802,7 @@ export interface ListOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListOperationsRequest = Schema.Struct({
+export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -801,7 +816,8 @@ export const ListOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
 export type ListOperationsResponse_Op = ListOperationsResponse;
-export const ListOperationsResponse_Op = ListOperationsResponse;
+export const ListOperationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListOperationsError = DefaultErrors;
 
@@ -811,7 +827,7 @@ export const listOperations: API.PaginatedOperationMethod<
   ListOperationsResponse_Op,
   ListOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -826,7 +842,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1p1beta1/operations/{operationsId}" }),
@@ -834,7 +850,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -844,7 +860,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -857,20 +873,22 @@ export interface CreateProjectsLocationsPhraseSetsRequest {
   body?: CreatePhraseSetRequest;
 }
 
-export const CreateProjectsLocationsPhraseSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreatePhraseSetRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsPhraseSetsRequest>;
+export const CreateProjectsLocationsPhraseSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreatePhraseSetRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsPhraseSetsRequest>;
 
 export type CreateProjectsLocationsPhraseSetsResponse = PhraseSet;
-export const CreateProjectsLocationsPhraseSetsResponse = PhraseSet;
+export const CreateProjectsLocationsPhraseSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PhraseSet;
 
 export type CreateProjectsLocationsPhraseSetsError = DefaultErrors;
 
@@ -880,7 +898,7 @@ export const createProjectsLocationsPhraseSets: API.OperationMethod<
   CreateProjectsLocationsPhraseSetsResponse,
   CreateProjectsLocationsPhraseSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsPhraseSetsRequest,
   output: CreateProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -891,18 +909,20 @@ export interface GetProjectsLocationsPhraseSetsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsPhraseSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsPhraseSetsRequest>;
+export const GetProjectsLocationsPhraseSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsPhraseSetsRequest>;
 
 export type GetProjectsLocationsPhraseSetsResponse = PhraseSet;
-export const GetProjectsLocationsPhraseSetsResponse = PhraseSet;
+export const GetProjectsLocationsPhraseSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PhraseSet;
 
 export type GetProjectsLocationsPhraseSetsError = DefaultErrors;
 
@@ -912,7 +932,7 @@ export const getProjectsLocationsPhraseSets: API.OperationMethod<
   GetProjectsLocationsPhraseSetsResponse,
   GetProjectsLocationsPhraseSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsPhraseSetsRequest,
   output: GetProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -927,20 +947,22 @@ export interface ListProjectsLocationsPhraseSetsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsPhraseSetsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsPhraseSetsRequest>;
+export const ListProjectsLocationsPhraseSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsPhraseSetsRequest>;
 
 export type ListProjectsLocationsPhraseSetsResponse = ListPhraseSetResponse;
-export const ListProjectsLocationsPhraseSetsResponse = ListPhraseSetResponse;
+export const ListProjectsLocationsPhraseSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPhraseSetResponse;
 
 export type ListProjectsLocationsPhraseSetsError = DefaultErrors;
 
@@ -950,7 +972,7 @@ export const listProjectsLocationsPhraseSets: API.PaginatedOperationMethod<
   ListProjectsLocationsPhraseSetsResponse,
   ListProjectsLocationsPhraseSetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsPhraseSetsRequest,
   output: ListProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -969,21 +991,23 @@ export interface PatchProjectsLocationsPhraseSetsRequest {
   body?: PhraseSet;
 }
 
-export const PatchProjectsLocationsPhraseSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PhraseSet).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsPhraseSetsRequest>;
+export const PatchProjectsLocationsPhraseSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PhraseSet).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsPhraseSetsRequest>;
 
 export type PatchProjectsLocationsPhraseSetsResponse = PhraseSet;
-export const PatchProjectsLocationsPhraseSetsResponse = PhraseSet;
+export const PatchProjectsLocationsPhraseSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PhraseSet;
 
 export type PatchProjectsLocationsPhraseSetsError = DefaultErrors;
 
@@ -993,7 +1017,7 @@ export const patchProjectsLocationsPhraseSets: API.OperationMethod<
   PatchProjectsLocationsPhraseSetsResponse,
   PatchProjectsLocationsPhraseSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsPhraseSetsRequest,
   output: PatchProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -1004,18 +1028,20 @@ export interface DeleteProjectsLocationsPhraseSetsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsPhraseSetsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseSetsRequest>;
+export const DeleteProjectsLocationsPhraseSetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/phraseSets/{phraseSetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseSetsRequest>;
 
 export type DeleteProjectsLocationsPhraseSetsResponse = Empty;
-export const DeleteProjectsLocationsPhraseSetsResponse = Empty;
+export const DeleteProjectsLocationsPhraseSetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsPhraseSetsError = DefaultErrors;
 
@@ -1025,7 +1051,7 @@ export const deleteProjectsLocationsPhraseSets: API.OperationMethod<
   DeleteProjectsLocationsPhraseSetsResponse,
   DeleteProjectsLocationsPhraseSetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsPhraseSetsRequest,
   output: DeleteProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -1038,20 +1064,22 @@ export interface CreateProjectsLocationsCustomClassesRequest {
   body?: CreateCustomClassRequest;
 }
 
-export const CreateProjectsLocationsCustomClassesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateCustomClassRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCustomClassesRequest>;
+export const CreateProjectsLocationsCustomClassesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateCustomClassRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCustomClassesRequest>;
 
 export type CreateProjectsLocationsCustomClassesResponse = CustomClass;
-export const CreateProjectsLocationsCustomClassesResponse = CustomClass;
+export const CreateProjectsLocationsCustomClassesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomClass;
 
 export type CreateProjectsLocationsCustomClassesError = DefaultErrors;
 
@@ -1061,7 +1089,7 @@ export const createProjectsLocationsCustomClasses: API.OperationMethod<
   CreateProjectsLocationsCustomClassesResponse,
   CreateProjectsLocationsCustomClassesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCustomClassesRequest,
   output: CreateProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -1072,18 +1100,20 @@ export interface GetProjectsLocationsCustomClassesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCustomClassesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCustomClassesRequest>;
+export const GetProjectsLocationsCustomClassesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCustomClassesRequest>;
 
 export type GetProjectsLocationsCustomClassesResponse = CustomClass;
-export const GetProjectsLocationsCustomClassesResponse = CustomClass;
+export const GetProjectsLocationsCustomClassesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomClass;
 
 export type GetProjectsLocationsCustomClassesError = DefaultErrors;
 
@@ -1093,7 +1123,7 @@ export const getProjectsLocationsCustomClasses: API.OperationMethod<
   GetProjectsLocationsCustomClassesResponse,
   GetProjectsLocationsCustomClassesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCustomClassesRequest,
   output: GetProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -1108,22 +1138,23 @@ export interface ListProjectsLocationsCustomClassesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsCustomClassesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCustomClassesRequest>;
+export const ListProjectsLocationsCustomClassesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCustomClassesRequest>;
 
 export type ListProjectsLocationsCustomClassesResponse =
   ListCustomClassesResponse;
 export const ListProjectsLocationsCustomClassesResponse =
-  ListCustomClassesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomClassesResponse;
 
 export type ListProjectsLocationsCustomClassesError = DefaultErrors;
 
@@ -1133,7 +1164,7 @@ export const listProjectsLocationsCustomClasses: API.PaginatedOperationMethod<
   ListProjectsLocationsCustomClassesResponse,
   ListProjectsLocationsCustomClassesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCustomClassesRequest,
   output: ListProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -1152,21 +1183,23 @@ export interface PatchProjectsLocationsCustomClassesRequest {
   body?: CustomClass;
 }
 
-export const PatchProjectsLocationsCustomClassesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CustomClass).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCustomClassesRequest>;
+export const PatchProjectsLocationsCustomClassesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CustomClass).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCustomClassesRequest>;
 
 export type PatchProjectsLocationsCustomClassesResponse = CustomClass;
-export const PatchProjectsLocationsCustomClassesResponse = CustomClass;
+export const PatchProjectsLocationsCustomClassesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomClass;
 
 export type PatchProjectsLocationsCustomClassesError = DefaultErrors;
 
@@ -1176,7 +1209,7 @@ export const patchProjectsLocationsCustomClasses: API.OperationMethod<
   PatchProjectsLocationsCustomClassesResponse,
   PatchProjectsLocationsCustomClassesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCustomClassesRequest,
   output: PatchProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -1187,18 +1220,20 @@ export interface DeleteProjectsLocationsCustomClassesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCustomClassesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCustomClassesRequest>;
+export const DeleteProjectsLocationsCustomClassesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1p1beta1/projects/{projectsId}/locations/{locationsId}/customClasses/{customClassesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCustomClassesRequest>;
 
 export type DeleteProjectsLocationsCustomClassesResponse = Empty;
-export const DeleteProjectsLocationsCustomClassesResponse = Empty;
+export const DeleteProjectsLocationsCustomClassesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsLocationsCustomClassesError = DefaultErrors;
 
@@ -1208,7 +1243,7 @@ export const deleteProjectsLocationsCustomClasses: API.OperationMethod<
   DeleteProjectsLocationsCustomClassesResponse,
   DeleteProjectsLocationsCustomClassesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCustomClassesRequest,
   output: DeleteProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -1219,15 +1254,18 @@ export interface RecognizeSpeechRequest {
   body?: RecognizeRequest;
 }
 
-export const RecognizeSpeechRequest = Schema.Struct({
-  body: Schema.optional(RecognizeRequest).pipe(T.HttpBody()),
-}).pipe(
+export const RecognizeSpeechRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(RecognizeRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v1p1beta1/speech:recognize", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<RecognizeSpeechRequest>;
 
 export type RecognizeSpeechResponse = RecognizeResponse;
-export const RecognizeSpeechResponse = RecognizeResponse;
+export const RecognizeSpeechResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RecognizeResponse;
 
 export type RecognizeSpeechError = DefaultErrors;
 
@@ -1237,7 +1275,7 @@ export const recognizeSpeech: API.OperationMethod<
   RecognizeSpeechResponse,
   RecognizeSpeechError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RecognizeSpeechRequest,
   output: RecognizeSpeechResponse,
   errors: [],
@@ -1248,19 +1286,21 @@ export interface LongrunningrecognizeSpeechRequest {
   body?: LongRunningRecognizeRequest;
 }
 
-export const LongrunningrecognizeSpeechRequest = Schema.Struct({
-  body: Schema.optional(LongRunningRecognizeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1p1beta1/speech:longrunningrecognize",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LongrunningrecognizeSpeechRequest>;
+export const LongrunningrecognizeSpeechRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LongRunningRecognizeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1p1beta1/speech:longrunningrecognize",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LongrunningrecognizeSpeechRequest>;
 
 export type LongrunningrecognizeSpeechResponse = Operation;
-export const LongrunningrecognizeSpeechResponse = Operation;
+export const LongrunningrecognizeSpeechResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type LongrunningrecognizeSpeechError = DefaultErrors;
 
@@ -1270,7 +1310,7 @@ export const longrunningrecognizeSpeech: API.OperationMethod<
   LongrunningrecognizeSpeechResponse,
   LongrunningrecognizeSpeechError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LongrunningrecognizeSpeechRequest,
   output: LongrunningrecognizeSpeechResponse,
   errors: [],

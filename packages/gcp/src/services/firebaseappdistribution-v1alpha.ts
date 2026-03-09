@@ -32,7 +32,7 @@ export interface GoogleFirebaseAppdistroV1alphaScreenshot {
 }
 
 export const GoogleFirebaseAppdistroV1alphaScreenshot: Schema.Schema<GoogleFirebaseAppdistroV1alphaScreenshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       width: Schema.optional(Schema.Number),
@@ -54,7 +54,7 @@ export interface GoogleFirebaseAppdistroV1alphaTerminalAction {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTerminalAction: Schema.Schema<GoogleFirebaseAppdistroV1alphaTerminalAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       screenshot: Schema.optional(GoogleFirebaseAppdistroV1alphaScreenshot),
       reason: Schema.optional(Schema.String),
@@ -89,7 +89,7 @@ export interface GoogleFirebaseAppdistroV1alphaRelease {
 }
 
 export const GoogleFirebaseAppdistroV1alphaRelease: Schema.Schema<GoogleFirebaseAppdistroV1alphaRelease> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       receivedAt: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -113,7 +113,7 @@ export interface GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       release: Schema.optional(GoogleFirebaseAppdistroV1alphaRelease),
     }),
@@ -163,7 +163,7 @@ export interface GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorCode: Schema.optional(Schema.String),
       release: Schema.optional(GoogleFirebaseAppdistroV1alphaRelease),
@@ -184,7 +184,7 @@ export interface GoogleFirebaseAppdistroV1alphaAabCertificate {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAabCertificate: Schema.Schema<GoogleFirebaseAppdistroV1alphaAabCertificate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificateHashSha256: Schema.optional(Schema.String),
       certificateHashSha1: Schema.optional(Schema.String),
@@ -220,7 +220,7 @@ export interface GoogleFirebaseAppdistroV1alphaApp {
 }
 
 export const GoogleFirebaseAppdistroV1alphaApp: Schema.Schema<GoogleFirebaseAppdistroV1alphaApp> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appId: Schema.optional(Schema.String),
       contactEmail: Schema.optional(Schema.String),
@@ -242,7 +242,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionWait {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteractionWait: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionWait> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duration: Schema.optional(Schema.String),
     }),
@@ -253,7 +253,7 @@ export const GoogleFirebaseAppdistroV1alphaDeviceInteractionWait: Schema.Schema<
 export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionBack {}
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteractionBack: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionBack> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1alphaDeviceInteractionBack",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionBack>;
 
@@ -263,7 +263,7 @@ export interface AndroidxCrawlerOutputPoint {
 }
 
 export const AndroidxCrawlerOutputPoint: Schema.Schema<AndroidxCrawlerOutputPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       xCoordinate: Schema.optional(Schema.Number),
       yCoordinate: Schema.optional(Schema.Number),
@@ -275,7 +275,7 @@ export const AndroidxCrawlerOutputPoint: Schema.Schema<AndroidxCrawlerOutputPoin
 export interface GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse {}
 
 export const GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse>;
 
@@ -287,7 +287,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionSwipe> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       start: Schema.optional(AndroidxCrawlerOutputPoint),
       end: Schema.optional(AndroidxCrawlerOutputPoint),
@@ -304,7 +304,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionDragAndDrop> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       end: Schema.optional(AndroidxCrawlerOutputPoint),
       start: Schema.optional(AndroidxCrawlerOutputPoint),
@@ -321,7 +321,7 @@ export interface AndroidxCrawlerOutputRectangle {
 }
 
 export const AndroidxCrawlerOutputRectangle: Schema.Schema<AndroidxCrawlerOutputRectangle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       left: Schema.optional(Schema.Number),
       top: Schema.optional(Schema.Number),
@@ -340,7 +340,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteractionEnterText> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       elementBounds: Schema.optional(AndroidxCrawlerOutputRectangle),
@@ -373,7 +373,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceInteraction {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceInteraction: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceInteraction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       backAction: Schema.optional(
         GoogleFirebaseAppdistroV1alphaDeviceInteractionBack,
@@ -408,7 +408,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceAction {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceAction: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       deviceInteractions: Schema.optional(
@@ -427,7 +427,7 @@ export interface GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo: Schema.Schema<GoogleFirebaseAppdistroV1alphaGoalActionDebugInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annotatedScreenshotUri: Schema.optional(Schema.String),
       jsonUri: Schema.optional(Schema.String),
@@ -457,7 +457,7 @@ export interface GoogleFirebaseAppdistroV1alphaGoalAction {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGoalAction: Schema.Schema<GoogleFirebaseAppdistroV1alphaGoalAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cachingType: Schema.optional(Schema.String),
       terminalAction: Schema.optional(
@@ -480,7 +480,7 @@ export interface GoogleFirebaseAppdistroV1alphaGoalDetails {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGoalDetails: Schema.Schema<GoogleFirebaseAppdistroV1alphaGoalDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       goalActions: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaGoalAction),
@@ -498,7 +498,7 @@ export interface GoogleFirebaseAppdistroV1alphaAppCrash {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAppCrash: Schema.Schema<GoogleFirebaseAppdistroV1alphaAppCrash> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       stackTrace: Schema.optional(Schema.String),
@@ -521,7 +521,7 @@ export interface GoogleFirebaseAppdistroV1alphaAiStep {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAiStep: Schema.Schema<GoogleFirebaseAppdistroV1alphaAiStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCriteria: Schema.optional(Schema.String),
       assertion: Schema.optional(Schema.String),
@@ -539,7 +539,7 @@ export interface GoogleFirebaseAppdistroV1alphaAiInstructions {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAiInstructions: Schema.Schema<GoogleFirebaseAppdistroV1alphaAiInstructions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       steps: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaAiStep),
@@ -565,7 +565,7 @@ export interface GoogleFirebaseAppdistroV1alphaTestCase {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTestCase: Schema.Schema<GoogleFirebaseAppdistroV1alphaTestCase> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -588,7 +588,7 @@ export interface GoogleFirebaseAppdistroV1alphaListTestCasesResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaListTestCasesResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaListTestCasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testCases: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaTestCase),
@@ -605,7 +605,7 @@ export interface GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -616,14 +616,14 @@ export const GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest: Schema.S
 export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse {}
 
 export const GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse>;
 
 export interface GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse {}
 
 export const GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse>;
 
@@ -635,7 +635,7 @@ export interface GoogleFirebaseAppdistroV1alphaUpdateTestCaseRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaUpdateTestCaseRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaUpdateTestCaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowMissing: Schema.optional(Schema.Boolean),
       testCase: Schema.optional(GoogleFirebaseAppdistroV1alphaTestCase),
@@ -654,7 +654,7 @@ export interface GoogleFirebaseAppdistroV1alphaAssertionDetails {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAssertionDetails: Schema.Schema<GoogleFirebaseAppdistroV1alphaAssertionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       screenshot: Schema.optional(GoogleFirebaseAppdistroV1alphaScreenshot),
       result: Schema.optional(Schema.Boolean),
@@ -683,7 +683,7 @@ export interface GoogleFirebaseAppdistroV1alphaAiStepResult {
 }
 
 export const GoogleFirebaseAppdistroV1alphaAiStepResult: Schema.Schema<GoogleFirebaseAppdistroV1alphaAiStepResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       step: Schema.optional(GoogleFirebaseAppdistroV1alphaAiStep),
       state: Schema.optional(Schema.String),
@@ -702,7 +702,7 @@ export interface GoogleFirebaseAppdistroV1alphaReleaseNotes {
 }
 
 export const GoogleFirebaseAppdistroV1alphaReleaseNotes: Schema.Schema<GoogleFirebaseAppdistroV1alphaReleaseNotes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       releaseNotes: Schema.optional(Schema.String),
     }),
@@ -716,7 +716,7 @@ export interface GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       releaseNotes: Schema.optional(GoogleFirebaseAppdistroV1alphaReleaseNotes),
     }),
@@ -734,7 +734,7 @@ export interface GoogleFirebaseAppdistroV1alphaTesterUdid {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTesterUdid: Schema.Schema<GoogleFirebaseAppdistroV1alphaTesterUdid> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       udid: Schema.optional(Schema.String),
@@ -750,7 +750,7 @@ export interface GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testerUdids: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaTesterUdid),
@@ -763,7 +763,7 @@ export const GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse: Schema.Schema
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -773,7 +773,7 @@ export interface GoogleFirebaseAppdistroV1alphaJwt {
 }
 
 export const GoogleFirebaseAppdistroV1alphaJwt: Schema.Schema<GoogleFirebaseAppdistroV1alphaJwt> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
     }),
@@ -793,7 +793,7 @@ export interface GoogleFirebaseAppdistroV1alphaTestDevice {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTestDevice: Schema.Schema<GoogleFirebaseAppdistroV1alphaTestDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
       orientation: Schema.optional(Schema.String),
@@ -816,7 +816,7 @@ export interface GoogleFirebaseAppdistroV1alphaRoboStats {
 }
 
 export const GoogleFirebaseAppdistroV1alphaRoboStats: Schema.Schema<GoogleFirebaseAppdistroV1alphaRoboStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       distinctVisitedScreens: Schema.optional(Schema.Number),
       crawlDuration: Schema.optional(Schema.String),
@@ -894,7 +894,7 @@ export interface GoogleFirebaseAppdistroV1alphaDeviceExecution {
 }
 
 export const GoogleFirebaseAppdistroV1alphaDeviceExecution: Schema.Schema<GoogleFirebaseAppdistroV1alphaDeviceExecution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aiStepResults: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaAiStepResult),
@@ -925,7 +925,7 @@ export interface GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testDevices: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaTestDevice),
@@ -943,7 +943,7 @@ export interface GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints {
 }
 
 export const GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints: Schema.Schema<GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usernameResourceName: Schema.optional(Schema.String),
       passwordResourceName: Schema.optional(Schema.String),
@@ -958,7 +958,7 @@ export interface GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaUpdateTestCaseRequest),
@@ -978,7 +978,7 @@ export interface GoogleFirebaseAppdistroV1alphaTestQuota {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTestQuota: Schema.Schema<GoogleFirebaseAppdistroV1alphaTestQuota> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       limit: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -994,7 +994,7 @@ export interface GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       testCases: Schema.optional(
         Schema.Array(GoogleFirebaseAppdistroV1alphaTestCase),
@@ -1010,7 +1010,7 @@ export interface GoogleFirebaseAppdistroV1ReleaseNotes {
 }
 
 export const GoogleFirebaseAppdistroV1ReleaseNotes: Schema.Schema<GoogleFirebaseAppdistroV1ReleaseNotes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
     }),
@@ -1030,7 +1030,7 @@ export interface GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest: Schema.Schema<GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buildVersion: Schema.optional(Schema.String),
       groupIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1053,7 +1053,7 @@ export interface GoogleFirebaseAppdistroV1alphaLoginCredential {
 }
 
 export const GoogleFirebaseAppdistroV1alphaLoginCredential: Schema.Schema<GoogleFirebaseAppdistroV1alphaLoginCredential> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldHints: Schema.optional(
         GoogleFirebaseAppdistroV1alphaLoginCredentialFieldHints,
@@ -1092,7 +1092,7 @@ export interface GoogleFirebaseAppdistroV1alphaReleaseTest {
 }
 
 export const GoogleFirebaseAppdistroV1alphaReleaseTest: Schema.Schema<GoogleFirebaseAppdistroV1alphaReleaseTest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -1121,7 +1121,7 @@ export interface GoogleFirebaseAppdistroV1alphaRoboCrawler {
 }
 
 export const GoogleFirebaseAppdistroV1alphaRoboCrawler: Schema.Schema<GoogleFirebaseAppdistroV1alphaRoboCrawler> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       loginCredential: Schema.optional(
         GoogleFirebaseAppdistroV1alphaLoginCredential,
@@ -1146,7 +1146,7 @@ export interface GoogleFirebaseAppdistroV1alphaTestConfig {
 }
 
 export const GoogleFirebaseAppdistroV1alphaTestConfig: Schema.Schema<GoogleFirebaseAppdistroV1alphaTestConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       roboCrawler: Schema.optional(GoogleFirebaseAppdistroV1alphaRoboCrawler),
       testDevices: Schema.optional(
@@ -1162,7 +1162,7 @@ export const GoogleFirebaseAppdistroV1alphaTestConfig: Schema.Schema<GoogleFireb
 export interface GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse {}
 
 export const GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse>;
 
@@ -1190,7 +1190,7 @@ export interface GoogleFirebaseAppdistroV1Release {
 }
 
 export const GoogleFirebaseAppdistroV1Release: Schema.Schema<GoogleFirebaseAppdistroV1Release> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -1210,7 +1210,7 @@ export const GoogleFirebaseAppdistroV1Release: Schema.Schema<GoogleFirebaseAppdi
 export interface GoogleFirebaseAppdistroV1UploadReleaseMetadata {}
 
 export const GoogleFirebaseAppdistroV1UploadReleaseMetadata: Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleFirebaseAppdistroV1UploadReleaseMetadata",
   }) as any as Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseMetadata>;
 
@@ -1222,7 +1222,7 @@ export interface GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse {
 }
 
 export const GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse: Schema.Schema<GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       releaseTests: Schema.optional(
@@ -1246,7 +1246,7 @@ export interface GoogleFirebaseAppdistroV1UploadReleaseResponse {
 }
 
 export const GoogleFirebaseAppdistroV1UploadReleaseResponse: Schema.Schema<GoogleFirebaseAppdistroV1UploadReleaseResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(Schema.String),
       release: Schema.optional(GoogleFirebaseAppdistroV1Release),
@@ -1264,7 +1264,7 @@ export interface GetJwtAppsRequest {
   mobilesdkAppId: string;
 }
 
-export const GetJwtAppsRequest = Schema.Struct({
+export const GetJwtAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/apps/{mobilesdkAppId}/jwt" }),
@@ -1272,7 +1272,8 @@ export const GetJwtAppsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetJwtAppsRequest>;
 
 export type GetJwtAppsResponse = GoogleFirebaseAppdistroV1alphaJwt;
-export const GetJwtAppsResponse = GoogleFirebaseAppdistroV1alphaJwt;
+export const GetJwtAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaJwt;
 
 export type GetJwtAppsError = DefaultErrors;
 
@@ -1282,7 +1283,7 @@ export const getJwtApps: API.OperationMethod<
   GetJwtAppsResponse,
   GetJwtAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetJwtAppsRequest,
   output: GetJwtAppsResponse,
   errors: [],
@@ -1295,7 +1296,7 @@ export interface GetAppsRequest {
   appView?: "APP_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
 }
 
-export const GetAppsRequest = Schema.Struct({
+export const GetAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
   appView: Schema.optional(Schema.String).pipe(T.HttpQuery("appView")),
 }).pipe(
@@ -1304,7 +1305,8 @@ export const GetAppsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAppsRequest>;
 
 export type GetAppsResponse = GoogleFirebaseAppdistroV1alphaApp;
-export const GetAppsResponse = GoogleFirebaseAppdistroV1alphaApp;
+export const GetAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaApp;
 
 export type GetAppsError = DefaultErrors;
 
@@ -1314,7 +1316,7 @@ export const getApps: API.OperationMethod<
   GetAppsResponse,
   GetAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsRequest,
   output: GetAppsResponse,
   errors: [],
@@ -1327,21 +1329,22 @@ export interface GetAppsUpload_statusRequest {
   uploadToken: string;
 }
 
-export const GetAppsUpload_statusRequest = Schema.Struct({
-  mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
-  uploadToken: Schema.String.pipe(T.HttpPath("uploadToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/apps/{mobilesdkAppId}/upload_status/{uploadToken}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAppsUpload_statusRequest>;
+export const GetAppsUpload_statusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
+    uploadToken: Schema.String.pipe(T.HttpPath("uploadToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/apps/{mobilesdkAppId}/upload_status/{uploadToken}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAppsUpload_statusRequest>;
 
 export type GetAppsUpload_statusResponse =
   GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse;
 export const GetAppsUpload_statusResponse =
-  GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaGetUploadStatusResponse;
 
 export type GetAppsUpload_statusError = DefaultErrors;
 
@@ -1351,7 +1354,7 @@ export const getAppsUpload_status: API.OperationMethod<
   GetAppsUpload_statusResponse,
   GetAppsUpload_statusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsUpload_statusRequest,
   output: GetAppsUpload_statusResponse,
   errors: [],
@@ -1366,25 +1369,26 @@ export interface Enable_accessAppsReleasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest;
 }
 
-export const Enable_accessAppsReleasesRequest = Schema.Struct({
-  mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
-  releaseId: Schema.String.pipe(T.HttpPath("releaseId")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/enable_access",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Enable_accessAppsReleasesRequest>;
+export const Enable_accessAppsReleasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
+    releaseId: Schema.String.pipe(T.HttpPath("releaseId")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/enable_access",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Enable_accessAppsReleasesRequest>;
 
 export type Enable_accessAppsReleasesResponse =
   GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse;
 export const Enable_accessAppsReleasesResponse =
-  GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaEnableAccessOnReleaseResponse;
 
 export type Enable_accessAppsReleasesError = DefaultErrors;
 
@@ -1394,7 +1398,7 @@ export const enable_accessAppsReleases: API.OperationMethod<
   Enable_accessAppsReleasesResponse,
   Enable_accessAppsReleasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Enable_accessAppsReleasesRequest,
   output: Enable_accessAppsReleasesResponse,
   errors: [],
@@ -1409,25 +1413,26 @@ export interface CreateAppsReleasesNotesRequest {
   body?: GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest;
 }
 
-export const CreateAppsReleasesNotesRequest = Schema.Struct({
-  mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
-  releaseId: Schema.String.pipe(T.HttpPath("releaseId")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/notes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAppsReleasesNotesRequest>;
+export const CreateAppsReleasesNotesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
+    releaseId: Schema.String.pipe(T.HttpPath("releaseId")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1alphaCreateReleaseNotesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/apps/{mobilesdkAppId}/releases/{releaseId}/notes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAppsReleasesNotesRequest>;
 
 export type CreateAppsReleasesNotesResponse =
   GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse;
 export const CreateAppsReleasesNotesResponse =
-  GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaCreateReleaseNotesResponse;
 
 export type CreateAppsReleasesNotesError = DefaultErrors;
 
@@ -1437,7 +1442,7 @@ export const createAppsReleasesNotes: API.OperationMethod<
   CreateAppsReleasesNotesResponse,
   CreateAppsReleasesNotesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAppsReleasesNotesRequest,
   output: CreateAppsReleasesNotesResponse,
   errors: [],
@@ -1450,21 +1455,22 @@ export interface GetAppsRelease_by_hashRequest {
   uploadHash: string;
 }
 
-export const GetAppsRelease_by_hashRequest = Schema.Struct({
-  mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
-  uploadHash: Schema.String.pipe(T.HttpPath("uploadHash")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/apps/{mobilesdkAppId}/release_by_hash/{uploadHash}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAppsRelease_by_hashRequest>;
+export const GetAppsRelease_by_hashRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
+    uploadHash: Schema.String.pipe(T.HttpPath("uploadHash")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/apps/{mobilesdkAppId}/release_by_hash/{uploadHash}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAppsRelease_by_hashRequest>;
 
 export type GetAppsRelease_by_hashResponse =
   GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse;
 export const GetAppsRelease_by_hashResponse =
-  GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaGetReleaseByUploadHashResponse;
 
 export type GetAppsRelease_by_hashError = DefaultErrors;
 
@@ -1474,7 +1480,7 @@ export const getAppsRelease_by_hash: API.OperationMethod<
   GetAppsRelease_by_hashResponse,
   GetAppsRelease_by_hashError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsRelease_by_hashRequest,
   output: GetAppsRelease_by_hashResponse,
   errors: [],
@@ -1487,21 +1493,22 @@ export interface GetTesterUdidsAppsTestersRequest {
   project?: string;
 }
 
-export const GetTesterUdidsAppsTestersRequest = Schema.Struct({
-  mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
-  project: Schema.optional(Schema.String).pipe(T.HttpQuery("project")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/apps/{mobilesdkAppId}/testers:getTesterUdids",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetTesterUdidsAppsTestersRequest>;
+export const GetTesterUdidsAppsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mobilesdkAppId: Schema.String.pipe(T.HttpPath("mobilesdkAppId")),
+    project: Schema.optional(Schema.String).pipe(T.HttpQuery("project")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/apps/{mobilesdkAppId}/testers:getTesterUdids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetTesterUdidsAppsTestersRequest>;
 
 export type GetTesterUdidsAppsTestersResponse =
   GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
 export const GetTesterUdidsAppsTestersResponse =
-  GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
 
 export type GetTesterUdidsAppsTestersError = DefaultErrors;
 
@@ -1511,7 +1518,7 @@ export const getTesterUdidsAppsTesters: API.OperationMethod<
   GetTesterUdidsAppsTestersResponse,
   GetTesterUdidsAppsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTesterUdidsAppsTestersRequest,
   output: GetTesterUdidsAppsTestersResponse,
   errors: [],
@@ -1522,17 +1529,18 @@ export interface GetTestQuotaProjectsRequest {
   name: string;
 }
 
-export const GetTestQuotaProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/testQuota" }),
-  svc,
-) as unknown as Schema.Schema<GetTestQuotaProjectsRequest>;
+export const GetTestQuotaProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/testQuota" }),
+    svc,
+  ) as unknown as Schema.Schema<GetTestQuotaProjectsRequest>;
 
 export type GetTestQuotaProjectsResponse =
   GoogleFirebaseAppdistroV1alphaTestQuota;
 export const GetTestQuotaProjectsResponse =
-  GoogleFirebaseAppdistroV1alphaTestQuota;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestQuota;
 
 export type GetTestQuotaProjectsError = DefaultErrors;
 
@@ -1542,7 +1550,7 @@ export const getTestQuotaProjects: API.OperationMethod<
   GetTestQuotaProjectsResponse,
   GetTestQuotaProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestQuotaProjectsRequest,
   output: GetTestQuotaProjectsResponse,
   errors: [],
@@ -1553,20 +1561,21 @@ export interface GetTestConfigProjectsAppsRequest {
   name: string;
 }
 
-export const GetTestConfigProjectsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetTestConfigProjectsAppsRequest>;
+export const GetTestConfigProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetTestConfigProjectsAppsRequest>;
 
 export type GetTestConfigProjectsAppsResponse =
   GoogleFirebaseAppdistroV1alphaTestConfig;
 export const GetTestConfigProjectsAppsResponse =
-  GoogleFirebaseAppdistroV1alphaTestConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestConfig;
 
 export type GetTestConfigProjectsAppsError = DefaultErrors;
 
@@ -1576,7 +1585,7 @@ export const getTestConfigProjectsApps: API.OperationMethod<
   GetTestConfigProjectsAppsResponse,
   GetTestConfigProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTestConfigProjectsAppsRequest,
   output: GetTestConfigProjectsAppsResponse,
   errors: [],
@@ -1591,25 +1600,26 @@ export interface UpdateTestConfigProjectsAppsRequest {
   body?: GoogleFirebaseAppdistroV1alphaTestConfig;
 }
 
-export const UpdateTestConfigProjectsAppsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateTestConfigProjectsAppsRequest>;
+export const UpdateTestConfigProjectsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateTestConfigProjectsAppsRequest>;
 
 export type UpdateTestConfigProjectsAppsResponse =
   GoogleFirebaseAppdistroV1alphaTestConfig;
 export const UpdateTestConfigProjectsAppsResponse =
-  GoogleFirebaseAppdistroV1alphaTestConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestConfig;
 
 export type UpdateTestConfigProjectsAppsError = DefaultErrors;
 
@@ -1619,7 +1629,7 @@ export const updateTestConfigProjectsApps: API.OperationMethod<
   UpdateTestConfigProjectsAppsResponse,
   UpdateTestConfigProjectsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTestConfigProjectsAppsRequest,
   output: UpdateTestConfigProjectsAppsResponse,
   errors: [],
@@ -1630,20 +1640,21 @@ export interface GetProjectsAppsTestCasesRequest {
   name: string;
 }
 
-export const GetProjectsAppsTestCasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsTestCasesRequest>;
+export const GetProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsTestCasesRequest>;
 
 export type GetProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaTestCase;
 export const GetProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestCase;
 
 export type GetProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1653,7 +1664,7 @@ export const getProjectsAppsTestCases: API.OperationMethod<
   GetProjectsAppsTestCasesResponse,
   GetProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsTestCasesRequest,
   output: GetProjectsAppsTestCasesResponse,
   errors: [],
@@ -1664,18 +1675,20 @@ export interface DeleteProjectsAppsTestCasesRequest {
   name: string;
 }
 
-export const DeleteProjectsAppsTestCasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAppsTestCasesRequest>;
+export const DeleteProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAppsTestCasesRequest>;
 
 export type DeleteProjectsAppsTestCasesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsAppsTestCasesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsAppsTestCasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1685,7 +1698,7 @@ export const deleteProjectsAppsTestCases: API.OperationMethod<
   DeleteProjectsAppsTestCasesResponse,
   DeleteProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAppsTestCasesRequest,
   output: DeleteProjectsAppsTestCasesResponse,
   errors: [],
@@ -1700,22 +1713,23 @@ export interface ListProjectsAppsTestCasesRequest {
   pageToken?: string;
 }
 
-export const ListProjectsAppsTestCasesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsTestCasesRequest>;
+export const ListProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsTestCasesRequest>;
 
 export type ListProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaListTestCasesResponse;
 export const ListProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaListTestCasesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaListTestCasesResponse;
 
 export type ListProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1725,7 +1739,7 @@ export const listProjectsAppsTestCases: API.PaginatedOperationMethod<
   ListProjectsAppsTestCasesResponse,
   ListProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsTestCasesRequest,
   output: ListProjectsAppsTestCasesResponse,
   errors: [],
@@ -1742,24 +1756,25 @@ export interface ClearTestCaseCacheProjectsAppsTestCasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest;
 }
 
-export const ClearTestCaseCacheProjectsAppsTestCasesRequest = Schema.Struct({
-  testCase: Schema.String.pipe(T.HttpPath("testCase")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}:clearTestCaseCache",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClearTestCaseCacheProjectsAppsTestCasesRequest>;
+export const ClearTestCaseCacheProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    testCase: Schema.String.pipe(T.HttpPath("testCase")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1alphaClearTestCaseCacheRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}:clearTestCaseCache",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClearTestCaseCacheProjectsAppsTestCasesRequest>;
 
 export type ClearTestCaseCacheProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse;
 export const ClearTestCaseCacheProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaClearTestCaseCacheResponse;
 
 export type ClearTestCaseCacheProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1769,7 +1784,7 @@ export const clearTestCaseCacheProjectsAppsTestCases: API.OperationMethod<
   ClearTestCaseCacheProjectsAppsTestCasesResponse,
   ClearTestCaseCacheProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearTestCaseCacheProjectsAppsTestCasesRequest,
   output: ClearTestCaseCacheProjectsAppsTestCasesResponse,
   errors: [],
@@ -1782,22 +1797,24 @@ export interface BatchDeleteProjectsAppsTestCasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest;
 }
 
-export const BatchDeleteProjectsAppsTestCasesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeleteProjectsAppsTestCasesRequest>;
+export const BatchDeleteProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1alphaBatchDeleteTestCasesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeleteProjectsAppsTestCasesRequest>;
 
 export type BatchDeleteProjectsAppsTestCasesResponse = GoogleProtobufEmpty;
-export const BatchDeleteProjectsAppsTestCasesResponse = GoogleProtobufEmpty;
+export const BatchDeleteProjectsAppsTestCasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type BatchDeleteProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1807,7 +1824,7 @@ export const batchDeleteProjectsAppsTestCases: API.OperationMethod<
   BatchDeleteProjectsAppsTestCasesResponse,
   BatchDeleteProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteProjectsAppsTestCasesRequest,
   output: BatchDeleteProjectsAppsTestCasesResponse,
   errors: [],
@@ -1822,25 +1839,26 @@ export interface CreateProjectsAppsTestCasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaTestCase;
 }
 
-export const CreateProjectsAppsTestCasesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  testCaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("testCaseId")),
-  body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestCase).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAppsTestCasesRequest>;
+export const CreateProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    testCaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("testCaseId")),
+    body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestCase).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAppsTestCasesRequest>;
 
 export type CreateProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaTestCase;
 export const CreateProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestCase;
 
 export type CreateProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1850,7 +1868,7 @@ export const createProjectsAppsTestCases: API.OperationMethod<
   CreateProjectsAppsTestCasesResponse,
   CreateProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAppsTestCasesRequest,
   output: CreateProjectsAppsTestCasesResponse,
   errors: [],
@@ -1865,27 +1883,28 @@ export interface PatchProjectsAppsTestCasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaTestCase;
 }
 
-export const PatchProjectsAppsTestCasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  allowMissing: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowMissing"),
-  ),
-  body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestCase).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsAppsTestCasesRequest>;
+export const PatchProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    allowMissing: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowMissing"),
+    ),
+    body: Schema.optional(GoogleFirebaseAppdistroV1alphaTestCase).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases/{testCasesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsAppsTestCasesRequest>;
 
 export type PatchProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaTestCase;
 export const PatchProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaTestCase;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaTestCase;
 
 export type PatchProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1895,7 +1914,7 @@ export const patchProjectsAppsTestCases: API.OperationMethod<
   PatchProjectsAppsTestCasesResponse,
   PatchProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsAppsTestCasesRequest,
   output: PatchProjectsAppsTestCasesResponse,
   errors: [],
@@ -1908,24 +1927,25 @@ export interface BatchUpdateProjectsAppsTestCasesRequest {
   body?: GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest;
 }
 
-export const BatchUpdateProjectsAppsTestCasesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(
-    GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases:batchUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchUpdateProjectsAppsTestCasesRequest>;
+export const BatchUpdateProjectsAppsTestCasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/testCases:batchUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchUpdateProjectsAppsTestCasesRequest>;
 
 export type BatchUpdateProjectsAppsTestCasesResponse =
   GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse;
 export const BatchUpdateProjectsAppsTestCasesResponse =
-  GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaBatchUpdateTestCasesResponse;
 
 export type BatchUpdateProjectsAppsTestCasesError = DefaultErrors;
 
@@ -1935,7 +1955,7 @@ export const batchUpdateProjectsAppsTestCases: API.OperationMethod<
   BatchUpdateProjectsAppsTestCasesResponse,
   BatchUpdateProjectsAppsTestCasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsAppsTestCasesRequest,
   output: BatchUpdateProjectsAppsTestCasesResponse,
   errors: [],
@@ -1946,20 +1966,21 @@ export interface GetProjectsAppsReleasesTestsRequest {
   name: string;
 }
 
-export const GetProjectsAppsReleasesTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests/{testsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAppsReleasesTestsRequest>;
+export const GetProjectsAppsReleasesTestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests/{testsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAppsReleasesTestsRequest>;
 
 export type GetProjectsAppsReleasesTestsResponse =
   GoogleFirebaseAppdistroV1alphaReleaseTest;
 export const GetProjectsAppsReleasesTestsResponse =
-  GoogleFirebaseAppdistroV1alphaReleaseTest;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaReleaseTest;
 
 export type GetProjectsAppsReleasesTestsError = DefaultErrors;
 
@@ -1969,7 +1990,7 @@ export const getProjectsAppsReleasesTests: API.OperationMethod<
   GetProjectsAppsReleasesTestsResponse,
   GetProjectsAppsReleasesTestsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAppsReleasesTestsRequest,
   output: GetProjectsAppsReleasesTestsResponse,
   errors: [],
@@ -1984,27 +2005,28 @@ export interface CreateProjectsAppsReleasesTestsRequest {
   body?: GoogleFirebaseAppdistroV1alphaReleaseTest;
 }
 
-export const CreateProjectsAppsReleasesTestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  releaseTestId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("releaseTestId"),
-  ),
-  body: Schema.optional(GoogleFirebaseAppdistroV1alphaReleaseTest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAppsReleasesTestsRequest>;
+export const CreateProjectsAppsReleasesTestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    releaseTestId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("releaseTestId"),
+    ),
+    body: Schema.optional(GoogleFirebaseAppdistroV1alphaReleaseTest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAppsReleasesTestsRequest>;
 
 export type CreateProjectsAppsReleasesTestsResponse =
   GoogleFirebaseAppdistroV1alphaReleaseTest;
 export const CreateProjectsAppsReleasesTestsResponse =
-  GoogleFirebaseAppdistroV1alphaReleaseTest;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaReleaseTest;
 
 export type CreateProjectsAppsReleasesTestsError = DefaultErrors;
 
@@ -2014,7 +2036,7 @@ export const createProjectsAppsReleasesTests: API.OperationMethod<
   CreateProjectsAppsReleasesTestsResponse,
   CreateProjectsAppsReleasesTestsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAppsReleasesTestsRequest,
   output: CreateProjectsAppsReleasesTestsResponse,
   errors: [],
@@ -2035,23 +2057,24 @@ export interface ListProjectsAppsReleasesTestsRequest {
     | (string & {});
 }
 
-export const ListProjectsAppsReleasesTestsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAppsReleasesTestsRequest>;
+export const ListProjectsAppsReleasesTestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAppsReleasesTestsRequest>;
 
 export type ListProjectsAppsReleasesTestsResponse =
   GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse;
 export const ListProjectsAppsReleasesTestsResponse =
-  GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaListReleaseTestsResponse;
 
 export type ListProjectsAppsReleasesTestsError = DefaultErrors;
 
@@ -2061,7 +2084,7 @@ export const listProjectsAppsReleasesTests: API.PaginatedOperationMethod<
   ListProjectsAppsReleasesTestsResponse,
   ListProjectsAppsReleasesTestsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAppsReleasesTestsRequest,
   output: ListProjectsAppsReleasesTestsResponse,
   errors: [],
@@ -2076,20 +2099,21 @@ export interface CancelProjectsAppsReleasesTestsRequest {
   name: string;
 }
 
-export const CancelProjectsAppsReleasesTestsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests/{testsId}:cancel",
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsAppsReleasesTestsRequest>;
+export const CancelProjectsAppsReleasesTestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/apps/{appsId}/releases/{releasesId}/tests/{testsId}:cancel",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsAppsReleasesTestsRequest>;
 
 export type CancelProjectsAppsReleasesTestsResponse =
   GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse;
 export const CancelProjectsAppsReleasesTestsResponse =
-  GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaCancelReleaseTestResponse;
 
 export type CancelProjectsAppsReleasesTestsError = DefaultErrors;
 
@@ -2099,7 +2123,7 @@ export const cancelProjectsAppsReleasesTests: API.OperationMethod<
   CancelProjectsAppsReleasesTestsResponse,
   CancelProjectsAppsReleasesTestsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsAppsReleasesTestsRequest,
   output: CancelProjectsAppsReleasesTestsResponse,
   errors: [],
@@ -2112,23 +2136,24 @@ export interface GetUdidsProjectsTestersRequest {
   mobilesdkAppId?: string;
 }
 
-export const GetUdidsProjectsTestersRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  mobilesdkAppId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("mobilesdkAppId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/testers:udids",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUdidsProjectsTestersRequest>;
+export const GetUdidsProjectsTestersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+    mobilesdkAppId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("mobilesdkAppId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/testers:udids",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUdidsProjectsTestersRequest>;
 
 export type GetUdidsProjectsTestersResponse =
   GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
 export const GetUdidsProjectsTestersResponse =
-  GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleFirebaseAppdistroV1alphaGetTesterUdidsResponse;
 
 export type GetUdidsProjectsTestersError = DefaultErrors;
 
@@ -2138,7 +2163,7 @@ export const getUdidsProjectsTesters: API.OperationMethod<
   GetUdidsProjectsTestersResponse,
   GetUdidsProjectsTestersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUdidsProjectsTestersRequest,
   output: GetUdidsProjectsTestersResponse,
   errors: [],

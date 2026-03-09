@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CreateRoleInput = Schema.Struct({
+export const CreateRoleInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -40,7 +40,7 @@ export const CreateRoleInput = Schema.Struct({
 export type CreateRoleInput = typeof CreateRoleInput.Type;
 
 // Output Schema
-export const CreateRoleOutput = Schema.Struct({
+export const CreateRoleOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   access_host_url: Schema.String,

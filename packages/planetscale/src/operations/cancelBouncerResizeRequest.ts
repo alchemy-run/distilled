@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CancelBouncerResizeRequestInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  bouncer: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}/resizes",
-  }),
-);
+export const CancelBouncerResizeRequestInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    bouncer: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/bouncers/{bouncer}/resizes",
+    }),
+  );
 export type CancelBouncerResizeRequestInput =
   typeof CancelBouncerResizeRequestInput.Type;
 
 // Output Schema
-export const CancelBouncerResizeRequestOutput = Schema.Void;
+export const CancelBouncerResizeRequestOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type CancelBouncerResizeRequestOutput =
   typeof CancelBouncerResizeRequestOutput.Type;
 

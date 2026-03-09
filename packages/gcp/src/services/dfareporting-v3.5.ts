@@ -35,15 +35,16 @@ export interface Size {
   iab?: boolean;
 }
 
-export const Size: Schema.Schema<Size> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-    iab: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
+export const Size: Schema.Schema<Size> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+      iab: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Size" }) as any as Schema.Schema<Size>;
 
 export interface CreativeAssetId {
   /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
@@ -59,15 +60,15 @@ export interface CreativeAssetId {
   name?: string;
 }
 
-export const CreativeAssetId: Schema.Schema<CreativeAssetId> = Schema.suspend(
-  () =>
+export const CreativeAssetId: Schema.Schema<CreativeAssetId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CreativeAssetId",
-}) as any as Schema.Schema<CreativeAssetId>;
+  ).annotate({
+    identifier: "CreativeAssetId",
+  }) as any as Schema.Schema<CreativeAssetId>;
 
 export interface OffsetPosition {
   /** Offset distance from top side of an asset or a window. */
@@ -76,15 +77,15 @@ export interface OffsetPosition {
   left?: number;
 }
 
-export const OffsetPosition: Schema.Schema<OffsetPosition> = Schema.suspend(
-  () =>
+export const OffsetPosition: Schema.Schema<OffsetPosition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top: Schema.optional(Schema.Number),
       left: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "OffsetPosition",
-}) as any as Schema.Schema<OffsetPosition>;
+  ).annotate({
+    identifier: "OffsetPosition",
+  }) as any as Schema.Schema<OffsetPosition>;
 
 export interface PopupWindowProperties {
   /** Popup window position either centered or at specific coordinate. */
@@ -108,7 +109,7 @@ export interface PopupWindowProperties {
 }
 
 export const PopupWindowProperties: Schema.Schema<PopupWindowProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       positionType: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -144,8 +145,8 @@ export interface DimensionValue {
     | (string & {});
 }
 
-export const DimensionValue: Schema.Schema<DimensionValue> = Schema.suspend(
-  () =>
+export const DimensionValue: Schema.Schema<DimensionValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimensionName: Schema.optional(Schema.String),
       etag: Schema.optional(Schema.String),
@@ -154,9 +155,9 @@ export const DimensionValue: Schema.Schema<DimensionValue> = Schema.suspend(
       value: Schema.optional(Schema.String),
       matchType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DimensionValue",
-}) as any as Schema.Schema<DimensionValue>;
+  ).annotate({
+    identifier: "DimensionValue",
+  }) as any as Schema.Schema<DimensionValue>;
 
 export interface CreativeClickThroughUrl {
   /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
@@ -168,7 +169,7 @@ export interface CreativeClickThroughUrl {
 }
 
 export const CreativeClickThroughUrl: Schema.Schema<CreativeClickThroughUrl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customClickThroughUrl: Schema.optional(Schema.String),
       computedClickThroughUrl: Schema.optional(Schema.String),
@@ -217,7 +218,7 @@ export interface CreativeCustomEvent {
 }
 
 export const CreativeCustomEvent: Schema.Schema<CreativeCustomEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       artworkType: Schema.optional(Schema.String),
       advertiserCustomEventName: Schema.optional(Schema.String),
@@ -243,13 +244,14 @@ export interface ClickTag {
   name?: string;
 }
 
-export const ClickTag: Schema.Schema<ClickTag> = Schema.suspend(() =>
-  Schema.Struct({
-    clickThroughUrl: Schema.optional(CreativeClickThroughUrl),
-    eventName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ClickTag" }) as any as Schema.Schema<ClickTag>;
+export const ClickTag: Schema.Schema<ClickTag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      clickThroughUrl: Schema.optional(CreativeClickThroughUrl),
+      eventName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ClickTag" }) as any as Schema.Schema<ClickTag>;
 
 export interface CreativeAssetMetadata {
   /** ID of the creative asset. This is a required field. */
@@ -373,7 +375,7 @@ export interface CreativeAssetMetadata {
 }
 
 export const CreativeAssetMetadata: Schema.Schema<CreativeAssetMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetIdentifier: Schema.optional(CreativeAssetId),
       warnedValidationRules: Schema.optional(Schema.Array(Schema.String)),
@@ -404,7 +406,7 @@ export interface UploadMediaRequest {
   body?: CreativeAssetMetadata;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
   body: Schema.optional(CreativeAssetMetadata).pipe(T.HttpBody()),
@@ -418,7 +420,8 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = CreativeAssetMetadata;
-export const UploadMediaResponse = CreativeAssetMetadata;
+export const UploadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CreativeAssetMetadata;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -428,7 +431,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],

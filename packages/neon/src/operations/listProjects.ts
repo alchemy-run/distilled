@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListProjectsInput = Schema.Struct({
+export const ListProjectsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cursor: Schema.optional(Schema.String),
   limit: Schema.optional(Schema.Number),
   search: Schema.optional(Schema.String),
@@ -14,7 +14,7 @@ export const ListProjectsInput = Schema.Struct({
 export type ListProjectsInput = typeof ListProjectsInput.Type;
 
 // Output Schema
-export const ListProjectsOutput = Schema.Struct({
+export const ListProjectsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projects: Schema.Array(
     Schema.Struct({
       id: Schema.String,

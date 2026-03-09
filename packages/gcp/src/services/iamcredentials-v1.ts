@@ -32,7 +32,7 @@ export interface GenerateAccessTokenRequest {
 }
 
 export const GenerateAccessTokenRequest: Schema.Schema<GenerateAccessTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegates: Schema.optional(Schema.Array(Schema.String)),
       scope: Schema.optional(Schema.Array(Schema.String)),
@@ -50,7 +50,7 @@ export interface GenerateAccessTokenResponse {
 }
 
 export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
       expireTime: Schema.optional(Schema.String),
@@ -71,7 +71,7 @@ export interface GenerateIdTokenRequest {
 }
 
 export const GenerateIdTokenRequest: Schema.Schema<GenerateIdTokenRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegates: Schema.optional(Schema.Array(Schema.String)),
       audience: Schema.optional(Schema.String),
@@ -88,7 +88,7 @@ export interface GenerateIdTokenResponse {
 }
 
 export const GenerateIdTokenResponse: Schema.Schema<GenerateIdTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       token: Schema.optional(Schema.String),
     }),
@@ -103,15 +103,15 @@ export interface SignBlobRequest {
   payload?: string;
 }
 
-export const SignBlobRequest: Schema.Schema<SignBlobRequest> = Schema.suspend(
-  () =>
+export const SignBlobRequest: Schema.Schema<SignBlobRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegates: Schema.optional(Schema.Array(Schema.String)),
       payload: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SignBlobRequest",
-}) as any as Schema.Schema<SignBlobRequest>;
+  ).annotate({
+    identifier: "SignBlobRequest",
+  }) as any as Schema.Schema<SignBlobRequest>;
 
 export interface SignBlobResponse {
   /** The ID of the key used to sign the blob. The key used for signing will remain valid for at least 12 hours after the blob is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -120,15 +120,15 @@ export interface SignBlobResponse {
   signedBlob?: string;
 }
 
-export const SignBlobResponse: Schema.Schema<SignBlobResponse> = Schema.suspend(
-  () =>
+export const SignBlobResponse: Schema.Schema<SignBlobResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyId: Schema.optional(Schema.String),
       signedBlob: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SignBlobResponse",
-}) as any as Schema.Schema<SignBlobResponse>;
+  ).annotate({
+    identifier: "SignBlobResponse",
+  }) as any as Schema.Schema<SignBlobResponse>;
 
 export interface SignJwtRequest {
   /** The sequence of service accounts in a delegation chain. Each service account must be granted the `roles/iam.serviceAccountTokenCreator` role on its next service account in the chain. The last service account in the chain must be granted the `roles/iam.serviceAccountTokenCreator` role on the service account that is specified in the `name` field of the request. The delegates must have the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
@@ -137,15 +137,15 @@ export interface SignJwtRequest {
   payload?: string;
 }
 
-export const SignJwtRequest: Schema.Schema<SignJwtRequest> = Schema.suspend(
-  () =>
+export const SignJwtRequest: Schema.Schema<SignJwtRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       delegates: Schema.optional(Schema.Array(Schema.String)),
       payload: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SignJwtRequest",
-}) as any as Schema.Schema<SignJwtRequest>;
+  ).annotate({
+    identifier: "SignJwtRequest",
+  }) as any as Schema.Schema<SignJwtRequest>;
 
 export interface SignJwtResponse {
   /** The ID of the key used to sign the JWT. The key used for signing will remain valid for at least 12 hours after the JWT is signed. To verify the signature, you can retrieve the public key in several formats from the following endpoints: - RSA public key wrapped in an X.509 v3 certificate: `https://www.googleapis.com/service_accounts/v1/metadata/x509/{ACCOUNT_EMAIL}` - Raw key in JSON format: `https://www.googleapis.com/service_accounts/v1/metadata/raw/{ACCOUNT_EMAIL}` - JSON Web Key (JWK): `https://www.googleapis.com/service_accounts/v1/metadata/jwk/{ACCOUNT_EMAIL}` */
@@ -154,15 +154,15 @@ export interface SignJwtResponse {
   signedJwt?: string;
 }
 
-export const SignJwtResponse: Schema.Schema<SignJwtResponse> = Schema.suspend(
-  () =>
+export const SignJwtResponse: Schema.Schema<SignJwtResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyId: Schema.optional(Schema.String),
       signedJwt: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SignJwtResponse",
-}) as any as Schema.Schema<SignJwtResponse>;
+  ).annotate({
+    identifier: "SignJwtResponse",
+  }) as any as Schema.Schema<SignJwtResponse>;
 
 export interface ServiceAccountAllowedLocations {
   /** Output only. The human readable trust boundary locations. For example, ["us-central1", "europe-west1"] */
@@ -172,7 +172,7 @@ export interface ServiceAccountAllowedLocations {
 }
 
 export const ServiceAccountAllowedLocations: Schema.Schema<ServiceAccountAllowedLocations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Schema.String)),
       encodedLocations: Schema.optional(Schema.String),
@@ -189,7 +189,7 @@ export interface WorkloadIdentityPoolAllowedLocations {
 }
 
 export const WorkloadIdentityPoolAllowedLocations: Schema.Schema<WorkloadIdentityPoolAllowedLocations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Schema.String)),
       encodedLocations: Schema.optional(Schema.String),
@@ -206,7 +206,7 @@ export interface WorkforcePoolAllowedLocations {
 }
 
 export const WorkforcePoolAllowedLocations: Schema.Schema<WorkforcePoolAllowedLocations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Schema.String)),
       encodedLocations: Schema.optional(Schema.String),
@@ -226,22 +226,23 @@ export interface GenerateAccessTokenProjectsServiceAccountsRequest {
   body?: GenerateAccessTokenRequest;
 }
 
-export const GenerateAccessTokenProjectsServiceAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateAccessTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateAccessToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccessTokenProjectsServiceAccountsRequest>;
+export const GenerateAccessTokenProjectsServiceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GenerateAccessTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateAccessToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccessTokenProjectsServiceAccountsRequest>;
 
 export type GenerateAccessTokenProjectsServiceAccountsResponse =
   GenerateAccessTokenResponse;
 export const GenerateAccessTokenProjectsServiceAccountsResponse =
-  GenerateAccessTokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenProjectsServiceAccountsError = DefaultErrors;
 
@@ -251,7 +252,7 @@ export const generateAccessTokenProjectsServiceAccounts: API.OperationMethod<
   GenerateAccessTokenProjectsServiceAccountsResponse,
   GenerateAccessTokenProjectsServiceAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccessTokenProjectsServiceAccountsRequest,
   output: GenerateAccessTokenProjectsServiceAccountsResponse,
   errors: [],
@@ -264,22 +265,23 @@ export interface GenerateIdTokenProjectsServiceAccountsRequest {
   body?: GenerateIdTokenRequest;
 }
 
-export const GenerateIdTokenProjectsServiceAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateIdTokenRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateIdToken",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateIdTokenProjectsServiceAccountsRequest>;
+export const GenerateIdTokenProjectsServiceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GenerateIdTokenRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:generateIdToken",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateIdTokenProjectsServiceAccountsRequest>;
 
 export type GenerateIdTokenProjectsServiceAccountsResponse =
   GenerateIdTokenResponse;
 export const GenerateIdTokenProjectsServiceAccountsResponse =
-  GenerateIdTokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateIdTokenResponse;
 
 export type GenerateIdTokenProjectsServiceAccountsError = DefaultErrors;
 
@@ -289,7 +291,7 @@ export const generateIdTokenProjectsServiceAccounts: API.OperationMethod<
   GenerateIdTokenProjectsServiceAccountsResponse,
   GenerateIdTokenProjectsServiceAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateIdTokenProjectsServiceAccountsRequest,
   output: GenerateIdTokenProjectsServiceAccountsResponse,
   errors: [],
@@ -302,20 +304,22 @@ export interface SignBlobProjectsServiceAccountsRequest {
   body?: SignBlobRequest;
 }
 
-export const SignBlobProjectsServiceAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SignBlobRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signBlob",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SignBlobProjectsServiceAccountsRequest>;
+export const SignBlobProjectsServiceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SignBlobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signBlob",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SignBlobProjectsServiceAccountsRequest>;
 
 export type SignBlobProjectsServiceAccountsResponse = SignBlobResponse;
-export const SignBlobProjectsServiceAccountsResponse = SignBlobResponse;
+export const SignBlobProjectsServiceAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SignBlobResponse;
 
 export type SignBlobProjectsServiceAccountsError = DefaultErrors;
 
@@ -325,7 +329,7 @@ export const signBlobProjectsServiceAccounts: API.OperationMethod<
   SignBlobProjectsServiceAccountsResponse,
   SignBlobProjectsServiceAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignBlobProjectsServiceAccountsRequest,
   output: SignBlobProjectsServiceAccountsResponse,
   errors: [],
@@ -338,20 +342,22 @@ export interface SignJwtProjectsServiceAccountsRequest {
   body?: SignJwtRequest;
 }
 
-export const SignJwtProjectsServiceAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SignJwtRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signJwt",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SignJwtProjectsServiceAccountsRequest>;
+export const SignJwtProjectsServiceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SignJwtRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}:signJwt",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SignJwtProjectsServiceAccountsRequest>;
 
 export type SignJwtProjectsServiceAccountsResponse = SignJwtResponse;
-export const SignJwtProjectsServiceAccountsResponse = SignJwtResponse;
+export const SignJwtProjectsServiceAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SignJwtResponse;
 
 export type SignJwtProjectsServiceAccountsError = DefaultErrors;
 
@@ -361,7 +367,7 @@ export const signJwtProjectsServiceAccounts: API.OperationMethod<
   SignJwtProjectsServiceAccountsResponse,
   SignJwtProjectsServiceAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SignJwtProjectsServiceAccountsRequest,
   output: SignJwtProjectsServiceAccountsResponse,
   errors: [],
@@ -372,20 +378,21 @@ export interface GetAllowedLocationsProjectsServiceAccountsRequest {
   name: string;
 }
 
-export const GetAllowedLocationsProjectsServiceAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}/allowedLocations",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAllowedLocationsProjectsServiceAccountsRequest>;
+export const GetAllowedLocationsProjectsServiceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/serviceAccounts/{serviceAccountsId}/allowedLocations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAllowedLocationsProjectsServiceAccountsRequest>;
 
 export type GetAllowedLocationsProjectsServiceAccountsResponse =
   ServiceAccountAllowedLocations;
 export const GetAllowedLocationsProjectsServiceAccountsResponse =
-  ServiceAccountAllowedLocations;
+  /*@__PURE__*/ /*#__PURE__*/ ServiceAccountAllowedLocations;
 
 export type GetAllowedLocationsProjectsServiceAccountsError = DefaultErrors;
 
@@ -395,7 +402,7 @@ export const getAllowedLocationsProjectsServiceAccounts: API.OperationMethod<
   GetAllowedLocationsProjectsServiceAccountsResponse,
   GetAllowedLocationsProjectsServiceAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAllowedLocationsProjectsServiceAccountsRequest,
   output: GetAllowedLocationsProjectsServiceAccountsResponse,
   errors: [],
@@ -407,7 +414,7 @@ export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsReques
 }
 
 export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -420,7 +427,7 @@ export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest =
 export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse =
   WorkloadIdentityPoolAllowedLocations;
 export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse =
-  WorkloadIdentityPoolAllowedLocations;
+  /*@__PURE__*/ /*#__PURE__*/ WorkloadIdentityPoolAllowedLocations;
 
 export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError =
   DefaultErrors;
@@ -431,7 +438,7 @@ export const getAllowedLocationsProjectsLocationsWorkloadIdentityPools: API.Oper
   GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse,
   GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest,
   output: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse,
   errors: [],
@@ -442,20 +449,21 @@ export interface GetAllowedLocationsLocationsWorkforcePoolsRequest {
   name: string;
 }
 
-export const GetAllowedLocationsLocationsWorkforcePoolsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/locations/{locationsId}/workforcePools/{workforcePoolsId}/allowedLocations",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAllowedLocationsLocationsWorkforcePoolsRequest>;
+export const GetAllowedLocationsLocationsWorkforcePoolsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/locations/{locationsId}/workforcePools/{workforcePoolsId}/allowedLocations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAllowedLocationsLocationsWorkforcePoolsRequest>;
 
 export type GetAllowedLocationsLocationsWorkforcePoolsResponse =
   WorkforcePoolAllowedLocations;
 export const GetAllowedLocationsLocationsWorkforcePoolsResponse =
-  WorkforcePoolAllowedLocations;
+  /*@__PURE__*/ /*#__PURE__*/ WorkforcePoolAllowedLocations;
 
 export type GetAllowedLocationsLocationsWorkforcePoolsError = DefaultErrors;
 
@@ -465,7 +473,7 @@ export const getAllowedLocationsLocationsWorkforcePools: API.OperationMethod<
   GetAllowedLocationsLocationsWorkforcePoolsResponse,
   GetAllowedLocationsLocationsWorkforcePoolsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAllowedLocationsLocationsWorkforcePoolsRequest,
   output: GetAllowedLocationsLocationsWorkforcePoolsResponse,
   errors: [],

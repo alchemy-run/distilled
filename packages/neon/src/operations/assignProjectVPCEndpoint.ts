@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const AssignProjectVPCEndpointInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
-  label: Schema.String,
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
-  }),
-);
+export const AssignProjectVPCEndpointInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    vpc_endpoint_id: Schema.String.pipe(T.PathParam()),
+    label: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/projects/{project_id}/vpc_endpoints/{vpc_endpoint_id}",
+    }),
+  );
 export type AssignProjectVPCEndpointInput =
   typeof AssignProjectVPCEndpointInput.Type;
 
 // Output Schema
-export const AssignProjectVPCEndpointOutput = Schema.Void;
+export const AssignProjectVPCEndpointOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type AssignProjectVPCEndpointOutput =
   typeof AssignProjectVPCEndpointOutput.Type;
 

@@ -28,7 +28,7 @@ export interface GoogleChecksReportV1alphaSdk {
 }
 
 export const GoogleChecksReportV1alphaSdk: Schema.Schema<GoogleChecksReportV1alphaSdk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
     }),
@@ -42,7 +42,7 @@ export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk 
 }
 
 export const GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk: Schema.Schema<GoogleChecksReportV1alphaDataTypeEndpointEvidenceAttributedSdk> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdk: Schema.optional(GoogleChecksReportV1alphaSdk),
     }),
@@ -57,7 +57,7 @@ export interface GoogleChecksReportV1alphaEndpoint {
 }
 
 export const GoogleChecksReportV1alphaEndpoint: Schema.Schema<GoogleChecksReportV1alphaEndpoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
     }),
@@ -71,7 +71,7 @@ export interface GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetail
 }
 
 export const GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails: Schema.Schema<GoogleChecksReportV1alphaDataTypeEndpointEvidenceEndpointDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpoint: Schema.optional(GoogleChecksReportV1alphaEndpoint),
     }),
@@ -110,7 +110,7 @@ export interface GoogleChecksReportV1alphaDataTypeEndpointEvidence {
 }
 
 export const GoogleChecksReportV1alphaDataTypeEndpointEvidence: Schema.Schema<GoogleChecksReportV1alphaDataTypeEndpointEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exfiltratedDataType: Schema.optional(Schema.String),
       attributedSdks: Schema.optional(
@@ -136,7 +136,7 @@ export interface GoogleChecksReportV1alphaPolicyFragment {
 }
 
 export const GoogleChecksReportV1alphaPolicyFragment: Schema.Schema<GoogleChecksReportV1alphaPolicyFragment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceUri: Schema.optional(Schema.String),
       htmlContent: Schema.optional(Schema.String),
@@ -151,7 +151,7 @@ export interface GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence {
 }
 
 export const GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence: Schema.Schema<GoogleChecksReportV1alphaDataTypePrivacyPolicyTextEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyFragment: Schema.optional(GoogleChecksReportV1alphaPolicyFragment),
     }),
@@ -165,7 +165,7 @@ export interface GoogleChecksReportV1alphaPermission {
 }
 
 export const GoogleChecksReportV1alphaPermission: Schema.Schema<GoogleChecksReportV1alphaPermission> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
     }),
@@ -179,7 +179,7 @@ export interface GoogleChecksReportV1alphaDataTypePermissionEvidence {
 }
 
 export const GoogleChecksReportV1alphaDataTypePermissionEvidence: Schema.Schema<GoogleChecksReportV1alphaDataTypePermissionEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(GoogleChecksReportV1alphaPermission),
     }),
@@ -197,7 +197,7 @@ export interface GoogleChecksReportV1alphaDataTypeEvidence {
 }
 
 export const GoogleChecksReportV1alphaDataTypeEvidence: Schema.Schema<GoogleChecksReportV1alphaDataTypeEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpoints: Schema.optional(
         Schema.Array(GoogleChecksReportV1alphaDataTypeEndpointEvidence),
@@ -229,7 +229,7 @@ export interface GoogleChecksReportV1alphaDataMonitoringResultMetadata {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoringResultMetadata: Schema.Schema<GoogleChecksReportV1alphaDataMonitoringResultMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastDetectedAppVersion: Schema.optional(Schema.String),
       lastDetectedTime: Schema.optional(Schema.String),
@@ -290,7 +290,7 @@ export interface GoogleChecksReportV1alphaDataMonitoringDataTypeResult {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoringDataTypeResult: Schema.Schema<GoogleChecksReportV1alphaDataMonitoringDataTypeResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataType: Schema.optional(Schema.String),
       dataTypeEvidence: Schema.optional(
@@ -310,7 +310,7 @@ export interface GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransit
 }
 
 export const GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo: Schema.Schema<GoogleChecksReportV1alphaCheckDataSecurityEvidenceDataInTransitInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
     }),
@@ -325,7 +325,7 @@ export interface GoogleChecksReportV1alphaCheckDataSecurityEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckDataSecurityEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckDataSecurityEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataInTransitInfo: Schema.optional(
         Schema.Array(
@@ -345,7 +345,7 @@ export interface GoogleChecksRepoScanV1alphaPullRequest {
 }
 
 export const GoogleChecksRepoScanV1alphaPullRequest: Schema.Schema<GoogleChecksRepoScanV1alphaPullRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       baseBranch: Schema.optional(Schema.String),
       prNumber: Schema.optional(Schema.String),
@@ -360,7 +360,7 @@ export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvi
 }
 
 export const GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails: Schema.Schema<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidencePermissionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(GoogleChecksReportV1alphaPermission),
     }),
@@ -375,7 +375,7 @@ export interface GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvi
 }
 
 export const GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckPermissionRestrictionViolationEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissionDetails: Schema.optional(
         Schema.Array(
@@ -396,7 +396,7 @@ export interface GoogleChecksAccountV1alphaApp {
 }
 
 export const GoogleChecksAccountV1alphaApp: Schema.Schema<GoogleChecksAccountV1alphaApp> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -413,7 +413,7 @@ export interface GoogleChecksAccountV1alphaListAppsResponse {
 }
 
 export const GoogleChecksAccountV1alphaListAppsResponse: Schema.Schema<GoogleChecksAccountV1alphaListAppsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       apps: Schema.optional(Schema.Array(GoogleChecksAccountV1alphaApp)),
       nextPageToken: Schema.optional(Schema.String),
@@ -428,7 +428,7 @@ export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSd
 }
 
 export const GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails: Schema.Schema<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidenceSdkDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdk: Schema.optional(GoogleChecksReportV1alphaSdk),
     }),
@@ -449,7 +449,7 @@ export interface GoogleChecksRepoScanV1alphaScmMetadata {
 }
 
 export const GoogleChecksRepoScanV1alphaScmMetadata: Schema.Schema<GoogleChecksRepoScanV1alphaScmMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pullRequest: Schema.optional(GoogleChecksRepoScanV1alphaPullRequest),
       revisionId: Schema.optional(Schema.String),
@@ -472,7 +472,7 @@ export interface GoogleChecksRepoScanV1alphaCodeAttribution {
 }
 
 export const GoogleChecksRepoScanV1alphaCodeAttribution: Schema.Schema<GoogleChecksRepoScanV1alphaCodeAttribution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeExcerpt: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
@@ -533,7 +533,7 @@ export interface GoogleChecksRepoScanV1alphaSource {
 }
 
 export const GoogleChecksRepoScanV1alphaSource: Schema.Schema<GoogleChecksRepoScanV1alphaSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeAttribution: Schema.optional(
         GoogleChecksRepoScanV1alphaCodeAttribution,
@@ -557,7 +557,7 @@ export interface GoogleChecksRepoScanV1alphaSourceCode {
 }
 
 export const GoogleChecksRepoScanV1alphaSourceCode: Schema.Schema<GoogleChecksRepoScanV1alphaSourceCode> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       startLine: Schema.optional(Schema.Number),
@@ -616,7 +616,7 @@ export interface GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification {
 }
 
 export const GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification: Schema.Schema<GoogleChecksRepoScanV1alphaCodeScanDataTypeClassification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineNumber: Schema.optional(Schema.Number),
       dataType: Schema.optional(Schema.String),
@@ -633,7 +633,7 @@ export interface GoogleChecksRepoScanV1alphaCodeScan {
 }
 
 export const GoogleChecksRepoScanV1alphaCodeScan: Schema.Schema<GoogleChecksRepoScanV1alphaCodeScan> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceCode: Schema.optional(GoogleChecksRepoScanV1alphaSourceCode),
       dataTypeClassifications: Schema.optional(
@@ -652,7 +652,7 @@ export interface GoogleChecksRepoScanV1alphaCliAnalysis {
 }
 
 export const GoogleChecksRepoScanV1alphaCliAnalysis: Schema.Schema<GoogleChecksRepoScanV1alphaCliAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(Schema.Array(GoogleChecksRepoScanV1alphaSource)),
       codeScans: Schema.optional(
@@ -675,7 +675,7 @@ export interface GoogleChecksRepoScanV1alphaGenerateScanRequest {
 }
 
 export const GoogleChecksRepoScanV1alphaGenerateScanRequest: Schema.Schema<GoogleChecksRepoScanV1alphaGenerateScanRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scmMetadata: Schema.optional(GoogleChecksRepoScanV1alphaScmMetadata),
       cliAnalysis: Schema.optional(GoogleChecksRepoScanV1alphaCliAnalysis),
@@ -694,7 +694,7 @@ export interface GoogleChecksReportV1alphaDataMonitoringPermissionResult {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoringPermissionResult: Schema.Schema<GoogleChecksReportV1alphaDataMonitoringPermissionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(
         GoogleChecksReportV1alphaDataMonitoringResultMetadata,
@@ -715,7 +715,7 @@ export interface GoogleChecksReportV1alphaDataMonitoringEndpointResult {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoringEndpointResult: Schema.Schema<GoogleChecksReportV1alphaDataMonitoringEndpointResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(
         GoogleChecksReportV1alphaDataMonitoringResultMetadata,
@@ -735,7 +735,7 @@ export interface GoogleChecksReportV1alphaDataMonitoringSdkResult {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoringSdkResult: Schema.Schema<GoogleChecksReportV1alphaDataMonitoringSdkResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdk: Schema.optional(GoogleChecksReportV1alphaSdk),
       metadata: Schema.optional(
@@ -758,7 +758,7 @@ export interface GoogleChecksReportV1alphaDataMonitoring {
 }
 
 export const GoogleChecksReportV1alphaDataMonitoring: Schema.Schema<GoogleChecksReportV1alphaDataMonitoring> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(
         Schema.Array(GoogleChecksReportV1alphaDataMonitoringPermissionResult),
@@ -795,7 +795,7 @@ export interface GoogleChecksReportV1alphaAppBundle {
 }
 
 export const GoogleChecksReportV1alphaAppBundle: Schema.Schema<GoogleChecksReportV1alphaAppBundle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       bundleId: Schema.optional(Schema.String),
@@ -841,7 +841,7 @@ export interface GoogleChecksReportV1alphaCheckCitation {
 }
 
 export const GoogleChecksReportV1alphaCheckCitation: Schema.Schema<GoogleChecksReportV1alphaCheckCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -855,7 +855,7 @@ export interface GoogleChecksReportV1alphaCheckPermissionEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckPermissionEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckPermissionEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(GoogleChecksReportV1alphaPermission),
     }),
@@ -869,7 +869,7 @@ export interface GoogleChecksReportV1alphaCheckSdkEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckSdkEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckSdkEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdk: Schema.optional(GoogleChecksReportV1alphaSdk),
     }),
@@ -883,7 +883,7 @@ export interface GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckSdkRestrictionViolationEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdkDetails: Schema.optional(
         Schema.Array(
@@ -943,7 +943,7 @@ export interface GoogleChecksReportV1alphaCheckDataTypeEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckDataTypeEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckDataTypeEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataType: Schema.optional(Schema.String),
       dataTypeEvidence: Schema.optional(
@@ -962,7 +962,7 @@ export interface GoogleChecksReportV1alphaCheckSdkIssueEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckSdkIssueEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckSdkIssueEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdkVersion: Schema.optional(Schema.String),
       sdk: Schema.optional(GoogleChecksReportV1alphaSdk),
@@ -977,7 +977,7 @@ export interface GoogleChecksReportV1alphaCheckPrivacyPolicyTextEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckPrivacyPolicyTextEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckPrivacyPolicyTextEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyFragment: Schema.optional(GoogleChecksReportV1alphaPolicyFragment),
     }),
@@ -991,7 +991,7 @@ export interface GoogleChecksReportV1alphaCheckEndpointEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckEndpointEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckEndpointEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpoint: Schema.optional(GoogleChecksReportV1alphaEndpoint),
     }),
@@ -1005,7 +1005,7 @@ export interface GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvide
 }
 
 export const GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceEndpointDetails: Schema.Schema<GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidenceEndpointDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpoint: Schema.optional(GoogleChecksReportV1alphaEndpoint),
     }),
@@ -1020,7 +1020,7 @@ export interface GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvide
 }
 
 export const GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckEndpointRestrictionViolationEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endpointDetails: Schema.optional(
         Schema.Array(
@@ -1057,7 +1057,7 @@ export interface GoogleChecksReportV1alphaCheckEvidence {
 }
 
 export const GoogleChecksReportV1alphaCheckEvidence: Schema.Schema<GoogleChecksReportV1alphaCheckEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(
         Schema.Array(GoogleChecksReportV1alphaCheckPermissionEvidence),
@@ -1116,7 +1116,7 @@ export interface GoogleChecksReportV1alphaCheckStateMetadata {
 }
 
 export const GoogleChecksReportV1alphaCheckStateMetadata: Schema.Schema<GoogleChecksReportV1alphaCheckStateMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstFailingTime: Schema.optional(Schema.String),
       badges: Schema.optional(Schema.Array(Schema.String)),
@@ -1247,7 +1247,7 @@ export interface GoogleChecksReportV1alphaCheck {
 }
 
 export const GoogleChecksReportV1alphaCheck: Schema.Schema<GoogleChecksReportV1alphaCheck> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citations: Schema.optional(
         Schema.Array(GoogleChecksReportV1alphaCheckCitation),
@@ -1279,7 +1279,7 @@ export interface GoogleChecksReportV1alphaReport {
 }
 
 export const GoogleChecksReportV1alphaReport: Schema.Schema<GoogleChecksReportV1alphaReport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataMonitoring: Schema.optional(GoogleChecksReportV1alphaDataMonitoring),
       appBundle: Schema.optional(GoogleChecksReportV1alphaAppBundle),
@@ -1300,15 +1300,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -1323,15 +1324,16 @@ export interface Operation {
   metadata?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfig {
   /** Required. Type of the policy. */
@@ -1351,7 +1353,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfig {
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfig: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentRequestPolicyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyType: Schema.optional(Schema.String),
       threshold: Schema.optional(Schema.Number),
@@ -1368,7 +1370,7 @@ export interface GoogleChecksAisafetyV1alphaTextInput {
 }
 
 export const GoogleChecksAisafetyV1alphaTextInput: Schema.Schema<GoogleChecksAisafetyV1alphaTextInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       content: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -1383,7 +1385,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent {
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentRequestInputContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textInput: Schema.optional(GoogleChecksAisafetyV1alphaTextInput),
     }),
@@ -1397,7 +1399,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentRequestContext {
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentRequestContext: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentRequestContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prompt: Schema.optional(Schema.String),
     }),
@@ -1421,7 +1423,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentRequest {
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentRequest: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       classifierVersion: Schema.optional(Schema.String),
       policies: Schema.optional(
@@ -1450,7 +1452,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1466,7 +1468,7 @@ export interface WaitOperationRequest {
 }
 
 export const WaitOperationRequest: Schema.Schema<WaitOperationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeout: Schema.optional(Schema.String),
     }),
@@ -1487,7 +1489,7 @@ export interface GoogleChecksReportV1alphaAnalyzeUploadRequest {
 }
 
 export const GoogleChecksReportV1alphaAnalyzeUploadRequest: Schema.Schema<GoogleChecksReportV1alphaAnalyzeUploadRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       codeReferenceId: Schema.optional(Schema.String),
       appBinaryFileType: Schema.optional(Schema.String),
@@ -1504,7 +1506,7 @@ export interface GoogleChecksReportV1alphaListReportsResponse {
 }
 
 export const GoogleChecksReportV1alphaListReportsResponse: Schema.Schema<GoogleChecksReportV1alphaListReportsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reports: Schema.optional(Schema.Array(GoogleChecksReportV1alphaReport)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1529,7 +1531,7 @@ export interface GoogleChecksRepoScanV1alphaRepoScan {
 }
 
 export const GoogleChecksRepoScanV1alphaRepoScan: Schema.Schema<GoogleChecksRepoScanV1alphaRepoScan> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       scmMetadata: Schema.optional(GoogleChecksRepoScanV1alphaScmMetadata),
@@ -1550,7 +1552,7 @@ export interface GoogleChecksRepoScanV1alphaListRepoScansResponse {
 }
 
 export const GoogleChecksRepoScanV1alphaListRepoScansResponse: Schema.Schema<GoogleChecksRepoScanV1alphaListRepoScansResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       repoScans: Schema.optional(
         Schema.Array(GoogleChecksRepoScanV1alphaRepoScan),
@@ -1586,7 +1588,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult 
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentResponsePolicyResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       violationResult: Schema.optional(Schema.String),
       policyType: Schema.optional(Schema.String),
@@ -1603,7 +1605,7 @@ export interface GoogleChecksAisafetyV1alphaClassifyContentResponse {
 }
 
 export const GoogleChecksAisafetyV1alphaClassifyContentResponse: Schema.Schema<GoogleChecksAisafetyV1alphaClassifyContentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyResults: Schema.optional(
         Schema.Array(
@@ -1618,15 +1620,16 @@ export const GoogleChecksAisafetyV1alphaClassifyContentResponse: Schema.Schema<G
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -1637,23 +1640,24 @@ export interface ClassifyContentAisafetyRequest {
   body?: GoogleChecksAisafetyV1alphaClassifyContentRequest;
 }
 
-export const ClassifyContentAisafetyRequest = Schema.Struct({
-  body: Schema.optional(GoogleChecksAisafetyV1alphaClassifyContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/aisafety:classifyContent",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClassifyContentAisafetyRequest>;
+export const ClassifyContentAisafetyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(
+      GoogleChecksAisafetyV1alphaClassifyContentRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/aisafety:classifyContent",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClassifyContentAisafetyRequest>;
 
 export type ClassifyContentAisafetyResponse =
   GoogleChecksAisafetyV1alphaClassifyContentResponse;
 export const ClassifyContentAisafetyResponse =
-  GoogleChecksAisafetyV1alphaClassifyContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksAisafetyV1alphaClassifyContentResponse;
 
 export type ClassifyContentAisafetyError = DefaultErrors;
 
@@ -1663,7 +1667,7 @@ export const classifyContentAisafety: API.OperationMethod<
   ClassifyContentAisafetyResponse,
   ClassifyContentAisafetyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClassifyContentAisafetyRequest,
   output: ClassifyContentAisafetyResponse,
   errors: [],
@@ -1674,18 +1678,20 @@ export interface GetAccountsReposOperationsRequest {
   name: string;
 }
 
-export const GetAccountsReposOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/repos/{reposId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsReposOperationsRequest>;
+export const GetAccountsReposOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/repos/{reposId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsReposOperationsRequest>;
 
 export type GetAccountsReposOperationsResponse = Operation;
-export const GetAccountsReposOperationsResponse = Operation;
+export const GetAccountsReposOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetAccountsReposOperationsError = DefaultErrors;
 
@@ -1695,7 +1701,7 @@ export const getAccountsReposOperations: API.OperationMethod<
   GetAccountsReposOperationsResponse,
   GetAccountsReposOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsReposOperationsRequest,
   output: GetAccountsReposOperationsResponse,
   errors: [],
@@ -1706,19 +1712,20 @@ export interface GetAccountsReposScansRequest {
   name: string;
 }
 
-export const GetAccountsReposScansRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans/{scansId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsReposScansRequest>;
+export const GetAccountsReposScansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans/{scansId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsReposScansRequest>;
 
 export type GetAccountsReposScansResponse = GoogleChecksRepoScanV1alphaRepoScan;
 export const GetAccountsReposScansResponse =
-  GoogleChecksRepoScanV1alphaRepoScan;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksRepoScanV1alphaRepoScan;
 
 export type GetAccountsReposScansError = DefaultErrors;
 
@@ -1728,7 +1735,7 @@ export const getAccountsReposScans: API.OperationMethod<
   GetAccountsReposScansResponse,
   GetAccountsReposScansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsReposScansRequest,
   output: GetAccountsReposScansResponse,
   errors: [],
@@ -1745,23 +1752,24 @@ export interface ListAccountsReposScansRequest {
   pageToken?: string;
 }
 
-export const ListAccountsReposScansRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsReposScansRequest>;
+export const ListAccountsReposScansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsReposScansRequest>;
 
 export type ListAccountsReposScansResponse =
   GoogleChecksRepoScanV1alphaListRepoScansResponse;
 export const ListAccountsReposScansResponse =
-  GoogleChecksRepoScanV1alphaListRepoScansResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksRepoScanV1alphaListRepoScansResponse;
 
 export type ListAccountsReposScansError = DefaultErrors;
 
@@ -1771,7 +1779,7 @@ export const listAccountsReposScans: API.PaginatedOperationMethod<
   ListAccountsReposScansResponse,
   ListAccountsReposScansError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsReposScansRequest,
   output: ListAccountsReposScansResponse,
   errors: [],
@@ -1788,22 +1796,24 @@ export interface GenerateAccountsReposScansRequest {
   body?: GoogleChecksRepoScanV1alphaGenerateScanRequest;
 }
 
-export const GenerateAccountsReposScansRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleChecksRepoScanV1alphaGenerateScanRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsReposScansRequest>;
+export const GenerateAccountsReposScansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleChecksRepoScanV1alphaGenerateScanRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/repos/{reposId}/scans:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsReposScansRequest>;
 
 export type GenerateAccountsReposScansResponse = Operation;
-export const GenerateAccountsReposScansResponse = Operation;
+export const GenerateAccountsReposScansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GenerateAccountsReposScansError = DefaultErrors;
 
@@ -1813,7 +1823,7 @@ export const generateAccountsReposScans: API.OperationMethod<
   GenerateAccountsReposScansResponse,
   GenerateAccountsReposScansError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsReposScansRequest,
   output: GenerateAccountsReposScansResponse,
   errors: [],
@@ -1824,9 +1834,11 @@ export interface GetAccountsAppsRequest {
   name: string;
 }
 
-export const GetAccountsAppsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetAccountsAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "v1alpha/accounts/{accountsId}/apps/{appsId}",
@@ -1835,7 +1847,8 @@ export const GetAccountsAppsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsAppsRequest>;
 
 export type GetAccountsAppsResponse = GoogleChecksAccountV1alphaApp;
-export const GetAccountsAppsResponse = GoogleChecksAccountV1alphaApp;
+export const GetAccountsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksAccountV1alphaApp;
 
 export type GetAccountsAppsError = DefaultErrors;
 
@@ -1845,7 +1858,7 @@ export const getAccountsApps: API.OperationMethod<
   GetAccountsAppsResponse,
   GetAccountsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAppsRequest,
   output: GetAccountsAppsResponse,
   errors: [],
@@ -1860,19 +1873,20 @@ export interface ListAccountsAppsRequest {
   parent: string;
 }
 
-export const ListAccountsAppsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/apps" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsRequest>;
+export const ListAccountsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/accounts/{accountsId}/apps" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAppsRequest>;
 
 export type ListAccountsAppsResponse =
   GoogleChecksAccountV1alphaListAppsResponse;
 export const ListAccountsAppsResponse =
-  GoogleChecksAccountV1alphaListAppsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksAccountV1alphaListAppsResponse;
 
 export type ListAccountsAppsError = DefaultErrors;
 
@@ -1882,7 +1896,7 @@ export const listAccountsApps: API.PaginatedOperationMethod<
   ListAccountsAppsResponse,
   ListAccountsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAppsRequest,
   output: ListAccountsAppsResponse,
   errors: [],
@@ -1897,18 +1911,20 @@ export interface GetAccountsAppsOperationsRequest {
   name: string;
 }
 
-export const GetAccountsAppsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAppsOperationsRequest>;
+export const GetAccountsAppsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAppsOperationsRequest>;
 
 export type GetAccountsAppsOperationsResponse = Operation;
-export const GetAccountsAppsOperationsResponse = Operation;
+export const GetAccountsAppsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetAccountsAppsOperationsError = DefaultErrors;
 
@@ -1918,7 +1934,7 @@ export const getAccountsAppsOperations: API.OperationMethod<
   GetAccountsAppsOperationsResponse,
   GetAccountsAppsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAppsOperationsRequest,
   output: GetAccountsAppsOperationsResponse,
   errors: [],
@@ -1929,18 +1945,20 @@ export interface DeleteAccountsAppsOperationsRequest {
   name: string;
 }
 
-export const DeleteAccountsAppsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsAppsOperationsRequest>;
+export const DeleteAccountsAppsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsAppsOperationsRequest>;
 
 export type DeleteAccountsAppsOperationsResponse = Empty;
-export const DeleteAccountsAppsOperationsResponse = Empty;
+export const DeleteAccountsAppsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAccountsAppsOperationsError = DefaultErrors;
 
@@ -1950,7 +1968,7 @@ export const deleteAccountsAppsOperations: API.OperationMethod<
   DeleteAccountsAppsOperationsResponse,
   DeleteAccountsAppsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsAppsOperationsRequest,
   output: DeleteAccountsAppsOperationsResponse,
   errors: [],
@@ -1963,20 +1981,22 @@ export interface WaitAccountsAppsOperationsRequest {
   body?: WaitOperationRequest;
 }
 
-export const WaitAccountsAppsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(WaitOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}:wait",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WaitAccountsAppsOperationsRequest>;
+export const WaitAccountsAppsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(WaitOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}:wait",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WaitAccountsAppsOperationsRequest>;
 
 export type WaitAccountsAppsOperationsResponse = Operation;
-export const WaitAccountsAppsOperationsResponse = Operation;
+export const WaitAccountsAppsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type WaitAccountsAppsOperationsError = DefaultErrors;
 
@@ -1986,7 +2006,7 @@ export const waitAccountsAppsOperations: API.OperationMethod<
   WaitAccountsAppsOperationsResponse,
   WaitAccountsAppsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WaitAccountsAppsOperationsRequest,
   output: WaitAccountsAppsOperationsResponse,
   errors: [],
@@ -2005,24 +2025,26 @@ export interface ListAccountsAppsOperationsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsAppsOperationsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsOperationsRequest>;
+export const ListAccountsAppsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAppsOperationsRequest>;
 
 export type ListAccountsAppsOperationsResponse = ListOperationsResponse;
-export const ListAccountsAppsOperationsResponse = ListOperationsResponse;
+export const ListAccountsAppsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListAccountsAppsOperationsError = DefaultErrors;
 
@@ -2032,7 +2054,7 @@ export const listAccountsAppsOperations: API.PaginatedOperationMethod<
   ListAccountsAppsOperationsResponse,
   ListAccountsAppsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAppsOperationsRequest,
   output: ListAccountsAppsOperationsResponse,
   errors: [],
@@ -2049,20 +2071,22 @@ export interface CancelAccountsAppsOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelAccountsAppsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelAccountsAppsOperationsRequest>;
+export const CancelAccountsAppsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelAccountsAppsOperationsRequest>;
 
 export type CancelAccountsAppsOperationsResponse = Empty;
-export const CancelAccountsAppsOperationsResponse = Empty;
+export const CancelAccountsAppsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelAccountsAppsOperationsError = DefaultErrors;
 
@@ -2072,7 +2096,7 @@ export const cancelAccountsAppsOperations: API.OperationMethod<
   CancelAccountsAppsOperationsResponse,
   CancelAccountsAppsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelAccountsAppsOperationsRequest,
   output: CancelAccountsAppsOperationsResponse,
   errors: [],
@@ -2085,21 +2109,23 @@ export interface GetAccountsAppsReportsRequest {
   checksFilter?: string;
 }
 
-export const GetAccountsAppsReportsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  checksFilter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("checksFilter"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/reports/{reportsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsAppsReportsRequest>;
+export const GetAccountsAppsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    checksFilter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("checksFilter"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/reports/{reportsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsAppsReportsRequest>;
 
 export type GetAccountsAppsReportsResponse = GoogleChecksReportV1alphaReport;
-export const GetAccountsAppsReportsResponse = GoogleChecksReportV1alphaReport;
+export const GetAccountsAppsReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksReportV1alphaReport;
 
 export type GetAccountsAppsReportsError = DefaultErrors;
 
@@ -2109,7 +2135,7 @@ export const getAccountsAppsReports: API.OperationMethod<
   GetAccountsAppsReportsResponse,
   GetAccountsAppsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsAppsReportsRequest,
   output: GetAccountsAppsReportsResponse,
   errors: [],
@@ -2128,26 +2154,27 @@ export interface ListAccountsAppsReportsRequest {
   checksFilter?: string;
 }
 
-export const ListAccountsAppsReportsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  checksFilter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("checksFilter"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/accounts/{accountsId}/apps/{appsId}/reports",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsReportsRequest>;
+export const ListAccountsAppsReportsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    checksFilter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("checksFilter"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/accounts/{accountsId}/apps/{appsId}/reports",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAppsReportsRequest>;
 
 export type ListAccountsAppsReportsResponse =
   GoogleChecksReportV1alphaListReportsResponse;
 export const ListAccountsAppsReportsResponse =
-  GoogleChecksReportV1alphaListReportsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleChecksReportV1alphaListReportsResponse;
 
 export type ListAccountsAppsReportsError = DefaultErrors;
 
@@ -2157,7 +2184,7 @@ export const listAccountsAppsReports: API.PaginatedOperationMethod<
   ListAccountsAppsReportsResponse,
   ListAccountsAppsReportsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAppsReportsRequest,
   output: ListAccountsAppsReportsResponse,
   errors: [],
@@ -2174,7 +2201,7 @@ export interface UploadMediaRequest {
   body?: GoogleChecksReportV1alphaAnalyzeUploadRequest;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   body: Schema.optional(GoogleChecksReportV1alphaAnalyzeUploadRequest).pipe(
     T.HttpBody(),
@@ -2189,7 +2216,7 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = Operation;
-export const UploadMediaResponse = Operation;
+export const UploadMediaResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -2199,7 +2226,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],

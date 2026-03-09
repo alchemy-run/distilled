@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteProjectBranchDataAPIInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  database_name: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/branches/{branch_id}/data-api/{database_name}",
-  }),
-);
+export const DeleteProjectBranchDataAPIInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    database_name: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/branches/{branch_id}/data-api/{database_name}",
+    }),
+  );
 export type DeleteProjectBranchDataAPIInput =
   typeof DeleteProjectBranchDataAPIInput.Type;
 
 // Output Schema
-export const DeleteProjectBranchDataAPIOutput = Schema.Struct({});
+export const DeleteProjectBranchDataAPIOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({});
 export type DeleteProjectBranchDataAPIOutput =
   typeof DeleteProjectBranchDataAPIOutput.Type;
 

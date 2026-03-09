@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const RevokeOrgApiKeyInput = Schema.Struct({
+export const RevokeOrgApiKeyInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   org_id: Schema.String.pipe(T.PathParam()),
   key_id: Schema.Number.pipe(T.PathParam()),
 }).pipe(
@@ -15,7 +15,7 @@ export const RevokeOrgApiKeyInput = Schema.Struct({
 export type RevokeOrgApiKeyInput = typeof RevokeOrgApiKeyInput.Type;
 
 // Output Schema
-export const RevokeOrgApiKeyOutput = Schema.Struct({
+export const RevokeOrgApiKeyOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Number,
   name: Schema.String,
   created_at: Schema.String,

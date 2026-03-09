@@ -4,13 +4,13 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetCurrentUserInput = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/user" }),
-);
+export const GetCurrentUserInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(T.Http({ method: "GET", path: "/user" }));
 export type GetCurrentUserInput = typeof GetCurrentUserInput.Type;
 
 // Output Schema
-export const GetCurrentUserOutput = Schema.Struct({
+export const GetCurrentUserOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   display_name: Schema.String,
   name: Schema.optional(Schema.NullOr(Schema.String)),

@@ -29,12 +29,13 @@ export interface LatLng {
   latitude?: number;
 }
 
-export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() =>
-  Schema.Struct({
-    longitude: Schema.optional(Schema.Number),
-    latitude: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
+export const LatLng: Schema.Schema<LatLng> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      longitude: Schema.optional(Schema.Number),
+      latitude: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
 export interface PostalAddress {
   /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
@@ -61,23 +62,24 @@ export interface PostalAddress {
   recipients?: Array<string>;
 }
 
-export const PostalAddress: Schema.Schema<PostalAddress> = Schema.suspend(() =>
-  Schema.Struct({
-    locality: Schema.optional(Schema.String),
-    sortingCode: Schema.optional(Schema.String),
-    administrativeArea: Schema.optional(Schema.String),
-    addressLines: Schema.optional(Schema.Array(Schema.String)),
-    organization: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    revision: Schema.optional(Schema.Number),
-    languageCode: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    sublocality: Schema.optional(Schema.String),
-    recipients: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "PostalAddress",
-}) as any as Schema.Schema<PostalAddress>;
+export const PostalAddress: Schema.Schema<PostalAddress> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locality: Schema.optional(Schema.String),
+      sortingCode: Schema.optional(Schema.String),
+      administrativeArea: Schema.optional(Schema.String),
+      addressLines: Schema.optional(Schema.Array(Schema.String)),
+      organization: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      revision: Schema.optional(Schema.Number),
+      languageCode: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      sublocality: Schema.optional(Schema.String),
+      recipients: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "PostalAddress",
+  }) as any as Schema.Schema<PostalAddress>;
 
 export interface Location {
   /** The type of a location, which corresponds to the address lines field of PostalAddress. For example, "Downtown, Atlanta, GA, USA" has a type of LocationType#NEIGHBORHOOD, and "Kansas City, KS, USA" has a type of LocationType#LOCALITY. */
@@ -102,14 +104,15 @@ export interface Location {
   postalAddress?: PostalAddress;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    locationType: Schema.optional(Schema.String),
-    latLng: Schema.optional(LatLng),
-    radiusInMiles: Schema.optional(Schema.Number),
-    postalAddress: Schema.optional(PostalAddress),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locationType: Schema.optional(Schema.String),
+      latLng: Schema.optional(LatLng),
+      radiusInMiles: Schema.optional(Schema.Number),
+      postalAddress: Schema.optional(PostalAddress),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface CompanyDerivedInfo {
   /** A structured headquarters location of the company, resolved from Company.hq_location if provided. */
@@ -117,7 +120,7 @@ export interface CompanyDerivedInfo {
 }
 
 export const CompanyDerivedInfo: Schema.Schema<CompanyDerivedInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headquartersLocation: Schema.optional(Location),
     }),
@@ -163,25 +166,26 @@ export interface Company {
   suspended?: boolean;
 }
 
-export const Company: Schema.Schema<Company> = Schema.suspend(() =>
-  Schema.Struct({
-    headquartersAddress: Schema.optional(Schema.String),
-    hiringAgency: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-    size: Schema.optional(Schema.String),
-    imageUri: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    externalId: Schema.optional(Schema.String),
-    websiteUri: Schema.optional(Schema.String),
-    eeoText: Schema.optional(Schema.String),
-    keywordSearchableJobCustomAttributes: Schema.optional(
-      Schema.Array(Schema.String),
-    ),
-    careerSiteUri: Schema.optional(Schema.String),
-    derivedInfo: Schema.optional(CompanyDerivedInfo),
-    suspended: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
+export const Company: Schema.Schema<Company> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      headquartersAddress: Schema.optional(Schema.String),
+      hiringAgency: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      size: Schema.optional(Schema.String),
+      imageUri: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      externalId: Schema.optional(Schema.String),
+      websiteUri: Schema.optional(Schema.String),
+      eeoText: Schema.optional(Schema.String),
+      keywordSearchableJobCustomAttributes: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      careerSiteUri: Schema.optional(Schema.String),
+      derivedInfo: Schema.optional(CompanyDerivedInfo),
+      suspended: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
 
 export interface CreateCompanyRequest {
   /** Required. The company to be created. */
@@ -189,7 +193,7 @@ export interface CreateCompanyRequest {
 }
 
 export const CreateCompanyRequest: Schema.Schema<CreateCompanyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       company: Schema.optional(Company),
     }),
@@ -222,12 +226,13 @@ export interface JobEvent {
   jobs?: Array<string>;
 }
 
-export const JobEvent: Schema.Schema<JobEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    jobs: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "JobEvent" }) as any as Schema.Schema<JobEvent>;
+export const JobEvent: Schema.Schema<JobEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      jobs: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "JobEvent" }) as any as Schema.Schema<JobEvent>;
 
 export interface ClientEvent {
   /** Required. A unique ID generated in the API responses. It can be found in ResponseMetadata.request_id. */
@@ -244,16 +249,19 @@ export interface ClientEvent {
   parentEventId?: string;
 }
 
-export const ClientEvent: Schema.Schema<ClientEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    requestId: Schema.optional(Schema.String),
-    eventId: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    jobEvent: Schema.optional(JobEvent),
-    extraInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    parentEventId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ClientEvent" }) as any as Schema.Schema<ClientEvent>;
+export const ClientEvent: Schema.Schema<ClientEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      eventId: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      jobEvent: Schema.optional(JobEvent),
+      extraInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      parentEventId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ClientEvent",
+  }) as any as Schema.Schema<ClientEvent>;
 
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
@@ -264,15 +272,16 @@ export interface Status {
   message?: string;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
@@ -287,29 +296,30 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ResponseMetadata {
   /** A unique id associated with this call. This id is logged for tracking purposes. */
   requestId?: string;
 }
 
-export const ResponseMetadata: Schema.Schema<ResponseMetadata> = Schema.suspend(
-  () =>
+export const ResponseMetadata: Schema.Schema<ResponseMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ResponseMetadata",
-}) as any as Schema.Schema<ResponseMetadata>;
+  ).annotate({
+    identifier: "ResponseMetadata",
+  }) as any as Schema.Schema<ResponseMetadata>;
 
 export interface HistogramResult {
   /** The Histogram search filters. */
@@ -336,15 +346,15 @@ export interface HistogramResult {
   values?: Record<string, number>;
 }
 
-export const HistogramResult: Schema.Schema<HistogramResult> = Schema.suspend(
-  () =>
+export const HistogramResult: Schema.Schema<HistogramResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       searchType: Schema.optional(Schema.String),
       values: Schema.optional(Schema.Record(Schema.String, Schema.Number)),
     }),
-).annotate({
-  identifier: "HistogramResult",
-}) as any as Schema.Schema<HistogramResult>;
+  ).annotate({
+    identifier: "HistogramResult",
+  }) as any as Schema.Schema<HistogramResult>;
 
 export interface BucketRange {
   /** Starting value of the bucket range. */
@@ -353,12 +363,15 @@ export interface BucketRange {
   to?: number;
 }
 
-export const BucketRange: Schema.Schema<BucketRange> = Schema.suspend(() =>
-  Schema.Struct({
-    from: Schema.optional(Schema.Number),
-    to: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "BucketRange" }) as any as Schema.Schema<BucketRange>;
+export const BucketRange: Schema.Schema<BucketRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      from: Schema.optional(Schema.Number),
+      to: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "BucketRange",
+  }) as any as Schema.Schema<BucketRange>;
 
 export interface BucketizedCount {
   /** Number of jobs whose numeric field value fall into `range`. */
@@ -367,15 +380,15 @@ export interface BucketizedCount {
   range?: BucketRange;
 }
 
-export const BucketizedCount: Schema.Schema<BucketizedCount> = Schema.suspend(
-  () =>
+export const BucketizedCount: Schema.Schema<BucketizedCount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.Number),
       range: Schema.optional(BucketRange),
     }),
-).annotate({
-  identifier: "BucketizedCount",
-}) as any as Schema.Schema<BucketizedCount>;
+  ).annotate({
+    identifier: "BucketizedCount",
+  }) as any as Schema.Schema<BucketizedCount>;
 
 export interface NumericBucketingResult {
   /** Stores the maximum value of the numeric field. Is populated only if [NumericBucketingOption.requires_min_max] is set to true. */
@@ -387,7 +400,7 @@ export interface NumericBucketingResult {
 }
 
 export const NumericBucketingResult: Schema.Schema<NumericBucketingResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxValue: Schema.optional(Schema.Number),
       counts: Schema.optional(Schema.Array(BucketizedCount)),
@@ -407,7 +420,7 @@ export interface CustomAttributeHistogramResult {
 }
 
 export const CustomAttributeHistogramResult: Schema.Schema<CustomAttributeHistogramResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValueHistogramResult: Schema.optional(
         Schema.Record(Schema.String, Schema.Number),
@@ -432,7 +445,7 @@ export interface CompensationHistogramResult {
 }
 
 export const CompensationHistogramResult: Schema.Schema<CompensationHistogramResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(NumericBucketingResult),
       type: Schema.optional(Schema.String),
@@ -450,8 +463,8 @@ export interface HistogramResults {
   compensationHistogramResults?: Array<CompensationHistogramResult>;
 }
 
-export const HistogramResults: Schema.Schema<HistogramResults> = Schema.suspend(
-  () =>
+export const HistogramResults: Schema.Schema<HistogramResults> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       simpleHistogramResults: Schema.optional(Schema.Array(HistogramResult)),
       customAttributeHistogramResults: Schema.optional(
@@ -461,9 +474,9 @@ export const HistogramResults: Schema.Schema<HistogramResults> = Schema.suspend(
         Schema.Array(CompensationHistogramResult),
       ),
     }),
-).annotate({
-  identifier: "HistogramResults",
-}) as any as Schema.Schema<HistogramResults>;
+  ).annotate({
+    identifier: "HistogramResults",
+  }) as any as Schema.Schema<HistogramResults>;
 
 export interface CommuteInfo {
   /** Location used as the destination in the commute calculation. */
@@ -472,12 +485,15 @@ export interface CommuteInfo {
   travelDuration?: string;
 }
 
-export const CommuteInfo: Schema.Schema<CommuteInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    jobLocation: Schema.optional(Location),
-    travelDuration: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CommuteInfo" }) as any as Schema.Schema<CommuteInfo>;
+export const CommuteInfo: Schema.Schema<CommuteInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      jobLocation: Schema.optional(Location),
+      travelDuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommuteInfo",
+  }) as any as Schema.Schema<CommuteInfo>;
 
 export interface JobDerivedInfo {
   /** Structured locations of the job, resolved from Job.addresses. locations are exactly matched to Job.addresses in the same order. */
@@ -519,15 +535,15 @@ export interface JobDerivedInfo {
   >;
 }
 
-export const JobDerivedInfo: Schema.Schema<JobDerivedInfo> = Schema.suspend(
-  () =>
+export const JobDerivedInfo: Schema.Schema<JobDerivedInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       jobCategories: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "JobDerivedInfo",
-}) as any as Schema.Schema<JobDerivedInfo>;
+  ).annotate({
+    identifier: "JobDerivedInfo",
+  }) as any as Schema.Schema<JobDerivedInfo>;
 
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
@@ -538,13 +554,14 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface CompensationRange {
   /** Optional. The minimum amount of compensation. If left empty, the value is set to zero and the currency code is set to match the currency code of max_compensation. */
@@ -554,7 +571,7 @@ export interface CompensationRange {
 }
 
 export const CompensationRange: Schema.Schema<CompensationRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minCompensation: Schema.optional(Money),
       maxCompensation: Schema.optional(Money),
@@ -598,7 +615,7 @@ export interface CompensationEntry {
 }
 
 export const CompensationEntry: Schema.Schema<CompensationEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unit: Schema.optional(Schema.String),
       range: Schema.optional(CompensationRange),
@@ -620,16 +637,16 @@ export interface CompensationInfo {
   annualizedBaseCompensationRange?: CompensationRange;
 }
 
-export const CompensationInfo: Schema.Schema<CompensationInfo> = Schema.suspend(
-  () =>
+export const CompensationInfo: Schema.Schema<CompensationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       annualizedTotalCompensationRange: Schema.optional(CompensationRange),
       entries: Schema.optional(Schema.Array(CompensationEntry)),
       annualizedBaseCompensationRange: Schema.optional(CompensationRange),
     }),
-).annotate({
-  identifier: "CompensationInfo",
-}) as any as Schema.Schema<CompensationInfo>;
+  ).annotate({
+    identifier: "CompensationInfo",
+  }) as any as Schema.Schema<CompensationInfo>;
 
 export interface ApplicationInfo {
   /** Optional but at least one of uris, emails or instruction must be specified. Use this URI field to direct an applicant to a website, for example to link to an online application form. The maximum number of allowed characters for each entry is 2,000. */
@@ -640,16 +657,16 @@ export interface ApplicationInfo {
   instruction?: string;
 }
 
-export const ApplicationInfo: Schema.Schema<ApplicationInfo> = Schema.suspend(
-  () =>
+export const ApplicationInfo: Schema.Schema<ApplicationInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uris: Schema.optional(Schema.Array(Schema.String)),
       emails: Schema.optional(Schema.Array(Schema.String)),
       instruction: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ApplicationInfo",
-}) as any as Schema.Schema<ApplicationInfo>;
+  ).annotate({
+    identifier: "ApplicationInfo",
+  }) as any as Schema.Schema<ApplicationInfo>;
 
 export interface CustomAttribute {
   /** Optional but exactly one of string_values or long_values must be specified. This field is used to perform a string match (`CASE_SENSITIVE_MATCH` or `CASE_INSENSITIVE_MATCH`) search. For filterable `string_value`s, a maximum total number of 200 values is allowed, with each `string_value` has a byte size of no more than 500B. For unfilterable `string_values`, the maximum total byte size of unfilterable `string_values` is 50KB. Empty string is not allowed. */
@@ -660,16 +677,16 @@ export interface CustomAttribute {
   filterable?: boolean;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
-  () =>
+export const CustomAttribute: Schema.Schema<CustomAttribute> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValues: Schema.optional(Schema.Array(Schema.String)),
       longValues: Schema.optional(Schema.Array(Schema.String)),
       filterable: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as Schema.Schema<CustomAttribute>;
+  ).annotate({
+    identifier: "CustomAttribute",
+  }) as any as Schema.Schema<CustomAttribute>;
 
 export interface ProcessingOptions {
   /** Optional. Option for job HTML content sanitization. Applied fields are: * description * applicationInfo.instruction * incentives * qualifications * responsibilities HTML tags in these fields may be stripped if sanitiazation is not disabled. Defaults to HtmlSanitization.SIMPLE_FORMATTING_ONLY. */
@@ -683,7 +700,7 @@ export interface ProcessingOptions {
 }
 
 export const ProcessingOptions: Schema.Schema<ProcessingOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       htmlSanitization: Schema.optional(Schema.String),
       disableStreetAddressResolution: Schema.optional(Schema.Boolean),
@@ -810,42 +827,43 @@ export interface Job {
   processingOptions?: ProcessingOptions;
 }
 
-export const Job: Schema.Schema<Job> = Schema.suspend(() =>
-  Schema.Struct({
-    responsibilities: Schema.optional(Schema.String),
-    jobEndTime: Schema.optional(Schema.String),
-    companyName: Schema.optional(Schema.String),
-    postingUpdateTime: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    jobStartTime: Schema.optional(Schema.String),
-    jobBenefits: Schema.optional(Schema.Array(Schema.String)),
-    postingCreateTime: Schema.optional(Schema.String),
-    requisitionId: Schema.optional(Schema.String),
-    incentives: Schema.optional(Schema.String),
-    qualifications: Schema.optional(Schema.String),
-    employmentTypes: Schema.optional(Schema.Array(Schema.String)),
-    postingExpireTime: Schema.optional(Schema.String),
-    department: Schema.optional(Schema.String),
-    degreeTypes: Schema.optional(Schema.Array(Schema.String)),
-    jobLevel: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    postingPublishTime: Schema.optional(Schema.String),
-    derivedInfo: Schema.optional(JobDerivedInfo),
-    compensationInfo: Schema.optional(CompensationInfo),
-    applicationInfo: Schema.optional(ApplicationInfo),
-    customAttributes: Schema.optional(
-      Schema.Record(Schema.String, CustomAttribute),
-    ),
-    promotionValue: Schema.optional(Schema.Number),
-    companyDisplayName: Schema.optional(Schema.String),
-    postingRegion: Schema.optional(Schema.String),
-    addresses: Schema.optional(Schema.Array(Schema.String)),
-    visibility: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    processingOptions: Schema.optional(ProcessingOptions),
-  }),
-).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
+export const Job: Schema.Schema<Job> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      responsibilities: Schema.optional(Schema.String),
+      jobEndTime: Schema.optional(Schema.String),
+      companyName: Schema.optional(Schema.String),
+      postingUpdateTime: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      jobStartTime: Schema.optional(Schema.String),
+      jobBenefits: Schema.optional(Schema.Array(Schema.String)),
+      postingCreateTime: Schema.optional(Schema.String),
+      requisitionId: Schema.optional(Schema.String),
+      incentives: Schema.optional(Schema.String),
+      qualifications: Schema.optional(Schema.String),
+      employmentTypes: Schema.optional(Schema.Array(Schema.String)),
+      postingExpireTime: Schema.optional(Schema.String),
+      department: Schema.optional(Schema.String),
+      degreeTypes: Schema.optional(Schema.Array(Schema.String)),
+      jobLevel: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      postingPublishTime: Schema.optional(Schema.String),
+      derivedInfo: Schema.optional(JobDerivedInfo),
+      compensationInfo: Schema.optional(CompensationInfo),
+      applicationInfo: Schema.optional(ApplicationInfo),
+      customAttributes: Schema.optional(
+        Schema.Record(Schema.String, CustomAttribute),
+      ),
+      promotionValue: Schema.optional(Schema.Number),
+      companyDisplayName: Schema.optional(Schema.String),
+      postingRegion: Schema.optional(Schema.String),
+      addresses: Schema.optional(Schema.Array(Schema.String)),
+      visibility: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      processingOptions: Schema.optional(ProcessingOptions),
+    }),
+  ).annotate({ identifier: "Job" }) as any as Schema.Schema<Job>;
 
 export interface MatchingJob {
   /** Commute information which is generated based on specified CommuteFilter. */
@@ -860,15 +878,18 @@ export interface MatchingJob {
   jobTitleSnippet?: string;
 }
 
-export const MatchingJob: Schema.Schema<MatchingJob> = Schema.suspend(() =>
-  Schema.Struct({
-    commuteInfo: Schema.optional(CommuteInfo),
-    jobSummary: Schema.optional(Schema.String),
-    searchTextSnippet: Schema.optional(Schema.String),
-    job: Schema.optional(Job),
-    jobTitleSnippet: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MatchingJob" }) as any as Schema.Schema<MatchingJob>;
+export const MatchingJob: Schema.Schema<MatchingJob> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commuteInfo: Schema.optional(CommuteInfo),
+      jobSummary: Schema.optional(Schema.String),
+      searchTextSnippet: Schema.optional(Schema.String),
+      job: Schema.optional(Job),
+      jobTitleSnippet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MatchingJob",
+  }) as any as Schema.Schema<MatchingJob>;
 
 export interface SpellingCorrection {
   /** Indicates if the query was corrected by the spell checker. */
@@ -878,7 +899,7 @@ export interface SpellingCorrection {
 }
 
 export const SpellingCorrection: Schema.Schema<SpellingCorrection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       corrected: Schema.optional(Schema.Boolean),
       correctedText: Schema.optional(Schema.String),
@@ -895,7 +916,7 @@ export interface HistogramQueryResult {
 }
 
 export const HistogramQueryResult: Schema.Schema<HistogramQueryResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       histogram: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       histogramQuery: Schema.optional(Schema.String),
@@ -928,7 +949,7 @@ export interface SearchJobsResponse {
 }
 
 export const SearchJobsResponse: Schema.Schema<SearchJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(ResponseMetadata),
       totalSize: Schema.optional(Schema.Number),
@@ -961,16 +982,16 @@ export interface CompletionResult {
     | (string & {});
 }
 
-export const CompletionResult: Schema.Schema<CompletionResult> = Schema.suspend(
-  () =>
+export const CompletionResult: Schema.Schema<CompletionResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageUri: Schema.optional(Schema.String),
       suggestion: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CompletionResult",
-}) as any as Schema.Schema<CompletionResult>;
+  ).annotate({
+    identifier: "CompletionResult",
+  }) as any as Schema.Schema<CompletionResult>;
 
 export interface ListJobsResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
@@ -981,30 +1002,30 @@ export interface ListJobsResponse {
   jobs?: Array<Job>;
 }
 
-export const ListJobsResponse: Schema.Schema<ListJobsResponse> = Schema.suspend(
-  () =>
+export const ListJobsResponse: Schema.Schema<ListJobsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(ResponseMetadata),
       nextPageToken: Schema.optional(Schema.String),
       jobs: Schema.optional(Schema.Array(Job)),
     }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as Schema.Schema<ListJobsResponse>;
+  ).annotate({
+    identifier: "ListJobsResponse",
+  }) as any as Schema.Schema<ListJobsResponse>;
 
 export interface HistogramQuery {
   /** An expression specifies a histogram request against matching resources (for example, jobs) for searches. Expression syntax is a aggregation function call with histogram facets and other options. Available aggregation function calls are: * `count(string_histogram_facet)`: Count the number of matching entity, for each distinct attribute value. * `count(numeric_histogram_facet, list of buckets)`: Count the number of matching entity within each bucket. A maximum of 200 histogram buckets are supported. Data types: * Histogram facet: facet names with format a-zA-Z+. * String: string like "any string with backslash escape for quote(\")." * Number: whole number and floating point number like 10, -1 and -0.01. * List: list of elements with comma(,) separator surrounded by square brackets. For example, [1, 2, 3] and ["one", "two", "three"]. Built-in constants: * MIN (minimum number similar to java Double.MIN_VALUE) * MAX (maximum number similar to java Double.MAX_VALUE) Built-in functions: * bucket(start, end[, label]): bucket built-in function creates a bucket with range of start, end). Note that the end is exclusive. For example, bucket(1, MAX, "positive number") or bucket(1, 10). Job histogram facets: * company_id: histogram by [Job.distributor_company_id. * company_display_name: histogram by Job.company_display_name. * employment_type: histogram by Job.employment_types. For example, "FULL_TIME", "PART_TIME". * company_size (DEPRECATED): histogram by CompanySize, for example, "SMALL", "MEDIUM", "BIG". * publish_time_in_day: histogram by the Job.publish_time in days. Must specify list of numeric buckets in spec. * publish_time_in_month: histogram by the Job.publish_time in months. Must specify list of numeric buckets in spec. * publish_time_in_year: histogram by the Job.publish_time in years. Must specify list of numeric buckets in spec. * degree_type: histogram by the Job.degree_type. For example, "Bachelors", "Masters". * job_level: histogram by the Job.job_level. For example, "Entry Level". * country: histogram by the country code of jobs. For example, "US", "FR". * admin1: histogram by the admin1 code of jobs, which is a global placeholder referring to the state, province, or the particular term a country uses to define the geographic structure below the country level. For example, "CA", "IL". * city: histogram by a combination of the "city name, admin1 code". For example, "Mountain View, CA", "New York, NY". * admin1_country: histogram by a combination of the "admin1 code, country". For example, "CA, US", "IL, US". * city_coordinate: histogram by the city center's GPS coordinates (latitude and longitude). For example, 37.4038522,-122.0987765. Since the coordinates of a city center can change, customers may need to refresh them periodically. * locale: histogram by the Job.language_code. For example, "en-US", "fr-FR". * language: histogram by the language subtag of the Job.language_code. For example, "en", "fr". * category: histogram by the JobCategory. For example, "COMPUTER_AND_IT", "HEALTHCARE". * base_compensation_unit: histogram by the CompensationUnit of base salary. For example, "WEEKLY", "MONTHLY". * base_compensation: histogram by the base salary. Must specify list of numeric buckets to group results by. * annualized_base_compensation: histogram by the base annualized salary. Must specify list of numeric buckets to group results by. * annualized_total_compensation: histogram by the total annualized salary. Must specify list of numeric buckets to group results by. * string_custom_attribute: histogram by string Job.custom_attributes. Values can be accessed via square bracket notations like string_custom_attribute["key1"]. * numeric_custom_attribute: histogram by numeric Job.custom_attributes. Values can be accessed via square bracket notations like numeric_custom_attribute["key1"]. Must specify list of numeric buckets to group results by. Example expressions: * count(admin1) * count(base_compensation, [bucket(1000, 10000), bucket(10000, 100000), bucket(100000, MAX)]) * count(string_custom_attribute["some-string-custom-attribute"]) * count(numeric_custom_attribute["some-numeric-custom-attribute"], [bucket(MIN, 0, "negative"), bucket(0, MAX, "non-negative")]) */
   histogramQuery?: string;
 }
 
-export const HistogramQuery: Schema.Schema<HistogramQuery> = Schema.suspend(
-  () =>
+export const HistogramQuery: Schema.Schema<HistogramQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       histogramQuery: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "HistogramQuery",
-}) as any as Schema.Schema<HistogramQuery>;
+  ).annotate({
+    identifier: "HistogramQuery",
+  }) as any as Schema.Schema<HistogramQuery>;
 
 export interface NumericBucketingOption {
   /** Required. Two adjacent values form a histogram bucket. Values should be in ascending order. For example, if [5, 10, 15] are provided, four buckets are created: (-inf, 5), 5, 10), [10, 15), [15, inf). At most 20 [buckets_bound is supported. */
@@ -1014,7 +1035,7 @@ export interface NumericBucketingOption {
 }
 
 export const NumericBucketingOption: Schema.Schema<NumericBucketingOption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketBounds: Schema.optional(Schema.Array(Schema.Number)),
       requiresMinMax: Schema.optional(Schema.Boolean),
@@ -1030,15 +1051,15 @@ export interface UpdateJobRequest {
   updateMask?: string;
 }
 
-export const UpdateJobRequest: Schema.Schema<UpdateJobRequest> = Schema.suspend(
-  () =>
+export const UpdateJobRequest: Schema.Schema<UpdateJobRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       job: Schema.optional(Job),
       updateMask: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "UpdateJobRequest",
-}) as any as Schema.Schema<UpdateJobRequest>;
+  ).annotate({
+    identifier: "UpdateJobRequest",
+  }) as any as Schema.Schema<UpdateJobRequest>;
 
 export interface CompensationHistogramRequest {
   /** Required. Type of the request, representing which field the histogramming should be performed over. A single request can only specify one histogram of each `CompensationHistogramRequestType`. */
@@ -1053,7 +1074,7 @@ export interface CompensationHistogramRequest {
 }
 
 export const CompensationHistogramRequest: Schema.Schema<CompensationHistogramRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       bucketingOption: Schema.optional(NumericBucketingOption),
@@ -1078,7 +1099,7 @@ export interface CustomRankingInfo {
 }
 
 export const CustomRankingInfo: Schema.Schema<CustomRankingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       importanceLevel: Schema.optional(Schema.String),
       rankingExpression: Schema.optional(Schema.String),
@@ -1089,9 +1110,10 @@ export const CustomRankingInfo: Schema.Schema<CustomRankingInfo> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CompensationFilter {
   /** Optional. If set to true, jobs with unspecified compensation range fields are included. */
@@ -1121,7 +1143,7 @@ export interface CompensationFilter {
 }
 
 export const CompensationFilter: Schema.Schema<CompensationFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeJobsWithUnspecifiedCompensationRange: Schema.optional(
         Schema.Boolean,
@@ -1145,14 +1167,15 @@ export interface TimeOfDay {
   seconds?: number;
 }
 
-export const TimeOfDay: Schema.Schema<TimeOfDay> = Schema.suspend(() =>
-  Schema.Struct({
-    hours: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    seconds: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hours: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
 
 export interface ListCompaniesResponse {
   /** Additional information for the API invocation, such as the request tracking id. */
@@ -1164,7 +1187,7 @@ export interface ListCompaniesResponse {
 }
 
 export const ListCompaniesResponse: Schema.Schema<ListCompaniesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(ResponseMetadata),
       nextPageToken: Schema.optional(Schema.String),
@@ -1180,7 +1203,7 @@ export interface BatchDeleteJobsRequest {
 }
 
 export const BatchDeleteJobsRequest: Schema.Schema<BatchDeleteJobsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
     }),
@@ -1195,15 +1218,15 @@ export interface TimestampRange {
   endTime?: string;
 }
 
-export const TimestampRange: Schema.Schema<TimestampRange> = Schema.suspend(
-  () =>
+export const TimestampRange: Schema.Schema<TimestampRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TimestampRange",
-}) as any as Schema.Schema<TimestampRange>;
+  ).annotate({
+    identifier: "TimestampRange",
+  }) as any as Schema.Schema<TimestampRange>;
 
 export interface CommuteFilter {
   /** Optional. The departure time used to calculate traffic impact, represented as google.type.TimeOfDay in local time zone. Currently traffic model is restricted to hour level resolution. */
@@ -1230,18 +1253,19 @@ export interface CommuteFilter {
   travelDuration?: string;
 }
 
-export const CommuteFilter: Schema.Schema<CommuteFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    departureTime: Schema.optional(TimeOfDay),
-    commuteMethod: Schema.optional(Schema.String),
-    startCoordinates: Schema.optional(LatLng),
-    allowImpreciseAddresses: Schema.optional(Schema.Boolean),
-    roadTraffic: Schema.optional(Schema.String),
-    travelDuration: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CommuteFilter",
-}) as any as Schema.Schema<CommuteFilter>;
+export const CommuteFilter: Schema.Schema<CommuteFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      departureTime: Schema.optional(TimeOfDay),
+      commuteMethod: Schema.optional(Schema.String),
+      startCoordinates: Schema.optional(LatLng),
+      allowImpreciseAddresses: Schema.optional(Schema.Boolean),
+      roadTraffic: Schema.optional(Schema.String),
+      travelDuration: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommuteFilter",
+  }) as any as Schema.Schema<CommuteFilter>;
 
 export interface CustomAttributeHistogramRequest {
   /** Optional. Specifies buckets used to perform a range histogram on Job's filterable long custom field values, or min/max value requirements. */
@@ -1253,7 +1277,7 @@ export interface CustomAttributeHistogramRequest {
 }
 
 export const CustomAttributeHistogramRequest: Schema.Schema<CustomAttributeHistogramRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       longValueHistogramBucketingOption: Schema.optional(
         NumericBucketingOption,
@@ -1293,8 +1317,8 @@ export interface HistogramFacets {
   customAttributeHistogramFacets?: Array<CustomAttributeHistogramRequest>;
 }
 
-export const HistogramFacets: Schema.Schema<HistogramFacets> = Schema.suspend(
-  () =>
+export const HistogramFacets: Schema.Schema<HistogramFacets> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       compensationHistogramFacets: Schema.optional(
         Schema.Array(CompensationHistogramRequest),
@@ -1304,9 +1328,9 @@ export const HistogramFacets: Schema.Schema<HistogramFacets> = Schema.suspend(
         Schema.Array(CustomAttributeHistogramRequest),
       ),
     }),
-).annotate({
-  identifier: "HistogramFacets",
-}) as any as Schema.Schema<HistogramFacets>;
+  ).annotate({
+    identifier: "HistogramFacets",
+  }) as any as Schema.Schema<HistogramFacets>;
 
 export interface CreateClientEventRequest {
   /** Required. Events issued when end user interacts with customer's application that uses Cloud Talent Solution. */
@@ -1314,7 +1338,7 @@ export interface CreateClientEventRequest {
 }
 
 export const CreateClientEventRequest: Schema.Schema<CreateClientEventRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       clientEvent: Schema.optional(ClientEvent),
     }),
@@ -1327,14 +1351,14 @@ export interface CreateJobRequest {
   job?: Job;
 }
 
-export const CreateJobRequest: Schema.Schema<CreateJobRequest> = Schema.suspend(
-  () =>
+export const CreateJobRequest: Schema.Schema<CreateJobRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       job: Schema.optional(Job),
     }),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as Schema.Schema<CreateJobRequest>;
+  ).annotate({
+    identifier: "CreateJobRequest",
+  }) as any as Schema.Schema<CreateJobRequest>;
 
 export interface DeviceInfo {
   /** Optional. Type of the device. */
@@ -1351,12 +1375,13 @@ export interface DeviceInfo {
   id?: string;
 }
 
-export const DeviceInfo: Schema.Schema<DeviceInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    deviceType: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
+export const DeviceInfo: Schema.Schema<DeviceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deviceType: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
 
 export interface RequestMetadata {
   /** Optional. The type of device used by the job seeker at the time of the call to the service. */
@@ -1369,17 +1394,17 @@ export interface RequestMetadata {
   userId?: string;
 }
 
-export const RequestMetadata: Schema.Schema<RequestMetadata> = Schema.suspend(
-  () =>
+export const RequestMetadata: Schema.Schema<RequestMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceInfo: Schema.optional(DeviceInfo),
       domain: Schema.optional(Schema.String),
       sessionId: Schema.optional(Schema.String),
       userId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "RequestMetadata",
-}) as any as Schema.Schema<RequestMetadata>;
+  ).annotate({
+    identifier: "RequestMetadata",
+  }) as any as Schema.Schema<RequestMetadata>;
 
 export interface LocationFilter {
   /** Optional. The distance_in_miles is applied when the location being searched for is identified as a city or smaller. When the location being searched for is a state or larger, this field is ignored. */
@@ -1399,8 +1424,8 @@ export interface LocationFilter {
   regionCode?: string;
 }
 
-export const LocationFilter: Schema.Schema<LocationFilter> = Schema.suspend(
-  () =>
+export const LocationFilter: Schema.Schema<LocationFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       distanceInMiles: Schema.optional(Schema.Number),
       address: Schema.optional(Schema.String),
@@ -1408,9 +1433,9 @@ export const LocationFilter: Schema.Schema<LocationFilter> = Schema.suspend(
       latLng: Schema.optional(LatLng),
       regionCode: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LocationFilter",
-}) as any as Schema.Schema<LocationFilter>;
+  ).annotate({
+    identifier: "LocationFilter",
+  }) as any as Schema.Schema<LocationFilter>;
 
 export interface JobQuery {
   /** Optional. This filter specifies the company Company.display_name of the jobs to search against. The company name must match the value exactly. Alternatively, the value being searched for can be wrapped in different match operators. `SUBSTRING_MATCH([value])` The company name must contain a case insensitive substring match of the value. Using this function may increase latency. Sample Value: `SUBSTRING_MATCH(google)` `MULTI_WORD_TOKEN_MATCH([value])` The value will be treated as a multi word token and the company name must contain a case insensitive match of the value. Using this function may increase latency. Sample Value: `MULTI_WORD_TOKEN_MATCH(google)` If a value isn't specified, jobs within the search results are associated with any company. If multiple values are specified, jobs within the search results may be associated with any of the specified companies. At most 20 company display name filters are allowed. */
@@ -1489,24 +1514,25 @@ export interface JobQuery {
   excludedJobs?: Array<string>;
 }
 
-export const JobQuery: Schema.Schema<JobQuery> = Schema.suspend(() =>
-  Schema.Struct({
-    companyDisplayNames: Schema.optional(Schema.Array(Schema.String)),
-    jobCategories: Schema.optional(Schema.Array(Schema.String)),
-    compensationFilter: Schema.optional(CompensationFilter),
-    languageCodes: Schema.optional(Schema.Array(Schema.String)),
-    publishTimeRange: Schema.optional(TimestampRange),
-    commuteFilter: Schema.optional(CommuteFilter),
-    queryLanguageCode: Schema.optional(Schema.String),
-    customAttributeFilter: Schema.optional(Schema.String),
-    disableSpellCheck: Schema.optional(Schema.Boolean),
-    companyNames: Schema.optional(Schema.Array(Schema.String)),
-    locationFilters: Schema.optional(Schema.Array(LocationFilter)),
-    employmentTypes: Schema.optional(Schema.Array(Schema.String)),
-    query: Schema.optional(Schema.String),
-    excludedJobs: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "JobQuery" }) as any as Schema.Schema<JobQuery>;
+export const JobQuery: Schema.Schema<JobQuery> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      companyDisplayNames: Schema.optional(Schema.Array(Schema.String)),
+      jobCategories: Schema.optional(Schema.Array(Schema.String)),
+      compensationFilter: Schema.optional(CompensationFilter),
+      languageCodes: Schema.optional(Schema.Array(Schema.String)),
+      publishTimeRange: Schema.optional(TimestampRange),
+      commuteFilter: Schema.optional(CommuteFilter),
+      queryLanguageCode: Schema.optional(Schema.String),
+      customAttributeFilter: Schema.optional(Schema.String),
+      disableSpellCheck: Schema.optional(Schema.Boolean),
+      companyNames: Schema.optional(Schema.Array(Schema.String)),
+      locationFilters: Schema.optional(Schema.Array(LocationFilter)),
+      employmentTypes: Schema.optional(Schema.Array(Schema.String)),
+      query: Schema.optional(Schema.String),
+      excludedJobs: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "JobQuery" }) as any as Schema.Schema<JobQuery>;
 
 export interface SearchJobsRequest {
   /** Optional. Expression based histogram requests for jobs matching JobQuery. */
@@ -1556,7 +1582,7 @@ export interface SearchJobsRequest {
 }
 
 export const SearchJobsRequest: Schema.Schema<SearchJobsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       histogramQueries: Schema.optional(Schema.Array(HistogramQuery)),
       requestMetadata: Schema.optional(RequestMetadata),
@@ -1586,7 +1612,7 @@ export interface CompleteQueryResponse {
 }
 
 export const CompleteQueryResponse: Schema.Schema<CompleteQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metadata: Schema.optional(ResponseMetadata),
       completionResults: Schema.optional(Schema.Array(CompletionResult)),
@@ -1603,7 +1629,7 @@ export interface UpdateCompanyRequest {
 }
 
 export const UpdateCompanyRequest: Schema.Schema<UpdateCompanyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updateMask: Schema.optional(Schema.String),
       company: Schema.optional(Company),
@@ -1640,26 +1666,30 @@ export interface CompleteProjectsRequest {
   languageCode?: string;
 }
 
-export const CompleteProjectsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("languageCodes"),
-  ),
-  scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
-  companyName: Schema.optional(Schema.String).pipe(T.HttpQuery("companyName")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}:complete" }),
-  svc,
-) as unknown as Schema.Schema<CompleteProjectsRequest>;
+export const CompleteProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("languageCodes"),
+    ),
+    scope: Schema.optional(Schema.String).pipe(T.HttpQuery("scope")),
+    companyName: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("companyName"),
+    ),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}:complete" }),
+    svc,
+  ) as unknown as Schema.Schema<CompleteProjectsRequest>;
 
 export type CompleteProjectsResponse = CompleteQueryResponse;
-export const CompleteProjectsResponse = CompleteQueryResponse;
+export const CompleteProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CompleteQueryResponse;
 
 export type CompleteProjectsError = DefaultErrors;
 
@@ -1669,7 +1699,7 @@ export const completeProjects: API.OperationMethod<
   CompleteProjectsResponse,
   CompleteProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteProjectsRequest,
   output: CompleteProjectsResponse,
   errors: [],
@@ -1682,20 +1712,22 @@ export interface CreateProjectsClientEventsRequest {
   body?: CreateClientEventRequest;
 }
 
-export const CreateProjectsClientEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateClientEventRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/clientEvents",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsClientEventsRequest>;
+export const CreateProjectsClientEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateClientEventRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/clientEvents",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsClientEventsRequest>;
 
 export type CreateProjectsClientEventsResponse = ClientEvent;
-export const CreateProjectsClientEventsResponse = ClientEvent;
+export const CreateProjectsClientEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClientEvent;
 
 export type CreateProjectsClientEventsError = DefaultErrors;
 
@@ -1705,7 +1737,7 @@ export const createProjectsClientEvents: API.OperationMethod<
   CreateProjectsClientEventsResponse,
   CreateProjectsClientEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsClientEventsRequest,
   output: CreateProjectsClientEventsResponse,
   errors: [],
@@ -1716,18 +1748,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v3p1beta1/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3p1beta1/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = Operation;
-export const GetProjectsOperationsResponse = Operation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -1737,7 +1771,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -1754,20 +1788,25 @@ export interface ListProjectsCompaniesRequest {
   parent: string;
 }
 
-export const ListProjectsCompaniesRequest = Schema.Struct({
-  requireOpenJobs: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("requireOpenJobs"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/companies" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsCompaniesRequest>;
+export const ListProjectsCompaniesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    requireOpenJobs: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("requireOpenJobs"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3p1beta1/projects/{projectsId}/companies",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsCompaniesRequest>;
 
 export type ListProjectsCompaniesResponse = ListCompaniesResponse;
-export const ListProjectsCompaniesResponse = ListCompaniesResponse;
+export const ListProjectsCompaniesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCompaniesResponse;
 
 export type ListProjectsCompaniesError = DefaultErrors;
 
@@ -1777,7 +1816,7 @@ export const listProjectsCompanies: API.PaginatedOperationMethod<
   ListProjectsCompaniesResponse,
   ListProjectsCompaniesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsCompaniesRequest,
   output: ListProjectsCompaniesResponse,
   errors: [],
@@ -1792,18 +1831,20 @@ export interface DeleteProjectsCompaniesRequest {
   name: string;
 }
 
-export const DeleteProjectsCompaniesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsCompaniesRequest>;
+export const DeleteProjectsCompaniesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsCompaniesRequest>;
 
 export type DeleteProjectsCompaniesResponse = Empty;
-export const DeleteProjectsCompaniesResponse = Empty;
+export const DeleteProjectsCompaniesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsCompaniesError = DefaultErrors;
 
@@ -1813,7 +1854,7 @@ export const deleteProjectsCompanies: API.OperationMethod<
   DeleteProjectsCompaniesResponse,
   DeleteProjectsCompaniesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsCompaniesRequest,
   output: DeleteProjectsCompaniesResponse,
   errors: [],
@@ -1824,18 +1865,19 @@ export interface GetProjectsCompaniesRequest {
   name: string;
 }
 
-export const GetProjectsCompaniesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsCompaniesRequest>;
+export const GetProjectsCompaniesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsCompaniesRequest>;
 
 export type GetProjectsCompaniesResponse = Company;
-export const GetProjectsCompaniesResponse = Company;
+export const GetProjectsCompaniesResponse = /*@__PURE__*/ /*#__PURE__*/ Company;
 
 export type GetProjectsCompaniesError = DefaultErrors;
 
@@ -1845,7 +1887,7 @@ export const getProjectsCompanies: API.OperationMethod<
   GetProjectsCompaniesResponse,
   GetProjectsCompaniesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsCompaniesRequest,
   output: GetProjectsCompaniesResponse,
   errors: [],
@@ -1858,20 +1900,22 @@ export interface CreateProjectsCompaniesRequest {
   body?: CreateCompanyRequest;
 }
 
-export const CreateProjectsCompaniesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateCompanyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/companies",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsCompaniesRequest>;
+export const CreateProjectsCompaniesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateCompanyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/companies",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsCompaniesRequest>;
 
 export type CreateProjectsCompaniesResponse = Company;
-export const CreateProjectsCompaniesResponse = Company;
+export const CreateProjectsCompaniesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Company;
 
 export type CreateProjectsCompaniesError = DefaultErrors;
 
@@ -1881,7 +1925,7 @@ export const createProjectsCompanies: API.OperationMethod<
   CreateProjectsCompaniesResponse,
   CreateProjectsCompaniesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsCompaniesRequest,
   output: CreateProjectsCompaniesResponse,
   errors: [],
@@ -1894,20 +1938,22 @@ export interface PatchProjectsCompaniesRequest {
   body?: UpdateCompanyRequest;
 }
 
-export const PatchProjectsCompaniesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UpdateCompanyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsCompaniesRequest>;
+export const PatchProjectsCompaniesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UpdateCompanyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v3p1beta1/projects/{projectsId}/companies/{companiesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsCompaniesRequest>;
 
 export type PatchProjectsCompaniesResponse = Company;
-export const PatchProjectsCompaniesResponse = Company;
+export const PatchProjectsCompaniesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Company;
 
 export type PatchProjectsCompaniesError = DefaultErrors;
 
@@ -1917,7 +1963,7 @@ export const patchProjectsCompanies: API.OperationMethod<
   PatchProjectsCompaniesResponse,
   PatchProjectsCompaniesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsCompaniesRequest,
   output: PatchProjectsCompaniesResponse,
   errors: [],
@@ -1928,18 +1974,19 @@ export interface DeleteProjectsJobsRequest {
   name: string;
 }
 
-export const DeleteProjectsJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsJobsRequest>;
+export const DeleteProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsJobsRequest>;
 
 export type DeleteProjectsJobsResponse = Empty;
-export const DeleteProjectsJobsResponse = Empty;
+export const DeleteProjectsJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsJobsError = DefaultErrors;
 
@@ -1949,7 +1996,7 @@ export const deleteProjectsJobs: API.OperationMethod<
   DeleteProjectsJobsResponse,
   DeleteProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsJobsRequest,
   output: DeleteProjectsJobsResponse,
   errors: [],
@@ -1962,20 +2009,21 @@ export interface PatchProjectsJobsRequest {
   body?: UpdateJobRequest;
 }
 
-export const PatchProjectsJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UpdateJobRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsJobsRequest>;
+export const PatchProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UpdateJobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsJobsRequest>;
 
 export type PatchProjectsJobsResponse = Job;
-export const PatchProjectsJobsResponse = Job;
+export const PatchProjectsJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type PatchProjectsJobsError = DefaultErrors;
 
@@ -1985,7 +2033,7 @@ export const patchProjectsJobs: API.OperationMethod<
   PatchProjectsJobsResponse,
   PatchProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsJobsRequest,
   output: PatchProjectsJobsResponse,
   errors: [],
@@ -1998,20 +2046,22 @@ export interface SearchForAlertProjectsJobsRequest {
   body?: SearchJobsRequest;
 }
 
-export const SearchForAlertProjectsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/jobs:searchForAlert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchForAlertProjectsJobsRequest>;
+export const SearchForAlertProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/jobs:searchForAlert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchForAlertProjectsJobsRequest>;
 
 export type SearchForAlertProjectsJobsResponse = SearchJobsResponse;
-export const SearchForAlertProjectsJobsResponse = SearchJobsResponse;
+export const SearchForAlertProjectsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchJobsResponse;
 
 export type SearchForAlertProjectsJobsError = DefaultErrors;
 
@@ -2021,7 +2071,7 @@ export const searchForAlertProjectsJobs: API.OperationMethod<
   SearchForAlertProjectsJobsResponse,
   SearchForAlertProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchForAlertProjectsJobsRequest,
   output: SearchForAlertProjectsJobsResponse,
   errors: [],
@@ -2046,19 +2096,21 @@ export interface ListProjectsJobsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsJobsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  jobView: Schema.optional(Schema.String).pipe(T.HttpQuery("jobView")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/jobs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsJobsRequest>;
+export const ListProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    jobView: Schema.optional(Schema.String).pipe(T.HttpQuery("jobView")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3p1beta1/projects/{projectsId}/jobs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsJobsRequest>;
 
 export type ListProjectsJobsResponse = ListJobsResponse;
-export const ListProjectsJobsResponse = ListJobsResponse;
+export const ListProjectsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListJobsResponse;
 
 export type ListProjectsJobsError = DefaultErrors;
 
@@ -2068,7 +2120,7 @@ export const listProjectsJobs: API.PaginatedOperationMethod<
   ListProjectsJobsResponse,
   ListProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsJobsRequest,
   output: ListProjectsJobsResponse,
   errors: [],
@@ -2083,9 +2135,11 @@ export interface GetProjectsJobsRequest {
   name: string;
 }
 
-export const GetProjectsJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
+export const GetProjectsJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    name: Schema.String.pipe(T.HttpPath("name")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "v3p1beta1/projects/{projectsId}/jobs/{jobsId}",
@@ -2094,7 +2148,7 @@ export const GetProjectsJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetProjectsJobsRequest>;
 
 export type GetProjectsJobsResponse = Job;
-export const GetProjectsJobsResponse = Job;
+export const GetProjectsJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type GetProjectsJobsError = DefaultErrors;
 
@@ -2104,7 +2158,7 @@ export const getProjectsJobs: API.OperationMethod<
   GetProjectsJobsResponse,
   GetProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsJobsRequest,
   output: GetProjectsJobsResponse,
   errors: [],
@@ -2117,20 +2171,22 @@ export interface BatchDeleteProjectsJobsRequest {
   body?: BatchDeleteJobsRequest;
 }
 
-export const BatchDeleteProjectsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchDeleteJobsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/jobs:batchDelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchDeleteProjectsJobsRequest>;
+export const BatchDeleteProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchDeleteJobsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/jobs:batchDelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchDeleteProjectsJobsRequest>;
 
 export type BatchDeleteProjectsJobsResponse = Empty;
-export const BatchDeleteProjectsJobsResponse = Empty;
+export const BatchDeleteProjectsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type BatchDeleteProjectsJobsError = DefaultErrors;
 
@@ -2140,7 +2196,7 @@ export const batchDeleteProjectsJobs: API.OperationMethod<
   BatchDeleteProjectsJobsResponse,
   BatchDeleteProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchDeleteProjectsJobsRequest,
   output: BatchDeleteProjectsJobsResponse,
   errors: [],
@@ -2153,20 +2209,22 @@ export interface SearchProjectsJobsRequest {
   body?: SearchJobsRequest;
 }
 
-export const SearchProjectsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/jobs:search",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsJobsRequest>;
+export const SearchProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(SearchJobsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/jobs:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsJobsRequest>;
 
 export type SearchProjectsJobsResponse = SearchJobsResponse;
-export const SearchProjectsJobsResponse = SearchJobsResponse;
+export const SearchProjectsJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchJobsResponse;
 
 export type SearchProjectsJobsError = DefaultErrors;
 
@@ -2176,7 +2234,7 @@ export const searchProjectsJobs: API.OperationMethod<
   SearchProjectsJobsResponse,
   SearchProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsJobsRequest,
   output: SearchProjectsJobsResponse,
   errors: [],
@@ -2189,20 +2247,21 @@ export interface CreateProjectsJobsRequest {
   body?: CreateJobRequest;
 }
 
-export const CreateProjectsJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateJobRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3p1beta1/projects/{projectsId}/jobs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsJobsRequest>;
+export const CreateProjectsJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateJobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3p1beta1/projects/{projectsId}/jobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsJobsRequest>;
 
 export type CreateProjectsJobsResponse = Job;
-export const CreateProjectsJobsResponse = Job;
+export const CreateProjectsJobsResponse = /*@__PURE__*/ /*#__PURE__*/ Job;
 
 export type CreateProjectsJobsError = DefaultErrors;
 
@@ -2212,7 +2271,7 @@ export const createProjectsJobs: API.OperationMethod<
   CreateProjectsJobsResponse,
   CreateProjectsJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsJobsRequest,
   output: CreateProjectsJobsResponse,
   errors: [],

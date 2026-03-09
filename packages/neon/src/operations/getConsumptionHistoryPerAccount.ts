@@ -3,41 +3,43 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const GetConsumptionHistoryPerAccountInput = Schema.Struct({
-  from: Schema.String,
-  to: Schema.String,
-  granularity: Schema.String,
-  org_id: Schema.optional(Schema.String),
-  include_v1_metrics: Schema.optional(Schema.Boolean),
-  metrics: Schema.optional(Schema.String),
-}).pipe(T.Http({ method: "GET", path: "/consumption_history/account" }));
+export const GetConsumptionHistoryPerAccountInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    from: Schema.String,
+    to: Schema.String,
+    granularity: Schema.String,
+    org_id: Schema.optional(Schema.String),
+    include_v1_metrics: Schema.optional(Schema.Boolean),
+    metrics: Schema.optional(Schema.String),
+  }).pipe(T.Http({ method: "GET", path: "/consumption_history/account" }));
 export type GetConsumptionHistoryPerAccountInput =
   typeof GetConsumptionHistoryPerAccountInput.Type;
 
 // Output Schema
-export const GetConsumptionHistoryPerAccountOutput = Schema.Struct({
-  periods: Schema.Array(
-    Schema.Struct({
-      period_id: Schema.String,
-      period_plan: Schema.String,
-      period_start: Schema.String,
-      period_end: Schema.optional(Schema.String),
-      consumption: Schema.Array(
-        Schema.Struct({
-          timeframe_start: Schema.String,
-          timeframe_end: Schema.String,
-          active_time_seconds: Schema.Number,
-          compute_time_seconds: Schema.Number,
-          written_data_bytes: Schema.Number,
-          synthetic_storage_size_bytes: Schema.Number,
-          data_storage_bytes_hour: Schema.optional(Schema.Number),
-          logical_size_bytes: Schema.optional(Schema.Number),
-          logical_size_bytes_hour: Schema.optional(Schema.Number),
-        }),
-      ),
-    }),
-  ),
-});
+export const GetConsumptionHistoryPerAccountOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    periods: Schema.Array(
+      Schema.Struct({
+        period_id: Schema.String,
+        period_plan: Schema.String,
+        period_start: Schema.String,
+        period_end: Schema.optional(Schema.String),
+        consumption: Schema.Array(
+          Schema.Struct({
+            timeframe_start: Schema.String,
+            timeframe_end: Schema.String,
+            active_time_seconds: Schema.Number,
+            compute_time_seconds: Schema.Number,
+            written_data_bytes: Schema.Number,
+            synthetic_storage_size_bytes: Schema.Number,
+            data_storage_bytes_hour: Schema.optional(Schema.Number),
+            logical_size_bytes: Schema.optional(Schema.Number),
+            logical_size_bytes_hour: Schema.optional(Schema.Number),
+          }),
+        ),
+      }),
+    ),
+  });
 export type GetConsumptionHistoryPerAccountOutput =
   typeof GetConsumptionHistoryPerAccountOutput.Type;
 

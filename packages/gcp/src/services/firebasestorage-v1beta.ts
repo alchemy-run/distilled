@@ -27,11 +27,12 @@ export interface Bucket {
   name?: string;
 }
 
-export const Bucket: Schema.Schema<Bucket> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
+export const Bucket: Schema.Schema<Bucket> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Bucket" }) as any as Schema.Schema<Bucket>;
 
 export interface ListBucketsResponse {
   /** The list of linked buckets. */
@@ -41,7 +42,7 @@ export interface ListBucketsResponse {
 }
 
 export const ListBucketsResponse: Schema.Schema<ListBucketsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buckets: Schema.optional(Schema.Array(Bucket)),
       nextPageToken: Schema.optional(Schema.String),
@@ -61,34 +62,36 @@ export interface DefaultBucket {
   storageClass?: string;
 }
 
-export const DefaultBucket: Schema.Schema<DefaultBucket> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-    bucket: Schema.optional(Bucket),
-    storageClass: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DefaultBucket",
-}) as any as Schema.Schema<DefaultBucket>;
+export const DefaultBucket: Schema.Schema<DefaultBucket> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      bucket: Schema.optional(Bucket),
+      storageClass: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DefaultBucket",
+  }) as any as Schema.Schema<DefaultBucket>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface AddFirebaseRequest {}
 
 export const AddFirebaseRequest: Schema.Schema<AddFirebaseRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AddFirebaseRequest",
   }) as any as Schema.Schema<AddFirebaseRequest>;
 
 export interface RemoveFirebaseRequest {}
 
 export const RemoveFirebaseRequest: Schema.Schema<RemoveFirebaseRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "RemoveFirebaseRequest",
   }) as any as Schema.Schema<RemoveFirebaseRequest>;
 
@@ -101,15 +104,20 @@ export interface GetDefaultBucketProjectsRequest {
   name: string;
 }
 
-export const GetDefaultBucketProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/defaultBucket" }),
-  svc,
-) as unknown as Schema.Schema<GetDefaultBucketProjectsRequest>;
+export const GetDefaultBucketProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/defaultBucket",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDefaultBucketProjectsRequest>;
 
 export type GetDefaultBucketProjectsResponse = DefaultBucket;
-export const GetDefaultBucketProjectsResponse = DefaultBucket;
+export const GetDefaultBucketProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DefaultBucket;
 
 export type GetDefaultBucketProjectsError = DefaultErrors;
 
@@ -119,7 +127,7 @@ export const getDefaultBucketProjects: API.OperationMethod<
   GetDefaultBucketProjectsResponse,
   GetDefaultBucketProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultBucketProjectsRequest,
   output: GetDefaultBucketProjectsResponse,
   errors: [],
@@ -130,18 +138,20 @@ export interface DeleteDefaultBucketProjectsRequest {
   name: string;
 }
 
-export const DeleteDefaultBucketProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta/projects/{projectsId}/defaultBucket",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteDefaultBucketProjectsRequest>;
+export const DeleteDefaultBucketProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta/projects/{projectsId}/defaultBucket",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteDefaultBucketProjectsRequest>;
 
 export type DeleteDefaultBucketProjectsResponse = Empty;
-export const DeleteDefaultBucketProjectsResponse = Empty;
+export const DeleteDefaultBucketProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteDefaultBucketProjectsError = DefaultErrors;
 
@@ -151,7 +161,7 @@ export const deleteDefaultBucketProjects: API.OperationMethod<
   DeleteDefaultBucketProjectsResponse,
   DeleteDefaultBucketProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDefaultBucketProjectsRequest,
   output: DeleteDefaultBucketProjectsResponse,
   errors: [],
@@ -162,18 +172,19 @@ export interface GetProjectsBucketsRequest {
   name: string;
 }
 
-export const GetProjectsBucketsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsBucketsRequest>;
+export const GetProjectsBucketsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/buckets/{bucketsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsBucketsRequest>;
 
 export type GetProjectsBucketsResponse = Bucket;
-export const GetProjectsBucketsResponse = Bucket;
+export const GetProjectsBucketsResponse = /*@__PURE__*/ /*#__PURE__*/ Bucket;
 
 export type GetProjectsBucketsError = DefaultErrors;
 
@@ -183,7 +194,7 @@ export const getProjectsBuckets: API.OperationMethod<
   GetProjectsBucketsResponse,
   GetProjectsBucketsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsBucketsRequest,
   output: GetProjectsBucketsResponse,
   errors: [],
@@ -198,17 +209,19 @@ export interface ListProjectsBucketsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsBucketsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/buckets" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsBucketsRequest>;
+export const ListProjectsBucketsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/buckets" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsBucketsRequest>;
 
 export type ListProjectsBucketsResponse = ListBucketsResponse;
-export const ListProjectsBucketsResponse = ListBucketsResponse;
+export const ListProjectsBucketsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListBucketsResponse;
 
 export type ListProjectsBucketsError = DefaultErrors;
 
@@ -218,7 +231,7 @@ export const listProjectsBuckets: API.PaginatedOperationMethod<
   ListProjectsBucketsResponse,
   ListProjectsBucketsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsBucketsRequest,
   output: ListProjectsBucketsResponse,
   errors: [],
@@ -235,20 +248,22 @@ export interface AddFirebaseProjectsBucketsRequest {
   body?: AddFirebaseRequest;
 }
 
-export const AddFirebaseProjectsBucketsRequest = Schema.Struct({
-  bucket: Schema.String.pipe(T.HttpPath("bucket")),
-  body: Schema.optional(AddFirebaseRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:addFirebase",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddFirebaseProjectsBucketsRequest>;
+export const AddFirebaseProjectsBucketsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    bucket: Schema.String.pipe(T.HttpPath("bucket")),
+    body: Schema.optional(AddFirebaseRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:addFirebase",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddFirebaseProjectsBucketsRequest>;
 
 export type AddFirebaseProjectsBucketsResponse = Bucket;
-export const AddFirebaseProjectsBucketsResponse = Bucket;
+export const AddFirebaseProjectsBucketsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Bucket;
 
 export type AddFirebaseProjectsBucketsError = DefaultErrors;
 
@@ -258,7 +273,7 @@ export const addFirebaseProjectsBuckets: API.OperationMethod<
   AddFirebaseProjectsBucketsResponse,
   AddFirebaseProjectsBucketsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFirebaseProjectsBucketsRequest,
   output: AddFirebaseProjectsBucketsResponse,
   errors: [],
@@ -271,20 +286,22 @@ export interface RemoveFirebaseProjectsBucketsRequest {
   body?: RemoveFirebaseRequest;
 }
 
-export const RemoveFirebaseProjectsBucketsRequest = Schema.Struct({
-  bucket: Schema.String.pipe(T.HttpPath("bucket")),
-  body: Schema.optional(RemoveFirebaseRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:removeFirebase",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveFirebaseProjectsBucketsRequest>;
+export const RemoveFirebaseProjectsBucketsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    bucket: Schema.String.pipe(T.HttpPath("bucket")),
+    body: Schema.optional(RemoveFirebaseRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/buckets/{bucketsId}:removeFirebase",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveFirebaseProjectsBucketsRequest>;
 
 export type RemoveFirebaseProjectsBucketsResponse = Empty;
-export const RemoveFirebaseProjectsBucketsResponse = Empty;
+export const RemoveFirebaseProjectsBucketsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RemoveFirebaseProjectsBucketsError = DefaultErrors;
 
@@ -294,7 +311,7 @@ export const removeFirebaseProjectsBuckets: API.OperationMethod<
   RemoveFirebaseProjectsBucketsResponse,
   RemoveFirebaseProjectsBucketsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveFirebaseProjectsBucketsRequest,
   output: RemoveFirebaseProjectsBucketsResponse,
   errors: [],
@@ -307,20 +324,22 @@ export interface CreateProjectsDefaultBucketRequest {
   body?: DefaultBucket;
 }
 
-export const CreateProjectsDefaultBucketRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(DefaultBucket).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/defaultBucket",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDefaultBucketRequest>;
+export const CreateProjectsDefaultBucketRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(DefaultBucket).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/defaultBucket",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDefaultBucketRequest>;
 
 export type CreateProjectsDefaultBucketResponse = DefaultBucket;
-export const CreateProjectsDefaultBucketResponse = DefaultBucket;
+export const CreateProjectsDefaultBucketResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DefaultBucket;
 
 export type CreateProjectsDefaultBucketError = DefaultErrors;
 
@@ -330,7 +349,7 @@ export const createProjectsDefaultBucket: API.OperationMethod<
   CreateProjectsDefaultBucketResponse,
   CreateProjectsDefaultBucketError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDefaultBucketRequest,
   output: CreateProjectsDefaultBucketResponse,
   errors: [],

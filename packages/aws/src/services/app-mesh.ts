@@ -161,21 +161,22 @@ export interface ListTagsForResourceInput {
   nextToken?: string;
   limit?: number;
 }
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v20190125/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/v20190125/tags" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
@@ -183,17 +184,17 @@ export interface TagRef {
   key: string;
   value: string;
 }
-export const TagRef = S.suspend(() =>
+export const TagRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.String }),
 ).annotate({ identifier: "TagRef" }) as any as S.Schema<TagRef>;
 export type TagList = TagRef[];
-export const TagList = S.Array(TagRef);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(TagRef);
 export interface ListTagsForResourceOutput {
   tags: TagRef[];
   nextToken?: string;
 }
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({ tags: TagList, nextToken: S.optional(S.String) }),
+export const ListTagsForResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ tags: TagList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
@@ -201,7 +202,7 @@ export interface TagResourceInput {
   resourceArn: string;
   tags: TagRef[];
 }
-export const TagResourceInput = S.suspend(() =>
+export const TagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tags: TagList,
@@ -219,16 +220,18 @@ export const TagResourceInput = S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceInput = S.suspend(() =>
+export const UntagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     tagKeys: TagKeyList,
@@ -246,19 +249,21 @@ export const UntagResourceInput = S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface EgressFilter {
   type: string;
 }
-export const EgressFilter = S.suspend(() =>
+export const EgressFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.String }),
 ).annotate({ identifier: "EgressFilter" }) as any as S.Schema<EgressFilter>;
 export interface MeshServiceDiscovery {
   ipPreference?: string;
 }
-export const MeshServiceDiscovery = S.suspend(() =>
+export const MeshServiceDiscovery = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ipPreference: S.optional(S.String) }),
 ).annotate({
   identifier: "MeshServiceDiscovery",
@@ -267,7 +272,7 @@ export interface MeshSpec {
   egressFilter?: EgressFilter;
   serviceDiscovery?: MeshServiceDiscovery;
 }
-export const MeshSpec = S.suspend(() =>
+export const MeshSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     egressFilter: S.optional(EgressFilter),
     serviceDiscovery: S.optional(MeshServiceDiscovery),
@@ -279,7 +284,7 @@ export interface CreateMeshInput {
   tags?: TagRef[];
   clientToken?: string;
 }
-export const CreateMeshInput = S.suspend(() =>
+export const CreateMeshInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     spec: S.optional(MeshSpec),
@@ -307,7 +312,7 @@ export interface ResourceMetadata {
   meshOwner: string;
   resourceOwner: string;
 }
-export const ResourceMetadata = S.suspend(() =>
+export const ResourceMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     version: S.Number,
@@ -323,7 +328,7 @@ export const ResourceMetadata = S.suspend(() =>
 export interface MeshStatus {
   status?: string;
 }
-export const MeshStatus = S.suspend(() =>
+export const MeshStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.optional(S.String) }),
 ).annotate({ identifier: "MeshStatus" }) as any as S.Schema<MeshStatus>;
 export interface MeshData {
@@ -332,7 +337,7 @@ export interface MeshData {
   metadata: ResourceMetadata;
   status: MeshStatus;
 }
-export const MeshData = S.suspend(() =>
+export const MeshData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     spec: MeshSpec,
@@ -343,7 +348,7 @@ export const MeshData = S.suspend(() =>
 export interface CreateMeshOutput {
   mesh: MeshData;
 }
-export const CreateMeshOutput = S.suspend(() =>
+export const CreateMeshOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     mesh: MeshData.pipe(T.HttpPayload()).annotate({ identifier: "MeshData" }),
   }),
@@ -354,7 +359,7 @@ export interface DescribeMeshInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DescribeMeshInput = S.suspend(() =>
+export const DescribeMeshInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -374,7 +379,7 @@ export const DescribeMeshInput = S.suspend(() =>
 export interface DescribeMeshOutput {
   mesh: MeshData;
 }
-export const DescribeMeshOutput = S.suspend(() =>
+export const DescribeMeshOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     mesh: MeshData.pipe(T.HttpPayload()).annotate({ identifier: "MeshData" }),
   }),
@@ -386,7 +391,7 @@ export interface UpdateMeshInput {
   spec?: MeshSpec;
   clientToken?: string;
 }
-export const UpdateMeshInput = S.suspend(() =>
+export const UpdateMeshInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: S.optional(MeshSpec),
@@ -407,7 +412,7 @@ export const UpdateMeshInput = S.suspend(() =>
 export interface UpdateMeshOutput {
   mesh: MeshData;
 }
-export const UpdateMeshOutput = S.suspend(() =>
+export const UpdateMeshOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     mesh: MeshData.pipe(T.HttpPayload()).annotate({ identifier: "MeshData" }),
   }),
@@ -417,7 +422,7 @@ export const UpdateMeshOutput = S.suspend(() =>
 export interface DeleteMeshInput {
   meshName: string;
 }
-export const DeleteMeshInput = S.suspend(() =>
+export const DeleteMeshInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ meshName: S.String.pipe(T.HttpLabel("meshName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v20190125/meshes/{meshName}" }),
@@ -434,7 +439,7 @@ export const DeleteMeshInput = S.suspend(() =>
 export interface DeleteMeshOutput {
   mesh: MeshData;
 }
-export const DeleteMeshOutput = S.suspend(() =>
+export const DeleteMeshOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     mesh: MeshData.pipe(T.HttpPayload()).annotate({ identifier: "MeshData" }),
   }),
@@ -445,7 +450,7 @@ export interface ListMeshesInput {
   nextToken?: string;
   limit?: number;
 }
-export const ListMeshesInput = S.suspend(() =>
+export const ListMeshesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -471,7 +476,7 @@ export interface MeshRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const MeshRef = S.suspend(() =>
+export const MeshRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     meshOwner: S.String,
@@ -483,70 +488,77 @@ export const MeshRef = S.suspend(() =>
   }),
 ).annotate({ identifier: "MeshRef" }) as any as S.Schema<MeshRef>;
 export type MeshList = MeshRef[];
-export const MeshList = S.Array(MeshRef);
+export const MeshList = /*@__PURE__*/ /*#__PURE__*/ S.Array(MeshRef);
 export interface ListMeshesOutput {
   meshes: MeshRef[];
   nextToken?: string;
 }
-export const ListMeshesOutput = S.suspend(() =>
+export const ListMeshesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ meshes: MeshList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListMeshesOutput",
 }) as any as S.Schema<ListMeshesOutput>;
 export type PortSet = number[];
-export const PortSet = S.Array(S.Number);
+export const PortSet = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.Number);
 export interface VirtualGatewayListenerTlsFileCertificate {
   certificateChain: string;
   privateKey: string;
 }
-export const VirtualGatewayListenerTlsFileCertificate = S.suspend(() =>
-  S.Struct({ certificateChain: S.String, privateKey: S.String }),
-).annotate({
-  identifier: "VirtualGatewayListenerTlsFileCertificate",
-}) as any as S.Schema<VirtualGatewayListenerTlsFileCertificate>;
+export const VirtualGatewayListenerTlsFileCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ certificateChain: S.String, privateKey: S.String }),
+  ).annotate({
+    identifier: "VirtualGatewayListenerTlsFileCertificate",
+  }) as any as S.Schema<VirtualGatewayListenerTlsFileCertificate>;
 export interface VirtualGatewayListenerTlsSdsCertificate {
   secretName: string;
 }
-export const VirtualGatewayListenerTlsSdsCertificate = S.suspend(() =>
-  S.Struct({ secretName: S.String }),
-).annotate({
-  identifier: "VirtualGatewayListenerTlsSdsCertificate",
-}) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
+export const VirtualGatewayListenerTlsSdsCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ secretName: S.String }),
+  ).annotate({
+    identifier: "VirtualGatewayListenerTlsSdsCertificate",
+  }) as any as S.Schema<VirtualGatewayListenerTlsSdsCertificate>;
 export type VirtualGatewayClientTlsCertificate =
   | { file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
   | { file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
-export const VirtualGatewayClientTlsCertificate = S.Union([
-  S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
-  S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
-]);
+export const VirtualGatewayClientTlsCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.Union([
+    S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
+    S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
+  ]);
 export type VirtualGatewayCertificateAuthorityArns = string[];
-export const VirtualGatewayCertificateAuthorityArns = S.Array(S.String);
+export const VirtualGatewayCertificateAuthorityArns =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface VirtualGatewayTlsValidationContextAcmTrust {
   certificateAuthorityArns: string[];
 }
-export const VirtualGatewayTlsValidationContextAcmTrust = S.suspend(() =>
-  S.Struct({
-    certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns,
-  }),
-).annotate({
-  identifier: "VirtualGatewayTlsValidationContextAcmTrust",
-}) as any as S.Schema<VirtualGatewayTlsValidationContextAcmTrust>;
+export const VirtualGatewayTlsValidationContextAcmTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      certificateAuthorityArns: VirtualGatewayCertificateAuthorityArns,
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayTlsValidationContextAcmTrust",
+  }) as any as S.Schema<VirtualGatewayTlsValidationContextAcmTrust>;
 export interface VirtualGatewayTlsValidationContextFileTrust {
   certificateChain: string;
 }
-export const VirtualGatewayTlsValidationContextFileTrust = S.suspend(() =>
-  S.Struct({ certificateChain: S.String }),
-).annotate({
-  identifier: "VirtualGatewayTlsValidationContextFileTrust",
-}) as any as S.Schema<VirtualGatewayTlsValidationContextFileTrust>;
+export const VirtualGatewayTlsValidationContextFileTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ certificateChain: S.String }),
+  ).annotate({
+    identifier: "VirtualGatewayTlsValidationContextFileTrust",
+  }) as any as S.Schema<VirtualGatewayTlsValidationContextFileTrust>;
 export interface VirtualGatewayTlsValidationContextSdsTrust {
   secretName: string;
 }
-export const VirtualGatewayTlsValidationContextSdsTrust = S.suspend(() =>
-  S.Struct({ secretName: S.String }),
-).annotate({
-  identifier: "VirtualGatewayTlsValidationContextSdsTrust",
-}) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
+export const VirtualGatewayTlsValidationContextSdsTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ secretName: S.String }),
+  ).annotate({
+    identifier: "VirtualGatewayTlsValidationContextSdsTrust",
+  }) as any as S.Schema<VirtualGatewayTlsValidationContextSdsTrust>;
 export type VirtualGatewayTlsValidationContextTrust =
   | {
       acm: VirtualGatewayTlsValidationContextAcmTrust;
@@ -563,26 +575,30 @@ export type VirtualGatewayTlsValidationContextTrust =
       file?: never;
       sds: VirtualGatewayTlsValidationContextSdsTrust;
     };
-export const VirtualGatewayTlsValidationContextTrust = S.Union([
-  S.Struct({ acm: VirtualGatewayTlsValidationContextAcmTrust }),
-  S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
-  S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
-]);
+export const VirtualGatewayTlsValidationContextTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.Union([
+    S.Struct({ acm: VirtualGatewayTlsValidationContextAcmTrust }),
+    S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
+    S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
+  ]);
 export type SubjectAlternativeNameList = string[];
-export const SubjectAlternativeNameList = S.Array(S.String);
+export const SubjectAlternativeNameList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface SubjectAlternativeNameMatchers {
   exact: string[];
 }
-export const SubjectAlternativeNameMatchers = S.suspend(() =>
-  S.Struct({ exact: SubjectAlternativeNameList }),
-).annotate({
-  identifier: "SubjectAlternativeNameMatchers",
-}) as any as S.Schema<SubjectAlternativeNameMatchers>;
+export const SubjectAlternativeNameMatchers =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ exact: SubjectAlternativeNameList }),
+  ).annotate({
+    identifier: "SubjectAlternativeNameMatchers",
+  }) as any as S.Schema<SubjectAlternativeNameMatchers>;
 export interface SubjectAlternativeNames {
   match: SubjectAlternativeNameMatchers;
 }
-export const SubjectAlternativeNames = S.suspend(() =>
-  S.Struct({ match: SubjectAlternativeNameMatchers }),
+export const SubjectAlternativeNames = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ match: SubjectAlternativeNameMatchers }),
 ).annotate({
   identifier: "SubjectAlternativeNames",
 }) as any as S.Schema<SubjectAlternativeNames>;
@@ -590,46 +606,49 @@ export interface VirtualGatewayTlsValidationContext {
   trust: VirtualGatewayTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
-export const VirtualGatewayTlsValidationContext = S.suspend(() =>
-  S.Struct({
-    trust: VirtualGatewayTlsValidationContextTrust,
-    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-  }),
-).annotate({
-  identifier: "VirtualGatewayTlsValidationContext",
-}) as any as S.Schema<VirtualGatewayTlsValidationContext>;
+export const VirtualGatewayTlsValidationContext =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      trust: VirtualGatewayTlsValidationContextTrust,
+      subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayTlsValidationContext",
+  }) as any as S.Schema<VirtualGatewayTlsValidationContext>;
 export interface VirtualGatewayClientPolicyTls {
   enforce?: boolean;
   ports?: number[];
   certificate?: VirtualGatewayClientTlsCertificate;
   validation: VirtualGatewayTlsValidationContext;
 }
-export const VirtualGatewayClientPolicyTls = S.suspend(() =>
-  S.Struct({
-    enforce: S.optional(S.Boolean),
-    ports: S.optional(PortSet),
-    certificate: S.optional(VirtualGatewayClientTlsCertificate),
-    validation: VirtualGatewayTlsValidationContext,
-  }),
-).annotate({
-  identifier: "VirtualGatewayClientPolicyTls",
-}) as any as S.Schema<VirtualGatewayClientPolicyTls>;
+export const VirtualGatewayClientPolicyTls =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      enforce: S.optional(S.Boolean),
+      ports: S.optional(PortSet),
+      certificate: S.optional(VirtualGatewayClientTlsCertificate),
+      validation: VirtualGatewayTlsValidationContext,
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayClientPolicyTls",
+  }) as any as S.Schema<VirtualGatewayClientPolicyTls>;
 export interface VirtualGatewayClientPolicy {
   tls?: VirtualGatewayClientPolicyTls;
 }
-export const VirtualGatewayClientPolicy = S.suspend(() =>
-  S.Struct({ tls: S.optional(VirtualGatewayClientPolicyTls) }),
+export const VirtualGatewayClientPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ tls: S.optional(VirtualGatewayClientPolicyTls) }),
 ).annotate({
   identifier: "VirtualGatewayClientPolicy",
 }) as any as S.Schema<VirtualGatewayClientPolicy>;
 export interface VirtualGatewayBackendDefaults {
   clientPolicy?: VirtualGatewayClientPolicy;
 }
-export const VirtualGatewayBackendDefaults = S.suspend(() =>
-  S.Struct({ clientPolicy: S.optional(VirtualGatewayClientPolicy) }),
-).annotate({
-  identifier: "VirtualGatewayBackendDefaults",
-}) as any as S.Schema<VirtualGatewayBackendDefaults>;
+export const VirtualGatewayBackendDefaults =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ clientPolicy: S.optional(VirtualGatewayClientPolicy) }),
+  ).annotate({
+    identifier: "VirtualGatewayBackendDefaults",
+  }) as any as S.Schema<VirtualGatewayBackendDefaults>;
 export interface VirtualGatewayHealthCheckPolicy {
   timeoutMillis: number;
   intervalMillis: number;
@@ -639,75 +658,81 @@ export interface VirtualGatewayHealthCheckPolicy {
   healthyThreshold: number;
   unhealthyThreshold: number;
 }
-export const VirtualGatewayHealthCheckPolicy = S.suspend(() =>
-  S.Struct({
-    timeoutMillis: S.Number,
-    intervalMillis: S.Number,
-    protocol: S.String,
-    port: S.optional(S.Number),
-    path: S.optional(S.String),
-    healthyThreshold: S.Number,
-    unhealthyThreshold: S.Number,
-  }),
-).annotate({
-  identifier: "VirtualGatewayHealthCheckPolicy",
-}) as any as S.Schema<VirtualGatewayHealthCheckPolicy>;
+export const VirtualGatewayHealthCheckPolicy =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      timeoutMillis: S.Number,
+      intervalMillis: S.Number,
+      protocol: S.String,
+      port: S.optional(S.Number),
+      path: S.optional(S.String),
+      healthyThreshold: S.Number,
+      unhealthyThreshold: S.Number,
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayHealthCheckPolicy",
+  }) as any as S.Schema<VirtualGatewayHealthCheckPolicy>;
 export interface VirtualGatewayPortMapping {
   port: number;
   protocol: string;
 }
-export const VirtualGatewayPortMapping = S.suspend(() =>
-  S.Struct({ port: S.Number, protocol: S.String }),
+export const VirtualGatewayPortMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ port: S.Number, protocol: S.String }),
 ).annotate({
   identifier: "VirtualGatewayPortMapping",
 }) as any as S.Schema<VirtualGatewayPortMapping>;
 export type VirtualGatewayListenerTlsValidationContextTrust =
   | { file: VirtualGatewayTlsValidationContextFileTrust; sds?: never }
   | { file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
-export const VirtualGatewayListenerTlsValidationContextTrust = S.Union([
-  S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
-  S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
-]);
+export const VirtualGatewayListenerTlsValidationContextTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.Union([
+    S.Struct({ file: VirtualGatewayTlsValidationContextFileTrust }),
+    S.Struct({ sds: VirtualGatewayTlsValidationContextSdsTrust }),
+  ]);
 export interface VirtualGatewayListenerTlsValidationContext {
   trust: VirtualGatewayListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
-export const VirtualGatewayListenerTlsValidationContext = S.suspend(() =>
-  S.Struct({
-    trust: VirtualGatewayListenerTlsValidationContextTrust,
-    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-  }),
-).annotate({
-  identifier: "VirtualGatewayListenerTlsValidationContext",
-}) as any as S.Schema<VirtualGatewayListenerTlsValidationContext>;
+export const VirtualGatewayListenerTlsValidationContext =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      trust: VirtualGatewayListenerTlsValidationContextTrust,
+      subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayListenerTlsValidationContext",
+  }) as any as S.Schema<VirtualGatewayListenerTlsValidationContext>;
 export interface VirtualGatewayListenerTlsAcmCertificate {
   certificateArn: string;
 }
-export const VirtualGatewayListenerTlsAcmCertificate = S.suspend(() =>
-  S.Struct({ certificateArn: S.String }),
-).annotate({
-  identifier: "VirtualGatewayListenerTlsAcmCertificate",
-}) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
+export const VirtualGatewayListenerTlsAcmCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ certificateArn: S.String }),
+  ).annotate({
+    identifier: "VirtualGatewayListenerTlsAcmCertificate",
+  }) as any as S.Schema<VirtualGatewayListenerTlsAcmCertificate>;
 export type VirtualGatewayListenerTlsCertificate =
   | { acm: VirtualGatewayListenerTlsAcmCertificate; file?: never; sds?: never }
   | { acm?: never; file: VirtualGatewayListenerTlsFileCertificate; sds?: never }
   | { acm?: never; file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
-export const VirtualGatewayListenerTlsCertificate = S.Union([
-  S.Struct({ acm: VirtualGatewayListenerTlsAcmCertificate }),
-  S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
-  S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
-]);
+export const VirtualGatewayListenerTlsCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.Union([
+    S.Struct({ acm: VirtualGatewayListenerTlsAcmCertificate }),
+    S.Struct({ file: VirtualGatewayListenerTlsFileCertificate }),
+    S.Struct({ sds: VirtualGatewayListenerTlsSdsCertificate }),
+  ]);
 export interface VirtualGatewayListenerTls {
   mode: string;
   validation?: VirtualGatewayListenerTlsValidationContext;
   certificate: VirtualGatewayListenerTlsCertificate;
 }
-export const VirtualGatewayListenerTls = S.suspend(() =>
-  S.Struct({
-    mode: S.String,
-    validation: S.optional(VirtualGatewayListenerTlsValidationContext),
-    certificate: VirtualGatewayListenerTlsCertificate,
-  }),
+export const VirtualGatewayListenerTls = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      mode: S.String,
+      validation: S.optional(VirtualGatewayListenerTlsValidationContext),
+      certificate: VirtualGatewayListenerTlsCertificate,
+    }),
 ).annotate({
   identifier: "VirtualGatewayListenerTls",
 }) as any as S.Schema<VirtualGatewayListenerTls>;
@@ -715,70 +740,78 @@ export interface VirtualGatewayHttpConnectionPool {
   maxConnections: number;
   maxPendingRequests?: number;
 }
-export const VirtualGatewayHttpConnectionPool = S.suspend(() =>
-  S.Struct({
-    maxConnections: S.Number,
-    maxPendingRequests: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VirtualGatewayHttpConnectionPool",
-}) as any as S.Schema<VirtualGatewayHttpConnectionPool>;
+export const VirtualGatewayHttpConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      maxConnections: S.Number,
+      maxPendingRequests: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "VirtualGatewayHttpConnectionPool",
+  }) as any as S.Schema<VirtualGatewayHttpConnectionPool>;
 export interface VirtualGatewayHttp2ConnectionPool {
   maxRequests: number;
 }
-export const VirtualGatewayHttp2ConnectionPool = S.suspend(() =>
-  S.Struct({ maxRequests: S.Number }),
-).annotate({
-  identifier: "VirtualGatewayHttp2ConnectionPool",
-}) as any as S.Schema<VirtualGatewayHttp2ConnectionPool>;
+export const VirtualGatewayHttp2ConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ maxRequests: S.Number }),
+  ).annotate({
+    identifier: "VirtualGatewayHttp2ConnectionPool",
+  }) as any as S.Schema<VirtualGatewayHttp2ConnectionPool>;
 export interface VirtualGatewayGrpcConnectionPool {
   maxRequests: number;
 }
-export const VirtualGatewayGrpcConnectionPool = S.suspend(() =>
-  S.Struct({ maxRequests: S.Number }),
-).annotate({
-  identifier: "VirtualGatewayGrpcConnectionPool",
-}) as any as S.Schema<VirtualGatewayGrpcConnectionPool>;
+export const VirtualGatewayGrpcConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ maxRequests: S.Number }),
+  ).annotate({
+    identifier: "VirtualGatewayGrpcConnectionPool",
+  }) as any as S.Schema<VirtualGatewayGrpcConnectionPool>;
 export type VirtualGatewayConnectionPool =
   | { http: VirtualGatewayHttpConnectionPool; http2?: never; grpc?: never }
   | { http?: never; http2: VirtualGatewayHttp2ConnectionPool; grpc?: never }
   | { http?: never; http2?: never; grpc: VirtualGatewayGrpcConnectionPool };
-export const VirtualGatewayConnectionPool = S.Union([
-  S.Struct({ http: VirtualGatewayHttpConnectionPool }),
-  S.Struct({ http2: VirtualGatewayHttp2ConnectionPool }),
-  S.Struct({ grpc: VirtualGatewayGrpcConnectionPool }),
-]);
+export const VirtualGatewayConnectionPool = /*@__PURE__*/ /*#__PURE__*/ S.Union(
+  [
+    S.Struct({ http: VirtualGatewayHttpConnectionPool }),
+    S.Struct({ http2: VirtualGatewayHttp2ConnectionPool }),
+    S.Struct({ grpc: VirtualGatewayGrpcConnectionPool }),
+  ],
+);
 export interface VirtualGatewayListener {
   healthCheck?: VirtualGatewayHealthCheckPolicy;
   portMapping: VirtualGatewayPortMapping;
   tls?: VirtualGatewayListenerTls;
   connectionPool?: VirtualGatewayConnectionPool;
 }
-export const VirtualGatewayListener = S.suspend(() =>
-  S.Struct({
-    healthCheck: S.optional(VirtualGatewayHealthCheckPolicy),
-    portMapping: VirtualGatewayPortMapping,
-    tls: S.optional(VirtualGatewayListenerTls),
-    connectionPool: S.optional(VirtualGatewayConnectionPool),
-  }),
+export const VirtualGatewayListener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      healthCheck: S.optional(VirtualGatewayHealthCheckPolicy),
+      portMapping: VirtualGatewayPortMapping,
+      tls: S.optional(VirtualGatewayListenerTls),
+      connectionPool: S.optional(VirtualGatewayConnectionPool),
+    }),
 ).annotate({
   identifier: "VirtualGatewayListener",
 }) as any as S.Schema<VirtualGatewayListener>;
 export type VirtualGatewayListeners = VirtualGatewayListener[];
-export const VirtualGatewayListeners = S.Array(VirtualGatewayListener);
+export const VirtualGatewayListeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  VirtualGatewayListener,
+);
 export interface JsonFormatRef {
   key: string;
   value: string;
 }
-export const JsonFormatRef = S.suspend(() =>
+export const JsonFormatRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.String }),
 ).annotate({ identifier: "JsonFormatRef" }) as any as S.Schema<JsonFormatRef>;
 export type JsonFormat = JsonFormatRef[];
-export const JsonFormat = S.Array(JsonFormatRef);
+export const JsonFormat = /*@__PURE__*/ /*#__PURE__*/ S.Array(JsonFormatRef);
 export type LoggingFormat =
   | { text: string; json?: never }
   | { text?: never; json: JsonFormatRef[] };
-export const LoggingFormat = S.Union([
+export const LoggingFormat = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ text: S.String }),
   S.Struct({ json: JsonFormat }),
 ]);
@@ -786,19 +819,20 @@ export interface VirtualGatewayFileAccessLog {
   path: string;
   format?: LoggingFormat;
 }
-export const VirtualGatewayFileAccessLog = S.suspend(() =>
-  S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
-).annotate({
-  identifier: "VirtualGatewayFileAccessLog",
-}) as any as S.Schema<VirtualGatewayFileAccessLog>;
+export const VirtualGatewayFileAccessLog =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
+  ).annotate({
+    identifier: "VirtualGatewayFileAccessLog",
+  }) as any as S.Schema<VirtualGatewayFileAccessLog>;
 export type VirtualGatewayAccessLog = { file: VirtualGatewayFileAccessLog };
-export const VirtualGatewayAccessLog = S.Union([
+export const VirtualGatewayAccessLog = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ file: VirtualGatewayFileAccessLog }),
 ]);
 export interface VirtualGatewayLogging {
   accessLog?: VirtualGatewayAccessLog;
 }
-export const VirtualGatewayLogging = S.suspend(() =>
+export const VirtualGatewayLogging = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ accessLog: S.optional(VirtualGatewayAccessLog) }),
 ).annotate({
   identifier: "VirtualGatewayLogging",
@@ -808,7 +842,7 @@ export interface VirtualGatewaySpec {
   listeners: VirtualGatewayListener[];
   logging?: VirtualGatewayLogging;
 }
-export const VirtualGatewaySpec = S.suspend(() =>
+export const VirtualGatewaySpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     backendDefaults: S.optional(VirtualGatewayBackendDefaults),
     listeners: VirtualGatewayListeners,
@@ -825,34 +859,35 @@ export interface CreateVirtualGatewayInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateVirtualGatewayInput = S.suspend(() =>
-  S.Struct({
-    virtualGatewayName: S.String,
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualGatewaySpec,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualGateways",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateVirtualGatewayInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGatewayName: S.String,
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualGatewaySpec,
+      tags: S.optional(TagList),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualGateways",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateVirtualGatewayInput",
 }) as any as S.Schema<CreateVirtualGatewayInput>;
 export interface VirtualGatewayStatus {
   status: string;
 }
-export const VirtualGatewayStatus = S.suspend(() =>
+export const VirtualGatewayStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({
   identifier: "VirtualGatewayStatus",
@@ -864,7 +899,7 @@ export interface VirtualGatewayData {
   metadata: ResourceMetadata;
   status: VirtualGatewayStatus;
 }
-export const VirtualGatewayData = S.suspend(() =>
+export const VirtualGatewayData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualGatewayName: S.String,
@@ -878,12 +913,13 @@ export const VirtualGatewayData = S.suspend(() =>
 export interface CreateVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
 }
-export const CreateVirtualGatewayOutput = S.suspend(() =>
-  S.Struct({
-    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualGatewayData",
+export const CreateVirtualGatewayOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualGatewayData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "CreateVirtualGatewayOutput",
 }) as any as S.Schema<CreateVirtualGatewayOutput>;
@@ -892,39 +928,41 @@ export interface DescribeVirtualGatewayInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DescribeVirtualGatewayInput = S.suspend(() =>
-  S.Struct({
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeVirtualGatewayInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeVirtualGatewayInput",
-}) as any as S.Schema<DescribeVirtualGatewayInput>;
+  ).annotate({
+    identifier: "DescribeVirtualGatewayInput",
+  }) as any as S.Schema<DescribeVirtualGatewayInput>;
 export interface DescribeVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
 }
-export const DescribeVirtualGatewayOutput = S.suspend(() =>
-  S.Struct({
-    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualGatewayData",
+export const DescribeVirtualGatewayOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualGatewayData",
+      }),
     }),
-  }),
-).annotate({
-  identifier: "DescribeVirtualGatewayOutput",
-}) as any as S.Schema<DescribeVirtualGatewayOutput>;
+  ).annotate({
+    identifier: "DescribeVirtualGatewayOutput",
+  }) as any as S.Schema<DescribeVirtualGatewayOutput>;
 export interface UpdateVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
@@ -932,38 +970,40 @@ export interface UpdateVirtualGatewayInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateVirtualGatewayInput = S.suspend(() =>
-  S.Struct({
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualGatewaySpec,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateVirtualGatewayInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualGatewaySpec,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateVirtualGatewayInput",
 }) as any as S.Schema<UpdateVirtualGatewayInput>;
 export interface UpdateVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
 }
-export const UpdateVirtualGatewayOutput = S.suspend(() =>
-  S.Struct({
-    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualGatewayData",
+export const UpdateVirtualGatewayOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualGatewayData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "UpdateVirtualGatewayOutput",
 }) as any as S.Schema<UpdateVirtualGatewayOutput>;
@@ -972,36 +1012,38 @@ export interface DeleteVirtualGatewayInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DeleteVirtualGatewayInput = S.suspend(() =>
-  S.Struct({
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteVirtualGatewayInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteVirtualGatewayInput",
 }) as any as S.Schema<DeleteVirtualGatewayInput>;
 export interface DeleteVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
 }
-export const DeleteVirtualGatewayOutput = S.suspend(() =>
-  S.Struct({
-    virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualGatewayData",
+export const DeleteVirtualGatewayOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGateway: VirtualGatewayData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualGatewayData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DeleteVirtualGatewayOutput",
 }) as any as S.Schema<DeleteVirtualGatewayOutput>;
@@ -1011,25 +1053,26 @@ export interface ListVirtualGatewaysInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListVirtualGatewaysInput = S.suspend(() =>
-  S.Struct({
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualGateways",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListVirtualGatewaysInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualGateways",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListVirtualGatewaysInput",
 }) as any as S.Schema<ListVirtualGatewaysInput>;
@@ -1043,7 +1086,7 @@ export interface VirtualGatewayRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const VirtualGatewayRef = S.suspend(() =>
+export const VirtualGatewayRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualGatewayName: S.String,
@@ -1058,16 +1101,18 @@ export const VirtualGatewayRef = S.suspend(() =>
   identifier: "VirtualGatewayRef",
 }) as any as S.Schema<VirtualGatewayRef>;
 export type VirtualGatewayList = VirtualGatewayRef[];
-export const VirtualGatewayList = S.Array(VirtualGatewayRef);
+export const VirtualGatewayList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(VirtualGatewayRef);
 export interface ListVirtualGatewaysOutput {
   virtualGateways: VirtualGatewayRef[];
   nextToken?: string;
 }
-export const ListVirtualGatewaysOutput = S.suspend(() =>
-  S.Struct({
-    virtualGateways: VirtualGatewayList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListVirtualGatewaysOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualGateways: VirtualGatewayList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListVirtualGatewaysOutput",
 }) as any as S.Schema<ListVirtualGatewaysOutput>;
@@ -1075,13 +1120,13 @@ export interface HttpPathMatch {
   exact?: string;
   regex?: string;
 }
-export const HttpPathMatch = S.suspend(() =>
+export const HttpPathMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ exact: S.optional(S.String), regex: S.optional(S.String) }),
 ).annotate({ identifier: "HttpPathMatch" }) as any as S.Schema<HttpPathMatch>;
 export interface QueryParameterMatch {
   exact?: string;
 }
-export const QueryParameterMatch = S.suspend(() =>
+export const QueryParameterMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ exact: S.optional(S.String) }),
 ).annotate({
   identifier: "QueryParameterMatch",
@@ -1090,19 +1135,20 @@ export interface HttpQueryParameter {
   name: string;
   match?: QueryParameterMatch;
 }
-export const HttpQueryParameter = S.suspend(() =>
+export const HttpQueryParameter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, match: S.optional(QueryParameterMatch) }),
 ).annotate({
   identifier: "HttpQueryParameter",
 }) as any as S.Schema<HttpQueryParameter>;
 export type HttpQueryParameters = HttpQueryParameter[];
-export const HttpQueryParameters = S.Array(HttpQueryParameter);
+export const HttpQueryParameters =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(HttpQueryParameter);
 export interface GatewayRouteHostnameMatch {
   exact?: string;
   suffix?: string;
 }
-export const GatewayRouteHostnameMatch = S.suspend(() =>
-  S.Struct({ exact: S.optional(S.String), suffix: S.optional(S.String) }),
+export const GatewayRouteHostnameMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ exact: S.optional(S.String), suffix: S.optional(S.String) }),
 ).annotate({
   identifier: "GatewayRouteHostnameMatch",
 }) as any as S.Schema<GatewayRouteHostnameMatch>;
@@ -1110,7 +1156,7 @@ export interface MatchRange {
   start: number;
   end: number;
 }
-export const MatchRange = S.suspend(() =>
+export const MatchRange = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ start: S.Number, end: S.Number }),
 ).annotate({ identifier: "MatchRange" }) as any as S.Schema<MatchRange>;
 export type HeaderMatchMethod =
@@ -1149,7 +1195,7 @@ export type HeaderMatchMethod =
       prefix?: never;
       suffix: string;
     };
-export const HeaderMatchMethod = S.Union([
+export const HeaderMatchMethod = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
   S.Struct({ range: MatchRange }),
@@ -1161,17 +1207,20 @@ export interface HttpGatewayRouteHeader {
   invert?: boolean;
   match?: HeaderMatchMethod;
 }
-export const HttpGatewayRouteHeader = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    invert: S.optional(S.Boolean),
-    match: S.optional(HeaderMatchMethod),
-  }),
+export const HttpGatewayRouteHeader = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      invert: S.optional(S.Boolean),
+      match: S.optional(HeaderMatchMethod),
+    }),
 ).annotate({
   identifier: "HttpGatewayRouteHeader",
 }) as any as S.Schema<HttpGatewayRouteHeader>;
 export type HttpGatewayRouteHeaders = HttpGatewayRouteHeader[];
-export const HttpGatewayRouteHeaders = S.Array(HttpGatewayRouteHeader);
+export const HttpGatewayRouteHeaders = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  HttpGatewayRouteHeader,
+);
 export interface HttpGatewayRouteMatch {
   prefix?: string;
   path?: HttpPathMatch;
@@ -1181,7 +1230,7 @@ export interface HttpGatewayRouteMatch {
   headers?: HttpGatewayRouteHeader[];
   port?: number;
 }
-export const HttpGatewayRouteMatch = S.suspend(() =>
+export const HttpGatewayRouteMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     prefix: S.optional(S.String),
     path: S.optional(HttpPathMatch),
@@ -1197,8 +1246,8 @@ export const HttpGatewayRouteMatch = S.suspend(() =>
 export interface GatewayRouteVirtualService {
   virtualServiceName: string;
 }
-export const GatewayRouteVirtualService = S.suspend(() =>
-  S.Struct({ virtualServiceName: S.String }),
+export const GatewayRouteVirtualService = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ virtualServiceName: S.String }),
 ).annotate({
   identifier: "GatewayRouteVirtualService",
 }) as any as S.Schema<GatewayRouteVirtualService>;
@@ -1206,7 +1255,7 @@ export interface GatewayRouteTarget {
   virtualService: GatewayRouteVirtualService;
   port?: number;
 }
-export const GatewayRouteTarget = S.suspend(() =>
+export const GatewayRouteTarget = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualService: GatewayRouteVirtualService,
     port: S.optional(S.Number),
@@ -1218,41 +1267,45 @@ export interface HttpGatewayRoutePrefixRewrite {
   defaultPrefix?: string;
   value?: string;
 }
-export const HttpGatewayRoutePrefixRewrite = S.suspend(() =>
-  S.Struct({
-    defaultPrefix: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HttpGatewayRoutePrefixRewrite",
-}) as any as S.Schema<HttpGatewayRoutePrefixRewrite>;
+export const HttpGatewayRoutePrefixRewrite =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      defaultPrefix: S.optional(S.String),
+      value: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "HttpGatewayRoutePrefixRewrite",
+  }) as any as S.Schema<HttpGatewayRoutePrefixRewrite>;
 export interface HttpGatewayRoutePathRewrite {
   exact?: string;
 }
-export const HttpGatewayRoutePathRewrite = S.suspend(() =>
-  S.Struct({ exact: S.optional(S.String) }),
-).annotate({
-  identifier: "HttpGatewayRoutePathRewrite",
-}) as any as S.Schema<HttpGatewayRoutePathRewrite>;
+export const HttpGatewayRoutePathRewrite =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ exact: S.optional(S.String) }),
+  ).annotate({
+    identifier: "HttpGatewayRoutePathRewrite",
+  }) as any as S.Schema<HttpGatewayRoutePathRewrite>;
 export interface GatewayRouteHostnameRewrite {
   defaultTargetHostname?: string;
 }
-export const GatewayRouteHostnameRewrite = S.suspend(() =>
-  S.Struct({ defaultTargetHostname: S.optional(S.String) }),
-).annotate({
-  identifier: "GatewayRouteHostnameRewrite",
-}) as any as S.Schema<GatewayRouteHostnameRewrite>;
+export const GatewayRouteHostnameRewrite =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ defaultTargetHostname: S.optional(S.String) }),
+  ).annotate({
+    identifier: "GatewayRouteHostnameRewrite",
+  }) as any as S.Schema<GatewayRouteHostnameRewrite>;
 export interface HttpGatewayRouteRewrite {
   prefix?: HttpGatewayRoutePrefixRewrite;
   path?: HttpGatewayRoutePathRewrite;
   hostname?: GatewayRouteHostnameRewrite;
 }
-export const HttpGatewayRouteRewrite = S.suspend(() =>
-  S.Struct({
-    prefix: S.optional(HttpGatewayRoutePrefixRewrite),
-    path: S.optional(HttpGatewayRoutePathRewrite),
-    hostname: S.optional(GatewayRouteHostnameRewrite),
-  }),
+export const HttpGatewayRouteRewrite = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      prefix: S.optional(HttpGatewayRoutePrefixRewrite),
+      path: S.optional(HttpGatewayRoutePathRewrite),
+      hostname: S.optional(GatewayRouteHostnameRewrite),
+    }),
 ).annotate({
   identifier: "HttpGatewayRouteRewrite",
 }) as any as S.Schema<HttpGatewayRouteRewrite>;
@@ -1260,11 +1313,12 @@ export interface HttpGatewayRouteAction {
   target: GatewayRouteTarget;
   rewrite?: HttpGatewayRouteRewrite;
 }
-export const HttpGatewayRouteAction = S.suspend(() =>
-  S.Struct({
-    target: GatewayRouteTarget,
-    rewrite: S.optional(HttpGatewayRouteRewrite),
-  }),
+export const HttpGatewayRouteAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      target: GatewayRouteTarget,
+      rewrite: S.optional(HttpGatewayRouteRewrite),
+    }),
 ).annotate({
   identifier: "HttpGatewayRouteAction",
 }) as any as S.Schema<HttpGatewayRouteAction>;
@@ -1272,7 +1326,7 @@ export interface HttpGatewayRoute {
   match: HttpGatewayRouteMatch;
   action: HttpGatewayRouteAction;
 }
-export const HttpGatewayRoute = S.suspend(() =>
+export const HttpGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ match: HttpGatewayRouteMatch, action: HttpGatewayRouteAction }),
 ).annotate({
   identifier: "HttpGatewayRoute",
@@ -1313,7 +1367,7 @@ export type GrpcMetadataMatchMethod =
       prefix?: never;
       suffix: string;
     };
-export const GrpcMetadataMatchMethod = S.Union([
+export const GrpcMetadataMatchMethod = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ exact: S.String }),
   S.Struct({ regex: S.String }),
   S.Struct({ range: MatchRange }),
@@ -1325,24 +1379,27 @@ export interface GrpcGatewayRouteMetadata {
   invert?: boolean;
   match?: GrpcMetadataMatchMethod;
 }
-export const GrpcGatewayRouteMetadata = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    invert: S.optional(S.Boolean),
-    match: S.optional(GrpcMetadataMatchMethod),
-  }),
+export const GrpcGatewayRouteMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      invert: S.optional(S.Boolean),
+      match: S.optional(GrpcMetadataMatchMethod),
+    }),
 ).annotate({
   identifier: "GrpcGatewayRouteMetadata",
 }) as any as S.Schema<GrpcGatewayRouteMetadata>;
 export type GrpcGatewayRouteMetadataList = GrpcGatewayRouteMetadata[];
-export const GrpcGatewayRouteMetadataList = S.Array(GrpcGatewayRouteMetadata);
+export const GrpcGatewayRouteMetadataList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  GrpcGatewayRouteMetadata,
+);
 export interface GrpcGatewayRouteMatch {
   serviceName?: string;
   hostname?: GatewayRouteHostnameMatch;
   metadata?: GrpcGatewayRouteMetadata[];
   port?: number;
 }
-export const GrpcGatewayRouteMatch = S.suspend(() =>
+export const GrpcGatewayRouteMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.optional(S.String),
     hostname: S.optional(GatewayRouteHostnameMatch),
@@ -1355,8 +1412,8 @@ export const GrpcGatewayRouteMatch = S.suspend(() =>
 export interface GrpcGatewayRouteRewrite {
   hostname?: GatewayRouteHostnameRewrite;
 }
-export const GrpcGatewayRouteRewrite = S.suspend(() =>
-  S.Struct({ hostname: S.optional(GatewayRouteHostnameRewrite) }),
+export const GrpcGatewayRouteRewrite = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ hostname: S.optional(GatewayRouteHostnameRewrite) }),
 ).annotate({
   identifier: "GrpcGatewayRouteRewrite",
 }) as any as S.Schema<GrpcGatewayRouteRewrite>;
@@ -1364,11 +1421,12 @@ export interface GrpcGatewayRouteAction {
   target: GatewayRouteTarget;
   rewrite?: GrpcGatewayRouteRewrite;
 }
-export const GrpcGatewayRouteAction = S.suspend(() =>
-  S.Struct({
-    target: GatewayRouteTarget,
-    rewrite: S.optional(GrpcGatewayRouteRewrite),
-  }),
+export const GrpcGatewayRouteAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      target: GatewayRouteTarget,
+      rewrite: S.optional(GrpcGatewayRouteRewrite),
+    }),
 ).annotate({
   identifier: "GrpcGatewayRouteAction",
 }) as any as S.Schema<GrpcGatewayRouteAction>;
@@ -1376,7 +1434,7 @@ export interface GrpcGatewayRoute {
   match: GrpcGatewayRouteMatch;
   action: GrpcGatewayRouteAction;
 }
-export const GrpcGatewayRoute = S.suspend(() =>
+export const GrpcGatewayRoute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ match: GrpcGatewayRouteMatch, action: GrpcGatewayRouteAction }),
 ).annotate({
   identifier: "GrpcGatewayRoute",
@@ -1387,7 +1445,7 @@ export interface GatewayRouteSpec {
   http2Route?: HttpGatewayRoute;
   grpcRoute?: GrpcGatewayRoute;
 }
-export const GatewayRouteSpec = S.suspend(() =>
+export const GatewayRouteSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     priority: S.optional(S.Number),
     httpRoute: S.optional(HttpGatewayRoute),
@@ -1406,35 +1464,36 @@ export interface CreateGatewayRouteInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateGatewayRouteInput = S.suspend(() =>
-  S.Struct({
-    gatewayRouteName: S.String,
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    spec: GatewayRouteSpec,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateGatewayRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRouteName: S.String,
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      spec: GatewayRouteSpec,
+      tags: S.optional(TagList),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateGatewayRouteInput",
 }) as any as S.Schema<CreateGatewayRouteInput>;
 export interface GatewayRouteStatus {
   status: string;
 }
-export const GatewayRouteStatus = S.suspend(() =>
+export const GatewayRouteStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({
   identifier: "GatewayRouteStatus",
@@ -1447,7 +1506,7 @@ export interface GatewayRouteData {
   metadata: ResourceMetadata;
   status: GatewayRouteStatus;
 }
-export const GatewayRouteData = S.suspend(() =>
+export const GatewayRouteData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     gatewayRouteName: S.String,
@@ -1462,12 +1521,13 @@ export const GatewayRouteData = S.suspend(() =>
 export interface CreateGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
-export const CreateGatewayRouteOutput = S.suspend(() =>
-  S.Struct({
-    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
-      identifier: "GatewayRouteData",
+export const CreateGatewayRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
+        identifier: "GatewayRouteData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "CreateGatewayRouteOutput",
 }) as any as S.Schema<CreateGatewayRouteOutput>;
@@ -1477,37 +1537,39 @@ export interface DescribeGatewayRouteInput {
   virtualGatewayName: string;
   meshOwner?: string;
 }
-export const DescribeGatewayRouteInput = S.suspend(() =>
-  S.Struct({
-    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeGatewayRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeGatewayRouteInput",
 }) as any as S.Schema<DescribeGatewayRouteInput>;
 export interface DescribeGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
-export const DescribeGatewayRouteOutput = S.suspend(() =>
-  S.Struct({
-    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
-      identifier: "GatewayRouteData",
+export const DescribeGatewayRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
+        identifier: "GatewayRouteData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DescribeGatewayRouteOutput",
 }) as any as S.Schema<DescribeGatewayRouteOutput>;
@@ -1519,39 +1581,41 @@ export interface UpdateGatewayRouteInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateGatewayRouteInput = S.suspend(() =>
-  S.Struct({
-    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    spec: GatewayRouteSpec,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateGatewayRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      spec: GatewayRouteSpec,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateGatewayRouteInput",
 }) as any as S.Schema<UpdateGatewayRouteInput>;
 export interface UpdateGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
-export const UpdateGatewayRouteOutput = S.suspend(() =>
-  S.Struct({
-    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
-      identifier: "GatewayRouteData",
+export const UpdateGatewayRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
+        identifier: "GatewayRouteData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "UpdateGatewayRouteOutput",
 }) as any as S.Schema<UpdateGatewayRouteOutput>;
@@ -1561,37 +1625,39 @@ export interface DeleteGatewayRouteInput {
   virtualGatewayName: string;
   meshOwner?: string;
 }
-export const DeleteGatewayRouteInput = S.suspend(() =>
-  S.Struct({
-    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteGatewayRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteGatewayRouteInput",
 }) as any as S.Schema<DeleteGatewayRouteInput>;
 export interface DeleteGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
-export const DeleteGatewayRouteOutput = S.suspend(() =>
-  S.Struct({
-    gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
-      identifier: "GatewayRouteData",
+export const DeleteGatewayRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRoute: GatewayRouteData.pipe(T.HttpPayload()).annotate({
+        identifier: "GatewayRouteData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DeleteGatewayRouteOutput",
 }) as any as S.Schema<DeleteGatewayRouteOutput>;
@@ -1602,26 +1668,27 @@ export interface ListGatewayRoutesInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListGatewayRoutesInput = S.suspend(() =>
-  S.Struct({
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListGatewayRoutesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListGatewayRoutesInput",
 }) as any as S.Schema<ListGatewayRoutesInput>;
@@ -1636,7 +1703,7 @@ export interface GatewayRouteRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const GatewayRouteRef = S.suspend(() =>
+export const GatewayRouteRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     gatewayRouteName: S.String,
@@ -1652,16 +1719,18 @@ export const GatewayRouteRef = S.suspend(() =>
   identifier: "GatewayRouteRef",
 }) as any as S.Schema<GatewayRouteRef>;
 export type GatewayRouteList = GatewayRouteRef[];
-export const GatewayRouteList = S.Array(GatewayRouteRef);
+export const GatewayRouteList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GatewayRouteRef);
 export interface ListGatewayRoutesOutput {
   gatewayRoutes: GatewayRouteRef[];
   nextToken?: string;
 }
-export const ListGatewayRoutesOutput = S.suspend(() =>
-  S.Struct({
-    gatewayRoutes: GatewayRouteList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListGatewayRoutesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      gatewayRoutes: GatewayRouteList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListGatewayRoutesOutput",
 }) as any as S.Schema<ListGatewayRoutesOutput>;
@@ -1670,7 +1739,7 @@ export interface DnsServiceDiscovery {
   responseType?: string;
   ipPreference?: string;
 }
-export const DnsServiceDiscovery = S.suspend(() =>
+export const DnsServiceDiscovery = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     hostname: S.String,
     responseType: S.optional(S.String),
@@ -1683,35 +1752,36 @@ export interface AwsCloudMapInstanceAttribute {
   key: string;
   value: string;
 }
-export const AwsCloudMapInstanceAttribute = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({
-  identifier: "AwsCloudMapInstanceAttribute",
-}) as any as S.Schema<AwsCloudMapInstanceAttribute>;
+export const AwsCloudMapInstanceAttribute =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ key: S.String, value: S.String }),
+  ).annotate({
+    identifier: "AwsCloudMapInstanceAttribute",
+  }) as any as S.Schema<AwsCloudMapInstanceAttribute>;
 export type AwsCloudMapInstanceAttributes = AwsCloudMapInstanceAttribute[];
-export const AwsCloudMapInstanceAttributes = S.Array(
-  AwsCloudMapInstanceAttribute,
-);
+export const AwsCloudMapInstanceAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AwsCloudMapInstanceAttribute);
 export interface AwsCloudMapServiceDiscovery {
   namespaceName: string;
   serviceName: string;
   attributes?: AwsCloudMapInstanceAttribute[];
   ipPreference?: string;
 }
-export const AwsCloudMapServiceDiscovery = S.suspend(() =>
-  S.Struct({
-    namespaceName: S.String,
-    serviceName: S.String,
-    attributes: S.optional(AwsCloudMapInstanceAttributes),
-    ipPreference: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AwsCloudMapServiceDiscovery",
-}) as any as S.Schema<AwsCloudMapServiceDiscovery>;
+export const AwsCloudMapServiceDiscovery =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      namespaceName: S.String,
+      serviceName: S.String,
+      attributes: S.optional(AwsCloudMapInstanceAttributes),
+      ipPreference: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "AwsCloudMapServiceDiscovery",
+  }) as any as S.Schema<AwsCloudMapServiceDiscovery>;
 export type ServiceDiscovery =
   | { dns: DnsServiceDiscovery; awsCloudMap?: never }
   | { dns?: never; awsCloudMap: AwsCloudMapServiceDiscovery };
-export const ServiceDiscovery = S.Union([
+export const ServiceDiscovery = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ dns: DnsServiceDiscovery }),
   S.Struct({ awsCloudMap: AwsCloudMapServiceDiscovery }),
 ]);
@@ -1719,14 +1789,14 @@ export interface PortMapping {
   port: number;
   protocol: string;
 }
-export const PortMapping = S.suspend(() =>
+export const PortMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ port: S.Number, protocol: S.String }),
 ).annotate({ identifier: "PortMapping" }) as any as S.Schema<PortMapping>;
 export interface ListenerTlsAcmCertificate {
   certificateArn: string;
 }
-export const ListenerTlsAcmCertificate = S.suspend(() =>
-  S.Struct({ certificateArn: S.String }),
+export const ListenerTlsAcmCertificate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ certificateArn: S.String }),
 ).annotate({
   identifier: "ListenerTlsAcmCertificate",
 }) as any as S.Schema<ListenerTlsAcmCertificate>;
@@ -1734,16 +1804,16 @@ export interface ListenerTlsFileCertificate {
   certificateChain: string;
   privateKey: string;
 }
-export const ListenerTlsFileCertificate = S.suspend(() =>
-  S.Struct({ certificateChain: S.String, privateKey: S.String }),
+export const ListenerTlsFileCertificate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ certificateChain: S.String, privateKey: S.String }),
 ).annotate({
   identifier: "ListenerTlsFileCertificate",
 }) as any as S.Schema<ListenerTlsFileCertificate>;
 export interface ListenerTlsSdsCertificate {
   secretName: string;
 }
-export const ListenerTlsSdsCertificate = S.suspend(() =>
-  S.Struct({ secretName: S.String }),
+export const ListenerTlsSdsCertificate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ secretName: S.String }),
 ).annotate({
   identifier: "ListenerTlsSdsCertificate",
 }) as any as S.Schema<ListenerTlsSdsCertificate>;
@@ -1751,7 +1821,7 @@ export type ListenerTlsCertificate =
   | { acm: ListenerTlsAcmCertificate; file?: never; sds?: never }
   | { acm?: never; file: ListenerTlsFileCertificate; sds?: never }
   | { acm?: never; file?: never; sds: ListenerTlsSdsCertificate };
-export const ListenerTlsCertificate = S.Union([
+export const ListenerTlsCertificate = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ acm: ListenerTlsAcmCertificate }),
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
@@ -1759,44 +1829,48 @@ export const ListenerTlsCertificate = S.Union([
 export interface TlsValidationContextFileTrust {
   certificateChain: string;
 }
-export const TlsValidationContextFileTrust = S.suspend(() =>
-  S.Struct({ certificateChain: S.String }),
-).annotate({
-  identifier: "TlsValidationContextFileTrust",
-}) as any as S.Schema<TlsValidationContextFileTrust>;
+export const TlsValidationContextFileTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ certificateChain: S.String }),
+  ).annotate({
+    identifier: "TlsValidationContextFileTrust",
+  }) as any as S.Schema<TlsValidationContextFileTrust>;
 export interface TlsValidationContextSdsTrust {
   secretName: string;
 }
-export const TlsValidationContextSdsTrust = S.suspend(() =>
-  S.Struct({ secretName: S.String }),
-).annotate({
-  identifier: "TlsValidationContextSdsTrust",
-}) as any as S.Schema<TlsValidationContextSdsTrust>;
+export const TlsValidationContextSdsTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ secretName: S.String }),
+  ).annotate({
+    identifier: "TlsValidationContextSdsTrust",
+  }) as any as S.Schema<TlsValidationContextSdsTrust>;
 export type ListenerTlsValidationContextTrust =
   | { file: TlsValidationContextFileTrust; sds?: never }
   | { file?: never; sds: TlsValidationContextSdsTrust };
-export const ListenerTlsValidationContextTrust = S.Union([
-  S.Struct({ file: TlsValidationContextFileTrust }),
-  S.Struct({ sds: TlsValidationContextSdsTrust }),
-]);
+export const ListenerTlsValidationContextTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.Union([
+    S.Struct({ file: TlsValidationContextFileTrust }),
+    S.Struct({ sds: TlsValidationContextSdsTrust }),
+  ]);
 export interface ListenerTlsValidationContext {
   trust: ListenerTlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
-export const ListenerTlsValidationContext = S.suspend(() =>
-  S.Struct({
-    trust: ListenerTlsValidationContextTrust,
-    subjectAlternativeNames: S.optional(SubjectAlternativeNames),
-  }),
-).annotate({
-  identifier: "ListenerTlsValidationContext",
-}) as any as S.Schema<ListenerTlsValidationContext>;
+export const ListenerTlsValidationContext =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      trust: ListenerTlsValidationContextTrust,
+      subjectAlternativeNames: S.optional(SubjectAlternativeNames),
+    }),
+  ).annotate({
+    identifier: "ListenerTlsValidationContext",
+  }) as any as S.Schema<ListenerTlsValidationContext>;
 export interface ListenerTls {
   mode: string;
   certificate: ListenerTlsCertificate;
   validation?: ListenerTlsValidationContext;
 }
-export const ListenerTls = S.suspend(() =>
+export const ListenerTls = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: S.String,
     certificate: ListenerTlsCertificate,
@@ -1812,7 +1886,7 @@ export interface HealthCheckPolicy {
   healthyThreshold: number;
   unhealthyThreshold: number;
 }
-export const HealthCheckPolicy = S.suspend(() =>
+export const HealthCheckPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     timeoutMillis: S.Number,
     intervalMillis: S.Number,
@@ -1829,27 +1903,27 @@ export interface Duration {
   value?: number;
   unit?: string;
 }
-export const Duration = S.suspend(() =>
+export const Duration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.optional(S.Number), unit: S.optional(S.String) }),
 ).annotate({ identifier: "Duration" }) as any as S.Schema<Duration>;
 export interface TcpTimeout {
   idle?: Duration;
 }
-export const TcpTimeout = S.suspend(() =>
+export const TcpTimeout = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ idle: S.optional(Duration) }),
 ).annotate({ identifier: "TcpTimeout" }) as any as S.Schema<TcpTimeout>;
 export interface HttpTimeout {
   perRequest?: Duration;
   idle?: Duration;
 }
-export const HttpTimeout = S.suspend(() =>
+export const HttpTimeout = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
 ).annotate({ identifier: "HttpTimeout" }) as any as S.Schema<HttpTimeout>;
 export interface GrpcTimeout {
   perRequest?: Duration;
   idle?: Duration;
 }
-export const GrpcTimeout = S.suspend(() =>
+export const GrpcTimeout = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ perRequest: S.optional(Duration), idle: S.optional(Duration) }),
 ).annotate({ identifier: "GrpcTimeout" }) as any as S.Schema<GrpcTimeout>;
 export type ListenerTimeout =
@@ -1857,7 +1931,7 @@ export type ListenerTimeout =
   | { tcp?: never; http: HttpTimeout; http2?: never; grpc?: never }
   | { tcp?: never; http?: never; http2: HttpTimeout; grpc?: never }
   | { tcp?: never; http?: never; http2?: never; grpc: GrpcTimeout };
-export const ListenerTimeout = S.Union([
+export const ListenerTimeout = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ tcp: TcpTimeout }),
   S.Struct({ http: HttpTimeout }),
   S.Struct({ http2: HttpTimeout }),
@@ -1869,7 +1943,7 @@ export interface OutlierDetection {
   baseEjectionDuration: Duration;
   maxEjectionPercent: number;
 }
-export const OutlierDetection = S.suspend(() =>
+export const OutlierDetection = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     maxServerErrors: S.Number,
     interval: Duration,
@@ -1882,39 +1956,43 @@ export const OutlierDetection = S.suspend(() =>
 export interface VirtualNodeTcpConnectionPool {
   maxConnections: number;
 }
-export const VirtualNodeTcpConnectionPool = S.suspend(() =>
-  S.Struct({ maxConnections: S.Number }),
-).annotate({
-  identifier: "VirtualNodeTcpConnectionPool",
-}) as any as S.Schema<VirtualNodeTcpConnectionPool>;
+export const VirtualNodeTcpConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ maxConnections: S.Number }),
+  ).annotate({
+    identifier: "VirtualNodeTcpConnectionPool",
+  }) as any as S.Schema<VirtualNodeTcpConnectionPool>;
 export interface VirtualNodeHttpConnectionPool {
   maxConnections: number;
   maxPendingRequests?: number;
 }
-export const VirtualNodeHttpConnectionPool = S.suspend(() =>
-  S.Struct({
-    maxConnections: S.Number,
-    maxPendingRequests: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VirtualNodeHttpConnectionPool",
-}) as any as S.Schema<VirtualNodeHttpConnectionPool>;
+export const VirtualNodeHttpConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      maxConnections: S.Number,
+      maxPendingRequests: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "VirtualNodeHttpConnectionPool",
+  }) as any as S.Schema<VirtualNodeHttpConnectionPool>;
 export interface VirtualNodeHttp2ConnectionPool {
   maxRequests: number;
 }
-export const VirtualNodeHttp2ConnectionPool = S.suspend(() =>
-  S.Struct({ maxRequests: S.Number }),
-).annotate({
-  identifier: "VirtualNodeHttp2ConnectionPool",
-}) as any as S.Schema<VirtualNodeHttp2ConnectionPool>;
+export const VirtualNodeHttp2ConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ maxRequests: S.Number }),
+  ).annotate({
+    identifier: "VirtualNodeHttp2ConnectionPool",
+  }) as any as S.Schema<VirtualNodeHttp2ConnectionPool>;
 export interface VirtualNodeGrpcConnectionPool {
   maxRequests: number;
 }
-export const VirtualNodeGrpcConnectionPool = S.suspend(() =>
-  S.Struct({ maxRequests: S.Number }),
-).annotate({
-  identifier: "VirtualNodeGrpcConnectionPool",
-}) as any as S.Schema<VirtualNodeGrpcConnectionPool>;
+export const VirtualNodeGrpcConnectionPool =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ maxRequests: S.Number }),
+  ).annotate({
+    identifier: "VirtualNodeGrpcConnectionPool",
+  }) as any as S.Schema<VirtualNodeGrpcConnectionPool>;
 export type VirtualNodeConnectionPool =
   | {
       tcp: VirtualNodeTcpConnectionPool;
@@ -1940,7 +2018,7 @@ export type VirtualNodeConnectionPool =
       http2?: never;
       grpc: VirtualNodeGrpcConnectionPool;
     };
-export const VirtualNodeConnectionPool = S.Union([
+export const VirtualNodeConnectionPool = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ tcp: VirtualNodeTcpConnectionPool }),
   S.Struct({ http: VirtualNodeHttpConnectionPool }),
   S.Struct({ http2: VirtualNodeHttp2ConnectionPool }),
@@ -1954,7 +2032,7 @@ export interface Listener {
   outlierDetection?: OutlierDetection;
   connectionPool?: VirtualNodeConnectionPool;
 }
-export const Listener = S.suspend(() =>
+export const Listener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     portMapping: PortMapping,
     tls: S.optional(ListenerTls),
@@ -1965,29 +2043,32 @@ export const Listener = S.suspend(() =>
   }),
 ).annotate({ identifier: "Listener" }) as any as S.Schema<Listener>;
 export type Listeners = Listener[];
-export const Listeners = S.Array(Listener);
+export const Listeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(Listener);
 export type ClientTlsCertificate =
   | { file: ListenerTlsFileCertificate; sds?: never }
   | { file?: never; sds: ListenerTlsSdsCertificate };
-export const ClientTlsCertificate = S.Union([
+export const ClientTlsCertificate = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ file: ListenerTlsFileCertificate }),
   S.Struct({ sds: ListenerTlsSdsCertificate }),
 ]);
 export type CertificateAuthorityArns = string[];
-export const CertificateAuthorityArns = S.Array(S.String);
+export const CertificateAuthorityArns = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface TlsValidationContextAcmTrust {
   certificateAuthorityArns: string[];
 }
-export const TlsValidationContextAcmTrust = S.suspend(() =>
-  S.Struct({ certificateAuthorityArns: CertificateAuthorityArns }),
-).annotate({
-  identifier: "TlsValidationContextAcmTrust",
-}) as any as S.Schema<TlsValidationContextAcmTrust>;
+export const TlsValidationContextAcmTrust =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ certificateAuthorityArns: CertificateAuthorityArns }),
+  ).annotate({
+    identifier: "TlsValidationContextAcmTrust",
+  }) as any as S.Schema<TlsValidationContextAcmTrust>;
 export type TlsValidationContextTrust =
   | { acm: TlsValidationContextAcmTrust; file?: never; sds?: never }
   | { acm?: never; file: TlsValidationContextFileTrust; sds?: never }
   | { acm?: never; file?: never; sds: TlsValidationContextSdsTrust };
-export const TlsValidationContextTrust = S.Union([
+export const TlsValidationContextTrust = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ acm: TlsValidationContextAcmTrust }),
   S.Struct({ file: TlsValidationContextFileTrust }),
   S.Struct({ sds: TlsValidationContextSdsTrust }),
@@ -1996,7 +2077,7 @@ export interface TlsValidationContext {
   trust: TlsValidationContextTrust;
   subjectAlternativeNames?: SubjectAlternativeNames;
 }
-export const TlsValidationContext = S.suspend(() =>
+export const TlsValidationContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     trust: TlsValidationContextTrust,
     subjectAlternativeNames: S.optional(SubjectAlternativeNames),
@@ -2010,7 +2091,7 @@ export interface ClientPolicyTls {
   certificate?: ClientTlsCertificate;
   validation: TlsValidationContext;
 }
-export const ClientPolicyTls = S.suspend(() =>
+export const ClientPolicyTls = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     enforce: S.optional(S.Boolean),
     ports: S.optional(PortSet),
@@ -2023,14 +2104,14 @@ export const ClientPolicyTls = S.suspend(() =>
 export interface ClientPolicy {
   tls?: ClientPolicyTls;
 }
-export const ClientPolicy = S.suspend(() =>
+export const ClientPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ tls: S.optional(ClientPolicyTls) }),
 ).annotate({ identifier: "ClientPolicy" }) as any as S.Schema<ClientPolicy>;
 export interface VirtualServiceBackend {
   virtualServiceName: string;
   clientPolicy?: ClientPolicy;
 }
-export const VirtualServiceBackend = S.suspend(() =>
+export const VirtualServiceBackend = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualServiceName: S.String,
     clientPolicy: S.optional(ClientPolicy),
@@ -2039,15 +2120,15 @@ export const VirtualServiceBackend = S.suspend(() =>
   identifier: "VirtualServiceBackend",
 }) as any as S.Schema<VirtualServiceBackend>;
 export type Backend = { virtualService: VirtualServiceBackend };
-export const Backend = S.Union([
+export const Backend = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ virtualService: VirtualServiceBackend }),
 ]);
 export type Backends = Backend[];
-export const Backends = S.Array(Backend);
+export const Backends = /*@__PURE__*/ /*#__PURE__*/ S.Array(Backend);
 export interface BackendDefaults {
   clientPolicy?: ClientPolicy;
 }
-export const BackendDefaults = S.suspend(() =>
+export const BackendDefaults = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ clientPolicy: S.optional(ClientPolicy) }),
 ).annotate({
   identifier: "BackendDefaults",
@@ -2056,15 +2137,17 @@ export interface FileAccessLog {
   path: string;
   format?: LoggingFormat;
 }
-export const FileAccessLog = S.suspend(() =>
+export const FileAccessLog = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ path: S.String, format: S.optional(LoggingFormat) }),
 ).annotate({ identifier: "FileAccessLog" }) as any as S.Schema<FileAccessLog>;
 export type AccessLog = { file: FileAccessLog };
-export const AccessLog = S.Union([S.Struct({ file: FileAccessLog })]);
+export const AccessLog = /*@__PURE__*/ /*#__PURE__*/ S.Union([
+  S.Struct({ file: FileAccessLog }),
+]);
 export interface Logging {
   accessLog?: AccessLog;
 }
-export const Logging = S.suspend(() =>
+export const Logging = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ accessLog: S.optional(AccessLog) }),
 ).annotate({ identifier: "Logging" }) as any as S.Schema<Logging>;
 export interface VirtualNodeSpec {
@@ -2074,7 +2157,7 @@ export interface VirtualNodeSpec {
   backendDefaults?: BackendDefaults;
   logging?: Logging;
 }
-export const VirtualNodeSpec = S.suspend(() =>
+export const VirtualNodeSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceDiscovery: S.optional(ServiceDiscovery),
     listeners: S.optional(Listeners),
@@ -2093,34 +2176,35 @@ export interface CreateVirtualNodeInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateVirtualNodeInput = S.suspend(() =>
-  S.Struct({
-    virtualNodeName: S.String,
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualNodeSpec,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualNodes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateVirtualNodeInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNodeName: S.String,
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualNodeSpec,
+      tags: S.optional(TagList),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualNodes",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateVirtualNodeInput",
 }) as any as S.Schema<CreateVirtualNodeInput>;
 export interface VirtualNodeStatus {
   status: string;
 }
-export const VirtualNodeStatus = S.suspend(() =>
+export const VirtualNodeStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({
   identifier: "VirtualNodeStatus",
@@ -2132,7 +2216,7 @@ export interface VirtualNodeData {
   metadata: ResourceMetadata;
   status: VirtualNodeStatus;
 }
-export const VirtualNodeData = S.suspend(() =>
+export const VirtualNodeData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualNodeName: S.String,
@@ -2146,12 +2230,13 @@ export const VirtualNodeData = S.suspend(() =>
 export interface CreateVirtualNodeOutput {
   virtualNode: VirtualNodeData;
 }
-export const CreateVirtualNodeOutput = S.suspend(() =>
-  S.Struct({
-    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualNodeData",
+export const CreateVirtualNodeOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualNodeData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "CreateVirtualNodeOutput",
 }) as any as S.Schema<CreateVirtualNodeOutput>;
@@ -2160,36 +2245,38 @@ export interface DescribeVirtualNodeInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DescribeVirtualNodeInput = S.suspend(() =>
-  S.Struct({
-    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeVirtualNodeInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeVirtualNodeInput",
 }) as any as S.Schema<DescribeVirtualNodeInput>;
 export interface DescribeVirtualNodeOutput {
   virtualNode: VirtualNodeData;
 }
-export const DescribeVirtualNodeOutput = S.suspend(() =>
-  S.Struct({
-    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualNodeData",
+export const DescribeVirtualNodeOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualNodeData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DescribeVirtualNodeOutput",
 }) as any as S.Schema<DescribeVirtualNodeOutput>;
@@ -2200,38 +2287,40 @@ export interface UpdateVirtualNodeInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateVirtualNodeInput = S.suspend(() =>
-  S.Struct({
-    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualNodeSpec,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateVirtualNodeInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualNodeSpec,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateVirtualNodeInput",
 }) as any as S.Schema<UpdateVirtualNodeInput>;
 export interface UpdateVirtualNodeOutput {
   virtualNode: VirtualNodeData;
 }
-export const UpdateVirtualNodeOutput = S.suspend(() =>
-  S.Struct({
-    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualNodeData",
+export const UpdateVirtualNodeOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualNodeData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "UpdateVirtualNodeOutput",
 }) as any as S.Schema<UpdateVirtualNodeOutput>;
@@ -2240,36 +2329,38 @@ export interface DeleteVirtualNodeInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DeleteVirtualNodeInput = S.suspend(() =>
-  S.Struct({
-    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteVirtualNodeInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteVirtualNodeInput",
 }) as any as S.Schema<DeleteVirtualNodeInput>;
 export interface DeleteVirtualNodeOutput {
   virtualNode: VirtualNodeData;
 }
-export const DeleteVirtualNodeOutput = S.suspend(() =>
-  S.Struct({
-    virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualNodeData",
+export const DeleteVirtualNodeOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNode: VirtualNodeData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualNodeData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DeleteVirtualNodeOutput",
 }) as any as S.Schema<DeleteVirtualNodeOutput>;
@@ -2279,7 +2370,7 @@ export interface ListVirtualNodesInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListVirtualNodesInput = S.suspend(() =>
+export const ListVirtualNodesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -2311,7 +2402,7 @@ export interface VirtualNodeRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const VirtualNodeRef = S.suspend(() =>
+export const VirtualNodeRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualNodeName: S.String,
@@ -2324,30 +2415,37 @@ export const VirtualNodeRef = S.suspend(() =>
   }),
 ).annotate({ identifier: "VirtualNodeRef" }) as any as S.Schema<VirtualNodeRef>;
 export type VirtualNodeList = VirtualNodeRef[];
-export const VirtualNodeList = S.Array(VirtualNodeRef);
+export const VirtualNodeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(VirtualNodeRef);
 export interface ListVirtualNodesOutput {
   virtualNodes: VirtualNodeRef[];
   nextToken?: string;
 }
-export const ListVirtualNodesOutput = S.suspend(() =>
-  S.Struct({ virtualNodes: VirtualNodeList, nextToken: S.optional(S.String) }),
+export const ListVirtualNodesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualNodes: VirtualNodeList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListVirtualNodesOutput",
 }) as any as S.Schema<ListVirtualNodesOutput>;
 export interface VirtualRouterListener {
   portMapping: PortMapping;
 }
-export const VirtualRouterListener = S.suspend(() =>
+export const VirtualRouterListener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ portMapping: PortMapping }),
 ).annotate({
   identifier: "VirtualRouterListener",
 }) as any as S.Schema<VirtualRouterListener>;
 export type VirtualRouterListeners = VirtualRouterListener[];
-export const VirtualRouterListeners = S.Array(VirtualRouterListener);
+export const VirtualRouterListeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  VirtualRouterListener,
+);
 export interface VirtualRouterSpec {
   listeners?: VirtualRouterListener[];
 }
-export const VirtualRouterSpec = S.suspend(() =>
+export const VirtualRouterSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ listeners: S.optional(VirtualRouterListeners) }),
 ).annotate({
   identifier: "VirtualRouterSpec",
@@ -2360,34 +2458,35 @@ export interface CreateVirtualRouterInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateVirtualRouterInput = S.suspend(() =>
-  S.Struct({
-    virtualRouterName: S.String,
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualRouterSpec,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualRouters",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateVirtualRouterInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouterName: S.String,
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualRouterSpec,
+      tags: S.optional(TagList),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualRouters",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateVirtualRouterInput",
 }) as any as S.Schema<CreateVirtualRouterInput>;
 export interface VirtualRouterStatus {
   status: string;
 }
-export const VirtualRouterStatus = S.suspend(() =>
+export const VirtualRouterStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({
   identifier: "VirtualRouterStatus",
@@ -2399,7 +2498,7 @@ export interface VirtualRouterData {
   metadata: ResourceMetadata;
   status: VirtualRouterStatus;
 }
-export const VirtualRouterData = S.suspend(() =>
+export const VirtualRouterData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualRouterName: S.String,
@@ -2413,12 +2512,13 @@ export const VirtualRouterData = S.suspend(() =>
 export interface CreateVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
 }
-export const CreateVirtualRouterOutput = S.suspend(() =>
-  S.Struct({
-    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualRouterData",
+export const CreateVirtualRouterOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualRouterData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "CreateVirtualRouterOutput",
 }) as any as S.Schema<CreateVirtualRouterOutput>;
@@ -2427,39 +2527,41 @@ export interface DescribeVirtualRouterInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DescribeVirtualRouterInput = S.suspend(() =>
-  S.Struct({
-    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeVirtualRouterInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeVirtualRouterInput",
 }) as any as S.Schema<DescribeVirtualRouterInput>;
 export interface DescribeVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
 }
-export const DescribeVirtualRouterOutput = S.suspend(() =>
-  S.Struct({
-    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualRouterData",
+export const DescribeVirtualRouterOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualRouterData",
+      }),
     }),
-  }),
-).annotate({
-  identifier: "DescribeVirtualRouterOutput",
-}) as any as S.Schema<DescribeVirtualRouterOutput>;
+  ).annotate({
+    identifier: "DescribeVirtualRouterOutput",
+  }) as any as S.Schema<DescribeVirtualRouterOutput>;
 export interface UpdateVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
@@ -2467,38 +2569,40 @@ export interface UpdateVirtualRouterInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateVirtualRouterInput = S.suspend(() =>
-  S.Struct({
-    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualRouterSpec,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateVirtualRouterInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualRouterSpec,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateVirtualRouterInput",
 }) as any as S.Schema<UpdateVirtualRouterInput>;
 export interface UpdateVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
 }
-export const UpdateVirtualRouterOutput = S.suspend(() =>
-  S.Struct({
-    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualRouterData",
+export const UpdateVirtualRouterOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualRouterData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "UpdateVirtualRouterOutput",
 }) as any as S.Schema<UpdateVirtualRouterOutput>;
@@ -2507,36 +2611,38 @@ export interface DeleteVirtualRouterInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DeleteVirtualRouterInput = S.suspend(() =>
-  S.Struct({
-    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteVirtualRouterInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteVirtualRouterInput",
 }) as any as S.Schema<DeleteVirtualRouterInput>;
 export interface DeleteVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
 }
-export const DeleteVirtualRouterOutput = S.suspend(() =>
-  S.Struct({
-    virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualRouterData",
+export const DeleteVirtualRouterOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouter: VirtualRouterData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualRouterData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DeleteVirtualRouterOutput",
 }) as any as S.Schema<DeleteVirtualRouterOutput>;
@@ -2546,25 +2652,26 @@ export interface ListVirtualRoutersInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListVirtualRoutersInput = S.suspend(() =>
-  S.Struct({
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualRouters",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListVirtualRoutersInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualRouters",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListVirtualRoutersInput",
 }) as any as S.Schema<ListVirtualRoutersInput>;
@@ -2578,7 +2685,7 @@ export interface VirtualRouterRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const VirtualRouterRef = S.suspend(() =>
+export const VirtualRouterRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualRouterName: S.String,
@@ -2593,16 +2700,18 @@ export const VirtualRouterRef = S.suspend(() =>
   identifier: "VirtualRouterRef",
 }) as any as S.Schema<VirtualRouterRef>;
 export type VirtualRouterList = VirtualRouterRef[];
-export const VirtualRouterList = S.Array(VirtualRouterRef);
+export const VirtualRouterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(VirtualRouterRef);
 export interface ListVirtualRoutersOutput {
   virtualRouters: VirtualRouterRef[];
   nextToken?: string;
 }
-export const ListVirtualRoutersOutput = S.suspend(() =>
-  S.Struct({
-    virtualRouters: VirtualRouterList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListVirtualRoutersOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualRouters: VirtualRouterList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListVirtualRoutersOutput",
 }) as any as S.Schema<ListVirtualRoutersOutput>;
@@ -2611,7 +2720,7 @@ export interface HttpRouteHeader {
   invert?: boolean;
   match?: HeaderMatchMethod;
 }
-export const HttpRouteHeader = S.suspend(() =>
+export const HttpRouteHeader = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     invert: S.optional(S.Boolean),
@@ -2621,7 +2730,8 @@ export const HttpRouteHeader = S.suspend(() =>
   identifier: "HttpRouteHeader",
 }) as any as S.Schema<HttpRouteHeader>;
 export type HttpRouteHeaders = HttpRouteHeader[];
-export const HttpRouteHeaders = S.Array(HttpRouteHeader);
+export const HttpRouteHeaders =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(HttpRouteHeader);
 export interface HttpRouteMatch {
   prefix?: string;
   path?: HttpPathMatch;
@@ -2631,7 +2741,7 @@ export interface HttpRouteMatch {
   headers?: HttpRouteHeader[];
   port?: number;
 }
-export const HttpRouteMatch = S.suspend(() =>
+export const HttpRouteMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     prefix: S.optional(S.String),
     path: S.optional(HttpPathMatch),
@@ -2647,7 +2757,7 @@ export interface WeightedTarget {
   weight: number;
   port?: number;
 }
-export const WeightedTarget = S.suspend(() =>
+export const WeightedTarget = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualNode: S.String,
     weight: S.Number,
@@ -2655,26 +2765,31 @@ export const WeightedTarget = S.suspend(() =>
   }),
 ).annotate({ identifier: "WeightedTarget" }) as any as S.Schema<WeightedTarget>;
 export type WeightedTargets = WeightedTarget[];
-export const WeightedTargets = S.Array(WeightedTarget);
+export const WeightedTargets =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(WeightedTarget);
 export interface HttpRouteAction {
   weightedTargets: WeightedTarget[];
 }
-export const HttpRouteAction = S.suspend(() =>
+export const HttpRouteAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
 ).annotate({
   identifier: "HttpRouteAction",
 }) as any as S.Schema<HttpRouteAction>;
 export type HttpRetryPolicyEvents = string[];
-export const HttpRetryPolicyEvents = S.Array(S.String);
+export const HttpRetryPolicyEvents = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type TcpRetryPolicyEvents = string[];
-export const TcpRetryPolicyEvents = S.Array(S.String);
+export const TcpRetryPolicyEvents = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface HttpRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
   httpRetryEvents?: string[];
   tcpRetryEvents?: string[];
 }
-export const HttpRetryPolicy = S.suspend(() =>
+export const HttpRetryPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     perRetryTimeout: Duration,
     maxRetries: S.Number,
@@ -2690,7 +2805,7 @@ export interface HttpRoute {
   retryPolicy?: HttpRetryPolicy;
   timeout?: HttpTimeout;
 }
-export const HttpRoute = S.suspend(() =>
+export const HttpRoute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     match: HttpRouteMatch,
     action: HttpRouteAction,
@@ -2701,13 +2816,13 @@ export const HttpRoute = S.suspend(() =>
 export interface TcpRouteAction {
   weightedTargets: WeightedTarget[];
 }
-export const TcpRouteAction = S.suspend(() =>
+export const TcpRouteAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
 ).annotate({ identifier: "TcpRouteAction" }) as any as S.Schema<TcpRouteAction>;
 export interface TcpRouteMatch {
   port?: number;
 }
-export const TcpRouteMatch = S.suspend(() =>
+export const TcpRouteMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ port: S.optional(S.Number) }),
 ).annotate({ identifier: "TcpRouteMatch" }) as any as S.Schema<TcpRouteMatch>;
 export interface TcpRoute {
@@ -2715,7 +2830,7 @@ export interface TcpRoute {
   timeout?: TcpTimeout;
   match?: TcpRouteMatch;
 }
-export const TcpRoute = S.suspend(() =>
+export const TcpRoute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     action: TcpRouteAction,
     timeout: S.optional(TcpTimeout),
@@ -2725,7 +2840,7 @@ export const TcpRoute = S.suspend(() =>
 export interface GrpcRouteAction {
   weightedTargets: WeightedTarget[];
 }
-export const GrpcRouteAction = S.suspend(() =>
+export const GrpcRouteAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ weightedTargets: WeightedTargets }),
 ).annotate({
   identifier: "GrpcRouteAction",
@@ -2766,19 +2881,21 @@ export type GrpcRouteMetadataMatchMethod =
       prefix?: never;
       suffix: string;
     };
-export const GrpcRouteMetadataMatchMethod = S.Union([
-  S.Struct({ exact: S.String }),
-  S.Struct({ regex: S.String }),
-  S.Struct({ range: MatchRange }),
-  S.Struct({ prefix: S.String }),
-  S.Struct({ suffix: S.String }),
-]);
+export const GrpcRouteMetadataMatchMethod = /*@__PURE__*/ /*#__PURE__*/ S.Union(
+  [
+    S.Struct({ exact: S.String }),
+    S.Struct({ regex: S.String }),
+    S.Struct({ range: MatchRange }),
+    S.Struct({ prefix: S.String }),
+    S.Struct({ suffix: S.String }),
+  ],
+);
 export interface GrpcRouteMetadata {
   name: string;
   invert?: boolean;
   match?: GrpcRouteMetadataMatchMethod;
 }
-export const GrpcRouteMetadata = S.suspend(() =>
+export const GrpcRouteMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     invert: S.optional(S.Boolean),
@@ -2788,14 +2905,15 @@ export const GrpcRouteMetadata = S.suspend(() =>
   identifier: "GrpcRouteMetadata",
 }) as any as S.Schema<GrpcRouteMetadata>;
 export type GrpcRouteMetadataList = GrpcRouteMetadata[];
-export const GrpcRouteMetadataList = S.Array(GrpcRouteMetadata);
+export const GrpcRouteMetadataList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GrpcRouteMetadata);
 export interface GrpcRouteMatch {
   serviceName?: string;
   methodName?: string;
   metadata?: GrpcRouteMetadata[];
   port?: number;
 }
-export const GrpcRouteMatch = S.suspend(() =>
+export const GrpcRouteMatch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.optional(S.String),
     methodName: S.optional(S.String),
@@ -2804,7 +2922,9 @@ export const GrpcRouteMatch = S.suspend(() =>
   }),
 ).annotate({ identifier: "GrpcRouteMatch" }) as any as S.Schema<GrpcRouteMatch>;
 export type GrpcRetryPolicyEvents = string[];
-export const GrpcRetryPolicyEvents = S.Array(S.String);
+export const GrpcRetryPolicyEvents = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface GrpcRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
@@ -2812,7 +2932,7 @@ export interface GrpcRetryPolicy {
   tcpRetryEvents?: string[];
   grpcRetryEvents?: string[];
 }
-export const GrpcRetryPolicy = S.suspend(() =>
+export const GrpcRetryPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     perRetryTimeout: Duration,
     maxRetries: S.Number,
@@ -2829,7 +2949,7 @@ export interface GrpcRoute {
   retryPolicy?: GrpcRetryPolicy;
   timeout?: GrpcTimeout;
 }
-export const GrpcRoute = S.suspend(() =>
+export const GrpcRoute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GrpcRouteAction,
     match: GrpcRouteMatch,
@@ -2844,7 +2964,7 @@ export interface RouteSpec {
   http2Route?: HttpRoute;
   grpcRoute?: GrpcRoute;
 }
-export const RouteSpec = S.suspend(() =>
+export const RouteSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     priority: S.optional(S.Number),
     httpRoute: S.optional(HttpRoute),
@@ -2862,7 +2982,7 @@ export interface CreateRouteInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateRouteInput = S.suspend(() =>
+export const CreateRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     routeName: S.String,
     meshName: S.String.pipe(T.HttpLabel("meshName")),
@@ -2890,7 +3010,7 @@ export const CreateRouteInput = S.suspend(() =>
 export interface RouteStatus {
   status: string;
 }
-export const RouteStatus = S.suspend(() =>
+export const RouteStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({ identifier: "RouteStatus" }) as any as S.Schema<RouteStatus>;
 export interface RouteData {
@@ -2901,7 +3021,7 @@ export interface RouteData {
   metadata: ResourceMetadata;
   status: RouteStatus;
 }
-export const RouteData = S.suspend(() =>
+export const RouteData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualRouterName: S.String,
@@ -2914,7 +3034,7 @@ export const RouteData = S.suspend(() =>
 export interface CreateRouteOutput {
   route: RouteData;
 }
-export const CreateRouteOutput = S.suspend(() =>
+export const CreateRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     route: RouteData.pipe(T.HttpPayload()).annotate({
       identifier: "RouteData",
@@ -2929,7 +3049,7 @@ export interface DescribeRouteInput {
   meshOwner?: string;
   virtualRouterName: string;
 }
-export const DescribeRouteInput = S.suspend(() =>
+export const DescribeRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
@@ -2954,7 +3074,7 @@ export const DescribeRouteInput = S.suspend(() =>
 export interface DescribeRouteOutput {
   route: RouteData;
 }
-export const DescribeRouteOutput = S.suspend(() =>
+export const DescribeRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     route: RouteData.pipe(T.HttpPayload()).annotate({
       identifier: "RouteData",
@@ -2971,7 +3091,7 @@ export interface UpdateRouteInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateRouteInput = S.suspend(() =>
+export const UpdateRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
@@ -2998,7 +3118,7 @@ export const UpdateRouteInput = S.suspend(() =>
 export interface UpdateRouteOutput {
   route: RouteData;
 }
-export const UpdateRouteOutput = S.suspend(() =>
+export const UpdateRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     route: RouteData.pipe(T.HttpPayload()).annotate({
       identifier: "RouteData",
@@ -3013,7 +3133,7 @@ export interface DeleteRouteInput {
   virtualRouterName: string;
   meshOwner?: string;
 }
-export const DeleteRouteInput = S.suspend(() =>
+export const DeleteRouteInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     routeName: S.String.pipe(T.HttpLabel("routeName")),
     meshName: S.String.pipe(T.HttpLabel("meshName")),
@@ -3038,7 +3158,7 @@ export const DeleteRouteInput = S.suspend(() =>
 export interface DeleteRouteOutput {
   route: RouteData;
 }
-export const DeleteRouteOutput = S.suspend(() =>
+export const DeleteRouteOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     route: RouteData.pipe(T.HttpPayload()).annotate({
       identifier: "RouteData",
@@ -3054,7 +3174,7 @@ export interface ListRoutesInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListRoutesInput = S.suspend(() =>
+export const ListRoutesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String.pipe(T.HttpLabel("meshName")),
     virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
@@ -3088,7 +3208,7 @@ export interface RouteRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const RouteRef = S.suspend(() =>
+export const RouteRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualRouterName: S.String,
@@ -3102,12 +3222,12 @@ export const RouteRef = S.suspend(() =>
   }),
 ).annotate({ identifier: "RouteRef" }) as any as S.Schema<RouteRef>;
 export type RouteList = RouteRef[];
-export const RouteList = S.Array(RouteRef);
+export const RouteList = /*@__PURE__*/ /*#__PURE__*/ S.Array(RouteRef);
 export interface ListRoutesOutput {
   routes: RouteRef[];
   nextToken?: string;
 }
-export const ListRoutesOutput = S.suspend(() =>
+export const ListRoutesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ routes: RouteList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoutesOutput",
@@ -3115,30 +3235,31 @@ export const ListRoutesOutput = S.suspend(() =>
 export interface VirtualNodeServiceProvider {
   virtualNodeName: string;
 }
-export const VirtualNodeServiceProvider = S.suspend(() =>
-  S.Struct({ virtualNodeName: S.String }),
+export const VirtualNodeServiceProvider = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ virtualNodeName: S.String }),
 ).annotate({
   identifier: "VirtualNodeServiceProvider",
 }) as any as S.Schema<VirtualNodeServiceProvider>;
 export interface VirtualRouterServiceProvider {
   virtualRouterName: string;
 }
-export const VirtualRouterServiceProvider = S.suspend(() =>
-  S.Struct({ virtualRouterName: S.String }),
-).annotate({
-  identifier: "VirtualRouterServiceProvider",
-}) as any as S.Schema<VirtualRouterServiceProvider>;
+export const VirtualRouterServiceProvider =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ virtualRouterName: S.String }),
+  ).annotate({
+    identifier: "VirtualRouterServiceProvider",
+  }) as any as S.Schema<VirtualRouterServiceProvider>;
 export type VirtualServiceProvider =
   | { virtualNode: VirtualNodeServiceProvider; virtualRouter?: never }
   | { virtualNode?: never; virtualRouter: VirtualRouterServiceProvider };
-export const VirtualServiceProvider = S.Union([
+export const VirtualServiceProvider = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ virtualNode: VirtualNodeServiceProvider }),
   S.Struct({ virtualRouter: VirtualRouterServiceProvider }),
 ]);
 export interface VirtualServiceSpec {
   provider?: VirtualServiceProvider;
 }
-export const VirtualServiceSpec = S.suspend(() =>
+export const VirtualServiceSpec = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ provider: S.optional(VirtualServiceProvider) }),
 ).annotate({
   identifier: "VirtualServiceSpec",
@@ -3151,34 +3272,35 @@ export interface CreateVirtualServiceInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const CreateVirtualServiceInput = S.suspend(() =>
-  S.Struct({
-    virtualServiceName: S.String,
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualServiceSpec,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualServices",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateVirtualServiceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualServiceName: S.String,
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualServiceSpec,
+      tags: S.optional(TagList),
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualServices",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateVirtualServiceInput",
 }) as any as S.Schema<CreateVirtualServiceInput>;
 export interface VirtualServiceStatus {
   status: string;
 }
-export const VirtualServiceStatus = S.suspend(() =>
+export const VirtualServiceStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
 ).annotate({
   identifier: "VirtualServiceStatus",
@@ -3190,7 +3312,7 @@ export interface VirtualServiceData {
   metadata: ResourceMetadata;
   status: VirtualServiceStatus;
 }
-export const VirtualServiceData = S.suspend(() =>
+export const VirtualServiceData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualServiceName: S.String,
@@ -3204,12 +3326,13 @@ export const VirtualServiceData = S.suspend(() =>
 export interface CreateVirtualServiceOutput {
   virtualService: VirtualServiceData;
 }
-export const CreateVirtualServiceOutput = S.suspend(() =>
-  S.Struct({
-    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualServiceData",
+export const CreateVirtualServiceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualServiceData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "CreateVirtualServiceOutput",
 }) as any as S.Schema<CreateVirtualServiceOutput>;
@@ -3218,39 +3341,41 @@ export interface DescribeVirtualServiceInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DescribeVirtualServiceInput = S.suspend(() =>
-  S.Struct({
-    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeVirtualServiceInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeVirtualServiceInput",
-}) as any as S.Schema<DescribeVirtualServiceInput>;
+  ).annotate({
+    identifier: "DescribeVirtualServiceInput",
+  }) as any as S.Schema<DescribeVirtualServiceInput>;
 export interface DescribeVirtualServiceOutput {
   virtualService: VirtualServiceData;
 }
-export const DescribeVirtualServiceOutput = S.suspend(() =>
-  S.Struct({
-    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualServiceData",
+export const DescribeVirtualServiceOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualServiceData",
+      }),
     }),
-  }),
-).annotate({
-  identifier: "DescribeVirtualServiceOutput",
-}) as any as S.Schema<DescribeVirtualServiceOutput>;
+  ).annotate({
+    identifier: "DescribeVirtualServiceOutput",
+  }) as any as S.Schema<DescribeVirtualServiceOutput>;
 export interface UpdateVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
@@ -3258,38 +3383,40 @@ export interface UpdateVirtualServiceInput {
   clientToken?: string;
   meshOwner?: string;
 }
-export const UpdateVirtualServiceInput = S.suspend(() =>
-  S.Struct({
-    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    spec: VirtualServiceSpec,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateVirtualServiceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      spec: VirtualServiceSpec,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateVirtualServiceInput",
 }) as any as S.Schema<UpdateVirtualServiceInput>;
 export interface UpdateVirtualServiceOutput {
   virtualService: VirtualServiceData;
 }
-export const UpdateVirtualServiceOutput = S.suspend(() =>
-  S.Struct({
-    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualServiceData",
+export const UpdateVirtualServiceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualServiceData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "UpdateVirtualServiceOutput",
 }) as any as S.Schema<UpdateVirtualServiceOutput>;
@@ -3298,36 +3425,38 @@ export interface DeleteVirtualServiceInput {
   meshName: string;
   meshOwner?: string;
 }
-export const DeleteVirtualServiceInput = S.suspend(() =>
-  S.Struct({
-    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteVirtualServiceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteVirtualServiceInput",
 }) as any as S.Schema<DeleteVirtualServiceInput>;
 export interface DeleteVirtualServiceOutput {
   virtualService: VirtualServiceData;
 }
-export const DeleteVirtualServiceOutput = S.suspend(() =>
-  S.Struct({
-    virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
-      identifier: "VirtualServiceData",
+export const DeleteVirtualServiceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualService: VirtualServiceData.pipe(T.HttpPayload()).annotate({
+        identifier: "VirtualServiceData",
+      }),
     }),
-  }),
 ).annotate({
   identifier: "DeleteVirtualServiceOutput",
 }) as any as S.Schema<DeleteVirtualServiceOutput>;
@@ -3337,25 +3466,26 @@ export interface ListVirtualServicesInput {
   limit?: number;
   meshOwner?: string;
 }
-export const ListVirtualServicesInput = S.suspend(() =>
-  S.Struct({
-    meshName: S.String.pipe(T.HttpLabel("meshName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v20190125/meshes/{meshName}/virtualServices",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListVirtualServicesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      meshName: S.String.pipe(T.HttpLabel("meshName")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v20190125/meshes/{meshName}/virtualServices",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListVirtualServicesInput",
 }) as any as S.Schema<ListVirtualServicesInput>;
@@ -3369,7 +3499,7 @@ export interface VirtualServiceRef {
   createdAt: Date;
   lastUpdatedAt: Date;
 }
-export const VirtualServiceRef = S.suspend(() =>
+export const VirtualServiceRef = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     meshName: S.String,
     virtualServiceName: S.String,
@@ -3384,16 +3514,18 @@ export const VirtualServiceRef = S.suspend(() =>
   identifier: "VirtualServiceRef",
 }) as any as S.Schema<VirtualServiceRef>;
 export type VirtualServiceList = VirtualServiceRef[];
-export const VirtualServiceList = S.Array(VirtualServiceRef);
+export const VirtualServiceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(VirtualServiceRef);
 export interface ListVirtualServicesOutput {
   virtualServices: VirtualServiceRef[];
   nextToken?: string;
 }
-export const ListVirtualServicesOutput = S.suspend(() =>
-  S.Struct({
-    virtualServices: VirtualServiceList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListVirtualServicesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      virtualServices: VirtualServiceList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListVirtualServicesOutput",
 }) as any as S.Schema<ListVirtualServicesOutput>;

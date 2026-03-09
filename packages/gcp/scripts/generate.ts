@@ -15,6 +15,12 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+const annotatePureExportConst = (definition: string) =>
+  definition.replace(
+    /^export const ([^=]+?)\s*=\s*/m,
+    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
+  );
+
 // =============================================================================
 // Discovery Document Types
 // =============================================================================
@@ -486,7 +492,7 @@ function generateSchema(
 
     // Generate Effect Schema
     lines.push(
-      `export const ${name}: Schema.Schema<${name}> = Schema.suspend(() => Schema.Struct({`,
+      `export const ${name}: Schema.Schema<${name}> = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({`,
     );
     for (const [propName, propSchema] of Object.entries(schema.properties)) {
       const schemaExpr = propertyToSchemaExpr(propSchema, allSchemas, renames);
@@ -512,7 +518,7 @@ function generateSchema(
     );
     lines.push(`export type ${name} = Record<string, ${valType}>;`);
     lines.push(
-      `export const ${name}: Schema.Schema<${name}> = Schema.Record(Schema.String, ${valSchema}) as any as Schema.Schema<${name}>;`,
+      `export const ${name}: Schema.Schema<${name}> = /*@__PURE__*/ /*#__PURE__*/ Schema.Record(Schema.String, ${valSchema}) as any as Schema.Schema<${name}>;`,
     );
   } else if (schema.enum) {
     // Enum type - open union
@@ -520,13 +526,13 @@ function generateSchema(
     lines.push(
       `export type ${name} = ${literals} | (string & {});`,
     );
-    lines.push(`export const ${name} = Schema.String;`);
+    lines.push(`export const ${name} = /*@__PURE__*/ /*#__PURE__*/ Schema.String;`);
   } else {
     // Simple type alias
     const tsType = schemaTypeToTs(schema);
     lines.push(`export type ${name} = ${tsType};`);
     lines.push(
-      `export const ${name} = ${schemaTypeToSchemaExpr(schema)};`,
+      `export const ${name} = /*@__PURE__*/ /*#__PURE__*/ ${schemaTypeToSchemaExpr(schema)};`,
     );
   }
 
@@ -788,7 +794,7 @@ function generateOperation(
   lines.push("");
 
   // Generate request schema
-  lines.push(`export const ${inputName} = Schema.Struct({`);
+  lines.push(`export const ${inputName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
   for (const [paramName, param] of opParams) {
     const schemaExpr = paramTypeToSchemaExpr(param);
     const traitPipe =
@@ -820,11 +826,11 @@ function generateOperation(
   // Generate response type and schema
   if (resolvedResponseRef) {
     lines.push(`export type ${outputName} = ${resolvedResponseRef};`);
-    lines.push(`export const ${outputName} = ${resolvedResponseRef};`);
+    lines.push(`export const ${outputName} = /*@__PURE__*/ /*#__PURE__*/ ${resolvedResponseRef};`);
   } else {
     lines.push(`export interface ${outputName} {}`);
     lines.push(
-      `export const ${outputName}: Schema.Schema<${outputName}> = Schema.Struct({}) as any as Schema.Schema<${outputName}>;`,
+      `export const ${outputName}: Schema.Schema<${outputName}> = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}) as any as Schema.Schema<${outputName}>;`,
     );
   }
   lines.push("");
@@ -855,7 +861,7 @@ function generateOperation(
 
   if (isPaginated) {
     lines.push(
-      `export const ${fnName}: API.PaginatedOperationMethod<${inputName}, ${outputName}, ${errorTypeName}, Credentials | HttpClient.HttpClient> = API.makePaginated(() => ({`,
+      `export const ${fnName}: API.PaginatedOperationMethod<${inputName}, ${outputName}, ${errorTypeName}, Credentials | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({`,
     );
     lines.push(`  input: ${inputName},`);
     lines.push(`  output: ${outputName},`);
@@ -870,7 +876,7 @@ function generateOperation(
     lines.push(`}));`);
   } else {
     lines.push(
-      `export const ${fnName}: API.OperationMethod<${inputName}, ${outputName}, ${errorTypeName}, Credentials | HttpClient.HttpClient> = API.make(() => ({`,
+      `export const ${fnName}: API.OperationMethod<${inputName}, ${outputName}, ${errorTypeName}, Credentials | HttpClient.HttpClient> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`,
     );
     lines.push(`  input: ${inputName},`);
     lines.push(`  output: ${outputName},`);

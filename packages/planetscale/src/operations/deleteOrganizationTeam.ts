@@ -9,20 +9,22 @@ import {
 } from "../errors";
 
 // Input Schema
-export const DeleteOrganizationTeamInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  team: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/teams/{team}",
-  }),
-);
+export const DeleteOrganizationTeamInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    team: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/teams/{team}",
+    }),
+  );
 export type DeleteOrganizationTeamInput =
   typeof DeleteOrganizationTeamInput.Type;
 
 // Output Schema
-export const DeleteOrganizationTeamOutput = Schema.Void;
+export const DeleteOrganizationTeamOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteOrganizationTeamOutput =
   typeof DeleteOrganizationTeamOutput.Type;
 

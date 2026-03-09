@@ -30,7 +30,7 @@ export interface GetCustomPageRequest {
     | "waf_challenge";
 }
 
-export const GetCustomPageRequest = Schema.Struct({
+export const GetCustomPageRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
@@ -63,7 +63,7 @@ export interface GetCustomPageResponse {
   url?: string | null;
 }
 
-export const GetCustomPageResponse = Schema.Struct({
+export const GetCustomPageResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -96,7 +96,7 @@ export const getCustomPage: API.OperationMethod<
   GetCustomPageResponse,
   GetCustomPageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomPageRequest,
   output: GetCustomPageResponse,
   errors: [],
@@ -104,7 +104,9 @@ export const getCustomPage: API.OperationMethod<
 
 export interface ListCustomPagesRequest {}
 
-export const ListCustomPagesRequest = Schema.Struct({}).pipe(
+export const ListCustomPagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({
     method: "GET",
     path: "/{accountOrZone}/{accountOrZoneId}/custom_pages",
@@ -122,7 +124,7 @@ export type ListCustomPagesResponse = {
   url?: string | null;
 }[];
 
-export const ListCustomPagesResponse = Schema.Array(
+export const ListCustomPagesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -157,7 +159,7 @@ export const listCustomPages: API.OperationMethod<
   ListCustomPagesResponse,
   ListCustomPagesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCustomPagesRequest,
   output: ListCustomPagesResponse,
   errors: [],
@@ -185,7 +187,7 @@ export interface PutCustomPageRequest {
   url: string;
 }
 
-export const PutCustomPageRequest = Schema.Struct({
+export const PutCustomPageRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   identifier: Schema.Literals([
     "1000_errors",
     "500_errors",
@@ -222,7 +224,7 @@ export interface PutCustomPageResponse {
   url?: string | null;
 }
 
-export const PutCustomPageResponse = Schema.Struct({
+export const PutCustomPageResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -255,7 +257,7 @@ export const putCustomPage: API.OperationMethod<
   PutCustomPageResponse,
   PutCustomPageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutCustomPageRequest,
   output: PutCustomPageResponse,
   errors: [],

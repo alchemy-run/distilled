@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteQueryPatternsReportInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}",
-  }),
-);
+export const DeleteQueryPatternsReportInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}",
+    }),
+  );
 export type DeleteQueryPatternsReportInput =
   typeof DeleteQueryPatternsReportInput.Type;
 
 // Output Schema
-export const DeleteQueryPatternsReportOutput = Schema.Void;
+export const DeleteQueryPatternsReportOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteQueryPatternsReportOutput =
   typeof DeleteQueryPatternsReportOutput.Type;
 

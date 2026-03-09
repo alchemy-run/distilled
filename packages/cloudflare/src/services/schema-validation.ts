@@ -24,7 +24,7 @@ export interface GetSchemaRequest {
   omitSource?: boolean;
 }
 
-export const GetSchemaRequest = Schema.Struct({
+export const GetSchemaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   schemaId: Schema.String.pipe(T.HttpPath("schemaId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   omitSource: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("omit_source")),
@@ -49,7 +49,7 @@ export interface GetSchemaResponse {
   validationEnabled?: boolean | null;
 }
 
-export const GetSchemaResponse = Schema.Struct({
+export const GetSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   createdAt: Schema.String,
   kind: Schema.Literal("openapi_v3"),
   name: Schema.String,
@@ -76,7 +76,7 @@ export const getSchema: API.OperationMethod<
   GetSchemaResponse,
   GetSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSchemaRequest,
   output: GetSchemaResponse,
   errors: [],
@@ -91,7 +91,7 @@ export interface ListSchemasRequest {
   validationEnabled?: boolean;
 }
 
-export const ListSchemasRequest = Schema.Struct({
+export const ListSchemasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   omitSource: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("omit_source")),
   validationEnabled: Schema.optional(Schema.Boolean).pipe(
@@ -110,7 +110,7 @@ export type ListSchemasResponse = {
   validationEnabled?: boolean | null;
 }[];
 
-export const ListSchemasResponse = Schema.Array(
+export const ListSchemasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     createdAt: Schema.String,
     kind: Schema.Literal("openapi_v3"),
@@ -139,7 +139,7 @@ export const listSchemas: API.OperationMethod<
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSchemasRequest,
   output: ListSchemasResponse,
   errors: [],
@@ -158,7 +158,7 @@ export interface CreateSchemaRequest {
   validationEnabled: boolean;
 }
 
-export const CreateSchemaRequest = Schema.Struct({
+export const CreateSchemaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   kind: Schema.Literal("openapi_v3"),
   name: Schema.String,
@@ -191,7 +191,7 @@ export interface CreateSchemaResponse {
   validationEnabled?: boolean | null;
 }
 
-export const CreateSchemaResponse = Schema.Struct({
+export const CreateSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   createdAt: Schema.String,
   kind: Schema.Literal("openapi_v3"),
   name: Schema.String,
@@ -218,7 +218,7 @@ export const createSchema: API.OperationMethod<
   CreateSchemaResponse,
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSchemaRequest,
   output: CreateSchemaResponse,
   errors: [],
@@ -232,7 +232,7 @@ export interface PatchSchemaRequest {
   validationEnabled?: boolean;
 }
 
-export const PatchSchemaRequest = Schema.Struct({
+export const PatchSchemaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   schemaId: Schema.String.pipe(T.HttpPath("schemaId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   validationEnabled: Schema.optional(Schema.Boolean),
@@ -258,7 +258,7 @@ export interface PatchSchemaResponse {
   validationEnabled?: boolean | null;
 }
 
-export const PatchSchemaResponse = Schema.Struct({
+export const PatchSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   createdAt: Schema.String,
   kind: Schema.Literal("openapi_v3"),
   name: Schema.String,
@@ -285,7 +285,7 @@ export const patchSchema: API.OperationMethod<
   PatchSchemaResponse,
   PatchSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSchemaRequest,
   output: PatchSchemaResponse,
   errors: [],
@@ -297,7 +297,7 @@ export interface DeleteSchemaRequest {
   zoneId: string;
 }
 
-export const DeleteSchemaRequest = Schema.Struct({
+export const DeleteSchemaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   schemaId: Schema.String.pipe(T.HttpPath("schemaId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -312,7 +312,7 @@ export interface DeleteSchemaResponse {
   id: string;
 }
 
-export const DeleteSchemaResponse = Schema.Struct({
+export const DeleteSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteSchemaResponse>;
 
@@ -323,7 +323,7 @@ export const deleteSchema: API.OperationMethod<
   DeleteSchemaResponse,
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSchemaRequest,
   output: DeleteSchemaResponse,
   errors: [],
@@ -338,7 +338,7 @@ export interface GetSettingRequest {
   zoneId: string;
 }
 
-export const GetSettingRequest = Schema.Struct({
+export const GetSettingRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({
@@ -354,7 +354,7 @@ export interface GetSettingResponse {
   validationOverrideMitigationAction?: "none" | null;
 }
 
-export const GetSettingResponse = Schema.Struct({
+export const GetSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
@@ -373,7 +373,7 @@ export const getSetting: API.OperationMethod<
   GetSettingResponse,
   GetSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingRequest,
   output: GetSettingResponse,
   errors: [],
@@ -388,7 +388,7 @@ export interface PutSettingRequest {
   validationOverrideMitigationAction?: "none" | null;
 }
 
-export const PutSettingRequest = Schema.Struct({
+export const PutSettingRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
   validationOverrideMitigationAction: Schema.optional(
@@ -412,7 +412,7 @@ export interface PutSettingResponse {
   validationOverrideMitigationAction?: "none" | null;
 }
 
-export const PutSettingResponse = Schema.Struct({
+export const PutSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
@@ -431,7 +431,7 @@ export const putSetting: API.OperationMethod<
   PutSettingResponse,
   PutSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSettingRequest,
   output: PutSettingResponse,
   errors: [],
@@ -446,7 +446,7 @@ export interface PatchSettingRequest {
   validationOverrideMitigationAction?: "none" | null;
 }
 
-export const PatchSettingRequest = Schema.Struct({
+export const PatchSettingRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   validationDefaultMitigationAction: Schema.optional(
     Schema.Literals(["none", "log", "block"]),
@@ -472,7 +472,7 @@ export interface PatchSettingResponse {
   validationOverrideMitigationAction?: "none" | null;
 }
 
-export const PatchSettingResponse = Schema.Struct({
+export const PatchSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
@@ -491,7 +491,7 @@ export const patchSetting: API.OperationMethod<
   PatchSettingResponse,
   PatchSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchSettingRequest,
   output: PatchSettingResponse,
   errors: [],
@@ -507,15 +507,16 @@ export interface GetSettingOperationRequest {
   zoneId: string;
 }
 
-export const GetSettingOperationRequest = Schema.Struct({
-  operationId: Schema.String.pipe(T.HttpPath("operationId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
-  }),
-) as unknown as Schema.Schema<GetSettingOperationRequest>;
+export const GetSettingOperationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    operationId: Schema.String.pipe(T.HttpPath("operationId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
+    }),
+  ) as unknown as Schema.Schema<GetSettingOperationRequest>;
 
 export interface GetSettingOperationResponse {
   /** When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation  - `"log"` - log request when request does not conform to schem */
@@ -524,15 +525,16 @@ export interface GetSettingOperationResponse {
   operationId: string;
 }
 
-export const GetSettingOperationResponse = Schema.Struct({
-  mitigationAction: Schema.Literals(["log", "block", "none"]),
-  operationId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    mitigationAction: "mitigation_action",
-    operationId: "operation_id",
-  }),
-) as unknown as Schema.Schema<GetSettingOperationResponse>;
+export const GetSettingOperationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mitigationAction: Schema.Literals(["log", "block", "none"]),
+    operationId: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      mitigationAction: "mitigation_action",
+      operationId: "operation_id",
+    }),
+  ) as unknown as Schema.Schema<GetSettingOperationResponse>;
 
 export type GetSettingOperationError = DefaultErrors;
 
@@ -541,7 +543,7 @@ export const getSettingOperation: API.OperationMethod<
   GetSettingOperationResponse,
   GetSettingOperationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSettingOperationRequest,
   output: GetSettingOperationResponse,
   errors: [],
@@ -552,31 +554,33 @@ export interface ListSettingOperationsRequest {
   zoneId: string;
 }
 
-export const ListSettingOperationsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/schema_validation/settings/operations",
-  }),
-) as unknown as Schema.Schema<ListSettingOperationsRequest>;
+export const ListSettingOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/schema_validation/settings/operations",
+    }),
+  ) as unknown as Schema.Schema<ListSettingOperationsRequest>;
 
 export type ListSettingOperationsResponse = {
   mitigationAction: "log" | "block" | "none";
   operationId: string;
 }[];
 
-export const ListSettingOperationsResponse = Schema.Array(
-  Schema.Struct({
-    mitigationAction: Schema.Literals(["log", "block", "none"]),
-    operationId: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      mitigationAction: "mitigation_action",
-      operationId: "operation_id",
-    }),
-  ),
-) as unknown as Schema.Schema<ListSettingOperationsResponse>;
+export const ListSettingOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      mitigationAction: Schema.Literals(["log", "block", "none"]),
+      operationId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        mitigationAction: "mitigation_action",
+        operationId: "operation_id",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListSettingOperationsResponse>;
 
 export type ListSettingOperationsError = DefaultErrors;
 
@@ -585,7 +589,7 @@ export const listSettingOperations: API.OperationMethod<
   ListSettingOperationsResponse,
   ListSettingOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListSettingOperationsRequest,
   output: ListSettingOperationsResponse,
   errors: [],
@@ -599,22 +603,23 @@ export interface PutSettingOperationRequest {
   mitigationAction: "log" | "block" | "none" | null;
 }
 
-export const PutSettingOperationRequest = Schema.Struct({
-  operationId: Schema.String.pipe(T.HttpPath("operationId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  mitigationAction: Schema.Union([
-    Schema.Literal("log"),
-    Schema.Literal("block"),
-    Schema.Literal("none"),
-    Schema.Null,
-  ]),
-}).pipe(
-  Schema.encodeKeys({ mitigationAction: "mitigation_action" }),
-  T.Http({
-    method: "PUT",
-    path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
-  }),
-) as unknown as Schema.Schema<PutSettingOperationRequest>;
+export const PutSettingOperationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    operationId: Schema.String.pipe(T.HttpPath("operationId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    mitigationAction: Schema.Union([
+      Schema.Literal("log"),
+      Schema.Literal("block"),
+      Schema.Literal("none"),
+      Schema.Null,
+    ]),
+  }).pipe(
+    Schema.encodeKeys({ mitigationAction: "mitigation_action" }),
+    T.Http({
+      method: "PUT",
+      path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
+    }),
+  ) as unknown as Schema.Schema<PutSettingOperationRequest>;
 
 export interface PutSettingOperationResponse {
   /** When set, this applies a mitigation action to this operation which supersedes a global schema validation setting just for this operation  - `"log"` - log request when request does not conform to schem */
@@ -623,15 +628,16 @@ export interface PutSettingOperationResponse {
   operationId: string;
 }
 
-export const PutSettingOperationResponse = Schema.Struct({
-  mitigationAction: Schema.Literals(["log", "block", "none"]),
-  operationId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    mitigationAction: "mitigation_action",
-    operationId: "operation_id",
-  }),
-) as unknown as Schema.Schema<PutSettingOperationResponse>;
+export const PutSettingOperationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    mitigationAction: Schema.Literals(["log", "block", "none"]),
+    operationId: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      mitigationAction: "mitigation_action",
+      operationId: "operation_id",
+    }),
+  ) as unknown as Schema.Schema<PutSettingOperationResponse>;
 
 export type PutSettingOperationError = DefaultErrors;
 
@@ -640,7 +646,7 @@ export const putSettingOperation: API.OperationMethod<
   PutSettingOperationResponse,
   PutSettingOperationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSettingOperationRequest,
   output: PutSettingOperationResponse,
   errors: [],
@@ -652,26 +658,28 @@ export interface DeleteSettingOperationRequest {
   zoneId: string;
 }
 
-export const DeleteSettingOperationRequest = Schema.Struct({
-  operationId: Schema.String.pipe(T.HttpPath("operationId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
-  }),
-) as unknown as Schema.Schema<DeleteSettingOperationRequest>;
+export const DeleteSettingOperationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    operationId: Schema.String.pipe(T.HttpPath("operationId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/schema_validation/settings/operations/{operationId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteSettingOperationRequest>;
 
 export interface DeleteSettingOperationResponse {
   /** UUID. */
   operationId?: string | null;
 }
 
-export const DeleteSettingOperationResponse = Schema.Struct({
-  operationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<DeleteSettingOperationResponse>;
+export const DeleteSettingOperationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    operationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ operationId: "operation_id" }),
+  ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;
 
 export type DeleteSettingOperationError = DefaultErrors;
 
@@ -680,7 +688,7 @@ export const deleteSettingOperation: API.OperationMethod<
   DeleteSettingOperationResponse,
   DeleteSettingOperationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSettingOperationRequest,
   output: DeleteSettingOperationResponse,
   errors: [],
@@ -693,21 +701,23 @@ export interface BulkPatchSettingOperationsRequest {
   body: Record<string, unknown>;
 }
 
-export const BulkPatchSettingOperationsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  body: Schema.Struct({}).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/schema_validation/settings/operations",
-  }),
-) as unknown as Schema.Schema<BulkPatchSettingOperationsRequest>;
+export const BulkPatchSettingOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    body: Schema.Struct({}).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/schema_validation/settings/operations",
+    }),
+  ) as unknown as Schema.Schema<BulkPatchSettingOperationsRequest>;
 
 export type BulkPatchSettingOperationsResponse = Record<string, unknown>;
 
-export const BulkPatchSettingOperationsResponse = Schema.Struct(
-  {},
-) as unknown as Schema.Schema<BulkPatchSettingOperationsResponse>;
+export const BulkPatchSettingOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as unknown as Schema.Schema<BulkPatchSettingOperationsResponse>;
 
 export type BulkPatchSettingOperationsError = DefaultErrors;
 
@@ -716,7 +726,7 @@ export const bulkPatchSettingOperations: API.OperationMethod<
   BulkPatchSettingOperationsResponse,
   BulkPatchSettingOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkPatchSettingOperationsRequest,
   output: BulkPatchSettingOperationsResponse,
   errors: [],

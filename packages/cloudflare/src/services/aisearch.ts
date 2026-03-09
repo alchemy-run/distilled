@@ -57,7 +57,7 @@ export interface ListInstancesRequest {
   search?: string;
 }
 
-export const ListInstancesRequest = Schema.Struct({
+export const ListInstancesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
 }).pipe(
@@ -236,7 +236,7 @@ export type ListInstancesResponse = {
   vectorizeActiveNamespace?: string | null;
 }[];
 
-export const ListInstancesResponse = Schema.Array(
+export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -646,7 +646,7 @@ export const listInstances: API.OperationMethod<
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [InvalidRoute],
@@ -786,7 +786,7 @@ export interface CreateInstanceRequest {
   };
 }
 
-export const CreateInstanceRequest = Schema.Struct({
+export const CreateInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   id: Schema.String,
   source: Schema.String,
@@ -1185,359 +1185,363 @@ export interface CreateInstanceResponse {
   vectorizeActiveNamespace?: string | null;
 }
 
-export const CreateInstanceResponse = Schema.Struct({
-  id: Schema.String,
-  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdAt: Schema.String,
-  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedAt: Schema.String,
-  source: Schema.String,
-  tokenId: Schema.String,
-  type: Schema.Literals(["r2", "web-crawler"]),
-  vectorizeName: Schema.String,
-  aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  aiSearchModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+export const CreateInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.String,
+    internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.String,
+    source: Schema.String,
+    tokenId: Schema.String,
+    type: Schema.Literals(["r2", "web-crawler"]),
+    vectorizeName: Schema.String,
+    aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    aiSearchModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  cacheThreshold: Schema.optional(
-    Schema.Union([
-      Schema.Literal("super_strict_match"),
-      Schema.Literal("close_enough"),
-      Schema.Literal("flexible_friend"),
-      Schema.Literal("anything_goes"),
-      Schema.Null,
-    ]),
-  ),
-  chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  embeddingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/baai/bge-m3",
-        "@cf/baai/bge-large-en-v1.5",
-        "@cf/google/embeddinggemma-300m",
-        "@cf/qwen/qwen3-embedding-0.6b",
-        "google-ai-studio/gemini-embedding-001",
-        "openai/text-embedding-3-small",
-        "openai/text-embedding-3-large",
-        "",
+    ),
+    cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    cacheThreshold: Schema.optional(
+      Schema.Union([
+        Schema.Literal("super_strict_match"),
+        Schema.Literal("close_enough"),
+        Schema.Literal("flexible_friend"),
+        Schema.Literal("anything_goes"),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  hybridSearchEnabled: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  metadata: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        createdFromAisearchWizard: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    embeddingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/baai/bge-m3",
+          "@cf/baai/bge-large-en-v1.5",
+          "@cf/google/embeddinggemma-300m",
+          "@cf/qwen/qwen3-embedding-0.6b",
+          "google-ai-studio/gemini-embedding-001",
+          "openai/text-embedding-3-small",
+          "openai/text-embedding-3-large",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    hybridSearchEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    metadata: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          createdFromAisearchWizard: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          workerDomain: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdFromAisearchWizard: "created_from_aisearch_wizard",
+            workerDomain: "worker_domain",
+          }),
         ),
-        workerDomain: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          createdFromAisearchWizard: "created_from_aisearch_wizard",
-          workerDomain: "worker_domain",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  publicEndpointId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  publicEndpointParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        authorizedHosts: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        chatCompletionsEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        mcp: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        rateLimit: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              periodMs: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requests: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              technique: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["fixed", "sliding"]),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                periodMs: "period_ms",
-                requests: "requests",
-                technique: "technique",
+        Schema.Null,
+      ]),
+    ),
+    modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    publicEndpointId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    publicEndpointParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          authorizedHosts: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          chatCompletionsEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        searchEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          authorizedHosts: "authorized_hosts",
-          chatCompletionsEndpoint: "chat_completions_endpoint",
-          enabled: "enabled",
-          mcp: "mcp",
-          rateLimit: "rate_limit",
-          searchEndpoint: "search_endpoint",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  rerankingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
-      ]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  sourceParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        excludeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        includeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        r2Jurisdiction: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        webCrawler: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              parseOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    includeHeaders: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    includeImages: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                    useBrowserRendering: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      includeHeaders: "include_headers",
-                      includeImages: "include_images",
-                      useBrowserRendering: "use_browser_rendering",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-              parseType: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["sitemap", "feed-rss"]),
-                  Schema.Null,
-                ]),
-              ),
-              storeOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    storageId: Schema.String,
-                    r2Jurisdiction: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    storageType: Schema.optional(
-                      Schema.Union([Schema.Literal("r2"), Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      storageId: "storage_id",
-                      r2Jurisdiction: "r2_jurisdiction",
-                      storageType: "storage_type",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                parseOptions: "parse_options",
-                parseType: "parse_type",
-                storeOptions: "store_options",
+              Schema.Null,
+            ]),
+          ),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          mcp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
+              Schema.Null,
+            ]),
+          ),
+          rateLimit: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                periodMs: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requests: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                technique: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["fixed", "sliding"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  periodMs: "period_ms",
+                  requests: "requests",
+                  technique: "technique",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          searchEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            authorizedHosts: "authorized_hosts",
+            chatCompletionsEndpoint: "chat_completions_endpoint",
+            enabled: "enabled",
+            mcp: "mcp",
+            rateLimit: "rate_limit",
+            searchEndpoint: "search_endpoint",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          excludeItems: "exclude_items",
-          includeItems: "include_items",
-          prefix: "prefix",
-          r2Jurisdiction: "r2_jurisdiction",
-          webCrawler: "web_crawler",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  summarizationModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  systemPromptAiSearch: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptIndexSummarization: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptRewriteQuery: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  vectorizeActiveNamespace: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-}).pipe(
+    ),
+    reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    rerankingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    sourceParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          excludeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          includeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          r2Jurisdiction: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          webCrawler: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                parseOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      includeHeaders: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      includeImages: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                      useBrowserRendering: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        includeHeaders: "include_headers",
+                        includeImages: "include_images",
+                        useBrowserRendering: "use_browser_rendering",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+                parseType: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["sitemap", "feed-rss"]),
+                    Schema.Null,
+                  ]),
+                ),
+                storeOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      storageId: Schema.String,
+                      r2Jurisdiction: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      storageType: Schema.optional(
+                        Schema.Union([Schema.Literal("r2"), Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        storageId: "storage_id",
+                        r2Jurisdiction: "r2_jurisdiction",
+                        storageType: "storage_type",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  parseOptions: "parse_options",
+                  parseType: "parse_type",
+                  storeOptions: "store_options",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            excludeItems: "exclude_items",
+            includeItems: "include_items",
+            prefix: "prefix",
+            r2Jurisdiction: "r2_jurisdiction",
+            webCrawler: "web_crawler",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    summarizationModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    systemPromptAiSearch: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptIndexSummarization: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptRewriteQuery: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    vectorizeActiveNamespace: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     accountId: "account_id",
@@ -1595,7 +1599,7 @@ export const createInstance: API.OperationMethod<
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceRequest,
   output: CreateInstanceResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -1776,7 +1780,7 @@ export interface UpdateInstanceRequest {
   tokenId?: string;
 }
 
-export const UpdateInstanceRequest = Schema.Struct({
+export const UpdateInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   aiGatewayId: Schema.optional(Schema.String),
@@ -2222,359 +2226,363 @@ export interface UpdateInstanceResponse {
   vectorizeActiveNamespace?: string | null;
 }
 
-export const UpdateInstanceResponse = Schema.Struct({
-  id: Schema.String,
-  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdAt: Schema.String,
-  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedAt: Schema.String,
-  source: Schema.String,
-  tokenId: Schema.String,
-  type: Schema.Literals(["r2", "web-crawler"]),
-  vectorizeName: Schema.String,
-  aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  aiSearchModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+export const UpdateInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.String,
+    internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.String,
+    source: Schema.String,
+    tokenId: Schema.String,
+    type: Schema.Literals(["r2", "web-crawler"]),
+    vectorizeName: Schema.String,
+    aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    aiSearchModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  cacheThreshold: Schema.optional(
-    Schema.Union([
-      Schema.Literal("super_strict_match"),
-      Schema.Literal("close_enough"),
-      Schema.Literal("flexible_friend"),
-      Schema.Literal("anything_goes"),
-      Schema.Null,
-    ]),
-  ),
-  chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  embeddingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/baai/bge-m3",
-        "@cf/baai/bge-large-en-v1.5",
-        "@cf/google/embeddinggemma-300m",
-        "@cf/qwen/qwen3-embedding-0.6b",
-        "google-ai-studio/gemini-embedding-001",
-        "openai/text-embedding-3-small",
-        "openai/text-embedding-3-large",
-        "",
+    ),
+    cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    cacheThreshold: Schema.optional(
+      Schema.Union([
+        Schema.Literal("super_strict_match"),
+        Schema.Literal("close_enough"),
+        Schema.Literal("flexible_friend"),
+        Schema.Literal("anything_goes"),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  hybridSearchEnabled: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  metadata: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        createdFromAisearchWizard: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    embeddingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/baai/bge-m3",
+          "@cf/baai/bge-large-en-v1.5",
+          "@cf/google/embeddinggemma-300m",
+          "@cf/qwen/qwen3-embedding-0.6b",
+          "google-ai-studio/gemini-embedding-001",
+          "openai/text-embedding-3-small",
+          "openai/text-embedding-3-large",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    hybridSearchEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    metadata: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          createdFromAisearchWizard: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          workerDomain: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdFromAisearchWizard: "created_from_aisearch_wizard",
+            workerDomain: "worker_domain",
+          }),
         ),
-        workerDomain: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          createdFromAisearchWizard: "created_from_aisearch_wizard",
-          workerDomain: "worker_domain",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  publicEndpointId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  publicEndpointParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        authorizedHosts: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        chatCompletionsEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        mcp: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        rateLimit: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              periodMs: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requests: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              technique: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["fixed", "sliding"]),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                periodMs: "period_ms",
-                requests: "requests",
-                technique: "technique",
+        Schema.Null,
+      ]),
+    ),
+    modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    publicEndpointId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    publicEndpointParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          authorizedHosts: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          chatCompletionsEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        searchEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          authorizedHosts: "authorized_hosts",
-          chatCompletionsEndpoint: "chat_completions_endpoint",
-          enabled: "enabled",
-          mcp: "mcp",
-          rateLimit: "rate_limit",
-          searchEndpoint: "search_endpoint",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  rerankingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
-      ]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  sourceParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        excludeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        includeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        r2Jurisdiction: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        webCrawler: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              parseOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    includeHeaders: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    includeImages: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                    useBrowserRendering: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      includeHeaders: "include_headers",
-                      includeImages: "include_images",
-                      useBrowserRendering: "use_browser_rendering",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-              parseType: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["sitemap", "feed-rss"]),
-                  Schema.Null,
-                ]),
-              ),
-              storeOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    storageId: Schema.String,
-                    r2Jurisdiction: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    storageType: Schema.optional(
-                      Schema.Union([Schema.Literal("r2"), Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      storageId: "storage_id",
-                      r2Jurisdiction: "r2_jurisdiction",
-                      storageType: "storage_type",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                parseOptions: "parse_options",
-                parseType: "parse_type",
-                storeOptions: "store_options",
+              Schema.Null,
+            ]),
+          ),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          mcp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
+              Schema.Null,
+            ]),
+          ),
+          rateLimit: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                periodMs: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requests: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                technique: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["fixed", "sliding"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  periodMs: "period_ms",
+                  requests: "requests",
+                  technique: "technique",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          searchEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            authorizedHosts: "authorized_hosts",
+            chatCompletionsEndpoint: "chat_completions_endpoint",
+            enabled: "enabled",
+            mcp: "mcp",
+            rateLimit: "rate_limit",
+            searchEndpoint: "search_endpoint",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          excludeItems: "exclude_items",
-          includeItems: "include_items",
-          prefix: "prefix",
-          r2Jurisdiction: "r2_jurisdiction",
-          webCrawler: "web_crawler",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  summarizationModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  systemPromptAiSearch: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptIndexSummarization: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptRewriteQuery: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  vectorizeActiveNamespace: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-}).pipe(
+    ),
+    reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    rerankingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    sourceParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          excludeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          includeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          r2Jurisdiction: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          webCrawler: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                parseOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      includeHeaders: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      includeImages: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                      useBrowserRendering: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        includeHeaders: "include_headers",
+                        includeImages: "include_images",
+                        useBrowserRendering: "use_browser_rendering",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+                parseType: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["sitemap", "feed-rss"]),
+                    Schema.Null,
+                  ]),
+                ),
+                storeOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      storageId: Schema.String,
+                      r2Jurisdiction: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      storageType: Schema.optional(
+                        Schema.Union([Schema.Literal("r2"), Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        storageId: "storage_id",
+                        r2Jurisdiction: "r2_jurisdiction",
+                        storageType: "storage_type",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  parseOptions: "parse_options",
+                  parseType: "parse_type",
+                  storeOptions: "store_options",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            excludeItems: "exclude_items",
+            includeItems: "include_items",
+            prefix: "prefix",
+            r2Jurisdiction: "r2_jurisdiction",
+            webCrawler: "web_crawler",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    summarizationModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    systemPromptAiSearch: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptIndexSummarization: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptRewriteQuery: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    vectorizeActiveNamespace: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     accountId: "account_id",
@@ -2632,7 +2640,7 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceResponse,
   UpdateInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateInstanceRequest,
   output: UpdateInstanceResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -2643,7 +2651,7 @@ export interface DeleteInstanceRequest {
   accountId: string;
 }
 
-export const DeleteInstanceRequest = Schema.Struct({
+export const DeleteInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -2826,359 +2834,363 @@ export interface DeleteInstanceResponse {
   vectorizeActiveNamespace?: string | null;
 }
 
-export const DeleteInstanceResponse = Schema.Struct({
-  id: Schema.String,
-  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdAt: Schema.String,
-  internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  modifiedAt: Schema.String,
-  source: Schema.String,
-  tokenId: Schema.String,
-  type: Schema.Literals(["r2", "web-crawler"]),
-  vectorizeName: Schema.String,
-  aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  aiSearchModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+export const DeleteInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.String,
+    internalId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.String,
+    source: Schema.String,
+    tokenId: Schema.String,
+    type: Schema.Literals(["r2", "web-crawler"]),
+    vectorizeName: Schema.String,
+    aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    aiSearchModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  cacheThreshold: Schema.optional(
-    Schema.Union([
-      Schema.Literal("super_strict_match"),
-      Schema.Literal("close_enough"),
-      Schema.Literal("flexible_friend"),
-      Schema.Literal("anything_goes"),
-      Schema.Null,
-    ]),
-  ),
-  chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  embeddingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/baai/bge-m3",
-        "@cf/baai/bge-large-en-v1.5",
-        "@cf/google/embeddinggemma-300m",
-        "@cf/qwen/qwen3-embedding-0.6b",
-        "google-ai-studio/gemini-embedding-001",
-        "openai/text-embedding-3-small",
-        "openai/text-embedding-3-large",
-        "",
+    ),
+    cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    cacheThreshold: Schema.optional(
+      Schema.Union([
+        Schema.Literal("super_strict_match"),
+        Schema.Literal("close_enough"),
+        Schema.Literal("flexible_friend"),
+        Schema.Literal("anything_goes"),
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  hybridSearchEnabled: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  metadata: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        createdFromAisearchWizard: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    chunk: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    embeddingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/baai/bge-m3",
+          "@cf/baai/bge-large-en-v1.5",
+          "@cf/google/embeddinggemma-300m",
+          "@cf/qwen/qwen3-embedding-0.6b",
+          "google-ai-studio/gemini-embedding-001",
+          "openai/text-embedding-3-small",
+          "openai/text-embedding-3-large",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    enable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    engineVersion: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    hybridSearchEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    lastActivity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    maxNumResults: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    metadata: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          createdFromAisearchWizard: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          workerDomain: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            createdFromAisearchWizard: "created_from_aisearch_wizard",
+            workerDomain: "worker_domain",
+          }),
         ),
-        workerDomain: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          createdFromAisearchWizard: "created_from_aisearch_wizard",
-          workerDomain: "worker_domain",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  publicEndpointId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  publicEndpointParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        authorizedHosts: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        chatCompletionsEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        mcp: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-        rateLimit: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              periodMs: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              requests: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              technique: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["fixed", "sliding"]),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                periodMs: "period_ms",
-                requests: "requests",
-                technique: "technique",
+        Schema.Null,
+      ]),
+    ),
+    modifiedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    publicEndpointId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    publicEndpointParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          authorizedHosts: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          chatCompletionsEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
-        ),
-        searchEndpoint: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }),
-            Schema.Null,
-          ]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          authorizedHosts: "authorized_hosts",
-          chatCompletionsEndpoint: "chat_completions_endpoint",
-          enabled: "enabled",
-          mcp: "mcp",
-          rateLimit: "rate_limit",
-          searchEndpoint: "search_endpoint",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  rerankingModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
-      ]),
-      Schema.Null,
-    ]),
-  ),
-  rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  sourceParams: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        excludeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        includeItems: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        r2Jurisdiction: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        webCrawler: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              parseOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    includeHeaders: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    includeImages: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                    useBrowserRendering: Schema.optional(
-                      Schema.Union([Schema.Boolean, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      includeHeaders: "include_headers",
-                      includeImages: "include_images",
-                      useBrowserRendering: "use_browser_rendering",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-              parseType: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["sitemap", "feed-rss"]),
-                  Schema.Null,
-                ]),
-              ),
-              storeOptions: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    storageId: Schema.String,
-                    r2Jurisdiction: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    storageType: Schema.optional(
-                      Schema.Union([Schema.Literal("r2"), Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      storageId: "storage_id",
-                      r2Jurisdiction: "r2_jurisdiction",
-                      storageType: "storage_type",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                parseOptions: "parse_options",
-                parseType: "parse_type",
-                storeOptions: "store_options",
+              Schema.Null,
+            ]),
+          ),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          mcp: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
               }),
-            ),
-            Schema.Null,
-          ]),
+              Schema.Null,
+            ]),
+          ),
+          rateLimit: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                periodMs: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                requests: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                technique: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["fixed", "sliding"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  periodMs: "period_ms",
+                  requests: "requests",
+                  technique: "technique",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          searchEndpoint: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            authorizedHosts: "authorized_hosts",
+            chatCompletionsEndpoint: "chat_completions_endpoint",
+            enabled: "enabled",
+            mcp: "mcp",
+            rateLimit: "rate_limit",
+            searchEndpoint: "search_endpoint",
+          }),
         ),
-      }).pipe(
-        Schema.encodeKeys({
-          excludeItems: "exclude_items",
-          includeItems: "include_items",
-          prefix: "prefix",
-          r2Jurisdiction: "r2_jurisdiction",
-          webCrawler: "web_crawler",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  summarizationModel: Schema.optional(
-    Schema.Union([
-      Schema.Literals([
-        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fast",
-        "@cf/meta/llama-3.1-8b-instruct-fp8",
-        "@cf/meta/llama-4-scout-17b-16e-instruct",
-        "@cf/qwen/qwen3-30b-a3b-fp8",
-        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
-        "@cf/moonshotai/kimi-k2-instruct",
-        "anthropic/claude-3-7-sonnet",
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "anthropic/claude-3-5-haiku",
-        "cerebras/qwen-3-235b-a22b-instruct",
-        "cerebras/qwen-3-235b-a22b-thinking",
-        "cerebras/llama-3.3-70b",
-        "cerebras/llama-4-maverick-17b-128e-instruct",
-        "cerebras/llama-4-scout-17b-16e-instruct",
-        "cerebras/gpt-oss-120b",
-        "google-ai-studio/gemini-2.5-flash",
-        "google-ai-studio/gemini-2.5-pro",
-        "grok/grok-4",
-        "groq/llama-3.3-70b-versatile",
-        "groq/llama-3.1-8b-instant",
-        "openai/gpt-5",
-        "openai/gpt-5-mini",
-        "openai/gpt-5-nano",
-        "",
+        Schema.Null,
       ]),
-      Schema.Null,
-    ]),
-  ),
-  systemPromptAiSearch: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptIndexSummarization: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  systemPromptRewriteQuery: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  vectorizeActiveNamespace: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-}).pipe(
+    ),
+    reranking: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    rerankingModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["@cf/baai/bge-reranker-base", ""]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    rewriteQuery: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    scoreThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    sourceParams: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          excludeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          includeItems: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          r2Jurisdiction: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          webCrawler: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                parseOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      includeHeaders: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      includeImages: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                      useBrowserRendering: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        includeHeaders: "include_headers",
+                        includeImages: "include_images",
+                        useBrowserRendering: "use_browser_rendering",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+                parseType: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["sitemap", "feed-rss"]),
+                    Schema.Null,
+                  ]),
+                ),
+                storeOptions: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      storageId: Schema.String,
+                      r2Jurisdiction: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      storageType: Schema.optional(
+                        Schema.Union([Schema.Literal("r2"), Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        storageId: "storage_id",
+                        r2Jurisdiction: "r2_jurisdiction",
+                        storageType: "storage_type",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  parseOptions: "parse_options",
+                  parseType: "parse_type",
+                  storeOptions: "store_options",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            excludeItems: "exclude_items",
+            includeItems: "include_items",
+            prefix: "prefix",
+            r2Jurisdiction: "r2_jurisdiction",
+            webCrawler: "web_crawler",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    summarization: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    summarizationModel: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fast",
+          "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "@cf/qwen/qwen3-30b-a3b-fp8",
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "@cf/moonshotai/kimi-k2-instruct",
+          "anthropic/claude-3-7-sonnet",
+          "anthropic/claude-sonnet-4",
+          "anthropic/claude-opus-4",
+          "anthropic/claude-3-5-haiku",
+          "cerebras/qwen-3-235b-a22b-instruct",
+          "cerebras/qwen-3-235b-a22b-thinking",
+          "cerebras/llama-3.3-70b",
+          "cerebras/llama-4-maverick-17b-128e-instruct",
+          "cerebras/llama-4-scout-17b-16e-instruct",
+          "cerebras/gpt-oss-120b",
+          "google-ai-studio/gemini-2.5-flash",
+          "google-ai-studio/gemini-2.5-pro",
+          "grok/grok-4",
+          "groq/llama-3.3-70b-versatile",
+          "groq/llama-3.1-8b-instant",
+          "openai/gpt-5",
+          "openai/gpt-5-mini",
+          "openai/gpt-5-nano",
+          "",
+        ]),
+        Schema.Null,
+      ]),
+    ),
+    systemPromptAiSearch: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptIndexSummarization: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    systemPromptRewriteQuery: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    vectorizeActiveNamespace: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     accountId: "account_id",
@@ -3236,7 +3248,7 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceResponse,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInstanceRequest,
   output: DeleteInstanceResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -3247,7 +3259,7 @@ export interface ReadInstanceRequest {
   accountId: string;
 }
 
-export const ReadInstanceRequest = Schema.Struct({
+export const ReadInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -3430,7 +3442,7 @@ export interface ReadInstanceResponse {
   vectorizeActiveNamespace?: string | null;
 }
 
-export const ReadInstanceResponse = Schema.Struct({
+export const ReadInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -3840,7 +3852,7 @@ export const readInstance: API.OperationMethod<
   ReadInstanceResponse,
   ReadInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReadInstanceRequest,
   output: ReadInstanceResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -3851,7 +3863,7 @@ export interface StatsInstanceRequest {
   accountId: string;
 }
 
-export const StatsInstanceRequest = Schema.Struct({
+export const StatsInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -3872,7 +3884,7 @@ export interface StatsInstanceResponse {
   skipped?: number | null;
 }
 
-export const StatsInstanceResponse = Schema.Struct({
+export const StatsInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   completed: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   error: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   fileEmbedErrors: Schema.optional(
@@ -3909,7 +3921,7 @@ export const statsInstance: API.OperationMethod<
   StatsInstanceResponse,
   StatsInstanceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StatsInstanceRequest,
   output: StatsInstanceResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -3925,11 +3937,13 @@ export interface GetInstanceItemRequest {
   accountId: string;
 }
 
-export const GetInstanceItemRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
+export const GetInstanceItemRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String.pipe(T.HttpPath("id")),
+    itemId: Schema.String.pipe(T.HttpPath("itemId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "/accounts/{account_id}/ai-search/instances/{id}/items/{itemId}",
@@ -3945,82 +3959,8 @@ export interface GetInstanceItemResponse {
   nextAction?: string | null;
 }
 
-export const GetInstanceItemResponse = Schema.Struct({
-  id: Schema.String,
-  key: Schema.String,
-  status: Schema.Literals([
-    "queued",
-    "running",
-    "completed",
-    "error",
-    "skipped",
-  ]),
-  error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  nextAction: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    key: "key",
-    status: "status",
-    error: "error",
-    lastSeenAt: "last_seen_at",
-    nextAction: "next_action",
-  }),
-) as unknown as Schema.Schema<GetInstanceItemResponse>;
-
-export type GetInstanceItemError =
-  | DefaultErrors
-  | ValidationError
-  | NotFound
-  | InvalidRoute;
-
-export const getInstanceItem: API.OperationMethod<
-  GetInstanceItemRequest,
-  GetInstanceItemResponse,
-  GetInstanceItemError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetInstanceItemRequest,
-  output: GetInstanceItemResponse,
-  errors: [ValidationError, NotFound, InvalidRoute],
-}));
-
-export interface ListInstanceItemsRequest {
-  id: string;
-  /** Path param: */
-  accountId: string;
-  /** Query param: */
-  search?: string;
-  /** Query param: */
-  status?: "queued" | "running" | "completed" | "error" | "skipped";
-}
-
-export const ListInstanceItemsRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
-  status: Schema.optional(
-    Schema.Literals(["queued", "running", "completed", "error", "skipped"]),
-  ).pipe(T.HttpQuery("status")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/ai-search/instances/{id}/items",
-  }),
-) as unknown as Schema.Schema<ListInstanceItemsRequest>;
-
-export type ListInstanceItemsResponse = {
-  id: string;
-  key: string;
-  status: "queued" | "running" | "completed" | "error" | "skipped";
-  error?: string | null;
-  lastSeenAt?: string | null;
-  nextAction?: string | null;
-}[];
-
-export const ListInstanceItemsResponse = Schema.Array(
-  Schema.Struct({
+export const GetInstanceItemResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     key: Schema.String,
     status: Schema.Literals([
@@ -4042,8 +3982,85 @@ export const ListInstanceItemsResponse = Schema.Array(
       lastSeenAt: "last_seen_at",
       nextAction: "next_action",
     }),
-  ),
-) as unknown as Schema.Schema<ListInstanceItemsResponse>;
+  ) as unknown as Schema.Schema<GetInstanceItemResponse>;
+
+export type GetInstanceItemError =
+  | DefaultErrors
+  | ValidationError
+  | NotFound
+  | InvalidRoute;
+
+export const getInstanceItem: API.OperationMethod<
+  GetInstanceItemRequest,
+  GetInstanceItemResponse,
+  GetInstanceItemError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetInstanceItemRequest,
+  output: GetInstanceItemResponse,
+  errors: [ValidationError, NotFound, InvalidRoute],
+}));
+
+export interface ListInstanceItemsRequest {
+  id: string;
+  /** Path param: */
+  accountId: string;
+  /** Query param: */
+  search?: string;
+  /** Query param: */
+  status?: "queued" | "running" | "completed" | "error" | "skipped";
+}
+
+export const ListInstanceItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    search: Schema.optional(Schema.String).pipe(T.HttpQuery("search")),
+    status: Schema.optional(
+      Schema.Literals(["queued", "running", "completed", "error", "skipped"]),
+    ).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/ai-search/instances/{id}/items",
+    }),
+  ) as unknown as Schema.Schema<ListInstanceItemsRequest>;
+
+export type ListInstanceItemsResponse = {
+  id: string;
+  key: string;
+  status: "queued" | "running" | "completed" | "error" | "skipped";
+  error?: string | null;
+  lastSeenAt?: string | null;
+  nextAction?: string | null;
+}[];
+
+export const ListInstanceItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      key: Schema.String,
+      status: Schema.Literals([
+        "queued",
+        "running",
+        "completed",
+        "error",
+        "skipped",
+      ]),
+      error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      nextAction: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        key: "key",
+        status: "status",
+        error: "error",
+        lastSeenAt: "last_seen_at",
+        nextAction: "next_action",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListInstanceItemsResponse>;
 
 export type ListInstanceItemsError = DefaultErrors;
 
@@ -4052,7 +4069,7 @@ export const listInstanceItems: API.OperationMethod<
   ListInstanceItemsResponse,
   ListInstanceItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInstanceItemsRequest,
   output: ListInstanceItemsResponse,
   errors: [],
@@ -4068,7 +4085,7 @@ export interface GetInstanceJobRequest {
   accountId: string;
 }
 
-export const GetInstanceJobRequest = Schema.Struct({
+export const GetInstanceJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   jobId: Schema.String.pipe(T.HttpPath("jobId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
@@ -4088,14 +4105,16 @@ export interface GetInstanceJobResponse {
   startedAt?: string | null;
 }
 
-export const GetInstanceJobResponse = Schema.Struct({
-  id: Schema.String,
-  source: Schema.Literals(["user", "schedule"]),
-  endReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  endedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  startedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
+export const GetInstanceJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String,
+    source: Schema.Literals(["user", "schedule"]),
+    endReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    endedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    startedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  },
+).pipe(
   Schema.encodeKeys({
     id: "id",
     source: "source",
@@ -4117,7 +4136,7 @@ export const getInstanceJob: API.OperationMethod<
   GetInstanceJobResponse,
   GetInstanceJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInstanceJobRequest,
   output: GetInstanceJobResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -4129,15 +4148,16 @@ export interface ListInstanceJobsRequest {
   accountId: string;
 }
 
-export const ListInstanceJobsRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/ai-search/instances/{id}/jobs",
-  }),
-) as unknown as Schema.Schema<ListInstanceJobsRequest>;
+export const ListInstanceJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/ai-search/instances/{id}/jobs",
+    }),
+  ) as unknown as Schema.Schema<ListInstanceJobsRequest>;
 
 export type ListInstanceJobsResponse = {
   id: string;
@@ -4148,8 +4168,67 @@ export type ListInstanceJobsResponse = {
   startedAt?: string | null;
 }[];
 
-export const ListInstanceJobsResponse = Schema.Array(
-  Schema.Struct({
+export const ListInstanceJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      source: Schema.Literals(["user", "schedule"]),
+      endReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      endedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      startedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        source: "source",
+        endReason: "end_reason",
+        endedAt: "ended_at",
+        lastSeenAt: "last_seen_at",
+        startedAt: "started_at",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListInstanceJobsResponse>;
+
+export type ListInstanceJobsError = DefaultErrors;
+
+export const listInstanceJobs: API.OperationMethod<
+  ListInstanceJobsRequest,
+  ListInstanceJobsResponse,
+  ListInstanceJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListInstanceJobsRequest,
+  output: ListInstanceJobsResponse,
+  errors: [],
+}));
+
+export interface CreateInstanceJobRequest {
+  id: string;
+  accountId: string;
+}
+
+export const CreateInstanceJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/ai-search/instances/{id}/jobs",
+    }),
+  ) as unknown as Schema.Schema<CreateInstanceJobRequest>;
+
+export interface CreateInstanceJobResponse {
+  id: string;
+  source: "user" | "schedule";
+  endReason?: string | null;
+  endedAt?: string | null;
+  lastSeenAt?: string | null;
+  startedAt?: string | null;
+}
+
+export const CreateInstanceJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     source: Schema.Literals(["user", "schedule"]),
     endReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -4165,63 +4244,7 @@ export const ListInstanceJobsResponse = Schema.Array(
       lastSeenAt: "last_seen_at",
       startedAt: "started_at",
     }),
-  ),
-) as unknown as Schema.Schema<ListInstanceJobsResponse>;
-
-export type ListInstanceJobsError = DefaultErrors;
-
-export const listInstanceJobs: API.OperationMethod<
-  ListInstanceJobsRequest,
-  ListInstanceJobsResponse,
-  ListInstanceJobsError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: ListInstanceJobsRequest,
-  output: ListInstanceJobsResponse,
-  errors: [],
-}));
-
-export interface CreateInstanceJobRequest {
-  id: string;
-  accountId: string;
-}
-
-export const CreateInstanceJobRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/ai-search/instances/{id}/jobs",
-  }),
-) as unknown as Schema.Schema<CreateInstanceJobRequest>;
-
-export interface CreateInstanceJobResponse {
-  id: string;
-  source: "user" | "schedule";
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
-}
-
-export const CreateInstanceJobResponse = Schema.Struct({
-  id: Schema.String,
-  source: Schema.Literals(["user", "schedule"]),
-  endReason: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  endedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  lastSeenAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  startedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    source: "source",
-    endReason: "end_reason",
-    endedAt: "ended_at",
-    lastSeenAt: "last_seen_at",
-    startedAt: "started_at",
-  }),
-) as unknown as Schema.Schema<CreateInstanceJobResponse>;
+  ) as unknown as Schema.Schema<CreateInstanceJobResponse>;
 
 export type CreateInstanceJobError =
   | DefaultErrors
@@ -4236,7 +4259,7 @@ export const createInstanceJob: API.OperationMethod<
   CreateInstanceJobResponse,
   CreateInstanceJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInstanceJobRequest,
   output: CreateInstanceJobResponse,
   errors: [
@@ -4259,13 +4282,15 @@ export interface LogsInstanceJobRequest {
   perPage?: number;
 }
 
-export const LogsInstanceJobRequest = Schema.Struct({
-  id: Schema.String.pipe(T.HttpPath("id")),
-  jobId: Schema.String.pipe(T.HttpPath("jobId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
-  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-}).pipe(
+export const LogsInstanceJobRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    id: Schema.String.pipe(T.HttpPath("id")),
+    jobId: Schema.String.pipe(T.HttpPath("jobId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    page: Schema.optional(Schema.Number).pipe(T.HttpQuery("page")),
+    perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+  },
+).pipe(
   T.Http({
     method: "GET",
     path: "/accounts/{account_id}/ai-search/instances/{id}/jobs/{jobId}/logs",
@@ -4279,7 +4304,7 @@ export type LogsInstanceJobResponse = {
   messageType: number;
 }[];
 
-export const LogsInstanceJobResponse = Schema.Array(
+export const LogsInstanceJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.Number,
     createdAt: Schema.Number,
@@ -4306,7 +4331,7 @@ export const logsInstanceJob: API.OperationMethod<
   LogsInstanceJobResponse,
   LogsInstanceJobError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LogsInstanceJobRequest,
   output: LogsInstanceJobResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -4321,7 +4346,7 @@ export interface ListTokensRequest {
   accountId: string;
 }
 
-export const ListTokensRequest = Schema.Struct({
+export const ListTokensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai-search/tokens" }),
@@ -4343,7 +4368,7 @@ export type ListTokensResponse = {
   syncedAt?: string | null;
 }[];
 
-export const ListTokensResponse = Schema.Array(
+export const ListTokensResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -4384,7 +4409,7 @@ export const listTokens: API.OperationMethod<
   ListTokensResponse,
   ListTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokensRequest,
   output: ListTokensResponse,
   errors: [InvalidRoute],
@@ -4403,7 +4428,7 @@ export interface CreateTokenRequest {
   legacy?: boolean;
 }
 
-export const CreateTokenRequest = Schema.Struct({
+export const CreateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   cfApiId: Schema.String,
   cfApiKey: Schema.String,
@@ -4435,7 +4460,7 @@ export interface CreateTokenResponse {
   syncedAt?: string | null;
 }
 
-export const CreateTokenResponse = Schema.Struct({
+export const CreateTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -4478,7 +4503,7 @@ export const createToken: API.OperationMethod<
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -4489,7 +4514,7 @@ export interface UpdateTokenRequest {
   accountId: string;
 }
 
-export const UpdateTokenRequest = Schema.Struct({
+export const UpdateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -4515,7 +4540,7 @@ export interface UpdateTokenResponse {
   syncedAt?: string | null;
 }
 
-export const UpdateTokenResponse = Schema.Struct({
+export const UpdateTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   accountId: Schema.String,
   accountTag: Schema.String,
@@ -4558,7 +4583,7 @@ export const updateToken: API.OperationMethod<
   UpdateTokenResponse,
   UpdateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTokenRequest,
   output: UpdateTokenResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -4569,7 +4594,7 @@ export interface DeleteTokenRequest {
   accountId: string;
 }
 
-export const DeleteTokenRequest = Schema.Struct({
+export const DeleteTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -4595,7 +4620,7 @@ export interface DeleteTokenResponse {
   syncedAt?: string | null;
 }
 
-export const DeleteTokenResponse = Schema.Struct({
+export const DeleteTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -4638,7 +4663,7 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
   errors: [ValidationError, NotFound, InvalidRoute],
@@ -4649,7 +4674,7 @@ export interface ReadTokenRequest {
   accountId: string;
 }
 
-export const ReadTokenRequest = Schema.Struct({
+export const ReadTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String.pipe(T.HttpPath("id")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -4675,7 +4700,7 @@ export interface ReadTokenResponse {
   syncedAt?: string | null;
 }
 
-export const ReadTokenResponse = Schema.Struct({
+export const ReadTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -4718,7 +4743,7 @@ export const readToken: API.OperationMethod<
   ReadTokenResponse,
   ReadTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReadTokenRequest,
   output: ReadTokenResponse,
   errors: [ValidationError, NotFound, InvalidRoute],

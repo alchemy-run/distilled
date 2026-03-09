@@ -35,21 +35,21 @@ export interface TextWithTooltip {
   simpleValue?: string;
 }
 
-export const TextWithTooltip: Schema.Schema<TextWithTooltip> = Schema.suspend(
-  () =>
+export const TextWithTooltip: Schema.Schema<TextWithTooltip> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       simpleTooltipValue: Schema.optional(Schema.String),
       tooltipIconStyle: Schema.optional(Schema.String),
       simpleValue: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "TextWithTooltip",
-}) as any as Schema.Schema<TextWithTooltip>;
+  ).annotate({
+    identifier: "TextWithTooltip",
+  }) as any as Schema.Schema<TextWithTooltip>;
 
 export interface InputFieldCheckboxInput {}
 
 export const InputFieldCheckboxInput: Schema.Schema<InputFieldCheckboxInput> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "InputFieldCheckboxInput",
   }) as any as Schema.Schema<InputFieldCheckboxInput>;
 
@@ -59,7 +59,7 @@ export interface InputFieldChoiceInput {
 }
 
 export const InputFieldChoiceInput: Schema.Schema<InputFieldChoiceInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       options: Schema.optional(
         Schema.Array(InputFieldChoiceInputChoiceInputOption),
@@ -85,7 +85,7 @@ export interface InputFieldTextInput {
 }
 
 export const InputFieldTextInput: Schema.Schema<InputFieldTextInput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       ariaLabel: Schema.optional(Schema.String),
@@ -111,16 +111,17 @@ export interface InputField {
   textInput?: InputFieldTextInput;
 }
 
-export const InputField: Schema.Schema<InputField> = Schema.suspend(() =>
-  Schema.Struct({
-    label: Schema.optional(TextWithTooltip),
-    required: Schema.optional(Schema.Boolean),
-    checkboxInput: Schema.optional(InputFieldCheckboxInput),
-    id: Schema.optional(Schema.String),
-    choiceInput: Schema.optional(InputFieldChoiceInput),
-    textInput: Schema.optional(InputFieldTextInput),
-  }),
-).annotate({ identifier: "InputField" }) as any as Schema.Schema<InputField>;
+export const InputField: Schema.Schema<InputField> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      label: Schema.optional(TextWithTooltip),
+      required: Schema.optional(Schema.Boolean),
+      checkboxInput: Schema.optional(InputFieldCheckboxInput),
+      id: Schema.optional(Schema.String),
+      choiceInput: Schema.optional(InputFieldChoiceInput),
+      textInput: Schema.optional(InputFieldTextInput),
+    }),
+  ).annotate({ identifier: "InputField" }) as any as Schema.Schema<InputField>;
 
 export interface InputFieldChoiceInputChoiceInputOption {
   /** Short description of the choice option. There may be more information to be shown as a tooltip. */
@@ -132,7 +133,7 @@ export interface InputFieldChoiceInputChoiceInputOption {
 }
 
 export const InputFieldChoiceInputChoiceInputOption: Schema.Schema<InputFieldChoiceInputChoiceInputOption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       label: Schema.optional(TextWithTooltip),
       additionalInput: Schema.optional(InputField),
@@ -153,14 +154,17 @@ export interface MethodQuota {
   quotaLimit?: string;
 }
 
-export const MethodQuota: Schema.Schema<MethodQuota> = Schema.suspend(() =>
-  Schema.Struct({
-    method: Schema.optional(Schema.String),
-    quotaUsage: Schema.optional(Schema.String),
-    quotaMinuteLimit: Schema.optional(Schema.String),
-    quotaLimit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MethodQuota" }) as any as Schema.Schema<MethodQuota>;
+export const MethodQuota: Schema.Schema<MethodQuota> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      method: Schema.optional(Schema.String),
+      quotaUsage: Schema.optional(Schema.String),
+      quotaMinuteLimit: Schema.optional(Schema.String),
+      quotaLimit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MethodQuota",
+  }) as any as Schema.Schema<MethodQuota>;
 
 export interface ListMethodQuotasResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -170,7 +174,7 @@ export interface ListMethodQuotasResponse {
 }
 
 export const ListMethodQuotasResponse: Schema.Schema<ListMethodQuotasResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       methodQuotas: Schema.optional(Schema.Array(MethodQuota)),
@@ -186,12 +190,13 @@ export interface Price {
   value?: string;
 }
 
-export const Price: Schema.Schema<Price> = Schema.suspend(() =>
-  Schema.Struct({
-    currency: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
+export const Price: Schema.Schema<Price> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currency: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Price" }) as any as Schema.Schema<Price>;
 
 export interface Value {
   /** A percentage of the price represented as a number in decimal notation (for example, `"5.4"`). Can only be set if all other fields are not set. */
@@ -206,15 +211,16 @@ export interface Value {
   subtableName?: string;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() =>
-  Schema.Struct({
-    pricePercentage: Schema.optional(Schema.String),
-    flatRate: Schema.optional(Price),
-    carrierRateName: Schema.optional(Schema.String),
-    noShipping: Schema.optional(Schema.Boolean),
-    subtableName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pricePercentage: Schema.optional(Schema.String),
+      flatRate: Schema.optional(Price),
+      carrierRateName: Schema.optional(Schema.String),
+      noShipping: Schema.optional(Schema.Boolean),
+      subtableName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface LinkService {
   /** Service provided to or by the linked account. Acceptable values are: - "`shoppingActionsOrderManagement`" - "`shoppingActionsProductManagement`" - "`shoppingAdsProductManagement`" - "`paymentProcessing`" */
@@ -223,12 +229,15 @@ export interface LinkService {
   status?: string;
 }
 
-export const LinkService: Schema.Schema<LinkService> = Schema.suspend(() =>
-  Schema.Struct({
-    service: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LinkService" }) as any as Schema.Schema<LinkService>;
+export const LinkService: Schema.Schema<LinkService> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LinkService",
+  }) as any as Schema.Schema<LinkService>;
 
 export interface LinkedAccount {
   /** The ID of the linked account. */
@@ -237,14 +246,15 @@ export interface LinkedAccount {
   services?: Array<LinkService>;
 }
 
-export const LinkedAccount: Schema.Schema<LinkedAccount> = Schema.suspend(() =>
-  Schema.Struct({
-    linkedAccountId: Schema.optional(Schema.String),
-    services: Schema.optional(Schema.Array(LinkService)),
-  }),
-).annotate({
-  identifier: "LinkedAccount",
-}) as any as Schema.Schema<LinkedAccount>;
+export const LinkedAccount: Schema.Schema<LinkedAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      linkedAccountId: Schema.optional(Schema.String),
+      services: Schema.optional(Schema.Array(LinkService)),
+    }),
+  ).annotate({
+    identifier: "LinkedAccount",
+  }) as any as Schema.Schema<LinkedAccount>;
 
 export interface AccountsListLinksResponse {
   /** The list of available links. */
@@ -256,7 +266,7 @@ export interface AccountsListLinksResponse {
 }
 
 export const AccountsListLinksResponse: Schema.Schema<AccountsListLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       links: Schema.optional(Schema.Array(LinkedAccount)),
       nextPageToken: Schema.optional(Schema.String),
@@ -273,12 +283,15 @@ export interface PriceAmount {
   value?: string;
 }
 
-export const PriceAmount: Schema.Schema<PriceAmount> = Schema.suspend(() =>
-  Schema.Struct({
-    currency: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PriceAmount" }) as any as Schema.Schema<PriceAmount>;
+export const PriceAmount: Schema.Schema<PriceAmount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currency: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PriceAmount",
+  }) as any as Schema.Schema<PriceAmount>;
 
 export interface PromotionPromotionStatusPromotionIssue {
   /** Explanation of the issue. */
@@ -288,7 +301,7 @@ export interface PromotionPromotionStatusPromotionIssue {
 }
 
 export const PromotionPromotionStatusPromotionIssue: Schema.Schema<PromotionPromotionStatusPromotionIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detail: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -313,7 +326,7 @@ export interface PromotionPromotionStatusDestinationStatus {
 }
 
 export const PromotionPromotionStatusDestinationStatus: Schema.Schema<PromotionPromotionStatusDestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -334,7 +347,7 @@ export interface PromotionPromotionStatus {
 }
 
 export const PromotionPromotionStatus: Schema.Schema<PromotionPromotionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotionIssue: Schema.optional(
         Schema.Array(PromotionPromotionStatusPromotionIssue),
@@ -356,12 +369,13 @@ export interface TimePeriod {
   startTime?: string;
 }
 
-export const TimePeriod: Schema.Schema<TimePeriod> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
+export const TimePeriod: Schema.Schema<TimePeriod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimePeriod" }) as any as Schema.Schema<TimePeriod>;
 
 export interface Promotion {
   /** The percentage discount offered in the promotion. */
@@ -490,54 +504,55 @@ export interface Promotion {
   productType?: Array<string>;
 }
 
-export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() =>
-  Schema.Struct({
-    percentOff: Schema.optional(Schema.Number),
-    minimumPurchaseQuantity: Schema.optional(Schema.Number),
-    limitValue: Schema.optional(PriceAmount),
-    moneyBudget: Schema.optional(PriceAmount),
-    storeCodeExclusion: Schema.optional(Schema.Array(Schema.String)),
-    brandExclusion: Schema.optional(Schema.Array(Schema.String)),
-    genericRedemptionCode: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    longTitle: Schema.optional(Schema.String),
-    promotionDestinationIds: Schema.optional(Schema.Array(Schema.String)),
-    targetCountry: Schema.optional(Schema.String),
-    redemptionChannel: Schema.optional(Schema.Array(Schema.String)),
-    promotionStatus: Schema.optional(PromotionPromotionStatus),
-    brand: Schema.optional(Schema.Array(Schema.String)),
-    promotionId: Schema.optional(Schema.String),
-    promotionDisplayDates: Schema.optional(Schema.String),
-    freeGiftValue: Schema.optional(PriceAmount),
-    promotionUrl: Schema.optional(Schema.String),
-    itemGroupIdExclusion: Schema.optional(Schema.Array(Schema.String)),
-    shippingServiceNames: Schema.optional(Schema.Array(Schema.String)),
-    storeCode: Schema.optional(Schema.Array(Schema.String)),
-    promotionEffectiveDates: Schema.optional(Schema.String),
-    freeGiftDescription: Schema.optional(Schema.String),
-    productApplicability: Schema.optional(Schema.String),
-    itemIdExclusion: Schema.optional(Schema.Array(Schema.String)),
-    couponValueType: Schema.optional(Schema.String),
-    offerType: Schema.optional(Schema.String),
-    promotionEffectiveTimePeriod: Schema.optional(TimePeriod),
-    maxDiscountAmount: Schema.optional(PriceAmount),
-    moneyOffAmount: Schema.optional(PriceAmount),
-    orderLimit: Schema.optional(Schema.Number),
-    productTypeExclusion: Schema.optional(Schema.Array(Schema.String)),
-    customRedemptionRestriction: Schema.optional(Schema.String),
-    itemGroupId: Schema.optional(Schema.Array(Schema.String)),
-    redemptionRestriction: Schema.optional(Schema.String),
-    minimumPurchaseAmount: Schema.optional(PriceAmount),
-    itemId: Schema.optional(Schema.Array(Schema.String)),
-    getThisQuantityDiscounted: Schema.optional(Schema.Number),
-    freeGiftItemId: Schema.optional(Schema.String),
-    promotionDisplayTimePeriod: Schema.optional(TimePeriod),
-    id: Schema.optional(Schema.String),
-    storeApplicability: Schema.optional(Schema.String),
-    limitQuantity: Schema.optional(Schema.Number),
-    productType: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
+export const Promotion: Schema.Schema<Promotion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      percentOff: Schema.optional(Schema.Number),
+      minimumPurchaseQuantity: Schema.optional(Schema.Number),
+      limitValue: Schema.optional(PriceAmount),
+      moneyBudget: Schema.optional(PriceAmount),
+      storeCodeExclusion: Schema.optional(Schema.Array(Schema.String)),
+      brandExclusion: Schema.optional(Schema.Array(Schema.String)),
+      genericRedemptionCode: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      longTitle: Schema.optional(Schema.String),
+      promotionDestinationIds: Schema.optional(Schema.Array(Schema.String)),
+      targetCountry: Schema.optional(Schema.String),
+      redemptionChannel: Schema.optional(Schema.Array(Schema.String)),
+      promotionStatus: Schema.optional(PromotionPromotionStatus),
+      brand: Schema.optional(Schema.Array(Schema.String)),
+      promotionId: Schema.optional(Schema.String),
+      promotionDisplayDates: Schema.optional(Schema.String),
+      freeGiftValue: Schema.optional(PriceAmount),
+      promotionUrl: Schema.optional(Schema.String),
+      itemGroupIdExclusion: Schema.optional(Schema.Array(Schema.String)),
+      shippingServiceNames: Schema.optional(Schema.Array(Schema.String)),
+      storeCode: Schema.optional(Schema.Array(Schema.String)),
+      promotionEffectiveDates: Schema.optional(Schema.String),
+      freeGiftDescription: Schema.optional(Schema.String),
+      productApplicability: Schema.optional(Schema.String),
+      itemIdExclusion: Schema.optional(Schema.Array(Schema.String)),
+      couponValueType: Schema.optional(Schema.String),
+      offerType: Schema.optional(Schema.String),
+      promotionEffectiveTimePeriod: Schema.optional(TimePeriod),
+      maxDiscountAmount: Schema.optional(PriceAmount),
+      moneyOffAmount: Schema.optional(PriceAmount),
+      orderLimit: Schema.optional(Schema.Number),
+      productTypeExclusion: Schema.optional(Schema.Array(Schema.String)),
+      customRedemptionRestriction: Schema.optional(Schema.String),
+      itemGroupId: Schema.optional(Schema.Array(Schema.String)),
+      redemptionRestriction: Schema.optional(Schema.String),
+      minimumPurchaseAmount: Schema.optional(PriceAmount),
+      itemId: Schema.optional(Schema.Array(Schema.String)),
+      getThisQuantityDiscounted: Schema.optional(Schema.Number),
+      freeGiftItemId: Schema.optional(Schema.String),
+      promotionDisplayTimePeriod: Schema.optional(TimePeriod),
+      id: Schema.optional(Schema.String),
+      storeApplicability: Schema.optional(Schema.String),
+      limitQuantity: Schema.optional(Schema.Number),
+      productType: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
 
 export interface Weight {
   /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
@@ -546,25 +561,27 @@ export interface Weight {
   unit?: string;
 }
 
-export const Weight: Schema.Schema<Weight> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Weight" }) as any as Schema.Schema<Weight>;
+export const Weight: Schema.Schema<Weight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Weight" }) as any as Schema.Schema<Weight>;
 
 export interface LocationIdSet {
   /** A non-empty list of location IDs. They must all be of the same location type (for example, state). */
   locationIds?: Array<string>;
 }
 
-export const LocationIdSet: Schema.Schema<LocationIdSet> = Schema.suspend(() =>
-  Schema.Struct({
-    locationIds: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({
-  identifier: "LocationIdSet",
-}) as any as Schema.Schema<LocationIdSet>;
+export const LocationIdSet: Schema.Schema<LocationIdSet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locationIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "LocationIdSet",
+  }) as any as Schema.Schema<LocationIdSet>;
 
 export interface Headers {
   /** A list of inclusive order weight upper bounds. The last weight's value can be `"infinity"`. For example `[{"value": "10", "unit": "kg"}, {"value": "50", "unit": "kg"}, {"value": "infinity", "unit": "kg"}]` represents the headers "<= 10kg", "<= 50kg", and "> 50kg". All weights within a service must have the same unit. Must be non-empty. Can only be set if all other fields are not set. */
@@ -579,26 +596,28 @@ export interface Headers {
   postalCodeGroupNames?: Array<string>;
 }
 
-export const Headers: Schema.Schema<Headers> = Schema.suspend(() =>
-  Schema.Struct({
-    weights: Schema.optional(Schema.Array(Weight)),
-    numberOfItems: Schema.optional(Schema.Array(Schema.String)),
-    locations: Schema.optional(Schema.Array(LocationIdSet)),
-    prices: Schema.optional(Schema.Array(Price)),
-    postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Headers" }) as any as Schema.Schema<Headers>;
+export const Headers: Schema.Schema<Headers> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      weights: Schema.optional(Schema.Array(Weight)),
+      numberOfItems: Schema.optional(Schema.Array(Schema.String)),
+      locations: Schema.optional(Schema.Array(LocationIdSet)),
+      prices: Schema.optional(Schema.Array(Price)),
+      postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Headers" }) as any as Schema.Schema<Headers>;
 
 export interface Row {
   /** The list of cells that constitute the row. Must have the same length as `columnHeaders` for two-dimensional tables, a length of 1 for one-dimensional tables. Required. */
   cells?: Array<Value>;
 }
 
-export const Row: Schema.Schema<Row> = Schema.suspend(() =>
-  Schema.Struct({
-    cells: Schema.optional(Schema.Array(Value)),
-  }),
-).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
+export const Row: Schema.Schema<Row> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cells: Schema.optional(Schema.Array(Value)),
+    }),
+  ).annotate({ identifier: "Row" }) as any as Schema.Schema<Row>;
 
 export interface Table {
   /** Headers of the table's columns. Optional: if not set then the table has only one dimension. */
@@ -611,14 +630,15 @@ export interface Table {
   rows?: Array<Row>;
 }
 
-export const Table: Schema.Schema<Table> = Schema.suspend(() =>
-  Schema.Struct({
-    columnHeaders: Schema.optional(Headers),
-    name: Schema.optional(Schema.String),
-    rowHeaders: Schema.optional(Headers),
-    rows: Schema.optional(Schema.Array(Row)),
-  }),
-).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
+export const Table: Schema.Schema<Table> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columnHeaders: Schema.optional(Headers),
+      name: Schema.optional(Schema.String),
+      rowHeaders: Schema.optional(Headers),
+      rows: Schema.optional(Schema.Array(Row)),
+    }),
+  ).annotate({ identifier: "Table" }) as any as Schema.Schema<Table>;
 
 export interface CarrierRate {
   /** Carrier service, such as `"ground"` or `"2 days"`. The list of supported services for a carrier can be retrieved through the `getSupportedCarriers` method. Required. */
@@ -635,16 +655,19 @@ export interface CarrierRate {
   carrierName?: string;
 }
 
-export const CarrierRate: Schema.Schema<CarrierRate> = Schema.suspend(() =>
-  Schema.Struct({
-    carrierService: Schema.optional(Schema.String),
-    flatAdjustment: Schema.optional(Price),
-    percentageAdjustment: Schema.optional(Schema.String),
-    originPostalCode: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    carrierName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CarrierRate" }) as any as Schema.Schema<CarrierRate>;
+export const CarrierRate: Schema.Schema<CarrierRate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      carrierService: Schema.optional(Schema.String),
+      flatAdjustment: Schema.optional(Price),
+      percentageAdjustment: Schema.optional(Schema.String),
+      originPostalCode: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      carrierName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CarrierRate",
+  }) as any as Schema.Schema<CarrierRate>;
 
 export interface RateGroup {
   /** Name of the rate group. Optional. If set has to be unique within shipping service. */
@@ -661,16 +684,17 @@ export interface RateGroup {
   mainTable?: Table;
 }
 
-export const RateGroup: Schema.Schema<RateGroup> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    subtables: Schema.optional(Schema.Array(Table)),
-    applicableShippingLabels: Schema.optional(Schema.Array(Schema.String)),
-    carrierRates: Schema.optional(Schema.Array(CarrierRate)),
-    singleValue: Schema.optional(Value),
-    mainTable: Schema.optional(Table),
-  }),
-).annotate({ identifier: "RateGroup" }) as any as Schema.Schema<RateGroup>;
+export const RateGroup: Schema.Schema<RateGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      subtables: Schema.optional(Schema.Array(Table)),
+      applicableShippingLabels: Schema.optional(Schema.Array(Schema.String)),
+      carrierRates: Schema.optional(Schema.Array(CarrierRate)),
+      singleValue: Schema.optional(Value),
+      mainTable: Schema.optional(Table),
+    }),
+  ).annotate({ identifier: "RateGroup" }) as any as Schema.Schema<RateGroup>;
 
 export interface CutoffTime {
   /** Minute of the cutoff time until which an order has to be placed to be processed in the same day. Required. */
@@ -681,13 +705,14 @@ export interface CutoffTime {
   hour?: number;
 }
 
-export const CutoffTime: Schema.Schema<CutoffTime> = Schema.suspend(() =>
-  Schema.Struct({
-    minute: Schema.optional(Schema.Number),
-    timezone: Schema.optional(Schema.String),
-    hour: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "CutoffTime" }) as any as Schema.Schema<CutoffTime>;
+export const CutoffTime: Schema.Schema<CutoffTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minute: Schema.optional(Schema.Number),
+      timezone: Schema.optional(Schema.String),
+      hour: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "CutoffTime" }) as any as Schema.Schema<CutoffTime>;
 
 export interface BusinessDayConfig {
   /** Regular business days, such as '"monday"'. May not be empty. */
@@ -695,7 +720,7 @@ export interface BusinessDayConfig {
 }
 
 export const BusinessDayConfig: Schema.Schema<BusinessDayConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       businessDays: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -723,7 +748,7 @@ export interface WarehouseBasedDeliveryTime {
 }
 
 export const WarehouseBasedDeliveryTime: Schema.Schema<WarehouseBasedDeliveryTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originStreetAddress: Schema.optional(Schema.String),
       originPostalCode: Schema.optional(Schema.String),
@@ -746,7 +771,7 @@ export interface TransitTableTransitTimeRowTransitTimeValue {
 }
 
 export const TransitTableTransitTimeRowTransitTimeValue: Schema.Schema<TransitTableTransitTimeRowTransitTimeValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minTransitTimeInDays: Schema.optional(Schema.Number),
       maxTransitTimeInDays: Schema.optional(Schema.Number),
@@ -760,7 +785,7 @@ export interface TransitTableTransitTimeRow {
 }
 
 export const TransitTableTransitTimeRow: Schema.Schema<TransitTableTransitTimeRow> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(
         Schema.Array(TransitTableTransitTimeRowTransitTimeValue),
@@ -778,15 +803,16 @@ export interface TransitTable {
   rows?: Array<TransitTableTransitTimeRow>;
 }
 
-export const TransitTable: Schema.Schema<TransitTable> = Schema.suspend(() =>
-  Schema.Struct({
-    postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
-    transitTimeLabels: Schema.optional(Schema.Array(Schema.String)),
-    rows: Schema.optional(Schema.Array(TransitTableTransitTimeRow)),
-  }),
-).annotate({
-  identifier: "TransitTable",
-}) as any as Schema.Schema<TransitTable>;
+export const TransitTable: Schema.Schema<TransitTable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      postalCodeGroupNames: Schema.optional(Schema.Array(Schema.String)),
+      transitTimeLabels: Schema.optional(Schema.Array(Schema.String)),
+      rows: Schema.optional(Schema.Array(TransitTableTransitTimeRow)),
+    }),
+  ).annotate({
+    identifier: "TransitTable",
+  }) as any as Schema.Schema<TransitTable>;
 
 export interface HolidayCutoff {
   /** Date of the order deadline, in ISO 8601 format. For example, "2016-11-29" for 29th November 2016. Required. */
@@ -801,17 +827,18 @@ export interface HolidayCutoff {
   holidayId?: string;
 }
 
-export const HolidayCutoff: Schema.Schema<HolidayCutoff> = Schema.suspend(() =>
-  Schema.Struct({
-    deadlineDate: Schema.optional(Schema.String),
-    deadlineTimezone: Schema.optional(Schema.String),
-    visibleFromDate: Schema.optional(Schema.String),
-    deadlineHour: Schema.optional(Schema.Number),
-    holidayId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "HolidayCutoff",
-}) as any as Schema.Schema<HolidayCutoff>;
+export const HolidayCutoff: Schema.Schema<HolidayCutoff> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deadlineDate: Schema.optional(Schema.String),
+      deadlineTimezone: Schema.optional(Schema.String),
+      visibleFromDate: Schema.optional(Schema.String),
+      deadlineHour: Schema.optional(Schema.Number),
+      holidayId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HolidayCutoff",
+  }) as any as Schema.Schema<HolidayCutoff>;
 
 export interface DeliveryTime {
   /** Minimum number of business days spent before an order is shipped. 0 means same day shipped, 1 means next day shipped. */
@@ -836,24 +863,25 @@ export interface DeliveryTime {
   holidayCutoffs?: Array<HolidayCutoff>;
 }
 
-export const DeliveryTime: Schema.Schema<DeliveryTime> = Schema.suspend(() =>
-  Schema.Struct({
-    minHandlingTimeInDays: Schema.optional(Schema.Number),
-    maxTransitTimeInDays: Schema.optional(Schema.Number),
-    minTransitTimeInDays: Schema.optional(Schema.Number),
-    cutoffTime: Schema.optional(CutoffTime),
-    transitBusinessDayConfig: Schema.optional(BusinessDayConfig),
-    warehouseBasedDeliveryTimes: Schema.optional(
-      Schema.Array(WarehouseBasedDeliveryTime),
-    ),
-    maxHandlingTimeInDays: Schema.optional(Schema.Number),
-    transitTimeTable: Schema.optional(TransitTable),
-    handlingBusinessDayConfig: Schema.optional(BusinessDayConfig),
-    holidayCutoffs: Schema.optional(Schema.Array(HolidayCutoff)),
-  }),
-).annotate({
-  identifier: "DeliveryTime",
-}) as any as Schema.Schema<DeliveryTime>;
+export const DeliveryTime: Schema.Schema<DeliveryTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      minHandlingTimeInDays: Schema.optional(Schema.Number),
+      maxTransitTimeInDays: Schema.optional(Schema.Number),
+      minTransitTimeInDays: Schema.optional(Schema.Number),
+      cutoffTime: Schema.optional(CutoffTime),
+      transitBusinessDayConfig: Schema.optional(BusinessDayConfig),
+      warehouseBasedDeliveryTimes: Schema.optional(
+        Schema.Array(WarehouseBasedDeliveryTime),
+      ),
+      maxHandlingTimeInDays: Schema.optional(Schema.Number),
+      transitTimeTable: Schema.optional(TransitTable),
+      handlingBusinessDayConfig: Schema.optional(BusinessDayConfig),
+      holidayCutoffs: Schema.optional(Schema.Array(HolidayCutoff)),
+    }),
+  ).annotate({
+    identifier: "DeliveryTime",
+  }) as any as Schema.Schema<DeliveryTime>;
 
 export interface PickupCarrierService {
   /** The name of the pickup service (for example, `"Access point"`). Required. */
@@ -863,7 +891,7 @@ export interface PickupCarrierService {
 }
 
 export const PickupCarrierService: Schema.Schema<PickupCarrierService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceName: Schema.optional(Schema.String),
       carrierName: Schema.optional(Schema.String),
@@ -880,7 +908,7 @@ export interface MinimumOrderValueTableStoreCodeSetWithMov {
 }
 
 export const MinimumOrderValueTableStoreCodeSetWithMov: Schema.Schema<MinimumOrderValueTableStoreCodeSetWithMov> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storeCodes: Schema.optional(Schema.Array(Schema.String)),
       value: Schema.optional(Price),
@@ -894,7 +922,7 @@ export interface MinimumOrderValueTable {
 }
 
 export const MinimumOrderValueTable: Schema.Schema<MinimumOrderValueTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storeCodeSetWithMovs: Schema.optional(
         Schema.Array(MinimumOrderValueTableStoreCodeSetWithMov),
@@ -912,7 +940,7 @@ export interface ServiceStoreConfigCutoffConfigLocalCutoffTime {
 }
 
 export const ServiceStoreConfigCutoffConfigLocalCutoffTime: Schema.Schema<ServiceStoreConfigCutoffConfigLocalCutoffTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hour: Schema.optional(Schema.String),
       minute: Schema.optional(Schema.String),
@@ -931,7 +959,7 @@ export interface ServiceStoreConfigCutoffConfig {
 }
 
 export const ServiceStoreConfigCutoffConfig: Schema.Schema<ServiceStoreConfigCutoffConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storeCloseOffsetHours: Schema.optional(Schema.String),
       localCutoffTime: Schema.optional(
@@ -950,12 +978,13 @@ export interface Distance {
   unit?: string;
 }
 
-export const Distance: Schema.Schema<Distance> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Distance" }) as any as Schema.Schema<Distance>;
+export const Distance: Schema.Schema<Distance> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Distance" }) as any as Schema.Schema<Distance>;
 
 export interface ServiceStoreConfig {
   /** Indicates whether all stores listed by this merchant provide local delivery or not. Acceptable values are `all stores` and `selected stores` */
@@ -969,7 +998,7 @@ export interface ServiceStoreConfig {
 }
 
 export const ServiceStoreConfig: Schema.Schema<ServiceStoreConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storeServiceType: Schema.optional(Schema.String),
       storeCodes: Schema.optional(Schema.Array(Schema.String)),
@@ -1007,22 +1036,23 @@ export interface Service {
   storeConfig?: ServiceStoreConfig;
 }
 
-export const Service: Schema.Schema<Service> = Schema.suspend(() =>
-  Schema.Struct({
-    rateGroups: Schema.optional(Schema.Array(RateGroup)),
-    minimumOrderValue: Schema.optional(Price),
-    active: Schema.optional(Schema.Boolean),
-    currency: Schema.optional(Schema.String),
-    deliveryTime: Schema.optional(DeliveryTime),
-    deliveryCountry: Schema.optional(Schema.String),
-    shipmentType: Schema.optional(Schema.String),
-    pickupService: Schema.optional(PickupCarrierService),
-    eligibility: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    minimumOrderValueTable: Schema.optional(MinimumOrderValueTable),
-    storeConfig: Schema.optional(ServiceStoreConfig),
-  }),
-).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
+export const Service: Schema.Schema<Service> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rateGroups: Schema.optional(Schema.Array(RateGroup)),
+      minimumOrderValue: Schema.optional(Price),
+      active: Schema.optional(Schema.Boolean),
+      currency: Schema.optional(Schema.String),
+      deliveryTime: Schema.optional(DeliveryTime),
+      deliveryCountry: Schema.optional(Schema.String),
+      shipmentType: Schema.optional(Schema.String),
+      pickupService: Schema.optional(PickupCarrierService),
+      eligibility: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      minimumOrderValueTable: Schema.optional(MinimumOrderValueTable),
+      storeConfig: Schema.optional(ServiceStoreConfig),
+    }),
+  ).annotate({ identifier: "Service" }) as any as Schema.Schema<Service>;
 
 export interface CloudExportAdditionalProperties {
   /** Name of the given property. For example, "Screen-Resolution" for a TV product. Maximum string size is 256 characters. */
@@ -1044,7 +1074,7 @@ export interface CloudExportAdditionalProperties {
 }
 
 export const CloudExportAdditionalProperties: Schema.Schema<CloudExportAdditionalProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       propertyName: Schema.optional(Schema.String),
       intValue: Schema.optional(Schema.Array(Schema.String)),
@@ -1066,12 +1096,15 @@ export interface UrlSettings {
   cartUriTemplate?: string;
 }
 
-export const UrlSettings: Schema.Schema<UrlSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    checkoutUriTemplate: Schema.optional(Schema.String),
-    cartUriTemplate: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UrlSettings" }) as any as Schema.Schema<UrlSettings>;
+export const UrlSettings: Schema.Schema<UrlSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      checkoutUriTemplate: Schema.optional(Schema.String),
+      cartUriTemplate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UrlSettings",
+  }) as any as Schema.Schema<UrlSettings>;
 
 export interface CheckoutSettings {
   /** Output only. Reflects the merchant review state in `Checkout` feature. This is set based on the data quality reviews of the URL provided by the merchant. A merchant with enrollment state as `ENROLLED` can be in the following review states: `IN_REVIEW`, `APPROVED` or `DISAPPROVED`. A merchant must be in an enrollment_state of `ENROLLED` before a review can begin for the merchant. */
@@ -1110,8 +1143,8 @@ export interface CheckoutSettings {
   uriSettings?: UrlSettings;
 }
 
-export const CheckoutSettings: Schema.Schema<CheckoutSettings> = Schema.suspend(
-  () =>
+export const CheckoutSettings: Schema.Schema<CheckoutSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reviewState: Schema.optional(Schema.String),
       effectiveReviewState: Schema.optional(Schema.String),
@@ -1121,9 +1154,9 @@ export const CheckoutSettings: Schema.Schema<CheckoutSettings> = Schema.suspend(
       effectiveEnrollmentState: Schema.optional(Schema.String),
       uriSettings: Schema.optional(UrlSettings),
     }),
-).annotate({
-  identifier: "CheckoutSettings",
-}) as any as Schema.Schema<CheckoutSettings>;
+  ).annotate({
+    identifier: "CheckoutSettings",
+  }) as any as Schema.Schema<CheckoutSettings>;
 
 export interface RenderAccountIssuesRequestPayload {
   /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
@@ -1140,7 +1173,7 @@ export interface RenderAccountIssuesRequestPayload {
 }
 
 export const RenderAccountIssuesRequestPayload: Schema.Schema<RenderAccountIssuesRequestPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentOption: Schema.optional(Schema.String),
       userInputActionOption: Schema.optional(Schema.String),
@@ -1157,7 +1190,7 @@ export interface ProductStructuredDescription {
 }
 
 export const ProductStructuredDescription: Schema.Schema<ProductStructuredDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       digitalSourceType: Schema.optional(Schema.String),
       content: Schema.optional(Schema.String),
@@ -1181,8 +1214,8 @@ export interface DatafeedTarget {
   language?: string;
 }
 
-export const DatafeedTarget: Schema.Schema<DatafeedTarget> = Schema.suspend(
-  () =>
+export const DatafeedTarget: Schema.Schema<DatafeedTarget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedLabel: Schema.optional(Schema.String),
       excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
@@ -1191,9 +1224,9 @@ export const DatafeedTarget: Schema.Schema<DatafeedTarget> = Schema.suspend(
       country: Schema.optional(Schema.String),
       language: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DatafeedTarget",
-}) as any as Schema.Schema<DatafeedTarget>;
+  ).annotate({
+    identifier: "DatafeedTarget",
+  }) as any as Schema.Schema<DatafeedTarget>;
 
 export interface DeliveryAreaPostalCodeRange {
   /** Required. A postal code or a pattern of the form prefix* denoting the inclusive lower bound of the range defining the area. Examples values: `"94108"`, `"9410*"`, `"9*"`. */
@@ -1203,7 +1236,7 @@ export interface DeliveryAreaPostalCodeRange {
 }
 
 export const DeliveryAreaPostalCodeRange: Schema.Schema<DeliveryAreaPostalCodeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPostalCode: Schema.optional(Schema.String),
       lastPostalCode: Schema.optional(Schema.String),
@@ -1221,15 +1254,16 @@ export interface DeliveryArea {
   postalCodeRange?: DeliveryAreaPostalCodeRange;
 }
 
-export const DeliveryArea: Schema.Schema<DeliveryArea> = Schema.suspend(() =>
-  Schema.Struct({
-    countryCode: Schema.optional(Schema.String),
-    regionCode: Schema.optional(Schema.String),
-    postalCodeRange: Schema.optional(DeliveryAreaPostalCodeRange),
-  }),
-).annotate({
-  identifier: "DeliveryArea",
-}) as any as Schema.Schema<DeliveryArea>;
+export const DeliveryArea: Schema.Schema<DeliveryArea> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      countryCode: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      postalCodeRange: Schema.optional(DeliveryAreaPostalCodeRange),
+    }),
+  ).annotate({
+    identifier: "DeliveryArea",
+  }) as any as Schema.Schema<DeliveryArea>;
 
 export interface ProductDeliveryTimeAreaDeliveryTimeDeliveryTime {
   /** Required. The maximum number of business days (inclusive) between when the product ships and when the product is delivered. */
@@ -1243,7 +1277,7 @@ export interface ProductDeliveryTimeAreaDeliveryTimeDeliveryTime {
 }
 
 export const ProductDeliveryTimeAreaDeliveryTimeDeliveryTime: Schema.Schema<ProductDeliveryTimeAreaDeliveryTimeDeliveryTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxTransitTimeDays: Schema.optional(Schema.Number),
       minHandlingTimeDays: Schema.optional(Schema.Number),
@@ -1262,7 +1296,7 @@ export interface ProductDeliveryTimeAreaDeliveryTime {
 }
 
 export const ProductDeliveryTimeAreaDeliveryTime: Schema.Schema<ProductDeliveryTimeAreaDeliveryTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deliveryArea: Schema.optional(DeliveryArea),
       deliveryTime: Schema.optional(
@@ -1282,15 +1316,16 @@ export interface Content_Error {
   reason?: string;
 }
 
-export const Content_Error: Schema.Schema<Content_Error> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    domain: Schema.optional(Schema.String),
-    reason: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Content_Error",
-}) as any as Schema.Schema<Content_Error>;
+export const Content_Error: Schema.Schema<Content_Error> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      reason: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Content_Error",
+  }) as any as Schema.Schema<Content_Error>;
 
 export interface Errors {
   /** The HTTP status of the first error in `errors`. */
@@ -1301,13 +1336,14 @@ export interface Errors {
   message?: string;
 }
 
-export const Errors: Schema.Schema<Errors> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    errors: Schema.optional(Schema.Array(Content_Error)),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Errors" }) as any as Schema.Schema<Errors>;
+export const Errors: Schema.Schema<Errors> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      errors: Schema.optional(Schema.Array(Content_Error)),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Errors" }) as any as Schema.Schema<Errors>;
 
 export interface GmbAccountsGmbAccount {
   /** The email which identifies the Business Profile. */
@@ -1321,7 +1357,7 @@ export interface GmbAccountsGmbAccount {
 }
 
 export const GmbAccountsGmbAccount: Schema.Schema<GmbAccountsGmbAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1339,12 +1375,15 @@ export interface GmbAccounts {
   gmbAccounts?: Array<GmbAccountsGmbAccount>;
 }
 
-export const GmbAccounts: Schema.Schema<GmbAccounts> = Schema.suspend(() =>
-  Schema.Struct({
-    accountId: Schema.optional(Schema.String),
-    gmbAccounts: Schema.optional(Schema.Array(GmbAccountsGmbAccount)),
-  }),
-).annotate({ identifier: "GmbAccounts" }) as any as Schema.Schema<GmbAccounts>;
+export const GmbAccounts: Schema.Schema<GmbAccounts> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      gmbAccounts: Schema.optional(Schema.Array(GmbAccountsGmbAccount)),
+    }),
+  ).annotate({
+    identifier: "GmbAccounts",
+  }) as any as Schema.Schema<GmbAccounts>;
 
 export interface LiaOnDisplayToOrderSettings {
   /** The status of the ?On display to order? feature. Acceptable values are: - "`active`" - "`inactive`" - "`pending`" */
@@ -1354,7 +1393,7 @@ export interface LiaOnDisplayToOrderSettings {
 }
 
 export const LiaOnDisplayToOrderSettings: Schema.Schema<LiaOnDisplayToOrderSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.String),
       shippingCostPolicyUrl: Schema.optional(Schema.String),
@@ -1375,7 +1414,7 @@ export interface LiaInventorySettings {
 }
 
 export const LiaInventorySettings: Schema.Schema<LiaInventorySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventoryVerificationContactName: Schema.optional(Schema.String),
       inventoryVerificationContactEmail: Schema.optional(Schema.String),
@@ -1394,7 +1433,7 @@ export interface LiaAboutPageSettings {
 }
 
 export const LiaAboutPageSettings: Schema.Schema<LiaAboutPageSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.String),
       url: Schema.optional(Schema.String),
@@ -1411,7 +1450,7 @@ export interface LiaPosDataProvider {
 }
 
 export const LiaPosDataProvider: Schema.Schema<LiaPosDataProvider> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       posDataProviderId: Schema.optional(Schema.String),
       posExternalAccountId: Schema.optional(Schema.String),
@@ -1430,7 +1469,7 @@ export interface LiaOmnichannelExperience {
 }
 
 export const LiaOmnichannelExperience: Schema.Schema<LiaOmnichannelExperience> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pickupTypes: Schema.optional(Schema.Array(Schema.String)),
       lsfType: Schema.optional(Schema.String),
@@ -1460,7 +1499,7 @@ export interface LiaCountrySettings {
 }
 
 export const LiaCountrySettings: Schema.Schema<LiaCountrySettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       onDisplayToOrder: Schema.optional(LiaOnDisplayToOrderSettings),
       storePickupActive: Schema.optional(Schema.Boolean),
@@ -1484,13 +1523,16 @@ export interface LiaSettings {
   countrySettings?: Array<LiaCountrySettings>;
 }
 
-export const LiaSettings: Schema.Schema<LiaSettings> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    countrySettings: Schema.optional(Schema.Array(LiaCountrySettings)),
-  }),
-).annotate({ identifier: "LiaSettings" }) as any as Schema.Schema<LiaSettings>;
+export const LiaSettings: Schema.Schema<LiaSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      countrySettings: Schema.optional(Schema.Array(LiaCountrySettings)),
+    }),
+  ).annotate({
+    identifier: "LiaSettings",
+  }) as any as Schema.Schema<LiaSettings>;
 
 export interface PosDataProvidersPosDataProvider {
   /** The display name of Pos data Provider. */
@@ -1502,7 +1544,7 @@ export interface PosDataProvidersPosDataProvider {
 }
 
 export const PosDataProvidersPosDataProvider: Schema.Schema<PosDataProvidersPosDataProvider> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       fullName: Schema.optional(Schema.String),
@@ -1519,17 +1561,17 @@ export interface PosDataProviders {
   posDataProviders?: Array<PosDataProvidersPosDataProvider>;
 }
 
-export const PosDataProviders: Schema.Schema<PosDataProviders> = Schema.suspend(
-  () =>
+export const PosDataProviders: Schema.Schema<PosDataProviders> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       posDataProviders: Schema.optional(
         Schema.Array(PosDataProvidersPosDataProvider),
       ),
     }),
-).annotate({
-  identifier: "PosDataProviders",
-}) as any as Schema.Schema<PosDataProviders>;
+  ).annotate({
+    identifier: "PosDataProviders",
+  }) as any as Schema.Schema<PosDataProviders>;
 
 export interface LiasettingsCustomBatchResponseEntry {
   /** A list of errors defined if, and only if, the request failed. */
@@ -1549,7 +1591,7 @@ export interface LiasettingsCustomBatchResponseEntry {
 }
 
 export const LiasettingsCustomBatchResponseEntry: Schema.Schema<LiasettingsCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errors: Schema.optional(Errors),
       kind: Schema.optional(Schema.String),
@@ -1571,7 +1613,7 @@ export interface LiasettingsCustomBatchResponse {
 }
 
 export const LiasettingsCustomBatchResponse: Schema.Schema<LiasettingsCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(LiasettingsCustomBatchResponseEntry),
@@ -1590,7 +1632,7 @@ export interface RecommendationCreative {
 }
 
 export const RecommendationCreative: Schema.Schema<RecommendationCreative> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -1606,15 +1648,15 @@ export interface ProductDimension {
   unit?: string;
 }
 
-export const ProductDimension: Schema.Schema<ProductDimension> = Schema.suspend(
-  () =>
+export const ProductDimension: Schema.Schema<ProductDimension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ProductDimension",
-}) as any as Schema.Schema<ProductDimension>;
+  ).annotate({
+    identifier: "ProductDimension",
+  }) as any as Schema.Schema<ProductDimension>;
 
 export interface FreeListingsProgramStatusReviewIneligibilityReasonDetails {
   /** This timestamp represents end of cooldown period for review ineligbility reason `IN_COOLDOWN_PERIOD`. */
@@ -1622,7 +1664,7 @@ export interface FreeListingsProgramStatusReviewIneligibilityReasonDetails {
 }
 
 export const FreeListingsProgramStatusReviewIneligibilityReasonDetails: Schema.Schema<FreeListingsProgramStatusReviewIneligibilityReasonDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cooldownTime: Schema.optional(Schema.String),
     }),
@@ -1674,7 +1716,7 @@ export interface FreeListingsProgramStatusRegionStatus {
 }
 
 export const FreeListingsProgramStatusRegionStatus: Schema.Schema<FreeListingsProgramStatusRegionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reviewIssues: Schema.optional(Schema.Array(Schema.String)),
       regionCodes: Schema.optional(Schema.Array(Schema.String)),
@@ -1708,7 +1750,7 @@ export interface ProductstatusesCustomBatchRequestEntry {
 }
 
 export const ProductstatusesCustomBatchRequestEntry: Schema.Schema<ProductstatusesCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       destinations: Schema.optional(Schema.Array(Schema.String)),
@@ -1734,8 +1776,8 @@ export interface AccountAddress {
   country?: string;
 }
 
-export const AccountAddress: Schema.Schema<AccountAddress> = Schema.suspend(
-  () =>
+export const AccountAddress: Schema.Schema<AccountAddress> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       postalCode: Schema.optional(Schema.String),
       locality: Schema.optional(Schema.String),
@@ -1743,9 +1785,9 @@ export const AccountAddress: Schema.Schema<AccountAddress> = Schema.suspend(
       region: Schema.optional(Schema.String),
       country: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AccountAddress",
-}) as any as Schema.Schema<AccountAddress>;
+  ).annotate({
+    identifier: "AccountAddress",
+  }) as any as Schema.Schema<AccountAddress>;
 
 export interface ProductShipping {
   /** A free-form description of the service class or delivery speed. */
@@ -1772,8 +1814,8 @@ export interface ProductShipping {
   maxTransitTime?: string;
 }
 
-export const ProductShipping: Schema.Schema<ProductShipping> = Schema.suspend(
-  () =>
+export const ProductShipping: Schema.Schema<ProductShipping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
       postalCode: Schema.optional(Schema.String),
@@ -1787,9 +1829,9 @@ export const ProductShipping: Schema.Schema<ProductShipping> = Schema.suspend(
       region: Schema.optional(Schema.String),
       maxTransitTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ProductShipping",
-}) as any as Schema.Schema<ProductShipping>;
+  ).annotate({
+    identifier: "ProductShipping",
+  }) as any as Schema.Schema<ProductShipping>;
 
 export interface ReportInteractionRequest {
   /** Optional. Subtype of the recommendations this interaction happened on. This field must be set only to the value that is returned by {@link `RecommendationsService.GenerateRecommendations`} call. */
@@ -1807,7 +1849,7 @@ export interface ReportInteractionRequest {
 }
 
 export const ReportInteractionRequest: Schema.Schema<ReportInteractionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subtype: Schema.optional(Schema.String),
       interactionType: Schema.optional(Schema.String),
@@ -1832,7 +1874,7 @@ export interface AccountstatusesCustomBatchRequestEntry {
 }
 
 export const AccountstatusesCustomBatchRequestEntry: Schema.Schema<AccountstatusesCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantId: Schema.optional(Schema.String),
       method: Schema.optional(Schema.String),
@@ -1866,7 +1908,7 @@ export interface ProductStatusItemLevelIssue {
 }
 
 export const ProductStatusItemLevelIssue: Schema.Schema<ProductStatusItemLevelIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       resolution: Schema.optional(Schema.String),
@@ -1890,7 +1932,7 @@ export interface AttributionSettingsConversionType {
 }
 
 export const AttributionSettingsConversionType: Schema.Schema<AttributionSettingsConversionType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeInReporting: Schema.optional(Schema.Boolean),
       name: Schema.optional(Schema.String),
@@ -1917,7 +1959,7 @@ export interface AttributionSettings {
 }
 
 export const AttributionSettings: Schema.Schema<AttributionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionType: Schema.optional(
         Schema.Array(AttributionSettingsConversionType),
@@ -1939,7 +1981,7 @@ export interface GoogleAnalyticsLink {
 }
 
 export const GoogleAnalyticsLink: Schema.Schema<GoogleAnalyticsLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       propertyName: Schema.optional(Schema.String),
       propertyId: Schema.optional(Schema.String),
@@ -1961,7 +2003,7 @@ export interface MerchantCenterDestination {
 }
 
 export const MerchantCenterDestination: Schema.Schema<MerchantCenterDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       destinationId: Schema.optional(Schema.String),
@@ -1990,8 +2032,8 @@ export interface ConversionSource {
   expireTime?: string;
 }
 
-export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
-  () =>
+export const ConversionSource: Schema.Schema<ConversionSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       conversionSourceId: Schema.optional(Schema.String),
@@ -1999,9 +2041,9 @@ export const ConversionSource: Schema.Schema<ConversionSource> = Schema.suspend(
       merchantCenterDestination: Schema.optional(MerchantCenterDestination),
       expireTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ConversionSource",
-}) as any as Schema.Schema<ConversionSource>;
+  ).annotate({
+    identifier: "ConversionSource",
+  }) as any as Schema.Schema<ConversionSource>;
 
 export interface Callout {
   /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to merchants. */
@@ -2015,12 +2057,13 @@ export interface Callout {
   fullMessage?: TextWithTooltip;
 }
 
-export const Callout: Schema.Schema<Callout> = Schema.suspend(() =>
-  Schema.Struct({
-    styleHint: Schema.optional(Schema.String),
-    fullMessage: Schema.optional(TextWithTooltip),
-  }),
-).annotate({ identifier: "Callout" }) as any as Schema.Schema<Callout>;
+export const Callout: Schema.Schema<Callout> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      styleHint: Schema.optional(Schema.String),
+      fullMessage: Schema.optional(TextWithTooltip),
+    }),
+  ).annotate({ identifier: "Callout" }) as any as Schema.Schema<Callout>;
 
 export interface ActionFlow {
   /** Message displayed in the request dialog. For example: "Make sure you've fixed all your country-specific issues. If not, you may have to wait 7 days to request another review". There may be an more information to be shown in a tooltip. */
@@ -2039,17 +2082,18 @@ export interface ActionFlow {
   id?: string;
 }
 
-export const ActionFlow: Schema.Schema<ActionFlow> = Schema.suspend(() =>
-  Schema.Struct({
-    dialogMessage: Schema.optional(TextWithTooltip),
-    dialogCallout: Schema.optional(Callout),
-    label: Schema.optional(Schema.String),
-    inputs: Schema.optional(Schema.Array(InputField)),
-    dialogTitle: Schema.optional(Schema.String),
-    dialogButtonLabel: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ActionFlow" }) as any as Schema.Schema<ActionFlow>;
+export const ActionFlow: Schema.Schema<ActionFlow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dialogMessage: Schema.optional(TextWithTooltip),
+      dialogCallout: Schema.optional(Callout),
+      label: Schema.optional(Schema.String),
+      inputs: Schema.optional(Schema.Array(InputField)),
+      dialogTitle: Schema.optional(Schema.String),
+      dialogButtonLabel: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ActionFlow" }) as any as Schema.Schema<ActionFlow>;
 
 export interface BuiltInUserInputAction {
   /** Internal details. Not for display but need to be sent back when triggering the action. */
@@ -2059,7 +2103,7 @@ export interface BuiltInUserInputAction {
 }
 
 export const BuiltInUserInputAction: Schema.Schema<BuiltInUserInputAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionContext: Schema.optional(Schema.String),
       flows: Schema.optional(Schema.Array(ActionFlow)),
@@ -2082,7 +2126,7 @@ export interface AccountTaxTaxRule {
 }
 
 export const AccountTaxTaxRule: Schema.Schema<AccountTaxTaxRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ratePercent: Schema.optional(Schema.String),
       country: Schema.optional(Schema.String),
@@ -2103,13 +2147,14 @@ export interface AccountTax {
   accountId?: string;
 }
 
-export const AccountTax: Schema.Schema<AccountTax> = Schema.suspend(() =>
-  Schema.Struct({
-    rules: Schema.optional(Schema.Array(AccountTaxTaxRule)),
-    kind: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AccountTax" }) as any as Schema.Schema<AccountTax>;
+export const AccountTax: Schema.Schema<AccountTax> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rules: Schema.optional(Schema.Array(AccountTaxTaxRule)),
+      kind: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AccountTax" }) as any as Schema.Schema<AccountTax>;
 
 export interface AccounttaxListResponse {
   /** The token for the retrieval of the next page of account tax settings. */
@@ -2120,7 +2165,7 @@ export interface AccounttaxListResponse {
 }
 
 export const AccounttaxListResponse: Schema.Schema<AccounttaxListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -2152,7 +2197,7 @@ export interface DatafeedFetchSchedule {
 }
 
 export const DatafeedFetchSchedule: Schema.Schema<DatafeedFetchSchedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minuteOfHour: Schema.optional(Schema.Number),
       fetchUrl: Schema.optional(Schema.String),
@@ -2177,16 +2222,16 @@ export interface DatafeedFormat {
   columnDelimiter?: string;
 }
 
-export const DatafeedFormat: Schema.Schema<DatafeedFormat> = Schema.suspend(
-  () =>
+export const DatafeedFormat: Schema.Schema<DatafeedFormat> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileEncoding: Schema.optional(Schema.String),
       quotingMode: Schema.optional(Schema.String),
       columnDelimiter: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DatafeedFormat",
-}) as any as Schema.Schema<DatafeedFormat>;
+  ).annotate({
+    identifier: "DatafeedFormat",
+  }) as any as Schema.Schema<DatafeedFormat>;
 
 export interface Datafeed {
   /** Fetch schedule for the feed file. */
@@ -2209,19 +2254,20 @@ export interface Datafeed {
   attributeLanguage?: string;
 }
 
-export const Datafeed: Schema.Schema<Datafeed> = Schema.suspend(() =>
-  Schema.Struct({
-    fetchSchedule: Schema.optional(DatafeedFetchSchedule),
-    id: Schema.optional(Schema.String),
-    targets: Schema.optional(Schema.Array(DatafeedTarget)),
-    name: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    contentType: Schema.optional(Schema.String),
-    fileName: Schema.optional(Schema.String),
-    format: Schema.optional(DatafeedFormat),
-    attributeLanguage: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Datafeed" }) as any as Schema.Schema<Datafeed>;
+export const Datafeed: Schema.Schema<Datafeed> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fetchSchedule: Schema.optional(DatafeedFetchSchedule),
+      id: Schema.optional(Schema.String),
+      targets: Schema.optional(Schema.Array(DatafeedTarget)),
+      name: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      contentType: Schema.optional(Schema.String),
+      fileName: Schema.optional(Schema.String),
+      format: Schema.optional(DatafeedFormat),
+      attributeLanguage: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Datafeed" }) as any as Schema.Schema<Datafeed>;
 
 export interface DatafeedsCustomBatchResponseEntry {
   /** The requested data feed. Defined if and only if the request was successful. */
@@ -2233,7 +2279,7 @@ export interface DatafeedsCustomBatchResponseEntry {
 }
 
 export const DatafeedsCustomBatchResponseEntry: Schema.Schema<DatafeedsCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datafeed: Schema.optional(Datafeed),
       batchId: Schema.optional(Schema.Number),
@@ -2259,7 +2305,7 @@ export interface ProductStatusDestinationStatus {
 }
 
 export const ProductStatusDestinationStatus: Schema.Schema<ProductStatusDestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       approvedCountries: Schema.optional(Schema.Array(Schema.String)),
       destination: Schema.optional(Schema.String),
@@ -2293,23 +2339,26 @@ export interface ProductStatus {
   lastUpdateDate?: string;
 }
 
-export const ProductStatus: Schema.Schema<ProductStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    itemLevelIssues: Schema.optional(Schema.Array(ProductStatusItemLevelIssue)),
-    productId: Schema.optional(Schema.String),
-    destinationStatuses: Schema.optional(
-      Schema.Array(ProductStatusDestinationStatus),
-    ),
-    kind: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-    creationDate: Schema.optional(Schema.String),
-    googleExpirationDate: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    lastUpdateDate: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductStatus",
-}) as any as Schema.Schema<ProductStatus>;
+export const ProductStatus: Schema.Schema<ProductStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      itemLevelIssues: Schema.optional(
+        Schema.Array(ProductStatusItemLevelIssue),
+      ),
+      productId: Schema.optional(Schema.String),
+      destinationStatuses: Schema.optional(
+        Schema.Array(ProductStatusDestinationStatus),
+      ),
+      kind: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+      creationDate: Schema.optional(Schema.String),
+      googleExpirationDate: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      lastUpdateDate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatus",
+  }) as any as Schema.Schema<ProductStatus>;
 
 export interface ProductstatusesListResponse {
   /** The token for the retrieval of the next page of products statuses. */
@@ -2320,7 +2369,7 @@ export interface ProductstatusesListResponse {
 }
 
 export const ProductstatusesListResponse: Schema.Schema<ProductstatusesListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -2348,7 +2397,7 @@ export interface AccountStatusAccountLevelIssue {
 }
 
 export const AccountStatusAccountLevelIssue: Schema.Schema<AccountStatusAccountLevelIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -2382,7 +2431,7 @@ export interface AccountStatusItemLevelIssue {
 }
 
 export const AccountStatusItemLevelIssue: Schema.Schema<AccountStatusItemLevelIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeName: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -2409,7 +2458,7 @@ export interface AccountStatusStatistics {
 }
 
 export const AccountStatusStatistics: Schema.Schema<AccountStatusStatistics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       active: Schema.optional(Schema.String),
       pending: Schema.optional(Schema.String),
@@ -2434,7 +2483,7 @@ export interface AccountStatusProducts {
 }
 
 export const AccountStatusProducts: Schema.Schema<AccountStatusProducts> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       itemLevelIssues: Schema.optional(
@@ -2463,20 +2512,21 @@ export interface AccountStatus {
   accountId?: string;
 }
 
-export const AccountStatus: Schema.Schema<AccountStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    accountManagement: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    accountLevelIssues: Schema.optional(
-      Schema.Array(AccountStatusAccountLevelIssue),
-    ),
-    websiteClaimed: Schema.optional(Schema.Boolean),
-    products: Schema.optional(Schema.Array(AccountStatusProducts)),
-    accountId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AccountStatus",
-}) as any as Schema.Schema<AccountStatus>;
+export const AccountStatus: Schema.Schema<AccountStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountManagement: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      accountLevelIssues: Schema.optional(
+        Schema.Array(AccountStatusAccountLevelIssue),
+      ),
+      websiteClaimed: Schema.optional(Schema.Boolean),
+      products: Schema.optional(Schema.Array(AccountStatusProducts)),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountStatus",
+  }) as any as Schema.Schema<AccountStatus>;
 
 export interface AccountstatusesCustomBatchResponseEntry {
   /** The ID of the request entry this entry responds to. */
@@ -2488,7 +2538,7 @@ export interface AccountstatusesCustomBatchResponseEntry {
 }
 
 export const AccountstatusesCustomBatchResponseEntry: Schema.Schema<AccountstatusesCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       accountStatus: Schema.optional(AccountStatus),
@@ -2505,15 +2555,15 @@ export interface PostalCodeRange {
   postalCodeRangeEnd?: string;
 }
 
-export const PostalCodeRange: Schema.Schema<PostalCodeRange> = Schema.suspend(
-  () =>
+export const PostalCodeRange: Schema.Schema<PostalCodeRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       postalCodeRangeBegin: Schema.optional(Schema.String),
       postalCodeRangeEnd: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PostalCodeRange",
-}) as any as Schema.Schema<PostalCodeRange>;
+  ).annotate({
+    identifier: "PostalCodeRange",
+  }) as any as Schema.Schema<PostalCodeRange>;
 
 export interface PostalCodeGroup {
   /** The name of the postal code group, referred to in headers. Required. */
@@ -2524,16 +2574,16 @@ export interface PostalCodeGroup {
   postalCodeRanges?: Array<PostalCodeRange>;
 }
 
-export const PostalCodeGroup: Schema.Schema<PostalCodeGroup> = Schema.suspend(
-  () =>
+export const PostalCodeGroup: Schema.Schema<PostalCodeGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       country: Schema.optional(Schema.String),
       postalCodeRanges: Schema.optional(Schema.Array(PostalCodeRange)),
     }),
-).annotate({
-  identifier: "PostalCodeGroup",
-}) as any as Schema.Schema<PostalCodeGroup>;
+  ).annotate({
+    identifier: "PostalCodeGroup",
+  }) as any as Schema.Schema<PostalCodeGroup>;
 
 export interface Address {
   /** Required. Top-level administrative subdivision of the country. For example, a state like California ("CA") or a province like Quebec ("QC"). */
@@ -2548,15 +2598,16 @@ export interface Address {
   country?: string;
 }
 
-export const Address: Schema.Schema<Address> = Schema.suspend(() =>
-  Schema.Struct({
-    administrativeArea: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    city: Schema.optional(Schema.String),
-    streetAddress: Schema.optional(Schema.String),
-    country: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
+export const Address: Schema.Schema<Address> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      administrativeArea: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      city: Schema.optional(Schema.String),
+      streetAddress: Schema.optional(Schema.String),
+      country: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Address" }) as any as Schema.Schema<Address>;
 
 export interface WarehouseCutoffTime {
   /** Required. Hour (24-hour clock) of the cutoff time until which an order has to be placed to be processed in the same day by the warehouse. Hour is based on the timezone of warehouse. */
@@ -2566,7 +2617,7 @@ export interface WarehouseCutoffTime {
 }
 
 export const WarehouseCutoffTime: Schema.Schema<WarehouseCutoffTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hour: Schema.optional(Schema.Number),
       minute: Schema.optional(Schema.Number),
@@ -2588,15 +2639,16 @@ export interface Warehouse {
   name?: string;
 }
 
-export const Warehouse: Schema.Schema<Warehouse> = Schema.suspend(() =>
-  Schema.Struct({
-    shippingAddress: Schema.optional(Address),
-    cutoffTime: Schema.optional(WarehouseCutoffTime),
-    businessDayConfig: Schema.optional(BusinessDayConfig),
-    handlingDays: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Warehouse" }) as any as Schema.Schema<Warehouse>;
+export const Warehouse: Schema.Schema<Warehouse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      shippingAddress: Schema.optional(Address),
+      cutoffTime: Schema.optional(WarehouseCutoffTime),
+      businessDayConfig: Schema.optional(BusinessDayConfig),
+      handlingDays: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Warehouse" }) as any as Schema.Schema<Warehouse>;
 
 export interface ShippingSettings {
   /** A list of postal code groups that can be referred to in `services`. Optional. */
@@ -2609,17 +2661,17 @@ export interface ShippingSettings {
   warehouses?: Array<Warehouse>;
 }
 
-export const ShippingSettings: Schema.Schema<ShippingSettings> = Schema.suspend(
-  () =>
+export const ShippingSettings: Schema.Schema<ShippingSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       postalCodeGroups: Schema.optional(Schema.Array(PostalCodeGroup)),
       accountId: Schema.optional(Schema.String),
       services: Schema.optional(Schema.Array(Service)),
       warehouses: Schema.optional(Schema.Array(Warehouse)),
     }),
-).annotate({
-  identifier: "ShippingSettings",
-}) as any as Schema.Schema<ShippingSettings>;
+  ).annotate({
+    identifier: "ShippingSettings",
+  }) as any as Schema.Schema<ShippingSettings>;
 
 export interface ShippingsettingsCustomBatchResponseEntry {
   /** The ID of the request entry to which this entry responds. */
@@ -2633,7 +2685,7 @@ export interface ShippingsettingsCustomBatchResponseEntry {
 }
 
 export const ShippingsettingsCustomBatchResponseEntry: Schema.Schema<ShippingsettingsCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       kind: Schema.optional(Schema.String),
@@ -2652,7 +2704,7 @@ export interface ShippingsettingsCustomBatchResponse {
 }
 
 export const ShippingsettingsCustomBatchResponse: Schema.Schema<ShippingsettingsCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(ShippingsettingsCustomBatchResponseEntry),
@@ -2669,7 +2721,7 @@ export interface RequestPhoneVerificationResponse {
 }
 
 export const RequestPhoneVerificationResponse: Schema.Schema<RequestPhoneVerificationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verificationId: Schema.optional(Schema.String),
     }),
@@ -2685,7 +2737,7 @@ export interface BuiltInSimpleActionAdditionalContent {
 }
 
 export const BuiltInSimpleActionAdditionalContent: Schema.Schema<BuiltInSimpleActionAdditionalContent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       paragraphs: Schema.optional(Schema.Array(Schema.String)),
@@ -2715,7 +2767,7 @@ export interface BuiltInSimpleAction {
 }
 
 export const BuiltInSimpleAction: Schema.Schema<BuiltInSimpleAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       additionalContent: Schema.optional(BuiltInSimpleActionAdditionalContent),
@@ -2734,15 +2786,16 @@ export interface ActionReason {
   message?: string;
 }
 
-export const ActionReason: Schema.Schema<ActionReason> = Schema.suspend(() =>
-  Schema.Struct({
-    action: Schema.optional(Action),
-    detail: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ActionReason",
-}) as any as Schema.Schema<ActionReason>;
+export const ActionReason: Schema.Schema<ActionReason> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      action: Schema.optional(Action),
+      detail: Schema.optional(Schema.String),
+      message: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActionReason",
+  }) as any as Schema.Schema<ActionReason>;
 
 export interface ExternalAction {
   /** URL to external system, for example Merchant Center, where the merchant can perform the action. */
@@ -2757,15 +2810,15 @@ export interface ExternalAction {
     | (string & {});
 }
 
-export const ExternalAction: Schema.Schema<ExternalAction> = Schema.suspend(
-  () =>
+export const ExternalAction: Schema.Schema<ExternalAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExternalAction",
-}) as any as Schema.Schema<ExternalAction>;
+  ).annotate({
+    identifier: "ExternalAction",
+  }) as any as Schema.Schema<ExternalAction>;
 
 export interface Action {
   /** Action implemented and performed in (your) third-party application. The application should point the merchant to the place, where they can access the corresponding functionality or provide instructions, if the specific functionality is not available. */
@@ -2782,16 +2835,17 @@ export interface Action {
   isAvailable?: boolean;
 }
 
-export const Action: Schema.Schema<Action> = Schema.suspend(() =>
-  Schema.Struct({
-    builtinSimpleAction: Schema.optional(BuiltInSimpleAction),
-    buttonLabel: Schema.optional(Schema.String),
-    reasons: Schema.optional(Schema.Array(ActionReason)),
-    builtinUserInputAction: Schema.optional(BuiltInUserInputAction),
-    externalAction: Schema.optional(ExternalAction),
-    isAvailable: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
+export const Action: Schema.Schema<Action> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      builtinSimpleAction: Schema.optional(BuiltInSimpleAction),
+      buttonLabel: Schema.optional(Schema.String),
+      reasons: Schema.optional(Schema.Array(ActionReason)),
+      builtinUserInputAction: Schema.optional(BuiltInUserInputAction),
+      externalAction: Schema.optional(ExternalAction),
+      isAvailable: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
 
 export interface BreakdownRegion {
   /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
@@ -2800,15 +2854,15 @@ export interface BreakdownRegion {
   name?: string;
 }
 
-export const BreakdownRegion: Schema.Schema<BreakdownRegion> = Schema.suspend(
-  () =>
+export const BreakdownRegion: Schema.Schema<BreakdownRegion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BreakdownRegion",
-}) as any as Schema.Schema<BreakdownRegion>;
+  ).annotate({
+    identifier: "BreakdownRegion",
+  }) as any as Schema.Schema<BreakdownRegion>;
 
 export interface Breakdown {
   /** Lists of regions. Should be rendered as a title for this group of details. The full list should be shown to merchant. If the list is too long, it is recommended to make it expandable. */
@@ -2817,12 +2871,13 @@ export interface Breakdown {
   details?: Array<string>;
 }
 
-export const Breakdown: Schema.Schema<Breakdown> = Schema.suspend(() =>
-  Schema.Struct({
-    regions: Schema.optional(Schema.Array(BreakdownRegion)),
-    details: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Breakdown" }) as any as Schema.Schema<Breakdown>;
+export const Breakdown: Schema.Schema<Breakdown> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regions: Schema.optional(Schema.Array(BreakdownRegion)),
+      details: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Breakdown" }) as any as Schema.Schema<Breakdown>;
 
 export interface ProductIssueImpact {
   /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the merchant. For example: "Limits visibility in France" */
@@ -2839,7 +2894,7 @@ export interface ProductIssueImpact {
 }
 
 export const ProductIssueImpact: Schema.Schema<ProductIssueImpact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
       severity: Schema.optional(Schema.String),
@@ -2862,17 +2917,18 @@ export interface ProductIssue {
   prerenderedOutOfCourtDisputeSettlement?: string;
 }
 
-export const ProductIssue: Schema.Schema<ProductIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    actions: Schema.optional(Schema.Array(Action)),
-    impact: Schema.optional(ProductIssueImpact),
-    title: Schema.optional(Schema.String),
-    prerenderedContent: Schema.optional(Schema.String),
-    prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductIssue",
-}) as any as Schema.Schema<ProductIssue>;
+export const ProductIssue: Schema.Schema<ProductIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      actions: Schema.optional(Schema.Array(Action)),
+      impact: Schema.optional(ProductIssueImpact),
+      title: Schema.optional(Schema.String),
+      prerenderedContent: Schema.optional(Schema.String),
+      prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductIssue",
+  }) as any as Schema.Schema<ProductIssue>;
 
 export interface AlternateDisputeResolution {
   /** The URL pointing to a page, where merchant can request alternative dispute resolution with an [external body](https://support.google.com/european-union-digital-services-act-redress-options/answer/13535501). */
@@ -2882,7 +2938,7 @@ export interface AlternateDisputeResolution {
 }
 
 export const AlternateDisputeResolution: Schema.Schema<AlternateDisputeResolution> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       label: Schema.optional(Schema.String),
@@ -2899,7 +2955,7 @@ export interface RenderProductIssuesResponse {
 }
 
 export const RenderProductIssuesResponse: Schema.Schema<RenderProductIssuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issues: Schema.optional(Schema.Array(ProductIssue)),
       alternateDisputeResolution: Schema.optional(AlternateDisputeResolution),
@@ -2920,7 +2976,7 @@ export interface ReturnPolicyOnlineReturnShippingFee {
 }
 
 export const ReturnPolicyOnlineReturnShippingFee: Schema.Schema<ReturnPolicyOnlineReturnShippingFee> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedFee: Schema.optional(PriceAmount),
       type: Schema.optional(Schema.String),
@@ -2948,7 +3004,7 @@ export interface ReturnPolicyOnlineReturnReasonCategoryInfo {
 }
 
 export const ReturnPolicyOnlineReturnReasonCategoryInfo: Schema.Schema<ReturnPolicyOnlineReturnReasonCategoryInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnLabelSource: Schema.optional(Schema.String),
       returnReasonCategory: Schema.optional(Schema.String),
@@ -2971,7 +3027,7 @@ export interface ReturnPolicyOnlinePolicy {
 }
 
 export const ReturnPolicyOnlinePolicy: Schema.Schema<ReturnPolicyOnlinePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       days: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -2988,7 +3044,7 @@ export interface ReturnPolicyOnlineRestockingFee {
 }
 
 export const ReturnPolicyOnlineRestockingFee: Schema.Schema<ReturnPolicyOnlineRestockingFee> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedFee: Schema.optional(PriceAmount),
       microPercent: Schema.optional(Schema.Number),
@@ -3029,7 +3085,7 @@ export interface ReturnPolicyOnline {
 }
 
 export const ReturnPolicyOnline: Schema.Schema<ReturnPolicyOnline> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnPolicyUri: Schema.optional(Schema.String),
       returnReasonCategoryInfo: Schema.optional(
@@ -3054,7 +3110,7 @@ export interface ListReturnPolicyOnlineResponse {
 }
 
 export const ListReturnPolicyOnlineResponse: Schema.Schema<ListReturnPolicyOnlineResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnPolicies: Schema.optional(Schema.Array(ReturnPolicyOnline)),
     }),
@@ -3072,7 +3128,7 @@ export interface CollectionFeaturedProduct {
 }
 
 export const CollectionFeaturedProduct: Schema.Schema<CollectionFeaturedProduct> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offerId: Schema.optional(Schema.String),
       y: Schema.optional(Schema.Number),
@@ -3111,23 +3167,24 @@ export interface Collection {
   language?: string;
 }
 
-export const Collection: Schema.Schema<Collection> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    productCountry: Schema.optional(Schema.String),
-    customLabel2: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-    featuredProduct: Schema.optional(Schema.Array(CollectionFeaturedProduct)),
-    headline: Schema.optional(Schema.Array(Schema.String)),
-    customLabel1: Schema.optional(Schema.String),
-    customLabel3: Schema.optional(Schema.String),
-    mobileLink: Schema.optional(Schema.String),
-    customLabel4: Schema.optional(Schema.String),
-    imageLink: Schema.optional(Schema.Array(Schema.String)),
-    customLabel0: Schema.optional(Schema.String),
-    language: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Collection" }) as any as Schema.Schema<Collection>;
+export const Collection: Schema.Schema<Collection> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      productCountry: Schema.optional(Schema.String),
+      customLabel2: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+      featuredProduct: Schema.optional(Schema.Array(CollectionFeaturedProduct)),
+      headline: Schema.optional(Schema.Array(Schema.String)),
+      customLabel1: Schema.optional(Schema.String),
+      customLabel3: Schema.optional(Schema.String),
+      mobileLink: Schema.optional(Schema.String),
+      customLabel4: Schema.optional(Schema.String),
+      imageLink: Schema.optional(Schema.Array(Schema.String)),
+      customLabel0: Schema.optional(Schema.String),
+      language: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Collection" }) as any as Schema.Schema<Collection>;
 
 export interface PickupServicesPickupService {
   /** The CLDR country code of the carrier (for example, "US"). Always present. */
@@ -3139,7 +3196,7 @@ export interface PickupServicesPickupService {
 }
 
 export const PickupServicesPickupService: Schema.Schema<PickupServicesPickupService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       carrierName: Schema.optional(Schema.String),
@@ -3155,7 +3212,7 @@ export interface RegionGeoTargetArea {
 }
 
 export const RegionGeoTargetArea: Schema.Schema<RegionGeoTargetArea> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       geotargetCriteriaIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3171,7 +3228,7 @@ export interface RecommendationDescription {
 }
 
 export const RecommendationDescription: Schema.Schema<RecommendationDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -3183,7 +3240,7 @@ export const RecommendationDescription: Schema.Schema<RecommendationDescription>
 export interface UndeleteConversionSourceRequest {}
 
 export const UndeleteConversionSourceRequest: Schema.Schema<UndeleteConversionSourceRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndeleteConversionSourceRequest",
   }) as any as Schema.Schema<UndeleteConversionSourceRequest>;
 
@@ -3209,7 +3266,7 @@ export interface CollectionStatusItemLevelIssue {
 }
 
 export const CollectionStatusItemLevelIssue: Schema.Schema<CollectionStatusItemLevelIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documentation: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -3230,11 +3287,12 @@ export interface ProductId {
   productId?: string;
 }
 
-export const ProductId: Schema.Schema<ProductId> = Schema.suspend(() =>
-  Schema.Struct({
-    productId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ProductId" }) as any as Schema.Schema<ProductId>;
+export const ProductId: Schema.Schema<ProductId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      productId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ProductId" }) as any as Schema.Schema<ProductId>;
 
 export interface ProductDeliveryTime {
   /** Required. The `id` of the product. */
@@ -3244,7 +3302,7 @@ export interface ProductDeliveryTime {
 }
 
 export const ProductDeliveryTime: Schema.Schema<ProductDeliveryTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productId: Schema.optional(ProductId),
       areaDeliveryTimes: Schema.optional(
@@ -3261,7 +3319,7 @@ export interface TriggerActionResponse {
 }
 
 export const TriggerActionResponse: Schema.Schema<TriggerActionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       message: Schema.optional(Schema.String),
     }),
@@ -3286,8 +3344,8 @@ export interface LoyaltyProgram {
   shippingLabel?: string;
 }
 
-export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(
-  () =>
+export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tierLabel: Schema.optional(Schema.String),
       cashbackForFutureUse: Schema.optional(Price),
@@ -3297,9 +3355,9 @@ export const LoyaltyProgram: Schema.Schema<LoyaltyProgram> = Schema.suspend(
       memberPriceEffectiveDate: Schema.optional(Schema.String),
       shippingLabel: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LoyaltyProgram",
-}) as any as Schema.Schema<LoyaltyProgram>;
+  ).annotate({
+    identifier: "LoyaltyProgram",
+  }) as any as Schema.Schema<LoyaltyProgram>;
 
 export interface PosInventory {
   /** Global Trade Item Number. */
@@ -3326,23 +3384,24 @@ export interface PosInventory {
   contentLanguage?: string;
 }
 
-export const PosInventory: Schema.Schema<PosInventory> = Schema.suspend(() =>
-  Schema.Struct({
-    gtin: Schema.optional(Schema.String),
-    pickupSla: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-    quantity: Schema.optional(Schema.String),
-    pickupMethod: Schema.optional(Schema.String),
-    targetCountry: Schema.optional(Schema.String),
-    itemId: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    storeCode: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PosInventory",
-}) as any as Schema.Schema<PosInventory>;
+export const PosInventory: Schema.Schema<PosInventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gtin: Schema.optional(Schema.String),
+      pickupSla: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      pickupMethod: Schema.optional(Schema.String),
+      targetCountry: Schema.optional(Schema.String),
+      itemId: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      storeCode: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PosInventory",
+  }) as any as Schema.Schema<PosInventory>;
 
 export interface PosStore {
   /** The website url for the store or merchant. */
@@ -3367,20 +3426,21 @@ export interface PosStore {
   matchingStatus?: string;
 }
 
-export const PosStore: Schema.Schema<PosStore> = Schema.suspend(() =>
-  Schema.Struct({
-    websiteUrl: Schema.optional(Schema.String),
-    matchingStatusHint: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    gcidCategory: Schema.optional(Schema.Array(Schema.String)),
-    storeCode: Schema.optional(Schema.String),
-    storeName: Schema.optional(Schema.String),
-    placeId: Schema.optional(Schema.String),
-    storeAddress: Schema.optional(Schema.String),
-    phoneNumber: Schema.optional(Schema.String),
-    matchingStatus: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PosStore" }) as any as Schema.Schema<PosStore>;
+export const PosStore: Schema.Schema<PosStore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      websiteUrl: Schema.optional(Schema.String),
+      matchingStatusHint: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      gcidCategory: Schema.optional(Schema.Array(Schema.String)),
+      storeCode: Schema.optional(Schema.String),
+      storeName: Schema.optional(Schema.String),
+      placeId: Schema.optional(Schema.String),
+      storeAddress: Schema.optional(Schema.String),
+      phoneNumber: Schema.optional(Schema.String),
+      matchingStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PosStore" }) as any as Schema.Schema<PosStore>;
 
 export interface PosSale {
   /** Required. The price of the item. */
@@ -3405,20 +3465,21 @@ export interface PosSale {
   timestamp?: string;
 }
 
-export const PosSale: Schema.Schema<PosSale> = Schema.suspend(() =>
-  Schema.Struct({
-    price: Schema.optional(Price),
-    itemId: Schema.optional(Schema.String),
-    saleId: Schema.optional(Schema.String),
-    targetCountry: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    contentLanguage: Schema.optional(Schema.String),
-    storeCode: Schema.optional(Schema.String),
-    gtin: Schema.optional(Schema.String),
-    quantity: Schema.optional(Schema.String),
-    timestamp: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PosSale" }) as any as Schema.Schema<PosSale>;
+export const PosSale: Schema.Schema<PosSale> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      price: Schema.optional(Price),
+      itemId: Schema.optional(Schema.String),
+      saleId: Schema.optional(Schema.String),
+      targetCountry: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
+      storeCode: Schema.optional(Schema.String),
+      gtin: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      timestamp: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PosSale" }) as any as Schema.Schema<PosSale>;
 
 export interface PosCustomBatchRequestEntry {
   /** An entry ID, unique within the batch request. */
@@ -3440,7 +3501,7 @@ export interface PosCustomBatchRequestEntry {
 }
 
 export const PosCustomBatchRequestEntry: Schema.Schema<PosCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       inventory: Schema.optional(PosInventory),
@@ -3461,7 +3522,7 @@ export interface PosCustomBatchRequest {
 }
 
 export const PosCustomBatchRequest: Schema.Schema<PosCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(PosCustomBatchRequestEntry)),
     }),
@@ -3479,7 +3540,7 @@ export interface AccountCustomerService {
 }
 
 export const AccountCustomerService: Schema.Schema<AccountCustomerService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phoneNumber: Schema.optional(Schema.String),
       url: Schema.optional(Schema.String),
@@ -3497,7 +3558,7 @@ export interface AccountstatusesCustomBatchResponse {
 }
 
 export const AccountstatusesCustomBatchResponse: Schema.Schema<AccountstatusesCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(AccountstatusesCustomBatchResponseEntry),
@@ -3518,7 +3579,7 @@ export interface PriceCompetitiveness {
 }
 
 export const PriceCompetitiveness: Schema.Schema<PriceCompetitiveness> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       benchmarkPriceCurrencyCode: Schema.optional(Schema.String),
       countryCode: Schema.optional(Schema.String),
@@ -3537,16 +3598,16 @@ export interface CustomAttribute {
   value?: string;
 }
 
-export const CustomAttribute: Schema.Schema<CustomAttribute> = Schema.suspend(
-  () =>
+export const CustomAttribute: Schema.Schema<CustomAttribute> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       groupValues: Schema.optional(Schema.Array(CustomAttribute)),
       value: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as Schema.Schema<CustomAttribute>;
+  ).annotate({
+    identifier: "CustomAttribute",
+  }) as any as Schema.Schema<CustomAttribute>;
 
 export interface RegionalInventory {
   /** A date range represented by a pair of ISO 8601 dates separated by a space, comma, or slash. Both dates might be specified as 'null' if undecided. */
@@ -3566,7 +3627,7 @@ export interface RegionalInventory {
 }
 
 export const RegionalInventory: Schema.Schema<RegionalInventory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       salePriceEffectiveDate: Schema.optional(Schema.String),
       availability: Schema.optional(Schema.String),
@@ -3592,7 +3653,7 @@ export interface RegionalinventoryCustomBatchResponseEntry {
 }
 
 export const RegionalinventoryCustomBatchResponseEntry: Schema.Schema<RegionalinventoryCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionalInventory: Schema.optional(RegionalInventory),
       batchId: Schema.optional(Schema.Number),
@@ -3609,7 +3670,7 @@ export interface ECommercePlatformLinkInfo {
 }
 
 export const ECommercePlatformLinkInfo: Schema.Schema<ECommercePlatformLinkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalAccountId: Schema.optional(Schema.String),
     }),
@@ -3631,7 +3692,7 @@ export interface AccountBusinessInformation {
 }
 
 export const AccountBusinessInformation: Schema.Schema<AccountBusinessInformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       address: Schema.optional(AccountAddress),
       phoneVerificationStatus: Schema.optional(Schema.String),
@@ -3651,7 +3712,7 @@ export interface ProductUnitPricingMeasure {
 }
 
 export const ProductUnitPricingMeasure: Schema.Schema<ProductUnitPricingMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
@@ -3666,7 +3727,7 @@ export interface AccountsUpdateLabelsResponse {
 }
 
 export const AccountsUpdateLabelsResponse: Schema.Schema<AccountsUpdateLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -3680,7 +3741,7 @@ export interface AccountConversionSettings {
 }
 
 export const AccountConversionSettings: Schema.Schema<AccountConversionSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       freeListingsAutoTaggingEnabled: Schema.optional(Schema.Boolean),
     }),
@@ -3705,17 +3766,20 @@ export interface AccountUser {
   paymentsAnalyst?: boolean;
 }
 
-export const AccountUser: Schema.Schema<AccountUser> = Schema.suspend(() =>
-  Schema.Struct({
-    paymentsManager: Schema.optional(Schema.Boolean),
-    orderManager: Schema.optional(Schema.Boolean),
-    readOnly: Schema.optional(Schema.Boolean),
-    reportingManager: Schema.optional(Schema.Boolean),
-    emailAddress: Schema.optional(Schema.String),
-    admin: Schema.optional(Schema.Boolean),
-    paymentsAnalyst: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "AccountUser" }) as any as Schema.Schema<AccountUser>;
+export const AccountUser: Schema.Schema<AccountUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      paymentsManager: Schema.optional(Schema.Boolean),
+      orderManager: Schema.optional(Schema.Boolean),
+      readOnly: Schema.optional(Schema.Boolean),
+      reportingManager: Schema.optional(Schema.Boolean),
+      emailAddress: Schema.optional(Schema.String),
+      admin: Schema.optional(Schema.Boolean),
+      paymentsAnalyst: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "AccountUser",
+  }) as any as Schema.Schema<AccountUser>;
 
 export interface AccountAdsLink {
   /** Customer ID of the Ads account. */
@@ -3724,15 +3788,15 @@ export interface AccountAdsLink {
   status?: string;
 }
 
-export const AccountAdsLink: Schema.Schema<AccountAdsLink> = Schema.suspend(
-  () =>
+export const AccountAdsLink: Schema.Schema<AccountAdsLink> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adsId: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AccountAdsLink",
-}) as any as Schema.Schema<AccountAdsLink>;
+  ).annotate({
+    identifier: "AccountAdsLink",
+  }) as any as Schema.Schema<AccountAdsLink>;
 
 export interface AccountGoogleMyBusinessLink {
   /** The Business Profile email address of a specific account within a Business Profile. A sample account within a Business Profile could be a business account with set of locations, managed under the Business Profile. */
@@ -3744,7 +3808,7 @@ export interface AccountGoogleMyBusinessLink {
 }
 
 export const AccountGoogleMyBusinessLink: Schema.Schema<AccountGoogleMyBusinessLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gmbEmail: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -3762,7 +3826,7 @@ export interface AccountYouTubeChannelLink {
 }
 
 export const AccountYouTubeChannelLink: Schema.Schema<AccountYouTubeChannelLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelId: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -3777,7 +3841,7 @@ export interface AccountShippingImprovements {
 }
 
 export const AccountShippingImprovements: Schema.Schema<AccountShippingImprovements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowShippingImprovements: Schema.optional(Schema.Boolean),
     }),
@@ -3797,7 +3861,7 @@ export interface AccountItemUpdatesSettings {
 }
 
 export const AccountItemUpdatesSettings: Schema.Schema<AccountItemUpdatesSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAvailabilityUpdates: Schema.optional(Schema.Boolean),
       allowConditionUpdates: Schema.optional(Schema.Boolean),
@@ -3822,7 +3886,7 @@ export interface AccountItemUpdates {
 }
 
 export const AccountItemUpdates: Schema.Schema<AccountItemUpdates> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       effectiveAllowStrictAvailabilityUpdates: Schema.optional(Schema.Boolean),
       effectiveAllowPriceUpdates: Schema.optional(Schema.Boolean),
@@ -3840,7 +3904,7 @@ export interface AccountImageImprovementsSettings {
 }
 
 export const AccountImageImprovementsSettings: Schema.Schema<AccountImageImprovementsSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
     }),
@@ -3856,7 +3920,7 @@ export interface AccountImageImprovements {
 }
 
 export const AccountImageImprovements: Schema.Schema<AccountImageImprovements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       effectiveAllowAutomaticImageImprovements: Schema.optional(Schema.Boolean),
       accountImageImprovementsSettings: Schema.optional(
@@ -3877,7 +3941,7 @@ export interface AccountAutomaticImprovements {
 }
 
 export const AccountAutomaticImprovements: Schema.Schema<AccountAutomaticImprovements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shippingImprovements: Schema.optional(AccountShippingImprovements),
       itemUpdates: Schema.optional(AccountItemUpdates),
@@ -3893,7 +3957,7 @@ export interface AccountIdentityType {
 }
 
 export const AccountIdentityType: Schema.Schema<AccountIdentityType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selfIdentified: Schema.optional(Schema.Boolean),
     }),
@@ -3917,7 +3981,7 @@ export interface AccountBusinessIdentity {
 }
 
 export const AccountBusinessIdentity: Schema.Schema<AccountBusinessIdentity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       veteranOwned: Schema.optional(AccountIdentityType),
       blackOwned: Schema.optional(AccountIdentityType),
@@ -3969,30 +4033,31 @@ export interface Account {
   businessIdentity?: AccountBusinessIdentity;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    conversionSettings: Schema.optional(AccountConversionSettings),
-    users: Schema.optional(Schema.Array(AccountUser)),
-    websiteUrl: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    sellerId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    automaticLabelIds: Schema.optional(Schema.Array(Schema.String)),
-    adsLinks: Schema.optional(Schema.Array(AccountAdsLink)),
-    googleMyBusinessLink: Schema.optional(AccountGoogleMyBusinessLink),
-    labelIds: Schema.optional(Schema.Array(Schema.String)),
-    youtubeChannelLinks: Schema.optional(
-      Schema.Array(AccountYouTubeChannelLink),
-    ),
-    automaticImprovements: Schema.optional(AccountAutomaticImprovements),
-    businessInformation: Schema.optional(AccountBusinessInformation),
-    cssId: Schema.optional(Schema.String),
-    accountManagement: Schema.optional(Schema.String),
-    adultContent: Schema.optional(Schema.Boolean),
-    kind: Schema.optional(Schema.String),
-    businessIdentity: Schema.optional(AccountBusinessIdentity),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      conversionSettings: Schema.optional(AccountConversionSettings),
+      users: Schema.optional(Schema.Array(AccountUser)),
+      websiteUrl: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      sellerId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      automaticLabelIds: Schema.optional(Schema.Array(Schema.String)),
+      adsLinks: Schema.optional(Schema.Array(AccountAdsLink)),
+      googleMyBusinessLink: Schema.optional(AccountGoogleMyBusinessLink),
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+      youtubeChannelLinks: Schema.optional(
+        Schema.Array(AccountYouTubeChannelLink),
+      ),
+      automaticImprovements: Schema.optional(AccountAutomaticImprovements),
+      businessInformation: Schema.optional(AccountBusinessInformation),
+      cssId: Schema.optional(Schema.String),
+      accountManagement: Schema.optional(Schema.String),
+      adultContent: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      businessIdentity: Schema.optional(AccountBusinessIdentity),
+    }),
+  ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface AccountsCustomBatchResponseEntry {
   /** The ID of the request entry this entry responds to. */
@@ -4006,7 +4071,7 @@ export interface AccountsCustomBatchResponseEntry {
 }
 
 export const AccountsCustomBatchResponseEntry: Schema.Schema<AccountsCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       kind: Schema.optional(Schema.String),
@@ -4025,7 +4090,7 @@ export interface AccountsCustomBatchResponse {
 }
 
 export const AccountsCustomBatchResponse: Schema.Schema<AccountsCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(AccountsCustomBatchResponseEntry)),
       kind: Schema.optional(Schema.String),
@@ -4047,17 +4112,18 @@ export interface AccountLabel {
   accountId?: string;
 }
 
-export const AccountLabel: Schema.Schema<AccountLabel> = Schema.suspend(() =>
-  Schema.Struct({
-    labelType: Schema.optional(Schema.String),
-    labelId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AccountLabel",
-}) as any as Schema.Schema<AccountLabel>;
+export const AccountLabel: Schema.Schema<AccountLabel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      labelType: Schema.optional(Schema.String),
+      labelId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountLabel",
+  }) as any as Schema.Schema<AccountLabel>;
 
 export interface ListAccountLabelsResponse {
   /** The labels from the specified account. */
@@ -4067,7 +4133,7 @@ export interface ListAccountLabelsResponse {
 }
 
 export const ListAccountLabelsResponse: Schema.Schema<ListAccountLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountLabels: Schema.optional(Schema.Array(AccountLabel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -4082,7 +4148,7 @@ export interface InputValueChoiceInputValue {
 }
 
 export const InputValueChoiceInputValue: Schema.Schema<InputValueChoiceInputValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       choiceInputOptionId: Schema.optional(Schema.String),
     }),
@@ -4096,7 +4162,7 @@ export interface InputValueTextInputValue {
 }
 
 export const InputValueTextInputValue: Schema.Schema<InputValueTextInputValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -4110,7 +4176,7 @@ export interface InputValueCheckboxInputValue {
 }
 
 export const InputValueCheckboxInputValue: Schema.Schema<InputValueCheckboxInputValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Boolean),
     }),
@@ -4129,14 +4195,15 @@ export interface InputValue {
   inputFieldId?: string;
 }
 
-export const InputValue: Schema.Schema<InputValue> = Schema.suspend(() =>
-  Schema.Struct({
-    choiceInputValue: Schema.optional(InputValueChoiceInputValue),
-    textInputValue: Schema.optional(InputValueTextInputValue),
-    checkboxInputValue: Schema.optional(InputValueCheckboxInputValue),
-    inputFieldId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "InputValue" }) as any as Schema.Schema<InputValue>;
+export const InputValue: Schema.Schema<InputValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      choiceInputValue: Schema.optional(InputValueChoiceInputValue),
+      textInputValue: Schema.optional(InputValueTextInputValue),
+      checkboxInputValue: Schema.optional(InputValueCheckboxInputValue),
+      inputFieldId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "InputValue" }) as any as Schema.Schema<InputValue>;
 
 export interface InsertCheckoutSettingsRequest {
   /** Required. The `UrlSettings` for the request. The presence of URL settings indicates `Checkout` enrollment. */
@@ -4144,7 +4211,7 @@ export interface InsertCheckoutSettingsRequest {
 }
 
 export const InsertCheckoutSettingsRequest: Schema.Schema<InsertCheckoutSettingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uriSettings: Schema.optional(UrlSettings),
     }),
@@ -4160,7 +4227,7 @@ export interface RegionPostalCodeAreaPostalCodeRange {
 }
 
 export const RegionPostalCodeAreaPostalCodeRange: Schema.Schema<RegionPostalCodeAreaPostalCodeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       end: Schema.optional(Schema.String),
       begin: Schema.optional(Schema.String),
@@ -4179,7 +4246,7 @@ export interface DatafeedStatusExample {
 }
 
 export const DatafeedStatusExample: Schema.Schema<DatafeedStatusExample> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       itemId: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -4201,7 +4268,7 @@ export interface DatafeedStatusError {
 }
 
 export const DatafeedStatusError: Schema.Schema<DatafeedStatusError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       count: Schema.optional(Schema.String),
@@ -4237,8 +4304,8 @@ export interface DatafeedStatus {
   kind?: string;
 }
 
-export const DatafeedStatus: Schema.Schema<DatafeedStatus> = Schema.suspend(
-  () =>
+export const DatafeedStatus: Schema.Schema<DatafeedStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lastUploadDate: Schema.optional(Schema.String),
       country: Schema.optional(Schema.String),
@@ -4252,9 +4319,9 @@ export const DatafeedStatus: Schema.Schema<DatafeedStatus> = Schema.suspend(
       itemsTotal: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DatafeedStatus",
-}) as any as Schema.Schema<DatafeedStatus>;
+  ).annotate({
+    identifier: "DatafeedStatus",
+  }) as any as Schema.Schema<DatafeedStatus>;
 
 export interface DatafeedstatusesListResponse {
   /** The token for the retrieval of the next page of datafeed statuses. */
@@ -4265,7 +4332,7 @@ export interface DatafeedstatusesListResponse {
 }
 
 export const DatafeedstatusesListResponse: Schema.Schema<DatafeedstatusesListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -4282,12 +4349,13 @@ export interface TimeZone {
   version?: string;
 }
 
-export const TimeZone: Schema.Schema<TimeZone> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
+export const TimeZone: Schema.Schema<TimeZone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeZone" }) as any as Schema.Schema<TimeZone>;
 
 export interface DateTime {
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
@@ -4310,19 +4378,20 @@ export interface DateTime {
   minutes?: number;
 }
 
-export const DateTime: Schema.Schema<DateTime> = Schema.suspend(() =>
-  Schema.Struct({
-    seconds: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-    timeZone: Schema.optional(TimeZone),
-    month: Schema.optional(Schema.Number),
-    utcOffset: Schema.optional(Schema.String),
-    day: Schema.optional(Schema.Number),
-    hours: Schema.optional(Schema.Number),
-    nanos: Schema.optional(Schema.Number),
-    minutes: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
+export const DateTime: Schema.Schema<DateTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      seconds: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      timeZone: Schema.optional(TimeZone),
+      month: Schema.optional(Schema.Number),
+      utcOffset: Schema.optional(Schema.String),
+      day: Schema.optional(Schema.Number),
+      hours: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "DateTime" }) as any as Schema.Schema<DateTime>;
 
 export interface ActionInput {
   /** Required. Id of the selected action flow. */
@@ -4331,12 +4400,15 @@ export interface ActionInput {
   inputValues?: Array<InputValue>;
 }
 
-export const ActionInput: Schema.Schema<ActionInput> = Schema.suspend(() =>
-  Schema.Struct({
-    actionFlowId: Schema.optional(Schema.String),
-    inputValues: Schema.optional(Schema.Array(InputValue)),
-  }),
-).annotate({ identifier: "ActionInput" }) as any as Schema.Schema<ActionInput>;
+export const ActionInput: Schema.Schema<ActionInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      actionFlowId: Schema.optional(Schema.String),
+      inputValues: Schema.optional(Schema.Array(InputValue)),
+    }),
+  ).annotate({
+    identifier: "ActionInput",
+  }) as any as Schema.Schema<ActionInput>;
 
 export interface AccountIdentifier {
   /** The aggregator ID, set for aggregators and subaccounts (in that case, it represents the aggregator of the subaccount). */
@@ -4346,7 +4418,7 @@ export interface AccountIdentifier {
 }
 
 export const AccountIdentifier: Schema.Schema<AccountIdentifier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregatorId: Schema.optional(Schema.String),
       merchantId: Schema.optional(Schema.String),
@@ -4363,7 +4435,7 @@ export interface ProductViewItemIssueItemIssueType {
 }
 
 export const ProductViewItemIssueItemIssueType: Schema.Schema<ProductViewItemIssueItemIssueType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.String),
       canonicalAttribute: Schema.optional(Schema.String),
@@ -4382,7 +4454,7 @@ export interface ProductViewItemIssueIssueSeverityPerDestination {
 }
 
 export const ProductViewItemIssueIssueSeverityPerDestination: Schema.Schema<ProductViewItemIssueIssueSeverityPerDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       demotedCountries: Schema.optional(Schema.Array(Schema.String)),
       disapprovedCountries: Schema.optional(Schema.Array(Schema.String)),
@@ -4405,7 +4477,7 @@ export interface ProductViewItemIssueItemIssueSeverity {
 }
 
 export const ProductViewItemIssueItemIssueSeverity: Schema.Schema<ProductViewItemIssueItemIssueSeverity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       aggregatedSeverity: Schema.optional(Schema.String),
       severityPerDestination: Schema.optional(
@@ -4430,7 +4502,7 @@ export interface ProductViewItemIssue {
 }
 
 export const ProductViewItemIssue: Schema.Schema<ProductViewItemIssue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       issueType: Schema.optional(ProductViewItemIssueItemIssueType),
       severity: Schema.optional(ProductViewItemIssueItemIssueSeverity),
@@ -4449,15 +4521,16 @@ export interface Content_Date {
   day?: number;
 }
 
-export const Content_Date: Schema.Schema<Content_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    month: Schema.optional(Schema.Number),
-    year: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "Content_Date",
-}) as any as Schema.Schema<Content_Date>;
+export const Content_Date: Schema.Schema<Content_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      month: Schema.optional(Schema.Number),
+      year: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Content_Date",
+  }) as any as Schema.Schema<Content_Date>;
 
 export interface ProductView {
   /** Condition of the product. */
@@ -4531,39 +4604,42 @@ export interface ProductView {
   title?: string;
 }
 
-export const ProductView: Schema.Schema<ProductView> = Schema.suspend(() =>
-  Schema.Struct({
-    condition: Schema.optional(Schema.String),
-    clickPotentialRank: Schema.optional(Schema.String),
-    creationTime: Schema.optional(Schema.String),
-    productTypeL5: Schema.optional(Schema.String),
-    brand: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-    categoryL2: Schema.optional(Schema.String),
-    categoryL5: Schema.optional(Schema.String),
-    gtin: Schema.optional(Schema.Array(Schema.String)),
-    offerId: Schema.optional(Schema.String),
-    categoryL4: Schema.optional(Schema.String),
-    categoryL1: Schema.optional(Schema.String),
-    priceMicros: Schema.optional(Schema.String),
-    itemIssues: Schema.optional(Schema.Array(ProductViewItemIssue)),
-    aggregatedDestinationStatus: Schema.optional(Schema.String),
-    categoryL3: Schema.optional(Schema.String),
-    availability: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    productTypeL1: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-    productTypeL2: Schema.optional(Schema.String),
-    itemGroupId: Schema.optional(Schema.String),
-    clickPotential: Schema.optional(Schema.String),
-    productTypeL4: Schema.optional(Schema.String),
-    shippingLabel: Schema.optional(Schema.String),
-    expirationDate: Schema.optional(Content_Date),
-    productTypeL3: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ProductView" }) as any as Schema.Schema<ProductView>;
+export const ProductView: Schema.Schema<ProductView> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      condition: Schema.optional(Schema.String),
+      clickPotentialRank: Schema.optional(Schema.String),
+      creationTime: Schema.optional(Schema.String),
+      productTypeL5: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      categoryL2: Schema.optional(Schema.String),
+      categoryL5: Schema.optional(Schema.String),
+      gtin: Schema.optional(Schema.Array(Schema.String)),
+      offerId: Schema.optional(Schema.String),
+      categoryL4: Schema.optional(Schema.String),
+      categoryL1: Schema.optional(Schema.String),
+      priceMicros: Schema.optional(Schema.String),
+      itemIssues: Schema.optional(Schema.Array(ProductViewItemIssue)),
+      aggregatedDestinationStatus: Schema.optional(Schema.String),
+      categoryL3: Schema.optional(Schema.String),
+      availability: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      productTypeL1: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      productTypeL2: Schema.optional(Schema.String),
+      itemGroupId: Schema.optional(Schema.String),
+      clickPotential: Schema.optional(Schema.String),
+      productTypeL4: Schema.optional(Schema.String),
+      shippingLabel: Schema.optional(Schema.String),
+      expirationDate: Schema.optional(Content_Date),
+      productTypeL3: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductView",
+  }) as any as Schema.Schema<ProductView>;
 
 export interface RequestReviewShoppingAdsRequest {
   /** The code [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) of the country for which review is to be requested. */
@@ -4571,7 +4647,7 @@ export interface RequestReviewShoppingAdsRequest {
 }
 
 export const RequestReviewShoppingAdsRequest: Schema.Schema<RequestReviewShoppingAdsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
     }),
@@ -4593,7 +4669,7 @@ export interface AccounttaxCustomBatchRequestEntry {
 }
 
 export const AccounttaxCustomBatchRequestEntry: Schema.Schema<AccounttaxCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       accountTax: Schema.optional(AccountTax),
@@ -4615,7 +4691,7 @@ export interface DatafeedstatusesCustomBatchResponseEntry {
 }
 
 export const DatafeedstatusesCustomBatchResponseEntry: Schema.Schema<DatafeedstatusesCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       errors: Schema.optional(Errors),
@@ -4633,7 +4709,7 @@ export interface DatafeedstatusesCustomBatchResponse {
 }
 
 export const DatafeedstatusesCustomBatchResponse: Schema.Schema<DatafeedstatusesCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(DatafeedstatusesCustomBatchResponseEntry),
@@ -4650,7 +4726,7 @@ export interface DatafeedsFetchNowResponse {
 }
 
 export const DatafeedsFetchNowResponse: Schema.Schema<DatafeedsFetchNowResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -4672,7 +4748,7 @@ export interface VerifyPhoneNumberRequest {
 }
 
 export const VerifyPhoneNumberRequest: Schema.Schema<VerifyPhoneNumberRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verificationId: Schema.optional(Schema.String),
       verificationCode: Schema.optional(Schema.String),
@@ -4694,7 +4770,7 @@ export interface AccountsCustomBatchRequestEntryLinkRequest {
 }
 
 export const AccountsCustomBatchRequestEntryLinkRequest: Schema.Schema<AccountsCustomBatchRequestEntryLinkRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       linkType: Schema.optional(Schema.String),
       action: Schema.optional(Schema.String),
@@ -4729,7 +4805,7 @@ export interface AccountsCustomBatchRequestEntry {
 }
 
 export const AccountsCustomBatchRequestEntry: Schema.Schema<AccountsCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantId: Schema.optional(Schema.String),
       method: Schema.optional(Schema.String),
@@ -4790,19 +4866,22 @@ export interface BestSellers {
   previousRank?: string;
 }
 
-export const BestSellers: Schema.Schema<BestSellers> = Schema.suspend(() =>
-  Schema.Struct({
-    reportGranularity: Schema.optional(Schema.String),
-    countryCode: Schema.optional(Schema.String),
-    categoryId: Schema.optional(Schema.String),
-    reportDate: Schema.optional(Content_Date),
-    rank: Schema.optional(Schema.String),
-    relativeDemand: Schema.optional(Schema.String),
-    relativeDemandChange: Schema.optional(Schema.String),
-    previousRelativeDemand: Schema.optional(Schema.String),
-    previousRank: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "BestSellers" }) as any as Schema.Schema<BestSellers>;
+export const BestSellers: Schema.Schema<BestSellers> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportGranularity: Schema.optional(Schema.String),
+      countryCode: Schema.optional(Schema.String),
+      categoryId: Schema.optional(Schema.String),
+      reportDate: Schema.optional(Content_Date),
+      rank: Schema.optional(Schema.String),
+      relativeDemand: Schema.optional(Schema.String),
+      relativeDemandChange: Schema.optional(Schema.String),
+      previousRelativeDemand: Schema.optional(Schema.String),
+      previousRank: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BestSellers",
+  }) as any as Schema.Schema<BestSellers>;
 
 export interface Metrics {
   /** *Deprecated*: This field is no longer supported and retrieving it returns 0 starting from May 2024. Number of fully shipped orders, reported on the last shipment date. **This metric cannot be segmented by product dimensions and customer_country_code.** */
@@ -4853,33 +4932,34 @@ export interface Metrics {
   itemFillRate?: number;
 }
 
-export const Metrics: Schema.Schema<Metrics> = Schema.suspend(() =>
-  Schema.Struct({
-    shippedOrders: Schema.optional(Schema.String),
-    unshippedOrders: Schema.optional(Schema.Number),
-    returnsMicros: Schema.optional(Schema.String),
-    aos: Schema.optional(Schema.Number),
-    orderedItems: Schema.optional(Schema.String),
-    orders: Schema.optional(Schema.String),
-    itemDaysToShip: Schema.optional(Schema.Number),
-    conversionValueMicros: Schema.optional(Schema.String),
-    daysToShip: Schema.optional(Schema.Number),
-    unshippedItems: Schema.optional(Schema.Number),
-    orderedItemSalesMicros: Schema.optional(Schema.String),
-    returnRate: Schema.optional(Schema.Number),
-    shippedItemSalesMicros: Schema.optional(Schema.String),
-    impressions: Schema.optional(Schema.String),
-    shippedItems: Schema.optional(Schema.String),
-    rejectedItems: Schema.optional(Schema.String),
-    ctr: Schema.optional(Schema.Number),
-    returnedItems: Schema.optional(Schema.String),
-    clicks: Schema.optional(Schema.String),
-    conversions: Schema.optional(Schema.Number),
-    conversionRate: Schema.optional(Schema.Number),
-    aovMicros: Schema.optional(Schema.Number),
-    itemFillRate: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Metrics" }) as any as Schema.Schema<Metrics>;
+export const Metrics: Schema.Schema<Metrics> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      shippedOrders: Schema.optional(Schema.String),
+      unshippedOrders: Schema.optional(Schema.Number),
+      returnsMicros: Schema.optional(Schema.String),
+      aos: Schema.optional(Schema.Number),
+      orderedItems: Schema.optional(Schema.String),
+      orders: Schema.optional(Schema.String),
+      itemDaysToShip: Schema.optional(Schema.Number),
+      conversionValueMicros: Schema.optional(Schema.String),
+      daysToShip: Schema.optional(Schema.Number),
+      unshippedItems: Schema.optional(Schema.Number),
+      orderedItemSalesMicros: Schema.optional(Schema.String),
+      returnRate: Schema.optional(Schema.Number),
+      shippedItemSalesMicros: Schema.optional(Schema.String),
+      impressions: Schema.optional(Schema.String),
+      shippedItems: Schema.optional(Schema.String),
+      rejectedItems: Schema.optional(Schema.String),
+      ctr: Schema.optional(Schema.Number),
+      returnedItems: Schema.optional(Schema.String),
+      clicks: Schema.optional(Schema.String),
+      conversions: Schema.optional(Schema.Number),
+      conversionRate: Schema.optional(Schema.Number),
+      aovMicros: Schema.optional(Schema.Number),
+      itemFillRate: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Metrics" }) as any as Schema.Schema<Metrics>;
 
 export interface TriggerActionPayload {
   /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
@@ -4889,7 +4969,7 @@ export interface TriggerActionPayload {
 }
 
 export const TriggerActionPayload: Schema.Schema<TriggerActionPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionContext: Schema.optional(Schema.String),
       actionInput: Schema.optional(ActionInput),
@@ -4904,7 +4984,7 @@ export interface ShoppingAdsProgramStatusReviewIneligibilityReasonDetails {
 }
 
 export const ShoppingAdsProgramStatusReviewIneligibilityReasonDetails: Schema.Schema<ShoppingAdsProgramStatusReviewIneligibilityReasonDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cooldownTime: Schema.optional(Schema.String),
     }),
@@ -4956,7 +5036,7 @@ export interface ShoppingAdsProgramStatusRegionStatus {
 }
 
 export const ShoppingAdsProgramStatusRegionStatus: Schema.Schema<ShoppingAdsProgramStatusRegionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reviewIneligibilityReason: Schema.optional(Schema.String),
       eligibilityStatus: Schema.optional(Schema.String),
@@ -4981,14 +5061,15 @@ export interface ProductWeight {
   unit?: string;
 }
 
-export const ProductWeight: Schema.Schema<ProductWeight> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.Number),
-    unit: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ProductWeight",
-}) as any as Schema.Schema<ProductWeight>;
+export const ProductWeight: Schema.Schema<ProductWeight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.Number),
+      unit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductWeight",
+  }) as any as Schema.Schema<ProductWeight>;
 
 export interface RegionalinventoryCustomBatchResponse {
   /** The result of the execution of the batch requests. */
@@ -4998,7 +5079,7 @@ export interface RegionalinventoryCustomBatchResponse {
 }
 
 export const RegionalinventoryCustomBatchResponse: Schema.Schema<RegionalinventoryCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(RegionalinventoryCustomBatchResponseEntry),
@@ -5027,7 +5108,7 @@ export interface DatafeedstatusesCustomBatchRequestEntry {
 }
 
 export const DatafeedstatusesCustomBatchRequestEntry: Schema.Schema<DatafeedstatusesCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feedLabel: Schema.optional(Schema.String),
       merchantId: Schema.optional(Schema.String),
@@ -5047,7 +5128,7 @@ export interface DatafeedstatusesCustomBatchRequest {
 }
 
 export const DatafeedstatusesCustomBatchRequest: Schema.Schema<DatafeedstatusesCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(DatafeedstatusesCustomBatchRequestEntry),
@@ -5063,7 +5144,7 @@ export interface AccountsClaimWebsiteResponse {
 }
 
 export const AccountsClaimWebsiteResponse: Schema.Schema<AccountsClaimWebsiteResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -5095,7 +5176,7 @@ export interface PosInventoryRequest {
 }
 
 export const PosInventoryRequest: Schema.Schema<PosInventoryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetCountry: Schema.optional(Schema.String),
       itemId: Schema.optional(Schema.String),
@@ -5118,7 +5199,7 @@ export interface AccounttaxCustomBatchRequest {
 }
 
 export const AccounttaxCustomBatchRequest: Schema.Schema<AccounttaxCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(AccounttaxCustomBatchRequestEntry)),
     }),
@@ -5136,7 +5217,7 @@ export interface LocalinventoryCustomBatchResponseEntry {
 }
 
 export const LocalinventoryCustomBatchResponseEntry: Schema.Schema<LocalinventoryCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       errors: Schema.optional(Errors),
@@ -5154,7 +5235,7 @@ export interface LocalinventoryCustomBatchResponse {
 }
 
 export const LocalinventoryCustomBatchResponse: Schema.Schema<LocalinventoryCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(LocalinventoryCustomBatchResponseEntry),
@@ -5179,7 +5260,7 @@ export interface ProductSustainabilityIncentive {
 }
 
 export const ProductSustainabilityIncentive: Schema.Schema<ProductSustainabilityIncentive> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       percentage: Schema.optional(Schema.Number),
@@ -5197,7 +5278,7 @@ export interface RegionPostalCodeArea {
 }
 
 export const RegionPostalCodeArea: Schema.Schema<RegionPostalCodeArea> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
       postalCodes: Schema.optional(
@@ -5214,7 +5295,7 @@ export interface VerifyPhoneNumberResponse {
 }
 
 export const VerifyPhoneNumberResponse: Schema.Schema<VerifyPhoneNumberResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verifiedPhoneNumber: Schema.optional(Schema.String),
     }),
@@ -5230,7 +5311,7 @@ export interface PaymentServiceProviderLinkInfo {
 }
 
 export const PaymentServiceProviderLinkInfo: Schema.Schema<PaymentServiceProviderLinkInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       externalAccountId: Schema.optional(Schema.String),
       externalAccountBusinessCountry: Schema.optional(Schema.String),
@@ -5245,7 +5326,7 @@ export interface LiasettingsSetPosDataProviderResponse {
 }
 
 export const LiasettingsSetPosDataProviderResponse: Schema.Schema<LiasettingsSetPosDataProviderResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -5261,7 +5342,7 @@ export interface ProductStructuredTitle {
 }
 
 export const ProductStructuredTitle: Schema.Schema<ProductStructuredTitle> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       digitalSourceType: Schema.optional(Schema.String),
       content: Schema.optional(Schema.String),
@@ -5284,7 +5365,7 @@ export interface CollectionStatusDestinationStatus {
 }
 
 export const CollectionStatusDestinationStatus: Schema.Schema<CollectionStatusDestinationStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -5309,8 +5390,8 @@ export interface CollectionStatus {
   destinationStatuses?: Array<CollectionStatusDestinationStatus>;
 }
 
-export const CollectionStatus: Schema.Schema<CollectionStatus> = Schema.suspend(
-  () =>
+export const CollectionStatus: Schema.Schema<CollectionStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       lastUpdateDate: Schema.optional(Schema.String),
@@ -5322,9 +5403,9 @@ export const CollectionStatus: Schema.Schema<CollectionStatus> = Schema.suspend(
         Schema.Array(CollectionStatusDestinationStatus),
       ),
     }),
-).annotate({
-  identifier: "CollectionStatus",
-}) as any as Schema.Schema<CollectionStatus>;
+  ).annotate({
+    identifier: "CollectionStatus",
+  }) as any as Schema.Schema<CollectionStatus>;
 
 export interface ListCollectionStatusesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -5334,7 +5415,7 @@ export interface ListCollectionStatusesResponse {
 }
 
 export const ListCollectionStatusesResponse: Schema.Schema<ListCollectionStatusesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       resources: Schema.optional(Schema.Array(CollectionStatus)),
@@ -5351,7 +5432,7 @@ export interface ListPromotionResponse {
 }
 
 export const ListPromotionResponse: Schema.Schema<ListPromotionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotions: Schema.optional(Schema.Array(Promotion)),
       nextPageToken: Schema.optional(Schema.String),
@@ -5370,7 +5451,7 @@ export interface RecommendationCallToAction {
 }
 
 export const RecommendationCallToAction: Schema.Schema<RecommendationCallToAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localizedText: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -5405,8 +5486,8 @@ export interface Recommendation {
   paid?: boolean;
 }
 
-export const Recommendation: Schema.Schema<Recommendation> = Schema.suspend(
-  () =>
+export const Recommendation: Schema.Schema<Recommendation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       additionalDescriptions: Schema.optional(
         Schema.Array(RecommendationDescription),
@@ -5424,9 +5505,9 @@ export const Recommendation: Schema.Schema<Recommendation> = Schema.suspend(
       title: Schema.optional(Schema.String),
       paid: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "Recommendation",
-}) as any as Schema.Schema<Recommendation>;
+  ).annotate({
+    identifier: "Recommendation",
+  }) as any as Schema.Schema<Recommendation>;
 
 export interface GenerateRecommendationsResponse {
   /** Output only. Response token is a string created for each `GenerateRecommendationsResponse`. This token doesn't expire, and is globally unique. This token must be used when reporting interactions for recommendations. */
@@ -5436,7 +5517,7 @@ export interface GenerateRecommendationsResponse {
 }
 
 export const GenerateRecommendationsResponse: Schema.Schema<GenerateRecommendationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseToken: Schema.optional(Schema.String),
       recommendations: Schema.optional(Schema.Array(Recommendation)),
@@ -5460,7 +5541,7 @@ export interface AccountIssueImpact {
 }
 
 export const AccountIssueImpact: Schema.Schema<AccountIssueImpact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       breakdowns: Schema.optional(Schema.Array(Breakdown)),
@@ -5485,16 +5566,17 @@ export interface Css {
   displayName?: string;
 }
 
-export const Css: Schema.Schema<Css> = Schema.suspend(() =>
-  Schema.Struct({
-    homepageUri: Schema.optional(Schema.String),
-    cssGroupId: Schema.optional(Schema.String),
-    labelIds: Schema.optional(Schema.Array(Schema.String)),
-    cssDomainId: Schema.optional(Schema.String),
-    fullName: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Css" }) as any as Schema.Schema<Css>;
+export const Css: Schema.Schema<Css> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      homepageUri: Schema.optional(Schema.String),
+      cssGroupId: Schema.optional(Schema.String),
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+      cssDomainId: Schema.optional(Schema.String),
+      fullName: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Css" }) as any as Schema.Schema<Css>;
 
 export interface ListCssesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -5504,7 +5586,7 @@ export interface ListCssesResponse {
 }
 
 export const ListCssesResponse: Schema.Schema<ListCssesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       csses: Schema.optional(Schema.Array(Css)),
@@ -5522,7 +5604,7 @@ export interface AccountstatusesListResponse {
 }
 
 export const AccountstatusesListResponse: Schema.Schema<AccountstatusesListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -5540,7 +5622,7 @@ export interface ProductShippingDimension {
 }
 
 export const ProductShippingDimension: Schema.Schema<ProductShippingDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
@@ -5559,7 +5641,7 @@ export interface ProductProductDetail {
 }
 
 export const ProductProductDetail: Schema.Schema<ProductProductDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeValue: Schema.optional(Schema.String),
       attributeName: Schema.optional(Schema.String),
@@ -5577,7 +5659,7 @@ export interface ProductUnitPricingBaseMeasure {
 }
 
 export const ProductUnitPricingBaseMeasure: Schema.Schema<ProductUnitPricingBaseMeasure> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       unit: Schema.optional(Schema.String),
@@ -5596,7 +5678,7 @@ export interface ProductSubscriptionCost {
 }
 
 export const ProductSubscriptionCost: Schema.Schema<ProductSubscriptionCost> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       periodLength: Schema.optional(Schema.String),
       amount: Schema.optional(Price),
@@ -5614,7 +5696,7 @@ export interface ProductShippingWeight {
 }
 
 export const ProductShippingWeight: Schema.Schema<ProductShippingWeight> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.Number),
       unit: Schema.optional(Schema.String),
@@ -5634,14 +5716,17 @@ export interface Installment {
   creditType?: string;
 }
 
-export const Installment: Schema.Schema<Installment> = Schema.suspend(() =>
-  Schema.Struct({
-    downpayment: Schema.optional(Price),
-    months: Schema.optional(Schema.String),
-    amount: Schema.optional(Price),
-    creditType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Installment" }) as any as Schema.Schema<Installment>;
+export const Installment: Schema.Schema<Installment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      downpayment: Schema.optional(Price),
+      months: Schema.optional(Schema.String),
+      amount: Schema.optional(Price),
+      creditType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Installment",
+  }) as any as Schema.Schema<Installment>;
 
 export interface FreeShippingThreshold {
   /** Required. The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
@@ -5651,7 +5736,7 @@ export interface FreeShippingThreshold {
 }
 
 export const FreeShippingThreshold: Schema.Schema<FreeShippingThreshold> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       priceThreshold: Schema.optional(Price),
@@ -5672,7 +5757,7 @@ export interface ProductCertification {
 }
 
 export const ProductCertification: Schema.Schema<ProductCertification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       certificationValue: Schema.optional(Schema.String),
       certificationName: Schema.optional(Schema.String),
@@ -5698,16 +5783,17 @@ export interface ProductTax {
   rate?: number;
 }
 
-export const ProductTax: Schema.Schema<ProductTax> = Schema.suspend(() =>
-  Schema.Struct({
-    country: Schema.optional(Schema.String),
-    region: Schema.optional(Schema.String),
-    taxShip: Schema.optional(Schema.Boolean),
-    locationId: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-    rate: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "ProductTax" }) as any as Schema.Schema<ProductTax>;
+export const ProductTax: Schema.Schema<ProductTax> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      country: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+      taxShip: Schema.optional(Schema.Boolean),
+      locationId: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+      rate: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "ProductTax" }) as any as Schema.Schema<ProductTax>;
 
 export interface Product {
   /** Global Trade Item Number (GTIN) of the item. */
@@ -5920,118 +6006,123 @@ export interface Product {
   excludedDestinations?: Array<string>;
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() =>
-  Schema.Struct({
-    gtin: Schema.optional(Schema.String),
-    mobileLink: Schema.optional(Schema.String),
-    shippingHeight: Schema.optional(ProductShippingDimension),
-    multipack: Schema.optional(Schema.String),
-    minHandlingTime: Schema.optional(Schema.String),
-    productHighlights: Schema.optional(Schema.Array(Schema.String)),
-    includedDestinations: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Schema.String),
-    color: Schema.optional(Schema.String),
-    sizeType: Schema.optional(Schema.String),
-    productDetails: Schema.optional(Schema.Array(ProductProductDetail)),
-    targetCountry: Schema.optional(Schema.String),
-    customLabel3: Schema.optional(Schema.String),
-    channel: Schema.optional(Schema.String),
-    cloudExportAdditionalProperties: Schema.optional(
-      Schema.Array(CloudExportAdditionalProperties),
-    ),
-    ageGroup: Schema.optional(Schema.String),
-    virtualModelLink: Schema.optional(Schema.String),
-    unitPricingMeasure: Schema.optional(ProductUnitPricingMeasure),
-    shipping: Schema.optional(Schema.Array(ProductShipping)),
-    unitPricingBaseMeasure: Schema.optional(ProductUnitPricingBaseMeasure),
-    additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
-    subscriptionCost: Schema.optional(ProductSubscriptionCost),
-    productHeight: Schema.optional(ProductDimension),
-    title: Schema.optional(Schema.String),
-    sellOnGoogleQuantity: Schema.optional(Schema.String),
-    lifestyleImageLinks: Schema.optional(Schema.Array(Schema.String)),
-    customLabel2: Schema.optional(Schema.String),
-    customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
-    pattern: Schema.optional(Schema.String),
-    adsRedirect: Schema.optional(Schema.String),
-    disclosureDate: Schema.optional(Schema.String),
-    loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
-    sustainabilityIncentives: Schema.optional(
-      Schema.Array(ProductSustainabilityIncentive),
-    ),
-    imageLink: Schema.optional(Schema.String),
-    customLabel4: Schema.optional(Schema.String),
-    structuredTitle: Schema.optional(ProductStructuredTitle),
-    kind: Schema.optional(Schema.String),
-    pickupSla: Schema.optional(Schema.String),
-    structuredDescription: Schema.optional(ProductStructuredDescription),
-    displayAdsSimilarIds: Schema.optional(Schema.Array(Schema.String)),
-    contentLanguage: Schema.optional(Schema.String),
-    identifierExists: Schema.optional(Schema.Boolean),
-    gender: Schema.optional(Schema.String),
-    adsLabels: Schema.optional(Schema.Array(Schema.String)),
-    productTypes: Schema.optional(Schema.Array(Schema.String)),
-    adsGrouping: Schema.optional(Schema.String),
-    canonicalLink: Schema.optional(Schema.String),
-    pause: Schema.optional(Schema.String),
-    customLabel0: Schema.optional(Schema.String),
-    shippingWeight: Schema.optional(ProductShippingWeight),
-    additionalSizeType: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    mpn: Schema.optional(Schema.String),
-    installment: Schema.optional(Installment),
-    linkTemplate: Schema.optional(Schema.String),
-    minEnergyEfficiencyClass: Schema.optional(Schema.String),
-    freeShippingThreshold: Schema.optional(Schema.Array(FreeShippingThreshold)),
-    shippingLength: Schema.optional(ProductShippingDimension),
-    displayAdsLink: Schema.optional(Schema.String),
-    mobileLinkTemplate: Schema.optional(Schema.String),
-    feedLabel: Schema.optional(Schema.String),
-    salePrice: Schema.optional(Price),
-    isBundle: Schema.optional(Schema.Boolean),
-    pickupMethod: Schema.optional(Schema.String),
-    brand: Schema.optional(Schema.String),
-    customLabel1: Schema.optional(Schema.String),
-    autoPricingMinPrice: Schema.optional(Price),
-    description: Schema.optional(Schema.String),
-    adult: Schema.optional(Schema.Boolean),
-    maximumRetailPrice: Schema.optional(Price),
-    salePriceEffectiveDate: Schema.optional(Schema.String),
-    externalSellerId: Schema.optional(Schema.String),
-    shoppingAdsExcludedCountries: Schema.optional(Schema.Array(Schema.String)),
-    transitTimeLabel: Schema.optional(Schema.String),
-    shippingWidth: Schema.optional(ProductShippingDimension),
-    availabilityDate: Schema.optional(Schema.String),
-    sizeSystem: Schema.optional(Schema.String),
-    price: Schema.optional(Price),
-    link: Schema.optional(Schema.String),
-    itemGroupId: Schema.optional(Schema.String),
-    loyaltyProgram: Schema.optional(LoyaltyProgram),
-    offerId: Schema.optional(Schema.String),
-    taxCategory: Schema.optional(Schema.String),
-    costOfGoodsSold: Schema.optional(Price),
-    energyEfficiencyClass: Schema.optional(Schema.String),
-    displayAdsValue: Schema.optional(Schema.Number),
-    material: Schema.optional(Schema.String),
-    maxHandlingTime: Schema.optional(Schema.String),
-    maxEnergyEfficiencyClass: Schema.optional(Schema.String),
-    productWidth: Schema.optional(ProductDimension),
-    promotionIds: Schema.optional(Schema.Array(Schema.String)),
-    googleProductCategory: Schema.optional(Schema.String),
-    certifications: Schema.optional(Schema.Array(ProductCertification)),
-    expirationDate: Schema.optional(Schema.String),
-    shippingLabel: Schema.optional(Schema.String),
-    sizes: Schema.optional(Schema.Array(Schema.String)),
-    productLength: Schema.optional(ProductDimension),
-    availability: Schema.optional(Schema.String),
-    productWeight: Schema.optional(ProductWeight),
-    source: Schema.optional(Schema.String),
-    taxes: Schema.optional(Schema.Array(ProductTax)),
-    displayAdsId: Schema.optional(Schema.String),
-    displayAdsTitle: Schema.optional(Schema.String),
-    excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gtin: Schema.optional(Schema.String),
+      mobileLink: Schema.optional(Schema.String),
+      shippingHeight: Schema.optional(ProductShippingDimension),
+      multipack: Schema.optional(Schema.String),
+      minHandlingTime: Schema.optional(Schema.String),
+      productHighlights: Schema.optional(Schema.Array(Schema.String)),
+      includedDestinations: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Schema.String),
+      color: Schema.optional(Schema.String),
+      sizeType: Schema.optional(Schema.String),
+      productDetails: Schema.optional(Schema.Array(ProductProductDetail)),
+      targetCountry: Schema.optional(Schema.String),
+      customLabel3: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      cloudExportAdditionalProperties: Schema.optional(
+        Schema.Array(CloudExportAdditionalProperties),
+      ),
+      ageGroup: Schema.optional(Schema.String),
+      virtualModelLink: Schema.optional(Schema.String),
+      unitPricingMeasure: Schema.optional(ProductUnitPricingMeasure),
+      shipping: Schema.optional(Schema.Array(ProductShipping)),
+      unitPricingBaseMeasure: Schema.optional(ProductUnitPricingBaseMeasure),
+      additionalImageLinks: Schema.optional(Schema.Array(Schema.String)),
+      subscriptionCost: Schema.optional(ProductSubscriptionCost),
+      productHeight: Schema.optional(ProductDimension),
+      title: Schema.optional(Schema.String),
+      sellOnGoogleQuantity: Schema.optional(Schema.String),
+      lifestyleImageLinks: Schema.optional(Schema.Array(Schema.String)),
+      customLabel2: Schema.optional(Schema.String),
+      customAttributes: Schema.optional(Schema.Array(CustomAttribute)),
+      pattern: Schema.optional(Schema.String),
+      adsRedirect: Schema.optional(Schema.String),
+      disclosureDate: Schema.optional(Schema.String),
+      loyaltyPrograms: Schema.optional(Schema.Array(LoyaltyProgram)),
+      sustainabilityIncentives: Schema.optional(
+        Schema.Array(ProductSustainabilityIncentive),
+      ),
+      imageLink: Schema.optional(Schema.String),
+      customLabel4: Schema.optional(Schema.String),
+      structuredTitle: Schema.optional(ProductStructuredTitle),
+      kind: Schema.optional(Schema.String),
+      pickupSla: Schema.optional(Schema.String),
+      structuredDescription: Schema.optional(ProductStructuredDescription),
+      displayAdsSimilarIds: Schema.optional(Schema.Array(Schema.String)),
+      contentLanguage: Schema.optional(Schema.String),
+      identifierExists: Schema.optional(Schema.Boolean),
+      gender: Schema.optional(Schema.String),
+      adsLabels: Schema.optional(Schema.Array(Schema.String)),
+      productTypes: Schema.optional(Schema.Array(Schema.String)),
+      adsGrouping: Schema.optional(Schema.String),
+      canonicalLink: Schema.optional(Schema.String),
+      pause: Schema.optional(Schema.String),
+      customLabel0: Schema.optional(Schema.String),
+      shippingWeight: Schema.optional(ProductShippingWeight),
+      additionalSizeType: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      mpn: Schema.optional(Schema.String),
+      installment: Schema.optional(Installment),
+      linkTemplate: Schema.optional(Schema.String),
+      minEnergyEfficiencyClass: Schema.optional(Schema.String),
+      freeShippingThreshold: Schema.optional(
+        Schema.Array(FreeShippingThreshold),
+      ),
+      shippingLength: Schema.optional(ProductShippingDimension),
+      displayAdsLink: Schema.optional(Schema.String),
+      mobileLinkTemplate: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
+      salePrice: Schema.optional(Price),
+      isBundle: Schema.optional(Schema.Boolean),
+      pickupMethod: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      customLabel1: Schema.optional(Schema.String),
+      autoPricingMinPrice: Schema.optional(Price),
+      description: Schema.optional(Schema.String),
+      adult: Schema.optional(Schema.Boolean),
+      maximumRetailPrice: Schema.optional(Price),
+      salePriceEffectiveDate: Schema.optional(Schema.String),
+      externalSellerId: Schema.optional(Schema.String),
+      shoppingAdsExcludedCountries: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      transitTimeLabel: Schema.optional(Schema.String),
+      shippingWidth: Schema.optional(ProductShippingDimension),
+      availabilityDate: Schema.optional(Schema.String),
+      sizeSystem: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+      link: Schema.optional(Schema.String),
+      itemGroupId: Schema.optional(Schema.String),
+      loyaltyProgram: Schema.optional(LoyaltyProgram),
+      offerId: Schema.optional(Schema.String),
+      taxCategory: Schema.optional(Schema.String),
+      costOfGoodsSold: Schema.optional(Price),
+      energyEfficiencyClass: Schema.optional(Schema.String),
+      displayAdsValue: Schema.optional(Schema.Number),
+      material: Schema.optional(Schema.String),
+      maxHandlingTime: Schema.optional(Schema.String),
+      maxEnergyEfficiencyClass: Schema.optional(Schema.String),
+      productWidth: Schema.optional(ProductDimension),
+      promotionIds: Schema.optional(Schema.Array(Schema.String)),
+      googleProductCategory: Schema.optional(Schema.String),
+      certifications: Schema.optional(Schema.Array(ProductCertification)),
+      expirationDate: Schema.optional(Schema.String),
+      shippingLabel: Schema.optional(Schema.String),
+      sizes: Schema.optional(Schema.Array(Schema.String)),
+      productLength: Schema.optional(ProductDimension),
+      availability: Schema.optional(Schema.String),
+      productWeight: Schema.optional(ProductWeight),
+      source: Schema.optional(Schema.String),
+      taxes: Schema.optional(Schema.Array(ProductTax)),
+      displayAdsId: Schema.optional(Schema.String),
+      displayAdsTitle: Schema.optional(Schema.String),
+      excludedDestinations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface ProductsListResponse {
   /** The token for the retrieval of the next page of products. */
@@ -6042,7 +6133,7 @@ export interface ProductsListResponse {
 }
 
 export const ProductsListResponse: Schema.Schema<ProductsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -6069,17 +6160,18 @@ export interface Region {
   geotargetArea?: RegionGeoTargetArea;
 }
 
-export const Region: Schema.Schema<Region> = Schema.suspend(() =>
-  Schema.Struct({
-    regionId: Schema.optional(Schema.String),
-    postalCodeArea: Schema.optional(RegionPostalCodeArea),
-    merchantId: Schema.optional(Schema.String),
-    regionalInventoryEligible: Schema.optional(Schema.Boolean),
-    displayName: Schema.optional(Schema.String),
-    shippingEligible: Schema.optional(Schema.Boolean),
-    geotargetArea: Schema.optional(RegionGeoTargetArea),
-  }),
-).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
+export const Region: Schema.Schema<Region> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regionId: Schema.optional(Schema.String),
+      postalCodeArea: Schema.optional(RegionPostalCodeArea),
+      merchantId: Schema.optional(Schema.String),
+      regionalInventoryEligible: Schema.optional(Schema.Boolean),
+      displayName: Schema.optional(Schema.String),
+      shippingEligible: Schema.optional(Schema.Boolean),
+      geotargetArea: Schema.optional(RegionGeoTargetArea),
+    }),
+  ).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
 
 export interface ShoppingAdsProgramStatus {
   /** State of the program. `ENABLED` if there are offers for at least one region. */
@@ -6094,7 +6186,7 @@ export interface ShoppingAdsProgramStatus {
 }
 
 export const ShoppingAdsProgramStatus: Schema.Schema<ShoppingAdsProgramStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       globalState: Schema.optional(Schema.String),
       regionStatuses: Schema.optional(
@@ -6118,17 +6210,18 @@ export interface AccountIssue {
   prerenderedOutOfCourtDisputeSettlement?: string;
 }
 
-export const AccountIssue: Schema.Schema<AccountIssue> = Schema.suspend(() =>
-  Schema.Struct({
-    impact: Schema.optional(AccountIssueImpact),
-    actions: Schema.optional(Schema.Array(Action)),
-    title: Schema.optional(Schema.String),
-    prerenderedContent: Schema.optional(Schema.String),
-    prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AccountIssue",
-}) as any as Schema.Schema<AccountIssue>;
+export const AccountIssue: Schema.Schema<AccountIssue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      impact: Schema.optional(AccountIssueImpact),
+      actions: Schema.optional(Schema.Array(Action)),
+      title: Schema.optional(Schema.String),
+      prerenderedContent: Schema.optional(Schema.String),
+      prerenderedOutOfCourtDisputeSettlement: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountIssue",
+  }) as any as Schema.Schema<AccountIssue>;
 
 export interface SearchRequest {
   /** Token of the page to retrieve. If not specified, the first page of results is returned. In order to request the next page of results, the value obtained from `next_page_token` in the previous response should be used. */
@@ -6139,15 +6232,16 @@ export interface SearchRequest {
   pageSize?: number;
 }
 
-export const SearchRequest: Schema.Schema<SearchRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    pageToken: Schema.optional(Schema.String),
-    query: Schema.optional(Schema.String),
-    pageSize: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "SearchRequest",
-}) as any as Schema.Schema<SearchRequest>;
+export const SearchRequest: Schema.Schema<SearchRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pageToken: Schema.optional(Schema.String),
+      query: Schema.optional(Schema.String),
+      pageSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "SearchRequest",
+  }) as any as Schema.Schema<SearchRequest>;
 
 export interface AccountReturnCarrier {
   /** Output only. Immutable. The Google-provided unique carrier ID, used to update the resource. */
@@ -6161,7 +6255,7 @@ export interface AccountReturnCarrier {
 }
 
 export const AccountReturnCarrier: Schema.Schema<AccountReturnCarrier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       carrierAccountId: Schema.optional(Schema.String),
       carrierCode: Schema.optional(Schema.String),
@@ -6188,7 +6282,7 @@ export interface PosCustomBatchResponseEntry {
 }
 
 export const PosCustomBatchResponseEntry: Schema.Schema<PosCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventory: Schema.optional(PosInventory),
       batchId: Schema.optional(Schema.Number),
@@ -6209,7 +6303,7 @@ export interface PosCustomBatchResponse {
 }
 
 export const PosCustomBatchResponse: Schema.Schema<PosCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(PosCustomBatchResponseEntry)),
       kind: Schema.optional(Schema.String),
@@ -6227,7 +6321,7 @@ export interface AccountsListResponse {
 }
 
 export const AccountsListResponse: Schema.Schema<AccountsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -6262,8 +6356,8 @@ export interface LocalInventory {
   price?: Price;
 }
 
-export const LocalInventory: Schema.Schema<LocalInventory> = Schema.suspend(
-  () =>
+export const LocalInventory: Schema.Schema<LocalInventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instoreProductLocation: Schema.optional(Schema.String),
       quantity: Schema.optional(Schema.Number),
@@ -6277,9 +6371,9 @@ export const LocalInventory: Schema.Schema<LocalInventory> = Schema.suspend(
       salePriceEffectiveDate: Schema.optional(Schema.String),
       price: Schema.optional(Price),
     }),
-).annotate({
-  identifier: "LocalInventory",
-}) as any as Schema.Schema<LocalInventory>;
+  ).annotate({
+    identifier: "LocalInventory",
+  }) as any as Schema.Schema<LocalInventory>;
 
 export interface LocalinventoryCustomBatchRequestEntry {
   /** An entry ID, unique within the batch request. */
@@ -6295,7 +6389,7 @@ export interface LocalinventoryCustomBatchRequestEntry {
 }
 
 export const LocalinventoryCustomBatchRequestEntry: Schema.Schema<LocalinventoryCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       productId: Schema.optional(Schema.String),
@@ -6319,7 +6413,7 @@ export interface AccounttaxCustomBatchResponseEntry {
 }
 
 export const AccounttaxCustomBatchResponseEntry: Schema.Schema<AccounttaxCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       kind: Schema.optional(Schema.String),
@@ -6346,7 +6440,7 @@ export interface AccountsLinkRequest {
 }
 
 export const AccountsLinkRequest: Schema.Schema<AccountsLinkRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       action: Schema.optional(Schema.String),
       paymentServiceProviderLinkInfo: Schema.optional(
@@ -6391,7 +6485,7 @@ export interface OrderTrackingSignalShippingInfo {
 }
 
 export const OrderTrackingSignalShippingInfo: Schema.Schema<OrderTrackingSignalShippingInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       earliestDeliveryPromiseTime: Schema.optional(DateTime),
       actualDeliveryTime: Schema.optional(DateTime),
@@ -6437,7 +6531,7 @@ export interface LiasettingsCustomBatchRequestEntry {
 }
 
 export const LiasettingsCustomBatchRequestEntry: Schema.Schema<LiasettingsCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       country: Schema.optional(Schema.String),
       posDataProviderId: Schema.optional(Schema.String),
@@ -6462,7 +6556,7 @@ export interface LiasettingsCustomBatchRequest {
 }
 
 export const LiasettingsCustomBatchRequest: Schema.Schema<LiasettingsCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(LiasettingsCustomBatchRequestEntry),
@@ -6493,8 +6587,8 @@ export interface PosSaleRequest {
   quantity?: string;
 }
 
-export const PosSaleRequest: Schema.Schema<PosSaleRequest> = Schema.suspend(
-  () =>
+export const PosSaleRequest: Schema.Schema<PosSaleRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       itemId: Schema.optional(Schema.String),
       saleId: Schema.optional(Schema.String),
@@ -6506,9 +6600,9 @@ export const PosSaleRequest: Schema.Schema<PosSaleRequest> = Schema.suspend(
       timestamp: Schema.optional(Schema.String),
       quantity: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PosSaleRequest",
-}) as any as Schema.Schema<PosSaleRequest>;
+  ).annotate({
+    identifier: "PosSaleRequest",
+  }) as any as Schema.Schema<PosSaleRequest>;
 
 export interface RegionalinventoryCustomBatchRequestEntry {
   /** An entry ID, unique within the batch request. */
@@ -6524,7 +6618,7 @@ export interface RegionalinventoryCustomBatchRequestEntry {
 }
 
 export const RegionalinventoryCustomBatchRequestEntry: Schema.Schema<RegionalinventoryCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       regionalInventory: Schema.optional(RegionalInventory),
@@ -6542,7 +6636,7 @@ export interface RegionalinventoryCustomBatchRequest {
 }
 
 export const RegionalinventoryCustomBatchRequest: Schema.Schema<RegionalinventoryCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(RegionalinventoryCustomBatchRequestEntry),
@@ -6564,7 +6658,7 @@ export interface ProductstatusesCustomBatchResponseEntry {
 }
 
 export const ProductstatusesCustomBatchResponseEntry: Schema.Schema<ProductstatusesCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       batchId: Schema.optional(Schema.Number),
       kind: Schema.optional(Schema.String),
@@ -6589,7 +6683,7 @@ export interface DatafeedsCustomBatchRequestEntry {
 }
 
 export const DatafeedsCustomBatchRequestEntry: Schema.Schema<DatafeedsCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datafeedId: Schema.optional(Schema.String),
       batchId: Schema.optional(Schema.Number),
@@ -6607,15 +6701,15 @@ export interface PosListResponse {
   kind?: string;
 }
 
-export const PosListResponse: Schema.Schema<PosListResponse> = Schema.suspend(
-  () =>
+export const PosListResponse: Schema.Schema<PosListResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(PosStore)),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PosListResponse",
-}) as any as Schema.Schema<PosListResponse>;
+  ).annotate({
+    identifier: "PosListResponse",
+  }) as any as Schema.Schema<PosListResponse>;
 
 export interface ListCollectionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -6625,7 +6719,7 @@ export interface ListCollectionsResponse {
 }
 
 export const ListCollectionsResponse: Schema.Schema<ListCollectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       resources: Schema.optional(Schema.Array(Collection)),
@@ -6643,7 +6737,7 @@ export interface DatafeedsListResponse {
 }
 
 export const DatafeedsListResponse: Schema.Schema<DatafeedsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(Datafeed)),
       nextPageToken: Schema.optional(Schema.String),
@@ -6663,7 +6757,7 @@ export interface PubsubNotificationSettings {
 }
 
 export const PubsubNotificationSettings: Schema.Schema<PubsubNotificationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       registeredEvents: Schema.optional(Schema.Array(Schema.String)),
@@ -6679,7 +6773,7 @@ export interface AccountsLinkResponse {
 }
 
 export const AccountsLinkResponse: Schema.Schema<AccountsLinkResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -6692,11 +6786,12 @@ export interface Brand {
   name?: string;
 }
 
-export const Brand: Schema.Schema<Brand> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Brand" }) as any as Schema.Schema<Brand>;
+export const Brand: Schema.Schema<Brand> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Brand" }) as any as Schema.Schema<Brand>;
 
 export interface Segments {
   /** [Product type (5th level)](https://developers.google.com/shopping-content/guides/reports/segmentation#category_and_product_type) in merchant's own product taxonomy. */
@@ -6753,33 +6848,34 @@ export interface Segments {
   customLabel0?: string;
 }
 
-export const Segments: Schema.Schema<Segments> = Schema.suspend(() =>
-  Schema.Struct({
-    productTypeL5: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-    productTypeL1: Schema.optional(Schema.String),
-    categoryL3: Schema.optional(Schema.String),
-    date: Schema.optional(Content_Date),
-    customLabel2: Schema.optional(Schema.String),
-    categoryL2: Schema.optional(Schema.String),
-    customerCountryCode: Schema.optional(Schema.String),
-    categoryL5: Schema.optional(Schema.String),
-    brand: Schema.optional(Schema.String),
-    customLabel1: Schema.optional(Schema.String),
-    customLabel3: Schema.optional(Schema.String),
-    productTypeL2: Schema.optional(Schema.String),
-    categoryL1: Schema.optional(Schema.String),
-    productTypeL4: Schema.optional(Schema.String),
-    productTypeL3: Schema.optional(Schema.String),
-    offerId: Schema.optional(Schema.String),
-    categoryL4: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    customLabel4: Schema.optional(Schema.String),
-    program: Schema.optional(Schema.String),
-    week: Schema.optional(Content_Date),
-    customLabel0: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Segments" }) as any as Schema.Schema<Segments>;
+export const Segments: Schema.Schema<Segments> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      productTypeL5: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+      productTypeL1: Schema.optional(Schema.String),
+      categoryL3: Schema.optional(Schema.String),
+      date: Schema.optional(Content_Date),
+      customLabel2: Schema.optional(Schema.String),
+      categoryL2: Schema.optional(Schema.String),
+      customerCountryCode: Schema.optional(Schema.String),
+      categoryL5: Schema.optional(Schema.String),
+      brand: Schema.optional(Schema.String),
+      customLabel1: Schema.optional(Schema.String),
+      customLabel3: Schema.optional(Schema.String),
+      productTypeL2: Schema.optional(Schema.String),
+      categoryL1: Schema.optional(Schema.String),
+      productTypeL4: Schema.optional(Schema.String),
+      productTypeL3: Schema.optional(Schema.String),
+      offerId: Schema.optional(Schema.String),
+      categoryL4: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      customLabel4: Schema.optional(Schema.String),
+      program: Schema.optional(Schema.String),
+      week: Schema.optional(Content_Date),
+      customLabel0: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Segments" }) as any as Schema.Schema<Segments>;
 
 export interface CompetitiveVisibility {
   /** Relative visibility shows how often your competitors’ offers are shown compared to your offers. In other words, this is the number of displayed impressions of a competitor retailer divided by the number of your displayed impressions during a selected time range for a selected product category and country. Available only in `CompetitiveVisibilityCompetitorView`. Cannot be filtered on in the 'WHERE' clause. */
@@ -6811,7 +6907,7 @@ export interface CompetitiveVisibility {
 }
 
 export const CompetitiveVisibility: Schema.Schema<CompetitiveVisibility> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relativeVisibility: Schema.optional(Schema.Number),
       yourDomainVisibilityTrend: Schema.optional(Schema.Number),
@@ -6852,19 +6948,22 @@ export interface TopicTrends {
   next7DaysSearchInterest?: number;
 }
 
-export const TopicTrends: Schema.Schema<TopicTrends> = Schema.suspend(() =>
-  Schema.Struct({
-    last7DaysSearchInterest: Schema.optional(Schema.Number),
-    last120DaysSearchInterest: Schema.optional(Schema.Number),
-    topic: Schema.optional(Schema.String),
-    date: Schema.optional(Content_Date),
-    customerCountryCode: Schema.optional(Schema.String),
-    searchInterest: Schema.optional(Schema.Number),
-    last30DaysSearchInterest: Schema.optional(Schema.Number),
-    last90DaysSearchInterest: Schema.optional(Schema.Number),
-    next7DaysSearchInterest: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "TopicTrends" }) as any as Schema.Schema<TopicTrends>;
+export const TopicTrends: Schema.Schema<TopicTrends> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      last7DaysSearchInterest: Schema.optional(Schema.Number),
+      last120DaysSearchInterest: Schema.optional(Schema.Number),
+      topic: Schema.optional(Schema.String),
+      date: Schema.optional(Content_Date),
+      customerCountryCode: Schema.optional(Schema.String),
+      searchInterest: Schema.optional(Schema.Number),
+      last30DaysSearchInterest: Schema.optional(Schema.Number),
+      last90DaysSearchInterest: Schema.optional(Schema.Number),
+      next7DaysSearchInterest: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "TopicTrends",
+  }) as any as Schema.Schema<TopicTrends>;
 
 export interface PriceInsights {
   /** *Deprecated*: This field is no longer supported and will start returning 0. The predicted change in gross profit as a fraction after introducing the suggested price compared to current active price. For example, 0.05 is a 5% predicted increase in gross profit. */
@@ -6892,23 +6991,24 @@ export interface PriceInsights {
   predictedImpressionsChangeFraction?: number;
 }
 
-export const PriceInsights: Schema.Schema<PriceInsights> = Schema.suspend(() =>
-  Schema.Struct({
-    predictedGrossProfitChangeFraction: Schema.optional(Schema.Number),
-    predictedClicksChangeFraction: Schema.optional(Schema.Number),
-    predictedMonthlyGrossProfitChangeCurrencyCode: Schema.optional(
-      Schema.String,
-    ),
-    suggestedPriceMicros: Schema.optional(Schema.String),
-    predictedConversionsChangeFraction: Schema.optional(Schema.Number),
-    suggestedPriceCurrencyCode: Schema.optional(Schema.String),
-    predictedMonthlyGrossProfitChangeMicros: Schema.optional(Schema.String),
-    effectiveness: Schema.optional(Schema.String),
-    predictedImpressionsChangeFraction: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "PriceInsights",
-}) as any as Schema.Schema<PriceInsights>;
+export const PriceInsights: Schema.Schema<PriceInsights> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      predictedGrossProfitChangeFraction: Schema.optional(Schema.Number),
+      predictedClicksChangeFraction: Schema.optional(Schema.Number),
+      predictedMonthlyGrossProfitChangeCurrencyCode: Schema.optional(
+        Schema.String,
+      ),
+      suggestedPriceMicros: Schema.optional(Schema.String),
+      predictedConversionsChangeFraction: Schema.optional(Schema.Number),
+      suggestedPriceCurrencyCode: Schema.optional(Schema.String),
+      predictedMonthlyGrossProfitChangeMicros: Schema.optional(Schema.String),
+      effectiveness: Schema.optional(Schema.String),
+      predictedImpressionsChangeFraction: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "PriceInsights",
+  }) as any as Schema.Schema<PriceInsights>;
 
 export interface ProductCluster {
   /** Product category (1st level) of the product cluster, represented in Google's product taxonomy. */
@@ -6943,8 +7043,8 @@ export interface ProductCluster {
   brand?: string;
 }
 
-export const ProductCluster: Schema.Schema<ProductCluster> = Schema.suspend(
-  () =>
+export const ProductCluster: Schema.Schema<ProductCluster> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       categoryL1: Schema.optional(Schema.String),
       categoryL4: Schema.optional(Schema.String),
@@ -6957,9 +7057,9 @@ export const ProductCluster: Schema.Schema<ProductCluster> = Schema.suspend(
       variantGtins: Schema.optional(Schema.Array(Schema.String)),
       brand: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ProductCluster",
-}) as any as Schema.Schema<ProductCluster>;
+  ).annotate({
+    identifier: "ProductCluster",
+  }) as any as Schema.Schema<ProductCluster>;
 
 export interface ReportRow {
   /** Brand fields requested by the merchant in the query. Field values are only set if the merchant queries `BestSellersBrandView`. */
@@ -6984,20 +7084,21 @@ export interface ReportRow {
   productCluster?: ProductCluster;
 }
 
-export const ReportRow: Schema.Schema<ReportRow> = Schema.suspend(() =>
-  Schema.Struct({
-    brand: Schema.optional(Brand),
-    priceCompetitiveness: Schema.optional(PriceCompetitiveness),
-    bestSellers: Schema.optional(BestSellers),
-    metrics: Schema.optional(Metrics),
-    segments: Schema.optional(Segments),
-    competitiveVisibility: Schema.optional(CompetitiveVisibility),
-    productView: Schema.optional(ProductView),
-    topicTrends: Schema.optional(TopicTrends),
-    priceInsights: Schema.optional(PriceInsights),
-    productCluster: Schema.optional(ProductCluster),
-  }),
-).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
+export const ReportRow: Schema.Schema<ReportRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      brand: Schema.optional(Brand),
+      priceCompetitiveness: Schema.optional(PriceCompetitiveness),
+      bestSellers: Schema.optional(BestSellers),
+      metrics: Schema.optional(Metrics),
+      segments: Schema.optional(Segments),
+      competitiveVisibility: Schema.optional(CompetitiveVisibility),
+      productView: Schema.optional(ProductView),
+      topicTrends: Schema.optional(TopicTrends),
+      priceInsights: Schema.optional(PriceInsights),
+      productCluster: Schema.optional(ProductCluster),
+    }),
+  ).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
 
 export interface SearchResponse {
   /** Rows that matched the search query. */
@@ -7006,15 +7107,15 @@ export interface SearchResponse {
   nextPageToken?: string;
 }
 
-export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(
-  () =>
+export const SearchResponse: Schema.Schema<SearchResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(Schema.Array(ReportRow)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SearchResponse",
-}) as any as Schema.Schema<SearchResponse>;
+  ).annotate({
+    identifier: "SearchResponse",
+  }) as any as Schema.Schema<SearchResponse>;
 
 export interface CarriersCarrier {
   /** The name of the carrier (for example, `"UPS"`). Always present. */
@@ -7027,17 +7128,17 @@ export interface CarriersCarrier {
   eddServices?: Array<string>;
 }
 
-export const CarriersCarrier: Schema.Schema<CarriersCarrier> = Schema.suspend(
-  () =>
+export const CarriersCarrier: Schema.Schema<CarriersCarrier> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       country: Schema.optional(Schema.String),
       services: Schema.optional(Schema.Array(Schema.String)),
       eddServices: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "CarriersCarrier",
-}) as any as Schema.Schema<CarriersCarrier>;
+  ).annotate({
+    identifier: "CarriersCarrier",
+  }) as any as Schema.Schema<CarriersCarrier>;
 
 export interface ProductsCustomBatchRequestEntry {
   /** The ID of the managing account. */
@@ -7057,7 +7158,7 @@ export interface ProductsCustomBatchRequestEntry {
 }
 
 export const ProductsCustomBatchRequestEntry: Schema.Schema<ProductsCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantId: Schema.optional(Schema.String),
       method: Schema.optional(Schema.String),
@@ -7077,7 +7178,7 @@ export interface ProductsCustomBatchRequest {
 }
 
 export const ProductsCustomBatchRequest: Schema.Schema<ProductsCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(ProductsCustomBatchRequestEntry)),
     }),
@@ -7091,7 +7192,7 @@ export interface LocalinventoryCustomBatchRequest {
 }
 
 export const LocalinventoryCustomBatchRequest: Schema.Schema<LocalinventoryCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(LocalinventoryCustomBatchRequestEntry),
@@ -7107,7 +7208,7 @@ export interface RequestReviewFreeListingsRequest {
 }
 
 export const RequestReviewFreeListingsRequest: Schema.Schema<RequestReviewFreeListingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
     }),
@@ -7121,7 +7222,7 @@ export interface DatafeedsCustomBatchRequest {
 }
 
 export const DatafeedsCustomBatchRequest: Schema.Schema<DatafeedsCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(DatafeedsCustomBatchRequestEntry)),
     }),
@@ -7143,7 +7244,7 @@ export interface ShippingsettingsCustomBatchRequestEntry {
 }
 
 export const ShippingsettingsCustomBatchRequestEntry: Schema.Schema<ShippingsettingsCustomBatchRequestEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       batchId: Schema.optional(Schema.Number),
@@ -7165,7 +7266,7 @@ export interface OrderTrackingSignalShipmentLineItemMapping {
 }
 
 export const OrderTrackingSignalShipmentLineItemMapping: Schema.Schema<OrderTrackingSignalShipmentLineItemMapping> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shipmentId: Schema.optional(Schema.String),
       quantity: Schema.optional(Schema.String),
@@ -7191,7 +7292,7 @@ export interface RequestPhoneVerificationRequest {
 }
 
 export const RequestPhoneVerificationRequest: Schema.Schema<RequestPhoneVerificationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       phoneNumber: Schema.optional(Schema.String),
       phoneRegionCode: Schema.optional(Schema.String),
@@ -7225,8 +7326,8 @@ export interface PosSaleResponse {
   gtin?: string;
 }
 
-export const PosSaleResponse: Schema.Schema<PosSaleResponse> = Schema.suspend(
-  () =>
+export const PosSaleResponse: Schema.Schema<PosSaleResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storeCode: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -7239,9 +7340,9 @@ export const PosSaleResponse: Schema.Schema<PosSaleResponse> = Schema.suspend(
       timestamp: Schema.optional(Schema.String),
       gtin: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PosSaleResponse",
-}) as any as Schema.Schema<PosSaleResponse>;
+  ).annotate({
+    identifier: "PosSaleResponse",
+  }) as any as Schema.Schema<PosSaleResponse>;
 
 export interface LiasettingsSetInventoryVerificationContactResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "`content#liasettingsSetInventoryVerificationContactResponse`". */
@@ -7249,7 +7350,7 @@ export interface LiasettingsSetInventoryVerificationContactResponse {
 }
 
 export const LiasettingsSetInventoryVerificationContactResponse: Schema.Schema<LiasettingsSetInventoryVerificationContactResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -7265,7 +7366,7 @@ export interface DatafeedsCustomBatchResponse {
 }
 
 export const DatafeedsCustomBatchResponse: Schema.Schema<DatafeedsCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(DatafeedsCustomBatchResponseEntry)),
       kind: Schema.optional(Schema.String),
@@ -7284,7 +7385,7 @@ export interface LiasettingsGetAccessibleGmbAccountsResponse {
 }
 
 export const LiasettingsGetAccessibleGmbAccountsResponse: Schema.Schema<LiasettingsGetAccessibleGmbAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gmbAccounts: Schema.optional(Schema.Array(GmbAccountsGmbAccount)),
       accountId: Schema.optional(Schema.String),
@@ -7300,7 +7401,7 @@ export interface AccountsCustomBatchRequest {
 }
 
 export const AccountsCustomBatchRequest: Schema.Schema<AccountsCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(AccountsCustomBatchRequestEntry)),
     }),
@@ -7317,7 +7418,7 @@ export interface LiasettingsListResponse {
 }
 
 export const LiasettingsListResponse: Schema.Schema<LiasettingsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(LiaSettings)),
       nextPageToken: Schema.optional(Schema.String),
@@ -7333,7 +7434,7 @@ export interface LiasettingsRequestInventoryVerificationResponse {
 }
 
 export const LiasettingsRequestInventoryVerificationResponse: Schema.Schema<LiasettingsRequestInventoryVerificationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -7349,7 +7450,7 @@ export interface ProductstatusesCustomBatchResponse {
 }
 
 export const ProductstatusesCustomBatchResponse: Schema.Schema<ProductstatusesCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(ProductstatusesCustomBatchResponseEntry),
@@ -7384,7 +7485,7 @@ export interface OrderTrackingSignalLineItemDetails {
 }
 
 export const OrderTrackingSignalLineItemDetails: Schema.Schema<OrderTrackingSignalLineItemDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemId: Schema.optional(Schema.String),
       mpn: Schema.optional(Schema.String),
@@ -7410,7 +7511,7 @@ export interface ShippingsettingsListResponse {
 }
 
 export const ShippingsettingsListResponse: Schema.Schema<ShippingsettingsListResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(ShippingSettings)),
       nextPageToken: Schema.optional(Schema.String),
@@ -7435,8 +7536,8 @@ export interface HolidaysHoliday {
   deliveryGuaranteeHour?: string;
 }
 
-export const HolidaysHoliday: Schema.Schema<HolidaysHoliday> = Schema.suspend(
-  () =>
+export const HolidaysHoliday: Schema.Schema<HolidaysHoliday> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deliveryGuaranteeDate: Schema.optional(Schema.String),
       countryCode: Schema.optional(Schema.String),
@@ -7445,9 +7546,9 @@ export const HolidaysHoliday: Schema.Schema<HolidaysHoliday> = Schema.suspend(
       type: Schema.optional(Schema.String),
       deliveryGuaranteeHour: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "HolidaysHoliday",
-}) as any as Schema.Schema<HolidaysHoliday>;
+  ).annotate({
+    identifier: "HolidaysHoliday",
+  }) as any as Schema.Schema<HolidaysHoliday>;
 
 export interface ShippingsettingsGetSupportedHolidaysResponse {
   /** A list of holidays applicable for delivery guarantees. May be empty. */
@@ -7457,7 +7558,7 @@ export interface ShippingsettingsGetSupportedHolidaysResponse {
 }
 
 export const ShippingsettingsGetSupportedHolidaysResponse: Schema.Schema<ShippingsettingsGetSupportedHolidaysResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       holidays: Schema.optional(Schema.Array(HolidaysHoliday)),
       kind: Schema.optional(Schema.String),
@@ -7478,7 +7579,7 @@ export interface ProductsCustomBatchResponseEntry {
 }
 
 export const ProductsCustomBatchResponseEntry: Schema.Schema<ProductsCustomBatchResponseEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       product: Schema.optional(Product),
       batchId: Schema.optional(Schema.Number),
@@ -7497,7 +7598,7 @@ export interface ProductsCustomBatchResponse {
 }
 
 export const ProductsCustomBatchResponse: Schema.Schema<ProductsCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Array(ProductsCustomBatchResponseEntry)),
       kind: Schema.optional(Schema.String),
@@ -7514,7 +7615,7 @@ export interface ShippingsettingsGetSupportedCarriersResponse {
 }
 
 export const ShippingsettingsGetSupportedCarriersResponse: Schema.Schema<ShippingsettingsGetSupportedCarriersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       carriers: Schema.optional(Schema.Array(CarriersCarrier)),
@@ -7529,7 +7630,7 @@ export interface ListAccountReturnCarrierResponse {
 }
 
 export const ListAccountReturnCarrierResponse: Schema.Schema<ListAccountReturnCarrierResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountReturnCarriers: Schema.optional(
         Schema.Array(AccountReturnCarrier),
@@ -7545,7 +7646,7 @@ export interface ShippingsettingsCustomBatchRequest {
 }
 
 export const ShippingsettingsCustomBatchRequest: Schema.Schema<ShippingsettingsCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(ShippingsettingsCustomBatchRequestEntry),
@@ -7560,11 +7661,12 @@ export interface LabelIds {
   labelIds?: Array<string>;
 }
 
-export const LabelIds: Schema.Schema<LabelIds> = Schema.suspend(() =>
-  Schema.Struct({
-    labelIds: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "LabelIds" }) as any as Schema.Schema<LabelIds>;
+export const LabelIds: Schema.Schema<LabelIds> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      labelIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "LabelIds" }) as any as Schema.Schema<LabelIds>;
 
 export interface OrderTrackingSignal {
   /** Required. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
@@ -7590,7 +7692,7 @@ export interface OrderTrackingSignal {
 }
 
 export const OrderTrackingSignal: Schema.Schema<OrderTrackingSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deliveryRegionCode: Schema.optional(Schema.String),
       shipmentLineItemMapping: Schema.optional(
@@ -7621,7 +7723,7 @@ export interface ListConversionSourcesResponse {
 }
 
 export const ListConversionSourcesResponse: Schema.Schema<ListConversionSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversionSources: Schema.optional(Schema.Array(ConversionSource)),
       nextPageToken: Schema.optional(Schema.String),
@@ -7638,7 +7740,7 @@ export interface AccounttaxCustomBatchResponse {
 }
 
 export const AccounttaxCustomBatchResponse: Schema.Schema<AccounttaxCustomBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(AccounttaxCustomBatchResponseEntry),
@@ -7675,7 +7777,7 @@ export interface PosInventoryResponse {
 }
 
 export const PosInventoryResponse: Schema.Schema<PosInventoryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gtin: Schema.optional(Schema.String),
       pickupSla: Schema.optional(Schema.String),
@@ -7701,7 +7803,7 @@ export interface LiasettingsListPosDataProvidersResponse {
 }
 
 export const LiasettingsListPosDataProvidersResponse: Schema.Schema<LiasettingsListPosDataProvidersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       posDataProviders: Schema.optional(Schema.Array(PosDataProviders)),
       kind: Schema.optional(Schema.String),
@@ -7724,7 +7826,7 @@ export interface AccountCredentials {
 }
 
 export const AccountCredentials: Schema.Schema<AccountCredentials> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purpose: Schema.optional(Schema.String),
       accessToken: Schema.optional(Schema.String),
@@ -7740,7 +7842,7 @@ export interface LiasettingsRequestGmbAccessResponse {
 }
 
 export const LiasettingsRequestGmbAccessResponse: Schema.Schema<LiasettingsRequestGmbAccessResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
     }),
@@ -7756,7 +7858,7 @@ export interface RenderAccountIssuesResponse {
 }
 
 export const RenderAccountIssuesResponse: Schema.Schema<RenderAccountIssuesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alternateDisputeResolution: Schema.optional(AlternateDisputeResolution),
       issues: Schema.optional(Schema.Array(AccountIssue)),
@@ -7771,7 +7873,7 @@ export interface AccountsUpdateLabelsRequest {
 }
 
 export const AccountsUpdateLabelsRequest: Schema.Schema<AccountsUpdateLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -7785,7 +7887,7 @@ export interface AccountstatusesCustomBatchRequest {
 }
 
 export const AccountstatusesCustomBatchRequest: Schema.Schema<AccountstatusesCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(AccountstatusesCustomBatchRequestEntry),
@@ -7808,7 +7910,7 @@ export interface FreeListingsProgramStatus {
 }
 
 export const FreeListingsProgramStatus: Schema.Schema<FreeListingsProgramStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionStatuses: Schema.optional(
         Schema.Array(FreeListingsProgramStatusRegionStatus),
@@ -7834,7 +7936,7 @@ export interface RenderProductIssuesRequestPayload {
 }
 
 export const RenderProductIssuesRequestPayload: Schema.Schema<RenderProductIssuesRequestPayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentOption: Schema.optional(Schema.String),
       userInputActionOption: Schema.optional(Schema.String),
@@ -7851,7 +7953,7 @@ export interface ListRegionsResponse {
 }
 
 export const ListRegionsResponse: Schema.Schema<ListRegionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       regions: Schema.optional(Schema.Array(Region)),
@@ -7868,7 +7970,7 @@ export interface ShippingsettingsGetSupportedPickupServicesResponse {
 }
 
 export const ShippingsettingsGetSupportedPickupServicesResponse: Schema.Schema<ShippingsettingsGetSupportedPickupServicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       pickupServices: Schema.optional(
@@ -7885,7 +7987,7 @@ export interface ProductstatusesCustomBatchRequest {
 }
 
 export const ProductstatusesCustomBatchRequest: Schema.Schema<ProductstatusesCustomBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(
         Schema.Array(ProductstatusesCustomBatchRequestEntry),
@@ -7903,7 +8005,7 @@ export interface AccountsAuthInfoResponse {
 }
 
 export const AccountsAuthInfoResponse: Schema.Schema<AccountsAuthInfoResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       accountIdentifiers: Schema.optional(Schema.Array(AccountIdentifier)),
@@ -7925,17 +8027,20 @@ export interface ListCollectionsRequest {
   pageToken?: string;
 }
 
-export const ListCollectionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
+export const ListCollectionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "{merchantId}/collections" }),
   svc,
 ) as unknown as Schema.Schema<ListCollectionsRequest>;
 
 export type ListCollectionsResponse_Op = ListCollectionsResponse;
-export const ListCollectionsResponse_Op = ListCollectionsResponse;
+export const ListCollectionsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCollectionsResponse;
 
 export type ListCollectionsError = DefaultErrors;
 
@@ -7945,7 +8050,7 @@ export const listCollections: API.PaginatedOperationMethod<
   ListCollectionsResponse_Op,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCollectionsRequest,
   output: ListCollectionsResponse_Op,
   errors: [],
@@ -7962,16 +8067,17 @@ export interface CreateCollectionsRequest {
   body?: Collection;
 }
 
-export const CreateCollectionsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(Collection).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "{merchantId}/collections", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateCollectionsRequest>;
+export const CreateCollectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(Collection).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "{merchantId}/collections", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCollectionsRequest>;
 
 export type CreateCollectionsResponse = Collection;
-export const CreateCollectionsResponse = Collection;
+export const CreateCollectionsResponse = /*@__PURE__*/ /*#__PURE__*/ Collection;
 
 export type CreateCollectionsError = DefaultErrors;
 
@@ -7981,7 +8087,7 @@ export const createCollections: API.OperationMethod<
   CreateCollectionsResponse,
   CreateCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCollectionsRequest,
   output: CreateCollectionsResponse,
   errors: [],
@@ -7994,7 +8100,7 @@ export interface GetCollectionsRequest {
   collectionId: string;
 }
 
-export const GetCollectionsRequest = Schema.Struct({
+export const GetCollectionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
 }).pipe(
@@ -8003,7 +8109,7 @@ export const GetCollectionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCollectionsRequest>;
 
 export type GetCollectionsResponse = Collection;
-export const GetCollectionsResponse = Collection;
+export const GetCollectionsResponse = /*@__PURE__*/ /*#__PURE__*/ Collection;
 
 export type GetCollectionsError = DefaultErrors;
 
@@ -8013,7 +8119,7 @@ export const getCollections: API.OperationMethod<
   GetCollectionsResponse,
   GetCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollectionsRequest,
   output: GetCollectionsResponse,
   errors: [],
@@ -8026,17 +8132,23 @@ export interface DeleteCollectionsRequest {
   merchantId: string;
 }
 
-export const DeleteCollectionsRequest = Schema.Struct({
-  collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "{merchantId}/collections/{collectionId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteCollectionsRequest>;
+export const DeleteCollectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{merchantId}/collections/{collectionId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCollectionsRequest>;
 
 export interface DeleteCollectionsResponse {}
 export const DeleteCollectionsResponse: Schema.Schema<DeleteCollectionsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteCollectionsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteCollectionsResponse>;
 
 export type DeleteCollectionsError = DefaultErrors;
 
@@ -8046,7 +8158,7 @@ export const deleteCollections: API.OperationMethod<
   DeleteCollectionsResponse,
   DeleteCollectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCollectionsRequest,
   output: DeleteCollectionsResponse,
   errors: [],
@@ -8059,21 +8171,22 @@ export interface RequestreviewShoppingadsprogramRequest {
   body?: RequestReviewShoppingAdsRequest;
 }
 
-export const RequestreviewShoppingadsprogramRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(RequestReviewShoppingAdsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/shoppingadsprogram/requestreview",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestreviewShoppingadsprogramRequest>;
+export const RequestreviewShoppingadsprogramRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(RequestReviewShoppingAdsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/shoppingadsprogram/requestreview",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestreviewShoppingadsprogramRequest>;
 
 export interface RequestreviewShoppingadsprogramResponse {}
 export const RequestreviewShoppingadsprogramResponse: Schema.Schema<RequestreviewShoppingadsprogramResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<RequestreviewShoppingadsprogramResponse>;
 
@@ -8085,7 +8198,7 @@ export const requestreviewShoppingadsprogram: API.OperationMethod<
   RequestreviewShoppingadsprogramResponse,
   RequestreviewShoppingadsprogramError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestreviewShoppingadsprogramRequest,
   output: RequestreviewShoppingadsprogramResponse,
   errors: [],
@@ -8096,15 +8209,17 @@ export interface GetShoppingadsprogramRequest {
   merchantId: string;
 }
 
-export const GetShoppingadsprogramRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/shoppingadsprogram" }),
-  svc,
-) as unknown as Schema.Schema<GetShoppingadsprogramRequest>;
+export const GetShoppingadsprogramRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/shoppingadsprogram" }),
+    svc,
+  ) as unknown as Schema.Schema<GetShoppingadsprogramRequest>;
 
 export type GetShoppingadsprogramResponse = ShoppingAdsProgramStatus;
-export const GetShoppingadsprogramResponse = ShoppingAdsProgramStatus;
+export const GetShoppingadsprogramResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ShoppingAdsProgramStatus;
 
 export type GetShoppingadsprogramError = DefaultErrors;
 
@@ -8114,7 +8229,7 @@ export const getShoppingadsprogram: API.OperationMethod<
   GetShoppingadsprogramResponse,
   GetShoppingadsprogramError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShoppingadsprogramRequest,
   output: GetShoppingadsprogramResponse,
   errors: [],
@@ -8127,16 +8242,17 @@ export interface CreatePromotionsRequest {
   body?: Promotion;
 }
 
-export const CreatePromotionsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(Promotion).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "{merchantId}/promotions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreatePromotionsRequest>;
+export const CreatePromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(Promotion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "{merchantId}/promotions", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePromotionsRequest>;
 
 export type CreatePromotionsResponse = Promotion;
-export const CreatePromotionsResponse = Promotion;
+export const CreatePromotionsResponse = /*@__PURE__*/ /*#__PURE__*/ Promotion;
 
 export type CreatePromotionsError = DefaultErrors;
 
@@ -8146,7 +8262,7 @@ export const createPromotions: API.OperationMethod<
   CreatePromotionsResponse,
   CreatePromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePromotionsRequest,
   output: CreatePromotionsResponse,
   errors: [],
@@ -8165,7 +8281,7 @@ export interface ListPromotionsRequest {
   merchantId: string;
 }
 
-export const ListPromotionsRequest = Schema.Struct({
+export const ListPromotionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   countryCode: Schema.optional(Schema.String).pipe(T.HttpQuery("countryCode")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -8179,7 +8295,8 @@ export const ListPromotionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPromotionsRequest>;
 
 export type ListPromotionsResponse = ListPromotionResponse;
-export const ListPromotionsResponse = ListPromotionResponse;
+export const ListPromotionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPromotionResponse;
 
 export type ListPromotionsError = DefaultErrors;
 
@@ -8189,7 +8306,7 @@ export const listPromotions: API.PaginatedOperationMethod<
   ListPromotionsResponse,
   ListPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPromotionsRequest,
   output: ListPromotionsResponse,
   errors: [],
@@ -8206,7 +8323,7 @@ export interface GetPromotionsRequest {
   id: string;
 }
 
-export const GetPromotionsRequest = Schema.Struct({
+export const GetPromotionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
@@ -8215,7 +8332,7 @@ export const GetPromotionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPromotionsRequest>;
 
 export type GetPromotionsResponse = Promotion;
-export const GetPromotionsResponse = Promotion;
+export const GetPromotionsResponse = /*@__PURE__*/ /*#__PURE__*/ Promotion;
 
 export type GetPromotionsError = DefaultErrors;
 
@@ -8225,7 +8342,7 @@ export const getPromotions: API.OperationMethod<
   GetPromotionsResponse,
   GetPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromotionsRequest,
   output: GetPromotionsResponse,
   errors: [],
@@ -8244,19 +8361,24 @@ export interface GetDatafeedstatusesRequest {
   merchantId: string;
 }
 
-export const GetDatafeedstatusesRequest = Schema.Struct({
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-  language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
-  datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
-  feedLabel: Schema.optional(Schema.String).pipe(T.HttpQuery("feedLabel")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/datafeedstatuses/{datafeedId}" }),
-  svc,
-) as unknown as Schema.Schema<GetDatafeedstatusesRequest>;
+export const GetDatafeedstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+    language: Schema.optional(Schema.String).pipe(T.HttpQuery("language")),
+    datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
+    feedLabel: Schema.optional(Schema.String).pipe(T.HttpQuery("feedLabel")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/datafeedstatuses/{datafeedId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDatafeedstatusesRequest>;
 
 export type GetDatafeedstatusesResponse = DatafeedStatus;
-export const GetDatafeedstatusesResponse = DatafeedStatus;
+export const GetDatafeedstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedStatus;
 
 export type GetDatafeedstatusesError = DefaultErrors;
 
@@ -8266,7 +8388,7 @@ export const getDatafeedstatuses: API.OperationMethod<
   GetDatafeedstatusesResponse,
   GetDatafeedstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatafeedstatusesRequest,
   output: GetDatafeedstatusesResponse,
   errors: [],
@@ -8277,17 +8399,20 @@ export interface CustombatchDatafeedstatusesRequest {
   body?: DatafeedstatusesCustomBatchRequest;
 }
 
-export const CustombatchDatafeedstatusesRequest = Schema.Struct({
-  body: Schema.optional(DatafeedstatusesCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "datafeedstatuses/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchDatafeedstatusesRequest>;
+export const CustombatchDatafeedstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(DatafeedstatusesCustomBatchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "datafeedstatuses/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchDatafeedstatusesRequest>;
 
 export type CustombatchDatafeedstatusesResponse =
   DatafeedstatusesCustomBatchResponse;
 export const CustombatchDatafeedstatusesResponse =
-  DatafeedstatusesCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedstatusesCustomBatchResponse;
 
 export type CustombatchDatafeedstatusesError = DefaultErrors;
 
@@ -8297,7 +8422,7 @@ export const custombatchDatafeedstatuses: API.OperationMethod<
   CustombatchDatafeedstatusesResponse,
   CustombatchDatafeedstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchDatafeedstatusesRequest,
   output: CustombatchDatafeedstatusesResponse,
   errors: [],
@@ -8312,17 +8437,19 @@ export interface ListDatafeedstatusesRequest {
   pageToken?: string;
 }
 
-export const ListDatafeedstatusesRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/datafeedstatuses" }),
-  svc,
-) as unknown as Schema.Schema<ListDatafeedstatusesRequest>;
+export const ListDatafeedstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/datafeedstatuses" }),
+    svc,
+  ) as unknown as Schema.Schema<ListDatafeedstatusesRequest>;
 
 export type ListDatafeedstatusesResponse = DatafeedstatusesListResponse;
-export const ListDatafeedstatusesResponse = DatafeedstatusesListResponse;
+export const ListDatafeedstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedstatusesListResponse;
 
 export type ListDatafeedstatusesError = DefaultErrors;
 
@@ -8332,7 +8459,7 @@ export const listDatafeedstatuses: API.PaginatedOperationMethod<
   ListDatafeedstatusesResponse,
   ListDatafeedstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDatafeedstatusesRequest,
   output: ListDatafeedstatusesResponse,
   errors: [],
@@ -8351,21 +8478,23 @@ export interface InsertRegionalinventoryRequest {
   body?: RegionalInventory;
 }
 
-export const InsertRegionalinventoryRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-  body: Schema.optional(RegionalInventory).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/products/{productId}/regionalinventory",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertRegionalinventoryRequest>;
+export const InsertRegionalinventoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+    body: Schema.optional(RegionalInventory).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/products/{productId}/regionalinventory",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertRegionalinventoryRequest>;
 
 export type InsertRegionalinventoryResponse = RegionalInventory;
-export const InsertRegionalinventoryResponse = RegionalInventory;
+export const InsertRegionalinventoryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RegionalInventory;
 
 export type InsertRegionalinventoryError = DefaultErrors;
 
@@ -8375,7 +8504,7 @@ export const insertRegionalinventory: API.OperationMethod<
   InsertRegionalinventoryResponse,
   InsertRegionalinventoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertRegionalinventoryRequest,
   output: InsertRegionalinventoryResponse,
   errors: [],
@@ -8386,17 +8515,20 @@ export interface CustombatchRegionalinventoryRequest {
   body?: RegionalinventoryCustomBatchRequest;
 }
 
-export const CustombatchRegionalinventoryRequest = Schema.Struct({
-  body: Schema.optional(RegionalinventoryCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "regionalinventory/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchRegionalinventoryRequest>;
+export const CustombatchRegionalinventoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(RegionalinventoryCustomBatchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "regionalinventory/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchRegionalinventoryRequest>;
 
 export type CustombatchRegionalinventoryResponse =
   RegionalinventoryCustomBatchResponse;
 export const CustombatchRegionalinventoryResponse =
-  RegionalinventoryCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RegionalinventoryCustomBatchResponse;
 
 export type CustombatchRegionalinventoryError = DefaultErrors;
 
@@ -8406,7 +8538,7 @@ export const custombatchRegionalinventory: API.OperationMethod<
   CustombatchRegionalinventoryResponse,
   CustombatchRegionalinventoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchRegionalinventoryRequest,
   output: CustombatchRegionalinventoryResponse,
   errors: [],
@@ -8419,19 +8551,21 @@ export interface GetCollectionstatusesRequest {
   collectionId: string;
 }
 
-export const GetCollectionstatusesRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/collectionstatuses/{collectionId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCollectionstatusesRequest>;
+export const GetCollectionstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    collectionId: Schema.String.pipe(T.HttpPath("collectionId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/collectionstatuses/{collectionId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCollectionstatusesRequest>;
 
 export type GetCollectionstatusesResponse = CollectionStatus;
-export const GetCollectionstatusesResponse = CollectionStatus;
+export const GetCollectionstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CollectionStatus;
 
 export type GetCollectionstatusesError = DefaultErrors;
 
@@ -8441,7 +8575,7 @@ export const getCollectionstatuses: API.OperationMethod<
   GetCollectionstatusesResponse,
   GetCollectionstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCollectionstatusesRequest,
   output: GetCollectionstatusesResponse,
   errors: [],
@@ -8456,17 +8590,19 @@ export interface ListCollectionstatusesRequest {
   pageSize?: number;
 }
 
-export const ListCollectionstatusesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/collectionstatuses" }),
-  svc,
-) as unknown as Schema.Schema<ListCollectionstatusesRequest>;
+export const ListCollectionstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/collectionstatuses" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCollectionstatusesRequest>;
 
 export type ListCollectionstatusesResponse = ListCollectionStatusesResponse;
-export const ListCollectionstatusesResponse = ListCollectionStatusesResponse;
+export const ListCollectionstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCollectionStatusesResponse;
 
 export type ListCollectionstatusesError = DefaultErrors;
 
@@ -8476,7 +8612,7 @@ export const listCollectionstatuses: API.PaginatedOperationMethod<
   ListCollectionstatusesResponse,
   ListCollectionstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCollectionstatusesRequest,
   output: ListCollectionstatusesResponse,
   errors: [],
@@ -8491,7 +8627,7 @@ export interface CustombatchPosRequest {
   body?: PosCustomBatchRequest;
 }
 
-export const CustombatchPosRequest = Schema.Struct({
+export const CustombatchPosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(PosCustomBatchRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "pos/batch", hasBody: true }),
@@ -8499,7 +8635,8 @@ export const CustombatchPosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CustombatchPosRequest>;
 
 export type CustombatchPosResponse = PosCustomBatchResponse;
-export const CustombatchPosResponse = PosCustomBatchResponse;
+export const CustombatchPosResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PosCustomBatchResponse;
 
 export type CustombatchPosError = DefaultErrors;
 
@@ -8509,7 +8646,7 @@ export const custombatchPos: API.OperationMethod<
   CustombatchPosResponse,
   CustombatchPosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchPosRequest,
   output: CustombatchPosResponse,
   errors: [],
@@ -8524,7 +8661,7 @@ export interface InsertPosRequest {
   body?: PosStore;
 }
 
-export const InsertPosRequest = Schema.Struct({
+export const InsertPosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
   body: Schema.optional(PosStore).pipe(T.HttpBody()),
@@ -8538,7 +8675,7 @@ export const InsertPosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertPosRequest>;
 
 export type InsertPosResponse = PosStore;
-export const InsertPosResponse = PosStore;
+export const InsertPosResponse = /*@__PURE__*/ /*#__PURE__*/ PosStore;
 
 export type InsertPosError = DefaultErrors;
 
@@ -8548,7 +8685,7 @@ export const insertPos: API.OperationMethod<
   InsertPosResponse,
   InsertPosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertPosRequest,
   output: InsertPosResponse,
   errors: [],
@@ -8563,7 +8700,7 @@ export interface InventoryPosRequest {
   body?: PosInventoryRequest;
 }
 
-export const InventoryPosRequest = Schema.Struct({
+export const InventoryPosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
   body: Schema.optional(PosInventoryRequest).pipe(T.HttpBody()),
@@ -8577,7 +8714,8 @@ export const InventoryPosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InventoryPosRequest>;
 
 export type InventoryPosResponse = PosInventoryResponse;
-export const InventoryPosResponse = PosInventoryResponse;
+export const InventoryPosResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PosInventoryResponse;
 
 export type InventoryPosError = DefaultErrors;
 
@@ -8587,7 +8725,7 @@ export const inventoryPos: API.OperationMethod<
   InventoryPosResponse,
   InventoryPosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InventoryPosRequest,
   output: InventoryPosResponse,
   errors: [],
@@ -8602,7 +8740,7 @@ export interface GetPosRequest {
   storeCode: string;
 }
 
-export const GetPosRequest = Schema.Struct({
+export const GetPosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
   storeCode: Schema.String.pipe(T.HttpPath("storeCode")),
@@ -8615,7 +8753,7 @@ export const GetPosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPosRequest>;
 
 export type GetPosResponse = PosStore;
-export const GetPosResponse = PosStore;
+export const GetPosResponse = /*@__PURE__*/ /*#__PURE__*/ PosStore;
 
 export type GetPosError = DefaultErrors;
 
@@ -8625,7 +8763,7 @@ export const getPos: API.OperationMethod<
   GetPosResponse,
   GetPosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPosRequest,
   output: GetPosResponse,
   errors: [],
@@ -8638,7 +8776,7 @@ export interface ListPosRequest {
   targetMerchantId: string;
 }
 
-export const ListPosRequest = Schema.Struct({
+export const ListPosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
 }).pipe(
@@ -8647,7 +8785,7 @@ export const ListPosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPosRequest>;
 
 export type ListPosResponse = PosListResponse;
-export const ListPosResponse = PosListResponse;
+export const ListPosResponse = /*@__PURE__*/ /*#__PURE__*/ PosListResponse;
 
 export type ListPosError = DefaultErrors;
 
@@ -8657,7 +8795,7 @@ export const listPos: API.OperationMethod<
   ListPosResponse,
   ListPosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPosRequest,
   output: ListPosResponse,
   errors: [],
@@ -8672,7 +8810,7 @@ export interface DeletePosRequest {
   storeCode: string;
 }
 
-export const DeletePosRequest = Schema.Struct({
+export const DeletePosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
   storeCode: Schema.String.pipe(T.HttpPath("storeCode")),
@@ -8686,7 +8824,9 @@ export const DeletePosRequest = Schema.Struct({
 
 export interface DeletePosResponse {}
 export const DeletePosResponse: Schema.Schema<DeletePosResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeletePosResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeletePosResponse>;
 
 export type DeletePosError = DefaultErrors;
 
@@ -8696,7 +8836,7 @@ export const deletePos: API.OperationMethod<
   DeletePosResponse,
   DeletePosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePosRequest,
   output: DeletePosResponse,
   errors: [],
@@ -8711,7 +8851,7 @@ export interface SalePosRequest {
   body?: PosSaleRequest;
 }
 
-export const SalePosRequest = Schema.Struct({
+export const SalePosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   targetMerchantId: Schema.String.pipe(T.HttpPath("targetMerchantId")),
   body: Schema.optional(PosSaleRequest).pipe(T.HttpBody()),
@@ -8725,7 +8865,7 @@ export const SalePosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SalePosRequest>;
 
 export type SalePosResponse = PosSaleResponse;
-export const SalePosResponse = PosSaleResponse;
+export const SalePosResponse = /*@__PURE__*/ /*#__PURE__*/ PosSaleResponse;
 
 export type SalePosError = DefaultErrors;
 
@@ -8735,7 +8875,7 @@ export const salePos: API.OperationMethod<
   SalePosResponse,
   SalePosError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SalePosRequest,
   output: SalePosResponse,
   errors: [],
@@ -8748,7 +8888,7 @@ export interface SearchReportsRequest {
   body?: SearchRequest;
 }
 
-export const SearchReportsRequest = Schema.Struct({
+export const SearchReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   body: Schema.optional(SearchRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -8761,7 +8901,7 @@ export const SearchReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SearchReportsRequest>;
 
 export type SearchReportsResponse = SearchResponse;
-export const SearchReportsResponse = SearchResponse;
+export const SearchReportsResponse = /*@__PURE__*/ /*#__PURE__*/ SearchResponse;
 
 export type SearchReportsError = DefaultErrors;
 
@@ -8771,7 +8911,7 @@ export const searchReports: API.OperationMethod<
   SearchReportsResponse,
   SearchReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchReportsRequest,
   output: SearchReportsResponse,
   errors: [],
@@ -8786,7 +8926,7 @@ export interface CreateRegionsRequest {
   body?: Region;
 }
 
-export const CreateRegionsRequest = Schema.Struct({
+export const CreateRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   regionId: Schema.optional(Schema.String).pipe(T.HttpQuery("regionId")),
   body: Schema.optional(Region).pipe(T.HttpBody()),
@@ -8796,7 +8936,7 @@ export const CreateRegionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateRegionsRequest>;
 
 export type CreateRegionsResponse = Region;
-export const CreateRegionsResponse = Region;
+export const CreateRegionsResponse = /*@__PURE__*/ /*#__PURE__*/ Region;
 
 export type CreateRegionsError = DefaultErrors;
 
@@ -8806,7 +8946,7 @@ export const createRegions: API.OperationMethod<
   CreateRegionsResponse,
   CreateRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateRegionsRequest,
   output: CreateRegionsResponse,
   errors: [],
@@ -8823,7 +8963,7 @@ export interface PatchRegionsRequest {
   body?: Region;
 }
 
-export const PatchRegionsRequest = Schema.Struct({
+export const PatchRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   regionId: Schema.String.pipe(T.HttpPath("regionId")),
@@ -8838,7 +8978,7 @@ export const PatchRegionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchRegionsRequest>;
 
 export type PatchRegionsResponse = Region;
-export const PatchRegionsResponse = Region;
+export const PatchRegionsResponse = /*@__PURE__*/ /*#__PURE__*/ Region;
 
 export type PatchRegionsError = DefaultErrors;
 
@@ -8848,7 +8988,7 @@ export const patchRegions: API.OperationMethod<
   PatchRegionsResponse,
   PatchRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRegionsRequest,
   output: PatchRegionsResponse,
   errors: [],
@@ -8861,7 +9001,7 @@ export interface GetRegionsRequest {
   regionId: string;
 }
 
-export const GetRegionsRequest = Schema.Struct({
+export const GetRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   regionId: Schema.String.pipe(T.HttpPath("regionId")),
 }).pipe(
@@ -8870,7 +9010,7 @@ export const GetRegionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetRegionsRequest>;
 
 export type GetRegionsResponse = Region;
-export const GetRegionsResponse = Region;
+export const GetRegionsResponse = /*@__PURE__*/ /*#__PURE__*/ Region;
 
 export type GetRegionsError = DefaultErrors;
 
@@ -8880,7 +9020,7 @@ export const getRegions: API.OperationMethod<
   GetRegionsResponse,
   GetRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRegionsRequest,
   output: GetRegionsResponse,
   errors: [],
@@ -8895,7 +9035,7 @@ export interface ListRegionsRequest {
   pageSize?: number;
 }
 
-export const ListRegionsRequest = Schema.Struct({
+export const ListRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -8905,7 +9045,8 @@ export const ListRegionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRegionsRequest>;
 
 export type ListRegionsResponse_Op = ListRegionsResponse;
-export const ListRegionsResponse_Op = ListRegionsResponse;
+export const ListRegionsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListRegionsResponse;
 
 export type ListRegionsError = DefaultErrors;
 
@@ -8915,7 +9056,7 @@ export const listRegions: API.PaginatedOperationMethod<
   ListRegionsResponse_Op,
   ListRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRegionsRequest,
   output: ListRegionsResponse_Op,
   errors: [],
@@ -8932,7 +9073,7 @@ export interface DeleteRegionsRequest {
   regionId: string;
 }
 
-export const DeleteRegionsRequest = Schema.Struct({
+export const DeleteRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   regionId: Schema.String.pipe(T.HttpPath("regionId")),
 }).pipe(
@@ -8942,7 +9083,9 @@ export const DeleteRegionsRequest = Schema.Struct({
 
 export interface DeleteRegionsResponse {}
 export const DeleteRegionsResponse: Schema.Schema<DeleteRegionsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteRegionsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteRegionsResponse>;
 
 export type DeleteRegionsError = DefaultErrors;
 
@@ -8952,7 +9095,7 @@ export const deleteRegions: API.OperationMethod<
   DeleteRegionsResponse,
   DeleteRegionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRegionsRequest,
   output: DeleteRegionsResponse,
   errors: [],
@@ -8967,21 +9110,22 @@ export interface UpdateAccounttaxRequest {
   body?: AccountTax;
 }
 
-export const UpdateAccounttaxRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AccountTax).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{merchantId}/accounttax/{accountId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccounttaxRequest>;
+export const UpdateAccounttaxRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(AccountTax).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{merchantId}/accounttax/{accountId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccounttaxRequest>;
 
 export type UpdateAccounttaxResponse = AccountTax;
-export const UpdateAccounttaxResponse = AccountTax;
+export const UpdateAccounttaxResponse = /*@__PURE__*/ /*#__PURE__*/ AccountTax;
 
 export type UpdateAccounttaxError = DefaultErrors;
 
@@ -8991,7 +9135,7 @@ export const updateAccounttax: API.OperationMethod<
   UpdateAccounttaxResponse,
   UpdateAccounttaxError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccounttaxRequest,
   output: UpdateAccounttaxResponse,
   errors: [],
@@ -9004,7 +9148,7 @@ export interface GetAccounttaxRequest {
   accountId: string;
 }
 
-export const GetAccounttaxRequest = Schema.Struct({
+export const GetAccounttaxRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
 }).pipe(
@@ -9013,7 +9157,7 @@ export const GetAccounttaxRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccounttaxRequest>;
 
 export type GetAccounttaxResponse = AccountTax;
-export const GetAccounttaxResponse = AccountTax;
+export const GetAccounttaxResponse = /*@__PURE__*/ /*#__PURE__*/ AccountTax;
 
 export type GetAccounttaxError = DefaultErrors;
 
@@ -9023,7 +9167,7 @@ export const getAccounttax: API.OperationMethod<
   GetAccounttaxResponse,
   GetAccounttaxError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccounttaxRequest,
   output: GetAccounttaxResponse,
   errors: [],
@@ -9034,15 +9178,17 @@ export interface CustombatchAccounttaxRequest {
   body?: AccounttaxCustomBatchRequest;
 }
 
-export const CustombatchAccounttaxRequest = Schema.Struct({
-  body: Schema.optional(AccounttaxCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "accounttax/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchAccounttaxRequest>;
+export const CustombatchAccounttaxRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AccounttaxCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "accounttax/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchAccounttaxRequest>;
 
 export type CustombatchAccounttaxResponse = AccounttaxCustomBatchResponse;
-export const CustombatchAccounttaxResponse = AccounttaxCustomBatchResponse;
+export const CustombatchAccounttaxResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccounttaxCustomBatchResponse;
 
 export type CustombatchAccounttaxError = DefaultErrors;
 
@@ -9052,7 +9198,7 @@ export const custombatchAccounttax: API.OperationMethod<
   CustombatchAccounttaxResponse,
   CustombatchAccounttaxError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchAccounttaxRequest,
   output: CustombatchAccounttaxResponse,
   errors: [],
@@ -9067,7 +9213,7 @@ export interface ListAccounttaxRequest {
   pageToken?: string;
 }
 
-export const ListAccounttaxRequest = Schema.Struct({
+export const ListAccounttaxRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -9077,7 +9223,8 @@ export const ListAccounttaxRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccounttaxRequest>;
 
 export type ListAccounttaxResponse = AccounttaxListResponse;
-export const ListAccounttaxResponse = AccounttaxListResponse;
+export const ListAccounttaxResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccounttaxListResponse;
 
 export type ListAccounttaxError = DefaultErrors;
 
@@ -9087,7 +9234,7 @@ export const listAccounttax: API.PaginatedOperationMethod<
   ListAccounttaxResponse,
   ListAccounttaxError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccounttaxRequest,
   output: ListAccounttaxResponse,
   errors: [],
@@ -9104,20 +9251,23 @@ export interface DeleteConversionsourcesRequest {
   merchantId: string;
 }
 
-export const DeleteConversionsourcesRequest = Schema.Struct({
-  conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "{merchantId}/conversionsources/{conversionSourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteConversionsourcesRequest>;
+export const DeleteConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{merchantId}/conversionsources/{conversionSourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteConversionsourcesRequest>;
 
 export interface DeleteConversionsourcesResponse {}
 export const DeleteConversionsourcesResponse: Schema.Schema<DeleteConversionsourcesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteConversionsourcesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteConversionsourcesResponse>;
 
 export type DeleteConversionsourcesError = DefaultErrors;
 
@@ -9127,7 +9277,7 @@ export const deleteConversionsources: API.OperationMethod<
   DeleteConversionsourcesResponse,
   DeleteConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteConversionsourcesRequest,
   output: DeleteConversionsourcesResponse,
   errors: [],
@@ -9142,22 +9292,25 @@ export interface UndeleteConversionsourcesRequest {
   body?: UndeleteConversionSourceRequest;
 }
 
-export const UndeleteConversionsourcesRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
-  body: Schema.optional(UndeleteConversionSourceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/conversionsources/{conversionSourceId}:undelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteConversionsourcesRequest>;
+export const UndeleteConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
+    body: Schema.optional(UndeleteConversionSourceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/conversionsources/{conversionSourceId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteConversionsourcesRequest>;
 
 export interface UndeleteConversionsourcesResponse {}
 export const UndeleteConversionsourcesResponse: Schema.Schema<UndeleteConversionsourcesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<UndeleteConversionsourcesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<UndeleteConversionsourcesResponse>;
 
 export type UndeleteConversionsourcesError = DefaultErrors;
 
@@ -9167,7 +9320,7 @@ export const undeleteConversionsources: API.OperationMethod<
   UndeleteConversionsourcesResponse,
   UndeleteConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteConversionsourcesRequest,
   output: UndeleteConversionsourcesResponse,
   errors: [],
@@ -9184,18 +9337,22 @@ export interface ListConversionsourcesRequest {
   showDeleted?: boolean;
 }
 
-export const ListConversionsourcesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/conversionsources" }),
-  svc,
-) as unknown as Schema.Schema<ListConversionsourcesRequest>;
+export const ListConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/conversionsources" }),
+    svc,
+  ) as unknown as Schema.Schema<ListConversionsourcesRequest>;
 
 export type ListConversionsourcesResponse = ListConversionSourcesResponse;
-export const ListConversionsourcesResponse = ListConversionSourcesResponse;
+export const ListConversionsourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListConversionSourcesResponse;
 
 export type ListConversionsourcesError = DefaultErrors;
 
@@ -9205,7 +9362,7 @@ export const listConversionsources: API.PaginatedOperationMethod<
   ListConversionsourcesResponse,
   ListConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListConversionsourcesRequest,
   output: ListConversionsourcesResponse,
   errors: [],
@@ -9222,19 +9379,21 @@ export interface GetConversionsourcesRequest {
   merchantId: string;
 }
 
-export const GetConversionsourcesRequest = Schema.Struct({
-  conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/conversionsources/{conversionSourceId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetConversionsourcesRequest>;
+export const GetConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/conversionsources/{conversionSourceId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetConversionsourcesRequest>;
 
 export type GetConversionsourcesResponse = ConversionSource;
-export const GetConversionsourcesResponse = ConversionSource;
+export const GetConversionsourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type GetConversionsourcesError = DefaultErrors;
 
@@ -9244,7 +9403,7 @@ export const getConversionsources: API.OperationMethod<
   GetConversionsourcesResponse,
   GetConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConversionsourcesRequest,
   output: GetConversionsourcesResponse,
   errors: [],
@@ -9257,20 +9416,22 @@ export interface CreateConversionsourcesRequest {
   body?: ConversionSource;
 }
 
-export const CreateConversionsourcesRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/conversionsources",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateConversionsourcesRequest>;
+export const CreateConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/conversionsources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateConversionsourcesRequest>;
 
 export type CreateConversionsourcesResponse = ConversionSource;
-export const CreateConversionsourcesResponse = ConversionSource;
+export const CreateConversionsourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type CreateConversionsourcesError = DefaultErrors;
 
@@ -9280,7 +9441,7 @@ export const createConversionsources: API.OperationMethod<
   CreateConversionsourcesResponse,
   CreateConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateConversionsourcesRequest,
   output: CreateConversionsourcesResponse,
   errors: [],
@@ -9297,22 +9458,24 @@ export interface PatchConversionsourcesRequest {
   body?: ConversionSource;
 }
 
-export const PatchConversionsourcesRequest = Schema.Struct({
-  conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "{merchantId}/conversionsources/{conversionSourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchConversionsourcesRequest>;
+export const PatchConversionsourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    conversionSourceId: Schema.String.pipe(T.HttpPath("conversionSourceId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ConversionSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "{merchantId}/conversionsources/{conversionSourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchConversionsourcesRequest>;
 
 export type PatchConversionsourcesResponse = ConversionSource;
-export const PatchConversionsourcesResponse = ConversionSource;
+export const PatchConversionsourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ConversionSource;
 
 export type PatchConversionsourcesError = DefaultErrors;
 
@@ -9322,7 +9485,7 @@ export const patchConversionsources: API.OperationMethod<
   PatchConversionsourcesResponse,
   PatchConversionsourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchConversionsourcesRequest,
   output: PatchConversionsourcesResponse,
   errors: [],
@@ -9335,19 +9498,21 @@ export interface GetProductdeliverytimeRequest {
   productId: string;
 }
 
-export const GetProductdeliverytimeRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/productdeliverytime/{productId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProductdeliverytimeRequest>;
+export const GetProductdeliverytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/productdeliverytime/{productId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProductdeliverytimeRequest>;
 
 export type GetProductdeliverytimeResponse = ProductDeliveryTime;
-export const GetProductdeliverytimeResponse = ProductDeliveryTime;
+export const GetProductdeliverytimeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductDeliveryTime;
 
 export type GetProductdeliverytimeError = DefaultErrors;
 
@@ -9357,7 +9522,7 @@ export const getProductdeliverytime: API.OperationMethod<
   GetProductdeliverytimeResponse,
   GetProductdeliverytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductdeliverytimeRequest,
   output: GetProductdeliverytimeResponse,
   errors: [],
@@ -9370,20 +9535,23 @@ export interface DeleteProductdeliverytimeRequest {
   productId: string;
 }
 
-export const DeleteProductdeliverytimeRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "{merchantId}/productdeliverytime/{productId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProductdeliverytimeRequest>;
+export const DeleteProductdeliverytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{merchantId}/productdeliverytime/{productId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProductdeliverytimeRequest>;
 
 export interface DeleteProductdeliverytimeResponse {}
 export const DeleteProductdeliverytimeResponse: Schema.Schema<DeleteProductdeliverytimeResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteProductdeliverytimeResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteProductdeliverytimeResponse>;
 
 export type DeleteProductdeliverytimeError = DefaultErrors;
 
@@ -9393,7 +9561,7 @@ export const deleteProductdeliverytime: API.OperationMethod<
   DeleteProductdeliverytimeResponse,
   DeleteProductdeliverytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductdeliverytimeRequest,
   output: DeleteProductdeliverytimeResponse,
   errors: [],
@@ -9406,20 +9574,22 @@ export interface CreateProductdeliverytimeRequest {
   body?: ProductDeliveryTime;
 }
 
-export const CreateProductdeliverytimeRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ProductDeliveryTime).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/productdeliverytime",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProductdeliverytimeRequest>;
+export const CreateProductdeliverytimeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ProductDeliveryTime).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/productdeliverytime",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProductdeliverytimeRequest>;
 
 export type CreateProductdeliverytimeResponse = ProductDeliveryTime;
-export const CreateProductdeliverytimeResponse = ProductDeliveryTime;
+export const CreateProductdeliverytimeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductDeliveryTime;
 
 export type CreateProductdeliverytimeError = DefaultErrors;
 
@@ -9429,7 +9599,7 @@ export const createProductdeliverytime: API.OperationMethod<
   CreateProductdeliverytimeResponse,
   CreateProductdeliverytimeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProductdeliverytimeRequest,
   output: CreateProductdeliverytimeResponse,
   errors: [],
@@ -9444,21 +9614,23 @@ export interface InsertLocalinventoryRequest {
   body?: LocalInventory;
 }
 
-export const InsertLocalinventoryRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-  body: Schema.optional(LocalInventory).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/products/{productId}/localinventory",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertLocalinventoryRequest>;
+export const InsertLocalinventoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+    body: Schema.optional(LocalInventory).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/products/{productId}/localinventory",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertLocalinventoryRequest>;
 
 export type InsertLocalinventoryResponse = LocalInventory;
-export const InsertLocalinventoryResponse = LocalInventory;
+export const InsertLocalinventoryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LocalInventory;
 
 export type InsertLocalinventoryError = DefaultErrors;
 
@@ -9468,7 +9640,7 @@ export const insertLocalinventory: API.OperationMethod<
   InsertLocalinventoryResponse,
   InsertLocalinventoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertLocalinventoryRequest,
   output: InsertLocalinventoryResponse,
   errors: [],
@@ -9479,17 +9651,18 @@ export interface CustombatchLocalinventoryRequest {
   body?: LocalinventoryCustomBatchRequest;
 }
 
-export const CustombatchLocalinventoryRequest = Schema.Struct({
-  body: Schema.optional(LocalinventoryCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "localinventory/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchLocalinventoryRequest>;
+export const CustombatchLocalinventoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LocalinventoryCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "localinventory/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchLocalinventoryRequest>;
 
 export type CustombatchLocalinventoryResponse =
   LocalinventoryCustomBatchResponse;
 export const CustombatchLocalinventoryResponse =
-  LocalinventoryCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LocalinventoryCustomBatchResponse;
 
 export type CustombatchLocalinventoryError = DefaultErrors;
 
@@ -9499,7 +9672,7 @@ export const custombatchLocalinventory: API.OperationMethod<
   CustombatchLocalinventoryResponse,
   CustombatchLocalinventoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchLocalinventoryRequest,
   output: CustombatchLocalinventoryResponse,
   errors: [],
@@ -9514,19 +9687,21 @@ export interface GetProductstatusesRequest {
   productId: string;
 }
 
-export const GetProductstatusesRequest = Schema.Struct({
-  destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("destinations"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/productstatuses/{productId}" }),
-  svc,
-) as unknown as Schema.Schema<GetProductstatusesRequest>;
+export const GetProductstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("destinations"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/productstatuses/{productId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetProductstatusesRequest>;
 
 export type GetProductstatusesResponse = ProductStatus;
-export const GetProductstatusesResponse = ProductStatus;
+export const GetProductstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductStatus;
 
 export type GetProductstatusesError = DefaultErrors;
 
@@ -9536,7 +9711,7 @@ export const getProductstatuses: API.OperationMethod<
   GetProductstatusesResponse,
   GetProductstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductstatusesRequest,
   output: GetProductstatusesResponse,
   errors: [],
@@ -9547,17 +9722,18 @@ export interface CustombatchProductstatusesRequest {
   body?: ProductstatusesCustomBatchRequest;
 }
 
-export const CustombatchProductstatusesRequest = Schema.Struct({
-  body: Schema.optional(ProductstatusesCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "productstatuses/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchProductstatusesRequest>;
+export const CustombatchProductstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ProductstatusesCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "productstatuses/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchProductstatusesRequest>;
 
 export type CustombatchProductstatusesResponse =
   ProductstatusesCustomBatchResponse;
 export const CustombatchProductstatusesResponse =
-  ProductstatusesCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ProductstatusesCustomBatchResponse;
 
 export type CustombatchProductstatusesError = DefaultErrors;
 
@@ -9567,7 +9743,7 @@ export const custombatchProductstatuses: API.OperationMethod<
   CustombatchProductstatusesResponse,
   CustombatchProductstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchProductstatusesRequest,
   output: CustombatchProductstatusesResponse,
   errors: [],
@@ -9584,20 +9760,22 @@ export interface ListProductstatusesRequest {
   destinations?: string[];
 }
 
-export const ListProductstatusesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("destinations"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/productstatuses" }),
-  svc,
-) as unknown as Schema.Schema<ListProductstatusesRequest>;
+export const ListProductstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("destinations"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/productstatuses" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProductstatusesRequest>;
 
 export type ListProductstatusesResponse = ProductstatusesListResponse;
-export const ListProductstatusesResponse = ProductstatusesListResponse;
+export const ListProductstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductstatusesListResponse;
 
 export type ListProductstatusesError = DefaultErrors;
 
@@ -9607,7 +9785,7 @@ export const listProductstatuses: API.PaginatedOperationMethod<
   ListProductstatusesResponse,
   ListProductstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProductstatusesRequest,
   output: ListProductstatusesResponse,
   errors: [],
@@ -9624,19 +9802,21 @@ export interface GetReturnpolicyonlineRequest {
   merchantId: string;
 }
 
-export const GetReturnpolicyonlineRequest = Schema.Struct({
-  returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetReturnpolicyonlineRequest>;
+export const GetReturnpolicyonlineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetReturnpolicyonlineRequest>;
 
 export type GetReturnpolicyonlineResponse = ReturnPolicyOnline;
-export const GetReturnpolicyonlineResponse = ReturnPolicyOnline;
+export const GetReturnpolicyonlineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReturnPolicyOnline;
 
 export type GetReturnpolicyonlineError = DefaultErrors;
 
@@ -9646,7 +9826,7 @@ export const getReturnpolicyonline: API.OperationMethod<
   GetReturnpolicyonlineResponse,
   GetReturnpolicyonlineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetReturnpolicyonlineRequest,
   output: GetReturnpolicyonlineResponse,
   errors: [],
@@ -9659,20 +9839,22 @@ export interface CreateReturnpolicyonlineRequest {
   body?: ReturnPolicyOnline;
 }
 
-export const CreateReturnpolicyonlineRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ReturnPolicyOnline).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/returnpolicyonline",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateReturnpolicyonlineRequest>;
+export const CreateReturnpolicyonlineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ReturnPolicyOnline).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/returnpolicyonline",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateReturnpolicyonlineRequest>;
 
 export type CreateReturnpolicyonlineResponse = ReturnPolicyOnline;
-export const CreateReturnpolicyonlineResponse = ReturnPolicyOnline;
+export const CreateReturnpolicyonlineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReturnPolicyOnline;
 
 export type CreateReturnpolicyonlineError = DefaultErrors;
 
@@ -9682,7 +9864,7 @@ export const createReturnpolicyonline: API.OperationMethod<
   CreateReturnpolicyonlineResponse,
   CreateReturnpolicyonlineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateReturnpolicyonlineRequest,
   output: CreateReturnpolicyonlineResponse,
   errors: [],
@@ -9697,21 +9879,23 @@ export interface PatchReturnpolicyonlineRequest {
   body?: ReturnPolicyOnline;
 }
 
-export const PatchReturnpolicyonlineRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
-  body: Schema.optional(ReturnPolicyOnline).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchReturnpolicyonlineRequest>;
+export const PatchReturnpolicyonlineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
+    body: Schema.optional(ReturnPolicyOnline).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchReturnpolicyonlineRequest>;
 
 export type PatchReturnpolicyonlineResponse = ReturnPolicyOnline;
-export const PatchReturnpolicyonlineResponse = ReturnPolicyOnline;
+export const PatchReturnpolicyonlineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReturnPolicyOnline;
 
 export type PatchReturnpolicyonlineError = DefaultErrors;
 
@@ -9721,7 +9905,7 @@ export const patchReturnpolicyonline: API.OperationMethod<
   PatchReturnpolicyonlineResponse,
   PatchReturnpolicyonlineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchReturnpolicyonlineRequest,
   output: PatchReturnpolicyonlineResponse,
   errors: [],
@@ -9734,20 +9918,23 @@ export interface DeleteReturnpolicyonlineRequest {
   merchantId: string;
 }
 
-export const DeleteReturnpolicyonlineRequest = Schema.Struct({
-  returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteReturnpolicyonlineRequest>;
+export const DeleteReturnpolicyonlineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    returnPolicyId: Schema.String.pipe(T.HttpPath("returnPolicyId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{merchantId}/returnpolicyonline/{returnPolicyId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteReturnpolicyonlineRequest>;
 
 export interface DeleteReturnpolicyonlineResponse {}
 export const DeleteReturnpolicyonlineResponse: Schema.Schema<DeleteReturnpolicyonlineResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteReturnpolicyonlineResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteReturnpolicyonlineResponse>;
 
 export type DeleteReturnpolicyonlineError = DefaultErrors;
 
@@ -9757,7 +9944,7 @@ export const deleteReturnpolicyonline: API.OperationMethod<
   DeleteReturnpolicyonlineResponse,
   DeleteReturnpolicyonlineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteReturnpolicyonlineRequest,
   output: DeleteReturnpolicyonlineResponse,
   errors: [],
@@ -9768,15 +9955,17 @@ export interface ListReturnpolicyonlineRequest {
   merchantId: string;
 }
 
-export const ListReturnpolicyonlineRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/returnpolicyonline" }),
-  svc,
-) as unknown as Schema.Schema<ListReturnpolicyonlineRequest>;
+export const ListReturnpolicyonlineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/returnpolicyonline" }),
+    svc,
+  ) as unknown as Schema.Schema<ListReturnpolicyonlineRequest>;
 
 export type ListReturnpolicyonlineResponse = ListReturnPolicyOnlineResponse;
-export const ListReturnpolicyonlineResponse = ListReturnPolicyOnlineResponse;
+export const ListReturnpolicyonlineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListReturnPolicyOnlineResponse;
 
 export type ListReturnpolicyonlineError = DefaultErrors;
 
@@ -9786,7 +9975,7 @@ export const listReturnpolicyonline: API.OperationMethod<
   ListReturnpolicyonlineResponse,
   ListReturnpolicyonlineError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListReturnpolicyonlineRequest,
   output: ListReturnpolicyonlineResponse,
   errors: [],
@@ -9805,27 +9994,28 @@ export interface RenderproductissuesMerchantsupportRequest {
   body?: RenderProductIssuesRequestPayload;
 }
 
-export const RenderproductissuesMerchantsupportRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  productId: Schema.String.pipe(T.HttpPath("productId")),
-  timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  body: Schema.optional(RenderProductIssuesRequestPayload).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/merchantsupport/renderproductissues/{productId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RenderproductissuesMerchantsupportRequest>;
+export const RenderproductissuesMerchantsupportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    productId: Schema.String.pipe(T.HttpPath("productId")),
+    timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
+    body: Schema.optional(RenderProductIssuesRequestPayload).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/merchantsupport/renderproductissues/{productId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RenderproductissuesMerchantsupportRequest>;
 
 export type RenderproductissuesMerchantsupportResponse =
   RenderProductIssuesResponse;
 export const RenderproductissuesMerchantsupportResponse =
-  RenderProductIssuesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RenderProductIssuesResponse;
 
 export type RenderproductissuesMerchantsupportError = DefaultErrors;
 
@@ -9835,7 +10025,7 @@ export const renderproductissuesMerchantsupport: API.OperationMethod<
   RenderproductissuesMerchantsupportResponse,
   RenderproductissuesMerchantsupportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenderproductissuesMerchantsupportRequest,
   output: RenderproductissuesMerchantsupportResponse,
   errors: [],
@@ -9850,23 +10040,25 @@ export interface TriggeractionMerchantsupportRequest {
   body?: TriggerActionPayload;
 }
 
-export const TriggeractionMerchantsupportRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(TriggerActionPayload).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/merchantsupport/triggeraction",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TriggeractionMerchantsupportRequest>;
+export const TriggeractionMerchantsupportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(TriggerActionPayload).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/merchantsupport/triggeraction",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TriggeractionMerchantsupportRequest>;
 
 export type TriggeractionMerchantsupportResponse = TriggerActionResponse;
-export const TriggeractionMerchantsupportResponse = TriggerActionResponse;
+export const TriggeractionMerchantsupportResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TriggerActionResponse;
 
 export type TriggeractionMerchantsupportError = DefaultErrors;
 
@@ -9876,7 +10068,7 @@ export const triggeractionMerchantsupport: API.OperationMethod<
   TriggeractionMerchantsupportResponse,
   TriggeractionMerchantsupportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TriggeractionMerchantsupportRequest,
   output: TriggeractionMerchantsupportResponse,
   errors: [],
@@ -9893,26 +10085,27 @@ export interface RenderaccountissuesMerchantsupportRequest {
   body?: RenderAccountIssuesRequestPayload;
 }
 
-export const RenderaccountissuesMerchantsupportRequest = Schema.Struct({
-  timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(RenderAccountIssuesRequestPayload).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/merchantsupport/renderaccountissues",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RenderaccountissuesMerchantsupportRequest>;
+export const RenderaccountissuesMerchantsupportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    timeZone: Schema.optional(Schema.String).pipe(T.HttpQuery("timeZone")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(RenderAccountIssuesRequestPayload).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/merchantsupport/renderaccountissues",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RenderaccountissuesMerchantsupportRequest>;
 
 export type RenderaccountissuesMerchantsupportResponse =
   RenderAccountIssuesResponse;
 export const RenderaccountissuesMerchantsupportResponse =
-  RenderAccountIssuesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RenderAccountIssuesResponse;
 
 export type RenderaccountissuesMerchantsupportError = DefaultErrors;
 
@@ -9922,7 +10115,7 @@ export const renderaccountissuesMerchantsupport: API.OperationMethod<
   RenderaccountissuesMerchantsupportResponse,
   RenderaccountissuesMerchantsupportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RenderaccountissuesMerchantsupportRequest,
   output: RenderaccountissuesMerchantsupportResponse,
   errors: [],
@@ -9933,15 +10126,17 @@ export interface GetPubsubnotificationsettingsRequest {
   merchantId: string;
 }
 
-export const GetPubsubnotificationsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/pubsubnotificationsettings" }),
-  svc,
-) as unknown as Schema.Schema<GetPubsubnotificationsettingsRequest>;
+export const GetPubsubnotificationsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/pubsubnotificationsettings" }),
+    svc,
+  ) as unknown as Schema.Schema<GetPubsubnotificationsettingsRequest>;
 
 export type GetPubsubnotificationsettingsResponse = PubsubNotificationSettings;
-export const GetPubsubnotificationsettingsResponse = PubsubNotificationSettings;
+export const GetPubsubnotificationsettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PubsubNotificationSettings;
 
 export type GetPubsubnotificationsettingsError = DefaultErrors;
 
@@ -9951,7 +10146,7 @@ export const getPubsubnotificationsettings: API.OperationMethod<
   GetPubsubnotificationsettingsResponse,
   GetPubsubnotificationsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPubsubnotificationsettingsRequest,
   output: GetPubsubnotificationsettingsResponse,
   errors: [],
@@ -9964,22 +10159,23 @@ export interface UpdatePubsubnotificationsettingsRequest {
   body?: PubsubNotificationSettings;
 }
 
-export const UpdatePubsubnotificationsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(PubsubNotificationSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{merchantId}/pubsubnotificationsettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatePubsubnotificationsettingsRequest>;
+export const UpdatePubsubnotificationsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(PubsubNotificationSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{merchantId}/pubsubnotificationsettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePubsubnotificationsettingsRequest>;
 
 export type UpdatePubsubnotificationsettingsResponse =
   PubsubNotificationSettings;
 export const UpdatePubsubnotificationsettingsResponse =
-  PubsubNotificationSettings;
+  /*@__PURE__*/ /*#__PURE__*/ PubsubNotificationSettings;
 
 export type UpdatePubsubnotificationsettingsError = DefaultErrors;
 
@@ -9989,7 +10185,7 @@ export const updatePubsubnotificationsettings: API.OperationMethod<
   UpdatePubsubnotificationsettingsResponse,
   UpdatePubsubnotificationsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePubsubnotificationsettingsRequest,
   output: UpdatePubsubnotificationsettingsResponse,
   errors: [],
@@ -10000,17 +10196,18 @@ export interface GetsupportedcarriersShippingsettingsRequest {
   merchantId: string;
 }
 
-export const GetsupportedcarriersShippingsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/supportedCarriers" }),
-  svc,
-) as unknown as Schema.Schema<GetsupportedcarriersShippingsettingsRequest>;
+export const GetsupportedcarriersShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/supportedCarriers" }),
+    svc,
+  ) as unknown as Schema.Schema<GetsupportedcarriersShippingsettingsRequest>;
 
 export type GetsupportedcarriersShippingsettingsResponse =
   ShippingsettingsGetSupportedCarriersResponse;
 export const GetsupportedcarriersShippingsettingsResponse =
-  ShippingsettingsGetSupportedCarriersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ShippingsettingsGetSupportedCarriersResponse;
 
 export type GetsupportedcarriersShippingsettingsError = DefaultErrors;
 
@@ -10020,7 +10217,7 @@ export const getsupportedcarriersShippingsettings: API.OperationMethod<
   GetsupportedcarriersShippingsettingsResponse,
   GetsupportedcarriersShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetsupportedcarriersShippingsettingsRequest,
   output: GetsupportedcarriersShippingsettingsResponse,
   errors: [],
@@ -10035,17 +10232,19 @@ export interface ListShippingsettingsRequest {
   maxResults?: number;
 }
 
-export const ListShippingsettingsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/shippingsettings" }),
-  svc,
-) as unknown as Schema.Schema<ListShippingsettingsRequest>;
+export const ListShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/shippingsettings" }),
+    svc,
+  ) as unknown as Schema.Schema<ListShippingsettingsRequest>;
 
 export type ListShippingsettingsResponse = ShippingsettingsListResponse;
-export const ListShippingsettingsResponse = ShippingsettingsListResponse;
+export const ListShippingsettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ShippingsettingsListResponse;
 
 export type ListShippingsettingsError = DefaultErrors;
 
@@ -10055,7 +10254,7 @@ export const listShippingsettings: API.PaginatedOperationMethod<
   ListShippingsettingsResponse,
   ListShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListShippingsettingsRequest,
   output: ListShippingsettingsResponse,
   errors: [],
@@ -10070,17 +10269,18 @@ export interface GetsupportedpickupservicesShippingsettingsRequest {
   merchantId: string;
 }
 
-export const GetsupportedpickupservicesShippingsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/supportedPickupServices" }),
-  svc,
-) as unknown as Schema.Schema<GetsupportedpickupservicesShippingsettingsRequest>;
+export const GetsupportedpickupservicesShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/supportedPickupServices" }),
+    svc,
+  ) as unknown as Schema.Schema<GetsupportedpickupservicesShippingsettingsRequest>;
 
 export type GetsupportedpickupservicesShippingsettingsResponse =
   ShippingsettingsGetSupportedPickupServicesResponse;
 export const GetsupportedpickupservicesShippingsettingsResponse =
-  ShippingsettingsGetSupportedPickupServicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ShippingsettingsGetSupportedPickupServicesResponse;
 
 export type GetsupportedpickupservicesShippingsettingsError = DefaultErrors;
 
@@ -10090,7 +10290,7 @@ export const getsupportedpickupservicesShippingsettings: API.OperationMethod<
   GetsupportedpickupservicesShippingsettingsResponse,
   GetsupportedpickupservicesShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetsupportedpickupservicesShippingsettingsRequest,
   output: GetsupportedpickupservicesShippingsettingsResponse,
   errors: [],
@@ -10105,21 +10305,23 @@ export interface UpdateShippingsettingsRequest {
   body?: ShippingSettings;
 }
 
-export const UpdateShippingsettingsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ShippingSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{merchantId}/shippingsettings/{accountId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateShippingsettingsRequest>;
+export const UpdateShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ShippingSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{merchantId}/shippingsettings/{accountId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateShippingsettingsRequest>;
 
 export type UpdateShippingsettingsResponse = ShippingSettings;
-export const UpdateShippingsettingsResponse = ShippingSettings;
+export const UpdateShippingsettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ShippingSettings;
 
 export type UpdateShippingsettingsError = DefaultErrors;
 
@@ -10129,7 +10331,7 @@ export const updateShippingsettings: API.OperationMethod<
   UpdateShippingsettingsResponse,
   UpdateShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateShippingsettingsRequest,
   output: UpdateShippingsettingsResponse,
   errors: [],
@@ -10140,17 +10342,20 @@ export interface CustombatchShippingsettingsRequest {
   body?: ShippingsettingsCustomBatchRequest;
 }
 
-export const CustombatchShippingsettingsRequest = Schema.Struct({
-  body: Schema.optional(ShippingsettingsCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "shippingsettings/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchShippingsettingsRequest>;
+export const CustombatchShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ShippingsettingsCustomBatchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({ method: "POST", path: "shippingsettings/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchShippingsettingsRequest>;
 
 export type CustombatchShippingsettingsResponse =
   ShippingsettingsCustomBatchResponse;
 export const CustombatchShippingsettingsResponse =
-  ShippingsettingsCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ShippingsettingsCustomBatchResponse;
 
 export type CustombatchShippingsettingsError = DefaultErrors;
 
@@ -10160,7 +10365,7 @@ export const custombatchShippingsettings: API.OperationMethod<
   CustombatchShippingsettingsResponse,
   CustombatchShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchShippingsettingsRequest,
   output: CustombatchShippingsettingsResponse,
   errors: [],
@@ -10173,16 +10378,21 @@ export interface GetShippingsettingsRequest {
   merchantId: string;
 }
 
-export const GetShippingsettingsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/shippingsettings/{accountId}" }),
-  svc,
-) as unknown as Schema.Schema<GetShippingsettingsRequest>;
+export const GetShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/shippingsettings/{accountId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetShippingsettingsRequest>;
 
 export type GetShippingsettingsResponse = ShippingSettings;
-export const GetShippingsettingsResponse = ShippingSettings;
+export const GetShippingsettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ShippingSettings;
 
 export type GetShippingsettingsError = DefaultErrors;
 
@@ -10192,7 +10402,7 @@ export const getShippingsettings: API.OperationMethod<
   GetShippingsettingsResponse,
   GetShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetShippingsettingsRequest,
   output: GetShippingsettingsResponse,
   errors: [],
@@ -10203,17 +10413,18 @@ export interface GetsupportedholidaysShippingsettingsRequest {
   merchantId: string;
 }
 
-export const GetsupportedholidaysShippingsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/supportedHolidays" }),
-  svc,
-) as unknown as Schema.Schema<GetsupportedholidaysShippingsettingsRequest>;
+export const GetsupportedholidaysShippingsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/supportedHolidays" }),
+    svc,
+  ) as unknown as Schema.Schema<GetsupportedholidaysShippingsettingsRequest>;
 
 export type GetsupportedholidaysShippingsettingsResponse =
   ShippingsettingsGetSupportedHolidaysResponse;
 export const GetsupportedholidaysShippingsettingsResponse =
-  ShippingsettingsGetSupportedHolidaysResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ShippingsettingsGetSupportedHolidaysResponse;
 
 export type GetsupportedholidaysShippingsettingsError = DefaultErrors;
 
@@ -10223,7 +10434,7 @@ export const getsupportedholidaysShippingsettings: API.OperationMethod<
   GetsupportedholidaysShippingsettingsResponse,
   GetsupportedholidaysShippingsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetsupportedholidaysShippingsettingsRequest,
   output: GetsupportedholidaysShippingsettingsResponse,
   errors: [],
@@ -10238,21 +10449,22 @@ export interface UpdatelabelsCssesRequest {
   body?: LabelIds;
 }
 
-export const UpdatelabelsCssesRequest = Schema.Struct({
-  cssDomainId: Schema.String.pipe(T.HttpPath("cssDomainId")),
-  cssGroupId: Schema.String.pipe(T.HttpPath("cssGroupId")),
-  body: Schema.optional(LabelIds).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{cssGroupId}/csses/{cssDomainId}/updatelabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatelabelsCssesRequest>;
+export const UpdatelabelsCssesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cssDomainId: Schema.String.pipe(T.HttpPath("cssDomainId")),
+    cssGroupId: Schema.String.pipe(T.HttpPath("cssGroupId")),
+    body: Schema.optional(LabelIds).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{cssGroupId}/csses/{cssDomainId}/updatelabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatelabelsCssesRequest>;
 
 export type UpdatelabelsCssesResponse = Css;
-export const UpdatelabelsCssesResponse = Css;
+export const UpdatelabelsCssesResponse = /*@__PURE__*/ /*#__PURE__*/ Css;
 
 export type UpdatelabelsCssesError = DefaultErrors;
 
@@ -10262,7 +10474,7 @@ export const updatelabelsCsses: API.OperationMethod<
   UpdatelabelsCssesResponse,
   UpdatelabelsCssesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatelabelsCssesRequest,
   output: UpdatelabelsCssesResponse,
   errors: [],
@@ -10275,7 +10487,7 @@ export interface GetCssesRequest {
   cssDomainId: string;
 }
 
-export const GetCssesRequest = Schema.Struct({
+export const GetCssesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cssGroupId: Schema.String.pipe(T.HttpPath("cssGroupId")),
   cssDomainId: Schema.String.pipe(T.HttpPath("cssDomainId")),
 }).pipe(
@@ -10284,7 +10496,7 @@ export const GetCssesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCssesRequest>;
 
 export type GetCssesResponse = Css;
-export const GetCssesResponse = Css;
+export const GetCssesResponse = /*@__PURE__*/ /*#__PURE__*/ Css;
 
 export type GetCssesError = DefaultErrors;
 
@@ -10294,7 +10506,7 @@ export const getCsses: API.OperationMethod<
   GetCssesResponse,
   GetCssesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCssesRequest,
   output: GetCssesResponse,
   errors: [],
@@ -10309,7 +10521,7 @@ export interface ListCssesRequest {
   pageSize?: number;
 }
 
-export const ListCssesRequest = Schema.Struct({
+export const ListCssesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cssGroupId: Schema.String.pipe(T.HttpPath("cssGroupId")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -10319,7 +10531,8 @@ export const ListCssesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCssesRequest>;
 
 export type ListCssesResponse_Op = ListCssesResponse;
-export const ListCssesResponse_Op = ListCssesResponse;
+export const ListCssesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCssesResponse;
 
 export type ListCssesError = DefaultErrors;
 
@@ -10329,7 +10542,7 @@ export const listCsses: API.PaginatedOperationMethod<
   ListCssesResponse_Op,
   ListCssesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCssesRequest,
   output: ListCssesResponse_Op,
   errors: [],
@@ -10344,15 +10557,17 @@ export interface GetFreelistingsprogramRequest {
   merchantId: string;
 }
 
-export const GetFreelistingsprogramRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/freelistingsprogram" }),
-  svc,
-) as unknown as Schema.Schema<GetFreelistingsprogramRequest>;
+export const GetFreelistingsprogramRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/freelistingsprogram" }),
+    svc,
+  ) as unknown as Schema.Schema<GetFreelistingsprogramRequest>;
 
 export type GetFreelistingsprogramResponse = FreeListingsProgramStatus;
-export const GetFreelistingsprogramResponse = FreeListingsProgramStatus;
+export const GetFreelistingsprogramResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FreeListingsProgramStatus;
 
 export type GetFreelistingsprogramError = DefaultErrors;
 
@@ -10362,7 +10577,7 @@ export const getFreelistingsprogram: API.OperationMethod<
   GetFreelistingsprogramResponse,
   GetFreelistingsprogramError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFreelistingsprogramRequest,
   output: GetFreelistingsprogramResponse,
   errors: [],
@@ -10375,21 +10590,22 @@ export interface RequestreviewFreelistingsprogramRequest {
   body?: RequestReviewFreeListingsRequest;
 }
 
-export const RequestreviewFreelistingsprogramRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(RequestReviewFreeListingsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/freelistingsprogram/requestreview",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestreviewFreelistingsprogramRequest>;
+export const RequestreviewFreelistingsprogramRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(RequestReviewFreeListingsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/freelistingsprogram/requestreview",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestreviewFreelistingsprogramRequest>;
 
 export interface RequestreviewFreelistingsprogramResponse {}
 export const RequestreviewFreelistingsprogramResponse: Schema.Schema<RequestreviewFreelistingsprogramResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<RequestreviewFreelistingsprogramResponse>;
 
@@ -10401,7 +10617,7 @@ export const requestreviewFreelistingsprogram: API.OperationMethod<
   RequestreviewFreelistingsprogramResponse,
   RequestreviewFreelistingsprogramError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestreviewFreelistingsprogramRequest,
   output: RequestreviewFreelistingsprogramResponse,
   errors: [],
@@ -10412,18 +10628,20 @@ export interface GetFreelistingsprogramCheckoutsettingsRequest {
   merchantId: string;
 }
 
-export const GetFreelistingsprogramCheckoutsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/freelistingsprogram/checkoutsettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFreelistingsprogramCheckoutsettingsRequest>;
+export const GetFreelistingsprogramCheckoutsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/freelistingsprogram/checkoutsettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFreelistingsprogramCheckoutsettingsRequest>;
 
 export type GetFreelistingsprogramCheckoutsettingsResponse = CheckoutSettings;
-export const GetFreelistingsprogramCheckoutsettingsResponse = CheckoutSettings;
+export const GetFreelistingsprogramCheckoutsettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CheckoutSettings;
 
 export type GetFreelistingsprogramCheckoutsettingsError = DefaultErrors;
 
@@ -10433,7 +10651,7 @@ export const getFreelistingsprogramCheckoutsettings: API.OperationMethod<
   GetFreelistingsprogramCheckoutsettingsResponse,
   GetFreelistingsprogramCheckoutsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFreelistingsprogramCheckoutsettingsRequest,
   output: GetFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
@@ -10444,19 +10662,20 @@ export interface DeleteFreelistingsprogramCheckoutsettingsRequest {
   merchantId: string;
 }
 
-export const DeleteFreelistingsprogramCheckoutsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "{merchantId}/freelistingsprogram/checkoutsettings",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteFreelistingsprogramCheckoutsettingsRequest>;
+export const DeleteFreelistingsprogramCheckoutsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{merchantId}/freelistingsprogram/checkoutsettings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteFreelistingsprogramCheckoutsettingsRequest>;
 
 export interface DeleteFreelistingsprogramCheckoutsettingsResponse {}
 export const DeleteFreelistingsprogramCheckoutsettingsResponse: Schema.Schema<DeleteFreelistingsprogramCheckoutsettingsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteFreelistingsprogramCheckoutsettingsResponse>;
 
@@ -10468,7 +10687,7 @@ export const deleteFreelistingsprogramCheckoutsettings: API.OperationMethod<
   DeleteFreelistingsprogramCheckoutsettingsResponse,
   DeleteFreelistingsprogramCheckoutsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFreelistingsprogramCheckoutsettingsRequest,
   output: DeleteFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
@@ -10481,22 +10700,23 @@ export interface InsertFreelistingsprogramCheckoutsettingsRequest {
   body?: InsertCheckoutSettingsRequest;
 }
 
-export const InsertFreelistingsprogramCheckoutsettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(InsertCheckoutSettingsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/freelistingsprogram/checkoutsettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertFreelistingsprogramCheckoutsettingsRequest>;
+export const InsertFreelistingsprogramCheckoutsettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(InsertCheckoutSettingsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/freelistingsprogram/checkoutsettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertFreelistingsprogramCheckoutsettingsRequest>;
 
 export type InsertFreelistingsprogramCheckoutsettingsResponse =
   CheckoutSettings;
 export const InsertFreelistingsprogramCheckoutsettingsResponse =
-  CheckoutSettings;
+  /*@__PURE__*/ /*#__PURE__*/ CheckoutSettings;
 
 export type InsertFreelistingsprogramCheckoutsettingsError = DefaultErrors;
 
@@ -10506,7 +10726,7 @@ export const insertFreelistingsprogramCheckoutsettings: API.OperationMethod<
   InsertFreelistingsprogramCheckoutsettingsResponse,
   InsertFreelistingsprogramCheckoutsettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertFreelistingsprogramCheckoutsettingsRequest,
   output: InsertFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
@@ -10519,20 +10739,22 @@ export interface CreateOrdertrackingsignalsRequest {
   body?: OrderTrackingSignal;
 }
 
-export const CreateOrdertrackingsignalsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(OrderTrackingSignal).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/ordertrackingsignals",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrdertrackingsignalsRequest>;
+export const CreateOrdertrackingsignalsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(OrderTrackingSignal).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/ordertrackingsignals",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrdertrackingsignalsRequest>;
 
 export type CreateOrdertrackingsignalsResponse = OrderTrackingSignal;
-export const CreateOrdertrackingsignalsResponse = OrderTrackingSignal;
+export const CreateOrdertrackingsignalsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ OrderTrackingSignal;
 
 export type CreateOrdertrackingsignalsError = DefaultErrors;
 
@@ -10542,7 +10764,7 @@ export const createOrdertrackingsignals: API.OperationMethod<
   CreateOrdertrackingsignalsResponse,
   CreateOrdertrackingsignalsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrdertrackingsignalsRequest,
   output: CreateOrdertrackingsignalsResponse,
   errors: [],
@@ -10557,7 +10779,7 @@ export interface DeleteProductsRequest {
   feedId?: string;
 }
 
-export const DeleteProductsRequest = Schema.Struct({
+export const DeleteProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   productId: Schema.String.pipe(T.HttpPath("productId")),
   feedId: Schema.optional(Schema.String).pipe(T.HttpQuery("feedId")),
@@ -10568,7 +10790,9 @@ export const DeleteProductsRequest = Schema.Struct({
 
 export interface DeleteProductsResponse {}
 export const DeleteProductsResponse: Schema.Schema<DeleteProductsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteProductsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteProductsResponse>;
 
 export type DeleteProductsError = DefaultErrors;
 
@@ -10578,7 +10802,7 @@ export const deleteProducts: API.OperationMethod<
   DeleteProductsResponse,
   DeleteProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProductsRequest,
   output: DeleteProductsResponse,
   errors: [],
@@ -10595,7 +10819,7 @@ export interface UpdateProductsRequest {
   body?: Product;
 }
 
-export const UpdateProductsRequest = Schema.Struct({
+export const UpdateProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   productId: Schema.String.pipe(T.HttpPath("productId")),
@@ -10610,7 +10834,7 @@ export const UpdateProductsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateProductsRequest>;
 
 export type UpdateProductsResponse = Product;
-export const UpdateProductsResponse = Product;
+export const UpdateProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type UpdateProductsError = DefaultErrors;
 
@@ -10620,7 +10844,7 @@ export const updateProducts: API.OperationMethod<
   UpdateProductsResponse,
   UpdateProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProductsRequest,
   output: UpdateProductsResponse,
   errors: [],
@@ -10635,7 +10859,7 @@ export interface ListProductsRequest {
   merchantId: string;
 }
 
-export const ListProductsRequest = Schema.Struct({
+export const ListProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
@@ -10645,7 +10869,8 @@ export const ListProductsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListProductsRequest>;
 
 export type ListProductsResponse = ProductsListResponse;
-export const ListProductsResponse = ProductsListResponse;
+export const ListProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductsListResponse;
 
 export type ListProductsError = DefaultErrors;
 
@@ -10655,7 +10880,7 @@ export const listProducts: API.PaginatedOperationMethod<
   ListProductsResponse,
   ListProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProductsRequest,
   output: ListProductsResponse,
   errors: [],
@@ -10672,7 +10897,7 @@ export interface GetProductsRequest {
   productId: string;
 }
 
-export const GetProductsRequest = Schema.Struct({
+export const GetProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   productId: Schema.String.pipe(T.HttpPath("productId")),
 }).pipe(
@@ -10681,7 +10906,7 @@ export const GetProductsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetProductsRequest>;
 
 export type GetProductsResponse = Product;
-export const GetProductsResponse = Product;
+export const GetProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type GetProductsError = DefaultErrors;
 
@@ -10691,7 +10916,7 @@ export const getProducts: API.OperationMethod<
   GetProductsResponse,
   GetProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProductsRequest,
   output: GetProductsResponse,
   errors: [],
@@ -10706,7 +10931,7 @@ export interface InsertProductsRequest {
   body?: Product;
 }
 
-export const InsertProductsRequest = Schema.Struct({
+export const InsertProductsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   feedId: Schema.optional(Schema.String).pipe(T.HttpQuery("feedId")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   body: Schema.optional(Product).pipe(T.HttpBody()),
@@ -10716,7 +10941,7 @@ export const InsertProductsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertProductsRequest>;
 
 export type InsertProductsResponse = Product;
-export const InsertProductsResponse = Product;
+export const InsertProductsResponse = /*@__PURE__*/ /*#__PURE__*/ Product;
 
 export type InsertProductsError = DefaultErrors;
 
@@ -10726,7 +10951,7 @@ export const insertProducts: API.OperationMethod<
   InsertProductsResponse,
   InsertProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertProductsRequest,
   output: InsertProductsResponse,
   errors: [],
@@ -10737,15 +10962,17 @@ export interface CustombatchProductsRequest {
   body?: ProductsCustomBatchRequest;
 }
 
-export const CustombatchProductsRequest = Schema.Struct({
-  body: Schema.optional(ProductsCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "products/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchProductsRequest>;
+export const CustombatchProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ProductsCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "products/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchProductsRequest>;
 
 export type CustombatchProductsResponse = ProductsCustomBatchResponse;
-export const CustombatchProductsResponse = ProductsCustomBatchResponse;
+export const CustombatchProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ProductsCustomBatchResponse;
 
 export type CustombatchProductsError = DefaultErrors;
 
@@ -10755,7 +10982,7 @@ export const custombatchProducts: API.OperationMethod<
   CustombatchProductsResponse,
   CustombatchProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchProductsRequest,
   output: CustombatchProductsResponse,
   errors: [],
@@ -10770,21 +10997,23 @@ export interface UpdatelabelsAccountsRequest {
   body?: AccountsUpdateLabelsRequest;
 }
 
-export const UpdatelabelsAccountsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(AccountsUpdateLabelsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/accounts/{accountId}/updatelabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatelabelsAccountsRequest>;
+export const UpdatelabelsAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(AccountsUpdateLabelsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/accounts/{accountId}/updatelabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatelabelsAccountsRequest>;
 
 export type UpdatelabelsAccountsResponse = AccountsUpdateLabelsResponse;
-export const UpdatelabelsAccountsResponse = AccountsUpdateLabelsResponse;
+export const UpdatelabelsAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsUpdateLabelsResponse;
 
 export type UpdatelabelsAccountsError = DefaultErrors;
 
@@ -10794,7 +11023,7 @@ export const updatelabelsAccounts: API.OperationMethod<
   UpdatelabelsAccountsResponse,
   UpdatelabelsAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatelabelsAccountsRequest,
   output: UpdatelabelsAccountsResponse,
   errors: [],
@@ -10809,7 +11038,7 @@ export interface DeleteAccountsRequest {
   force?: boolean;
 }
 
-export const DeleteAccountsRequest = Schema.Struct({
+export const DeleteAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
@@ -10820,7 +11049,9 @@ export const DeleteAccountsRequest = Schema.Struct({
 
 export interface DeleteAccountsResponse {}
 export const DeleteAccountsResponse: Schema.Schema<DeleteAccountsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteAccountsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsResponse>;
 
 export type DeleteAccountsError = DefaultErrors;
 
@@ -10830,7 +11061,7 @@ export const deleteAccounts: API.OperationMethod<
   DeleteAccountsResponse,
   DeleteAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsRequest,
   output: DeleteAccountsResponse,
   errors: [],
@@ -10845,7 +11076,7 @@ export interface LinkAccountsRequest {
   body?: AccountsLinkRequest;
 }
 
-export const LinkAccountsRequest = Schema.Struct({
+export const LinkAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   body: Schema.optional(AccountsLinkRequest).pipe(T.HttpBody()),
@@ -10859,7 +11090,8 @@ export const LinkAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<LinkAccountsRequest>;
 
 export type LinkAccountsResponse = AccountsLinkResponse;
-export const LinkAccountsResponse = AccountsLinkResponse;
+export const LinkAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsLinkResponse;
 
 export type LinkAccountsError = DefaultErrors;
 
@@ -10869,7 +11101,7 @@ export const linkAccounts: API.OperationMethod<
   LinkAccountsResponse,
   LinkAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LinkAccountsRequest,
   output: LinkAccountsResponse,
   errors: [],
@@ -10880,15 +11112,17 @@ export interface CustombatchAccountsRequest {
   body?: AccountsCustomBatchRequest;
 }
 
-export const CustombatchAccountsRequest = Schema.Struct({
-  body: Schema.optional(AccountsCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "accounts/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchAccountsRequest>;
+export const CustombatchAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AccountsCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "accounts/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchAccountsRequest>;
 
 export type CustombatchAccountsResponse = AccountsCustomBatchResponse;
-export const CustombatchAccountsResponse = AccountsCustomBatchResponse;
+export const CustombatchAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsCustomBatchResponse;
 
 export type CustombatchAccountsError = DefaultErrors;
 
@@ -10898,7 +11132,7 @@ export const custombatchAccounts: API.OperationMethod<
   CustombatchAccountsResponse,
   CustombatchAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchAccountsRequest,
   output: CustombatchAccountsResponse,
   errors: [],
@@ -10913,21 +11147,23 @@ export interface VerifyphonenumberAccountsRequest {
   body?: VerifyPhoneNumberRequest;
 }
 
-export const VerifyphonenumberAccountsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(VerifyPhoneNumberRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/accounts/{accountId}/verifyphonenumber",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<VerifyphonenumberAccountsRequest>;
+export const VerifyphonenumberAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(VerifyPhoneNumberRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/accounts/{accountId}/verifyphonenumber",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<VerifyphonenumberAccountsRequest>;
 
 export type VerifyphonenumberAccountsResponse = VerifyPhoneNumberResponse;
-export const VerifyphonenumberAccountsResponse = VerifyPhoneNumberResponse;
+export const VerifyphonenumberAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyPhoneNumberResponse;
 
 export type VerifyphonenumberAccountsError = DefaultErrors;
 
@@ -10937,7 +11173,7 @@ export const verifyphonenumberAccounts: API.OperationMethod<
   VerifyphonenumberAccountsResponse,
   VerifyphonenumberAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyphonenumberAccountsRequest,
   output: VerifyphonenumberAccountsResponse,
   errors: [],
@@ -10952,7 +11188,7 @@ export interface UpdateAccountsRequest {
   body?: Account;
 }
 
-export const UpdateAccountsRequest = Schema.Struct({
+export const UpdateAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   body: Schema.optional(Account).pipe(T.HttpBody()),
@@ -10966,7 +11202,7 @@ export const UpdateAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateAccountsRequest>;
 
 export type UpdateAccountsResponse = Account;
-export const UpdateAccountsResponse = Account;
+export const UpdateAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type UpdateAccountsError = DefaultErrors;
 
@@ -10976,7 +11212,7 @@ export const updateAccounts: API.OperationMethod<
   UpdateAccountsResponse,
   UpdateAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsRequest,
   output: UpdateAccountsResponse,
   errors: [],
@@ -10984,13 +11220,15 @@ export const updateAccounts: API.OperationMethod<
 
 export interface AuthinfoAccountsRequest {}
 
-export const AuthinfoAccountsRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "accounts/authinfo" }),
-  svc,
-) as unknown as Schema.Schema<AuthinfoAccountsRequest>;
+export const AuthinfoAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "accounts/authinfo" }),
+    svc,
+  ) as unknown as Schema.Schema<AuthinfoAccountsRequest>;
 
 export type AuthinfoAccountsResponse = AccountsAuthInfoResponse;
-export const AuthinfoAccountsResponse = AccountsAuthInfoResponse;
+export const AuthinfoAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsAuthInfoResponse;
 
 export type AuthinfoAccountsError = DefaultErrors;
 
@@ -11000,7 +11238,7 @@ export const authinfoAccounts: API.OperationMethod<
   AuthinfoAccountsResponse,
   AuthinfoAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthinfoAccountsRequest,
   output: AuthinfoAccountsResponse,
   errors: [],
@@ -11015,21 +11253,23 @@ export interface ClaimwebsiteAccountsRequest {
   merchantId: string;
 }
 
-export const ClaimwebsiteAccountsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  overwrite: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("overwrite")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/accounts/{accountId}/claimwebsite",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClaimwebsiteAccountsRequest>;
+export const ClaimwebsiteAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    overwrite: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("overwrite")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/accounts/{accountId}/claimwebsite",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClaimwebsiteAccountsRequest>;
 
 export type ClaimwebsiteAccountsResponse = AccountsClaimWebsiteResponse;
-export const ClaimwebsiteAccountsResponse = AccountsClaimWebsiteResponse;
+export const ClaimwebsiteAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsClaimWebsiteResponse;
 
 export type ClaimwebsiteAccountsError = DefaultErrors;
 
@@ -11039,7 +11279,7 @@ export const claimwebsiteAccounts: API.OperationMethod<
   ClaimwebsiteAccountsResponse,
   ClaimwebsiteAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimwebsiteAccountsRequest,
   output: ClaimwebsiteAccountsResponse,
   errors: [],
@@ -11054,7 +11294,7 @@ export interface GetAccountsRequest {
   view?: "MERCHANT" | "CSS" | (string & {});
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
@@ -11064,7 +11304,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = Account;
-export const GetAccountsResponse = Account;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -11074,7 +11314,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -11095,7 +11335,7 @@ export interface ListAccountsRequest {
   maxResults?: number;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   label: Schema.optional(Schema.String).pipe(T.HttpQuery("label")),
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
@@ -11108,7 +11348,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse = AccountsListResponse;
-export const ListAccountsResponse = AccountsListResponse;
+export const ListAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsListResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -11118,7 +11359,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -11139,21 +11380,23 @@ export interface ListlinksAccountsRequest {
   merchantId: string;
 }
 
-export const ListlinksAccountsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/accounts/{accountId}/listlinks",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListlinksAccountsRequest>;
+export const ListlinksAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/accounts/{accountId}/listlinks",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListlinksAccountsRequest>;
 
 export type ListlinksAccountsResponse = AccountsListLinksResponse;
-export const ListlinksAccountsResponse = AccountsListLinksResponse;
+export const ListlinksAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountsListLinksResponse;
 
 export type ListlinksAccountsError = DefaultErrors;
 
@@ -11163,7 +11406,7 @@ export const listlinksAccounts: API.PaginatedOperationMethod<
   ListlinksAccountsResponse,
   ListlinksAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListlinksAccountsRequest,
   output: ListlinksAccountsResponse,
   errors: [],
@@ -11180,7 +11423,7 @@ export interface InsertAccountsRequest {
   body?: Account;
 }
 
-export const InsertAccountsRequest = Schema.Struct({
+export const InsertAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   body: Schema.optional(Account).pipe(T.HttpBody()),
 }).pipe(
@@ -11189,7 +11432,7 @@ export const InsertAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertAccountsRequest>;
 
 export type InsertAccountsResponse = Account;
-export const InsertAccountsResponse = Account;
+export const InsertAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type InsertAccountsError = DefaultErrors;
 
@@ -11199,7 +11442,7 @@ export const insertAccounts: API.OperationMethod<
   InsertAccountsResponse,
   InsertAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsRequest,
   output: InsertAccountsResponse,
   errors: [],
@@ -11214,23 +11457,24 @@ export interface RequestphoneverificationAccountsRequest {
   body?: RequestPhoneVerificationRequest;
 }
 
-export const RequestphoneverificationAccountsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(RequestPhoneVerificationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/accounts/{accountId}/requestphoneverification",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestphoneverificationAccountsRequest>;
+export const RequestphoneverificationAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(RequestPhoneVerificationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/accounts/{accountId}/requestphoneverification",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestphoneverificationAccountsRequest>;
 
 export type RequestphoneverificationAccountsResponse =
   RequestPhoneVerificationResponse;
 export const RequestphoneverificationAccountsResponse =
-  RequestPhoneVerificationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RequestPhoneVerificationResponse;
 
 export type RequestphoneverificationAccountsError = DefaultErrors;
 
@@ -11240,7 +11484,7 @@ export const requestphoneverificationAccounts: API.OperationMethod<
   RequestphoneverificationAccountsResponse,
   RequestphoneverificationAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestphoneverificationAccountsRequest,
   output: RequestphoneverificationAccountsResponse,
   errors: [],
@@ -11253,17 +11497,20 @@ export interface DeleteAccountsLabelsRequest {
   labelId: string;
 }
 
-export const DeleteAccountsLabelsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  labelId: Schema.String.pipe(T.HttpPath("labelId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "accounts/{accountId}/labels/{labelId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsLabelsRequest>;
+export const DeleteAccountsLabelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    labelId: Schema.String.pipe(T.HttpPath("labelId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "accounts/{accountId}/labels/{labelId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsLabelsRequest>;
 
 export interface DeleteAccountsLabelsResponse {}
 export const DeleteAccountsLabelsResponse: Schema.Schema<DeleteAccountsLabelsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteAccountsLabelsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsLabelsResponse>;
 
 export type DeleteAccountsLabelsError = DefaultErrors;
 
@@ -11273,7 +11520,7 @@ export const deleteAccountsLabels: API.OperationMethod<
   DeleteAccountsLabelsResponse,
   DeleteAccountsLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsLabelsRequest,
   output: DeleteAccountsLabelsResponse,
   errors: [],
@@ -11288,17 +11535,19 @@ export interface ListAccountsLabelsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsLabelsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/{accountId}/labels" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsLabelsRequest>;
+export const ListAccountsLabelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "accounts/{accountId}/labels" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsLabelsRequest>;
 
 export type ListAccountsLabelsResponse = ListAccountLabelsResponse;
-export const ListAccountsLabelsResponse = ListAccountLabelsResponse;
+export const ListAccountsLabelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountLabelsResponse;
 
 export type ListAccountsLabelsError = DefaultErrors;
 
@@ -11308,7 +11557,7 @@ export const listAccountsLabels: API.PaginatedOperationMethod<
   ListAccountsLabelsResponse,
   ListAccountsLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsLabelsRequest,
   output: ListAccountsLabelsResponse,
   errors: [],
@@ -11325,20 +11574,22 @@ export interface CreateAccountsLabelsRequest {
   body?: AccountLabel;
 }
 
-export const CreateAccountsLabelsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "accounts/{accountId}/labels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsLabelsRequest>;
+export const CreateAccountsLabelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "accounts/{accountId}/labels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsLabelsRequest>;
 
 export type CreateAccountsLabelsResponse = AccountLabel;
-export const CreateAccountsLabelsResponse = AccountLabel;
+export const CreateAccountsLabelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountLabel;
 
 export type CreateAccountsLabelsError = DefaultErrors;
 
@@ -11348,7 +11599,7 @@ export const createAccountsLabels: API.OperationMethod<
   CreateAccountsLabelsResponse,
   CreateAccountsLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsLabelsRequest,
   output: CreateAccountsLabelsResponse,
   errors: [],
@@ -11363,21 +11614,23 @@ export interface PatchAccountsLabelsRequest {
   body?: AccountLabel;
 }
 
-export const PatchAccountsLabelsRequest = Schema.Struct({
-  labelId: Schema.String.pipe(T.HttpPath("labelId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "accounts/{accountId}/labels/{labelId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsLabelsRequest>;
+export const PatchAccountsLabelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    labelId: Schema.String.pipe(T.HttpPath("labelId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/{accountId}/labels/{labelId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsLabelsRequest>;
 
 export type PatchAccountsLabelsResponse = AccountLabel;
-export const PatchAccountsLabelsResponse = AccountLabel;
+export const PatchAccountsLabelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountLabel;
 
 export type PatchAccountsLabelsError = DefaultErrors;
 
@@ -11387,7 +11640,7 @@ export const patchAccountsLabels: API.OperationMethod<
   PatchAccountsLabelsResponse,
   PatchAccountsLabelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsLabelsRequest,
   output: PatchAccountsLabelsResponse,
   errors: [],
@@ -11400,20 +11653,21 @@ export interface DeleteAccountsReturncarrierRequest {
   accountId: string;
 }
 
-export const DeleteAccountsReturncarrierRequest = Schema.Struct({
-  carrierAccountId: Schema.String.pipe(T.HttpPath("carrierAccountId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "accounts/{accountId}/returncarrier/{carrierAccountId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsReturncarrierRequest>;
+export const DeleteAccountsReturncarrierRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    carrierAccountId: Schema.String.pipe(T.HttpPath("carrierAccountId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "accounts/{accountId}/returncarrier/{carrierAccountId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsReturncarrierRequest>;
 
 export interface DeleteAccountsReturncarrierResponse {}
 export const DeleteAccountsReturncarrierResponse: Schema.Schema<DeleteAccountsReturncarrierResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsReturncarrierResponse>;
 
@@ -11425,7 +11679,7 @@ export const deleteAccountsReturncarrier: API.OperationMethod<
   DeleteAccountsReturncarrierResponse,
   DeleteAccountsReturncarrierError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsReturncarrierRequest,
   output: DeleteAccountsReturncarrierResponse,
   errors: [],
@@ -11438,20 +11692,22 @@ export interface CreateAccountsReturncarrierRequest {
   body?: AccountReturnCarrier;
 }
 
-export const CreateAccountsReturncarrierRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AccountReturnCarrier).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "accounts/{accountId}/returncarrier",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsReturncarrierRequest>;
+export const CreateAccountsReturncarrierRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(AccountReturnCarrier).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "accounts/{accountId}/returncarrier",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsReturncarrierRequest>;
 
 export type CreateAccountsReturncarrierResponse = AccountReturnCarrier;
-export const CreateAccountsReturncarrierResponse = AccountReturnCarrier;
+export const CreateAccountsReturncarrierResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountReturnCarrier;
 
 export type CreateAccountsReturncarrierError = DefaultErrors;
 
@@ -11461,7 +11717,7 @@ export const createAccountsReturncarrier: API.OperationMethod<
   CreateAccountsReturncarrierResponse,
   CreateAccountsReturncarrierError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsReturncarrierRequest,
   output: CreateAccountsReturncarrierResponse,
   errors: [],
@@ -11476,21 +11732,23 @@ export interface PatchAccountsReturncarrierRequest {
   body?: AccountReturnCarrier;
 }
 
-export const PatchAccountsReturncarrierRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  carrierAccountId: Schema.String.pipe(T.HttpPath("carrierAccountId")),
-  body: Schema.optional(AccountReturnCarrier).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "accounts/{accountId}/returncarrier/{carrierAccountId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsReturncarrierRequest>;
+export const PatchAccountsReturncarrierRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    carrierAccountId: Schema.String.pipe(T.HttpPath("carrierAccountId")),
+    body: Schema.optional(AccountReturnCarrier).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "accounts/{accountId}/returncarrier/{carrierAccountId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsReturncarrierRequest>;
 
 export type PatchAccountsReturncarrierResponse = AccountReturnCarrier;
-export const PatchAccountsReturncarrierResponse = AccountReturnCarrier;
+export const PatchAccountsReturncarrierResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountReturnCarrier;
 
 export type PatchAccountsReturncarrierError = DefaultErrors;
 
@@ -11500,7 +11758,7 @@ export const patchAccountsReturncarrier: API.OperationMethod<
   PatchAccountsReturncarrierResponse,
   PatchAccountsReturncarrierError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsReturncarrierRequest,
   output: PatchAccountsReturncarrierResponse,
   errors: [],
@@ -11511,17 +11769,18 @@ export interface ListAccountsReturncarrierRequest {
   accountId: string;
 }
 
-export const ListAccountsReturncarrierRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({ method: "GET", path: "accounts/{accountId}/returncarrier" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsReturncarrierRequest>;
+export const ListAccountsReturncarrierRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "accounts/{accountId}/returncarrier" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsReturncarrierRequest>;
 
 export type ListAccountsReturncarrierResponse =
   ListAccountReturnCarrierResponse;
 export const ListAccountsReturncarrierResponse =
-  ListAccountReturnCarrierResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountReturnCarrierResponse;
 
 export type ListAccountsReturncarrierError = DefaultErrors;
 
@@ -11531,7 +11790,7 @@ export const listAccountsReturncarrier: API.OperationMethod<
   ListAccountsReturncarrierResponse,
   ListAccountsReturncarrierError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsReturncarrierRequest,
   output: ListAccountsReturncarrierResponse,
   errors: [],
@@ -11544,20 +11803,22 @@ export interface CreateAccountsCredentialsRequest {
   body?: AccountCredentials;
 }
 
-export const CreateAccountsCredentialsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  body: Schema.optional(AccountCredentials).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "accounts/{accountId}/credentials",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsCredentialsRequest>;
+export const CreateAccountsCredentialsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    body: Schema.optional(AccountCredentials).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "accounts/{accountId}/credentials",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsCredentialsRequest>;
 
 export type CreateAccountsCredentialsResponse = AccountCredentials;
-export const CreateAccountsCredentialsResponse = AccountCredentials;
+export const CreateAccountsCredentialsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountCredentials;
 
 export type CreateAccountsCredentialsError = DefaultErrors;
 
@@ -11567,7 +11828,7 @@ export const createAccountsCredentials: API.OperationMethod<
   CreateAccountsCredentialsResponse,
   CreateAccountsCredentialsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsCredentialsRequest,
   output: CreateAccountsCredentialsResponse,
   errors: [],
@@ -11582,19 +11843,21 @@ export interface GetAccountstatusesRequest {
   merchantId: string;
 }
 
-export const GetAccountstatusesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("destinations"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/accountstatuses/{accountId}" }),
-  svc,
-) as unknown as Schema.Schema<GetAccountstatusesRequest>;
+export const GetAccountstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("destinations"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/accountstatuses/{accountId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountstatusesRequest>;
 
 export type GetAccountstatusesResponse = AccountStatus;
-export const GetAccountstatusesResponse = AccountStatus;
+export const GetAccountstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountStatus;
 
 export type GetAccountstatusesError = DefaultErrors;
 
@@ -11604,7 +11867,7 @@ export const getAccountstatuses: API.OperationMethod<
   GetAccountstatusesResponse,
   GetAccountstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountstatusesRequest,
   output: GetAccountstatusesResponse,
   errors: [],
@@ -11615,17 +11878,18 @@ export interface CustombatchAccountstatusesRequest {
   body?: AccountstatusesCustomBatchRequest;
 }
 
-export const CustombatchAccountstatusesRequest = Schema.Struct({
-  body: Schema.optional(AccountstatusesCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "accountstatuses/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchAccountstatusesRequest>;
+export const CustombatchAccountstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AccountstatusesCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "accountstatuses/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchAccountstatusesRequest>;
 
 export type CustombatchAccountstatusesResponse =
   AccountstatusesCustomBatchResponse;
 export const CustombatchAccountstatusesResponse =
-  AccountstatusesCustomBatchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ AccountstatusesCustomBatchResponse;
 
 export type CustombatchAccountstatusesError = DefaultErrors;
 
@@ -11635,7 +11899,7 @@ export const custombatchAccountstatuses: API.OperationMethod<
   CustombatchAccountstatusesResponse,
   CustombatchAccountstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchAccountstatusesRequest,
   output: CustombatchAccountstatusesResponse,
   errors: [],
@@ -11654,21 +11918,23 @@ export interface ListAccountstatusesRequest {
   pageToken?: string;
 }
 
-export const ListAccountstatusesRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("destinations"),
-  ),
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/accountstatuses" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountstatusesRequest>;
+export const ListAccountstatusesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    destinations: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("destinations"),
+    ),
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/accountstatuses" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountstatusesRequest>;
 
 export type ListAccountstatusesResponse = AccountstatusesListResponse;
-export const ListAccountstatusesResponse = AccountstatusesListResponse;
+export const ListAccountstatusesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccountstatusesListResponse;
 
 export type ListAccountstatusesError = DefaultErrors;
 
@@ -11678,7 +11944,7 @@ export const listAccountstatuses: API.PaginatedOperationMethod<
   ListAccountstatusesResponse,
   ListAccountstatusesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountstatusesRequest,
   output: ListAccountstatusesResponse,
   errors: [],
@@ -11697,17 +11963,20 @@ export interface ListLiasettingsRequest {
   pageToken?: string;
 }
 
-export const ListLiasettingsRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
+export const ListLiasettingsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "{merchantId}/liasettings" }),
   svc,
 ) as unknown as Schema.Schema<ListLiasettingsRequest>;
 
 export type ListLiasettingsResponse = LiasettingsListResponse;
-export const ListLiasettingsResponse = LiasettingsListResponse;
+export const ListLiasettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsListResponse;
 
 export type ListLiasettingsError = DefaultErrors;
 
@@ -11717,7 +11986,7 @@ export const listLiasettings: API.PaginatedOperationMethod<
   ListLiasettingsResponse,
   ListLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLiasettingsRequest,
   output: ListLiasettingsResponse,
   errors: [],
@@ -11732,15 +12001,17 @@ export interface CustombatchLiasettingsRequest {
   body?: LiasettingsCustomBatchRequest;
 }
 
-export const CustombatchLiasettingsRequest = Schema.Struct({
-  body: Schema.optional(LiasettingsCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "liasettings/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchLiasettingsRequest>;
+export const CustombatchLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(LiasettingsCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "liasettings/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchLiasettingsRequest>;
 
 export type CustombatchLiasettingsResponse = LiasettingsCustomBatchResponse;
-export const CustombatchLiasettingsResponse = LiasettingsCustomBatchResponse;
+export const CustombatchLiasettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsCustomBatchResponse;
 
 export type CustombatchLiasettingsError = DefaultErrors;
 
@@ -11750,7 +12021,7 @@ export const custombatchLiasettings: API.OperationMethod<
   CustombatchLiasettingsResponse,
   CustombatchLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchLiasettingsRequest,
   output: CustombatchLiasettingsResponse,
   errors: [],
@@ -11769,27 +12040,28 @@ export interface SetomnichannelexperienceLiasettingsRequest {
   lsfType?: string;
 }
 
-export const SetomnichannelexperienceLiasettingsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-  pickupTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("pickupTypes"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  lsfType: Schema.optional(Schema.String).pipe(T.HttpQuery("lsfType")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/liasettings/{accountId}/setomnichannelexperience",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetomnichannelexperienceLiasettingsRequest>;
+export const SetomnichannelexperienceLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+    pickupTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("pickupTypes"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    lsfType: Schema.optional(Schema.String).pipe(T.HttpQuery("lsfType")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/liasettings/{accountId}/setomnichannelexperience",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetomnichannelexperienceLiasettingsRequest>;
 
 export type SetomnichannelexperienceLiasettingsResponse =
   LiaOmnichannelExperience;
 export const SetomnichannelexperienceLiasettingsResponse =
-  LiaOmnichannelExperience;
+  /*@__PURE__*/ /*#__PURE__*/ LiaOmnichannelExperience;
 
 export type SetomnichannelexperienceLiasettingsError = DefaultErrors;
 
@@ -11799,7 +12071,7 @@ export const setomnichannelexperienceLiasettings: API.OperationMethod<
   SetomnichannelexperienceLiasettingsResponse,
   SetomnichannelexperienceLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetomnichannelexperienceLiasettingsRequest,
   output: SetomnichannelexperienceLiasettingsResponse,
   errors: [],
@@ -11818,29 +12090,30 @@ export interface SetposdataproviderLiasettingsRequest {
   accountId: string;
 }
 
-export const SetposdataproviderLiasettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  posExternalAccountId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("posExternalAccountId"),
-  ),
-  country: Schema.String.pipe(T.HttpQuery("country")),
-  posDataProviderId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("posDataProviderId"),
-  ),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/liasettings/{accountId}/setposdataprovider",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetposdataproviderLiasettingsRequest>;
+export const SetposdataproviderLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    posExternalAccountId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("posExternalAccountId"),
+    ),
+    country: Schema.String.pipe(T.HttpQuery("country")),
+    posDataProviderId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("posDataProviderId"),
+    ),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/liasettings/{accountId}/setposdataprovider",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetposdataproviderLiasettingsRequest>;
 
 export type SetposdataproviderLiasettingsResponse =
   LiasettingsSetPosDataProviderResponse;
 export const SetposdataproviderLiasettingsResponse =
-  LiasettingsSetPosDataProviderResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsSetPosDataProviderResponse;
 
 export type SetposdataproviderLiasettingsError = DefaultErrors;
 
@@ -11850,7 +12123,7 @@ export const setposdataproviderLiasettings: API.OperationMethod<
   SetposdataproviderLiasettingsResponse,
   SetposdataproviderLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetposdataproviderLiasettingsRequest,
   output: SetposdataproviderLiasettingsResponse,
   errors: [],
@@ -11865,21 +12138,23 @@ export interface UpdateLiasettingsRequest {
   body?: LiaSettings;
 }
 
-export const UpdateLiasettingsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(LiaSettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{merchantId}/liasettings/{accountId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLiasettingsRequest>;
+export const UpdateLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(LiaSettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{merchantId}/liasettings/{accountId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLiasettingsRequest>;
 
 export type UpdateLiasettingsResponse = LiaSettings;
-export const UpdateLiasettingsResponse = LiaSettings;
+export const UpdateLiasettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LiaSettings;
 
 export type UpdateLiasettingsError = DefaultErrors;
 
@@ -11889,7 +12164,7 @@ export const updateLiasettings: API.OperationMethod<
   UpdateLiasettingsResponse,
   UpdateLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLiasettingsRequest,
   output: UpdateLiasettingsResponse,
   errors: [],
@@ -11902,21 +12177,22 @@ export interface GetaccessiblegmbaccountsLiasettingsRequest {
   accountId: string;
 }
 
-export const GetaccessiblegmbaccountsLiasettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{merchantId}/liasettings/{accountId}/accessiblegmbaccounts",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetaccessiblegmbaccountsLiasettingsRequest>;
+export const GetaccessiblegmbaccountsLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{merchantId}/liasettings/{accountId}/accessiblegmbaccounts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetaccessiblegmbaccountsLiasettingsRequest>;
 
 export type GetaccessiblegmbaccountsLiasettingsResponse =
   LiasettingsGetAccessibleGmbAccountsResponse;
 export const GetaccessiblegmbaccountsLiasettingsResponse =
-  LiasettingsGetAccessibleGmbAccountsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsGetAccessibleGmbAccountsResponse;
 
 export type GetaccessiblegmbaccountsLiasettingsError = DefaultErrors;
 
@@ -11926,7 +12202,7 @@ export const getaccessiblegmbaccountsLiasettings: API.OperationMethod<
   GetaccessiblegmbaccountsLiasettingsResponse,
   GetaccessiblegmbaccountsLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetaccessiblegmbaccountsLiasettingsRequest,
   output: GetaccessiblegmbaccountsLiasettingsResponse,
   errors: [],
@@ -11947,26 +12223,27 @@ export interface SetinventoryverificationcontactLiasettingsRequest {
   contactName: string;
 }
 
-export const SetinventoryverificationcontactLiasettingsRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  country: Schema.String.pipe(T.HttpQuery("country")),
-  language: Schema.String.pipe(T.HttpQuery("language")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  contactEmail: Schema.String.pipe(T.HttpQuery("contactEmail")),
-  contactName: Schema.String.pipe(T.HttpQuery("contactName")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/liasettings/{accountId}/setinventoryverificationcontact",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetinventoryverificationcontactLiasettingsRequest>;
+export const SetinventoryverificationcontactLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    country: Schema.String.pipe(T.HttpQuery("country")),
+    language: Schema.String.pipe(T.HttpQuery("language")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    contactEmail: Schema.String.pipe(T.HttpQuery("contactEmail")),
+    contactName: Schema.String.pipe(T.HttpQuery("contactName")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/liasettings/{accountId}/setinventoryverificationcontact",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetinventoryverificationcontactLiasettingsRequest>;
 
 export type SetinventoryverificationcontactLiasettingsResponse =
   LiasettingsSetInventoryVerificationContactResponse;
 export const SetinventoryverificationcontactLiasettingsResponse =
-  LiasettingsSetInventoryVerificationContactResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsSetInventoryVerificationContactResponse;
 
 export type SetinventoryverificationcontactLiasettingsError = DefaultErrors;
 
@@ -11976,7 +12253,7 @@ export const setinventoryverificationcontactLiasettings: API.OperationMethod<
   SetinventoryverificationcontactLiasettingsResponse,
   SetinventoryverificationcontactLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetinventoryverificationcontactLiasettingsRequest,
   output: SetinventoryverificationcontactLiasettingsResponse,
   errors: [],
@@ -11989,7 +12266,7 @@ export interface GetLiasettingsRequest {
   merchantId: string;
 }
 
-export const GetLiasettingsRequest = Schema.Struct({
+export const GetLiasettingsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("accountId")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
 }).pipe(
@@ -11998,7 +12275,7 @@ export const GetLiasettingsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetLiasettingsRequest>;
 
 export type GetLiasettingsResponse = LiaSettings;
-export const GetLiasettingsResponse = LiaSettings;
+export const GetLiasettingsResponse = /*@__PURE__*/ /*#__PURE__*/ LiaSettings;
 
 export type GetLiasettingsError = DefaultErrors;
 
@@ -12008,7 +12285,7 @@ export const getLiasettings: API.OperationMethod<
   GetLiasettingsResponse,
   GetLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLiasettingsRequest,
   output: GetLiasettingsResponse,
   errors: [],
@@ -12016,15 +12293,16 @@ export const getLiasettings: API.OperationMethod<
 
 export interface ListposdataprovidersLiasettingsRequest {}
 
-export const ListposdataprovidersLiasettingsRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "liasettings/posdataproviders" }),
-  svc,
-) as unknown as Schema.Schema<ListposdataprovidersLiasettingsRequest>;
+export const ListposdataprovidersLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "liasettings/posdataproviders" }),
+    svc,
+  ) as unknown as Schema.Schema<ListposdataprovidersLiasettingsRequest>;
 
 export type ListposdataprovidersLiasettingsResponse =
   LiasettingsListPosDataProvidersResponse;
 export const ListposdataprovidersLiasettingsResponse =
-  LiasettingsListPosDataProvidersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsListPosDataProvidersResponse;
 
 export type ListposdataprovidersLiasettingsError = DefaultErrors;
 
@@ -12034,7 +12312,7 @@ export const listposdataprovidersLiasettings: API.OperationMethod<
   ListposdataprovidersLiasettingsResponse,
   ListposdataprovidersLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListposdataprovidersLiasettingsRequest,
   output: ListposdataprovidersLiasettingsResponse,
   errors: [],
@@ -12049,23 +12327,24 @@ export interface RequestgmbaccessLiasettingsRequest {
   gmbEmail: string;
 }
 
-export const RequestgmbaccessLiasettingsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  gmbEmail: Schema.String.pipe(T.HttpQuery("gmbEmail")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/liasettings/{accountId}/requestgmbaccess",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestgmbaccessLiasettingsRequest>;
+export const RequestgmbaccessLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    gmbEmail: Schema.String.pipe(T.HttpQuery("gmbEmail")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/liasettings/{accountId}/requestgmbaccess",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestgmbaccessLiasettingsRequest>;
 
 export type RequestgmbaccessLiasettingsResponse =
   LiasettingsRequestGmbAccessResponse;
 export const RequestgmbaccessLiasettingsResponse =
-  LiasettingsRequestGmbAccessResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsRequestGmbAccessResponse;
 
 export type RequestgmbaccessLiasettingsError = DefaultErrors;
 
@@ -12075,7 +12354,7 @@ export const requestgmbaccessLiasettings: API.OperationMethod<
   RequestgmbaccessLiasettingsResponse,
   RequestgmbaccessLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestgmbaccessLiasettingsRequest,
   output: RequestgmbaccessLiasettingsResponse,
   errors: [],
@@ -12090,23 +12369,24 @@ export interface RequestinventoryverificationLiasettingsRequest {
   merchantId: string;
 }
 
-export const RequestinventoryverificationLiasettingsRequest = Schema.Struct({
-  country: Schema.String.pipe(T.HttpPath("country")),
-  accountId: Schema.String.pipe(T.HttpPath("accountId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/liasettings/{accountId}/requestinventoryverification/{country}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestinventoryverificationLiasettingsRequest>;
+export const RequestinventoryverificationLiasettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    country: Schema.String.pipe(T.HttpPath("country")),
+    accountId: Schema.String.pipe(T.HttpPath("accountId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/liasettings/{accountId}/requestinventoryverification/{country}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestinventoryverificationLiasettingsRequest>;
 
 export type RequestinventoryverificationLiasettingsResponse =
   LiasettingsRequestInventoryVerificationResponse;
 export const RequestinventoryverificationLiasettingsResponse =
-  LiasettingsRequestInventoryVerificationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LiasettingsRequestInventoryVerificationResponse;
 
 export type RequestinventoryverificationLiasettingsError = DefaultErrors;
 
@@ -12116,7 +12396,7 @@ export const requestinventoryverificationLiasettings: API.OperationMethod<
   RequestinventoryverificationLiasettingsResponse,
   RequestinventoryverificationLiasettingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestinventoryverificationLiasettingsRequest,
   output: RequestinventoryverificationLiasettingsResponse,
   errors: [],
@@ -12131,7 +12411,7 @@ export interface ListQuotasRequest {
   merchantId: string;
 }
 
-export const ListQuotasRequest = Schema.Struct({
+export const ListQuotasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
@@ -12141,7 +12421,8 @@ export const ListQuotasRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListQuotasRequest>;
 
 export type ListQuotasResponse = ListMethodQuotasResponse;
-export const ListQuotasResponse = ListMethodQuotasResponse;
+export const ListQuotasResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListMethodQuotasResponse;
 
 export type ListQuotasError = DefaultErrors;
 
@@ -12151,7 +12432,7 @@ export const listQuotas: API.PaginatedOperationMethod<
   ListQuotasResponse,
   ListQuotasError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListQuotasRequest,
   output: ListQuotasResponse,
   errors: [],
@@ -12168,7 +12449,7 @@ export interface GetDatafeedsRequest {
   datafeedId: string;
 }
 
-export const GetDatafeedsRequest = Schema.Struct({
+export const GetDatafeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
   datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
 }).pipe(
@@ -12177,7 +12458,7 @@ export const GetDatafeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetDatafeedsRequest>;
 
 export type GetDatafeedsResponse = Datafeed;
-export const GetDatafeedsResponse = Datafeed;
+export const GetDatafeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Datafeed;
 
 export type GetDatafeedsError = DefaultErrors;
 
@@ -12187,7 +12468,7 @@ export const getDatafeeds: API.OperationMethod<
   GetDatafeedsResponse,
   GetDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatafeedsRequest,
   output: GetDatafeedsResponse,
   errors: [],
@@ -12200,16 +12481,18 @@ export interface InsertDatafeedsRequest {
   body?: Datafeed;
 }
 
-export const InsertDatafeedsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(Datafeed).pipe(T.HttpBody()),
-}).pipe(
+export const InsertDatafeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(Datafeed).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "{merchantId}/datafeeds", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<InsertDatafeedsRequest>;
 
 export type InsertDatafeedsResponse = Datafeed;
-export const InsertDatafeedsResponse = Datafeed;
+export const InsertDatafeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Datafeed;
 
 export type InsertDatafeedsError = DefaultErrors;
 
@@ -12219,7 +12502,7 @@ export const insertDatafeeds: API.OperationMethod<
   InsertDatafeedsResponse,
   InsertDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertDatafeedsRequest,
   output: InsertDatafeedsResponse,
   errors: [],
@@ -12230,15 +12513,17 @@ export interface CustombatchDatafeedsRequest {
   body?: DatafeedsCustomBatchRequest;
 }
 
-export const CustombatchDatafeedsRequest = Schema.Struct({
-  body: Schema.optional(DatafeedsCustomBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "datafeeds/batch", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CustombatchDatafeedsRequest>;
+export const CustombatchDatafeedsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(DatafeedsCustomBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "datafeeds/batch", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CustombatchDatafeedsRequest>;
 
 export type CustombatchDatafeedsResponse = DatafeedsCustomBatchResponse;
-export const CustombatchDatafeedsResponse = DatafeedsCustomBatchResponse;
+export const CustombatchDatafeedsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedsCustomBatchResponse;
 
 export type CustombatchDatafeedsError = DefaultErrors;
 
@@ -12248,7 +12533,7 @@ export const custombatchDatafeeds: API.OperationMethod<
   CustombatchDatafeedsResponse,
   CustombatchDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CustombatchDatafeedsRequest,
   output: CustombatchDatafeedsResponse,
   errors: [],
@@ -12261,17 +12546,21 @@ export interface DeleteDatafeedsRequest {
   merchantId: string;
 }
 
-export const DeleteDatafeedsRequest = Schema.Struct({
-  datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-}).pipe(
+export const DeleteDatafeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "{merchantId}/datafeeds/{datafeedId}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteDatafeedsRequest>;
 
 export interface DeleteDatafeedsResponse {}
 export const DeleteDatafeedsResponse: Schema.Schema<DeleteDatafeedsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteDatafeedsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteDatafeedsResponse>;
 
 export type DeleteDatafeedsError = DefaultErrors;
 
@@ -12281,7 +12570,7 @@ export const deleteDatafeeds: API.OperationMethod<
   DeleteDatafeedsResponse,
   DeleteDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatafeedsRequest,
   output: DeleteDatafeedsResponse,
   errors: [],
@@ -12296,11 +12585,13 @@ export interface UpdateDatafeedsRequest {
   body?: Datafeed;
 }
 
-export const UpdateDatafeedsRequest = Schema.Struct({
-  datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(Datafeed).pipe(T.HttpBody()),
-}).pipe(
+export const UpdateDatafeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(Datafeed).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "PUT",
     path: "{merchantId}/datafeeds/{datafeedId}",
@@ -12310,7 +12601,7 @@ export const UpdateDatafeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateDatafeedsRequest>;
 
 export type UpdateDatafeedsResponse = Datafeed;
-export const UpdateDatafeedsResponse = Datafeed;
+export const UpdateDatafeedsResponse = /*@__PURE__*/ /*#__PURE__*/ Datafeed;
 
 export type UpdateDatafeedsError = DefaultErrors;
 
@@ -12320,7 +12611,7 @@ export const updateDatafeeds: API.OperationMethod<
   UpdateDatafeedsResponse,
   UpdateDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatafeedsRequest,
   output: UpdateDatafeedsResponse,
   errors: [],
@@ -12333,20 +12624,22 @@ export interface FetchnowDatafeedsRequest {
   datafeedId: string;
 }
 
-export const FetchnowDatafeedsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/datafeeds/{datafeedId}/fetchNow",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchnowDatafeedsRequest>;
+export const FetchnowDatafeedsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    datafeedId: Schema.String.pipe(T.HttpPath("datafeedId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/datafeeds/{datafeedId}/fetchNow",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchnowDatafeedsRequest>;
 
 export type FetchnowDatafeedsResponse = DatafeedsFetchNowResponse;
-export const FetchnowDatafeedsResponse = DatafeedsFetchNowResponse;
+export const FetchnowDatafeedsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedsFetchNowResponse;
 
 export type FetchnowDatafeedsError = DefaultErrors;
 
@@ -12356,7 +12649,7 @@ export const fetchnowDatafeeds: API.OperationMethod<
   FetchnowDatafeedsResponse,
   FetchnowDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchnowDatafeedsRequest,
   output: FetchnowDatafeedsResponse,
   errors: [],
@@ -12371,7 +12664,7 @@ export interface ListDatafeedsRequest {
   merchantId: string;
 }
 
-export const ListDatafeedsRequest = Schema.Struct({
+export const ListDatafeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
@@ -12381,7 +12674,8 @@ export const ListDatafeedsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDatafeedsRequest>;
 
 export type ListDatafeedsResponse = DatafeedsListResponse;
-export const ListDatafeedsResponse = DatafeedsListResponse;
+export const ListDatafeedsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatafeedsListResponse;
 
 export type ListDatafeedsError = DefaultErrors;
 
@@ -12391,7 +12685,7 @@ export const listDatafeeds: API.PaginatedOperationMethod<
   ListDatafeedsResponse,
   ListDatafeedsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDatafeedsRequest,
   output: ListDatafeedsResponse,
   errors: [],
@@ -12410,23 +12704,24 @@ export interface GenerateRecommendationsRequest {
   allowedTag?: string[];
 }
 
-export const GenerateRecommendationsRequest = Schema.Struct({
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  allowedTag: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("allowedTag"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "{merchantId}/recommendations/generate" }),
-  svc,
-) as unknown as Schema.Schema<GenerateRecommendationsRequest>;
+export const GenerateRecommendationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    allowedTag: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("allowedTag"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "{merchantId}/recommendations/generate" }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateRecommendationsRequest>;
 
 export type GenerateRecommendationsResponse_Op =
   GenerateRecommendationsResponse;
 export const GenerateRecommendationsResponse_Op =
-  GenerateRecommendationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateRecommendationsResponse;
 
 export type GenerateRecommendationsError = DefaultErrors;
 
@@ -12436,7 +12731,7 @@ export const generateRecommendations: API.OperationMethod<
   GenerateRecommendationsResponse_Op,
   GenerateRecommendationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateRecommendationsRequest,
   output: GenerateRecommendationsResponse_Op,
   errors: [],
@@ -12449,21 +12744,22 @@ export interface ReportInteractionRecommendationsRequest {
   body?: ReportInteractionRequest;
 }
 
-export const ReportInteractionRecommendationsRequest = Schema.Struct({
-  merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
-  body: Schema.optional(ReportInteractionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "{merchantId}/recommendations/reportInteraction",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReportInteractionRecommendationsRequest>;
+export const ReportInteractionRecommendationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    merchantId: Schema.String.pipe(T.HttpPath("merchantId")),
+    body: Schema.optional(ReportInteractionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{merchantId}/recommendations/reportInteraction",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReportInteractionRecommendationsRequest>;
 
 export interface ReportInteractionRecommendationsResponse {}
 export const ReportInteractionRecommendationsResponse: Schema.Schema<ReportInteractionRecommendationsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<ReportInteractionRecommendationsResponse>;
 
@@ -12475,7 +12771,7 @@ export const reportInteractionRecommendations: API.OperationMethod<
   ReportInteractionRecommendationsResponse,
   ReportInteractionRecommendationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReportInteractionRecommendationsRequest,
   output: ReportInteractionRecommendationsResponse,
   errors: [],

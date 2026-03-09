@@ -27,11 +27,12 @@ export interface Topic {
   name?: string;
 }
 
-export const Topic: Schema.Schema<Topic> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
+export const Topic: Schema.Schema<Topic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Topic" }) as any as Schema.Schema<Topic>;
 
 export interface Label {
   /** The key of a label is a syntactically valid URL (as per RFC 1738) with the "scheme" and initial slashes omitted and with the additional restrictions noted below. Each key should be globally unique. The "host" portion is called the "namespace" and is not necessarily resolvable to a network endpoint. Instead, the namespace indicates what system or entity defines the semantics of the label. Namespaces do not restrict the set of objects to which a label may be associated. Keys are defined by the following grammar: key = hostname "/" kpath kpath = ksegment *[ "/" ksegment ] ksegment = alphadigit | *[ alphadigit | "-" | "_" | "." ] where "hostname" and "alphadigit" are defined as in RFC 1738. Example key: spanner.google.com/universe */
@@ -42,13 +43,14 @@ export interface Label {
   numValue?: string;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() =>
-  Schema.Struct({
-    key: Schema.optional(Schema.String),
-    strValue: Schema.optional(Schema.String),
-    numValue: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      key: Schema.optional(Schema.String),
+      strValue: Schema.optional(Schema.String),
+      numValue: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface PubsubMessage {
   /** The message payload. */
@@ -61,16 +63,17 @@ export interface PubsubMessage {
   publishTime?: string;
 }
 
-export const PubsubMessage: Schema.Schema<PubsubMessage> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.String),
-    label: Schema.optional(Schema.Array(Label)),
-    messageId: Schema.optional(Schema.String),
-    publishTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PubsubMessage",
-}) as any as Schema.Schema<PubsubMessage>;
+export const PubsubMessage: Schema.Schema<PubsubMessage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      label: Schema.optional(Schema.Array(Label)),
+      messageId: Schema.optional(Schema.String),
+      publishTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PubsubMessage",
+  }) as any as Schema.Schema<PubsubMessage>;
 
 export interface PublishRequest {
   /** The message in the request will be published on this topic. */
@@ -79,21 +82,22 @@ export interface PublishRequest {
   message?: PubsubMessage;
 }
 
-export const PublishRequest: Schema.Schema<PublishRequest> = Schema.suspend(
-  () =>
+export const PublishRequest: Schema.Schema<PublishRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
       message: Schema.optional(PubsubMessage),
     }),
-).annotate({
-  identifier: "PublishRequest",
-}) as any as Schema.Schema<PublishRequest>;
+  ).annotate({
+    identifier: "PublishRequest",
+  }) as any as Schema.Schema<PublishRequest>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface PublishBatchRequest {
   /** The messages in the request will be published on this topic. */
@@ -103,7 +107,7 @@ export interface PublishBatchRequest {
 }
 
 export const PublishBatchRequest: Schema.Schema<PublishBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
       messages: Schema.optional(Schema.Array(PubsubMessage)),
@@ -118,7 +122,7 @@ export interface PublishBatchResponse {
 }
 
 export const PublishBatchResponse: Schema.Schema<PublishBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       messageIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -134,7 +138,7 @@ export interface ListTopicsResponse {
 }
 
 export const ListTopicsResponse: Schema.Schema<ListTopicsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.Array(Topic)),
       nextPageToken: Schema.optional(Schema.String),
@@ -148,11 +152,12 @@ export interface PushConfig {
   pushEndpoint?: string;
 }
 
-export const PushConfig: Schema.Schema<PushConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    pushEndpoint: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
+export const PushConfig: Schema.Schema<PushConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pushEndpoint: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PushConfig" }) as any as Schema.Schema<PushConfig>;
 
 export interface Subscription {
   /** Name of the subscription. */
@@ -165,16 +170,17 @@ export interface Subscription {
   ackDeadlineSeconds?: number;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    topic: Schema.optional(Schema.String),
-    pushConfig: Schema.optional(PushConfig),
-    ackDeadlineSeconds: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "Subscription",
-}) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      topic: Schema.optional(Schema.String),
+      pushConfig: Schema.optional(PushConfig),
+      ackDeadlineSeconds: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "Subscription",
+  }) as any as Schema.Schema<Subscription>;
 
 export interface ListSubscriptionsResponse {
   /** The subscriptions that match the request. */
@@ -184,7 +190,7 @@ export interface ListSubscriptionsResponse {
 }
 
 export const ListSubscriptionsResponse: Schema.Schema<ListSubscriptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Schema.Array(Subscription)),
       nextPageToken: Schema.optional(Schema.String),
@@ -201,7 +207,7 @@ export interface ModifyPushConfigRequest {
 }
 
 export const ModifyPushConfigRequest: Schema.Schema<ModifyPushConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Schema.String),
       pushConfig: Schema.optional(PushConfig),
@@ -217,12 +223,15 @@ export interface PullRequest {
   returnImmediately?: boolean;
 }
 
-export const PullRequest: Schema.Schema<PullRequest> = Schema.suspend(() =>
-  Schema.Struct({
-    subscription: Schema.optional(Schema.String),
-    returnImmediately: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "PullRequest" }) as any as Schema.Schema<PullRequest>;
+export const PullRequest: Schema.Schema<PullRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      returnImmediately: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PullRequest",
+  }) as any as Schema.Schema<PullRequest>;
 
 export interface PubsubEvent {
   /** The subscription that received the event. */
@@ -235,14 +244,17 @@ export interface PubsubEvent {
   deleted?: boolean;
 }
 
-export const PubsubEvent: Schema.Schema<PubsubEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    subscription: Schema.optional(Schema.String),
-    message: Schema.optional(PubsubMessage),
-    truncated: Schema.optional(Schema.Boolean),
-    deleted: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "PubsubEvent" }) as any as Schema.Schema<PubsubEvent>;
+export const PubsubEvent: Schema.Schema<PubsubEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subscription: Schema.optional(Schema.String),
+      message: Schema.optional(PubsubMessage),
+      truncated: Schema.optional(Schema.Boolean),
+      deleted: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PubsubEvent",
+  }) as any as Schema.Schema<PubsubEvent>;
 
 export interface PullResponse {
   /** This ID must be used to acknowledge the received event or message. */
@@ -251,14 +263,15 @@ export interface PullResponse {
   pubsubEvent?: PubsubEvent;
 }
 
-export const PullResponse: Schema.Schema<PullResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    ackId: Schema.optional(Schema.String),
-    pubsubEvent: Schema.optional(PubsubEvent),
-  }),
-).annotate({
-  identifier: "PullResponse",
-}) as any as Schema.Schema<PullResponse>;
+export const PullResponse: Schema.Schema<PullResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ackId: Schema.optional(Schema.String),
+      pubsubEvent: Schema.optional(PubsubEvent),
+    }),
+  ).annotate({
+    identifier: "PullResponse",
+  }) as any as Schema.Schema<PullResponse>;
 
 export interface PullBatchRequest {
   /** The subscription from which messages should be pulled. */
@@ -269,16 +282,16 @@ export interface PullBatchRequest {
   maxEvents?: number;
 }
 
-export const PullBatchRequest: Schema.Schema<PullBatchRequest> = Schema.suspend(
-  () =>
+export const PullBatchRequest: Schema.Schema<PullBatchRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Schema.String),
       returnImmediately: Schema.optional(Schema.Boolean),
       maxEvents: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "PullBatchRequest",
-}) as any as Schema.Schema<PullBatchRequest>;
+  ).annotate({
+    identifier: "PullBatchRequest",
+  }) as any as Schema.Schema<PullBatchRequest>;
 
 export interface PullBatchResponse {
   /** Received Pub/Sub messages or status events. The Pub/Sub system will return zero messages if there are no more messages available in the backlog. The Pub/Sub system may return fewer than the max_events requested even if there are more messages available in the backlog. */
@@ -286,7 +299,7 @@ export interface PullBatchResponse {
 }
 
 export const PullBatchResponse: Schema.Schema<PullBatchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pullResponses: Schema.optional(Schema.Array(PullResponse)),
     }),
@@ -306,7 +319,7 @@ export interface ModifyAckDeadlineRequest {
 }
 
 export const ModifyAckDeadlineRequest: Schema.Schema<ModifyAckDeadlineRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Schema.String),
       ackId: Schema.optional(Schema.String),
@@ -325,7 +338,7 @@ export interface AcknowledgeRequest {
 }
 
 export const AcknowledgeRequest: Schema.Schema<AcknowledgeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Schema.String),
       ackId: Schema.optional(Schema.Array(Schema.String)),
@@ -343,7 +356,7 @@ export interface CreateTopicsRequest {
   body?: Topic;
 }
 
-export const CreateTopicsRequest = Schema.Struct({
+export const CreateTopicsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Topic).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1beta1a/topics", hasBody: true }),
@@ -351,7 +364,7 @@ export const CreateTopicsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateTopicsRequest>;
 
 export type CreateTopicsResponse = Topic;
-export const CreateTopicsResponse = Topic;
+export const CreateTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type CreateTopicsError = DefaultErrors;
 
@@ -361,7 +374,7 @@ export const createTopics: API.OperationMethod<
   CreateTopicsResponse,
   CreateTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTopicsRequest,
   output: CreateTopicsResponse,
   errors: [],
@@ -372,7 +385,7 @@ export interface PublishTopicsRequest {
   body?: PublishRequest;
 }
 
-export const PublishTopicsRequest = Schema.Struct({
+export const PublishTopicsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(PublishRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1beta1a/topics/publish", hasBody: true }),
@@ -380,7 +393,7 @@ export const PublishTopicsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PublishTopicsRequest>;
 
 export type PublishTopicsResponse = Empty;
-export const PublishTopicsResponse = Empty;
+export const PublishTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type PublishTopicsError = DefaultErrors;
 
@@ -390,7 +403,7 @@ export const publishTopics: API.OperationMethod<
   PublishTopicsResponse,
   PublishTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishTopicsRequest,
   output: PublishTopicsResponse,
   errors: [],
@@ -401,19 +414,21 @@ export interface PublishBatchTopicsRequest {
   body?: PublishBatchRequest;
 }
 
-export const PublishBatchTopicsRequest = Schema.Struct({
-  body: Schema.optional(PublishBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/topics/publishBatch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PublishBatchTopicsRequest>;
+export const PublishBatchTopicsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(PublishBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/topics/publishBatch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PublishBatchTopicsRequest>;
 
 export type PublishBatchTopicsResponse = PublishBatchResponse;
-export const PublishBatchTopicsResponse = PublishBatchResponse;
+export const PublishBatchTopicsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublishBatchResponse;
 
 export type PublishBatchTopicsError = DefaultErrors;
 
@@ -423,7 +438,7 @@ export const publishBatchTopics: API.OperationMethod<
   PublishBatchTopicsResponse,
   PublishBatchTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishBatchTopicsRequest,
   output: PublishBatchTopicsResponse,
   errors: [],
@@ -434,7 +449,7 @@ export interface GetTopicsRequest {
   topic: string;
 }
 
-export const GetTopicsRequest = Schema.Struct({
+export const GetTopicsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   topic: Schema.String.pipe(T.HttpPath("topic")),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta1a/topics/{topicsId}" }),
@@ -442,7 +457,7 @@ export const GetTopicsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTopicsRequest>;
 
 export type GetTopicsResponse = Topic;
-export const GetTopicsResponse = Topic;
+export const GetTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Topic;
 
 export type GetTopicsError = DefaultErrors;
 
@@ -452,7 +467,7 @@ export const getTopics: API.OperationMethod<
   GetTopicsResponse,
   GetTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTopicsRequest,
   output: GetTopicsResponse,
   errors: [],
@@ -467,7 +482,7 @@ export interface ListTopicsRequest {
   pageToken?: string;
 }
 
-export const ListTopicsRequest = Schema.Struct({
+export const ListTopicsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -477,7 +492,8 @@ export const ListTopicsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTopicsRequest>;
 
 export type ListTopicsResponse_Op = ListTopicsResponse;
-export const ListTopicsResponse_Op = ListTopicsResponse;
+export const ListTopicsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListTopicsResponse;
 
 export type ListTopicsError = DefaultErrors;
 
@@ -487,7 +503,7 @@ export const listTopics: API.PaginatedOperationMethod<
   ListTopicsResponse_Op,
   ListTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTopicsRequest,
   output: ListTopicsResponse_Op,
   errors: [],
@@ -502,7 +518,7 @@ export interface DeleteTopicsRequest {
   topic: string;
 }
 
-export const DeleteTopicsRequest = Schema.Struct({
+export const DeleteTopicsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   topic: Schema.String.pipe(T.HttpPath("topic")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v1beta1a/topics/{topicsId}" }),
@@ -510,7 +526,7 @@ export const DeleteTopicsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteTopicsRequest>;
 
 export type DeleteTopicsResponse = Empty;
-export const DeleteTopicsResponse = Empty;
+export const DeleteTopicsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteTopicsError = DefaultErrors;
 
@@ -520,7 +536,7 @@ export const deleteTopics: API.OperationMethod<
   DeleteTopicsResponse,
   DeleteTopicsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTopicsRequest,
   output: DeleteTopicsResponse,
   errors: [],
@@ -531,15 +547,17 @@ export interface CreateSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const CreateSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1beta1a/subscriptions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateSubscriptionsRequest>;
+export const CreateSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1beta1a/subscriptions", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSubscriptionsRequest>;
 
 export type CreateSubscriptionsResponse = Subscription;
-export const CreateSubscriptionsResponse = Subscription;
+export const CreateSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type CreateSubscriptionsError = DefaultErrors;
 
@@ -549,7 +567,7 @@ export const createSubscriptions: API.OperationMethod<
   CreateSubscriptionsResponse,
   CreateSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubscriptionsRequest,
   output: CreateSubscriptionsResponse,
   errors: [],
@@ -560,15 +578,17 @@ export interface GetSubscriptionsRequest {
   subscription: string;
 }
 
-export const GetSubscriptionsRequest = Schema.Struct({
-  subscription: Schema.String.pipe(T.HttpPath("subscription")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1a/subscriptions/{subscriptionsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetSubscriptionsRequest>;
+export const GetSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscription: Schema.String.pipe(T.HttpPath("subscription")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1a/subscriptions/{subscriptionsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetSubscriptionsRequest>;
 
 export type GetSubscriptionsResponse = Subscription;
-export const GetSubscriptionsResponse = Subscription;
+export const GetSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type GetSubscriptionsError = DefaultErrors;
 
@@ -578,7 +598,7 @@ export const getSubscriptions: API.OperationMethod<
   GetSubscriptionsResponse,
   GetSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionsRequest,
   output: GetSubscriptionsResponse,
   errors: [],
@@ -593,17 +613,19 @@ export interface ListSubscriptionsRequest {
   pageToken?: string;
 }
 
-export const ListSubscriptionsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1a/subscriptions" }),
-  svc,
-) as unknown as Schema.Schema<ListSubscriptionsRequest>;
+export const ListSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1a/subscriptions" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSubscriptionsRequest>;
 
 export type ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
-export const ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
+export const ListSubscriptionsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListSubscriptionsResponse;
 
 export type ListSubscriptionsError = DefaultErrors;
 
@@ -613,7 +635,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsResponse_Op,
   ListSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse_Op,
   errors: [],
@@ -628,18 +650,19 @@ export interface DeleteSubscriptionsRequest {
   subscription: string;
 }
 
-export const DeleteSubscriptionsRequest = Schema.Struct({
-  subscription: Schema.String.pipe(T.HttpPath("subscription")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1a/subscriptions/{subscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
+export const DeleteSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscription: Schema.String.pipe(T.HttpPath("subscription")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1a/subscriptions/{subscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
 
 export type DeleteSubscriptionsResponse = Empty;
-export const DeleteSubscriptionsResponse = Empty;
+export const DeleteSubscriptionsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteSubscriptionsError = DefaultErrors;
 
@@ -649,7 +672,7 @@ export const deleteSubscriptions: API.OperationMethod<
   DeleteSubscriptionsResponse,
   DeleteSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
@@ -660,19 +683,21 @@ export interface ModifyPushConfigSubscriptionsRequest {
   body?: ModifyPushConfigRequest;
 }
 
-export const ModifyPushConfigSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(ModifyPushConfigRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/subscriptions/modifyPushConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyPushConfigSubscriptionsRequest>;
+export const ModifyPushConfigSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ModifyPushConfigRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/subscriptions/modifyPushConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyPushConfigSubscriptionsRequest>;
 
 export type ModifyPushConfigSubscriptionsResponse = Empty;
-export const ModifyPushConfigSubscriptionsResponse = Empty;
+export const ModifyPushConfigSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ModifyPushConfigSubscriptionsError = DefaultErrors;
 
@@ -682,7 +707,7 @@ export const modifyPushConfigSubscriptions: API.OperationMethod<
   ModifyPushConfigSubscriptionsResponse,
   ModifyPushConfigSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyPushConfigSubscriptionsRequest,
   output: ModifyPushConfigSubscriptionsResponse,
   errors: [],
@@ -693,19 +718,21 @@ export interface PullSubscriptionsRequest {
   body?: PullRequest;
 }
 
-export const PullSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(PullRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/subscriptions/pull",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PullSubscriptionsRequest>;
+export const PullSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(PullRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/subscriptions/pull",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PullSubscriptionsRequest>;
 
 export type PullSubscriptionsResponse = PullResponse;
-export const PullSubscriptionsResponse = PullResponse;
+export const PullSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PullResponse;
 
 export type PullSubscriptionsError = DefaultErrors;
 
@@ -715,7 +742,7 @@ export const pullSubscriptions: API.OperationMethod<
   PullSubscriptionsResponse,
   PullSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PullSubscriptionsRequest,
   output: PullSubscriptionsResponse,
   errors: [],
@@ -726,19 +753,21 @@ export interface PullBatchSubscriptionsRequest {
   body?: PullBatchRequest;
 }
 
-export const PullBatchSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(PullBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/subscriptions/pullBatch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PullBatchSubscriptionsRequest>;
+export const PullBatchSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(PullBatchRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/subscriptions/pullBatch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PullBatchSubscriptionsRequest>;
 
 export type PullBatchSubscriptionsResponse = PullBatchResponse;
-export const PullBatchSubscriptionsResponse = PullBatchResponse;
+export const PullBatchSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PullBatchResponse;
 
 export type PullBatchSubscriptionsError = DefaultErrors;
 
@@ -748,7 +777,7 @@ export const pullBatchSubscriptions: API.OperationMethod<
   PullBatchSubscriptionsResponse,
   PullBatchSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PullBatchSubscriptionsRequest,
   output: PullBatchSubscriptionsResponse,
   errors: [],
@@ -759,19 +788,21 @@ export interface ModifyAckDeadlineSubscriptionsRequest {
   body?: ModifyAckDeadlineRequest;
 }
 
-export const ModifyAckDeadlineSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(ModifyAckDeadlineRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/subscriptions/modifyAckDeadline",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyAckDeadlineSubscriptionsRequest>;
+export const ModifyAckDeadlineSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(ModifyAckDeadlineRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/subscriptions/modifyAckDeadline",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyAckDeadlineSubscriptionsRequest>;
 
 export type ModifyAckDeadlineSubscriptionsResponse = Empty;
-export const ModifyAckDeadlineSubscriptionsResponse = Empty;
+export const ModifyAckDeadlineSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ModifyAckDeadlineSubscriptionsError = DefaultErrors;
 
@@ -781,7 +812,7 @@ export const modifyAckDeadlineSubscriptions: API.OperationMethod<
   ModifyAckDeadlineSubscriptionsResponse,
   ModifyAckDeadlineSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyAckDeadlineSubscriptionsRequest,
   output: ModifyAckDeadlineSubscriptionsResponse,
   errors: [],
@@ -792,19 +823,21 @@ export interface AcknowledgeSubscriptionsRequest {
   body?: AcknowledgeRequest;
 }
 
-export const AcknowledgeSubscriptionsRequest = Schema.Struct({
-  body: Schema.optional(AcknowledgeRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1a/subscriptions/acknowledge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcknowledgeSubscriptionsRequest>;
+export const AcknowledgeSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(AcknowledgeRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1a/subscriptions/acknowledge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcknowledgeSubscriptionsRequest>;
 
 export type AcknowledgeSubscriptionsResponse = Empty;
-export const AcknowledgeSubscriptionsResponse = Empty;
+export const AcknowledgeSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AcknowledgeSubscriptionsError = DefaultErrors;
 
@@ -814,7 +847,7 @@ export const acknowledgeSubscriptions: API.OperationMethod<
   AcknowledgeSubscriptionsResponse,
   AcknowledgeSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcknowledgeSubscriptionsRequest,
   output: AcknowledgeSubscriptionsResponse,
   errors: [],

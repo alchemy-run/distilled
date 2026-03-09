@@ -22,7 +22,7 @@ export interface GetConnectionRequest {
   zoneId: string;
 }
 
-export const GetConnectionRequest = Schema.Struct({
+export const GetConnectionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   connectionId: Schema.String.pipe(T.HttpPath("connectionId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -49,7 +49,7 @@ export interface GetConnectionResponse {
   urlReportedMalicious?: boolean | null;
 }
 
-export const GetConnectionResponse = Schema.Struct({
+export const GetConnectionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   addedAt: Schema.String,
   firstSeenAt: Schema.String,
@@ -98,7 +98,7 @@ export const getConnection: API.OperationMethod<
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
   errors: [],
@@ -133,29 +133,33 @@ export interface ListConnectionsRequest {
   urls?: string;
 }
 
-export const ListConnectionsRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
-    T.HttpQuery("direction"),
-  ),
-  excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("exclude_cdn_cgi"),
-  ),
-  excludeUrls: Schema.optional(Schema.String).pipe(T.HttpQuery("exclude_urls")),
-  export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
-  hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
-  orderBy: Schema.optional(
-    Schema.Literals(["first_seen_at", "last_seen_at"]),
-  ).pipe(T.HttpQuery("order_by")),
-  page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
-  pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
-  perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
-  prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("prioritize_malicious"),
-  ),
-  status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
-  urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
-}).pipe(
+export const ListConnectionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
+      T.HttpQuery("direction"),
+    ),
+    excludeCdnCgi: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("exclude_cdn_cgi"),
+    ),
+    excludeUrls: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("exclude_urls"),
+    ),
+    export: Schema.optional(Schema.Literal("csv")).pipe(T.HttpQuery("export")),
+    hosts: Schema.optional(Schema.String).pipe(T.HttpQuery("hosts")),
+    orderBy: Schema.optional(
+      Schema.Literals(["first_seen_at", "last_seen_at"]),
+    ).pipe(T.HttpQuery("order_by")),
+    page: Schema.optional(Schema.String).pipe(T.HttpQuery("page")),
+    pageUrl: Schema.optional(Schema.String).pipe(T.HttpQuery("page_url")),
+    perPage: Schema.optional(Schema.Number).pipe(T.HttpQuery("per_page")),
+    prioritizeMalicious: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("prioritize_malicious"),
+    ),
+    status: Schema.optional(Schema.String).pipe(T.HttpQuery("status")),
+    urls: Schema.optional(Schema.String).pipe(T.HttpQuery("urls")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/connections" }),
 ) as unknown as Schema.Schema<ListConnectionsRequest>;
 
@@ -175,7 +179,7 @@ export type ListConnectionsResponse = {
   urlReportedMalicious?: boolean | null;
 }[];
 
-export const ListConnectionsResponse = Schema.Array(
+export const ListConnectionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     addedAt: Schema.String,
@@ -226,7 +230,7 @@ export const listConnections: API.OperationMethod<
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListConnectionsRequest,
   output: ListConnectionsResponse,
   errors: [],
@@ -242,7 +246,7 @@ export interface GetCookyRequest {
   zoneId: string;
 }
 
-export const GetCookyRequest = Schema.Struct({
+export const GetCookyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cookieId: Schema.String.pipe(T.HttpPath("cookieId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -270,7 +274,7 @@ export interface GetCookyResponse {
   secureAttribute?: boolean | null;
 }
 
-export const GetCookyResponse = Schema.Struct({
+export const GetCookyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   firstSeenAt: Schema.String,
   host: Schema.String,
@@ -317,7 +321,7 @@ export const getCooky: API.OperationMethod<
   GetCookyResponse,
   GetCookyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCookyRequest,
   output: GetCookyResponse,
   errors: [],
@@ -356,7 +360,7 @@ export interface ListCookiesRequest {
   type?: "first_party" | "unknown";
 }
 
-export const ListCookiesRequest = Schema.Struct({
+export const ListCookiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
@@ -401,7 +405,7 @@ export type ListCookiesResponse = {
   secureAttribute?: boolean | null;
 }[];
 
-export const ListCookiesResponse = Schema.Array(
+export const ListCookiesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     firstSeenAt: Schema.String,
@@ -458,7 +462,7 @@ export const listCookies: API.OperationMethod<
   ListCookiesResponse,
   ListCookiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCookiesRequest,
   output: ListCookiesResponse,
   errors: [],
@@ -473,7 +477,7 @@ export interface GetPageShieldRequest {
   zoneId: string;
 }
 
-export const GetPageShieldRequest = Schema.Struct({
+export const GetPageShieldRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield" }),
@@ -490,7 +494,7 @@ export interface GetPageShieldResponse {
   useConnectionUrlPath: boolean;
 }
 
-export const GetPageShieldResponse = Schema.Struct({
+export const GetPageShieldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   enabled: Schema.Boolean,
   updatedAt: Schema.String,
   useCloudflareReportingEndpoint: Schema.Boolean,
@@ -511,7 +515,7 @@ export const getPageShield: API.OperationMethod<
   GetPageShieldResponse,
   GetPageShieldError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPageShieldRequest,
   output: GetPageShieldResponse,
   errors: [],
@@ -528,7 +532,7 @@ export interface PutPageShieldRequest {
   useConnectionUrlPath?: boolean;
 }
 
-export const PutPageShieldRequest = Schema.Struct({
+export const PutPageShieldRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.optional(Schema.Boolean),
   useCloudflareReportingEndpoint: Schema.optional(Schema.Boolean),
@@ -553,7 +557,7 @@ export interface PutPageShieldResponse {
   useConnectionUrlPath: boolean;
 }
 
-export const PutPageShieldResponse = Schema.Struct({
+export const PutPageShieldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   enabled: Schema.Boolean,
   updatedAt: Schema.String,
   useCloudflareReportingEndpoint: Schema.Boolean,
@@ -574,7 +578,7 @@ export const putPageShield: API.OperationMethod<
   PutPageShieldResponse,
   PutPageShieldError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutPageShieldRequest,
   output: PutPageShieldResponse,
   errors: [],
@@ -590,7 +594,7 @@ export interface GetPolicyRequest {
   zoneId: string;
 }
 
-export const GetPolicyRequest = Schema.Struct({
+export const GetPolicyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -615,7 +619,7 @@ export interface GetPolicyResponse {
   value: string;
 }
 
-export const GetPolicyResponse = Schema.Struct({
+export const GetPolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
@@ -631,7 +635,7 @@ export const getPolicy: API.OperationMethod<
   GetPolicyResponse,
   GetPolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: GetPolicyResponse,
   errors: [],
@@ -642,7 +646,7 @@ export interface ListPoliciesRequest {
   zoneId: string;
 }
 
-export const ListPoliciesRequest = Schema.Struct({
+export const ListPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/page_shield/policies" }),
@@ -657,7 +661,7 @@ export type ListPoliciesResponse = {
   value: string;
 }[];
 
-export const ListPoliciesResponse = Schema.Array(
+export const ListPoliciesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     action: Schema.Literals(["allow", "log"]),
@@ -675,7 +679,7 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse,
   errors: [],
@@ -696,7 +700,7 @@ export interface CreatePolicyRequest {
   value: string;
 }
 
-export const CreatePolicyRequest = Schema.Struct({
+export const CreatePolicyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
@@ -722,7 +726,7 @@ export interface CreatePolicyResponse {
   value: string;
 }
 
-export const CreatePolicyResponse = Schema.Struct({
+export const CreatePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
@@ -738,7 +742,7 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyResponse,
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePolicyRequest,
   output: CreatePolicyResponse,
   errors: [],
@@ -760,7 +764,7 @@ export interface UpdatePolicyRequest {
   value?: string;
 }
 
-export const UpdatePolicyRequest = Schema.Struct({
+export const UpdatePolicyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   action: Schema.optional(Schema.Literals(["allow", "log"])),
@@ -790,7 +794,7 @@ export interface UpdatePolicyResponse {
   value: string;
 }
 
-export const UpdatePolicyResponse = Schema.Struct({
+export const UpdatePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   action: Schema.Literals(["allow", "log"]),
   description: Schema.String,
@@ -806,7 +810,7 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyResponse,
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyRequest,
   output: UpdatePolicyResponse,
   errors: [],
@@ -818,7 +822,7 @@ export interface DeletePolicyRequest {
   zoneId: string;
 }
 
-export const DeletePolicyRequest = Schema.Struct({
+export const DeletePolicyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   policyId: Schema.String.pipe(T.HttpPath("policyId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -831,7 +835,7 @@ export const DeletePolicyRequest = Schema.Struct({
 export type DeletePolicyResponse = unknown;
 
 export const DeletePolicyResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeletePolicyResponse>;
 
 export type DeletePolicyError = DefaultErrors;
 
@@ -840,7 +844,7 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyResponse,
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePolicyRequest,
   output: DeletePolicyResponse,
   errors: [],
@@ -856,7 +860,7 @@ export interface GetScriptRequest {
   zoneId: string;
 }
 
-export const GetScriptRequest = Schema.Struct({
+export const GetScriptRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
@@ -911,7 +915,7 @@ export interface GetScriptResponse {
     | null;
 }
 
-export const GetScriptResponse = Schema.Struct({
+export const GetScriptResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   addedAt: Schema.String,
   firstSeenAt: Schema.String,
@@ -1021,7 +1025,7 @@ export const getScript: API.OperationMethod<
   GetScriptResponse,
   GetScriptError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetScriptRequest,
   output: GetScriptResponse,
   errors: [],
@@ -1058,7 +1062,7 @@ export interface ListScriptsRequest {
   urls?: string;
 }
 
-export const ListScriptsRequest = Schema.Struct({
+export const ListScriptsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   direction: Schema.optional(Schema.Literals(["asc", "desc"])).pipe(
     T.HttpQuery("direction"),
@@ -1111,7 +1115,7 @@ export type ListScriptsResponse = {
   urlReportedMalicious?: boolean | null;
 }[];
 
-export const ListScriptsResponse = Schema.Array(
+export const ListScriptsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.String,
     addedAt: Schema.String,
@@ -1184,7 +1188,7 @@ export const listScripts: API.OperationMethod<
   ListScriptsResponse,
   ListScriptsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListScriptsRequest,
   output: ListScriptsResponse,
   errors: [],

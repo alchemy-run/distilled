@@ -114,86 +114,92 @@ export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.optional(S.String) }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface AddTagsToCertificateRequest {
   CertificateArn: string;
   Tags: Tag[];
 }
-export const AddTagsToCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AddTagsToCertificateRequest",
-}) as any as S.Schema<AddTagsToCertificateRequest>;
+export const AddTagsToCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CertificateArn: S.String, Tags: TagList }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AddTagsToCertificateRequest",
+  }) as any as S.Schema<AddTagsToCertificateRequest>;
 export interface AddTagsToCertificateResponse {}
-export const AddTagsToCertificateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AddTagsToCertificateResponse",
-}) as any as S.Schema<AddTagsToCertificateResponse>;
+export const AddTagsToCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "AddTagsToCertificateResponse",
+  }) as any as S.Schema<AddTagsToCertificateResponse>;
 export interface DeleteCertificateRequest {
   CertificateArn: string;
 }
-export const DeleteCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ CertificateArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteCertificateRequest",
 }) as any as S.Schema<DeleteCertificateRequest>;
 export interface DeleteCertificateResponse {}
-export const DeleteCertificateResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "DeleteCertificateResponse" },
-) as any as S.Schema<DeleteCertificateResponse>;
+export const DeleteCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteCertificateResponse",
+}) as any as S.Schema<DeleteCertificateResponse>;
 export interface DescribeCertificateRequest {
   CertificateArn: string;
 }
-export const DescribeCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ CertificateArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeCertificateRequest",
 }) as any as S.Schema<DescribeCertificateRequest>;
 export type DomainList = string[];
-export const DomainList = S.Array(S.String);
+export const DomainList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type CertificateManagedBy = "CLOUDFRONT" | (string & {});
-export const CertificateManagedBy = S.String;
+export const CertificateManagedBy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ValidationEmailList = string[];
-export const ValidationEmailList = S.Array(S.String);
+export const ValidationEmailList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type DomainStatus =
   | "PENDING_VALIDATION"
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const DomainStatus = S.String;
+export const DomainStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RecordType = "CNAME" | (string & {});
-export const RecordType = S.String;
+export const RecordType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ResourceRecord {
   Name: string;
   Type: RecordType;
   Value: string;
 }
-export const ResourceRecord = S.suspend(() =>
+export const ResourceRecord = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Type: RecordType, Value: S.String }),
 ).annotate({ identifier: "ResourceRecord" }) as any as S.Schema<ResourceRecord>;
 export interface HttpRedirect {
   RedirectFrom?: string;
   RedirectTo?: string;
 }
-export const HttpRedirect = S.suspend(() =>
+export const HttpRedirect = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RedirectFrom: S.optional(S.String),
     RedirectTo: S.optional(S.String),
   }),
 ).annotate({ identifier: "HttpRedirect" }) as any as S.Schema<HttpRedirect>;
 export type ValidationMethod = "EMAIL" | "DNS" | "HTTP" | (string & {});
-export const ValidationMethod = S.String;
+export const ValidationMethod = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DomainValidation {
   DomainName: string;
   ValidationEmails?: string[];
@@ -203,7 +209,7 @@ export interface DomainValidation {
   HttpRedirect?: HttpRedirect;
   ValidationMethod?: ValidationMethod;
 }
-export const DomainValidation = S.suspend(() =>
+export const DomainValidation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     ValidationEmails: S.optional(ValidationEmailList),
@@ -217,7 +223,8 @@ export const DomainValidation = S.suspend(() =>
   identifier: "DomainValidation",
 }) as any as S.Schema<DomainValidation>;
 export type DomainValidationList = DomainValidation[];
-export const DomainValidationList = S.Array(DomainValidation);
+export const DomainValidationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DomainValidation);
 export type CertificateStatus =
   | "PENDING_VALIDATION"
   | "ISSUED"
@@ -227,7 +234,7 @@ export type CertificateStatus =
   | "REVOKED"
   | "FAILED"
   | (string & {});
-export const CertificateStatus = S.String;
+export const CertificateStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RevocationReason =
   | "UNSPECIFIED"
   | "KEY_COMPROMISE"
@@ -241,7 +248,7 @@ export type RevocationReason =
   | "PRIVILEGE_WITHDRAWN"
   | "A_A_COMPROMISE"
   | (string & {});
-export const RevocationReason = S.String;
+export const RevocationReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type KeyAlgorithm =
   | "RSA_1024"
   | "RSA_2048"
@@ -251,9 +258,9 @@ export type KeyAlgorithm =
   | "EC_secp384r1"
   | "EC_secp521r1"
   | (string & {});
-export const KeyAlgorithm = S.String;
+export const KeyAlgorithm = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type InUseList = string[];
-export const InUseList = S.Array(S.String);
+export const InUseList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type FailureReason =
   | "NO_AVAILABLE_CONTACTS"
   | "ADDITIONAL_VERIFICATION_REQUIRED"
@@ -273,27 +280,27 @@ export type FailureReason =
   | "SLR_NOT_FOUND"
   | "OTHER"
   | (string & {});
-export const FailureReason = S.String;
+export const FailureReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type CertificateType =
   | "IMPORTED"
   | "AMAZON_ISSUED"
   | "PRIVATE"
   | (string & {});
-export const CertificateType = S.String;
+export const CertificateType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RenewalStatus =
   | "PENDING_AUTO_RENEWAL"
   | "PENDING_VALIDATION"
   | "SUCCESS"
   | "FAILED"
   | (string & {});
-export const RenewalStatus = S.String;
+export const RenewalStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RenewalSummary {
   RenewalStatus: RenewalStatus;
   DomainValidationOptions: DomainValidation[];
   RenewalStatusReason?: FailureReason;
   UpdatedAt: Date;
 }
-export const RenewalSummary = S.suspend(() =>
+export const RenewalSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RenewalStatus: RenewalStatus,
     DomainValidationOptions: DomainValidationList,
@@ -314,15 +321,15 @@ export type KeyUsageName =
   | "ANY"
   | "CUSTOM"
   | (string & {});
-export const KeyUsageName = S.String;
+export const KeyUsageName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface KeyUsage {
   Name?: KeyUsageName;
 }
-export const KeyUsage = S.suspend(() =>
+export const KeyUsage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(KeyUsageName) }),
 ).annotate({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
 export type KeyUsageList = KeyUsage[];
-export const KeyUsageList = S.Array(KeyUsage);
+export const KeyUsageList = /*@__PURE__*/ /*#__PURE__*/ S.Array(KeyUsage);
 export type ExtendedKeyUsageName =
   | "TLS_WEB_SERVER_AUTHENTICATION"
   | "TLS_WEB_CLIENT_AUTHENTICATION"
@@ -337,12 +344,12 @@ export type ExtendedKeyUsageName =
   | "NONE"
   | "CUSTOM"
   | (string & {});
-export const ExtendedKeyUsageName = S.String;
+export const ExtendedKeyUsageName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ExtendedKeyUsage {
   Name?: ExtendedKeyUsageName;
   OID?: string;
 }
-export const ExtendedKeyUsage = S.suspend(() =>
+export const ExtendedKeyUsage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(ExtendedKeyUsageName),
     OID: S.optional(S.String),
@@ -351,21 +358,23 @@ export const ExtendedKeyUsage = S.suspend(() =>
   identifier: "ExtendedKeyUsage",
 }) as any as S.Schema<ExtendedKeyUsage>;
 export type ExtendedKeyUsageList = ExtendedKeyUsage[];
-export const ExtendedKeyUsageList = S.Array(ExtendedKeyUsage);
+export const ExtendedKeyUsageList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ExtendedKeyUsage);
 export type RenewalEligibility = "ELIGIBLE" | "INELIGIBLE" | (string & {});
-export const RenewalEligibility = S.String;
+export const RenewalEligibility = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type CertificateTransparencyLoggingPreference =
   | "ENABLED"
   | "DISABLED"
   | (string & {});
-export const CertificateTransparencyLoggingPreference = S.String;
+export const CertificateTransparencyLoggingPreference =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type CertificateExport = "ENABLED" | "DISABLED" | (string & {});
-export const CertificateExport = S.String;
+export const CertificateExport = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CertificateOptions {
   CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference;
   Export?: CertificateExport;
 }
-export const CertificateOptions = S.suspend(() =>
+export const CertificateOptions = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateTransparencyLoggingPreference: S.optional(
       CertificateTransparencyLoggingPreference,
@@ -404,7 +413,7 @@ export interface CertificateDetail {
   RenewalEligibility?: RenewalEligibility;
   Options?: CertificateOptions;
 }
-export const CertificateDetail = S.suspend(() =>
+export const CertificateDetail = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
     DomainName: S.optional(S.String),
@@ -440,19 +449,21 @@ export const CertificateDetail = S.suspend(() =>
 export interface DescribeCertificateResponse {
   Certificate?: CertificateDetail;
 }
-export const DescribeCertificateResponse = S.suspend(() =>
-  S.Struct({ Certificate: S.optional(CertificateDetail) }),
-).annotate({
-  identifier: "DescribeCertificateResponse",
-}) as any as S.Schema<DescribeCertificateResponse>;
+export const DescribeCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Certificate: S.optional(CertificateDetail) }),
+  ).annotate({
+    identifier: "DescribeCertificateResponse",
+  }) as any as S.Schema<DescribeCertificateResponse>;
 export interface ExportCertificateRequest {
   CertificateArn: string;
   Passphrase: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const ExportCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String, Passphrase: SensitiveBlob }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ExportCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ CertificateArn: S.String, Passphrase: SensitiveBlob }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ExportCertificateRequest",
 }) as any as S.Schema<ExportCertificateRequest>;
@@ -461,43 +472,46 @@ export interface ExportCertificateResponse {
   CertificateChain?: string;
   PrivateKey?: string | redacted.Redacted<string>;
 }
-export const ExportCertificateResponse = S.suspend(() =>
-  S.Struct({
-    Certificate: S.optional(S.String),
-    CertificateChain: S.optional(S.String),
-    PrivateKey: S.optional(SensitiveString),
-  }),
+export const ExportCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Certificate: S.optional(S.String),
+      CertificateChain: S.optional(S.String),
+      PrivateKey: S.optional(SensitiveString),
+    }),
 ).annotate({
   identifier: "ExportCertificateResponse",
 }) as any as S.Schema<ExportCertificateResponse>;
 export interface GetAccountConfigurationRequest {}
-export const GetAccountConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAccountConfigurationRequest",
-}) as any as S.Schema<GetAccountConfigurationRequest>;
+export const GetAccountConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "GetAccountConfigurationRequest",
+  }) as any as S.Schema<GetAccountConfigurationRequest>;
 export interface ExpiryEventsConfiguration {
   DaysBeforeExpiry?: number;
 }
-export const ExpiryEventsConfiguration = S.suspend(() =>
-  S.Struct({ DaysBeforeExpiry: S.optional(S.Number) }),
+export const ExpiryEventsConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ DaysBeforeExpiry: S.optional(S.Number) }),
 ).annotate({
   identifier: "ExpiryEventsConfiguration",
 }) as any as S.Schema<ExpiryEventsConfiguration>;
 export interface GetAccountConfigurationResponse {
   ExpiryEvents?: ExpiryEventsConfiguration;
 }
-export const GetAccountConfigurationResponse = S.suspend(() =>
-  S.Struct({ ExpiryEvents: S.optional(ExpiryEventsConfiguration) }),
-).annotate({
-  identifier: "GetAccountConfigurationResponse",
-}) as any as S.Schema<GetAccountConfigurationResponse>;
+export const GetAccountConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ExpiryEvents: S.optional(ExpiryEventsConfiguration) }),
+  ).annotate({
+    identifier: "GetAccountConfigurationResponse",
+  }) as any as S.Schema<GetAccountConfigurationResponse>;
 export interface GetCertificateRequest {
   CertificateArn: string;
 }
-export const GetCertificateRequest = S.suspend(() =>
+export const GetCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ CertificateArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -508,11 +522,12 @@ export interface GetCertificateResponse {
   Certificate?: string;
   CertificateChain?: string;
 }
-export const GetCertificateResponse = S.suspend(() =>
-  S.Struct({
-    Certificate: S.optional(S.String),
-    CertificateChain: S.optional(S.String),
-  }),
+export const GetCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Certificate: S.optional(S.String),
+      CertificateChain: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "GetCertificateResponse",
 }) as any as S.Schema<GetCertificateResponse>;
@@ -523,35 +538,40 @@ export interface ImportCertificateRequest {
   CertificateChain?: Uint8Array;
   Tags?: Tag[];
 }
-export const ImportCertificateRequest = S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    Certificate: T.Blob,
-    PrivateKey: SensitiveBlob,
-    CertificateChain: S.optional(T.Blob),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ImportCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CertificateArn: S.optional(S.String),
+      Certificate: T.Blob,
+      PrivateKey: SensitiveBlob,
+      CertificateChain: S.optional(T.Blob),
+      Tags: S.optional(TagList),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ImportCertificateRequest",
 }) as any as S.Schema<ImportCertificateRequest>;
 export interface ImportCertificateResponse {
   CertificateArn?: string;
 }
-export const ImportCertificateResponse = S.suspend(() =>
-  S.Struct({ CertificateArn: S.optional(S.String) }),
+export const ImportCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ CertificateArn: S.optional(S.String) }),
 ).annotate({
   identifier: "ImportCertificateResponse",
 }) as any as S.Schema<ImportCertificateResponse>;
 export type CertificateStatuses = CertificateStatus[];
-export const CertificateStatuses = S.Array(CertificateStatus);
+export const CertificateStatuses =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CertificateStatus);
 export type ExtendedKeyUsageFilterList = ExtendedKeyUsageName[];
-export const ExtendedKeyUsageFilterList = S.Array(ExtendedKeyUsageName);
+export const ExtendedKeyUsageFilterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ExtendedKeyUsageName);
 export type KeyUsageFilterList = KeyUsageName[];
-export const KeyUsageFilterList = S.Array(KeyUsageName);
+export const KeyUsageFilterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(KeyUsageName);
 export type KeyAlgorithmList = KeyAlgorithm[];
-export const KeyAlgorithmList = S.Array(KeyAlgorithm);
+export const KeyAlgorithmList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(KeyAlgorithm);
 export interface Filters {
   extendedKeyUsage?: ExtendedKeyUsageName[];
   keyUsage?: KeyUsageName[];
@@ -559,7 +579,7 @@ export interface Filters {
   exportOption?: CertificateExport;
   managedBy?: CertificateManagedBy;
 }
-export const Filters = S.suspend(() =>
+export const Filters = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     extendedKeyUsage: S.optional(ExtendedKeyUsageFilterList),
     keyUsage: S.optional(KeyUsageFilterList),
@@ -569,9 +589,9 @@ export const Filters = S.suspend(() =>
   }),
 ).annotate({ identifier: "Filters" }) as any as S.Schema<Filters>;
 export type SortBy = "CREATED_AT" | (string & {});
-export const SortBy = S.String;
+export const SortBy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
+export const SortOrder = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ListCertificatesRequest {
   CertificateStatuses?: CertificateStatus[];
   Includes?: Filters;
@@ -580,24 +600,26 @@ export interface ListCertificatesRequest {
   SortBy?: SortBy;
   SortOrder?: SortOrder;
 }
-export const ListCertificatesRequest = S.suspend(() =>
-  S.Struct({
-    CertificateStatuses: S.optional(CertificateStatuses),
-    Includes: S.optional(Filters),
-    NextToken: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-    SortBy: S.optional(SortBy),
-    SortOrder: S.optional(SortOrder),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListCertificatesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CertificateStatuses: S.optional(CertificateStatuses),
+      Includes: S.optional(Filters),
+      NextToken: S.optional(S.String),
+      MaxItems: S.optional(S.Number),
+      SortBy: S.optional(SortBy),
+      SortOrder: S.optional(SortOrder),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListCertificatesRequest",
 }) as any as S.Schema<ListCertificatesRequest>;
 export type KeyUsageNames = KeyUsageName[];
-export const KeyUsageNames = S.Array(KeyUsageName);
+export const KeyUsageNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(KeyUsageName);
 export type ExtendedKeyUsageNames = ExtendedKeyUsageName[];
-export const ExtendedKeyUsageNames = S.Array(ExtendedKeyUsageName);
+export const ExtendedKeyUsageNames =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ExtendedKeyUsageName);
 export interface CertificateSummary {
   CertificateArn?: string;
   DomainName?: string;
@@ -620,7 +642,7 @@ export interface CertificateSummary {
   RevokedAt?: Date;
   ManagedBy?: CertificateManagedBy;
 }
-export const CertificateSummary = S.suspend(() =>
+export const CertificateSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
     DomainName: S.optional(S.String),
@@ -647,99 +669,108 @@ export const CertificateSummary = S.suspend(() =>
   identifier: "CertificateSummary",
 }) as any as S.Schema<CertificateSummary>;
 export type CertificateSummaryList = CertificateSummary[];
-export const CertificateSummaryList = S.Array(CertificateSummary);
+export const CertificateSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CertificateSummary);
 export interface ListCertificatesResponse {
   NextToken?: string;
   CertificateSummaryList?: CertificateSummary[];
 }
-export const ListCertificatesResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    CertificateSummaryList: S.optional(CertificateSummaryList),
-  }),
+export const ListCertificatesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      CertificateSummaryList: S.optional(CertificateSummaryList),
+    }),
 ).annotate({
   identifier: "ListCertificatesResponse",
 }) as any as S.Schema<ListCertificatesResponse>;
 export interface ListTagsForCertificateRequest {
   CertificateArn: string;
 }
-export const ListTagsForCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForCertificateRequest",
-}) as any as S.Schema<ListTagsForCertificateRequest>;
+export const ListTagsForCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CertificateArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListTagsForCertificateRequest",
+  }) as any as S.Schema<ListTagsForCertificateRequest>;
 export interface ListTagsForCertificateResponse {
   Tags?: Tag[];
 }
-export const ListTagsForCertificateResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForCertificateResponse",
-}) as any as S.Schema<ListTagsForCertificateResponse>;
+export const ListTagsForCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(TagList) }),
+  ).annotate({
+    identifier: "ListTagsForCertificateResponse",
+  }) as any as S.Schema<ListTagsForCertificateResponse>;
 export interface PutAccountConfigurationRequest {
   ExpiryEvents?: ExpiryEventsConfiguration;
   IdempotencyToken: string;
 }
-export const PutAccountConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    ExpiryEvents: S.optional(ExpiryEventsConfiguration),
-    IdempotencyToken: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutAccountConfigurationRequest",
-}) as any as S.Schema<PutAccountConfigurationRequest>;
+export const PutAccountConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ExpiryEvents: S.optional(ExpiryEventsConfiguration),
+      IdempotencyToken: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "PutAccountConfigurationRequest",
+  }) as any as S.Schema<PutAccountConfigurationRequest>;
 export interface PutAccountConfigurationResponse {}
-export const PutAccountConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "PutAccountConfigurationResponse",
-}) as any as S.Schema<PutAccountConfigurationResponse>;
+export const PutAccountConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "PutAccountConfigurationResponse",
+  }) as any as S.Schema<PutAccountConfigurationResponse>;
 export interface RemoveTagsFromCertificateRequest {
   CertificateArn: string;
   Tags: Tag[];
 }
-export const RemoveTagsFromCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromCertificateRequest",
-}) as any as S.Schema<RemoveTagsFromCertificateRequest>;
+export const RemoveTagsFromCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CertificateArn: S.String, Tags: TagList }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "RemoveTagsFromCertificateRequest",
+  }) as any as S.Schema<RemoveTagsFromCertificateRequest>;
 export interface RemoveTagsFromCertificateResponse {}
-export const RemoveTagsFromCertificateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemoveTagsFromCertificateResponse",
-}) as any as S.Schema<RemoveTagsFromCertificateResponse>;
+export const RemoveTagsFromCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RemoveTagsFromCertificateResponse",
+  }) as any as S.Schema<RemoveTagsFromCertificateResponse>;
 export interface RenewCertificateRequest {
   CertificateArn: string;
 }
-export const RenewCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const RenewCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ CertificateArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "RenewCertificateRequest",
 }) as any as S.Schema<RenewCertificateRequest>;
 export interface RenewCertificateResponse {}
-export const RenewCertificateResponse = S.suspend(() => S.Struct({})).annotate({
+export const RenewCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "RenewCertificateResponse",
 }) as any as S.Schema<RenewCertificateResponse>;
 export interface DomainValidationOption {
   DomainName: string;
   ValidationDomain: string;
 }
-export const DomainValidationOption = S.suspend(() =>
-  S.Struct({ DomainName: S.String, ValidationDomain: S.String }),
+export const DomainValidationOption = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ DomainName: S.String, ValidationDomain: S.String }),
 ).annotate({
   identifier: "DomainValidationOption",
 }) as any as S.Schema<DomainValidationOption>;
 export type DomainValidationOptionList = DomainValidationOption[];
-export const DomainValidationOptionList = S.Array(DomainValidationOption);
+export const DomainValidationOptionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DomainValidationOption,
+);
 export interface RequestCertificateRequest {
   DomainName: string;
   ValidationMethod?: ValidationMethod;
@@ -752,29 +783,30 @@ export interface RequestCertificateRequest {
   KeyAlgorithm?: KeyAlgorithm;
   ManagedBy?: CertificateManagedBy;
 }
-export const RequestCertificateRequest = S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    ValidationMethod: S.optional(ValidationMethod),
-    SubjectAlternativeNames: S.optional(DomainList),
-    IdempotencyToken: S.optional(S.String),
-    DomainValidationOptions: S.optional(DomainValidationOptionList),
-    Options: S.optional(CertificateOptions),
-    CertificateAuthorityArn: S.optional(S.String),
-    Tags: S.optional(TagList),
-    KeyAlgorithm: S.optional(KeyAlgorithm),
-    ManagedBy: S.optional(CertificateManagedBy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const RequestCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DomainName: S.String,
+      ValidationMethod: S.optional(ValidationMethod),
+      SubjectAlternativeNames: S.optional(DomainList),
+      IdempotencyToken: S.optional(S.String),
+      DomainValidationOptions: S.optional(DomainValidationOptionList),
+      Options: S.optional(CertificateOptions),
+      CertificateAuthorityArn: S.optional(S.String),
+      Tags: S.optional(TagList),
+      KeyAlgorithm: S.optional(KeyAlgorithm),
+      ManagedBy: S.optional(CertificateManagedBy),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "RequestCertificateRequest",
 }) as any as S.Schema<RequestCertificateRequest>;
 export interface RequestCertificateResponse {
   CertificateArn?: string;
 }
-export const RequestCertificateResponse = S.suspend(() =>
-  S.Struct({ CertificateArn: S.optional(S.String) }),
+export const RequestCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ CertificateArn: S.optional(S.String) }),
 ).annotate({
   identifier: "RequestCertificateResponse",
 }) as any as S.Schema<RequestCertificateResponse>;
@@ -783,42 +815,43 @@ export interface ResendValidationEmailRequest {
   Domain: string;
   ValidationDomain: string;
 }
-export const ResendValidationEmailRequest = S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.String,
-    Domain: S.String,
-    ValidationDomain: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ResendValidationEmailRequest",
-}) as any as S.Schema<ResendValidationEmailRequest>;
+export const ResendValidationEmailRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CertificateArn: S.String,
+      Domain: S.String,
+      ValidationDomain: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ResendValidationEmailRequest",
+  }) as any as S.Schema<ResendValidationEmailRequest>;
 export interface ResendValidationEmailResponse {}
-export const ResendValidationEmailResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ResendValidationEmailResponse",
-}) as any as S.Schema<ResendValidationEmailResponse>;
+export const ResendValidationEmailResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "ResendValidationEmailResponse",
+  }) as any as S.Schema<ResendValidationEmailResponse>;
 export interface RevokeCertificateRequest {
   CertificateArn: string;
   RevocationReason: RevocationReason;
 }
-export const RevokeCertificateRequest = S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.String,
-    RevocationReason: RevocationReason,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const RevokeCertificateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CertificateArn: S.String,
+      RevocationReason: RevocationReason,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "RevokeCertificateRequest",
 }) as any as S.Schema<RevokeCertificateRequest>;
 export interface RevokeCertificateResponse {
   CertificateArn?: string;
 }
-export const RevokeCertificateResponse = S.suspend(() =>
-  S.Struct({ CertificateArn: S.optional(S.String) }),
+export const RevokeCertificateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ CertificateArn: S.optional(S.String) }),
 ).annotate({
   identifier: "RevokeCertificateResponse",
 }) as any as S.Schema<RevokeCertificateResponse>;
@@ -826,19 +859,19 @@ export interface UpdateCertificateOptionsRequest {
   CertificateArn: string;
   Options: CertificateOptions;
 }
-export const UpdateCertificateOptionsRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String, Options: CertificateOptions }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCertificateOptionsRequest",
-}) as any as S.Schema<UpdateCertificateOptionsRequest>;
+export const UpdateCertificateOptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CertificateArn: S.String, Options: CertificateOptions }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateCertificateOptionsRequest",
+  }) as any as S.Schema<UpdateCertificateOptionsRequest>;
 export interface UpdateCertificateOptionsResponse {}
-export const UpdateCertificateOptionsResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateCertificateOptionsResponse",
-}) as any as S.Schema<UpdateCertificateOptionsResponse>;
+export const UpdateCertificateOptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateCertificateOptionsResponse",
+  }) as any as S.Schema<UpdateCertificateOptionsResponse>;
 
 //# Errors
 export class InvalidArnException extends S.TaggedErrorClass<InvalidArnException>()(

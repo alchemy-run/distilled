@@ -3,18 +3,20 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const CountProjectBranchesInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  search: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({ method: "GET", path: "/projects/{project_id}/branches/count" }),
-);
+export const CountProjectBranchesInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    search: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({ method: "GET", path: "/projects/{project_id}/branches/count" }),
+  );
 export type CountProjectBranchesInput = typeof CountProjectBranchesInput.Type;
 
 // Output Schema
-export const CountProjectBranchesOutput = Schema.Struct({
-  count: Schema.Number,
-});
+export const CountProjectBranchesOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    count: Schema.Number,
+  });
 export type CountProjectBranchesOutput = typeof CountProjectBranchesOutput.Type;
 
 // The operation

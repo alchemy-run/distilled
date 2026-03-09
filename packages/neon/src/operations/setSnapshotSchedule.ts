@@ -3,28 +3,30 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const SetSnapshotScheduleInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  schedule: Schema.Array(
-    Schema.Struct({
-      frequency: Schema.String,
-      hour: Schema.optional(Schema.Number),
-      day: Schema.optional(Schema.Number),
-      month: Schema.optional(Schema.Number),
-      retention_seconds: Schema.optional(Schema.Number),
+export const SetSnapshotScheduleInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    schedule: Schema.Array(
+      Schema.Struct({
+        frequency: Schema.String,
+        hour: Schema.optional(Schema.Number),
+        day: Schema.optional(Schema.Number),
+        month: Schema.optional(Schema.Number),
+        retention_seconds: Schema.optional(Schema.Number),
+      }),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/projects/{project_id}/branches/{branch_id}/backup_schedule",
     }),
-  ),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/projects/{project_id}/branches/{branch_id}/backup_schedule",
-  }),
-);
+  );
 export type SetSnapshotScheduleInput = typeof SetSnapshotScheduleInput.Type;
 
 // Output Schema
-export const SetSnapshotScheduleOutput = Schema.Struct({});
+export const SetSnapshotScheduleOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({});
 export type SetSnapshotScheduleOutput = typeof SetSnapshotScheduleOutput.Type;
 
 // The operation

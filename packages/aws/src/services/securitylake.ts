@@ -114,133 +114,139 @@ export interface CreateDataLakeExceptionSubscriptionRequest {
   notificationEndpoint: string;
   exceptionTimeToLive?: number;
 }
-export const CreateDataLakeExceptionSubscriptionRequest = S.suspend(() =>
-  S.Struct({
-    subscriptionProtocol: S.String,
-    notificationEndpoint: S.String,
-    exceptionTimeToLive: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/exceptions/subscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDataLakeExceptionSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionProtocol: S.String,
+      notificationEndpoint: S.String,
+      exceptionTimeToLive: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/exceptions/subscription" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateDataLakeExceptionSubscriptionRequest",
-}) as any as S.Schema<CreateDataLakeExceptionSubscriptionRequest>;
+  ).annotate({
+    identifier: "CreateDataLakeExceptionSubscriptionRequest",
+  }) as any as S.Schema<CreateDataLakeExceptionSubscriptionRequest>;
 export interface CreateDataLakeExceptionSubscriptionResponse {}
-export const CreateDataLakeExceptionSubscriptionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateDataLakeExceptionSubscriptionResponse",
-}) as any as S.Schema<CreateDataLakeExceptionSubscriptionResponse>;
+export const CreateDataLakeExceptionSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "CreateDataLakeExceptionSubscriptionResponse",
+  }) as any as S.Schema<CreateDataLakeExceptionSubscriptionResponse>;
 export interface DeleteDataLakeExceptionSubscriptionRequest {}
-export const DeleteDataLakeExceptionSubscriptionRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/datalake/exceptions/subscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDataLakeExceptionSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v1/datalake/exceptions/subscription",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteDataLakeExceptionSubscriptionRequest",
-}) as any as S.Schema<DeleteDataLakeExceptionSubscriptionRequest>;
+  ).annotate({
+    identifier: "DeleteDataLakeExceptionSubscriptionRequest",
+  }) as any as S.Schema<DeleteDataLakeExceptionSubscriptionRequest>;
 export interface DeleteDataLakeExceptionSubscriptionResponse {}
-export const DeleteDataLakeExceptionSubscriptionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDataLakeExceptionSubscriptionResponse",
-}) as any as S.Schema<DeleteDataLakeExceptionSubscriptionResponse>;
+export const DeleteDataLakeExceptionSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteDataLakeExceptionSubscriptionResponse",
+  }) as any as S.Schema<DeleteDataLakeExceptionSubscriptionResponse>;
 export interface DeregisterDataLakeDelegatedAdministratorRequest {}
-export const DeregisterDataLakeDelegatedAdministratorRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/datalake/delegate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeregisterDataLakeDelegatedAdministratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/v1/datalake/delegate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeregisterDataLakeDelegatedAdministratorRequest",
-}) as any as S.Schema<DeregisterDataLakeDelegatedAdministratorRequest>;
+  ).annotate({
+    identifier: "DeregisterDataLakeDelegatedAdministratorRequest",
+  }) as any as S.Schema<DeregisterDataLakeDelegatedAdministratorRequest>;
 export interface DeregisterDataLakeDelegatedAdministratorResponse {}
-export const DeregisterDataLakeDelegatedAdministratorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeregisterDataLakeDelegatedAdministratorResponse",
-}) as any as S.Schema<DeregisterDataLakeDelegatedAdministratorResponse>;
+export const DeregisterDataLakeDelegatedAdministratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeregisterDataLakeDelegatedAdministratorResponse",
+  }) as any as S.Schema<DeregisterDataLakeDelegatedAdministratorResponse>;
 export interface GetDataLakeExceptionSubscriptionRequest {}
-export const GetDataLakeExceptionSubscriptionRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/datalake/exceptions/subscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDataLakeExceptionSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/v1/datalake/exceptions/subscription" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDataLakeExceptionSubscriptionRequest",
-}) as any as S.Schema<GetDataLakeExceptionSubscriptionRequest>;
+  ).annotate({
+    identifier: "GetDataLakeExceptionSubscriptionRequest",
+  }) as any as S.Schema<GetDataLakeExceptionSubscriptionRequest>;
 export interface GetDataLakeExceptionSubscriptionResponse {
   subscriptionProtocol?: string;
   notificationEndpoint?: string;
   exceptionTimeToLive?: number;
 }
-export const GetDataLakeExceptionSubscriptionResponse = S.suspend(() =>
-  S.Struct({
-    subscriptionProtocol: S.optional(S.String),
-    notificationEndpoint: S.optional(S.String),
-    exceptionTimeToLive: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetDataLakeExceptionSubscriptionResponse",
-}) as any as S.Schema<GetDataLakeExceptionSubscriptionResponse>;
+export const GetDataLakeExceptionSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionProtocol: S.optional(S.String),
+      notificationEndpoint: S.optional(S.String),
+      exceptionTimeToLive: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetDataLakeExceptionSubscriptionResponse",
+  }) as any as S.Schema<GetDataLakeExceptionSubscriptionResponse>;
 export type RegionList = string[];
-export const RegionList = S.Array(S.String);
+export const RegionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListDataLakeExceptionsRequest {
   regions?: string[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDataLakeExceptionsRequest = S.suspend(() =>
-  S.Struct({
-    regions: S.optional(RegionList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/exceptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListDataLakeExceptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      regions: S.optional(RegionList),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/exceptions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListDataLakeExceptionsRequest",
-}) as any as S.Schema<ListDataLakeExceptionsRequest>;
+  ).annotate({
+    identifier: "ListDataLakeExceptionsRequest",
+  }) as any as S.Schema<ListDataLakeExceptionsRequest>;
 export interface DataLakeException {
   region?: string;
   exception?: string;
   remediation?: string;
   timestamp?: Date;
 }
-export const DataLakeException = S.suspend(() =>
+export const DataLakeException = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     region: S.optional(S.String),
     exception: S.optional(S.String),
@@ -253,33 +259,36 @@ export const DataLakeException = S.suspend(() =>
   identifier: "DataLakeException",
 }) as any as S.Schema<DataLakeException>;
 export type DataLakeExceptionList = DataLakeException[];
-export const DataLakeExceptionList = S.Array(DataLakeException);
+export const DataLakeExceptionList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataLakeException);
 export interface ListDataLakeExceptionsResponse {
   exceptions?: DataLakeException[];
   nextToken?: string;
 }
-export const ListDataLakeExceptionsResponse = S.suspend(() =>
-  S.Struct({
-    exceptions: S.optional(DataLakeExceptionList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDataLakeExceptionsResponse",
-}) as any as S.Schema<ListDataLakeExceptionsResponse>;
+export const ListDataLakeExceptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      exceptions: S.optional(DataLakeExceptionList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListDataLakeExceptionsResponse",
+  }) as any as S.Schema<ListDataLakeExceptionsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -287,47 +296,48 @@ export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface ListTagsForResourceResponse {
   tags?: Tag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: S.optional(TagList) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RegisterDataLakeDelegatedAdministratorRequest {
   accountId: string;
 }
-export const RegisterDataLakeDelegatedAdministratorRequest = S.suspend(() =>
-  S.Struct({ accountId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/delegate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RegisterDataLakeDelegatedAdministratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ accountId: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/delegate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RegisterDataLakeDelegatedAdministratorRequest",
-}) as any as S.Schema<RegisterDataLakeDelegatedAdministratorRequest>;
+  ).annotate({
+    identifier: "RegisterDataLakeDelegatedAdministratorRequest",
+  }) as any as S.Schema<RegisterDataLakeDelegatedAdministratorRequest>;
 export interface RegisterDataLakeDelegatedAdministratorResponse {}
-export const RegisterDataLakeDelegatedAdministratorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RegisterDataLakeDelegatedAdministratorResponse",
-}) as any as S.Schema<RegisterDataLakeDelegatedAdministratorResponse>;
+export const RegisterDataLakeDelegatedAdministratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RegisterDataLakeDelegatedAdministratorResponse",
+  }) as any as S.Schema<RegisterDataLakeDelegatedAdministratorResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagList,
@@ -345,16 +355,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -372,7 +384,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDataLakeExceptionSubscriptionRequest {
@@ -380,32 +394,32 @@ export interface UpdateDataLakeExceptionSubscriptionRequest {
   notificationEndpoint: string;
   exceptionTimeToLive?: number;
 }
-export const UpdateDataLakeExceptionSubscriptionRequest = S.suspend(() =>
-  S.Struct({
-    subscriptionProtocol: S.String,
-    notificationEndpoint: S.String,
-    exceptionTimeToLive: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/datalake/exceptions/subscription" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDataLakeExceptionSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionProtocol: S.String,
+      notificationEndpoint: S.String,
+      exceptionTimeToLive: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/v1/datalake/exceptions/subscription" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateDataLakeExceptionSubscriptionRequest",
-}) as any as S.Schema<UpdateDataLakeExceptionSubscriptionRequest>;
+  ).annotate({
+    identifier: "UpdateDataLakeExceptionSubscriptionRequest",
+  }) as any as S.Schema<UpdateDataLakeExceptionSubscriptionRequest>;
 export interface UpdateDataLakeExceptionSubscriptionResponse {}
-export const UpdateDataLakeExceptionSubscriptionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateDataLakeExceptionSubscriptionResponse",
-}) as any as S.Schema<UpdateDataLakeExceptionSubscriptionResponse>;
+export const UpdateDataLakeExceptionSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateDataLakeExceptionSubscriptionResponse",
+  }) as any as S.Schema<UpdateDataLakeExceptionSubscriptionResponse>;
 export type AccountList = string[];
-export const AccountList = S.Array(S.String);
+export const AccountList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type AwsLogSourceName =
   | "ROUTE53"
   | "VPC_FLOW"
@@ -416,110 +430,117 @@ export type AwsLogSourceName =
   | "EKS_AUDIT"
   | "WAF"
   | (string & {});
-export const AwsLogSourceName = S.String;
+export const AwsLogSourceName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AwsLogSourceConfiguration {
   accounts?: string[];
   regions: string[];
   sourceName: AwsLogSourceName;
   sourceVersion?: string;
 }
-export const AwsLogSourceConfiguration = S.suspend(() =>
-  S.Struct({
-    accounts: S.optional(AccountList),
-    regions: RegionList,
-    sourceName: AwsLogSourceName,
-    sourceVersion: S.optional(S.String),
-  }),
+export const AwsLogSourceConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accounts: S.optional(AccountList),
+      regions: RegionList,
+      sourceName: AwsLogSourceName,
+      sourceVersion: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "AwsLogSourceConfiguration",
 }) as any as S.Schema<AwsLogSourceConfiguration>;
 export type AwsLogSourceConfigurationList = AwsLogSourceConfiguration[];
-export const AwsLogSourceConfigurationList = S.Array(AwsLogSourceConfiguration);
+export const AwsLogSourceConfigurationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AwsLogSourceConfiguration);
 export interface CreateAwsLogSourceRequest {
   sources: AwsLogSourceConfiguration[];
 }
-export const CreateAwsLogSourceRequest = S.suspend(() =>
-  S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/logsources/aws" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAwsLogSourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/logsources/aws" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateAwsLogSourceRequest",
 }) as any as S.Schema<CreateAwsLogSourceRequest>;
 export interface CreateAwsLogSourceResponse {
   failed?: string[];
 }
-export const CreateAwsLogSourceResponse = S.suspend(() =>
-  S.Struct({ failed: S.optional(AccountList) }),
+export const CreateAwsLogSourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ failed: S.optional(AccountList) }),
 ).annotate({
   identifier: "CreateAwsLogSourceResponse",
 }) as any as S.Schema<CreateAwsLogSourceResponse>;
 export type OcsfEventClassList = string[];
-export const OcsfEventClassList = S.Array(S.String);
+export const OcsfEventClassList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface CustomLogSourceCrawlerConfiguration {
   roleArn: string;
 }
-export const CustomLogSourceCrawlerConfiguration = S.suspend(() =>
-  S.Struct({ roleArn: S.String }),
-).annotate({
-  identifier: "CustomLogSourceCrawlerConfiguration",
-}) as any as S.Schema<CustomLogSourceCrawlerConfiguration>;
+export const CustomLogSourceCrawlerConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ roleArn: S.String }),
+  ).annotate({
+    identifier: "CustomLogSourceCrawlerConfiguration",
+  }) as any as S.Schema<CustomLogSourceCrawlerConfiguration>;
 export interface AwsIdentity {
   principal: string;
   externalId: string;
 }
-export const AwsIdentity = S.suspend(() =>
+export const AwsIdentity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ principal: S.String, externalId: S.String }),
 ).annotate({ identifier: "AwsIdentity" }) as any as S.Schema<AwsIdentity>;
 export interface CustomLogSourceConfiguration {
   crawlerConfiguration: CustomLogSourceCrawlerConfiguration;
   providerIdentity: AwsIdentity;
 }
-export const CustomLogSourceConfiguration = S.suspend(() =>
-  S.Struct({
-    crawlerConfiguration: CustomLogSourceCrawlerConfiguration,
-    providerIdentity: AwsIdentity,
-  }),
-).annotate({
-  identifier: "CustomLogSourceConfiguration",
-}) as any as S.Schema<CustomLogSourceConfiguration>;
+export const CustomLogSourceConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      crawlerConfiguration: CustomLogSourceCrawlerConfiguration,
+      providerIdentity: AwsIdentity,
+    }),
+  ).annotate({
+    identifier: "CustomLogSourceConfiguration",
+  }) as any as S.Schema<CustomLogSourceConfiguration>;
 export interface CreateCustomLogSourceRequest {
   sourceName: string;
   sourceVersion?: string;
   eventClasses?: string[];
   configuration: CustomLogSourceConfiguration;
 }
-export const CreateCustomLogSourceRequest = S.suspend(() =>
-  S.Struct({
-    sourceName: S.String,
-    sourceVersion: S.optional(S.String),
-    eventClasses: S.optional(OcsfEventClassList),
-    configuration: CustomLogSourceConfiguration,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/logsources/custom" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateCustomLogSourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceName: S.String,
+      sourceVersion: S.optional(S.String),
+      eventClasses: S.optional(OcsfEventClassList),
+      configuration: CustomLogSourceConfiguration,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/logsources/custom" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateCustomLogSourceRequest",
-}) as any as S.Schema<CreateCustomLogSourceRequest>;
+  ).annotate({
+    identifier: "CreateCustomLogSourceRequest",
+  }) as any as S.Schema<CreateCustomLogSourceRequest>;
 export interface CustomLogSourceProvider {
   roleArn?: string;
   location?: string;
 }
-export const CustomLogSourceProvider = S.suspend(() =>
-  S.Struct({ roleArn: S.optional(S.String), location: S.optional(S.String) }),
+export const CustomLogSourceProvider = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ roleArn: S.optional(S.String), location: S.optional(S.String) }),
 ).annotate({
   identifier: "CustomLogSourceProvider",
 }) as any as S.Schema<CustomLogSourceProvider>;
@@ -528,12 +549,13 @@ export interface CustomLogSourceAttributes {
   databaseArn?: string;
   tableArn?: string;
 }
-export const CustomLogSourceAttributes = S.suspend(() =>
-  S.Struct({
-    crawlerArn: S.optional(S.String),
-    databaseArn: S.optional(S.String),
-    tableArn: S.optional(S.String),
-  }),
+export const CustomLogSourceAttributes = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      crawlerArn: S.optional(S.String),
+      databaseArn: S.optional(S.String),
+      tableArn: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "CustomLogSourceAttributes",
 }) as any as S.Schema<CustomLogSourceAttributes>;
@@ -543,81 +565,93 @@ export interface CustomLogSourceResource {
   provider?: CustomLogSourceProvider;
   attributes?: CustomLogSourceAttributes;
 }
-export const CustomLogSourceResource = S.suspend(() =>
-  S.Struct({
-    sourceName: S.optional(S.String),
-    sourceVersion: S.optional(S.String),
-    provider: S.optional(CustomLogSourceProvider),
-    attributes: S.optional(CustomLogSourceAttributes),
-  }),
+export const CustomLogSourceResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sourceName: S.optional(S.String),
+      sourceVersion: S.optional(S.String),
+      provider: S.optional(CustomLogSourceProvider),
+      attributes: S.optional(CustomLogSourceAttributes),
+    }),
 ).annotate({
   identifier: "CustomLogSourceResource",
 }) as any as S.Schema<CustomLogSourceResource>;
 export interface CreateCustomLogSourceResponse {
   source?: CustomLogSourceResource;
 }
-export const CreateCustomLogSourceResponse = S.suspend(() =>
-  S.Struct({ source: S.optional(CustomLogSourceResource) }),
-).annotate({
-  identifier: "CreateCustomLogSourceResponse",
-}) as any as S.Schema<CreateCustomLogSourceResponse>;
+export const CreateCustomLogSourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ source: S.optional(CustomLogSourceResource) }),
+  ).annotate({
+    identifier: "CreateCustomLogSourceResponse",
+  }) as any as S.Schema<CreateCustomLogSourceResponse>;
 export interface DataLakeEncryptionConfiguration {
   kmsKeyId?: string;
 }
-export const DataLakeEncryptionConfiguration = S.suspend(() =>
-  S.Struct({ kmsKeyId: S.optional(S.String) }),
-).annotate({
-  identifier: "DataLakeEncryptionConfiguration",
-}) as any as S.Schema<DataLakeEncryptionConfiguration>;
+export const DataLakeEncryptionConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ kmsKeyId: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DataLakeEncryptionConfiguration",
+  }) as any as S.Schema<DataLakeEncryptionConfiguration>;
 export interface DataLakeLifecycleExpiration {
   days?: number;
 }
-export const DataLakeLifecycleExpiration = S.suspend(() =>
-  S.Struct({ days: S.optional(S.Number) }),
-).annotate({
-  identifier: "DataLakeLifecycleExpiration",
-}) as any as S.Schema<DataLakeLifecycleExpiration>;
+export const DataLakeLifecycleExpiration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ days: S.optional(S.Number) }),
+  ).annotate({
+    identifier: "DataLakeLifecycleExpiration",
+  }) as any as S.Schema<DataLakeLifecycleExpiration>;
 export interface DataLakeLifecycleTransition {
   storageClass?: string;
   days?: number;
 }
-export const DataLakeLifecycleTransition = S.suspend(() =>
-  S.Struct({ storageClass: S.optional(S.String), days: S.optional(S.Number) }),
-).annotate({
-  identifier: "DataLakeLifecycleTransition",
-}) as any as S.Schema<DataLakeLifecycleTransition>;
+export const DataLakeLifecycleTransition =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storageClass: S.optional(S.String),
+      days: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "DataLakeLifecycleTransition",
+  }) as any as S.Schema<DataLakeLifecycleTransition>;
 export type DataLakeLifecycleTransitionList = DataLakeLifecycleTransition[];
-export const DataLakeLifecycleTransitionList = S.Array(
-  DataLakeLifecycleTransition,
-);
+export const DataLakeLifecycleTransitionList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataLakeLifecycleTransition);
 export interface DataLakeLifecycleConfiguration {
   expiration?: DataLakeLifecycleExpiration;
   transitions?: DataLakeLifecycleTransition[];
 }
-export const DataLakeLifecycleConfiguration = S.suspend(() =>
-  S.Struct({
-    expiration: S.optional(DataLakeLifecycleExpiration),
-    transitions: S.optional(DataLakeLifecycleTransitionList),
-  }),
-).annotate({
-  identifier: "DataLakeLifecycleConfiguration",
-}) as any as S.Schema<DataLakeLifecycleConfiguration>;
+export const DataLakeLifecycleConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      expiration: S.optional(DataLakeLifecycleExpiration),
+      transitions: S.optional(DataLakeLifecycleTransitionList),
+    }),
+  ).annotate({
+    identifier: "DataLakeLifecycleConfiguration",
+  }) as any as S.Schema<DataLakeLifecycleConfiguration>;
 export interface DataLakeReplicationConfiguration {
   regions?: string[];
   roleArn?: string;
 }
-export const DataLakeReplicationConfiguration = S.suspend(() =>
-  S.Struct({ regions: S.optional(RegionList), roleArn: S.optional(S.String) }),
-).annotate({
-  identifier: "DataLakeReplicationConfiguration",
-}) as any as S.Schema<DataLakeReplicationConfiguration>;
+export const DataLakeReplicationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      regions: S.optional(RegionList),
+      roleArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DataLakeReplicationConfiguration",
+  }) as any as S.Schema<DataLakeReplicationConfiguration>;
 export interface DataLakeConfiguration {
   region: string;
   encryptionConfiguration?: DataLakeEncryptionConfiguration;
   lifecycleConfiguration?: DataLakeLifecycleConfiguration;
   replicationConfiguration?: DataLakeReplicationConfiguration;
 }
-export const DataLakeConfiguration = S.suspend(() =>
+export const DataLakeConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     region: S.String,
     encryptionConfiguration: S.optional(DataLakeEncryptionConfiguration),
@@ -628,13 +662,15 @@ export const DataLakeConfiguration = S.suspend(() =>
   identifier: "DataLakeConfiguration",
 }) as any as S.Schema<DataLakeConfiguration>;
 export type DataLakeConfigurationList = DataLakeConfiguration[];
-export const DataLakeConfigurationList = S.Array(DataLakeConfiguration);
+export const DataLakeConfigurationList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DataLakeConfiguration,
+);
 export interface CreateDataLakeRequest {
   configurations: DataLakeConfiguration[];
   metaStoreManagerRoleArn: string;
   tags?: Tag[];
 }
-export const CreateDataLakeRequest = S.suspend(() =>
+export const CreateDataLakeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     configurations: DataLakeConfigurationList,
     metaStoreManagerRoleArn: S.String,
@@ -658,13 +694,13 @@ export type DataLakeStatus =
   | "COMPLETED"
   | "FAILED"
   | (string & {});
-export const DataLakeStatus = S.String;
+export const DataLakeStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DataLakeUpdateException {
   reason?: string;
   code?: string;
 }
-export const DataLakeUpdateException = S.suspend(() =>
-  S.Struct({ reason: S.optional(S.String), code: S.optional(S.String) }),
+export const DataLakeUpdateException = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ reason: S.optional(S.String), code: S.optional(S.String) }),
 ).annotate({
   identifier: "DataLakeUpdateException",
 }) as any as S.Schema<DataLakeUpdateException>;
@@ -673,7 +709,7 @@ export interface DataLakeUpdateStatus {
   status?: DataLakeStatus;
   exception?: DataLakeUpdateException;
 }
-export const DataLakeUpdateStatus = S.suspend(() =>
+export const DataLakeUpdateStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
     status: S.optional(DataLakeStatus),
@@ -692,7 +728,7 @@ export interface DataLakeResource {
   createStatus?: DataLakeStatus;
   updateStatus?: DataLakeUpdateStatus;
 }
-export const DataLakeResource = S.suspend(() =>
+export const DataLakeResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     dataLakeArn: S.String,
     region: S.String,
@@ -707,12 +743,13 @@ export const DataLakeResource = S.suspend(() =>
   identifier: "DataLakeResource",
 }) as any as S.Schema<DataLakeResource>;
 export type DataLakeResourceList = DataLakeResource[];
-export const DataLakeResourceList = S.Array(DataLakeResource);
+export const DataLakeResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataLakeResource);
 export interface CreateDataLakeResponse {
   dataLakes?: DataLakeResource[];
 }
-export const CreateDataLakeResponse = S.suspend(() =>
-  S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
+export const CreateDataLakeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
 ).annotate({
   identifier: "CreateDataLakeResponse",
 }) as any as S.Schema<CreateDataLakeResponse>;
@@ -720,7 +757,7 @@ export interface AwsLogSourceResource {
   sourceName?: AwsLogSourceName;
   sourceVersion?: string;
 }
-export const AwsLogSourceResource = S.suspend(() =>
+export const AwsLogSourceResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceName: S.optional(AwsLogSourceName),
     sourceVersion: S.optional(S.String),
@@ -729,73 +766,77 @@ export const AwsLogSourceResource = S.suspend(() =>
   identifier: "AwsLogSourceResource",
 }) as any as S.Schema<AwsLogSourceResource>;
 export type AwsLogSourceResourceList = AwsLogSourceResource[];
-export const AwsLogSourceResourceList = S.Array(AwsLogSourceResource);
+export const AwsLogSourceResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AwsLogSourceResource);
 export interface DataLakeAutoEnableNewAccountConfiguration {
   region: string;
   sources: AwsLogSourceResource[];
 }
-export const DataLakeAutoEnableNewAccountConfiguration = S.suspend(() =>
-  S.Struct({ region: S.String, sources: AwsLogSourceResourceList }),
-).annotate({
-  identifier: "DataLakeAutoEnableNewAccountConfiguration",
-}) as any as S.Schema<DataLakeAutoEnableNewAccountConfiguration>;
+export const DataLakeAutoEnableNewAccountConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ region: S.String, sources: AwsLogSourceResourceList }),
+  ).annotate({
+    identifier: "DataLakeAutoEnableNewAccountConfiguration",
+  }) as any as S.Schema<DataLakeAutoEnableNewAccountConfiguration>;
 export type DataLakeAutoEnableNewAccountConfigurationList =
   DataLakeAutoEnableNewAccountConfiguration[];
-export const DataLakeAutoEnableNewAccountConfigurationList = S.Array(
-  DataLakeAutoEnableNewAccountConfiguration,
-);
+export const DataLakeAutoEnableNewAccountConfigurationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(
+    DataLakeAutoEnableNewAccountConfiguration,
+  );
 export interface CreateDataLakeOrganizationConfigurationRequest {
   autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
-export const CreateDataLakeOrganizationConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    autoEnableNewAccount: S.optional(
-      DataLakeAutoEnableNewAccountConfigurationList,
+export const CreateDataLakeOrganizationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      autoEnableNewAccount: S.optional(
+        DataLakeAutoEnableNewAccountConfigurationList,
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/datalake/organization/configuration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/datalake/organization/configuration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDataLakeOrganizationConfigurationRequest",
-}) as any as S.Schema<CreateDataLakeOrganizationConfigurationRequest>;
+  ).annotate({
+    identifier: "CreateDataLakeOrganizationConfigurationRequest",
+  }) as any as S.Schema<CreateDataLakeOrganizationConfigurationRequest>;
 export interface CreateDataLakeOrganizationConfigurationResponse {}
-export const CreateDataLakeOrganizationConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateDataLakeOrganizationConfigurationResponse",
-}) as any as S.Schema<CreateDataLakeOrganizationConfigurationResponse>;
+export const CreateDataLakeOrganizationConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "CreateDataLakeOrganizationConfigurationResponse",
+  }) as any as S.Schema<CreateDataLakeOrganizationConfigurationResponse>;
 export interface DeleteAwsLogSourceRequest {
   sources: AwsLogSourceConfiguration[];
 }
-export const DeleteAwsLogSourceRequest = S.suspend(() =>
-  S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/logsources/aws/delete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAwsLogSourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sources: AwsLogSourceConfigurationList }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/logsources/aws/delete" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteAwsLogSourceRequest",
 }) as any as S.Schema<DeleteAwsLogSourceRequest>;
 export interface DeleteAwsLogSourceResponse {
   failed?: string[];
 }
-export const DeleteAwsLogSourceResponse = S.suspend(() =>
-  S.Struct({ failed: S.optional(AccountList) }),
+export const DeleteAwsLogSourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ failed: S.optional(AccountList) }),
 ).annotate({
   identifier: "DeleteAwsLogSourceResponse",
 }) as any as S.Schema<DeleteAwsLogSourceResponse>;
@@ -803,36 +844,36 @@ export interface DeleteCustomLogSourceRequest {
   sourceName: string;
   sourceVersion?: string;
 }
-export const DeleteCustomLogSourceRequest = S.suspend(() =>
-  S.Struct({
-    sourceName: S.String.pipe(T.HttpLabel("sourceName")),
-    sourceVersion: S.optional(S.String).pipe(T.HttpQuery("sourceVersion")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/datalake/logsources/custom/{sourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteCustomLogSourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceName: S.String.pipe(T.HttpLabel("sourceName")),
+      sourceVersion: S.optional(S.String).pipe(T.HttpQuery("sourceVersion")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v1/datalake/logsources/custom/{sourceName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteCustomLogSourceRequest",
-}) as any as S.Schema<DeleteCustomLogSourceRequest>;
+  ).annotate({
+    identifier: "DeleteCustomLogSourceRequest",
+  }) as any as S.Schema<DeleteCustomLogSourceRequest>;
 export interface DeleteCustomLogSourceResponse {}
-export const DeleteCustomLogSourceResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCustomLogSourceResponse",
-}) as any as S.Schema<DeleteCustomLogSourceResponse>;
+export const DeleteCustomLogSourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteCustomLogSourceResponse",
+  }) as any as S.Schema<DeleteCustomLogSourceResponse>;
 export interface DeleteDataLakeRequest {
   regions: string[];
 }
-export const DeleteDataLakeRequest = S.suspend(() =>
+export const DeleteDataLakeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ regions: RegionList }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/datalake/delete" }),
@@ -847,86 +888,94 @@ export const DeleteDataLakeRequest = S.suspend(() =>
   identifier: "DeleteDataLakeRequest",
 }) as any as S.Schema<DeleteDataLakeRequest>;
 export interface DeleteDataLakeResponse {}
-export const DeleteDataLakeResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteDataLakeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteDataLakeResponse",
 }) as any as S.Schema<DeleteDataLakeResponse>;
 export interface DeleteDataLakeOrganizationConfigurationRequest {
   autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
-export const DeleteDataLakeOrganizationConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    autoEnableNewAccount: S.optional(
-      DataLakeAutoEnableNewAccountConfigurationList,
+export const DeleteDataLakeOrganizationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      autoEnableNewAccount: S.optional(
+        DataLakeAutoEnableNewAccountConfigurationList,
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/datalake/organization/configuration/delete",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/datalake/organization/configuration/delete",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataLakeOrganizationConfigurationRequest",
-}) as any as S.Schema<DeleteDataLakeOrganizationConfigurationRequest>;
+  ).annotate({
+    identifier: "DeleteDataLakeOrganizationConfigurationRequest",
+  }) as any as S.Schema<DeleteDataLakeOrganizationConfigurationRequest>;
 export interface DeleteDataLakeOrganizationConfigurationResponse {}
-export const DeleteDataLakeOrganizationConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDataLakeOrganizationConfigurationResponse",
-}) as any as S.Schema<DeleteDataLakeOrganizationConfigurationResponse>;
+export const DeleteDataLakeOrganizationConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteDataLakeOrganizationConfigurationResponse",
+  }) as any as S.Schema<DeleteDataLakeOrganizationConfigurationResponse>;
 export interface GetDataLakeOrganizationConfigurationRequest {}
-export const GetDataLakeOrganizationConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/datalake/organization/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDataLakeOrganizationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/v1/datalake/organization/configuration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDataLakeOrganizationConfigurationRequest",
-}) as any as S.Schema<GetDataLakeOrganizationConfigurationRequest>;
+  ).annotate({
+    identifier: "GetDataLakeOrganizationConfigurationRequest",
+  }) as any as S.Schema<GetDataLakeOrganizationConfigurationRequest>;
 export interface GetDataLakeOrganizationConfigurationResponse {
   autoEnableNewAccount?: DataLakeAutoEnableNewAccountConfiguration[];
 }
-export const GetDataLakeOrganizationConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    autoEnableNewAccount: S.optional(
-      DataLakeAutoEnableNewAccountConfigurationList,
-    ),
-  }),
-).annotate({
-  identifier: "GetDataLakeOrganizationConfigurationResponse",
-}) as any as S.Schema<GetDataLakeOrganizationConfigurationResponse>;
+export const GetDataLakeOrganizationConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      autoEnableNewAccount: S.optional(
+        DataLakeAutoEnableNewAccountConfigurationList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetDataLakeOrganizationConfigurationResponse",
+  }) as any as S.Schema<GetDataLakeOrganizationConfigurationResponse>;
 export interface GetDataLakeSourcesRequest {
   accounts?: string[];
   maxResults?: number;
   nextToken?: string;
 }
-export const GetDataLakeSourcesRequest = S.suspend(() =>
-  S.Struct({
-    accounts: S.optional(AccountList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/datalake/sources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDataLakeSourcesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      accounts: S.optional(AccountList),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/datalake/sources" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetDataLakeSourcesRequest",
 }) as any as S.Schema<GetDataLakeSourcesRequest>;
@@ -935,12 +984,12 @@ export type SourceCollectionStatus =
   | "MISCONFIGURED"
   | "NOT_COLLECTING"
   | (string & {});
-export const SourceCollectionStatus = S.String;
+export const SourceCollectionStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DataLakeSourceStatus {
   resource?: string;
   status?: SourceCollectionStatus;
 }
-export const DataLakeSourceStatus = S.suspend(() =>
+export const DataLakeSourceStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(S.String),
     status: S.optional(SourceCollectionStatus),
@@ -949,14 +998,15 @@ export const DataLakeSourceStatus = S.suspend(() =>
   identifier: "DataLakeSourceStatus",
 }) as any as S.Schema<DataLakeSourceStatus>;
 export type DataLakeSourceStatusList = DataLakeSourceStatus[];
-export const DataLakeSourceStatusList = S.Array(DataLakeSourceStatus);
+export const DataLakeSourceStatusList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataLakeSourceStatus);
 export interface DataLakeSource {
   account?: string;
   sourceName?: string;
   eventClasses?: string[];
   sourceStatuses?: DataLakeSourceStatus[];
 }
-export const DataLakeSource = S.suspend(() =>
+export const DataLakeSource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.optional(S.String),
     sourceName: S.optional(S.String),
@@ -965,25 +1015,27 @@ export const DataLakeSource = S.suspend(() =>
   }),
 ).annotate({ identifier: "DataLakeSource" }) as any as S.Schema<DataLakeSource>;
 export type DataLakeSourceList = DataLakeSource[];
-export const DataLakeSourceList = S.Array(DataLakeSource);
+export const DataLakeSourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataLakeSource);
 export interface GetDataLakeSourcesResponse {
   dataLakeArn?: string;
   dataLakeSources?: DataLakeSource[];
   nextToken?: string;
 }
-export const GetDataLakeSourcesResponse = S.suspend(() =>
-  S.Struct({
-    dataLakeArn: S.optional(S.String),
-    dataLakeSources: S.optional(DataLakeSourceList),
-    nextToken: S.optional(S.String),
-  }),
+export const GetDataLakeSourcesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      dataLakeArn: S.optional(S.String),
+      dataLakeSources: S.optional(DataLakeSourceList),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "GetDataLakeSourcesResponse",
 }) as any as S.Schema<GetDataLakeSourcesResponse>;
 export interface ListDataLakesRequest {
   regions?: string[];
 }
-export const ListDataLakesRequest = S.suspend(() =>
+export const ListDataLakesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: S.optional(RegionList).pipe(T.HttpQuery("regions")),
   }).pipe(
@@ -1002,7 +1054,7 @@ export const ListDataLakesRequest = S.suspend(() =>
 export interface ListDataLakesResponse {
   dataLakes?: DataLakeResource[];
 }
-export const ListDataLakesResponse = S.suspend(() =>
+export const ListDataLakesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
 ).annotate({
   identifier: "ListDataLakesResponse",
@@ -1010,12 +1062,13 @@ export const ListDataLakesResponse = S.suspend(() =>
 export type LogSourceResource =
   | { awsLogSource: AwsLogSourceResource; customLogSource?: never }
   | { awsLogSource?: never; customLogSource: CustomLogSourceResource };
-export const LogSourceResource = S.Union([
+export const LogSourceResource = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ awsLogSource: AwsLogSourceResource }),
   S.Struct({ customLogSource: CustomLogSourceResource }),
 ]);
 export type LogSourceResourceList = LogSourceResource[];
-export const LogSourceResourceList = S.Array(LogSourceResource);
+export const LogSourceResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LogSourceResource);
 export interface ListLogSourcesRequest {
   accounts?: string[];
   regions?: string[];
@@ -1023,7 +1076,7 @@ export interface ListLogSourcesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListLogSourcesRequest = S.suspend(() =>
+export const ListLogSourcesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     accounts: S.optional(AccountList),
     regions: S.optional(RegionList),
@@ -1048,7 +1101,7 @@ export interface LogSource {
   region?: string;
   sources?: LogSourceResource[];
 }
-export const LogSource = S.suspend(() =>
+export const LogSource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     account: S.optional(S.String),
     region: S.optional(S.String),
@@ -1056,16 +1109,17 @@ export const LogSource = S.suspend(() =>
   }),
 ).annotate({ identifier: "LogSource" }) as any as S.Schema<LogSource>;
 export type LogSourceList = LogSource[];
-export const LogSourceList = S.Array(LogSource);
+export const LogSourceList = /*@__PURE__*/ /*#__PURE__*/ S.Array(LogSource);
 export interface ListLogSourcesResponse {
   sources?: LogSource[];
   nextToken?: string;
 }
-export const ListLogSourcesResponse = S.suspend(() =>
-  S.Struct({
-    sources: S.optional(LogSourceList),
-    nextToken: S.optional(S.String),
-  }),
+export const ListLogSourcesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sources: S.optional(LogSourceList),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListLogSourcesResponse",
 }) as any as S.Schema<ListLogSourcesResponse>;
@@ -1073,7 +1127,7 @@ export interface UpdateDataLakeRequest {
   configurations: DataLakeConfiguration[];
   metaStoreManagerRoleArn?: string;
 }
-export const UpdateDataLakeRequest = S.suspend(() =>
+export const UpdateDataLakeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     configurations: DataLakeConfigurationList,
     metaStoreManagerRoleArn: S.optional(S.String),
@@ -1093,15 +1147,15 @@ export const UpdateDataLakeRequest = S.suspend(() =>
 export interface UpdateDataLakeResponse {
   dataLakes?: DataLakeResource[];
 }
-export const UpdateDataLakeResponse = S.suspend(() =>
-  S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
+export const UpdateDataLakeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ dataLakes: S.optional(DataLakeResourceList) }),
 ).annotate({
   identifier: "UpdateDataLakeResponse",
 }) as any as S.Schema<UpdateDataLakeResponse>;
 export type AccessType = "LAKEFORMATION" | "S3" | (string & {});
-export const AccessType = S.String;
+export const AccessType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AccessTypeList = AccessType[];
-export const AccessTypeList = S.Array(AccessType);
+export const AccessTypeList = /*@__PURE__*/ /*#__PURE__*/ S.Array(AccessType);
 export interface CreateSubscriberRequest {
   subscriberIdentity: AwsIdentity;
   subscriberName: string;
@@ -1110,24 +1164,25 @@ export interface CreateSubscriberRequest {
   accessTypes?: AccessType[];
   tags?: Tag[];
 }
-export const CreateSubscriberRequest = S.suspend(() =>
-  S.Struct({
-    subscriberIdentity: AwsIdentity,
-    subscriberName: S.String,
-    subscriberDescription: S.optional(S.String),
-    sources: LogSourceResourceList,
-    accessTypes: S.optional(AccessTypeList),
-    tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/subscribers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateSubscriberRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriberIdentity: AwsIdentity,
+      subscriberName: S.String,
+      subscriberDescription: S.optional(S.String),
+      sources: LogSourceResourceList,
+      accessTypes: S.optional(AccessTypeList),
+      tags: S.optional(TagList),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/v1/subscribers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSubscriberRequest",
 }) as any as S.Schema<CreateSubscriberRequest>;
@@ -1137,7 +1192,7 @@ export type SubscriberStatus =
   | "PENDING"
   | "READY"
   | (string & {});
-export const SubscriberStatus = S.String;
+export const SubscriberStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface SubscriberResource {
   subscriberId: string;
   subscriberArn: string;
@@ -1155,7 +1210,7 @@ export interface SubscriberResource {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const SubscriberResource = S.suspend(() =>
+export const SubscriberResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriberId: S.String,
     subscriberArn: S.String,
@@ -1183,15 +1238,15 @@ export const SubscriberResource = S.suspend(() =>
 export interface CreateSubscriberResponse {
   subscriber?: SubscriberResource;
 }
-export const CreateSubscriberResponse = S.suspend(() =>
-  S.Struct({ subscriber: S.optional(SubscriberResource) }),
+export const CreateSubscriberResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ subscriber: S.optional(SubscriberResource) }),
 ).annotate({
   identifier: "CreateSubscriberResponse",
 }) as any as S.Schema<CreateSubscriberResponse>;
 export interface GetSubscriberRequest {
   subscriberId: string;
 }
-export const GetSubscriberRequest = S.suspend(() =>
+export const GetSubscriberRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ subscriberId: S.String.pipe(T.HttpLabel("subscriberId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v1/subscribers/{subscriberId}" }),
@@ -1208,7 +1263,7 @@ export const GetSubscriberRequest = S.suspend(() =>
 export interface GetSubscriberResponse {
   subscriber?: SubscriberResource;
 }
-export const GetSubscriberResponse = S.suspend(() =>
+export const GetSubscriberResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ subscriber: S.optional(SubscriberResource) }),
 ).annotate({
   identifier: "GetSubscriberResponse",
@@ -1220,98 +1275,104 @@ export interface UpdateSubscriberRequest {
   subscriberDescription?: string;
   sources?: LogSourceResource[];
 }
-export const UpdateSubscriberRequest = S.suspend(() =>
-  S.Struct({
-    subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
-    subscriberIdentity: S.optional(AwsIdentity),
-    subscriberName: S.optional(S.String),
-    subscriberDescription: S.optional(S.String),
-    sources: S.optional(LogSourceResourceList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/subscribers/{subscriberId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateSubscriberRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
+      subscriberIdentity: S.optional(AwsIdentity),
+      subscriberName: S.optional(S.String),
+      subscriberDescription: S.optional(S.String),
+      sources: S.optional(LogSourceResourceList),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/v1/subscribers/{subscriberId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateSubscriberRequest",
 }) as any as S.Schema<UpdateSubscriberRequest>;
 export interface UpdateSubscriberResponse {
   subscriber?: SubscriberResource;
 }
-export const UpdateSubscriberResponse = S.suspend(() =>
-  S.Struct({ subscriber: S.optional(SubscriberResource) }),
+export const UpdateSubscriberResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ subscriber: S.optional(SubscriberResource) }),
 ).annotate({
   identifier: "UpdateSubscriberResponse",
 }) as any as S.Schema<UpdateSubscriberResponse>;
 export interface DeleteSubscriberRequest {
   subscriberId: string;
 }
-export const DeleteSubscriberRequest = S.suspend(() =>
-  S.Struct({ subscriberId: S.String.pipe(T.HttpLabel("subscriberId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/subscribers/{subscriberId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteSubscriberRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ subscriberId: S.String.pipe(T.HttpLabel("subscriberId")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/v1/subscribers/{subscriberId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteSubscriberRequest",
 }) as any as S.Schema<DeleteSubscriberRequest>;
 export interface DeleteSubscriberResponse {}
-export const DeleteSubscriberResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteSubscriberResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteSubscriberResponse",
 }) as any as S.Schema<DeleteSubscriberResponse>;
 export interface ListSubscribersRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSubscribersRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/subscribers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListSubscribersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/v1/subscribers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListSubscribersRequest",
 }) as any as S.Schema<ListSubscribersRequest>;
 export type SubscriberResourceList = SubscriberResource[];
-export const SubscriberResourceList = S.Array(SubscriberResource);
+export const SubscriberResourceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SubscriberResource);
 export interface ListSubscribersResponse {
   subscribers?: SubscriberResource[];
   nextToken?: string;
 }
-export const ListSubscribersResponse = S.suspend(() =>
-  S.Struct({
-    subscribers: S.optional(SubscriberResourceList),
-    nextToken: S.optional(S.String),
-  }),
+export const ListSubscribersResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscribers: S.optional(SubscriberResourceList),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListSubscribersResponse",
 }) as any as S.Schema<ListSubscribersResponse>;
 export interface SqsNotificationConfiguration {}
-export const SqsNotificationConfiguration = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SqsNotificationConfiguration",
-}) as any as S.Schema<SqsNotificationConfiguration>;
+export const SqsNotificationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "SqsNotificationConfiguration",
+  }) as any as S.Schema<SqsNotificationConfiguration>;
 export type HttpMethod = "POST" | "PUT" | (string & {});
-export const HttpMethod = S.String;
+export const HttpMethod = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface HttpsNotificationConfiguration {
   endpoint: string;
   authorizationApiKeyName?: string;
@@ -1319,17 +1380,18 @@ export interface HttpsNotificationConfiguration {
   httpMethod?: HttpMethod;
   targetRoleArn: string;
 }
-export const HttpsNotificationConfiguration = S.suspend(() =>
-  S.Struct({
-    endpoint: S.String,
-    authorizationApiKeyName: S.optional(S.String),
-    authorizationApiKeyValue: S.optional(S.String),
-    httpMethod: S.optional(HttpMethod),
-    targetRoleArn: S.String,
-  }),
-).annotate({
-  identifier: "HttpsNotificationConfiguration",
-}) as any as S.Schema<HttpsNotificationConfiguration>;
+export const HttpsNotificationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endpoint: S.String,
+      authorizationApiKeyName: S.optional(S.String),
+      authorizationApiKeyValue: S.optional(S.String),
+      httpMethod: S.optional(HttpMethod),
+      targetRoleArn: S.String,
+    }),
+  ).annotate({
+    identifier: "HttpsNotificationConfiguration",
+  }) as any as S.Schema<HttpsNotificationConfiguration>;
 export type NotificationConfiguration =
   | {
       sqsNotificationConfiguration: SqsNotificationConfiguration;
@@ -1339,7 +1401,7 @@ export type NotificationConfiguration =
       sqsNotificationConfiguration?: never;
       httpsNotificationConfiguration: HttpsNotificationConfiguration;
     };
-export const NotificationConfiguration = S.Union([
+export const NotificationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ sqsNotificationConfiguration: SqsNotificationConfiguration }),
   S.Struct({ httpsNotificationConfiguration: HttpsNotificationConfiguration }),
 ]);
@@ -1347,92 +1409,96 @@ export interface CreateSubscriberNotificationRequest {
   subscriberId: string;
   configuration: NotificationConfiguration;
 }
-export const CreateSubscriberNotificationRequest = S.suspend(() =>
-  S.Struct({
-    subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
-    configuration: NotificationConfiguration,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/subscribers/{subscriberId}/notification",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateSubscriberNotificationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
+      configuration: NotificationConfiguration,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v1/subscribers/{subscriberId}/notification",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateSubscriberNotificationRequest",
-}) as any as S.Schema<CreateSubscriberNotificationRequest>;
+  ).annotate({
+    identifier: "CreateSubscriberNotificationRequest",
+  }) as any as S.Schema<CreateSubscriberNotificationRequest>;
 export interface CreateSubscriberNotificationResponse {
   subscriberEndpoint?: string;
 }
-export const CreateSubscriberNotificationResponse = S.suspend(() =>
-  S.Struct({ subscriberEndpoint: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateSubscriberNotificationResponse",
-}) as any as S.Schema<CreateSubscriberNotificationResponse>;
+export const CreateSubscriberNotificationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ subscriberEndpoint: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CreateSubscriberNotificationResponse",
+  }) as any as S.Schema<CreateSubscriberNotificationResponse>;
 export interface DeleteSubscriberNotificationRequest {
   subscriberId: string;
 }
-export const DeleteSubscriberNotificationRequest = S.suspend(() =>
-  S.Struct({ subscriberId: S.String.pipe(T.HttpLabel("subscriberId")) }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/subscribers/{subscriberId}/notification",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteSubscriberNotificationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ subscriberId: S.String.pipe(T.HttpLabel("subscriberId")) }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/v1/subscribers/{subscriberId}/notification",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteSubscriberNotificationRequest",
-}) as any as S.Schema<DeleteSubscriberNotificationRequest>;
+  ).annotate({
+    identifier: "DeleteSubscriberNotificationRequest",
+  }) as any as S.Schema<DeleteSubscriberNotificationRequest>;
 export interface DeleteSubscriberNotificationResponse {}
-export const DeleteSubscriberNotificationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSubscriberNotificationResponse",
-}) as any as S.Schema<DeleteSubscriberNotificationResponse>;
+export const DeleteSubscriberNotificationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteSubscriberNotificationResponse",
+  }) as any as S.Schema<DeleteSubscriberNotificationResponse>;
 export interface UpdateSubscriberNotificationRequest {
   subscriberId: string;
   configuration: NotificationConfiguration;
 }
-export const UpdateSubscriberNotificationRequest = S.suspend(() =>
-  S.Struct({
-    subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
-    configuration: NotificationConfiguration,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/subscribers/{subscriberId}/notification",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateSubscriberNotificationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriberId: S.String.pipe(T.HttpLabel("subscriberId")),
+      configuration: NotificationConfiguration,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v1/subscribers/{subscriberId}/notification",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateSubscriberNotificationRequest",
-}) as any as S.Schema<UpdateSubscriberNotificationRequest>;
+  ).annotate({
+    identifier: "UpdateSubscriberNotificationRequest",
+  }) as any as S.Schema<UpdateSubscriberNotificationRequest>;
 export interface UpdateSubscriberNotificationResponse {
   subscriberEndpoint?: string;
 }
-export const UpdateSubscriberNotificationResponse = S.suspend(() =>
-  S.Struct({ subscriberEndpoint: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateSubscriberNotificationResponse",
-}) as any as S.Schema<UpdateSubscriberNotificationResponse>;
+export const UpdateSubscriberNotificationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ subscriberEndpoint: S.optional(S.String) }),
+  ).annotate({
+    identifier: "UpdateSubscriberNotificationResponse",
+  }) as any as S.Schema<UpdateSubscriberNotificationResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

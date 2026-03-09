@@ -5,7 +5,7 @@ import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
-export const CreatePasswordInput = Schema.Struct({
+export const CreatePasswordInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -26,7 +26,7 @@ export const CreatePasswordInput = Schema.Struct({
 export type CreatePasswordInput = typeof CreatePasswordInput.Type;
 
 // Output Schema
-export const CreatePasswordOutput = Schema.Struct({
+export const CreatePasswordOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   role: Schema.Literals(["reader", "writer", "admin", "readwriter"]),

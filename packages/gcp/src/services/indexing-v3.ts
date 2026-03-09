@@ -35,16 +35,16 @@ export interface UrlNotification {
   notifyTime?: string;
 }
 
-export const UrlNotification: Schema.Schema<UrlNotification> = Schema.suspend(
-  () =>
+export const UrlNotification: Schema.Schema<UrlNotification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
       notifyTime: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "UrlNotification",
-}) as any as Schema.Schema<UrlNotification>;
+  ).annotate({
+    identifier: "UrlNotification",
+  }) as any as Schema.Schema<UrlNotification>;
 
 export interface UrlNotificationMetadata {
   /** URL to which this metadata refers. */
@@ -56,7 +56,7 @@ export interface UrlNotificationMetadata {
 }
 
 export const UrlNotificationMetadata: Schema.Schema<UrlNotificationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       latestUpdate: Schema.optional(UrlNotification),
@@ -72,7 +72,7 @@ export interface PublishUrlNotificationResponse {
 }
 
 export const PublishUrlNotificationResponse: Schema.Schema<PublishUrlNotificationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlNotificationMetadata: Schema.optional(UrlNotificationMetadata),
     }),
@@ -89,19 +89,21 @@ export interface PublishUrlNotificationsRequest {
   body?: UrlNotification;
 }
 
-export const PublishUrlNotificationsRequest = Schema.Struct({
-  body: Schema.optional(UrlNotification).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v3/urlNotifications:publish",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PublishUrlNotificationsRequest>;
+export const PublishUrlNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(UrlNotification).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v3/urlNotifications:publish",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PublishUrlNotificationsRequest>;
 
 export type PublishUrlNotificationsResponse = PublishUrlNotificationResponse;
-export const PublishUrlNotificationsResponse = PublishUrlNotificationResponse;
+export const PublishUrlNotificationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublishUrlNotificationResponse;
 
 export type PublishUrlNotificationsError = DefaultErrors;
 
@@ -111,7 +113,7 @@ export const publishUrlNotifications: API.OperationMethod<
   PublishUrlNotificationsResponse,
   PublishUrlNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishUrlNotificationsRequest,
   output: PublishUrlNotificationsResponse,
   errors: [],
@@ -122,15 +124,17 @@ export interface GetMetadataUrlNotificationsRequest {
   url?: string;
 }
 
-export const GetMetadataUrlNotificationsRequest = Schema.Struct({
-  url: Schema.optional(Schema.String).pipe(T.HttpQuery("url")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/urlNotifications/metadata" }),
-  svc,
-) as unknown as Schema.Schema<GetMetadataUrlNotificationsRequest>;
+export const GetMetadataUrlNotificationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    url: Schema.optional(Schema.String).pipe(T.HttpQuery("url")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v3/urlNotifications/metadata" }),
+    svc,
+  ) as unknown as Schema.Schema<GetMetadataUrlNotificationsRequest>;
 
 export type GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
-export const GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
+export const GetMetadataUrlNotificationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UrlNotificationMetadata;
 
 export type GetMetadataUrlNotificationsError = DefaultErrors;
 
@@ -140,7 +144,7 @@ export const getMetadataUrlNotifications: API.OperationMethod<
   GetMetadataUrlNotificationsResponse,
   GetMetadataUrlNotificationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetadataUrlNotificationsRequest,
   output: GetMetadataUrlNotificationsResponse,
   errors: [],

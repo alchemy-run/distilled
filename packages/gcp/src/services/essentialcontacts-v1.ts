@@ -53,7 +53,7 @@ export interface GoogleCloudEssentialcontactsV1Contact {
 }
 
 export const GoogleCloudEssentialcontactsV1Contact: Schema.Schema<GoogleCloudEssentialcontactsV1Contact> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       email: Schema.optional(Schema.String),
@@ -76,7 +76,7 @@ export interface GoogleCloudEssentialcontactsV1ListContactsResponse {
 }
 
 export const GoogleCloudEssentialcontactsV1ListContactsResponse: Schema.Schema<GoogleCloudEssentialcontactsV1ListContactsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contacts: Schema.optional(
         Schema.Array(GoogleCloudEssentialcontactsV1Contact),
@@ -90,7 +90,7 @@ export const GoogleCloudEssentialcontactsV1ListContactsResponse: Schema.Schema<G
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -102,7 +102,7 @@ export interface GoogleCloudEssentialcontactsV1ComputeContactsResponse {
 }
 
 export const GoogleCloudEssentialcontactsV1ComputeContactsResponse: Schema.Schema<GoogleCloudEssentialcontactsV1ComputeContactsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contacts: Schema.optional(
         Schema.Array(GoogleCloudEssentialcontactsV1Contact),
@@ -131,7 +131,7 @@ export interface GoogleCloudEssentialcontactsV1SendTestMessageRequest {
 }
 
 export const GoogleCloudEssentialcontactsV1SendTestMessageRequest: Schema.Schema<GoogleCloudEssentialcontactsV1SendTestMessageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contacts: Schema.optional(Schema.Array(Schema.String)),
       notificationCategory: Schema.optional(Schema.String),
@@ -151,24 +151,25 @@ export interface CreateProjectsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const CreateProjectsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/contacts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsContactsRequest>;
+export const CreateProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/contacts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsContactsRequest>;
 
 export type CreateProjectsContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const CreateProjectsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type CreateProjectsContactsError = DefaultErrors;
 
@@ -178,7 +179,7 @@ export const createProjectsContacts: API.OperationMethod<
   CreateProjectsContactsResponse,
   CreateProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsContactsRequest,
   output: CreateProjectsContactsResponse,
   errors: [],
@@ -193,25 +194,26 @@ export interface PatchProjectsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const PatchProjectsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/projects/{projectsId}/contacts/{contactsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsContactsRequest>;
+export const PatchProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/contacts/{contactsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsContactsRequest>;
 
 export type PatchProjectsContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const PatchProjectsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type PatchProjectsContactsError = DefaultErrors;
 
@@ -221,7 +223,7 @@ export const patchProjectsContacts: API.OperationMethod<
   PatchProjectsContactsResponse,
   PatchProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsContactsRequest,
   output: PatchProjectsContactsResponse,
   errors: [],
@@ -236,19 +238,20 @@ export interface ListProjectsContactsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/contacts" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsContactsRequest>;
+export const ListProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{projectsId}/contacts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsContactsRequest>;
 
 export type ListProjectsContactsResponse =
   GoogleCloudEssentialcontactsV1ListContactsResponse;
 export const ListProjectsContactsResponse =
-  GoogleCloudEssentialcontactsV1ListContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ListContactsResponse;
 
 export type ListProjectsContactsError = DefaultErrors;
 
@@ -258,7 +261,7 @@ export const listProjectsContacts: API.PaginatedOperationMethod<
   ListProjectsContactsResponse,
   ListProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsContactsRequest,
   output: ListProjectsContactsResponse,
   errors: [],
@@ -273,19 +276,20 @@ export interface GetProjectsContactsRequest {
   name: string;
 }
 
-export const GetProjectsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{projectsId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsContactsRequest>;
+export const GetProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsContactsRequest>;
 
 export type GetProjectsContactsResponse = GoogleCloudEssentialcontactsV1Contact;
 export const GetProjectsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type GetProjectsContactsError = DefaultErrors;
 
@@ -295,7 +299,7 @@ export const getProjectsContacts: API.OperationMethod<
   GetProjectsContactsResponse,
   GetProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsContactsRequest,
   output: GetProjectsContactsResponse,
   errors: [],
@@ -306,18 +310,20 @@ export interface DeleteProjectsContactsRequest {
   name: string;
 }
 
-export const DeleteProjectsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{projectsId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsContactsRequest>;
+export const DeleteProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsContactsRequest>;
 
 export type DeleteProjectsContactsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsContactsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsContactsError = DefaultErrors;
 
@@ -327,7 +333,7 @@ export const deleteProjectsContacts: API.OperationMethod<
   DeleteProjectsContactsResponse,
   DeleteProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsContactsRequest,
   output: DeleteProjectsContactsResponse,
   errors: [],
@@ -354,22 +360,26 @@ export interface ComputeProjectsContactsRequest {
   pageToken?: string;
 }
 
-export const ComputeProjectsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("notificationCategories"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{projectsId}/contacts:compute" }),
-  svc,
-) as unknown as Schema.Schema<ComputeProjectsContactsRequest>;
+export const ComputeProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("notificationCategories"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/contacts:compute",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeProjectsContactsRequest>;
 
 export type ComputeProjectsContactsResponse =
   GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 export const ComputeProjectsContactsResponse =
-  GoogleCloudEssentialcontactsV1ComputeContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 
 export type ComputeProjectsContactsError = DefaultErrors;
 
@@ -379,7 +389,7 @@ export const computeProjectsContacts: API.PaginatedOperationMethod<
   ComputeProjectsContactsResponse,
   ComputeProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ComputeProjectsContactsRequest,
   output: ComputeProjectsContactsResponse,
   errors: [],
@@ -396,22 +406,24 @@ export interface SendTestMessageProjectsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
 }
 
-export const SendTestMessageProjectsContactsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(
-    GoogleCloudEssentialcontactsV1SendTestMessageRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{projectsId}/contacts:sendTestMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendTestMessageProjectsContactsRequest>;
+export const SendTestMessageProjectsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(
+      GoogleCloudEssentialcontactsV1SendTestMessageRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/contacts:sendTestMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendTestMessageProjectsContactsRequest>;
 
 export type SendTestMessageProjectsContactsResponse = GoogleProtobufEmpty;
-export const SendTestMessageProjectsContactsResponse = GoogleProtobufEmpty;
+export const SendTestMessageProjectsContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SendTestMessageProjectsContactsError = DefaultErrors;
 
@@ -421,7 +433,7 @@ export const sendTestMessageProjectsContacts: API.OperationMethod<
   SendTestMessageProjectsContactsResponse,
   SendTestMessageProjectsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTestMessageProjectsContactsRequest,
   output: SendTestMessageProjectsContactsResponse,
   errors: [],
@@ -434,24 +446,25 @@ export interface CreateFoldersContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const CreateFoldersContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/folders/{foldersId}/contacts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateFoldersContactsRequest>;
+export const CreateFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/folders/{foldersId}/contacts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateFoldersContactsRequest>;
 
 export type CreateFoldersContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const CreateFoldersContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type CreateFoldersContactsError = DefaultErrors;
 
@@ -461,7 +474,7 @@ export const createFoldersContacts: API.OperationMethod<
   CreateFoldersContactsResponse,
   CreateFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFoldersContactsRequest,
   output: CreateFoldersContactsResponse,
   errors: [],
@@ -476,25 +489,26 @@ export interface PatchFoldersContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const PatchFoldersContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/folders/{foldersId}/contacts/{contactsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFoldersContactsRequest>;
+export const PatchFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/folders/{foldersId}/contacts/{contactsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFoldersContactsRequest>;
 
 export type PatchFoldersContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const PatchFoldersContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type PatchFoldersContactsError = DefaultErrors;
 
@@ -504,7 +518,7 @@ export const patchFoldersContacts: API.OperationMethod<
   PatchFoldersContactsResponse,
   PatchFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFoldersContactsRequest,
   output: PatchFoldersContactsResponse,
   errors: [],
@@ -519,19 +533,20 @@ export interface ListFoldersContactsRequest {
   pageToken?: string;
 }
 
-export const ListFoldersContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/contacts" }),
-  svc,
-) as unknown as Schema.Schema<ListFoldersContactsRequest>;
+export const ListFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/folders/{foldersId}/contacts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListFoldersContactsRequest>;
 
 export type ListFoldersContactsResponse =
   GoogleCloudEssentialcontactsV1ListContactsResponse;
 export const ListFoldersContactsResponse =
-  GoogleCloudEssentialcontactsV1ListContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ListContactsResponse;
 
 export type ListFoldersContactsError = DefaultErrors;
 
@@ -541,7 +556,7 @@ export const listFoldersContacts: API.PaginatedOperationMethod<
   ListFoldersContactsResponse,
   ListFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFoldersContactsRequest,
   output: ListFoldersContactsResponse,
   errors: [],
@@ -556,18 +571,20 @@ export interface GetFoldersContactsRequest {
   name: string;
 }
 
-export const GetFoldersContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/folders/{foldersId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersContactsRequest>;
+export const GetFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/folders/{foldersId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersContactsRequest>;
 
 export type GetFoldersContactsResponse = GoogleCloudEssentialcontactsV1Contact;
-export const GetFoldersContactsResponse = GoogleCloudEssentialcontactsV1Contact;
+export const GetFoldersContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type GetFoldersContactsError = DefaultErrors;
 
@@ -577,7 +594,7 @@ export const getFoldersContacts: API.OperationMethod<
   GetFoldersContactsResponse,
   GetFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoldersContactsRequest,
   output: GetFoldersContactsResponse,
   errors: [],
@@ -588,18 +605,20 @@ export interface DeleteFoldersContactsRequest {
   name: string;
 }
 
-export const DeleteFoldersContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/folders/{foldersId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteFoldersContactsRequest>;
+export const DeleteFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/folders/{foldersId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteFoldersContactsRequest>;
 
 export type DeleteFoldersContactsResponse = GoogleProtobufEmpty;
-export const DeleteFoldersContactsResponse = GoogleProtobufEmpty;
+export const DeleteFoldersContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteFoldersContactsError = DefaultErrors;
 
@@ -609,7 +628,7 @@ export const deleteFoldersContacts: API.OperationMethod<
   DeleteFoldersContactsResponse,
   DeleteFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFoldersContactsRequest,
   output: DeleteFoldersContactsResponse,
   errors: [],
@@ -636,22 +655,23 @@ export interface ComputeFoldersContactsRequest {
   pageToken?: string;
 }
 
-export const ComputeFoldersContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("notificationCategories"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/folders/{foldersId}/contacts:compute" }),
-  svc,
-) as unknown as Schema.Schema<ComputeFoldersContactsRequest>;
+export const ComputeFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("notificationCategories"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/folders/{foldersId}/contacts:compute" }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeFoldersContactsRequest>;
 
 export type ComputeFoldersContactsResponse =
   GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 export const ComputeFoldersContactsResponse =
-  GoogleCloudEssentialcontactsV1ComputeContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 
 export type ComputeFoldersContactsError = DefaultErrors;
 
@@ -661,7 +681,7 @@ export const computeFoldersContacts: API.PaginatedOperationMethod<
   ComputeFoldersContactsResponse,
   ComputeFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ComputeFoldersContactsRequest,
   output: ComputeFoldersContactsResponse,
   errors: [],
@@ -678,22 +698,24 @@ export interface SendTestMessageFoldersContactsRequest {
   body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
 }
 
-export const SendTestMessageFoldersContactsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(
-    GoogleCloudEssentialcontactsV1SendTestMessageRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/folders/{foldersId}/contacts:sendTestMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendTestMessageFoldersContactsRequest>;
+export const SendTestMessageFoldersContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(
+      GoogleCloudEssentialcontactsV1SendTestMessageRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/folders/{foldersId}/contacts:sendTestMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendTestMessageFoldersContactsRequest>;
 
 export type SendTestMessageFoldersContactsResponse = GoogleProtobufEmpty;
-export const SendTestMessageFoldersContactsResponse = GoogleProtobufEmpty;
+export const SendTestMessageFoldersContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SendTestMessageFoldersContactsError = DefaultErrors;
 
@@ -703,7 +725,7 @@ export const sendTestMessageFoldersContacts: API.OperationMethod<
   SendTestMessageFoldersContactsResponse,
   SendTestMessageFoldersContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTestMessageFoldersContactsRequest,
   output: SendTestMessageFoldersContactsResponse,
   errors: [],
@@ -716,24 +738,25 @@ export interface CreateOrganizationsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const CreateOrganizationsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/organizations/{organizationsId}/contacts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsContactsRequest>;
+export const CreateOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/organizations/{organizationsId}/contacts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsContactsRequest>;
 
 export type CreateOrganizationsContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const CreateOrganizationsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type CreateOrganizationsContactsError = DefaultErrors;
 
@@ -743,7 +766,7 @@ export const createOrganizationsContacts: API.OperationMethod<
   CreateOrganizationsContactsResponse,
   CreateOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsContactsRequest,
   output: CreateOrganizationsContactsResponse,
   errors: [],
@@ -758,25 +781,26 @@ export interface PatchOrganizationsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1Contact;
 }
 
-export const PatchOrganizationsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsContactsRequest>;
+export const PatchOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudEssentialcontactsV1Contact).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsContactsRequest>;
 
 export type PatchOrganizationsContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const PatchOrganizationsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type PatchOrganizationsContactsError = DefaultErrors;
 
@@ -786,7 +810,7 @@ export const patchOrganizationsContacts: API.OperationMethod<
   PatchOrganizationsContactsResponse,
   PatchOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsContactsRequest,
   output: PatchOrganizationsContactsResponse,
   errors: [],
@@ -801,22 +825,23 @@ export interface ListOrganizationsContactsRequest {
   pageToken?: string;
 }
 
-export const ListOrganizationsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/contacts",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsContactsRequest>;
+export const ListOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/contacts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsContactsRequest>;
 
 export type ListOrganizationsContactsResponse =
   GoogleCloudEssentialcontactsV1ListContactsResponse;
 export const ListOrganizationsContactsResponse =
-  GoogleCloudEssentialcontactsV1ListContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ListContactsResponse;
 
 export type ListOrganizationsContactsError = DefaultErrors;
 
@@ -826,7 +851,7 @@ export const listOrganizationsContacts: API.PaginatedOperationMethod<
   ListOrganizationsContactsResponse,
   ListOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsContactsRequest,
   output: ListOrganizationsContactsResponse,
   errors: [],
@@ -841,20 +866,21 @@ export interface GetOrganizationsContactsRequest {
   name: string;
 }
 
-export const GetOrganizationsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsContactsRequest>;
+export const GetOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsContactsRequest>;
 
 export type GetOrganizationsContactsResponse =
   GoogleCloudEssentialcontactsV1Contact;
 export const GetOrganizationsContactsResponse =
-  GoogleCloudEssentialcontactsV1Contact;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1Contact;
 
 export type GetOrganizationsContactsError = DefaultErrors;
 
@@ -864,7 +890,7 @@ export const getOrganizationsContacts: API.OperationMethod<
   GetOrganizationsContactsResponse,
   GetOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsContactsRequest,
   output: GetOrganizationsContactsResponse,
   errors: [],
@@ -875,18 +901,20 @@ export interface DeleteOrganizationsContactsRequest {
   name: string;
 }
 
-export const DeleteOrganizationsContactsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsContactsRequest>;
+export const DeleteOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/organizations/{organizationsId}/contacts/{contactsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsContactsRequest>;
 
 export type DeleteOrganizationsContactsResponse = GoogleProtobufEmpty;
-export const DeleteOrganizationsContactsResponse = GoogleProtobufEmpty;
+export const DeleteOrganizationsContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsContactsError = DefaultErrors;
 
@@ -896,7 +924,7 @@ export const deleteOrganizationsContacts: API.OperationMethod<
   DeleteOrganizationsContactsResponse,
   DeleteOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsContactsRequest,
   output: DeleteOrganizationsContactsResponse,
   errors: [],
@@ -923,25 +951,26 @@ export interface ComputeOrganizationsContactsRequest {
   pageToken?: string;
 }
 
-export const ComputeOrganizationsContactsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("notificationCategories"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/organizations/{organizationsId}/contacts:compute",
-  }),
-  svc,
-) as unknown as Schema.Schema<ComputeOrganizationsContactsRequest>;
+export const ComputeOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    notificationCategories: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("notificationCategories"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/contacts:compute",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeOrganizationsContactsRequest>;
 
 export type ComputeOrganizationsContactsResponse =
   GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 export const ComputeOrganizationsContactsResponse =
-  GoogleCloudEssentialcontactsV1ComputeContactsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudEssentialcontactsV1ComputeContactsResponse;
 
 export type ComputeOrganizationsContactsError = DefaultErrors;
 
@@ -951,7 +980,7 @@ export const computeOrganizationsContacts: API.PaginatedOperationMethod<
   ComputeOrganizationsContactsResponse,
   ComputeOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ComputeOrganizationsContactsRequest,
   output: ComputeOrganizationsContactsResponse,
   errors: [],
@@ -968,22 +997,24 @@ export interface SendTestMessageOrganizationsContactsRequest {
   body?: GoogleCloudEssentialcontactsV1SendTestMessageRequest;
 }
 
-export const SendTestMessageOrganizationsContactsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(
-    GoogleCloudEssentialcontactsV1SendTestMessageRequest,
-  ).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/organizations/{organizationsId}/contacts:sendTestMessage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SendTestMessageOrganizationsContactsRequest>;
+export const SendTestMessageOrganizationsContactsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(
+      GoogleCloudEssentialcontactsV1SendTestMessageRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/organizations/{organizationsId}/contacts:sendTestMessage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SendTestMessageOrganizationsContactsRequest>;
 
 export type SendTestMessageOrganizationsContactsResponse = GoogleProtobufEmpty;
-export const SendTestMessageOrganizationsContactsResponse = GoogleProtobufEmpty;
+export const SendTestMessageOrganizationsContactsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SendTestMessageOrganizationsContactsError = DefaultErrors;
 
@@ -993,7 +1024,7 @@ export const sendTestMessageOrganizationsContacts: API.OperationMethod<
   SendTestMessageOrganizationsContactsResponse,
   SendTestMessageOrganizationsContactsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SendTestMessageOrganizationsContactsRequest,
   output: SendTestMessageOrganizationsContactsResponse,
   errors: [],

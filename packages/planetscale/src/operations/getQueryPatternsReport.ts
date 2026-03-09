@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetQueryPatternsReportInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}/download",
-  }),
-);
+export const GetQueryPatternsReportInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/query-patterns/{id}/download",
+    }),
+  );
 export type GetQueryPatternsReportInput =
   typeof GetQueryPatternsReportInput.Type;
 
 // Output Schema
-export const GetQueryPatternsReportOutput = Schema.Void;
+export const GetQueryPatternsReportOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type GetQueryPatternsReportOutput =
   typeof GetQueryPatternsReportOutput.Type;
 

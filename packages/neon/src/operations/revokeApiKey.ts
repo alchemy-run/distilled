@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const RevokeApiKeyInput = Schema.Struct({
+export const RevokeApiKeyInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   key_id: Schema.Number.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "DELETE", path: "/api_keys/{key_id}" }));
 export type RevokeApiKeyInput = typeof RevokeApiKeyInput.Type;
 
 // Output Schema
-export const RevokeApiKeyOutput = Schema.Struct({
+export const RevokeApiKeyOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Number,
   name: Schema.String,
   created_at: Schema.String,

@@ -29,12 +29,13 @@ export interface Location {
   postalCode?: string;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    regionCode: Schema.optional(Schema.String),
-    postalCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regionCode: Schema.optional(Schema.String),
+      postalCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface SubscriptionCancellationDetails {
   /** Output only. The reason of the cancellation. */
@@ -55,7 +56,7 @@ export interface SubscriptionCancellationDetails {
 }
 
 export const SubscriptionCancellationDetails: Schema.Schema<SubscriptionCancellationDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reason: Schema.optional(Schema.String),
     }),
@@ -70,12 +71,13 @@ export interface Amount {
   amountMicros?: string;
 }
 
-export const Amount: Schema.Schema<Amount> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    amountMicros: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Amount" }) as any as Schema.Schema<Amount>;
+export const Amount: Schema.Schema<Amount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      amountMicros: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Amount" }) as any as Schema.Schema<Amount>;
 
 export interface PromotionIntroductoryPricingDetailsIntroductoryPricingSpec {
   /** Output only. The discount amount. The value is positive. */
@@ -89,7 +91,7 @@ export interface PromotionIntroductoryPricingDetailsIntroductoryPricingSpec {
 }
 
 export const PromotionIntroductoryPricingDetailsIntroductoryPricingSpec: Schema.Schema<PromotionIntroductoryPricingDetailsIntroductoryPricingSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       discountAmount: Schema.optional(Amount),
       regionCode: Schema.optional(Schema.String),
@@ -106,7 +108,7 @@ export interface PromotionIntroductoryPricingDetails {
 }
 
 export const PromotionIntroductoryPricingDetails: Schema.Schema<PromotionIntroductoryPricingDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       introductoryPricingSpecs: Schema.optional(
         Schema.Array(
@@ -125,12 +127,13 @@ export interface Duration {
   count?: number;
 }
 
-export const Duration: Schema.Schema<Duration> = Schema.suspend(() =>
-  Schema.Struct({
-    unit: Schema.optional(Schema.String),
-    count: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Duration" }) as any as Schema.Schema<Duration>;
+export const Duration: Schema.Schema<Duration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unit: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Duration" }) as any as Schema.Schema<Duration>;
 
 export interface SubscriptionPromotionSpec {
   /** Output only. The type of the promotion for the spec. */
@@ -148,7 +151,7 @@ export interface SubscriptionPromotionSpec {
 }
 
 export const SubscriptionPromotionSpec: Schema.Schema<SubscriptionPromotionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       introductoryPricingDetails: Schema.optional(
@@ -169,7 +172,7 @@ export interface SubscriptionLineItemBundleDetailsBundleElementDetails {
 }
 
 export const SubscriptionLineItemBundleDetailsBundleElementDetails: Schema.Schema<SubscriptionLineItemBundleDetailsBundleElementDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userAccountLinkedTime: Schema.optional(Schema.String),
       product: Schema.optional(Schema.String),
@@ -184,7 +187,7 @@ export interface SubscriptionLineItemBundleDetails {
 }
 
 export const SubscriptionLineItemBundleDetails: Schema.Schema<SubscriptionLineItemBundleDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bundleElementDetails: Schema.optional(
         Schema.Array(SubscriptionLineItemBundleDetailsBundleElementDetails),
@@ -204,7 +207,7 @@ export interface GoogleHomePayload {
 }
 
 export const GoogleHomePayload: Schema.Schema<GoogleHomePayload> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerStructureId: Schema.optional(Schema.String),
       attachedToGoogleStructure: Schema.optional(Schema.Boolean),
@@ -237,17 +240,17 @@ export interface GoogleOnePayload {
     | (string & {});
 }
 
-export const GoogleOnePayload: Schema.Schema<GoogleOnePayload> = Schema.suspend(
-  () =>
+export const GoogleOnePayload: Schema.Schema<GoogleOnePayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       salesChannel: Schema.optional(Schema.String),
       storeId: Schema.optional(Schema.String),
       campaigns: Schema.optional(Schema.Array(Schema.String)),
       offering: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleOnePayload",
-}) as any as Schema.Schema<GoogleOnePayload>;
+  ).annotate({
+    identifier: "GoogleOnePayload",
+  }) as any as Schema.Schema<GoogleOnePayload>;
 
 export interface YoutubePayload {
   /** Output only. The access expiration time for this line item. */
@@ -263,16 +266,16 @@ export interface YoutubePayload {
     | (string & {});
 }
 
-export const YoutubePayload: Schema.Schema<YoutubePayload> = Schema.suspend(
-  () =>
+export const YoutubePayload: Schema.Schema<YoutubePayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessEndTime: Schema.optional(Schema.String),
       partnerEligibilityIds: Schema.optional(Schema.Array(Schema.String)),
       partnerPlanType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "YoutubePayload",
-}) as any as Schema.Schema<YoutubePayload>;
+  ).annotate({
+    identifier: "YoutubePayload",
+  }) as any as Schema.Schema<YoutubePayload>;
 
 export interface ProductPayload {
   /** Payload specific to Google Home products. */
@@ -283,16 +286,16 @@ export interface ProductPayload {
   youtubePayload?: YoutubePayload;
 }
 
-export const ProductPayload: Schema.Schema<ProductPayload> = Schema.suspend(
-  () =>
+export const ProductPayload: Schema.Schema<ProductPayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleHomePayload: Schema.optional(GoogleHomePayload),
       googleOnePayload: Schema.optional(GoogleOnePayload),
       youtubePayload: Schema.optional(YoutubePayload),
     }),
-).annotate({
-  identifier: "ProductPayload",
-}) as any as Schema.Schema<ProductPayload>;
+  ).annotate({
+    identifier: "ProductPayload",
+  }) as any as Schema.Schema<ProductPayload>;
 
 export interface ServicePeriod {
   /** Required. The start time of the service period. Time is inclusive. */
@@ -301,14 +304,15 @@ export interface ServicePeriod {
   endTime?: string;
 }
 
-export const ServicePeriod: Schema.Schema<ServicePeriod> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ServicePeriod",
-}) as any as Schema.Schema<ServicePeriod>;
+export const ServicePeriod: Schema.Schema<ServicePeriod> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ServicePeriod",
+  }) as any as Schema.Schema<ServicePeriod>;
 
 export interface SubscriptionLineItemOneTimeRecurrenceDetails {
   /** Output only. The service period of the ONE_TIME line item. */
@@ -316,7 +320,7 @@ export interface SubscriptionLineItemOneTimeRecurrenceDetails {
 }
 
 export const SubscriptionLineItemOneTimeRecurrenceDetails: Schema.Schema<SubscriptionLineItemOneTimeRecurrenceDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servicePeriod: Schema.optional(ServicePeriod),
     }),
@@ -330,7 +334,7 @@ export interface FiniteBillingCycleDetails {
 }
 
 export const FiniteBillingCycleDetails: Schema.Schema<FiniteBillingCycleDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingCycleCountLimit: Schema.optional(Schema.String),
     }),
@@ -381,7 +385,7 @@ export interface SubscriptionLineItem {
 }
 
 export const SubscriptionLineItem: Schema.Schema<SubscriptionLineItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       recurrenceType: Schema.optional(Schema.String),
@@ -418,7 +422,7 @@ export interface SubscriptionUpgradeDowngradeDetails {
 }
 
 export const SubscriptionUpgradeDowngradeDetails: Schema.Schema<SubscriptionUpgradeDowngradeDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       previousSubscriptionId: Schema.optional(Schema.String),
       billingCycleSpec: Schema.optional(Schema.String),
@@ -433,7 +437,7 @@ export interface SubscriptionMigrationDetails {
 }
 
 export const SubscriptionMigrationDetails: Schema.Schema<SubscriptionMigrationDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       migratedSubscriptionId: Schema.optional(Schema.String),
     }),
@@ -497,34 +501,35 @@ export interface Subscription {
   migrationDetails?: SubscriptionMigrationDetails;
 }
 
-export const Subscription: Schema.Schema<Subscription> = Schema.suspend(() =>
-  Schema.Struct({
-    redirectUri: Schema.optional(Schema.String),
-    serviceLocation: Schema.optional(Location),
-    cycleEndTime: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    partnerUserToken: Schema.optional(Schema.String),
-    processingState: Schema.optional(Schema.String),
-    products: Schema.optional(Schema.Array(Schema.String)),
-    cancellationDetails: Schema.optional(SubscriptionCancellationDetails),
-    promotions: Schema.optional(Schema.Array(Schema.String)),
-    freeTrialEndTime: Schema.optional(Schema.String),
-    endUserEntitled: Schema.optional(Schema.Boolean),
-    updateTime: Schema.optional(Schema.String),
-    purchaseTime: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    promotionSpecs: Schema.optional(Schema.Array(SubscriptionPromotionSpec)),
-    lineItems: Schema.optional(Schema.Array(SubscriptionLineItem)),
-    renewalTime: Schema.optional(Schema.String),
-    upgradeDowngradeDetails: Schema.optional(
-      SubscriptionUpgradeDowngradeDetails,
-    ),
-    createTime: Schema.optional(Schema.String),
-    migrationDetails: Schema.optional(SubscriptionMigrationDetails),
-  }),
-).annotate({
-  identifier: "Subscription",
-}) as any as Schema.Schema<Subscription>;
+export const Subscription: Schema.Schema<Subscription> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      redirectUri: Schema.optional(Schema.String),
+      serviceLocation: Schema.optional(Location),
+      cycleEndTime: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      partnerUserToken: Schema.optional(Schema.String),
+      processingState: Schema.optional(Schema.String),
+      products: Schema.optional(Schema.Array(Schema.String)),
+      cancellationDetails: Schema.optional(SubscriptionCancellationDetails),
+      promotions: Schema.optional(Schema.Array(Schema.String)),
+      freeTrialEndTime: Schema.optional(Schema.String),
+      endUserEntitled: Schema.optional(Schema.Boolean),
+      updateTime: Schema.optional(Schema.String),
+      purchaseTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      promotionSpecs: Schema.optional(Schema.Array(SubscriptionPromotionSpec)),
+      lineItems: Schema.optional(Schema.Array(SubscriptionLineItem)),
+      renewalTime: Schema.optional(Schema.String),
+      upgradeDowngradeDetails: Schema.optional(
+        SubscriptionUpgradeDowngradeDetails,
+      ),
+      createTime: Schema.optional(Schema.String),
+      migrationDetails: Schema.optional(SubscriptionMigrationDetails),
+    }),
+  ).annotate({
+    identifier: "Subscription",
+  }) as any as Schema.Schema<Subscription>;
 
 export interface EntitleSubscriptionResponse {
   /** The subscription that has user linked to it. */
@@ -532,7 +537,7 @@ export interface EntitleSubscriptionResponse {
 }
 
 export const EntitleSubscriptionResponse: Schema.Schema<EntitleSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
     }),
@@ -547,12 +552,13 @@ export interface Extension {
   duration?: Duration;
 }
 
-export const Extension: Schema.Schema<Extension> = Schema.suspend(() =>
-  Schema.Struct({
-    partnerUserToken: Schema.optional(Schema.String),
-    duration: Schema.optional(Duration),
-  }),
-).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
+export const Extension: Schema.Schema<Extension> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      partnerUserToken: Schema.optional(Schema.String),
+      duration: Schema.optional(Duration),
+    }),
+  ).annotate({ identifier: "Extension" }) as any as Schema.Schema<Extension>;
 
 export interface ExtendSubscriptionRequest {
   /** Required. Restricted to 36 ASCII characters. A random UUID is recommended. The idempotency key for the request. The ID generation logic is controlled by the partner. request_id should be the same as on retries of the same request. A different request_id must be used for a extension of a different cycle. */
@@ -562,7 +568,7 @@ export interface ExtendSubscriptionRequest {
 }
 
 export const ExtendSubscriptionRequest: Schema.Schema<ExtendSubscriptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       extension: Schema.optional(Extension),
@@ -577,7 +583,7 @@ export interface EntitleSubscriptionIntent {
 }
 
 export const EntitleSubscriptionIntent: Schema.Schema<EntitleSubscriptionIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -590,13 +596,14 @@ export interface CycleOptions {
   initialCycleDuration?: Duration;
 }
 
-export const CycleOptions: Schema.Schema<CycleOptions> = Schema.suspend(() =>
-  Schema.Struct({
-    initialCycleDuration: Schema.optional(Duration),
-  }),
-).annotate({
-  identifier: "CycleOptions",
-}) as any as Schema.Schema<CycleOptions>;
+export const CycleOptions: Schema.Schema<CycleOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      initialCycleDuration: Schema.optional(Duration),
+    }),
+  ).annotate({
+    identifier: "CycleOptions",
+  }) as any as Schema.Schema<CycleOptions>;
 
 export interface CreateSubscriptionIntent {
   /** Required. The Subscription to be created. */
@@ -610,7 +617,7 @@ export interface CreateSubscriptionIntent {
 }
 
 export const CreateSubscriptionIntent: Schema.Schema<CreateSubscriptionIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
       subscriptionId: Schema.optional(Schema.String),
@@ -627,7 +634,7 @@ export interface IntentPayloadIntentOptions {
 }
 
 export const IntentPayloadIntentOptions: Schema.Schema<IntentPayloadIntentOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableOfferOverride: Schema.optional(Schema.Boolean),
     }),
@@ -644,15 +651,16 @@ export interface IntentPayload {
   intentOptions?: IntentPayloadIntentOptions;
 }
 
-export const IntentPayload: Schema.Schema<IntentPayload> = Schema.suspend(() =>
-  Schema.Struct({
-    entitleIntent: Schema.optional(EntitleSubscriptionIntent),
-    createIntent: Schema.optional(CreateSubscriptionIntent),
-    intentOptions: Schema.optional(IntentPayloadIntentOptions),
-  }),
-).annotate({
-  identifier: "IntentPayload",
-}) as any as Schema.Schema<IntentPayload>;
+export const IntentPayload: Schema.Schema<IntentPayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entitleIntent: Schema.optional(EntitleSubscriptionIntent),
+      createIntent: Schema.optional(CreateSubscriptionIntent),
+      intentOptions: Schema.optional(IntentPayloadIntentOptions),
+    }),
+  ).annotate({
+    identifier: "IntentPayload",
+  }) as any as Schema.Schema<IntentPayload>;
 
 export interface ResumeSubscriptionResponse {
   /** The resumed subscription resource. */
@@ -660,7 +668,7 @@ export interface ResumeSubscriptionResponse {
 }
 
 export const ResumeSubscriptionResponse: Schema.Schema<ResumeSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
     }),
@@ -674,7 +682,7 @@ export interface UndoCancelSubscriptionResponse {
 }
 
 export const UndoCancelSubscriptionResponse: Schema.Schema<UndoCancelSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
     }),
@@ -703,7 +711,7 @@ export interface CancelSubscriptionRequest {
 }
 
 export const CancelSubscriptionRequest: Schema.Schema<CancelSubscriptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cancellationReason: Schema.optional(Schema.String),
       cancelImmediately: Schema.optional(Schema.Boolean),
@@ -720,7 +728,7 @@ export interface GoogleTypeLocalizedText {
 }
 
 export const GoogleTypeLocalizedText: Schema.Schema<GoogleTypeLocalizedText> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.String),
       languageCode: Schema.optional(Schema.String),
@@ -736,12 +744,15 @@ export interface UserSession {
   expireTime?: string;
 }
 
-export const UserSession: Schema.Schema<UserSession> = Schema.suspend(() =>
-  Schema.Struct({
-    token: Schema.optional(Schema.String),
-    expireTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "UserSession" }) as any as Schema.Schema<UserSession>;
+export const UserSession: Schema.Schema<UserSession> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      token: Schema.optional(Schema.String),
+      expireTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserSession",
+  }) as any as Schema.Schema<UserSession>;
 
 export interface GenerateUserSessionResponse {
   /** The generated user session. The token size is proportional to the size of the intent payload. */
@@ -749,7 +760,7 @@ export interface GenerateUserSessionResponse {
 }
 
 export const GenerateUserSessionResponse: Schema.Schema<GenerateUserSessionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userSession: Schema.optional(UserSession),
     }),
@@ -767,7 +778,7 @@ export interface ExtendSubscriptionResponse {
 }
 
 export const ExtendSubscriptionResponse: Schema.Schema<ExtendSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cycleEndTime: Schema.optional(Schema.String),
       renewalTime: Schema.optional(Schema.String),
@@ -802,21 +813,22 @@ export interface Promotion {
   name?: string;
 }
 
-export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() =>
-  Schema.Struct({
-    regionCodes: Schema.optional(Schema.Array(Schema.String)),
-    endTime: Schema.optional(Schema.String),
-    titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
-    introductoryPricingDetails: Schema.optional(
-      PromotionIntroductoryPricingDetails,
-    ),
-    promotionType: Schema.optional(Schema.String),
-    applicableProducts: Schema.optional(Schema.Array(Schema.String)),
-    startTime: Schema.optional(Schema.String),
-    freeTrialDuration: Schema.optional(Duration),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
+export const Promotion: Schema.Schema<Promotion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      regionCodes: Schema.optional(Schema.Array(Schema.String)),
+      endTime: Schema.optional(Schema.String),
+      titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
+      introductoryPricingDetails: Schema.optional(
+        PromotionIntroductoryPricingDetails,
+      ),
+      promotionType: Schema.optional(Schema.String),
+      applicableProducts: Schema.optional(Schema.Array(Schema.String)),
+      startTime: Schema.optional(Schema.String),
+      freeTrialDuration: Schema.optional(Duration),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
 
 export interface ListPromotionsResponse {
   /** The promotions for the specified partner. */
@@ -826,7 +838,7 @@ export interface ListPromotionsResponse {
 }
 
 export const ListPromotionsResponse: Schema.Schema<ListPromotionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotions: Schema.optional(Schema.Array(Promotion)),
       nextPageToken: Schema.optional(Schema.String),
@@ -841,7 +853,7 @@ export interface ProductBundleDetailsBundleElement {
 }
 
 export const ProductBundleDetailsBundleElement: Schema.Schema<ProductBundleDetailsBundleElement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       product: Schema.optional(Schema.String),
     }),
@@ -855,7 +867,7 @@ export interface SuspendSubscriptionResponse {
 }
 
 export const SuspendSubscriptionResponse: Schema.Schema<SuspendSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
     }),
@@ -875,7 +887,7 @@ export interface ProductBundleDetails {
 }
 
 export const ProductBundleDetails: Schema.Schema<ProductBundleDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bundleElements: Schema.optional(
         Schema.Array(ProductBundleDetailsBundleElement),
@@ -896,7 +908,7 @@ export interface FindEligiblePromotionsRequest {
 }
 
 export const FindEligiblePromotionsRequest: Schema.Schema<FindEligiblePromotionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       pageSize: Schema.optional(Schema.Number),
@@ -912,7 +924,7 @@ export interface CancelSubscriptionResponse {
 }
 
 export const CancelSubscriptionResponse: Schema.Schema<CancelSubscriptionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subscription: Schema.optional(Subscription),
     }),
@@ -928,7 +940,7 @@ export interface FindEligiblePromotionsResponse {
 }
 
 export const FindEligiblePromotionsResponse: Schema.Schema<FindEligiblePromotionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotions: Schema.optional(Schema.Array(Promotion)),
       nextPageToken: Schema.optional(Schema.String),
@@ -940,7 +952,7 @@ export const FindEligiblePromotionsResponse: Schema.Schema<FindEligiblePromotion
 export interface SuspendSubscriptionRequest {}
 
 export const SuspendSubscriptionRequest: Schema.Schema<SuspendSubscriptionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SuspendSubscriptionRequest",
   }) as any as Schema.Schema<SuspendSubscriptionRequest>;
 
@@ -952,7 +964,7 @@ export interface EntitleSubscriptionRequestLineItemEntitlementDetails {
 }
 
 export const EntitleSubscriptionRequestLineItemEntitlementDetails: Schema.Schema<EntitleSubscriptionRequestLineItemEntitlementDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemIndex: Schema.optional(Schema.Number),
       products: Schema.optional(Schema.Array(Schema.String)),
@@ -973,7 +985,7 @@ export interface ResumeSubscriptionRequest {
 }
 
 export const ResumeSubscriptionRequest: Schema.Schema<ResumeSubscriptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cycleOptions: Schema.optional(CycleOptions),
       resumeMode: Schema.optional(Schema.String),
@@ -988,7 +1000,7 @@ export interface EntitleSubscriptionRequest {
 }
 
 export const EntitleSubscriptionRequest: Schema.Schema<EntitleSubscriptionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemEntitlementDetails: Schema.optional(
         Schema.Array(EntitleSubscriptionRequestLineItemEntitlementDetails),
@@ -1006,7 +1018,7 @@ export interface ProductPriceConfig {
 }
 
 export const ProductPriceConfig: Schema.Schema<ProductPriceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionCode: Schema.optional(Schema.String),
       amount: Schema.optional(Amount),
@@ -1021,7 +1033,7 @@ export interface GenerateUserSessionRequest {
 }
 
 export const GenerateUserSessionRequest: Schema.Schema<GenerateUserSessionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       intentPayload: Schema.optional(IntentPayload),
     }),
@@ -1052,18 +1064,19 @@ export interface Product {
     | (string & {});
 }
 
-export const Product: Schema.Schema<Product> = Schema.suspend(() =>
-  Schema.Struct({
-    subscriptionBillingCycleDuration: Schema.optional(Duration),
-    regionCodes: Schema.optional(Schema.Array(Schema.String)),
-    bundleDetails: Schema.optional(ProductBundleDetails),
-    finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
-    priceConfigs: Schema.optional(Schema.Array(ProductPriceConfig)),
-    titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
-    name: Schema.optional(Schema.String),
-    productType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
+export const Product: Schema.Schema<Product> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subscriptionBillingCycleDuration: Schema.optional(Duration),
+      regionCodes: Schema.optional(Schema.Array(Schema.String)),
+      bundleDetails: Schema.optional(ProductBundleDetails),
+      finiteBillingCycleDetails: Schema.optional(FiniteBillingCycleDetails),
+      priceConfigs: Schema.optional(Schema.Array(ProductPriceConfig)),
+      titles: Schema.optional(Schema.Array(GoogleTypeLocalizedText)),
+      name: Schema.optional(Schema.String),
+      productType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Product" }) as any as Schema.Schema<Product>;
 
 export interface ListProductsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is empty, there are no subsequent pages. */
@@ -1073,7 +1086,7 @@ export interface ListProductsResponse {
 }
 
 export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       products: Schema.optional(Schema.Array(Product)),
@@ -1085,7 +1098,7 @@ export const ListProductsResponse: Schema.Schema<ListProductsResponse> =
 export interface UndoCancelSubscriptionRequest {}
 
 export const UndoCancelSubscriptionRequest: Schema.Schema<UndoCancelSubscriptionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UndoCancelSubscriptionRequest",
   }) as any as Schema.Schema<UndoCancelSubscriptionRequest>;
 
@@ -1100,22 +1113,23 @@ export interface FindEligiblePartnersPromotionsRequest {
   body?: FindEligiblePromotionsRequest;
 }
 
-export const FindEligiblePartnersPromotionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(FindEligiblePromotionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/promotions:findEligible",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FindEligiblePartnersPromotionsRequest>;
+export const FindEligiblePartnersPromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(FindEligiblePromotionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/promotions:findEligible",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FindEligiblePartnersPromotionsRequest>;
 
 export type FindEligiblePartnersPromotionsResponse =
   FindEligiblePromotionsResponse;
 export const FindEligiblePartnersPromotionsResponse =
-  FindEligiblePromotionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ FindEligiblePromotionsResponse;
 
 export type FindEligiblePartnersPromotionsError = DefaultErrors;
 
@@ -1125,7 +1139,7 @@ export const findEligiblePartnersPromotions: API.OperationMethod<
   FindEligiblePartnersPromotionsResponse,
   FindEligiblePartnersPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FindEligiblePartnersPromotionsRequest,
   output: FindEligiblePartnersPromotionsResponse,
   errors: [],
@@ -1142,18 +1156,20 @@ export interface ListPartnersPromotionsRequest {
   filter?: string;
 }
 
-export const ListPartnersPromotionsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/promotions" }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersPromotionsRequest>;
+export const ListPartnersPromotionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/partners/{partnersId}/promotions" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersPromotionsRequest>;
 
 export type ListPartnersPromotionsResponse = ListPromotionsResponse;
-export const ListPartnersPromotionsResponse = ListPromotionsResponse;
+export const ListPartnersPromotionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPromotionsResponse;
 
 export type ListPartnersPromotionsError = DefaultErrors;
 
@@ -1163,7 +1179,7 @@ export const listPartnersPromotions: API.PaginatedOperationMethod<
   ListPartnersPromotionsResponse,
   ListPartnersPromotionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersPromotionsRequest,
   output: ListPartnersPromotionsResponse,
   errors: [],
@@ -1180,20 +1196,22 @@ export interface GeneratePartnersUserSessionsRequest {
   body?: GenerateUserSessionRequest;
 }
 
-export const GeneratePartnersUserSessionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateUserSessionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/userSessions:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GeneratePartnersUserSessionsRequest>;
+export const GeneratePartnersUserSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateUserSessionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/userSessions:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GeneratePartnersUserSessionsRequest>;
 
 export type GeneratePartnersUserSessionsResponse = GenerateUserSessionResponse;
-export const GeneratePartnersUserSessionsResponse = GenerateUserSessionResponse;
+export const GeneratePartnersUserSessionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GenerateUserSessionResponse;
 
 export type GeneratePartnersUserSessionsError = DefaultErrors;
 
@@ -1203,7 +1221,7 @@ export const generatePartnersUserSessions: API.OperationMethod<
   GeneratePartnersUserSessionsResponse,
   GeneratePartnersUserSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GeneratePartnersUserSessionsRequest,
   output: GeneratePartnersUserSessionsResponse,
   errors: [],
@@ -1216,20 +1234,22 @@ export interface SuspendPartnersSubscriptionsRequest {
   body?: SuspendSubscriptionRequest;
 }
 
-export const SuspendPartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SuspendSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:suspend",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SuspendPartnersSubscriptionsRequest>;
+export const SuspendPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SuspendSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:suspend",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SuspendPartnersSubscriptionsRequest>;
 
 export type SuspendPartnersSubscriptionsResponse = SuspendSubscriptionResponse;
-export const SuspendPartnersSubscriptionsResponse = SuspendSubscriptionResponse;
+export const SuspendPartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SuspendSubscriptionResponse;
 
 export type SuspendPartnersSubscriptionsError = DefaultErrors;
 
@@ -1239,7 +1259,7 @@ export const suspendPartnersSubscriptions: API.OperationMethod<
   SuspendPartnersSubscriptionsResponse,
   SuspendPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendPartnersSubscriptionsRequest,
   output: SuspendPartnersSubscriptionsResponse,
   errors: [],
@@ -1252,22 +1272,23 @@ export interface UndoCancelPartnersSubscriptionsRequest {
   body?: UndoCancelSubscriptionRequest;
 }
 
-export const UndoCancelPartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UndoCancelSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:undoCancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndoCancelPartnersSubscriptionsRequest>;
+export const UndoCancelPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndoCancelSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:undoCancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndoCancelPartnersSubscriptionsRequest>;
 
 export type UndoCancelPartnersSubscriptionsResponse =
   UndoCancelSubscriptionResponse;
 export const UndoCancelPartnersSubscriptionsResponse =
-  UndoCancelSubscriptionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ UndoCancelSubscriptionResponse;
 
 export type UndoCancelPartnersSubscriptionsError = DefaultErrors;
 
@@ -1277,7 +1298,7 @@ export const undoCancelPartnersSubscriptions: API.OperationMethod<
   UndoCancelPartnersSubscriptionsResponse,
   UndoCancelPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndoCancelPartnersSubscriptionsRequest,
   output: UndoCancelPartnersSubscriptionsResponse,
   errors: [],
@@ -1288,18 +1309,20 @@ export interface GetPartnersSubscriptionsRequest {
   name: string;
 }
 
-export const GetPartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPartnersSubscriptionsRequest>;
+export const GetPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPartnersSubscriptionsRequest>;
 
 export type GetPartnersSubscriptionsResponse = Subscription;
-export const GetPartnersSubscriptionsResponse = Subscription;
+export const GetPartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type GetPartnersSubscriptionsError = DefaultErrors;
 
@@ -1309,7 +1332,7 @@ export const getPartnersSubscriptions: API.OperationMethod<
   GetPartnersSubscriptionsResponse,
   GetPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnersSubscriptionsRequest,
   output: GetPartnersSubscriptionsResponse,
   errors: [],
@@ -1324,23 +1347,25 @@ export interface CreatePartnersSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const CreatePartnersSubscriptionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  subscriptionId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("subscriptionId"),
-  ),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePartnersSubscriptionsRequest>;
+export const CreatePartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    subscriptionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("subscriptionId"),
+    ),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePartnersSubscriptionsRequest>;
 
 export type CreatePartnersSubscriptionsResponse = Subscription;
-export const CreatePartnersSubscriptionsResponse = Subscription;
+export const CreatePartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type CreatePartnersSubscriptionsError = DefaultErrors;
 
@@ -1350,7 +1375,7 @@ export const createPartnersSubscriptions: API.OperationMethod<
   CreatePartnersSubscriptionsResponse,
   CreatePartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnersSubscriptionsRequest,
   output: CreatePartnersSubscriptionsResponse,
   errors: [],
@@ -1374,29 +1399,31 @@ export interface ProvisionPartnersSubscriptionsRequest {
   body?: Subscription;
 }
 
-export const ProvisionPartnersSubscriptionsRequest = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("subscriptionId"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  "cycleOptions.initialCycleDuration.unit": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("cycleOptions.initialCycleDuration.unit"),
-  ),
-  "cycleOptions.initialCycleDuration.count": Schema.optional(
-    Schema.Number,
-  ).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.count")),
-  body: Schema.optional(Subscription).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions:provision",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ProvisionPartnersSubscriptionsRequest>;
+export const ProvisionPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscriptionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("subscriptionId"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    "cycleOptions.initialCycleDuration.unit": Schema.optional(
+      Schema.String,
+    ).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.unit")),
+    "cycleOptions.initialCycleDuration.count": Schema.optional(
+      Schema.Number,
+    ).pipe(T.HttpQuery("cycleOptions.initialCycleDuration.count")),
+    body: Schema.optional(Subscription).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions:provision",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ProvisionPartnersSubscriptionsRequest>;
 
 export type ProvisionPartnersSubscriptionsResponse = Subscription;
-export const ProvisionPartnersSubscriptionsResponse = Subscription;
+export const ProvisionPartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Subscription;
 
 export type ProvisionPartnersSubscriptionsError = DefaultErrors;
 
@@ -1406,7 +1433,7 @@ export const provisionPartnersSubscriptions: API.OperationMethod<
   ProvisionPartnersSubscriptionsResponse,
   ProvisionPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ProvisionPartnersSubscriptionsRequest,
   output: ProvisionPartnersSubscriptionsResponse,
   errors: [],
@@ -1419,20 +1446,22 @@ export interface EntitlePartnersSubscriptionsRequest {
   body?: EntitleSubscriptionRequest;
 }
 
-export const EntitlePartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(EntitleSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:entitle",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EntitlePartnersSubscriptionsRequest>;
+export const EntitlePartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(EntitleSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:entitle",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EntitlePartnersSubscriptionsRequest>;
 
 export type EntitlePartnersSubscriptionsResponse = EntitleSubscriptionResponse;
-export const EntitlePartnersSubscriptionsResponse = EntitleSubscriptionResponse;
+export const EntitlePartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EntitleSubscriptionResponse;
 
 export type EntitlePartnersSubscriptionsError = DefaultErrors;
 
@@ -1442,7 +1471,7 @@ export const entitlePartnersSubscriptions: API.OperationMethod<
   EntitlePartnersSubscriptionsResponse,
   EntitlePartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EntitlePartnersSubscriptionsRequest,
   output: EntitlePartnersSubscriptionsResponse,
   errors: [],
@@ -1455,20 +1484,22 @@ export interface ExtendPartnersSubscriptionsRequest {
   body?: ExtendSubscriptionRequest;
 }
 
-export const ExtendPartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ExtendSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:extend",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExtendPartnersSubscriptionsRequest>;
+export const ExtendPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ExtendSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:extend",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExtendPartnersSubscriptionsRequest>;
 
 export type ExtendPartnersSubscriptionsResponse = ExtendSubscriptionResponse;
-export const ExtendPartnersSubscriptionsResponse = ExtendSubscriptionResponse;
+export const ExtendPartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ExtendSubscriptionResponse;
 
 export type ExtendPartnersSubscriptionsError = DefaultErrors;
 
@@ -1478,7 +1509,7 @@ export const extendPartnersSubscriptions: API.OperationMethod<
   ExtendPartnersSubscriptionsResponse,
   ExtendPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExtendPartnersSubscriptionsRequest,
   output: ExtendPartnersSubscriptionsResponse,
   errors: [],
@@ -1491,20 +1522,22 @@ export interface CancelPartnersSubscriptionsRequest {
   body?: CancelSubscriptionRequest;
 }
 
-export const CancelPartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelPartnersSubscriptionsRequest>;
+export const CancelPartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelPartnersSubscriptionsRequest>;
 
 export type CancelPartnersSubscriptionsResponse = CancelSubscriptionResponse;
-export const CancelPartnersSubscriptionsResponse = CancelSubscriptionResponse;
+export const CancelPartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CancelSubscriptionResponse;
 
 export type CancelPartnersSubscriptionsError = DefaultErrors;
 
@@ -1514,7 +1547,7 @@ export const cancelPartnersSubscriptions: API.OperationMethod<
   CancelPartnersSubscriptionsResponse,
   CancelPartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelPartnersSubscriptionsRequest,
   output: CancelPartnersSubscriptionsResponse,
   errors: [],
@@ -1527,20 +1560,22 @@ export interface ResumePartnersSubscriptionsRequest {
   body?: ResumeSubscriptionRequest;
 }
 
-export const ResumePartnersSubscriptionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ResumeSubscriptionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumePartnersSubscriptionsRequest>;
+export const ResumePartnersSubscriptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ResumeSubscriptionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumePartnersSubscriptionsRequest>;
 
 export type ResumePartnersSubscriptionsResponse = ResumeSubscriptionResponse;
-export const ResumePartnersSubscriptionsResponse = ResumeSubscriptionResponse;
+export const ResumePartnersSubscriptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ResumeSubscriptionResponse;
 
 export type ResumePartnersSubscriptionsError = DefaultErrors;
 
@@ -1550,7 +1585,7 @@ export const resumePartnersSubscriptions: API.OperationMethod<
   ResumePartnersSubscriptionsResponse,
   ResumePartnersSubscriptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumePartnersSubscriptionsRequest,
   output: ResumePartnersSubscriptionsResponse,
   errors: [],
@@ -1565,21 +1600,23 @@ export interface PatchPartnersSubscriptionsLineItemsRequest {
   body?: SubscriptionLineItem;
 }
 
-export const PatchPartnersSubscriptionsLineItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(SubscriptionLineItem).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}/lineItems/{lineItemsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPartnersSubscriptionsLineItemsRequest>;
+export const PatchPartnersSubscriptionsLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(SubscriptionLineItem).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/partners/{partnersId}/subscriptions/{subscriptionsId}/lineItems/{lineItemsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPartnersSubscriptionsLineItemsRequest>;
 
 export type PatchPartnersSubscriptionsLineItemsResponse = SubscriptionLineItem;
-export const PatchPartnersSubscriptionsLineItemsResponse = SubscriptionLineItem;
+export const PatchPartnersSubscriptionsLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SubscriptionLineItem;
 
 export type PatchPartnersSubscriptionsLineItemsError = DefaultErrors;
 
@@ -1589,7 +1626,7 @@ export const patchPartnersSubscriptionsLineItems: API.OperationMethod<
   PatchPartnersSubscriptionsLineItemsResponse,
   PatchPartnersSubscriptionsLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPartnersSubscriptionsLineItemsRequest,
   output: PatchPartnersSubscriptionsLineItemsResponse,
   errors: [],
@@ -1606,18 +1643,20 @@ export interface ListPartnersProductsRequest {
   pageToken?: string;
 }
 
-export const ListPartnersProductsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/products" }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersProductsRequest>;
+export const ListPartnersProductsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/partners/{partnersId}/products" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersProductsRequest>;
 
 export type ListPartnersProductsResponse = ListProductsResponse;
-export const ListPartnersProductsResponse = ListProductsResponse;
+export const ListPartnersProductsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListProductsResponse;
 
 export type ListPartnersProductsError = DefaultErrors;
 
@@ -1627,7 +1666,7 @@ export const listPartnersProducts: API.PaginatedOperationMethod<
   ListPartnersProductsResponse,
   ListPartnersProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersProductsRequest,
   output: ListPartnersProductsResponse,
   errors: [],

@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const AcceptProjectTransferRequestInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  request_id: Schema.String.pipe(T.PathParam()),
-  org_id: Schema.optional(Schema.String),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/projects/{project_id}/transfer_requests/{request_id}",
-  }),
-);
+export const AcceptProjectTransferRequestInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    request_id: Schema.String.pipe(T.PathParam()),
+    org_id: Schema.optional(Schema.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/projects/{project_id}/transfer_requests/{request_id}",
+    }),
+  );
 export type AcceptProjectTransferRequestInput =
   typeof AcceptProjectTransferRequestInput.Type;
 
 // Output Schema
-export const AcceptProjectTransferRequestOutput = Schema.Void;
+export const AcceptProjectTransferRequestOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type AcceptProjectTransferRequestOutput =
   typeof AcceptProjectTransferRequestOutput.Type;
 

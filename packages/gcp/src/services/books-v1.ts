@@ -45,20 +45,21 @@ export interface Bookshelf {
   created?: string;
 }
 
-export const Bookshelf: Schema.Schema<Bookshelf> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.Number),
-    kind: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    access: Schema.optional(Schema.String),
-    updated: Schema.optional(Schema.String),
-    volumeCount: Schema.optional(Schema.Number),
-    volumesLastUpdated: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    created: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Bookshelf" }) as any as Schema.Schema<Bookshelf>;
+export const Bookshelf: Schema.Schema<Bookshelf> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.Number),
+      kind: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      access: Schema.optional(Schema.String),
+      updated: Schema.optional(Schema.String),
+      volumeCount: Schema.optional(Schema.Number),
+      volumesLastUpdated: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Bookshelf" }) as any as Schema.Schema<Bookshelf>;
 
 export interface Bookshelves {
   /** Resource type. */
@@ -67,12 +68,15 @@ export interface Bookshelves {
   items?: Array<Bookshelf>;
 }
 
-export const Bookshelves: Schema.Schema<Bookshelves> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Bookshelf)),
-  }),
-).annotate({ identifier: "Bookshelves" }) as any as Schema.Schema<Bookshelves>;
+export const Bookshelves: Schema.Schema<Bookshelves> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Bookshelf)),
+    }),
+  ).annotate({
+    identifier: "Bookshelves",
+  }) as any as Schema.Schema<Bookshelves>;
 
 export interface Volumeseriesinfo {
   /** Short book title in the context of the series. */
@@ -89,8 +93,8 @@ export interface Volumeseriesinfo {
   kind?: string;
 }
 
-export const Volumeseriesinfo: Schema.Schema<Volumeseriesinfo> = Schema.suspend(
-  () =>
+export const Volumeseriesinfo: Schema.Schema<Volumeseriesinfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       shortSeriesBookTitle: Schema.optional(Schema.String),
       volumeSeries: Schema.optional(
@@ -113,9 +117,9 @@ export const Volumeseriesinfo: Schema.Schema<Volumeseriesinfo> = Schema.suspend(
       bookDisplayNumber: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "Volumeseriesinfo",
-}) as any as Schema.Schema<Volumeseriesinfo>;
+  ).annotate({
+    identifier: "Volumeseriesinfo",
+  }) as any as Schema.Schema<Volumeseriesinfo>;
 
 export interface Review {
   /** Volume that this review is for. */
@@ -140,28 +144,29 @@ export interface Review {
   source?: { description?: string; url?: string; extraDescription?: string };
 }
 
-export const Review: Schema.Schema<Review> = Schema.suspend(() =>
-  Schema.Struct({
-    volumeId: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    date: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    rating: Schema.optional(Schema.String),
-    fullTextUrl: Schema.optional(Schema.String),
-    author: Schema.optional(
-      Schema.Struct({ displayName: Schema.optional(Schema.String) }),
-    ),
-    source: Schema.optional(
-      Schema.Struct({
-        description: Schema.optional(Schema.String),
-        url: Schema.optional(Schema.String),
-        extraDescription: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
+export const Review: Schema.Schema<Review> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      volumeId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      date: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      rating: Schema.optional(Schema.String),
+      fullTextUrl: Schema.optional(Schema.String),
+      author: Schema.optional(
+        Schema.Struct({ displayName: Schema.optional(Schema.String) }),
+      ),
+      source: Schema.optional(
+        Schema.Struct({
+          description: Schema.optional(Schema.String),
+          url: Schema.optional(Schema.String),
+          extraDescription: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({ identifier: "Review" }) as any as Schema.Schema<Review>;
 
 export interface ReadingPosition {
   /** Volume id associated with this reading position. */
@@ -180,8 +185,8 @@ export interface ReadingPosition {
   updated?: string;
 }
 
-export const ReadingPosition: Schema.Schema<ReadingPosition> = Schema.suspend(
-  () =>
+export const ReadingPosition: Schema.Schema<ReadingPosition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       volumeId: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -191,9 +196,9 @@ export const ReadingPosition: Schema.Schema<ReadingPosition> = Schema.suspend(
       epubCfiPosition: Schema.optional(Schema.String),
       updated: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ReadingPosition",
-}) as any as Schema.Schema<ReadingPosition>;
+  ).annotate({
+    identifier: "ReadingPosition",
+  }) as any as Schema.Schema<ReadingPosition>;
 
 export interface DownloadAccessRestriction {
   /** If restricted, whether access is granted for this (user, device, volume). */
@@ -223,7 +228,7 @@ export interface DownloadAccessRestriction {
 }
 
 export const DownloadAccessRestriction: Schema.Schema<DownloadAccessRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceAllowed: Schema.optional(Schema.Boolean),
       volumeId: Schema.optional(Schema.String),
@@ -377,218 +382,219 @@ export interface Volume {
   recommendedInfo?: { explanation?: string };
 }
 
-export const Volume: Schema.Schema<Volume> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    layerInfo: Schema.optional(
-      Schema.Struct({
-        layers: Schema.optional(
-          Schema.Array(
+export const Volume: Schema.Schema<Volume> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      layerInfo: Schema.optional(
+        Schema.Struct({
+          layers: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                layerId: Schema.optional(Schema.String),
+                volumeAnnotationsVersion: Schema.optional(Schema.String),
+              }),
+            ),
+          ),
+        }),
+      ),
+      etag: Schema.optional(Schema.String),
+      volumeInfo: Schema.optional(
+        Schema.Struct({
+          title: Schema.optional(Schema.String),
+          subtitle: Schema.optional(Schema.String),
+          authors: Schema.optional(Schema.Array(Schema.String)),
+          publisher: Schema.optional(Schema.String),
+          publishedDate: Schema.optional(Schema.String),
+          description: Schema.optional(Schema.String),
+          pageCount: Schema.optional(Schema.Number),
+          printType: Schema.optional(Schema.String),
+          averageRating: Schema.optional(Schema.Number),
+          ratingsCount: Schema.optional(Schema.Number),
+          contentVersion: Schema.optional(Schema.String),
+          imageLinks: Schema.optional(
             Schema.Struct({
-              layerId: Schema.optional(Schema.String),
-              volumeAnnotationsVersion: Schema.optional(Schema.String),
+              thumbnail: Schema.optional(Schema.String),
+              small: Schema.optional(Schema.String),
+              medium: Schema.optional(Schema.String),
+              large: Schema.optional(Schema.String),
+              extraLarge: Schema.optional(Schema.String),
+              smallThumbnail: Schema.optional(Schema.String),
             }),
           ),
-        ),
-      }),
-    ),
-    etag: Schema.optional(Schema.String),
-    volumeInfo: Schema.optional(
-      Schema.Struct({
-        title: Schema.optional(Schema.String),
-        subtitle: Schema.optional(Schema.String),
-        authors: Schema.optional(Schema.Array(Schema.String)),
-        publisher: Schema.optional(Schema.String),
-        publishedDate: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        pageCount: Schema.optional(Schema.Number),
-        printType: Schema.optional(Schema.String),
-        averageRating: Schema.optional(Schema.Number),
-        ratingsCount: Schema.optional(Schema.Number),
-        contentVersion: Schema.optional(Schema.String),
-        imageLinks: Schema.optional(
-          Schema.Struct({
-            thumbnail: Schema.optional(Schema.String),
-            small: Schema.optional(Schema.String),
-            medium: Schema.optional(Schema.String),
-            large: Schema.optional(Schema.String),
-            extraLarge: Schema.optional(Schema.String),
-            smallThumbnail: Schema.optional(Schema.String),
-          }),
-        ),
-        language: Schema.optional(Schema.String),
-        previewLink: Schema.optional(Schema.String),
-        industryIdentifiers: Schema.optional(
-          Schema.Array(
+          language: Schema.optional(Schema.String),
+          previewLink: Schema.optional(Schema.String),
+          industryIdentifiers: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                type: Schema.optional(Schema.String),
+                identifier: Schema.optional(Schema.String),
+              }),
+            ),
+          ),
+          infoLink: Schema.optional(Schema.String),
+          canonicalVolumeLink: Schema.optional(Schema.String),
+          categories: Schema.optional(Schema.Array(Schema.String)),
+          printedPageCount: Schema.optional(Schema.Number),
+          readingModes: Schema.optional(
             Schema.Struct({
-              type: Schema.optional(Schema.String),
-              identifier: Schema.optional(Schema.String),
+              text: Schema.optional(Schema.Boolean),
+              image: Schema.optional(Schema.Boolean),
             }),
           ),
-        ),
-        infoLink: Schema.optional(Schema.String),
-        canonicalVolumeLink: Schema.optional(Schema.String),
-        categories: Schema.optional(Schema.Array(Schema.String)),
-        printedPageCount: Schema.optional(Schema.Number),
-        readingModes: Schema.optional(
-          Schema.Struct({
-            text: Schema.optional(Schema.Boolean),
-            image: Schema.optional(Schema.Boolean),
-          }),
-        ),
-        samplePageCount: Schema.optional(Schema.Number),
-        maturityRating: Schema.optional(Schema.String),
-        allowAnonLogging: Schema.optional(Schema.Boolean),
-        seriesInfo: Schema.optional(Volumeseriesinfo),
-        comicsContent: Schema.optional(Schema.Boolean),
-        dimensions: Schema.optional(
-          Schema.Struct({
-            height: Schema.optional(Schema.String),
-            width: Schema.optional(Schema.String),
-            thickness: Schema.optional(Schema.String),
-          }),
-        ),
-        mainCategory: Schema.optional(Schema.String),
-        panelizationSummary: Schema.optional(
-          Schema.Struct({
-            containsEpubBubbles: Schema.optional(Schema.Boolean),
-            containsImageBubbles: Schema.optional(Schema.Boolean),
-            epubBubbleVersion: Schema.optional(Schema.String),
-            imageBubbleVersion: Schema.optional(Schema.String),
-          }),
-        ),
-      }),
-    ),
-    userInfo: Schema.optional(
-      Schema.Struct({
-        familySharing: Schema.optional(
-          Schema.Struct({
-            isSharingAllowed: Schema.optional(Schema.Boolean),
-            isSharingDisabledByFop: Schema.optional(Schema.Boolean),
-            familyRole: Schema.optional(Schema.String),
-          }),
-        ),
-        review: Schema.optional(Review),
-        readingPosition: Schema.optional(ReadingPosition),
-        isPurchased: Schema.optional(Schema.Boolean),
-        updated: Schema.optional(Schema.String),
-        isPreordered: Schema.optional(Schema.Boolean),
-        isInMyBooks: Schema.optional(Schema.Boolean),
-        isUploaded: Schema.optional(Schema.Boolean),
-        rentalState: Schema.optional(Schema.String),
-        acquisitionType: Schema.optional(Schema.Number),
-        entitlementType: Schema.optional(Schema.Number),
-        acquiredTime: Schema.optional(Schema.String),
-        isFamilySharedFromUser: Schema.optional(Schema.Boolean),
-        isFamilySharedToUser: Schema.optional(Schema.Boolean),
-        isFamilySharingAllowed: Schema.optional(Schema.Boolean),
-        isFamilySharingDisabledByFop: Schema.optional(Schema.Boolean),
-        userUploadedVolumeInfo: Schema.optional(
-          Schema.Struct({ processingState: Schema.optional(Schema.String) }),
-        ),
-        rentalPeriod: Schema.optional(
-          Schema.Struct({
-            startUtcSec: Schema.optional(Schema.String),
-            endUtcSec: Schema.optional(Schema.String),
-          }),
-        ),
-        copy: Schema.optional(
-          Schema.Struct({
-            remainingCharacterCount: Schema.optional(Schema.Number),
-            allowedCharacterCount: Schema.optional(Schema.Number),
-            limitType: Schema.optional(Schema.String),
-            updated: Schema.optional(Schema.String),
-          }),
-        ),
-      }),
-    ),
-    saleInfo: Schema.optional(
-      Schema.Struct({
-        country: Schema.optional(Schema.String),
-        saleability: Schema.optional(Schema.String),
-        isEbook: Schema.optional(Schema.Boolean),
-        buyLink: Schema.optional(Schema.String),
-        offers: Schema.optional(
-          Schema.Array(
+          samplePageCount: Schema.optional(Schema.Number),
+          maturityRating: Schema.optional(Schema.String),
+          allowAnonLogging: Schema.optional(Schema.Boolean),
+          seriesInfo: Schema.optional(Volumeseriesinfo),
+          comicsContent: Schema.optional(Schema.Boolean),
+          dimensions: Schema.optional(
             Schema.Struct({
-              finskyOfferType: Schema.optional(Schema.Number),
-              giftable: Schema.optional(Schema.Boolean),
-              retailPrice: Schema.optional(
-                Schema.Struct({
-                  currencyCode: Schema.optional(Schema.String),
-                  amountInMicros: Schema.optional(Schema.Number),
-                }),
-              ),
-              rentalDuration: Schema.optional(
-                Schema.Struct({
-                  unit: Schema.optional(Schema.String),
-                  count: Schema.optional(Schema.Number),
-                }),
-              ),
-              listPrice: Schema.optional(
-                Schema.Struct({
-                  currencyCode: Schema.optional(Schema.String),
-                  amountInMicros: Schema.optional(Schema.Number),
-                }),
-              ),
+              height: Schema.optional(Schema.String),
+              width: Schema.optional(Schema.String),
+              thickness: Schema.optional(Schema.String),
             }),
           ),
-        ),
-        onSaleDate: Schema.optional(Schema.String),
-        listPrice: Schema.optional(
-          Schema.Struct({
-            amount: Schema.optional(Schema.Number),
-            currencyCode: Schema.optional(Schema.String),
-          }),
-        ),
-        retailPrice: Schema.optional(
-          Schema.Struct({
-            amount: Schema.optional(Schema.Number),
-            currencyCode: Schema.optional(Schema.String),
-          }),
-        ),
-      }),
-    ),
-    accessInfo: Schema.optional(
-      Schema.Struct({
-        country: Schema.optional(Schema.String),
-        viewability: Schema.optional(Schema.String),
-        embeddable: Schema.optional(Schema.Boolean),
-        publicDomain: Schema.optional(Schema.Boolean),
-        accessViewStatus: Schema.optional(Schema.String),
-        downloadAccess: Schema.optional(DownloadAccessRestriction),
-        textToSpeechPermission: Schema.optional(Schema.String),
-        webReaderLink: Schema.optional(Schema.String),
-        epub: Schema.optional(
-          Schema.Struct({
-            downloadLink: Schema.optional(Schema.String),
-            acsTokenLink: Schema.optional(Schema.String),
-            isAvailable: Schema.optional(Schema.Boolean),
-          }),
-        ),
-        pdf: Schema.optional(
-          Schema.Struct({
-            downloadLink: Schema.optional(Schema.String),
-            acsTokenLink: Schema.optional(Schema.String),
-            isAvailable: Schema.optional(Schema.Boolean),
-          }),
-        ),
-        viewOrderUrl: Schema.optional(Schema.String),
-        explicitOfflineLicenseManagement: Schema.optional(Schema.Boolean),
-        quoteSharingAllowed: Schema.optional(Schema.Boolean),
-        driveImportedContentLink: Schema.optional(Schema.String),
-      }),
-    ),
-    searchInfo: Schema.optional(
-      Schema.Struct({ textSnippet: Schema.optional(Schema.String) }),
-    ),
-    recommendedInfo: Schema.optional(
-      Schema.Struct({ explanation: Schema.optional(Schema.String) }),
-    ),
-  }),
-).annotate({ identifier: "Volume" }) as any as Schema.Schema<Volume>;
+          mainCategory: Schema.optional(Schema.String),
+          panelizationSummary: Schema.optional(
+            Schema.Struct({
+              containsEpubBubbles: Schema.optional(Schema.Boolean),
+              containsImageBubbles: Schema.optional(Schema.Boolean),
+              epubBubbleVersion: Schema.optional(Schema.String),
+              imageBubbleVersion: Schema.optional(Schema.String),
+            }),
+          ),
+        }),
+      ),
+      userInfo: Schema.optional(
+        Schema.Struct({
+          familySharing: Schema.optional(
+            Schema.Struct({
+              isSharingAllowed: Schema.optional(Schema.Boolean),
+              isSharingDisabledByFop: Schema.optional(Schema.Boolean),
+              familyRole: Schema.optional(Schema.String),
+            }),
+          ),
+          review: Schema.optional(Review),
+          readingPosition: Schema.optional(ReadingPosition),
+          isPurchased: Schema.optional(Schema.Boolean),
+          updated: Schema.optional(Schema.String),
+          isPreordered: Schema.optional(Schema.Boolean),
+          isInMyBooks: Schema.optional(Schema.Boolean),
+          isUploaded: Schema.optional(Schema.Boolean),
+          rentalState: Schema.optional(Schema.String),
+          acquisitionType: Schema.optional(Schema.Number),
+          entitlementType: Schema.optional(Schema.Number),
+          acquiredTime: Schema.optional(Schema.String),
+          isFamilySharedFromUser: Schema.optional(Schema.Boolean),
+          isFamilySharedToUser: Schema.optional(Schema.Boolean),
+          isFamilySharingAllowed: Schema.optional(Schema.Boolean),
+          isFamilySharingDisabledByFop: Schema.optional(Schema.Boolean),
+          userUploadedVolumeInfo: Schema.optional(
+            Schema.Struct({ processingState: Schema.optional(Schema.String) }),
+          ),
+          rentalPeriod: Schema.optional(
+            Schema.Struct({
+              startUtcSec: Schema.optional(Schema.String),
+              endUtcSec: Schema.optional(Schema.String),
+            }),
+          ),
+          copy: Schema.optional(
+            Schema.Struct({
+              remainingCharacterCount: Schema.optional(Schema.Number),
+              allowedCharacterCount: Schema.optional(Schema.Number),
+              limitType: Schema.optional(Schema.String),
+              updated: Schema.optional(Schema.String),
+            }),
+          ),
+        }),
+      ),
+      saleInfo: Schema.optional(
+        Schema.Struct({
+          country: Schema.optional(Schema.String),
+          saleability: Schema.optional(Schema.String),
+          isEbook: Schema.optional(Schema.Boolean),
+          buyLink: Schema.optional(Schema.String),
+          offers: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                finskyOfferType: Schema.optional(Schema.Number),
+                giftable: Schema.optional(Schema.Boolean),
+                retailPrice: Schema.optional(
+                  Schema.Struct({
+                    currencyCode: Schema.optional(Schema.String),
+                    amountInMicros: Schema.optional(Schema.Number),
+                  }),
+                ),
+                rentalDuration: Schema.optional(
+                  Schema.Struct({
+                    unit: Schema.optional(Schema.String),
+                    count: Schema.optional(Schema.Number),
+                  }),
+                ),
+                listPrice: Schema.optional(
+                  Schema.Struct({
+                    currencyCode: Schema.optional(Schema.String),
+                    amountInMicros: Schema.optional(Schema.Number),
+                  }),
+                ),
+              }),
+            ),
+          ),
+          onSaleDate: Schema.optional(Schema.String),
+          listPrice: Schema.optional(
+            Schema.Struct({
+              amount: Schema.optional(Schema.Number),
+              currencyCode: Schema.optional(Schema.String),
+            }),
+          ),
+          retailPrice: Schema.optional(
+            Schema.Struct({
+              amount: Schema.optional(Schema.Number),
+              currencyCode: Schema.optional(Schema.String),
+            }),
+          ),
+        }),
+      ),
+      accessInfo: Schema.optional(
+        Schema.Struct({
+          country: Schema.optional(Schema.String),
+          viewability: Schema.optional(Schema.String),
+          embeddable: Schema.optional(Schema.Boolean),
+          publicDomain: Schema.optional(Schema.Boolean),
+          accessViewStatus: Schema.optional(Schema.String),
+          downloadAccess: Schema.optional(DownloadAccessRestriction),
+          textToSpeechPermission: Schema.optional(Schema.String),
+          webReaderLink: Schema.optional(Schema.String),
+          epub: Schema.optional(
+            Schema.Struct({
+              downloadLink: Schema.optional(Schema.String),
+              acsTokenLink: Schema.optional(Schema.String),
+              isAvailable: Schema.optional(Schema.Boolean),
+            }),
+          ),
+          pdf: Schema.optional(
+            Schema.Struct({
+              downloadLink: Schema.optional(Schema.String),
+              acsTokenLink: Schema.optional(Schema.String),
+              isAvailable: Schema.optional(Schema.Boolean),
+            }),
+          ),
+          viewOrderUrl: Schema.optional(Schema.String),
+          explicitOfflineLicenseManagement: Schema.optional(Schema.Boolean),
+          quoteSharingAllowed: Schema.optional(Schema.Boolean),
+          driveImportedContentLink: Schema.optional(Schema.String),
+        }),
+      ),
+      searchInfo: Schema.optional(
+        Schema.Struct({ textSnippet: Schema.optional(Schema.String) }),
+      ),
+      recommendedInfo: Schema.optional(
+        Schema.Struct({ explanation: Schema.optional(Schema.String) }),
+      ),
+    }),
+  ).annotate({ identifier: "Volume" }) as any as Schema.Schema<Volume>;
 
 export interface Volumes {
   /** Resource type. */
@@ -599,13 +605,14 @@ export interface Volumes {
   totalItems?: number;
 }
 
-export const Volumes: Schema.Schema<Volumes> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Volume)),
-    totalItems: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Volumes" }) as any as Schema.Schema<Volumes>;
+export const Volumes: Schema.Schema<Volumes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Volume)),
+      totalItems: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Volumes" }) as any as Schema.Schema<Volumes>;
 
 export interface BooksCloudloadingResource {
   volumeId?: string;
@@ -615,7 +622,7 @@ export interface BooksCloudloadingResource {
 }
 
 export const BooksCloudloadingResource: Schema.Schema<BooksCloudloadingResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       volumeId: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -628,9 +635,10 @@ export const BooksCloudloadingResource: Schema.Schema<BooksCloudloadingResource>
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Metadata {
   /** Resource type. */
@@ -645,22 +653,23 @@ export interface Metadata {
   }>;
 }
 
-export const Metadata: Schema.Schema<Metadata> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          language: Schema.optional(Schema.String),
-          size: Schema.optional(Schema.String),
-          version: Schema.optional(Schema.String),
-          download_url: Schema.optional(Schema.String),
-          encrypted_key: Schema.optional(Schema.String),
-        }),
+export const Metadata: Schema.Schema<Metadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            language: Schema.optional(Schema.String),
+            size: Schema.optional(Schema.String),
+            version: Schema.optional(Schema.String),
+            download_url: Schema.optional(Schema.String),
+            encrypted_key: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-  }),
-).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
+    }),
+  ).annotate({ identifier: "Metadata" }) as any as Schema.Schema<Metadata>;
 
 export interface FamilyInfo {
   /** Resource type. */
@@ -675,20 +684,21 @@ export interface FamilyInfo {
   };
 }
 
-export const FamilyInfo: Schema.Schema<FamilyInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    membership: Schema.optional(
-      Schema.Struct({
-        isInFamily: Schema.optional(Schema.Boolean),
-        role: Schema.optional(Schema.String),
-        ageGroup: Schema.optional(Schema.String),
-        acquirePermission: Schema.optional(Schema.String),
-        allowedMaturityRating: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({ identifier: "FamilyInfo" }) as any as Schema.Schema<FamilyInfo>;
+export const FamilyInfo: Schema.Schema<FamilyInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      membership: Schema.optional(
+        Schema.Struct({
+          isInFamily: Schema.optional(Schema.Boolean),
+          role: Schema.optional(Schema.String),
+          ageGroup: Schema.optional(Schema.String),
+          acquirePermission: Schema.optional(Schema.String),
+          allowedMaturityRating: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({ identifier: "FamilyInfo" }) as any as Schema.Schema<FamilyInfo>;
 
 export interface Layersummary {
   /** Unique id of this layer summary. */
@@ -719,25 +729,26 @@ export interface Layersummary {
   annotationsDataLink?: string;
 }
 
-export const Layersummary: Schema.Schema<Layersummary> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    layerId: Schema.optional(Schema.String),
-    volumeId: Schema.optional(Schema.String),
-    contentVersion: Schema.optional(Schema.String),
-    annotationTypes: Schema.optional(Schema.Array(Schema.String)),
-    annotationCount: Schema.optional(Schema.Number),
-    dataCount: Schema.optional(Schema.Number),
-    kind: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    updated: Schema.optional(Schema.String),
-    volumeAnnotationsVersion: Schema.optional(Schema.String),
-    annotationsLink: Schema.optional(Schema.String),
-    annotationsDataLink: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Layersummary",
-}) as any as Schema.Schema<Layersummary>;
+export const Layersummary: Schema.Schema<Layersummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      layerId: Schema.optional(Schema.String),
+      volumeId: Schema.optional(Schema.String),
+      contentVersion: Schema.optional(Schema.String),
+      annotationTypes: Schema.optional(Schema.Array(Schema.String)),
+      annotationCount: Schema.optional(Schema.Number),
+      dataCount: Schema.optional(Schema.Number),
+      kind: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      updated: Schema.optional(Schema.String),
+      volumeAnnotationsVersion: Schema.optional(Schema.String),
+      annotationsLink: Schema.optional(Schema.String),
+      annotationsDataLink: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Layersummary",
+  }) as any as Schema.Schema<Layersummary>;
 
 export interface Layersummaries {
   /** Resource type. */
@@ -748,16 +759,16 @@ export interface Layersummaries {
   totalItems?: number;
 }
 
-export const Layersummaries: Schema.Schema<Layersummaries> = Schema.suspend(
-  () =>
+export const Layersummaries: Schema.Schema<Layersummaries> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(Layersummary)),
       totalItems: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "Layersummaries",
-}) as any as Schema.Schema<Layersummaries>;
+  ).annotate({
+    identifier: "Layersummaries",
+  }) as any as Schema.Schema<Layersummaries>;
 
 export interface Dictlayerdata {
   kind?: string;
@@ -797,121 +808,124 @@ export interface Dictlayerdata {
   common?: { title?: string };
 }
 
-export const Dictlayerdata: Schema.Schema<Dictlayerdata> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    dict: Schema.optional(
-      Schema.Struct({
-        words: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              senses: Schema.optional(
-                Schema.Array(
-                  Schema.Struct({
-                    syllabification: Schema.optional(Schema.String),
-                    pronunciation: Schema.optional(Schema.String),
-                    partOfSpeech: Schema.optional(Schema.String),
-                    pronunciationUrl: Schema.optional(Schema.String),
-                    definitions: Schema.optional(
-                      Schema.Array(
-                        Schema.Struct({
-                          definition: Schema.optional(Schema.String),
-                          examples: Schema.optional(
-                            Schema.Array(
+export const Dictlayerdata: Schema.Schema<Dictlayerdata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      dict: Schema.optional(
+        Schema.Struct({
+          words: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                senses: Schema.optional(
+                  Schema.Array(
+                    Schema.Struct({
+                      syllabification: Schema.optional(Schema.String),
+                      pronunciation: Schema.optional(Schema.String),
+                      partOfSpeech: Schema.optional(Schema.String),
+                      pronunciationUrl: Schema.optional(Schema.String),
+                      definitions: Schema.optional(
+                        Schema.Array(
+                          Schema.Struct({
+                            definition: Schema.optional(Schema.String),
+                            examples: Schema.optional(
+                              Schema.Array(
+                                Schema.Struct({
+                                  text: Schema.optional(Schema.String),
+                                  source: Schema.optional(
+                                    Schema.Struct({
+                                      url: Schema.optional(Schema.String),
+                                      attribution: Schema.optional(
+                                        Schema.String,
+                                      ),
+                                    }),
+                                  ),
+                                }),
+                              ),
+                            ),
+                          }),
+                        ),
+                      ),
+                      synonyms: Schema.optional(
+                        Schema.Array(
+                          Schema.Struct({
+                            text: Schema.optional(Schema.String),
+                            source: Schema.optional(
                               Schema.Struct({
-                                text: Schema.optional(Schema.String),
-                                source: Schema.optional(
-                                  Schema.Struct({
-                                    url: Schema.optional(Schema.String),
-                                    attribution: Schema.optional(Schema.String),
-                                  }),
-                                ),
+                                url: Schema.optional(Schema.String),
+                                attribution: Schema.optional(Schema.String),
                               }),
                             ),
-                          ),
-                        }),
+                          }),
+                        ),
                       ),
-                    ),
-                    synonyms: Schema.optional(
-                      Schema.Array(
+                      conjugations: Schema.optional(
+                        Schema.Array(
+                          Schema.Struct({
+                            value: Schema.optional(Schema.String),
+                            type: Schema.optional(Schema.String),
+                          }),
+                        ),
+                      ),
+                      source: Schema.optional(
                         Schema.Struct({
-                          text: Schema.optional(Schema.String),
-                          source: Schema.optional(
-                            Schema.Struct({
-                              url: Schema.optional(Schema.String),
-                              attribution: Schema.optional(Schema.String),
-                            }),
-                          ),
+                          url: Schema.optional(Schema.String),
+                          attribution: Schema.optional(Schema.String),
                         }),
                       ),
-                    ),
-                    conjugations: Schema.optional(
-                      Schema.Array(
+                    }),
+                  ),
+                ),
+                examples: Schema.optional(
+                  Schema.Array(
+                    Schema.Struct({
+                      text: Schema.optional(Schema.String),
+                      source: Schema.optional(
                         Schema.Struct({
-                          value: Schema.optional(Schema.String),
-                          type: Schema.optional(Schema.String),
+                          url: Schema.optional(Schema.String),
+                          attribution: Schema.optional(Schema.String),
                         }),
                       ),
-                    ),
-                    source: Schema.optional(
-                      Schema.Struct({
-                        url: Schema.optional(Schema.String),
-                        attribution: Schema.optional(Schema.String),
-                      }),
-                    ),
-                  }),
+                    }),
+                  ),
                 ),
-              ),
-              examples: Schema.optional(
-                Schema.Array(
+                derivatives: Schema.optional(
+                  Schema.Array(
+                    Schema.Struct({
+                      text: Schema.optional(Schema.String),
+                      source: Schema.optional(
+                        Schema.Struct({
+                          url: Schema.optional(Schema.String),
+                          attribution: Schema.optional(Schema.String),
+                        }),
+                      ),
+                    }),
+                  ),
+                ),
+                source: Schema.optional(
                   Schema.Struct({
-                    text: Schema.optional(Schema.String),
-                    source: Schema.optional(
-                      Schema.Struct({
-                        url: Schema.optional(Schema.String),
-                        attribution: Schema.optional(Schema.String),
-                      }),
-                    ),
+                    url: Schema.optional(Schema.String),
+                    attribution: Schema.optional(Schema.String),
                   }),
                 ),
-              ),
-              derivatives: Schema.optional(
-                Schema.Array(
-                  Schema.Struct({
-                    text: Schema.optional(Schema.String),
-                    source: Schema.optional(
-                      Schema.Struct({
-                        url: Schema.optional(Schema.String),
-                        attribution: Schema.optional(Schema.String),
-                      }),
-                    ),
-                  }),
-                ),
-              ),
-              source: Schema.optional(
-                Schema.Struct({
-                  url: Schema.optional(Schema.String),
-                  attribution: Schema.optional(Schema.String),
-                }),
-              ),
+              }),
+            ),
+          ),
+          source: Schema.optional(
+            Schema.Struct({
+              url: Schema.optional(Schema.String),
+              attribution: Schema.optional(Schema.String),
             }),
           ),
-        ),
-        source: Schema.optional(
-          Schema.Struct({
-            url: Schema.optional(Schema.String),
-            attribution: Schema.optional(Schema.String),
-          }),
-        ),
-      }),
-    ),
-    common: Schema.optional(
-      Schema.Struct({ title: Schema.optional(Schema.String) }),
-    ),
-  }),
-).annotate({
-  identifier: "Dictlayerdata",
-}) as any as Schema.Schema<Dictlayerdata>;
+        }),
+      ),
+      common: Schema.optional(
+        Schema.Struct({ title: Schema.optional(Schema.String) }),
+      ),
+    }),
+  ).annotate({
+    identifier: "Dictlayerdata",
+  }) as any as Schema.Schema<Dictlayerdata>;
 
 export interface DictionaryAnnotationdata {
   /** Unique id for this annotation data. */
@@ -935,7 +949,7 @@ export interface DictionaryAnnotationdata {
 }
 
 export const DictionaryAnnotationdata: Schema.Schema<DictionaryAnnotationdata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       layerId: Schema.optional(Schema.String),
@@ -975,49 +989,50 @@ export interface Geolayerdata {
   };
 }
 
-export const Geolayerdata: Schema.Schema<Geolayerdata> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    geo: Schema.optional(
-      Schema.Struct({
-        viewport: Schema.optional(
-          Schema.Struct({
-            lo: Schema.optional(
-              Schema.Struct({
-                longitude: Schema.optional(Schema.Number),
-                latitude: Schema.optional(Schema.Number),
-              }),
-            ),
-            hi: Schema.optional(
-              Schema.Struct({
-                longitude: Schema.optional(Schema.Number),
-                latitude: Schema.optional(Schema.Number),
-              }),
-            ),
-          }),
-        ),
-        countryCode: Schema.optional(Schema.String),
-        mapType: Schema.optional(Schema.String),
-        zoom: Schema.optional(Schema.Number),
-        cachePolicy: Schema.optional(Schema.String),
-        longitude: Schema.optional(Schema.Number),
-        latitude: Schema.optional(Schema.Number),
-        boundary: Schema.optional(Schema.Array(Schema.String)),
-      }),
-    ),
-    common: Schema.optional(
-      Schema.Struct({
-        lang: Schema.optional(Schema.String),
-        snippetUrl: Schema.optional(Schema.String),
-        snippet: Schema.optional(Schema.String),
-        previewImageUrl: Schema.optional(Schema.String),
-        title: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({
-  identifier: "Geolayerdata",
-}) as any as Schema.Schema<Geolayerdata>;
+export const Geolayerdata: Schema.Schema<Geolayerdata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      geo: Schema.optional(
+        Schema.Struct({
+          viewport: Schema.optional(
+            Schema.Struct({
+              lo: Schema.optional(
+                Schema.Struct({
+                  longitude: Schema.optional(Schema.Number),
+                  latitude: Schema.optional(Schema.Number),
+                }),
+              ),
+              hi: Schema.optional(
+                Schema.Struct({
+                  longitude: Schema.optional(Schema.Number),
+                  latitude: Schema.optional(Schema.Number),
+                }),
+              ),
+            }),
+          ),
+          countryCode: Schema.optional(Schema.String),
+          mapType: Schema.optional(Schema.String),
+          zoom: Schema.optional(Schema.Number),
+          cachePolicy: Schema.optional(Schema.String),
+          longitude: Schema.optional(Schema.Number),
+          latitude: Schema.optional(Schema.Number),
+          boundary: Schema.optional(Schema.Array(Schema.String)),
+        }),
+      ),
+      common: Schema.optional(
+        Schema.Struct({
+          lang: Schema.optional(Schema.String),
+          snippetUrl: Schema.optional(Schema.String),
+          snippet: Schema.optional(Schema.String),
+          previewImageUrl: Schema.optional(Schema.String),
+          title: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({
+    identifier: "Geolayerdata",
+  }) as any as Schema.Schema<Geolayerdata>;
 
 export interface GeoAnnotationdata {
   /** Unique id for this annotation data. */
@@ -1041,7 +1056,7 @@ export interface GeoAnnotationdata {
 }
 
 export const GeoAnnotationdata: Schema.Schema<GeoAnnotationdata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       layerId: Schema.optional(Schema.String),
@@ -1068,17 +1083,17 @@ export interface Annotationsdata {
   nextPageToken?: string;
 }
 
-export const Annotationsdata: Schema.Schema<Annotationsdata> = Schema.suspend(
-  () =>
+export const Annotationsdata: Schema.Schema<Annotationsdata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(GeoAnnotationdata)),
       totalItems: Schema.optional(Schema.Number),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "Annotationsdata",
-}) as any as Schema.Schema<Annotationsdata>;
+  ).annotate({
+    identifier: "Annotationsdata",
+  }) as any as Schema.Schema<Annotationsdata>;
 
 export interface BooksAnnotationsRange {
   /** The starting position for the range. */
@@ -1092,7 +1107,7 @@ export interface BooksAnnotationsRange {
 }
 
 export const BooksAnnotationsRange: Schema.Schema<BooksAnnotationsRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startPosition: Schema.optional(Schema.String),
       startOffset: Schema.optional(Schema.String),
@@ -1139,8 +1154,8 @@ export interface Volumeannotation {
   };
 }
 
-export const Volumeannotation: Schema.Schema<Volumeannotation> = Schema.suspend(
-  () =>
+export const Volumeannotation: Schema.Schema<Volumeannotation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       selfLink: Schema.optional(Schema.String),
@@ -1164,9 +1179,9 @@ export const Volumeannotation: Schema.Schema<Volumeannotation> = Schema.suspend(
         }),
       ),
     }),
-).annotate({
-  identifier: "Volumeannotation",
-}) as any as Schema.Schema<Volumeannotation>;
+  ).annotate({
+    identifier: "Volumeannotation",
+  }) as any as Schema.Schema<Volumeannotation>;
 
 export interface Volumeannotations {
   /** The version string for all of the volume annotations in this layer (not just the ones in this response). Note: the version string doesn't apply to the annotation data, just the information in this response (e.g. the location of annotations in the book). */
@@ -1182,7 +1197,7 @@ export interface Volumeannotations {
 }
 
 export const Volumeannotations: Schema.Schema<Volumeannotations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -1208,38 +1223,39 @@ export interface Usersettings {
   notesExport?: { isEnabled?: boolean; folderName?: string };
 }
 
-export const Usersettings: Schema.Schema<Usersettings> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    notification: Schema.optional(
-      Schema.Struct({
-        moreFromAuthors: Schema.optional(
-          Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
-        ),
-        moreFromSeries: Schema.optional(
-          Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
-        ),
-        rewardExpirations: Schema.optional(
-          Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
-        ),
-        priceDrop: Schema.optional(
-          Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
-        ),
-        matchMyInterests: Schema.optional(
-          Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
-        ),
-      }),
-    ),
-    notesExport: Schema.optional(
-      Schema.Struct({
-        isEnabled: Schema.optional(Schema.Boolean),
-        folderName: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({
-  identifier: "Usersettings",
-}) as any as Schema.Schema<Usersettings>;
+export const Usersettings: Schema.Schema<Usersettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      notification: Schema.optional(
+        Schema.Struct({
+          moreFromAuthors: Schema.optional(
+            Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
+          ),
+          moreFromSeries: Schema.optional(
+            Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
+          ),
+          rewardExpirations: Schema.optional(
+            Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
+          ),
+          priceDrop: Schema.optional(
+            Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
+          ),
+          matchMyInterests: Schema.optional(
+            Schema.Struct({ opted_state: Schema.optional(Schema.String) }),
+          ),
+        }),
+      ),
+      notesExport: Schema.optional(
+        Schema.Struct({
+          isEnabled: Schema.optional(Schema.Boolean),
+          folderName: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({
+    identifier: "Usersettings",
+  }) as any as Schema.Schema<Usersettings>;
 
 export interface DownloadAccesses {
   /** A list of download access responses. */
@@ -1248,17 +1264,17 @@ export interface DownloadAccesses {
   kind?: string;
 }
 
-export const DownloadAccesses: Schema.Schema<DownloadAccesses> = Schema.suspend(
-  () =>
+export const DownloadAccesses: Schema.Schema<DownloadAccesses> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       downloadAccessList: Schema.optional(
         Schema.Array(DownloadAccessRestriction),
       ),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DownloadAccesses",
-}) as any as Schema.Schema<DownloadAccesses>;
+  ).annotate({
+    identifier: "DownloadAccesses",
+  }) as any as Schema.Schema<DownloadAccesses>;
 
 export interface ConcurrentAccessRestriction {
   /** Whether access is granted for this (user, device, volume). */
@@ -1286,7 +1302,7 @@ export interface ConcurrentAccessRestriction {
 }
 
 export const ConcurrentAccessRestriction: Schema.Schema<ConcurrentAccessRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceAllowed: Schema.optional(Schema.Boolean),
       timeWindowSeconds: Schema.optional(Schema.Number),
@@ -1314,7 +1330,7 @@ export interface RequestAccessData {
 }
 
 export const RequestAccessData: Schema.Schema<RequestAccessData> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       concurrentAccess: Schema.optional(ConcurrentAccessRestriction),
       downloadAccess: Schema.optional(DownloadAccessRestriction),
@@ -1376,49 +1392,50 @@ export interface Annotation {
   };
 }
 
-export const Annotation: Schema.Schema<Annotation> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    volumeId: Schema.optional(Schema.String),
-    currentVersionRanges: Schema.optional(
-      Schema.Struct({
-        contentVersion: Schema.optional(Schema.String),
-        gbImageRange: Schema.optional(BooksAnnotationsRange),
-        gbTextRange: Schema.optional(BooksAnnotationsRange),
-        cfiRange: Schema.optional(BooksAnnotationsRange),
-        imageCfiRange: Schema.optional(BooksAnnotationsRange),
-      }),
-    ),
-    pageIds: Schema.optional(Schema.Array(Schema.String)),
-    selectedText: Schema.optional(Schema.String),
-    beforeSelectedText: Schema.optional(Schema.String),
-    afterSelectedText: Schema.optional(Schema.String),
-    data: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    layerSummary: Schema.optional(
-      Schema.Struct({
-        remainingCharacterCount: Schema.optional(Schema.Number),
-        allowedCharacterCount: Schema.optional(Schema.Number),
-        limitType: Schema.optional(Schema.String),
-      }),
-    ),
-    highlightStyle: Schema.optional(Schema.String),
-    updated: Schema.optional(Schema.String),
-    created: Schema.optional(Schema.String),
-    layerId: Schema.optional(Schema.String),
-    deleted: Schema.optional(Schema.Boolean),
-    clientVersionRanges: Schema.optional(
-      Schema.Struct({
-        gbImageRange: Schema.optional(BooksAnnotationsRange),
-        gbTextRange: Schema.optional(BooksAnnotationsRange),
-        cfiRange: Schema.optional(BooksAnnotationsRange),
-        contentVersion: Schema.optional(Schema.String),
-        imageCfiRange: Schema.optional(BooksAnnotationsRange),
-      }),
-    ),
-  }),
-).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
+export const Annotation: Schema.Schema<Annotation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      volumeId: Schema.optional(Schema.String),
+      currentVersionRanges: Schema.optional(
+        Schema.Struct({
+          contentVersion: Schema.optional(Schema.String),
+          gbImageRange: Schema.optional(BooksAnnotationsRange),
+          gbTextRange: Schema.optional(BooksAnnotationsRange),
+          cfiRange: Schema.optional(BooksAnnotationsRange),
+          imageCfiRange: Schema.optional(BooksAnnotationsRange),
+        }),
+      ),
+      pageIds: Schema.optional(Schema.Array(Schema.String)),
+      selectedText: Schema.optional(Schema.String),
+      beforeSelectedText: Schema.optional(Schema.String),
+      afterSelectedText: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      layerSummary: Schema.optional(
+        Schema.Struct({
+          remainingCharacterCount: Schema.optional(Schema.Number),
+          allowedCharacterCount: Schema.optional(Schema.Number),
+          limitType: Schema.optional(Schema.String),
+        }),
+      ),
+      highlightStyle: Schema.optional(Schema.String),
+      updated: Schema.optional(Schema.String),
+      created: Schema.optional(Schema.String),
+      layerId: Schema.optional(Schema.String),
+      deleted: Schema.optional(Schema.Boolean),
+      clientVersionRanges: Schema.optional(
+        Schema.Struct({
+          gbImageRange: Schema.optional(BooksAnnotationsRange),
+          gbTextRange: Schema.optional(BooksAnnotationsRange),
+          cfiRange: Schema.optional(BooksAnnotationsRange),
+          contentVersion: Schema.optional(Schema.String),
+          imageCfiRange: Schema.optional(BooksAnnotationsRange),
+        }),
+      ),
+    }),
+  ).annotate({ identifier: "Annotation" }) as any as Schema.Schema<Annotation>;
 
 export interface Annotations {
   /** Resource type. */
@@ -1431,14 +1448,17 @@ export interface Annotations {
   nextPageToken?: string;
 }
 
-export const Annotations: Schema.Schema<Annotations> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Annotation)),
-    totalItems: Schema.optional(Schema.Number),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Annotations" }) as any as Schema.Schema<Annotations>;
+export const Annotations: Schema.Schema<Annotations> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Annotation)),
+      totalItems: Schema.optional(Schema.Number),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Annotations",
+  }) as any as Schema.Schema<Annotations>;
 
 export interface AnnotationsSummary {
   layers?: Array<{
@@ -1452,7 +1472,7 @@ export interface AnnotationsSummary {
 }
 
 export const AnnotationsSummary: Schema.Schema<AnnotationsSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       layers: Schema.optional(
         Schema.Array(
@@ -1492,28 +1512,29 @@ export interface Notification {
   timeToExpireMs?: string;
 }
 
-export const Notification: Schema.Schema<Notification> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    iconUrl: Schema.optional(Schema.String),
-    targetUrl: Schema.optional(Schema.String),
-    notification_type: Schema.optional(Schema.String),
-    show_notification_settings_action: Schema.optional(Schema.Boolean),
-    pcampaign_id: Schema.optional(Schema.String),
-    dont_show_notification: Schema.optional(Schema.Boolean),
-    reason: Schema.optional(Schema.String),
-    doc_type: Schema.optional(Schema.String),
-    doc_id: Schema.optional(Schema.String),
-    crmExperimentIds: Schema.optional(Schema.Array(Schema.String)),
-    notificationGroup: Schema.optional(Schema.String),
-    is_document_mature: Schema.optional(Schema.Boolean),
-    timeToExpireMs: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Notification",
-}) as any as Schema.Schema<Notification>;
+export const Notification: Schema.Schema<Notification> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      iconUrl: Schema.optional(Schema.String),
+      targetUrl: Schema.optional(Schema.String),
+      notification_type: Schema.optional(Schema.String),
+      show_notification_settings_action: Schema.optional(Schema.Boolean),
+      pcampaign_id: Schema.optional(Schema.String),
+      dont_show_notification: Schema.optional(Schema.Boolean),
+      reason: Schema.optional(Schema.String),
+      doc_type: Schema.optional(Schema.String),
+      doc_id: Schema.optional(Schema.String),
+      crmExperimentIds: Schema.optional(Schema.Array(Schema.String)),
+      notificationGroup: Schema.optional(Schema.String),
+      is_document_mature: Schema.optional(Schema.Boolean),
+      timeToExpireMs: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Notification",
+  }) as any as Schema.Schema<Notification>;
 
 export interface Category {
   /** Resource type. */
@@ -1522,20 +1543,21 @@ export interface Category {
   items?: Array<{ name?: string; categoryId?: string; badgeUrl?: string }>;
 }
 
-export const Category: Schema.Schema<Category> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          name: Schema.optional(Schema.String),
-          categoryId: Schema.optional(Schema.String),
-          badgeUrl: Schema.optional(Schema.String),
-        }),
+export const Category: Schema.Schema<Category> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.optional(Schema.String),
+            categoryId: Schema.optional(Schema.String),
+            badgeUrl: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-  }),
-).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
+    }),
+  ).annotate({ identifier: "Category" }) as any as Schema.Schema<Category>;
 
 export interface Volume2 {
   /** Resource type. */
@@ -1545,13 +1567,14 @@ export interface Volume2 {
   nextPageToken?: string;
 }
 
-export const Volume2: Schema.Schema<Volume2> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Volume)),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Volume2" }) as any as Schema.Schema<Volume2>;
+export const Volume2: Schema.Schema<Volume2> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Volume)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Volume2" }) as any as Schema.Schema<Volume2>;
 
 export interface Discoveryclusters {
   totalClusters?: number;
@@ -1575,7 +1598,7 @@ export interface Discoveryclusters {
 }
 
 export const Discoveryclusters: Schema.Schema<Discoveryclusters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalClusters: Schema.optional(Schema.Number),
       kind: Schema.optional(Schema.String),
@@ -1624,32 +1647,33 @@ export interface Offers {
   }>;
 }
 
-export const Offers: Schema.Schema<Offers> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          artUrl: Schema.optional(Schema.String),
-          items: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                volumeId: Schema.optional(Schema.String),
-                canonicalVolumeLink: Schema.optional(Schema.String),
-                coverUrl: Schema.optional(Schema.String),
-                title: Schema.optional(Schema.String),
-                author: Schema.optional(Schema.String),
-                description: Schema.optional(Schema.String),
-              }),
+export const Offers: Schema.Schema<Offers> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.String),
+            artUrl: Schema.optional(Schema.String),
+            items: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  volumeId: Schema.optional(Schema.String),
+                  canonicalVolumeLink: Schema.optional(Schema.String),
+                  coverUrl: Schema.optional(Schema.String),
+                  title: Schema.optional(Schema.String),
+                  author: Schema.optional(Schema.String),
+                  description: Schema.optional(Schema.String),
+                }),
+              ),
             ),
-          ),
-          gservicesKey: Schema.optional(Schema.String),
-        }),
+            gservicesKey: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-  }),
-).annotate({ identifier: "Offers" }) as any as Schema.Schema<Offers>;
+    }),
+  ).annotate({ identifier: "Offers" }) as any as Schema.Schema<Offers>;
 
 export interface Series {
   series?: Array<{
@@ -1683,48 +1707,49 @@ export interface Series {
   kind?: string;
 }
 
-export const Series: Schema.Schema<Series> = Schema.suspend(() =>
-  Schema.Struct({
-    series: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          seriesId: Schema.optional(Schema.String),
-          title: Schema.optional(Schema.String),
-          imageUrl: Schema.optional(Schema.String),
-          bannerImageUrl: Schema.optional(Schema.String),
-          seriesType: Schema.optional(Schema.String),
-          eligibleForSubscription: Schema.optional(Schema.Boolean),
-          isComplete: Schema.optional(Schema.Boolean),
-          subscriptionId: Schema.optional(Schema.String),
-          seriesSubscriptionReleaseInfo: Schema.optional(
-            Schema.Struct({
-              seriesSubscriptionType: Schema.optional(Schema.String),
-              currentReleaseInfo: Schema.optional(
-                Schema.Struct({
-                  releaseNumber: Schema.optional(Schema.String),
-                  releaseTime: Schema.optional(Schema.String),
-                  currencyCode: Schema.optional(Schema.String),
-                  amountInMicros: Schema.optional(Schema.Number),
-                }),
-              ),
-              nextReleaseInfo: Schema.optional(
-                Schema.Struct({
-                  releaseNumber: Schema.optional(Schema.String),
-                  releaseTime: Schema.optional(Schema.String),
-                  currencyCode: Schema.optional(Schema.String),
-                  amountInMicros: Schema.optional(Schema.Number),
-                }),
-              ),
-              cancelTime: Schema.optional(Schema.String),
-            }),
-          ),
-          seriesFormatType: Schema.optional(Schema.String),
-        }),
+export const Series: Schema.Schema<Series> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      series: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            seriesId: Schema.optional(Schema.String),
+            title: Schema.optional(Schema.String),
+            imageUrl: Schema.optional(Schema.String),
+            bannerImageUrl: Schema.optional(Schema.String),
+            seriesType: Schema.optional(Schema.String),
+            eligibleForSubscription: Schema.optional(Schema.Boolean),
+            isComplete: Schema.optional(Schema.Boolean),
+            subscriptionId: Schema.optional(Schema.String),
+            seriesSubscriptionReleaseInfo: Schema.optional(
+              Schema.Struct({
+                seriesSubscriptionType: Schema.optional(Schema.String),
+                currentReleaseInfo: Schema.optional(
+                  Schema.Struct({
+                    releaseNumber: Schema.optional(Schema.String),
+                    releaseTime: Schema.optional(Schema.String),
+                    currencyCode: Schema.optional(Schema.String),
+                    amountInMicros: Schema.optional(Schema.Number),
+                  }),
+                ),
+                nextReleaseInfo: Schema.optional(
+                  Schema.Struct({
+                    releaseNumber: Schema.optional(Schema.String),
+                    releaseTime: Schema.optional(Schema.String),
+                    currencyCode: Schema.optional(Schema.String),
+                    amountInMicros: Schema.optional(Schema.Number),
+                  }),
+                ),
+                cancelTime: Schema.optional(Schema.String),
+              }),
+            ),
+            seriesFormatType: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Series" }) as any as Schema.Schema<Series>;
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Series" }) as any as Schema.Schema<Series>;
 
 export interface Seriesmembership {
   member?: Array<Volume>;
@@ -1733,23 +1758,23 @@ export interface Seriesmembership {
   kind?: string;
 }
 
-export const Seriesmembership: Schema.Schema<Seriesmembership> = Schema.suspend(
-  () =>
+export const Seriesmembership: Schema.Schema<Seriesmembership> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       member: Schema.optional(Schema.Array(Volume)),
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "Seriesmembership",
-}) as any as Schema.Schema<Seriesmembership>;
+  ).annotate({
+    identifier: "Seriesmembership",
+  }) as any as Schema.Schema<Seriesmembership>;
 
 export interface BooksVolumesRecommendedRateResponse {
   consistency_token?: string;
 }
 
 export const BooksVolumesRecommendedRateResponse: Schema.Schema<BooksVolumesRecommendedRateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       consistency_token: Schema.optional(Schema.String),
     }),
@@ -1770,7 +1795,7 @@ export interface GetBookshelvesRequest {
   source?: string;
 }
 
-export const GetBookshelvesRequest = Schema.Struct({
+export const GetBookshelvesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   shelf: Schema.String.pipe(T.HttpPath("shelf")),
   source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
@@ -1783,7 +1808,7 @@ export const GetBookshelvesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBookshelvesRequest>;
 
 export type GetBookshelvesResponse = Bookshelf;
-export const GetBookshelvesResponse = Bookshelf;
+export const GetBookshelvesResponse = /*@__PURE__*/ /*#__PURE__*/ Bookshelf;
 
 export type GetBookshelvesError = DefaultErrors;
 
@@ -1793,7 +1818,7 @@ export const getBookshelves: API.OperationMethod<
   GetBookshelvesResponse,
   GetBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBookshelvesRequest,
   output: GetBookshelvesResponse,
   errors: [],
@@ -1806,16 +1831,18 @@ export interface ListBookshelvesRequest {
   source?: string;
 }
 
-export const ListBookshelvesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
+export const ListBookshelvesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "books/v1/users/{userId}/bookshelves" }),
   svc,
 ) as unknown as Schema.Schema<ListBookshelvesRequest>;
 
 export type ListBookshelvesResponse = Bookshelves;
-export const ListBookshelvesResponse = Bookshelves;
+export const ListBookshelvesResponse = /*@__PURE__*/ /*#__PURE__*/ Bookshelves;
 
 export type ListBookshelvesError = DefaultErrors;
 
@@ -1825,7 +1852,7 @@ export const listBookshelves: API.OperationMethod<
   ListBookshelvesResponse,
   ListBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBookshelvesRequest,
   output: ListBookshelvesResponse,
   errors: [],
@@ -1846,25 +1873,27 @@ export interface ListBookshelvesVolumesRequest {
   startIndex?: number;
 }
 
-export const ListBookshelvesVolumesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  showPreorders: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("showPreorders"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/users/{userId}/bookshelves/{shelf}/volumes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBookshelvesVolumesRequest>;
+export const ListBookshelvesVolumesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    showPreorders: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showPreorders"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/users/{userId}/bookshelves/{shelf}/volumes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBookshelvesVolumesRequest>;
 
 export type ListBookshelvesVolumesResponse = Volumes;
-export const ListBookshelvesVolumesResponse = Volumes;
+export const ListBookshelvesVolumesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListBookshelvesVolumesError = DefaultErrors;
 
@@ -1874,7 +1903,7 @@ export const listBookshelvesVolumes: API.OperationMethod<
   ListBookshelvesVolumesResponse,
   ListBookshelvesVolumesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBookshelvesVolumesRequest,
   output: ListBookshelvesVolumesResponse,
   errors: [],
@@ -1891,26 +1920,28 @@ export interface AddBookCloudloadingRequest {
   upload_client_token?: string;
 }
 
-export const AddBookCloudloadingRequest = Schema.Struct({
-  drive_document_id: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("drive_document_id"),
-  ),
-  mime_type: Schema.optional(Schema.String).pipe(T.HttpQuery("mime_type")),
-  name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
-  upload_client_token: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("upload_client_token"),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/cloudloading/addBook",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddBookCloudloadingRequest>;
+export const AddBookCloudloadingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    drive_document_id: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("drive_document_id"),
+    ),
+    mime_type: Schema.optional(Schema.String).pipe(T.HttpQuery("mime_type")),
+    name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
+    upload_client_token: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("upload_client_token"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/cloudloading/addBook",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddBookCloudloadingRequest>;
 
 export type AddBookCloudloadingResponse = BooksCloudloadingResource;
-export const AddBookCloudloadingResponse = BooksCloudloadingResource;
+export const AddBookCloudloadingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BooksCloudloadingResource;
 
 export type AddBookCloudloadingError = DefaultErrors;
 
@@ -1920,7 +1951,7 @@ export const addBookCloudloading: API.OperationMethod<
   AddBookCloudloadingResponse,
   AddBookCloudloadingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddBookCloudloadingRequest,
   output: AddBookCloudloadingResponse,
   errors: [],
@@ -1931,19 +1962,20 @@ export interface DeleteBookCloudloadingRequest {
   volumeId: string;
 }
 
-export const DeleteBookCloudloadingRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/cloudloading/deleteBook",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBookCloudloadingRequest>;
+export const DeleteBookCloudloadingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/cloudloading/deleteBook",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBookCloudloadingRequest>;
 
 export type DeleteBookCloudloadingResponse = Empty;
-export const DeleteBookCloudloadingResponse = Empty;
+export const DeleteBookCloudloadingResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBookCloudloadingError = DefaultErrors;
 
@@ -1953,7 +1985,7 @@ export const deleteBookCloudloading: API.OperationMethod<
   DeleteBookCloudloadingResponse,
   DeleteBookCloudloadingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBookCloudloadingRequest,
   output: DeleteBookCloudloadingResponse,
   errors: [],
@@ -1964,19 +1996,21 @@ export interface UpdateBookCloudloadingRequest {
   body?: BooksCloudloadingResource;
 }
 
-export const UpdateBookCloudloadingRequest = Schema.Struct({
-  body: Schema.optional(BooksCloudloadingResource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/cloudloading/updateBook",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateBookCloudloadingRequest>;
+export const UpdateBookCloudloadingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(BooksCloudloadingResource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/cloudloading/updateBook",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateBookCloudloadingRequest>;
 
 export type UpdateBookCloudloadingResponse = BooksCloudloadingResource;
-export const UpdateBookCloudloadingResponse = BooksCloudloadingResource;
+export const UpdateBookCloudloadingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BooksCloudloadingResource;
 
 export type UpdateBookCloudloadingError = DefaultErrors;
 
@@ -1986,7 +2020,7 @@ export const updateBookCloudloading: API.OperationMethod<
   UpdateBookCloudloadingResponse,
   UpdateBookCloudloadingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBookCloudloadingRequest,
   output: UpdateBookCloudloadingResponse,
   errors: [],
@@ -1997,15 +2031,17 @@ export interface ListOfflineMetadataDictionaryRequest {
   cpksver: string;
 }
 
-export const ListOfflineMetadataDictionaryRequest = Schema.Struct({
-  cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/dictionary/listOfflineMetadata" }),
-  svc,
-) as unknown as Schema.Schema<ListOfflineMetadataDictionaryRequest>;
+export const ListOfflineMetadataDictionaryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/dictionary/listOfflineMetadata" }),
+    svc,
+  ) as unknown as Schema.Schema<ListOfflineMetadataDictionaryRequest>;
 
 export type ListOfflineMetadataDictionaryResponse = Metadata;
-export const ListOfflineMetadataDictionaryResponse = Metadata;
+export const ListOfflineMetadataDictionaryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Metadata;
 
 export type ListOfflineMetadataDictionaryError = DefaultErrors;
 
@@ -2015,7 +2051,7 @@ export const listOfflineMetadataDictionary: API.OperationMethod<
   ListOfflineMetadataDictionaryResponse,
   ListOfflineMetadataDictionaryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOfflineMetadataDictionaryRequest,
   output: ListOfflineMetadataDictionaryResponse,
   errors: [],
@@ -2026,15 +2062,17 @@ export interface GetFamilyInfoFamilysharingRequest {
   source?: string;
 }
 
-export const GetFamilyInfoFamilysharingRequest = Schema.Struct({
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/familysharing/getFamilyInfo" }),
-  svc,
-) as unknown as Schema.Schema<GetFamilyInfoFamilysharingRequest>;
+export const GetFamilyInfoFamilysharingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/familysharing/getFamilyInfo" }),
+    svc,
+  ) as unknown as Schema.Schema<GetFamilyInfoFamilysharingRequest>;
 
 export type GetFamilyInfoFamilysharingResponse = FamilyInfo;
-export const GetFamilyInfoFamilysharingResponse = FamilyInfo;
+export const GetFamilyInfoFamilysharingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FamilyInfo;
 
 export type GetFamilyInfoFamilysharingError = DefaultErrors;
 
@@ -2044,7 +2082,7 @@ export const getFamilyInfoFamilysharing: API.OperationMethod<
   GetFamilyInfoFamilysharingResponse,
   GetFamilyInfoFamilysharingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFamilyInfoFamilysharingRequest,
   output: GetFamilyInfoFamilysharingResponse,
   errors: [],
@@ -2059,21 +2097,22 @@ export interface ShareFamilysharingRequest {
   volumeId?: string;
 }
 
-export const ShareFamilysharingRequest = Schema.Struct({
-  docId: Schema.optional(Schema.String).pipe(T.HttpQuery("docId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/familysharing/share",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ShareFamilysharingRequest>;
+export const ShareFamilysharingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    docId: Schema.optional(Schema.String).pipe(T.HttpQuery("docId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/familysharing/share",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ShareFamilysharingRequest>;
 
 export type ShareFamilysharingResponse = Empty;
-export const ShareFamilysharingResponse = Empty;
+export const ShareFamilysharingResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ShareFamilysharingError = DefaultErrors;
 
@@ -2083,7 +2122,7 @@ export const shareFamilysharing: API.OperationMethod<
   ShareFamilysharingResponse,
   ShareFamilysharingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ShareFamilysharingRequest,
   output: ShareFamilysharingResponse,
   errors: [],
@@ -2098,21 +2137,22 @@ export interface UnshareFamilysharingRequest {
   volumeId?: string;
 }
 
-export const UnshareFamilysharingRequest = Schema.Struct({
-  docId: Schema.optional(Schema.String).pipe(T.HttpQuery("docId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/familysharing/unshare",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnshareFamilysharingRequest>;
+export const UnshareFamilysharingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    docId: Schema.optional(Schema.String).pipe(T.HttpQuery("docId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/familysharing/unshare",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnshareFamilysharingRequest>;
 
 export type UnshareFamilysharingResponse = Empty;
-export const UnshareFamilysharingResponse = Empty;
+export const UnshareFamilysharingResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type UnshareFamilysharingError = DefaultErrors;
 
@@ -2122,7 +2162,7 @@ export const unshareFamilysharing: API.OperationMethod<
   UnshareFamilysharingResponse,
   UnshareFamilysharingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnshareFamilysharingRequest,
   output: UnshareFamilysharingResponse,
   errors: [],
@@ -2139,7 +2179,7 @@ export interface GetLayersRequest {
   source?: string;
 }
 
-export const GetLayersRequest = Schema.Struct({
+export const GetLayersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
   summaryId: Schema.String.pipe(T.HttpPath("summaryId")),
   contentVersion: Schema.optional(Schema.String).pipe(
@@ -2155,7 +2195,7 @@ export const GetLayersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetLayersRequest>;
 
 export type GetLayersResponse = Layersummary;
-export const GetLayersResponse = Layersummary;
+export const GetLayersResponse = /*@__PURE__*/ /*#__PURE__*/ Layersummary;
 
 export type GetLayersError = DefaultErrors;
 
@@ -2165,7 +2205,7 @@ export const getLayers: API.OperationMethod<
   GetLayersResponse,
   GetLayersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayersRequest,
   output: GetLayersResponse,
   errors: [],
@@ -2184,7 +2224,7 @@ export interface ListLayersRequest {
   source?: string;
 }
 
-export const ListLayersRequest = Schema.Struct({
+export const ListLayersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
   contentVersion: Schema.optional(Schema.String).pipe(
     T.HttpQuery("contentVersion"),
@@ -2198,7 +2238,7 @@ export const ListLayersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListLayersRequest>;
 
 export type ListLayersResponse = Layersummaries;
-export const ListLayersResponse = Layersummaries;
+export const ListLayersResponse = /*@__PURE__*/ /*#__PURE__*/ Layersummaries;
 
 export type ListLayersError = DefaultErrors;
 
@@ -2208,7 +2248,7 @@ export const listLayers: API.OperationMethod<
   ListLayersResponse,
   ListLayersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLayersRequest,
   output: ListLayersResponse,
   errors: [],
@@ -2237,29 +2277,31 @@ export interface GetLayersAnnotationDataRequest {
   w?: number;
 }
 
-export const GetLayersAnnotationDataRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  layerId: Schema.String.pipe(T.HttpPath("layerId")),
-  annotationDataId: Schema.String.pipe(T.HttpPath("annotationDataId")),
-  allowWebDefinitions: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowWebDefinitions"),
-  ),
-  contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
-  h: Schema.optional(Schema.Number).pipe(T.HttpQuery("h")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  scale: Schema.optional(Schema.Number).pipe(T.HttpQuery("scale")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  w: Schema.optional(Schema.Number).pipe(T.HttpQuery("w")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/volumes/{volumeId}/layers/{layerId}/data/{annotationDataId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLayersAnnotationDataRequest>;
+export const GetLayersAnnotationDataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    layerId: Schema.String.pipe(T.HttpPath("layerId")),
+    annotationDataId: Schema.String.pipe(T.HttpPath("annotationDataId")),
+    allowWebDefinitions: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowWebDefinitions"),
+    ),
+    contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
+    h: Schema.optional(Schema.Number).pipe(T.HttpQuery("h")),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    scale: Schema.optional(Schema.Number).pipe(T.HttpQuery("scale")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    w: Schema.optional(Schema.Number).pipe(T.HttpQuery("w")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/volumes/{volumeId}/layers/{layerId}/data/{annotationDataId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLayersAnnotationDataRequest>;
 
 export type GetLayersAnnotationDataResponse = DictionaryAnnotationdata;
-export const GetLayersAnnotationDataResponse = DictionaryAnnotationdata;
+export const GetLayersAnnotationDataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DictionaryAnnotationdata;
 
 export type GetLayersAnnotationDataError = DefaultErrors;
 
@@ -2269,7 +2311,7 @@ export const getLayersAnnotationData: API.OperationMethod<
   GetLayersAnnotationDataResponse,
   GetLayersAnnotationDataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayersAnnotationDataRequest,
   output: GetLayersAnnotationDataResponse,
   errors: [],
@@ -2304,32 +2346,34 @@ export interface ListLayersAnnotationDataRequest {
   w?: number;
 }
 
-export const ListLayersAnnotationDataRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  layerId: Schema.String.pipe(T.HttpPath("layerId")),
-  annotationDataId: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("annotationDataId"),
-  ),
-  contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
-  h: Schema.optional(Schema.Number).pipe(T.HttpQuery("h")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  scale: Schema.optional(Schema.Number).pipe(T.HttpQuery("scale")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
-  updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
-  w: Schema.optional(Schema.Number).pipe(T.HttpQuery("w")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/volumes/{volumeId}/layers/{layerId}/data",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListLayersAnnotationDataRequest>;
+export const ListLayersAnnotationDataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    layerId: Schema.String.pipe(T.HttpPath("layerId")),
+    annotationDataId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("annotationDataId"),
+    ),
+    contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
+    h: Schema.optional(Schema.Number).pipe(T.HttpQuery("h")),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    scale: Schema.optional(Schema.Number).pipe(T.HttpQuery("scale")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
+    updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
+    w: Schema.optional(Schema.Number).pipe(T.HttpQuery("w")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/volumes/{volumeId}/layers/{layerId}/data",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLayersAnnotationDataRequest>;
 
 export type ListLayersAnnotationDataResponse = Annotationsdata;
-export const ListLayersAnnotationDataResponse = Annotationsdata;
+export const ListLayersAnnotationDataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Annotationsdata;
 
 export type ListLayersAnnotationDataError = DefaultErrors;
 
@@ -2339,7 +2383,7 @@ export const listLayersAnnotationData: API.PaginatedOperationMethod<
   ListLayersAnnotationDataResponse,
   ListLayersAnnotationDataError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLayersAnnotationDataRequest,
   output: ListLayersAnnotationDataResponse,
   errors: [],
@@ -2363,22 +2407,24 @@ export interface GetLayersVolumeAnnotationsRequest {
   source?: string;
 }
 
-export const GetLayersVolumeAnnotationsRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  layerId: Schema.String.pipe(T.HttpPath("layerId")),
-  annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/volumes/{volumeId}/layers/{layerId}/annotations/{annotationId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLayersVolumeAnnotationsRequest>;
+export const GetLayersVolumeAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    layerId: Schema.String.pipe(T.HttpPath("layerId")),
+    annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/volumes/{volumeId}/layers/{layerId}/annotations/{annotationId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLayersVolumeAnnotationsRequest>;
 
 export type GetLayersVolumeAnnotationsResponse = Volumeannotation;
-export const GetLayersVolumeAnnotationsResponse = Volumeannotation;
+export const GetLayersVolumeAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumeannotation;
 
 export type GetLayersVolumeAnnotationsError = DefaultErrors;
 
@@ -2388,7 +2434,7 @@ export const getLayersVolumeAnnotations: API.OperationMethod<
   GetLayersVolumeAnnotationsResponse,
   GetLayersVolumeAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLayersVolumeAnnotationsRequest,
   output: GetLayersVolumeAnnotationsResponse,
   errors: [],
@@ -2427,36 +2473,44 @@ export interface ListLayersVolumeAnnotationsRequest {
   volumeAnnotationsVersion?: string;
 }
 
-export const ListLayersVolumeAnnotationsRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  layerId: Schema.String.pipe(T.HttpPath("layerId")),
-  contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
-  endOffset: Schema.optional(Schema.String).pipe(T.HttpQuery("endOffset")),
-  endPosition: Schema.optional(Schema.String).pipe(T.HttpQuery("endPosition")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  startOffset: Schema.optional(Schema.String).pipe(T.HttpQuery("startOffset")),
-  startPosition: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("startPosition"),
-  ),
-  updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
-  updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
-  volumeAnnotationsVersion: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("volumeAnnotationsVersion"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/volumes/{volumeId}/layers/{layerId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListLayersVolumeAnnotationsRequest>;
+export const ListLayersVolumeAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    layerId: Schema.String.pipe(T.HttpPath("layerId")),
+    contentVersion: Schema.String.pipe(T.HttpQuery("contentVersion")),
+    endOffset: Schema.optional(Schema.String).pipe(T.HttpQuery("endOffset")),
+    endPosition: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("endPosition"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    startOffset: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("startOffset"),
+    ),
+    startPosition: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("startPosition"),
+    ),
+    updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
+    updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
+    volumeAnnotationsVersion: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("volumeAnnotationsVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/volumes/{volumeId}/layers/{layerId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListLayersVolumeAnnotationsRequest>;
 
 export type ListLayersVolumeAnnotationsResponse = Volumeannotations;
-export const ListLayersVolumeAnnotationsResponse = Volumeannotations;
+export const ListLayersVolumeAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumeannotations;
 
 export type ListLayersVolumeAnnotationsError = DefaultErrors;
 
@@ -2466,7 +2520,7 @@ export const listLayersVolumeAnnotations: API.PaginatedOperationMethod<
   ListLayersVolumeAnnotationsResponse,
   ListLayersVolumeAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLayersVolumeAnnotationsRequest,
   output: ListLayersVolumeAnnotationsResponse,
   errors: [],
@@ -2482,15 +2536,17 @@ export interface GetUserSettingsMyconfigRequest {
   country?: string;
 }
 
-export const GetUserSettingsMyconfigRequest = Schema.Struct({
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/myconfig/getUserSettings" }),
-  svc,
-) as unknown as Schema.Schema<GetUserSettingsMyconfigRequest>;
+export const GetUserSettingsMyconfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/myconfig/getUserSettings" }),
+    svc,
+  ) as unknown as Schema.Schema<GetUserSettingsMyconfigRequest>;
 
 export type GetUserSettingsMyconfigResponse = Usersettings;
-export const GetUserSettingsMyconfigResponse = Usersettings;
+export const GetUserSettingsMyconfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Usersettings;
 
 export type GetUserSettingsMyconfigError = DefaultErrors;
 
@@ -2500,7 +2556,7 @@ export const getUserSettingsMyconfig: API.OperationMethod<
   GetUserSettingsMyconfigResponse,
   GetUserSettingsMyconfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserSettingsMyconfigRequest,
   output: GetUserSettingsMyconfigResponse,
   errors: [],
@@ -2517,22 +2573,24 @@ export interface ReleaseDownloadAccessMyconfigRequest {
   volumeIds: string[];
 }
 
-export const ReleaseDownloadAccessMyconfigRequest = Schema.Struct({
-  cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeIds: Schema.Array(Schema.String).pipe(T.HttpQuery("volumeIds")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/myconfig/releaseDownloadAccess",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReleaseDownloadAccessMyconfigRequest>;
+export const ReleaseDownloadAccessMyconfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeIds: Schema.Array(Schema.String).pipe(T.HttpQuery("volumeIds")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/myconfig/releaseDownloadAccess",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReleaseDownloadAccessMyconfigRequest>;
 
 export type ReleaseDownloadAccessMyconfigResponse = DownloadAccesses;
-export const ReleaseDownloadAccessMyconfigResponse = DownloadAccesses;
+export const ReleaseDownloadAccessMyconfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DownloadAccesses;
 
 export type ReleaseDownloadAccessMyconfigError = DefaultErrors;
 
@@ -2542,7 +2600,7 @@ export const releaseDownloadAccessMyconfig: API.OperationMethod<
   ReleaseDownloadAccessMyconfigResponse,
   ReleaseDownloadAccessMyconfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReleaseDownloadAccessMyconfigRequest,
   output: ReleaseDownloadAccessMyconfigResponse,
   errors: [],
@@ -2568,26 +2626,28 @@ export interface RequestAccessMyconfigRequest {
   volumeId: string;
 }
 
-export const RequestAccessMyconfigRequest = Schema.Struct({
-  cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
-  licenseTypes: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("licenseTypes"),
-  ),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  nonce: Schema.String.pipe(T.HttpQuery("nonce")),
-  source: Schema.String.pipe(T.HttpQuery("source")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/myconfig/requestAccess",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RequestAccessMyconfigRequest>;
+export const RequestAccessMyconfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
+    licenseTypes: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("licenseTypes"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    nonce: Schema.String.pipe(T.HttpQuery("nonce")),
+    source: Schema.String.pipe(T.HttpQuery("source")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/myconfig/requestAccess",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RequestAccessMyconfigRequest>;
 
 export type RequestAccessMyconfigResponse = RequestAccessData;
-export const RequestAccessMyconfigResponse = RequestAccessData;
+export const RequestAccessMyconfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RequestAccessData;
 
 export type RequestAccessMyconfigError = DefaultErrors;
 
@@ -2597,7 +2657,7 @@ export const requestAccessMyconfig: API.OperationMethod<
   RequestAccessMyconfigResponse,
   RequestAccessMyconfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RequestAccessMyconfigRequest,
   output: RequestAccessMyconfigResponse,
   errors: [],
@@ -2622,34 +2682,36 @@ export interface SyncVolumeLicensesMyconfigRequest {
   volumeIds?: string[];
 }
 
-export const SyncVolumeLicensesMyconfigRequest = Schema.Struct({
-  cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
-  features: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("features"),
-  ),
-  includeNonComicsSeries: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeNonComicsSeries"),
-  ),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  nonce: Schema.String.pipe(T.HttpQuery("nonce")),
-  showPreorders: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("showPreorders"),
-  ),
-  source: Schema.String.pipe(T.HttpQuery("source")),
-  volumeIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("volumeIds"),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/myconfig/syncVolumeLicenses",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SyncVolumeLicensesMyconfigRequest>;
+export const SyncVolumeLicensesMyconfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    cpksver: Schema.String.pipe(T.HttpQuery("cpksver")),
+    features: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("features"),
+    ),
+    includeNonComicsSeries: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeNonComicsSeries"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    nonce: Schema.String.pipe(T.HttpQuery("nonce")),
+    showPreorders: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showPreorders"),
+    ),
+    source: Schema.String.pipe(T.HttpQuery("source")),
+    volumeIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("volumeIds"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/myconfig/syncVolumeLicenses",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SyncVolumeLicensesMyconfigRequest>;
 
 export type SyncVolumeLicensesMyconfigResponse = Volumes;
-export const SyncVolumeLicensesMyconfigResponse = Volumes;
+export const SyncVolumeLicensesMyconfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type SyncVolumeLicensesMyconfigError = DefaultErrors;
 
@@ -2659,7 +2721,7 @@ export const syncVolumeLicensesMyconfig: API.OperationMethod<
   SyncVolumeLicensesMyconfigResponse,
   SyncVolumeLicensesMyconfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SyncVolumeLicensesMyconfigRequest,
   output: SyncVolumeLicensesMyconfigResponse,
   errors: [],
@@ -2670,19 +2732,21 @@ export interface UpdateUserSettingsMyconfigRequest {
   body?: Usersettings;
 }
 
-export const UpdateUserSettingsMyconfigRequest = Schema.Struct({
-  body: Schema.optional(Usersettings).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/myconfig/updateUserSettings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateUserSettingsMyconfigRequest>;
+export const UpdateUserSettingsMyconfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Usersettings).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/myconfig/updateUserSettings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateUserSettingsMyconfigRequest>;
 
 export type UpdateUserSettingsMyconfigResponse = Usersettings;
-export const UpdateUserSettingsMyconfigResponse = Usersettings;
+export const UpdateUserSettingsMyconfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Usersettings;
 
 export type UpdateUserSettingsMyconfigError = DefaultErrors;
 
@@ -2692,7 +2756,7 @@ export const updateUserSettingsMyconfig: API.OperationMethod<
   UpdateUserSettingsMyconfigResponse,
   UpdateUserSettingsMyconfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUserSettingsMyconfigRequest,
   output: UpdateUserSettingsMyconfigResponse,
   errors: [],
@@ -2705,19 +2769,21 @@ export interface DeleteMylibraryAnnotationsRequest {
   source?: string;
 }
 
-export const DeleteMylibraryAnnotationsRequest = Schema.Struct({
-  annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "books/v1/mylibrary/annotations/{annotationId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteMylibraryAnnotationsRequest>;
+export const DeleteMylibraryAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "books/v1/mylibrary/annotations/{annotationId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteMylibraryAnnotationsRequest>;
 
 export type DeleteMylibraryAnnotationsResponse = Empty;
-export const DeleteMylibraryAnnotationsResponse = Empty;
+export const DeleteMylibraryAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteMylibraryAnnotationsError = DefaultErrors;
 
@@ -2727,7 +2793,7 @@ export const deleteMylibraryAnnotations: API.OperationMethod<
   DeleteMylibraryAnnotationsResponse,
   DeleteMylibraryAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteMylibraryAnnotationsRequest,
   output: DeleteMylibraryAnnotationsResponse,
   errors: [],
@@ -2746,27 +2812,29 @@ export interface InsertMylibraryAnnotationsRequest {
   body?: Annotation;
 }
 
-export const InsertMylibraryAnnotationsRequest = Schema.Struct({
-  annotationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("annotationId"),
-  ),
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-  showOnlySummaryInResponse: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("showOnlySummaryInResponse"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  body: Schema.optional(Annotation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/annotations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InsertMylibraryAnnotationsRequest>;
+export const InsertMylibraryAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    annotationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("annotationId"),
+    ),
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+    showOnlySummaryInResponse: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showOnlySummaryInResponse"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    body: Schema.optional(Annotation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/annotations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertMylibraryAnnotationsRequest>;
 
 export type InsertMylibraryAnnotationsResponse = Annotation;
-export const InsertMylibraryAnnotationsResponse = Annotation;
+export const InsertMylibraryAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Annotation;
 
 export type InsertMylibraryAnnotationsError = DefaultErrors;
 
@@ -2776,7 +2844,7 @@ export const insertMylibraryAnnotations: API.OperationMethod<
   InsertMylibraryAnnotationsResponse,
   InsertMylibraryAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertMylibraryAnnotationsRequest,
   output: InsertMylibraryAnnotationsResponse,
   errors: [],
@@ -2805,28 +2873,32 @@ export interface ListMylibraryAnnotationsRequest {
   volumeId?: string;
 }
 
-export const ListMylibraryAnnotationsRequest = Schema.Struct({
-  contentVersion: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("contentVersion"),
-  ),
-  layerId: Schema.optional(Schema.String).pipe(T.HttpQuery("layerId")),
-  layerIds: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("layerIds"),
-  ),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  showDeleted: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("showDeleted")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
-  updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
-  volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/mylibrary/annotations" }),
-  svc,
-) as unknown as Schema.Schema<ListMylibraryAnnotationsRequest>;
+export const ListMylibraryAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    contentVersion: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentVersion"),
+    ),
+    layerId: Schema.optional(Schema.String).pipe(T.HttpQuery("layerId")),
+    layerIds: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("layerIds"),
+    ),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    showDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showDeleted"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    updatedMax: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMax")),
+    updatedMin: Schema.optional(Schema.String).pipe(T.HttpQuery("updatedMin")),
+    volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/mylibrary/annotations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListMylibraryAnnotationsRequest>;
 
 export type ListMylibraryAnnotationsResponse = Annotations;
-export const ListMylibraryAnnotationsResponse = Annotations;
+export const ListMylibraryAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Annotations;
 
 export type ListMylibraryAnnotationsError = DefaultErrors;
 
@@ -2836,7 +2908,7 @@ export const listMylibraryAnnotations: API.PaginatedOperationMethod<
   ListMylibraryAnnotationsResponse,
   ListMylibraryAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMylibraryAnnotationsRequest,
   output: ListMylibraryAnnotationsResponse,
   errors: [],
@@ -2856,21 +2928,23 @@ export interface SummaryMylibraryAnnotationsRequest {
   source?: string;
 }
 
-export const SummaryMylibraryAnnotationsRequest = Schema.Struct({
-  layerIds: Schema.Array(Schema.String).pipe(T.HttpQuery("layerIds")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/annotations/summary",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SummaryMylibraryAnnotationsRequest>;
+export const SummaryMylibraryAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    layerIds: Schema.Array(Schema.String).pipe(T.HttpQuery("layerIds")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/annotations/summary",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SummaryMylibraryAnnotationsRequest>;
 
 export type SummaryMylibraryAnnotationsResponse = AnnotationsSummary;
-export const SummaryMylibraryAnnotationsResponse = AnnotationsSummary;
+export const SummaryMylibraryAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AnnotationsSummary;
 
 export type SummaryMylibraryAnnotationsError = DefaultErrors;
 
@@ -2880,7 +2954,7 @@ export const summaryMylibraryAnnotations: API.OperationMethod<
   SummaryMylibraryAnnotationsResponse,
   SummaryMylibraryAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SummaryMylibraryAnnotationsRequest,
   output: SummaryMylibraryAnnotationsResponse,
   errors: [],
@@ -2895,21 +2969,23 @@ export interface UpdateMylibraryAnnotationsRequest {
   body?: Annotation;
 }
 
-export const UpdateMylibraryAnnotationsRequest = Schema.Struct({
-  annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  body: Schema.optional(Annotation).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "books/v1/mylibrary/annotations/{annotationId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateMylibraryAnnotationsRequest>;
+export const UpdateMylibraryAnnotationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    annotationId: Schema.String.pipe(T.HttpPath("annotationId")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    body: Schema.optional(Annotation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "books/v1/mylibrary/annotations/{annotationId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateMylibraryAnnotationsRequest>;
 
 export type UpdateMylibraryAnnotationsResponse = Annotation;
-export const UpdateMylibraryAnnotationsResponse = Annotation;
+export const UpdateMylibraryAnnotationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Annotation;
 
 export type UpdateMylibraryAnnotationsError = DefaultErrors;
 
@@ -2919,7 +2995,7 @@ export const updateMylibraryAnnotations: API.OperationMethod<
   UpdateMylibraryAnnotationsResponse,
   UpdateMylibraryAnnotationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMylibraryAnnotationsRequest,
   output: UpdateMylibraryAnnotationsResponse,
   errors: [],
@@ -2941,22 +3017,24 @@ export interface AddVolumeMylibraryBookshelvesRequest {
   volumeId: string;
 }
 
-export const AddVolumeMylibraryBookshelvesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  reason: Schema.optional(Schema.String).pipe(T.HttpQuery("reason")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/bookshelves/{shelf}/addVolume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddVolumeMylibraryBookshelvesRequest>;
+export const AddVolumeMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    reason: Schema.optional(Schema.String).pipe(T.HttpQuery("reason")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/bookshelves/{shelf}/addVolume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddVolumeMylibraryBookshelvesRequest>;
 
 export type AddVolumeMylibraryBookshelvesResponse = Empty;
-export const AddVolumeMylibraryBookshelvesResponse = Empty;
+export const AddVolumeMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AddVolumeMylibraryBookshelvesError = DefaultErrors;
 
@@ -2966,7 +3044,7 @@ export const addVolumeMylibraryBookshelves: API.OperationMethod<
   AddVolumeMylibraryBookshelvesResponse,
   AddVolumeMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddVolumeMylibraryBookshelvesRequest,
   output: AddVolumeMylibraryBookshelvesResponse,
   errors: [],
@@ -2979,20 +3057,22 @@ export interface ClearVolumesMylibraryBookshelvesRequest {
   source?: string;
 }
 
-export const ClearVolumesMylibraryBookshelvesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/bookshelves/{shelf}/clearVolumes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClearVolumesMylibraryBookshelvesRequest>;
+export const ClearVolumesMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/bookshelves/{shelf}/clearVolumes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClearVolumesMylibraryBookshelvesRequest>;
 
 export type ClearVolumesMylibraryBookshelvesResponse = Empty;
-export const ClearVolumesMylibraryBookshelvesResponse = Empty;
+export const ClearVolumesMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ClearVolumesMylibraryBookshelvesError = DefaultErrors;
 
@@ -3002,7 +3082,7 @@ export const clearVolumesMylibraryBookshelves: API.OperationMethod<
   ClearVolumesMylibraryBookshelvesResponse,
   ClearVolumesMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClearVolumesMylibraryBookshelvesRequest,
   output: ClearVolumesMylibraryBookshelvesResponse,
   errors: [],
@@ -3015,16 +3095,18 @@ export interface GetMylibraryBookshelvesRequest {
   source?: string;
 }
 
-export const GetMylibraryBookshelvesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/mylibrary/bookshelves/{shelf}" }),
-  svc,
-) as unknown as Schema.Schema<GetMylibraryBookshelvesRequest>;
+export const GetMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/mylibrary/bookshelves/{shelf}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetMylibraryBookshelvesRequest>;
 
 export type GetMylibraryBookshelvesResponse = Bookshelf;
-export const GetMylibraryBookshelvesResponse = Bookshelf;
+export const GetMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Bookshelf;
 
 export type GetMylibraryBookshelvesError = DefaultErrors;
 
@@ -3034,7 +3116,7 @@ export const getMylibraryBookshelves: API.OperationMethod<
   GetMylibraryBookshelvesResponse,
   GetMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMylibraryBookshelvesRequest,
   output: GetMylibraryBookshelvesResponse,
   errors: [],
@@ -3045,15 +3127,17 @@ export interface ListMylibraryBookshelvesRequest {
   source?: string;
 }
 
-export const ListMylibraryBookshelvesRequest = Schema.Struct({
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/mylibrary/bookshelves" }),
-  svc,
-) as unknown as Schema.Schema<ListMylibraryBookshelvesRequest>;
+export const ListMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/mylibrary/bookshelves" }),
+    svc,
+  ) as unknown as Schema.Schema<ListMylibraryBookshelvesRequest>;
 
 export type ListMylibraryBookshelvesResponse = Bookshelves;
-export const ListMylibraryBookshelvesResponse = Bookshelves;
+export const ListMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Bookshelves;
 
 export type ListMylibraryBookshelvesError = DefaultErrors;
 
@@ -3063,7 +3147,7 @@ export const listMylibraryBookshelves: API.OperationMethod<
   ListMylibraryBookshelvesResponse,
   ListMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMylibraryBookshelvesRequest,
   output: ListMylibraryBookshelvesResponse,
   errors: [],
@@ -3080,22 +3164,24 @@ export interface MoveVolumeMylibraryBookshelvesRequest {
   volumePosition: number;
 }
 
-export const MoveVolumeMylibraryBookshelvesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-  volumePosition: Schema.Number.pipe(T.HttpQuery("volumePosition")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/bookshelves/{shelf}/moveVolume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<MoveVolumeMylibraryBookshelvesRequest>;
+export const MoveVolumeMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+    volumePosition: Schema.Number.pipe(T.HttpQuery("volumePosition")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/bookshelves/{shelf}/moveVolume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveVolumeMylibraryBookshelvesRequest>;
 
 export type MoveVolumeMylibraryBookshelvesResponse = Empty;
-export const MoveVolumeMylibraryBookshelvesResponse = Empty;
+export const MoveVolumeMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type MoveVolumeMylibraryBookshelvesError = DefaultErrors;
 
@@ -3105,7 +3191,7 @@ export const moveVolumeMylibraryBookshelves: API.OperationMethod<
   MoveVolumeMylibraryBookshelvesResponse,
   MoveVolumeMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MoveVolumeMylibraryBookshelvesRequest,
   output: MoveVolumeMylibraryBookshelvesResponse,
   errors: [],
@@ -3122,22 +3208,24 @@ export interface RemoveVolumeMylibraryBookshelvesRequest {
   volumeId: string;
 }
 
-export const RemoveVolumeMylibraryBookshelvesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  reason: Schema.optional(Schema.String).pipe(T.HttpQuery("reason")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/bookshelves/{shelf}/removeVolume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveVolumeMylibraryBookshelvesRequest>;
+export const RemoveVolumeMylibraryBookshelvesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    reason: Schema.optional(Schema.String).pipe(T.HttpQuery("reason")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/bookshelves/{shelf}/removeVolume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveVolumeMylibraryBookshelvesRequest>;
 
 export type RemoveVolumeMylibraryBookshelvesResponse = Empty;
-export const RemoveVolumeMylibraryBookshelvesResponse = Empty;
+export const RemoveVolumeMylibraryBookshelvesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RemoveVolumeMylibraryBookshelvesError = DefaultErrors;
 
@@ -3147,7 +3235,7 @@ export const removeVolumeMylibraryBookshelves: API.OperationMethod<
   RemoveVolumeMylibraryBookshelvesResponse,
   RemoveVolumeMylibraryBookshelvesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveVolumeMylibraryBookshelvesRequest,
   output: RemoveVolumeMylibraryBookshelvesResponse,
   errors: [],
@@ -3172,27 +3260,29 @@ export interface ListMylibraryBookshelvesVolumesRequest {
   startIndex?: number;
 }
 
-export const ListMylibraryBookshelvesVolumesRequest = Schema.Struct({
-  shelf: Schema.String.pipe(T.HttpPath("shelf")),
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
-  q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
-  showPreorders: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("showPreorders"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/mylibrary/bookshelves/{shelf}/volumes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListMylibraryBookshelvesVolumesRequest>;
+export const ListMylibraryBookshelvesVolumesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    shelf: Schema.String.pipe(T.HttpPath("shelf")),
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
+    q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
+    showPreorders: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("showPreorders"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/mylibrary/bookshelves/{shelf}/volumes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListMylibraryBookshelvesVolumesRequest>;
 
 export type ListMylibraryBookshelvesVolumesResponse = Volumes;
-export const ListMylibraryBookshelvesVolumesResponse = Volumes;
+export const ListMylibraryBookshelvesVolumesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListMylibraryBookshelvesVolumesError = DefaultErrors;
 
@@ -3202,7 +3292,7 @@ export const listMylibraryBookshelvesVolumes: API.OperationMethod<
   ListMylibraryBookshelvesVolumesResponse,
   ListMylibraryBookshelvesVolumesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListMylibraryBookshelvesVolumesRequest,
   output: ListMylibraryBookshelvesVolumesResponse,
   errors: [],
@@ -3217,22 +3307,24 @@ export interface GetMylibraryReadingpositionsRequest {
   source?: string;
 }
 
-export const GetMylibraryReadingpositionsRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  contentVersion: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("contentVersion"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "books/v1/mylibrary/readingpositions/{volumeId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetMylibraryReadingpositionsRequest>;
+export const GetMylibraryReadingpositionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    contentVersion: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentVersion"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "books/v1/mylibrary/readingpositions/{volumeId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetMylibraryReadingpositionsRequest>;
 
 export type GetMylibraryReadingpositionsResponse = ReadingPosition;
-export const GetMylibraryReadingpositionsResponse = ReadingPosition;
+export const GetMylibraryReadingpositionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReadingPosition;
 
 export type GetMylibraryReadingpositionsError = DefaultErrors;
 
@@ -3242,7 +3334,7 @@ export const getMylibraryReadingpositions: API.OperationMethod<
   GetMylibraryReadingpositionsResponse,
   GetMylibraryReadingpositionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMylibraryReadingpositionsRequest,
   output: GetMylibraryReadingpositionsResponse,
   errors: [],
@@ -3273,29 +3365,31 @@ export interface SetPositionMylibraryReadingpositionsRequest {
   timestamp: string;
 }
 
-export const SetPositionMylibraryReadingpositionsRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  action: Schema.optional(Schema.String).pipe(T.HttpQuery("action")),
-  contentVersion: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("contentVersion"),
-  ),
-  deviceCookie: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("deviceCookie"),
-  ),
-  position: Schema.String.pipe(T.HttpQuery("position")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  timestamp: Schema.String.pipe(T.HttpQuery("timestamp")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/mylibrary/readingpositions/{volumeId}/setPosition",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetPositionMylibraryReadingpositionsRequest>;
+export const SetPositionMylibraryReadingpositionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    action: Schema.optional(Schema.String).pipe(T.HttpQuery("action")),
+    contentVersion: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentVersion"),
+    ),
+    deviceCookie: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("deviceCookie"),
+    ),
+    position: Schema.String.pipe(T.HttpQuery("position")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    timestamp: Schema.String.pipe(T.HttpQuery("timestamp")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/mylibrary/readingpositions/{volumeId}/setPosition",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetPositionMylibraryReadingpositionsRequest>;
 
 export type SetPositionMylibraryReadingpositionsResponse = Empty;
-export const SetPositionMylibraryReadingpositionsResponse = Empty;
+export const SetPositionMylibraryReadingpositionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type SetPositionMylibraryReadingpositionsError = DefaultErrors;
 
@@ -3305,7 +3399,7 @@ export const setPositionMylibraryReadingpositions: API.OperationMethod<
   SetPositionMylibraryReadingpositionsResponse,
   SetPositionMylibraryReadingpositionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetPositionMylibraryReadingpositionsRequest,
   output: SetPositionMylibraryReadingpositionsResponse,
   errors: [],
@@ -3320,17 +3414,19 @@ export interface GetNotificationRequest {
   source?: string;
 }
 
-export const GetNotificationRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  notification_id: Schema.String.pipe(T.HttpQuery("notification_id")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
+export const GetNotificationRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    notification_id: Schema.String.pipe(T.HttpQuery("notification_id")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "books/v1/notification/get" }),
   svc,
 ) as unknown as Schema.Schema<GetNotificationRequest>;
 
 export type GetNotificationResponse = Notification;
-export const GetNotificationResponse = Notification;
+export const GetNotificationResponse = /*@__PURE__*/ /*#__PURE__*/ Notification;
 
 export type GetNotificationError = DefaultErrors;
 
@@ -3340,7 +3436,7 @@ export const getNotification: API.OperationMethod<
   GetNotificationResponse,
   GetNotificationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationRequest,
   output: GetNotificationResponse,
   errors: [],
@@ -3351,15 +3447,17 @@ export interface ListCategoriesOnboardingRequest {
   locale?: string;
 }
 
-export const ListCategoriesOnboardingRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/onboarding/listCategories" }),
-  svc,
-) as unknown as Schema.Schema<ListCategoriesOnboardingRequest>;
+export const ListCategoriesOnboardingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/onboarding/listCategories" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCategoriesOnboardingRequest>;
 
 export type ListCategoriesOnboardingResponse = Category;
-export const ListCategoriesOnboardingResponse = Category;
+export const ListCategoriesOnboardingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Category;
 
 export type ListCategoriesOnboardingError = DefaultErrors;
 
@@ -3369,7 +3467,7 @@ export const listCategoriesOnboarding: API.OperationMethod<
   ListCategoriesOnboardingResponse,
   ListCategoriesOnboardingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCategoriesOnboardingRequest,
   output: ListCategoriesOnboardingResponse,
   errors: [],
@@ -3392,23 +3490,25 @@ export interface ListCategoryVolumesOnboardingRequest {
   pageToken?: string;
 }
 
-export const ListCategoryVolumesOnboardingRequest = Schema.Struct({
-  categoryId: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("categoryId"),
-  ),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("maxAllowedMaturityRating"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/onboarding/listCategoryVolumes" }),
-  svc,
-) as unknown as Schema.Schema<ListCategoryVolumesOnboardingRequest>;
+export const ListCategoryVolumesOnboardingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    categoryId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("categoryId"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("maxAllowedMaturityRating"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/onboarding/listCategoryVolumes" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCategoryVolumesOnboardingRequest>;
 
 export type ListCategoryVolumesOnboardingResponse = Volume2;
-export const ListCategoryVolumesOnboardingResponse = Volume2;
+export const ListCategoryVolumesOnboardingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volume2;
 
 export type ListCategoryVolumesOnboardingError = DefaultErrors;
 
@@ -3418,7 +3518,7 @@ export const listCategoryVolumesOnboarding: API.PaginatedOperationMethod<
   ListCategoryVolumesOnboardingResponse,
   ListCategoryVolumesOnboardingError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCategoryVolumesOnboardingRequest,
   output: ListCategoryVolumesOnboardingResponse,
   errors: [],
@@ -3442,19 +3542,21 @@ export interface GetPersonalizedstreamRequest {
   source?: string;
 }
 
-export const GetPersonalizedstreamRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("maxAllowedMaturityRating"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/personalizedstream/get" }),
-  svc,
-) as unknown as Schema.Schema<GetPersonalizedstreamRequest>;
+export const GetPersonalizedstreamRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("maxAllowedMaturityRating"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/personalizedstream/get" }),
+    svc,
+  ) as unknown as Schema.Schema<GetPersonalizedstreamRequest>;
 
 export type GetPersonalizedstreamResponse = Discoveryclusters;
-export const GetPersonalizedstreamResponse = Discoveryclusters;
+export const GetPersonalizedstreamResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Discoveryclusters;
 
 export type GetPersonalizedstreamError = DefaultErrors;
 
@@ -3464,7 +3566,7 @@ export const getPersonalizedstream: API.OperationMethod<
   GetPersonalizedstreamResponse,
   GetPersonalizedstreamError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPersonalizedstreamRequest,
   output: GetPersonalizedstreamResponse,
   errors: [],
@@ -3488,24 +3590,29 @@ export interface AcceptPromoofferRequest {
   volumeId?: string;
 }
 
-export const AcceptPromoofferRequest = Schema.Struct({
-  androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
-  device: Schema.optional(Schema.String).pipe(T.HttpQuery("device")),
-  manufacturer: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("manufacturer"),
-  ),
-  model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
-  offerId: Schema.optional(Schema.String).pipe(T.HttpQuery("offerId")),
-  product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
-  serial: Schema.optional(Schema.String).pipe(T.HttpQuery("serial")),
-  volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({ method: "POST", path: "books/v1/promooffer/accept", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AcceptPromoofferRequest>;
+export const AcceptPromoofferRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
+    device: Schema.optional(Schema.String).pipe(T.HttpQuery("device")),
+    manufacturer: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("manufacturer"),
+    ),
+    model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
+    offerId: Schema.optional(Schema.String).pipe(T.HttpQuery("offerId")),
+    product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
+    serial: Schema.optional(Schema.String).pipe(T.HttpQuery("serial")),
+    volumeId: Schema.optional(Schema.String).pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/promooffer/accept",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptPromoofferRequest>;
 
 export type AcceptPromoofferResponse = Empty;
-export const AcceptPromoofferResponse = Empty;
+export const AcceptPromoofferResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type AcceptPromoofferError = DefaultErrors;
 
@@ -3515,7 +3622,7 @@ export const acceptPromooffer: API.OperationMethod<
   AcceptPromoofferResponse,
   AcceptPromoofferError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptPromoofferRequest,
   output: AcceptPromoofferResponse,
   errors: [],
@@ -3538,27 +3645,28 @@ export interface DismissPromoofferRequest {
   serial?: string;
 }
 
-export const DismissPromoofferRequest = Schema.Struct({
-  androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
-  device: Schema.optional(Schema.String).pipe(T.HttpQuery("device")),
-  manufacturer: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("manufacturer"),
-  ),
-  model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
-  offerId: Schema.optional(Schema.String).pipe(T.HttpQuery("offerId")),
-  product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
-  serial: Schema.optional(Schema.String).pipe(T.HttpQuery("serial")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/promooffer/dismiss",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DismissPromoofferRequest>;
+export const DismissPromoofferRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
+    device: Schema.optional(Schema.String).pipe(T.HttpQuery("device")),
+    manufacturer: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("manufacturer"),
+    ),
+    model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
+    offerId: Schema.optional(Schema.String).pipe(T.HttpQuery("offerId")),
+    product: Schema.optional(Schema.String).pipe(T.HttpQuery("product")),
+    serial: Schema.optional(Schema.String).pipe(T.HttpQuery("serial")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/promooffer/dismiss",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DismissPromoofferRequest>;
 
 export type DismissPromoofferResponse = Empty;
-export const DismissPromoofferResponse = Empty;
+export const DismissPromoofferResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DismissPromoofferError = DefaultErrors;
 
@@ -3568,7 +3676,7 @@ export const dismissPromooffer: API.OperationMethod<
   DismissPromoofferResponse,
   DismissPromoofferError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DismissPromoofferRequest,
   output: DismissPromoofferResponse,
   errors: [],
@@ -3589,7 +3697,7 @@ export interface GetPromoofferRequest {
   serial?: string;
 }
 
-export const GetPromoofferRequest = Schema.Struct({
+export const GetPromoofferRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   androidId: Schema.optional(Schema.String).pipe(T.HttpQuery("androidId")),
   device: Schema.optional(Schema.String).pipe(T.HttpQuery("device")),
   manufacturer: Schema.optional(Schema.String).pipe(
@@ -3604,7 +3712,7 @@ export const GetPromoofferRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPromoofferRequest>;
 
 export type GetPromoofferResponse = Offers;
-export const GetPromoofferResponse = Offers;
+export const GetPromoofferResponse = /*@__PURE__*/ /*#__PURE__*/ Offers;
 
 export type GetPromoofferError = DefaultErrors;
 
@@ -3614,7 +3722,7 @@ export const getPromooffer: API.OperationMethod<
   GetPromoofferResponse,
   GetPromoofferError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPromoofferRequest,
   output: GetPromoofferResponse,
   errors: [],
@@ -3625,7 +3733,7 @@ export interface GetSeriesRequest {
   series_id: string[];
 }
 
-export const GetSeriesRequest = Schema.Struct({
+export const GetSeriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   series_id: Schema.Array(Schema.String).pipe(T.HttpQuery("series_id")),
 }).pipe(
   T.Http({ method: "GET", path: "books/v1/series/get" }),
@@ -3633,7 +3741,7 @@ export const GetSeriesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSeriesRequest>;
 
 export type GetSeriesResponse = Series;
-export const GetSeriesResponse = Series;
+export const GetSeriesResponse = /*@__PURE__*/ /*#__PURE__*/ Series;
 
 export type GetSeriesError = DefaultErrors;
 
@@ -3643,7 +3751,7 @@ export const getSeries: API.OperationMethod<
   GetSeriesResponse,
   GetSeriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSeriesRequest,
   output: GetSeriesResponse,
   errors: [],
@@ -3658,17 +3766,19 @@ export interface GetSeriesMembershipRequest {
   series_id: string;
 }
 
-export const GetSeriesMembershipRequest = Schema.Struct({
-  page_size: Schema.optional(Schema.Number).pipe(T.HttpQuery("page_size")),
-  page_token: Schema.optional(Schema.String).pipe(T.HttpQuery("page_token")),
-  series_id: Schema.String.pipe(T.HttpQuery("series_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/series/membership/get" }),
-  svc,
-) as unknown as Schema.Schema<GetSeriesMembershipRequest>;
+export const GetSeriesMembershipRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    page_size: Schema.optional(Schema.Number).pipe(T.HttpQuery("page_size")),
+    page_token: Schema.optional(Schema.String).pipe(T.HttpQuery("page_token")),
+    series_id: Schema.String.pipe(T.HttpQuery("series_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/series/membership/get" }),
+    svc,
+  ) as unknown as Schema.Schema<GetSeriesMembershipRequest>;
 
 export type GetSeriesMembershipResponse = Seriesmembership;
-export const GetSeriesMembershipResponse = Seriesmembership;
+export const GetSeriesMembershipResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Seriesmembership;
 
 export type GetSeriesMembershipError = DefaultErrors;
 
@@ -3678,7 +3788,7 @@ export const getSeriesMembership: API.OperationMethod<
   GetSeriesMembershipResponse,
   GetSeriesMembershipError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSeriesMembershipRequest,
   output: GetSeriesMembershipResponse,
   errors: [],
@@ -3700,7 +3810,7 @@ export interface GetVolumesRequest {
   user_library_consistent_read?: boolean;
 }
 
-export const GetVolumesRequest = Schema.Struct({
+export const GetVolumesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
   country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
   includeNonComicsSeries: Schema.optional(Schema.Boolean).pipe(
@@ -3718,7 +3828,7 @@ export const GetVolumesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetVolumesRequest>;
 
 export type GetVolumesResponse = Volume;
-export const GetVolumesResponse = Volume;
+export const GetVolumesResponse = /*@__PURE__*/ /*#__PURE__*/ Volume;
 
 export type GetVolumesError = DefaultErrors;
 
@@ -3728,7 +3838,7 @@ export const getVolumes: API.OperationMethod<
   GetVolumesResponse,
   GetVolumesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVolumesRequest,
   output: GetVolumesResponse,
   errors: [],
@@ -3785,7 +3895,7 @@ export interface ListVolumesRequest {
   startIndex?: number;
 }
 
-export const ListVolumesRequest = Schema.Struct({
+export const ListVolumesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   download: Schema.optional(Schema.String).pipe(T.HttpQuery("download")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   langRestrict: Schema.optional(Schema.String).pipe(
@@ -3814,7 +3924,7 @@ export const ListVolumesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListVolumesRequest>;
 
 export type ListVolumesResponse = Volumes;
-export const ListVolumesResponse = Volumes;
+export const ListVolumesResponse = /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListVolumesError = DefaultErrors;
 
@@ -3824,7 +3934,7 @@ export const listVolumes: API.OperationMethod<
   ListVolumesResponse,
   ListVolumesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumesRequest,
   output: ListVolumesResponse,
   errors: [],
@@ -3852,21 +3962,25 @@ export interface ListVolumesAssociatedRequest {
   source?: string;
 }
 
-export const ListVolumesAssociatedRequest = Schema.Struct({
-  volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
-  association: Schema.optional(Schema.String).pipe(T.HttpQuery("association")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("maxAllowedMaturityRating"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/volumes/{volumeId}/associated" }),
-  svc,
-) as unknown as Schema.Schema<ListVolumesAssociatedRequest>;
+export const ListVolumesAssociatedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    volumeId: Schema.String.pipe(T.HttpPath("volumeId")),
+    association: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("association"),
+    ),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("maxAllowedMaturityRating"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/volumes/{volumeId}/associated" }),
+    svc,
+  ) as unknown as Schema.Schema<ListVolumesAssociatedRequest>;
 
 export type ListVolumesAssociatedResponse = Volumes;
-export const ListVolumesAssociatedResponse = Volumes;
+export const ListVolumesAssociatedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListVolumesAssociatedError = DefaultErrors;
 
@@ -3876,7 +3990,7 @@ export const listVolumesAssociated: API.OperationMethod<
   ListVolumesAssociatedResponse,
   ListVolumesAssociatedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumesAssociatedRequest,
   output: ListVolumesAssociatedResponse,
   errors: [],
@@ -3914,25 +4028,26 @@ export interface ListVolumesMybooksRequest {
   startIndex?: number;
 }
 
-export const ListVolumesMybooksRequest = Schema.Struct({
-  acquireMethod: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("acquireMethod"),
-  ),
-  country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  processingState: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("processingState"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/volumes/mybooks" }),
-  svc,
-) as unknown as Schema.Schema<ListVolumesMybooksRequest>;
+export const ListVolumesMybooksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    acquireMethod: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("acquireMethod"),
+    ),
+    country: Schema.optional(Schema.String).pipe(T.HttpQuery("country")),
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    processingState: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("processingState"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/volumes/mybooks" }),
+    svc,
+  ) as unknown as Schema.Schema<ListVolumesMybooksRequest>;
 
 export type ListVolumesMybooksResponse = Volumes;
-export const ListVolumesMybooksResponse = Volumes;
+export const ListVolumesMybooksResponse = /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListVolumesMybooksError = DefaultErrors;
 
@@ -3942,7 +4057,7 @@ export const listVolumesMybooks: API.OperationMethod<
   ListVolumesMybooksResponse,
   ListVolumesMybooksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumesMybooksRequest,
   output: ListVolumesMybooksResponse,
   errors: [],
@@ -3961,19 +4076,21 @@ export interface ListVolumesRecommendedRequest {
   source?: string;
 }
 
-export const ListVolumesRecommendedRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("maxAllowedMaturityRating"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/volumes/recommended" }),
-  svc,
-) as unknown as Schema.Schema<ListVolumesRecommendedRequest>;
+export const ListVolumesRecommendedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxAllowedMaturityRating: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("maxAllowedMaturityRating"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/volumes/recommended" }),
+    svc,
+  ) as unknown as Schema.Schema<ListVolumesRecommendedRequest>;
 
 export type ListVolumesRecommendedResponse = Volumes;
-export const ListVolumesRecommendedResponse = Volumes;
+export const ListVolumesRecommendedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListVolumesRecommendedError = DefaultErrors;
 
@@ -3983,7 +4100,7 @@ export const listVolumesRecommended: API.OperationMethod<
   ListVolumesRecommendedResponse,
   ListVolumesRecommendedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumesRecommendedRequest,
   output: ListVolumesRecommendedResponse,
   errors: [],
@@ -4000,24 +4117,25 @@ export interface RateVolumesRecommendedRequest {
   volumeId: string;
 }
 
-export const RateVolumesRecommendedRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  rating: Schema.String.pipe(T.HttpQuery("rating")),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "books/v1/volumes/recommended/rate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RateVolumesRecommendedRequest>;
+export const RateVolumesRecommendedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    rating: Schema.String.pipe(T.HttpQuery("rating")),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    volumeId: Schema.String.pipe(T.HttpQuery("volumeId")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "books/v1/volumes/recommended/rate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RateVolumesRecommendedRequest>;
 
 export type RateVolumesRecommendedResponse =
   BooksVolumesRecommendedRateResponse;
 export const RateVolumesRecommendedResponse =
-  BooksVolumesRecommendedRateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BooksVolumesRecommendedRateResponse;
 
 export type RateVolumesRecommendedError = DefaultErrors;
 
@@ -4027,7 +4145,7 @@ export const rateVolumesRecommended: API.OperationMethod<
   RateVolumesRecommendedResponse,
   RateVolumesRecommendedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RateVolumesRecommendedRequest,
   output: RateVolumesRecommendedResponse,
   errors: [],
@@ -4053,24 +4171,26 @@ export interface ListVolumesUseruploadedRequest {
   volumeId?: string[];
 }
 
-export const ListVolumesUseruploadedRequest = Schema.Struct({
-  locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  processingState: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("processingState"),
-  ),
-  source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
-  startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
-  volumeId: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("volumeId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "books/v1/volumes/useruploaded" }),
-  svc,
-) as unknown as Schema.Schema<ListVolumesUseruploadedRequest>;
+export const ListVolumesUseruploadedRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    locale: Schema.optional(Schema.String).pipe(T.HttpQuery("locale")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    processingState: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("processingState"),
+    ),
+    source: Schema.optional(Schema.String).pipe(T.HttpQuery("source")),
+    startIndex: Schema.optional(Schema.Number).pipe(T.HttpQuery("startIndex")),
+    volumeId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("volumeId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "books/v1/volumes/useruploaded" }),
+    svc,
+  ) as unknown as Schema.Schema<ListVolumesUseruploadedRequest>;
 
 export type ListVolumesUseruploadedResponse = Volumes;
-export const ListVolumesUseruploadedResponse = Volumes;
+export const ListVolumesUseruploadedResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Volumes;
 
 export type ListVolumesUseruploadedError = DefaultErrors;
 
@@ -4080,7 +4200,7 @@ export const listVolumesUseruploaded: API.OperationMethod<
   ListVolumesUseruploadedResponse,
   ListVolumesUseruploadedError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListVolumesUseruploadedRequest,
   output: ListVolumesUseruploadedResponse,
   errors: [],

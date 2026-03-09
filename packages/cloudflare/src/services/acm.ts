@@ -49,7 +49,7 @@ export interface GetTotalTlRequest {
   zoneId: string;
 }
 
-export const GetTotalTlRequest = Schema.Struct({
+export const GetTotalTlRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/acm/total_tls" }),
@@ -64,7 +64,7 @@ export interface GetTotalTlResponse {
   validityPeriod?: number | null;
 }
 
-export const GetTotalTlResponse = Schema.Struct({
+export const GetTotalTlResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   certificateAuthority: Schema.optional(
     Schema.Union([
       Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
@@ -91,7 +91,7 @@ export const getTotalTl: API.OperationMethod<
   GetTotalTlResponse,
   GetTotalTlError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTotalTlRequest,
   output: GetTotalTlResponse,
   errors: [InvalidObjectIdentifier, AdvancedCertificateManagerRequired],
@@ -106,7 +106,7 @@ export interface CreateTotalTlRequest {
   certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
 }
 
-export const CreateTotalTlRequest = Schema.Struct({
+export const CreateTotalTlRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   enabled: Schema.Boolean,
   certificateAuthority: Schema.optional(
@@ -129,7 +129,7 @@ export interface CreateTotalTlResponse {
   validityPeriod?: number | null;
 }
 
-export const CreateTotalTlResponse = Schema.Struct({
+export const CreateTotalTlResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   certificateAuthority: Schema.optional(
     Schema.Union([
       Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
@@ -158,7 +158,7 @@ export const createTotalTl: API.OperationMethod<
   CreateTotalTlResponse,
   CreateTotalTlError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTotalTlRequest,
   output: CreateTotalTlResponse,
   errors: [

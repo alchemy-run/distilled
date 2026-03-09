@@ -4,37 +4,39 @@ import * as T from "../traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema
-export const UpdateDatabasePostgresCidrInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-  schema: Schema.optional(Schema.String),
-  role: Schema.optional(Schema.String),
-  cidrs: Schema.optional(Schema.Array(Schema.String)),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "/organizations/{organization}/databases/{database}/cidrs/{id}",
-  }),
-);
+export const UpdateDatabasePostgresCidrInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+    schema: Schema.optional(Schema.String),
+    role: Schema.optional(Schema.String),
+    cidrs: Schema.optional(Schema.Array(Schema.String)),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/organizations/{organization}/databases/{database}/cidrs/{id}",
+    }),
+  );
 export type UpdateDatabasePostgresCidrInput =
   typeof UpdateDatabasePostgresCidrInput.Type;
 
 // Output Schema
-export const UpdateDatabasePostgresCidrOutput = Schema.Struct({
-  id: Schema.String,
-  schema: Schema.String,
-  role: Schema.String,
-  cidrs: Schema.Array(Schema.String),
-  created_at: Schema.String,
-  updated_at: Schema.String,
-  deleted_at: Schema.String,
-  actor: Schema.Struct({
+export const UpdateDatabasePostgresCidrOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-    display_name: Schema.String,
-    avatar_url: Schema.String,
-  }),
-});
+    schema: Schema.String,
+    role: Schema.String,
+    cidrs: Schema.Array(Schema.String),
+    created_at: Schema.String,
+    updated_at: Schema.String,
+    deleted_at: Schema.String,
+    actor: Schema.Struct({
+      id: Schema.String,
+      display_name: Schema.String,
+      avatar_url: Schema.String,
+    }),
+  });
 export type UpdateDatabasePostgresCidrOutput =
   typeof UpdateDatabasePostgresCidrOutput.Type;
 

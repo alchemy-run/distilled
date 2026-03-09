@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const WorkflowCancelInput = Schema.Struct({
+export const WorkflowCancelInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   number: Schema.Number.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const WorkflowCancelInput = Schema.Struct({
 export type WorkflowCancelInput = typeof WorkflowCancelInput.Type;
 
 // Output Schema
-export const WorkflowCancelOutput = Schema.Struct({
+export const WorkflowCancelOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   number: Schema.Number,

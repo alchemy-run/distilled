@@ -51,19 +51,20 @@ export interface CloudLocation {
   carbonFreeEnergyPercentage?: number;
 }
 
-export const CloudLocation: Schema.Schema<CloudLocation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    containingCloudLocation: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    cloudProvider: Schema.optional(Schema.String),
-    territoryCode: Schema.optional(Schema.String),
-    cloudLocationType: Schema.optional(Schema.String),
-    carbonFreeEnergyPercentage: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "CloudLocation",
-}) as any as Schema.Schema<CloudLocation>;
+export const CloudLocation: Schema.Schema<CloudLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      containingCloudLocation: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      cloudProvider: Schema.optional(Schema.String),
+      territoryCode: Schema.optional(Schema.String),
+      cloudLocationType: Schema.optional(Schema.String),
+      carbonFreeEnergyPercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "CloudLocation",
+  }) as any as Schema.Schema<CloudLocation>;
 
 export interface ListCloudLocationsResponse {
   /** Output only. List of cloud locations. */
@@ -73,7 +74,7 @@ export interface ListCloudLocationsResponse {
 }
 
 export const ListCloudLocationsResponse: Schema.Schema<ListCloudLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudLocations: Schema.optional(Schema.Array(CloudLocation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -90,7 +91,7 @@ export interface SearchCloudLocationsResponse {
 }
 
 export const SearchCloudLocationsResponse: Schema.Schema<SearchCloudLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudLocations: Schema.optional(Schema.Array(CloudLocation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -112,15 +113,16 @@ export interface Location {
   metadata?: Record<string, unknown>;
 }
 
-export const Location: Schema.Schema<Location> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    locationId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
@@ -130,7 +132,7 @@ export interface ListLocationsResponse {
 }
 
 export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locations: Schema.optional(Schema.Array(Location)),
       nextPageToken: Schema.optional(Schema.String),
@@ -156,21 +158,23 @@ export interface ListProjectsLocationsRequest {
   extraLocationTypes?: string[];
 }
 
-export const ListProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("extraLocationTypes"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
 export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
 
 export type ListProjectsLocationsError = DefaultErrors;
 
@@ -180,7 +184,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsResponse,
   ListProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -195,18 +199,20 @@ export interface GetProjectsLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/locations/{locationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
 export type GetProjectsLocationsResponse = Location;
-export const GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
 
 export type GetProjectsLocationsError = DefaultErrors;
 
@@ -216,7 +222,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsResponse,
   GetProjectsLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
@@ -233,23 +239,24 @@ export interface ListProjectsLocationsCloudLocationsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsCloudLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCloudLocationsRequest>;
+export const ListProjectsLocationsCloudLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCloudLocationsRequest>;
 
 export type ListProjectsLocationsCloudLocationsResponse =
   ListCloudLocationsResponse;
 export const ListProjectsLocationsCloudLocationsResponse =
-  ListCloudLocationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCloudLocationsResponse;
 
 export type ListProjectsLocationsCloudLocationsError = DefaultErrors;
 
@@ -259,7 +266,7 @@ export const listProjectsLocationsCloudLocations: API.PaginatedOperationMethod<
   ListProjectsLocationsCloudLocationsResponse,
   ListProjectsLocationsCloudLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCloudLocationsRequest,
   output: ListProjectsLocationsCloudLocationsResponse,
   errors: [],
@@ -274,18 +281,20 @@ export interface GetProjectsLocationsCloudLocationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCloudLocationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations/{cloudLocationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCloudLocationsRequest>;
+export const GetProjectsLocationsCloudLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations/{cloudLocationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCloudLocationsRequest>;
 
 export type GetProjectsLocationsCloudLocationsResponse = CloudLocation;
-export const GetProjectsLocationsCloudLocationsResponse = CloudLocation;
+export const GetProjectsLocationsCloudLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CloudLocation;
 
 export type GetProjectsLocationsCloudLocationsError = DefaultErrors;
 
@@ -295,7 +304,7 @@ export const getProjectsLocationsCloudLocations: API.OperationMethod<
   GetProjectsLocationsCloudLocationsResponse,
   GetProjectsLocationsCloudLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCloudLocationsRequest,
   output: GetProjectsLocationsCloudLocationsResponse,
   errors: [],
@@ -314,26 +323,27 @@ export interface SearchProjectsLocationsCloudLocationsRequest {
   query?: string;
 }
 
-export const SearchProjectsLocationsCloudLocationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  sourceCloudLocation: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("sourceCloudLocation"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsLocationsCloudLocationsRequest>;
+export const SearchProjectsLocationsCloudLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    sourceCloudLocation: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("sourceCloudLocation"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/cloudLocations:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsCloudLocationsRequest>;
 
 export type SearchProjectsLocationsCloudLocationsResponse =
   SearchCloudLocationsResponse;
 export const SearchProjectsLocationsCloudLocationsResponse =
-  SearchCloudLocationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchCloudLocationsResponse;
 
 export type SearchProjectsLocationsCloudLocationsError = DefaultErrors;
 
@@ -343,7 +353,7 @@ export const searchProjectsLocationsCloudLocations: API.PaginatedOperationMethod
   SearchProjectsLocationsCloudLocationsResponse,
   SearchProjectsLocationsCloudLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsLocationsCloudLocationsRequest,
   output: SearchProjectsLocationsCloudLocationsResponse,
   errors: [],

@@ -18,7 +18,9 @@ import { type DefaultErrors } from "../errors";
 
 export interface ListIPsRequest {}
 
-export const ListIPsRequest = Schema.Struct({}).pipe(
+export const ListIPsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/ips" }),
 ) as unknown as Schema.Schema<ListIPsRequest>;
 
@@ -35,7 +37,7 @@ export type ListIPsResponse =
       jdcloudCidrs?: string[] | null;
     };
 
-export const ListIPsResponse = Schema.Union([
+export const ListIPsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.Struct({
     etag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     ipv4Cidrs: Schema.optional(
@@ -79,7 +81,7 @@ export const listIPs: API.OperationMethod<
   ListIPsResponse,
   ListIPsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListIPsRequest,
   output: ListIPsResponse,
   errors: [],

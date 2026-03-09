@@ -27,11 +27,12 @@ export interface Decimal {
   value?: string;
 }
 
-export const Decimal: Schema.Schema<Decimal> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Decimal" }) as any as Schema.Schema<Decimal>;
+export const Decimal: Schema.Schema<Decimal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Decimal" }) as any as Schema.Schema<Decimal>;
 
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
@@ -42,13 +43,14 @@ export interface Money {
   nanos?: number;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    units: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      units: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface GoogleCloudBillingBillingaccountpricesV1betaRateTier {
   /** Lower bound amount for a tier. Tiers 0-100, 100-200 will be represented with two tiers with `start_amount` 0 and 100. */
@@ -62,7 +64,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaRateTier {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaRateTier: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaRateTier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startAmount: Schema.optional(Decimal),
       listPrice: Schema.optional(Money),
@@ -83,7 +85,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaUnitInfo {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaUnitInfo: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaUnitInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unit: Schema.optional(Schema.String),
       unitDescription: Schema.optional(Schema.String),
@@ -109,7 +111,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaAggregationInfo {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaAggregationInfo: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaAggregationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       level: Schema.optional(Schema.String),
       interval: Schema.optional(Schema.String),
@@ -128,7 +130,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaRate {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaRate: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaRate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tiers: Schema.optional(
         Schema.Array(GoogleCloudBillingBillingaccountpricesV1betaRateTier),
@@ -147,14 +149,14 @@ export const GoogleCloudBillingBillingaccountpricesV1betaRate: Schema.Schema<Goo
 export interface GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice {}
 
 export const GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice>;
 
 export interface GoogleCloudBillingBillingaccountpricesV1betaFixedPrice {}
 
 export const GoogleCloudBillingBillingaccountpricesV1betaFixedPrice: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaFixedPrice> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudBillingBillingaccountpricesV1betaFixedPrice",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaFixedPrice>;
 
@@ -170,7 +172,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaFixedDiscount {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaFixedDiscount: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaFixedDiscount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroup: Schema.optional(Schema.String),
       discountPercent: Schema.optional(Decimal),
@@ -191,7 +193,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaFloatingDiscount {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaFloatingDiscount: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaFloatingDiscount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroup: Schema.optional(Schema.String),
       discountPercent: Schema.optional(Decimal),
@@ -207,7 +209,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaMigratedPrice {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaMigratedPrice: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaMigratedPrice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceSku: Schema.optional(Schema.String),
     }),
@@ -218,14 +220,14 @@ export const GoogleCloudBillingBillingaccountpricesV1betaMigratedPrice: Schema.S
 export interface GoogleCloudBillingBillingaccountpricesV1betaMergedPrice {}
 
 export const GoogleCloudBillingBillingaccountpricesV1betaMergedPrice: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaMergedPrice> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudBillingBillingaccountpricesV1betaMergedPrice",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaMergedPrice>;
 
 export interface GoogleCloudBillingBillingaccountpricesV1betaListPriceAsCeiling {}
 
 export const GoogleCloudBillingBillingaccountpricesV1betaListPriceAsCeiling: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaListPriceAsCeiling> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudBillingBillingaccountpricesV1betaListPriceAsCeiling",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaListPriceAsCeiling>;
@@ -250,7 +252,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaPriceReason {
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaPriceReason: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaPriceReason> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultPrice: Schema.optional(
         GoogleCloudBillingBillingaccountpricesV1betaDefaultPrice,
@@ -293,7 +295,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rate: Schema.optional(GoogleCloudBillingBillingaccountpricesV1betaRate),
       name: Schema.optional(Schema.String),
@@ -316,7 +318,7 @@ export interface GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountP
 }
 
 export const GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountPricesResponse: Schema.Schema<GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountPricesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountPrices: Schema.optional(
         Schema.Array(
@@ -340,7 +342,7 @@ export interface GoogleCloudBillingBillingaccountservicesV1betaBillingAccountSer
 }
 
 export const GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService: Schema.Schema<GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       serviceId: Schema.optional(Schema.String),
@@ -359,7 +361,7 @@ export interface GoogleCloudBillingBillingaccountservicesV1betaListBillingAccoun
 }
 
 export const GoogleCloudBillingBillingaccountservicesV1betaListBillingAccountServicesResponse: Schema.Schema<GoogleCloudBillingBillingaccountservicesV1betaListBillingAccountServicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountServices: Schema.optional(
         Schema.Array(
@@ -381,7 +383,7 @@ export interface GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSk
 }
 
 export const GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup: Schema.Schema<GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -399,7 +401,7 @@ export interface GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccou
 }
 
 export const GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccountSkuGroupsResponse: Schema.Schema<GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccountSkuGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountSkuGroups: Schema.optional(
         Schema.Array(
@@ -419,7 +421,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaTaxonomyCateg
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaTaxonomyCategory: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaTaxonomyCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
     }),
@@ -434,7 +436,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaProductTaxono
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaProductTaxonomy: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaProductTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomyCategories: Schema.optional(
         Schema.Array(
@@ -450,7 +452,7 @@ export const GoogleCloudBillingBillingaccountskugroupskusV1betaProductTaxonomy: 
 export interface GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal {}
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal>;
@@ -461,7 +463,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRe
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegion: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(Schema.String),
     }),
@@ -476,7 +478,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRe
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegional: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(
         GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegion,
@@ -493,7 +495,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyMu
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyMultiRegional: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyMultiRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regions: Schema.optional(
         Schema.Array(
@@ -523,7 +525,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomy {
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomy: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       globalMetadata: Schema.optional(
         GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyGlobal,
@@ -556,7 +558,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccoun
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       skuId: Schema.optional(Schema.String),
@@ -582,7 +584,7 @@ export interface GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAc
 }
 
 export const GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAccountSkuGroupSkusResponse: Schema.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAccountSkuGroupSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountSkuGroupSkus: Schema.optional(
         Schema.Array(
@@ -602,7 +604,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaTaxonomyCategory {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaTaxonomyCategory: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaTaxonomyCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
     }),
@@ -616,7 +618,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaProductTaxonomy {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaProductTaxonomy: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaProductTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomyCategories: Schema.optional(
         Schema.Array(
@@ -631,7 +633,7 @@ export const GoogleCloudBillingBillingaccountskusV1betaProductTaxonomy: Schema.S
 export interface GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal {}
 
 export const GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal",
   }) as any as Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal>;
 
@@ -641,7 +643,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegion {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegion: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(Schema.String),
     }),
@@ -655,7 +657,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegional {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegional: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(
         GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyRegion,
@@ -671,7 +673,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyMultiRegio
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyMultiRegional: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyMultiRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regions: Schema.optional(
         Schema.Array(
@@ -701,7 +703,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomy {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomy: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       globalMetadata: Schema.optional(
         GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomyGlobal,
@@ -734,7 +736,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku {
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       skuId: Schema.optional(Schema.String),
@@ -759,7 +761,7 @@ export interface GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSku
 }
 
 export const GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSkusResponse: Schema.Schema<GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingAccountSkus: Schema.optional(
         Schema.Array(
@@ -781,7 +783,7 @@ export interface GoogleCloudBillingPricesV1betaRateTier {
 }
 
 export const GoogleCloudBillingPricesV1betaRateTier: Schema.Schema<GoogleCloudBillingPricesV1betaRateTier> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startAmount: Schema.optional(Decimal),
       listPrice: Schema.optional(Money),
@@ -800,7 +802,7 @@ export interface GoogleCloudBillingPricesV1betaUnitInfo {
 }
 
 export const GoogleCloudBillingPricesV1betaUnitInfo: Schema.Schema<GoogleCloudBillingPricesV1betaUnitInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unit: Schema.optional(Schema.String),
       unitDescription: Schema.optional(Schema.String),
@@ -826,7 +828,7 @@ export interface GoogleCloudBillingPricesV1betaAggregationInfo {
 }
 
 export const GoogleCloudBillingPricesV1betaAggregationInfo: Schema.Schema<GoogleCloudBillingPricesV1betaAggregationInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       level: Schema.optional(Schema.String),
       interval: Schema.optional(Schema.String),
@@ -845,7 +847,7 @@ export interface GoogleCloudBillingPricesV1betaRate {
 }
 
 export const GoogleCloudBillingPricesV1betaRate: Schema.Schema<GoogleCloudBillingPricesV1betaRate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tiers: Schema.optional(
         Schema.Array(GoogleCloudBillingPricesV1betaRateTier),
@@ -871,7 +873,7 @@ export interface GoogleCloudBillingPricesV1betaPrice {
 }
 
 export const GoogleCloudBillingPricesV1betaPrice: Schema.Schema<GoogleCloudBillingPricesV1betaPrice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rate: Schema.optional(GoogleCloudBillingPricesV1betaRate),
       name: Schema.optional(Schema.String),
@@ -890,7 +892,7 @@ export interface GoogleCloudBillingPricesV1betaListPricesResponse {
 }
 
 export const GoogleCloudBillingPricesV1betaListPricesResponse: Schema.Schema<GoogleCloudBillingPricesV1betaListPricesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prices: Schema.optional(
         Schema.Array(GoogleCloudBillingPricesV1betaPrice),
@@ -909,7 +911,7 @@ export interface GoogleCloudBillingSkugroupsV1betaSkuGroup {
 }
 
 export const GoogleCloudBillingSkugroupsV1betaSkuGroup: Schema.Schema<GoogleCloudBillingSkugroupsV1betaSkuGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -926,7 +928,7 @@ export interface GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse {
 }
 
 export const GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse: Schema.Schema<GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroups: Schema.optional(
         Schema.Array(GoogleCloudBillingSkugroupsV1betaSkuGroup),
@@ -943,7 +945,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaTaxonomyCategory {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaTaxonomyCategory: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaTaxonomyCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
     }),
@@ -957,7 +959,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaProductTaxonomy {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaProductTaxonomy: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaProductTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       taxonomyCategories: Schema.optional(
         Schema.Array(GoogleCloudBillingSkugroupskusV1betaTaxonomyCategory),
@@ -970,7 +972,7 @@ export const GoogleCloudBillingSkugroupskusV1betaProductTaxonomy: Schema.Schema<
 export interface GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal {}
 
 export const GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal",
   }) as any as Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal>;
 
@@ -980,7 +982,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegion {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegion: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(Schema.String),
     }),
@@ -994,7 +996,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegional {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegional: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       region: Schema.optional(
         GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegion,
@@ -1010,7 +1012,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyMultiRegional {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyMultiRegional: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyMultiRegional> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regions: Schema.optional(
         Schema.Array(GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyRegion),
@@ -1037,7 +1039,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaGeoTaxonomy {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaGeoTaxonomy: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaGeoTaxonomy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       globalMetadata: Schema.optional(
         GoogleCloudBillingSkugroupskusV1betaGeoTaxonomyGlobal,
@@ -1070,7 +1072,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaSkuGroupSku {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaSkuGroupSku: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaSkuGroupSku> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       skuId: Schema.optional(Schema.String),
@@ -1095,7 +1097,7 @@ export interface GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse {
 }
 
 export const GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse: Schema.Schema<GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skuGroupSkus: Schema.optional(
         Schema.Array(GoogleCloudBillingSkugroupskusV1betaSkuGroupSku),
@@ -1119,22 +1121,23 @@ export interface ListBillingAccountsServicesRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsServicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/services",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsServicesRequest>;
+export const ListBillingAccountsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/services",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsServicesRequest>;
 
 export type ListBillingAccountsServicesResponse =
   GoogleCloudBillingBillingaccountservicesV1betaListBillingAccountServicesResponse;
 export const ListBillingAccountsServicesResponse =
-  GoogleCloudBillingBillingaccountservicesV1betaListBillingAccountServicesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountservicesV1betaListBillingAccountServicesResponse;
 
 export type ListBillingAccountsServicesError = DefaultErrors;
 
@@ -1144,7 +1147,7 @@ export const listBillingAccountsServices: API.PaginatedOperationMethod<
   ListBillingAccountsServicesResponse,
   ListBillingAccountsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsServicesRequest,
   output: ListBillingAccountsServicesResponse,
   errors: [],
@@ -1159,20 +1162,21 @@ export interface GetBillingAccountsServicesRequest {
   name: string;
 }
 
-export const GetBillingAccountsServicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/services/{servicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsServicesRequest>;
+export const GetBillingAccountsServicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/services/{servicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsServicesRequest>;
 
 export type GetBillingAccountsServicesResponse =
   GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService;
 export const GetBillingAccountsServicesResponse =
-  GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService;
 
 export type GetBillingAccountsServicesError = DefaultErrors;
 
@@ -1182,7 +1186,7 @@ export const getBillingAccountsServices: API.OperationMethod<
   GetBillingAccountsServicesResponse,
   GetBillingAccountsServicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsServicesRequest,
   output: GetBillingAccountsServicesResponse,
   errors: [],
@@ -1197,22 +1201,23 @@ export interface ListBillingAccountsSkuGroupsRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsSkuGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsSkuGroupsRequest>;
+export const ListBillingAccountsSkuGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsSkuGroupsRequest>;
 
 export type ListBillingAccountsSkuGroupsResponse =
   GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccountSkuGroupsResponse;
 export const ListBillingAccountsSkuGroupsResponse =
-  GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccountSkuGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskugroupsV1betaListBillingAccountSkuGroupsResponse;
 
 export type ListBillingAccountsSkuGroupsError = DefaultErrors;
 
@@ -1222,7 +1227,7 @@ export const listBillingAccountsSkuGroups: API.PaginatedOperationMethod<
   ListBillingAccountsSkuGroupsResponse,
   ListBillingAccountsSkuGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsSkuGroupsRequest,
   output: ListBillingAccountsSkuGroupsResponse,
   errors: [],
@@ -1237,20 +1242,21 @@ export interface GetBillingAccountsSkuGroupsRequest {
   name: string;
 }
 
-export const GetBillingAccountsSkuGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsSkuGroupsRequest>;
+export const GetBillingAccountsSkuGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsSkuGroupsRequest>;
 
 export type GetBillingAccountsSkuGroupsResponse =
   GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup;
 export const GetBillingAccountsSkuGroupsResponse =
-  GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup;
 
 export type GetBillingAccountsSkuGroupsError = DefaultErrors;
 
@@ -1260,7 +1266,7 @@ export const getBillingAccountsSkuGroups: API.OperationMethod<
   GetBillingAccountsSkuGroupsResponse,
   GetBillingAccountsSkuGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsSkuGroupsRequest,
   output: GetBillingAccountsSkuGroupsResponse,
   errors: [],
@@ -1275,22 +1281,23 @@ export interface ListBillingAccountsSkuGroupsSkusRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsSkuGroupsSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}/skus",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsSkuGroupsSkusRequest>;
+export const ListBillingAccountsSkuGroupsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}/skus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsSkuGroupsSkusRequest>;
 
 export type ListBillingAccountsSkuGroupsSkusResponse =
   GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAccountSkuGroupSkusResponse;
 export const ListBillingAccountsSkuGroupsSkusResponse =
-  GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAccountSkuGroupSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskugroupskusV1betaListBillingAccountSkuGroupSkusResponse;
 
 export type ListBillingAccountsSkuGroupsSkusError = DefaultErrors;
 
@@ -1300,7 +1307,7 @@ export const listBillingAccountsSkuGroupsSkus: API.PaginatedOperationMethod<
   ListBillingAccountsSkuGroupsSkusResponse,
   ListBillingAccountsSkuGroupsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsSkuGroupsSkusRequest,
   output: ListBillingAccountsSkuGroupsSkusResponse,
   errors: [],
@@ -1315,20 +1322,21 @@ export interface GetBillingAccountsSkuGroupsSkusRequest {
   name: string;
 }
 
-export const GetBillingAccountsSkuGroupsSkusRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}/skus/{skusId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsSkuGroupsSkusRequest>;
+export const GetBillingAccountsSkuGroupsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skuGroups/{skuGroupsId}/skus/{skusId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsSkuGroupsSkusRequest>;
 
 export type GetBillingAccountsSkuGroupsSkusResponse =
   GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku;
 export const GetBillingAccountsSkuGroupsSkusResponse =
-  GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku;
 
 export type GetBillingAccountsSkuGroupsSkusError = DefaultErrors;
 
@@ -1338,7 +1346,7 @@ export const getBillingAccountsSkuGroupsSkus: API.OperationMethod<
   GetBillingAccountsSkuGroupsSkusResponse,
   GetBillingAccountsSkuGroupsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsSkuGroupsSkusRequest,
   output: GetBillingAccountsSkuGroupsSkusResponse,
   errors: [],
@@ -1355,23 +1363,24 @@ export interface ListBillingAccountsSkusRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skus",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsSkusRequest>;
+export const ListBillingAccountsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsSkusRequest>;
 
 export type ListBillingAccountsSkusResponse =
   GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSkusResponse;
 export const ListBillingAccountsSkusResponse =
-  GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskusV1betaListBillingAccountSkusResponse;
 
 export type ListBillingAccountsSkusError = DefaultErrors;
 
@@ -1381,7 +1390,7 @@ export const listBillingAccountsSkus: API.PaginatedOperationMethod<
   ListBillingAccountsSkusResponse,
   ListBillingAccountsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsSkusRequest,
   output: ListBillingAccountsSkusResponse,
   errors: [],
@@ -1396,20 +1405,21 @@ export interface GetBillingAccountsSkusRequest {
   name: string;
 }
 
-export const GetBillingAccountsSkusRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsSkusRequest>;
+export const GetBillingAccountsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsSkusRequest>;
 
 export type GetBillingAccountsSkusResponse =
   GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku;
 export const GetBillingAccountsSkusResponse =
-  GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku;
 
 export type GetBillingAccountsSkusError = DefaultErrors;
 
@@ -1419,7 +1429,7 @@ export const getBillingAccountsSkus: API.OperationMethod<
   GetBillingAccountsSkusResponse,
   GetBillingAccountsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsSkusRequest,
   output: GetBillingAccountsSkusResponse,
   errors: [],
@@ -1432,23 +1442,24 @@ export interface GetBillingAccountsSkusPriceRequest {
   currencyCode?: string;
 }
 
-export const GetBillingAccountsSkusPriceRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}/price",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBillingAccountsSkusPriceRequest>;
+export const GetBillingAccountsSkusPriceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}/price",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBillingAccountsSkusPriceRequest>;
 
 export type GetBillingAccountsSkusPriceResponse =
   GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice;
 export const GetBillingAccountsSkusPriceResponse =
-  GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice;
 
 export type GetBillingAccountsSkusPriceError = DefaultErrors;
 
@@ -1458,7 +1469,7 @@ export const getBillingAccountsSkusPrice: API.OperationMethod<
   GetBillingAccountsSkusPriceResponse,
   GetBillingAccountsSkusPriceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingAccountsSkusPriceRequest,
   output: GetBillingAccountsSkusPriceResponse,
   errors: [],
@@ -1475,25 +1486,26 @@ export interface ListBillingAccountsSkusPricesRequest {
   pageToken?: string;
 }
 
-export const ListBillingAccountsSkusPricesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  currencyCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("currencyCode"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}/prices",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBillingAccountsSkusPricesRequest>;
+export const ListBillingAccountsSkusPricesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    currencyCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("currencyCode"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/billingAccounts/{billingAccountsId}/skus/{skusId}/prices",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBillingAccountsSkusPricesRequest>;
 
 export type ListBillingAccountsSkusPricesResponse =
   GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountPricesResponse;
 export const ListBillingAccountsSkusPricesResponse =
-  GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountPricesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingBillingaccountpricesV1betaListBillingAccountPricesResponse;
 
 export type ListBillingAccountsSkusPricesError = DefaultErrors;
 
@@ -1503,7 +1515,7 @@ export const listBillingAccountsSkusPrices: API.PaginatedOperationMethod<
   ListBillingAccountsSkusPricesResponse,
   ListBillingAccountsSkusPricesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBillingAccountsSkusPricesRequest,
   output: ListBillingAccountsSkusPricesResponse,
   errors: [],
@@ -1520,7 +1532,7 @@ export interface GetSkusPriceRequest {
   currencyCode?: string;
 }
 
-export const GetSkusPriceRequest = Schema.Struct({
+export const GetSkusPriceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   currencyCode: Schema.optional(Schema.String).pipe(
     T.HttpQuery("currencyCode"),
@@ -1531,7 +1543,8 @@ export const GetSkusPriceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSkusPriceRequest>;
 
 export type GetSkusPriceResponse = GoogleCloudBillingPricesV1betaPrice;
-export const GetSkusPriceResponse = GoogleCloudBillingPricesV1betaPrice;
+export const GetSkusPriceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingPricesV1betaPrice;
 
 export type GetSkusPriceError = DefaultErrors;
 
@@ -1541,7 +1554,7 @@ export const getSkusPrice: API.OperationMethod<
   GetSkusPriceResponse,
   GetSkusPriceError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSkusPriceRequest,
   output: GetSkusPriceResponse,
   errors: [],
@@ -1558,7 +1571,7 @@ export interface ListSkusPricesRequest {
   currencyCode?: string;
 }
 
-export const ListSkusPricesRequest = Schema.Struct({
+export const ListSkusPricesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -1573,7 +1586,7 @@ export const ListSkusPricesRequest = Schema.Struct({
 export type ListSkusPricesResponse =
   GoogleCloudBillingPricesV1betaListPricesResponse;
 export const ListSkusPricesResponse =
-  GoogleCloudBillingPricesV1betaListPricesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingPricesV1betaListPricesResponse;
 
 export type ListSkusPricesError = DefaultErrors;
 
@@ -1583,7 +1596,7 @@ export const listSkusPrices: API.PaginatedOperationMethod<
   ListSkusPricesResponse,
   ListSkusPricesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSkusPricesRequest,
   output: ListSkusPricesResponse,
   errors: [],
@@ -1600,7 +1613,7 @@ export interface ListSkuGroupsRequest {
   pageToken?: string;
 }
 
-export const ListSkuGroupsRequest = Schema.Struct({
+export const ListSkuGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -1611,7 +1624,7 @@ export const ListSkuGroupsRequest = Schema.Struct({
 export type ListSkuGroupsResponse =
   GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse;
 export const ListSkuGroupsResponse =
-  GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingSkugroupsV1betaListSkuGroupsResponse;
 
 export type ListSkuGroupsError = DefaultErrors;
 
@@ -1621,7 +1634,7 @@ export const listSkuGroups: API.PaginatedOperationMethod<
   ListSkuGroupsResponse,
   ListSkuGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSkuGroupsRequest,
   output: ListSkuGroupsResponse,
   errors: [],
@@ -1636,7 +1649,7 @@ export interface GetSkuGroupsRequest {
   name: string;
 }
 
-export const GetSkuGroupsRequest = Schema.Struct({
+export const GetSkuGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta/skuGroups/{skuGroupsId}" }),
@@ -1644,7 +1657,8 @@ export const GetSkuGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSkuGroupsRequest>;
 
 export type GetSkuGroupsResponse = GoogleCloudBillingSkugroupsV1betaSkuGroup;
-export const GetSkuGroupsResponse = GoogleCloudBillingSkugroupsV1betaSkuGroup;
+export const GetSkuGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingSkugroupsV1betaSkuGroup;
 
 export type GetSkuGroupsError = DefaultErrors;
 
@@ -1654,7 +1668,7 @@ export const getSkuGroups: API.OperationMethod<
   GetSkuGroupsResponse,
   GetSkuGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSkuGroupsRequest,
   output: GetSkuGroupsResponse,
   errors: [],
@@ -1669,19 +1683,20 @@ export interface ListSkuGroupsSkusRequest {
   pageToken?: string;
 }
 
-export const ListSkuGroupsSkusRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/skuGroups/{skuGroupsId}/skus" }),
-  svc,
-) as unknown as Schema.Schema<ListSkuGroupsSkusRequest>;
+export const ListSkuGroupsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/skuGroups/{skuGroupsId}/skus" }),
+    svc,
+  ) as unknown as Schema.Schema<ListSkuGroupsSkusRequest>;
 
 export type ListSkuGroupsSkusResponse =
   GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse;
 export const ListSkuGroupsSkusResponse =
-  GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingSkugroupskusV1betaListSkuGroupSkusResponse;
 
 export type ListSkuGroupsSkusError = DefaultErrors;
 
@@ -1691,7 +1706,7 @@ export const listSkuGroupsSkus: API.PaginatedOperationMethod<
   ListSkuGroupsSkusResponse,
   ListSkuGroupsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSkuGroupsSkusRequest,
   output: ListSkuGroupsSkusResponse,
   errors: [],
@@ -1706,20 +1721,21 @@ export interface GetSkuGroupsSkusRequest {
   name: string;
 }
 
-export const GetSkuGroupsSkusRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/skuGroups/{skuGroupsId}/skus/{skusId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSkuGroupsSkusRequest>;
+export const GetSkuGroupsSkusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/skuGroups/{skuGroupsId}/skus/{skusId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSkuGroupsSkusRequest>;
 
 export type GetSkuGroupsSkusResponse =
   GoogleCloudBillingSkugroupskusV1betaSkuGroupSku;
 export const GetSkuGroupsSkusResponse =
-  GoogleCloudBillingSkugroupskusV1betaSkuGroupSku;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudBillingSkugroupskusV1betaSkuGroupSku;
 
 export type GetSkuGroupsSkusError = DefaultErrors;
 
@@ -1729,7 +1745,7 @@ export const getSkuGroupsSkus: API.OperationMethod<
   GetSkuGroupsSkusResponse,
   GetSkuGroupsSkusError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSkuGroupsSkusRequest,
   output: GetSkuGroupsSkusResponse,
   errors: [],

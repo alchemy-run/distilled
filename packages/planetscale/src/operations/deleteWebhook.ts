@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteWebhookInput = Schema.Struct({
+export const DeleteWebhookInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   id: Schema.String.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const DeleteWebhookInput = Schema.Struct({
 export type DeleteWebhookInput = typeof DeleteWebhookInput.Type;
 
 // Output Schema
-export const DeleteWebhookOutput = Schema.Void;
+export const DeleteWebhookOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteWebhookOutput = typeof DeleteWebhookOutput.Type;
 
 // The operation

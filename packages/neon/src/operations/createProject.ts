@@ -3,7 +3,7 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const CreateProjectInput = Schema.Struct({
+export const CreateProjectInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project: Schema.Struct({
     settings: Schema.optional(
       Schema.Struct({
@@ -81,7 +81,7 @@ export const CreateProjectInput = Schema.Struct({
 export type CreateProjectInput = typeof CreateProjectInput.Type;
 
 // Output Schema
-export const CreateProjectOutput = Schema.Struct({
+export const CreateProjectOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project: Schema.Struct({
     data_storage_bytes_hour: Schema.Number,
     data_transfer_bytes: Schema.Number,

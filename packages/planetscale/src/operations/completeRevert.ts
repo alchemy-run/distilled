@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CompleteRevertInput = Schema.Struct({
+export const CompleteRevertInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   number: Schema.Number.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const CompleteRevertInput = Schema.Struct({
 export type CompleteRevertInput = typeof CompleteRevertInput.Type;
 
 // Output Schema
-export const CompleteRevertOutput = Schema.Struct({
+export const CompleteRevertOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   number: Schema.Number,
   actor: Schema.Struct({

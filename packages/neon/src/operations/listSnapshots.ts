@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const ListSnapshotsInput = Schema.Struct({
+export const ListSnapshotsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   project_id: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/projects/{project_id}/snapshots" }));
 export type ListSnapshotsInput = typeof ListSnapshotsInput.Type;
 
 // Output Schema
-export const ListSnapshotsOutput = Schema.Struct({
+export const ListSnapshotsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   snapshots: Schema.Array(
     Schema.Struct({
       id: Schema.String,

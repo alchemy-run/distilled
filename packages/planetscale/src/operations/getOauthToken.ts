@@ -5,7 +5,7 @@ import { Forbidden, NotFound } from "../errors";
 import { SensitiveString } from "../sensitive";
 
 // Input Schema
-export const GetOauthTokenInput = Schema.Struct({
+export const GetOauthTokenInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   application_id: Schema.String.pipe(T.PathParam()),
   token_id: Schema.String.pipe(T.PathParam()),
@@ -18,7 +18,7 @@ export const GetOauthTokenInput = Schema.Struct({
 export type GetOauthTokenInput = typeof GetOauthTokenInput.Type;
 
 // Output Schema
-export const GetOauthTokenOutput = Schema.Struct({
+export const GetOauthTokenOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   display_name: Schema.String,

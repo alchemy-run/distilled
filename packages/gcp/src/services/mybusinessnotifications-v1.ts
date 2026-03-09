@@ -46,7 +46,7 @@ export interface NotificationSetting {
 }
 
 export const NotificationSetting: Schema.Schema<NotificationSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pubsubTopic: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -65,18 +65,20 @@ export interface GetNotificationSettingAccountsRequest {
   name: string;
 }
 
-export const GetNotificationSettingAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/accounts/{accountsId}/notificationSetting",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetNotificationSettingAccountsRequest>;
+export const GetNotificationSettingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/accounts/{accountsId}/notificationSetting",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetNotificationSettingAccountsRequest>;
 
 export type GetNotificationSettingAccountsResponse = NotificationSetting;
-export const GetNotificationSettingAccountsResponse = NotificationSetting;
+export const GetNotificationSettingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ NotificationSetting;
 
 export type GetNotificationSettingAccountsError = DefaultErrors;
 
@@ -86,7 +88,7 @@ export const getNotificationSettingAccounts: API.OperationMethod<
   GetNotificationSettingAccountsResponse,
   GetNotificationSettingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetNotificationSettingAccountsRequest,
   output: GetNotificationSettingAccountsResponse,
   errors: [],
@@ -101,21 +103,23 @@ export interface UpdateNotificationSettingAccountsRequest {
   body?: NotificationSetting;
 }
 
-export const UpdateNotificationSettingAccountsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(NotificationSetting).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/accounts/{accountsId}/notificationSetting",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateNotificationSettingAccountsRequest>;
+export const UpdateNotificationSettingAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(NotificationSetting).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/accounts/{accountsId}/notificationSetting",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateNotificationSettingAccountsRequest>;
 
 export type UpdateNotificationSettingAccountsResponse = NotificationSetting;
-export const UpdateNotificationSettingAccountsResponse = NotificationSetting;
+export const UpdateNotificationSettingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ NotificationSetting;
 
 export type UpdateNotificationSettingAccountsError = DefaultErrors;
 
@@ -125,7 +129,7 @@ export const updateNotificationSettingAccounts: API.OperationMethod<
   UpdateNotificationSettingAccountsResponse,
   UpdateNotificationSettingAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNotificationSettingAccountsRequest,
   output: UpdateNotificationSettingAccountsResponse,
   errors: [],

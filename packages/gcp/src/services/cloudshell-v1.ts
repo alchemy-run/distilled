@@ -31,15 +31,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -54,15 +55,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
@@ -74,7 +76,7 @@ export interface ListOperationsResponse {
 }
 
 export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(Operation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -86,14 +88,15 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface CancelOperationRequest {}
 
 export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelOperationRequest",
   }) as any as Schema.Schema<CancelOperationRequest>;
 
@@ -103,7 +106,7 @@ export interface GenerateAccessTokenResponse {
 }
 
 export const GenerateAccessTokenResponse: Schema.Schema<GenerateAccessTokenResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
     }),
@@ -138,19 +141,22 @@ export interface Environment {
   publicKeys?: Array<string>;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    dockerImage: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    webHost: Schema.optional(Schema.String),
-    sshUsername: Schema.optional(Schema.String),
-    sshHost: Schema.optional(Schema.String),
-    sshPort: Schema.optional(Schema.Number),
-    publicKeys: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      dockerImage: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      webHost: Schema.optional(Schema.String),
+      sshUsername: Schema.optional(Schema.String),
+      sshHost: Schema.optional(Schema.String),
+      sshPort: Schema.optional(Schema.Number),
+      publicKeys: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "Environment",
+  }) as any as Schema.Schema<Environment>;
 
 export interface StartEnvironmentRequest {
   /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
@@ -160,7 +166,7 @@ export interface StartEnvironmentRequest {
 }
 
 export const StartEnvironmentRequest: Schema.Schema<StartEnvironmentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
       publicKeys: Schema.optional(Schema.Array(Schema.String)),
@@ -179,7 +185,7 @@ export interface AuthorizeEnvironmentRequest {
 }
 
 export const AuthorizeEnvironmentRequest: Schema.Schema<AuthorizeEnvironmentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessToken: Schema.optional(Schema.String),
       idToken: Schema.optional(Schema.String),
@@ -195,7 +201,7 @@ export interface AddPublicKeyRequest {
 }
 
 export const AddPublicKeyRequest: Schema.Schema<AddPublicKeyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -209,7 +215,7 @@ export interface RemovePublicKeyRequest {
 }
 
 export const RemovePublicKeyRequest: Schema.Schema<RemovePublicKeyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -220,7 +226,7 @@ export const RemovePublicKeyRequest: Schema.Schema<RemovePublicKeyRequest> =
 export interface AddPublicKeyMetadata {}
 
 export const AddPublicKeyMetadata: Schema.Schema<AddPublicKeyMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AddPublicKeyMetadata",
   }) as any as Schema.Schema<AddPublicKeyMetadata>;
 
@@ -230,7 +236,7 @@ export interface AddPublicKeyResponse {
 }
 
 export const AddPublicKeyResponse: Schema.Schema<AddPublicKeyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -241,42 +247,42 @@ export const AddPublicKeyResponse: Schema.Schema<AddPublicKeyResponse> =
 export interface AuthorizeEnvironmentMetadata {}
 
 export const AuthorizeEnvironmentMetadata: Schema.Schema<AuthorizeEnvironmentMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AuthorizeEnvironmentMetadata",
   }) as any as Schema.Schema<AuthorizeEnvironmentMetadata>;
 
 export interface AuthorizeEnvironmentResponse {}
 
 export const AuthorizeEnvironmentResponse: Schema.Schema<AuthorizeEnvironmentResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AuthorizeEnvironmentResponse",
   }) as any as Schema.Schema<AuthorizeEnvironmentResponse>;
 
 export interface CreateEnvironmentMetadata {}
 
 export const CreateEnvironmentMetadata: Schema.Schema<CreateEnvironmentMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CreateEnvironmentMetadata",
   }) as any as Schema.Schema<CreateEnvironmentMetadata>;
 
 export interface DeleteEnvironmentMetadata {}
 
 export const DeleteEnvironmentMetadata: Schema.Schema<DeleteEnvironmentMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "DeleteEnvironmentMetadata",
   }) as any as Schema.Schema<DeleteEnvironmentMetadata>;
 
 export interface RemovePublicKeyMetadata {}
 
 export const RemovePublicKeyMetadata: Schema.Schema<RemovePublicKeyMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "RemovePublicKeyMetadata",
   }) as any as Schema.Schema<RemovePublicKeyMetadata>;
 
 export interface RemovePublicKeyResponse {}
 
 export const RemovePublicKeyResponse: Schema.Schema<RemovePublicKeyResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "RemovePublicKeyResponse",
   }) as any as Schema.Schema<RemovePublicKeyResponse>;
 
@@ -292,7 +298,7 @@ export interface StartEnvironmentMetadata {
 }
 
 export const StartEnvironmentMetadata: Schema.Schema<StartEnvironmentMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
     }),
@@ -306,7 +312,7 @@ export interface StartEnvironmentResponse {
 }
 
 export const StartEnvironmentResponse: Schema.Schema<StartEnvironmentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environment: Schema.optional(Environment),
     }),
@@ -331,7 +337,7 @@ export interface ListOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListOperationsRequest = Schema.Struct({
+export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -345,7 +351,8 @@ export const ListOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
 export type ListOperationsResponse_Op = ListOperationsResponse;
-export const ListOperationsResponse_Op = ListOperationsResponse;
+export const ListOperationsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
 
 export type ListOperationsError = DefaultErrors;
 
@@ -355,7 +362,7 @@ export const listOperations: API.PaginatedOperationMethod<
   ListOperationsResponse_Op,
   ListOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -370,7 +377,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
@@ -378,7 +385,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -388,7 +395,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -399,15 +406,16 @@ export interface DeleteOperationsRequest {
   name: string;
 }
 
-export const DeleteOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteOperationsRequest>;
+export const DeleteOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v1/operations/{operationsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
 export type DeleteOperationsResponse = Empty;
-export const DeleteOperationsResponse = Empty;
+export const DeleteOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteOperationsError = DefaultErrors;
 
@@ -417,7 +425,7 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsResponse,
   DeleteOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
@@ -430,20 +438,21 @@ export interface CancelOperationsRequest {
   body?: CancelOperationRequest;
 }
 
-export const CancelOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/operations/{operationsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelOperationsRequest>;
+export const CancelOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
 export type CancelOperationsResponse = Empty;
-export const CancelOperationsResponse = Empty;
+export const CancelOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type CancelOperationsError = DefaultErrors;
 
@@ -453,7 +462,7 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsResponse,
   CancelOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
@@ -468,22 +477,23 @@ export interface GenerateAccessTokenUsersEnvironmentsRequest {
   ttl?: string;
 }
 
-export const GenerateAccessTokenUsersEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  expireTime: Schema.optional(Schema.String).pipe(T.HttpQuery("expireTime")),
-  ttl: Schema.optional(Schema.String).pipe(T.HttpQuery("ttl")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/users/{usersId}/environments/{environmentsId}:generateAccessToken",
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccessTokenUsersEnvironmentsRequest>;
+export const GenerateAccessTokenUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    expireTime: Schema.optional(Schema.String).pipe(T.HttpQuery("expireTime")),
+    ttl: Schema.optional(Schema.String).pipe(T.HttpQuery("ttl")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/users/{usersId}/environments/{environmentsId}:generateAccessToken",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccessTokenUsersEnvironmentsRequest>;
 
 export type GenerateAccessTokenUsersEnvironmentsResponse =
   GenerateAccessTokenResponse;
 export const GenerateAccessTokenUsersEnvironmentsResponse =
-  GenerateAccessTokenResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenUsersEnvironmentsError = DefaultErrors;
 
@@ -493,7 +503,7 @@ export const generateAccessTokenUsersEnvironments: API.OperationMethod<
   GenerateAccessTokenUsersEnvironmentsResponse,
   GenerateAccessTokenUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccessTokenUsersEnvironmentsRequest,
   output: GenerateAccessTokenUsersEnvironmentsResponse,
   errors: [],
@@ -504,18 +514,20 @@ export interface GetUsersEnvironmentsRequest {
   name: string;
 }
 
-export const GetUsersEnvironmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/users/{usersId}/environments/{environmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUsersEnvironmentsRequest>;
+export const GetUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/users/{usersId}/environments/{environmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUsersEnvironmentsRequest>;
 
 export type GetUsersEnvironmentsResponse = Environment;
-export const GetUsersEnvironmentsResponse = Environment;
+export const GetUsersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
 export type GetUsersEnvironmentsError = DefaultErrors;
 
@@ -525,7 +537,7 @@ export const getUsersEnvironments: API.OperationMethod<
   GetUsersEnvironmentsResponse,
   GetUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersEnvironmentsRequest,
   output: GetUsersEnvironmentsResponse,
   errors: [],
@@ -538,20 +550,22 @@ export interface StartUsersEnvironmentsRequest {
   body?: StartEnvironmentRequest;
 }
 
-export const StartUsersEnvironmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(StartEnvironmentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/users/{usersId}/environments/{environmentsId}:start",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<StartUsersEnvironmentsRequest>;
+export const StartUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(StartEnvironmentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/users/{usersId}/environments/{environmentsId}:start",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<StartUsersEnvironmentsRequest>;
 
 export type StartUsersEnvironmentsResponse = Operation;
-export const StartUsersEnvironmentsResponse = Operation;
+export const StartUsersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type StartUsersEnvironmentsError = DefaultErrors;
 
@@ -561,7 +575,7 @@ export const startUsersEnvironments: API.OperationMethod<
   StartUsersEnvironmentsResponse,
   StartUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StartUsersEnvironmentsRequest,
   output: StartUsersEnvironmentsResponse,
   errors: [],
@@ -574,20 +588,22 @@ export interface AuthorizeUsersEnvironmentsRequest {
   body?: AuthorizeEnvironmentRequest;
 }
 
-export const AuthorizeUsersEnvironmentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(AuthorizeEnvironmentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/users/{usersId}/environments/{environmentsId}:authorize",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AuthorizeUsersEnvironmentsRequest>;
+export const AuthorizeUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(AuthorizeEnvironmentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/users/{usersId}/environments/{environmentsId}:authorize",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AuthorizeUsersEnvironmentsRequest>;
 
 export type AuthorizeUsersEnvironmentsResponse = Operation;
-export const AuthorizeUsersEnvironmentsResponse = Operation;
+export const AuthorizeUsersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AuthorizeUsersEnvironmentsError = DefaultErrors;
 
@@ -597,7 +613,7 @@ export const authorizeUsersEnvironments: API.OperationMethod<
   AuthorizeUsersEnvironmentsResponse,
   AuthorizeUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuthorizeUsersEnvironmentsRequest,
   output: AuthorizeUsersEnvironmentsResponse,
   errors: [],
@@ -610,20 +626,22 @@ export interface AddPublicKeyUsersEnvironmentsRequest {
   body?: AddPublicKeyRequest;
 }
 
-export const AddPublicKeyUsersEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(AddPublicKeyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/users/{usersId}/environments/{environmentsId}:addPublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddPublicKeyUsersEnvironmentsRequest>;
+export const AddPublicKeyUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(AddPublicKeyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/users/{usersId}/environments/{environmentsId}:addPublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddPublicKeyUsersEnvironmentsRequest>;
 
 export type AddPublicKeyUsersEnvironmentsResponse = Operation;
-export const AddPublicKeyUsersEnvironmentsResponse = Operation;
+export const AddPublicKeyUsersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type AddPublicKeyUsersEnvironmentsError = DefaultErrors;
 
@@ -633,7 +651,7 @@ export const addPublicKeyUsersEnvironments: API.OperationMethod<
   AddPublicKeyUsersEnvironmentsResponse,
   AddPublicKeyUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddPublicKeyUsersEnvironmentsRequest,
   output: AddPublicKeyUsersEnvironmentsResponse,
   errors: [],
@@ -646,20 +664,22 @@ export interface RemovePublicKeyUsersEnvironmentsRequest {
   body?: RemovePublicKeyRequest;
 }
 
-export const RemovePublicKeyUsersEnvironmentsRequest = Schema.Struct({
-  environment: Schema.String.pipe(T.HttpPath("environment")),
-  body: Schema.optional(RemovePublicKeyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/users/{usersId}/environments/{environmentsId}:removePublicKey",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemovePublicKeyUsersEnvironmentsRequest>;
+export const RemovePublicKeyUsersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    environment: Schema.String.pipe(T.HttpPath("environment")),
+    body: Schema.optional(RemovePublicKeyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/users/{usersId}/environments/{environmentsId}:removePublicKey",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemovePublicKeyUsersEnvironmentsRequest>;
 
 export type RemovePublicKeyUsersEnvironmentsResponse = Operation;
-export const RemovePublicKeyUsersEnvironmentsResponse = Operation;
+export const RemovePublicKeyUsersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type RemovePublicKeyUsersEnvironmentsError = DefaultErrors;
 
@@ -669,7 +689,7 @@ export const removePublicKeyUsersEnvironments: API.OperationMethod<
   RemovePublicKeyUsersEnvironmentsResponse,
   RemovePublicKeyUsersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemovePublicKeyUsersEnvironmentsRequest,
   output: RemovePublicKeyUsersEnvironmentsResponse,
   errors: [],

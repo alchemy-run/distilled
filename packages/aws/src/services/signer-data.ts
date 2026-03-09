@@ -60,7 +60,7 @@ export type RevokedEntity = string;
 
 //# Schemas
 export type CertificateHashes = string[];
-export const CertificateHashes = S.Array(S.String);
+export const CertificateHashes = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetRevocationStatusRequest {
   signatureTimestamp: Date;
   platformId: string;
@@ -68,38 +68,42 @@ export interface GetRevocationStatusRequest {
   jobArn: string;
   certificateHashes: string[];
 }
-export const GetRevocationStatusRequest = S.suspend(() =>
-  S.Struct({
-    signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("signatureTimestamp"),
+export const GetRevocationStatusRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+        T.HttpQuery("signatureTimestamp"),
+      ),
+      platformId: S.String.pipe(T.HttpQuery("platformId")),
+      profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
+      jobArn: S.String.pipe(T.HttpQuery("jobArn")),
+      certificateHashes: CertificateHashes.pipe(
+        T.HttpQuery("certificateHashes"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/revocations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    platformId: S.String.pipe(T.HttpQuery("platformId")),
-    profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
-    jobArn: S.String.pipe(T.HttpQuery("jobArn")),
-    certificateHashes: CertificateHashes.pipe(T.HttpQuery("certificateHashes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/revocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
 ).annotate({
   identifier: "GetRevocationStatusRequest",
 }) as any as S.Schema<GetRevocationStatusRequest>;
 export type RevokedEntities = string[];
-export const RevokedEntities = S.Array(S.String);
+export const RevokedEntities = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface GetRevocationStatusResponse {
   revokedEntities?: string[];
 }
-export const GetRevocationStatusResponse = S.suspend(() =>
-  S.Struct({ revokedEntities: S.optional(RevokedEntities) }),
-).annotate({
-  identifier: "GetRevocationStatusResponse",
-}) as any as S.Schema<GetRevocationStatusResponse>;
+export const GetRevocationStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ revokedEntities: S.optional(RevokedEntities) }),
+  ).annotate({
+    identifier: "GetRevocationStatusResponse",
+  }) as any as S.Schema<GetRevocationStatusResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

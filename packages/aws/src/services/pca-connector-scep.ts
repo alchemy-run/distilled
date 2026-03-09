@@ -101,30 +101,35 @@ export type VpcEndpointId = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(Tags) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export type ValidationExceptionReason =
   | "CA_CERT_VALIDITY_TOO_SHORT"
   | "INVALID_CA_USAGE_MODE"
@@ -134,12 +139,12 @@ export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags,
@@ -157,16 +162,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -184,7 +191,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface CreateChallengeRequest {
@@ -192,21 +201,22 @@ export interface CreateChallengeRequest {
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateChallengeRequest = S.suspend(() =>
-  S.Struct({
-    ConnectorArn: S.String,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/challenges" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateChallengeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ConnectorArn: S.String,
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/challenges" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChallengeRequest",
 }) as any as S.Schema<CreateChallengeRequest>;
@@ -217,7 +227,7 @@ export interface Challenge {
   UpdatedAt?: Date;
   Password?: string | redacted.Redacted<string>;
 }
-export const Challenge = S.suspend(() =>
+export const Challenge = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     ConnectorArn: S.optional(S.String),
@@ -229,35 +239,36 @@ export const Challenge = S.suspend(() =>
 export interface CreateChallengeResponse {
   Challenge?: Challenge;
 }
-export const CreateChallengeResponse = S.suspend(() =>
-  S.Struct({ Challenge: S.optional(Challenge) }),
+export const CreateChallengeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Challenge: S.optional(Challenge) }),
 ).annotate({
   identifier: "CreateChallengeResponse",
 }) as any as S.Schema<CreateChallengeResponse>;
 export interface GetChallengeMetadataRequest {
   ChallengeArn: string;
 }
-export const GetChallengeMetadataRequest = S.suspend(() =>
-  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/challengeMetadata/{ChallengeArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetChallengeMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/challengeMetadata/{ChallengeArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetChallengeMetadataRequest",
-}) as any as S.Schema<GetChallengeMetadataRequest>;
+  ).annotate({
+    identifier: "GetChallengeMetadataRequest",
+  }) as any as S.Schema<GetChallengeMetadataRequest>;
 export interface ChallengeMetadata {
   Arn?: string;
   ConnectorArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ChallengeMetadata = S.suspend(() =>
+export const ChallengeMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     ConnectorArn: S.optional(S.String),
@@ -270,30 +281,34 @@ export const ChallengeMetadata = S.suspend(() =>
 export interface GetChallengeMetadataResponse {
   ChallengeMetadata?: ChallengeMetadata;
 }
-export const GetChallengeMetadataResponse = S.suspend(() =>
-  S.Struct({ ChallengeMetadata: S.optional(ChallengeMetadata) }),
-).annotate({
-  identifier: "GetChallengeMetadataResponse",
-}) as any as S.Schema<GetChallengeMetadataResponse>;
+export const GetChallengeMetadataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChallengeMetadata: S.optional(ChallengeMetadata) }),
+  ).annotate({
+    identifier: "GetChallengeMetadataResponse",
+  }) as any as S.Schema<GetChallengeMetadataResponse>;
 export interface DeleteChallengeRequest {
   ChallengeArn: string;
 }
-export const DeleteChallengeRequest = S.suspend(() =>
-  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/challenges/{ChallengeArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteChallengeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/challenges/{ChallengeArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteChallengeRequest",
 }) as any as S.Schema<DeleteChallengeRequest>;
 export interface DeleteChallengeResponse {}
-export const DeleteChallengeResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteChallengeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteChallengeResponse",
 }) as any as S.Schema<DeleteChallengeResponse>;
 export interface ListChallengeMetadataRequest {
@@ -301,90 +316,97 @@ export interface ListChallengeMetadataRequest {
   NextToken?: string;
   ConnectorArn: string;
 }
-export const ListChallengeMetadataRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/challengeMetadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListChallengeMetadataRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+      ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/challengeMetadata" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListChallengeMetadataRequest",
-}) as any as S.Schema<ListChallengeMetadataRequest>;
+  ).annotate({
+    identifier: "ListChallengeMetadataRequest",
+  }) as any as S.Schema<ListChallengeMetadataRequest>;
 export interface ChallengeMetadataSummary {
   Arn?: string;
   ConnectorArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ChallengeMetadataSummary = S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
+export const ChallengeMetadataSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Arn: S.optional(S.String),
+      ConnectorArn: S.optional(S.String),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    }),
 ).annotate({
   identifier: "ChallengeMetadataSummary",
 }) as any as S.Schema<ChallengeMetadataSummary>;
 export type ChallengeMetadataList = ChallengeMetadataSummary[];
-export const ChallengeMetadataList = S.Array(ChallengeMetadataSummary);
+export const ChallengeMetadataList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ChallengeMetadataSummary,
+);
 export interface ListChallengeMetadataResponse {
   Challenges?: ChallengeMetadataSummary[];
   NextToken?: string;
 }
-export const ListChallengeMetadataResponse = S.suspend(() =>
-  S.Struct({
-    Challenges: S.optional(ChallengeMetadataList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListChallengeMetadataResponse",
-}) as any as S.Schema<ListChallengeMetadataResponse>;
+export const ListChallengeMetadataResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Challenges: S.optional(ChallengeMetadataList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListChallengeMetadataResponse",
+  }) as any as S.Schema<ListChallengeMetadataResponse>;
 export interface GetChallengePasswordRequest {
   ChallengeArn: string;
 }
-export const GetChallengePasswordRequest = S.suspend(() =>
-  S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/challengePasswords/{ChallengeArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetChallengePasswordRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/challengePasswords/{ChallengeArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetChallengePasswordRequest",
-}) as any as S.Schema<GetChallengePasswordRequest>;
+  ).annotate({
+    identifier: "GetChallengePasswordRequest",
+  }) as any as S.Schema<GetChallengePasswordRequest>;
 export interface GetChallengePasswordResponse {
   Password?: string | redacted.Redacted<string>;
 }
-export const GetChallengePasswordResponse = S.suspend(() =>
-  S.Struct({ Password: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "GetChallengePasswordResponse",
-}) as any as S.Schema<GetChallengePasswordResponse>;
+export const GetChallengePasswordResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Password: S.optional(SensitiveString) }),
+  ).annotate({
+    identifier: "GetChallengePasswordResponse",
+  }) as any as S.Schema<GetChallengePasswordResponse>;
 export interface IntuneConfiguration {
   AzureApplicationId: string;
   Domain: string;
 }
-export const IntuneConfiguration = S.suspend(() =>
+export const IntuneConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AzureApplicationId: S.String, Domain: S.String }),
 ).annotate({
   identifier: "IntuneConfiguration",
 }) as any as S.Schema<IntuneConfiguration>;
 export type MobileDeviceManagement = { Intune: IntuneConfiguration };
-export const MobileDeviceManagement = S.Union([
+export const MobileDeviceManagement = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ Intune: IntuneConfiguration }),
 ]);
 export interface CreateConnectorRequest {
@@ -394,38 +416,39 @@ export interface CreateConnectorRequest {
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateConnectorRequest = S.suspend(() =>
-  S.Struct({
-    CertificateAuthorityArn: S.String,
-    MobileDeviceManagement: S.optional(MobileDeviceManagement),
-    VpcEndpointId: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateConnectorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      CertificateAuthorityArn: S.String,
+      MobileDeviceManagement: S.optional(MobileDeviceManagement),
+      VpcEndpointId: S.optional(S.String),
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/connectors" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateConnectorRequest",
 }) as any as S.Schema<CreateConnectorRequest>;
 export interface CreateConnectorResponse {
   ConnectorArn?: string;
 }
-export const CreateConnectorResponse = S.suspend(() =>
-  S.Struct({ ConnectorArn: S.optional(S.String) }),
+export const CreateConnectorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ConnectorArn: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateConnectorResponse",
 }) as any as S.Schema<CreateConnectorResponse>;
 export interface GetConnectorRequest {
   ConnectorArn: string;
 }
-export const GetConnectorRequest = S.suspend(() =>
+export const GetConnectorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
@@ -440,13 +463,13 @@ export const GetConnectorRequest = S.suspend(() =>
   identifier: "GetConnectorRequest",
 }) as any as S.Schema<GetConnectorRequest>;
 export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
-export const ConnectorType = S.String;
+export const ConnectorType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface OpenIdConfiguration {
   Issuer?: string;
   Subject?: string;
   Audience?: string;
 }
-export const OpenIdConfiguration = S.suspend(() =>
+export const OpenIdConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Issuer: S.optional(S.String),
     Subject: S.optional(S.String),
@@ -461,7 +484,7 @@ export type ConnectorStatus =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ConnectorStatus = S.String;
+export const ConnectorStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ConnectorStatusReason =
   | "INTERNAL_FAILURE"
   | "PRIVATECA_ACCESS_DENIED"
@@ -470,7 +493,7 @@ export type ConnectorStatusReason =
   | "VPC_ENDPOINT_RESOURCE_NOT_FOUND"
   | "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
   | (string & {});
-export const ConnectorStatusReason = S.String;
+export const ConnectorStatusReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Connector {
   Arn?: string;
   CertificateAuthorityArn?: string;
@@ -483,7 +506,7 @@ export interface Connector {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const Connector = S.suspend(() =>
+export const Connector = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     CertificateAuthorityArn: S.optional(S.String),
@@ -500,7 +523,7 @@ export const Connector = S.suspend(() =>
 export interface GetConnectorResponse {
   Connector?: Connector;
 }
-export const GetConnectorResponse = S.suspend(() =>
+export const GetConnectorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Connector: S.optional(Connector) }),
 ).annotate({
   identifier: "GetConnectorResponse",
@@ -508,29 +531,32 @@ export const GetConnectorResponse = S.suspend(() =>
 export interface DeleteConnectorRequest {
   ConnectorArn: string;
 }
-export const DeleteConnectorRequest = S.suspend(() =>
-  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteConnectorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteConnectorRequest",
 }) as any as S.Schema<DeleteConnectorRequest>;
 export interface DeleteConnectorResponse {}
-export const DeleteConnectorResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteConnectorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteConnectorResponse",
 }) as any as S.Schema<DeleteConnectorResponse>;
 export interface ListConnectorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListConnectorsRequest = S.suspend(() =>
+export const ListConnectorsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -559,7 +585,7 @@ export interface ConnectorSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ConnectorSummary = S.suspend(() =>
+export const ConnectorSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     CertificateAuthorityArn: S.optional(S.String),
@@ -576,16 +602,18 @@ export const ConnectorSummary = S.suspend(() =>
   identifier: "ConnectorSummary",
 }) as any as S.Schema<ConnectorSummary>;
 export type ConnectorList = ConnectorSummary[];
-export const ConnectorList = S.Array(ConnectorSummary);
+export const ConnectorList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ConnectorSummary);
 export interface ListConnectorsResponse {
   Connectors?: ConnectorSummary[];
   NextToken?: string;
 }
-export const ListConnectorsResponse = S.suspend(() =>
-  S.Struct({
-    Connectors: S.optional(ConnectorList),
-    NextToken: S.optional(S.String),
-  }),
+export const ListConnectorsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Connectors: S.optional(ConnectorList),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListConnectorsResponse",
 }) as any as S.Schema<ListConnectorsResponse>;

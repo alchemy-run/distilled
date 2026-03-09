@@ -37,18 +37,19 @@ export interface User {
   picture?: { url?: string };
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    isAuthenticatedUser: Schema.optional(Schema.Boolean),
-    permissionId: Schema.optional(Schema.String),
-    emailAddress: Schema.optional(Schema.String),
-    picture: Schema.optional(
-      Schema.Struct({ url: Schema.optional(Schema.String) }),
-    ),
-  }),
-).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      isAuthenticatedUser: Schema.optional(Schema.Boolean),
+      permissionId: Schema.optional(Schema.String),
+      emailAddress: Schema.optional(Schema.String),
+      picture: Schema.optional(
+        Schema.Struct({ url: Schema.optional(Schema.String) }),
+      ),
+    }),
+  ).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface About {
   /** The name of the current user. */
@@ -120,103 +121,104 @@ export interface About {
   canCreateTeamDrives?: boolean;
 }
 
-export const About: Schema.Schema<About> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    quotaBytesTotal: Schema.optional(Schema.String),
-    quotaBytesUsed: Schema.optional(Schema.String),
-    quotaBytesUsedInTrash: Schema.optional(Schema.String),
-    largestChangeId: Schema.optional(Schema.String),
-    remainingChangeIds: Schema.optional(Schema.String),
-    rootFolderId: Schema.optional(Schema.String),
-    importFormats: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          source: Schema.optional(Schema.String),
-          targets: Schema.optional(Schema.Array(Schema.String)),
-        }),
+export const About: Schema.Schema<About> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      quotaBytesTotal: Schema.optional(Schema.String),
+      quotaBytesUsed: Schema.optional(Schema.String),
+      quotaBytesUsedInTrash: Schema.optional(Schema.String),
+      largestChangeId: Schema.optional(Schema.String),
+      remainingChangeIds: Schema.optional(Schema.String),
+      rootFolderId: Schema.optional(Schema.String),
+      importFormats: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            source: Schema.optional(Schema.String),
+            targets: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
       ),
-    ),
-    exportFormats: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          source: Schema.optional(Schema.String),
-          targets: Schema.optional(Schema.Array(Schema.String)),
-        }),
+      exportFormats: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            source: Schema.optional(Schema.String),
+            targets: Schema.optional(Schema.Array(Schema.String)),
+          }),
+        ),
       ),
-    ),
-    additionalRoleInfo: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          type: Schema.optional(Schema.String),
-          roleSets: Schema.optional(
-            Schema.Array(
-              Schema.Struct({
-                primaryRole: Schema.optional(Schema.String),
-                additionalRoles: Schema.optional(Schema.Array(Schema.String)),
-              }),
+      additionalRoleInfo: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.optional(Schema.String),
+            roleSets: Schema.optional(
+              Schema.Array(
+                Schema.Struct({
+                  primaryRole: Schema.optional(Schema.String),
+                  additionalRoles: Schema.optional(Schema.Array(Schema.String)),
+                }),
+              ),
             ),
-          ),
-        }),
+          }),
+        ),
       ),
-    ),
-    features: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          featureName: Schema.optional(Schema.String),
-          featureRate: Schema.optional(Schema.Number),
-        }),
+      features: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            featureName: Schema.optional(Schema.String),
+            featureRate: Schema.optional(Schema.Number),
+          }),
+        ),
       ),
-    ),
-    maxUploadSizes: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          type: Schema.optional(Schema.String),
-          size: Schema.optional(Schema.String),
-        }),
+      maxUploadSizes: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            type: Schema.optional(Schema.String),
+            size: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    domainSharingPolicy: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    permissionId: Schema.optional(Schema.String),
-    isCurrentAppInstalled: Schema.optional(Schema.Boolean),
-    quotaBytesUsedAggregate: Schema.optional(Schema.String),
-    user: Schema.optional(User),
-    etag: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    quotaType: Schema.optional(Schema.String),
-    folderColorPalette: Schema.optional(Schema.Array(Schema.String)),
-    driveThemes: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          backgroundImageLink: Schema.optional(Schema.String),
-          colorRgb: Schema.optional(Schema.String),
-        }),
+      domainSharingPolicy: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      permissionId: Schema.optional(Schema.String),
+      isCurrentAppInstalled: Schema.optional(Schema.Boolean),
+      quotaBytesUsedAggregate: Schema.optional(Schema.String),
+      user: Schema.optional(User),
+      etag: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      quotaType: Schema.optional(Schema.String),
+      folderColorPalette: Schema.optional(Schema.Array(Schema.String)),
+      driveThemes: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.String),
+            backgroundImageLink: Schema.optional(Schema.String),
+            colorRgb: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    canCreateDrives: Schema.optional(Schema.Boolean),
-    quotaBytesByService: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          serviceName: Schema.optional(Schema.String),
-          bytesUsed: Schema.optional(Schema.String),
-        }),
+      canCreateDrives: Schema.optional(Schema.Boolean),
+      quotaBytesByService: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            serviceName: Schema.optional(Schema.String),
+            bytesUsed: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    teamDriveThemes: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          backgroundImageLink: Schema.optional(Schema.String),
-          colorRgb: Schema.optional(Schema.String),
-        }),
+      teamDriveThemes: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.String),
+            backgroundImageLink: Schema.optional(Schema.String),
+            colorRgb: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    canCreateTeamDrives: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "About" }) as any as Schema.Schema<About>;
+      canCreateTeamDrives: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "About" }) as any as Schema.Schema<About>;
 
 export interface App {
   /** The name of the app. */
@@ -269,42 +271,43 @@ export interface App {
   hasDriveWideScope?: boolean;
 }
 
-export const App: Schema.Schema<App> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    objectType: Schema.optional(Schema.String),
-    supportsCreate: Schema.optional(Schema.Boolean),
-    productUrl: Schema.optional(Schema.String),
-    primaryMimeTypes: Schema.optional(Schema.Array(Schema.String)),
-    secondaryMimeTypes: Schema.optional(Schema.Array(Schema.String)),
-    primaryFileExtensions: Schema.optional(Schema.Array(Schema.String)),
-    secondaryFileExtensions: Schema.optional(Schema.Array(Schema.String)),
-    id: Schema.optional(Schema.String),
-    supportsImport: Schema.optional(Schema.Boolean),
-    installed: Schema.optional(Schema.Boolean),
-    authorized: Schema.optional(Schema.Boolean),
-    icons: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          size: Schema.optional(Schema.Number),
-          category: Schema.optional(Schema.String),
-          iconUrl: Schema.optional(Schema.String),
-        }),
+export const App: Schema.Schema<App> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      objectType: Schema.optional(Schema.String),
+      supportsCreate: Schema.optional(Schema.Boolean),
+      productUrl: Schema.optional(Schema.String),
+      primaryMimeTypes: Schema.optional(Schema.Array(Schema.String)),
+      secondaryMimeTypes: Schema.optional(Schema.Array(Schema.String)),
+      primaryFileExtensions: Schema.optional(Schema.Array(Schema.String)),
+      secondaryFileExtensions: Schema.optional(Schema.Array(Schema.String)),
+      id: Schema.optional(Schema.String),
+      supportsImport: Schema.optional(Schema.Boolean),
+      installed: Schema.optional(Schema.Boolean),
+      authorized: Schema.optional(Schema.Boolean),
+      icons: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            size: Schema.optional(Schema.Number),
+            category: Schema.optional(Schema.String),
+            iconUrl: Schema.optional(Schema.String),
+          }),
+        ),
       ),
-    ),
-    useByDefault: Schema.optional(Schema.Boolean),
-    kind: Schema.optional(Schema.String),
-    shortDescription: Schema.optional(Schema.String),
-    longDescription: Schema.optional(Schema.String),
-    supportsMultiOpen: Schema.optional(Schema.Boolean),
-    productId: Schema.optional(Schema.String),
-    openUrlTemplate: Schema.optional(Schema.String),
-    createUrl: Schema.optional(Schema.String),
-    createInFolderTemplate: Schema.optional(Schema.String),
-    supportsOfflineCreate: Schema.optional(Schema.Boolean),
-    hasDriveWideScope: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
+      useByDefault: Schema.optional(Schema.Boolean),
+      kind: Schema.optional(Schema.String),
+      shortDescription: Schema.optional(Schema.String),
+      longDescription: Schema.optional(Schema.String),
+      supportsMultiOpen: Schema.optional(Schema.Boolean),
+      productId: Schema.optional(Schema.String),
+      openUrlTemplate: Schema.optional(Schema.String),
+      createUrl: Schema.optional(Schema.String),
+      createInFolderTemplate: Schema.optional(Schema.String),
+      supportsOfflineCreate: Schema.optional(Schema.Boolean),
+      hasDriveWideScope: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
 
 export interface AppList {
   /** The ETag of the list. */
@@ -319,15 +322,16 @@ export interface AppList {
   items?: Array<App>;
 }
 
-export const AppList: Schema.Schema<AppList> = Schema.suspend(() =>
-  Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    defaultAppIds: Schema.optional(Schema.Array(Schema.String)),
-    kind: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(App)),
-  }),
-).annotate({ identifier: "AppList" }) as any as Schema.Schema<AppList>;
+export const AppList: Schema.Schema<AppList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      defaultAppIds: Schema.optional(Schema.Array(Schema.String)),
+      kind: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(App)),
+    }),
+  ).annotate({ identifier: "AppList" }) as any as Schema.Schema<AppList>;
 
 export interface Permission {
   /** The ID of the user this permission refers to, and identical to the `permissionId` in the About and Files resources. When making a `drive.permissions.insert` request, exactly one of the `id` or `value` fields must be specified unless the permission type is `anyone`, in which case both `id` and `value` are ignored. */
@@ -386,51 +390,52 @@ export interface Permission {
   inheritedPermissionsDisabled?: boolean;
 }
 
-export const Permission: Schema.Schema<Permission> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    role: Schema.optional(Schema.String),
-    additionalRoles: Schema.optional(Schema.Array(Schema.String)),
-    authKey: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    withLink: Schema.optional(Schema.Boolean),
-    photoLink: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    emailAddress: Schema.optional(Schema.String),
-    domain: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    permissionDetails: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          permissionType: Schema.optional(Schema.String),
-          role: Schema.optional(Schema.String),
-          additionalRoles: Schema.optional(Schema.Array(Schema.String)),
-          inheritedFrom: Schema.optional(Schema.String),
-          inherited: Schema.optional(Schema.Boolean),
-        }),
+export const Permission: Schema.Schema<Permission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      role: Schema.optional(Schema.String),
+      additionalRoles: Schema.optional(Schema.Array(Schema.String)),
+      authKey: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      withLink: Schema.optional(Schema.Boolean),
+      photoLink: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      emailAddress: Schema.optional(Schema.String),
+      domain: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      permissionDetails: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            permissionType: Schema.optional(Schema.String),
+            role: Schema.optional(Schema.String),
+            additionalRoles: Schema.optional(Schema.Array(Schema.String)),
+            inheritedFrom: Schema.optional(Schema.String),
+            inherited: Schema.optional(Schema.Boolean),
+          }),
+        ),
       ),
-    ),
-    expirationDate: Schema.optional(Schema.String),
-    teamDrivePermissionDetails: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          teamDrivePermissionType: Schema.optional(Schema.String),
-          role: Schema.optional(Schema.String),
-          additionalRoles: Schema.optional(Schema.Array(Schema.String)),
-          inheritedFrom: Schema.optional(Schema.String),
-          inherited: Schema.optional(Schema.Boolean),
-        }),
+      expirationDate: Schema.optional(Schema.String),
+      teamDrivePermissionDetails: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            teamDrivePermissionType: Schema.optional(Schema.String),
+            role: Schema.optional(Schema.String),
+            additionalRoles: Schema.optional(Schema.Array(Schema.String)),
+            inheritedFrom: Schema.optional(Schema.String),
+            inherited: Schema.optional(Schema.Boolean),
+          }),
+        ),
       ),
-    ),
-    deleted: Schema.optional(Schema.Boolean),
-    view: Schema.optional(Schema.String),
-    pendingOwner: Schema.optional(Schema.Boolean),
-    inheritedPermissionsDisabled: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
+      deleted: Schema.optional(Schema.Boolean),
+      view: Schema.optional(Schema.String),
+      pendingOwner: Schema.optional(Schema.Boolean),
+      inheritedPermissionsDisabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
 
 export interface ParentReference {
   /** Output only. A link back to this reference. */
@@ -445,8 +450,8 @@ export interface ParentReference {
   parentLink?: string;
 }
 
-export const ParentReference: Schema.Schema<ParentReference> = Schema.suspend(
-  () =>
+export const ParentReference: Schema.Schema<ParentReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selfLink: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -454,9 +459,9 @@ export const ParentReference: Schema.Schema<ParentReference> = Schema.suspend(
       kind: Schema.optional(Schema.String),
       parentLink: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ParentReference",
-}) as any as Schema.Schema<ParentReference>;
+  ).annotate({
+    identifier: "ParentReference",
+  }) as any as Schema.Schema<ParentReference>;
 
 export interface Property {
   /** Output only. The link back to this property. */
@@ -473,16 +478,17 @@ export interface Property {
   key?: string;
 }
 
-export const Property: Schema.Schema<Property> = Schema.suspend(() =>
-  Schema.Struct({
-    selfLink: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    visibility: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    key: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Property" }) as any as Schema.Schema<Property>;
+export const Property: Schema.Schema<Property> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      selfLink: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      visibility: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Property" }) as any as Schema.Schema<Property>;
 
 export interface ContentRestriction {
   /** Whether the content of the file is read-only. If a file is read-only, a new revision of the file may not be added, comments may not be added or modified, and the title of the file may not be modified. */
@@ -502,7 +508,7 @@ export interface ContentRestriction {
 }
 
 export const ContentRestriction: Schema.Schema<ContentRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readOnly: Schema.optional(Schema.Boolean),
       reason: Schema.optional(Schema.String),
@@ -535,18 +541,19 @@ export interface LabelField {
   user?: Array<User>;
 }
 
-export const LabelField: Schema.Schema<LabelField> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    valueType: Schema.optional(Schema.String),
-    dateString: Schema.optional(Schema.Array(Schema.String)),
-    integer: Schema.optional(Schema.Array(Schema.String)),
-    selection: Schema.optional(Schema.Array(Schema.String)),
-    text: Schema.optional(Schema.Array(Schema.String)),
-    user: Schema.optional(Schema.Array(User)),
-  }),
-).annotate({ identifier: "LabelField" }) as any as Schema.Schema<LabelField>;
+export const LabelField: Schema.Schema<LabelField> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      valueType: Schema.optional(Schema.String),
+      dateString: Schema.optional(Schema.Array(Schema.String)),
+      integer: Schema.optional(Schema.Array(Schema.String)),
+      selection: Schema.optional(Schema.Array(Schema.String)),
+      text: Schema.optional(Schema.Array(Schema.String)),
+      user: Schema.optional(Schema.Array(User)),
+    }),
+  ).annotate({ identifier: "LabelField" }) as any as Schema.Schema<LabelField>;
 
 export interface Label {
   /** The ID of the label. */
@@ -559,14 +566,15 @@ export interface Label {
   fields?: Record<string, LabelField>;
 }
 
-export const Label: Schema.Schema<Label> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    revisionId: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    fields: Schema.optional(Schema.Record(Schema.String, LabelField)),
-  }),
-).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
+export const Label: Schema.Schema<Label> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      revisionId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      fields: Schema.optional(Schema.Record(Schema.String, LabelField)),
+    }),
+  ).annotate({ identifier: "Label" }) as any as Schema.Schema<Label>;
 
 export interface File {
   /** Output only. The type of file. This is always `drive#file`. */
@@ -807,197 +815,202 @@ export interface File {
   inheritedPermissionsDisabled?: boolean;
 }
 
-export const File: Schema.Schema<File> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    userPermission: Schema.optional(Permission),
-    fileExtension: Schema.optional(Schema.String),
-    md5Checksum: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    ownerNames: Schema.optional(Schema.Array(Schema.String)),
-    lastModifyingUserName: Schema.optional(Schema.String),
-    editable: Schema.optional(Schema.Boolean),
-    writersCanShare: Schema.optional(Schema.Boolean),
-    downloadUrl: Schema.optional(Schema.String),
-    mimeType: Schema.optional(Schema.String),
-    exportLinks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    driveId: Schema.optional(Schema.String),
-    parents: Schema.optional(Schema.Array(ParentReference)),
-    thumbnailLink: Schema.optional(Schema.String),
-    appDataContents: Schema.optional(Schema.Boolean),
-    webViewLink: Schema.optional(Schema.String),
-    iconLink: Schema.optional(Schema.String),
-    shared: Schema.optional(Schema.Boolean),
-    lastModifyingUser: Schema.optional(User),
-    owners: Schema.optional(Schema.Array(User)),
-    openWithLinks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    defaultOpenWithLink: Schema.optional(Schema.String),
-    headRevisionId: Schema.optional(Schema.String),
-    properties: Schema.optional(Schema.Array(Property)),
-    copyable: Schema.optional(Schema.Boolean),
-    etag: Schema.optional(Schema.String),
-    sharingUser: Schema.optional(User),
-    alternateLink: Schema.optional(Schema.String),
-    embedLink: Schema.optional(Schema.String),
-    webContentLink: Schema.optional(Schema.String),
-    fileSize: Schema.optional(Schema.String),
-    copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
-    permissions: Schema.optional(Schema.Array(Permission)),
-    hasThumbnail: Schema.optional(Schema.Boolean),
-    spaces: Schema.optional(Schema.Array(Schema.String)),
-    folderColorRgb: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    labels: Schema.optional(
-      Schema.Struct({
-        viewed: Schema.optional(Schema.Boolean),
-        restricted: Schema.optional(Schema.Boolean),
-        starred: Schema.optional(Schema.Boolean),
-        hidden: Schema.optional(Schema.Boolean),
-        trashed: Schema.optional(Schema.Boolean),
-        modified: Schema.optional(Schema.Boolean),
-      }),
-    ),
-    explicitlyTrashed: Schema.optional(Schema.Boolean),
-    createdDate: Schema.optional(Schema.String),
-    modifiedDate: Schema.optional(Schema.String),
-    modifiedByMeDate: Schema.optional(Schema.String),
-    lastViewedByMeDate: Schema.optional(Schema.String),
-    markedViewedByMeDate: Schema.optional(Schema.String),
-    sharedWithMeDate: Schema.optional(Schema.String),
-    quotaBytesUsed: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    indexableText: Schema.optional(
-      Schema.Struct({ text: Schema.optional(Schema.String) }),
-    ),
-    originalFilename: Schema.optional(Schema.String),
-    ownedByMe: Schema.optional(Schema.Boolean),
-    canComment: Schema.optional(Schema.Boolean),
-    shareable: Schema.optional(Schema.Boolean),
-    fullFileExtension: Schema.optional(Schema.String),
-    isAppAuthorized: Schema.optional(Schema.Boolean),
-    teamDriveId: Schema.optional(Schema.String),
-    capabilities: Schema.optional(
-      Schema.Struct({
-        canChangeRestrictedDownload: Schema.optional(Schema.Boolean),
-        canMoveChildrenOutOfDrive: Schema.optional(Schema.Boolean),
-        canReadDrive: Schema.optional(Schema.Boolean),
-        canEdit: Schema.optional(Schema.Boolean),
-        canCopy: Schema.optional(Schema.Boolean),
-        canComment: Schema.optional(Schema.Boolean),
-        canAddChildren: Schema.optional(Schema.Boolean),
-        canDelete: Schema.optional(Schema.Boolean),
-        canDownload: Schema.optional(Schema.Boolean),
-        canListChildren: Schema.optional(Schema.Boolean),
-        canRemoveChildren: Schema.optional(Schema.Boolean),
-        canRename: Schema.optional(Schema.Boolean),
-        canTrash: Schema.optional(Schema.Boolean),
-        canReadRevisions: Schema.optional(Schema.Boolean),
-        canReadTeamDrive: Schema.optional(Schema.Boolean),
-        canMoveTeamDriveItem: Schema.optional(Schema.Boolean),
-        canChangeCopyRequiresWriterPermission: Schema.optional(Schema.Boolean),
-        canMoveItemIntoTeamDrive: Schema.optional(Schema.Boolean),
-        canUntrash: Schema.optional(Schema.Boolean),
-        canModifyContent: Schema.optional(Schema.Boolean),
-        canMoveItemWithinTeamDrive: Schema.optional(Schema.Boolean),
-        canMoveItemOutOfTeamDrive: Schema.optional(Schema.Boolean),
-        canDeleteChildren: Schema.optional(Schema.Boolean),
-        canMoveChildrenOutOfTeamDrive: Schema.optional(Schema.Boolean),
-        canMoveChildrenWithinTeamDrive: Schema.optional(Schema.Boolean),
-        canTrashChildren: Schema.optional(Schema.Boolean),
-        canMoveItemOutOfDrive: Schema.optional(Schema.Boolean),
-        canAddMyDriveParent: Schema.optional(Schema.Boolean),
-        canRemoveMyDriveParent: Schema.optional(Schema.Boolean),
-        canMoveItemWithinDrive: Schema.optional(Schema.Boolean),
-        canShare: Schema.optional(Schema.Boolean),
-        canMoveChildrenWithinDrive: Schema.optional(Schema.Boolean),
-        canModifyContentRestriction: Schema.optional(Schema.Boolean),
-        canAddFolderFromAnotherDrive: Schema.optional(Schema.Boolean),
-        canChangeSecurityUpdateEnabled: Schema.optional(Schema.Boolean),
-        canAcceptOwnership: Schema.optional(Schema.Boolean),
-        canReadLabels: Schema.optional(Schema.Boolean),
-        canModifyLabels: Schema.optional(Schema.Boolean),
-        canModifyEditorContentRestriction: Schema.optional(Schema.Boolean),
-        canModifyOwnerContentRestriction: Schema.optional(Schema.Boolean),
-        canRemoveContentRestriction: Schema.optional(Schema.Boolean),
-        canDisableInheritedPermissions: Schema.optional(Schema.Boolean),
-        canEnableInheritedPermissions: Schema.optional(Schema.Boolean),
-      }),
-    ),
-    hasAugmentedPermissions: Schema.optional(Schema.Boolean),
-    trashingUser: Schema.optional(User),
-    canReadRevisions: Schema.optional(Schema.Boolean),
-    thumbnailVersion: Schema.optional(Schema.String),
-    trashedDate: Schema.optional(Schema.String),
-    permissionIds: Schema.optional(Schema.Array(Schema.String)),
-    thumbnail: Schema.optional(
-      Schema.Struct({
-        image: Schema.optional(Schema.String),
-        mimeType: Schema.optional(Schema.String),
-      }),
-    ),
-    imageMediaMetadata: Schema.optional(
-      Schema.Struct({
-        flashUsed: Schema.optional(Schema.Boolean),
-        meteringMode: Schema.optional(Schema.String),
-        sensor: Schema.optional(Schema.String),
-        exposureMode: Schema.optional(Schema.String),
-        colorSpace: Schema.optional(Schema.String),
-        whiteBalance: Schema.optional(Schema.String),
-        width: Schema.optional(Schema.Number),
-        height: Schema.optional(Schema.Number),
-        location: Schema.optional(
-          Schema.Struct({
-            latitude: Schema.optional(Schema.Number),
-            longitude: Schema.optional(Schema.Number),
-            altitude: Schema.optional(Schema.Number),
-          }),
-        ),
-        rotation: Schema.optional(Schema.Number),
-        date: Schema.optional(Schema.String),
-        cameraMake: Schema.optional(Schema.String),
-        cameraModel: Schema.optional(Schema.String),
-        exposureTime: Schema.optional(Schema.Number),
-        aperture: Schema.optional(Schema.Number),
-        focalLength: Schema.optional(Schema.Number),
-        isoSpeed: Schema.optional(Schema.Number),
-        exposureBias: Schema.optional(Schema.Number),
-        maxApertureValue: Schema.optional(Schema.Number),
-        subjectDistance: Schema.optional(Schema.Number),
-        lens: Schema.optional(Schema.String),
-      }),
-    ),
-    videoMediaMetadata: Schema.optional(
-      Schema.Struct({
-        width: Schema.optional(Schema.Number),
-        height: Schema.optional(Schema.Number),
-        durationMillis: Schema.optional(Schema.String),
-      }),
-    ),
-    shortcutDetails: Schema.optional(
-      Schema.Struct({
-        targetId: Schema.optional(Schema.String),
-        targetMimeType: Schema.optional(Schema.String),
-        targetResourceKey: Schema.optional(Schema.String),
-      }),
-    ),
-    contentRestrictions: Schema.optional(Schema.Array(ContentRestriction)),
-    resourceKey: Schema.optional(Schema.String),
-    linkShareMetadata: Schema.optional(
-      Schema.Struct({
-        securityUpdateEligible: Schema.optional(Schema.Boolean),
-        securityUpdateEnabled: Schema.optional(Schema.Boolean),
-      }),
-    ),
-    labelInfo: Schema.optional(
-      Schema.Struct({ labels: Schema.optional(Schema.Array(Label)) }),
-    ),
-    sha1Checksum: Schema.optional(Schema.String),
-    sha256Checksum: Schema.optional(Schema.String),
-    inheritedPermissionsDisabled: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
+export const File: Schema.Schema<File> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      userPermission: Schema.optional(Permission),
+      fileExtension: Schema.optional(Schema.String),
+      md5Checksum: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      ownerNames: Schema.optional(Schema.Array(Schema.String)),
+      lastModifyingUserName: Schema.optional(Schema.String),
+      editable: Schema.optional(Schema.Boolean),
+      writersCanShare: Schema.optional(Schema.Boolean),
+      downloadUrl: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+      exportLinks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      driveId: Schema.optional(Schema.String),
+      parents: Schema.optional(Schema.Array(ParentReference)),
+      thumbnailLink: Schema.optional(Schema.String),
+      appDataContents: Schema.optional(Schema.Boolean),
+      webViewLink: Schema.optional(Schema.String),
+      iconLink: Schema.optional(Schema.String),
+      shared: Schema.optional(Schema.Boolean),
+      lastModifyingUser: Schema.optional(User),
+      owners: Schema.optional(Schema.Array(User)),
+      openWithLinks: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      defaultOpenWithLink: Schema.optional(Schema.String),
+      headRevisionId: Schema.optional(Schema.String),
+      properties: Schema.optional(Schema.Array(Property)),
+      copyable: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+      sharingUser: Schema.optional(User),
+      alternateLink: Schema.optional(Schema.String),
+      embedLink: Schema.optional(Schema.String),
+      webContentLink: Schema.optional(Schema.String),
+      fileSize: Schema.optional(Schema.String),
+      copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
+      permissions: Schema.optional(Schema.Array(Permission)),
+      hasThumbnail: Schema.optional(Schema.Boolean),
+      spaces: Schema.optional(Schema.Array(Schema.String)),
+      folderColorRgb: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      labels: Schema.optional(
+        Schema.Struct({
+          viewed: Schema.optional(Schema.Boolean),
+          restricted: Schema.optional(Schema.Boolean),
+          starred: Schema.optional(Schema.Boolean),
+          hidden: Schema.optional(Schema.Boolean),
+          trashed: Schema.optional(Schema.Boolean),
+          modified: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      explicitlyTrashed: Schema.optional(Schema.Boolean),
+      createdDate: Schema.optional(Schema.String),
+      modifiedDate: Schema.optional(Schema.String),
+      modifiedByMeDate: Schema.optional(Schema.String),
+      lastViewedByMeDate: Schema.optional(Schema.String),
+      markedViewedByMeDate: Schema.optional(Schema.String),
+      sharedWithMeDate: Schema.optional(Schema.String),
+      quotaBytesUsed: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      indexableText: Schema.optional(
+        Schema.Struct({ text: Schema.optional(Schema.String) }),
+      ),
+      originalFilename: Schema.optional(Schema.String),
+      ownedByMe: Schema.optional(Schema.Boolean),
+      canComment: Schema.optional(Schema.Boolean),
+      shareable: Schema.optional(Schema.Boolean),
+      fullFileExtension: Schema.optional(Schema.String),
+      isAppAuthorized: Schema.optional(Schema.Boolean),
+      teamDriveId: Schema.optional(Schema.String),
+      capabilities: Schema.optional(
+        Schema.Struct({
+          canChangeRestrictedDownload: Schema.optional(Schema.Boolean),
+          canMoveChildrenOutOfDrive: Schema.optional(Schema.Boolean),
+          canReadDrive: Schema.optional(Schema.Boolean),
+          canEdit: Schema.optional(Schema.Boolean),
+          canCopy: Schema.optional(Schema.Boolean),
+          canComment: Schema.optional(Schema.Boolean),
+          canAddChildren: Schema.optional(Schema.Boolean),
+          canDelete: Schema.optional(Schema.Boolean),
+          canDownload: Schema.optional(Schema.Boolean),
+          canListChildren: Schema.optional(Schema.Boolean),
+          canRemoveChildren: Schema.optional(Schema.Boolean),
+          canRename: Schema.optional(Schema.Boolean),
+          canTrash: Schema.optional(Schema.Boolean),
+          canReadRevisions: Schema.optional(Schema.Boolean),
+          canReadTeamDrive: Schema.optional(Schema.Boolean),
+          canMoveTeamDriveItem: Schema.optional(Schema.Boolean),
+          canChangeCopyRequiresWriterPermission: Schema.optional(
+            Schema.Boolean,
+          ),
+          canMoveItemIntoTeamDrive: Schema.optional(Schema.Boolean),
+          canUntrash: Schema.optional(Schema.Boolean),
+          canModifyContent: Schema.optional(Schema.Boolean),
+          canMoveItemWithinTeamDrive: Schema.optional(Schema.Boolean),
+          canMoveItemOutOfTeamDrive: Schema.optional(Schema.Boolean),
+          canDeleteChildren: Schema.optional(Schema.Boolean),
+          canMoveChildrenOutOfTeamDrive: Schema.optional(Schema.Boolean),
+          canMoveChildrenWithinTeamDrive: Schema.optional(Schema.Boolean),
+          canTrashChildren: Schema.optional(Schema.Boolean),
+          canMoveItemOutOfDrive: Schema.optional(Schema.Boolean),
+          canAddMyDriveParent: Schema.optional(Schema.Boolean),
+          canRemoveMyDriveParent: Schema.optional(Schema.Boolean),
+          canMoveItemWithinDrive: Schema.optional(Schema.Boolean),
+          canShare: Schema.optional(Schema.Boolean),
+          canMoveChildrenWithinDrive: Schema.optional(Schema.Boolean),
+          canModifyContentRestriction: Schema.optional(Schema.Boolean),
+          canAddFolderFromAnotherDrive: Schema.optional(Schema.Boolean),
+          canChangeSecurityUpdateEnabled: Schema.optional(Schema.Boolean),
+          canAcceptOwnership: Schema.optional(Schema.Boolean),
+          canReadLabels: Schema.optional(Schema.Boolean),
+          canModifyLabels: Schema.optional(Schema.Boolean),
+          canModifyEditorContentRestriction: Schema.optional(Schema.Boolean),
+          canModifyOwnerContentRestriction: Schema.optional(Schema.Boolean),
+          canRemoveContentRestriction: Schema.optional(Schema.Boolean),
+          canDisableInheritedPermissions: Schema.optional(Schema.Boolean),
+          canEnableInheritedPermissions: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      hasAugmentedPermissions: Schema.optional(Schema.Boolean),
+      trashingUser: Schema.optional(User),
+      canReadRevisions: Schema.optional(Schema.Boolean),
+      thumbnailVersion: Schema.optional(Schema.String),
+      trashedDate: Schema.optional(Schema.String),
+      permissionIds: Schema.optional(Schema.Array(Schema.String)),
+      thumbnail: Schema.optional(
+        Schema.Struct({
+          image: Schema.optional(Schema.String),
+          mimeType: Schema.optional(Schema.String),
+        }),
+      ),
+      imageMediaMetadata: Schema.optional(
+        Schema.Struct({
+          flashUsed: Schema.optional(Schema.Boolean),
+          meteringMode: Schema.optional(Schema.String),
+          sensor: Schema.optional(Schema.String),
+          exposureMode: Schema.optional(Schema.String),
+          colorSpace: Schema.optional(Schema.String),
+          whiteBalance: Schema.optional(Schema.String),
+          width: Schema.optional(Schema.Number),
+          height: Schema.optional(Schema.Number),
+          location: Schema.optional(
+            Schema.Struct({
+              latitude: Schema.optional(Schema.Number),
+              longitude: Schema.optional(Schema.Number),
+              altitude: Schema.optional(Schema.Number),
+            }),
+          ),
+          rotation: Schema.optional(Schema.Number),
+          date: Schema.optional(Schema.String),
+          cameraMake: Schema.optional(Schema.String),
+          cameraModel: Schema.optional(Schema.String),
+          exposureTime: Schema.optional(Schema.Number),
+          aperture: Schema.optional(Schema.Number),
+          focalLength: Schema.optional(Schema.Number),
+          isoSpeed: Schema.optional(Schema.Number),
+          exposureBias: Schema.optional(Schema.Number),
+          maxApertureValue: Schema.optional(Schema.Number),
+          subjectDistance: Schema.optional(Schema.Number),
+          lens: Schema.optional(Schema.String),
+        }),
+      ),
+      videoMediaMetadata: Schema.optional(
+        Schema.Struct({
+          width: Schema.optional(Schema.Number),
+          height: Schema.optional(Schema.Number),
+          durationMillis: Schema.optional(Schema.String),
+        }),
+      ),
+      shortcutDetails: Schema.optional(
+        Schema.Struct({
+          targetId: Schema.optional(Schema.String),
+          targetMimeType: Schema.optional(Schema.String),
+          targetResourceKey: Schema.optional(Schema.String),
+        }),
+      ),
+      contentRestrictions: Schema.optional(Schema.Array(ContentRestriction)),
+      resourceKey: Schema.optional(Schema.String),
+      linkShareMetadata: Schema.optional(
+        Schema.Struct({
+          securityUpdateEligible: Schema.optional(Schema.Boolean),
+          securityUpdateEnabled: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      labelInfo: Schema.optional(
+        Schema.Struct({ labels: Schema.optional(Schema.Array(Label)) }),
+      ),
+      sha1Checksum: Schema.optional(Schema.String),
+      sha256Checksum: Schema.optional(Schema.String),
+      inheritedPermissionsDisabled: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
 
 export interface TeamDrive {
   /** The ID of this Team Drive which is also the ID of the top level folder of this Team Drive. */
@@ -1057,65 +1070,66 @@ export interface TeamDrive {
   orgUnitId?: string;
 }
 
-export const TeamDrive: Schema.Schema<TeamDrive> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    colorRgb: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    backgroundImageLink: Schema.optional(Schema.String),
-    capabilities: Schema.optional(
-      Schema.Struct({
-        canAddChildren: Schema.optional(Schema.Boolean),
-        canComment: Schema.optional(Schema.Boolean),
-        canCopy: Schema.optional(Schema.Boolean),
-        canDeleteTeamDrive: Schema.optional(Schema.Boolean),
-        canDownload: Schema.optional(Schema.Boolean),
-        canEdit: Schema.optional(Schema.Boolean),
-        canListChildren: Schema.optional(Schema.Boolean),
-        canManageMembers: Schema.optional(Schema.Boolean),
-        canReadRevisions: Schema.optional(Schema.Boolean),
-        canRemoveChildren: Schema.optional(Schema.Boolean),
-        canRename: Schema.optional(Schema.Boolean),
-        canRenameTeamDrive: Schema.optional(Schema.Boolean),
-        canChangeTeamDriveBackground: Schema.optional(Schema.Boolean),
-        canShare: Schema.optional(Schema.Boolean),
-        canChangeCopyRequiresWriterPermissionRestriction: Schema.optional(
-          Schema.Boolean,
-        ),
-        canChangeDomainUsersOnlyRestriction: Schema.optional(Schema.Boolean),
-        canChangeSharingFoldersRequiresOrganizerPermissionRestriction:
-          Schema.optional(Schema.Boolean),
-        canChangeTeamMembersOnlyRestriction: Schema.optional(Schema.Boolean),
-        canDeleteChildren: Schema.optional(Schema.Boolean),
-        canTrashChildren: Schema.optional(Schema.Boolean),
-        canResetTeamDriveRestrictions: Schema.optional(Schema.Boolean),
-      }),
-    ),
-    themeId: Schema.optional(Schema.String),
-    backgroundImageFile: Schema.optional(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        xCoordinate: Schema.optional(Schema.Number),
-        yCoordinate: Schema.optional(Schema.Number),
-        width: Schema.optional(Schema.Number),
-      }),
-    ),
-    createdDate: Schema.optional(Schema.String),
-    restrictions: Schema.optional(
-      Schema.Struct({
-        copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
-        domainUsersOnly: Schema.optional(Schema.Boolean),
-        teamMembersOnly: Schema.optional(Schema.Boolean),
-        adminManagedRestrictions: Schema.optional(Schema.Boolean),
-        sharingFoldersRequiresOrganizerPermission: Schema.optional(
-          Schema.Boolean,
-        ),
-      }),
-    ),
-    orgUnitId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TeamDrive" }) as any as Schema.Schema<TeamDrive>;
+export const TeamDrive: Schema.Schema<TeamDrive> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      colorRgb: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      backgroundImageLink: Schema.optional(Schema.String),
+      capabilities: Schema.optional(
+        Schema.Struct({
+          canAddChildren: Schema.optional(Schema.Boolean),
+          canComment: Schema.optional(Schema.Boolean),
+          canCopy: Schema.optional(Schema.Boolean),
+          canDeleteTeamDrive: Schema.optional(Schema.Boolean),
+          canDownload: Schema.optional(Schema.Boolean),
+          canEdit: Schema.optional(Schema.Boolean),
+          canListChildren: Schema.optional(Schema.Boolean),
+          canManageMembers: Schema.optional(Schema.Boolean),
+          canReadRevisions: Schema.optional(Schema.Boolean),
+          canRemoveChildren: Schema.optional(Schema.Boolean),
+          canRename: Schema.optional(Schema.Boolean),
+          canRenameTeamDrive: Schema.optional(Schema.Boolean),
+          canChangeTeamDriveBackground: Schema.optional(Schema.Boolean),
+          canShare: Schema.optional(Schema.Boolean),
+          canChangeCopyRequiresWriterPermissionRestriction: Schema.optional(
+            Schema.Boolean,
+          ),
+          canChangeDomainUsersOnlyRestriction: Schema.optional(Schema.Boolean),
+          canChangeSharingFoldersRequiresOrganizerPermissionRestriction:
+            Schema.optional(Schema.Boolean),
+          canChangeTeamMembersOnlyRestriction: Schema.optional(Schema.Boolean),
+          canDeleteChildren: Schema.optional(Schema.Boolean),
+          canTrashChildren: Schema.optional(Schema.Boolean),
+          canResetTeamDriveRestrictions: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      themeId: Schema.optional(Schema.String),
+      backgroundImageFile: Schema.optional(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          xCoordinate: Schema.optional(Schema.Number),
+          yCoordinate: Schema.optional(Schema.Number),
+          width: Schema.optional(Schema.Number),
+        }),
+      ),
+      createdDate: Schema.optional(Schema.String),
+      restrictions: Schema.optional(
+        Schema.Struct({
+          copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
+          domainUsersOnly: Schema.optional(Schema.Boolean),
+          teamMembersOnly: Schema.optional(Schema.Boolean),
+          adminManagedRestrictions: Schema.optional(Schema.Boolean),
+          sharingFoldersRequiresOrganizerPermission: Schema.optional(
+            Schema.Boolean,
+          ),
+        }),
+      ),
+      orgUnitId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TeamDrive" }) as any as Schema.Schema<TeamDrive>;
 
 export interface Drive {
   /** Output only. The ID of this shared drive which is also the ID of the top level folder of this shared drive. */
@@ -1176,65 +1190,66 @@ export interface Drive {
   orgUnitId?: string;
 }
 
-export const Drive: Schema.Schema<Drive> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    colorRgb: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    backgroundImageLink: Schema.optional(Schema.String),
-    capabilities: Schema.optional(
-      Schema.Struct({
-        canAddChildren: Schema.optional(Schema.Boolean),
-        canComment: Schema.optional(Schema.Boolean),
-        canCopy: Schema.optional(Schema.Boolean),
-        canDeleteDrive: Schema.optional(Schema.Boolean),
-        canDownload: Schema.optional(Schema.Boolean),
-        canEdit: Schema.optional(Schema.Boolean),
-        canListChildren: Schema.optional(Schema.Boolean),
-        canManageMembers: Schema.optional(Schema.Boolean),
-        canReadRevisions: Schema.optional(Schema.Boolean),
-        canRename: Schema.optional(Schema.Boolean),
-        canRenameDrive: Schema.optional(Schema.Boolean),
-        canChangeDriveBackground: Schema.optional(Schema.Boolean),
-        canShare: Schema.optional(Schema.Boolean),
-        canChangeCopyRequiresWriterPermissionRestriction: Schema.optional(
-          Schema.Boolean,
-        ),
-        canChangeDomainUsersOnlyRestriction: Schema.optional(Schema.Boolean),
-        canChangeDriveMembersOnlyRestriction: Schema.optional(Schema.Boolean),
-        canChangeSharingFoldersRequiresOrganizerPermissionRestriction:
-          Schema.optional(Schema.Boolean),
-        canResetDriveRestrictions: Schema.optional(Schema.Boolean),
-        canDeleteChildren: Schema.optional(Schema.Boolean),
-        canTrashChildren: Schema.optional(Schema.Boolean),
-      }),
-    ),
-    themeId: Schema.optional(Schema.String),
-    backgroundImageFile: Schema.optional(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        xCoordinate: Schema.optional(Schema.Number),
-        yCoordinate: Schema.optional(Schema.Number),
-        width: Schema.optional(Schema.Number),
-      }),
-    ),
-    createdDate: Schema.optional(Schema.String),
-    hidden: Schema.optional(Schema.Boolean),
-    restrictions: Schema.optional(
-      Schema.Struct({
-        copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
-        domainUsersOnly: Schema.optional(Schema.Boolean),
-        driveMembersOnly: Schema.optional(Schema.Boolean),
-        adminManagedRestrictions: Schema.optional(Schema.Boolean),
-        sharingFoldersRequiresOrganizerPermission: Schema.optional(
-          Schema.Boolean,
-        ),
-      }),
-    ),
-    orgUnitId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Drive" }) as any as Schema.Schema<Drive>;
+export const Drive: Schema.Schema<Drive> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      colorRgb: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      backgroundImageLink: Schema.optional(Schema.String),
+      capabilities: Schema.optional(
+        Schema.Struct({
+          canAddChildren: Schema.optional(Schema.Boolean),
+          canComment: Schema.optional(Schema.Boolean),
+          canCopy: Schema.optional(Schema.Boolean),
+          canDeleteDrive: Schema.optional(Schema.Boolean),
+          canDownload: Schema.optional(Schema.Boolean),
+          canEdit: Schema.optional(Schema.Boolean),
+          canListChildren: Schema.optional(Schema.Boolean),
+          canManageMembers: Schema.optional(Schema.Boolean),
+          canReadRevisions: Schema.optional(Schema.Boolean),
+          canRename: Schema.optional(Schema.Boolean),
+          canRenameDrive: Schema.optional(Schema.Boolean),
+          canChangeDriveBackground: Schema.optional(Schema.Boolean),
+          canShare: Schema.optional(Schema.Boolean),
+          canChangeCopyRequiresWriterPermissionRestriction: Schema.optional(
+            Schema.Boolean,
+          ),
+          canChangeDomainUsersOnlyRestriction: Schema.optional(Schema.Boolean),
+          canChangeDriveMembersOnlyRestriction: Schema.optional(Schema.Boolean),
+          canChangeSharingFoldersRequiresOrganizerPermissionRestriction:
+            Schema.optional(Schema.Boolean),
+          canResetDriveRestrictions: Schema.optional(Schema.Boolean),
+          canDeleteChildren: Schema.optional(Schema.Boolean),
+          canTrashChildren: Schema.optional(Schema.Boolean),
+        }),
+      ),
+      themeId: Schema.optional(Schema.String),
+      backgroundImageFile: Schema.optional(
+        Schema.Struct({
+          id: Schema.optional(Schema.String),
+          xCoordinate: Schema.optional(Schema.Number),
+          yCoordinate: Schema.optional(Schema.Number),
+          width: Schema.optional(Schema.Number),
+        }),
+      ),
+      createdDate: Schema.optional(Schema.String),
+      hidden: Schema.optional(Schema.Boolean),
+      restrictions: Schema.optional(
+        Schema.Struct({
+          copyRequiresWriterPermission: Schema.optional(Schema.Boolean),
+          domainUsersOnly: Schema.optional(Schema.Boolean),
+          driveMembersOnly: Schema.optional(Schema.Boolean),
+          adminManagedRestrictions: Schema.optional(Schema.Boolean),
+          sharingFoldersRequiresOrganizerPermission: Schema.optional(
+            Schema.Boolean,
+          ),
+        }),
+      ),
+      orgUnitId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Drive" }) as any as Schema.Schema<Drive>;
 
 export interface Change {
   /** The ID of the change. */
@@ -1265,23 +1280,24 @@ export interface Change {
   drive?: Drive;
 }
 
-export const Change: Schema.Schema<Change> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    deleted: Schema.optional(Schema.Boolean),
-    file: Schema.optional(File),
-    fileId: Schema.optional(Schema.String),
-    modificationDate: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    teamDriveId: Schema.optional(Schema.String),
-    teamDrive: Schema.optional(TeamDrive),
-    changeType: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    driveId: Schema.optional(Schema.String),
-    drive: Schema.optional(Drive),
-  }),
-).annotate({ identifier: "Change" }) as any as Schema.Schema<Change>;
+export const Change: Schema.Schema<Change> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      deleted: Schema.optional(Schema.Boolean),
+      file: Schema.optional(File),
+      fileId: Schema.optional(Schema.String),
+      modificationDate: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      teamDriveId: Schema.optional(Schema.String),
+      teamDrive: Schema.optional(TeamDrive),
+      changeType: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      driveId: Schema.optional(Schema.String),
+      drive: Schema.optional(Drive),
+    }),
+  ).annotate({ identifier: "Change" }) as any as Schema.Schema<Change>;
 
 export interface StartPageToken {
   /** The starting page token for listing changes. */
@@ -1290,15 +1306,15 @@ export interface StartPageToken {
   kind?: string;
 }
 
-export const StartPageToken: Schema.Schema<StartPageToken> = Schema.suspend(
-  () =>
+export const StartPageToken: Schema.Schema<StartPageToken> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "StartPageToken",
-}) as any as Schema.Schema<StartPageToken>;
+  ).annotate({
+    identifier: "StartPageToken",
+  }) as any as Schema.Schema<StartPageToken>;
 
 export interface ChangeList {
   /** The current largest change ID. */
@@ -1319,18 +1335,19 @@ export interface ChangeList {
   items?: Array<Change>;
 }
 
-export const ChangeList: Schema.Schema<ChangeList> = Schema.suspend(() =>
-  Schema.Struct({
-    largestChangeId: Schema.optional(Schema.String),
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    newStartPageToken: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    nextLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Change)),
-  }),
-).annotate({ identifier: "ChangeList" }) as any as Schema.Schema<ChangeList>;
+export const ChangeList: Schema.Schema<ChangeList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      largestChangeId: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      newStartPageToken: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Change)),
+    }),
+  ).annotate({ identifier: "ChangeList" }) as any as Schema.Schema<ChangeList>;
 
 export interface Channel {
   /** A Boolean value to indicate whether payload is wanted. Optional. */
@@ -1355,20 +1372,21 @@ export interface Channel {
   kind?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
-  Schema.Struct({
-    payload: Schema.optional(Schema.Boolean),
-    id: Schema.optional(Schema.String),
-    resourceId: Schema.optional(Schema.String),
-    resourceUri: Schema.optional(Schema.String),
-    token: Schema.optional(Schema.String),
-    expiration: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    address: Schema.optional(Schema.String),
-    params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      payload: Schema.optional(Schema.Boolean),
+      id: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      resourceUri: Schema.optional(Schema.String),
+      token: Schema.optional(Schema.String),
+      expiration: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      address: Schema.optional(Schema.String),
+      params: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface ChildReference {
   /** The ID of the child. */
@@ -1381,17 +1399,17 @@ export interface ChildReference {
   childLink?: string;
 }
 
-export const ChildReference: Schema.Schema<ChildReference> = Schema.suspend(
-  () =>
+export const ChildReference: Schema.Schema<ChildReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       selfLink: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
       childLink: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ChildReference",
-}) as any as Schema.Schema<ChildReference>;
+  ).annotate({
+    identifier: "ChildReference",
+  }) as any as Schema.Schema<ChildReference>;
 
 export interface ChildList {
   /** The page token for the next page of children. This will be absent if the end of the children list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
@@ -1408,16 +1426,17 @@ export interface ChildList {
   items?: Array<ChildReference>;
 }
 
-export const ChildList: Schema.Schema<ChildList> = Schema.suspend(() =>
-  Schema.Struct({
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    nextLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(ChildReference)),
-  }),
-).annotate({ identifier: "ChildList" }) as any as Schema.Schema<ChildList>;
+export const ChildList: Schema.Schema<ChildList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(ChildReference)),
+    }),
+  ).annotate({ identifier: "ChildList" }) as any as Schema.Schema<ChildList>;
 
 export interface CommentReply {
   /** The ID of the reply. */
@@ -1440,21 +1459,22 @@ export interface CommentReply {
   content?: string;
 }
 
-export const CommentReply: Schema.Schema<CommentReply> = Schema.suspend(() =>
-  Schema.Struct({
-    replyId: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    createdDate: Schema.optional(Schema.String),
-    modifiedDate: Schema.optional(Schema.String),
-    verb: Schema.optional(Schema.String),
-    author: Schema.optional(User),
-    deleted: Schema.optional(Schema.Boolean),
-    htmlContent: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CommentReply",
-}) as any as Schema.Schema<CommentReply>;
+export const CommentReply: Schema.Schema<CommentReply> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      replyId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      createdDate: Schema.optional(Schema.String),
+      modifiedDate: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      author: Schema.optional(User),
+      deleted: Schema.optional(Schema.Boolean),
+      htmlContent: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommentReply",
+  }) as any as Schema.Schema<CommentReply>;
 
 export interface Comment {
   /** The ID of the comment. */
@@ -1489,30 +1509,31 @@ export interface Comment {
   context?: { type?: string; value?: string };
 }
 
-export const Comment: Schema.Schema<Comment> = Schema.suspend(() =>
-  Schema.Struct({
-    commentId: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    createdDate: Schema.optional(Schema.String),
-    modifiedDate: Schema.optional(Schema.String),
-    fileId: Schema.optional(Schema.String),
-    fileTitle: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    anchor: Schema.optional(Schema.String),
-    replies: Schema.optional(Schema.Array(CommentReply)),
-    author: Schema.optional(User),
-    deleted: Schema.optional(Schema.Boolean),
-    selfLink: Schema.optional(Schema.String),
-    htmlContent: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    context: Schema.optional(
-      Schema.Struct({
-        type: Schema.optional(Schema.String),
-        value: Schema.optional(Schema.String),
-      }),
-    ),
-  }),
-).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
+export const Comment: Schema.Schema<Comment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commentId: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      createdDate: Schema.optional(Schema.String),
+      modifiedDate: Schema.optional(Schema.String),
+      fileId: Schema.optional(Schema.String),
+      fileTitle: Schema.optional(Schema.String),
+      status: Schema.optional(Schema.String),
+      anchor: Schema.optional(Schema.String),
+      replies: Schema.optional(Schema.Array(CommentReply)),
+      author: Schema.optional(User),
+      deleted: Schema.optional(Schema.Boolean),
+      selfLink: Schema.optional(Schema.String),
+      htmlContent: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      context: Schema.optional(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          value: Schema.optional(Schema.String),
+        }),
+      ),
+    }),
+  ).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
 
 export interface CommentList {
   /** The list of comments. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
@@ -1527,15 +1548,18 @@ export interface CommentList {
   nextPageToken?: string;
 }
 
-export const CommentList: Schema.Schema<CommentList> = Schema.suspend(() =>
-  Schema.Struct({
-    items: Schema.optional(Schema.Array(Comment)),
-    kind: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    nextLink: Schema.optional(Schema.String),
-    nextPageToken: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CommentList" }) as any as Schema.Schema<CommentList>;
+export const CommentList: Schema.Schema<CommentList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(Comment)),
+      kind: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      nextLink: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommentList",
+  }) as any as Schema.Schema<CommentList>;
 
 export interface DriveList {
   /** The page token for the next page of shared drives. This will be absent if the end of the list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
@@ -1546,13 +1570,14 @@ export interface DriveList {
   items?: Array<Drive>;
 }
 
-export const DriveList: Schema.Schema<DriveList> = Schema.suspend(() =>
-  Schema.Struct({
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Drive)),
-  }),
-).annotate({ identifier: "DriveList" }) as any as Schema.Schema<DriveList>;
+export const DriveList: Schema.Schema<DriveList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Drive)),
+    }),
+  ).annotate({ identifier: "DriveList" }) as any as Schema.Schema<DriveList>;
 
 export interface GeneratedIds {
   /** The IDs generated for the requesting user in the specified space. */
@@ -1563,15 +1588,16 @@ export interface GeneratedIds {
   kind?: string;
 }
 
-export const GeneratedIds: Schema.Schema<GeneratedIds> = Schema.suspend(() =>
-  Schema.Struct({
-    ids: Schema.optional(Schema.Array(Schema.String)),
-    space: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GeneratedIds",
-}) as any as Schema.Schema<GeneratedIds>;
+export const GeneratedIds: Schema.Schema<GeneratedIds> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ids: Schema.optional(Schema.Array(Schema.String)),
+      space: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GeneratedIds",
+  }) as any as Schema.Schema<GeneratedIds>;
 
 export interface FileList {
   /** The page token for the next page of files. This will be absent if the end of the files list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
@@ -1590,17 +1616,18 @@ export interface FileList {
   items?: Array<File>;
 }
 
-export const FileList: Schema.Schema<FileList> = Schema.suspend(() =>
-  Schema.Struct({
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    incompleteSearch: Schema.optional(Schema.Boolean),
-    nextLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(File)),
-  }),
-).annotate({ identifier: "FileList" }) as any as Schema.Schema<FileList>;
+export const FileList: Schema.Schema<FileList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      incompleteSearch: Schema.optional(Schema.Boolean),
+      nextLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(File)),
+    }),
+  ).annotate({ identifier: "FileList" }) as any as Schema.Schema<FileList>;
 
 export interface LabelList {
   /** The list of labels. */
@@ -1611,13 +1638,14 @@ export interface LabelList {
   kind?: string;
 }
 
-export const LabelList: Schema.Schema<LabelList> = Schema.suspend(() =>
-  Schema.Struct({
-    items: Schema.optional(Schema.Array(Label)),
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LabelList" }) as any as Schema.Schema<LabelList>;
+export const LabelList: Schema.Schema<LabelList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(Label)),
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "LabelList" }) as any as Schema.Schema<LabelList>;
 
 export interface LabelFieldModification {
   /** The ID of the field to be modified. */
@@ -1639,7 +1667,7 @@ export interface LabelFieldModification {
 }
 
 export const LabelFieldModification: Schema.Schema<LabelFieldModification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldId: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -1666,7 +1694,7 @@ export interface LabelModification {
 }
 
 export const LabelModification: Schema.Schema<LabelModification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelId: Schema.optional(Schema.String),
       fieldModifications: Schema.optional(Schema.Array(LabelFieldModification)),
@@ -1685,7 +1713,7 @@ export interface ModifyLabelsRequest {
 }
 
 export const ModifyLabelsRequest: Schema.Schema<ModifyLabelsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       labelModifications: Schema.optional(Schema.Array(LabelModification)),
       kind: Schema.optional(Schema.String),
@@ -1702,7 +1730,7 @@ export interface ModifyLabelsResponse {
 }
 
 export const ModifyLabelsResponse: Schema.Schema<ModifyLabelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       modifiedLabels: Schema.optional(Schema.Array(Label)),
       kind: Schema.optional(Schema.String),
@@ -1722,14 +1750,15 @@ export interface ParentList {
   items?: Array<ParentReference>;
 }
 
-export const ParentList: Schema.Schema<ParentList> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(ParentReference)),
-  }),
-).annotate({ identifier: "ParentList" }) as any as Schema.Schema<ParentList>;
+export const ParentList: Schema.Schema<ParentList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(ParentReference)),
+    }),
+  ).annotate({ identifier: "ParentList" }) as any as Schema.Schema<ParentList>;
 
 export interface PermissionId {
   /** This is always `drive#permissionId`. */
@@ -1738,14 +1767,15 @@ export interface PermissionId {
   id?: string;
 }
 
-export const PermissionId: Schema.Schema<PermissionId> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PermissionId",
-}) as any as Schema.Schema<PermissionId>;
+export const PermissionId: Schema.Schema<PermissionId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PermissionId",
+  }) as any as Schema.Schema<PermissionId>;
 
 export interface PermissionList {
   /** The page token for the next page of permissions. This field will be absent if the end of the permissions list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
@@ -1760,8 +1790,8 @@ export interface PermissionList {
   items?: Array<Permission>;
 }
 
-export const PermissionList: Schema.Schema<PermissionList> = Schema.suspend(
-  () =>
+export const PermissionList: Schema.Schema<PermissionList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -1769,9 +1799,9 @@ export const PermissionList: Schema.Schema<PermissionList> = Schema.suspend(
       selfLink: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(Permission)),
     }),
-).annotate({
-  identifier: "PermissionList",
-}) as any as Schema.Schema<PermissionList>;
+  ).annotate({
+    identifier: "PermissionList",
+  }) as any as Schema.Schema<PermissionList>;
 
 export interface PropertyList {
   /** This is always `drive#propertyList`. */
@@ -1784,16 +1814,17 @@ export interface PropertyList {
   items?: Array<Property>;
 }
 
-export const PropertyList: Schema.Schema<PropertyList> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Property)),
-  }),
-).annotate({
-  identifier: "PropertyList",
-}) as any as Schema.Schema<PropertyList>;
+export const PropertyList: Schema.Schema<PropertyList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Property)),
+    }),
+  ).annotate({
+    identifier: "PropertyList",
+  }) as any as Schema.Schema<PropertyList>;
 
 export interface CommentReplyList {
   /** The list of replies. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
@@ -1808,8 +1839,8 @@ export interface CommentReplyList {
   nextPageToken?: string;
 }
 
-export const CommentReplyList: Schema.Schema<CommentReplyList> = Schema.suspend(
-  () =>
+export const CommentReplyList: Schema.Schema<CommentReplyList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       items: Schema.optional(Schema.Array(CommentReply)),
       kind: Schema.optional(Schema.String),
@@ -1817,9 +1848,9 @@ export const CommentReplyList: Schema.Schema<CommentReplyList> = Schema.suspend(
       nextLink: Schema.optional(Schema.String),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CommentReplyList",
-}) as any as Schema.Schema<CommentReplyList>;
+  ).annotate({
+    identifier: "CommentReplyList",
+  }) as any as Schema.Schema<CommentReplyList>;
 
 export interface Revision {
   /** Output only. The ID of the revision. */
@@ -1860,28 +1891,29 @@ export interface Revision {
   selfLink?: string;
 }
 
-export const Revision: Schema.Schema<Revision> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    mimeType: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    published: Schema.optional(Schema.Boolean),
-    etag: Schema.optional(Schema.String),
-    exportLinks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    pinned: Schema.optional(Schema.Boolean),
-    md5Checksum: Schema.optional(Schema.String),
-    modifiedDate: Schema.optional(Schema.String),
-    lastModifyingUserName: Schema.optional(Schema.String),
-    downloadUrl: Schema.optional(Schema.String),
-    publishAuto: Schema.optional(Schema.Boolean),
-    publishedOutsideDomain: Schema.optional(Schema.Boolean),
-    publishedLink: Schema.optional(Schema.String),
-    fileSize: Schema.optional(Schema.String),
-    originalFilename: Schema.optional(Schema.String),
-    lastModifyingUser: Schema.optional(User),
-    selfLink: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Revision" }) as any as Schema.Schema<Revision>;
+export const Revision: Schema.Schema<Revision> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      published: Schema.optional(Schema.Boolean),
+      etag: Schema.optional(Schema.String),
+      exportLinks: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      pinned: Schema.optional(Schema.Boolean),
+      md5Checksum: Schema.optional(Schema.String),
+      modifiedDate: Schema.optional(Schema.String),
+      lastModifyingUserName: Schema.optional(Schema.String),
+      downloadUrl: Schema.optional(Schema.String),
+      publishAuto: Schema.optional(Schema.Boolean),
+      publishedOutsideDomain: Schema.optional(Schema.Boolean),
+      publishedLink: Schema.optional(Schema.String),
+      fileSize: Schema.optional(Schema.String),
+      originalFilename: Schema.optional(Schema.String),
+      lastModifyingUser: Schema.optional(User),
+      selfLink: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Revision" }) as any as Schema.Schema<Revision>;
 
 export interface RevisionList {
   /** The page token for the next page of revisions. This field will be absent if the end of the revisions list has been reached. If the token is rejected for any reason, it should be discarded and pagination should be restarted from the first page of results. */
@@ -1896,17 +1928,18 @@ export interface RevisionList {
   items?: Array<Revision>;
 }
 
-export const RevisionList: Schema.Schema<RevisionList> = Schema.suspend(() =>
-  Schema.Struct({
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    selfLink: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(Revision)),
-  }),
-).annotate({
-  identifier: "RevisionList",
-}) as any as Schema.Schema<RevisionList>;
+export const RevisionList: Schema.Schema<RevisionList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      selfLink: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(Revision)),
+    }),
+  ).annotate({
+    identifier: "RevisionList",
+  }) as any as Schema.Schema<RevisionList>;
 
 export interface TeamDriveList {
   /** The page token for the next page of Team Drives. */
@@ -1917,15 +1950,16 @@ export interface TeamDriveList {
   items?: Array<TeamDrive>;
 }
 
-export const TeamDriveList: Schema.Schema<TeamDriveList> = Schema.suspend(() =>
-  Schema.Struct({
-    nextPageToken: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    items: Schema.optional(Schema.Array(TeamDrive)),
-  }),
-).annotate({
-  identifier: "TeamDriveList",
-}) as any as Schema.Schema<TeamDriveList>;
+export const TeamDriveList: Schema.Schema<TeamDriveList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      items: Schema.optional(Schema.Array(TeamDrive)),
+    }),
+  ).annotate({
+    identifier: "TeamDriveList",
+  }) as any as Schema.Schema<TeamDriveList>;
 
 // ==========================================================================
 // Operations
@@ -1940,7 +1974,7 @@ export interface GetAboutRequest {
   startChangeId?: string;
 }
 
-export const GetAboutRequest = Schema.Struct({
+export const GetAboutRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeSubscribed: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("includeSubscribed"),
   ),
@@ -1956,7 +1990,7 @@ export const GetAboutRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAboutRequest>;
 
 export type GetAboutResponse = About;
-export const GetAboutResponse = About;
+export const GetAboutResponse = /*@__PURE__*/ /*#__PURE__*/ About;
 
 export type GetAboutError = DefaultErrors;
 
@@ -1966,7 +2000,7 @@ export const getAbout: API.OperationMethod<
   GetAboutResponse,
   GetAboutError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAboutRequest,
   output: GetAboutResponse,
   errors: [],
@@ -1977,7 +2011,7 @@ export interface GetAppsRequest {
   appId: string;
 }
 
-export const GetAppsRequest = Schema.Struct({
+export const GetAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   appId: Schema.String.pipe(T.HttpPath("appId")),
 }).pipe(
   T.Http({ method: "GET", path: "apps/{appId}" }),
@@ -1985,7 +2019,7 @@ export const GetAppsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAppsRequest>;
 
 export type GetAppsResponse = App;
-export const GetAppsResponse = App;
+export const GetAppsResponse = /*@__PURE__*/ /*#__PURE__*/ App;
 
 export type GetAppsError = DefaultErrors;
 
@@ -1995,7 +2029,7 @@ export const getApps: API.OperationMethod<
   GetAppsResponse,
   GetAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAppsRequest,
   output: GetAppsResponse,
   errors: [],
@@ -2010,7 +2044,7 @@ export interface ListAppsRequest {
   languageCode?: string;
 }
 
-export const ListAppsRequest = Schema.Struct({
+export const ListAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   appFilterExtensions: Schema.optional(Schema.String).pipe(
     T.HttpQuery("appFilterExtensions"),
   ),
@@ -2026,7 +2060,7 @@ export const ListAppsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAppsRequest>;
 
 export type ListAppsResponse = AppList;
-export const ListAppsResponse = AppList;
+export const ListAppsResponse = /*@__PURE__*/ /*#__PURE__*/ AppList;
 
 export type ListAppsError = DefaultErrors;
 
@@ -2036,7 +2070,7 @@ export const listApps: API.OperationMethod<
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [],
@@ -2055,7 +2089,7 @@ export interface GetChangesRequest {
   teamDriveId?: string;
 }
 
-export const GetChangesRequest = Schema.Struct({
+export const GetChangesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   changeId: Schema.String.pipe(T.HttpPath("changeId")),
   driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
@@ -2071,7 +2105,7 @@ export const GetChangesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetChangesRequest>;
 
 export type GetChangesResponse = Change;
-export const GetChangesResponse = Change;
+export const GetChangesResponse = /*@__PURE__*/ /*#__PURE__*/ Change;
 
 export type GetChangesError = DefaultErrors;
 
@@ -2081,7 +2115,7 @@ export const getChanges: API.OperationMethod<
   GetChangesResponse,
   GetChangesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChangesRequest,
   output: GetChangesResponse,
   errors: [],
@@ -2098,22 +2132,26 @@ export interface GetStartPageTokenChangesRequest {
   teamDriveId?: string;
 }
 
-export const GetStartPageTokenChangesRequest = Schema.Struct({
-  driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  teamDriveId: Schema.optional(Schema.String).pipe(T.HttpQuery("teamDriveId")),
-}).pipe(
-  T.Http({ method: "GET", path: "changes/startPageToken" }),
-  svc,
-) as unknown as Schema.Schema<GetStartPageTokenChangesRequest>;
+export const GetStartPageTokenChangesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    teamDriveId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("teamDriveId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "changes/startPageToken" }),
+    svc,
+  ) as unknown as Schema.Schema<GetStartPageTokenChangesRequest>;
 
 export type GetStartPageTokenChangesResponse = StartPageToken;
-export const GetStartPageTokenChangesResponse = StartPageToken;
+export const GetStartPageTokenChangesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ StartPageToken;
 
 export type GetStartPageTokenChangesError = DefaultErrors;
 
@@ -2123,7 +2161,7 @@ export const getStartPageTokenChanges: API.OperationMethod<
   GetStartPageTokenChangesResponse,
   GetStartPageTokenChangesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStartPageTokenChangesRequest,
   output: GetStartPageTokenChangesResponse,
   errors: [],
@@ -2162,7 +2200,7 @@ export interface ListChangesRequest {
   includeLabels?: string;
 }
 
-export const ListChangesRequest = Schema.Struct({
+export const ListChangesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
   includeCorpusRemovals: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("includeCorpusRemovals"),
@@ -2204,7 +2242,7 @@ export const ListChangesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListChangesRequest>;
 
 export type ListChangesResponse = ChangeList;
-export const ListChangesResponse = ChangeList;
+export const ListChangesResponse = /*@__PURE__*/ /*#__PURE__*/ ChangeList;
 
 export type ListChangesError = DefaultErrors;
 
@@ -2214,7 +2252,7 @@ export const listChanges: API.PaginatedOperationMethod<
   ListChangesResponse,
   ListChangesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListChangesRequest,
   output: ListChangesResponse,
   errors: [],
@@ -2260,7 +2298,7 @@ export interface WatchChangesRequest {
   body?: Channel;
 }
 
-export const WatchChangesRequest = Schema.Struct({
+export const WatchChangesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
   includeCorpusRemovals: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("includeCorpusRemovals"),
@@ -2303,7 +2341,7 @@ export const WatchChangesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<WatchChangesRequest>;
 
 export type WatchChangesResponse = Channel;
-export const WatchChangesResponse = Channel;
+export const WatchChangesResponse = /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type WatchChangesError = DefaultErrors;
 
@@ -2313,7 +2351,7 @@ export const watchChanges: API.OperationMethod<
   WatchChangesResponse,
   WatchChangesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WatchChangesRequest,
   output: WatchChangesResponse,
   errors: [],
@@ -2324,7 +2362,7 @@ export interface StopChannelsRequest {
   body?: Channel;
 }
 
-export const StopChannelsRequest = Schema.Struct({
+export const StopChannelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(Channel).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "channels/stop", hasBody: true }),
@@ -2333,7 +2371,9 @@ export const StopChannelsRequest = Schema.Struct({
 
 export interface StopChannelsResponse {}
 export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<StopChannelsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<StopChannelsResponse>;
 
 export type StopChannelsError = DefaultErrors;
 
@@ -2343,7 +2383,7 @@ export const stopChannels: API.OperationMethod<
   StopChannelsResponse,
   StopChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
@@ -2358,7 +2398,7 @@ export interface DeleteChildrenRequest {
   enforceSingleParent?: boolean;
 }
 
-export const DeleteChildrenRequest = Schema.Struct({
+export const DeleteChildrenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   folderId: Schema.String.pipe(T.HttpPath("folderId")),
   childId: Schema.String.pipe(T.HttpPath("childId")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
@@ -2371,7 +2411,9 @@ export const DeleteChildrenRequest = Schema.Struct({
 
 export interface DeleteChildrenResponse {}
 export const DeleteChildrenResponse: Schema.Schema<DeleteChildrenResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteChildrenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteChildrenResponse>;
 
 export type DeleteChildrenError = DefaultErrors;
 
@@ -2381,7 +2423,7 @@ export const deleteChildren: API.OperationMethod<
   DeleteChildrenResponse,
   DeleteChildrenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteChildrenRequest,
   output: DeleteChildrenResponse,
   errors: [],
@@ -2394,7 +2436,7 @@ export interface GetChildrenRequest {
   childId: string;
 }
 
-export const GetChildrenRequest = Schema.Struct({
+export const GetChildrenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   folderId: Schema.String.pipe(T.HttpPath("folderId")),
   childId: Schema.String.pipe(T.HttpPath("childId")),
 }).pipe(
@@ -2403,7 +2445,7 @@ export const GetChildrenRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetChildrenRequest>;
 
 export type GetChildrenResponse = ChildReference;
-export const GetChildrenResponse = ChildReference;
+export const GetChildrenResponse = /*@__PURE__*/ /*#__PURE__*/ ChildReference;
 
 export type GetChildrenError = DefaultErrors;
 
@@ -2413,7 +2455,7 @@ export const getChildren: API.OperationMethod<
   GetChildrenResponse,
   GetChildrenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetChildrenRequest,
   output: GetChildrenResponse,
   errors: [],
@@ -2432,7 +2474,7 @@ export interface InsertChildrenRequest {
   body?: ChildReference;
 }
 
-export const InsertChildrenRequest = Schema.Struct({
+export const InsertChildrenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   folderId: Schema.String.pipe(T.HttpPath("folderId")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("enforceSingleParent"),
@@ -2450,7 +2492,8 @@ export const InsertChildrenRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertChildrenRequest>;
 
 export type InsertChildrenResponse = ChildReference;
-export const InsertChildrenResponse = ChildReference;
+export const InsertChildrenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ChildReference;
 
 export type InsertChildrenError = DefaultErrors;
 
@@ -2460,7 +2503,7 @@ export const insertChildren: API.OperationMethod<
   InsertChildrenResponse,
   InsertChildrenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertChildrenRequest,
   output: InsertChildrenResponse,
   errors: [],
@@ -2479,7 +2522,7 @@ export interface ListChildrenRequest {
   q?: string;
 }
 
-export const ListChildrenRequest = Schema.Struct({
+export const ListChildrenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   folderId: Schema.String.pipe(T.HttpPath("folderId")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
@@ -2491,7 +2534,7 @@ export const ListChildrenRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListChildrenRequest>;
 
 export type ListChildrenResponse = ChildList;
-export const ListChildrenResponse = ChildList;
+export const ListChildrenResponse = /*@__PURE__*/ /*#__PURE__*/ ChildList;
 
 export type ListChildrenError = DefaultErrors;
 
@@ -2501,7 +2544,7 @@ export const listChildren: API.PaginatedOperationMethod<
   ListChildrenResponse,
   ListChildrenError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListChildrenRequest,
   output: ListChildrenResponse,
   errors: [],
@@ -2519,7 +2562,7 @@ export interface DeleteCommentsRequest {
   commentId: string;
 }
 
-export const DeleteCommentsRequest = Schema.Struct({
+export const DeleteCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
 }).pipe(
@@ -2529,7 +2572,9 @@ export const DeleteCommentsRequest = Schema.Struct({
 
 export interface DeleteCommentsResponse {}
 export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteCommentsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteCommentsResponse>;
 
 export type DeleteCommentsError = DefaultErrors;
 
@@ -2539,7 +2584,7 @@ export const deleteComments: API.OperationMethod<
   DeleteCommentsResponse,
   DeleteCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCommentsRequest,
   output: DeleteCommentsResponse,
   errors: [],
@@ -2554,7 +2599,7 @@ export interface GetCommentsRequest {
   includeDeleted?: boolean;
 }
 
-export const GetCommentsRequest = Schema.Struct({
+export const GetCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   includeDeleted: Schema.optional(Schema.Boolean).pipe(
@@ -2566,7 +2611,7 @@ export const GetCommentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCommentsRequest>;
 
 export type GetCommentsResponse = Comment;
-export const GetCommentsResponse = Comment;
+export const GetCommentsResponse = /*@__PURE__*/ /*#__PURE__*/ Comment;
 
 export type GetCommentsError = DefaultErrors;
 
@@ -2576,7 +2621,7 @@ export const getComments: API.OperationMethod<
   GetCommentsResponse,
   GetCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCommentsRequest,
   output: GetCommentsResponse,
   errors: [],
@@ -2589,7 +2634,7 @@ export interface InsertCommentsRequest {
   body?: Comment;
 }
 
-export const InsertCommentsRequest = Schema.Struct({
+export const InsertCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   body: Schema.optional(Comment).pipe(T.HttpBody()),
 }).pipe(
@@ -2598,7 +2643,7 @@ export const InsertCommentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertCommentsRequest>;
 
 export type InsertCommentsResponse = Comment;
-export const InsertCommentsResponse = Comment;
+export const InsertCommentsResponse = /*@__PURE__*/ /*#__PURE__*/ Comment;
 
 export type InsertCommentsError = DefaultErrors;
 
@@ -2608,7 +2653,7 @@ export const insertComments: API.OperationMethod<
   InsertCommentsResponse,
   InsertCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertCommentsRequest,
   output: InsertCommentsResponse,
   errors: [],
@@ -2627,7 +2672,7 @@ export interface ListCommentsRequest {
   updatedMin?: string;
 }
 
-export const ListCommentsRequest = Schema.Struct({
+export const ListCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   includeDeleted: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("includeDeleted"),
@@ -2641,7 +2686,7 @@ export const ListCommentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCommentsRequest>;
 
 export type ListCommentsResponse = CommentList;
-export const ListCommentsResponse = CommentList;
+export const ListCommentsResponse = /*@__PURE__*/ /*#__PURE__*/ CommentList;
 
 export type ListCommentsError = DefaultErrors;
 
@@ -2651,7 +2696,7 @@ export const listComments: API.PaginatedOperationMethod<
   ListCommentsResponse,
   ListCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [],
@@ -2671,7 +2716,7 @@ export interface PatchCommentsRequest {
   body?: Comment;
 }
 
-export const PatchCommentsRequest = Schema.Struct({
+export const PatchCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   body: Schema.optional(Comment).pipe(T.HttpBody()),
@@ -2685,7 +2730,7 @@ export const PatchCommentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchCommentsRequest>;
 
 export type PatchCommentsResponse = Comment;
-export const PatchCommentsResponse = Comment;
+export const PatchCommentsResponse = /*@__PURE__*/ /*#__PURE__*/ Comment;
 
 export type PatchCommentsError = DefaultErrors;
 
@@ -2695,7 +2740,7 @@ export const patchComments: API.OperationMethod<
   PatchCommentsResponse,
   PatchCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCommentsRequest,
   output: PatchCommentsResponse,
   errors: [],
@@ -2710,7 +2755,7 @@ export interface UpdateCommentsRequest {
   body?: Comment;
 }
 
-export const UpdateCommentsRequest = Schema.Struct({
+export const UpdateCommentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   body: Schema.optional(Comment).pipe(T.HttpBody()),
@@ -2724,7 +2769,7 @@ export const UpdateCommentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateCommentsRequest>;
 
 export type UpdateCommentsResponse = Comment;
-export const UpdateCommentsResponse = Comment;
+export const UpdateCommentsResponse = /*@__PURE__*/ /*#__PURE__*/ Comment;
 
 export type UpdateCommentsError = DefaultErrors;
 
@@ -2734,7 +2779,7 @@ export const updateComments: API.OperationMethod<
   UpdateCommentsResponse,
   UpdateCommentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCommentsRequest,
   output: UpdateCommentsResponse,
   errors: [],
@@ -2749,7 +2794,7 @@ export interface DeleteDrivesRequest {
   allowItemDeletion?: boolean;
 }
 
-export const DeleteDrivesRequest = Schema.Struct({
+export const DeleteDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.String.pipe(T.HttpPath("driveId")),
   useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useDomainAdminAccess"),
@@ -2764,7 +2809,9 @@ export const DeleteDrivesRequest = Schema.Struct({
 
 export interface DeleteDrivesResponse {}
 export const DeleteDrivesResponse: Schema.Schema<DeleteDrivesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteDrivesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteDrivesResponse>;
 
 export type DeleteDrivesError = DefaultErrors;
 
@@ -2774,7 +2821,7 @@ export const deleteDrives: API.OperationMethod<
   DeleteDrivesResponse,
   DeleteDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDrivesRequest,
   output: DeleteDrivesResponse,
   errors: [],
@@ -2787,7 +2834,7 @@ export interface GetDrivesRequest {
   useDomainAdminAccess?: boolean;
 }
 
-export const GetDrivesRequest = Schema.Struct({
+export const GetDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.String.pipe(T.HttpPath("driveId")),
   useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useDomainAdminAccess"),
@@ -2798,7 +2845,7 @@ export const GetDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetDrivesRequest>;
 
 export type GetDrivesResponse = Drive;
-export const GetDrivesResponse = Drive;
+export const GetDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ Drive;
 
 export type GetDrivesError = DefaultErrors;
 
@@ -2808,7 +2855,7 @@ export const getDrives: API.OperationMethod<
   GetDrivesResponse,
   GetDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDrivesRequest,
   output: GetDrivesResponse,
   errors: [],
@@ -2819,7 +2866,7 @@ export interface HideDrivesRequest {
   driveId: string;
 }
 
-export const HideDrivesRequest = Schema.Struct({
+export const HideDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.String.pipe(T.HttpPath("driveId")),
 }).pipe(
   T.Http({ method: "POST", path: "drives/{driveId}/hide", hasBody: true }),
@@ -2827,7 +2874,7 @@ export const HideDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<HideDrivesRequest>;
 
 export type HideDrivesResponse = Drive;
-export const HideDrivesResponse = Drive;
+export const HideDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ Drive;
 
 export type HideDrivesError = DefaultErrors;
 
@@ -2837,7 +2884,7 @@ export const hideDrives: API.OperationMethod<
   HideDrivesResponse,
   HideDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HideDrivesRequest,
   output: HideDrivesResponse,
   errors: [],
@@ -2850,7 +2897,7 @@ export interface InsertDrivesRequest {
   body?: Drive;
 }
 
-export const InsertDrivesRequest = Schema.Struct({
+export const InsertDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   requestId: Schema.String.pipe(T.HttpQuery("requestId")),
   body: Schema.optional(Drive).pipe(T.HttpBody()),
 }).pipe(
@@ -2859,7 +2906,7 @@ export const InsertDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertDrivesRequest>;
 
 export type InsertDrivesResponse = Drive;
-export const InsertDrivesResponse = Drive;
+export const InsertDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ Drive;
 
 export type InsertDrivesError = DefaultErrors;
 
@@ -2869,7 +2916,7 @@ export const insertDrives: API.OperationMethod<
   InsertDrivesResponse,
   InsertDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertDrivesRequest,
   output: InsertDrivesResponse,
   errors: [],
@@ -2886,7 +2933,7 @@ export interface ListDrivesRequest {
   useDomainAdminAccess?: boolean;
 }
 
-export const ListDrivesRequest = Schema.Struct({
+export const ListDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
@@ -2899,7 +2946,7 @@ export const ListDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDrivesRequest>;
 
 export type ListDrivesResponse = DriveList;
-export const ListDrivesResponse = DriveList;
+export const ListDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ DriveList;
 
 export type ListDrivesError = DefaultErrors;
 
@@ -2909,7 +2956,7 @@ export const listDrives: API.PaginatedOperationMethod<
   ListDrivesResponse,
   ListDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDrivesRequest,
   output: ListDrivesResponse,
   errors: [],
@@ -2925,7 +2972,7 @@ export interface UnhideDrivesRequest {
   driveId: string;
 }
 
-export const UnhideDrivesRequest = Schema.Struct({
+export const UnhideDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.String.pipe(T.HttpPath("driveId")),
 }).pipe(
   T.Http({ method: "POST", path: "drives/{driveId}/unhide", hasBody: true }),
@@ -2933,7 +2980,7 @@ export const UnhideDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UnhideDrivesRequest>;
 
 export type UnhideDrivesResponse = Drive;
-export const UnhideDrivesResponse = Drive;
+export const UnhideDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ Drive;
 
 export type UnhideDrivesError = DefaultErrors;
 
@@ -2943,7 +2990,7 @@ export const unhideDrives: API.OperationMethod<
   UnhideDrivesResponse,
   UnhideDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnhideDrivesRequest,
   output: UnhideDrivesResponse,
   errors: [],
@@ -2958,7 +3005,7 @@ export interface UpdateDrivesRequest {
   body?: Drive;
 }
 
-export const UpdateDrivesRequest = Schema.Struct({
+export const UpdateDrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   driveId: Schema.String.pipe(T.HttpPath("driveId")),
   useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useDomainAdminAccess"),
@@ -2970,7 +3017,7 @@ export const UpdateDrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateDrivesRequest>;
 
 export type UpdateDrivesResponse = Drive;
-export const UpdateDrivesResponse = Drive;
+export const UpdateDrivesResponse = /*@__PURE__*/ /*#__PURE__*/ Drive;
 
 export type UpdateDrivesError = DefaultErrors;
 
@@ -2980,7 +3027,7 @@ export const updateDrives: API.OperationMethod<
   UpdateDrivesResponse,
   UpdateDrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDrivesRequest,
   output: UpdateDrivesResponse,
   errors: [],
@@ -3017,7 +3064,7 @@ export interface CopyFilesRequest {
   body?: File;
 }
 
-export const CopyFilesRequest = Schema.Struct({
+export const CopyFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   convert: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("convert")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
@@ -3052,7 +3099,7 @@ export const CopyFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CopyFilesRequest>;
 
 export type CopyFilesResponse = File;
-export const CopyFilesResponse = File;
+export const CopyFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type CopyFilesError = DefaultErrors;
 
@@ -3062,7 +3109,7 @@ export const copyFiles: API.OperationMethod<
   CopyFilesResponse,
   CopyFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CopyFilesRequest,
   output: CopyFilesResponse,
   errors: [],
@@ -3079,7 +3126,7 @@ export interface DeleteFilesRequest {
   enforceSingleParent?: boolean;
 }
 
-export const DeleteFilesRequest = Schema.Struct({
+export const DeleteFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("supportsAllDrives"),
@@ -3097,7 +3144,9 @@ export const DeleteFilesRequest = Schema.Struct({
 
 export interface DeleteFilesResponse {}
 export const DeleteFilesResponse: Schema.Schema<DeleteFilesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteFilesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteFilesResponse>;
 
 export type DeleteFilesError = DefaultErrors;
 
@@ -3107,7 +3156,7 @@ export const deleteFiles: API.OperationMethod<
   DeleteFilesResponse,
   DeleteFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteFilesRequest,
   output: DeleteFilesResponse,
   errors: [],
@@ -3120,19 +3169,23 @@ export interface EmptyTrashFilesRequest {
   driveId?: string;
 }
 
-export const EmptyTrashFilesRequest = Schema.Struct({
-  enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceSingleParent"),
-  ),
-  driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
-}).pipe(
+export const EmptyTrashFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceSingleParent"),
+    ),
+    driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "files/trash" }),
   svc,
 ) as unknown as Schema.Schema<EmptyTrashFilesRequest>;
 
 export interface EmptyTrashFilesResponse {}
 export const EmptyTrashFilesResponse: Schema.Schema<EmptyTrashFilesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<EmptyTrashFilesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<EmptyTrashFilesResponse>;
 
 export type EmptyTrashFilesError = DefaultErrors;
 
@@ -3142,7 +3195,7 @@ export const emptyTrashFiles: API.OperationMethod<
   EmptyTrashFilesResponse,
   EmptyTrashFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EmptyTrashFilesRequest,
   output: EmptyTrashFilesResponse,
   errors: [],
@@ -3155,7 +3208,7 @@ export interface ExportFilesRequest {
   mimeType: string;
 }
 
-export const ExportFilesRequest = Schema.Struct({
+export const ExportFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   mimeType: Schema.String.pipe(T.HttpQuery("mimeType")),
 }).pipe(
@@ -3165,7 +3218,9 @@ export const ExportFilesRequest = Schema.Struct({
 
 export interface ExportFilesResponse {}
 export const ExportFilesResponse: Schema.Schema<ExportFilesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<ExportFilesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<ExportFilesResponse>;
 
 export type ExportFilesError = DefaultErrors;
 
@@ -3175,7 +3230,7 @@ export const exportFiles: API.OperationMethod<
   ExportFilesResponse,
   ExportFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportFilesRequest,
   output: ExportFilesResponse,
   errors: [],
@@ -3190,17 +3245,19 @@ export interface GenerateIdsFilesRequest {
   type?: string;
 }
 
-export const GenerateIdsFilesRequest = Schema.Struct({
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  space: Schema.optional(Schema.String).pipe(T.HttpQuery("space")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-}).pipe(
-  T.Http({ method: "GET", path: "files/generateIds" }),
-  svc,
-) as unknown as Schema.Schema<GenerateIdsFilesRequest>;
+export const GenerateIdsFilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    space: Schema.optional(Schema.String).pipe(T.HttpQuery("space")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+  }).pipe(
+    T.Http({ method: "GET", path: "files/generateIds" }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateIdsFilesRequest>;
 
 export type GenerateIdsFilesResponse = GeneratedIds;
-export const GenerateIdsFilesResponse = GeneratedIds;
+export const GenerateIdsFilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GeneratedIds;
 
 export type GenerateIdsFilesError = DefaultErrors;
 
@@ -3210,7 +3267,7 @@ export const generateIdsFiles: API.OperationMethod<
   GenerateIdsFilesResponse,
   GenerateIdsFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateIdsFilesRequest,
   output: GenerateIdsFilesResponse,
   errors: [],
@@ -3237,7 +3294,7 @@ export interface GetFilesRequest {
   includeLabels?: string;
 }
 
-export const GetFilesRequest = Schema.Struct({
+export const GetFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   acknowledgeAbuse: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("acknowledgeAbuse"),
@@ -3265,7 +3322,7 @@ export const GetFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetFilesRequest>;
 
 export type GetFilesResponse = File;
-export const GetFilesResponse = File;
+export const GetFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type GetFilesError = DefaultErrors;
 
@@ -3275,7 +3332,7 @@ export const getFiles: API.OperationMethod<
   GetFilesResponse,
   GetFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFilesRequest,
   output: GetFilesResponse,
   errors: [],
@@ -3312,7 +3369,7 @@ export interface InsertFilesRequest {
   body?: File;
 }
 
-export const InsertFilesRequest = Schema.Struct({
+export const InsertFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   convert: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("convert")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("enforceSingleParent"),
@@ -3349,7 +3406,7 @@ export const InsertFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertFilesRequest>;
 
 export type InsertFilesResponse = File;
-export const InsertFilesResponse = File;
+export const InsertFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type InsertFilesError = DefaultErrors;
 
@@ -3359,7 +3416,7 @@ export const insertFiles: API.OperationMethod<
   InsertFilesResponse,
   InsertFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertFilesRequest,
   output: InsertFilesResponse,
   errors: [],
@@ -3400,7 +3457,7 @@ export interface ListFilesRequest {
   includeLabels?: string;
 }
 
-export const ListFilesRequest = Schema.Struct({
+export const ListFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   corpora: Schema.optional(Schema.String).pipe(T.HttpQuery("corpora")),
   corpus: Schema.optional(Schema.String).pipe(T.HttpQuery("corpus")),
   driveId: Schema.optional(Schema.String).pipe(T.HttpQuery("driveId")),
@@ -3435,7 +3492,7 @@ export const ListFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListFilesRequest>;
 
 export type ListFilesResponse = FileList;
-export const ListFilesResponse = FileList;
+export const ListFilesResponse = /*@__PURE__*/ /*#__PURE__*/ FileList;
 
 export type ListFilesError = DefaultErrors;
 
@@ -3445,7 +3502,7 @@ export const listFiles: API.PaginatedOperationMethod<
   ListFilesResponse,
   ListFilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFilesRequest,
   output: ListFilesResponse,
   errors: [],
@@ -3465,17 +3522,19 @@ export interface ListLabelsFilesRequest {
   pageToken?: string;
 }
 
-export const ListLabelsFilesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
+export const ListLabelsFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "files/{fileId}/listLabels" }),
   svc,
 ) as unknown as Schema.Schema<ListLabelsFilesRequest>;
 
 export type ListLabelsFilesResponse = LabelList;
-export const ListLabelsFilesResponse = LabelList;
+export const ListLabelsFilesResponse = /*@__PURE__*/ /*#__PURE__*/ LabelList;
 
 export type ListLabelsFilesError = DefaultErrors;
 
@@ -3485,7 +3544,7 @@ export const listLabelsFiles: API.PaginatedOperationMethod<
   ListLabelsFilesResponse,
   ListLabelsFilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLabelsFilesRequest,
   output: ListLabelsFilesResponse,
   errors: [],
@@ -3503,20 +3562,22 @@ export interface ModifyLabelsFilesRequest {
   body?: ModifyLabelsRequest;
 }
 
-export const ModifyLabelsFilesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  body: Schema.optional(ModifyLabelsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "files/{fileId}/modifyLabels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ModifyLabelsFilesRequest>;
+export const ModifyLabelsFilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    body: Schema.optional(ModifyLabelsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "files/{fileId}/modifyLabels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ModifyLabelsFilesRequest>;
 
 export type ModifyLabelsFilesResponse = ModifyLabelsResponse;
-export const ModifyLabelsFilesResponse = ModifyLabelsResponse;
+export const ModifyLabelsFilesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ModifyLabelsResponse;
 
 export type ModifyLabelsFilesError = DefaultErrors;
 
@@ -3526,7 +3587,7 @@ export const modifyLabelsFiles: API.OperationMethod<
   ModifyLabelsFilesResponse,
   ModifyLabelsFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ModifyLabelsFilesRequest,
   output: ModifyLabelsFilesResponse,
   errors: [],
@@ -3582,7 +3643,7 @@ export interface PatchFilesRequest {
   body?: File;
 }
 
-export const PatchFilesRequest = Schema.Struct({
+export const PatchFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   addParents: Schema.optional(Schema.String).pipe(T.HttpQuery("addParents")),
   convert: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("convert")),
@@ -3633,7 +3694,7 @@ export const PatchFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchFilesRequest>;
 
 export type PatchFilesResponse = File;
-export const PatchFilesResponse = File;
+export const PatchFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type PatchFilesError = DefaultErrors;
 
@@ -3643,7 +3704,7 @@ export const patchFiles: API.OperationMethod<
   PatchFilesResponse,
   PatchFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFilesRequest,
   output: PatchFilesResponse,
   errors: [],
@@ -3662,7 +3723,7 @@ export interface TouchFilesRequest {
   includeLabels?: string;
 }
 
-export const TouchFilesRequest = Schema.Struct({
+export const TouchFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("supportsAllDrives"),
@@ -3682,7 +3743,7 @@ export const TouchFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<TouchFilesRequest>;
 
 export type TouchFilesResponse = File;
-export const TouchFilesResponse = File;
+export const TouchFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type TouchFilesError = DefaultErrors;
 
@@ -3692,7 +3753,7 @@ export const touchFiles: API.OperationMethod<
   TouchFilesResponse,
   TouchFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TouchFilesRequest,
   output: TouchFilesResponse,
   errors: [],
@@ -3711,7 +3772,7 @@ export interface TrashFilesRequest {
   includeLabels?: string;
 }
 
-export const TrashFilesRequest = Schema.Struct({
+export const TrashFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("supportsAllDrives"),
@@ -3731,7 +3792,7 @@ export const TrashFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<TrashFilesRequest>;
 
 export type TrashFilesResponse = File;
-export const TrashFilesResponse = File;
+export const TrashFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type TrashFilesError = DefaultErrors;
 
@@ -3741,7 +3802,7 @@ export const trashFiles: API.OperationMethod<
   TrashFilesResponse,
   TrashFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TrashFilesRequest,
   output: TrashFilesResponse,
   errors: [],
@@ -3760,7 +3821,7 @@ export interface UntrashFilesRequest {
   includeLabels?: string;
 }
 
-export const UntrashFilesRequest = Schema.Struct({
+export const UntrashFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("supportsAllDrives"),
@@ -3780,7 +3841,7 @@ export const UntrashFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UntrashFilesRequest>;
 
 export type UntrashFilesResponse = File;
-export const UntrashFilesResponse = File;
+export const UntrashFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type UntrashFilesError = DefaultErrors;
 
@@ -3790,7 +3851,7 @@ export const untrashFiles: API.OperationMethod<
   UntrashFilesResponse,
   UntrashFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UntrashFilesRequest,
   output: UntrashFilesResponse,
   errors: [],
@@ -3846,7 +3907,7 @@ export interface UpdateFilesRequest {
   body?: File;
 }
 
-export const UpdateFilesRequest = Schema.Struct({
+export const UpdateFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   addParents: Schema.optional(Schema.String).pipe(T.HttpQuery("addParents")),
   convert: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("convert")),
@@ -3897,7 +3958,7 @@ export const UpdateFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateFilesRequest>;
 
 export type UpdateFilesResponse = File;
-export const UpdateFilesResponse = File;
+export const UpdateFilesResponse = /*@__PURE__*/ /*#__PURE__*/ File;
 
 export type UpdateFilesError = DefaultErrors;
 
@@ -3907,7 +3968,7 @@ export const updateFiles: API.OperationMethod<
   UpdateFilesResponse,
   UpdateFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateFilesRequest,
   output: UpdateFilesResponse,
   errors: [],
@@ -3936,7 +3997,7 @@ export interface WatchFilesRequest {
   body?: Channel;
 }
 
-export const WatchFilesRequest = Schema.Struct({
+export const WatchFilesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("supportsAllDrives"),
@@ -3965,7 +4026,7 @@ export const WatchFilesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<WatchFilesRequest>;
 
 export type WatchFilesResponse = Channel;
-export const WatchFilesResponse = Channel;
+export const WatchFilesResponse = /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type WatchFilesError = DefaultErrors;
 
@@ -3975,7 +4036,7 @@ export const watchFiles: API.OperationMethod<
   WatchFilesResponse,
   WatchFilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WatchFilesRequest,
   output: WatchFilesResponse,
   errors: [],
@@ -3990,7 +4051,7 @@ export interface DeleteParentsRequest {
   enforceSingleParent?: boolean;
 }
 
-export const DeleteParentsRequest = Schema.Struct({
+export const DeleteParentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   parentId: Schema.String.pipe(T.HttpPath("parentId")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
@@ -4003,7 +4064,9 @@ export const DeleteParentsRequest = Schema.Struct({
 
 export interface DeleteParentsResponse {}
 export const DeleteParentsResponse: Schema.Schema<DeleteParentsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteParentsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteParentsResponse>;
 
 export type DeleteParentsError = DefaultErrors;
 
@@ -4013,7 +4076,7 @@ export const deleteParents: API.OperationMethod<
   DeleteParentsResponse,
   DeleteParentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteParentsRequest,
   output: DeleteParentsResponse,
   errors: [],
@@ -4026,7 +4089,7 @@ export interface GetParentsRequest {
   parentId: string;
 }
 
-export const GetParentsRequest = Schema.Struct({
+export const GetParentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   parentId: Schema.String.pipe(T.HttpPath("parentId")),
 }).pipe(
@@ -4035,7 +4098,7 @@ export const GetParentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetParentsRequest>;
 
 export type GetParentsResponse = ParentReference;
-export const GetParentsResponse = ParentReference;
+export const GetParentsResponse = /*@__PURE__*/ /*#__PURE__*/ ParentReference;
 
 export type GetParentsError = DefaultErrors;
 
@@ -4045,7 +4108,7 @@ export const getParents: API.OperationMethod<
   GetParentsResponse,
   GetParentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetParentsRequest,
   output: GetParentsResponse,
   errors: [],
@@ -4064,7 +4127,7 @@ export interface InsertParentsRequest {
   body?: ParentReference;
 }
 
-export const InsertParentsRequest = Schema.Struct({
+export const InsertParentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("enforceSingleParent"),
@@ -4082,7 +4145,8 @@ export const InsertParentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertParentsRequest>;
 
 export type InsertParentsResponse = ParentReference;
-export const InsertParentsResponse = ParentReference;
+export const InsertParentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ParentReference;
 
 export type InsertParentsError = DefaultErrors;
 
@@ -4092,7 +4156,7 @@ export const insertParents: API.OperationMethod<
   InsertParentsResponse,
   InsertParentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertParentsRequest,
   output: InsertParentsResponse,
   errors: [],
@@ -4103,7 +4167,7 @@ export interface ListParentsRequest {
   fileId: string;
 }
 
-export const ListParentsRequest = Schema.Struct({
+export const ListParentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
 }).pipe(
   T.Http({ method: "GET", path: "files/{fileId}/parents" }),
@@ -4111,7 +4175,7 @@ export const ListParentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListParentsRequest>;
 
 export type ListParentsResponse = ParentList;
-export const ListParentsResponse = ParentList;
+export const ListParentsResponse = /*@__PURE__*/ /*#__PURE__*/ ParentList;
 
 export type ListParentsError = DefaultErrors;
 
@@ -4121,7 +4185,7 @@ export const listParents: API.OperationMethod<
   ListParentsResponse,
   ListParentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListParentsRequest,
   output: ListParentsResponse,
   errors: [],
@@ -4142,32 +4206,35 @@ export interface DeletePermissionsRequest {
   enforceExpansiveAccess?: boolean;
 }
 
-export const DeletePermissionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceExpansiveAccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "files/{fileId}/permissions/{permissionId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePermissionsRequest>;
+export const DeletePermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceExpansiveAccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "files/{fileId}/permissions/{permissionId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePermissionsRequest>;
 
 export interface DeletePermissionsResponse {}
 export const DeletePermissionsResponse: Schema.Schema<DeletePermissionsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeletePermissionsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeletePermissionsResponse>;
 
 export type DeletePermissionsError = DefaultErrors;
 
@@ -4177,7 +4244,7 @@ export const deletePermissions: API.OperationMethod<
   DeletePermissionsResponse,
   DeletePermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePermissionsRequest,
   output: DeletePermissionsResponse,
   errors: [],
@@ -4196,7 +4263,7 @@ export interface GetPermissionsRequest {
   useDomainAdminAccess?: boolean;
 }
 
-export const GetPermissionsRequest = Schema.Struct({
+export const GetPermissionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
   supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
@@ -4214,7 +4281,7 @@ export const GetPermissionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPermissionsRequest>;
 
 export type GetPermissionsResponse = Permission;
-export const GetPermissionsResponse = Permission;
+export const GetPermissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Permission;
 
 export type GetPermissionsError = DefaultErrors;
 
@@ -4224,7 +4291,7 @@ export const getPermissions: API.OperationMethod<
   GetPermissionsResponse,
   GetPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
@@ -4235,15 +4302,17 @@ export interface GetIdForEmailPermissionsRequest {
   email: string;
 }
 
-export const GetIdForEmailPermissionsRequest = Schema.Struct({
-  email: Schema.String.pipe(T.HttpPath("email")),
-}).pipe(
-  T.Http({ method: "GET", path: "permissionIds/{email}" }),
-  svc,
-) as unknown as Schema.Schema<GetIdForEmailPermissionsRequest>;
+export const GetIdForEmailPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    email: Schema.String.pipe(T.HttpPath("email")),
+  }).pipe(
+    T.Http({ method: "GET", path: "permissionIds/{email}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetIdForEmailPermissionsRequest>;
 
 export type GetIdForEmailPermissionsResponse = PermissionId;
-export const GetIdForEmailPermissionsResponse = PermissionId;
+export const GetIdForEmailPermissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PermissionId;
 
 export type GetIdForEmailPermissionsError = DefaultErrors;
 
@@ -4253,7 +4322,7 @@ export const getIdForEmailPermissions: API.OperationMethod<
   GetIdForEmailPermissionsResponse,
   GetIdForEmailPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIdForEmailPermissionsRequest,
   output: GetIdForEmailPermissionsResponse,
   errors: [],
@@ -4282,40 +4351,45 @@ export interface InsertPermissionsRequest {
   body?: Permission;
 }
 
-export const InsertPermissionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  emailMessage: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("emailMessage"),
-  ),
-  enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceSingleParent"),
-  ),
-  moveToNewOwnersRoot: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("moveToNewOwnersRoot"),
-  ),
-  sendNotificationEmails: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("sendNotificationEmails"),
-  ),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceExpansiveAccess"),
-  ),
-  body: Schema.optional(Permission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "files/{fileId}/permissions", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertPermissionsRequest>;
+export const InsertPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    emailMessage: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("emailMessage"),
+    ),
+    enforceSingleParent: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceSingleParent"),
+    ),
+    moveToNewOwnersRoot: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("moveToNewOwnersRoot"),
+    ),
+    sendNotificationEmails: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("sendNotificationEmails"),
+    ),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceExpansiveAccess"),
+    ),
+    body: Schema.optional(Permission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "files/{fileId}/permissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertPermissionsRequest>;
 
 export type InsertPermissionsResponse = Permission;
-export const InsertPermissionsResponse = Permission;
+export const InsertPermissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Permission;
 
 export type InsertPermissionsError = DefaultErrors;
 
@@ -4325,7 +4399,7 @@ export const insertPermissions: API.OperationMethod<
   InsertPermissionsResponse,
   InsertPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertPermissionsRequest,
   output: InsertPermissionsResponse,
   errors: [],
@@ -4348,29 +4422,32 @@ export interface ListPermissionsRequest {
   includePermissionsForView?: string;
 }
 
-export const ListPermissionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  includePermissionsForView: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("includePermissionsForView"),
-  ),
-}).pipe(
+export const ListPermissionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    includePermissionsForView: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("includePermissionsForView"),
+    ),
+  },
+).pipe(
   T.Http({ method: "GET", path: "files/{fileId}/permissions" }),
   svc,
 ) as unknown as Schema.Schema<ListPermissionsRequest>;
 
 export type ListPermissionsResponse = PermissionList;
-export const ListPermissionsResponse = PermissionList;
+export const ListPermissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PermissionList;
 
 export type ListPermissionsError = DefaultErrors;
 
@@ -4380,7 +4457,7 @@ export const listPermissions: API.PaginatedOperationMethod<
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPermissionsRequest,
   output: ListPermissionsResponse,
   errors: [],
@@ -4412,39 +4489,40 @@ export interface PatchPermissionsRequest {
   body?: Permission;
 }
 
-export const PatchPermissionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
-  removeExpiration: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("removeExpiration"),
-  ),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  transferOwnership: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("transferOwnership"),
-  ),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceExpansiveAccess"),
-  ),
-  body: Schema.optional(Permission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "files/{fileId}/permissions/{permissionId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPermissionsRequest>;
+export const PatchPermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
+    removeExpiration: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("removeExpiration"),
+    ),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    transferOwnership: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("transferOwnership"),
+    ),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceExpansiveAccess"),
+    ),
+    body: Schema.optional(Permission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "files/{fileId}/permissions/{permissionId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPermissionsRequest>;
 
 export type PatchPermissionsResponse = Permission;
-export const PatchPermissionsResponse = Permission;
+export const PatchPermissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Permission;
 
 export type PatchPermissionsError = DefaultErrors;
 
@@ -4454,7 +4532,7 @@ export const patchPermissions: API.OperationMethod<
   PatchPermissionsResponse,
   PatchPermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPermissionsRequest,
   output: PatchPermissionsResponse,
   errors: [],
@@ -4481,39 +4559,40 @@ export interface UpdatePermissionsRequest {
   body?: Permission;
 }
 
-export const UpdatePermissionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
-  removeExpiration: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("removeExpiration"),
-  ),
-  supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsAllDrives"),
-  ),
-  supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("supportsTeamDrives"),
-  ),
-  transferOwnership: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("transferOwnership"),
-  ),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enforceExpansiveAccess"),
-  ),
-  body: Schema.optional(Permission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "files/{fileId}/permissions/{permissionId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatePermissionsRequest>;
+export const UpdatePermissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    permissionId: Schema.String.pipe(T.HttpPath("permissionId")),
+    removeExpiration: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("removeExpiration"),
+    ),
+    supportsAllDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsAllDrives"),
+    ),
+    supportsTeamDrives: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("supportsTeamDrives"),
+    ),
+    transferOwnership: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("transferOwnership"),
+    ),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    enforceExpansiveAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enforceExpansiveAccess"),
+    ),
+    body: Schema.optional(Permission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "files/{fileId}/permissions/{permissionId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePermissionsRequest>;
 
 export type UpdatePermissionsResponse = Permission;
-export const UpdatePermissionsResponse = Permission;
+export const UpdatePermissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Permission;
 
 export type UpdatePermissionsError = DefaultErrors;
 
@@ -4523,7 +4602,7 @@ export const updatePermissions: API.OperationMethod<
   UpdatePermissionsResponse,
   UpdatePermissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [],
@@ -4538,18 +4617,24 @@ export interface DeletePropertiesRequest {
   visibility?: string;
 }
 
-export const DeletePropertiesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
-  visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "files/{fileId}/properties/{propertyKey}" }),
-  svc,
-) as unknown as Schema.Schema<DeletePropertiesRequest>;
+export const DeletePropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
+    visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "files/{fileId}/properties/{propertyKey}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePropertiesRequest>;
 
 export interface DeletePropertiesResponse {}
 export const DeletePropertiesResponse: Schema.Schema<DeletePropertiesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeletePropertiesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeletePropertiesResponse>;
 
 export type DeletePropertiesError = DefaultErrors;
 
@@ -4559,7 +4644,7 @@ export const deleteProperties: API.OperationMethod<
   DeletePropertiesResponse,
   DeletePropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePropertiesRequest,
   output: DeletePropertiesResponse,
   errors: [],
@@ -4574,7 +4659,7 @@ export interface GetPropertiesRequest {
   visibility?: string;
 }
 
-export const GetPropertiesRequest = Schema.Struct({
+export const GetPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
   visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
@@ -4584,7 +4669,7 @@ export const GetPropertiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPropertiesRequest>;
 
 export type GetPropertiesResponse = Property;
-export const GetPropertiesResponse = Property;
+export const GetPropertiesResponse = /*@__PURE__*/ /*#__PURE__*/ Property;
 
 export type GetPropertiesError = DefaultErrors;
 
@@ -4594,7 +4679,7 @@ export const getProperties: API.OperationMethod<
   GetPropertiesResponse,
   GetPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPropertiesRequest,
   output: GetPropertiesResponse,
   errors: [],
@@ -4607,16 +4692,21 @@ export interface InsertPropertiesRequest {
   body?: Property;
 }
 
-export const InsertPropertiesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  body: Schema.optional(Property).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "files/{fileId}/properties", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertPropertiesRequest>;
+export const InsertPropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    body: Schema.optional(Property).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "files/{fileId}/properties",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InsertPropertiesRequest>;
 
 export type InsertPropertiesResponse = Property;
-export const InsertPropertiesResponse = Property;
+export const InsertPropertiesResponse = /*@__PURE__*/ /*#__PURE__*/ Property;
 
 export type InsertPropertiesError = DefaultErrors;
 
@@ -4626,7 +4716,7 @@ export const insertProperties: API.OperationMethod<
   InsertPropertiesResponse,
   InsertPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertPropertiesRequest,
   output: InsertPropertiesResponse,
   errors: [],
@@ -4637,7 +4727,7 @@ export interface ListPropertiesRequest {
   fileId: string;
 }
 
-export const ListPropertiesRequest = Schema.Struct({
+export const ListPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
 }).pipe(
   T.Http({ method: "GET", path: "files/{fileId}/properties" }),
@@ -4645,7 +4735,7 @@ export const ListPropertiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPropertiesRequest>;
 
 export type ListPropertiesResponse = PropertyList;
-export const ListPropertiesResponse = PropertyList;
+export const ListPropertiesResponse = /*@__PURE__*/ /*#__PURE__*/ PropertyList;
 
 export type ListPropertiesError = DefaultErrors;
 
@@ -4655,7 +4745,7 @@ export const listProperties: API.OperationMethod<
   ListPropertiesResponse,
   ListPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPropertiesRequest,
   output: ListPropertiesResponse,
   errors: [],
@@ -4672,12 +4762,14 @@ export interface PatchPropertiesRequest {
   body?: Property;
 }
 
-export const PatchPropertiesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
-  visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
-  body: Schema.optional(Property).pipe(T.HttpBody()),
-}).pipe(
+export const PatchPropertiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
+    visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
+    body: Schema.optional(Property).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "PATCH",
     path: "files/{fileId}/properties/{propertyKey}",
@@ -4687,7 +4779,7 @@ export const PatchPropertiesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchPropertiesRequest>;
 
 export type PatchPropertiesResponse = Property;
-export const PatchPropertiesResponse = Property;
+export const PatchPropertiesResponse = /*@__PURE__*/ /*#__PURE__*/ Property;
 
 export type PatchPropertiesError = DefaultErrors;
 
@@ -4697,7 +4789,7 @@ export const patchProperties: API.OperationMethod<
   PatchPropertiesResponse,
   PatchPropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPropertiesRequest,
   output: PatchPropertiesResponse,
   errors: [],
@@ -4714,22 +4806,23 @@ export interface UpdatePropertiesRequest {
   body?: Property;
 }
 
-export const UpdatePropertiesRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
-  visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
-  body: Schema.optional(Property).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "files/{fileId}/properties/{propertyKey}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatePropertiesRequest>;
+export const UpdatePropertiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    propertyKey: Schema.String.pipe(T.HttpPath("propertyKey")),
+    visibility: Schema.optional(Schema.String).pipe(T.HttpQuery("visibility")),
+    body: Schema.optional(Property).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "files/{fileId}/properties/{propertyKey}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePropertiesRequest>;
 
 export type UpdatePropertiesResponse = Property;
-export const UpdatePropertiesResponse = Property;
+export const UpdatePropertiesResponse = /*@__PURE__*/ /*#__PURE__*/ Property;
 
 export type UpdatePropertiesError = DefaultErrors;
 
@@ -4739,7 +4832,7 @@ export const updateProperties: API.OperationMethod<
   UpdatePropertiesResponse,
   UpdatePropertiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePropertiesRequest,
   output: UpdatePropertiesResponse,
   errors: [],
@@ -4754,7 +4847,7 @@ export interface DeleteRepliesRequest {
   replyId: string;
 }
 
-export const DeleteRepliesRequest = Schema.Struct({
+export const DeleteRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   replyId: Schema.String.pipe(T.HttpPath("replyId")),
@@ -4768,7 +4861,9 @@ export const DeleteRepliesRequest = Schema.Struct({
 
 export interface DeleteRepliesResponse {}
 export const DeleteRepliesResponse: Schema.Schema<DeleteRepliesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteRepliesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteRepliesResponse>;
 
 export type DeleteRepliesError = DefaultErrors;
 
@@ -4778,7 +4873,7 @@ export const deleteReplies: API.OperationMethod<
   DeleteRepliesResponse,
   DeleteRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRepliesRequest,
   output: DeleteRepliesResponse,
   errors: [],
@@ -4795,7 +4890,7 @@ export interface GetRepliesRequest {
   includeDeleted?: boolean;
 }
 
-export const GetRepliesRequest = Schema.Struct({
+export const GetRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   replyId: Schema.String.pipe(T.HttpPath("replyId")),
@@ -4811,7 +4906,7 @@ export const GetRepliesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetRepliesRequest>;
 
 export type GetRepliesResponse = CommentReply;
-export const GetRepliesResponse = CommentReply;
+export const GetRepliesResponse = /*@__PURE__*/ /*#__PURE__*/ CommentReply;
 
 export type GetRepliesError = DefaultErrors;
 
@@ -4821,7 +4916,7 @@ export const getReplies: API.OperationMethod<
   GetRepliesResponse,
   GetRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRepliesRequest,
   output: GetRepliesResponse,
   errors: [],
@@ -4836,7 +4931,7 @@ export interface InsertRepliesRequest {
   body?: CommentReply;
 }
 
-export const InsertRepliesRequest = Schema.Struct({
+export const InsertRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   body: Schema.optional(CommentReply).pipe(T.HttpBody()),
@@ -4850,7 +4945,7 @@ export const InsertRepliesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertRepliesRequest>;
 
 export type InsertRepliesResponse = CommentReply;
-export const InsertRepliesResponse = CommentReply;
+export const InsertRepliesResponse = /*@__PURE__*/ /*#__PURE__*/ CommentReply;
 
 export type InsertRepliesError = DefaultErrors;
 
@@ -4860,7 +4955,7 @@ export const insertReplies: API.OperationMethod<
   InsertRepliesResponse,
   InsertRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertRepliesRequest,
   output: InsertRepliesResponse,
   errors: [],
@@ -4879,7 +4974,7 @@ export interface ListRepliesRequest {
   pageToken?: string;
 }
 
-export const ListRepliesRequest = Schema.Struct({
+export const ListRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   includeDeleted: Schema.optional(Schema.Boolean).pipe(
@@ -4896,7 +4991,7 @@ export const ListRepliesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRepliesRequest>;
 
 export type ListRepliesResponse = CommentReplyList;
-export const ListRepliesResponse = CommentReplyList;
+export const ListRepliesResponse = /*@__PURE__*/ /*#__PURE__*/ CommentReplyList;
 
 export type ListRepliesError = DefaultErrors;
 
@@ -4906,7 +5001,7 @@ export const listReplies: API.PaginatedOperationMethod<
   ListRepliesResponse,
   ListRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRepliesRequest,
   output: ListRepliesResponse,
   errors: [],
@@ -4928,7 +5023,7 @@ export interface PatchRepliesRequest {
   body?: CommentReply;
 }
 
-export const PatchRepliesRequest = Schema.Struct({
+export const PatchRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   replyId: Schema.String.pipe(T.HttpPath("replyId")),
@@ -4943,7 +5038,7 @@ export const PatchRepliesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchRepliesRequest>;
 
 export type PatchRepliesResponse = CommentReply;
-export const PatchRepliesResponse = CommentReply;
+export const PatchRepliesResponse = /*@__PURE__*/ /*#__PURE__*/ CommentReply;
 
 export type PatchRepliesError = DefaultErrors;
 
@@ -4953,7 +5048,7 @@ export const patchReplies: API.OperationMethod<
   PatchRepliesResponse,
   PatchRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRepliesRequest,
   output: PatchRepliesResponse,
   errors: [],
@@ -4970,7 +5065,7 @@ export interface UpdateRepliesRequest {
   body?: CommentReply;
 }
 
-export const UpdateRepliesRequest = Schema.Struct({
+export const UpdateRepliesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   commentId: Schema.String.pipe(T.HttpPath("commentId")),
   replyId: Schema.String.pipe(T.HttpPath("replyId")),
@@ -4985,7 +5080,7 @@ export const UpdateRepliesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateRepliesRequest>;
 
 export type UpdateRepliesResponse = CommentReply;
-export const UpdateRepliesResponse = CommentReply;
+export const UpdateRepliesResponse = /*@__PURE__*/ /*#__PURE__*/ CommentReply;
 
 export type UpdateRepliesError = DefaultErrors;
 
@@ -4995,7 +5090,7 @@ export const updateReplies: API.OperationMethod<
   UpdateRepliesResponse,
   UpdateRepliesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRepliesRequest,
   output: UpdateRepliesResponse,
   errors: [],
@@ -5008,17 +5103,21 @@ export interface DeleteRevisionsRequest {
   revisionId: string;
 }
 
-export const DeleteRevisionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
-}).pipe(
+export const DeleteRevisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
+  },
+).pipe(
   T.Http({ method: "DELETE", path: "files/{fileId}/revisions/{revisionId}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteRevisionsRequest>;
 
 export interface DeleteRevisionsResponse {}
 export const DeleteRevisionsResponse: Schema.Schema<DeleteRevisionsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteRevisionsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteRevisionsResponse>;
 
 export type DeleteRevisionsError = DefaultErrors;
 
@@ -5028,7 +5127,7 @@ export const deleteRevisions: API.OperationMethod<
   DeleteRevisionsResponse,
   DeleteRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRevisionsRequest,
   output: DeleteRevisionsResponse,
   errors: [],
@@ -5041,7 +5140,7 @@ export interface GetRevisionsRequest {
   revisionId: string;
 }
 
-export const GetRevisionsRequest = Schema.Struct({
+export const GetRevisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
 }).pipe(
@@ -5050,7 +5149,7 @@ export const GetRevisionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetRevisionsRequest>;
 
 export type GetRevisionsResponse = Revision;
-export const GetRevisionsResponse = Revision;
+export const GetRevisionsResponse = /*@__PURE__*/ /*#__PURE__*/ Revision;
 
 export type GetRevisionsError = DefaultErrors;
 
@@ -5060,7 +5159,7 @@ export const getRevisions: API.OperationMethod<
   GetRevisionsResponse,
   GetRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRevisionsRequest,
   output: GetRevisionsResponse,
   errors: [],
@@ -5075,7 +5174,7 @@ export interface ListRevisionsRequest {
   pageToken?: string;
 }
 
-export const ListRevisionsRequest = Schema.Struct({
+export const ListRevisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -5085,7 +5184,7 @@ export const ListRevisionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRevisionsRequest>;
 
 export type ListRevisionsResponse = RevisionList;
-export const ListRevisionsResponse = RevisionList;
+export const ListRevisionsResponse = /*@__PURE__*/ /*#__PURE__*/ RevisionList;
 
 export type ListRevisionsError = DefaultErrors;
 
@@ -5095,7 +5194,7 @@ export const listRevisions: API.PaginatedOperationMethod<
   ListRevisionsResponse,
   ListRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRevisionsRequest,
   output: ListRevisionsResponse,
   errors: [],
@@ -5115,7 +5214,7 @@ export interface PatchRevisionsRequest {
   body?: Revision;
 }
 
-export const PatchRevisionsRequest = Schema.Struct({
+export const PatchRevisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fileId: Schema.String.pipe(T.HttpPath("fileId")),
   revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
   body: Schema.optional(Revision).pipe(T.HttpBody()),
@@ -5129,7 +5228,7 @@ export const PatchRevisionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchRevisionsRequest>;
 
 export type PatchRevisionsResponse = Revision;
-export const PatchRevisionsResponse = Revision;
+export const PatchRevisionsResponse = /*@__PURE__*/ /*#__PURE__*/ Revision;
 
 export type PatchRevisionsError = DefaultErrors;
 
@@ -5139,7 +5238,7 @@ export const patchRevisions: API.OperationMethod<
   PatchRevisionsResponse,
   PatchRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchRevisionsRequest,
   output: PatchRevisionsResponse,
   errors: [],
@@ -5154,11 +5253,13 @@ export interface UpdateRevisionsRequest {
   body?: Revision;
 }
 
-export const UpdateRevisionsRequest = Schema.Struct({
-  fileId: Schema.String.pipe(T.HttpPath("fileId")),
-  revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
-  body: Schema.optional(Revision).pipe(T.HttpBody()),
-}).pipe(
+export const UpdateRevisionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    fileId: Schema.String.pipe(T.HttpPath("fileId")),
+    revisionId: Schema.String.pipe(T.HttpPath("revisionId")),
+    body: Schema.optional(Revision).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({
     method: "PUT",
     path: "files/{fileId}/revisions/{revisionId}",
@@ -5168,7 +5269,7 @@ export const UpdateRevisionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateRevisionsRequest>;
 
 export type UpdateRevisionsResponse = Revision;
-export const UpdateRevisionsResponse = Revision;
+export const UpdateRevisionsResponse = /*@__PURE__*/ /*#__PURE__*/ Revision;
 
 export type UpdateRevisionsError = DefaultErrors;
 
@@ -5178,7 +5279,7 @@ export const updateRevisions: API.OperationMethod<
   UpdateRevisionsResponse,
   UpdateRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateRevisionsRequest,
   output: UpdateRevisionsResponse,
   errors: [],
@@ -5189,16 +5290,19 @@ export interface DeleteTeamdrivesRequest {
   teamDriveId: string;
 }
 
-export const DeleteTeamdrivesRequest = Schema.Struct({
-  teamDriveId: Schema.String.pipe(T.HttpPath("teamDriveId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "teamdrives/{teamDriveId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteTeamdrivesRequest>;
+export const DeleteTeamdrivesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    teamDriveId: Schema.String.pipe(T.HttpPath("teamDriveId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "teamdrives/{teamDriveId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteTeamdrivesRequest>;
 
 export interface DeleteTeamdrivesResponse {}
 export const DeleteTeamdrivesResponse: Schema.Schema<DeleteTeamdrivesResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteTeamdrivesResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteTeamdrivesResponse>;
 
 export type DeleteTeamdrivesError = DefaultErrors;
 
@@ -5208,7 +5312,7 @@ export const deleteTeamdrives: API.OperationMethod<
   DeleteTeamdrivesResponse,
   DeleteTeamdrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTeamdrivesRequest,
   output: DeleteTeamdrivesResponse,
   errors: [],
@@ -5221,7 +5325,7 @@ export interface GetTeamdrivesRequest {
   useDomainAdminAccess?: boolean;
 }
 
-export const GetTeamdrivesRequest = Schema.Struct({
+export const GetTeamdrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   teamDriveId: Schema.String.pipe(T.HttpPath("teamDriveId")),
   useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("useDomainAdminAccess"),
@@ -5232,7 +5336,7 @@ export const GetTeamdrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetTeamdrivesRequest>;
 
 export type GetTeamdrivesResponse = TeamDrive;
-export const GetTeamdrivesResponse = TeamDrive;
+export const GetTeamdrivesResponse = /*@__PURE__*/ /*#__PURE__*/ TeamDrive;
 
 export type GetTeamdrivesError = DefaultErrors;
 
@@ -5242,7 +5346,7 @@ export const getTeamdrives: API.OperationMethod<
   GetTeamdrivesResponse,
   GetTeamdrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTeamdrivesRequest,
   output: GetTeamdrivesResponse,
   errors: [],
@@ -5255,16 +5359,17 @@ export interface InsertTeamdrivesRequest {
   body?: TeamDrive;
 }
 
-export const InsertTeamdrivesRequest = Schema.Struct({
-  requestId: Schema.String.pipe(T.HttpQuery("requestId")),
-  body: Schema.optional(TeamDrive).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "teamdrives", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertTeamdrivesRequest>;
+export const InsertTeamdrivesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    requestId: Schema.String.pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(TeamDrive).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "teamdrives", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<InsertTeamdrivesRequest>;
 
 export type InsertTeamdrivesResponse = TeamDrive;
-export const InsertTeamdrivesResponse = TeamDrive;
+export const InsertTeamdrivesResponse = /*@__PURE__*/ /*#__PURE__*/ TeamDrive;
 
 export type InsertTeamdrivesError = DefaultErrors;
 
@@ -5274,7 +5379,7 @@ export const insertTeamdrives: API.OperationMethod<
   InsertTeamdrivesResponse,
   InsertTeamdrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertTeamdrivesRequest,
   output: InsertTeamdrivesResponse,
   errors: [],
@@ -5291,7 +5396,7 @@ export interface ListTeamdrivesRequest {
   useDomainAdminAccess?: boolean;
 }
 
-export const ListTeamdrivesRequest = Schema.Struct({
+export const ListTeamdrivesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
@@ -5304,7 +5409,7 @@ export const ListTeamdrivesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTeamdrivesRequest>;
 
 export type ListTeamdrivesResponse = TeamDriveList;
-export const ListTeamdrivesResponse = TeamDriveList;
+export const ListTeamdrivesResponse = /*@__PURE__*/ /*#__PURE__*/ TeamDriveList;
 
 export type ListTeamdrivesError = DefaultErrors;
 
@@ -5314,7 +5419,7 @@ export const listTeamdrives: API.PaginatedOperationMethod<
   ListTeamdrivesResponse,
   ListTeamdrivesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTeamdrivesRequest,
   output: ListTeamdrivesResponse,
   errors: [],
@@ -5334,19 +5439,20 @@ export interface UpdateTeamdrivesRequest {
   body?: TeamDrive;
 }
 
-export const UpdateTeamdrivesRequest = Schema.Struct({
-  teamDriveId: Schema.String.pipe(T.HttpPath("teamDriveId")),
-  useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("useDomainAdminAccess"),
-  ),
-  body: Schema.optional(TeamDrive).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PUT", path: "teamdrives/{teamDriveId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<UpdateTeamdrivesRequest>;
+export const UpdateTeamdrivesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    teamDriveId: Schema.String.pipe(T.HttpPath("teamDriveId")),
+    useDomainAdminAccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("useDomainAdminAccess"),
+    ),
+    body: Schema.optional(TeamDrive).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "PUT", path: "teamdrives/{teamDriveId}", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateTeamdrivesRequest>;
 
 export type UpdateTeamdrivesResponse = TeamDrive;
-export const UpdateTeamdrivesResponse = TeamDrive;
+export const UpdateTeamdrivesResponse = /*@__PURE__*/ /*#__PURE__*/ TeamDrive;
 
 export type UpdateTeamdrivesError = DefaultErrors;
 
@@ -5356,7 +5462,7 @@ export const updateTeamdrives: API.OperationMethod<
   UpdateTeamdrivesResponse,
   UpdateTeamdrivesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTeamdrivesRequest,
   output: UpdateTeamdrivesResponse,
   errors: [],

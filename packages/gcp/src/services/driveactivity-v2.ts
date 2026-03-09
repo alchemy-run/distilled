@@ -24,9 +24,10 @@ const svc = T.Service({
 
 export interface File {}
 
-export const File: Schema.Schema<File> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
+export const File: Schema.Schema<File> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "File",
+  }) as any as Schema.Schema<File>;
 
 export interface Folder {
   /** This field is deprecated; please see `DriveFolder.type` instead. */
@@ -38,11 +39,12 @@ export interface Folder {
     | (string & {});
 }
 
-export const Folder: Schema.Schema<Folder> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+export const Folder: Schema.Schema<Folder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
 
 export interface TeamDriveReference {
   /** This field is deprecated; please see `DriveReference.name` instead. */
@@ -52,7 +54,7 @@ export interface TeamDriveReference {
 }
 
 export const TeamDriveReference: Schema.Schema<TeamDriveReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -63,9 +65,10 @@ export const TeamDriveReference: Schema.Schema<TeamDriveReference> =
 
 export interface UnknownUser {}
 
-export const UnknownUser: Schema.Schema<UnknownUser> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "UnknownUser" }) as any as Schema.Schema<UnknownUser>;
+export const UnknownUser: Schema.Schema<UnknownUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "UnknownUser",
+  }) as any as Schema.Schema<UnknownUser>;
 
 export interface KnownUser {
   /** The identifier for this user that can be used with the People API to get more information. The format is `people/ACCOUNT_ID`. See https://developers.google.com/people/. */
@@ -74,18 +77,20 @@ export interface KnownUser {
   isCurrentUser?: boolean;
 }
 
-export const KnownUser: Schema.Schema<KnownUser> = Schema.suspend(() =>
-  Schema.Struct({
-    personName: Schema.optional(Schema.String),
-    isCurrentUser: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "KnownUser" }) as any as Schema.Schema<KnownUser>;
+export const KnownUser: Schema.Schema<KnownUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      personName: Schema.optional(Schema.String),
+      isCurrentUser: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "KnownUser" }) as any as Schema.Schema<KnownUser>;
 
 export interface DeletedUser {}
 
-export const DeletedUser: Schema.Schema<DeletedUser> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "DeletedUser" }) as any as Schema.Schema<DeletedUser>;
+export const DeletedUser: Schema.Schema<DeletedUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeletedUser",
+  }) as any as Schema.Schema<DeletedUser>;
 
 export interface User {
   /** A user about whom nothing is currently known. */
@@ -96,13 +101,14 @@ export interface User {
   deletedUser?: DeletedUser;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() =>
-  Schema.Struct({
-    unknownUser: Schema.optional(UnknownUser),
-    knownUser: Schema.optional(KnownUser),
-    deletedUser: Schema.optional(DeletedUser),
-  }),
-).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unknownUser: Schema.optional(UnknownUser),
+      knownUser: Schema.optional(KnownUser),
+      deletedUser: Schema.optional(DeletedUser),
+    }),
+  ).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface DriveReference {
   /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
@@ -111,15 +117,15 @@ export interface DriveReference {
   title?: string;
 }
 
-export const DriveReference: Schema.Schema<DriveReference> = Schema.suspend(
-  () =>
+export const DriveReference: Schema.Schema<DriveReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DriveReference",
-}) as any as Schema.Schema<DriveReference>;
+  ).annotate({
+    identifier: "DriveReference",
+  }) as any as Schema.Schema<DriveReference>;
 
 export interface Domain {
   /** The name of the domain, e.g. `google.com`. */
@@ -128,12 +134,13 @@ export interface Domain {
   legacyId?: string;
 }
 
-export const Domain: Schema.Schema<Domain> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    legacyId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
+export const Domain: Schema.Schema<Domain> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      legacyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Domain" }) as any as Schema.Schema<Domain>;
 
 export interface Owner {
   /** This field is deprecated; please use the `drive` field instead. */
@@ -146,14 +153,15 @@ export interface Owner {
   domain?: Domain;
 }
 
-export const Owner: Schema.Schema<Owner> = Schema.suspend(() =>
-  Schema.Struct({
-    teamDrive: Schema.optional(TeamDriveReference),
-    user: Schema.optional(User),
-    drive: Schema.optional(DriveReference),
-    domain: Schema.optional(Domain),
-  }),
-).annotate({ identifier: "Owner" }) as any as Schema.Schema<Owner>;
+export const Owner: Schema.Schema<Owner> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      teamDrive: Schema.optional(TeamDriveReference),
+      user: Schema.optional(User),
+      drive: Schema.optional(DriveReference),
+      domain: Schema.optional(Domain),
+    }),
+  ).annotate({ identifier: "Owner" }) as any as Schema.Schema<Owner>;
 
 export interface DriveFolder {
   /** The type of Drive folder. */
@@ -165,17 +173,21 @@ export interface DriveFolder {
     | (string & {});
 }
 
-export const DriveFolder: Schema.Schema<DriveFolder> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DriveFolder" }) as any as Schema.Schema<DriveFolder>;
+export const DriveFolder: Schema.Schema<DriveFolder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DriveFolder",
+  }) as any as Schema.Schema<DriveFolder>;
 
 export interface DriveFile {}
 
-export const DriveFile: Schema.Schema<DriveFile> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "DriveFile" }) as any as Schema.Schema<DriveFile>;
+export const DriveFile: Schema.Schema<DriveFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DriveFile",
+  }) as any as Schema.Schema<DriveFile>;
 
 export interface DriveItem {
   /** This field is deprecated; please use the `driveFile` field instead. */
@@ -196,18 +208,19 @@ export interface DriveItem {
   driveFile?: DriveFile;
 }
 
-export const DriveItem: Schema.Schema<DriveItem> = Schema.suspend(() =>
-  Schema.Struct({
-    file: Schema.optional(File),
-    folder: Schema.optional(Folder),
-    owner: Schema.optional(Owner),
-    driveFolder: Schema.optional(DriveFolder),
-    mimeType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    driveFile: Schema.optional(DriveFile),
-  }),
-).annotate({ identifier: "DriveItem" }) as any as Schema.Schema<DriveItem>;
+export const DriveItem: Schema.Schema<DriveItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      file: Schema.optional(File),
+      folder: Schema.optional(Folder),
+      owner: Schema.optional(Owner),
+      driveFolder: Schema.optional(DriveFolder),
+      mimeType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      driveFile: Schema.optional(DriveFile),
+    }),
+  ).annotate({ identifier: "DriveItem" }) as any as Schema.Schema<DriveItem>;
 
 export interface FileComment {
   /** The comment in the discussion thread. This identifier is an opaque string compatible with the Drive API; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
@@ -220,44 +233,48 @@ export interface FileComment {
   linkToDiscussion?: string;
 }
 
-export const FileComment: Schema.Schema<FileComment> = Schema.suspend(() =>
-  Schema.Struct({
-    legacyCommentId: Schema.optional(Schema.String),
-    legacyDiscussionId: Schema.optional(Schema.String),
-    parent: Schema.optional(DriveItem),
-    linkToDiscussion: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "FileComment" }) as any as Schema.Schema<FileComment>;
+export const FileComment: Schema.Schema<FileComment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      legacyCommentId: Schema.optional(Schema.String),
+      legacyDiscussionId: Schema.optional(Schema.String),
+      parent: Schema.optional(DriveItem),
+      linkToDiscussion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FileComment",
+  }) as any as Schema.Schema<FileComment>;
 
 export interface Administrator {}
 
-export const Administrator: Schema.Schema<Administrator> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({
-  identifier: "Administrator",
-}) as any as Schema.Schema<Administrator>;
+export const Administrator: Schema.Schema<Administrator> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Administrator",
+  }) as any as Schema.Schema<Administrator>;
 
 export interface SingleUser {
   /** User value as email. */
   value?: string;
 }
 
-export const SingleUser: Schema.Schema<SingleUser> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SingleUser" }) as any as Schema.Schema<SingleUser>;
+export const SingleUser: Schema.Schema<SingleUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SingleUser" }) as any as Schema.Schema<SingleUser>;
 
 export interface UserList {
   /** User values. */
   values?: Array<SingleUser>;
 }
 
-export const UserList: Schema.Schema<UserList> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(SingleUser)),
-  }),
-).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
+export const UserList: Schema.Schema<UserList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(SingleUser)),
+    }),
+  ).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
 
 export interface DriveItemReference {
   /** This field is deprecated; please use the `driveFile` field instead. */
@@ -275,7 +292,7 @@ export interface DriveItemReference {
 }
 
 export const DriveItemReference: Schema.Schema<DriveItemReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       file: Schema.optional(File),
       folder: Schema.optional(Folder),
@@ -297,16 +314,16 @@ export interface TargetReference {
   teamDrive?: TeamDriveReference;
 }
 
-export const TargetReference: Schema.Schema<TargetReference> = Schema.suspend(
-  () =>
+export const TargetReference: Schema.Schema<TargetReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       drive: Schema.optional(DriveReference),
       driveItem: Schema.optional(DriveItemReference),
       teamDrive: Schema.optional(TeamDriveReference),
     }),
-).annotate({
-  identifier: "TargetReference",
-}) as any as Schema.Schema<TargetReference>;
+  ).annotate({
+    identifier: "TargetReference",
+  }) as any as Schema.Schema<TargetReference>;
 
 export interface Move {
   /** The added parent object(s). */
@@ -315,26 +332,27 @@ export interface Move {
   removedParents?: Array<TargetReference>;
 }
 
-export const Move: Schema.Schema<Move> = Schema.suspend(() =>
-  Schema.Struct({
-    addedParents: Schema.optional(Schema.Array(TargetReference)),
-    removedParents: Schema.optional(Schema.Array(TargetReference)),
-  }),
-).annotate({ identifier: "Move" }) as any as Schema.Schema<Move>;
+export const Move: Schema.Schema<Move> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      addedParents: Schema.optional(Schema.Array(TargetReference)),
+      removedParents: Schema.optional(Schema.Array(TargetReference)),
+    }),
+  ).annotate({ identifier: "Move" }) as any as Schema.Schema<Move>;
 
 export interface NoConsolidation {}
 
-export const NoConsolidation: Schema.Schema<NoConsolidation> = Schema.suspend(
-  () => Schema.Struct({}),
-).annotate({
-  identifier: "NoConsolidation",
-}) as any as Schema.Schema<NoConsolidation>;
+export const NoConsolidation: Schema.Schema<NoConsolidation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "NoConsolidation",
+  }) as any as Schema.Schema<NoConsolidation>;
 
 export interface Anyone {}
 
-export const Anyone: Schema.Schema<Anyone> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Anyone" }) as any as Schema.Schema<Anyone>;
+export const Anyone: Schema.Schema<Anyone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Anyone",
+  }) as any as Schema.Schema<Anyone>;
 
 export interface Group {
   /** The email address of the group. */
@@ -343,12 +361,13 @@ export interface Group {
   title?: string;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() =>
-  Schema.Struct({
-    email: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      email: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface Permission {
   /** Indicates the [Google Drive permissions role](https://developers.google.com/workspace/drive/web/manage-sharing#roles). The role determines a user's ability to read, write, and comment on items. */
@@ -374,16 +393,17 @@ export interface Permission {
   group?: Group;
 }
 
-export const Permission: Schema.Schema<Permission> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    user: Schema.optional(User),
-    anyone: Schema.optional(Anyone),
-    allowDiscovery: Schema.optional(Schema.Boolean),
-    domain: Schema.optional(Domain),
-    group: Schema.optional(Group),
-  }),
-).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
+export const Permission: Schema.Schema<Permission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      user: Schema.optional(User),
+      anyone: Schema.optional(Anyone),
+      allowDiscovery: Schema.optional(Schema.Boolean),
+      domain: Schema.optional(Domain),
+      group: Schema.optional(Group),
+    }),
+  ).annotate({ identifier: "Permission" }) as any as Schema.Schema<Permission>;
 
 export interface PermissionChange {
   /** The set of permissions added by this change. */
@@ -392,15 +412,15 @@ export interface PermissionChange {
   removedPermissions?: Array<Permission>;
 }
 
-export const PermissionChange: Schema.Schema<PermissionChange> = Schema.suspend(
-  () =>
+export const PermissionChange: Schema.Schema<PermissionChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       addedPermissions: Schema.optional(Schema.Array(Permission)),
       removedPermissions: Schema.optional(Schema.Array(Permission)),
     }),
-).annotate({
-  identifier: "PermissionChange",
-}) as any as Schema.Schema<PermissionChange>;
+  ).annotate({
+    identifier: "PermissionChange",
+  }) as any as Schema.Schema<PermissionChange>;
 
 export interface SystemEvent {
   /** The type of the system event that may triggered activity. */
@@ -411,11 +431,14 @@ export interface SystemEvent {
     | (string & {});
 }
 
-export const SystemEvent: Schema.Schema<SystemEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SystemEvent" }) as any as Schema.Schema<SystemEvent>;
+export const SystemEvent: Schema.Schema<SystemEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SystemEvent",
+  }) as any as Schema.Schema<SystemEvent>;
 
 export interface DataLeakPreventionChange {
   /** The type of Data Leak Prevention (DLP) change. */
@@ -423,7 +446,7 @@ export interface DataLeakPreventionChange {
 }
 
 export const DataLeakPreventionChange: Schema.Schema<DataLeakPreventionChange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -437,7 +460,7 @@ export interface ApplicationReference {
 }
 
 export const ApplicationReference: Schema.Schema<ApplicationReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
     }),
@@ -450,23 +473,26 @@ export interface Copy {
   originalObject?: TargetReference;
 }
 
-export const Copy: Schema.Schema<Copy> = Schema.suspend(() =>
-  Schema.Struct({
-    originalObject: Schema.optional(TargetReference),
-  }),
-).annotate({ identifier: "Copy" }) as any as Schema.Schema<Copy>;
+export const Copy: Schema.Schema<Copy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      originalObject: Schema.optional(TargetReference),
+    }),
+  ).annotate({ identifier: "Copy" }) as any as Schema.Schema<Copy>;
 
 export interface Upload {}
 
-export const Upload: Schema.Schema<Upload> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Upload" }) as any as Schema.Schema<Upload>;
+export const Upload: Schema.Schema<Upload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Upload",
+  }) as any as Schema.Schema<Upload>;
 
 export interface New {}
 
-export const New: Schema.Schema<New> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "New" }) as any as Schema.Schema<New>;
+export const New: Schema.Schema<New> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "New",
+  }) as any as Schema.Schema<New>;
 
 export interface Create {
   /** If present, indicates the object was created by copying an existing Drive object. */
@@ -477,35 +503,38 @@ export interface Create {
   new?: New;
 }
 
-export const Create: Schema.Schema<Create> = Schema.suspend(() =>
-  Schema.Struct({
-    copy: Schema.optional(Copy),
-    upload: Schema.optional(Upload),
-    new: Schema.optional(New),
-  }),
-).annotate({ identifier: "Create" }) as any as Schema.Schema<Create>;
+export const Create: Schema.Schema<Create> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      copy: Schema.optional(Copy),
+      upload: Schema.optional(Upload),
+      new: Schema.optional(New),
+    }),
+  ).annotate({ identifier: "Create" }) as any as Schema.Schema<Create>;
 
 export interface Text {
   /** Value of Text Field. */
   value?: string;
 }
 
-export const Text: Schema.Schema<Text> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Text" }) as any as Schema.Schema<Text>;
+export const Text: Schema.Schema<Text> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Text" }) as any as Schema.Schema<Text>;
 
 export interface TextList {
   /** Text values. */
   values?: Array<Text>;
 }
 
-export const TextList: Schema.Schema<TextList> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Text)),
-  }),
-).annotate({ identifier: "TextList" }) as any as Schema.Schema<TextList>;
+export const TextList: Schema.Schema<TextList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Text)),
+    }),
+  ).annotate({ identifier: "TextList" }) as any as Schema.Schema<TextList>;
 
 export interface Selection {
   /** Selection value as Field Choice ID. */
@@ -514,12 +543,13 @@ export interface Selection {
   displayName?: string;
 }
 
-export const Selection: Schema.Schema<Selection> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Selection" }) as any as Schema.Schema<Selection>;
+export const Selection: Schema.Schema<Selection> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Selection" }) as any as Schema.Schema<Selection>;
 
 export interface Driveactivity_Date {
   /** Date value. */
@@ -527,7 +557,7 @@ export interface Driveactivity_Date {
 }
 
 export const Driveactivity_Date: Schema.Schema<Driveactivity_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
     }),
@@ -540,24 +570,26 @@ export interface Integer {
   value?: string;
 }
 
-export const Integer: Schema.Schema<Integer> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Integer" }) as any as Schema.Schema<Integer>;
+export const Integer: Schema.Schema<Integer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Integer" }) as any as Schema.Schema<Integer>;
 
 export interface SelectionList {
   /** Selection values. */
   values?: Array<Selection>;
 }
 
-export const SelectionList: Schema.Schema<SelectionList> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Selection)),
-  }),
-).annotate({
-  identifier: "SelectionList",
-}) as any as Schema.Schema<SelectionList>;
+export const SelectionList: Schema.Schema<SelectionList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Selection)),
+    }),
+  ).annotate({
+    identifier: "SelectionList",
+  }) as any as Schema.Schema<SelectionList>;
 
 export interface FieldValue {
   /** Text List Field value. */
@@ -578,18 +610,19 @@ export interface FieldValue {
   selectionList?: SelectionList;
 }
 
-export const FieldValue: Schema.Schema<FieldValue> = Schema.suspend(() =>
-  Schema.Struct({
-    textList: Schema.optional(TextList),
-    user: Schema.optional(SingleUser),
-    text: Schema.optional(Text),
-    selection: Schema.optional(Selection),
-    date: Schema.optional(Driveactivity_Date),
-    integer: Schema.optional(Integer),
-    userList: Schema.optional(UserList),
-    selectionList: Schema.optional(SelectionList),
-  }),
-).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
+export const FieldValue: Schema.Schema<FieldValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      textList: Schema.optional(TextList),
+      user: Schema.optional(SingleUser),
+      text: Schema.optional(Text),
+      selection: Schema.optional(Selection),
+      date: Schema.optional(Driveactivity_Date),
+      integer: Schema.optional(Integer),
+      userList: Schema.optional(UserList),
+      selectionList: Schema.optional(SelectionList),
+    }),
+  ).annotate({ identifier: "FieldValue" }) as any as Schema.Schema<FieldValue>;
 
 export interface FieldValueChange {
   /** The value that was previously set on the field. If not present, the field was newly set. At least one of {old_value|new_value} is always set. */
@@ -602,17 +635,17 @@ export interface FieldValueChange {
   newValue?: FieldValue;
 }
 
-export const FieldValueChange: Schema.Schema<FieldValueChange> = Schema.suspend(
-  () =>
+export const FieldValueChange: Schema.Schema<FieldValueChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       oldValue: Schema.optional(FieldValue),
       fieldId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
       newValue: Schema.optional(FieldValue),
     }),
-).annotate({
-  identifier: "FieldValueChange",
-}) as any as Schema.Schema<FieldValueChange>;
+  ).annotate({
+    identifier: "FieldValueChange",
+  }) as any as Schema.Schema<FieldValueChange>;
 
 export interface AppliedLabelChangeDetail {
   /** The types of changes made to the Label on the Target. */
@@ -633,7 +666,7 @@ export interface AppliedLabelChangeDetail {
 }
 
 export const AppliedLabelChangeDetail: Schema.Schema<AppliedLabelChangeDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
       fieldChanges: Schema.optional(Schema.Array(FieldValueChange)),
@@ -650,7 +683,7 @@ export interface AppliedLabelChange {
 }
 
 export const AppliedLabelChange: Schema.Schema<AppliedLabelChange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changes: Schema.optional(Schema.Array(AppliedLabelChangeDetail)),
     }),
@@ -660,9 +693,10 @@ export const AppliedLabelChange: Schema.Schema<AppliedLabelChange> =
 
 export interface Edit {}
 
-export const Edit: Schema.Schema<Edit> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Edit" }) as any as Schema.Schema<Edit>;
+export const Edit: Schema.Schema<Edit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Edit",
+  }) as any as Schema.Schema<Edit>;
 
 export interface RestrictionChange {
   /** The feature which had a change in restriction policy. */
@@ -685,7 +719,7 @@ export interface RestrictionChange {
 }
 
 export const RestrictionChange: Schema.Schema<RestrictionChange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       feature: Schema.optional(Schema.String),
       newRestriction: Schema.optional(Schema.String),
@@ -699,25 +733,26 @@ export interface SettingsChange {
   restrictionChanges?: Array<RestrictionChange>;
 }
 
-export const SettingsChange: Schema.Schema<SettingsChange> = Schema.suspend(
-  () =>
+export const SettingsChange: Schema.Schema<SettingsChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictionChanges: Schema.optional(Schema.Array(RestrictionChange)),
     }),
-).annotate({
-  identifier: "SettingsChange",
-}) as any as Schema.Schema<SettingsChange>;
+  ).annotate({
+    identifier: "SettingsChange",
+  }) as any as Schema.Schema<SettingsChange>;
 
 export interface Delete {
   /** The type of delete action taken. */
   type?: "TYPE_UNSPECIFIED" | "TRASH" | "PERMANENT_DELETE" | (string & {});
 }
 
-export const Delete: Schema.Schema<Delete> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Delete" }) as any as Schema.Schema<Delete>;
+export const Delete: Schema.Schema<Delete> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Delete" }) as any as Schema.Schema<Delete>;
 
 export interface Post {
   /** The sub-type of this event. */
@@ -732,11 +767,12 @@ export interface Post {
     | (string & {});
 }
 
-export const Post: Schema.Schema<Post> = Schema.suspend(() =>
-  Schema.Struct({
-    subtype: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Post" }) as any as Schema.Schema<Post>;
+export const Post: Schema.Schema<Post> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subtype: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Post" }) as any as Schema.Schema<Post>;
 
 export interface Suggestion {
   /** The sub-type of this event. */
@@ -753,11 +789,12 @@ export interface Suggestion {
     | (string & {});
 }
 
-export const Suggestion: Schema.Schema<Suggestion> = Schema.suspend(() =>
-  Schema.Struct({
-    subtype: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Suggestion" }) as any as Schema.Schema<Suggestion>;
+export const Suggestion: Schema.Schema<Suggestion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subtype: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Suggestion" }) as any as Schema.Schema<Suggestion>;
 
 export interface Assignment {
   /** The sub-type of this event. */
@@ -775,12 +812,13 @@ export interface Assignment {
   assignedUser?: User;
 }
 
-export const Assignment: Schema.Schema<Assignment> = Schema.suspend(() =>
-  Schema.Struct({
-    subtype: Schema.optional(Schema.String),
-    assignedUser: Schema.optional(User),
-  }),
-).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
+export const Assignment: Schema.Schema<Assignment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subtype: Schema.optional(Schema.String),
+      assignedUser: Schema.optional(User),
+    }),
+  ).annotate({ identifier: "Assignment" }) as any as Schema.Schema<Assignment>;
 
 export interface Comment {
   /** A change on a regular posted comment. */
@@ -793,25 +831,27 @@ export interface Comment {
   assignment?: Assignment;
 }
 
-export const Comment: Schema.Schema<Comment> = Schema.suspend(() =>
-  Schema.Struct({
-    post: Schema.optional(Post),
-    suggestion: Schema.optional(Suggestion),
-    mentionedUsers: Schema.optional(Schema.Array(User)),
-    assignment: Schema.optional(Assignment),
-  }),
-).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
+export const Comment: Schema.Schema<Comment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      post: Schema.optional(Post),
+      suggestion: Schema.optional(Suggestion),
+      mentionedUsers: Schema.optional(Schema.Array(User)),
+      assignment: Schema.optional(Assignment),
+    }),
+  ).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
 
 export interface Restore {
   /** The type of restore action taken. */
   type?: "TYPE_UNSPECIFIED" | "UNTRASH" | (string & {});
 }
 
-export const Restore: Schema.Schema<Restore> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Restore" }) as any as Schema.Schema<Restore>;
+export const Restore: Schema.Schema<Restore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Restore" }) as any as Schema.Schema<Restore>;
 
 export interface Rename {
   /** The new title of the drive object. */
@@ -820,12 +860,13 @@ export interface Rename {
   oldTitle?: string;
 }
 
-export const Rename: Schema.Schema<Rename> = Schema.suspend(() =>
-  Schema.Struct({
-    newTitle: Schema.optional(Schema.String),
-    oldTitle: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Rename" }) as any as Schema.Schema<Rename>;
+export const Rename: Schema.Schema<Rename> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      newTitle: Schema.optional(Schema.String),
+      oldTitle: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Rename" }) as any as Schema.Schema<Rename>;
 
 export interface ActionDetail {
   /** An object was created. */
@@ -854,24 +895,25 @@ export interface ActionDetail {
   permissionChange?: PermissionChange;
 }
 
-export const ActionDetail: Schema.Schema<ActionDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    create: Schema.optional(Create),
-    appliedLabelChange: Schema.optional(AppliedLabelChange),
-    edit: Schema.optional(Edit),
-    reference: Schema.optional(ApplicationReference),
-    settingsChange: Schema.optional(SettingsChange),
-    delete: Schema.optional(Delete),
-    comment: Schema.optional(Comment),
-    restore: Schema.optional(Restore),
-    dlpChange: Schema.optional(DataLeakPreventionChange),
-    rename: Schema.optional(Rename),
-    move: Schema.optional(Move),
-    permissionChange: Schema.optional(PermissionChange),
-  }),
-).annotate({
-  identifier: "ActionDetail",
-}) as any as Schema.Schema<ActionDetail>;
+export const ActionDetail: Schema.Schema<ActionDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      create: Schema.optional(Create),
+      appliedLabelChange: Schema.optional(AppliedLabelChange),
+      edit: Schema.optional(Edit),
+      reference: Schema.optional(ApplicationReference),
+      settingsChange: Schema.optional(SettingsChange),
+      delete: Schema.optional(Delete),
+      comment: Schema.optional(Comment),
+      restore: Schema.optional(Restore),
+      dlpChange: Schema.optional(DataLeakPreventionChange),
+      rename: Schema.optional(Rename),
+      move: Schema.optional(Move),
+      permissionChange: Schema.optional(PermissionChange),
+    }),
+  ).annotate({
+    identifier: "ActionDetail",
+  }) as any as Schema.Schema<ActionDetail>;
 
 export interface TimeRange {
   /** The start of the time range. */
@@ -880,12 +922,13 @@ export interface TimeRange {
   endTime?: string;
 }
 
-export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
+export const TimeRange: Schema.Schema<TimeRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
 
 export interface Drive {
   /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
@@ -896,13 +939,14 @@ export interface Drive {
   root?: DriveItem;
 }
 
-export const Drive: Schema.Schema<Drive> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    root: Schema.optional(DriveItem),
-  }),
-).annotate({ identifier: "Drive" }) as any as Schema.Schema<Drive>;
+export const Drive: Schema.Schema<Drive> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      root: Schema.optional(DriveItem),
+    }),
+  ).annotate({ identifier: "Drive" }) as any as Schema.Schema<Drive>;
 
 export interface TeamDrive {
   /** This field is deprecated; please see `Drive.name` instead. */
@@ -913,13 +957,14 @@ export interface TeamDrive {
   root?: DriveItem;
 }
 
-export const TeamDrive: Schema.Schema<TeamDrive> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    root: Schema.optional(DriveItem),
-  }),
-).annotate({ identifier: "TeamDrive" }) as any as Schema.Schema<TeamDrive>;
+export const TeamDrive: Schema.Schema<TeamDrive> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      root: Schema.optional(DriveItem),
+    }),
+  ).annotate({ identifier: "TeamDrive" }) as any as Schema.Schema<TeamDrive>;
 
 export interface Target {
   /** The target is a shared drive. */
@@ -932,35 +977,36 @@ export interface Target {
   teamDrive?: TeamDrive;
 }
 
-export const Target: Schema.Schema<Target> = Schema.suspend(() =>
-  Schema.Struct({
-    drive: Schema.optional(Drive),
-    driveItem: Schema.optional(DriveItem),
-    fileComment: Schema.optional(FileComment),
-    teamDrive: Schema.optional(TeamDrive),
-  }),
-).annotate({ identifier: "Target" }) as any as Schema.Schema<Target>;
+export const Target: Schema.Schema<Target> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      drive: Schema.optional(Drive),
+      driveItem: Schema.optional(DriveItem),
+      fileComment: Schema.optional(FileComment),
+      teamDrive: Schema.optional(TeamDrive),
+    }),
+  ).annotate({ identifier: "Target" }) as any as Schema.Schema<Target>;
 
 export interface AnonymousUser {}
 
-export const AnonymousUser: Schema.Schema<AnonymousUser> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({
-  identifier: "AnonymousUser",
-}) as any as Schema.Schema<AnonymousUser>;
+export const AnonymousUser: Schema.Schema<AnonymousUser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AnonymousUser",
+  }) as any as Schema.Schema<AnonymousUser>;
 
 export interface Impersonation {
   /** The impersonated user. */
   impersonatedUser?: User;
 }
 
-export const Impersonation: Schema.Schema<Impersonation> = Schema.suspend(() =>
-  Schema.Struct({
-    impersonatedUser: Schema.optional(User),
-  }),
-).annotate({
-  identifier: "Impersonation",
-}) as any as Schema.Schema<Impersonation>;
+export const Impersonation: Schema.Schema<Impersonation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      impersonatedUser: Schema.optional(User),
+    }),
+  ).annotate({
+    identifier: "Impersonation",
+  }) as any as Schema.Schema<Impersonation>;
 
 export interface Actor {
   /** An anonymous user. */
@@ -975,15 +1021,16 @@ export interface Actor {
   impersonation?: Impersonation;
 }
 
-export const Actor: Schema.Schema<Actor> = Schema.suspend(() =>
-  Schema.Struct({
-    anonymous: Schema.optional(AnonymousUser),
-    system: Schema.optional(SystemEvent),
-    administrator: Schema.optional(Administrator),
-    user: Schema.optional(User),
-    impersonation: Schema.optional(Impersonation),
-  }),
-).annotate({ identifier: "Actor" }) as any as Schema.Schema<Actor>;
+export const Actor: Schema.Schema<Actor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      anonymous: Schema.optional(AnonymousUser),
+      system: Schema.optional(SystemEvent),
+      administrator: Schema.optional(Administrator),
+      user: Schema.optional(User),
+      impersonation: Schema.optional(Impersonation),
+    }),
+  ).annotate({ identifier: "Actor" }) as any as Schema.Schema<Actor>;
 
 export interface Action {
   /** The type and detailed information about the action. */
@@ -998,15 +1045,16 @@ export interface Action {
   timestamp?: string;
 }
 
-export const Action: Schema.Schema<Action> = Schema.suspend(() =>
-  Schema.Struct({
-    detail: Schema.optional(ActionDetail),
-    timeRange: Schema.optional(TimeRange),
-    target: Schema.optional(Target),
-    actor: Schema.optional(Actor),
-    timestamp: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
+export const Action: Schema.Schema<Action> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      detail: Schema.optional(ActionDetail),
+      timeRange: Schema.optional(TimeRange),
+      target: Schema.optional(Target),
+      actor: Schema.optional(Actor),
+      timestamp: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Action" }) as any as Schema.Schema<Action>;
 
 export interface DriveActivity {
   /** The activity occurred at this specific time. */
@@ -1023,18 +1071,19 @@ export interface DriveActivity {
   timeRange?: TimeRange;
 }
 
-export const DriveActivity: Schema.Schema<DriveActivity> = Schema.suspend(() =>
-  Schema.Struct({
-    timestamp: Schema.optional(Schema.String),
-    actions: Schema.optional(Schema.Array(Action)),
-    actors: Schema.optional(Schema.Array(Actor)),
-    targets: Schema.optional(Schema.Array(Target)),
-    primaryActionDetail: Schema.optional(ActionDetail),
-    timeRange: Schema.optional(TimeRange),
-  }),
-).annotate({
-  identifier: "DriveActivity",
-}) as any as Schema.Schema<DriveActivity>;
+export const DriveActivity: Schema.Schema<DriveActivity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timestamp: Schema.optional(Schema.String),
+      actions: Schema.optional(Schema.Array(Action)),
+      actors: Schema.optional(Schema.Array(Actor)),
+      targets: Schema.optional(Schema.Array(Target)),
+      primaryActionDetail: Schema.optional(ActionDetail),
+      timeRange: Schema.optional(TimeRange),
+    }),
+  ).annotate({
+    identifier: "DriveActivity",
+  }) as any as Schema.Schema<DriveActivity>;
 
 export interface QueryDriveActivityResponse {
   /** List of activity requested. */
@@ -1044,7 +1093,7 @@ export interface QueryDriveActivityResponse {
 }
 
 export const QueryDriveActivityResponse: Schema.Schema<QueryDriveActivityResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       activities: Schema.optional(Schema.Array(DriveActivity)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1055,9 +1104,10 @@ export const QueryDriveActivityResponse: Schema.Schema<QueryDriveActivityRespons
 
 export interface Legacy {}
 
-export const Legacy: Schema.Schema<Legacy> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Legacy" }) as any as Schema.Schema<Legacy>;
+export const Legacy: Schema.Schema<Legacy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Legacy",
+  }) as any as Schema.Schema<Legacy>;
 
 export interface ConsolidationStrategy {
   /** The individual activities are not consolidated. */
@@ -1067,7 +1117,7 @@ export interface ConsolidationStrategy {
 }
 
 export const ConsolidationStrategy: Schema.Schema<ConsolidationStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       none: Schema.optional(NoConsolidation),
       legacy: Schema.optional(Legacy),
@@ -1092,7 +1142,7 @@ export interface QueryDriveActivityRequest {
 }
 
 export const QueryDriveActivityRequest: Schema.Schema<QueryDriveActivityRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       consolidationStrategy: Schema.optional(ConsolidationStrategy),
       pageSize: Schema.optional(Schema.Number),
@@ -1114,7 +1164,7 @@ export interface QueryActivityRequest {
   body?: QueryDriveActivityRequest;
 }
 
-export const QueryActivityRequest = Schema.Struct({
+export const QueryActivityRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(QueryDriveActivityRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v2/activity:query", hasBody: true }),
@@ -1122,7 +1172,8 @@ export const QueryActivityRequest = Schema.Struct({
 ) as unknown as Schema.Schema<QueryActivityRequest>;
 
 export type QueryActivityResponse = QueryDriveActivityResponse;
-export const QueryActivityResponse = QueryDriveActivityResponse;
+export const QueryActivityResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryDriveActivityResponse;
 
 export type QueryActivityError = DefaultErrors;
 
@@ -1132,7 +1183,7 @@ export const queryActivity: API.OperationMethod<
   QueryActivityResponse,
   QueryActivityError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryActivityRequest,
   output: QueryActivityResponse,
   errors: [],

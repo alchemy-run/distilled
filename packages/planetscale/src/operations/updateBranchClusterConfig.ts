@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const UpdateBranchClusterConfigInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  cluster_size: Schema.String,
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/cluster",
-  }),
-);
+export const UpdateBranchClusterConfigInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    cluster_size: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/cluster",
+    }),
+  );
 export type UpdateBranchClusterConfigInput =
   typeof UpdateBranchClusterConfigInput.Type;
 
 // Output Schema
-export const UpdateBranchClusterConfigOutput = Schema.Void;
+export const UpdateBranchClusterConfigOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type UpdateBranchClusterConfigOutput =
   typeof UpdateBranchClusterConfigOutput.Type;
 

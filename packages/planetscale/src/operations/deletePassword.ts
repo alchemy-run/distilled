@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeletePasswordInput = Schema.Struct({
+export const DeletePasswordInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -18,7 +18,7 @@ export const DeletePasswordInput = Schema.Struct({
 export type DeletePasswordInput = typeof DeletePasswordInput.Type;
 
 // Output Schema
-export const DeletePasswordOutput = Schema.Void;
+export const DeletePasswordOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeletePasswordOutput = typeof DeletePasswordOutput.Type;
 
 // The operation

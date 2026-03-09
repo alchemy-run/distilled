@@ -205,23 +205,24 @@ export type VolumeFilterValue = string;
 
 //# Schemas
 export type AlternateDNSNames = string[];
-export const AlternateDNSNames = S.Array(S.String);
+export const AlternateDNSNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface AssociateFileSystemAliasesRequest {
   ClientRequestToken?: string;
   FileSystemId?: string;
   Aliases?: string[];
 }
-export const AssociateFileSystemAliasesRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemId: S.optional(S.String),
-    Aliases: S.optional(AlternateDNSNames),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateFileSystemAliasesRequest",
-}) as any as S.Schema<AssociateFileSystemAliasesRequest>;
+export const AssociateFileSystemAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemId: S.optional(S.String),
+      Aliases: S.optional(AlternateDNSNames),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AssociateFileSystemAliasesRequest",
+  }) as any as S.Schema<AssociateFileSystemAliasesRequest>;
 export type AliasLifecycle =
   | "AVAILABLE"
   | "CREATING"
@@ -229,37 +230,39 @@ export type AliasLifecycle =
   | "CREATE_FAILED"
   | "DELETE_FAILED"
   | (string & {});
-export const AliasLifecycle = S.String;
+export const AliasLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Alias {
   Name?: string;
   Lifecycle?: AliasLifecycle;
 }
-export const Alias = S.suspend(() =>
+export const Alias = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Lifecycle: S.optional(AliasLifecycle),
   }),
 ).annotate({ identifier: "Alias" }) as any as S.Schema<Alias>;
 export type Aliases = Alias[];
-export const Aliases = S.Array(Alias);
+export const Aliases = /*@__PURE__*/ /*#__PURE__*/ S.Array(Alias);
 export interface AssociateFileSystemAliasesResponse {
   Aliases?: Alias[];
 }
-export const AssociateFileSystemAliasesResponse = S.suspend(() =>
-  S.Struct({ Aliases: S.optional(Aliases) }),
-).annotate({
-  identifier: "AssociateFileSystemAliasesResponse",
-}) as any as S.Schema<AssociateFileSystemAliasesResponse>;
+export const AssociateFileSystemAliasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Aliases: S.optional(Aliases) }),
+  ).annotate({
+    identifier: "AssociateFileSystemAliasesResponse",
+  }) as any as S.Schema<AssociateFileSystemAliasesResponse>;
 export interface CancelDataRepositoryTaskRequest {
   TaskId?: string;
 }
-export const CancelDataRepositoryTaskRequest = S.suspend(() =>
-  S.Struct({ TaskId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CancelDataRepositoryTaskRequest",
-}) as any as S.Schema<CancelDataRepositoryTaskRequest>;
+export const CancelDataRepositoryTaskRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ TaskId: S.optional(S.String) }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CancelDataRepositoryTaskRequest",
+  }) as any as S.Schema<CancelDataRepositoryTaskRequest>;
 export type DataRepositoryTaskLifecycle =
   | "PENDING"
   | "EXECUTING"
@@ -268,28 +271,29 @@ export type DataRepositoryTaskLifecycle =
   | "CANCELED"
   | "CANCELING"
   | (string & {});
-export const DataRepositoryTaskLifecycle = S.String;
+export const DataRepositoryTaskLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CancelDataRepositoryTaskResponse {
   Lifecycle?: DataRepositoryTaskLifecycle;
   TaskId?: string;
 }
-export const CancelDataRepositoryTaskResponse = S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(DataRepositoryTaskLifecycle),
-    TaskId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CancelDataRepositoryTaskResponse",
-}) as any as S.Schema<CancelDataRepositoryTaskResponse>;
+export const CancelDataRepositoryTaskResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Lifecycle: S.optional(DataRepositoryTaskLifecycle),
+      TaskId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CancelDataRepositoryTaskResponse",
+  }) as any as S.Schema<CancelDataRepositoryTaskResponse>;
 export interface Tag {
   Key?: string;
   Value?: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = S.Array(Tag);
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface CopyBackupRequest {
   ClientRequestToken?: string;
   SourceBackupId?: string;
@@ -298,7 +302,7 @@ export interface CopyBackupRequest {
   CopyTags?: boolean;
   Tags?: Tag[];
 }
-export const CopyBackupRequest = S.suspend(() =>
+export const CopyBackupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     SourceBackupId: S.optional(S.String),
@@ -321,11 +325,11 @@ export type BackupLifecycle =
   | "PENDING"
   | "COPYING"
   | (string & {});
-export const BackupLifecycle = S.String;
+export const BackupLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface BackupFailureDetails {
   Message?: string;
 }
-export const BackupFailureDetails = S.suspend(() =>
+export const BackupFailureDetails = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String) }),
 ).annotate({
   identifier: "BackupFailureDetails",
@@ -335,14 +339,14 @@ export type BackupType =
   | "USER_INITIATED"
   | "AWS_BACKUP"
   | (string & {});
-export const BackupType = S.String;
+export const BackupType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FileSystemType =
   | "WINDOWS"
   | "LUSTRE"
   | "ONTAP"
   | "OPENZFS"
   | (string & {});
-export const FileSystemType = S.String;
+export const FileSystemType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FileSystemLifecycle =
   | "AVAILABLE"
   | "CREATING"
@@ -352,23 +356,25 @@ export type FileSystemLifecycle =
   | "UPDATING"
   | "MISCONFIGURED_UNAVAILABLE"
   | (string & {});
-export const FileSystemLifecycle = S.String;
+export const FileSystemLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FileSystemFailureDetails {
   Message?: string;
 }
-export const FileSystemFailureDetails = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
+export const FileSystemFailureDetails = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Message: S.optional(S.String) }),
 ).annotate({
   identifier: "FileSystemFailureDetails",
 }) as any as S.Schema<FileSystemFailureDetails>;
 export type StorageType = "SSD" | "HDD" | "INTELLIGENT_TIERING" | (string & {});
-export const StorageType = S.String;
+export const StorageType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SubnetIds = string[];
-export const SubnetIds = S.Array(S.String);
+export const SubnetIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type NetworkInterfaceIds = string[];
-export const NetworkInterfaceIds = S.Array(S.String);
+export const NetworkInterfaceIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type DnsIps = string[];
-export const DnsIps = S.Array(S.String);
+export const DnsIps = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface SelfManagedActiveDirectoryAttributes {
   DomainName?: string;
   OrganizationalUnitDistinguishedName?: string;
@@ -377,64 +383,66 @@ export interface SelfManagedActiveDirectoryAttributes {
   DnsIps?: string[];
   DomainJoinServiceAccountSecret?: string;
 }
-export const SelfManagedActiveDirectoryAttributes = S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    OrganizationalUnitDistinguishedName: S.optional(S.String),
-    FileSystemAdministratorsGroup: S.optional(S.String),
-    UserName: S.optional(S.String),
-    DnsIps: S.optional(DnsIps),
-    DomainJoinServiceAccountSecret: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SelfManagedActiveDirectoryAttributes",
-}) as any as S.Schema<SelfManagedActiveDirectoryAttributes>;
+export const SelfManagedActiveDirectoryAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.optional(S.String),
+      OrganizationalUnitDistinguishedName: S.optional(S.String),
+      FileSystemAdministratorsGroup: S.optional(S.String),
+      UserName: S.optional(S.String),
+      DnsIps: S.optional(DnsIps),
+      DomainJoinServiceAccountSecret: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "SelfManagedActiveDirectoryAttributes",
+  }) as any as S.Schema<SelfManagedActiveDirectoryAttributes>;
 export type WindowsDeploymentType =
   | "MULTI_AZ_1"
   | "SINGLE_AZ_1"
   | "SINGLE_AZ_2"
   | (string & {});
-export const WindowsDeploymentType = S.String;
+export const WindowsDeploymentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FileSystemMaintenanceOperation =
   | "PATCHING"
   | "BACKING_UP"
   | (string & {});
-export const FileSystemMaintenanceOperation = S.String;
+export const FileSystemMaintenanceOperation =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FileSystemMaintenanceOperations = FileSystemMaintenanceOperation[];
-export const FileSystemMaintenanceOperations = S.Array(
-  FileSystemMaintenanceOperation,
-);
+export const FileSystemMaintenanceOperations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(FileSystemMaintenanceOperation);
 export type WindowsAccessAuditLogLevel =
   | "DISABLED"
   | "SUCCESS_ONLY"
   | "FAILURE_ONLY"
   | "SUCCESS_AND_FAILURE"
   | (string & {});
-export const WindowsAccessAuditLogLevel = S.String;
+export const WindowsAccessAuditLogLevel = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface WindowsAuditLogConfiguration {
   FileAccessAuditLogLevel?: WindowsAccessAuditLogLevel;
   FileShareAccessAuditLogLevel?: WindowsAccessAuditLogLevel;
   AuditLogDestination?: string;
 }
-export const WindowsAuditLogConfiguration = S.suspend(() =>
-  S.Struct({
-    FileAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
-    FileShareAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
-    AuditLogDestination: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WindowsAuditLogConfiguration",
-}) as any as S.Schema<WindowsAuditLogConfiguration>;
+export const WindowsAuditLogConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
+      FileShareAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
+      AuditLogDestination: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "WindowsAuditLogConfiguration",
+  }) as any as S.Schema<WindowsAuditLogConfiguration>;
 export type DiskIopsConfigurationMode =
   | "AUTOMATIC"
   | "USER_PROVISIONED"
   | (string & {});
-export const DiskIopsConfigurationMode = S.String;
+export const DiskIopsConfigurationMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DiskIopsConfiguration {
   Mode?: DiskIopsConfigurationMode;
   Iops?: number;
 }
-export const DiskIopsConfiguration = S.suspend(() =>
+export const DiskIopsConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Mode: S.optional(DiskIopsConfigurationMode),
     Iops: S.optional(S.Number),
@@ -446,11 +454,12 @@ export interface WindowsFsrmConfiguration {
   FsrmServiceEnabled?: boolean;
   EventLogDestination?: string;
 }
-export const WindowsFsrmConfiguration = S.suspend(() =>
-  S.Struct({
-    FsrmServiceEnabled: S.optional(S.Boolean),
-    EventLogDestination: S.optional(S.String),
-  }),
+export const WindowsFsrmConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FsrmServiceEnabled: S.optional(S.Boolean),
+      EventLogDestination: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "WindowsFsrmConfiguration",
 }) as any as S.Schema<WindowsFsrmConfiguration>;
@@ -473,33 +482,34 @@ export interface WindowsFileSystemConfiguration {
   PreferredFileServerIpv6?: string;
   FsrmConfiguration?: WindowsFsrmConfiguration;
 }
-export const WindowsFileSystemConfiguration = S.suspend(() =>
-  S.Struct({
-    ActiveDirectoryId: S.optional(S.String),
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryAttributes,
-    ),
-    DeploymentType: S.optional(WindowsDeploymentType),
-    RemoteAdministrationEndpoint: S.optional(S.String),
-    PreferredSubnetId: S.optional(S.String),
-    PreferredFileServerIp: S.optional(S.String),
-    ThroughputCapacity: S.optional(S.Number),
-    MaintenanceOperationsInProgress: S.optional(
-      FileSystemMaintenanceOperations,
-    ),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    Aliases: S.optional(Aliases),
-    AuditLogConfiguration: S.optional(WindowsAuditLogConfiguration),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    PreferredFileServerIpv6: S.optional(S.String),
-    FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
-  }),
-).annotate({
-  identifier: "WindowsFileSystemConfiguration",
-}) as any as S.Schema<WindowsFileSystemConfiguration>;
+export const WindowsFileSystemConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ActiveDirectoryId: S.optional(S.String),
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryAttributes,
+      ),
+      DeploymentType: S.optional(WindowsDeploymentType),
+      RemoteAdministrationEndpoint: S.optional(S.String),
+      PreferredSubnetId: S.optional(S.String),
+      PreferredFileServerIp: S.optional(S.String),
+      ThroughputCapacity: S.optional(S.Number),
+      MaintenanceOperationsInProgress: S.optional(
+        FileSystemMaintenanceOperations,
+      ),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      Aliases: S.optional(Aliases),
+      AuditLogConfiguration: S.optional(WindowsAuditLogConfiguration),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      PreferredFileServerIpv6: S.optional(S.String),
+      FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
+    }),
+  ).annotate({
+    identifier: "WindowsFileSystemConfiguration",
+  }) as any as S.Schema<WindowsFileSystemConfiguration>;
 export type DataRepositoryLifecycle =
   | "CREATING"
   | "AVAILABLE"
@@ -508,22 +518,23 @@ export type DataRepositoryLifecycle =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const DataRepositoryLifecycle = S.String;
+export const DataRepositoryLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AutoImportPolicyType =
   | "NONE"
   | "NEW"
   | "NEW_CHANGED"
   | "NEW_CHANGED_DELETED"
   | (string & {});
-export const AutoImportPolicyType = S.String;
+export const AutoImportPolicyType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DataRepositoryFailureDetails {
   Message?: string;
 }
-export const DataRepositoryFailureDetails = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotate({
-  identifier: "DataRepositoryFailureDetails",
-}) as any as S.Schema<DataRepositoryFailureDetails>;
+export const DataRepositoryFailureDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Message: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DataRepositoryFailureDetails",
+  }) as any as S.Schema<DataRepositoryFailureDetails>;
 export interface DataRepositoryConfiguration {
   Lifecycle?: DataRepositoryLifecycle;
   ImportPath?: string;
@@ -532,97 +543,102 @@ export interface DataRepositoryConfiguration {
   AutoImportPolicy?: AutoImportPolicyType;
   FailureDetails?: DataRepositoryFailureDetails;
 }
-export const DataRepositoryConfiguration = S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(DataRepositoryLifecycle),
-    ImportPath: S.optional(S.String),
-    ExportPath: S.optional(S.String),
-    ImportedFileChunkSize: S.optional(S.Number),
-    AutoImportPolicy: S.optional(AutoImportPolicyType),
-    FailureDetails: S.optional(DataRepositoryFailureDetails),
-  }),
-).annotate({
-  identifier: "DataRepositoryConfiguration",
-}) as any as S.Schema<DataRepositoryConfiguration>;
+export const DataRepositoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Lifecycle: S.optional(DataRepositoryLifecycle),
+      ImportPath: S.optional(S.String),
+      ExportPath: S.optional(S.String),
+      ImportedFileChunkSize: S.optional(S.Number),
+      AutoImportPolicy: S.optional(AutoImportPolicyType),
+      FailureDetails: S.optional(DataRepositoryFailureDetails),
+    }),
+  ).annotate({
+    identifier: "DataRepositoryConfiguration",
+  }) as any as S.Schema<DataRepositoryConfiguration>;
 export type LustreDeploymentType =
   | "SCRATCH_1"
   | "SCRATCH_2"
   | "PERSISTENT_1"
   | "PERSISTENT_2"
   | (string & {});
-export const LustreDeploymentType = S.String;
+export const LustreDeploymentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DriveCacheType = "NONE" | "READ" | (string & {});
-export const DriveCacheType = S.String;
+export const DriveCacheType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DataCompressionType = "NONE" | "LZ4" | (string & {});
-export const DataCompressionType = S.String;
+export const DataCompressionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LustreAccessAuditLogLevel =
   | "DISABLED"
   | "WARN_ONLY"
   | "ERROR_ONLY"
   | "WARN_ERROR"
   | (string & {});
-export const LustreAccessAuditLogLevel = S.String;
+export const LustreAccessAuditLogLevel = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface LustreLogConfiguration {
   Level?: LustreAccessAuditLogLevel;
   Destination?: string;
 }
-export const LustreLogConfiguration = S.suspend(() =>
-  S.Struct({
-    Level: S.optional(LustreAccessAuditLogLevel),
-    Destination: S.optional(S.String),
-  }),
+export const LustreLogConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Level: S.optional(LustreAccessAuditLogLevel),
+      Destination: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "LustreLogConfiguration",
 }) as any as S.Schema<LustreLogConfiguration>;
 export type LustreNoSquashNids = string[];
-export const LustreNoSquashNids = S.Array(S.String);
+export const LustreNoSquashNids = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface LustreRootSquashConfiguration {
   RootSquash?: string;
   NoSquashNids?: string[];
 }
-export const LustreRootSquashConfiguration = S.suspend(() =>
-  S.Struct({
-    RootSquash: S.optional(S.String),
-    NoSquashNids: S.optional(LustreNoSquashNids),
-  }),
-).annotate({
-  identifier: "LustreRootSquashConfiguration",
-}) as any as S.Schema<LustreRootSquashConfiguration>;
+export const LustreRootSquashConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RootSquash: S.optional(S.String),
+      NoSquashNids: S.optional(LustreNoSquashNids),
+    }),
+  ).annotate({
+    identifier: "LustreRootSquashConfiguration",
+  }) as any as S.Schema<LustreRootSquashConfiguration>;
 export type MetadataConfigurationMode =
   | "AUTOMATIC"
   | "USER_PROVISIONED"
   | (string & {});
-export const MetadataConfigurationMode = S.String;
+export const MetadataConfigurationMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FileSystemLustreMetadataConfiguration {
   Iops?: number;
   Mode?: MetadataConfigurationMode;
 }
-export const FileSystemLustreMetadataConfiguration = S.suspend(() =>
-  S.Struct({
-    Iops: S.optional(S.Number),
-    Mode: S.optional(MetadataConfigurationMode),
-  }),
-).annotate({
-  identifier: "FileSystemLustreMetadataConfiguration",
-}) as any as S.Schema<FileSystemLustreMetadataConfiguration>;
+export const FileSystemLustreMetadataConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Iops: S.optional(S.Number),
+      Mode: S.optional(MetadataConfigurationMode),
+    }),
+  ).annotate({
+    identifier: "FileSystemLustreMetadataConfiguration",
+  }) as any as S.Schema<FileSystemLustreMetadataConfiguration>;
 export type LustreReadCacheSizingMode =
   | "NO_CACHE"
   | "USER_PROVISIONED"
   | "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
   | (string & {});
-export const LustreReadCacheSizingMode = S.String;
+export const LustreReadCacheSizingMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface LustreReadCacheConfiguration {
   SizingMode?: LustreReadCacheSizingMode;
   SizeGiB?: number;
 }
-export const LustreReadCacheConfiguration = S.suspend(() =>
-  S.Struct({
-    SizingMode: S.optional(LustreReadCacheSizingMode),
-    SizeGiB: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LustreReadCacheConfiguration",
-}) as any as S.Schema<LustreReadCacheConfiguration>;
+export const LustreReadCacheConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SizingMode: S.optional(LustreReadCacheSizingMode),
+      SizeGiB: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "LustreReadCacheConfiguration",
+  }) as any as S.Schema<LustreReadCacheConfiguration>;
 export interface LustreFileSystemConfiguration {
   WeeklyMaintenanceStartTime?: string;
   DataRepositoryConfiguration?: DataRepositoryConfiguration;
@@ -641,28 +657,29 @@ export interface LustreFileSystemConfiguration {
   ThroughputCapacity?: number;
   DataReadCacheConfiguration?: LustreReadCacheConfiguration;
 }
-export const LustreFileSystemConfiguration = S.suspend(() =>
-  S.Struct({
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DataRepositoryConfiguration: S.optional(DataRepositoryConfiguration),
-    DeploymentType: S.optional(LustreDeploymentType),
-    PerUnitStorageThroughput: S.optional(S.Number),
-    MountName: S.optional(S.String),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    DriveCacheType: S.optional(DriveCacheType),
-    DataCompressionType: S.optional(DataCompressionType),
-    LogConfiguration: S.optional(LustreLogConfiguration),
-    RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
-    MetadataConfiguration: S.optional(FileSystemLustreMetadataConfiguration),
-    EfaEnabled: S.optional(S.Boolean),
-    ThroughputCapacity: S.optional(S.Number),
-    DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
-  }),
-).annotate({
-  identifier: "LustreFileSystemConfiguration",
-}) as any as S.Schema<LustreFileSystemConfiguration>;
+export const LustreFileSystemConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DataRepositoryConfiguration: S.optional(DataRepositoryConfiguration),
+      DeploymentType: S.optional(LustreDeploymentType),
+      PerUnitStorageThroughput: S.optional(S.Number),
+      MountName: S.optional(S.String),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      DriveCacheType: S.optional(DriveCacheType),
+      DataCompressionType: S.optional(DataCompressionType),
+      LogConfiguration: S.optional(LustreLogConfiguration),
+      RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
+      MetadataConfiguration: S.optional(FileSystemLustreMetadataConfiguration),
+      EfaEnabled: S.optional(S.Boolean),
+      ThroughputCapacity: S.optional(S.Number),
+      DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
+    }),
+  ).annotate({
+    identifier: "LustreFileSystemConfiguration",
+  }) as any as S.Schema<LustreFileSystemConfiguration>;
 export type AdministrativeActionType =
   | "FILE_SYSTEM_UPDATE"
   | "STORAGE_OPTIMIZATION"
@@ -680,7 +697,7 @@ export type AdministrativeActionType =
   | "VOLUME_INITIALIZE_WITH_SNAPSHOT"
   | "DOWNLOAD_DATA_FROM_BACKUP"
   | (string & {});
-export const AdministrativeActionType = S.String;
+export const AdministrativeActionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Status =
   | "FAILED"
   | "IN_PROGRESS"
@@ -691,15 +708,16 @@ export type Status =
   | "PAUSED"
   | "CANCELLED"
   | (string & {});
-export const Status = S.String;
+export const Status = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AdministrativeActionFailureDetails {
   Message?: string;
 }
-export const AdministrativeActionFailureDetails = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotate({
-  identifier: "AdministrativeActionFailureDetails",
-}) as any as S.Schema<AdministrativeActionFailureDetails>;
+export const AdministrativeActionFailureDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Message: S.optional(S.String) }),
+  ).annotate({
+    identifier: "AdministrativeActionFailureDetails",
+  }) as any as S.Schema<AdministrativeActionFailureDetails>;
 export type VolumeLifecycle =
   | "CREATING"
   | "CREATED"
@@ -709,30 +727,30 @@ export type VolumeLifecycle =
   | "PENDING"
   | "AVAILABLE"
   | (string & {});
-export const VolumeLifecycle = S.String;
+export const VolumeLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FlexCacheEndpointType = "NONE" | "ORIGIN" | "CACHE" | (string & {});
-export const FlexCacheEndpointType = S.String;
+export const FlexCacheEndpointType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SecurityStyle = "UNIX" | "NTFS" | "MIXED" | (string & {});
-export const SecurityStyle = S.String;
+export const SecurityStyle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type TieringPolicyName =
   | "SNAPSHOT_ONLY"
   | "AUTO"
   | "ALL"
   | "NONE"
   | (string & {});
-export const TieringPolicyName = S.String;
+export const TieringPolicyName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface TieringPolicy {
   CoolingPeriod?: number;
   Name?: TieringPolicyName;
 }
-export const TieringPolicy = S.suspend(() =>
+export const TieringPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     CoolingPeriod: S.optional(S.Number),
     Name: S.optional(TieringPolicyName),
   }),
 ).annotate({ identifier: "TieringPolicy" }) as any as S.Schema<TieringPolicy>;
 export type OntapVolumeType = "RW" | "DP" | "LS" | (string & {});
-export const OntapVolumeType = S.String;
+export const OntapVolumeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type AutocommitPeriodType =
   | "MINUTES"
   | "HOURS"
@@ -741,12 +759,12 @@ export type AutocommitPeriodType =
   | "YEARS"
   | "NONE"
   | (string & {});
-export const AutocommitPeriodType = S.String;
+export const AutocommitPeriodType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AutocommitPeriod {
   Type?: AutocommitPeriodType;
   Value?: number;
 }
-export const AutocommitPeriod = S.suspend(() =>
+export const AutocommitPeriod = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Type: S.optional(AutocommitPeriodType),
     Value: S.optional(S.Number),
@@ -759,7 +777,7 @@ export type PrivilegedDelete =
   | "ENABLED"
   | "PERMANENTLY_DISABLED"
   | (string & {});
-export const PrivilegedDelete = S.String;
+export const PrivilegedDelete = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RetentionPeriodType =
   | "SECONDS"
   | "MINUTES"
@@ -770,12 +788,12 @@ export type RetentionPeriodType =
   | "INFINITE"
   | "UNSPECIFIED"
   | (string & {});
-export const RetentionPeriodType = S.String;
+export const RetentionPeriodType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RetentionPeriod {
   Type?: RetentionPeriodType;
   Value?: number;
 }
-export const RetentionPeriod = S.suspend(() =>
+export const RetentionPeriod = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Type: S.optional(RetentionPeriodType),
     Value: S.optional(S.Number),
@@ -788,17 +806,18 @@ export interface SnaplockRetentionPeriod {
   MinimumRetention?: RetentionPeriod;
   MaximumRetention?: RetentionPeriod;
 }
-export const SnaplockRetentionPeriod = S.suspend(() =>
-  S.Struct({
-    DefaultRetention: S.optional(RetentionPeriod),
-    MinimumRetention: S.optional(RetentionPeriod),
-    MaximumRetention: S.optional(RetentionPeriod),
-  }),
+export const SnaplockRetentionPeriod = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      DefaultRetention: S.optional(RetentionPeriod),
+      MinimumRetention: S.optional(RetentionPeriod),
+      MaximumRetention: S.optional(RetentionPeriod),
+    }),
 ).annotate({
   identifier: "SnaplockRetentionPeriod",
 }) as any as S.Schema<SnaplockRetentionPeriod>;
 export type SnaplockType = "COMPLIANCE" | "ENTERPRISE" | (string & {});
-export const SnaplockType = S.String;
+export const SnaplockType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface SnaplockConfiguration {
   AuditLogVolume?: boolean;
   AutocommitPeriod?: AutocommitPeriod;
@@ -807,7 +826,7 @@ export interface SnaplockConfiguration {
   SnaplockType?: SnaplockType;
   VolumeAppendModeEnabled?: boolean;
 }
-export const SnaplockConfiguration = S.suspend(() =>
+export const SnaplockConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AuditLogVolume: S.optional(S.Boolean),
     AutocommitPeriod: S.optional(AutocommitPeriod),
@@ -820,18 +839,19 @@ export const SnaplockConfiguration = S.suspend(() =>
   identifier: "SnaplockConfiguration",
 }) as any as S.Schema<SnaplockConfiguration>;
 export type VolumeStyle = "FLEXVOL" | "FLEXGROUP" | (string & {});
-export const VolumeStyle = S.String;
+export const VolumeStyle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Aggregates = string[];
-export const Aggregates = S.Array(S.String);
+export const Aggregates = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface AggregateConfiguration {
   Aggregates?: string[];
   TotalConstituents?: number;
 }
-export const AggregateConfiguration = S.suspend(() =>
-  S.Struct({
-    Aggregates: S.optional(Aggregates),
-    TotalConstituents: S.optional(S.Number),
-  }),
+export const AggregateConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Aggregates: S.optional(Aggregates),
+      TotalConstituents: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "AggregateConfiguration",
 }) as any as S.Schema<AggregateConfiguration>;
@@ -853,35 +873,36 @@ export interface OntapVolumeConfiguration {
   AggregateConfiguration?: AggregateConfiguration;
   SizeInBytes?: number;
 }
-export const OntapVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    FlexCacheEndpointType: S.optional(FlexCacheEndpointType),
-    JunctionPath: S.optional(S.String),
-    SecurityStyle: S.optional(SecurityStyle),
-    SizeInMegabytes: S.optional(S.Number),
-    StorageEfficiencyEnabled: S.optional(S.Boolean),
-    StorageVirtualMachineId: S.optional(S.String),
-    StorageVirtualMachineRoot: S.optional(S.Boolean),
-    TieringPolicy: S.optional(TieringPolicy),
-    UUID: S.optional(S.String),
-    OntapVolumeType: S.optional(OntapVolumeType),
-    SnapshotPolicy: S.optional(S.String),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    SnaplockConfiguration: S.optional(SnaplockConfiguration),
-    VolumeStyle: S.optional(VolumeStyle),
-    AggregateConfiguration: S.optional(AggregateConfiguration),
-    SizeInBytes: S.optional(S.Number),
-  }),
+export const OntapVolumeConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FlexCacheEndpointType: S.optional(FlexCacheEndpointType),
+      JunctionPath: S.optional(S.String),
+      SecurityStyle: S.optional(SecurityStyle),
+      SizeInMegabytes: S.optional(S.Number),
+      StorageEfficiencyEnabled: S.optional(S.Boolean),
+      StorageVirtualMachineId: S.optional(S.String),
+      StorageVirtualMachineRoot: S.optional(S.Boolean),
+      TieringPolicy: S.optional(TieringPolicy),
+      UUID: S.optional(S.String),
+      OntapVolumeType: S.optional(OntapVolumeType),
+      SnapshotPolicy: S.optional(S.String),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      SnaplockConfiguration: S.optional(SnaplockConfiguration),
+      VolumeStyle: S.optional(VolumeStyle),
+      AggregateConfiguration: S.optional(AggregateConfiguration),
+      SizeInBytes: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "OntapVolumeConfiguration",
 }) as any as S.Schema<OntapVolumeConfiguration>;
 export type VolumeType = "ONTAP" | "OPENZFS" | (string & {});
-export const VolumeType = S.String;
+export const VolumeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface LifecycleTransitionReason {
   Message?: string;
 }
-export const LifecycleTransitionReason = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
+export const LifecycleTransitionReason = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Message: S.optional(S.String) }),
 ).annotate({
   identifier: "LifecycleTransitionReason",
 }) as any as S.Schema<LifecycleTransitionReason>;
@@ -890,69 +911,79 @@ export type OpenZFSDataCompressionType =
   | "ZSTD"
   | "LZ4"
   | (string & {});
-export const OpenZFSDataCompressionType = S.String;
+export const OpenZFSDataCompressionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type OpenZFSCopyStrategy =
   | "CLONE"
   | "FULL_COPY"
   | "INCREMENTAL_COPY"
   | (string & {});
-export const OpenZFSCopyStrategy = S.String;
+export const OpenZFSCopyStrategy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface OpenZFSOriginSnapshotConfiguration {
   SnapshotARN?: string;
   CopyStrategy?: OpenZFSCopyStrategy;
 }
-export const OpenZFSOriginSnapshotConfiguration = S.suspend(() =>
-  S.Struct({
-    SnapshotARN: S.optional(S.String),
-    CopyStrategy: S.optional(OpenZFSCopyStrategy),
-  }),
-).annotate({
-  identifier: "OpenZFSOriginSnapshotConfiguration",
-}) as any as S.Schema<OpenZFSOriginSnapshotConfiguration>;
+export const OpenZFSOriginSnapshotConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SnapshotARN: S.optional(S.String),
+      CopyStrategy: S.optional(OpenZFSCopyStrategy),
+    }),
+  ).annotate({
+    identifier: "OpenZFSOriginSnapshotConfiguration",
+  }) as any as S.Schema<OpenZFSOriginSnapshotConfiguration>;
 export type OpenZFSNfsExportOptions = string[];
-export const OpenZFSNfsExportOptions = S.Array(S.String);
+export const OpenZFSNfsExportOptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface OpenZFSClientConfiguration {
   Clients?: string;
   Options?: string[];
 }
-export const OpenZFSClientConfiguration = S.suspend(() =>
-  S.Struct({
-    Clients: S.optional(S.String),
-    Options: S.optional(OpenZFSNfsExportOptions),
-  }),
+export const OpenZFSClientConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Clients: S.optional(S.String),
+      Options: S.optional(OpenZFSNfsExportOptions),
+    }),
 ).annotate({
   identifier: "OpenZFSClientConfiguration",
 }) as any as S.Schema<OpenZFSClientConfiguration>;
 export type OpenZFSClientConfigurations = OpenZFSClientConfiguration[];
-export const OpenZFSClientConfigurations = S.Array(OpenZFSClientConfiguration);
+export const OpenZFSClientConfigurations = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  OpenZFSClientConfiguration,
+);
 export interface OpenZFSNfsExport {
   ClientConfigurations?: OpenZFSClientConfiguration[];
 }
-export const OpenZFSNfsExport = S.suspend(() =>
+export const OpenZFSNfsExport = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ClientConfigurations: S.optional(OpenZFSClientConfigurations) }),
 ).annotate({
   identifier: "OpenZFSNfsExport",
 }) as any as S.Schema<OpenZFSNfsExport>;
 export type OpenZFSNfsExports = OpenZFSNfsExport[];
-export const OpenZFSNfsExports = S.Array(OpenZFSNfsExport);
+export const OpenZFSNfsExports =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(OpenZFSNfsExport);
 export type OpenZFSQuotaType = "USER" | "GROUP" | (string & {});
-export const OpenZFSQuotaType = S.String;
+export const OpenZFSQuotaType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface OpenZFSUserOrGroupQuota {
   Type?: OpenZFSQuotaType;
   Id?: number;
   StorageCapacityQuotaGiB?: number;
 }
-export const OpenZFSUserOrGroupQuota = S.suspend(() =>
-  S.Struct({
-    Type: S.optional(OpenZFSQuotaType),
-    Id: S.optional(S.Number),
-    StorageCapacityQuotaGiB: S.optional(S.Number),
-  }),
+export const OpenZFSUserOrGroupQuota = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Type: S.optional(OpenZFSQuotaType),
+      Id: S.optional(S.Number),
+      StorageCapacityQuotaGiB: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "OpenZFSUserOrGroupQuota",
 }) as any as S.Schema<OpenZFSUserOrGroupQuota>;
 export type OpenZFSUserAndGroupQuotas = OpenZFSUserOrGroupQuota[];
-export const OpenZFSUserAndGroupQuotas = S.Array(OpenZFSUserOrGroupQuota);
+export const OpenZFSUserAndGroupQuotas = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  OpenZFSUserOrGroupQuota,
+);
 export interface OpenZFSVolumeConfiguration {
   ParentVolumeId?: string;
   VolumePath?: string;
@@ -973,27 +1004,28 @@ export interface OpenZFSVolumeConfiguration {
   DestinationSnapshot?: string;
   CopyStrategy?: OpenZFSCopyStrategy;
 }
-export const OpenZFSVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    ParentVolumeId: S.optional(S.String),
-    VolumePath: S.optional(S.String),
-    StorageCapacityReservationGiB: S.optional(S.Number),
-    StorageCapacityQuotaGiB: S.optional(S.Number),
-    RecordSizeKiB: S.optional(S.Number),
-    DataCompressionType: S.optional(OpenZFSDataCompressionType),
-    CopyTagsToSnapshots: S.optional(S.Boolean),
-    OriginSnapshot: S.optional(OpenZFSOriginSnapshotConfiguration),
-    ReadOnly: S.optional(S.Boolean),
-    NfsExports: S.optional(OpenZFSNfsExports),
-    UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
-    RestoreToSnapshot: S.optional(S.String),
-    DeleteIntermediateSnaphots: S.optional(S.Boolean),
-    DeleteClonedVolumes: S.optional(S.Boolean),
-    DeleteIntermediateData: S.optional(S.Boolean),
-    SourceSnapshotARN: S.optional(S.String),
-    DestinationSnapshot: S.optional(S.String),
-    CopyStrategy: S.optional(OpenZFSCopyStrategy),
-  }),
+export const OpenZFSVolumeConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ParentVolumeId: S.optional(S.String),
+      VolumePath: S.optional(S.String),
+      StorageCapacityReservationGiB: S.optional(S.Number),
+      StorageCapacityQuotaGiB: S.optional(S.Number),
+      RecordSizeKiB: S.optional(S.Number),
+      DataCompressionType: S.optional(OpenZFSDataCompressionType),
+      CopyTagsToSnapshots: S.optional(S.Boolean),
+      OriginSnapshot: S.optional(OpenZFSOriginSnapshotConfiguration),
+      ReadOnly: S.optional(S.Boolean),
+      NfsExports: S.optional(OpenZFSNfsExports),
+      UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
+      RestoreToSnapshot: S.optional(S.String),
+      DeleteIntermediateSnaphots: S.optional(S.Boolean),
+      DeleteClonedVolumes: S.optional(S.Boolean),
+      DeleteIntermediateData: S.optional(S.Boolean),
+      SourceSnapshotARN: S.optional(S.String),
+      DestinationSnapshot: S.optional(S.String),
+      CopyStrategy: S.optional(OpenZFSCopyStrategy),
+    }),
 ).annotate({
   identifier: "OpenZFSVolumeConfiguration",
 }) as any as S.Schema<OpenZFSVolumeConfiguration>;
@@ -1011,7 +1043,7 @@ export interface Volume {
   AdministrativeActions?: AdministrativeAction[];
   OpenZFSConfiguration?: OpenZFSVolumeConfiguration;
 }
-export const Volume = S.suspend(() =>
+export const Volume = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FileSystemId: S.optional(S.String),
@@ -1037,7 +1069,7 @@ export type SnapshotLifecycle =
   | "DELETING"
   | "AVAILABLE"
   | (string & {});
-export const SnapshotLifecycle = S.String;
+export const SnapshotLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Snapshot {
   ResourceARN?: string;
   SnapshotId?: string;
@@ -1049,7 +1081,7 @@ export interface Snapshot {
   Tags?: Tag[];
   AdministrativeActions?: AdministrativeAction[];
 }
-export const Snapshot = S.suspend(() =>
+export const Snapshot = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.optional(S.String),
     SnapshotId: S.optional(S.String),
@@ -1079,7 +1111,7 @@ export interface AdministrativeAction {
   RemainingTransferBytes?: number;
   Message?: string;
 }
-export const AdministrativeAction = S.suspend(() =>
+export const AdministrativeAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AdministrativeActionType: S.optional(AdministrativeActionType),
     ProgressPercent: S.optional(S.Number),
@@ -1109,7 +1141,7 @@ export const AdministrativeAction = S.suspend(() =>
   identifier: "AdministrativeAction",
 }) as any as S.Schema<AdministrativeAction>;
 export type AdministrativeActions = AdministrativeAction[];
-export const AdministrativeActions = S.Array(
+export const AdministrativeActions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   S.suspend(
     (): S.Schema<AdministrativeAction> => AdministrativeAction,
   ).annotate({ identifier: "AdministrativeAction" }),
@@ -1120,15 +1152,17 @@ export type OntapDeploymentType =
   | "SINGLE_AZ_2"
   | "MULTI_AZ_2"
   | (string & {});
-export const OntapDeploymentType = S.String;
+export const OntapDeploymentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type OntapEndpointIpAddresses = string[];
-export const OntapEndpointIpAddresses = S.Array(S.String);
+export const OntapEndpointIpAddresses = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface FileSystemEndpoint {
   DNSName?: string;
   IpAddresses?: string[];
   Ipv6Addresses?: string[];
 }
-export const FileSystemEndpoint = S.suspend(() =>
+export const FileSystemEndpoint = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DNSName: S.optional(S.String),
     IpAddresses: S.optional(OntapEndpointIpAddresses),
@@ -1141,7 +1175,7 @@ export interface FileSystemEndpoints {
   Intercluster?: FileSystemEndpoint;
   Management?: FileSystemEndpoint;
 }
-export const FileSystemEndpoints = S.suspend(() =>
+export const FileSystemEndpoints = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Intercluster: S.optional(FileSystemEndpoint),
     Management: S.optional(FileSystemEndpoint),
@@ -1150,7 +1184,7 @@ export const FileSystemEndpoints = S.suspend(() =>
   identifier: "FileSystemEndpoints",
 }) as any as S.Schema<FileSystemEndpoints>;
 export type RouteTableIds = string[];
-export const RouteTableIds = S.Array(S.String);
+export const RouteTableIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface OntapFileSystemConfiguration {
   AutomaticBackupRetentionDays?: number;
   DailyAutomaticBackupStartTime?: string;
@@ -1167,26 +1201,27 @@ export interface OntapFileSystemConfiguration {
   ThroughputCapacityPerHAPair?: number;
   EndpointIpv6AddressRange?: string;
 }
-export const OntapFileSystemConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    DeploymentType: S.optional(OntapDeploymentType),
-    EndpointIpAddressRange: S.optional(S.String),
-    Endpoints: S.optional(FileSystemEndpoints),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    PreferredSubnetId: S.optional(S.String),
-    RouteTableIds: S.optional(RouteTableIds),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    FsxAdminPassword: S.optional(SensitiveString),
-    HAPairs: S.optional(S.Number),
-    ThroughputCapacityPerHAPair: S.optional(S.Number),
-    EndpointIpv6AddressRange: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OntapFileSystemConfiguration",
-}) as any as S.Schema<OntapFileSystemConfiguration>;
+export const OntapFileSystemConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      DeploymentType: S.optional(OntapDeploymentType),
+      EndpointIpAddressRange: S.optional(S.String),
+      Endpoints: S.optional(FileSystemEndpoints),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      PreferredSubnetId: S.optional(S.String),
+      RouteTableIds: S.optional(RouteTableIds),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      FsxAdminPassword: S.optional(SensitiveString),
+      HAPairs: S.optional(S.Number),
+      ThroughputCapacityPerHAPair: S.optional(S.Number),
+      EndpointIpv6AddressRange: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "OntapFileSystemConfiguration",
+  }) as any as S.Schema<OntapFileSystemConfiguration>;
 export type OpenZFSDeploymentType =
   | "SINGLE_AZ_1"
   | "SINGLE_AZ_2"
@@ -1194,25 +1229,26 @@ export type OpenZFSDeploymentType =
   | "SINGLE_AZ_HA_2"
   | "MULTI_AZ_1"
   | (string & {});
-export const OpenZFSDeploymentType = S.String;
+export const OpenZFSDeploymentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type OpenZFSReadCacheSizingMode =
   | "NO_CACHE"
   | "USER_PROVISIONED"
   | "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
   | (string & {});
-export const OpenZFSReadCacheSizingMode = S.String;
+export const OpenZFSReadCacheSizingMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface OpenZFSReadCacheConfiguration {
   SizingMode?: OpenZFSReadCacheSizingMode;
   SizeGiB?: number;
 }
-export const OpenZFSReadCacheConfiguration = S.suspend(() =>
-  S.Struct({
-    SizingMode: S.optional(OpenZFSReadCacheSizingMode),
-    SizeGiB: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "OpenZFSReadCacheConfiguration",
-}) as any as S.Schema<OpenZFSReadCacheConfiguration>;
+export const OpenZFSReadCacheConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SizingMode: S.optional(OpenZFSReadCacheSizingMode),
+      SizeGiB: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "OpenZFSReadCacheConfiguration",
+  }) as any as S.Schema<OpenZFSReadCacheConfiguration>;
 export interface OpenZFSFileSystemConfiguration {
   AutomaticBackupRetentionDays?: number;
   CopyTagsToBackups?: boolean;
@@ -1231,30 +1267,31 @@ export interface OpenZFSFileSystemConfiguration {
   EndpointIpv6Address?: string;
   ReadCacheConfiguration?: OpenZFSReadCacheConfiguration;
 }
-export const OpenZFSFileSystemConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    CopyTagsToVolumes: S.optional(S.Boolean),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    DeploymentType: S.optional(OpenZFSDeploymentType),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    RootVolumeId: S.optional(S.String),
-    PreferredSubnetId: S.optional(S.String),
-    EndpointIpAddressRange: S.optional(S.String),
-    EndpointIpv6AddressRange: S.optional(S.String),
-    RouteTableIds: S.optional(RouteTableIds),
-    EndpointIpAddress: S.optional(S.String),
-    EndpointIpv6Address: S.optional(S.String),
-    ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
-  }),
-).annotate({
-  identifier: "OpenZFSFileSystemConfiguration",
-}) as any as S.Schema<OpenZFSFileSystemConfiguration>;
+export const OpenZFSFileSystemConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      CopyTagsToVolumes: S.optional(S.Boolean),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      DeploymentType: S.optional(OpenZFSDeploymentType),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      RootVolumeId: S.optional(S.String),
+      PreferredSubnetId: S.optional(S.String),
+      EndpointIpAddressRange: S.optional(S.String),
+      EndpointIpv6AddressRange: S.optional(S.String),
+      RouteTableIds: S.optional(RouteTableIds),
+      EndpointIpAddress: S.optional(S.String),
+      EndpointIpv6Address: S.optional(S.String),
+      ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
+    }),
+  ).annotate({
+    identifier: "OpenZFSFileSystemConfiguration",
+  }) as any as S.Schema<OpenZFSFileSystemConfiguration>;
 export type NetworkType = "IPV4" | "DUAL" | (string & {});
-export const NetworkType = S.String;
+export const NetworkType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FileSystem {
   OwnerId?: string;
   CreationTime?: Date;
@@ -1279,7 +1316,7 @@ export interface FileSystem {
   OpenZFSConfiguration?: OpenZFSFileSystemConfiguration;
   NetworkType?: NetworkType;
 }
-export const FileSystem = S.suspend(() =>
+export const FileSystem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     OwnerId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1314,17 +1351,18 @@ export interface ActiveDirectoryBackupAttributes {
   ActiveDirectoryId?: string;
   ResourceARN?: string;
 }
-export const ActiveDirectoryBackupAttributes = S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    ActiveDirectoryId: S.optional(S.String),
-    ResourceARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ActiveDirectoryBackupAttributes",
-}) as any as S.Schema<ActiveDirectoryBackupAttributes>;
+export const ActiveDirectoryBackupAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.optional(S.String),
+      ActiveDirectoryId: S.optional(S.String),
+      ResourceARN: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ActiveDirectoryBackupAttributes",
+  }) as any as S.Schema<ActiveDirectoryBackupAttributes>;
 export type ResourceType = "FILE_SYSTEM" | "VOLUME" | (string & {});
-export const ResourceType = S.String;
+export const ResourceType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Backup {
   BackupId?: string;
   Lifecycle?: BackupLifecycle;
@@ -1344,7 +1382,7 @@ export interface Backup {
   Volume?: Volume;
   SizeInBytes?: number;
 }
-export const Backup = S.suspend(() =>
+export const Backup = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BackupId: S.optional(S.String),
     Lifecycle: S.optional(BackupLifecycle),
@@ -1484,7 +1522,7 @@ export interface CopyBackupResponse {
     };
   };
 }
-export const CopyBackupResponse = S.suspend(() =>
+export const CopyBackupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Backup: S.optional(Backup) }),
 ).annotate({
   identifier: "CopyBackupResponse",
@@ -1501,15 +1539,17 @@ export type ServiceLimit =
   | "TOTAL_SSD_IOPS"
   | "FILE_CACHE_COUNT"
   | (string & {});
-export const ServiceLimit = S.String;
+export const ServiceLimit = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type UpdateOpenZFSVolumeOption =
   | "DELETE_INTERMEDIATE_SNAPSHOTS"
   | "DELETE_CLONED_VOLUMES"
   | "DELETE_INTERMEDIATE_DATA"
   | (string & {});
-export const UpdateOpenZFSVolumeOption = S.String;
+export const UpdateOpenZFSVolumeOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type UpdateOpenZFSVolumeOptions = UpdateOpenZFSVolumeOption[];
-export const UpdateOpenZFSVolumeOptions = S.Array(UpdateOpenZFSVolumeOption);
+export const UpdateOpenZFSVolumeOptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  UpdateOpenZFSVolumeOption,
+);
 export interface CopySnapshotAndUpdateVolumeRequest {
   ClientRequestToken?: string;
   VolumeId?: string;
@@ -1517,19 +1557,20 @@ export interface CopySnapshotAndUpdateVolumeRequest {
   CopyStrategy?: OpenZFSCopyStrategy;
   Options?: UpdateOpenZFSVolumeOption[];
 }
-export const CopySnapshotAndUpdateVolumeRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    VolumeId: S.optional(S.String),
-    SourceSnapshotARN: S.optional(S.String),
-    CopyStrategy: S.optional(OpenZFSCopyStrategy),
-    Options: S.optional(UpdateOpenZFSVolumeOptions),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CopySnapshotAndUpdateVolumeRequest",
-}) as any as S.Schema<CopySnapshotAndUpdateVolumeRequest>;
+export const CopySnapshotAndUpdateVolumeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      VolumeId: S.optional(S.String),
+      SourceSnapshotARN: S.optional(S.String),
+      CopyStrategy: S.optional(OpenZFSCopyStrategy),
+      Options: S.optional(UpdateOpenZFSVolumeOptions),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CopySnapshotAndUpdateVolumeRequest",
+  }) as any as S.Schema<CopySnapshotAndUpdateVolumeRequest>;
 export interface CopySnapshotAndUpdateVolumeResponse {
   VolumeId?: string;
   Lifecycle?: VolumeLifecycle;
@@ -1585,32 +1626,36 @@ export interface CopySnapshotAndUpdateVolumeResponse {
     };
   })[];
 }
-export const CopySnapshotAndUpdateVolumeResponse = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    Lifecycle: S.optional(VolumeLifecycle),
-    AdministrativeActions: S.optional(AdministrativeActions),
-  }),
-).annotate({
-  identifier: "CopySnapshotAndUpdateVolumeResponse",
-}) as any as S.Schema<CopySnapshotAndUpdateVolumeResponse>;
+export const CopySnapshotAndUpdateVolumeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      Lifecycle: S.optional(VolumeLifecycle),
+      AdministrativeActions: S.optional(AdministrativeActions),
+    }),
+  ).annotate({
+    identifier: "CopySnapshotAndUpdateVolumeResponse",
+  }) as any as S.Schema<CopySnapshotAndUpdateVolumeResponse>;
 export type S3AccessPointAttachmentType = "OPENZFS" | "ONTAP" | (string & {});
-export const S3AccessPointAttachmentType = S.String;
+export const S3AccessPointAttachmentType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type OpenZFSFileSystemUserType = "POSIX" | (string & {});
-export const OpenZFSFileSystemUserType = S.String;
+export const OpenZFSFileSystemUserType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FileSystemSecondaryGIDs = number[];
-export const FileSystemSecondaryGIDs = S.Array(S.Number);
+export const FileSystemSecondaryGIDs = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.Number,
+);
 export interface OpenZFSPosixFileSystemUser {
   Uid?: number;
   Gid?: number;
   SecondaryGids?: number[];
 }
-export const OpenZFSPosixFileSystemUser = S.suspend(() =>
-  S.Struct({
-    Uid: S.optional(S.Number),
-    Gid: S.optional(S.Number),
-    SecondaryGids: S.optional(FileSystemSecondaryGIDs),
-  }),
+export const OpenZFSPosixFileSystemUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Uid: S.optional(S.Number),
+      Gid: S.optional(S.Number),
+      SecondaryGids: S.optional(FileSystemSecondaryGIDs),
+    }),
 ).annotate({
   identifier: "OpenZFSPosixFileSystemUser",
 }) as any as S.Schema<OpenZFSPosixFileSystemUser>;
@@ -1618,11 +1663,12 @@ export interface OpenZFSFileSystemIdentity {
   Type?: OpenZFSFileSystemUserType;
   PosixUser?: OpenZFSPosixFileSystemUser;
 }
-export const OpenZFSFileSystemIdentity = S.suspend(() =>
-  S.Struct({
-    Type: S.optional(OpenZFSFileSystemUserType),
-    PosixUser: S.optional(OpenZFSPosixFileSystemUser),
-  }),
+export const OpenZFSFileSystemIdentity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Type: S.optional(OpenZFSFileSystemUserType),
+      PosixUser: S.optional(OpenZFSPosixFileSystemUser),
+    }),
 ).annotate({
   identifier: "OpenZFSFileSystemIdentity",
 }) as any as S.Schema<OpenZFSFileSystemIdentity>;
@@ -1630,29 +1676,30 @@ export interface CreateAndAttachS3AccessPointOpenZFSConfiguration {
   VolumeId?: string;
   FileSystemIdentity?: OpenZFSFileSystemIdentity;
 }
-export const CreateAndAttachS3AccessPointOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    FileSystemIdentity: S.optional(OpenZFSFileSystemIdentity),
-  }),
-).annotate({
-  identifier: "CreateAndAttachS3AccessPointOpenZFSConfiguration",
-}) as any as S.Schema<CreateAndAttachS3AccessPointOpenZFSConfiguration>;
+export const CreateAndAttachS3AccessPointOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      FileSystemIdentity: S.optional(OpenZFSFileSystemIdentity),
+    }),
+  ).annotate({
+    identifier: "CreateAndAttachS3AccessPointOpenZFSConfiguration",
+  }) as any as S.Schema<CreateAndAttachS3AccessPointOpenZFSConfiguration>;
 export type OntapFileSystemUserType = "UNIX" | "WINDOWS" | (string & {});
-export const OntapFileSystemUserType = S.String;
+export const OntapFileSystemUserType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface OntapUnixFileSystemUser {
   Name?: string;
 }
-export const OntapUnixFileSystemUser = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
+export const OntapUnixFileSystemUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Name: S.optional(S.String) }),
 ).annotate({
   identifier: "OntapUnixFileSystemUser",
 }) as any as S.Schema<OntapUnixFileSystemUser>;
 export interface OntapWindowsFileSystemUser {
   Name?: string;
 }
-export const OntapWindowsFileSystemUser = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
+export const OntapWindowsFileSystemUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Name: S.optional(S.String) }),
 ).annotate({
   identifier: "OntapWindowsFileSystemUser",
 }) as any as S.Schema<OntapWindowsFileSystemUser>;
@@ -1661,12 +1708,13 @@ export interface OntapFileSystemIdentity {
   UnixUser?: OntapUnixFileSystemUser;
   WindowsUser?: OntapWindowsFileSystemUser;
 }
-export const OntapFileSystemIdentity = S.suspend(() =>
-  S.Struct({
-    Type: S.optional(OntapFileSystemUserType),
-    UnixUser: S.optional(OntapUnixFileSystemUser),
-    WindowsUser: S.optional(OntapWindowsFileSystemUser),
-  }),
+export const OntapFileSystemIdentity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Type: S.optional(OntapFileSystemUserType),
+      UnixUser: S.optional(OntapUnixFileSystemUser),
+      WindowsUser: S.optional(OntapWindowsFileSystemUser),
+    }),
 ).annotate({
   identifier: "OntapFileSystemIdentity",
 }) as any as S.Schema<OntapFileSystemIdentity>;
@@ -1674,34 +1722,37 @@ export interface CreateAndAttachS3AccessPointOntapConfiguration {
   VolumeId?: string;
   FileSystemIdentity?: OntapFileSystemIdentity;
 }
-export const CreateAndAttachS3AccessPointOntapConfiguration = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    FileSystemIdentity: S.optional(OntapFileSystemIdentity),
-  }),
-).annotate({
-  identifier: "CreateAndAttachS3AccessPointOntapConfiguration",
-}) as any as S.Schema<CreateAndAttachS3AccessPointOntapConfiguration>;
+export const CreateAndAttachS3AccessPointOntapConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      FileSystemIdentity: S.optional(OntapFileSystemIdentity),
+    }),
+  ).annotate({
+    identifier: "CreateAndAttachS3AccessPointOntapConfiguration",
+  }) as any as S.Schema<CreateAndAttachS3AccessPointOntapConfiguration>;
 export interface S3AccessPointVpcConfiguration {
   VpcId?: string;
 }
-export const S3AccessPointVpcConfiguration = S.suspend(() =>
-  S.Struct({ VpcId: S.optional(S.String) }),
-).annotate({
-  identifier: "S3AccessPointVpcConfiguration",
-}) as any as S.Schema<S3AccessPointVpcConfiguration>;
+export const S3AccessPointVpcConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ VpcId: S.optional(S.String) }),
+  ).annotate({
+    identifier: "S3AccessPointVpcConfiguration",
+  }) as any as S.Schema<S3AccessPointVpcConfiguration>;
 export interface CreateAndAttachS3AccessPointS3Configuration {
   VpcConfiguration?: S3AccessPointVpcConfiguration;
   Policy?: string;
 }
-export const CreateAndAttachS3AccessPointS3Configuration = S.suspend(() =>
-  S.Struct({
-    VpcConfiguration: S.optional(S3AccessPointVpcConfiguration),
-    Policy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateAndAttachS3AccessPointS3Configuration",
-}) as any as S.Schema<CreateAndAttachS3AccessPointS3Configuration>;
+export const CreateAndAttachS3AccessPointS3Configuration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VpcConfiguration: S.optional(S3AccessPointVpcConfiguration),
+      Policy: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateAndAttachS3AccessPointS3Configuration",
+  }) as any as S.Schema<CreateAndAttachS3AccessPointS3Configuration>;
 export interface CreateAndAttachS3AccessPointRequest {
   ClientRequestToken?: string;
   Name?: string;
@@ -1710,24 +1761,25 @@ export interface CreateAndAttachS3AccessPointRequest {
   OntapConfiguration?: CreateAndAttachS3AccessPointOntapConfiguration;
   S3AccessPoint?: CreateAndAttachS3AccessPointS3Configuration;
 }
-export const CreateAndAttachS3AccessPointRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Name: S.optional(S.String),
-    Type: S.optional(S3AccessPointAttachmentType),
-    OpenZFSConfiguration: S.optional(
-      CreateAndAttachS3AccessPointOpenZFSConfiguration,
+export const CreateAndAttachS3AccessPointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Name: S.optional(S.String),
+      Type: S.optional(S3AccessPointAttachmentType),
+      OpenZFSConfiguration: S.optional(
+        CreateAndAttachS3AccessPointOpenZFSConfiguration,
+      ),
+      OntapConfiguration: S.optional(
+        CreateAndAttachS3AccessPointOntapConfiguration,
+      ),
+      S3AccessPoint: S.optional(CreateAndAttachS3AccessPointS3Configuration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    OntapConfiguration: S.optional(
-      CreateAndAttachS3AccessPointOntapConfiguration,
-    ),
-    S3AccessPoint: S.optional(CreateAndAttachS3AccessPointS3Configuration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAndAttachS3AccessPointRequest",
-}) as any as S.Schema<CreateAndAttachS3AccessPointRequest>;
+  ).annotate({
+    identifier: "CreateAndAttachS3AccessPointRequest",
+  }) as any as S.Schema<CreateAndAttachS3AccessPointRequest>;
 export type S3AccessPointAttachmentLifecycle =
   | "AVAILABLE"
   | "CREATING"
@@ -1736,37 +1788,40 @@ export type S3AccessPointAttachmentLifecycle =
   | "FAILED"
   | "MISCONFIGURED"
   | (string & {});
-export const S3AccessPointAttachmentLifecycle = S.String;
+export const S3AccessPointAttachmentLifecycle =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface S3AccessPointOpenZFSConfiguration {
   VolumeId?: string;
   FileSystemIdentity?: OpenZFSFileSystemIdentity;
 }
-export const S3AccessPointOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    FileSystemIdentity: S.optional(OpenZFSFileSystemIdentity),
-  }),
-).annotate({
-  identifier: "S3AccessPointOpenZFSConfiguration",
-}) as any as S.Schema<S3AccessPointOpenZFSConfiguration>;
+export const S3AccessPointOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      FileSystemIdentity: S.optional(OpenZFSFileSystemIdentity),
+    }),
+  ).annotate({
+    identifier: "S3AccessPointOpenZFSConfiguration",
+  }) as any as S.Schema<S3AccessPointOpenZFSConfiguration>;
 export interface S3AccessPointOntapConfiguration {
   VolumeId?: string;
   FileSystemIdentity?: OntapFileSystemIdentity;
 }
-export const S3AccessPointOntapConfiguration = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    FileSystemIdentity: S.optional(OntapFileSystemIdentity),
-  }),
-).annotate({
-  identifier: "S3AccessPointOntapConfiguration",
-}) as any as S.Schema<S3AccessPointOntapConfiguration>;
+export const S3AccessPointOntapConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      FileSystemIdentity: S.optional(OntapFileSystemIdentity),
+    }),
+  ).annotate({
+    identifier: "S3AccessPointOntapConfiguration",
+  }) as any as S.Schema<S3AccessPointOntapConfiguration>;
 export interface S3AccessPoint {
   ResourceARN?: string;
   Alias?: string;
   VpcConfiguration?: S3AccessPointVpcConfiguration;
 }
-export const S3AccessPoint = S.suspend(() =>
+export const S3AccessPoint = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.optional(S.String),
     Alias: S.optional(S.String),
@@ -1783,17 +1838,18 @@ export interface S3AccessPointAttachment {
   OntapConfiguration?: S3AccessPointOntapConfiguration;
   S3AccessPoint?: S3AccessPoint;
 }
-export const S3AccessPointAttachment = S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(S3AccessPointAttachmentLifecycle),
-    LifecycleTransitionReason: S.optional(LifecycleTransitionReason),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Name: S.optional(S.String),
-    Type: S.optional(S3AccessPointAttachmentType),
-    OpenZFSConfiguration: S.optional(S3AccessPointOpenZFSConfiguration),
-    OntapConfiguration: S.optional(S3AccessPointOntapConfiguration),
-    S3AccessPoint: S.optional(S3AccessPoint),
-  }),
+export const S3AccessPointAttachment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Lifecycle: S.optional(S3AccessPointAttachmentLifecycle),
+      LifecycleTransitionReason: S.optional(LifecycleTransitionReason),
+      CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Name: S.optional(S.String),
+      Type: S.optional(S3AccessPointAttachmentType),
+      OpenZFSConfiguration: S.optional(S3AccessPointOpenZFSConfiguration),
+      OntapConfiguration: S.optional(S3AccessPointOntapConfiguration),
+      S3AccessPoint: S.optional(S3AccessPoint),
+    }),
 ).annotate({
   identifier: "S3AccessPointAttachment",
 }) as any as S.Schema<S3AccessPointAttachment>;
@@ -1819,18 +1875,19 @@ export interface CreateAndAttachS3AccessPointResponse {
     };
   };
 }
-export const CreateAndAttachS3AccessPointResponse = S.suspend(() =>
-  S.Struct({ S3AccessPointAttachment: S.optional(S3AccessPointAttachment) }),
-).annotate({
-  identifier: "CreateAndAttachS3AccessPointResponse",
-}) as any as S.Schema<CreateAndAttachS3AccessPointResponse>;
+export const CreateAndAttachS3AccessPointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ S3AccessPointAttachment: S.optional(S3AccessPointAttachment) }),
+  ).annotate({
+    identifier: "CreateAndAttachS3AccessPointResponse",
+  }) as any as S.Schema<CreateAndAttachS3AccessPointResponse>;
 export interface CreateBackupRequest {
   FileSystemId?: string;
   ClientRequestToken?: string;
   Tags?: Tag[];
   VolumeId?: string;
 }
-export const CreateBackupRequest = S.suspend(() =>
+export const CreateBackupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     FileSystemId: S.optional(S.String),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -1961,19 +2018,19 @@ export interface CreateBackupResponse {
     };
   };
 }
-export const CreateBackupResponse = S.suspend(() =>
+export const CreateBackupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Backup: S.optional(Backup) }),
 ).annotate({
   identifier: "CreateBackupResponse",
 }) as any as S.Schema<CreateBackupResponse>;
 export type EventType = "NEW" | "CHANGED" | "DELETED" | (string & {});
-export const EventType = S.String;
+export const EventType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventTypes = EventType[];
-export const EventTypes = S.Array(EventType);
+export const EventTypes = /*@__PURE__*/ /*#__PURE__*/ S.Array(EventType);
 export interface AutoImportPolicy {
   Events?: EventType[];
 }
-export const AutoImportPolicy = S.suspend(() =>
+export const AutoImportPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Events: S.optional(EventTypes) }),
 ).annotate({
   identifier: "AutoImportPolicy",
@@ -1981,7 +2038,7 @@ export const AutoImportPolicy = S.suspend(() =>
 export interface AutoExportPolicy {
   Events?: EventType[];
 }
-export const AutoExportPolicy = S.suspend(() =>
+export const AutoExportPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Events: S.optional(EventTypes) }),
 ).annotate({
   identifier: "AutoExportPolicy",
@@ -1990,14 +2047,15 @@ export interface S3DataRepositoryConfiguration {
   AutoImportPolicy?: AutoImportPolicy;
   AutoExportPolicy?: AutoExportPolicy;
 }
-export const S3DataRepositoryConfiguration = S.suspend(() =>
-  S.Struct({
-    AutoImportPolicy: S.optional(AutoImportPolicy),
-    AutoExportPolicy: S.optional(AutoExportPolicy),
-  }),
-).annotate({
-  identifier: "S3DataRepositoryConfiguration",
-}) as any as S.Schema<S3DataRepositoryConfiguration>;
+export const S3DataRepositoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutoImportPolicy: S.optional(AutoImportPolicy),
+      AutoExportPolicy: S.optional(AutoExportPolicy),
+    }),
+  ).annotate({
+    identifier: "S3DataRepositoryConfiguration",
+  }) as any as S.Schema<S3DataRepositoryConfiguration>;
 export interface CreateDataRepositoryAssociationRequest {
   FileSystemId?: string;
   FileSystemPath?: string;
@@ -2008,42 +2066,46 @@ export interface CreateDataRepositoryAssociationRequest {
   ClientRequestToken?: string;
   Tags?: Tag[];
 }
-export const CreateDataRepositoryAssociationRequest = S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    FileSystemPath: S.optional(S.String),
-    DataRepositoryPath: S.optional(S.String),
-    BatchImportMetaDataOnCreate: S.optional(S.Boolean),
-    ImportedFileChunkSize: S.optional(S.Number),
-    S3: S.optional(S3DataRepositoryConfiguration),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateDataRepositoryAssociationRequest",
-}) as any as S.Schema<CreateDataRepositoryAssociationRequest>;
+export const CreateDataRepositoryAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileSystemId: S.optional(S.String),
+      FileSystemPath: S.optional(S.String),
+      DataRepositoryPath: S.optional(S.String),
+      BatchImportMetaDataOnCreate: S.optional(S.Boolean),
+      ImportedFileChunkSize: S.optional(S.Number),
+      S3: S.optional(S3DataRepositoryConfiguration),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateDataRepositoryAssociationRequest",
+  }) as any as S.Schema<CreateDataRepositoryAssociationRequest>;
 export type SubDirectoriesPaths = string[];
-export const SubDirectoriesPaths = S.Array(S.String);
+export const SubDirectoriesPaths = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type NfsVersion = "NFS3" | (string & {});
-export const NfsVersion = S.String;
+export const NfsVersion = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RepositoryDnsIps = string[];
-export const RepositoryDnsIps = S.Array(S.String);
+export const RepositoryDnsIps = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface NFSDataRepositoryConfiguration {
   Version?: NfsVersion;
   DnsIps?: string[];
   AutoExportPolicy?: AutoExportPolicy;
 }
-export const NFSDataRepositoryConfiguration = S.suspend(() =>
-  S.Struct({
-    Version: S.optional(NfsVersion),
-    DnsIps: S.optional(RepositoryDnsIps),
-    AutoExportPolicy: S.optional(AutoExportPolicy),
-  }),
-).annotate({
-  identifier: "NFSDataRepositoryConfiguration",
-}) as any as S.Schema<NFSDataRepositoryConfiguration>;
+export const NFSDataRepositoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Version: S.optional(NfsVersion),
+      DnsIps: S.optional(RepositoryDnsIps),
+      AutoExportPolicy: S.optional(AutoExportPolicy),
+    }),
+  ).annotate({
+    identifier: "NFSDataRepositoryConfiguration",
+  }) as any as S.Schema<NFSDataRepositoryConfiguration>;
 export interface DataRepositoryAssociation {
   AssociationId?: string;
   ResourceARN?: string;
@@ -2062,25 +2124,26 @@ export interface DataRepositoryAssociation {
   DataRepositorySubdirectories?: string[];
   NFS?: NFSDataRepositoryConfiguration;
 }
-export const DataRepositoryAssociation = S.suspend(() =>
-  S.Struct({
-    AssociationId: S.optional(S.String),
-    ResourceARN: S.optional(S.String),
-    FileSystemId: S.optional(S.String),
-    Lifecycle: S.optional(DataRepositoryLifecycle),
-    FailureDetails: S.optional(DataRepositoryFailureDetails),
-    FileSystemPath: S.optional(S.String),
-    DataRepositoryPath: S.optional(S.String),
-    BatchImportMetaDataOnCreate: S.optional(S.Boolean),
-    ImportedFileChunkSize: S.optional(S.Number),
-    S3: S.optional(S3DataRepositoryConfiguration),
-    Tags: S.optional(Tags),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FileCacheId: S.optional(S.String),
-    FileCachePath: S.optional(S.String),
-    DataRepositorySubdirectories: S.optional(SubDirectoriesPaths),
-    NFS: S.optional(NFSDataRepositoryConfiguration),
-  }),
+export const DataRepositoryAssociation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssociationId: S.optional(S.String),
+      ResourceARN: S.optional(S.String),
+      FileSystemId: S.optional(S.String),
+      Lifecycle: S.optional(DataRepositoryLifecycle),
+      FailureDetails: S.optional(DataRepositoryFailureDetails),
+      FileSystemPath: S.optional(S.String),
+      DataRepositoryPath: S.optional(S.String),
+      BatchImportMetaDataOnCreate: S.optional(S.Boolean),
+      ImportedFileChunkSize: S.optional(S.Number),
+      S3: S.optional(S3DataRepositoryConfiguration),
+      Tags: S.optional(Tags),
+      CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      FileCacheId: S.optional(S.String),
+      FileCachePath: S.optional(S.String),
+      DataRepositorySubdirectories: S.optional(SubDirectoriesPaths),
+      NFS: S.optional(NFSDataRepositoryConfiguration),
+    }),
 ).annotate({
   identifier: "DataRepositoryAssociation",
 }) as any as S.Schema<DataRepositoryAssociation>;
@@ -2090,31 +2153,34 @@ export interface CreateDataRepositoryAssociationResponse {
     NFS: NFSDataRepositoryConfiguration & { Version: NfsVersion };
   };
 }
-export const CreateDataRepositoryAssociationResponse = S.suspend(() =>
-  S.Struct({ Association: S.optional(DataRepositoryAssociation) }),
-).annotate({
-  identifier: "CreateDataRepositoryAssociationResponse",
-}) as any as S.Schema<CreateDataRepositoryAssociationResponse>;
+export const CreateDataRepositoryAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Association: S.optional(DataRepositoryAssociation) }),
+  ).annotate({
+    identifier: "CreateDataRepositoryAssociationResponse",
+  }) as any as S.Schema<CreateDataRepositoryAssociationResponse>;
 export type DataRepositoryTaskType =
   | "EXPORT_TO_REPOSITORY"
   | "IMPORT_METADATA_FROM_REPOSITORY"
   | "RELEASE_DATA_FROM_FILESYSTEM"
   | "AUTO_RELEASE_DATA"
   | (string & {});
-export const DataRepositoryTaskType = S.String;
+export const DataRepositoryTaskType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DataRepositoryTaskPaths = string[];
-export const DataRepositoryTaskPaths = S.Array(S.String);
+export const DataRepositoryTaskPaths = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type ReportFormat = "REPORT_CSV_20191124" | (string & {});
-export const ReportFormat = S.String;
+export const ReportFormat = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ReportScope = "FAILED_FILES_ONLY" | (string & {});
-export const ReportScope = S.String;
+export const ReportScope = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CompletionReport {
   Enabled?: boolean;
   Path?: string;
   Format?: ReportFormat;
   Scope?: ReportScope;
 }
-export const CompletionReport = S.suspend(() =>
+export const CompletionReport = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     Path: S.optional(S.String),
@@ -2125,20 +2191,20 @@ export const CompletionReport = S.suspend(() =>
   identifier: "CompletionReport",
 }) as any as S.Schema<CompletionReport>;
 export type Unit = "DAYS" | (string & {});
-export const Unit = S.String;
+export const Unit = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DurationSinceLastAccess {
   Unit?: Unit;
   Value?: number;
 }
-export const DurationSinceLastAccess = S.suspend(() =>
-  S.Struct({ Unit: S.optional(Unit), Value: S.optional(S.Number) }),
+export const DurationSinceLastAccess = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Unit: S.optional(Unit), Value: S.optional(S.Number) }),
 ).annotate({
   identifier: "DurationSinceLastAccess",
 }) as any as S.Schema<DurationSinceLastAccess>;
 export interface ReleaseConfiguration {
   DurationSinceLastAccess?: DurationSinceLastAccess;
 }
-export const ReleaseConfiguration = S.suspend(() =>
+export const ReleaseConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ DurationSinceLastAccess: S.optional(DurationSinceLastAccess) }),
 ).annotate({
   identifier: "ReleaseConfiguration",
@@ -2153,30 +2219,32 @@ export interface CreateDataRepositoryTaskRequest {
   CapacityToRelease?: number;
   ReleaseConfiguration?: ReleaseConfiguration;
 }
-export const CreateDataRepositoryTaskRequest = S.suspend(() =>
-  S.Struct({
-    Type: S.optional(DataRepositoryTaskType),
-    Paths: S.optional(DataRepositoryTaskPaths),
-    FileSystemId: S.optional(S.String),
-    Report: S.optional(CompletionReport),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-    CapacityToRelease: S.optional(S.Number),
-    ReleaseConfiguration: S.optional(ReleaseConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateDataRepositoryTaskRequest",
-}) as any as S.Schema<CreateDataRepositoryTaskRequest>;
+export const CreateDataRepositoryTaskRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Type: S.optional(DataRepositoryTaskType),
+      Paths: S.optional(DataRepositoryTaskPaths),
+      FileSystemId: S.optional(S.String),
+      Report: S.optional(CompletionReport),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+      CapacityToRelease: S.optional(S.Number),
+      ReleaseConfiguration: S.optional(ReleaseConfiguration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateDataRepositoryTaskRequest",
+  }) as any as S.Schema<CreateDataRepositoryTaskRequest>;
 export interface DataRepositoryTaskFailureDetails {
   Message?: string;
 }
-export const DataRepositoryTaskFailureDetails = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotate({
-  identifier: "DataRepositoryTaskFailureDetails",
-}) as any as S.Schema<DataRepositoryTaskFailureDetails>;
+export const DataRepositoryTaskFailureDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Message: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DataRepositoryTaskFailureDetails",
+  }) as any as S.Schema<DataRepositoryTaskFailureDetails>;
 export interface DataRepositoryTaskStatus {
   TotalCount?: number;
   SucceededCount?: number;
@@ -2184,16 +2252,17 @@ export interface DataRepositoryTaskStatus {
   LastUpdatedTime?: Date;
   ReleasedCapacity?: number;
 }
-export const DataRepositoryTaskStatus = S.suspend(() =>
-  S.Struct({
-    TotalCount: S.optional(S.Number),
-    SucceededCount: S.optional(S.Number),
-    FailedCount: S.optional(S.Number),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ReleasedCapacity: S.optional(S.Number),
-  }),
+export const DataRepositoryTaskStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      TotalCount: S.optional(S.Number),
+      SucceededCount: S.optional(S.Number),
+      FailedCount: S.optional(S.Number),
+      LastUpdatedTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      ReleasedCapacity: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "DataRepositoryTaskStatus",
 }) as any as S.Schema<DataRepositoryTaskStatus>;
@@ -2215,7 +2284,7 @@ export interface DataRepositoryTask {
   FileCacheId?: string;
   ReleaseConfiguration?: ReleaseConfiguration;
 }
-export const DataRepositoryTask = S.suspend(() =>
+export const DataRepositoryTask = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TaskId: S.optional(S.String),
     Lifecycle: S.optional(DataRepositoryTaskLifecycle),
@@ -2247,50 +2316,55 @@ export interface CreateDataRepositoryTaskResponse {
     Report: CompletionReport & { Enabled: Flag };
   };
 }
-export const CreateDataRepositoryTaskResponse = S.suspend(() =>
-  S.Struct({ DataRepositoryTask: S.optional(DataRepositoryTask) }),
-).annotate({
-  identifier: "CreateDataRepositoryTaskResponse",
-}) as any as S.Schema<CreateDataRepositoryTaskResponse>;
+export const CreateDataRepositoryTaskResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ DataRepositoryTask: S.optional(DataRepositoryTask) }),
+  ).annotate({
+    identifier: "CreateDataRepositoryTaskResponse",
+  }) as any as S.Schema<CreateDataRepositoryTaskResponse>;
 export type FileCacheType = "LUSTRE" | (string & {});
-export const FileCacheType = S.String;
+export const FileCacheType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = S.Array(S.String);
+export const SecurityGroupIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type FileCacheLustreDeploymentType = "CACHE_1" | (string & {});
-export const FileCacheLustreDeploymentType = S.String;
+export const FileCacheLustreDeploymentType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FileCacheLustreMetadataConfiguration {
   StorageCapacity?: number;
 }
-export const FileCacheLustreMetadataConfiguration = S.suspend(() =>
-  S.Struct({ StorageCapacity: S.optional(S.Number) }),
-).annotate({
-  identifier: "FileCacheLustreMetadataConfiguration",
-}) as any as S.Schema<FileCacheLustreMetadataConfiguration>;
+export const FileCacheLustreMetadataConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ StorageCapacity: S.optional(S.Number) }),
+  ).annotate({
+    identifier: "FileCacheLustreMetadataConfiguration",
+  }) as any as S.Schema<FileCacheLustreMetadataConfiguration>;
 export interface CreateFileCacheLustreConfiguration {
   PerUnitStorageThroughput?: number;
   DeploymentType?: FileCacheLustreDeploymentType;
   WeeklyMaintenanceStartTime?: string;
   MetadataConfiguration?: FileCacheLustreMetadataConfiguration;
 }
-export const CreateFileCacheLustreConfiguration = S.suspend(() =>
-  S.Struct({
-    PerUnitStorageThroughput: S.optional(S.Number),
-    DeploymentType: S.optional(FileCacheLustreDeploymentType),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    MetadataConfiguration: S.optional(FileCacheLustreMetadataConfiguration),
-  }),
-).annotate({
-  identifier: "CreateFileCacheLustreConfiguration",
-}) as any as S.Schema<CreateFileCacheLustreConfiguration>;
+export const CreateFileCacheLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PerUnitStorageThroughput: S.optional(S.Number),
+      DeploymentType: S.optional(FileCacheLustreDeploymentType),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      MetadataConfiguration: S.optional(FileCacheLustreMetadataConfiguration),
+    }),
+  ).annotate({
+    identifier: "CreateFileCacheLustreConfiguration",
+  }) as any as S.Schema<CreateFileCacheLustreConfiguration>;
 export interface FileCacheNFSConfiguration {
   Version?: NfsVersion;
   DnsIps?: string[];
 }
-export const FileCacheNFSConfiguration = S.suspend(() =>
-  S.Struct({
-    Version: S.optional(NfsVersion),
-    DnsIps: S.optional(RepositoryDnsIps),
-  }),
+export const FileCacheNFSConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Version: S.optional(NfsVersion),
+      DnsIps: S.optional(RepositoryDnsIps),
+    }),
 ).annotate({
   identifier: "FileCacheNFSConfiguration",
 }) as any as S.Schema<FileCacheNFSConfiguration>;
@@ -2300,21 +2374,21 @@ export interface FileCacheDataRepositoryAssociation {
   DataRepositorySubdirectories?: string[];
   NFS?: FileCacheNFSConfiguration;
 }
-export const FileCacheDataRepositoryAssociation = S.suspend(() =>
-  S.Struct({
-    FileCachePath: S.optional(S.String),
-    DataRepositoryPath: S.optional(S.String),
-    DataRepositorySubdirectories: S.optional(SubDirectoriesPaths),
-    NFS: S.optional(FileCacheNFSConfiguration),
-  }),
-).annotate({
-  identifier: "FileCacheDataRepositoryAssociation",
-}) as any as S.Schema<FileCacheDataRepositoryAssociation>;
+export const FileCacheDataRepositoryAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileCachePath: S.optional(S.String),
+      DataRepositoryPath: S.optional(S.String),
+      DataRepositorySubdirectories: S.optional(SubDirectoriesPaths),
+      NFS: S.optional(FileCacheNFSConfiguration),
+    }),
+  ).annotate({
+    identifier: "FileCacheDataRepositoryAssociation",
+  }) as any as S.Schema<FileCacheDataRepositoryAssociation>;
 export type CreateFileCacheDataRepositoryAssociations =
   FileCacheDataRepositoryAssociation[];
-export const CreateFileCacheDataRepositoryAssociations = S.Array(
-  FileCacheDataRepositoryAssociation,
-);
+export const CreateFileCacheDataRepositoryAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(FileCacheDataRepositoryAssociation);
 export interface CreateFileCacheRequest {
   ClientRequestToken?: string;
   FileCacheType?: FileCacheType;
@@ -2328,24 +2402,25 @@ export interface CreateFileCacheRequest {
   LustreConfiguration?: CreateFileCacheLustreConfiguration;
   DataRepositoryAssociations?: FileCacheDataRepositoryAssociation[];
 }
-export const CreateFileCacheRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileCacheType: S.optional(FileCacheType),
-    FileCacheTypeVersion: S.optional(S.String),
-    StorageCapacity: S.optional(S.Number),
-    SubnetIds: S.optional(SubnetIds),
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-    Tags: S.optional(Tags),
-    CopyTagsToDataRepositoryAssociations: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    LustreConfiguration: S.optional(CreateFileCacheLustreConfiguration),
-    DataRepositoryAssociations: S.optional(
-      CreateFileCacheDataRepositoryAssociations,
+export const CreateFileCacheRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileCacheType: S.optional(FileCacheType),
+      FileCacheTypeVersion: S.optional(S.String),
+      StorageCapacity: S.optional(S.Number),
+      SubnetIds: S.optional(SubnetIds),
+      SecurityGroupIds: S.optional(SecurityGroupIds),
+      Tags: S.optional(Tags),
+      CopyTagsToDataRepositoryAssociations: S.optional(S.Boolean),
+      KmsKeyId: S.optional(S.String),
+      LustreConfiguration: S.optional(CreateFileCacheLustreConfiguration),
+      DataRepositoryAssociations: S.optional(
+        CreateFileCacheDataRepositoryAssociations,
+      ),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
 ).annotate({
   identifier: "CreateFileCacheRequest",
 }) as any as S.Schema<CreateFileCacheRequest>;
@@ -2356,12 +2431,12 @@ export type FileCacheLifecycle =
   | "UPDATING"
   | "FAILED"
   | (string & {});
-export const FileCacheLifecycle = S.String;
+export const FileCacheLifecycle = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface FileCacheFailureDetails {
   Message?: string;
 }
-export const FileCacheFailureDetails = S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
+export const FileCacheFailureDetails = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Message: S.optional(S.String) }),
 ).annotate({
   identifier: "FileCacheFailureDetails",
 }) as any as S.Schema<FileCacheFailureDetails>;
@@ -2373,20 +2448,23 @@ export interface FileCacheLustreConfiguration {
   MetadataConfiguration?: FileCacheLustreMetadataConfiguration;
   LogConfiguration?: LustreLogConfiguration;
 }
-export const FileCacheLustreConfiguration = S.suspend(() =>
-  S.Struct({
-    PerUnitStorageThroughput: S.optional(S.Number),
-    DeploymentType: S.optional(FileCacheLustreDeploymentType),
-    MountName: S.optional(S.String),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    MetadataConfiguration: S.optional(FileCacheLustreMetadataConfiguration),
-    LogConfiguration: S.optional(LustreLogConfiguration),
-  }),
-).annotate({
-  identifier: "FileCacheLustreConfiguration",
-}) as any as S.Schema<FileCacheLustreConfiguration>;
+export const FileCacheLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PerUnitStorageThroughput: S.optional(S.Number),
+      DeploymentType: S.optional(FileCacheLustreDeploymentType),
+      MountName: S.optional(S.String),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      MetadataConfiguration: S.optional(FileCacheLustreMetadataConfiguration),
+      LogConfiguration: S.optional(LustreLogConfiguration),
+    }),
+  ).annotate({
+    identifier: "FileCacheLustreConfiguration",
+  }) as any as S.Schema<FileCacheLustreConfiguration>;
 export type DataRepositoryAssociationIds = string[];
-export const DataRepositoryAssociationIds = S.Array(S.String);
+export const DataRepositoryAssociationIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface FileCacheCreating {
   OwnerId?: string;
   CreationTime?: Date;
@@ -2407,7 +2485,7 @@ export interface FileCacheCreating {
   LustreConfiguration?: FileCacheLustreConfiguration;
   DataRepositoryAssociationIds?: string[];
 }
-export const FileCacheCreating = S.suspend(() =>
+export const FileCacheCreating = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     OwnerId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2444,8 +2522,8 @@ export interface CreateFileCacheResponse {
     };
   };
 }
-export const CreateFileCacheResponse = S.suspend(() =>
-  S.Struct({ FileCache: S.optional(FileCacheCreating) }),
+export const CreateFileCacheResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ FileCache: S.optional(FileCacheCreating) }),
 ).annotate({
   identifier: "CreateFileCacheResponse",
 }) as any as S.Schema<CreateFileCacheResponse>;
@@ -2458,33 +2536,35 @@ export interface SelfManagedActiveDirectoryConfiguration {
   DnsIps?: string[];
   DomainJoinServiceAccountSecret?: string;
 }
-export const SelfManagedActiveDirectoryConfiguration = S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    OrganizationalUnitDistinguishedName: S.optional(S.String),
-    FileSystemAdministratorsGroup: S.optional(S.String),
-    UserName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    DnsIps: S.optional(DnsIps),
-    DomainJoinServiceAccountSecret: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SelfManagedActiveDirectoryConfiguration",
-}) as any as S.Schema<SelfManagedActiveDirectoryConfiguration>;
+export const SelfManagedActiveDirectoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.optional(S.String),
+      OrganizationalUnitDistinguishedName: S.optional(S.String),
+      FileSystemAdministratorsGroup: S.optional(S.String),
+      UserName: S.optional(S.String),
+      Password: S.optional(SensitiveString),
+      DnsIps: S.optional(DnsIps),
+      DomainJoinServiceAccountSecret: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "SelfManagedActiveDirectoryConfiguration",
+  }) as any as S.Schema<SelfManagedActiveDirectoryConfiguration>;
 export interface WindowsAuditLogCreateConfiguration {
   FileAccessAuditLogLevel?: WindowsAccessAuditLogLevel;
   FileShareAccessAuditLogLevel?: WindowsAccessAuditLogLevel;
   AuditLogDestination?: string;
 }
-export const WindowsAuditLogCreateConfiguration = S.suspend(() =>
-  S.Struct({
-    FileAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
-    FileShareAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
-    AuditLogDestination: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WindowsAuditLogCreateConfiguration",
-}) as any as S.Schema<WindowsAuditLogCreateConfiguration>;
+export const WindowsAuditLogCreateConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
+      FileShareAccessAuditLogLevel: S.optional(WindowsAccessAuditLogLevel),
+      AuditLogDestination: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "WindowsAuditLogCreateConfiguration",
+  }) as any as S.Schema<WindowsAuditLogCreateConfiguration>;
 export interface CreateFileSystemWindowsConfiguration {
   ActiveDirectoryId?: string;
   SelfManagedActiveDirectoryConfiguration?: SelfManagedActiveDirectoryConfiguration;
@@ -2500,51 +2580,54 @@ export interface CreateFileSystemWindowsConfiguration {
   DiskIopsConfiguration?: DiskIopsConfiguration;
   FsrmConfiguration?: WindowsFsrmConfiguration;
 }
-export const CreateFileSystemWindowsConfiguration = S.suspend(() =>
-  S.Struct({
-    ActiveDirectoryId: S.optional(S.String),
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryConfiguration,
-    ),
-    DeploymentType: S.optional(WindowsDeploymentType),
-    PreferredSubnetId: S.optional(S.String),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    Aliases: S.optional(AlternateDNSNames),
-    AuditLogConfiguration: S.optional(WindowsAuditLogCreateConfiguration),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
-  }),
-).annotate({
-  identifier: "CreateFileSystemWindowsConfiguration",
-}) as any as S.Schema<CreateFileSystemWindowsConfiguration>;
+export const CreateFileSystemWindowsConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ActiveDirectoryId: S.optional(S.String),
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryConfiguration,
+      ),
+      DeploymentType: S.optional(WindowsDeploymentType),
+      PreferredSubnetId: S.optional(S.String),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      Aliases: S.optional(AlternateDNSNames),
+      AuditLogConfiguration: S.optional(WindowsAuditLogCreateConfiguration),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
+    }),
+  ).annotate({
+    identifier: "CreateFileSystemWindowsConfiguration",
+  }) as any as S.Schema<CreateFileSystemWindowsConfiguration>;
 export interface LustreLogCreateConfiguration {
   Level?: LustreAccessAuditLogLevel;
   Destination?: string;
 }
-export const LustreLogCreateConfiguration = S.suspend(() =>
-  S.Struct({
-    Level: S.optional(LustreAccessAuditLogLevel),
-    Destination: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LustreLogCreateConfiguration",
-}) as any as S.Schema<LustreLogCreateConfiguration>;
+export const LustreLogCreateConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Level: S.optional(LustreAccessAuditLogLevel),
+      Destination: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "LustreLogCreateConfiguration",
+  }) as any as S.Schema<LustreLogCreateConfiguration>;
 export interface CreateFileSystemLustreMetadataConfiguration {
   Iops?: number;
   Mode?: MetadataConfigurationMode;
 }
-export const CreateFileSystemLustreMetadataConfiguration = S.suspend(() =>
-  S.Struct({
-    Iops: S.optional(S.Number),
-    Mode: S.optional(MetadataConfigurationMode),
-  }),
-).annotate({
-  identifier: "CreateFileSystemLustreMetadataConfiguration",
-}) as any as S.Schema<CreateFileSystemLustreMetadataConfiguration>;
+export const CreateFileSystemLustreMetadataConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Iops: S.optional(S.Number),
+      Mode: S.optional(MetadataConfigurationMode),
+    }),
+  ).annotate({
+    identifier: "CreateFileSystemLustreMetadataConfiguration",
+  }) as any as S.Schema<CreateFileSystemLustreMetadataConfiguration>;
 export interface CreateFileSystemLustreConfiguration {
   WeeklyMaintenanceStartTime?: string;
   ImportPath?: string;
@@ -2565,32 +2648,33 @@ export interface CreateFileSystemLustreConfiguration {
   ThroughputCapacity?: number;
   DataReadCacheConfiguration?: LustreReadCacheConfiguration;
 }
-export const CreateFileSystemLustreConfiguration = S.suspend(() =>
-  S.Struct({
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    ImportPath: S.optional(S.String),
-    ExportPath: S.optional(S.String),
-    ImportedFileChunkSize: S.optional(S.Number),
-    DeploymentType: S.optional(LustreDeploymentType),
-    AutoImportPolicy: S.optional(AutoImportPolicyType),
-    PerUnitStorageThroughput: S.optional(S.Number),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    DriveCacheType: S.optional(DriveCacheType),
-    DataCompressionType: S.optional(DataCompressionType),
-    EfaEnabled: S.optional(S.Boolean),
-    LogConfiguration: S.optional(LustreLogCreateConfiguration),
-    RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
-    MetadataConfiguration: S.optional(
-      CreateFileSystemLustreMetadataConfiguration,
-    ),
-    ThroughputCapacity: S.optional(S.Number),
-    DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
-  }),
-).annotate({
-  identifier: "CreateFileSystemLustreConfiguration",
-}) as any as S.Schema<CreateFileSystemLustreConfiguration>;
+export const CreateFileSystemLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      ImportPath: S.optional(S.String),
+      ExportPath: S.optional(S.String),
+      ImportedFileChunkSize: S.optional(S.Number),
+      DeploymentType: S.optional(LustreDeploymentType),
+      AutoImportPolicy: S.optional(AutoImportPolicyType),
+      PerUnitStorageThroughput: S.optional(S.Number),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      DriveCacheType: S.optional(DriveCacheType),
+      DataCompressionType: S.optional(DataCompressionType),
+      EfaEnabled: S.optional(S.Boolean),
+      LogConfiguration: S.optional(LustreLogCreateConfiguration),
+      RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
+      MetadataConfiguration: S.optional(
+        CreateFileSystemLustreMetadataConfiguration,
+      ),
+      ThroughputCapacity: S.optional(S.Number),
+      DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
+    }),
+  ).annotate({
+    identifier: "CreateFileSystemLustreConfiguration",
+  }) as any as S.Schema<CreateFileSystemLustreConfiguration>;
 export interface CreateFileSystemOntapConfiguration {
   AutomaticBackupRetentionDays?: number;
   DailyAutomaticBackupStartTime?: string;
@@ -2606,25 +2690,26 @@ export interface CreateFileSystemOntapConfiguration {
   ThroughputCapacityPerHAPair?: number;
   EndpointIpv6AddressRange?: string;
 }
-export const CreateFileSystemOntapConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    DeploymentType: S.optional(OntapDeploymentType),
-    EndpointIpAddressRange: S.optional(S.String),
-    FsxAdminPassword: S.optional(SensitiveString),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    PreferredSubnetId: S.optional(S.String),
-    RouteTableIds: S.optional(RouteTableIds),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    HAPairs: S.optional(S.Number),
-    ThroughputCapacityPerHAPair: S.optional(S.Number),
-    EndpointIpv6AddressRange: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateFileSystemOntapConfiguration",
-}) as any as S.Schema<CreateFileSystemOntapConfiguration>;
+export const CreateFileSystemOntapConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      DeploymentType: S.optional(OntapDeploymentType),
+      EndpointIpAddressRange: S.optional(S.String),
+      FsxAdminPassword: S.optional(SensitiveString),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      PreferredSubnetId: S.optional(S.String),
+      RouteTableIds: S.optional(RouteTableIds),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      HAPairs: S.optional(S.Number),
+      ThroughputCapacityPerHAPair: S.optional(S.Number),
+      EndpointIpv6AddressRange: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateFileSystemOntapConfiguration",
+  }) as any as S.Schema<CreateFileSystemOntapConfiguration>;
 export interface OpenZFSCreateRootVolumeConfiguration {
   RecordSizeKiB?: number;
   DataCompressionType?: OpenZFSDataCompressionType;
@@ -2633,18 +2718,19 @@ export interface OpenZFSCreateRootVolumeConfiguration {
   CopyTagsToSnapshots?: boolean;
   ReadOnly?: boolean;
 }
-export const OpenZFSCreateRootVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    RecordSizeKiB: S.optional(S.Number),
-    DataCompressionType: S.optional(OpenZFSDataCompressionType),
-    NfsExports: S.optional(OpenZFSNfsExports),
-    UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
-    CopyTagsToSnapshots: S.optional(S.Boolean),
-    ReadOnly: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "OpenZFSCreateRootVolumeConfiguration",
-}) as any as S.Schema<OpenZFSCreateRootVolumeConfiguration>;
+export const OpenZFSCreateRootVolumeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RecordSizeKiB: S.optional(S.Number),
+      DataCompressionType: S.optional(OpenZFSDataCompressionType),
+      NfsExports: S.optional(OpenZFSNfsExports),
+      UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
+      CopyTagsToSnapshots: S.optional(S.Boolean),
+      ReadOnly: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "OpenZFSCreateRootVolumeConfiguration",
+  }) as any as S.Schema<OpenZFSCreateRootVolumeConfiguration>;
 export interface CreateFileSystemOpenZFSConfiguration {
   AutomaticBackupRetentionDays?: number;
   CopyTagsToBackups?: boolean;
@@ -2661,26 +2747,27 @@ export interface CreateFileSystemOpenZFSConfiguration {
   RouteTableIds?: string[];
   ReadCacheConfiguration?: OpenZFSReadCacheConfiguration;
 }
-export const CreateFileSystemOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    CopyTagsToVolumes: S.optional(S.Boolean),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    DeploymentType: S.optional(OpenZFSDeploymentType),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    RootVolumeConfiguration: S.optional(OpenZFSCreateRootVolumeConfiguration),
-    PreferredSubnetId: S.optional(S.String),
-    EndpointIpAddressRange: S.optional(S.String),
-    EndpointIpv6AddressRange: S.optional(S.String),
-    RouteTableIds: S.optional(RouteTableIds),
-    ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
-  }),
-).annotate({
-  identifier: "CreateFileSystemOpenZFSConfiguration",
-}) as any as S.Schema<CreateFileSystemOpenZFSConfiguration>;
+export const CreateFileSystemOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      CopyTagsToVolumes: S.optional(S.Boolean),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      DeploymentType: S.optional(OpenZFSDeploymentType),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      RootVolumeConfiguration: S.optional(OpenZFSCreateRootVolumeConfiguration),
+      PreferredSubnetId: S.optional(S.String),
+      EndpointIpAddressRange: S.optional(S.String),
+      EndpointIpv6AddressRange: S.optional(S.String),
+      RouteTableIds: S.optional(RouteTableIds),
+      ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
+    }),
+  ).annotate({
+    identifier: "CreateFileSystemOpenZFSConfiguration",
+  }) as any as S.Schema<CreateFileSystemOpenZFSConfiguration>;
 export interface CreateFileSystemRequest {
   ClientRequestToken?: string;
   FileSystemType?: FileSystemType;
@@ -2697,25 +2784,26 @@ export interface CreateFileSystemRequest {
   OpenZFSConfiguration?: CreateFileSystemOpenZFSConfiguration;
   NetworkType?: NetworkType;
 }
-export const CreateFileSystemRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemType: S.optional(FileSystemType),
-    StorageCapacity: S.optional(S.Number),
-    StorageType: S.optional(StorageType),
-    SubnetIds: S.optional(SubnetIds),
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-    Tags: S.optional(Tags),
-    KmsKeyId: S.optional(S.String),
-    WindowsConfiguration: S.optional(CreateFileSystemWindowsConfiguration),
-    LustreConfiguration: S.optional(CreateFileSystemLustreConfiguration),
-    OntapConfiguration: S.optional(CreateFileSystemOntapConfiguration),
-    FileSystemTypeVersion: S.optional(S.String),
-    OpenZFSConfiguration: S.optional(CreateFileSystemOpenZFSConfiguration),
-    NetworkType: S.optional(NetworkType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CreateFileSystemRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemType: S.optional(FileSystemType),
+      StorageCapacity: S.optional(S.Number),
+      StorageType: S.optional(StorageType),
+      SubnetIds: S.optional(SubnetIds),
+      SecurityGroupIds: S.optional(SecurityGroupIds),
+      Tags: S.optional(Tags),
+      KmsKeyId: S.optional(S.String),
+      WindowsConfiguration: S.optional(CreateFileSystemWindowsConfiguration),
+      LustreConfiguration: S.optional(CreateFileSystemLustreConfiguration),
+      OntapConfiguration: S.optional(CreateFileSystemOntapConfiguration),
+      FileSystemTypeVersion: S.optional(S.String),
+      OpenZFSConfiguration: S.optional(CreateFileSystemOpenZFSConfiguration),
+      NetworkType: S.optional(NetworkType),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CreateFileSystemRequest",
 }) as any as S.Schema<CreateFileSystemRequest>;
@@ -2772,8 +2860,8 @@ export interface CreateFileSystemResponse {
     })[];
   };
 }
-export const CreateFileSystemResponse = S.suspend(() =>
-  S.Struct({ FileSystem: S.optional(FileSystem) }),
+export const CreateFileSystemResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ FileSystem: S.optional(FileSystem) }),
 ).annotate({
   identifier: "CreateFileSystemResponse",
 }) as any as S.Schema<CreateFileSystemResponse>;
@@ -2784,7 +2872,7 @@ export type ActiveDirectoryErrorType =
   | "INVALID_NETWORK_TYPE"
   | "INVALID_DOMAIN_STAGE"
   | (string & {});
-export const ActiveDirectoryErrorType = S.String;
+export const ActiveDirectoryErrorType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateFileSystemFromBackupRequest {
   BackupId?: string;
   ClientRequestToken?: string;
@@ -2800,27 +2888,28 @@ export interface CreateFileSystemFromBackupRequest {
   StorageCapacity?: number;
   NetworkType?: NetworkType;
 }
-export const CreateFileSystemFromBackupRequest = S.suspend(() =>
-  S.Struct({
-    BackupId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    SubnetIds: S.optional(SubnetIds),
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-    Tags: S.optional(Tags),
-    WindowsConfiguration: S.optional(CreateFileSystemWindowsConfiguration),
-    LustreConfiguration: S.optional(CreateFileSystemLustreConfiguration),
-    StorageType: S.optional(StorageType),
-    KmsKeyId: S.optional(S.String),
-    FileSystemTypeVersion: S.optional(S.String),
-    OpenZFSConfiguration: S.optional(CreateFileSystemOpenZFSConfiguration),
-    StorageCapacity: S.optional(S.Number),
-    NetworkType: S.optional(NetworkType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateFileSystemFromBackupRequest",
-}) as any as S.Schema<CreateFileSystemFromBackupRequest>;
+export const CreateFileSystemFromBackupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BackupId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      SubnetIds: S.optional(SubnetIds),
+      SecurityGroupIds: S.optional(SecurityGroupIds),
+      Tags: S.optional(Tags),
+      WindowsConfiguration: S.optional(CreateFileSystemWindowsConfiguration),
+      LustreConfiguration: S.optional(CreateFileSystemLustreConfiguration),
+      StorageType: S.optional(StorageType),
+      KmsKeyId: S.optional(S.String),
+      FileSystemTypeVersion: S.optional(S.String),
+      OpenZFSConfiguration: S.optional(CreateFileSystemOpenZFSConfiguration),
+      StorageCapacity: S.optional(S.Number),
+      NetworkType: S.optional(NetworkType),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateFileSystemFromBackupRequest",
+  }) as any as S.Schema<CreateFileSystemFromBackupRequest>;
 export interface CreateFileSystemFromBackupResponse {
   FileSystem?: FileSystem & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
@@ -2874,18 +2963,19 @@ export interface CreateFileSystemFromBackupResponse {
     })[];
   };
 }
-export const CreateFileSystemFromBackupResponse = S.suspend(() =>
-  S.Struct({ FileSystem: S.optional(FileSystem) }),
-).annotate({
-  identifier: "CreateFileSystemFromBackupResponse",
-}) as any as S.Schema<CreateFileSystemFromBackupResponse>;
+export const CreateFileSystemFromBackupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ FileSystem: S.optional(FileSystem) }),
+  ).annotate({
+    identifier: "CreateFileSystemFromBackupResponse",
+  }) as any as S.Schema<CreateFileSystemFromBackupResponse>;
 export interface CreateSnapshotRequest {
   ClientRequestToken?: string;
   Name?: string;
   VolumeId?: string;
   Tags?: Tag[];
 }
-export const CreateSnapshotRequest = S.suspend(() =>
+export const CreateSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Name: S.optional(S.String),
@@ -2950,8 +3040,8 @@ export interface CreateSnapshotResponse {
     })[];
   };
 }
-export const CreateSnapshotResponse = S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }),
+export const CreateSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Snapshot: S.optional(Snapshot) }),
 ).annotate({
   identifier: "CreateSnapshotResponse",
 }) as any as S.Schema<CreateSnapshotResponse>;
@@ -2959,22 +3049,24 @@ export interface CreateSvmActiveDirectoryConfiguration {
   NetBiosName?: string;
   SelfManagedActiveDirectoryConfiguration?: SelfManagedActiveDirectoryConfiguration;
 }
-export const CreateSvmActiveDirectoryConfiguration = S.suspend(() =>
-  S.Struct({
-    NetBiosName: S.optional(S.String),
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryConfiguration,
-    ),
-  }),
-).annotate({
-  identifier: "CreateSvmActiveDirectoryConfiguration",
-}) as any as S.Schema<CreateSvmActiveDirectoryConfiguration>;
+export const CreateSvmActiveDirectoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NetBiosName: S.optional(S.String),
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryConfiguration,
+      ),
+    }),
+  ).annotate({
+    identifier: "CreateSvmActiveDirectoryConfiguration",
+  }) as any as S.Schema<CreateSvmActiveDirectoryConfiguration>;
 export type StorageVirtualMachineRootVolumeSecurityStyle =
   | "UNIX"
   | "NTFS"
   | "MIXED"
   | (string & {});
-export const StorageVirtualMachineRootVolumeSecurityStyle = S.String;
+export const StorageVirtualMachineRootVolumeSecurityStyle =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateStorageVirtualMachineRequest {
   ActiveDirectoryConfiguration?: CreateSvmActiveDirectoryConfiguration;
   ClientRequestToken?: string;
@@ -2984,45 +3076,47 @@ export interface CreateStorageVirtualMachineRequest {
   Tags?: Tag[];
   RootVolumeSecurityStyle?: StorageVirtualMachineRootVolumeSecurityStyle;
 }
-export const CreateStorageVirtualMachineRequest = S.suspend(() =>
-  S.Struct({
-    ActiveDirectoryConfiguration: S.optional(
-      CreateSvmActiveDirectoryConfiguration,
+export const CreateStorageVirtualMachineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ActiveDirectoryConfiguration: S.optional(
+        CreateSvmActiveDirectoryConfiguration,
+      ),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemId: S.optional(S.String),
+      Name: S.optional(S.String),
+      SvmAdminPassword: S.optional(SensitiveString),
+      Tags: S.optional(Tags),
+      RootVolumeSecurityStyle: S.optional(
+        StorageVirtualMachineRootVolumeSecurityStyle,
+      ),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemId: S.optional(S.String),
-    Name: S.optional(S.String),
-    SvmAdminPassword: S.optional(SensitiveString),
-    Tags: S.optional(Tags),
-    RootVolumeSecurityStyle: S.optional(
-      StorageVirtualMachineRootVolumeSecurityStyle,
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateStorageVirtualMachineRequest",
-}) as any as S.Schema<CreateStorageVirtualMachineRequest>;
+  ).annotate({
+    identifier: "CreateStorageVirtualMachineRequest",
+  }) as any as S.Schema<CreateStorageVirtualMachineRequest>;
 export interface SvmActiveDirectoryConfiguration {
   NetBiosName?: string;
   SelfManagedActiveDirectoryConfiguration?: SelfManagedActiveDirectoryAttributes;
 }
-export const SvmActiveDirectoryConfiguration = S.suspend(() =>
-  S.Struct({
-    NetBiosName: S.optional(S.String),
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryAttributes,
-    ),
-  }),
-).annotate({
-  identifier: "SvmActiveDirectoryConfiguration",
-}) as any as S.Schema<SvmActiveDirectoryConfiguration>;
+export const SvmActiveDirectoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NetBiosName: S.optional(S.String),
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryAttributes,
+      ),
+    }),
+  ).annotate({
+    identifier: "SvmActiveDirectoryConfiguration",
+  }) as any as S.Schema<SvmActiveDirectoryConfiguration>;
 export interface SvmEndpoint {
   DNSName?: string;
   IpAddresses?: string[];
   Ipv6Addresses?: string[];
 }
-export const SvmEndpoint = S.suspend(() =>
+export const SvmEndpoint = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     DNSName: S.optional(S.String),
     IpAddresses: S.optional(OntapEndpointIpAddresses),
@@ -3035,7 +3129,7 @@ export interface SvmEndpoints {
   Nfs?: SvmEndpoint;
   Smb?: SvmEndpoint;
 }
-export const SvmEndpoints = S.suspend(() =>
+export const SvmEndpoints = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Iscsi: S.optional(SvmEndpoint),
     Management: S.optional(SvmEndpoint),
@@ -3051,14 +3145,16 @@ export type StorageVirtualMachineLifecycle =
   | "MISCONFIGURED"
   | "PENDING"
   | (string & {});
-export const StorageVirtualMachineLifecycle = S.String;
+export const StorageVirtualMachineLifecycle =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type StorageVirtualMachineSubtype =
   | "DEFAULT"
   | "DP_DESTINATION"
   | "SYNC_DESTINATION"
   | "SYNC_SOURCE"
   | (string & {});
-export const StorageVirtualMachineSubtype = S.String;
+export const StorageVirtualMachineSubtype =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface StorageVirtualMachine {
   ActiveDirectoryConfiguration?: SvmActiveDirectoryConfiguration;
   CreationTime?: Date;
@@ -3074,7 +3170,7 @@ export interface StorageVirtualMachine {
   LifecycleTransitionReason?: LifecycleTransitionReason;
   RootVolumeSecurityStyle?: StorageVirtualMachineRootVolumeSecurityStyle;
 }
-export const StorageVirtualMachine = S.suspend(() =>
+export const StorageVirtualMachine = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ActiveDirectoryConfiguration: S.optional(SvmActiveDirectoryConfiguration),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3100,13 +3196,14 @@ export interface CreateStorageVirtualMachineResponse {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
   };
 }
-export const CreateStorageVirtualMachineResponse = S.suspend(() =>
-  S.Struct({ StorageVirtualMachine: S.optional(StorageVirtualMachine) }),
-).annotate({
-  identifier: "CreateStorageVirtualMachineResponse",
-}) as any as S.Schema<CreateStorageVirtualMachineResponse>;
+export const CreateStorageVirtualMachineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ StorageVirtualMachine: S.optional(StorageVirtualMachine) }),
+  ).annotate({
+    identifier: "CreateStorageVirtualMachineResponse",
+  }) as any as S.Schema<CreateStorageVirtualMachineResponse>;
 export type InputOntapVolumeType = "RW" | "DP" | (string & {});
-export const InputOntapVolumeType = S.String;
+export const InputOntapVolumeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateSnaplockConfiguration {
   AuditLogVolume?: boolean;
   AutocommitPeriod?: AutocommitPeriod;
@@ -3115,30 +3212,32 @@ export interface CreateSnaplockConfiguration {
   SnaplockType?: SnaplockType;
   VolumeAppendModeEnabled?: boolean;
 }
-export const CreateSnaplockConfiguration = S.suspend(() =>
-  S.Struct({
-    AuditLogVolume: S.optional(S.Boolean),
-    AutocommitPeriod: S.optional(AutocommitPeriod),
-    PrivilegedDelete: S.optional(PrivilegedDelete),
-    RetentionPeriod: S.optional(SnaplockRetentionPeriod),
-    SnaplockType: S.optional(SnaplockType),
-    VolumeAppendModeEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CreateSnaplockConfiguration",
-}) as any as S.Schema<CreateSnaplockConfiguration>;
+export const CreateSnaplockConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AuditLogVolume: S.optional(S.Boolean),
+      AutocommitPeriod: S.optional(AutocommitPeriod),
+      PrivilegedDelete: S.optional(PrivilegedDelete),
+      RetentionPeriod: S.optional(SnaplockRetentionPeriod),
+      SnaplockType: S.optional(SnaplockType),
+      VolumeAppendModeEnabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "CreateSnaplockConfiguration",
+  }) as any as S.Schema<CreateSnaplockConfiguration>;
 export interface CreateAggregateConfiguration {
   Aggregates?: string[];
   ConstituentsPerAggregate?: number;
 }
-export const CreateAggregateConfiguration = S.suspend(() =>
-  S.Struct({
-    Aggregates: S.optional(Aggregates),
-    ConstituentsPerAggregate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateAggregateConfiguration",
-}) as any as S.Schema<CreateAggregateConfiguration>;
+export const CreateAggregateConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Aggregates: S.optional(Aggregates),
+      ConstituentsPerAggregate: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "CreateAggregateConfiguration",
+  }) as any as S.Schema<CreateAggregateConfiguration>;
 export interface CreateOntapVolumeConfiguration {
   JunctionPath?: string;
   SecurityStyle?: SecurityStyle;
@@ -3154,37 +3253,39 @@ export interface CreateOntapVolumeConfiguration {
   AggregateConfiguration?: CreateAggregateConfiguration;
   SizeInBytes?: number;
 }
-export const CreateOntapVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    JunctionPath: S.optional(S.String),
-    SecurityStyle: S.optional(SecurityStyle),
-    SizeInMegabytes: S.optional(S.Number),
-    StorageEfficiencyEnabled: S.optional(S.Boolean),
-    StorageVirtualMachineId: S.optional(S.String),
-    TieringPolicy: S.optional(TieringPolicy),
-    OntapVolumeType: S.optional(InputOntapVolumeType),
-    SnapshotPolicy: S.optional(S.String),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    SnaplockConfiguration: S.optional(CreateSnaplockConfiguration),
-    VolumeStyle: S.optional(VolumeStyle),
-    AggregateConfiguration: S.optional(CreateAggregateConfiguration),
-    SizeInBytes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateOntapVolumeConfiguration",
-}) as any as S.Schema<CreateOntapVolumeConfiguration>;
+export const CreateOntapVolumeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      JunctionPath: S.optional(S.String),
+      SecurityStyle: S.optional(SecurityStyle),
+      SizeInMegabytes: S.optional(S.Number),
+      StorageEfficiencyEnabled: S.optional(S.Boolean),
+      StorageVirtualMachineId: S.optional(S.String),
+      TieringPolicy: S.optional(TieringPolicy),
+      OntapVolumeType: S.optional(InputOntapVolumeType),
+      SnapshotPolicy: S.optional(S.String),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      SnaplockConfiguration: S.optional(CreateSnaplockConfiguration),
+      VolumeStyle: S.optional(VolumeStyle),
+      AggregateConfiguration: S.optional(CreateAggregateConfiguration),
+      SizeInBytes: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "CreateOntapVolumeConfiguration",
+  }) as any as S.Schema<CreateOntapVolumeConfiguration>;
 export interface CreateOpenZFSOriginSnapshotConfiguration {
   SnapshotARN?: string;
   CopyStrategy?: OpenZFSCopyStrategy;
 }
-export const CreateOpenZFSOriginSnapshotConfiguration = S.suspend(() =>
-  S.Struct({
-    SnapshotARN: S.optional(S.String),
-    CopyStrategy: S.optional(OpenZFSCopyStrategy),
-  }),
-).annotate({
-  identifier: "CreateOpenZFSOriginSnapshotConfiguration",
-}) as any as S.Schema<CreateOpenZFSOriginSnapshotConfiguration>;
+export const CreateOpenZFSOriginSnapshotConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SnapshotARN: S.optional(S.String),
+      CopyStrategy: S.optional(OpenZFSCopyStrategy),
+    }),
+  ).annotate({
+    identifier: "CreateOpenZFSOriginSnapshotConfiguration",
+  }) as any as S.Schema<CreateOpenZFSOriginSnapshotConfiguration>;
 export interface CreateOpenZFSVolumeConfiguration {
   ParentVolumeId?: string;
   StorageCapacityReservationGiB?: number;
@@ -3197,22 +3298,23 @@ export interface CreateOpenZFSVolumeConfiguration {
   NfsExports?: OpenZFSNfsExport[];
   UserAndGroupQuotas?: OpenZFSUserOrGroupQuota[];
 }
-export const CreateOpenZFSVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    ParentVolumeId: S.optional(S.String),
-    StorageCapacityReservationGiB: S.optional(S.Number),
-    StorageCapacityQuotaGiB: S.optional(S.Number),
-    RecordSizeKiB: S.optional(S.Number),
-    DataCompressionType: S.optional(OpenZFSDataCompressionType),
-    CopyTagsToSnapshots: S.optional(S.Boolean),
-    OriginSnapshot: S.optional(CreateOpenZFSOriginSnapshotConfiguration),
-    ReadOnly: S.optional(S.Boolean),
-    NfsExports: S.optional(OpenZFSNfsExports),
-    UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
-  }),
-).annotate({
-  identifier: "CreateOpenZFSVolumeConfiguration",
-}) as any as S.Schema<CreateOpenZFSVolumeConfiguration>;
+export const CreateOpenZFSVolumeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ParentVolumeId: S.optional(S.String),
+      StorageCapacityReservationGiB: S.optional(S.Number),
+      StorageCapacityQuotaGiB: S.optional(S.Number),
+      RecordSizeKiB: S.optional(S.Number),
+      DataCompressionType: S.optional(OpenZFSDataCompressionType),
+      CopyTagsToSnapshots: S.optional(S.Boolean),
+      OriginSnapshot: S.optional(CreateOpenZFSOriginSnapshotConfiguration),
+      ReadOnly: S.optional(S.Boolean),
+      NfsExports: S.optional(OpenZFSNfsExports),
+      UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
+    }),
+  ).annotate({
+    identifier: "CreateOpenZFSVolumeConfiguration",
+  }) as any as S.Schema<CreateOpenZFSVolumeConfiguration>;
 export interface CreateVolumeRequest {
   ClientRequestToken?: string;
   VolumeType?: VolumeType;
@@ -3221,7 +3323,7 @@ export interface CreateVolumeRequest {
   Tags?: Tag[];
   OpenZFSConfiguration?: CreateOpenZFSVolumeConfiguration;
 }
-export const CreateVolumeRequest = S.suspend(() =>
+export const CreateVolumeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     VolumeType: S.optional(VolumeType),
@@ -3288,7 +3390,7 @@ export interface CreateVolumeResponse {
     };
   };
 }
-export const CreateVolumeResponse = S.suspend(() =>
+export const CreateVolumeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Volume: S.optional(Volume) }),
 ).annotate({
   identifier: "CreateVolumeResponse",
@@ -3300,19 +3402,20 @@ export interface CreateVolumeFromBackupRequest {
   OntapConfiguration?: CreateOntapVolumeConfiguration;
   Tags?: Tag[];
 }
-export const CreateVolumeFromBackupRequest = S.suspend(() =>
-  S.Struct({
-    BackupId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Name: S.optional(S.String),
-    OntapConfiguration: S.optional(CreateOntapVolumeConfiguration),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateVolumeFromBackupRequest",
-}) as any as S.Schema<CreateVolumeFromBackupRequest>;
+export const CreateVolumeFromBackupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      BackupId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Name: S.optional(S.String),
+      OntapConfiguration: S.optional(CreateOntapVolumeConfiguration),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateVolumeFromBackupRequest",
+  }) as any as S.Schema<CreateVolumeFromBackupRequest>;
 export interface CreateVolumeFromBackupResponse {
   Volume?: Volume & {
     OntapConfiguration: OntapVolumeConfiguration & {
@@ -3366,16 +3469,17 @@ export interface CreateVolumeFromBackupResponse {
     };
   };
 }
-export const CreateVolumeFromBackupResponse = S.suspend(() =>
-  S.Struct({ Volume: S.optional(Volume) }),
-).annotate({
-  identifier: "CreateVolumeFromBackupResponse",
-}) as any as S.Schema<CreateVolumeFromBackupResponse>;
+export const CreateVolumeFromBackupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Volume: S.optional(Volume) }),
+  ).annotate({
+    identifier: "CreateVolumeFromBackupResponse",
+  }) as any as S.Schema<CreateVolumeFromBackupResponse>;
 export interface DeleteBackupRequest {
   BackupId?: string;
   ClientRequestToken?: string;
 }
-export const DeleteBackupRequest = S.suspend(() =>
+export const DeleteBackupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BackupId: S.optional(S.String),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -3389,7 +3493,7 @@ export interface DeleteBackupResponse {
   BackupId?: string;
   Lifecycle?: BackupLifecycle;
 }
-export const DeleteBackupResponse = S.suspend(() =>
+export const DeleteBackupResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     BackupId: S.optional(S.String),
     Lifecycle: S.optional(BackupLifecycle),
@@ -3402,42 +3506,45 @@ export interface DeleteDataRepositoryAssociationRequest {
   ClientRequestToken?: string;
   DeleteDataInFileSystem?: boolean;
 }
-export const DeleteDataRepositoryAssociationRequest = S.suspend(() =>
-  S.Struct({
-    AssociationId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    DeleteDataInFileSystem: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteDataRepositoryAssociationRequest",
-}) as any as S.Schema<DeleteDataRepositoryAssociationRequest>;
+export const DeleteDataRepositoryAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AssociationId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      DeleteDataInFileSystem: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteDataRepositoryAssociationRequest",
+  }) as any as S.Schema<DeleteDataRepositoryAssociationRequest>;
 export interface DeleteDataRepositoryAssociationResponse {
   AssociationId?: string;
   Lifecycle?: DataRepositoryLifecycle;
   DeleteDataInFileSystem?: boolean;
 }
-export const DeleteDataRepositoryAssociationResponse = S.suspend(() =>
-  S.Struct({
-    AssociationId: S.optional(S.String),
-    Lifecycle: S.optional(DataRepositoryLifecycle),
-    DeleteDataInFileSystem: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DeleteDataRepositoryAssociationResponse",
-}) as any as S.Schema<DeleteDataRepositoryAssociationResponse>;
+export const DeleteDataRepositoryAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AssociationId: S.optional(S.String),
+      Lifecycle: S.optional(DataRepositoryLifecycle),
+      DeleteDataInFileSystem: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "DeleteDataRepositoryAssociationResponse",
+  }) as any as S.Schema<DeleteDataRepositoryAssociationResponse>;
 export interface DeleteFileCacheRequest {
   FileCacheId?: string;
   ClientRequestToken?: string;
 }
-export const DeleteFileCacheRequest = S.suspend(() =>
-  S.Struct({
-    FileCacheId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteFileCacheRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileCacheId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteFileCacheRequest",
 }) as any as S.Schema<DeleteFileCacheRequest>;
@@ -3445,11 +3552,12 @@ export interface DeleteFileCacheResponse {
   FileCacheId?: string;
   Lifecycle?: FileCacheLifecycle;
 }
-export const DeleteFileCacheResponse = S.suspend(() =>
-  S.Struct({
-    FileCacheId: S.optional(S.String),
-    Lifecycle: S.optional(FileCacheLifecycle),
-  }),
+export const DeleteFileCacheResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileCacheId: S.optional(S.String),
+      Lifecycle: S.optional(FileCacheLifecycle),
+    }),
 ).annotate({
   identifier: "DeleteFileCacheResponse",
 }) as any as S.Schema<DeleteFileCacheResponse>;
@@ -3457,48 +3565,51 @@ export interface DeleteFileSystemWindowsConfiguration {
   SkipFinalBackup?: boolean;
   FinalBackupTags?: Tag[];
 }
-export const DeleteFileSystemWindowsConfiguration = S.suspend(() =>
-  S.Struct({
-    SkipFinalBackup: S.optional(S.Boolean),
-    FinalBackupTags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemWindowsConfiguration",
-}) as any as S.Schema<DeleteFileSystemWindowsConfiguration>;
+export const DeleteFileSystemWindowsConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SkipFinalBackup: S.optional(S.Boolean),
+      FinalBackupTags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemWindowsConfiguration",
+  }) as any as S.Schema<DeleteFileSystemWindowsConfiguration>;
 export interface DeleteFileSystemLustreConfiguration {
   SkipFinalBackup?: boolean;
   FinalBackupTags?: Tag[];
 }
-export const DeleteFileSystemLustreConfiguration = S.suspend(() =>
-  S.Struct({
-    SkipFinalBackup: S.optional(S.Boolean),
-    FinalBackupTags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemLustreConfiguration",
-}) as any as S.Schema<DeleteFileSystemLustreConfiguration>;
+export const DeleteFileSystemLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SkipFinalBackup: S.optional(S.Boolean),
+      FinalBackupTags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemLustreConfiguration",
+  }) as any as S.Schema<DeleteFileSystemLustreConfiguration>;
 export type DeleteFileSystemOpenZFSOption =
   | "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
   | (string & {});
-export const DeleteFileSystemOpenZFSOption = S.String;
+export const DeleteFileSystemOpenZFSOption =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DeleteFileSystemOpenZFSOptions = DeleteFileSystemOpenZFSOption[];
-export const DeleteFileSystemOpenZFSOptions = S.Array(
-  DeleteFileSystemOpenZFSOption,
-);
+export const DeleteFileSystemOpenZFSOptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DeleteFileSystemOpenZFSOption);
 export interface DeleteFileSystemOpenZFSConfiguration {
   SkipFinalBackup?: boolean;
   FinalBackupTags?: Tag[];
   Options?: DeleteFileSystemOpenZFSOption[];
 }
-export const DeleteFileSystemOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({
-    SkipFinalBackup: S.optional(S.Boolean),
-    FinalBackupTags: S.optional(Tags),
-    Options: S.optional(DeleteFileSystemOpenZFSOptions),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemOpenZFSConfiguration",
-}) as any as S.Schema<DeleteFileSystemOpenZFSConfiguration>;
+export const DeleteFileSystemOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SkipFinalBackup: S.optional(S.Boolean),
+      FinalBackupTags: S.optional(Tags),
+      Options: S.optional(DeleteFileSystemOpenZFSOptions),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemOpenZFSConfiguration",
+  }) as any as S.Schema<DeleteFileSystemOpenZFSConfiguration>;
 export interface DeleteFileSystemRequest {
   FileSystemId?: string;
   ClientRequestToken?: string;
@@ -3506,16 +3617,17 @@ export interface DeleteFileSystemRequest {
   LustreConfiguration?: DeleteFileSystemLustreConfiguration;
   OpenZFSConfiguration?: DeleteFileSystemOpenZFSConfiguration;
 }
-export const DeleteFileSystemRequest = S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    WindowsConfiguration: S.optional(DeleteFileSystemWindowsConfiguration),
-    LustreConfiguration: S.optional(DeleteFileSystemLustreConfiguration),
-    OpenZFSConfiguration: S.optional(DeleteFileSystemOpenZFSConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteFileSystemRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileSystemId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      WindowsConfiguration: S.optional(DeleteFileSystemWindowsConfiguration),
+      LustreConfiguration: S.optional(DeleteFileSystemLustreConfiguration),
+      OpenZFSConfiguration: S.optional(DeleteFileSystemOpenZFSConfiguration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteFileSystemRequest",
 }) as any as S.Schema<DeleteFileSystemRequest>;
@@ -3523,38 +3635,41 @@ export interface DeleteFileSystemWindowsResponse {
   FinalBackupId?: string;
   FinalBackupTags?: Tag[];
 }
-export const DeleteFileSystemWindowsResponse = S.suspend(() =>
-  S.Struct({
-    FinalBackupId: S.optional(S.String),
-    FinalBackupTags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemWindowsResponse",
-}) as any as S.Schema<DeleteFileSystemWindowsResponse>;
+export const DeleteFileSystemWindowsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FinalBackupId: S.optional(S.String),
+      FinalBackupTags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemWindowsResponse",
+  }) as any as S.Schema<DeleteFileSystemWindowsResponse>;
 export interface DeleteFileSystemLustreResponse {
   FinalBackupId?: string;
   FinalBackupTags?: Tag[];
 }
-export const DeleteFileSystemLustreResponse = S.suspend(() =>
-  S.Struct({
-    FinalBackupId: S.optional(S.String),
-    FinalBackupTags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemLustreResponse",
-}) as any as S.Schema<DeleteFileSystemLustreResponse>;
+export const DeleteFileSystemLustreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FinalBackupId: S.optional(S.String),
+      FinalBackupTags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemLustreResponse",
+  }) as any as S.Schema<DeleteFileSystemLustreResponse>;
 export interface DeleteFileSystemOpenZFSResponse {
   FinalBackupId?: string;
   FinalBackupTags?: Tag[];
 }
-export const DeleteFileSystemOpenZFSResponse = S.suspend(() =>
-  S.Struct({
-    FinalBackupId: S.optional(S.String),
-    FinalBackupTags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "DeleteFileSystemOpenZFSResponse",
-}) as any as S.Schema<DeleteFileSystemOpenZFSResponse>;
+export const DeleteFileSystemOpenZFSResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FinalBackupId: S.optional(S.String),
+      FinalBackupTags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "DeleteFileSystemOpenZFSResponse",
+  }) as any as S.Schema<DeleteFileSystemOpenZFSResponse>;
 export interface DeleteFileSystemResponse {
   FileSystemId?: string;
   Lifecycle?: FileSystemLifecycle;
@@ -3568,14 +3683,15 @@ export interface DeleteFileSystemResponse {
     FinalBackupTags: (Tag & { Key: TagKey; Value: TagValue })[];
   };
 }
-export const DeleteFileSystemResponse = S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    Lifecycle: S.optional(FileSystemLifecycle),
-    WindowsResponse: S.optional(DeleteFileSystemWindowsResponse),
-    LustreResponse: S.optional(DeleteFileSystemLustreResponse),
-    OpenZFSResponse: S.optional(DeleteFileSystemOpenZFSResponse),
-  }),
+export const DeleteFileSystemResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileSystemId: S.optional(S.String),
+      Lifecycle: S.optional(FileSystemLifecycle),
+      WindowsResponse: S.optional(DeleteFileSystemWindowsResponse),
+      LustreResponse: S.optional(DeleteFileSystemLustreResponse),
+      OpenZFSResponse: S.optional(DeleteFileSystemOpenZFSResponse),
+    }),
 ).annotate({
   identifier: "DeleteFileSystemResponse",
 }) as any as S.Schema<DeleteFileSystemResponse>;
@@ -3583,7 +3699,7 @@ export interface DeleteSnapshotRequest {
   ClientRequestToken?: string;
   SnapshotId?: string;
 }
-export const DeleteSnapshotRequest = S.suspend(() =>
+export const DeleteSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     SnapshotId: S.optional(S.String),
@@ -3597,11 +3713,12 @@ export interface DeleteSnapshotResponse {
   SnapshotId?: string;
   Lifecycle?: SnapshotLifecycle;
 }
-export const DeleteSnapshotResponse = S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.optional(S.String),
-    Lifecycle: S.optional(SnapshotLifecycle),
-  }),
+export const DeleteSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      SnapshotId: S.optional(S.String),
+      Lifecycle: S.optional(SnapshotLifecycle),
+    }),
 ).annotate({
   identifier: "DeleteSnapshotResponse",
 }) as any as S.Schema<DeleteSnapshotResponse>;
@@ -3609,63 +3726,69 @@ export interface DeleteStorageVirtualMachineRequest {
   ClientRequestToken?: string;
   StorageVirtualMachineId?: string;
 }
-export const DeleteStorageVirtualMachineRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    StorageVirtualMachineId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteStorageVirtualMachineRequest",
-}) as any as S.Schema<DeleteStorageVirtualMachineRequest>;
+export const DeleteStorageVirtualMachineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      StorageVirtualMachineId: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteStorageVirtualMachineRequest",
+  }) as any as S.Schema<DeleteStorageVirtualMachineRequest>;
 export interface DeleteStorageVirtualMachineResponse {
   StorageVirtualMachineId?: string;
   Lifecycle?: StorageVirtualMachineLifecycle;
 }
-export const DeleteStorageVirtualMachineResponse = S.suspend(() =>
-  S.Struct({
-    StorageVirtualMachineId: S.optional(S.String),
-    Lifecycle: S.optional(StorageVirtualMachineLifecycle),
-  }),
-).annotate({
-  identifier: "DeleteStorageVirtualMachineResponse",
-}) as any as S.Schema<DeleteStorageVirtualMachineResponse>;
+export const DeleteStorageVirtualMachineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      StorageVirtualMachineId: S.optional(S.String),
+      Lifecycle: S.optional(StorageVirtualMachineLifecycle),
+    }),
+  ).annotate({
+    identifier: "DeleteStorageVirtualMachineResponse",
+  }) as any as S.Schema<DeleteStorageVirtualMachineResponse>;
 export interface DeleteVolumeOntapConfiguration {
   SkipFinalBackup?: boolean;
   FinalBackupTags?: Tag[];
   BypassSnaplockEnterpriseRetention?: boolean;
 }
-export const DeleteVolumeOntapConfiguration = S.suspend(() =>
-  S.Struct({
-    SkipFinalBackup: S.optional(S.Boolean),
-    FinalBackupTags: S.optional(Tags),
-    BypassSnaplockEnterpriseRetention: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DeleteVolumeOntapConfiguration",
-}) as any as S.Schema<DeleteVolumeOntapConfiguration>;
+export const DeleteVolumeOntapConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SkipFinalBackup: S.optional(S.Boolean),
+      FinalBackupTags: S.optional(Tags),
+      BypassSnaplockEnterpriseRetention: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "DeleteVolumeOntapConfiguration",
+  }) as any as S.Schema<DeleteVolumeOntapConfiguration>;
 export type DeleteOpenZFSVolumeOption =
   | "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
   | (string & {});
-export const DeleteOpenZFSVolumeOption = S.String;
+export const DeleteOpenZFSVolumeOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DeleteOpenZFSVolumeOptions = DeleteOpenZFSVolumeOption[];
-export const DeleteOpenZFSVolumeOptions = S.Array(DeleteOpenZFSVolumeOption);
+export const DeleteOpenZFSVolumeOptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DeleteOpenZFSVolumeOption,
+);
 export interface DeleteVolumeOpenZFSConfiguration {
   Options?: DeleteOpenZFSVolumeOption[];
 }
-export const DeleteVolumeOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({ Options: S.optional(DeleteOpenZFSVolumeOptions) }),
-).annotate({
-  identifier: "DeleteVolumeOpenZFSConfiguration",
-}) as any as S.Schema<DeleteVolumeOpenZFSConfiguration>;
+export const DeleteVolumeOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Options: S.optional(DeleteOpenZFSVolumeOptions) }),
+  ).annotate({
+    identifier: "DeleteVolumeOpenZFSConfiguration",
+  }) as any as S.Schema<DeleteVolumeOpenZFSConfiguration>;
 export interface DeleteVolumeRequest {
   ClientRequestToken?: string;
   VolumeId?: string;
   OntapConfiguration?: DeleteVolumeOntapConfiguration;
   OpenZFSConfiguration?: DeleteVolumeOpenZFSConfiguration;
 }
-export const DeleteVolumeRequest = S.suspend(() =>
+export const DeleteVolumeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     VolumeId: S.optional(S.String),
@@ -3681,11 +3804,12 @@ export interface DeleteVolumeOntapResponse {
   FinalBackupId?: string;
   FinalBackupTags?: Tag[];
 }
-export const DeleteVolumeOntapResponse = S.suspend(() =>
-  S.Struct({
-    FinalBackupId: S.optional(S.String),
-    FinalBackupTags: S.optional(Tags),
-  }),
+export const DeleteVolumeOntapResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FinalBackupId: S.optional(S.String),
+      FinalBackupTags: S.optional(Tags),
+    }),
 ).annotate({
   identifier: "DeleteVolumeOntapResponse",
 }) as any as S.Schema<DeleteVolumeOntapResponse>;
@@ -3696,7 +3820,7 @@ export interface DeleteVolumeResponse {
     FinalBackupTags: (Tag & { Key: TagKey; Value: TagValue })[];
   };
 }
-export const DeleteVolumeResponse = S.suspend(() =>
+export const DeleteVolumeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     VolumeId: S.optional(S.String),
     Lifecycle: S.optional(VolumeLifecycle),
@@ -3706,7 +3830,7 @@ export const DeleteVolumeResponse = S.suspend(() =>
   identifier: "DeleteVolumeResponse",
 }) as any as S.Schema<DeleteVolumeResponse>;
 export type BackupIds = string[];
-export const BackupIds = S.Array(S.String);
+export const BackupIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type FilterName =
   | "file-system-id"
   | "backup-type"
@@ -3716,38 +3840,39 @@ export type FilterName =
   | "file-cache-id"
   | "file-cache-type"
   | (string & {});
-export const FilterName = S.String;
+export const FilterName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FilterValues = string[];
-export const FilterValues = S.Array(S.String);
+export const FilterValues = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Filter {
   Name?: FilterName;
   Values?: string[];
 }
-export const Filter = S.suspend(() =>
+export const Filter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(FilterName), Values: S.optional(FilterValues) }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
-export const Filters = S.Array(Filter);
+export const Filters = /*@__PURE__*/ /*#__PURE__*/ S.Array(Filter);
 export interface DescribeBackupsRequest {
   BackupIds?: string[];
   Filters?: Filter[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBackupsRequest = S.suspend(() =>
-  S.Struct({
-    BackupIds: S.optional(BackupIds),
-    Filters: S.optional(Filters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeBackupsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      BackupIds: S.optional(BackupIds),
+      Filters: S.optional(Filters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeBackupsRequest",
 }) as any as S.Schema<DescribeBackupsRequest>;
 export type Backups = Backup[];
-export const Backups = S.Array(Backup);
+export const Backups = /*@__PURE__*/ /*#__PURE__*/ S.Array(Backup);
 export interface DescribeBackupsResponse {
   Backups?: (Backup & {
     BackupId: BackupId;
@@ -3868,8 +3993,9 @@ export interface DescribeBackupsResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeBackupsResponse = S.suspend(() =>
-  S.Struct({ Backups: S.optional(Backups), NextToken: S.optional(S.String) }),
+export const DescribeBackupsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Backups: S.optional(Backups), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeBackupsResponse",
 }) as any as S.Schema<DescribeBackupsResponse>;
@@ -3879,20 +4005,23 @@ export interface DescribeDataRepositoryAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeDataRepositoryAssociationsRequest = S.suspend(() =>
-  S.Struct({
-    AssociationIds: S.optional(DataRepositoryAssociationIds),
-    Filters: S.optional(Filters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeDataRepositoryAssociationsRequest",
-}) as any as S.Schema<DescribeDataRepositoryAssociationsRequest>;
+export const DescribeDataRepositoryAssociationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AssociationIds: S.optional(DataRepositoryAssociationIds),
+      Filters: S.optional(Filters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeDataRepositoryAssociationsRequest",
+  }) as any as S.Schema<DescribeDataRepositoryAssociationsRequest>;
 export type DataRepositoryAssociations = DataRepositoryAssociation[];
-export const DataRepositoryAssociations = S.Array(DataRepositoryAssociation);
+export const DataRepositoryAssociations = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DataRepositoryAssociation,
+);
 export interface DescribeDataRepositoryAssociationsResponse {
   Associations?: (DataRepositoryAssociation & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
@@ -3900,59 +4029,67 @@ export interface DescribeDataRepositoryAssociationsResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeDataRepositoryAssociationsResponse = S.suspend(() =>
-  S.Struct({
-    Associations: S.optional(DataRepositoryAssociations),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeDataRepositoryAssociationsResponse",
-}) as any as S.Schema<DescribeDataRepositoryAssociationsResponse>;
+export const DescribeDataRepositoryAssociationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Associations: S.optional(DataRepositoryAssociations),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeDataRepositoryAssociationsResponse",
+  }) as any as S.Schema<DescribeDataRepositoryAssociationsResponse>;
 export type TaskIds = string[];
-export const TaskIds = S.Array(S.String);
+export const TaskIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type DataRepositoryTaskFilterName =
   | "file-system-id"
   | "task-lifecycle"
   | "data-repository-association-id"
   | "file-cache-id"
   | (string & {});
-export const DataRepositoryTaskFilterName = S.String;
+export const DataRepositoryTaskFilterName =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type DataRepositoryTaskFilterValues = string[];
-export const DataRepositoryTaskFilterValues = S.Array(S.String);
+export const DataRepositoryTaskFilterValues =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DataRepositoryTaskFilter {
   Name?: DataRepositoryTaskFilterName;
   Values?: string[];
 }
-export const DataRepositoryTaskFilter = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(DataRepositoryTaskFilterName),
-    Values: S.optional(DataRepositoryTaskFilterValues),
-  }),
+export const DataRepositoryTaskFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.optional(DataRepositoryTaskFilterName),
+      Values: S.optional(DataRepositoryTaskFilterValues),
+    }),
 ).annotate({
   identifier: "DataRepositoryTaskFilter",
 }) as any as S.Schema<DataRepositoryTaskFilter>;
 export type DataRepositoryTaskFilters = DataRepositoryTaskFilter[];
-export const DataRepositoryTaskFilters = S.Array(DataRepositoryTaskFilter);
+export const DataRepositoryTaskFilters = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DataRepositoryTaskFilter,
+);
 export interface DescribeDataRepositoryTasksRequest {
   TaskIds?: string[];
   Filters?: DataRepositoryTaskFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeDataRepositoryTasksRequest = S.suspend(() =>
-  S.Struct({
-    TaskIds: S.optional(TaskIds),
-    Filters: S.optional(DataRepositoryTaskFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeDataRepositoryTasksRequest",
-}) as any as S.Schema<DescribeDataRepositoryTasksRequest>;
+export const DescribeDataRepositoryTasksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      TaskIds: S.optional(TaskIds),
+      Filters: S.optional(DataRepositoryTaskFilters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeDataRepositoryTasksRequest",
+  }) as any as S.Schema<DescribeDataRepositoryTasksRequest>;
 export type DataRepositoryTasks = DataRepositoryTask[];
-export const DataRepositoryTasks = S.Array(DataRepositoryTask);
+export const DataRepositoryTasks =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataRepositoryTask);
 export interface DescribeDataRepositoryTasksResponse {
   DataRepositoryTasks?: (DataRepositoryTask & {
     TaskId: TaskId;
@@ -3964,29 +4101,31 @@ export interface DescribeDataRepositoryTasksResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeDataRepositoryTasksResponse = S.suspend(() =>
-  S.Struct({
-    DataRepositoryTasks: S.optional(DataRepositoryTasks),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeDataRepositoryTasksResponse",
-}) as any as S.Schema<DescribeDataRepositoryTasksResponse>;
+export const DescribeDataRepositoryTasksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DataRepositoryTasks: S.optional(DataRepositoryTasks),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeDataRepositoryTasksResponse",
+  }) as any as S.Schema<DescribeDataRepositoryTasksResponse>;
 export type FileCacheIds = string[];
-export const FileCacheIds = S.Array(S.String);
+export const FileCacheIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeFileCachesRequest {
   FileCacheIds?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeFileCachesRequest = S.suspend(() =>
-  S.Struct({
-    FileCacheIds: S.optional(FileCacheIds),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeFileCachesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileCacheIds: S.optional(FileCacheIds),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeFileCachesRequest",
 }) as any as S.Schema<DescribeFileCachesRequest>;
@@ -4008,7 +4147,7 @@ export interface FileCache {
   LustreConfiguration?: FileCacheLustreConfiguration;
   DataRepositoryAssociationIds?: string[];
 }
-export const FileCache = S.suspend(() =>
+export const FileCache = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     OwnerId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4029,7 +4168,7 @@ export const FileCache = S.suspend(() =>
   }),
 ).annotate({ identifier: "FileCache" }) as any as S.Schema<FileCache>;
 export type FileCaches = FileCache[];
-export const FileCaches = S.Array(FileCache);
+export const FileCaches = /*@__PURE__*/ /*#__PURE__*/ S.Array(FileCache);
 export interface DescribeFileCachesResponse {
   FileCaches?: (FileCache & {
     LustreConfiguration: FileCacheLustreConfiguration & {
@@ -4043,11 +4182,12 @@ export interface DescribeFileCachesResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeFileCachesResponse = S.suspend(() =>
-  S.Struct({
-    FileCaches: S.optional(FileCaches),
-    NextToken: S.optional(S.String),
-  }),
+export const DescribeFileCachesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileCaches: S.optional(FileCaches),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DescribeFileCachesResponse",
 }) as any as S.Schema<DescribeFileCachesResponse>;
@@ -4057,47 +4197,50 @@ export interface DescribeFileSystemAliasesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeFileSystemAliasesRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFileSystemAliasesRequest",
-}) as any as S.Schema<DescribeFileSystemAliasesRequest>;
+export const DescribeFileSystemAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemId: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeFileSystemAliasesRequest",
+  }) as any as S.Schema<DescribeFileSystemAliasesRequest>;
 export interface DescribeFileSystemAliasesResponse {
   Aliases?: Alias[];
   NextToken?: string;
 }
-export const DescribeFileSystemAliasesResponse = S.suspend(() =>
-  S.Struct({ Aliases: S.optional(Aliases), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "DescribeFileSystemAliasesResponse",
-}) as any as S.Schema<DescribeFileSystemAliasesResponse>;
+export const DescribeFileSystemAliasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Aliases: S.optional(Aliases), NextToken: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DescribeFileSystemAliasesResponse",
+  }) as any as S.Schema<DescribeFileSystemAliasesResponse>;
 export type FileSystemIds = string[];
-export const FileSystemIds = S.Array(S.String);
+export const FileSystemIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeFileSystemsRequest {
   FileSystemIds?: string[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeFileSystemsRequest = S.suspend(() =>
-  S.Struct({
-    FileSystemIds: S.optional(FileSystemIds),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeFileSystemsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileSystemIds: S.optional(FileSystemIds),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeFileSystemsRequest",
 }) as any as S.Schema<DescribeFileSystemsRequest>;
 export type FileSystems = FileSystem[];
-export const FileSystems = S.Array(
+export const FileSystems = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   S.suspend((): S.Schema<FileSystem> => FileSystem).annotate({
     identifier: "FileSystem",
   }),
@@ -4156,60 +4299,68 @@ export interface DescribeFileSystemsResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeFileSystemsResponse = S.suspend(() =>
-  S.Struct({
-    FileSystems: S.optional(FileSystems),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeFileSystemsResponse",
-}) as any as S.Schema<DescribeFileSystemsResponse>;
+export const DescribeFileSystemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileSystems: S.optional(FileSystems),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeFileSystemsResponse",
+  }) as any as S.Schema<DescribeFileSystemsResponse>;
 export type S3AccessPointAttachmentNames = string[];
-export const S3AccessPointAttachmentNames = S.Array(S.String);
+export const S3AccessPointAttachmentNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type S3AccessPointAttachmentsFilterName =
   | "file-system-id"
   | "volume-id"
   | "type"
   | (string & {});
-export const S3AccessPointAttachmentsFilterName = S.String;
+export const S3AccessPointAttachmentsFilterName =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type S3AccessPointAttachmentsFilterValues = string[];
-export const S3AccessPointAttachmentsFilterValues = S.Array(S.String);
+export const S3AccessPointAttachmentsFilterValues =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface S3AccessPointAttachmentsFilter {
   Name?: S3AccessPointAttachmentsFilterName;
   Values?: string[];
 }
-export const S3AccessPointAttachmentsFilter = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S3AccessPointAttachmentsFilterName),
-    Values: S.optional(S3AccessPointAttachmentsFilterValues),
-  }),
-).annotate({
-  identifier: "S3AccessPointAttachmentsFilter",
-}) as any as S.Schema<S3AccessPointAttachmentsFilter>;
+export const S3AccessPointAttachmentsFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.optional(S3AccessPointAttachmentsFilterName),
+      Values: S.optional(S3AccessPointAttachmentsFilterValues),
+    }),
+  ).annotate({
+    identifier: "S3AccessPointAttachmentsFilter",
+  }) as any as S.Schema<S3AccessPointAttachmentsFilter>;
 export type S3AccessPointAttachmentsFilters = S3AccessPointAttachmentsFilter[];
-export const S3AccessPointAttachmentsFilters = S.Array(
-  S3AccessPointAttachmentsFilter,
-);
+export const S3AccessPointAttachmentsFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S3AccessPointAttachmentsFilter);
 export interface DescribeS3AccessPointAttachmentsRequest {
   Names?: string[];
   Filters?: S3AccessPointAttachmentsFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeS3AccessPointAttachmentsRequest = S.suspend(() =>
-  S.Struct({
-    Names: S.optional(S3AccessPointAttachmentNames),
-    Filters: S.optional(S3AccessPointAttachmentsFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeS3AccessPointAttachmentsRequest",
-}) as any as S.Schema<DescribeS3AccessPointAttachmentsRequest>;
+export const DescribeS3AccessPointAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Names: S.optional(S3AccessPointAttachmentNames),
+      Filters: S.optional(S3AccessPointAttachmentsFilters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeS3AccessPointAttachmentsRequest",
+  }) as any as S.Schema<DescribeS3AccessPointAttachmentsRequest>;
 export type S3AccessPointAttachments = S3AccessPointAttachment[];
-export const S3AccessPointAttachments = S.Array(S3AccessPointAttachment);
+export const S3AccessPointAttachments = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S3AccessPointAttachment,
+);
 export interface DescribeS3AccessPointAttachmentsResponse {
   S3AccessPointAttachments?: (S3AccessPointAttachment & {
     OpenZFSConfiguration: S3AccessPointOpenZFSConfiguration & {
@@ -4233,50 +4384,56 @@ export interface DescribeS3AccessPointAttachmentsResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeS3AccessPointAttachmentsResponse = S.suspend(() =>
-  S.Struct({
-    S3AccessPointAttachments: S.optional(S3AccessPointAttachments),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeS3AccessPointAttachmentsResponse",
-}) as any as S.Schema<DescribeS3AccessPointAttachmentsResponse>;
+export const DescribeS3AccessPointAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      S3AccessPointAttachments: S.optional(S3AccessPointAttachments),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeS3AccessPointAttachmentsResponse",
+  }) as any as S.Schema<DescribeS3AccessPointAttachmentsResponse>;
 export interface DescribeSharedVpcConfigurationRequest {}
-export const DescribeSharedVpcConfigurationRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeSharedVpcConfigurationRequest",
-}) as any as S.Schema<DescribeSharedVpcConfigurationRequest>;
+export const DescribeSharedVpcConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeSharedVpcConfigurationRequest",
+  }) as any as S.Schema<DescribeSharedVpcConfigurationRequest>;
 export interface DescribeSharedVpcConfigurationResponse {
   EnableFsxRouteTableUpdatesFromParticipantAccounts?: string;
 }
-export const DescribeSharedVpcConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSharedVpcConfigurationResponse",
-}) as any as S.Schema<DescribeSharedVpcConfigurationResponse>;
+export const DescribeSharedVpcConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeSharedVpcConfigurationResponse",
+  }) as any as S.Schema<DescribeSharedVpcConfigurationResponse>;
 export type SnapshotIds = string[];
-export const SnapshotIds = S.Array(S.String);
+export const SnapshotIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type SnapshotFilterName = "file-system-id" | "volume-id" | (string & {});
-export const SnapshotFilterName = S.String;
+export const SnapshotFilterName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type SnapshotFilterValues = string[];
-export const SnapshotFilterValues = S.Array(S.String);
+export const SnapshotFilterValues = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface SnapshotFilter {
   Name?: SnapshotFilterName;
   Values?: string[];
 }
-export const SnapshotFilter = S.suspend(() =>
+export const SnapshotFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(SnapshotFilterName),
     Values: S.optional(SnapshotFilterValues),
   }),
 ).annotate({ identifier: "SnapshotFilter" }) as any as S.Schema<SnapshotFilter>;
 export type SnapshotFilters = SnapshotFilter[];
-export const SnapshotFilters = S.Array(SnapshotFilter);
+export const SnapshotFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SnapshotFilter);
 export interface DescribeSnapshotsRequest {
   SnapshotIds?: string[];
   Filters?: SnapshotFilter[];
@@ -4284,21 +4441,22 @@ export interface DescribeSnapshotsRequest {
   NextToken?: string;
   IncludeShared?: boolean;
 }
-export const DescribeSnapshotsRequest = S.suspend(() =>
-  S.Struct({
-    SnapshotIds: S.optional(SnapshotIds),
-    Filters: S.optional(SnapshotFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    IncludeShared: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeSnapshotsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      SnapshotIds: S.optional(SnapshotIds),
+      Filters: S.optional(SnapshotFilters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      IncludeShared: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeSnapshotsRequest",
 }) as any as S.Schema<DescribeSnapshotsRequest>;
 export type Snapshots = Snapshot[];
-export const Snapshots = S.Array(
+export const Snapshots = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   S.suspend((): S.Schema<Snapshot> => Snapshot).annotate({
     identifier: "Snapshot",
   }),
@@ -4357,34 +4515,40 @@ export interface DescribeSnapshotsResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeSnapshotsResponse = S.suspend(() =>
-  S.Struct({
-    Snapshots: S.optional(Snapshots),
-    NextToken: S.optional(S.String),
-  }),
+export const DescribeSnapshotsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Snapshots: S.optional(Snapshots),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DescribeSnapshotsResponse",
 }) as any as S.Schema<DescribeSnapshotsResponse>;
 export type StorageVirtualMachineIds = string[];
-export const StorageVirtualMachineIds = S.Array(S.String);
+export const StorageVirtualMachineIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type StorageVirtualMachineFilterName = "file-system-id" | (string & {});
-export const StorageVirtualMachineFilterName = S.String;
+export const StorageVirtualMachineFilterName =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type StorageVirtualMachineFilterValues = string[];
-export const StorageVirtualMachineFilterValues = S.Array(S.String);
+export const StorageVirtualMachineFilterValues =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface StorageVirtualMachineFilter {
   Name?: StorageVirtualMachineFilterName;
   Values?: string[];
 }
-export const StorageVirtualMachineFilter = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(StorageVirtualMachineFilterName),
-    Values: S.optional(StorageVirtualMachineFilterValues),
-  }),
-).annotate({
-  identifier: "StorageVirtualMachineFilter",
-}) as any as S.Schema<StorageVirtualMachineFilter>;
+export const StorageVirtualMachineFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.optional(StorageVirtualMachineFilterName),
+      Values: S.optional(StorageVirtualMachineFilterValues),
+    }),
+  ).annotate({
+    identifier: "StorageVirtualMachineFilter",
+  }) as any as S.Schema<StorageVirtualMachineFilter>;
 export type StorageVirtualMachineFilters = StorageVirtualMachineFilter[];
-export const StorageVirtualMachineFilters = S.Array(
+export const StorageVirtualMachineFilters = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   StorageVirtualMachineFilter,
 );
 export interface DescribeStorageVirtualMachinesRequest {
@@ -4393,75 +4557,80 @@ export interface DescribeStorageVirtualMachinesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeStorageVirtualMachinesRequest = S.suspend(() =>
-  S.Struct({
-    StorageVirtualMachineIds: S.optional(StorageVirtualMachineIds),
-    Filters: S.optional(StorageVirtualMachineFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeStorageVirtualMachinesRequest",
-}) as any as S.Schema<DescribeStorageVirtualMachinesRequest>;
+export const DescribeStorageVirtualMachinesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      StorageVirtualMachineIds: S.optional(StorageVirtualMachineIds),
+      Filters: S.optional(StorageVirtualMachineFilters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeStorageVirtualMachinesRequest",
+  }) as any as S.Schema<DescribeStorageVirtualMachinesRequest>;
 export type StorageVirtualMachines = StorageVirtualMachine[];
-export const StorageVirtualMachines = S.Array(StorageVirtualMachine);
+export const StorageVirtualMachines = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  StorageVirtualMachine,
+);
 export interface DescribeStorageVirtualMachinesResponse {
   StorageVirtualMachines?: (StorageVirtualMachine & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
   })[];
   NextToken?: string;
 }
-export const DescribeStorageVirtualMachinesResponse = S.suspend(() =>
-  S.Struct({
-    StorageVirtualMachines: S.optional(StorageVirtualMachines),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeStorageVirtualMachinesResponse",
-}) as any as S.Schema<DescribeStorageVirtualMachinesResponse>;
+export const DescribeStorageVirtualMachinesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      StorageVirtualMachines: S.optional(StorageVirtualMachines),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeStorageVirtualMachinesResponse",
+  }) as any as S.Schema<DescribeStorageVirtualMachinesResponse>;
 export type VolumeIds = string[];
-export const VolumeIds = S.Array(S.String);
+export const VolumeIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type VolumeFilterName =
   | "file-system-id"
   | "storage-virtual-machine-id"
   | (string & {});
-export const VolumeFilterName = S.String;
+export const VolumeFilterName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type VolumeFilterValues = string[];
-export const VolumeFilterValues = S.Array(S.String);
+export const VolumeFilterValues = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface VolumeFilter {
   Name?: VolumeFilterName;
   Values?: string[];
 }
-export const VolumeFilter = S.suspend(() =>
+export const VolumeFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(VolumeFilterName),
     Values: S.optional(VolumeFilterValues),
   }),
 ).annotate({ identifier: "VolumeFilter" }) as any as S.Schema<VolumeFilter>;
 export type VolumeFilters = VolumeFilter[];
-export const VolumeFilters = S.Array(VolumeFilter);
+export const VolumeFilters = /*@__PURE__*/ /*#__PURE__*/ S.Array(VolumeFilter);
 export interface DescribeVolumesRequest {
   VolumeIds?: string[];
   Filters?: VolumeFilter[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeVolumesRequest = S.suspend(() =>
-  S.Struct({
-    VolumeIds: S.optional(VolumeIds),
-    Filters: S.optional(VolumeFilters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeVolumesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      VolumeIds: S.optional(VolumeIds),
+      Filters: S.optional(VolumeFilters),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeVolumesRequest",
 }) as any as S.Schema<DescribeVolumesRequest>;
 export type Volumes = Volume[];
-export const Volumes = S.Array(
+export const Volumes = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   S.suspend((): S.Schema<Volume> => Volume).annotate({ identifier: "Volume" }),
 );
 export interface DescribeVolumesResponse {
@@ -4518,8 +4687,9 @@ export interface DescribeVolumesResponse {
   })[];
   NextToken?: string;
 }
-export const DescribeVolumesResponse = S.suspend(() =>
-  S.Struct({ Volumes: S.optional(Volumes), NextToken: S.optional(S.String) }),
+export const DescribeVolumesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Volumes: S.optional(Volumes), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeVolumesResponse",
 }) as any as S.Schema<DescribeVolumesResponse>;
@@ -4527,65 +4697,70 @@ export interface DetachAndDeleteS3AccessPointRequest {
   ClientRequestToken?: string;
   Name?: string;
 }
-export const DetachAndDeleteS3AccessPointRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Name: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DetachAndDeleteS3AccessPointRequest",
-}) as any as S.Schema<DetachAndDeleteS3AccessPointRequest>;
+export const DetachAndDeleteS3AccessPointRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      Name: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DetachAndDeleteS3AccessPointRequest",
+  }) as any as S.Schema<DetachAndDeleteS3AccessPointRequest>;
 export interface DetachAndDeleteS3AccessPointResponse {
   Lifecycle?: S3AccessPointAttachmentLifecycle;
   Name?: string;
 }
-export const DetachAndDeleteS3AccessPointResponse = S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(S3AccessPointAttachmentLifecycle),
-    Name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DetachAndDeleteS3AccessPointResponse",
-}) as any as S.Schema<DetachAndDeleteS3AccessPointResponse>;
+export const DetachAndDeleteS3AccessPointResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Lifecycle: S.optional(S3AccessPointAttachmentLifecycle),
+      Name: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DetachAndDeleteS3AccessPointResponse",
+  }) as any as S.Schema<DetachAndDeleteS3AccessPointResponse>;
 export interface DisassociateFileSystemAliasesRequest {
   ClientRequestToken?: string;
   FileSystemId?: string;
   Aliases?: string[];
 }
-export const DisassociateFileSystemAliasesRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemId: S.optional(S.String),
-    Aliases: S.optional(AlternateDNSNames),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateFileSystemAliasesRequest",
-}) as any as S.Schema<DisassociateFileSystemAliasesRequest>;
+export const DisassociateFileSystemAliasesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemId: S.optional(S.String),
+      Aliases: S.optional(AlternateDNSNames),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DisassociateFileSystemAliasesRequest",
+  }) as any as S.Schema<DisassociateFileSystemAliasesRequest>;
 export interface DisassociateFileSystemAliasesResponse {
   Aliases?: Alias[];
 }
-export const DisassociateFileSystemAliasesResponse = S.suspend(() =>
-  S.Struct({ Aliases: S.optional(Aliases) }),
-).annotate({
-  identifier: "DisassociateFileSystemAliasesResponse",
-}) as any as S.Schema<DisassociateFileSystemAliasesResponse>;
+export const DisassociateFileSystemAliasesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Aliases: S.optional(Aliases) }),
+  ).annotate({
+    identifier: "DisassociateFileSystemAliasesResponse",
+  }) as any as S.Schema<DisassociateFileSystemAliasesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ResourceARN: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -4593,25 +4768,27 @@ export interface ListTagsForResourceResponse {
   Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
   NextToken?: string;
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(Tags), NextToken: S.optional(S.String) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ReleaseFileSystemNfsV3LocksRequest {
   FileSystemId?: string;
   ClientRequestToken?: string;
 }
-export const ReleaseFileSystemNfsV3LocksRequest = S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ReleaseFileSystemNfsV3LocksRequest",
-}) as any as S.Schema<ReleaseFileSystemNfsV3LocksRequest>;
+export const ReleaseFileSystemNfsV3LocksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FileSystemId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ReleaseFileSystemNfsV3LocksRequest",
+  }) as any as S.Schema<ReleaseFileSystemNfsV3LocksRequest>;
 export interface ReleaseFileSystemNfsV3LocksResponse {
   FileSystem?: FileSystem & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
@@ -4665,36 +4842,40 @@ export interface ReleaseFileSystemNfsV3LocksResponse {
     })[];
   };
 }
-export const ReleaseFileSystemNfsV3LocksResponse = S.suspend(() =>
-  S.Struct({ FileSystem: S.optional(FileSystem) }),
-).annotate({
-  identifier: "ReleaseFileSystemNfsV3LocksResponse",
-}) as any as S.Schema<ReleaseFileSystemNfsV3LocksResponse>;
+export const ReleaseFileSystemNfsV3LocksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ FileSystem: S.optional(FileSystem) }),
+  ).annotate({
+    identifier: "ReleaseFileSystemNfsV3LocksResponse",
+  }) as any as S.Schema<ReleaseFileSystemNfsV3LocksResponse>;
 export type RestoreOpenZFSVolumeOption =
   | "DELETE_INTERMEDIATE_SNAPSHOTS"
   | "DELETE_CLONED_VOLUMES"
   | (string & {});
-export const RestoreOpenZFSVolumeOption = S.String;
+export const RestoreOpenZFSVolumeOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type RestoreOpenZFSVolumeOptions = RestoreOpenZFSVolumeOption[];
-export const RestoreOpenZFSVolumeOptions = S.Array(RestoreOpenZFSVolumeOption);
+export const RestoreOpenZFSVolumeOptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  RestoreOpenZFSVolumeOption,
+);
 export interface RestoreVolumeFromSnapshotRequest {
   ClientRequestToken?: string;
   VolumeId?: string;
   SnapshotId?: string;
   Options?: RestoreOpenZFSVolumeOption[];
 }
-export const RestoreVolumeFromSnapshotRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    VolumeId: S.optional(S.String),
-    SnapshotId: S.optional(S.String),
-    Options: S.optional(RestoreOpenZFSVolumeOptions),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RestoreVolumeFromSnapshotRequest",
-}) as any as S.Schema<RestoreVolumeFromSnapshotRequest>;
+export const RestoreVolumeFromSnapshotRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      VolumeId: S.optional(S.String),
+      SnapshotId: S.optional(S.String),
+      Options: S.optional(RestoreOpenZFSVolumeOptions),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "RestoreVolumeFromSnapshotRequest",
+  }) as any as S.Schema<RestoreVolumeFromSnapshotRequest>;
 export interface RestoreVolumeFromSnapshotResponse {
   VolumeId?: string;
   Lifecycle?: VolumeLifecycle;
@@ -4750,29 +4931,31 @@ export interface RestoreVolumeFromSnapshotResponse {
     };
   })[];
 }
-export const RestoreVolumeFromSnapshotResponse = S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    Lifecycle: S.optional(VolumeLifecycle),
-    AdministrativeActions: S.optional(AdministrativeActions),
-  }),
-).annotate({
-  identifier: "RestoreVolumeFromSnapshotResponse",
-}) as any as S.Schema<RestoreVolumeFromSnapshotResponse>;
+export const RestoreVolumeFromSnapshotResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      VolumeId: S.optional(S.String),
+      Lifecycle: S.optional(VolumeLifecycle),
+      AdministrativeActions: S.optional(AdministrativeActions),
+    }),
+  ).annotate({
+    identifier: "RestoreVolumeFromSnapshotResponse",
+  }) as any as S.Schema<RestoreVolumeFromSnapshotResponse>;
 export interface StartMisconfiguredStateRecoveryRequest {
   ClientRequestToken?: string;
   FileSystemId?: string;
 }
-export const StartMisconfiguredStateRecoveryRequest = S.suspend(() =>
-  S.Struct({
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    FileSystemId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartMisconfiguredStateRecoveryRequest",
-}) as any as S.Schema<StartMisconfiguredStateRecoveryRequest>;
+export const StartMisconfiguredStateRecoveryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      FileSystemId: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "StartMisconfiguredStateRecoveryRequest",
+  }) as any as S.Schema<StartMisconfiguredStateRecoveryRequest>;
 export interface StartMisconfiguredStateRecoveryResponse {
   FileSystem?: FileSystem & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
@@ -4826,16 +5009,17 @@ export interface StartMisconfiguredStateRecoveryResponse {
     })[];
   };
 }
-export const StartMisconfiguredStateRecoveryResponse = S.suspend(() =>
-  S.Struct({ FileSystem: S.optional(FileSystem) }),
-).annotate({
-  identifier: "StartMisconfiguredStateRecoveryResponse",
-}) as any as S.Schema<StartMisconfiguredStateRecoveryResponse>;
+export const StartMisconfiguredStateRecoveryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ FileSystem: S.optional(FileSystem) }),
+  ).annotate({
+    identifier: "StartMisconfiguredStateRecoveryResponse",
+  }) as any as S.Schema<StartMisconfiguredStateRecoveryResponse>;
 export interface TagResourceRequest {
   ResourceARN?: string;
   Tags?: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(Tags) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -4843,16 +5027,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
+export const TagKeys = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN?: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.optional(S.String),
     TagKeys: S.optional(TagKeys),
@@ -4863,7 +5049,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDataRepositoryAssociationRequest {
@@ -4872,50 +5060,54 @@ export interface UpdateDataRepositoryAssociationRequest {
   ImportedFileChunkSize?: number;
   S3?: S3DataRepositoryConfiguration;
 }
-export const UpdateDataRepositoryAssociationRequest = S.suspend(() =>
-  S.Struct({
-    AssociationId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ImportedFileChunkSize: S.optional(S.Number),
-    S3: S.optional(S3DataRepositoryConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateDataRepositoryAssociationRequest",
-}) as any as S.Schema<UpdateDataRepositoryAssociationRequest>;
+export const UpdateDataRepositoryAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AssociationId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      ImportedFileChunkSize: S.optional(S.Number),
+      S3: S.optional(S3DataRepositoryConfiguration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateDataRepositoryAssociationRequest",
+  }) as any as S.Schema<UpdateDataRepositoryAssociationRequest>;
 export interface UpdateDataRepositoryAssociationResponse {
   Association?: DataRepositoryAssociation & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
     NFS: NFSDataRepositoryConfiguration & { Version: NfsVersion };
   };
 }
-export const UpdateDataRepositoryAssociationResponse = S.suspend(() =>
-  S.Struct({ Association: S.optional(DataRepositoryAssociation) }),
-).annotate({
-  identifier: "UpdateDataRepositoryAssociationResponse",
-}) as any as S.Schema<UpdateDataRepositoryAssociationResponse>;
+export const UpdateDataRepositoryAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Association: S.optional(DataRepositoryAssociation) }),
+  ).annotate({
+    identifier: "UpdateDataRepositoryAssociationResponse",
+  }) as any as S.Schema<UpdateDataRepositoryAssociationResponse>;
 export interface UpdateFileCacheLustreConfiguration {
   WeeklyMaintenanceStartTime?: string;
 }
-export const UpdateFileCacheLustreConfiguration = S.suspend(() =>
-  S.Struct({ WeeklyMaintenanceStartTime: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateFileCacheLustreConfiguration",
-}) as any as S.Schema<UpdateFileCacheLustreConfiguration>;
+export const UpdateFileCacheLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ WeeklyMaintenanceStartTime: S.optional(S.String) }),
+  ).annotate({
+    identifier: "UpdateFileCacheLustreConfiguration",
+  }) as any as S.Schema<UpdateFileCacheLustreConfiguration>;
 export interface UpdateFileCacheRequest {
   FileCacheId?: string;
   ClientRequestToken?: string;
   LustreConfiguration?: UpdateFileCacheLustreConfiguration;
 }
-export const UpdateFileCacheRequest = S.suspend(() =>
-  S.Struct({
-    FileCacheId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    LustreConfiguration: S.optional(UpdateFileCacheLustreConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const UpdateFileCacheRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileCacheId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      LustreConfiguration: S.optional(UpdateFileCacheLustreConfiguration),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "UpdateFileCacheRequest",
 }) as any as S.Schema<UpdateFileCacheRequest>;
@@ -4931,8 +5123,8 @@ export interface UpdateFileCacheResponse {
     };
   };
 }
-export const UpdateFileCacheResponse = S.suspend(() =>
-  S.Struct({ FileCache: S.optional(FileCache) }),
+export const UpdateFileCacheResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ FileCache: S.optional(FileCache) }),
 ).annotate({
   identifier: "UpdateFileCacheResponse",
 }) as any as S.Schema<UpdateFileCacheResponse>;
@@ -4945,19 +5137,20 @@ export interface SelfManagedActiveDirectoryConfigurationUpdates {
   FileSystemAdministratorsGroup?: string;
   DomainJoinServiceAccountSecret?: string;
 }
-export const SelfManagedActiveDirectoryConfigurationUpdates = S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    DnsIps: S.optional(DnsIps),
-    DomainName: S.optional(S.String),
-    OrganizationalUnitDistinguishedName: S.optional(S.String),
-    FileSystemAdministratorsGroup: S.optional(S.String),
-    DomainJoinServiceAccountSecret: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SelfManagedActiveDirectoryConfigurationUpdates",
-}) as any as S.Schema<SelfManagedActiveDirectoryConfigurationUpdates>;
+export const SelfManagedActiveDirectoryConfigurationUpdates =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UserName: S.optional(S.String),
+      Password: S.optional(SensitiveString),
+      DnsIps: S.optional(DnsIps),
+      DomainName: S.optional(S.String),
+      OrganizationalUnitDistinguishedName: S.optional(S.String),
+      FileSystemAdministratorsGroup: S.optional(S.String),
+      DomainJoinServiceAccountSecret: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "SelfManagedActiveDirectoryConfigurationUpdates",
+  }) as any as S.Schema<SelfManagedActiveDirectoryConfigurationUpdates>;
 export interface UpdateFileSystemWindowsConfiguration {
   WeeklyMaintenanceStartTime?: string;
   DailyAutomaticBackupStartTime?: string;
@@ -4968,34 +5161,36 @@ export interface UpdateFileSystemWindowsConfiguration {
   DiskIopsConfiguration?: DiskIopsConfiguration;
   FsrmConfiguration?: WindowsFsrmConfiguration;
 }
-export const UpdateFileSystemWindowsConfiguration = S.suspend(() =>
-  S.Struct({
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    ThroughputCapacity: S.optional(S.Number),
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryConfigurationUpdates,
-    ),
-    AuditLogConfiguration: S.optional(WindowsAuditLogCreateConfiguration),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateFileSystemWindowsConfiguration",
-}) as any as S.Schema<UpdateFileSystemWindowsConfiguration>;
+export const UpdateFileSystemWindowsConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      ThroughputCapacity: S.optional(S.Number),
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryConfigurationUpdates,
+      ),
+      AuditLogConfiguration: S.optional(WindowsAuditLogCreateConfiguration),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      FsrmConfiguration: S.optional(WindowsFsrmConfiguration),
+    }),
+  ).annotate({
+    identifier: "UpdateFileSystemWindowsConfiguration",
+  }) as any as S.Schema<UpdateFileSystemWindowsConfiguration>;
 export interface UpdateFileSystemLustreMetadataConfiguration {
   Iops?: number;
   Mode?: MetadataConfigurationMode;
 }
-export const UpdateFileSystemLustreMetadataConfiguration = S.suspend(() =>
-  S.Struct({
-    Iops: S.optional(S.Number),
-    Mode: S.optional(MetadataConfigurationMode),
-  }),
-).annotate({
-  identifier: "UpdateFileSystemLustreMetadataConfiguration",
-}) as any as S.Schema<UpdateFileSystemLustreMetadataConfiguration>;
+export const UpdateFileSystemLustreMetadataConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Iops: S.optional(S.Number),
+      Mode: S.optional(MetadataConfigurationMode),
+    }),
+  ).annotate({
+    identifier: "UpdateFileSystemLustreMetadataConfiguration",
+  }) as any as S.Schema<UpdateFileSystemLustreMetadataConfiguration>;
 export interface UpdateFileSystemLustreConfiguration {
   WeeklyMaintenanceStartTime?: string;
   DailyAutomaticBackupStartTime?: string;
@@ -5009,25 +5204,26 @@ export interface UpdateFileSystemLustreConfiguration {
   ThroughputCapacity?: number;
   DataReadCacheConfiguration?: LustreReadCacheConfiguration;
 }
-export const UpdateFileSystemLustreConfiguration = S.suspend(() =>
-  S.Struct({
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    AutoImportPolicy: S.optional(AutoImportPolicyType),
-    DataCompressionType: S.optional(DataCompressionType),
-    LogConfiguration: S.optional(LustreLogCreateConfiguration),
-    RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
-    PerUnitStorageThroughput: S.optional(S.Number),
-    MetadataConfiguration: S.optional(
-      UpdateFileSystemLustreMetadataConfiguration,
-    ),
-    ThroughputCapacity: S.optional(S.Number),
-    DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateFileSystemLustreConfiguration",
-}) as any as S.Schema<UpdateFileSystemLustreConfiguration>;
+export const UpdateFileSystemLustreConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      AutoImportPolicy: S.optional(AutoImportPolicyType),
+      DataCompressionType: S.optional(DataCompressionType),
+      LogConfiguration: S.optional(LustreLogCreateConfiguration),
+      RootSquashConfiguration: S.optional(LustreRootSquashConfiguration),
+      PerUnitStorageThroughput: S.optional(S.Number),
+      MetadataConfiguration: S.optional(
+        UpdateFileSystemLustreMetadataConfiguration,
+      ),
+      ThroughputCapacity: S.optional(S.Number),
+      DataReadCacheConfiguration: S.optional(LustreReadCacheConfiguration),
+    }),
+  ).annotate({
+    identifier: "UpdateFileSystemLustreConfiguration",
+  }) as any as S.Schema<UpdateFileSystemLustreConfiguration>;
 export interface UpdateFileSystemOntapConfiguration {
   AutomaticBackupRetentionDays?: number;
   DailyAutomaticBackupStartTime?: string;
@@ -5041,23 +5237,24 @@ export interface UpdateFileSystemOntapConfiguration {
   HAPairs?: number;
   EndpointIpv6AddressRange?: string;
 }
-export const UpdateFileSystemOntapConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    FsxAdminPassword: S.optional(SensitiveString),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    ThroughputCapacity: S.optional(S.Number),
-    AddRouteTableIds: S.optional(RouteTableIds),
-    RemoveRouteTableIds: S.optional(RouteTableIds),
-    ThroughputCapacityPerHAPair: S.optional(S.Number),
-    HAPairs: S.optional(S.Number),
-    EndpointIpv6AddressRange: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateFileSystemOntapConfiguration",
-}) as any as S.Schema<UpdateFileSystemOntapConfiguration>;
+export const UpdateFileSystemOntapConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      FsxAdminPassword: S.optional(SensitiveString),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      ThroughputCapacity: S.optional(S.Number),
+      AddRouteTableIds: S.optional(RouteTableIds),
+      RemoveRouteTableIds: S.optional(RouteTableIds),
+      ThroughputCapacityPerHAPair: S.optional(S.Number),
+      HAPairs: S.optional(S.Number),
+      EndpointIpv6AddressRange: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateFileSystemOntapConfiguration",
+  }) as any as S.Schema<UpdateFileSystemOntapConfiguration>;
 export interface UpdateFileSystemOpenZFSConfiguration {
   AutomaticBackupRetentionDays?: number;
   CopyTagsToBackups?: boolean;
@@ -5071,23 +5268,24 @@ export interface UpdateFileSystemOpenZFSConfiguration {
   ReadCacheConfiguration?: OpenZFSReadCacheConfiguration;
   EndpointIpv6AddressRange?: string;
 }
-export const UpdateFileSystemOpenZFSConfiguration = S.suspend(() =>
-  S.Struct({
-    AutomaticBackupRetentionDays: S.optional(S.Number),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    CopyTagsToVolumes: S.optional(S.Boolean),
-    DailyAutomaticBackupStartTime: S.optional(S.String),
-    ThroughputCapacity: S.optional(S.Number),
-    WeeklyMaintenanceStartTime: S.optional(S.String),
-    DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
-    AddRouteTableIds: S.optional(RouteTableIds),
-    RemoveRouteTableIds: S.optional(RouteTableIds),
-    ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
-    EndpointIpv6AddressRange: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateFileSystemOpenZFSConfiguration",
-}) as any as S.Schema<UpdateFileSystemOpenZFSConfiguration>;
+export const UpdateFileSystemOpenZFSConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AutomaticBackupRetentionDays: S.optional(S.Number),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      CopyTagsToVolumes: S.optional(S.Boolean),
+      DailyAutomaticBackupStartTime: S.optional(S.String),
+      ThroughputCapacity: S.optional(S.Number),
+      WeeklyMaintenanceStartTime: S.optional(S.String),
+      DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
+      AddRouteTableIds: S.optional(RouteTableIds),
+      RemoveRouteTableIds: S.optional(RouteTableIds),
+      ReadCacheConfiguration: S.optional(OpenZFSReadCacheConfiguration),
+      EndpointIpv6AddressRange: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateFileSystemOpenZFSConfiguration",
+  }) as any as S.Schema<UpdateFileSystemOpenZFSConfiguration>;
 export interface UpdateFileSystemRequest {
   FileSystemId?: string;
   ClientRequestToken?: string;
@@ -5100,21 +5298,22 @@ export interface UpdateFileSystemRequest {
   FileSystemTypeVersion?: string;
   NetworkType?: NetworkType;
 }
-export const UpdateFileSystemRequest = S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    StorageCapacity: S.optional(S.Number),
-    WindowsConfiguration: S.optional(UpdateFileSystemWindowsConfiguration),
-    LustreConfiguration: S.optional(UpdateFileSystemLustreConfiguration),
-    OntapConfiguration: S.optional(UpdateFileSystemOntapConfiguration),
-    OpenZFSConfiguration: S.optional(UpdateFileSystemOpenZFSConfiguration),
-    StorageType: S.optional(StorageType),
-    FileSystemTypeVersion: S.optional(S.String),
-    NetworkType: S.optional(NetworkType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const UpdateFileSystemRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      FileSystemId: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      StorageCapacity: S.optional(S.Number),
+      WindowsConfiguration: S.optional(UpdateFileSystemWindowsConfiguration),
+      LustreConfiguration: S.optional(UpdateFileSystemLustreConfiguration),
+      OntapConfiguration: S.optional(UpdateFileSystemOntapConfiguration),
+      OpenZFSConfiguration: S.optional(UpdateFileSystemOpenZFSConfiguration),
+      StorageType: S.optional(StorageType),
+      FileSystemTypeVersion: S.optional(S.String),
+      NetworkType: S.optional(NetworkType),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "UpdateFileSystemRequest",
 }) as any as S.Schema<UpdateFileSystemRequest>;
@@ -5171,8 +5370,8 @@ export interface UpdateFileSystemResponse {
     })[];
   };
 }
-export const UpdateFileSystemResponse = S.suspend(() =>
-  S.Struct({ FileSystem: S.optional(FileSystem) }),
+export const UpdateFileSystemResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ FileSystem: S.optional(FileSystem) }),
 ).annotate({
   identifier: "UpdateFileSystemResponse",
 }) as any as S.Schema<UpdateFileSystemResponse>;
@@ -5180,32 +5379,34 @@ export interface UpdateSharedVpcConfigurationRequest {
   EnableFsxRouteTableUpdatesFromParticipantAccounts?: string;
   ClientRequestToken?: string;
 }
-export const UpdateSharedVpcConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSharedVpcConfigurationRequest",
-}) as any as S.Schema<UpdateSharedVpcConfigurationRequest>;
+export const UpdateSharedVpcConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateSharedVpcConfigurationRequest",
+  }) as any as S.Schema<UpdateSharedVpcConfigurationRequest>;
 export interface UpdateSharedVpcConfigurationResponse {
   EnableFsxRouteTableUpdatesFromParticipantAccounts?: string;
 }
-export const UpdateSharedVpcConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateSharedVpcConfigurationResponse",
-}) as any as S.Schema<UpdateSharedVpcConfigurationResponse>;
+export const UpdateSharedVpcConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EnableFsxRouteTableUpdatesFromParticipantAccounts: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateSharedVpcConfigurationResponse",
+  }) as any as S.Schema<UpdateSharedVpcConfigurationResponse>;
 export interface UpdateSnapshotRequest {
   ClientRequestToken?: string;
   Name?: string;
   SnapshotId?: string;
 }
-export const UpdateSnapshotRequest = S.suspend(() =>
+export const UpdateSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Name: S.optional(S.String),
@@ -5269,8 +5470,8 @@ export interface UpdateSnapshotResponse {
     })[];
   };
 }
-export const UpdateSnapshotResponse = S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }),
+export const UpdateSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Snapshot: S.optional(Snapshot) }),
 ).annotate({
   identifier: "UpdateSnapshotResponse",
 }) as any as S.Schema<UpdateSnapshotResponse>;
@@ -5278,46 +5479,49 @@ export interface UpdateSvmActiveDirectoryConfiguration {
   SelfManagedActiveDirectoryConfiguration?: SelfManagedActiveDirectoryConfigurationUpdates;
   NetBiosName?: string;
 }
-export const UpdateSvmActiveDirectoryConfiguration = S.suspend(() =>
-  S.Struct({
-    SelfManagedActiveDirectoryConfiguration: S.optional(
-      SelfManagedActiveDirectoryConfigurationUpdates,
-    ),
-    NetBiosName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateSvmActiveDirectoryConfiguration",
-}) as any as S.Schema<UpdateSvmActiveDirectoryConfiguration>;
+export const UpdateSvmActiveDirectoryConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SelfManagedActiveDirectoryConfiguration: S.optional(
+        SelfManagedActiveDirectoryConfigurationUpdates,
+      ),
+      NetBiosName: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateSvmActiveDirectoryConfiguration",
+  }) as any as S.Schema<UpdateSvmActiveDirectoryConfiguration>;
 export interface UpdateStorageVirtualMachineRequest {
   ActiveDirectoryConfiguration?: UpdateSvmActiveDirectoryConfiguration;
   ClientRequestToken?: string;
   StorageVirtualMachineId?: string;
   SvmAdminPassword?: string | redacted.Redacted<string>;
 }
-export const UpdateStorageVirtualMachineRequest = S.suspend(() =>
-  S.Struct({
-    ActiveDirectoryConfiguration: S.optional(
-      UpdateSvmActiveDirectoryConfiguration,
+export const UpdateStorageVirtualMachineRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ActiveDirectoryConfiguration: S.optional(
+        UpdateSvmActiveDirectoryConfiguration,
+      ),
+      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      StorageVirtualMachineId: S.optional(S.String),
+      SvmAdminPassword: S.optional(SensitiveString),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
-    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    StorageVirtualMachineId: S.optional(S.String),
-    SvmAdminPassword: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateStorageVirtualMachineRequest",
-}) as any as S.Schema<UpdateStorageVirtualMachineRequest>;
+  ).annotate({
+    identifier: "UpdateStorageVirtualMachineRequest",
+  }) as any as S.Schema<UpdateStorageVirtualMachineRequest>;
 export interface UpdateStorageVirtualMachineResponse {
   StorageVirtualMachine?: StorageVirtualMachine & {
     Tags: (Tag & { Key: TagKey; Value: TagValue })[];
   };
 }
-export const UpdateStorageVirtualMachineResponse = S.suspend(() =>
-  S.Struct({ StorageVirtualMachine: S.optional(StorageVirtualMachine) }),
-).annotate({
-  identifier: "UpdateStorageVirtualMachineResponse",
-}) as any as S.Schema<UpdateStorageVirtualMachineResponse>;
+export const UpdateStorageVirtualMachineResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ StorageVirtualMachine: S.optional(StorageVirtualMachine) }),
+  ).annotate({
+    identifier: "UpdateStorageVirtualMachineResponse",
+  }) as any as S.Schema<UpdateStorageVirtualMachineResponse>;
 export interface UpdateSnaplockConfiguration {
   AuditLogVolume?: boolean;
   AutocommitPeriod?: AutocommitPeriod;
@@ -5325,17 +5529,18 @@ export interface UpdateSnaplockConfiguration {
   RetentionPeriod?: SnaplockRetentionPeriod;
   VolumeAppendModeEnabled?: boolean;
 }
-export const UpdateSnaplockConfiguration = S.suspend(() =>
-  S.Struct({
-    AuditLogVolume: S.optional(S.Boolean),
-    AutocommitPeriod: S.optional(AutocommitPeriod),
-    PrivilegedDelete: S.optional(PrivilegedDelete),
-    RetentionPeriod: S.optional(SnaplockRetentionPeriod),
-    VolumeAppendModeEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateSnaplockConfiguration",
-}) as any as S.Schema<UpdateSnaplockConfiguration>;
+export const UpdateSnaplockConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AuditLogVolume: S.optional(S.Boolean),
+      AutocommitPeriod: S.optional(AutocommitPeriod),
+      PrivilegedDelete: S.optional(PrivilegedDelete),
+      RetentionPeriod: S.optional(SnaplockRetentionPeriod),
+      VolumeAppendModeEnabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "UpdateSnaplockConfiguration",
+  }) as any as S.Schema<UpdateSnaplockConfiguration>;
 export interface UpdateOntapVolumeConfiguration {
   JunctionPath?: string;
   SecurityStyle?: SecurityStyle;
@@ -5347,21 +5552,22 @@ export interface UpdateOntapVolumeConfiguration {
   SnaplockConfiguration?: UpdateSnaplockConfiguration;
   SizeInBytes?: number;
 }
-export const UpdateOntapVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    JunctionPath: S.optional(S.String),
-    SecurityStyle: S.optional(SecurityStyle),
-    SizeInMegabytes: S.optional(S.Number),
-    StorageEfficiencyEnabled: S.optional(S.Boolean),
-    TieringPolicy: S.optional(TieringPolicy),
-    SnapshotPolicy: S.optional(S.String),
-    CopyTagsToBackups: S.optional(S.Boolean),
-    SnaplockConfiguration: S.optional(UpdateSnaplockConfiguration),
-    SizeInBytes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "UpdateOntapVolumeConfiguration",
-}) as any as S.Schema<UpdateOntapVolumeConfiguration>;
+export const UpdateOntapVolumeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      JunctionPath: S.optional(S.String),
+      SecurityStyle: S.optional(SecurityStyle),
+      SizeInMegabytes: S.optional(S.Number),
+      StorageEfficiencyEnabled: S.optional(S.Boolean),
+      TieringPolicy: S.optional(TieringPolicy),
+      SnapshotPolicy: S.optional(S.String),
+      CopyTagsToBackups: S.optional(S.Boolean),
+      SnaplockConfiguration: S.optional(UpdateSnaplockConfiguration),
+      SizeInBytes: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "UpdateOntapVolumeConfiguration",
+  }) as any as S.Schema<UpdateOntapVolumeConfiguration>;
 export interface UpdateOpenZFSVolumeConfiguration {
   StorageCapacityReservationGiB?: number;
   StorageCapacityQuotaGiB?: number;
@@ -5371,19 +5577,20 @@ export interface UpdateOpenZFSVolumeConfiguration {
   UserAndGroupQuotas?: OpenZFSUserOrGroupQuota[];
   ReadOnly?: boolean;
 }
-export const UpdateOpenZFSVolumeConfiguration = S.suspend(() =>
-  S.Struct({
-    StorageCapacityReservationGiB: S.optional(S.Number),
-    StorageCapacityQuotaGiB: S.optional(S.Number),
-    RecordSizeKiB: S.optional(S.Number),
-    DataCompressionType: S.optional(OpenZFSDataCompressionType),
-    NfsExports: S.optional(OpenZFSNfsExports),
-    UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
-    ReadOnly: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateOpenZFSVolumeConfiguration",
-}) as any as S.Schema<UpdateOpenZFSVolumeConfiguration>;
+export const UpdateOpenZFSVolumeConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      StorageCapacityReservationGiB: S.optional(S.Number),
+      StorageCapacityQuotaGiB: S.optional(S.Number),
+      RecordSizeKiB: S.optional(S.Number),
+      DataCompressionType: S.optional(OpenZFSDataCompressionType),
+      NfsExports: S.optional(OpenZFSNfsExports),
+      UserAndGroupQuotas: S.optional(OpenZFSUserAndGroupQuotas),
+      ReadOnly: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "UpdateOpenZFSVolumeConfiguration",
+  }) as any as S.Schema<UpdateOpenZFSVolumeConfiguration>;
 export interface UpdateVolumeRequest {
   ClientRequestToken?: string;
   VolumeId?: string;
@@ -5391,7 +5598,7 @@ export interface UpdateVolumeRequest {
   Name?: string;
   OpenZFSConfiguration?: UpdateOpenZFSVolumeConfiguration;
 }
-export const UpdateVolumeRequest = S.suspend(() =>
+export const UpdateVolumeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     VolumeId: S.optional(S.String),
@@ -5457,7 +5664,7 @@ export interface UpdateVolumeResponse {
     };
   };
 }
-export const UpdateVolumeResponse = S.suspend(() =>
+export const UpdateVolumeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Volume: S.optional(Volume) }),
 ).annotate({
   identifier: "UpdateVolumeResponse",

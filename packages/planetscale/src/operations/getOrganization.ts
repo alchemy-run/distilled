@@ -4,13 +4,13 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const GetOrganizationInput = Schema.Struct({
+export const GetOrganizationInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
 }).pipe(T.Http({ method: "GET", path: "/organizations/{organization}" }));
 export type GetOrganizationInput = typeof GetOrganizationInput.Type;
 
 // Output Schema
-export const GetOrganizationOutput = Schema.Struct({
+export const GetOrganizationOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   billing_email: Schema.String,

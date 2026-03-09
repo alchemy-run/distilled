@@ -38,13 +38,16 @@ export interface AmpUrlError {
   originalUrl?: string;
 }
 
-export const AmpUrlError: Schema.Schema<AmpUrlError> = Schema.suspend(() =>
-  Schema.Struct({
-    errorCode: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-    originalUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AmpUrlError" }) as any as Schema.Schema<AmpUrlError>;
+export const AmpUrlError: Schema.Schema<AmpUrlError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errorCode: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+      originalUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AmpUrlError",
+  }) as any as Schema.Schema<AmpUrlError>;
 
 export interface BatchGetAmpUrlsRequest {
   /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
@@ -54,7 +57,7 @@ export interface BatchGetAmpUrlsRequest {
 }
 
 export const BatchGetAmpUrlsRequest: Schema.Schema<BatchGetAmpUrlsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urls: Schema.optional(Schema.Array(Schema.String)),
       lookupStrategy: Schema.optional(Schema.String),
@@ -72,13 +75,14 @@ export interface AmpUrl {
   ampUrl?: string;
 }
 
-export const AmpUrl: Schema.Schema<AmpUrl> = Schema.suspend(() =>
-  Schema.Struct({
-    cdnAmpUrl: Schema.optional(Schema.String),
-    originalUrl: Schema.optional(Schema.String),
-    ampUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AmpUrl" }) as any as Schema.Schema<AmpUrl>;
+export const AmpUrl: Schema.Schema<AmpUrl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cdnAmpUrl: Schema.optional(Schema.String),
+      originalUrl: Schema.optional(Schema.String),
+      ampUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AmpUrl" }) as any as Schema.Schema<AmpUrl>;
 
 export interface BatchGetAmpUrlsResponse {
   /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */
@@ -88,7 +92,7 @@ export interface BatchGetAmpUrlsResponse {
 }
 
 export const BatchGetAmpUrlsResponse: Schema.Schema<BatchGetAmpUrlsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ampUrls: Schema.optional(Schema.Array(AmpUrl)),
       urlErrors: Schema.optional(Schema.Array(AmpUrlError)),
@@ -106,15 +110,17 @@ export interface BatchGetAmpUrlsRequest_Op {
   body?: BatchGetAmpUrlsRequest;
 }
 
-export const BatchGetAmpUrlsRequest_Op = Schema.Struct({
-  body: Schema.optional(BatchGetAmpUrlsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/ampUrls:batchGet", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<BatchGetAmpUrlsRequest_Op>;
+export const BatchGetAmpUrlsRequest_Op =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(BatchGetAmpUrlsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v1/ampUrls:batchGet", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetAmpUrlsRequest_Op>;
 
 export type BatchGetAmpUrlsResponse_Op = BatchGetAmpUrlsResponse;
-export const BatchGetAmpUrlsResponse_Op = BatchGetAmpUrlsResponse;
+export const BatchGetAmpUrlsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetAmpUrlsResponse;
 
 export type BatchGetAmpUrlsError = DefaultErrors;
 
@@ -124,7 +130,7 @@ export const batchGetAmpUrls: API.OperationMethod<
   BatchGetAmpUrlsResponse_Op,
   BatchGetAmpUrlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAmpUrlsRequest_Op,
   output: BatchGetAmpUrlsResponse_Op,
   errors: [],

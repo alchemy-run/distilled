@@ -33,14 +33,15 @@ export interface Document {
   uri?: string;
 }
 
-export const Document: Schema.Schema<Document> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    uri: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
+export const Document: Schema.Schema<Document> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Document" }) as any as Schema.Schema<Document>;
 
 export interface BatchGetDocumentsResponse {
   /** Documents requested. */
@@ -48,7 +49,7 @@ export interface BatchGetDocumentsResponse {
 }
 
 export const BatchGetDocumentsResponse: Schema.Schema<BatchGetDocumentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       documents: Schema.optional(Schema.Array(Document)),
     }),
@@ -65,15 +66,16 @@ export interface DocumentChunk {
   content?: string;
 }
 
-export const DocumentChunk: Schema.Schema<DocumentChunk> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DocumentChunk",
-}) as any as Schema.Schema<DocumentChunk>;
+export const DocumentChunk: Schema.Schema<DocumentChunk> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DocumentChunk",
+  }) as any as Schema.Schema<DocumentChunk>;
 
 export interface SearchDocumentChunksResponse {
   /** Optional. A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
@@ -83,7 +85,7 @@ export interface SearchDocumentChunksResponse {
 }
 
 export const SearchDocumentChunksResponse: Schema.Schema<SearchDocumentChunksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       results: Schema.optional(Schema.Array(DocumentChunk)),
@@ -101,17 +103,19 @@ export interface BatchGetDocumentsRequest {
   names?: string[];
 }
 
-export const BatchGetDocumentsRequest = Schema.Struct({
-  names: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("names"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/documents:batchGet" }),
-  svc,
-) as unknown as Schema.Schema<BatchGetDocumentsRequest>;
+export const BatchGetDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    names: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("names"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/documents:batchGet" }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetDocumentsRequest>;
 
 export type BatchGetDocumentsResponse_Op = BatchGetDocumentsResponse;
-export const BatchGetDocumentsResponse_Op = BatchGetDocumentsResponse;
+export const BatchGetDocumentsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetDocumentsResponse;
 
 export type BatchGetDocumentsError = DefaultErrors;
 
@@ -121,7 +125,7 @@ export const batchGetDocuments: API.OperationMethod<
   BatchGetDocumentsResponse_Op,
   BatchGetDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetDocumentsRequest,
   output: BatchGetDocumentsResponse_Op,
   errors: [],
@@ -136,19 +140,20 @@ export interface SearchDocumentChunksDocumentsRequest {
   pageSize?: number;
 }
 
-export const SearchDocumentChunksDocumentsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1alpha/documents:searchDocumentChunks" }),
-  svc,
-) as unknown as Schema.Schema<SearchDocumentChunksDocumentsRequest>;
+export const SearchDocumentChunksDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1alpha/documents:searchDocumentChunks" }),
+    svc,
+  ) as unknown as Schema.Schema<SearchDocumentChunksDocumentsRequest>;
 
 export type SearchDocumentChunksDocumentsResponse =
   SearchDocumentChunksResponse;
 export const SearchDocumentChunksDocumentsResponse =
-  SearchDocumentChunksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchDocumentChunksResponse;
 
 export type SearchDocumentChunksDocumentsError = DefaultErrors;
 
@@ -158,7 +163,7 @@ export const searchDocumentChunksDocuments: API.PaginatedOperationMethod<
   SearchDocumentChunksDocumentsResponse,
   SearchDocumentChunksDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchDocumentChunksDocumentsRequest,
   output: SearchDocumentChunksDocumentsResponse,
   errors: [],
@@ -173,7 +178,7 @@ export interface GetDocumentsRequest {
   name: string;
 }
 
-export const GetDocumentsRequest = Schema.Struct({
+export const GetDocumentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1alpha/documents/{documentsId}" }),
@@ -181,7 +186,7 @@ export const GetDocumentsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetDocumentsRequest>;
 
 export type GetDocumentsResponse = Document;
-export const GetDocumentsResponse = Document;
+export const GetDocumentsResponse = /*@__PURE__*/ /*#__PURE__*/ Document;
 
 export type GetDocumentsError = DefaultErrors;
 
@@ -191,7 +196,7 @@ export const getDocuments: API.OperationMethod<
   GetDocumentsResponse,
   GetDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDocumentsRequest,
   output: GetDocumentsResponse,
   errors: [],

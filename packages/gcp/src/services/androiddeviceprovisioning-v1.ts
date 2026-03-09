@@ -47,8 +47,8 @@ export interface DeviceIdentifier {
   serialNumber?: string;
 }
 
-export const DeviceIdentifier: Schema.Schema<DeviceIdentifier> = Schema.suspend(
-  () =>
+export const DeviceIdentifier: Schema.Schema<DeviceIdentifier> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceType: Schema.optional(Schema.String),
       chromeOsAttestedDeviceId: Schema.optional(Schema.String),
@@ -60,23 +60,23 @@ export const DeviceIdentifier: Schema.Schema<DeviceIdentifier> = Schema.suspend(
       meid2: Schema.optional(Schema.String),
       serialNumber: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DeviceIdentifier",
-}) as any as Schema.Schema<DeviceIdentifier>;
+  ).annotate({
+    identifier: "DeviceIdentifier",
+  }) as any as Schema.Schema<DeviceIdentifier>;
 
 export interface DeviceMetadata {
   /** Metadata entries recorded as key-value pairs. */
   entries?: Record<string, string>;
 }
 
-export const DeviceMetadata: Schema.Schema<DeviceMetadata> = Schema.suspend(
-  () =>
+export const DeviceMetadata: Schema.Schema<DeviceMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entries: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
-).annotate({
-  identifier: "DeviceMetadata",
-}) as any as Schema.Schema<DeviceMetadata>;
+  ).annotate({
+    identifier: "DeviceMetadata",
+  }) as any as Schema.Schema<DeviceMetadata>;
 
 export interface ClaimDeviceRequest {
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
@@ -102,7 +102,7 @@ export interface ClaimDeviceRequest {
 }
 
 export const ClaimDeviceRequest: Schema.Schema<ClaimDeviceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       simlockProfileId: Schema.optional(Schema.String),
       deviceIdentifier: Schema.optional(DeviceIdentifier),
@@ -123,7 +123,7 @@ export interface UpdateDeviceMetadataRequest {
 }
 
 export const UpdateDeviceMetadataRequest: Schema.Schema<UpdateDeviceMetadataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceMetadata: Schema.optional(DeviceMetadata),
     }),
@@ -155,7 +155,7 @@ export interface PerDeviceStatusInBatch {
 }
 
 export const PerDeviceStatusInBatch: Schema.Schema<PerDeviceStatusInBatch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.String),
       deviceId: Schema.optional(Schema.String),
@@ -184,7 +184,7 @@ export interface UnclaimDeviceRequest {
 }
 
 export const UnclaimDeviceRequest: Schema.Schema<UnclaimDeviceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vacationModeExpireTime: Schema.optional(Schema.String),
       deviceIdentifier: Schema.optional(DeviceIdentifier),
@@ -204,7 +204,7 @@ export interface GoogleWorkspaceAccount {
 }
 
 export const GoogleWorkspaceAccount: Schema.Schema<GoogleWorkspaceAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       preProvisioningTokens: Schema.optional(Schema.Array(Schema.String)),
       customerId: Schema.optional(Schema.String),
@@ -239,19 +239,20 @@ export interface Company {
   companyId?: string;
 }
 
-export const Company: Schema.Schema<Company> = Schema.suspend(() =>
-  Schema.Struct({
-    ownerEmails: Schema.optional(Schema.Array(Schema.String)),
-    languageCode: Schema.optional(Schema.String),
-    adminEmails: Schema.optional(Schema.Array(Schema.String)),
-    name: Schema.optional(Schema.String),
-    googleWorkspaceAccount: Schema.optional(GoogleWorkspaceAccount),
-    skipWelcomeEmail: Schema.optional(Schema.Boolean),
-    companyName: Schema.optional(Schema.String),
-    termsStatus: Schema.optional(Schema.String),
-    companyId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
+export const Company: Schema.Schema<Company> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      ownerEmails: Schema.optional(Schema.Array(Schema.String)),
+      languageCode: Schema.optional(Schema.String),
+      adminEmails: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      googleWorkspaceAccount: Schema.optional(GoogleWorkspaceAccount),
+      skipWelcomeEmail: Schema.optional(Schema.Boolean),
+      companyName: Schema.optional(Schema.String),
+      termsStatus: Schema.optional(Schema.String),
+      companyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Company" }) as any as Schema.Schema<Company>;
 
 export interface ListCustomersResponse {
   /** List of customers related to this reseller partner. */
@@ -263,7 +264,7 @@ export interface ListCustomersResponse {
 }
 
 export const ListCustomersResponse: Schema.Schema<ListCustomersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customers: Schema.optional(Schema.Array(Company)),
       totalSize: Schema.optional(Schema.Number),
@@ -283,7 +284,7 @@ export interface UpdateMetadataArguments {
 }
 
 export const UpdateMetadataArguments: Schema.Schema<UpdateMetadataArguments> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceIdentifier: Schema.optional(DeviceIdentifier),
       deviceId: Schema.optional(Schema.String),
@@ -317,17 +318,20 @@ export interface DeviceClaim {
     | (string & {});
 }
 
-export const DeviceClaim: Schema.Schema<DeviceClaim> = Schema.suspend(() =>
-  Schema.Struct({
-    sectionType: Schema.optional(Schema.String),
-    googleWorkspaceCustomerId: Schema.optional(Schema.String),
-    resellerId: Schema.optional(Schema.String),
-    ownerCompanyId: Schema.optional(Schema.String),
-    vacationModeStartTime: Schema.optional(Schema.String),
-    vacationModeExpireTime: Schema.optional(Schema.String),
-    additionalService: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DeviceClaim" }) as any as Schema.Schema<DeviceClaim>;
+export const DeviceClaim: Schema.Schema<DeviceClaim> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sectionType: Schema.optional(Schema.String),
+      googleWorkspaceCustomerId: Schema.optional(Schema.String),
+      resellerId: Schema.optional(Schema.String),
+      ownerCompanyId: Schema.optional(Schema.String),
+      vacationModeStartTime: Schema.optional(Schema.String),
+      vacationModeExpireTime: Schema.optional(Schema.String),
+      additionalService: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DeviceClaim",
+  }) as any as Schema.Schema<DeviceClaim>;
 
 export interface Device {
   /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
@@ -344,16 +348,17 @@ export interface Device {
   claims?: Array<DeviceClaim>;
 }
 
-export const Device: Schema.Schema<Device> = Schema.suspend(() =>
-  Schema.Struct({
-    deviceIdentifier: Schema.optional(DeviceIdentifier),
-    configuration: Schema.optional(Schema.String),
-    deviceId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    deviceMetadata: Schema.optional(DeviceMetadata),
-    claims: Schema.optional(Schema.Array(DeviceClaim)),
-  }),
-).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+export const Device: Schema.Schema<Device> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+      configuration: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      deviceMetadata: Schema.optional(DeviceMetadata),
+      claims: Schema.optional(Schema.Array(DeviceClaim)),
+    }),
+  ).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
 
 export interface PartnerClaim {
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
@@ -378,20 +383,21 @@ export interface PartnerClaim {
   deviceIdentifier?: DeviceIdentifier;
 }
 
-export const PartnerClaim: Schema.Schema<PartnerClaim> = Schema.suspend(() =>
-  Schema.Struct({
-    simlockProfileId: Schema.optional(Schema.String),
-    sectionType: Schema.optional(Schema.String),
-    googleWorkspaceCustomerId: Schema.optional(Schema.String),
-    preProvisioningToken: Schema.optional(Schema.String),
-    customerId: Schema.optional(Schema.String),
-    configurationId: Schema.optional(Schema.String),
-    deviceMetadata: Schema.optional(DeviceMetadata),
-    deviceIdentifier: Schema.optional(DeviceIdentifier),
-  }),
-).annotate({
-  identifier: "PartnerClaim",
-}) as any as Schema.Schema<PartnerClaim>;
+export const PartnerClaim: Schema.Schema<PartnerClaim> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      simlockProfileId: Schema.optional(Schema.String),
+      sectionType: Schema.optional(Schema.String),
+      googleWorkspaceCustomerId: Schema.optional(Schema.String),
+      preProvisioningToken: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
+      configurationId: Schema.optional(Schema.String),
+      deviceMetadata: Schema.optional(DeviceMetadata),
+      deviceIdentifier: Schema.optional(DeviceIdentifier),
+    }),
+  ).annotate({
+    identifier: "PartnerClaim",
+  }) as any as Schema.Schema<PartnerClaim>;
 
 export interface ClaimDevicesRequest {
   /** Required. A list of device claims. */
@@ -399,7 +405,7 @@ export interface ClaimDevicesRequest {
 }
 
 export const ClaimDevicesRequest: Schema.Schema<ClaimDevicesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       claims: Schema.optional(Schema.Array(PartnerClaim)),
     }),
@@ -424,8 +430,8 @@ export interface PartnerUnclaim {
   deviceIdentifier?: DeviceIdentifier;
 }
 
-export const PartnerUnclaim: Schema.Schema<PartnerUnclaim> = Schema.suspend(
-  () =>
+export const PartnerUnclaim: Schema.Schema<PartnerUnclaim> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vacationModeExpireTime: Schema.optional(Schema.String),
       sectionType: Schema.optional(Schema.String),
@@ -433,9 +439,9 @@ export const PartnerUnclaim: Schema.Schema<PartnerUnclaim> = Schema.suspend(
       vacationModeDays: Schema.optional(Schema.Number),
       deviceIdentifier: Schema.optional(DeviceIdentifier),
     }),
-).annotate({
-  identifier: "PartnerUnclaim",
-}) as any as Schema.Schema<PartnerUnclaim>;
+  ).annotate({
+    identifier: "PartnerUnclaim",
+  }) as any as Schema.Schema<PartnerUnclaim>;
 
 export interface UnclaimDevicesRequest {
   /** Required. The list of devices to unclaim. */
@@ -443,7 +449,7 @@ export interface UnclaimDevicesRequest {
 }
 
 export const UnclaimDevicesRequest: Schema.Schema<UnclaimDevicesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unclaims: Schema.optional(Schema.Array(PartnerUnclaim)),
     }),
@@ -463,7 +469,7 @@ export interface OperationPerDevice {
 }
 
 export const OperationPerDevice: Schema.Schema<OperationPerDevice> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(PerDeviceStatusInBatch),
       claim: Schema.optional(PartnerClaim),
@@ -483,13 +489,14 @@ export interface Dpc {
   dpcName?: string;
 }
 
-export const Dpc: Schema.Schema<Dpc> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    packageName: Schema.optional(Schema.String),
-    dpcName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Dpc" }) as any as Schema.Schema<Dpc>;
+export const Dpc: Schema.Schema<Dpc> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      packageName: Schema.optional(Schema.String),
+      dpcName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Dpc" }) as any as Schema.Schema<Dpc>;
 
 export interface CustomerListDpcsResponse {
   /** The list of DPCs available to the customer that support zero-touch enrollment. */
@@ -497,7 +504,7 @@ export interface CustomerListDpcsResponse {
 }
 
 export const CustomerListDpcsResponse: Schema.Schema<CustomerListDpcsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dpcs: Schema.optional(Schema.Array(Dpc)),
     }),
@@ -512,15 +519,15 @@ export interface DeviceReference {
   deviceIdentifier?: DeviceIdentifier;
 }
 
-export const DeviceReference: Schema.Schema<DeviceReference> = Schema.suspend(
-  () =>
+export const DeviceReference: Schema.Schema<DeviceReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceId: Schema.optional(Schema.String),
       deviceIdentifier: Schema.optional(DeviceIdentifier),
     }),
-).annotate({
-  identifier: "DeviceReference",
-}) as any as Schema.Schema<DeviceReference>;
+  ).annotate({
+    identifier: "DeviceReference",
+  }) as any as Schema.Schema<DeviceReference>;
 
 export interface CustomerUnclaimDeviceRequest {
   /** Required. The device to unclaim. There are custom validations in UnclaimDeviceRequestValidator. */
@@ -528,7 +535,7 @@ export interface CustomerUnclaimDeviceRequest {
 }
 
 export const CustomerUnclaimDeviceRequest: Schema.Schema<CustomerUnclaimDeviceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       device: Schema.optional(DeviceReference),
     }),
@@ -545,15 +552,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
@@ -568,15 +576,16 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    done: Schema.optional(Schema.Boolean),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      done: Schema.optional(Schema.Boolean),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface CustomerRemoveConfigurationRequest {
   /** Required. The device to remove the configuration from. There are custom validations in RemoveConfigurationRequestValidator */
@@ -584,7 +593,7 @@ export interface CustomerRemoveConfigurationRequest {
 }
 
 export const CustomerRemoveConfigurationRequest: Schema.Schema<CustomerRemoveConfigurationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       device: Schema.optional(DeviceReference),
     }),
@@ -600,7 +609,7 @@ export interface DevicesLongRunningOperationResponse {
 }
 
 export const DevicesLongRunningOperationResponse: Schema.Schema<DevicesLongRunningOperationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       successCount: Schema.optional(Schema.Number),
       perDeviceStatus: Schema.optional(Schema.Array(OperationPerDevice)),
@@ -617,7 +626,7 @@ export interface CustomerListCustomersResponse {
 }
 
 export const CustomerListCustomersResponse: Schema.Schema<CustomerListCustomersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       customers: Schema.optional(Schema.Array(Company)),
@@ -636,7 +645,7 @@ export interface FindDevicesByOwnerResponse {
 }
 
 export const FindDevicesByOwnerResponse: Schema.Schema<FindDevicesByOwnerResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalSize: Schema.optional(Schema.Number),
       devices: Schema.optional(Schema.Array(Device)),
@@ -671,23 +680,24 @@ export interface Configuration {
   contactPhone?: string;
 }
 
-export const Configuration: Schema.Schema<Configuration> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    isDefault: Schema.optional(Schema.Boolean),
-    customMessage: Schema.optional(Schema.String),
-    forcedResetTime: Schema.optional(Schema.String),
-    configurationId: Schema.optional(Schema.String),
-    configurationName: Schema.optional(Schema.String),
-    companyName: Schema.optional(Schema.String),
-    dpcExtras: Schema.optional(Schema.String),
-    contactEmail: Schema.optional(Schema.String),
-    dpcResourcePath: Schema.optional(Schema.String),
-    contactPhone: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Configuration",
-}) as any as Schema.Schema<Configuration>;
+export const Configuration: Schema.Schema<Configuration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      isDefault: Schema.optional(Schema.Boolean),
+      customMessage: Schema.optional(Schema.String),
+      forcedResetTime: Schema.optional(Schema.String),
+      configurationId: Schema.optional(Schema.String),
+      configurationName: Schema.optional(Schema.String),
+      companyName: Schema.optional(Schema.String),
+      dpcExtras: Schema.optional(Schema.String),
+      contactEmail: Schema.optional(Schema.String),
+      dpcResourcePath: Schema.optional(Schema.String),
+      contactPhone: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Configuration",
+  }) as any as Schema.Schema<Configuration>;
 
 export interface CustomerListConfigurationsResponse {
   /** The configurations. */
@@ -695,7 +705,7 @@ export interface CustomerListConfigurationsResponse {
 }
 
 export const CustomerListConfigurationsResponse: Schema.Schema<CustomerListConfigurationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configurations: Schema.optional(Schema.Array(Configuration)),
     }),
@@ -718,7 +728,7 @@ export interface DevicesLongRunningOperationMetadata {
 }
 
 export const DevicesLongRunningOperationMetadata: Schema.Schema<DevicesLongRunningOperationMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       progress: Schema.optional(Schema.Number),
       devicesCount: Schema.optional(Schema.Number),
@@ -734,7 +744,7 @@ export interface CreateCustomerRequest {
 }
 
 export const CreateCustomerRequest: Schema.Schema<CreateCustomerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customer: Schema.optional(Company),
     }),
@@ -752,7 +762,7 @@ export interface FindDevicesByDeviceIdentifierResponse {
 }
 
 export const FindDevicesByDeviceIdentifierResponse: Schema.Schema<FindDevicesByDeviceIdentifierResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(Schema.Array(Device)),
       nextPageToken: Schema.optional(Schema.String),
@@ -768,7 +778,7 @@ export interface UpdateDeviceMetadataInBatchRequest {
 }
 
 export const UpdateDeviceMetadataInBatchRequest: Schema.Schema<UpdateDeviceMetadataInBatchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updates: Schema.optional(Schema.Array(UpdateMetadataArguments)),
     }),
@@ -784,7 +794,7 @@ export interface ClaimDeviceResponse {
 }
 
 export const ClaimDeviceResponse: Schema.Schema<ClaimDeviceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceName: Schema.optional(Schema.String),
       deviceId: Schema.optional(Schema.String),
@@ -803,7 +813,7 @@ export interface FindDevicesByDeviceIdentifierRequest {
 }
 
 export const FindDevicesByDeviceIdentifierRequest: Schema.Schema<FindDevicesByDeviceIdentifierRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageToken: Schema.optional(Schema.String),
       deviceIdentifier: Schema.optional(DeviceIdentifier),
@@ -831,7 +841,7 @@ export interface FindDevicesByOwnerRequest {
 }
 
 export const FindDevicesByOwnerRequest: Schema.Schema<FindDevicesByOwnerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       limit: Schema.optional(Schema.String),
       customerId: Schema.optional(Schema.Array(Schema.String)),
@@ -845,9 +855,10 @@ export const FindDevicesByOwnerRequest: Schema.Schema<FindDevicesByOwnerRequest>
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface GetDeviceSimLockStateRequest {
   /** Required. Required. The device identifier to search for. */
@@ -855,7 +866,7 @@ export interface GetDeviceSimLockStateRequest {
 }
 
 export const GetDeviceSimLockStateRequest: Schema.Schema<GetDeviceSimLockStateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceIdentifier: Schema.optional(DeviceIdentifier),
     }),
@@ -871,7 +882,7 @@ export interface CustomerListDevicesResponse {
 }
 
 export const CustomerListDevicesResponse: Schema.Schema<CustomerListDevicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       devices: Schema.optional(Schema.Array(Device)),
       nextPageToken: Schema.optional(Schema.String),
@@ -888,7 +899,7 @@ export interface CustomerApplyConfigurationRequest {
 }
 
 export const CustomerApplyConfigurationRequest: Schema.Schema<CustomerApplyConfigurationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       device: Schema.optional(DeviceReference),
       configuration: Schema.optional(Schema.String),
@@ -907,7 +918,7 @@ export interface ListVendorsResponse {
 }
 
 export const ListVendorsResponse: Schema.Schema<ListVendorsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalSize: Schema.optional(Schema.Number),
       vendors: Schema.optional(Schema.Array(Company)),
@@ -927,7 +938,7 @@ export interface ListVendorCustomersResponse {
 }
 
 export const ListVendorCustomersResponse: Schema.Schema<ListVendorCustomersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       totalSize: Schema.optional(Schema.Number),
@@ -947,7 +958,7 @@ export interface GetDeviceSimLockStateResponse {
 }
 
 export const GetDeviceSimLockStateResponse: Schema.Schema<GetDeviceSimLockStateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       simLockState: Schema.optional(Schema.String),
     }),
@@ -964,7 +975,7 @@ export interface GetOperationsRequest {
   name: string;
 }
 
-export const GetOperationsRequest = Schema.Struct({
+export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/operations/{operationsId}" }),
@@ -972,7 +983,7 @@ export const GetOperationsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
 export type GetOperationsResponse = Operation;
-export const GetOperationsResponse = Operation;
+export const GetOperationsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOperationsError = DefaultErrors;
 
@@ -982,7 +993,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsResponse,
   GetOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
@@ -997,17 +1008,19 @@ export interface ListPartnersCustomersRequest {
   pageToken?: string;
 }
 
-export const ListPartnersCustomersRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/customers" }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersCustomersRequest>;
+export const ListPartnersCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/partners/{partnersId}/customers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersCustomersRequest>;
 
 export type ListPartnersCustomersResponse = ListCustomersResponse;
-export const ListPartnersCustomersResponse = ListCustomersResponse;
+export const ListPartnersCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomersResponse;
 
 export type ListPartnersCustomersError = DefaultErrors;
 
@@ -1017,7 +1030,7 @@ export const listPartnersCustomers: API.PaginatedOperationMethod<
   ListPartnersCustomersResponse,
   ListPartnersCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersCustomersRequest,
   output: ListPartnersCustomersResponse,
   errors: [],
@@ -1034,20 +1047,22 @@ export interface CreatePartnersCustomersRequest {
   body?: CreateCustomerRequest;
 }
 
-export const CreatePartnersCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CreateCustomerRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/customers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePartnersCustomersRequest>;
+export const CreatePartnersCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CreateCustomerRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/customers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePartnersCustomersRequest>;
 
 export type CreatePartnersCustomersResponse = Company;
-export const CreatePartnersCustomersResponse = Company;
+export const CreatePartnersCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Company;
 
 export type CreatePartnersCustomersError = DefaultErrors;
 
@@ -1057,7 +1072,7 @@ export const createPartnersCustomers: API.OperationMethod<
   CreatePartnersCustomersResponse,
   CreatePartnersCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnersCustomersRequest,
   output: CreatePartnersCustomersResponse,
   errors: [],
@@ -1072,21 +1087,23 @@ export interface MetadataPartnersDevicesRequest {
   body?: UpdateDeviceMetadataRequest;
 }
 
-export const MetadataPartnersDevicesRequest = Schema.Struct({
-  metadataOwnerId: Schema.String.pipe(T.HttpPath("metadataOwnerId")),
-  deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
-  body: Schema.optional(UpdateDeviceMetadataRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices/{devicesId}/metadata",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<MetadataPartnersDevicesRequest>;
+export const MetadataPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    metadataOwnerId: Schema.String.pipe(T.HttpPath("metadataOwnerId")),
+    deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
+    body: Schema.optional(UpdateDeviceMetadataRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices/{devicesId}/metadata",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MetadataPartnersDevicesRequest>;
 
 export type MetadataPartnersDevicesResponse = DeviceMetadata;
-export const MetadataPartnersDevicesResponse = DeviceMetadata;
+export const MetadataPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DeviceMetadata;
 
 export type MetadataPartnersDevicesError = DefaultErrors;
 
@@ -1096,7 +1113,7 @@ export const metadataPartnersDevices: API.OperationMethod<
   MetadataPartnersDevicesResponse,
   MetadataPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: MetadataPartnersDevicesRequest,
   output: MetadataPartnersDevicesResponse,
   errors: [],
@@ -1109,20 +1126,22 @@ export interface ClaimPartnersDevicesRequest {
   body?: ClaimDeviceRequest;
 }
 
-export const ClaimPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(ClaimDeviceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:claim",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClaimPartnersDevicesRequest>;
+export const ClaimPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(ClaimDeviceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:claim",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClaimPartnersDevicesRequest>;
 
 export type ClaimPartnersDevicesResponse = ClaimDeviceResponse;
-export const ClaimPartnersDevicesResponse = ClaimDeviceResponse;
+export const ClaimPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ClaimDeviceResponse;
 
 export type ClaimPartnersDevicesError = DefaultErrors;
 
@@ -1132,7 +1151,7 @@ export const claimPartnersDevices: API.OperationMethod<
   ClaimPartnersDevicesResponse,
   ClaimPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimPartnersDevicesRequest,
   output: ClaimPartnersDevicesResponse,
   errors: [],
@@ -1145,20 +1164,22 @@ export interface ClaimAsyncPartnersDevicesRequest {
   body?: ClaimDevicesRequest;
 }
 
-export const ClaimAsyncPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(ClaimDevicesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:claimAsync",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ClaimAsyncPartnersDevicesRequest>;
+export const ClaimAsyncPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(ClaimDevicesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:claimAsync",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ClaimAsyncPartnersDevicesRequest>;
 
 export type ClaimAsyncPartnersDevicesResponse = Operation;
-export const ClaimAsyncPartnersDevicesResponse = Operation;
+export const ClaimAsyncPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ClaimAsyncPartnersDevicesError = DefaultErrors;
 
@@ -1168,7 +1189,7 @@ export const claimAsyncPartnersDevices: API.OperationMethod<
   ClaimAsyncPartnersDevicesResponse,
   ClaimAsyncPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ClaimAsyncPartnersDevicesRequest,
   output: ClaimAsyncPartnersDevicesResponse,
   errors: [],
@@ -1181,20 +1202,22 @@ export interface UnclaimAsyncPartnersDevicesRequest {
   body?: UnclaimDevicesRequest;
 }
 
-export const UnclaimAsyncPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(UnclaimDevicesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:unclaimAsync",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnclaimAsyncPartnersDevicesRequest>;
+export const UnclaimAsyncPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(UnclaimDevicesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:unclaimAsync",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnclaimAsyncPartnersDevicesRequest>;
 
 export type UnclaimAsyncPartnersDevicesResponse = Operation;
-export const UnclaimAsyncPartnersDevicesResponse = Operation;
+export const UnclaimAsyncPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UnclaimAsyncPartnersDevicesError = DefaultErrors;
 
@@ -1204,7 +1227,7 @@ export const unclaimAsyncPartnersDevices: API.OperationMethod<
   UnclaimAsyncPartnersDevicesResponse,
   UnclaimAsyncPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnclaimAsyncPartnersDevicesRequest,
   output: UnclaimAsyncPartnersDevicesResponse,
   errors: [],
@@ -1217,22 +1240,23 @@ export interface GetSimLockStatePartnersDevicesRequest {
   body?: GetDeviceSimLockStateRequest;
 }
 
-export const GetSimLockStatePartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(GetDeviceSimLockStateRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:getSimLockState",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSimLockStatePartnersDevicesRequest>;
+export const GetSimLockStatePartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(GetDeviceSimLockStateRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:getSimLockState",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSimLockStatePartnersDevicesRequest>;
 
 export type GetSimLockStatePartnersDevicesResponse =
   GetDeviceSimLockStateResponse;
 export const GetSimLockStatePartnersDevicesResponse =
-  GetDeviceSimLockStateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetDeviceSimLockStateResponse;
 
 export type GetSimLockStatePartnersDevicesError = DefaultErrors;
 
@@ -1242,7 +1266,7 @@ export const getSimLockStatePartnersDevices: API.OperationMethod<
   GetSimLockStatePartnersDevicesResponse,
   GetSimLockStatePartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSimLockStatePartnersDevicesRequest,
   output: GetSimLockStatePartnersDevicesResponse,
   errors: [],
@@ -1255,24 +1279,25 @@ export interface FindByIdentifierPartnersDevicesRequest {
   body?: FindDevicesByDeviceIdentifierRequest;
 }
 
-export const FindByIdentifierPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(FindDevicesByDeviceIdentifierRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:findByIdentifier",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FindByIdentifierPartnersDevicesRequest>;
+export const FindByIdentifierPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(FindDevicesByDeviceIdentifierRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:findByIdentifier",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FindByIdentifierPartnersDevicesRequest>;
 
 export type FindByIdentifierPartnersDevicesResponse =
   FindDevicesByDeviceIdentifierResponse;
 export const FindByIdentifierPartnersDevicesResponse =
-  FindDevicesByDeviceIdentifierResponse;
+  /*@__PURE__*/ /*#__PURE__*/ FindDevicesByDeviceIdentifierResponse;
 
 export type FindByIdentifierPartnersDevicesError = DefaultErrors;
 
@@ -1282,7 +1307,7 @@ export const findByIdentifierPartnersDevices: API.OperationMethod<
   FindByIdentifierPartnersDevicesResponse,
   FindByIdentifierPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FindByIdentifierPartnersDevicesRequest,
   output: FindByIdentifierPartnersDevicesResponse,
   errors: [],
@@ -1295,20 +1320,24 @@ export interface UpdateMetadataAsyncPartnersDevicesRequest {
   body?: UpdateDeviceMetadataInBatchRequest;
 }
 
-export const UpdateMetadataAsyncPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(UpdateDeviceMetadataInBatchRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:updateMetadataAsync",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateMetadataAsyncPartnersDevicesRequest>;
+export const UpdateMetadataAsyncPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(UpdateDeviceMetadataInBatchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:updateMetadataAsync",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateMetadataAsyncPartnersDevicesRequest>;
 
 export type UpdateMetadataAsyncPartnersDevicesResponse = Operation;
-export const UpdateMetadataAsyncPartnersDevicesResponse = Operation;
+export const UpdateMetadataAsyncPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type UpdateMetadataAsyncPartnersDevicesError = DefaultErrors;
 
@@ -1318,7 +1347,7 @@ export const updateMetadataAsyncPartnersDevices: API.OperationMethod<
   UpdateMetadataAsyncPartnersDevicesResponse,
   UpdateMetadataAsyncPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateMetadataAsyncPartnersDevicesRequest,
   output: UpdateMetadataAsyncPartnersDevicesResponse,
   errors: [],
@@ -1331,20 +1360,21 @@ export interface UnclaimPartnersDevicesRequest {
   body?: UnclaimDeviceRequest;
 }
 
-export const UnclaimPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(UnclaimDeviceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:unclaim",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnclaimPartnersDevicesRequest>;
+export const UnclaimPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(UnclaimDeviceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:unclaim",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnclaimPartnersDevicesRequest>;
 
 export type UnclaimPartnersDevicesResponse = Empty;
-export const UnclaimPartnersDevicesResponse = Empty;
+export const UnclaimPartnersDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type UnclaimPartnersDevicesError = DefaultErrors;
 
@@ -1354,7 +1384,7 @@ export const unclaimPartnersDevices: API.OperationMethod<
   UnclaimPartnersDevicesResponse,
   UnclaimPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnclaimPartnersDevicesRequest,
   output: UnclaimPartnersDevicesResponse,
   errors: [],
@@ -1367,20 +1397,22 @@ export interface FindByOwnerPartnersDevicesRequest {
   body?: FindDevicesByOwnerRequest;
 }
 
-export const FindByOwnerPartnersDevicesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(FindDevicesByOwnerRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/partners/{partnersId}/devices:findByOwner",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FindByOwnerPartnersDevicesRequest>;
+export const FindByOwnerPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(FindDevicesByOwnerRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/partners/{partnersId}/devices:findByOwner",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FindByOwnerPartnersDevicesRequest>;
 
 export type FindByOwnerPartnersDevicesResponse = FindDevicesByOwnerResponse;
-export const FindByOwnerPartnersDevicesResponse = FindDevicesByOwnerResponse;
+export const FindByOwnerPartnersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FindDevicesByOwnerResponse;
 
 export type FindByOwnerPartnersDevicesError = DefaultErrors;
 
@@ -1390,7 +1422,7 @@ export const findByOwnerPartnersDevices: API.OperationMethod<
   FindByOwnerPartnersDevicesResponse,
   FindByOwnerPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FindByOwnerPartnersDevicesRequest,
   output: FindByOwnerPartnersDevicesResponse,
   errors: [],
@@ -1401,18 +1433,19 @@ export interface GetPartnersDevicesRequest {
   name: string;
 }
 
-export const GetPartnersDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/partners/{partnersId}/devices/{devicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPartnersDevicesRequest>;
+export const GetPartnersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/partners/{partnersId}/devices/{devicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPartnersDevicesRequest>;
 
 export type GetPartnersDevicesResponse = Device;
-export const GetPartnersDevicesResponse = Device;
+export const GetPartnersDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Device;
 
 export type GetPartnersDevicesError = DefaultErrors;
 
@@ -1422,7 +1455,7 @@ export const getPartnersDevices: API.OperationMethod<
   GetPartnersDevicesResponse,
   GetPartnersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnersDevicesRequest,
   output: GetPartnersDevicesResponse,
   errors: [],
@@ -1437,17 +1470,19 @@ export interface ListPartnersVendorsRequest {
   pageSize?: number;
 }
 
-export const ListPartnersVendorsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/partners/{partnersId}/vendors" }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersVendorsRequest>;
+export const ListPartnersVendorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/partners/{partnersId}/vendors" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersVendorsRequest>;
 
 export type ListPartnersVendorsResponse = ListVendorsResponse;
-export const ListPartnersVendorsResponse = ListVendorsResponse;
+export const ListPartnersVendorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListVendorsResponse;
 
 export type ListPartnersVendorsError = DefaultErrors;
 
@@ -1457,7 +1492,7 @@ export const listPartnersVendors: API.PaginatedOperationMethod<
   ListPartnersVendorsResponse,
   ListPartnersVendorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersVendorsRequest,
   output: ListPartnersVendorsResponse,
   errors: [],
@@ -1476,20 +1511,22 @@ export interface ListPartnersVendorsCustomersRequest {
   pageToken?: string;
 }
 
-export const ListPartnersVendorsCustomersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/partners/{partnersId}/vendors/{vendorsId}/customers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersVendorsCustomersRequest>;
+export const ListPartnersVendorsCustomersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/partners/{partnersId}/vendors/{vendorsId}/customers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersVendorsCustomersRequest>;
 
 export type ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
-export const ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
+export const ListPartnersVendorsCustomersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListVendorCustomersResponse;
 
 export type ListPartnersVendorsCustomersError = DefaultErrors;
 
@@ -1499,7 +1536,7 @@ export const listPartnersVendorsCustomers: API.PaginatedOperationMethod<
   ListPartnersVendorsCustomersResponse,
   ListPartnersVendorsCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersVendorsCustomersRequest,
   output: ListPartnersVendorsCustomersResponse,
   errors: [],
@@ -1516,7 +1553,7 @@ export interface ListCustomersRequest {
   pageToken?: string;
 }
 
-export const ListCustomersRequest = Schema.Struct({
+export const ListCustomersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -1525,7 +1562,8 @@ export const ListCustomersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCustomersRequest>;
 
 export type ListCustomersResponse_Op = CustomerListCustomersResponse;
-export const ListCustomersResponse_Op = CustomerListCustomersResponse;
+export const ListCustomersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ CustomerListCustomersResponse;
 
 export type ListCustomersError = DefaultErrors;
 
@@ -1535,7 +1573,7 @@ export const listCustomers: API.PaginatedOperationMethod<
   ListCustomersResponse_Op,
   ListCustomersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: ListCustomersResponse_Op,
   errors: [],
@@ -1552,20 +1590,24 @@ export interface RemoveConfigurationCustomersDevicesRequest {
   body?: CustomerRemoveConfigurationRequest;
 }
 
-export const RemoveConfigurationCustomersDevicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomerRemoveConfigurationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/devices:removeConfiguration",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RemoveConfigurationCustomersDevicesRequest>;
+export const RemoveConfigurationCustomersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CustomerRemoveConfigurationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/devices:removeConfiguration",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveConfigurationCustomersDevicesRequest>;
 
 export type RemoveConfigurationCustomersDevicesResponse = Empty;
-export const RemoveConfigurationCustomersDevicesResponse = Empty;
+export const RemoveConfigurationCustomersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type RemoveConfigurationCustomersDevicesError = DefaultErrors;
 
@@ -1575,7 +1617,7 @@ export const removeConfigurationCustomersDevices: API.OperationMethod<
   RemoveConfigurationCustomersDevicesResponse,
   RemoveConfigurationCustomersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveConfigurationCustomersDevicesRequest,
   output: RemoveConfigurationCustomersDevicesResponse,
   errors: [],
@@ -1586,18 +1628,19 @@ export interface GetCustomersDevicesRequest {
   name: string;
 }
 
-export const GetCustomersDevicesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/devices/{devicesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersDevicesRequest>;
+export const GetCustomersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/devices/{devicesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersDevicesRequest>;
 
 export type GetCustomersDevicesResponse = Device;
-export const GetCustomersDevicesResponse = Device;
+export const GetCustomersDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ Device;
 
 export type GetCustomersDevicesError = DefaultErrors;
 
@@ -1607,7 +1650,7 @@ export const getCustomersDevices: API.OperationMethod<
   GetCustomersDevicesResponse,
   GetCustomersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersDevicesRequest,
   output: GetCustomersDevicesResponse,
   errors: [],
@@ -1622,17 +1665,19 @@ export interface ListCustomersDevicesRequest {
   parent: string;
 }
 
-export const ListCustomersDevicesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.String).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/devices" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersDevicesRequest>;
+export const ListCustomersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.String).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/customers/{customersId}/devices" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersDevicesRequest>;
 
 export type ListCustomersDevicesResponse = CustomerListDevicesResponse;
-export const ListCustomersDevicesResponse = CustomerListDevicesResponse;
+export const ListCustomersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomerListDevicesResponse;
 
 export type ListCustomersDevicesError = DefaultErrors;
 
@@ -1642,7 +1687,7 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
   ListCustomersDevicesResponse,
   ListCustomersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomersDevicesRequest,
   output: ListCustomersDevicesResponse,
   errors: [],
@@ -1659,20 +1704,22 @@ export interface UnclaimCustomersDevicesRequest {
   body?: CustomerUnclaimDeviceRequest;
 }
 
-export const UnclaimCustomersDevicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomerUnclaimDeviceRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/devices:unclaim",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UnclaimCustomersDevicesRequest>;
+export const UnclaimCustomersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CustomerUnclaimDeviceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/devices:unclaim",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UnclaimCustomersDevicesRequest>;
 
 export type UnclaimCustomersDevicesResponse = Empty;
-export const UnclaimCustomersDevicesResponse = Empty;
+export const UnclaimCustomersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type UnclaimCustomersDevicesError = DefaultErrors;
 
@@ -1682,7 +1729,7 @@ export const unclaimCustomersDevices: API.OperationMethod<
   UnclaimCustomersDevicesResponse,
   UnclaimCustomersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UnclaimCustomersDevicesRequest,
   output: UnclaimCustomersDevicesResponse,
   errors: [],
@@ -1695,20 +1742,22 @@ export interface ApplyConfigurationCustomersDevicesRequest {
   body?: CustomerApplyConfigurationRequest;
 }
 
-export const ApplyConfigurationCustomersDevicesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(CustomerApplyConfigurationRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/devices:applyConfiguration",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ApplyConfigurationCustomersDevicesRequest>;
+export const ApplyConfigurationCustomersDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CustomerApplyConfigurationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/devices:applyConfiguration",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ApplyConfigurationCustomersDevicesRequest>;
 
 export type ApplyConfigurationCustomersDevicesResponse = Empty;
-export const ApplyConfigurationCustomersDevicesResponse = Empty;
+export const ApplyConfigurationCustomersDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ApplyConfigurationCustomersDevicesError = DefaultErrors;
 
@@ -1718,7 +1767,7 @@ export const applyConfigurationCustomersDevices: API.OperationMethod<
   ApplyConfigurationCustomersDevicesResponse,
   ApplyConfigurationCustomersDevicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ApplyConfigurationCustomersDevicesRequest,
   output: ApplyConfigurationCustomersDevicesResponse,
   errors: [],
@@ -1729,17 +1778,21 @@ export interface ListCustomersConfigurationsRequest {
   parent: string;
 }
 
-export const ListCustomersConfigurationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/configurations" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersConfigurationsRequest>;
+export const ListCustomersConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/configurations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersConfigurationsRequest>;
 
 export type ListCustomersConfigurationsResponse =
   CustomerListConfigurationsResponse;
 export const ListCustomersConfigurationsResponse =
-  CustomerListConfigurationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CustomerListConfigurationsResponse;
 
 export type ListCustomersConfigurationsError = DefaultErrors;
 
@@ -1749,7 +1802,7 @@ export const listCustomersConfigurations: API.OperationMethod<
   ListCustomersConfigurationsResponse,
   ListCustomersConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCustomersConfigurationsRequest,
   output: ListCustomersConfigurationsResponse,
   errors: [],
@@ -1760,18 +1813,20 @@ export interface GetCustomersConfigurationsRequest {
   name: string;
 }
 
-export const GetCustomersConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/customers/{customersId}/configurations/{configurationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomersConfigurationsRequest>;
+export const GetCustomersConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/customers/{customersId}/configurations/{configurationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomersConfigurationsRequest>;
 
 export type GetCustomersConfigurationsResponse = Configuration;
-export const GetCustomersConfigurationsResponse = Configuration;
+export const GetCustomersConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Configuration;
 
 export type GetCustomersConfigurationsError = DefaultErrors;
 
@@ -1781,7 +1836,7 @@ export const getCustomersConfigurations: API.OperationMethod<
   GetCustomersConfigurationsResponse,
   GetCustomersConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomersConfigurationsRequest,
   output: GetCustomersConfigurationsResponse,
   errors: [],
@@ -1792,18 +1847,20 @@ export interface DeleteCustomersConfigurationsRequest {
   name: string;
 }
 
-export const DeleteCustomersConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/customers/{customersId}/configurations/{configurationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteCustomersConfigurationsRequest>;
+export const DeleteCustomersConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/customers/{customersId}/configurations/{configurationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteCustomersConfigurationsRequest>;
 
 export type DeleteCustomersConfigurationsResponse = Empty;
-export const DeleteCustomersConfigurationsResponse = Empty;
+export const DeleteCustomersConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteCustomersConfigurationsError = DefaultErrors;
 
@@ -1813,7 +1870,7 @@ export const deleteCustomersConfigurations: API.OperationMethod<
   DeleteCustomersConfigurationsResponse,
   DeleteCustomersConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCustomersConfigurationsRequest,
   output: DeleteCustomersConfigurationsResponse,
   errors: [],
@@ -1826,20 +1883,22 @@ export interface CreateCustomersConfigurationsRequest {
   body?: Configuration;
 }
 
-export const CreateCustomersConfigurationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Configuration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/customers/{customersId}/configurations",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomersConfigurationsRequest>;
+export const CreateCustomersConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Configuration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/customers/{customersId}/configurations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomersConfigurationsRequest>;
 
 export type CreateCustomersConfigurationsResponse = Configuration;
-export const CreateCustomersConfigurationsResponse = Configuration;
+export const CreateCustomersConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Configuration;
 
 export type CreateCustomersConfigurationsError = DefaultErrors;
 
@@ -1849,7 +1908,7 @@ export const createCustomersConfigurations: API.OperationMethod<
   CreateCustomersConfigurationsResponse,
   CreateCustomersConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomersConfigurationsRequest,
   output: CreateCustomersConfigurationsResponse,
   errors: [],
@@ -1864,21 +1923,23 @@ export interface PatchCustomersConfigurationsRequest {
   body?: Configuration;
 }
 
-export const PatchCustomersConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Configuration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/customers/{customersId}/configurations/{configurationsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCustomersConfigurationsRequest>;
+export const PatchCustomersConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Configuration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/customers/{customersId}/configurations/{configurationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCustomersConfigurationsRequest>;
 
 export type PatchCustomersConfigurationsResponse = Configuration;
-export const PatchCustomersConfigurationsResponse = Configuration;
+export const PatchCustomersConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Configuration;
 
 export type PatchCustomersConfigurationsError = DefaultErrors;
 
@@ -1888,7 +1949,7 @@ export const patchCustomersConfigurations: API.OperationMethod<
   PatchCustomersConfigurationsResponse,
   PatchCustomersConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCustomersConfigurationsRequest,
   output: PatchCustomersConfigurationsResponse,
   errors: [],
@@ -1899,15 +1960,17 @@ export interface ListCustomersDpcsRequest {
   parent: string;
 }
 
-export const ListCustomersDpcsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/customers/{customersId}/dpcs" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomersDpcsRequest>;
+export const ListCustomersDpcsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/customers/{customersId}/dpcs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomersDpcsRequest>;
 
 export type ListCustomersDpcsResponse = CustomerListDpcsResponse;
-export const ListCustomersDpcsResponse = CustomerListDpcsResponse;
+export const ListCustomersDpcsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomerListDpcsResponse;
 
 export type ListCustomersDpcsError = DefaultErrors;
 
@@ -1917,7 +1980,7 @@ export const listCustomersDpcs: API.OperationMethod<
   ListCustomersDpcsResponse,
   ListCustomersDpcsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCustomersDpcsRequest,
   output: ListCustomersDpcsResponse,
   errors: [],

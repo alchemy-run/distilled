@@ -25,7 +25,7 @@ export interface CreateAnalyzeRequest {
   certificate?: string;
 }
 
-export const CreateAnalyzeRequest = Schema.Struct({
+export const CreateAnalyzeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   bundleMethod: Schema.optional(
     Schema.Literals(["ubiquitous", "optimal", "force"]),
@@ -42,7 +42,7 @@ export const CreateAnalyzeRequest = Schema.Struct({
 export type CreateAnalyzeResponse = unknown;
 
 export const CreateAnalyzeResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateAnalyzeResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateAnalyzeResponse>;
 
 export type CreateAnalyzeError = DefaultErrors;
 
@@ -51,7 +51,7 @@ export const createAnalyze: API.OperationMethod<
   CreateAnalyzeResponse,
   CreateAnalyzeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAnalyzeRequest,
   output: CreateAnalyzeResponse,
   errors: [],
@@ -67,15 +67,16 @@ export interface GetCertificatePackRequest {
   zoneId: string;
 }
 
-export const GetCertificatePackRequest = Schema.Struct({
-  certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
-  }),
-) as unknown as Schema.Schema<GetCertificatePackRequest>;
+export const GetCertificatePackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
+    }),
+  ) as unknown as Schema.Schema<GetCertificatePackRequest>;
 
 export interface GetCertificatePackResponse {
   /** Identifier. */
@@ -156,250 +157,8 @@ export interface GetCertificatePackResponse {
   validityDays?: "14" | "30" | "90" | "365" | null;
 }
 
-export const GetCertificatePackResponse = Schema.Struct({
-  id: Schema.String,
-  certificates: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      hosts: Schema.Array(Schema.String),
-      status: Schema.String,
-      bundleMethod: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      geoRestrictions: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            label: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["us", "eu", "highest_security"]),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        hosts: "hosts",
-        status: "status",
-        bundleMethod: "bundle_method",
-        expiresOn: "expires_on",
-        geoRestrictions: "geo_restrictions",
-        issuer: "issuer",
-        modifiedOn: "modified_on",
-        priority: "priority",
-        signature: "signature",
-        uploadedOn: "uploaded_on",
-        zoneId: "zone_id",
-      }),
-    ),
-  ),
-  hosts: Schema.Array(Schema.String),
-  status: Schema.Literals([
-    "active",
-    "initializing",
-    "pending_validation",
-    "deleted",
-    "pending_issuance",
-    "pending_deployment",
-    "pending_deletion",
-    "pending_expiration",
-    "expired",
-    "initializing_timed_out",
-    "validation_timed_out",
-    "issuance_timed_out",
-    "deployment_timed_out",
-    "deletion_timed_out",
-    "pending_cleanup",
-    "staging_deployment",
-    "staging_active",
-    "deactivating",
-    "inactive",
-    "backup_issued",
-    "holding_deployment",
-  ]),
-  type: Schema.Literals([
-    "mh_custom",
-    "managed_hostname",
-    "sni_custom",
-    "universal",
-    "advanced",
-    "total_tls",
-    "keyless",
-    "legacy_custom",
-  ]),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
-      Schema.Null,
-    ]),
-  ),
-  cloudflareBranding: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  primaryCertificate: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  validationErrors: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  validationMethod: Schema.optional(
-    Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
-  ),
-  validationRecords: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          emails: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          httpBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          httpUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            emails: "emails",
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
-          }),
-        ),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(
-    Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificates: "certificates",
-    hosts: "hosts",
-    status: "status",
-    type: "type",
-    certificateAuthority: "certificate_authority",
-    cloudflareBranding: "cloudflare_branding",
-    primaryCertificate: "primary_certificate",
-    validationErrors: "validation_errors",
-    validationMethod: "validation_method",
-    validationRecords: "validation_records",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<GetCertificatePackResponse>;
-
-export type GetCertificatePackError = DefaultErrors;
-
-export const getCertificatePack: API.OperationMethod<
-  GetCertificatePackRequest,
-  GetCertificatePackResponse,
-  GetCertificatePackError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetCertificatePackRequest,
-  output: GetCertificatePackResponse,
-  errors: [],
-}));
-
-export interface ListCertificatePacksRequest {
-  /** Path param: Identifier. */
-  zoneId: string;
-  /** Query param: Include Certificate Packs of all statuses, not just active ones. */
-  status?: "all";
-}
-
-export const ListCertificatePacksRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  status: Schema.optional(Schema.Literal("all")).pipe(T.HttpQuery("status")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/certificate_packs" }),
-) as unknown as Schema.Schema<ListCertificatePacksRequest>;
-
-export type ListCertificatePacksResponse = {
-  id: string;
-  certificates: {
-    id: string;
-    hosts: string[];
-    status: string;
-    bundleMethod?: string | null;
-    expiresOn?: string | null;
-    geoRestrictions?: {
-      label?: "us" | "eu" | "highest_security" | null;
-    } | null;
-    issuer?: string | null;
-    modifiedOn?: string | null;
-    priority?: number | null;
-    signature?: string | null;
-    uploadedOn?: string | null;
-    zoneId?: string | null;
-  }[];
-  hosts: string[];
-  status:
-    | "active"
-    | "initializing"
-    | "pending_validation"
-    | "deleted"
-    | "pending_issuance"
-    | "pending_deployment"
-    | "pending_deletion"
-    | "pending_expiration"
-    | "expired"
-    | "initializing_timed_out"
-    | "validation_timed_out"
-    | "issuance_timed_out"
-    | "deployment_timed_out"
-    | "deletion_timed_out"
-    | "pending_cleanup"
-    | "staging_deployment"
-    | "staging_active"
-    | "deactivating"
-    | "inactive"
-    | "backup_issued"
-    | "holding_deployment";
-  type:
-    | "mh_custom"
-    | "managed_hostname"
-    | "sni_custom"
-    | "universal"
-    | "advanced"
-    | "total_tls"
-    | "keyless"
-    | "legacy_custom";
-  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | null;
-  cloudflareBranding?: boolean | null;
-  primaryCertificate?: string | null;
-  validationErrors?: { message?: string | null }[] | null;
-  validationMethod?: "txt" | "http" | "email" | null;
-  validationRecords?:
-    | {
-        emails?: string[] | null;
-        httpBody?: string | null;
-        httpUrl?: string | null;
-        txtName?: string | null;
-        txtValue?: string | null;
-      }[]
-    | null;
-  validityDays?: "14" | "30" | "90" | "365" | null;
-}[];
-
-export const ListCertificatePacksResponse = Schema.Array(
-  Schema.Struct({
+export const GetCertificatePackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     certificates: Schema.Array(
       Schema.Struct({
@@ -557,8 +316,273 @@ export const ListCertificatePacksResponse = Schema.Array(
       validationRecords: "validation_records",
       validityDays: "validity_days",
     }),
-  ),
-) as unknown as Schema.Schema<ListCertificatePacksResponse>;
+  ) as unknown as Schema.Schema<GetCertificatePackResponse>;
+
+export type GetCertificatePackError = DefaultErrors;
+
+export const getCertificatePack: API.OperationMethod<
+  GetCertificatePackRequest,
+  GetCertificatePackResponse,
+  GetCertificatePackError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetCertificatePackRequest,
+  output: GetCertificatePackResponse,
+  errors: [],
+}));
+
+export interface ListCertificatePacksRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Query param: Include Certificate Packs of all statuses, not just active ones. */
+  status?: "all";
+}
+
+export const ListCertificatePacksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    status: Schema.optional(Schema.Literal("all")).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/certificate_packs" }),
+  ) as unknown as Schema.Schema<ListCertificatePacksRequest>;
+
+export type ListCertificatePacksResponse = {
+  id: string;
+  certificates: {
+    id: string;
+    hosts: string[];
+    status: string;
+    bundleMethod?: string | null;
+    expiresOn?: string | null;
+    geoRestrictions?: {
+      label?: "us" | "eu" | "highest_security" | null;
+    } | null;
+    issuer?: string | null;
+    modifiedOn?: string | null;
+    priority?: number | null;
+    signature?: string | null;
+    uploadedOn?: string | null;
+    zoneId?: string | null;
+  }[];
+  hosts: string[];
+  status:
+    | "active"
+    | "initializing"
+    | "pending_validation"
+    | "deleted"
+    | "pending_issuance"
+    | "pending_deployment"
+    | "pending_deletion"
+    | "pending_expiration"
+    | "expired"
+    | "initializing_timed_out"
+    | "validation_timed_out"
+    | "issuance_timed_out"
+    | "deployment_timed_out"
+    | "deletion_timed_out"
+    | "pending_cleanup"
+    | "staging_deployment"
+    | "staging_active"
+    | "deactivating"
+    | "inactive"
+    | "backup_issued"
+    | "holding_deployment";
+  type:
+    | "mh_custom"
+    | "managed_hostname"
+    | "sni_custom"
+    | "universal"
+    | "advanced"
+    | "total_tls"
+    | "keyless"
+    | "legacy_custom";
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | null;
+  cloudflareBranding?: boolean | null;
+  primaryCertificate?: string | null;
+  validationErrors?: { message?: string | null }[] | null;
+  validationMethod?: "txt" | "http" | "email" | null;
+  validationRecords?:
+    | {
+        emails?: string[] | null;
+        httpBody?: string | null;
+        httpUrl?: string | null;
+        txtName?: string | null;
+        txtValue?: string | null;
+      }[]
+    | null;
+  validityDays?: "14" | "30" | "90" | "365" | null;
+}[];
+
+export const ListCertificatePacksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      certificates: Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          hosts: Schema.Array(Schema.String),
+          status: Schema.String,
+          bundleMethod: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          expiresOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          geoRestrictions: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                label: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["us", "eu", "highest_security"]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          modifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          signature: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          uploadedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            hosts: "hosts",
+            status: "status",
+            bundleMethod: "bundle_method",
+            expiresOn: "expires_on",
+            geoRestrictions: "geo_restrictions",
+            issuer: "issuer",
+            modifiedOn: "modified_on",
+            priority: "priority",
+            signature: "signature",
+            uploadedOn: "uploaded_on",
+            zoneId: "zone_id",
+          }),
+        ),
+      ),
+      hosts: Schema.Array(Schema.String),
+      status: Schema.Literals([
+        "active",
+        "initializing",
+        "pending_validation",
+        "deleted",
+        "pending_issuance",
+        "pending_deployment",
+        "pending_deletion",
+        "pending_expiration",
+        "expired",
+        "initializing_timed_out",
+        "validation_timed_out",
+        "issuance_timed_out",
+        "deployment_timed_out",
+        "deletion_timed_out",
+        "pending_cleanup",
+        "staging_deployment",
+        "staging_active",
+        "deactivating",
+        "inactive",
+        "backup_issued",
+        "holding_deployment",
+      ]),
+      type: Schema.Literals([
+        "mh_custom",
+        "managed_hostname",
+        "sni_custom",
+        "universal",
+        "advanced",
+        "total_tls",
+        "keyless",
+        "legacy_custom",
+      ]),
+      certificateAuthority: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+          Schema.Null,
+        ]),
+      ),
+      cloudflareBranding: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      primaryCertificate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      validationErrors: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              message: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      validationMethod: Schema.optional(
+        Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
+      ),
+      validationRecords: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              emails: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              httpBody: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              httpUrl: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              txtName: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              txtValue: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                emails: "emails",
+                httpBody: "http_body",
+                httpUrl: "http_url",
+                txtName: "txt_name",
+                txtValue: "txt_value",
+              }),
+            ),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      validityDays: Schema.optional(
+        Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        certificates: "certificates",
+        hosts: "hosts",
+        status: "status",
+        type: "type",
+        certificateAuthority: "certificate_authority",
+        cloudflareBranding: "cloudflare_branding",
+        primaryCertificate: "primary_certificate",
+        validationErrors: "validation_errors",
+        validationMethod: "validation_method",
+        validationRecords: "validation_records",
+        validityDays: "validity_days",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListCertificatePacksResponse>;
 
 export type ListCertificatePacksError = DefaultErrors;
 
@@ -567,7 +591,7 @@ export const listCertificatePacks: API.OperationMethod<
   ListCertificatePacksResponse,
   ListCertificatePacksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCertificatePacksRequest,
   output: ListCertificatePacksResponse,
   errors: [],
@@ -590,28 +614,33 @@ export interface CreateCertificatePackRequest {
   cloudflareBranding?: boolean;
 }
 
-export const CreateCertificatePackRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  certificateAuthority: Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
-  hosts: Schema.Array(Schema.String),
-  type: Schema.Literal("advanced"),
-  validationMethod: Schema.Literals(["txt", "http", "email"]),
-  validityDays: Schema.Literals(["14", "30", "90", "365"]),
-  cloudflareBranding: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({
-    certificateAuthority: "certificate_authority",
-    hosts: "hosts",
-    type: "type",
-    validationMethod: "validation_method",
-    validityDays: "validity_days",
-    cloudflareBranding: "cloudflare_branding",
-  }),
-  T.Http({
-    method: "POST",
-    path: "/zones/{zone_id}/ssl/certificate_packs/order",
-  }),
-) as unknown as Schema.Schema<CreateCertificatePackRequest>;
+export const CreateCertificatePackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    certificateAuthority: Schema.Literals([
+      "google",
+      "lets_encrypt",
+      "ssl_com",
+    ]),
+    hosts: Schema.Array(Schema.String),
+    type: Schema.Literal("advanced"),
+    validationMethod: Schema.Literals(["txt", "http", "email"]),
+    validityDays: Schema.Literals(["14", "30", "90", "365"]),
+    cloudflareBranding: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({
+      certificateAuthority: "certificate_authority",
+      hosts: "hosts",
+      type: "type",
+      validationMethod: "validation_method",
+      validityDays: "validity_days",
+      cloudflareBranding: "cloudflare_branding",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/ssl/certificate_packs/order",
+    }),
+  ) as unknown as Schema.Schema<CreateCertificatePackRequest>;
 
 export interface CreateCertificatePackResponse {
   /** Identifier. */
@@ -692,153 +721,166 @@ export interface CreateCertificatePackResponse {
   validityDays?: "14" | "30" | "90" | "365" | null;
 }
 
-export const CreateCertificatePackResponse = Schema.Struct({
-  id: Schema.String,
-  certificates: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      hosts: Schema.Array(Schema.String),
-      status: Schema.String,
-      bundleMethod: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      geoRestrictions: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            label: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["us", "eu", "highest_security"]),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        hosts: "hosts",
-        status: "status",
-        bundleMethod: "bundle_method",
-        expiresOn: "expires_on",
-        geoRestrictions: "geo_restrictions",
-        issuer: "issuer",
-        modifiedOn: "modified_on",
-        priority: "priority",
-        signature: "signature",
-        uploadedOn: "uploaded_on",
-        zoneId: "zone_id",
-      }),
-    ),
-  ),
-  hosts: Schema.Array(Schema.String),
-  status: Schema.Literals([
-    "active",
-    "initializing",
-    "pending_validation",
-    "deleted",
-    "pending_issuance",
-    "pending_deployment",
-    "pending_deletion",
-    "pending_expiration",
-    "expired",
-    "initializing_timed_out",
-    "validation_timed_out",
-    "issuance_timed_out",
-    "deployment_timed_out",
-    "deletion_timed_out",
-    "pending_cleanup",
-    "staging_deployment",
-    "staging_active",
-    "deactivating",
-    "inactive",
-    "backup_issued",
-    "holding_deployment",
-  ]),
-  type: Schema.Literals([
-    "mh_custom",
-    "managed_hostname",
-    "sni_custom",
-    "universal",
-    "advanced",
-    "total_tls",
-    "keyless",
-    "legacy_custom",
-  ]),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
-      Schema.Null,
-    ]),
-  ),
-  cloudflareBranding: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  primaryCertificate: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  validationErrors: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+export const CreateCertificatePackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    certificates: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        hosts: Schema.Array(Schema.String),
+        status: Schema.String,
+        bundleMethod: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        geoRestrictions: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              label: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["us", "eu", "highest_security"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          hosts: "hosts",
+          status: "status",
+          bundleMethod: "bundle_method",
+          expiresOn: "expires_on",
+          geoRestrictions: "geo_restrictions",
+          issuer: "issuer",
+          modifiedOn: "modified_on",
+          priority: "priority",
+          signature: "signature",
+          uploadedOn: "uploaded_on",
+          zoneId: "zone_id",
         }),
       ),
-      Schema.Null,
+    ),
+    hosts: Schema.Array(Schema.String),
+    status: Schema.Literals([
+      "active",
+      "initializing",
+      "pending_validation",
+      "deleted",
+      "pending_issuance",
+      "pending_deployment",
+      "pending_deletion",
+      "pending_expiration",
+      "expired",
+      "initializing_timed_out",
+      "validation_timed_out",
+      "issuance_timed_out",
+      "deployment_timed_out",
+      "deletion_timed_out",
+      "pending_cleanup",
+      "staging_deployment",
+      "staging_active",
+      "deactivating",
+      "inactive",
+      "backup_issued",
+      "holding_deployment",
     ]),
-  ),
-  validationMethod: Schema.optional(
-    Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
-  ),
-  validationRecords: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          emails: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          httpBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          httpUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            emails: "emails",
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
+    type: Schema.Literals([
+      "mh_custom",
+      "managed_hostname",
+      "sni_custom",
+      "universal",
+      "advanced",
+      "total_tls",
+      "keyless",
+      "legacy_custom",
+    ]),
+    certificateAuthority: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+        Schema.Null,
+      ]),
+    ),
+    cloudflareBranding: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    primaryCertificate: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    validationErrors: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            message: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }),
         ),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(
-    Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificates: "certificates",
-    hosts: "hosts",
-    status: "status",
-    type: "type",
-    certificateAuthority: "certificate_authority",
-    cloudflareBranding: "cloudflare_branding",
-    primaryCertificate: "primary_certificate",
-    validationErrors: "validation_errors",
-    validationMethod: "validation_method",
-    validationRecords: "validation_records",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<CreateCertificatePackResponse>;
+        Schema.Null,
+      ]),
+    ),
+    validationMethod: Schema.optional(
+      Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
+    ),
+    validationRecords: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            emails: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            httpBody: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            httpUrl: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            txtName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            txtValue: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              emails: "emails",
+              httpBody: "http_body",
+              httpUrl: "http_url",
+              txtName: "txt_name",
+              txtValue: "txt_value",
+            }),
+          ),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    validityDays: Schema.optional(
+      Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificates: "certificates",
+      hosts: "hosts",
+      status: "status",
+      type: "type",
+      certificateAuthority: "certificate_authority",
+      cloudflareBranding: "cloudflare_branding",
+      primaryCertificate: "primary_certificate",
+      validationErrors: "validation_errors",
+      validationMethod: "validation_method",
+      validationRecords: "validation_records",
+      validityDays: "validity_days",
+    }),
+  ) as unknown as Schema.Schema<CreateCertificatePackResponse>;
 
 export type CreateCertificatePackError = DefaultErrors;
 
@@ -847,7 +889,7 @@ export const createCertificatePack: API.OperationMethod<
   CreateCertificatePackResponse,
   CreateCertificatePackError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCertificatePackRequest,
   output: CreateCertificatePackResponse,
   errors: [],
@@ -861,17 +903,18 @@ export interface PatchCertificatePackRequest {
   cloudflareBranding?: boolean;
 }
 
-export const PatchCertificatePackRequest = Schema.Struct({
-  certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  cloudflareBranding: Schema.optional(Schema.Boolean),
-}).pipe(
-  Schema.encodeKeys({ cloudflareBranding: "cloudflare_branding" }),
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
-  }),
-) as unknown as Schema.Schema<PatchCertificatePackRequest>;
+export const PatchCertificatePackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    cloudflareBranding: Schema.optional(Schema.Boolean),
+  }).pipe(
+    Schema.encodeKeys({ cloudflareBranding: "cloudflare_branding" }),
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
+    }),
+  ) as unknown as Schema.Schema<PatchCertificatePackRequest>;
 
 export interface PatchCertificatePackResponse {
   /** Identifier. */
@@ -952,153 +995,166 @@ export interface PatchCertificatePackResponse {
   validityDays?: "14" | "30" | "90" | "365" | null;
 }
 
-export const PatchCertificatePackResponse = Schema.Struct({
-  id: Schema.String,
-  certificates: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      hosts: Schema.Array(Schema.String),
-      status: Schema.String,
-      bundleMethod: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      geoRestrictions: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            label: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["us", "eu", "highest_security"]),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        hosts: "hosts",
-        status: "status",
-        bundleMethod: "bundle_method",
-        expiresOn: "expires_on",
-        geoRestrictions: "geo_restrictions",
-        issuer: "issuer",
-        modifiedOn: "modified_on",
-        priority: "priority",
-        signature: "signature",
-        uploadedOn: "uploaded_on",
-        zoneId: "zone_id",
-      }),
-    ),
-  ),
-  hosts: Schema.Array(Schema.String),
-  status: Schema.Literals([
-    "active",
-    "initializing",
-    "pending_validation",
-    "deleted",
-    "pending_issuance",
-    "pending_deployment",
-    "pending_deletion",
-    "pending_expiration",
-    "expired",
-    "initializing_timed_out",
-    "validation_timed_out",
-    "issuance_timed_out",
-    "deployment_timed_out",
-    "deletion_timed_out",
-    "pending_cleanup",
-    "staging_deployment",
-    "staging_active",
-    "deactivating",
-    "inactive",
-    "backup_issued",
-    "holding_deployment",
-  ]),
-  type: Schema.Literals([
-    "mh_custom",
-    "managed_hostname",
-    "sni_custom",
-    "universal",
-    "advanced",
-    "total_tls",
-    "keyless",
-    "legacy_custom",
-  ]),
-  certificateAuthority: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
-      Schema.Null,
-    ]),
-  ),
-  cloudflareBranding: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Null]),
-  ),
-  primaryCertificate: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  validationErrors: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+export const PatchCertificatePackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    certificates: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        hosts: Schema.Array(Schema.String),
+        status: Schema.String,
+        bundleMethod: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        geoRestrictions: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              label: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["us", "eu", "highest_security"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          hosts: "hosts",
+          status: "status",
+          bundleMethod: "bundle_method",
+          expiresOn: "expires_on",
+          geoRestrictions: "geo_restrictions",
+          issuer: "issuer",
+          modifiedOn: "modified_on",
+          priority: "priority",
+          signature: "signature",
+          uploadedOn: "uploaded_on",
+          zoneId: "zone_id",
         }),
       ),
-      Schema.Null,
+    ),
+    hosts: Schema.Array(Schema.String),
+    status: Schema.Literals([
+      "active",
+      "initializing",
+      "pending_validation",
+      "deleted",
+      "pending_issuance",
+      "pending_deployment",
+      "pending_deletion",
+      "pending_expiration",
+      "expired",
+      "initializing_timed_out",
+      "validation_timed_out",
+      "issuance_timed_out",
+      "deployment_timed_out",
+      "deletion_timed_out",
+      "pending_cleanup",
+      "staging_deployment",
+      "staging_active",
+      "deactivating",
+      "inactive",
+      "backup_issued",
+      "holding_deployment",
     ]),
-  ),
-  validationMethod: Schema.optional(
-    Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
-  ),
-  validationRecords: Schema.optional(
-    Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          emails: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          httpBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          httpUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          txtValue: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            emails: "emails",
-            httpBody: "http_body",
-            httpUrl: "http_url",
-            txtName: "txt_name",
-            txtValue: "txt_value",
+    type: Schema.Literals([
+      "mh_custom",
+      "managed_hostname",
+      "sni_custom",
+      "universal",
+      "advanced",
+      "total_tls",
+      "keyless",
+      "legacy_custom",
+    ]),
+    certificateAuthority: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+        Schema.Null,
+      ]),
+    ),
+    cloudflareBranding: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    primaryCertificate: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    validationErrors: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            message: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }),
         ),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  validityDays: Schema.optional(
-    Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    certificates: "certificates",
-    hosts: "hosts",
-    status: "status",
-    type: "type",
-    certificateAuthority: "certificate_authority",
-    cloudflareBranding: "cloudflare_branding",
-    primaryCertificate: "primary_certificate",
-    validationErrors: "validation_errors",
-    validationMethod: "validation_method",
-    validationRecords: "validation_records",
-    validityDays: "validity_days",
-  }),
-) as unknown as Schema.Schema<PatchCertificatePackResponse>;
+        Schema.Null,
+      ]),
+    ),
+    validationMethod: Schema.optional(
+      Schema.Union([Schema.Literals(["txt", "http", "email"]), Schema.Null]),
+    ),
+    validationRecords: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            emails: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            httpBody: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            httpUrl: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            txtName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            txtValue: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              emails: "emails",
+              httpBody: "http_body",
+              httpUrl: "http_url",
+              txtName: "txt_name",
+              txtValue: "txt_value",
+            }),
+          ),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    validityDays: Schema.optional(
+      Schema.Union([Schema.Literals(["14", "30", "90", "365"]), Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      certificates: "certificates",
+      hosts: "hosts",
+      status: "status",
+      type: "type",
+      certificateAuthority: "certificate_authority",
+      cloudflareBranding: "cloudflare_branding",
+      primaryCertificate: "primary_certificate",
+      validationErrors: "validation_errors",
+      validationMethod: "validation_method",
+      validationRecords: "validation_records",
+      validityDays: "validity_days",
+    }),
+  ) as unknown as Schema.Schema<PatchCertificatePackResponse>;
 
 export type PatchCertificatePackError = DefaultErrors;
 
@@ -1107,7 +1163,7 @@ export const patchCertificatePack: API.OperationMethod<
   PatchCertificatePackResponse,
   PatchCertificatePackError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCertificatePackRequest,
   output: PatchCertificatePackResponse,
   errors: [],
@@ -1119,24 +1175,26 @@ export interface DeleteCertificatePackRequest {
   zoneId: string;
 }
 
-export const DeleteCertificatePackRequest = Schema.Struct({
-  certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
-  }),
-) as unknown as Schema.Schema<DeleteCertificatePackRequest>;
+export const DeleteCertificatePackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/ssl/certificate_packs/{certificatePackId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteCertificatePackRequest>;
 
 export interface DeleteCertificatePackResponse {
   /** Identifier. */
   id?: string | null;
 }
 
-export const DeleteCertificatePackResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteCertificatePackResponse>;
+export const DeleteCertificatePackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteCertificatePackResponse>;
 
 export type DeleteCertificatePackError = DefaultErrors;
 
@@ -1145,7 +1203,7 @@ export const deleteCertificatePack: API.OperationMethod<
   DeleteCertificatePackResponse,
   DeleteCertificatePackError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteCertificatePackRequest,
   output: DeleteCertificatePackResponse,
   errors: [],
@@ -1160,30 +1218,34 @@ export interface GetCertificatePackQuotaRequest {
   zoneId: string;
 }
 
-export const GetCertificatePackQuotaRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/ssl/certificate_packs/quota",
-  }),
-) as unknown as Schema.Schema<GetCertificatePackQuotaRequest>;
+export const GetCertificatePackQuotaRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/ssl/certificate_packs/quota",
+    }),
+  ) as unknown as Schema.Schema<GetCertificatePackQuotaRequest>;
 
 export interface GetCertificatePackQuotaResponse {
   advanced?: { allocated?: number | null; used?: number | null } | null;
 }
 
-export const GetCertificatePackQuotaResponse = Schema.Struct({
-  advanced: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        allocated: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-        used: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }),
-      Schema.Null,
-    ]),
-  ),
-}) as unknown as Schema.Schema<GetCertificatePackQuotaResponse>;
+export const GetCertificatePackQuotaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advanced: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          allocated: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          used: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
+    ),
+  }) as unknown as Schema.Schema<GetCertificatePackQuotaResponse>;
 
 export type GetCertificatePackQuotaError = DefaultErrors;
 
@@ -1192,7 +1254,7 @@ export const getCertificatePackQuota: API.OperationMethod<
   GetCertificatePackQuotaResponse,
   GetCertificatePackQuotaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCertificatePackQuotaRequest,
   output: GetCertificatePackQuotaResponse,
   errors: [],
@@ -1206,11 +1268,12 @@ export interface GetRecommendationRequest {
   zoneId: string;
 }
 
-export const GetRecommendationRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/recommendation" }),
-) as unknown as Schema.Schema<GetRecommendationRequest>;
+export const GetRecommendationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/recommendation" }),
+  ) as unknown as Schema.Schema<GetRecommendationRequest>;
 
 export interface GetRecommendationResponse {
   id: string;
@@ -1224,23 +1287,24 @@ export interface GetRecommendationResponse {
   nextScheduledScan?: string | null;
 }
 
-export const GetRecommendationResponse = Schema.Struct({
-  id: Schema.String,
-  editable: Schema.Boolean,
-  modifiedOn: Schema.String,
-  value: Schema.Literals(["auto", "custom"]),
-  nextScheduledScan: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    modifiedOn: "modified_on",
-    value: "value",
-    nextScheduledScan: "next_scheduled_scan",
-  }),
-) as unknown as Schema.Schema<GetRecommendationResponse>;
+export const GetRecommendationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    editable: Schema.Boolean,
+    modifiedOn: Schema.String,
+    value: Schema.Literals(["auto", "custom"]),
+    nextScheduledScan: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      modifiedOn: "modified_on",
+      value: "value",
+      nextScheduledScan: "next_scheduled_scan",
+    }),
+  ) as unknown as Schema.Schema<GetRecommendationResponse>;
 
 export type GetRecommendationError = DefaultErrors;
 
@@ -1249,7 +1313,7 @@ export const getRecommendation: API.OperationMethod<
   GetRecommendationResponse,
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommendationRequest,
   output: GetRecommendationResponse,
   errors: [],
@@ -1264,20 +1328,22 @@ export interface GetUniversalSettingRequest {
   zoneId: string;
 }
 
-export const GetUniversalSettingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-}).pipe(
-  T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/universal/settings" }),
-) as unknown as Schema.Schema<GetUniversalSettingRequest>;
+export const GetUniversalSettingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/universal/settings" }),
+  ) as unknown as Schema.Schema<GetUniversalSettingRequest>;
 
 export interface GetUniversalSettingResponse {
   /** Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advan */
   enabled?: boolean | null;
 }
 
-export const GetUniversalSettingResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<GetUniversalSettingResponse>;
+export const GetUniversalSettingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<GetUniversalSettingResponse>;
 
 export type GetUniversalSettingError = DefaultErrors;
 
@@ -1286,7 +1352,7 @@ export const getUniversalSetting: API.OperationMethod<
   GetUniversalSettingResponse,
   GetUniversalSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUniversalSettingRequest,
   output: GetUniversalSettingResponse,
   errors: [],
@@ -1299,21 +1365,26 @@ export interface PatchUniversalSettingRequest {
   enabled?: boolean;
 }
 
-export const PatchUniversalSettingRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  enabled: Schema.optional(Schema.Boolean),
-}).pipe(
-  T.Http({ method: "PATCH", path: "/zones/{zone_id}/ssl/universal/settings" }),
-) as unknown as Schema.Schema<PatchUniversalSettingRequest>;
+export const PatchUniversalSettingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    enabled: Schema.optional(Schema.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/ssl/universal/settings",
+    }),
+  ) as unknown as Schema.Schema<PatchUniversalSettingRequest>;
 
 export interface PatchUniversalSettingResponse {
   /** Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advan */
   enabled?: boolean | null;
 }
 
-export const PatchUniversalSettingResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<PatchUniversalSettingResponse>;
+export const PatchUniversalSettingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  }) as unknown as Schema.Schema<PatchUniversalSettingResponse>;
 
 export type PatchUniversalSettingError = DefaultErrors;
 
@@ -1322,7 +1393,7 @@ export const patchUniversalSetting: API.OperationMethod<
   PatchUniversalSettingResponse,
   PatchUniversalSettingError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUniversalSettingRequest,
   output: PatchUniversalSettingResponse,
   errors: [],
@@ -1339,10 +1410,12 @@ export interface GetVerificationRequest {
   retry?: true;
 }
 
-export const GetVerificationRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  retry: Schema.optional(Schema.Literal(true)).pipe(T.HttpQuery("retry")),
-}).pipe(
+export const GetVerificationRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    retry: Schema.optional(Schema.Literal(true)).pipe(T.HttpQuery("retry")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/ssl/verification" }),
 ) as unknown as Schema.Schema<GetVerificationRequest>;
 
@@ -1372,7 +1445,7 @@ export type GetVerificationResponse = {
   verificationType?: "cname" | "meta tag" | null;
 }[];
 
-export const GetVerificationResponse = Schema.Array(
+export const GetVerificationResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     certificateStatus: Schema.Literals([
       "initializing",
@@ -1450,7 +1523,7 @@ export const getVerification: API.OperationMethod<
   GetVerificationResponse,
   GetVerificationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetVerificationRequest,
   output: GetVerificationResponse,
   errors: [],
@@ -1464,17 +1537,18 @@ export interface PatchVerificationRequest {
   validationMethod: "http" | "cname" | "txt" | "email";
 }
 
-export const PatchVerificationRequest = Schema.Struct({
-  certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  validationMethod: Schema.Literals(["http", "cname", "txt", "email"]),
-}).pipe(
-  Schema.encodeKeys({ validationMethod: "validation_method" }),
-  T.Http({
-    method: "PATCH",
-    path: "/zones/{zone_id}/ssl/verification/{certificatePackId}",
-  }),
-) as unknown as Schema.Schema<PatchVerificationRequest>;
+export const PatchVerificationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    certificatePackId: Schema.String.pipe(T.HttpPath("certificatePackId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    validationMethod: Schema.Literals(["http", "cname", "txt", "email"]),
+  }).pipe(
+    Schema.encodeKeys({ validationMethod: "validation_method" }),
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/ssl/verification/{certificatePackId}",
+    }),
+  ) as unknown as Schema.Schema<PatchVerificationRequest>;
 
 export interface PatchVerificationResponse {
   /** Result status. */
@@ -1483,20 +1557,21 @@ export interface PatchVerificationResponse {
   validationMethod?: "http" | "cname" | "txt" | "email" | null;
 }
 
-export const PatchVerificationResponse = Schema.Struct({
-  status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  validationMethod: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["http", "cname", "txt", "email"]),
-      Schema.Null,
-    ]),
-  ),
-}).pipe(
-  Schema.encodeKeys({
-    status: "status",
-    validationMethod: "validation_method",
-  }),
-) as unknown as Schema.Schema<PatchVerificationResponse>;
+export const PatchVerificationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    validationMethod: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["http", "cname", "txt", "email"]),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      status: "status",
+      validationMethod: "validation_method",
+    }),
+  ) as unknown as Schema.Schema<PatchVerificationResponse>;
 
 export type PatchVerificationError = DefaultErrors;
 
@@ -1505,7 +1580,7 @@ export const patchVerification: API.OperationMethod<
   PatchVerificationResponse,
   PatchVerificationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchVerificationRequest,
   output: PatchVerificationResponse,
   errors: [],

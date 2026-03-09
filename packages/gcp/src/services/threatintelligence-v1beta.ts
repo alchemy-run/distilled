@@ -33,14 +33,15 @@ export interface Audit {
   updater?: string;
 }
 
-export const Audit: Schema.Schema<Audit> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    creator: Schema.optional(Schema.String),
-    updater: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Audit" }) as any as Schema.Schema<Audit>;
+export const Audit: Schema.Schema<Audit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      creator: Schema.optional(Schema.String),
+      updater: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Audit" }) as any as Schema.Schema<Audit>;
 
 export interface CustomerProfileIndustry {
   /** Required. The name of the industry. */
@@ -50,7 +51,7 @@ export interface CustomerProfileIndustry {
 }
 
 export const CustomerProfileIndustry: Schema.Schema<CustomerProfileIndustry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       industry: Schema.optional(Schema.String),
       citationIds: Schema.optional(Schema.Array(Schema.String)),
@@ -67,7 +68,7 @@ export interface CustomerProfileCompany {
 }
 
 export const CustomerProfileCompany: Schema.Schema<CustomerProfileCompany> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       company: Schema.optional(Schema.String),
       citationIds: Schema.optional(Schema.Array(Schema.String)),
@@ -86,7 +87,7 @@ export interface CustomerProfileProduct {
 }
 
 export const CustomerProfileProduct: Schema.Schema<CustomerProfileProduct> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       product: Schema.optional(Schema.String),
       brand: Schema.optional(Schema.String),
@@ -108,7 +109,7 @@ export interface CustomerProfileLocation {
 }
 
 export const CustomerProfileLocation: Schema.Schema<CustomerProfileLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       facilityType: Schema.optional(Schema.String),
       brand: Schema.optional(Schema.String),
@@ -129,7 +130,7 @@ export interface CustomerProfilePerson {
 }
 
 export const CustomerProfilePerson: Schema.Schema<CustomerProfilePerson> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
@@ -147,7 +148,7 @@ export interface CustomerProfileWebPresence {
 }
 
 export const CustomerProfileWebPresence: Schema.Schema<CustomerProfileWebPresence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       citationIds: Schema.optional(Schema.Array(Schema.String)),
@@ -164,7 +165,7 @@ export interface CustomerProfileSecurityConsiderations {
 }
 
 export const CustomerProfileSecurityConsiderations: Schema.Schema<CustomerProfileSecurityConsiderations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       note: Schema.optional(Schema.String),
       considerations: Schema.optional(Schema.Array(Schema.String)),
@@ -189,7 +190,7 @@ export interface CustomerProfileContactInfo {
 }
 
 export const CustomerProfileContactInfo: Schema.Schema<CustomerProfileContactInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       email: Schema.optional(Schema.String),
       phone: Schema.optional(Schema.String),
@@ -216,7 +217,7 @@ export interface CustomerProfileCitation {
 }
 
 export const CustomerProfileCitation: Schema.Schema<CustomerProfileCitation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       citationId: Schema.optional(Schema.String),
       uri: Schema.optional(Schema.String),
@@ -236,7 +237,7 @@ export interface CustomerProfileCitedString {
 }
 
 export const CustomerProfileCitedString: Schema.Schema<CustomerProfileCitedString> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       citationIds: Schema.optional(Schema.Array(Schema.String)),
@@ -273,7 +274,7 @@ export interface CustomerProfileSummary {
 }
 
 export const CustomerProfileSummary: Schema.Schema<CustomerProfileSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(CustomerProfileCitedString),
       entityType: Schema.optional(CustomerProfileCitedString),
@@ -322,7 +323,7 @@ export interface CustomerProfileConfig {
 }
 
 export const CustomerProfileConfig: Schema.Schema<CustomerProfileConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       org: Schema.optional(Schema.String),
       orgSummary: Schema.optional(Schema.String),
@@ -352,7 +353,7 @@ export interface ConfigurationDetail {
 }
 
 export const ConfigurationDetail: Schema.Schema<ConfigurationDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customerProfile: Schema.optional(CustomerProfileConfig),
       detailType: Schema.optional(Schema.String),
@@ -385,20 +386,21 @@ export interface Configuration {
   description?: string;
 }
 
-export const Configuration: Schema.Schema<Configuration> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    audit: Schema.optional(Audit),
-    provider: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    detail: Schema.optional(ConfigurationDetail),
-    version: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "Configuration",
-}) as any as Schema.Schema<Configuration>;
+export const Configuration: Schema.Schema<Configuration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      audit: Schema.optional(Audit),
+      provider: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      detail: Schema.optional(ConfigurationDetail),
+      version: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Configuration",
+  }) as any as Schema.Schema<Configuration>;
 
 export interface ListConfigurationsResponse {
   /** List of configurations. */
@@ -408,7 +410,7 @@ export interface ListConfigurationsResponse {
 }
 
 export const ListConfigurationsResponse: Schema.Schema<ListConfigurationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configurations: Schema.optional(Schema.Array(Configuration)),
       nextPageToken: Schema.optional(Schema.String),
@@ -427,7 +429,7 @@ export interface ConfigurationRevision {
 }
 
 export const ConfigurationRevision: Schema.Schema<ConfigurationRevision> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       snapshot: Schema.optional(Configuration),
@@ -445,7 +447,7 @@ export interface ListConfigurationRevisionsResponse {
 }
 
 export const ListConfigurationRevisionsResponse: Schema.Schema<ListConfigurationRevisionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       revisions: Schema.optional(Schema.Array(ConfigurationRevision)),
       nextPageToken: Schema.optional(Schema.String),
@@ -460,7 +462,7 @@ export interface UpsertConfigurationResponse {
 }
 
 export const UpsertConfigurationResponse: Schema.Schema<UpsertConfigurationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       configuration: Schema.optional(Schema.String),
     }),
@@ -476,7 +478,7 @@ export interface GenerateOrgProfileConfigurationRequest {
 }
 
 export const GenerateOrgProfileConfigurationRequest: Schema.Schema<GenerateOrgProfileConfigurationRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -494,15 +496,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -517,15 +520,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface InitialAccessBrokerFindingDetail {
   /** Required. Reference to the match score of the IAB finding. This is a float value between 0 and 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
@@ -543,7 +547,7 @@ export interface InitialAccessBrokerFindingDetail {
 }
 
 export const InitialAccessBrokerFindingDetail: Schema.Schema<InitialAccessBrokerFindingDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchScore: Schema.optional(Schema.Number),
       severity: Schema.optional(Schema.String),
@@ -569,7 +573,7 @@ export interface DataLeakFindingDetail {
 }
 
 export const DataLeakFindingDetail: Schema.Schema<DataLeakFindingDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchScore: Schema.optional(Schema.Number),
       severity: Schema.optional(Schema.String),
@@ -595,7 +599,7 @@ export interface InsiderThreatFindingDetail {
 }
 
 export const InsiderThreatFindingDetail: Schema.Schema<InsiderThreatFindingDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchScore: Schema.optional(Schema.Number),
       severity: Schema.optional(Schema.String),
@@ -616,16 +620,17 @@ export interface FindingDetail {
   detailType?: string;
 }
 
-export const FindingDetail: Schema.Schema<FindingDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    initialAccessBroker: Schema.optional(InitialAccessBrokerFindingDetail),
-    dataLeak: Schema.optional(DataLeakFindingDetail),
-    insiderThreat: Schema.optional(InsiderThreatFindingDetail),
-    detailType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "FindingDetail",
-}) as any as Schema.Schema<FindingDetail>;
+export const FindingDetail: Schema.Schema<FindingDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      initialAccessBroker: Schema.optional(InitialAccessBrokerFindingDetail),
+      dataLeak: Schema.optional(DataLeakFindingDetail),
+      insiderThreat: Schema.optional(InsiderThreatFindingDetail),
+      detailType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FindingDetail",
+  }) as any as Schema.Schema<FindingDetail>;
 
 export interface Evidence {
   /** A list of semantic themes or concepts found to be common, related, or aligned between the sources, supporting the verdict. */
@@ -634,12 +639,13 @@ export interface Evidence {
   distinctThemes?: Array<string>;
 }
 
-export const Evidence: Schema.Schema<Evidence> = Schema.suspend(() =>
-  Schema.Struct({
-    commonThemes: Schema.optional(Schema.Array(Schema.String)),
-    distinctThemes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Evidence" }) as any as Schema.Schema<Evidence>;
+export const Evidence: Schema.Schema<Evidence> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commonThemes: Schema.optional(Schema.Array(Schema.String)),
+      distinctThemes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Evidence" }) as any as Schema.Schema<Evidence>;
 
 export interface RelevanceAnalysis {
   /** Indicates whether the threat is considered relevant. */
@@ -665,7 +671,7 @@ export interface RelevanceAnalysis {
 }
 
 export const RelevanceAnalysis: Schema.Schema<RelevanceAnalysis> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relevant: Schema.optional(Schema.Boolean),
       confidence: Schema.optional(Schema.String),
@@ -696,16 +702,16 @@ export interface SeverityAnalysis {
   reasoning?: string;
 }
 
-export const SeverityAnalysis: Schema.Schema<SeverityAnalysis> = Schema.suspend(
-  () =>
+export const SeverityAnalysis: Schema.Schema<SeverityAnalysis> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severityLevel: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.String),
       reasoning: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SeverityAnalysis",
-}) as any as Schema.Schema<SeverityAnalysis>;
+  ).annotate({
+    identifier: "SeverityAnalysis",
+  }) as any as Schema.Schema<SeverityAnalysis>;
 
 export interface Finding {
   /** Identifier. Server generated name for the finding (leave clear during creation). Format: projects/{project}/findings/{finding} */
@@ -734,22 +740,23 @@ export interface Finding {
   configurations?: Array<string>;
 }
 
-export const Finding: Schema.Schema<Finding> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    provider: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    detail: Schema.optional(FindingDetail),
-    severity: Schema.optional(Schema.Number),
-    reoccurrenceTimes: Schema.optional(Schema.Array(Schema.String)),
-    relevanceAnalysis: Schema.optional(RelevanceAnalysis),
-    severityAnalysis: Schema.optional(SeverityAnalysis),
-    aiSummary: Schema.optional(Schema.String),
-    audit: Schema.optional(Audit),
-    alert: Schema.optional(Schema.String),
-    configurations: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
+export const Finding: Schema.Schema<Finding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      provider: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      detail: Schema.optional(FindingDetail),
+      severity: Schema.optional(Schema.Number),
+      reoccurrenceTimes: Schema.optional(Schema.Array(Schema.String)),
+      relevanceAnalysis: Schema.optional(RelevanceAnalysis),
+      severityAnalysis: Schema.optional(SeverityAnalysis),
+      aiSummary: Schema.optional(Schema.String),
+      audit: Schema.optional(Audit),
+      alert: Schema.optional(Schema.String),
+      configurations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Finding" }) as any as Schema.Schema<Finding>;
 
 export interface ListFindingsResponse {
   /** List of findings. */
@@ -759,7 +766,7 @@ export interface ListFindingsResponse {
 }
 
 export const ListFindingsResponse: Schema.Schema<ListFindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findings: Schema.optional(Schema.Array(Finding)),
       nextPageToken: Schema.optional(Schema.String),
@@ -776,7 +783,7 @@ export interface SearchFindingsResponse {
 }
 
 export const SearchFindingsResponse: Schema.Schema<SearchFindingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findings: Schema.optional(Schema.Array(Finding)),
       nextPageToken: Schema.optional(Schema.String),
@@ -793,7 +800,7 @@ export interface InitialAccessBrokerAlertDetail {
 }
 
 export const InitialAccessBrokerAlertDetail: Schema.Schema<InitialAccessBrokerAlertDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
@@ -810,7 +817,7 @@ export interface DataLeakAlertDetail {
 }
 
 export const DataLeakAlertDetail: Schema.Schema<DataLeakAlertDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
@@ -827,7 +834,7 @@ export interface InsiderThreatAlertDetail {
 }
 
 export const InsiderThreatAlertDetail: Schema.Schema<InsiderThreatAlertDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       severity: Schema.optional(Schema.String),
       discoveryDocumentIds: Schema.optional(Schema.Array(Schema.String)),
@@ -847,14 +854,17 @@ export interface AlertDetail {
   detailType?: string;
 }
 
-export const AlertDetail: Schema.Schema<AlertDetail> = Schema.suspend(() =>
-  Schema.Struct({
-    initialAccessBroker: Schema.optional(InitialAccessBrokerAlertDetail),
-    dataLeak: Schema.optional(DataLeakAlertDetail),
-    insiderThreat: Schema.optional(InsiderThreatAlertDetail),
-    detailType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AlertDetail" }) as any as Schema.Schema<AlertDetail>;
+export const AlertDetail: Schema.Schema<AlertDetail> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      initialAccessBroker: Schema.optional(InitialAccessBrokerAlertDetail),
+      dataLeak: Schema.optional(DataLeakAlertDetail),
+      insiderThreat: Schema.optional(InsiderThreatAlertDetail),
+      detailType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AlertDetail",
+  }) as any as Schema.Schema<AlertDetail>;
 
 export interface PriorityAnalysis {
   /** The level of Priority. */
@@ -876,16 +886,16 @@ export interface PriorityAnalysis {
   reasoning?: string;
 }
 
-export const PriorityAnalysis: Schema.Schema<PriorityAnalysis> = Schema.suspend(
-  () =>
+export const PriorityAnalysis: Schema.Schema<PriorityAnalysis> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       priorityLevel: Schema.optional(Schema.String),
       confidence: Schema.optional(Schema.String),
       reasoning: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PriorityAnalysis",
-}) as any as Schema.Schema<PriorityAnalysis>;
+  ).annotate({
+    identifier: "PriorityAnalysis",
+  }) as any as Schema.Schema<PriorityAnalysis>;
 
 export interface Alert {
   /** Identifier. Server generated name for the alert. format is projects/{project}/alerts/{alert} */
@@ -934,26 +944,27 @@ export interface Alert {
   configurations?: Array<string>;
 }
 
-export const Alert: Schema.Schema<Alert> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    findings: Schema.optional(Schema.Array(Schema.String)),
-    state: Schema.optional(Schema.String),
-    audit: Schema.optional(Audit),
-    displayName: Schema.optional(Schema.String),
-    detail: Schema.optional(AlertDetail),
-    duplicateOf: Schema.optional(Schema.String),
-    duplicatedBy: Schema.optional(Schema.Array(Schema.String)),
-    etag: Schema.optional(Schema.String),
-    externalId: Schema.optional(Schema.String),
-    aiSummary: Schema.optional(Schema.String),
-    relevanceAnalysis: Schema.optional(RelevanceAnalysis),
-    severityAnalysis: Schema.optional(SeverityAnalysis),
-    priorityAnalysis: Schema.optional(PriorityAnalysis),
-    findingCount: Schema.optional(Schema.String),
-    configurations: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
+export const Alert: Schema.Schema<Alert> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      findings: Schema.optional(Schema.Array(Schema.String)),
+      state: Schema.optional(Schema.String),
+      audit: Schema.optional(Audit),
+      displayName: Schema.optional(Schema.String),
+      detail: Schema.optional(AlertDetail),
+      duplicateOf: Schema.optional(Schema.String),
+      duplicatedBy: Schema.optional(Schema.Array(Schema.String)),
+      etag: Schema.optional(Schema.String),
+      externalId: Schema.optional(Schema.String),
+      aiSummary: Schema.optional(Schema.String),
+      relevanceAnalysis: Schema.optional(RelevanceAnalysis),
+      severityAnalysis: Schema.optional(SeverityAnalysis),
+      priorityAnalysis: Schema.optional(PriorityAnalysis),
+      findingCount: Schema.optional(Schema.String),
+      configurations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Alert" }) as any as Schema.Schema<Alert>;
 
 export interface ListAlertsResponse {
   /** List of alerts. */
@@ -963,7 +974,7 @@ export interface ListAlertsResponse {
 }
 
 export const ListAlertsResponse: Schema.Schema<ListAlertsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alerts: Schema.optional(Schema.Array(Alert)),
       nextPageToken: Schema.optional(Schema.String),
@@ -979,12 +990,13 @@ export interface FacetCount {
   count?: number;
 }
 
-export const FacetCount: Schema.Schema<FacetCount> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    count: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "FacetCount" }) as any as Schema.Schema<FacetCount>;
+export const FacetCount: Schema.Schema<FacetCount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "FacetCount" }) as any as Schema.Schema<FacetCount>;
 
 export interface Facet {
   /** Name of the facet. This is also the string that needs to be used in the filtering expression. */
@@ -1001,16 +1013,17 @@ export interface Facet {
   totalCount?: string;
 }
 
-export const Facet: Schema.Schema<Facet> = Schema.suspend(() =>
-  Schema.Struct({
-    facet: Schema.optional(Schema.String),
-    facetCounts: Schema.optional(Schema.Array(FacetCount)),
-    facetType: Schema.optional(Schema.String),
-    minValue: Schema.optional(Schema.String),
-    maxValue: Schema.optional(Schema.String),
-    totalCount: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Facet" }) as any as Schema.Schema<Facet>;
+export const Facet: Schema.Schema<Facet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      facet: Schema.optional(Schema.String),
+      facetCounts: Schema.optional(Schema.Array(FacetCount)),
+      facetType: Schema.optional(Schema.String),
+      minValue: Schema.optional(Schema.String),
+      maxValue: Schema.optional(Schema.String),
+      totalCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Facet" }) as any as Schema.Schema<Facet>;
 
 export interface EnumerateAlertFacetsResponse {
   /** List of facets and the counts. */
@@ -1018,7 +1031,7 @@ export interface EnumerateAlertFacetsResponse {
 }
 
 export const EnumerateAlertFacetsResponse: Schema.Schema<EnumerateAlertFacetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       facets: Schema.optional(Schema.Array(Facet)),
     }),
@@ -1029,56 +1042,56 @@ export const EnumerateAlertFacetsResponse: Schema.Schema<EnumerateAlertFacetsRes
 export interface MarkAlertAsReadRequest {}
 
 export const MarkAlertAsReadRequest: Schema.Schema<MarkAlertAsReadRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsReadRequest",
   }) as any as Schema.Schema<MarkAlertAsReadRequest>;
 
 export interface MarkAlertAsTriagedRequest {}
 
 export const MarkAlertAsTriagedRequest: Schema.Schema<MarkAlertAsTriagedRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsTriagedRequest",
   }) as any as Schema.Schema<MarkAlertAsTriagedRequest>;
 
 export interface MarkAlertAsEscalatedRequest {}
 
 export const MarkAlertAsEscalatedRequest: Schema.Schema<MarkAlertAsEscalatedRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsEscalatedRequest",
   }) as any as Schema.Schema<MarkAlertAsEscalatedRequest>;
 
 export interface MarkAlertAsResolvedRequest {}
 
 export const MarkAlertAsResolvedRequest: Schema.Schema<MarkAlertAsResolvedRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsResolvedRequest",
   }) as any as Schema.Schema<MarkAlertAsResolvedRequest>;
 
 export interface MarkAlertAsFalsePositiveRequest {}
 
 export const MarkAlertAsFalsePositiveRequest: Schema.Schema<MarkAlertAsFalsePositiveRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsFalsePositiveRequest",
   }) as any as Schema.Schema<MarkAlertAsFalsePositiveRequest>;
 
 export interface MarkAlertAsNotActionableRequest {}
 
 export const MarkAlertAsNotActionableRequest: Schema.Schema<MarkAlertAsNotActionableRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsNotActionableRequest",
   }) as any as Schema.Schema<MarkAlertAsNotActionableRequest>;
 
 export interface MarkAlertAsBenignRequest {}
 
 export const MarkAlertAsBenignRequest: Schema.Schema<MarkAlertAsBenignRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsBenignRequest",
   }) as any as Schema.Schema<MarkAlertAsBenignRequest>;
 
 export interface MarkAlertAsTrackedExternallyRequest {}
 
 export const MarkAlertAsTrackedExternallyRequest: Schema.Schema<MarkAlertAsTrackedExternallyRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "MarkAlertAsTrackedExternallyRequest",
   }) as any as Schema.Schema<MarkAlertAsTrackedExternallyRequest>;
 
@@ -1088,7 +1101,7 @@ export interface MarkAlertAsDuplicateRequest {
 }
 
 export const MarkAlertAsDuplicateRequest: Schema.Schema<MarkAlertAsDuplicateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duplicateOf: Schema.optional(Schema.String),
     }),
@@ -1104,7 +1117,7 @@ export interface AlertDocumentTranslation {
 }
 
 export const AlertDocumentTranslation: Schema.Schema<AlertDocumentTranslation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       translatedTitle: Schema.optional(Schema.String),
       translatedContent: Schema.optional(Schema.String),
@@ -1142,25 +1155,26 @@ export interface AlertDocument {
   sourceUpdateTime?: string;
 }
 
-export const AlertDocument: Schema.Schema<AlertDocument> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    author: Schema.optional(Schema.String),
-    createTime: Schema.optional(Schema.String),
-    languageCode: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    aiSummary: Schema.optional(Schema.String),
-    translation: Schema.optional(AlertDocumentTranslation),
-    source: Schema.optional(Schema.String),
-    sourceUri: Schema.optional(Schema.String),
-    ingestTime: Schema.optional(Schema.String),
-    collectionTime: Schema.optional(Schema.String),
-    sourceUpdateTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AlertDocument",
-}) as any as Schema.Schema<AlertDocument>;
+export const AlertDocument: Schema.Schema<AlertDocument> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+      author: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      languageCode: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      aiSummary: Schema.optional(Schema.String),
+      translation: Schema.optional(AlertDocumentTranslation),
+      source: Schema.optional(Schema.String),
+      sourceUri: Schema.optional(Schema.String),
+      ingestTime: Schema.optional(Schema.String),
+      collectionTime: Schema.optional(Schema.String),
+      sourceUpdateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AlertDocument",
+  }) as any as Schema.Schema<AlertDocument>;
 
 // ==========================================================================
 // Operations
@@ -1173,22 +1187,24 @@ export interface GenerateOrgProfileProjectsRequest {
   body?: GenerateOrgProfileConfigurationRequest;
 }
 
-export const GenerateOrgProfileProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GenerateOrgProfileConfigurationRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}:generateOrgProfile",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateOrgProfileProjectsRequest>;
+export const GenerateOrgProfileProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GenerateOrgProfileConfigurationRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}:generateOrgProfile",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateOrgProfileProjectsRequest>;
 
 export type GenerateOrgProfileProjectsResponse = Operation;
-export const GenerateOrgProfileProjectsResponse = Operation;
+export const GenerateOrgProfileProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GenerateOrgProfileProjectsError = DefaultErrors;
 
@@ -1198,7 +1214,7 @@ export const generateOrgProfileProjects: API.OperationMethod<
   GenerateOrgProfileProjectsResponse,
   GenerateOrgProfileProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateOrgProfileProjectsRequest,
   output: GenerateOrgProfileProjectsResponse,
   errors: [],
@@ -1209,18 +1225,20 @@ export interface GetProjectsConfigurationsRequest {
   name: string;
 }
 
-export const GetProjectsConfigurationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/configurations/{configurationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsConfigurationsRequest>;
+export const GetProjectsConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/configurations/{configurationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsConfigurationsRequest>;
 
 export type GetProjectsConfigurationsResponse = Configuration;
-export const GetProjectsConfigurationsResponse = Configuration;
+export const GetProjectsConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Configuration;
 
 export type GetProjectsConfigurationsError = DefaultErrors;
 
@@ -1230,7 +1248,7 @@ export const getProjectsConfigurations: API.OperationMethod<
   GetProjectsConfigurationsResponse,
   GetProjectsConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsConfigurationsRequest,
   output: GetProjectsConfigurationsResponse,
   errors: [],
@@ -1249,22 +1267,24 @@ export interface ListProjectsConfigurationsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsConfigurationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/configurations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsConfigurationsRequest>;
+export const ListProjectsConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/configurations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsConfigurationsRequest>;
 
 export type ListProjectsConfigurationsResponse = ListConfigurationsResponse;
-export const ListProjectsConfigurationsResponse = ListConfigurationsResponse;
+export const ListProjectsConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListConfigurationsResponse;
 
 export type ListProjectsConfigurationsError = DefaultErrors;
 
@@ -1274,7 +1294,7 @@ export const listProjectsConfigurations: API.PaginatedOperationMethod<
   ListProjectsConfigurationsResponse,
   ListProjectsConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsConfigurationsRequest,
   output: ListProjectsConfigurationsResponse,
   errors: [],
@@ -1293,21 +1313,25 @@ export interface UpsertProjectsConfigurationsRequest {
   body?: Configuration;
 }
 
-export const UpsertProjectsConfigurationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  publishTime: Schema.optional(Schema.String).pipe(T.HttpQuery("publishTime")),
-  body: Schema.optional(Configuration).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/configurations:upsert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpsertProjectsConfigurationsRequest>;
+export const UpsertProjectsConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    publishTime: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("publishTime"),
+    ),
+    body: Schema.optional(Configuration).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/configurations:upsert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpsertProjectsConfigurationsRequest>;
 
 export type UpsertProjectsConfigurationsResponse = UpsertConfigurationResponse;
-export const UpsertProjectsConfigurationsResponse = UpsertConfigurationResponse;
+export const UpsertProjectsConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UpsertConfigurationResponse;
 
 export type UpsertProjectsConfigurationsError = DefaultErrors;
 
@@ -1317,7 +1341,7 @@ export const upsertProjectsConfigurations: API.OperationMethod<
   UpsertProjectsConfigurationsResponse,
   UpsertProjectsConfigurationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpsertProjectsConfigurationsRequest,
   output: UpsertProjectsConfigurationsResponse,
   errors: [],
@@ -1336,24 +1360,25 @@ export interface ListProjectsConfigurationsRevisionsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsConfigurationsRevisionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/configurations/{configurationsId}/revisions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsConfigurationsRevisionsRequest>;
+export const ListProjectsConfigurationsRevisionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/configurations/{configurationsId}/revisions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsConfigurationsRevisionsRequest>;
 
 export type ListProjectsConfigurationsRevisionsResponse =
   ListConfigurationRevisionsResponse;
 export const ListProjectsConfigurationsRevisionsResponse =
-  ListConfigurationRevisionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListConfigurationRevisionsResponse;
 
 export type ListProjectsConfigurationsRevisionsError = DefaultErrors;
 
@@ -1363,7 +1388,7 @@ export const listProjectsConfigurationsRevisions: API.PaginatedOperationMethod<
   ListProjectsConfigurationsRevisionsResponse,
   ListProjectsConfigurationsRevisionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsConfigurationsRevisionsRequest,
   output: ListProjectsConfigurationsRevisionsResponse,
   errors: [],
@@ -1378,18 +1403,19 @@ export interface GetProjectsFindingsRequest {
   name: string;
 }
 
-export const GetProjectsFindingsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/findings/{findingsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsFindingsRequest>;
+export const GetProjectsFindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/findings/{findingsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsFindingsRequest>;
 
 export type GetProjectsFindingsResponse = Finding;
-export const GetProjectsFindingsResponse = Finding;
+export const GetProjectsFindingsResponse = /*@__PURE__*/ /*#__PURE__*/ Finding;
 
 export type GetProjectsFindingsError = DefaultErrors;
 
@@ -1399,7 +1425,7 @@ export const getProjectsFindings: API.OperationMethod<
   GetProjectsFindingsResponse,
   GetProjectsFindingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsFindingsRequest,
   output: GetProjectsFindingsResponse,
   errors: [],
@@ -1418,19 +1444,21 @@ export interface ListProjectsFindingsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsFindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/findings" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsFindingsRequest>;
+export const ListProjectsFindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/findings" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsFindingsRequest>;
 
 export type ListProjectsFindingsResponse = ListFindingsResponse;
-export const ListProjectsFindingsResponse = ListFindingsResponse;
+export const ListProjectsFindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFindingsResponse;
 
 export type ListProjectsFindingsError = DefaultErrors;
 
@@ -1440,7 +1468,7 @@ export const listProjectsFindings: API.PaginatedOperationMethod<
   ListProjectsFindingsResponse,
   ListProjectsFindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsFindingsRequest,
   output: ListProjectsFindingsResponse,
   errors: [],
@@ -1463,22 +1491,24 @@ export interface SearchProjectsFindingsRequest {
   pageSize?: number;
 }
 
-export const SearchProjectsFindingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/findings:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsFindingsRequest>;
+export const SearchProjectsFindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/findings:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsFindingsRequest>;
 
 export type SearchProjectsFindingsResponse = SearchFindingsResponse;
-export const SearchProjectsFindingsResponse = SearchFindingsResponse;
+export const SearchProjectsFindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchFindingsResponse;
 
 export type SearchProjectsFindingsError = DefaultErrors;
 
@@ -1488,7 +1518,7 @@ export const searchProjectsFindings: API.PaginatedOperationMethod<
   SearchProjectsFindingsResponse,
   SearchProjectsFindingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsFindingsRequest,
   output: SearchProjectsFindingsResponse,
   errors: [],
@@ -1503,18 +1533,19 @@ export interface GetProjectsAlertsRequest {
   name: string;
 }
 
-export const GetProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAlertsRequest>;
+export const GetProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAlertsRequest>;
 
 export type GetProjectsAlertsResponse = Alert;
-export const GetProjectsAlertsResponse = Alert;
+export const GetProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type GetProjectsAlertsError = DefaultErrors;
 
@@ -1524,7 +1555,7 @@ export const getProjectsAlerts: API.OperationMethod<
   GetProjectsAlertsResponse,
   GetProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAlertsRequest,
   output: GetProjectsAlertsResponse,
   errors: [],
@@ -1543,19 +1574,21 @@ export interface ListProjectsAlertsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsAlertsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/alerts" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAlertsRequest>;
+export const ListProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/projects/{projectsId}/alerts" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAlertsRequest>;
 
 export type ListProjectsAlertsResponse = ListAlertsResponse;
-export const ListProjectsAlertsResponse = ListAlertsResponse;
+export const ListProjectsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAlertsResponse;
 
 export type ListProjectsAlertsError = DefaultErrors;
 
@@ -1565,7 +1598,7 @@ export const listProjectsAlerts: API.PaginatedOperationMethod<
   ListProjectsAlertsResponse,
   ListProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAlertsRequest,
   output: ListProjectsAlertsResponse,
   errors: [],
@@ -1582,21 +1615,22 @@ export interface EnumerateFacetsProjectsAlertsRequest {
   filter?: string;
 }
 
-export const EnumerateFacetsProjectsAlertsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/alerts:enumerateFacets",
-  }),
-  svc,
-) as unknown as Schema.Schema<EnumerateFacetsProjectsAlertsRequest>;
+export const EnumerateFacetsProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/alerts:enumerateFacets",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnumerateFacetsProjectsAlertsRequest>;
 
 export type EnumerateFacetsProjectsAlertsResponse =
   EnumerateAlertFacetsResponse;
 export const EnumerateFacetsProjectsAlertsResponse =
-  EnumerateAlertFacetsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ EnumerateAlertFacetsResponse;
 
 export type EnumerateFacetsProjectsAlertsError = DefaultErrors;
 
@@ -1606,7 +1640,7 @@ export const enumerateFacetsProjectsAlerts: API.OperationMethod<
   EnumerateFacetsProjectsAlertsResponse,
   EnumerateFacetsProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnumerateFacetsProjectsAlertsRequest,
   output: EnumerateFacetsProjectsAlertsResponse,
   errors: [],
@@ -1619,20 +1653,21 @@ export interface ReadProjectsAlertsRequest {
   body?: MarkAlertAsReadRequest;
 }
 
-export const ReadProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsReadRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:read",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReadProjectsAlertsRequest>;
+export const ReadProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsReadRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:read",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReadProjectsAlertsRequest>;
 
 export type ReadProjectsAlertsResponse = Alert;
-export const ReadProjectsAlertsResponse = Alert;
+export const ReadProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type ReadProjectsAlertsError = DefaultErrors;
 
@@ -1642,7 +1677,7 @@ export const readProjectsAlerts: API.OperationMethod<
   ReadProjectsAlertsResponse,
   ReadProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReadProjectsAlertsRequest,
   output: ReadProjectsAlertsResponse,
   errors: [],
@@ -1655,20 +1690,21 @@ export interface TriageProjectsAlertsRequest {
   body?: MarkAlertAsTriagedRequest;
 }
 
-export const TriageProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsTriagedRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:triage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TriageProjectsAlertsRequest>;
+export const TriageProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsTriagedRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:triage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TriageProjectsAlertsRequest>;
 
 export type TriageProjectsAlertsResponse = Alert;
-export const TriageProjectsAlertsResponse = Alert;
+export const TriageProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type TriageProjectsAlertsError = DefaultErrors;
 
@@ -1678,7 +1714,7 @@ export const triageProjectsAlerts: API.OperationMethod<
   TriageProjectsAlertsResponse,
   TriageProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TriageProjectsAlertsRequest,
   output: TriageProjectsAlertsResponse,
   errors: [],
@@ -1691,20 +1727,21 @@ export interface EscalateProjectsAlertsRequest {
   body?: MarkAlertAsEscalatedRequest;
 }
 
-export const EscalateProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsEscalatedRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:escalate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EscalateProjectsAlertsRequest>;
+export const EscalateProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsEscalatedRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:escalate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EscalateProjectsAlertsRequest>;
 
 export type EscalateProjectsAlertsResponse = Alert;
-export const EscalateProjectsAlertsResponse = Alert;
+export const EscalateProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type EscalateProjectsAlertsError = DefaultErrors;
 
@@ -1714,7 +1751,7 @@ export const escalateProjectsAlerts: API.OperationMethod<
   EscalateProjectsAlertsResponse,
   EscalateProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EscalateProjectsAlertsRequest,
   output: EscalateProjectsAlertsResponse,
   errors: [],
@@ -1727,20 +1764,21 @@ export interface ResolveProjectsAlertsRequest {
   body?: MarkAlertAsResolvedRequest;
 }
 
-export const ResolveProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsResolvedRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:resolve",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResolveProjectsAlertsRequest>;
+export const ResolveProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsResolvedRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:resolve",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResolveProjectsAlertsRequest>;
 
 export type ResolveProjectsAlertsResponse = Alert;
-export const ResolveProjectsAlertsResponse = Alert;
+export const ResolveProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type ResolveProjectsAlertsError = DefaultErrors;
 
@@ -1750,7 +1788,7 @@ export const resolveProjectsAlerts: API.OperationMethod<
   ResolveProjectsAlertsResponse,
   ResolveProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResolveProjectsAlertsRequest,
   output: ResolveProjectsAlertsResponse,
   errors: [],
@@ -1763,20 +1801,22 @@ export interface FalsePositiveProjectsAlertsRequest {
   body?: MarkAlertAsFalsePositiveRequest;
 }
 
-export const FalsePositiveProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsFalsePositiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:falsePositive",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FalsePositiveProjectsAlertsRequest>;
+export const FalsePositiveProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsFalsePositiveRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:falsePositive",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FalsePositiveProjectsAlertsRequest>;
 
 export type FalsePositiveProjectsAlertsResponse = Alert;
-export const FalsePositiveProjectsAlertsResponse = Alert;
+export const FalsePositiveProjectsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type FalsePositiveProjectsAlertsError = DefaultErrors;
 
@@ -1786,7 +1826,7 @@ export const falsePositiveProjectsAlerts: API.OperationMethod<
   FalsePositiveProjectsAlertsResponse,
   FalsePositiveProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FalsePositiveProjectsAlertsRequest,
   output: FalsePositiveProjectsAlertsResponse,
   errors: [],
@@ -1799,20 +1839,22 @@ export interface NotActionableProjectsAlertsRequest {
   body?: MarkAlertAsNotActionableRequest;
 }
 
-export const NotActionableProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsNotActionableRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:notActionable",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<NotActionableProjectsAlertsRequest>;
+export const NotActionableProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsNotActionableRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:notActionable",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<NotActionableProjectsAlertsRequest>;
 
 export type NotActionableProjectsAlertsResponse = Alert;
-export const NotActionableProjectsAlertsResponse = Alert;
+export const NotActionableProjectsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type NotActionableProjectsAlertsError = DefaultErrors;
 
@@ -1822,7 +1864,7 @@ export const notActionableProjectsAlerts: API.OperationMethod<
   NotActionableProjectsAlertsResponse,
   NotActionableProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: NotActionableProjectsAlertsRequest,
   output: NotActionableProjectsAlertsResponse,
   errors: [],
@@ -1835,20 +1877,21 @@ export interface BenignProjectsAlertsRequest {
   body?: MarkAlertAsBenignRequest;
 }
 
-export const BenignProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsBenignRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:benign",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BenignProjectsAlertsRequest>;
+export const BenignProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsBenignRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:benign",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BenignProjectsAlertsRequest>;
 
 export type BenignProjectsAlertsResponse = Alert;
-export const BenignProjectsAlertsResponse = Alert;
+export const BenignProjectsAlertsResponse = /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type BenignProjectsAlertsError = DefaultErrors;
 
@@ -1858,7 +1901,7 @@ export const benignProjectsAlerts: API.OperationMethod<
   BenignProjectsAlertsResponse,
   BenignProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BenignProjectsAlertsRequest,
   output: BenignProjectsAlertsResponse,
   errors: [],
@@ -1871,20 +1914,24 @@ export interface TrackExternallyProjectsAlertsRequest {
   body?: MarkAlertAsTrackedExternallyRequest;
 }
 
-export const TrackExternallyProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsTrackedExternallyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:trackExternally",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TrackExternallyProjectsAlertsRequest>;
+export const TrackExternallyProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsTrackedExternallyRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:trackExternally",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TrackExternallyProjectsAlertsRequest>;
 
 export type TrackExternallyProjectsAlertsResponse = Alert;
-export const TrackExternallyProjectsAlertsResponse = Alert;
+export const TrackExternallyProjectsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type TrackExternallyProjectsAlertsError = DefaultErrors;
 
@@ -1894,7 +1941,7 @@ export const trackExternallyProjectsAlerts: API.OperationMethod<
   TrackExternallyProjectsAlertsResponse,
   TrackExternallyProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TrackExternallyProjectsAlertsRequest,
   output: TrackExternallyProjectsAlertsResponse,
   errors: [],
@@ -1907,20 +1954,22 @@ export interface DuplicateProjectsAlertsRequest {
   body?: MarkAlertAsDuplicateRequest;
 }
 
-export const DuplicateProjectsAlertsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(MarkAlertAsDuplicateRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}:duplicate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DuplicateProjectsAlertsRequest>;
+export const DuplicateProjectsAlertsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MarkAlertAsDuplicateRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}:duplicate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DuplicateProjectsAlertsRequest>;
 
 export type DuplicateProjectsAlertsResponse = Alert;
-export const DuplicateProjectsAlertsResponse = Alert;
+export const DuplicateProjectsAlertsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Alert;
 
 export type DuplicateProjectsAlertsError = DefaultErrors;
 
@@ -1930,7 +1979,7 @@ export const duplicateProjectsAlerts: API.OperationMethod<
   DuplicateProjectsAlertsResponse,
   DuplicateProjectsAlertsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DuplicateProjectsAlertsRequest,
   output: DuplicateProjectsAlertsResponse,
   errors: [],
@@ -1941,18 +1990,20 @@ export interface GetProjectsAlertsDocumentsRequest {
   name: string;
 }
 
-export const GetProjectsAlertsDocumentsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/projects/{projectsId}/alerts/{alertsId}/documents/{documentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAlertsDocumentsRequest>;
+export const GetProjectsAlertsDocumentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/projects/{projectsId}/alerts/{alertsId}/documents/{documentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAlertsDocumentsRequest>;
 
 export type GetProjectsAlertsDocumentsResponse = AlertDocument;
-export const GetProjectsAlertsDocumentsResponse = AlertDocument;
+export const GetProjectsAlertsDocumentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AlertDocument;
 
 export type GetProjectsAlertsDocumentsError = DefaultErrors;
 
@@ -1962,7 +2013,7 @@ export const getProjectsAlertsDocuments: API.OperationMethod<
   GetProjectsAlertsDocumentsResponse,
   GetProjectsAlertsDocumentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAlertsDocumentsRequest,
   output: GetProjectsAlertsDocumentsResponse,
   errors: [],

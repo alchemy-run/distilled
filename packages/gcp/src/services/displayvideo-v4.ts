@@ -34,7 +34,7 @@ export interface AdPolicyTopicAppealInfo {
 }
 
 export const AdPolicyTopicAppealInfo: Schema.Schema<AdPolicyTopicAppealInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appealType: Schema.optional(Schema.String),
       appealFormLink: Schema.optional(Schema.String),
@@ -70,12 +70,13 @@ export interface SdfConfig {
     | (string & {});
 }
 
-export const SdfConfig: Schema.Schema<SdfConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    adminEmail: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SdfConfig" }) as any as Schema.Schema<SdfConfig>;
+export const SdfConfig: Schema.Schema<SdfConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adminEmail: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SdfConfig" }) as any as Schema.Schema<SdfConfig>;
 
 export interface PartnerDataAccessConfig {
   /** Structured Data Files (SDF) settings for the partner. The SDF configuration for the partner. */
@@ -83,7 +84,7 @@ export interface PartnerDataAccessConfig {
 }
 
 export const PartnerDataAccessConfig: Schema.Schema<PartnerDataAccessConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdfConfig: Schema.optional(SdfConfig),
     }),
@@ -101,7 +102,7 @@ export interface AuthorizedSellerStatusTargetingOptionDetails {
 }
 
 export const AuthorizedSellerStatusTargetingOptionDetails: Schema.Schema<AuthorizedSellerStatusTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authorizedSellerStatus: Schema.optional(Schema.String),
     }),
@@ -120,7 +121,7 @@ export interface ParentalStatusTargetingOptionDetails {
 }
 
 export const ParentalStatusTargetingOptionDetails: Schema.Schema<ParentalStatusTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parentalStatus: Schema.optional(Schema.String),
     }),
@@ -134,7 +135,7 @@ export interface YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLoc
 }
 
 export const YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLocationChain: Schema.Schema<YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLocationChain> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chainId: Schema.optional(Schema.String),
     }),
@@ -149,7 +150,7 @@ export interface YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLoc
 }
 
 export const YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLocationMatchingFunction: Schema.Schema<YoutubeAssetAssociationAffiliateLocationAssetFilterAffiliateLocationMatchingFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       chains: Schema.optional(
         Schema.Array(
@@ -177,7 +178,7 @@ export interface YoutubeAssetAssociationAffiliateLocationAssetFilter {
 }
 
 export const YoutubeAssetAssociationAffiliateLocationAssetFilter: Schema.Schema<YoutubeAssetAssociationAffiliateLocationAssetFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       affiliateLocationMatchingType: Schema.optional(Schema.String),
       assetSetId: Schema.optional(Schema.String),
@@ -210,7 +211,7 @@ export interface GuaranteedOrderStatus {
 }
 
 export const GuaranteedOrderStatus: Schema.Schema<GuaranteedOrderStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityPauseReason: Schema.optional(Schema.String),
       configStatus: Schema.optional(Schema.String),
@@ -228,7 +229,7 @@ export interface RemarketingConfig {
 }
 
 export const RemarketingConfig: Schema.Schema<RemarketingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       remarketingEnabled: Schema.optional(Schema.Boolean),
       advertiserId: Schema.optional(Schema.String),
@@ -261,7 +262,7 @@ export interface FloodlightActivity {
 }
 
 export const FloodlightActivity: Schema.Schema<FloodlightActivity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floodlightGroupId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -311,7 +312,7 @@ export interface DoubleVerifyVideoViewability {
 }
 
 export const DoubleVerifyVideoViewability: Schema.Schema<DoubleVerifyVideoViewability> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       videoViewableRate: Schema.optional(Schema.String),
       playerImpressionRate: Schema.optional(Schema.String),
@@ -328,12 +329,13 @@ export interface Dimensions {
   heightPixels?: number;
 }
 
-export const Dimensions: Schema.Schema<Dimensions> = Schema.suspend(() =>
-  Schema.Struct({
-    widthPixels: Schema.optional(Schema.Number),
-    heightPixels: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Dimensions" }) as any as Schema.Schema<Dimensions>;
+export const Dimensions: Schema.Schema<Dimensions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      widthPixels: Schema.optional(Schema.Number),
+      heightPixels: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Dimensions" }) as any as Schema.Schema<Dimensions>;
 
 export interface ObaIcon {
   /** Optional. The position of the OBA icon on the creative. */
@@ -360,18 +362,19 @@ export interface ObaIcon {
   viewTrackingUrl?: string;
 }
 
-export const ObaIcon: Schema.Schema<ObaIcon> = Schema.suspend(() =>
-  Schema.Struct({
-    position: Schema.optional(Schema.String),
-    program: Schema.optional(Schema.String),
-    landingPageUrl: Schema.optional(Schema.String),
-    dimensions: Schema.optional(Dimensions),
-    resourceMimeType: Schema.optional(Schema.String),
-    resourceUrl: Schema.optional(Schema.String),
-    clickTrackingUrl: Schema.optional(Schema.String),
-    viewTrackingUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ObaIcon" }) as any as Schema.Schema<ObaIcon>;
+export const ObaIcon: Schema.Schema<ObaIcon> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      position: Schema.optional(Schema.String),
+      program: Schema.optional(Schema.String),
+      landingPageUrl: Schema.optional(Schema.String),
+      dimensions: Schema.optional(Dimensions),
+      resourceMimeType: Schema.optional(Schema.String),
+      resourceUrl: Schema.optional(Schema.String),
+      clickTrackingUrl: Schema.optional(Schema.String),
+      viewTrackingUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ObaIcon" }) as any as Schema.Schema<ObaIcon>;
 
 export interface AdPolicyCriterionRestriction {
   /** The country criterion id. */
@@ -381,7 +384,7 @@ export interface AdPolicyCriterionRestriction {
 }
 
 export const AdPolicyCriterionRestriction: Schema.Schema<AdPolicyCriterionRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countryCriterionId: Schema.optional(Schema.String),
       countryLabel: Schema.optional(Schema.String),
@@ -396,7 +399,7 @@ export interface AdPolicyTopicConstraintAdPolicyCountryConstraintList {
 }
 
 export const AdPolicyTopicConstraintAdPolicyCountryConstraintList: Schema.Schema<AdPolicyTopicConstraintAdPolicyCountryConstraintList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countries: Schema.optional(Schema.Array(AdPolicyCriterionRestriction)),
     }),
@@ -420,7 +423,7 @@ export interface BusinessChainAssignedTargetingOptionDetails {
 }
 
 export const BusinessChainAssignedTargetingOptionDetails: Schema.Schema<BusinessChainAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proximityRadiusUnit: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -459,17 +462,17 @@ export interface PerformanceGoal {
   performanceGoalPercentageMicros?: string;
 }
 
-export const PerformanceGoal: Schema.Schema<PerformanceGoal> = Schema.suspend(
-  () =>
+export const PerformanceGoal: Schema.Schema<PerformanceGoal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       performanceGoalAmountMicros: Schema.optional(Schema.String),
       performanceGoalString: Schema.optional(Schema.String),
       performanceGoalType: Schema.optional(Schema.String),
       performanceGoalPercentageMicros: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PerformanceGoal",
-}) as any as Schema.Schema<PerformanceGoal>;
+  ).annotate({
+    identifier: "PerformanceGoal",
+  }) as any as Schema.Schema<PerformanceGoal>;
 
 export interface GuaranteedOrder {
   /** The partner with read/write access to the guaranteed order. */
@@ -592,8 +595,8 @@ export interface GuaranteedOrder {
   legacyGuaranteedOrderId?: string;
 }
 
-export const GuaranteedOrder: Schema.Schema<GuaranteedOrder> = Schema.suspend(
-  () =>
+export const GuaranteedOrder: Schema.Schema<GuaranteedOrder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readWritePartnerId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -610,9 +613,9 @@ export const GuaranteedOrder: Schema.Schema<GuaranteedOrder> = Schema.suspend(
       guaranteedOrderId: Schema.optional(Schema.String),
       legacyGuaranteedOrderId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GuaranteedOrder",
-}) as any as Schema.Schema<GuaranteedOrder>;
+  ).annotate({
+    identifier: "GuaranteedOrder",
+  }) as any as Schema.Schema<GuaranteedOrder>;
 
 export interface ListGuaranteedOrdersResponse {
   /** The list of guaranteed orders. This list will be absent if empty. */
@@ -622,7 +625,7 @@ export interface ListGuaranteedOrdersResponse {
 }
 
 export const ListGuaranteedOrdersResponse: Schema.Schema<ListGuaranteedOrdersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       guaranteedOrders: Schema.optional(Schema.Array(GuaranteedOrder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -647,7 +650,7 @@ export interface SelectedInventories {
 }
 
 export const SelectedInventories: Schema.Schema<SelectedInventories> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowYoutubeFeed: Schema.optional(Schema.Boolean),
       allowDiscover: Schema.optional(Schema.Boolean),
@@ -672,7 +675,7 @@ export interface AdGroupInventoryControl {
 }
 
 export const AdGroupInventoryControl: Schema.Schema<AdGroupInventoryControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroupInventoryStrategy: Schema.optional(Schema.String),
       selectedInventories: Schema.optional(SelectedInventories),
@@ -688,12 +691,13 @@ export interface Asset {
   content?: string;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
-  Schema.Struct({
-    mediaId: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mediaId: Schema.optional(Schema.String),
+      content: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
@@ -704,15 +708,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface BulkUpdateLineItemsResponse {
   /** The IDs of line items that are skipped for updates. For example, unnecessary mutates that will result in effectively no changes to line items will be skipped and corresponding line item IDs can be tracked here. */
@@ -726,7 +731,7 @@ export interface BulkUpdateLineItemsResponse {
 }
 
 export const BulkUpdateLineItemsResponse: Schema.Schema<BulkUpdateLineItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       skippedLineItemIds: Schema.optional(Schema.Array(Schema.String)),
       updatedLineItemIds: Schema.optional(Schema.Array(Schema.String)),
@@ -743,7 +748,7 @@ export interface CategoryTargetingOptionDetails {
 }
 
 export const CategoryTargetingOptionDetails: Schema.Schema<CategoryTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -772,7 +777,7 @@ export interface AlgorithmRulesFloodlightActivityConversionSignal {
 }
 
 export const AlgorithmRulesFloodlightActivityConversionSignal: Schema.Schema<AlgorithmRulesFloodlightActivityConversionSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floodlightActivityId: Schema.optional(Schema.String),
       conversionCounting: Schema.optional(Schema.String),
@@ -800,7 +805,7 @@ export interface AlgorithmRulesSignalValue {
 }
 
 export const AlgorithmRulesSignalValue: Schema.Schema<AlgorithmRulesSignalValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floodlightActivityConversionSignal: Schema.optional(
         AlgorithmRulesFloodlightActivityConversionSignal,
@@ -834,13 +839,14 @@ export interface DayAndTime {
     | (string & {});
 }
 
-export const DayAndTime: Schema.Schema<DayAndTime> = Schema.suspend(() =>
-  Schema.Struct({
-    dayOfWeek: Schema.optional(Schema.String),
-    hourOfDay: Schema.optional(Schema.Number),
-    timeZoneResolution: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DayAndTime" }) as any as Schema.Schema<DayAndTime>;
+export const DayAndTime: Schema.Schema<DayAndTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dayOfWeek: Schema.optional(Schema.String),
+      hourOfDay: Schema.optional(Schema.Number),
+      timeZoneResolution: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DayAndTime" }) as any as Schema.Schema<DayAndTime>;
 
 export interface AlgorithmRulesComparisonValue {
   /** String value. */
@@ -1001,7 +1007,7 @@ export interface AlgorithmRulesComparisonValue {
 }
 
 export const AlgorithmRulesComparisonValue: Schema.Schema<AlgorithmRulesComparisonValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stringValue: Schema.optional(Schema.String),
       contentStreamTypeValue: Schema.optional(Schema.String),
@@ -1056,7 +1062,7 @@ export interface AlgorithmRulesSignal {
 }
 
 export const AlgorithmRulesSignal: Schema.Schema<AlgorithmRulesSignal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       impressionSignal: Schema.optional(Schema.String),
       clickSignal: Schema.optional(Schema.String),
@@ -1084,7 +1090,7 @@ export interface AlgorithmRulesSignalComparison {
 }
 
 export const AlgorithmRulesSignalComparison: Schema.Schema<AlgorithmRulesSignalComparison> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       comparisonOperator: Schema.optional(Schema.String),
       comparisonValue: Schema.optional(AlgorithmRulesComparisonValue),
@@ -1102,7 +1108,7 @@ export interface AlgorithmRulesRuleCondition {
 }
 
 export const AlgorithmRulesRuleCondition: Schema.Schema<AlgorithmRulesRuleCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       returnValue: Schema.optional(AlgorithmRulesSignalValue),
       signalComparisons: Schema.optional(
@@ -1121,7 +1127,7 @@ export interface AlgorithmRulesRule {
 }
 
 export const AlgorithmRulesRule: Schema.Schema<AlgorithmRulesRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       defaultReturnValue: Schema.optional(AlgorithmRulesSignalValue),
       conditions: Schema.optional(Schema.Array(AlgorithmRulesRuleCondition)),
@@ -1145,7 +1151,7 @@ export interface AlgorithmRulesRuleset {
 }
 
 export const AlgorithmRulesRuleset: Schema.Schema<AlgorithmRulesRuleset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxValue: Schema.optional(Schema.Number),
       rules: Schema.optional(Schema.Array(AlgorithmRulesRule)),
@@ -1164,13 +1170,14 @@ export interface Money {
   units?: string;
 }
 
-export const Money: Schema.Schema<Money> = Schema.suspend(() =>
-  Schema.Struct({
-    currencyCode: Schema.optional(Schema.String),
-    nanos: Schema.optional(Schema.Number),
-    units: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
+export const Money: Schema.Schema<Money> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      currencyCode: Schema.optional(Schema.String),
+      nanos: Schema.optional(Schema.Number),
+      units: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Money" }) as any as Schema.Schema<Money>;
 
 export interface SensitiveCategoryAssignedTargetingOptionDetails {
   /** Required. An enum for the DV360 Sensitive category content classified to be EXCLUDED. */
@@ -1199,7 +1206,7 @@ export interface SensitiveCategoryAssignedTargetingOptionDetails {
 }
 
 export const SensitiveCategoryAssignedTargetingOptionDetails: Schema.Schema<SensitiveCategoryAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedSensitiveCategory: Schema.optional(Schema.String),
     }),
@@ -1222,7 +1229,7 @@ export interface ContentDurationTargetingOptionDetails {
 }
 
 export const ContentDurationTargetingOptionDetails: Schema.Schema<ContentDurationTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentDuration: Schema.optional(Schema.String),
     }),
@@ -1241,14 +1248,15 @@ export interface ImageAsset {
   assetId?: string;
 }
 
-export const ImageAsset: Schema.Schema<ImageAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    fileSize: Schema.optional(Schema.String),
-    mimeType: Schema.optional(Schema.String),
-    fullSize: Schema.optional(Dimensions),
-    assetId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ImageAsset" }) as any as Schema.Schema<ImageAsset>;
+export const ImageAsset: Schema.Schema<ImageAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileSize: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+      fullSize: Schema.optional(Dimensions),
+      assetId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ImageAsset" }) as any as Schema.Schema<ImageAsset>;
 
 export interface DemandGenProductAd {
   /** Required. The headline of the ad. */
@@ -1298,7 +1306,7 @@ export interface DemandGenProductAd {
 }
 
 export const DemandGenProductAd: Schema.Schema<DemandGenProductAd> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headline: Schema.optional(Schema.String),
       logo: Schema.optional(ImageAsset),
@@ -1330,7 +1338,7 @@ export interface CustomBiddingAlgorithmRulesError {
 }
 
 export const CustomBiddingAlgorithmRulesError: Schema.Schema<CustomBiddingAlgorithmRulesError> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorCode: Schema.optional(Schema.String),
     }),
@@ -1368,7 +1376,7 @@ export interface ThirdPartyVendorConfig {
 }
 
 export const ThirdPartyVendorConfig: Schema.Schema<ThirdPartyVendorConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vendor: Schema.optional(Schema.String),
       placementId: Schema.optional(Schema.String),
@@ -1389,7 +1397,7 @@ export interface ThirdPartyMeasurementConfigs {
 }
 
 export const ThirdPartyMeasurementConfigs: Schema.Schema<ThirdPartyMeasurementConfigs> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       brandSafetyVendorConfigs: Schema.optional(
         Schema.Array(ThirdPartyVendorConfig),
@@ -1416,7 +1424,7 @@ export interface DemandGenSettings {
 }
 
 export const DemandGenSettings: Schema.Schema<DemandGenSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyMeasurementConfigs: Schema.optional(
         ThirdPartyMeasurementConfigs,
@@ -1434,7 +1442,7 @@ export interface AdPolicyTopicEvidenceDestinationTextList {
 }
 
 export const AdPolicyTopicEvidenceDestinationTextList: Schema.Schema<AdPolicyTopicEvidenceDestinationTextList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationTexts: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1461,7 +1469,7 @@ export interface ContentInstreamPositionAssignedTargetingOptionDetails {
 }
 
 export const ContentInstreamPositionAssignedTargetingOptionDetails: Schema.Schema<ContentInstreamPositionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentInstreamPosition: Schema.optional(Schema.String),
       adType: Schema.optional(Schema.String),
@@ -1476,7 +1484,7 @@ export interface ContentGenreTargetingOptionDetails {
 }
 
 export const ContentGenreTargetingOptionDetails: Schema.Schema<ContentGenreTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -1492,7 +1500,7 @@ export interface IntegrationDetails {
 }
 
 export const IntegrationDetails: Schema.Schema<IntegrationDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       details: Schema.optional(Schema.String),
       integrationCode: Schema.optional(Schema.String),
@@ -1522,17 +1530,18 @@ export interface FrequencyCap {
   maxViews?: number;
 }
 
-export const FrequencyCap: Schema.Schema<FrequencyCap> = Schema.suspend(() =>
-  Schema.Struct({
-    timeUnitCount: Schema.optional(Schema.Number),
-    maxImpressions: Schema.optional(Schema.Number),
-    unlimited: Schema.optional(Schema.Boolean),
-    timeUnit: Schema.optional(Schema.String),
-    maxViews: Schema.optional(Schema.Number),
-  }),
-).annotate({
-  identifier: "FrequencyCap",
-}) as any as Schema.Schema<FrequencyCap>;
+export const FrequencyCap: Schema.Schema<FrequencyCap> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeUnitCount: Schema.optional(Schema.Number),
+      maxImpressions: Schema.optional(Schema.Number),
+      unlimited: Schema.optional(Schema.Boolean),
+      timeUnit: Schema.optional(Schema.String),
+      maxViews: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "FrequencyCap",
+  }) as any as Schema.Schema<FrequencyCap>;
 
 export interface Pacing {
   /** Required. The time period in which the pacing budget will be spent. When automatic budget allocation is enabled at the insertion order via automationType, this field is output only and defaults to `PACING_PERIOD_FLIGHT`. */
@@ -1554,14 +1563,15 @@ export interface Pacing {
   dailyMaxMicros?: string;
 }
 
-export const Pacing: Schema.Schema<Pacing> = Schema.suspend(() =>
-  Schema.Struct({
-    pacingPeriod: Schema.optional(Schema.String),
-    pacingType: Schema.optional(Schema.String),
-    dailyMaxImpressions: Schema.optional(Schema.String),
-    dailyMaxMicros: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Pacing" }) as any as Schema.Schema<Pacing>;
+export const Pacing: Schema.Schema<Pacing> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      pacingPeriod: Schema.optional(Schema.String),
+      pacingType: Schema.optional(Schema.String),
+      dailyMaxImpressions: Schema.optional(Schema.String),
+      dailyMaxMicros: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Pacing" }) as any as Schema.Schema<Pacing>;
 
 export interface Kpi {
   /** Optional. Custom Bidding Algorithm ID associated with KPI_CUSTOM_IMPRESSION_VALUE_OVER_COST. This field is ignored if the proper KPI is not selected. */
@@ -1598,29 +1608,30 @@ export interface Kpi {
   kpiString?: string;
 }
 
-export const Kpi: Schema.Schema<Kpi> = Schema.suspend(() =>
-  Schema.Struct({
-    kpiAlgorithmId: Schema.optional(Schema.String),
-    kpiType: Schema.optional(Schema.String),
-    kpiPercentageMicros: Schema.optional(Schema.String),
-    kpiAmountMicros: Schema.optional(Schema.String),
-    kpiString: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Kpi" }) as any as Schema.Schema<Kpi>;
+export const Kpi: Schema.Schema<Kpi> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kpiAlgorithmId: Schema.optional(Schema.String),
+      kpiType: Schema.optional(Schema.String),
+      kpiPercentageMicros: Schema.optional(Schema.String),
+      kpiAmountMicros: Schema.optional(Schema.String),
+      kpiString: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Kpi" }) as any as Schema.Schema<Kpi>;
 
 export interface FixedBidStrategy {
   /** The fixed bid amount, in micros of the advertiser's currency. For insertion order entity, bid_amount_micros should be set as 0. For line item entity, bid_amount_micros must be greater than or equal to billable unit of the given currency and smaller than or equal to the upper limit 1000000000. For example, 1500000 represents 1.5 standard units of the currency. */
   bidAmountMicros?: string;
 }
 
-export const FixedBidStrategy: Schema.Schema<FixedBidStrategy> = Schema.suspend(
-  () =>
+export const FixedBidStrategy: Schema.Schema<FixedBidStrategy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bidAmountMicros: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FixedBidStrategy",
-}) as any as Schema.Schema<FixedBidStrategy>;
+  ).annotate({
+    identifier: "FixedBidStrategy",
+  }) as any as Schema.Schema<FixedBidStrategy>;
 
 export interface MaximizeSpendBidStrategy {
   /** The maximum average CPM that may be bid, in micros of the advertiser's currency. Must be greater than or equal to a billable unit of the given currency. For example, 1500000 represents 1.5 standard units of the currency. */
@@ -1644,7 +1655,7 @@ export interface MaximizeSpendBidStrategy {
 }
 
 export const MaximizeSpendBidStrategy: Schema.Schema<MaximizeSpendBidStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxAverageCpmBidAmountMicros: Schema.optional(Schema.String),
       customBiddingAlgorithmId: Schema.optional(Schema.String),
@@ -1677,7 +1688,7 @@ export interface PerformanceGoalBidStrategy {
 }
 
 export const PerformanceGoalBidStrategy: Schema.Schema<PerformanceGoalBidStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxAverageCpmBidAmountMicros: Schema.optional(Schema.String),
       customBiddingAlgorithmId: Schema.optional(Schema.String),
@@ -1711,7 +1722,7 @@ export interface DemandGenBiddingStrategy {
 }
 
 export const DemandGenBiddingStrategy: Schema.Schema<DemandGenBiddingStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -1750,7 +1761,7 @@ export interface YoutubeAndPartnersBiddingStrategy {
 }
 
 export const YoutubeAndPartnersBiddingStrategy: Schema.Schema<YoutubeAndPartnersBiddingStrategy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -1774,8 +1785,8 @@ export interface BiddingStrategy {
   youtubeAndPartnersBid?: YoutubeAndPartnersBiddingStrategy;
 }
 
-export const BiddingStrategy: Schema.Schema<BiddingStrategy> = Schema.suspend(
-  () =>
+export const BiddingStrategy: Schema.Schema<BiddingStrategy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedBid: Schema.optional(FixedBidStrategy),
       maximizeSpendAutoBid: Schema.optional(MaximizeSpendBidStrategy),
@@ -1783,9 +1794,9 @@ export const BiddingStrategy: Schema.Schema<BiddingStrategy> = Schema.suspend(
       demandGenBid: Schema.optional(DemandGenBiddingStrategy),
       youtubeAndPartnersBid: Schema.optional(YoutubeAndPartnersBiddingStrategy),
     }),
-).annotate({
-  identifier: "BiddingStrategy",
-}) as any as Schema.Schema<BiddingStrategy>;
+  ).annotate({
+    identifier: "BiddingStrategy",
+  }) as any as Schema.Schema<BiddingStrategy>;
 
 export interface Displayvideo_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
@@ -1797,7 +1808,7 @@ export interface Displayvideo_Date {
 }
 
 export const Displayvideo_Date: Schema.Schema<Displayvideo_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
@@ -1814,12 +1825,13 @@ export interface DateRange {
   startDate?: Displayvideo_Date;
 }
 
-export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
-  Schema.Struct({
-    endDate: Schema.optional(Displayvideo_Date),
-    startDate: Schema.optional(Displayvideo_Date),
-  }),
-).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+export const DateRange: Schema.Schema<DateRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endDate: Schema.optional(Displayvideo_Date),
+      startDate: Schema.optional(Displayvideo_Date),
+    }),
+  ).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
 
 export interface InsertionOrderBudgetSegment {
   /** Required. The budget amount the insertion order will spend for the given date_range. The amount is in micros. Must be greater than 0. For example, 500000000 represents 500 standard units of the currency. */
@@ -1833,7 +1845,7 @@ export interface InsertionOrderBudgetSegment {
 }
 
 export const InsertionOrderBudgetSegment: Schema.Schema<InsertionOrderBudgetSegment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       budgetAmountMicros: Schema.optional(Schema.String),
       dateRange: Schema.optional(DateRange),
@@ -1863,7 +1875,7 @@ export interface InsertionOrderBudget {
 }
 
 export const InsertionOrderBudget: Schema.Schema<InsertionOrderBudget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       automationType: Schema.optional(Schema.String),
       budgetUnit: Schema.optional(Schema.String),
@@ -1927,15 +1939,18 @@ export interface PartnerCost {
     | (string & {});
 }
 
-export const PartnerCost: Schema.Schema<PartnerCost> = Schema.suspend(() =>
-  Schema.Struct({
-    invoiceType: Schema.optional(Schema.String),
-    feePercentageMillis: Schema.optional(Schema.String),
-    feeType: Schema.optional(Schema.String),
-    feeAmount: Schema.optional(Schema.String),
-    costType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "PartnerCost" }) as any as Schema.Schema<PartnerCost>;
+export const PartnerCost: Schema.Schema<PartnerCost> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      invoiceType: Schema.optional(Schema.String),
+      feePercentageMillis: Schema.optional(Schema.String),
+      feeType: Schema.optional(Schema.String),
+      feeAmount: Schema.optional(Schema.String),
+      costType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PartnerCost",
+  }) as any as Schema.Schema<PartnerCost>;
 
 export interface InsertionOrder {
   /** Output only. The unique ID of the insertion order. Assigned by the system. */
@@ -1999,8 +2014,8 @@ export interface InsertionOrder {
   name?: string;
 }
 
-export const InsertionOrder: Schema.Schema<InsertionOrder> = Schema.suspend(
-  () =>
+export const InsertionOrder: Schema.Schema<InsertionOrder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       insertionOrderId: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -2020,9 +2035,9 @@ export const InsertionOrder: Schema.Schema<InsertionOrder> = Schema.suspend(
       partnerCosts: Schema.optional(Schema.Array(PartnerCost)),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "InsertionOrder",
-}) as any as Schema.Schema<InsertionOrder>;
+  ).annotate({
+    identifier: "InsertionOrder",
+  }) as any as Schema.Schema<InsertionOrder>;
 
 export interface ListInsertionOrdersResponse {
   /** The list of insertion orders. This list will be absent if empty. */
@@ -2032,7 +2047,7 @@ export interface ListInsertionOrdersResponse {
 }
 
 export const ListInsertionOrdersResponse: Schema.Schema<ListInsertionOrdersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       insertionOrders: Schema.optional(Schema.Array(InsertionOrder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2048,12 +2063,13 @@ export interface Site {
   urlOrAppId?: string;
 }
 
-export const Site: Schema.Schema<Site> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    urlOrAppId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
+export const Site: Schema.Schema<Site> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      urlOrAppId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Site" }) as any as Schema.Schema<Site>;
 
 export interface BulkEditSitesRequest {
   /** The sites to create in batch, specified as a list of Sites. */
@@ -2067,7 +2083,7 @@ export interface BulkEditSitesRequest {
 }
 
 export const BulkEditSitesRequest: Schema.Schema<BulkEditSitesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdSites: Schema.optional(Schema.Array(Site)),
       partnerId: Schema.optional(Schema.String),
@@ -2084,7 +2100,7 @@ export interface EditCustomerMatchMembersResponse {
 }
 
 export const EditCustomerMatchMembersResponse: Schema.Schema<EditCustomerMatchMembersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyAndPartnerAudienceId: Schema.optional(Schema.String),
     }),
@@ -2141,7 +2157,7 @@ export interface BusinessChainTargetingOptionDetails {
 }
 
 export const BusinessChainTargetingOptionDetails: Schema.Schema<BusinessChainTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       geoRegion: Schema.optional(Schema.String),
       geoRegionType: Schema.optional(Schema.String),
@@ -2168,19 +2184,20 @@ export interface CarouselCard {
   headline?: string;
 }
 
-export const CarouselCard: Schema.Schema<CarouselCard> = Schema.suspend(() =>
-  Schema.Struct({
-    squareMarketingImage: Schema.optional(ImageAsset),
-    finalUrl: Schema.optional(Schema.String),
-    finalMobileUrl: Schema.optional(Schema.String),
-    callToAction: Schema.optional(Schema.String),
-    marketingImage: Schema.optional(ImageAsset),
-    portraitMarketingImage: Schema.optional(ImageAsset),
-    headline: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CarouselCard",
-}) as any as Schema.Schema<CarouselCard>;
+export const CarouselCard: Schema.Schema<CarouselCard> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      squareMarketingImage: Schema.optional(ImageAsset),
+      finalUrl: Schema.optional(Schema.String),
+      finalMobileUrl: Schema.optional(Schema.String),
+      callToAction: Schema.optional(Schema.String),
+      marketingImage: Schema.optional(ImageAsset),
+      portraitMarketingImage: Schema.optional(ImageAsset),
+      headline: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CarouselCard",
+  }) as any as Schema.Schema<CarouselCard>;
 
 export interface UserRewardedContentAssignedTargetingOptionDetails {
   /** Required. The targeting_option_id field when targeting_type is `TARGETING_TYPE_USER_REWARDED_CONTENT`. */
@@ -2194,7 +2211,7 @@ export interface UserRewardedContentAssignedTargetingOptionDetails {
 }
 
 export const UserRewardedContentAssignedTargetingOptionDetails: Schema.Schema<UserRewardedContentAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptionId: Schema.optional(Schema.String),
       userRewardedContent: Schema.optional(Schema.String),
@@ -2209,7 +2226,7 @@ export interface OmidAssignedTargetingOptionDetails {
 }
 
 export const OmidAssignedTargetingOptionDetails: Schema.Schema<OmidAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       omid: Schema.optional(Schema.String),
     }),
@@ -2237,7 +2254,7 @@ export interface PoiAssignedTargetingOptionDetails {
 }
 
 export const PoiAssignedTargetingOptionDetails: Schema.Schema<PoiAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proximityRadiusUnit: Schema.optional(Schema.String),
       proximityRadiusAmount: Schema.optional(Schema.Number),
@@ -2277,7 +2294,7 @@ export interface AppAssignedTargetingOptionDetails {
 }
 
 export const AppAssignedTargetingOptionDetails: Schema.Schema<AppAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negative: Schema.optional(Schema.Boolean),
       appId: Schema.optional(Schema.String),
@@ -2301,7 +2318,7 @@ export interface NativeContentPositionAssignedTargetingOptionDetails {
 }
 
 export const NativeContentPositionAssignedTargetingOptionDetails: Schema.Schema<NativeContentPositionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentPosition: Schema.optional(Schema.String),
     }),
@@ -2319,7 +2336,7 @@ export interface LanguageAssignedTargetingOptionDetails {
 }
 
 export const LanguageAssignedTargetingOptionDetails: Schema.Schema<LanguageAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negative: Schema.optional(Schema.Boolean),
       targetingOptionId: Schema.optional(Schema.String),
@@ -2340,7 +2357,7 @@ export interface GenderAssignedTargetingOptionDetails {
 }
 
 export const GenderAssignedTargetingOptionDetails: Schema.Schema<GenderAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gender: Schema.optional(Schema.String),
     }),
@@ -2363,7 +2380,7 @@ export interface DeviceTypeAssignedTargetingOptionDetails {
 }
 
 export const DeviceTypeAssignedTargetingOptionDetails: Schema.Schema<DeviceTypeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       youtubeAndPartnersBidMultiplier: Schema.optional(Schema.Number),
       deviceType: Schema.optional(Schema.String),
@@ -2411,7 +2428,7 @@ export interface FirstPartyAndPartnerAudienceTargetingSetting {
 }
 
 export const FirstPartyAndPartnerAudienceTargetingSetting: Schema.Schema<FirstPartyAndPartnerAudienceTargetingSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyAndPartnerAudienceId: Schema.optional(Schema.String),
       recency: Schema.optional(Schema.String),
@@ -2426,7 +2443,7 @@ export interface FirstPartyAndPartnerAudienceGroup {
 }
 
 export const FirstPartyAndPartnerAudienceGroup: Schema.Schema<FirstPartyAndPartnerAudienceGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       settings: Schema.optional(
         Schema.Array(FirstPartyAndPartnerAudienceTargetingSetting),
@@ -2442,7 +2459,7 @@ export interface CombinedAudienceTargetingSetting {
 }
 
 export const CombinedAudienceTargetingSetting: Schema.Schema<CombinedAudienceTargetingSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       combinedAudienceId: Schema.optional(Schema.String),
     }),
@@ -2456,7 +2473,7 @@ export interface CombinedAudienceGroup {
 }
 
 export const CombinedAudienceGroup: Schema.Schema<CombinedAudienceGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       settings: Schema.optional(Schema.Array(CombinedAudienceTargetingSetting)),
     }),
@@ -2470,7 +2487,7 @@ export interface GoogleAudienceTargetingSetting {
 }
 
 export const GoogleAudienceTargetingSetting: Schema.Schema<GoogleAudienceTargetingSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleAudienceId: Schema.optional(Schema.String),
     }),
@@ -2484,7 +2501,7 @@ export interface GoogleAudienceGroup {
 }
 
 export const GoogleAudienceGroup: Schema.Schema<GoogleAudienceGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       settings: Schema.optional(Schema.Array(GoogleAudienceTargetingSetting)),
     }),
@@ -2498,7 +2515,7 @@ export interface CustomListTargetingSetting {
 }
 
 export const CustomListTargetingSetting: Schema.Schema<CustomListTargetingSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customListId: Schema.optional(Schema.String),
     }),
@@ -2511,14 +2528,14 @@ export interface CustomListGroup {
   settings?: Array<CustomListTargetingSetting>;
 }
 
-export const CustomListGroup: Schema.Schema<CustomListGroup> = Schema.suspend(
-  () =>
+export const CustomListGroup: Schema.Schema<CustomListGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       settings: Schema.optional(Schema.Array(CustomListTargetingSetting)),
     }),
-).annotate({
-  identifier: "CustomListGroup",
-}) as any as Schema.Schema<CustomListGroup>;
+  ).annotate({
+    identifier: "CustomListGroup",
+  }) as any as Schema.Schema<CustomListGroup>;
 
 export interface AudienceGroupAssignedTargetingOptionDetails {
   /** Optional. The first party and partner audience ids and recencies of included first party and partner audience groups. Each first party and partner audience group contains first party and partner audience ids only. The relation between each first party and partner audience group is INTERSECTION, and the result is UNION'ed with other audience groups. Repeated groups with the same settings will be ignored. */
@@ -2536,7 +2553,7 @@ export interface AudienceGroupAssignedTargetingOptionDetails {
 }
 
 export const AudienceGroupAssignedTargetingOptionDetails: Schema.Schema<AudienceGroupAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includedFirstPartyAndPartnerAudienceGroups: Schema.optional(
         Schema.Array(FirstPartyAndPartnerAudienceGroup),
@@ -2563,7 +2580,7 @@ export interface CategoryAssignedTargetingOptionDetails {
 }
 
 export const CategoryAssignedTargetingOptionDetails: Schema.Schema<CategoryAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -2583,7 +2600,7 @@ export interface BrowserAssignedTargetingOptionDetails {
 }
 
 export const BrowserAssignedTargetingOptionDetails: Schema.Schema<BrowserAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -2601,7 +2618,7 @@ export interface UrlAssignedTargetingOptionDetails {
 }
 
 export const UrlAssignedTargetingOptionDetails: Schema.Schema<UrlAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -2618,7 +2635,7 @@ export interface ChannelAssignedTargetingOptionDetails {
 }
 
 export const ChannelAssignedTargetingOptionDetails: Schema.Schema<ChannelAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelId: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -2638,7 +2655,7 @@ export interface ParentalStatusAssignedTargetingOptionDetails {
 }
 
 export const ParentalStatusAssignedTargetingOptionDetails: Schema.Schema<ParentalStatusAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parentalStatus: Schema.optional(Schema.String),
     }),
@@ -2671,7 +2688,7 @@ export interface AgeRangeAssignedTargetingOptionDetails {
 }
 
 export const AgeRangeAssignedTargetingOptionDetails: Schema.Schema<AgeRangeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ageRange: Schema.optional(Schema.String),
     }),
@@ -2693,7 +2710,7 @@ export interface DigitalContentLabelAssignedTargetingOptionDetails {
 }
 
 export const DigitalContentLabelAssignedTargetingOptionDetails: Schema.Schema<DigitalContentLabelAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedContentRatingTier: Schema.optional(Schema.String),
     }),
@@ -2711,7 +2728,7 @@ export interface KeywordAssignedTargetingOptionDetails {
 }
 
 export const KeywordAssignedTargetingOptionDetails: Schema.Schema<KeywordAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyword: Schema.optional(Schema.String),
       exemptedPolicyNames: Schema.optional(Schema.Array(Schema.String)),
@@ -2733,7 +2750,7 @@ export interface ContentStreamTypeAssignedTargetingOptionDetails {
 }
 
 export const ContentStreamTypeAssignedTargetingOptionDetails: Schema.Schema<ContentStreamTypeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentStreamType: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -2793,7 +2810,7 @@ export interface GeoRegionAssignedTargetingOptionDetails {
 }
 
 export const GeoRegionAssignedTargetingOptionDetails: Schema.Schema<GeoRegionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       geoRegionType: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2836,7 +2853,7 @@ export interface ContentThemeAssignedTargetingOptionDetails {
 }
 
 export const ContentThemeAssignedTargetingOptionDetails: Schema.Schema<ContentThemeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentTheme: Schema.optional(Schema.String),
       excludedTargetingOptionId: Schema.optional(Schema.String),
@@ -2866,7 +2883,7 @@ export interface ContentOutstreamPositionAssignedTargetingOptionDetails {
 }
 
 export const ContentOutstreamPositionAssignedTargetingOptionDetails: Schema.Schema<ContentOutstreamPositionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentOutstreamPosition: Schema.optional(Schema.String),
       adType: Schema.optional(Schema.String),
@@ -2892,7 +2909,7 @@ export interface ViewabilityAssignedTargetingOptionDetails {
 }
 
 export const ViewabilityAssignedTargetingOptionDetails: Schema.Schema<ViewabilityAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewability: Schema.optional(Schema.String),
     }),
@@ -2912,7 +2929,7 @@ export interface VideoPlayerSizeAssignedTargetingOptionDetails {
 }
 
 export const VideoPlayerSizeAssignedTargetingOptionDetails: Schema.Schema<VideoPlayerSizeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       videoPlayerSize: Schema.optional(Schema.String),
     }),
@@ -2928,7 +2945,7 @@ export interface YoutubeChannelAssignedTargetingOptionDetails {
 }
 
 export const YoutubeChannelAssignedTargetingOptionDetails: Schema.Schema<YoutubeChannelAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channelId: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -2947,7 +2964,7 @@ export interface OperatingSystemAssignedTargetingOptionDetails {
 }
 
 export const OperatingSystemAssignedTargetingOptionDetails: Schema.Schema<OperatingSystemAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negative: Schema.optional(Schema.Boolean),
       targetingOptionId: Schema.optional(Schema.String),
@@ -2963,7 +2980,7 @@ export interface InventorySourceGroupAssignedTargetingOptionDetails {
 }
 
 export const InventorySourceGroupAssignedTargetingOptionDetails: Schema.Schema<InventorySourceGroupAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySourceGroupId: Schema.optional(Schema.String),
     }),
@@ -2983,7 +3000,7 @@ export interface AudioContentTypeAssignedTargetingOptionDetails {
 }
 
 export const AudioContentTypeAssignedTargetingOptionDetails: Schema.Schema<AudioContentTypeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioContentType: Schema.optional(Schema.String),
     }),
@@ -3016,7 +3033,7 @@ export interface DayAndTimeAssignedTargetingOptionDetails {
 }
 
 export const DayAndTimeAssignedTargetingOptionDetails: Schema.Schema<DayAndTimeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startHour: Schema.optional(Schema.Number),
       dayOfWeek: Schema.optional(Schema.String),
@@ -3033,7 +3050,7 @@ export interface NegativeKeywordListAssignedTargetingOptionDetails {
 }
 
 export const NegativeKeywordListAssignedTargetingOptionDetails: Schema.Schema<NegativeKeywordListAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negativeKeywordListId: Schema.optional(Schema.String),
     }),
@@ -3053,7 +3070,7 @@ export interface AuthorizedSellerStatusAssignedTargetingOptionDetails {
 }
 
 export const AuthorizedSellerStatusAssignedTargetingOptionDetails: Schema.Schema<AuthorizedSellerStatusAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       authorizedSellerStatus: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -3070,7 +3087,7 @@ export interface YoutubeVideoAssignedTargetingOptionDetails {
 }
 
 export const YoutubeVideoAssignedTargetingOptionDetails: Schema.Schema<YoutubeVideoAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negative: Schema.optional(Schema.Boolean),
       videoId: Schema.optional(Schema.String),
@@ -3094,7 +3111,7 @@ export interface HouseholdIncomeAssignedTargetingOptionDetails {
 }
 
 export const HouseholdIncomeAssignedTargetingOptionDetails: Schema.Schema<HouseholdIncomeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       householdIncome: Schema.optional(Schema.String),
     }),
@@ -3236,29 +3253,32 @@ export interface Adloox {
     | (string & {});
 }
 
-export const Adloox: Schema.Schema<Adloox> = Schema.suspend(() =>
-  Schema.Struct({
-    hateSpeechActsAggressionContent: Schema.optional(Schema.String),
-    videoIabViewability: Schema.optional(Schema.String),
-    onlinePiracyContent: Schema.optional(Schema.String),
-    displayIabViewability: Schema.optional(Schema.String),
-    excludedFraudIvtMfaCategories: Schema.optional(Schema.Array(Schema.String)),
-    adultExplicitSexualContent: Schema.optional(Schema.String),
-    spamHarmfulContent: Schema.optional(Schema.String),
-    excludedAdlooxCategories: Schema.optional(Schema.Array(Schema.String)),
-    terrorismContent: Schema.optional(Schema.String),
-    crimeHarmfulActsIndividualsSocietyHumanRightsViolationsContent:
-      Schema.optional(Schema.String),
-    deathInjuryMilitaryConflictContent: Schema.optional(Schema.String),
-    debatedSensitiveSocialIssueContent: Schema.optional(Schema.String),
-    obscenityProfanityContent: Schema.optional(Schema.String),
-    armsAmmunitionContent: Schema.optional(Schema.String),
-    misinformationContent: Schema.optional(Schema.String),
-    illegalDrugsTobaccoEcigarettesVapingAlcoholContent: Schema.optional(
-      Schema.String,
-    ),
-  }),
-).annotate({ identifier: "Adloox" }) as any as Schema.Schema<Adloox>;
+export const Adloox: Schema.Schema<Adloox> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hateSpeechActsAggressionContent: Schema.optional(Schema.String),
+      videoIabViewability: Schema.optional(Schema.String),
+      onlinePiracyContent: Schema.optional(Schema.String),
+      displayIabViewability: Schema.optional(Schema.String),
+      excludedFraudIvtMfaCategories: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      adultExplicitSexualContent: Schema.optional(Schema.String),
+      spamHarmfulContent: Schema.optional(Schema.String),
+      excludedAdlooxCategories: Schema.optional(Schema.Array(Schema.String)),
+      terrorismContent: Schema.optional(Schema.String),
+      crimeHarmfulActsIndividualsSocietyHumanRightsViolationsContent:
+        Schema.optional(Schema.String),
+      deathInjuryMilitaryConflictContent: Schema.optional(Schema.String),
+      debatedSensitiveSocialIssueContent: Schema.optional(Schema.String),
+      obscenityProfanityContent: Schema.optional(Schema.String),
+      armsAmmunitionContent: Schema.optional(Schema.String),
+      misinformationContent: Schema.optional(Schema.String),
+      illegalDrugsTobaccoEcigarettesVapingAlcoholContent: Schema.optional(
+        Schema.String,
+      ),
+    }),
+  ).annotate({ identifier: "Adloox" }) as any as Schema.Schema<Adloox>;
 
 export interface IntegralAdScience {
   /** Brand Safety - **Alcohol**. */
@@ -3352,7 +3372,7 @@ export interface IntegralAdScience {
 }
 
 export const IntegralAdScience: Schema.Schema<IntegralAdScience> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       excludedAlcoholRisk: Schema.optional(Schema.String),
       excludedViolenceRisk: Schema.optional(Schema.String),
@@ -3392,7 +3412,7 @@ export interface DoubleVerifyFraudInvalidTraffic {
 }
 
 export const DoubleVerifyFraudInvalidTraffic: Schema.Schema<DoubleVerifyFraudInvalidTraffic> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       avoidedFraudOption: Schema.optional(Schema.String),
       avoidInsufficientOption: Schema.optional(Schema.Boolean),
@@ -3418,7 +3438,7 @@ export interface DoubleVerifyAppStarRating {
 }
 
 export const DoubleVerifyAppStarRating: Schema.Schema<DoubleVerifyAppStarRating> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       avoidInsufficientStarRating: Schema.optional(Schema.Boolean),
       avoidedStarRating: Schema.optional(Schema.String),
@@ -3470,7 +3490,7 @@ export interface DoubleVerifyBrandSafetyCategories {
 }
 
 export const DoubleVerifyBrandSafetyCategories: Schema.Schema<DoubleVerifyBrandSafetyCategories> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       avoidUnknownBrandSafetyCategory: Schema.optional(Schema.Boolean),
       avoidedHighSeverityCategories: Schema.optional(
@@ -3508,7 +3528,7 @@ export interface DoubleVerifyDisplayViewability {
 }
 
 export const DoubleVerifyDisplayViewability: Schema.Schema<DoubleVerifyDisplayViewability> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       iab: Schema.optional(Schema.String),
       viewableDuring: Schema.optional(Schema.String),
@@ -3543,19 +3563,20 @@ export interface DoubleVerify {
   customSegmentId?: string;
 }
 
-export const DoubleVerify: Schema.Schema<DoubleVerify> = Schema.suspend(() =>
-  Schema.Struct({
-    fraudInvalidTraffic: Schema.optional(DoubleVerifyFraudInvalidTraffic),
-    appStarRating: Schema.optional(DoubleVerifyAppStarRating),
-    avoidedAgeRatings: Schema.optional(Schema.Array(Schema.String)),
-    brandSafetyCategories: Schema.optional(DoubleVerifyBrandSafetyCategories),
-    displayViewability: Schema.optional(DoubleVerifyDisplayViewability),
-    videoViewability: Schema.optional(DoubleVerifyVideoViewability),
-    customSegmentId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "DoubleVerify",
-}) as any as Schema.Schema<DoubleVerify>;
+export const DoubleVerify: Schema.Schema<DoubleVerify> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fraudInvalidTraffic: Schema.optional(DoubleVerifyFraudInvalidTraffic),
+      appStarRating: Schema.optional(DoubleVerifyAppStarRating),
+      avoidedAgeRatings: Schema.optional(Schema.Array(Schema.String)),
+      brandSafetyCategories: Schema.optional(DoubleVerifyBrandSafetyCategories),
+      displayViewability: Schema.optional(DoubleVerifyDisplayViewability),
+      videoViewability: Schema.optional(DoubleVerifyVideoViewability),
+      customSegmentId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DoubleVerify",
+  }) as any as Schema.Schema<DoubleVerify>;
 
 export interface ThirdPartyVerifierAssignedTargetingOptionDetails {
   /** Third party brand verifier -- Scope3 (previously known as Adloox). */
@@ -3567,7 +3588,7 @@ export interface ThirdPartyVerifierAssignedTargetingOptionDetails {
 }
 
 export const ThirdPartyVerifierAssignedTargetingOptionDetails: Schema.Schema<ThirdPartyVerifierAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adloox: Schema.optional(Adloox),
       integralAdScience: Schema.optional(IntegralAdScience),
@@ -3583,7 +3604,7 @@ export interface SubExchangeAssignedTargetingOptionDetails {
 }
 
 export const SubExchangeAssignedTargetingOptionDetails: Schema.Schema<SubExchangeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptionId: Schema.optional(Schema.String),
     }),
@@ -3608,7 +3629,7 @@ export interface ContentDurationAssignedTargetingOptionDetails {
 }
 
 export const ContentDurationAssignedTargetingOptionDetails: Schema.Schema<ContentDurationAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptionId: Schema.optional(Schema.String),
       contentDuration: Schema.optional(Schema.String),
@@ -3627,7 +3648,7 @@ export interface AppCategoryAssignedTargetingOptionDetails {
 }
 
 export const AppCategoryAssignedTargetingOptionDetails: Schema.Schema<AppCategoryAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -3645,7 +3666,7 @@ export interface RegionalLocationListAssignedTargetingOptionDetails {
 }
 
 export const RegionalLocationListAssignedTargetingOptionDetails: Schema.Schema<RegionalLocationListAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionalLocationListId: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -3750,7 +3771,7 @@ export interface ExchangeAssignedTargetingOptionDetails {
 }
 
 export const ExchangeAssignedTargetingOptionDetails: Schema.Schema<ExchangeAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exchange: Schema.optional(Schema.String),
     }),
@@ -3768,7 +3789,7 @@ export interface DeviceMakeModelAssignedTargetingOptionDetails {
 }
 
 export const DeviceMakeModelAssignedTargetingOptionDetails: Schema.Schema<DeviceMakeModelAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -3788,7 +3809,7 @@ export interface ContentGenreAssignedTargetingOptionDetails {
 }
 
 export const ContentGenreAssignedTargetingOptionDetails: Schema.Schema<ContentGenreAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
@@ -3804,7 +3825,7 @@ export interface InventorySourceAssignedTargetingOptionDetails {
 }
 
 export const InventorySourceAssignedTargetingOptionDetails: Schema.Schema<InventorySourceAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySourceId: Schema.optional(Schema.String),
     }),
@@ -3826,7 +3847,7 @@ export interface ProximityLocationListAssignedTargetingOptionDetails {
 }
 
 export const ProximityLocationListAssignedTargetingOptionDetails: Schema.Schema<ProximityLocationListAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       proximityRadiusUnit: Schema.optional(Schema.String),
       proximityLocationListId: Schema.optional(Schema.String),
@@ -3846,7 +3867,7 @@ export interface CarrierAndIspAssignedTargetingOptionDetails {
 }
 
 export const CarrierAndIspAssignedTargetingOptionDetails: Schema.Schema<CarrierAndIspAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       negative: Schema.optional(Schema.Boolean),
@@ -3865,7 +3886,7 @@ export interface SessionPositionAssignedTargetingOptionDetails {
 }
 
 export const SessionPositionAssignedTargetingOptionDetails: Schema.Schema<SessionPositionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sessionPosition: Schema.optional(Schema.String),
     }),
@@ -3893,7 +3914,7 @@ export interface OnScreenPositionAssignedTargetingOptionDetails {
 }
 
 export const OnScreenPositionAssignedTargetingOptionDetails: Schema.Schema<OnScreenPositionAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptionId: Schema.optional(Schema.String),
       onScreenPosition: Schema.optional(Schema.String),
@@ -3914,7 +3935,7 @@ export interface EnvironmentAssignedTargetingOptionDetails {
 }
 
 export const EnvironmentAssignedTargetingOptionDetails: Schema.Schema<EnvironmentAssignedTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environment: Schema.optional(Schema.String),
     }),
@@ -4090,7 +4111,7 @@ export interface AssignedTargetingOption {
 }
 
 export const AssignedTargetingOption: Schema.Schema<AssignedTargetingOption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userRewardedContentDetails: Schema.optional(
         UserRewardedContentAssignedTargetingOptionDetails,
@@ -4233,7 +4254,7 @@ export interface AdGroupAssignedTargetingOption {
 }
 
 export const AdGroupAssignedTargetingOption: Schema.Schema<AdGroupAssignedTargetingOption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroupId: Schema.optional(Schema.String),
       assignedTargetingOption: Schema.optional(AssignedTargetingOption),
@@ -4250,7 +4271,7 @@ export interface BulkListAdGroupAssignedTargetingOptionsResponse {
 }
 
 export const BulkListAdGroupAssignedTargetingOptionsResponse: Schema.Schema<BulkListAdGroupAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroupAssignedTargetingOptions: Schema.optional(
         Schema.Array(AdGroupAssignedTargetingOption),
@@ -4320,7 +4341,7 @@ export interface CreateAssignedTargetingOptionsRequest {
 }
 
 export const CreateAssignedTargetingOptionsRequest: Schema.Schema<CreateAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingType: Schema.optional(Schema.String),
       assignedTargetingOptions: Schema.optional(
@@ -4390,7 +4411,7 @@ export interface DeleteAssignedTargetingOptionsRequest {
 }
 
 export const DeleteAssignedTargetingOptionsRequest: Schema.Schema<DeleteAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedTargetingOptionIds: Schema.optional(Schema.Array(Schema.String)),
       targetingType: Schema.optional(Schema.String),
@@ -4409,7 +4430,7 @@ export interface BulkEditAdGroupAssignedTargetingOptionsRequest {
 }
 
 export const BulkEditAdGroupAssignedTargetingOptionsRequest: Schema.Schema<BulkEditAdGroupAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroupIds: Schema.optional(Schema.Array(Schema.String)),
       createRequests: Schema.optional(
@@ -4447,17 +4468,17 @@ export interface AssignedUserRole {
     | (string & {});
 }
 
-export const AssignedUserRole: Schema.Schema<AssignedUserRole> = Schema.suspend(
-  () =>
+export const AssignedUserRole: Schema.Schema<AssignedUserRole> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedUserRoleId: Schema.optional(Schema.String),
       advertiserId: Schema.optional(Schema.String),
       partnerId: Schema.optional(Schema.String),
       userRole: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AssignedUserRole",
-}) as any as Schema.Schema<AssignedUserRole>;
+  ).annotate({
+    identifier: "AssignedUserRole",
+  }) as any as Schema.Schema<AssignedUserRole>;
 
 export interface User {
   /** Output only. The timestamp when the user last logged in DV360 UI. */
@@ -4474,16 +4495,17 @@ export interface User {
   assignedUserRoles?: Array<AssignedUserRole>;
 }
 
-export const User: Schema.Schema<User> = Schema.suspend(() =>
-  Schema.Struct({
-    lastLoginTime: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    userId: Schema.optional(Schema.String),
-    email: Schema.optional(Schema.String),
-    assignedUserRoles: Schema.optional(Schema.Array(AssignedUserRole)),
-  }),
-).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
+export const User: Schema.Schema<User> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      lastLoginTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      userId: Schema.optional(Schema.String),
+      email: Schema.optional(Schema.String),
+      assignedUserRoles: Schema.optional(Schema.Array(AssignedUserRole)),
+    }),
+  ).annotate({ identifier: "User" }) as any as Schema.Schema<User>;
 
 export interface ListUsersResponse {
   /** The list of users. This list will be absent if empty. */
@@ -4493,7 +4515,7 @@ export interface ListUsersResponse {
 }
 
 export const ListUsersResponse: Schema.Schema<ListUsersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       users: Schema.optional(Schema.Array(User)),
       nextPageToken: Schema.optional(Schema.String),
@@ -4549,7 +4571,7 @@ export interface GeoRegionTargetingOptionDetails {
 }
 
 export const GeoRegionTargetingOptionDetails: Schema.Schema<GeoRegionTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       geoRegionType: Schema.optional(Schema.String),
@@ -4565,15 +4587,15 @@ export interface AudioVideoOffset {
   seconds?: string;
 }
 
-export const AudioVideoOffset: Schema.Schema<AudioVideoOffset> = Schema.suspend(
-  () =>
+export const AudioVideoOffset: Schema.Schema<AudioVideoOffset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       percentage: Schema.optional(Schema.String),
       seconds: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AudioVideoOffset",
-}) as any as Schema.Schema<AudioVideoOffset>;
+  ).annotate({
+    identifier: "AudioVideoOffset",
+  }) as any as Schema.Schema<AudioVideoOffset>;
 
 export interface AdPolicyTopicEvidenceTextList {
   /** The fragments of text from the resource that caused the policy finding. */
@@ -4581,7 +4603,7 @@ export interface AdPolicyTopicEvidenceTextList {
 }
 
 export const AdPolicyTopicEvidenceTextList: Schema.Schema<AdPolicyTopicEvidenceTextList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       texts: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4602,14 +4624,15 @@ export interface CampaignGoal {
   performanceGoal?: PerformanceGoal;
 }
 
-export const CampaignGoal: Schema.Schema<CampaignGoal> = Schema.suspend(() =>
-  Schema.Struct({
-    campaignGoalType: Schema.optional(Schema.String),
-    performanceGoal: Schema.optional(PerformanceGoal),
-  }),
-).annotate({
-  identifier: "CampaignGoal",
-}) as any as Schema.Schema<CampaignGoal>;
+export const CampaignGoal: Schema.Schema<CampaignGoal> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      campaignGoalType: Schema.optional(Schema.String),
+      performanceGoal: Schema.optional(PerformanceGoal),
+    }),
+  ).annotate({
+    identifier: "CampaignGoal",
+  }) as any as Schema.Schema<CampaignGoal>;
 
 export interface LineItemAssignedTargetingOption {
   /** The ID of the line item the assigned targeting option is assigned to. */
@@ -4619,7 +4642,7 @@ export interface LineItemAssignedTargetingOption {
 }
 
 export const LineItemAssignedTargetingOption: Schema.Schema<LineItemAssignedTargetingOption> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemId: Schema.optional(Schema.String),
       assignedTargetingOption: Schema.optional(AssignedTargetingOption),
@@ -4636,7 +4659,7 @@ export interface BulkListAssignedTargetingOptionsResponse {
 }
 
 export const BulkListAssignedTargetingOptionsResponse: Schema.Schema<BulkListAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       lineItemAssignedTargetingOptions: Schema.optional(
@@ -4656,15 +4679,16 @@ export interface CmTrackingAd {
   cmCreativeId?: string;
 }
 
-export const CmTrackingAd: Schema.Schema<CmTrackingAd> = Schema.suspend(() =>
-  Schema.Struct({
-    cmAdId: Schema.optional(Schema.String),
-    cmPlacementId: Schema.optional(Schema.String),
-    cmCreativeId: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CmTrackingAd",
-}) as any as Schema.Schema<CmTrackingAd>;
+export const CmTrackingAd: Schema.Schema<CmTrackingAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cmAdId: Schema.optional(Schema.String),
+      cmPlacementId: Schema.optional(Schema.String),
+      cmCreativeId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CmTrackingAd",
+  }) as any as Schema.Schema<CmTrackingAd>;
 
 export interface PrismaCpeCode {
   /** The Prisma client code. */
@@ -4675,15 +4699,16 @@ export interface PrismaCpeCode {
   prismaEstimateCode?: string;
 }
 
-export const PrismaCpeCode: Schema.Schema<PrismaCpeCode> = Schema.suspend(() =>
-  Schema.Struct({
-    prismaClientCode: Schema.optional(Schema.String),
-    prismaProductCode: Schema.optional(Schema.String),
-    prismaEstimateCode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PrismaCpeCode",
-}) as any as Schema.Schema<PrismaCpeCode>;
+export const PrismaCpeCode: Schema.Schema<PrismaCpeCode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      prismaClientCode: Schema.optional(Schema.String),
+      prismaProductCode: Schema.optional(Schema.String),
+      prismaEstimateCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrismaCpeCode",
+  }) as any as Schema.Schema<PrismaCpeCode>;
 
 export interface IdFilter {
   /** Campaigns to download by ID. All IDs must belong to the same Advertiser or Partner specified in CreateSdfDownloadTaskRequest. */
@@ -4704,18 +4729,19 @@ export interface IdFilter {
   adGroupAdIds?: Array<string>;
 }
 
-export const IdFilter: Schema.Schema<IdFilter> = Schema.suspend(() =>
-  Schema.Struct({
-    campaignIds: Schema.optional(Schema.Array(Schema.String)),
-    insertionOrderIds: Schema.optional(Schema.Array(Schema.String)),
-    lineItemQaIds: Schema.optional(Schema.Array(Schema.String)),
-    mediaProductIds: Schema.optional(Schema.Array(Schema.String)),
-    adGroupIds: Schema.optional(Schema.Array(Schema.String)),
-    adGroupQaIds: Schema.optional(Schema.Array(Schema.String)),
-    lineItemIds: Schema.optional(Schema.Array(Schema.String)),
-    adGroupAdIds: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "IdFilter" }) as any as Schema.Schema<IdFilter>;
+export const IdFilter: Schema.Schema<IdFilter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      campaignIds: Schema.optional(Schema.Array(Schema.String)),
+      insertionOrderIds: Schema.optional(Schema.Array(Schema.String)),
+      lineItemQaIds: Schema.optional(Schema.Array(Schema.String)),
+      mediaProductIds: Schema.optional(Schema.Array(Schema.String)),
+      adGroupIds: Schema.optional(Schema.Array(Schema.String)),
+      adGroupQaIds: Schema.optional(Schema.Array(Schema.String)),
+      lineItemIds: Schema.optional(Schema.Array(Schema.String)),
+      adGroupAdIds: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "IdFilter" }) as any as Schema.Schema<IdFilter>;
 
 export interface ParentEntityFilter {
   /** Required. Filter type used to filter fetched entities. */
@@ -4746,7 +4772,7 @@ export interface ParentEntityFilter {
 }
 
 export const ParentEntityFilter: Schema.Schema<ParentEntityFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filterType: Schema.optional(Schema.String),
       filterIds: Schema.optional(Schema.Array(Schema.String)),
@@ -4762,7 +4788,7 @@ export interface InventorySourceFilter {
 }
 
 export const InventorySourceFilter: Schema.Schema<InventorySourceFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySourceIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4806,7 +4832,7 @@ export interface CreateSdfDownloadTaskRequest {
 }
 
 export const CreateSdfDownloadTaskRequest: Schema.Schema<CreateSdfDownloadTaskRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertiserId: Schema.optional(Schema.String),
       idFilter: Schema.optional(IdFilter),
@@ -4829,7 +4855,7 @@ export interface TrackingFloodlightActivityConfig {
 }
 
 export const TrackingFloodlightActivityConfig: Schema.Schema<TrackingFloodlightActivityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floodlightActivityId: Schema.optional(Schema.String),
       postClickLookbackWindowDays: Schema.optional(Schema.Number),
@@ -4845,7 +4871,7 @@ export interface YoutubeVideoAsset {
 }
 
 export const YoutubeVideoAsset: Schema.Schema<YoutubeVideoAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       youtubeVideoId: Schema.optional(Schema.String),
     }),
@@ -4877,15 +4903,16 @@ export interface AdAsset {
     | (string & {});
 }
 
-export const AdAsset: Schema.Schema<AdAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    adAssetId: Schema.optional(Schema.String),
-    youtubeVideoAsset: Schema.optional(YoutubeVideoAsset),
-    name: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    adAssetType: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdAsset" }) as any as Schema.Schema<AdAsset>;
+export const AdAsset: Schema.Schema<AdAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adAssetId: Schema.optional(Schema.String),
+      youtubeVideoAsset: Schema.optional(YoutubeVideoAsset),
+      name: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      adAssetType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdAsset" }) as any as Schema.Schema<AdAsset>;
 
 export interface ListAdAssetsResponse {
   /** The list of ad assets. The list will only contain assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. This list will be absent if empty. */
@@ -4895,7 +4922,7 @@ export interface ListAdAssetsResponse {
 }
 
 export const ListAdAssetsResponse: Schema.Schema<ListAdAssetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adAssets: Schema.optional(Schema.Array(AdAsset)),
       nextPageToken: Schema.optional(Schema.String),
@@ -4913,16 +4940,16 @@ export interface AssignedLocation {
   targetingOptionId?: string;
 }
 
-export const AssignedLocation: Schema.Schema<AssignedLocation> = Schema.suspend(
-  () =>
+export const AssignedLocation: Schema.Schema<AssignedLocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       assignedLocationId: Schema.optional(Schema.String),
       targetingOptionId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AssignedLocation",
-}) as any as Schema.Schema<AssignedLocation>;
+  ).annotate({
+    identifier: "AssignedLocation",
+  }) as any as Schema.Schema<AssignedLocation>;
 
 export interface BulkEditAssignedLocationsResponse {
   /** The list of assigned locations that have been successfully created. This list will be absent if empty. */
@@ -4930,7 +4957,7 @@ export interface BulkEditAssignedLocationsResponse {
 }
 
 export const BulkEditAssignedLocationsResponse: Schema.Schema<BulkEditAssignedLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedLocations: Schema.optional(Schema.Array(AssignedLocation)),
     }),
@@ -4944,7 +4971,7 @@ export interface AdPolicyTopicEvidenceWebsiteList {
 }
 
 export const AdPolicyTopicEvidenceWebsiteList: Schema.Schema<AdPolicyTopicEvidenceWebsiteList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       websites: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4958,7 +4985,7 @@ export interface DeviceMakeModelTargetingOptionDetails {
 }
 
 export const DeviceMakeModelTargetingOptionDetails: Schema.Schema<DeviceMakeModelTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -4991,7 +5018,7 @@ export interface AgeRangeTargetingOptionDetails {
 }
 
 export const AgeRangeTargetingOptionDetails: Schema.Schema<AgeRangeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ageRange: Schema.optional(Schema.String),
     }),
@@ -5013,7 +5040,7 @@ export interface YoutubeVideoDetails {
 }
 
 export const YoutubeVideoDetails: Schema.Schema<YoutubeVideoDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unavailableReason: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -5042,8 +5069,8 @@ export interface VideoDiscoveryAd {
     | (string & {});
 }
 
-export const VideoDiscoveryAd: Schema.Schema<VideoDiscoveryAd> = Schema.suspend(
-  () =>
+export const VideoDiscoveryAd: Schema.Schema<VideoDiscoveryAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       video: Schema.optional(YoutubeVideoDetails),
       headline: Schema.optional(Schema.String),
@@ -5051,9 +5078,9 @@ export const VideoDiscoveryAd: Schema.Schema<VideoDiscoveryAd> = Schema.suspend(
       description1: Schema.optional(Schema.String),
       thumbnail: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "VideoDiscoveryAd",
-}) as any as Schema.Schema<VideoDiscoveryAd>;
+  ).annotate({
+    identifier: "VideoDiscoveryAd",
+  }) as any as Schema.Schema<VideoDiscoveryAd>;
 
 export interface Consent {
   /** Represents consent for ad user data. */
@@ -5070,12 +5097,13 @@ export interface Consent {
     | (string & {});
 }
 
-export const Consent: Schema.Schema<Consent> = Schema.suspend(() =>
-  Schema.Struct({
-    adUserData: Schema.optional(Schema.String),
-    adPersonalization: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Consent" }) as any as Schema.Schema<Consent>;
+export const Consent: Schema.Schema<Consent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adUserData: Schema.optional(Schema.String),
+      adPersonalization: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Consent" }) as any as Schema.Schema<Consent>;
 
 export interface MobileDeviceIdList {
   /** A list of mobile device IDs defining Customer Match audience members. The size of mobile_device_ids mustn't be greater than 500,000. */
@@ -5085,7 +5113,7 @@ export interface MobileDeviceIdList {
 }
 
 export const MobileDeviceIdList: Schema.Schema<MobileDeviceIdList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mobileDeviceIds: Schema.optional(Schema.Array(Schema.String)),
       consent: Schema.optional(Consent),
@@ -5109,16 +5137,19 @@ export interface ContactInfo {
   zipCodes?: Array<string>;
 }
 
-export const ContactInfo: Schema.Schema<ContactInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    hashedFirstName: Schema.optional(Schema.String),
-    countryCode: Schema.optional(Schema.String),
-    hashedPhoneNumbers: Schema.optional(Schema.Array(Schema.String)),
-    hashedLastName: Schema.optional(Schema.String),
-    hashedEmails: Schema.optional(Schema.Array(Schema.String)),
-    zipCodes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "ContactInfo" }) as any as Schema.Schema<ContactInfo>;
+export const ContactInfo: Schema.Schema<ContactInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      hashedFirstName: Schema.optional(Schema.String),
+      countryCode: Schema.optional(Schema.String),
+      hashedPhoneNumbers: Schema.optional(Schema.Array(Schema.String)),
+      hashedLastName: Schema.optional(Schema.String),
+      hashedEmails: Schema.optional(Schema.Array(Schema.String)),
+      zipCodes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ContactInfo",
+  }) as any as Schema.Schema<ContactInfo>;
 
 export interface ContactInfoList {
   /** A list of ContactInfo objects defining Customer Match audience members. The size of members after splitting the contact_infos mustn't be greater than 500,000. */
@@ -5127,15 +5158,15 @@ export interface ContactInfoList {
   consent?: Consent;
 }
 
-export const ContactInfoList: Schema.Schema<ContactInfoList> = Schema.suspend(
-  () =>
+export const ContactInfoList: Schema.Schema<ContactInfoList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contactInfos: Schema.optional(Schema.Array(ContactInfo)),
       consent: Schema.optional(Consent),
     }),
-).annotate({
-  identifier: "ContactInfoList",
-}) as any as Schema.Schema<ContactInfoList>;
+  ).annotate({
+    identifier: "ContactInfoList",
+  }) as any as Schema.Schema<ContactInfoList>;
 
 export interface FirstPartyAndPartnerAudience {
   /** Output only. Whether the audience is a first party and partner audience. */
@@ -5202,7 +5233,7 @@ export interface FirstPartyAndPartnerAudience {
 }
 
 export const FirstPartyAndPartnerAudience: Schema.Schema<FirstPartyAndPartnerAudience> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyAndPartnerAudienceType: Schema.optional(Schema.String),
       displayAudienceSize: Schema.optional(Schema.String),
@@ -5235,7 +5266,7 @@ export interface ListFirstPartyAndPartnerAudiencesResponse {
 }
 
 export const ListFirstPartyAndPartnerAudiencesResponse: Schema.Schema<ListFirstPartyAndPartnerAudiencesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       firstPartyAndPartnerAudiences: Schema.optional(
         Schema.Array(FirstPartyAndPartnerAudience),
@@ -5301,8 +5332,8 @@ export interface DemandGenVideoAd {
   finalMobileUrl?: string;
 }
 
-export const DemandGenVideoAd: Schema.Schema<DemandGenVideoAd> = Schema.suspend(
-  () =>
+export const DemandGenVideoAd: Schema.Schema<DemandGenVideoAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trackingUrl: Schema.optional(Schema.String),
       customParameters: Schema.optional(
@@ -5323,9 +5354,9 @@ export const DemandGenVideoAd: Schema.Schema<DemandGenVideoAd> = Schema.suspend(
       longHeadlines: Schema.optional(Schema.Array(Schema.String)),
       finalMobileUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DemandGenVideoAd",
-}) as any as Schema.Schema<DemandGenVideoAd>;
+  ).annotate({
+    identifier: "DemandGenVideoAd",
+  }) as any as Schema.Schema<DemandGenVideoAd>;
 
 export interface SubExchangeTargetingOptionDetails {
   /** Output only. The display name of the sub-exchange. */
@@ -5333,7 +5364,7 @@ export interface SubExchangeTargetingOptionDetails {
 }
 
 export const SubExchangeTargetingOptionDetails: Schema.Schema<SubExchangeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -5354,7 +5385,7 @@ export interface NativeContentPositionTargetingOptionDetails {
 }
 
 export const NativeContentPositionTargetingOptionDetails: Schema.Schema<NativeContentPositionTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentPosition: Schema.optional(Schema.String),
     }),
@@ -5368,7 +5399,7 @@ export interface OperatingSystemTargetingOptionDetails {
 }
 
 export const OperatingSystemTargetingOptionDetails: Schema.Schema<OperatingSystemTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -5388,7 +5419,7 @@ export interface AudioContentTypeTargetingOptionDetails {
 }
 
 export const AudioContentTypeTargetingOptionDetails: Schema.Schema<AudioContentTypeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       audioContentType: Schema.optional(Schema.String),
     }),
@@ -5406,7 +5437,7 @@ export interface UserRewardedContentTargetingOptionDetails {
 }
 
 export const UserRewardedContentTargetingOptionDetails: Schema.Schema<UserRewardedContentTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userRewardedContent: Schema.optional(Schema.String),
     }),
@@ -5441,7 +5472,7 @@ export interface SensitiveCategoryTargetingOptionDetails {
 }
 
 export const SensitiveCategoryTargetingOptionDetails: Schema.Schema<SensitiveCategoryTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveCategory: Schema.optional(Schema.String),
     }),
@@ -5461,7 +5492,7 @@ export interface ContentInstreamPositionTargetingOptionDetails {
 }
 
 export const ContentInstreamPositionTargetingOptionDetails: Schema.Schema<ContentInstreamPositionTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentInstreamPosition: Schema.optional(Schema.String),
     }),
@@ -5484,7 +5515,7 @@ export interface HouseholdIncomeTargetingOptionDetails {
 }
 
 export const HouseholdIncomeTargetingOptionDetails: Schema.Schema<HouseholdIncomeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       householdIncome: Schema.optional(Schema.String),
     }),
@@ -5498,7 +5529,7 @@ export interface OmidTargetingOptionDetails {
 }
 
 export const OmidTargetingOptionDetails: Schema.Schema<OmidTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       omid: Schema.optional(Schema.String),
     }),
@@ -5516,7 +5547,7 @@ export interface PoiTargetingOptionDetails {
 }
 
 export const PoiTargetingOptionDetails: Schema.Schema<PoiTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       latitude: Schema.optional(Schema.Number),
       displayName: Schema.optional(Schema.String),
@@ -5539,7 +5570,7 @@ export interface DeviceTypeTargetingOptionDetails {
 }
 
 export const DeviceTypeTargetingOptionDetails: Schema.Schema<DeviceTypeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deviceType: Schema.optional(Schema.String),
     }),
@@ -5643,7 +5674,7 @@ export interface ExchangeTargetingOptionDetails {
 }
 
 export const ExchangeTargetingOptionDetails: Schema.Schema<ExchangeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exchange: Schema.optional(Schema.String),
     }),
@@ -5665,7 +5696,7 @@ export interface DigitalContentLabelTargetingOptionDetails {
 }
 
 export const DigitalContentLabelTargetingOptionDetails: Schema.Schema<DigitalContentLabelTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentRatingTier: Schema.optional(Schema.String),
     }),
@@ -5679,7 +5710,7 @@ export interface BrowserTargetingOptionDetails {
 }
 
 export const BrowserTargetingOptionDetails: Schema.Schema<BrowserTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -5693,7 +5724,7 @@ export interface LanguageTargetingOptionDetails {
 }
 
 export const LanguageTargetingOptionDetails: Schema.Schema<LanguageTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -5707,7 +5738,7 @@ export interface AppCategoryTargetingOptionDetails {
 }
 
 export const AppCategoryTargetingOptionDetails: Schema.Schema<AppCategoryTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
@@ -5726,7 +5757,7 @@ export interface GenderTargetingOptionDetails {
 }
 
 export const GenderTargetingOptionDetails: Schema.Schema<GenderTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gender: Schema.optional(Schema.String),
     }),
@@ -5751,7 +5782,7 @@ export interface ContentThemeTargetingOptionDetails {
 }
 
 export const ContentThemeTargetingOptionDetails: Schema.Schema<ContentThemeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentTheme: Schema.optional(Schema.String),
     }),
@@ -5771,7 +5802,7 @@ export interface CarrierAndIspTargetingOptionDetails {
 }
 
 export const CarrierAndIspTargetingOptionDetails: Schema.Schema<CarrierAndIspTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -5793,7 +5824,7 @@ export interface ContentOutstreamPositionTargetingOptionDetails {
 }
 
 export const ContentOutstreamPositionTargetingOptionDetails: Schema.Schema<ContentOutstreamPositionTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentOutstreamPosition: Schema.optional(Schema.String),
     }),
@@ -5813,7 +5844,7 @@ export interface VideoPlayerSizeTargetingOptionDetails {
 }
 
 export const VideoPlayerSizeTargetingOptionDetails: Schema.Schema<VideoPlayerSizeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       videoPlayerSize: Schema.optional(Schema.String),
     }),
@@ -5838,7 +5869,7 @@ export interface ViewabilityTargetingOptionDetails {
 }
 
 export const ViewabilityTargetingOptionDetails: Schema.Schema<ViewabilityTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       viewability: Schema.optional(Schema.String),
     }),
@@ -5856,7 +5887,7 @@ export interface ContentStreamTypeTargetingOptionDetails {
 }
 
 export const ContentStreamTypeTargetingOptionDetails: Schema.Schema<ContentStreamTypeTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentStreamType: Schema.optional(Schema.String),
     }),
@@ -5875,7 +5906,7 @@ export interface OnScreenPositionTargetingOptionDetails {
 }
 
 export const OnScreenPositionTargetingOptionDetails: Schema.Schema<OnScreenPositionTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       onScreenPosition: Schema.optional(Schema.String),
     }),
@@ -5894,7 +5925,7 @@ export interface EnvironmentTargetingOptionDetails {
 }
 
 export const EnvironmentTargetingOptionDetails: Schema.Schema<EnvironmentTargetingOptionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environment: Schema.optional(Schema.String),
     }),
@@ -6030,8 +6061,8 @@ export interface TargetingOption {
   environmentDetails?: EnvironmentTargetingOptionDetails;
 }
 
-export const TargetingOption: Schema.Schema<TargetingOption> = Schema.suspend(
-  () =>
+export const TargetingOption: Schema.Schema<TargetingOption> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       subExchangeDetails: Schema.optional(SubExchangeTargetingOptionDetails),
       nativeContentPositionDetails: Schema.optional(
@@ -6107,9 +6138,9 @@ export const TargetingOption: Schema.Schema<TargetingOption> = Schema.suspend(
       ),
       environmentDetails: Schema.optional(EnvironmentTargetingOptionDetails),
     }),
-).annotate({
-  identifier: "TargetingOption",
-}) as any as Schema.Schema<TargetingOption>;
+  ).annotate({
+    identifier: "TargetingOption",
+  }) as any as Schema.Schema<TargetingOption>;
 
 export interface CustomLabel {
   /** The value of the label. */
@@ -6125,12 +6156,15 @@ export interface CustomLabel {
     | (string & {});
 }
 
-export const CustomLabel: Schema.Schema<CustomLabel> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    key: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CustomLabel" }) as any as Schema.Schema<CustomLabel>;
+export const CustomLabel: Schema.Schema<CustomLabel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CustomLabel",
+  }) as any as Schema.Schema<CustomLabel>;
 
 export interface ProductMatchDimension {
   /** The custom label to match all the products with the label. */
@@ -6140,7 +6174,7 @@ export interface ProductMatchDimension {
 }
 
 export const ProductMatchDimension: Schema.Schema<ProductMatchDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customLabel: Schema.optional(CustomLabel),
       productOfferId: Schema.optional(Schema.String),
@@ -6163,8 +6197,8 @@ export interface ProductFeedData {
   isFeedDisabled?: boolean;
 }
 
-export const ProductFeedData: Schema.Schema<ProductFeedData> = Schema.suspend(
-  () =>
+export const ProductFeedData: Schema.Schema<ProductFeedData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productMatchType: Schema.optional(Schema.String),
       productMatchDimensions: Schema.optional(
@@ -6172,9 +6206,9 @@ export const ProductFeedData: Schema.Schema<ProductFeedData> = Schema.suspend(
       ),
       isFeedDisabled: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "ProductFeedData",
-}) as any as Schema.Schema<ProductFeedData>;
+  ).annotate({
+    identifier: "ProductFeedData",
+  }) as any as Schema.Schema<ProductFeedData>;
 
 export interface RateDetails {
   /** Required for guaranteed inventory sources. The number of impressions guaranteed by the seller. */
@@ -6194,14 +6228,17 @@ export interface RateDetails {
   rate?: Money;
 }
 
-export const RateDetails: Schema.Schema<RateDetails> = Schema.suspend(() =>
-  Schema.Struct({
-    unitsPurchased: Schema.optional(Schema.String),
-    inventorySourceRateType: Schema.optional(Schema.String),
-    minimumSpend: Schema.optional(Money),
-    rate: Schema.optional(Money),
-  }),
-).annotate({ identifier: "RateDetails" }) as any as Schema.Schema<RateDetails>;
+export const RateDetails: Schema.Schema<RateDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      unitsPurchased: Schema.optional(Schema.String),
+      inventorySourceRateType: Schema.optional(Schema.String),
+      minimumSpend: Schema.optional(Money),
+      rate: Schema.optional(Money),
+    }),
+  ).annotate({
+    identifier: "RateDetails",
+  }) as any as Schema.Schema<RateDetails>;
 
 export interface VideoAdSequenceStep {
   /** The ID of the step. */
@@ -6221,7 +6258,7 @@ export interface VideoAdSequenceStep {
 }
 
 export const VideoAdSequenceStep: Schema.Schema<VideoAdSequenceStep> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       stepId: Schema.optional(Schema.String),
       interactionType: Schema.optional(Schema.String),
@@ -6244,7 +6281,7 @@ export interface VideoAdSequenceSettings {
 }
 
 export const VideoAdSequenceSettings: Schema.Schema<VideoAdSequenceSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       steps: Schema.optional(Schema.Array(VideoAdSequenceStep)),
       minimumDuration: Schema.optional(Schema.String),
@@ -6270,16 +6307,16 @@ export interface TargetFrequency {
   timeUnitCount?: number;
 }
 
-export const TargetFrequency: Schema.Schema<TargetFrequency> = Schema.suspend(
-  () =>
+export const TargetFrequency: Schema.Schema<TargetFrequency> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetCount: Schema.optional(Schema.String),
       timeUnit: Schema.optional(Schema.String),
       timeUnitCount: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "TargetFrequency",
-}) as any as Schema.Schema<TargetFrequency>;
+  ).annotate({
+    identifier: "TargetFrequency",
+  }) as any as Schema.Schema<TargetFrequency>;
 
 export interface YoutubeAndPartnersInventorySourceConfig {
   /** Optional. Whether to target inventory in video apps available with Google TV. */
@@ -6291,7 +6328,7 @@ export interface YoutubeAndPartnersInventorySourceConfig {
 }
 
 export const YoutubeAndPartnersInventorySourceConfig: Schema.Schema<YoutubeAndPartnersInventorySourceConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeGoogleTv: Schema.optional(Schema.Boolean),
       includeYoutube: Schema.optional(Schema.Boolean),
@@ -6311,7 +6348,7 @@ export interface VideoAdInventoryControl {
 }
 
 export const VideoAdInventoryControl: Schema.Schema<VideoAdInventoryControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowInStream: Schema.optional(Schema.Boolean),
       allowInFeed: Schema.optional(Schema.Boolean),
@@ -6357,7 +6394,7 @@ export interface YoutubeAndPartnersSettings {
 }
 
 export const YoutubeAndPartnersSettings: Schema.Schema<YoutubeAndPartnersSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       linkedMerchantId: Schema.optional(Schema.String),
       thirdPartyMeasurementConfigs: Schema.optional(
@@ -6385,7 +6422,7 @@ export interface AdPolicyTopicEvidenceCounterfeit {
 }
 
 export const AdPolicyTopicEvidenceCounterfeit: Schema.Schema<AdPolicyTopicEvidenceCounterfeit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       owners: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -6411,16 +6448,16 @@ export interface LineItemBudget {
     | (string & {});
 }
 
-export const LineItemBudget: Schema.Schema<LineItemBudget> = Schema.suspend(
-  () =>
+export const LineItemBudget: Schema.Schema<LineItemBudget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxAmount: Schema.optional(Schema.String),
       budgetAllocationType: Schema.optional(Schema.String),
       budgetUnit: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LineItemBudget",
-}) as any as Schema.Schema<LineItemBudget>;
+  ).annotate({
+    identifier: "LineItemBudget",
+  }) as any as Schema.Schema<LineItemBudget>;
 
 export interface ConversionCountingConfig {
   /** The Floodlight activity configs used to track conversions. The number of conversions counted is the sum of all of the conversions counted by all of the Floodlight activity IDs specified in this field. This field can't be updated if a custom bidding algorithm is assigned to the line item. If you set this field and assign a custom bidding algorithm in the same request, the floodlight activities must match the ones used by the custom bidding algorithm. */
@@ -6432,7 +6469,7 @@ export interface ConversionCountingConfig {
 }
 
 export const ConversionCountingConfig: Schema.Schema<ConversionCountingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       floodlightActivityConfigs: Schema.optional(
         Schema.Array(TrackingFloodlightActivityConfig),
@@ -6460,7 +6497,7 @@ export interface TargetingExpansionConfig {
 }
 
 export const TargetingExpansionConfig: Schema.Schema<TargetingExpansionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableOptimizedTargeting: Schema.optional(Schema.Boolean),
       audienceExpansionLevel: Schema.optional(Schema.String),
@@ -6481,14 +6518,15 @@ export interface MobileApp {
   publisher?: string;
 }
 
-export const MobileApp: Schema.Schema<MobileApp> = Schema.suspend(() =>
-  Schema.Struct({
-    platform: Schema.optional(Schema.String),
-    appId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    publisher: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MobileApp" }) as any as Schema.Schema<MobileApp>;
+export const MobileApp: Schema.Schema<MobileApp> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      platform: Schema.optional(Schema.String),
+      appId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      publisher: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "MobileApp" }) as any as Schema.Schema<MobileApp>;
 
 export interface LineItemFlight {
   /** The flight start and end dates of the line item. They are resolved relative to the parent advertiser's time zone. * Required when flight_date_type is `LINE_ITEM_FLIGHT_DATE_TYPE_CUSTOM`. Output only otherwise. * When creating a new flight, both `start_date` and `end_date` must be in the future. * An existing flight with a `start_date` in the past has a mutable `end_date` but an immutable `start_date`. * `end_date` must be the `start_date` or later, both before the year 2037. */
@@ -6501,15 +6539,15 @@ export interface LineItemFlight {
     | (string & {});
 }
 
-export const LineItemFlight: Schema.Schema<LineItemFlight> = Schema.suspend(
-  () =>
+export const LineItemFlight: Schema.Schema<LineItemFlight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(DateRange),
       flightDateType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "LineItemFlight",
-}) as any as Schema.Schema<LineItemFlight>;
+  ).annotate({
+    identifier: "LineItemFlight",
+  }) as any as Schema.Schema<LineItemFlight>;
 
 export interface PartnerRevenueModel {
   /** Required. The markup type of the partner revenue model. Demand Gen line items only support `PARTNER_REVENUE_MODEL_MARKUP_TYPE_TOTAL_MEDIA_COST_MARKUP`. */
@@ -6524,7 +6562,7 @@ export interface PartnerRevenueModel {
 }
 
 export const PartnerRevenueModel: Schema.Schema<PartnerRevenueModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       markupType: Schema.optional(Schema.String),
       markupAmount: Schema.optional(Schema.String),
@@ -6645,37 +6683,38 @@ export interface LineItem {
   updateTime?: string;
 }
 
-export const LineItem: Schema.Schema<LineItem> = Schema.suspend(() =>
-  Schema.Struct({
-    budget: Schema.optional(LineItemBudget),
-    lineItemId: Schema.optional(Schema.String),
-    partnerCosts: Schema.optional(Schema.Array(PartnerCost)),
-    name: Schema.optional(Schema.String),
-    pacing: Schema.optional(Pacing),
-    bidStrategy: Schema.optional(BiddingStrategy),
-    conversionCounting: Schema.optional(ConversionCountingConfig),
-    demandGenSettings: Schema.optional(DemandGenSettings),
-    integrationDetails: Schema.optional(IntegrationDetails),
-    frequencyCap: Schema.optional(FrequencyCap),
-    lineItemType: Schema.optional(Schema.String),
-    targetingExpansion: Schema.optional(TargetingExpansionConfig),
-    insertionOrderId: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    warningMessages: Schema.optional(Schema.Array(Schema.String)),
-    reservationType: Schema.optional(Schema.String),
-    mobileApp: Schema.optional(MobileApp),
-    containsEuPoliticalAds: Schema.optional(Schema.String),
-    creativeIds: Schema.optional(Schema.Array(Schema.String)),
-    youtubeAndPartnersSettings: Schema.optional(YoutubeAndPartnersSettings),
-    flight: Schema.optional(LineItemFlight),
-    excludeNewExchanges: Schema.optional(Schema.Boolean),
-    campaignId: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    partnerRevenueModel: Schema.optional(PartnerRevenueModel),
-    updateTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "LineItem" }) as any as Schema.Schema<LineItem>;
+export const LineItem: Schema.Schema<LineItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      budget: Schema.optional(LineItemBudget),
+      lineItemId: Schema.optional(Schema.String),
+      partnerCosts: Schema.optional(Schema.Array(PartnerCost)),
+      name: Schema.optional(Schema.String),
+      pacing: Schema.optional(Pacing),
+      bidStrategy: Schema.optional(BiddingStrategy),
+      conversionCounting: Schema.optional(ConversionCountingConfig),
+      demandGenSettings: Schema.optional(DemandGenSettings),
+      integrationDetails: Schema.optional(IntegrationDetails),
+      frequencyCap: Schema.optional(FrequencyCap),
+      lineItemType: Schema.optional(Schema.String),
+      targetingExpansion: Schema.optional(TargetingExpansionConfig),
+      insertionOrderId: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      warningMessages: Schema.optional(Schema.Array(Schema.String)),
+      reservationType: Schema.optional(Schema.String),
+      mobileApp: Schema.optional(MobileApp),
+      containsEuPoliticalAds: Schema.optional(Schema.String),
+      creativeIds: Schema.optional(Schema.Array(Schema.String)),
+      youtubeAndPartnersSettings: Schema.optional(YoutubeAndPartnersSettings),
+      flight: Schema.optional(LineItemFlight),
+      excludeNewExchanges: Schema.optional(Schema.Boolean),
+      campaignId: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      partnerRevenueModel: Schema.optional(PartnerRevenueModel),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "LineItem" }) as any as Schema.Schema<LineItem>;
 
 export interface BulkUpdateLineItemsRequest {
   /** Required. IDs of line items to update. */
@@ -6687,7 +6726,7 @@ export interface BulkUpdateLineItemsRequest {
 }
 
 export const BulkUpdateLineItemsRequest: Schema.Schema<BulkUpdateLineItemsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemIds: Schema.optional(Schema.Array(Schema.String)),
       updateMask: Schema.optional(Schema.String),
@@ -6713,14 +6752,17 @@ export interface ScriptError {
   errorMessage?: string;
 }
 
-export const ScriptError: Schema.Schema<ScriptError> = Schema.suspend(() =>
-  Schema.Struct({
-    column: Schema.optional(Schema.String),
-    errorCode: Schema.optional(Schema.String),
-    line: Schema.optional(Schema.String),
-    errorMessage: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ScriptError" }) as any as Schema.Schema<ScriptError>;
+export const ScriptError: Schema.Schema<ScriptError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      column: Schema.optional(Schema.String),
+      errorCode: Schema.optional(Schema.String),
+      line: Schema.optional(Schema.String),
+      errorMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ScriptError",
+  }) as any as Schema.Schema<ScriptError>;
 
 export interface BulkCreateAdAssetsRequest {
   /** Required. Ad assets to create. Only supports assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
@@ -6728,7 +6770,7 @@ export interface BulkCreateAdAssetsRequest {
 }
 
 export const BulkCreateAdAssetsRequest: Schema.Schema<BulkCreateAdAssetsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adAssets: Schema.optional(Schema.Array(AdAsset)),
     }),
@@ -6746,7 +6788,7 @@ export interface AdvertiserGeneralConfig {
 }
 
 export const AdvertiserGeneralConfig: Schema.Schema<AdvertiserGeneralConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domainUrl: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
@@ -6859,7 +6901,7 @@ export interface ExchangeReviewStatus {
 }
 
 export const ExchangeReviewStatus: Schema.Schema<ExchangeReviewStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exchange: Schema.optional(Schema.String),
       status: Schema.optional(Schema.String),
@@ -6876,7 +6918,7 @@ export interface ListAdvertiserAssignedTargetingOptionsResponse {
 }
 
 export const ListAdvertiserAssignedTargetingOptionsResponse: Schema.Schema<ListAdvertiserAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedTargetingOptions: Schema.optional(
         Schema.Array(AssignedTargetingOption),
@@ -6890,7 +6932,7 @@ export const ListAdvertiserAssignedTargetingOptionsResponse: Schema.Schema<ListA
 export interface AdPolicyTopicConstraintAdPolicyGlobalCertificateMissingConstraint {}
 
 export const AdPolicyTopicConstraintAdPolicyGlobalCertificateMissingConstraint: Schema.Schema<AdPolicyTopicConstraintAdPolicyGlobalCertificateMissingConstraint> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "AdPolicyTopicConstraintAdPolicyGlobalCertificateMissingConstraint",
   }) as any as Schema.Schema<AdPolicyTopicConstraintAdPolicyGlobalCertificateMissingConstraint>;
@@ -6901,7 +6943,7 @@ export interface CustomBiddingScriptRef {
 }
 
 export const CustomBiddingScriptRef: Schema.Schema<CustomBiddingScriptRef> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
     }),
@@ -6934,7 +6976,7 @@ export interface CustomBiddingScript {
 }
 
 export const CustomBiddingScript: Schema.Schema<CustomBiddingScript> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       errors: Schema.optional(Schema.Array(ScriptError)),
@@ -6957,7 +6999,7 @@ export interface ListCustomBiddingScriptsResponse {
 }
 
 export const ListCustomBiddingScriptsResponse: Schema.Schema<ListCustomBiddingScriptsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       customBiddingScripts: Schema.optional(Schema.Array(CustomBiddingScript)),
@@ -6973,12 +7015,13 @@ export interface TimeRange {
   endTime?: string;
 }
 
-export const TimeRange: Schema.Schema<TimeRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startTime: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
+export const TimeRange: Schema.Schema<TimeRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeRange" }) as any as Schema.Schema<TimeRange>;
 
 export interface BulkEditAssignedTargetingOptionsResponse {
   /** Output only. The IDs of the line items which successfully updated. */
@@ -6990,7 +7033,7 @@ export interface BulkEditAssignedTargetingOptionsResponse {
 }
 
 export const BulkEditAssignedTargetingOptionsResponse: Schema.Schema<BulkEditAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       updatedLineItemIds: Schema.optional(Schema.Array(Schema.String)),
       errors: Schema.optional(Schema.Array(Status)),
@@ -7021,19 +7064,20 @@ export interface Transcode {
   fileSizeBytes?: string;
 }
 
-export const Transcode: Schema.Schema<Transcode> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    bitRateKbps: Schema.optional(Schema.String),
-    dimensions: Schema.optional(Dimensions),
-    transcoded: Schema.optional(Schema.Boolean),
-    audioSampleRateHz: Schema.optional(Schema.String),
-    mimeType: Schema.optional(Schema.String),
-    frameRate: Schema.optional(Schema.Number),
-    audioBitRateKbps: Schema.optional(Schema.String),
-    fileSizeBytes: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Transcode" }) as any as Schema.Schema<Transcode>;
+export const Transcode: Schema.Schema<Transcode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      bitRateKbps: Schema.optional(Schema.String),
+      dimensions: Schema.optional(Dimensions),
+      transcoded: Schema.optional(Schema.Boolean),
+      audioSampleRateHz: Schema.optional(Schema.String),
+      mimeType: Schema.optional(Schema.String),
+      frameRate: Schema.optional(Schema.Number),
+      audioBitRateKbps: Schema.optional(Schema.String),
+      fileSizeBytes: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Transcode" }) as any as Schema.Schema<Transcode>;
 
 export interface UniversalAdId {
   /** Optional. The unique creative identifier. */
@@ -7049,14 +7093,15 @@ export interface UniversalAdId {
     | (string & {});
 }
 
-export const UniversalAdId: Schema.Schema<UniversalAdId> = Schema.suspend(() =>
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    registry: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "UniversalAdId",
-}) as any as Schema.Schema<UniversalAdId>;
+export const UniversalAdId: Schema.Schema<UniversalAdId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      registry: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UniversalAdId",
+  }) as any as Schema.Schema<UniversalAdId>;
 
 export interface ThirdPartyUrl {
   /** Optional. The type of interaction needs to be tracked by the tracking URL */
@@ -7082,14 +7127,15 @@ export interface ThirdPartyUrl {
   url?: string;
 }
 
-export const ThirdPartyUrl: Schema.Schema<ThirdPartyUrl> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ThirdPartyUrl",
-}) as any as Schema.Schema<ThirdPartyUrl>;
+export const ThirdPartyUrl: Schema.Schema<ThirdPartyUrl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ThirdPartyUrl",
+  }) as any as Schema.Schema<ThirdPartyUrl>;
 
 export interface CounterEvent {
   /** Required. The name of the counter event. */
@@ -7098,14 +7144,15 @@ export interface CounterEvent {
   reportingName?: string;
 }
 
-export const CounterEvent: Schema.Schema<CounterEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    reportingName: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "CounterEvent",
-}) as any as Schema.Schema<CounterEvent>;
+export const CounterEvent: Schema.Schema<CounterEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      reportingName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CounterEvent",
+  }) as any as Schema.Schema<CounterEvent>;
 
 export interface AssetAssociation {
   /** Optional. The associated asset. */
@@ -7137,15 +7184,15 @@ export interface AssetAssociation {
     | (string & {});
 }
 
-export const AssetAssociation: Schema.Schema<AssetAssociation> = Schema.suspend(
-  () =>
+export const AssetAssociation: Schema.Schema<AssetAssociation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       asset: Schema.optional(Asset),
       role: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AssetAssociation",
-}) as any as Schema.Schema<AssetAssociation>;
+  ).annotate({
+    identifier: "AssetAssociation",
+  }) as any as Schema.Schema<AssetAssociation>;
 
 export interface ExitEvent {
   /** Optional. The name used to identify this event in reports. Leave it empty or unset for creatives containing image assets only. */
@@ -7162,14 +7209,15 @@ export interface ExitEvent {
   url?: string;
 }
 
-export const ExitEvent: Schema.Schema<ExitEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ExitEvent" }) as any as Schema.Schema<ExitEvent>;
+export const ExitEvent: Schema.Schema<ExitEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportingName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ExitEvent" }) as any as Schema.Schema<ExitEvent>;
 
 export interface TimerEvent {
   /** Required. The name of the timer event. */
@@ -7178,12 +7226,13 @@ export interface TimerEvent {
   reportingName?: string;
 }
 
-export const TimerEvent: Schema.Schema<TimerEvent> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    reportingName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimerEvent" }) as any as Schema.Schema<TimerEvent>;
+export const TimerEvent: Schema.Schema<TimerEvent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      reportingName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimerEvent" }) as any as Schema.Schema<TimerEvent>;
 
 export interface ReviewStatusInfo {
   /** Creative and landing page review status for the creative. */
@@ -7212,8 +7261,8 @@ export interface ReviewStatusInfo {
   exchangeReviewStatuses?: Array<ExchangeReviewStatus>;
 }
 
-export const ReviewStatusInfo: Schema.Schema<ReviewStatusInfo> = Schema.suspend(
-  () =>
+export const ReviewStatusInfo: Schema.Schema<ReviewStatusInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeAndLandingPageReviewStatus: Schema.optional(Schema.String),
       contentAndPolicyReviewStatus: Schema.optional(Schema.String),
@@ -7222,9 +7271,9 @@ export const ReviewStatusInfo: Schema.Schema<ReviewStatusInfo> = Schema.suspend(
         Schema.Array(ExchangeReviewStatus),
       ),
     }),
-).annotate({
-  identifier: "ReviewStatusInfo",
-}) as any as Schema.Schema<ReviewStatusInfo>;
+  ).annotate({
+    identifier: "ReviewStatusInfo",
+  }) as any as Schema.Schema<ReviewStatusInfo>;
 
 export interface Creative {
   /** Output only. Indicates the third-party audio creative supports OGG. Output only and only valid for third-party audio creatives. Third-party audio creatives are creatives with following hosting_source: * `HOSTING_SOURCE_THIRD_PARTY` combined with following creative_type: * `CREATIVE_TYPE_AUDIO` */
@@ -7373,57 +7422,58 @@ export interface Creative {
   >;
 }
 
-export const Creative: Schema.Schema<Creative> = Schema.suspend(() =>
-  Schema.Struct({
-    oggAudio: Schema.optional(Schema.Boolean),
-    companionCreativeIds: Schema.optional(Schema.Array(Schema.String)),
-    thirdPartyTag: Schema.optional(Schema.String),
-    iasCampaignMonitoring: Schema.optional(Schema.Boolean),
-    requireMraid: Schema.optional(Schema.Boolean),
-    expandingDirection: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    requirePingForAttribution: Schema.optional(Schema.Boolean),
-    additionalDimensions: Schema.optional(Schema.Array(Dimensions)),
-    skipOffset: Schema.optional(AudioVideoOffset),
-    transcodes: Schema.optional(Schema.Array(Transcode)),
-    name: Schema.optional(Schema.String),
-    universalAdId: Schema.optional(UniversalAdId),
-    vastTagUrl: Schema.optional(Schema.String),
-    thirdPartyUrls: Schema.optional(Schema.Array(ThirdPartyUrl)),
-    expandOnHover: Schema.optional(Schema.Boolean),
-    cmTrackingAd: Schema.optional(CmTrackingAd),
-    hostingSource: Schema.optional(Schema.String),
-    lineItemIds: Schema.optional(Schema.Array(Schema.String)),
-    createTime: Schema.optional(Schema.String),
-    trackerUrls: Schema.optional(Schema.Array(Schema.String)),
-    counterEvents: Schema.optional(Schema.Array(CounterEvent)),
-    assets: Schema.optional(Schema.Array(AssetAssociation)),
-    exitEvents: Schema.optional(Schema.Array(ExitEvent)),
-    requireHtml5: Schema.optional(Schema.Boolean),
-    creativeType: Schema.optional(Schema.String),
-    dimensions: Schema.optional(Dimensions),
-    timerEvents: Schema.optional(Schema.Array(TimerEvent)),
-    cmPlacementId: Schema.optional(Schema.String),
-    progressOffset: Schema.optional(AudioVideoOffset),
-    creativeId: Schema.optional(Schema.String),
-    reviewStatus: Schema.optional(ReviewStatusInfo),
-    dynamic: Schema.optional(Schema.Boolean),
-    integrationCode: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    jsTrackerUrl: Schema.optional(Schema.String),
-    mediaDuration: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    obaIcon: Schema.optional(ObaIcon),
-    vpaid: Schema.optional(Schema.Boolean),
-    entityStatus: Schema.optional(Schema.String),
-    appendedTag: Schema.optional(Schema.String),
-    skippable: Schema.optional(Schema.Boolean),
-    html5Video: Schema.optional(Schema.Boolean),
-    mp3Audio: Schema.optional(Schema.Boolean),
-    creativeAttributes: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
+export const Creative: Schema.Schema<Creative> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oggAudio: Schema.optional(Schema.Boolean),
+      companionCreativeIds: Schema.optional(Schema.Array(Schema.String)),
+      thirdPartyTag: Schema.optional(Schema.String),
+      iasCampaignMonitoring: Schema.optional(Schema.Boolean),
+      requireMraid: Schema.optional(Schema.Boolean),
+      expandingDirection: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      requirePingForAttribution: Schema.optional(Schema.Boolean),
+      additionalDimensions: Schema.optional(Schema.Array(Dimensions)),
+      skipOffset: Schema.optional(AudioVideoOffset),
+      transcodes: Schema.optional(Schema.Array(Transcode)),
+      name: Schema.optional(Schema.String),
+      universalAdId: Schema.optional(UniversalAdId),
+      vastTagUrl: Schema.optional(Schema.String),
+      thirdPartyUrls: Schema.optional(Schema.Array(ThirdPartyUrl)),
+      expandOnHover: Schema.optional(Schema.Boolean),
+      cmTrackingAd: Schema.optional(CmTrackingAd),
+      hostingSource: Schema.optional(Schema.String),
+      lineItemIds: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      trackerUrls: Schema.optional(Schema.Array(Schema.String)),
+      counterEvents: Schema.optional(Schema.Array(CounterEvent)),
+      assets: Schema.optional(Schema.Array(AssetAssociation)),
+      exitEvents: Schema.optional(Schema.Array(ExitEvent)),
+      requireHtml5: Schema.optional(Schema.Boolean),
+      creativeType: Schema.optional(Schema.String),
+      dimensions: Schema.optional(Dimensions),
+      timerEvents: Schema.optional(Schema.Array(TimerEvent)),
+      cmPlacementId: Schema.optional(Schema.String),
+      progressOffset: Schema.optional(AudioVideoOffset),
+      creativeId: Schema.optional(Schema.String),
+      reviewStatus: Schema.optional(ReviewStatusInfo),
+      dynamic: Schema.optional(Schema.Boolean),
+      integrationCode: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      jsTrackerUrl: Schema.optional(Schema.String),
+      mediaDuration: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      obaIcon: Schema.optional(ObaIcon),
+      vpaid: Schema.optional(Schema.Boolean),
+      entityStatus: Schema.optional(Schema.String),
+      appendedTag: Schema.optional(Schema.String),
+      skippable: Schema.optional(Schema.Boolean),
+      html5Video: Schema.optional(Schema.Boolean),
+      mp3Audio: Schema.optional(Schema.Boolean),
+      creativeAttributes: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
 
 export interface BulkEditAssignedLocationsRequest {
   /** The IDs of the assigned locations to delete in bulk, specified as a list of assignedLocationId values. */
@@ -7433,7 +7483,7 @@ export interface BulkEditAssignedLocationsRequest {
 }
 
 export const BulkEditAssignedLocationsRequest: Schema.Schema<BulkEditAssignedLocationsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletedAssignedLocations: Schema.optional(Schema.Array(Schema.String)),
       createdAssignedLocations: Schema.optional(Schema.Array(AssignedLocation)),
@@ -7464,7 +7514,7 @@ export interface CustomBiddingModelDetails {
 }
 
 export const CustomBiddingModelDetails: Schema.Schema<CustomBiddingModelDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertiserId: Schema.optional(Schema.String),
       readinessState: Schema.optional(Schema.String),
@@ -7513,7 +7563,7 @@ export interface CustomBiddingAlgorithm {
 }
 
 export const CustomBiddingAlgorithm: Schema.Schema<CustomBiddingAlgorithm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       entityStatus: Schema.optional(Schema.String),
@@ -7538,7 +7588,7 @@ export interface ListCustomBiddingAlgorithmsResponse {
 }
 
 export const ListCustomBiddingAlgorithmsResponse: Schema.Schema<ListCustomBiddingAlgorithmsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customBiddingAlgorithms: Schema.optional(
         Schema.Array(CustomBiddingAlgorithm),
@@ -7557,7 +7607,7 @@ export interface ListAssignedLocationsResponse {
 }
 
 export const ListAssignedLocationsResponse: Schema.Schema<ListAssignedLocationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assignedLocations: Schema.optional(Schema.Array(AssignedLocation)),
@@ -7586,7 +7636,7 @@ export interface AuditAdvertiserResponse {
 }
 
 export const AuditAdvertiserResponse: Schema.Schema<AuditAdvertiserResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       usedCampaignsCount: Schema.optional(Schema.String),
       negativelyTargetedChannelsCount: Schema.optional(Schema.String),
@@ -7618,8 +7668,8 @@ export interface CmHybridConfig {
   dv360ToCmCostReportingEnabled?: boolean;
 }
 
-export const CmHybridConfig: Schema.Schema<CmHybridConfig> = Schema.suspend(
-  () =>
+export const CmHybridConfig: Schema.Schema<CmHybridConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cmAccountId: Schema.optional(Schema.String),
       cmAdvertiserIds: Schema.optional(Schema.Array(Schema.String)),
@@ -7629,9 +7679,9 @@ export const CmHybridConfig: Schema.Schema<CmHybridConfig> = Schema.suspend(
       cmFloodlightLinkingAuthorized: Schema.optional(Schema.Boolean),
       dv360ToCmCostReportingEnabled: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "CmHybridConfig",
-}) as any as Schema.Schema<CmHybridConfig>;
+  ).annotate({
+    identifier: "CmHybridConfig",
+  }) as any as Schema.Schema<CmHybridConfig>;
 
 export interface InventorySourceStatus {
   /** Output only. The seller-provided reason for pausing this inventory source. Only applicable for inventory sources synced directly from the publishers and when seller_status is set to `ENTITY_STATUS_PAUSED`. */
@@ -7665,7 +7715,7 @@ export interface InventorySourceStatus {
 }
 
 export const InventorySourceStatus: Schema.Schema<InventorySourceStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sellerPauseReason: Schema.optional(Schema.String),
       sellerStatus: Schema.optional(Schema.String),
@@ -7683,7 +7733,7 @@ export interface InventorySourceDisplayCreativeConfig {
 }
 
 export const InventorySourceDisplayCreativeConfig: Schema.Schema<InventorySourceDisplayCreativeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeSize: Schema.optional(Dimensions),
     }),
@@ -7697,7 +7747,7 @@ export interface InventorySourceVideoCreativeConfig {
 }
 
 export const InventorySourceVideoCreativeConfig: Schema.Schema<InventorySourceVideoCreativeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duration: Schema.optional(Schema.String),
     }),
@@ -7731,8 +7781,8 @@ export interface CreativeConfig {
   videoCreativeConfig?: InventorySourceVideoCreativeConfig;
 }
 
-export const CreativeConfig: Schema.Schema<CreativeConfig> = Schema.suspend(
-  () =>
+export const CreativeConfig: Schema.Schema<CreativeConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeType: Schema.optional(Schema.String),
       displayCreativeConfig: Schema.optional(
@@ -7740,9 +7790,9 @@ export const CreativeConfig: Schema.Schema<CreativeConfig> = Schema.suspend(
       ),
       videoCreativeConfig: Schema.optional(InventorySourceVideoCreativeConfig),
     }),
-).annotate({
-  identifier: "CreativeConfig",
-}) as any as Schema.Schema<CreativeConfig>;
+  ).annotate({
+    identifier: "CreativeConfig",
+  }) as any as Schema.Schema<CreativeConfig>;
 
 export interface InventorySourceAccessorsPartnerAccessor {
   /** The ID of the partner. */
@@ -7750,7 +7800,7 @@ export interface InventorySourceAccessorsPartnerAccessor {
 }
 
 export const InventorySourceAccessorsPartnerAccessor: Schema.Schema<InventorySourceAccessorsPartnerAccessor> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerId: Schema.optional(Schema.String),
     }),
@@ -7764,7 +7814,7 @@ export interface InventorySourceAccessorsAdvertiserAccessors {
 }
 
 export const InventorySourceAccessorsAdvertiserAccessors: Schema.Schema<InventorySourceAccessorsAdvertiserAccessors> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertiserIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -7780,7 +7830,7 @@ export interface InventorySourceAccessors {
 }
 
 export const InventorySourceAccessors: Schema.Schema<InventorySourceAccessors> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partner: Schema.optional(InventorySourceAccessorsPartnerAccessor),
       advertisers: Schema.optional(InventorySourceAccessorsAdvertiserAccessors),
@@ -7943,8 +7993,8 @@ export interface InventorySource {
   readAdvertiserIds?: Array<string>;
 }
 
-export const InventorySource: Schema.Schema<InventorySource> = Schema.suspend(
-  () =>
+export const InventorySource: Schema.Schema<InventorySource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       publisherName: Schema.optional(Schema.String),
@@ -7966,9 +8016,9 @@ export const InventorySource: Schema.Schema<InventorySource> = Schema.suspend(
       rateDetails: Schema.optional(RateDetails),
       readAdvertiserIds: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "InventorySource",
-}) as any as Schema.Schema<InventorySource>;
+  ).annotate({
+    identifier: "InventorySource",
+  }) as any as Schema.Schema<InventorySource>;
 
 export interface LookupInvoiceCurrencyResponse {
   /** Currency used by the advertiser in ISO 4217 format. */
@@ -7976,7 +8026,7 @@ export interface LookupInvoiceCurrencyResponse {
 }
 
 export const LookupInvoiceCurrencyResponse: Schema.Schema<LookupInvoiceCurrencyResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
     }),
@@ -7994,7 +8044,7 @@ export interface YoutubeAssetAssociationLocationAssetFilterLocationMatchingFunct
 }
 
 export const YoutubeAssetAssociationLocationAssetFilterLocationMatchingFunction: Schema.Schema<YoutubeAssetAssociationLocationAssetFilterLocationMatchingFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationAssetIds: Schema.optional(Schema.Array(Schema.String)),
       business: Schema.optional(Schema.String),
@@ -8021,7 +8071,7 @@ export interface YoutubeAssetAssociationLocationAssetFilter {
 }
 
 export const YoutubeAssetAssociationLocationAssetFilter: Schema.Schema<YoutubeAssetAssociationLocationAssetFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationMatchingType: Schema.optional(Schema.String),
       locationMatchingFunction: Schema.optional(
@@ -8076,26 +8126,27 @@ export interface AdGroup {
   adGroupId?: string;
 }
 
-export const AdGroup: Schema.Schema<AdGroup> = Schema.suspend(() =>
-  Schema.Struct({
-    targetingExpansion: Schema.optional(TargetingExpansionConfig),
-    bidStrategy: Schema.optional(BiddingStrategy),
-    lineItemId: Schema.optional(Schema.String),
-    adGroupFormat: Schema.optional(Schema.String),
-    productFeedData: Schema.optional(ProductFeedData),
-    adGroupInventoryControl: Schema.optional(AdGroupInventoryControl),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    adGroupId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdGroup" }) as any as Schema.Schema<AdGroup>;
+export const AdGroup: Schema.Schema<AdGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      targetingExpansion: Schema.optional(TargetingExpansionConfig),
+      bidStrategy: Schema.optional(BiddingStrategy),
+      lineItemId: Schema.optional(Schema.String),
+      adGroupFormat: Schema.optional(Schema.String),
+      productFeedData: Schema.optional(ProductFeedData),
+      adGroupInventoryControl: Schema.optional(AdGroupInventoryControl),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      adGroupId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdGroup" }) as any as Schema.Schema<AdGroup>;
 
 export interface AdPolicyTopicConstraintAdPolicyResellerConstraint {}
 
 export const AdPolicyTopicConstraintAdPolicyResellerConstraint: Schema.Schema<AdPolicyTopicConstraintAdPolicyResellerConstraint> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AdPolicyTopicConstraintAdPolicyResellerConstraint",
   }) as any as Schema.Schema<AdPolicyTopicConstraintAdPolicyResellerConstraint>;
 
@@ -8104,14 +8155,14 @@ export interface SdfDownloadTask {
   resourceName?: string;
 }
 
-export const SdfDownloadTask: Schema.Schema<SdfDownloadTask> = Schema.suspend(
-  () =>
+export const SdfDownloadTask: Schema.Schema<SdfDownloadTask> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "SdfDownloadTask",
-}) as any as Schema.Schema<SdfDownloadTask>;
+  ).annotate({
+    identifier: "SdfDownloadTask",
+  }) as any as Schema.Schema<SdfDownloadTask>;
 
 export interface AdvertiserBillingConfig {
   /** Required. The ID of a billing profile assigned to the advertiser. */
@@ -8119,7 +8170,7 @@ export interface AdvertiserBillingConfig {
 }
 
 export const AdvertiserBillingConfig: Schema.Schema<AdvertiserBillingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingProfileId: Schema.optional(Schema.String),
     }),
@@ -8141,7 +8192,7 @@ export interface NegativeKeywordList {
 }
 
 export const NegativeKeywordList: Schema.Schema<NegativeKeywordList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetedLineItemCount: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -8161,7 +8212,7 @@ export interface ListNegativeKeywordListsResponse {
 }
 
 export const ListNegativeKeywordListsResponse: Schema.Schema<ListNegativeKeywordListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negativeKeywordLists: Schema.optional(Schema.Array(NegativeKeywordList)),
       nextPageToken: Schema.optional(Schema.String),
@@ -8178,7 +8229,7 @@ export interface AdPolicyTopicEvidenceRegionalRequirementsRegionalRequirementsEn
 }
 
 export const AdPolicyTopicEvidenceRegionalRequirementsRegionalRequirementsEntry: Schema.Schema<AdPolicyTopicEvidenceRegionalRequirementsRegionalRequirementsEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       legalPolicy: Schema.optional(Schema.String),
       countryRestrictions: Schema.optional(
@@ -8196,7 +8247,7 @@ export interface AdPolicyTopicEvidenceRegionalRequirements {
 }
 
 export const AdPolicyTopicEvidenceRegionalRequirements: Schema.Schema<AdPolicyTopicEvidenceRegionalRequirements> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionalRequirementsEntries: Schema.optional(
         Schema.Array(
@@ -8222,7 +8273,7 @@ export interface AdPolicyTopicEvidenceDestinationMismatch {
 }
 
 export const AdPolicyTopicEvidenceDestinationMismatch: Schema.Schema<AdPolicyTopicEvidenceDestinationMismatch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uriTypes: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -8240,7 +8291,7 @@ export interface AdPolicyTopicEvidenceTrademark {
 }
 
 export const AdPolicyTopicEvidenceTrademark: Schema.Schema<AdPolicyTopicEvidenceTrademark> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countryRestrictions: Schema.optional(
         Schema.Array(AdPolicyCriterionRestriction),
@@ -8258,7 +8309,7 @@ export interface AdPolicyTopicEvidenceLegalRemovalLocalLegal {
 }
 
 export const AdPolicyTopicEvidenceLegalRemovalLocalLegal: Schema.Schema<AdPolicyTopicEvidenceLegalRemovalLocalLegal> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lawType: Schema.optional(Schema.String),
     }),
@@ -8272,7 +8323,7 @@ export interface AdPolicyTopicEvidenceLegalRemovalDmca {
 }
 
 export const AdPolicyTopicEvidenceLegalRemovalDmca: Schema.Schema<AdPolicyTopicEvidenceLegalRemovalDmca> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       complainant: Schema.optional(Schema.String),
     }),
@@ -8299,7 +8350,7 @@ export interface AdPolicyTopicEvidenceLegalRemoval {
 }
 
 export const AdPolicyTopicEvidenceLegalRemoval: Schema.Schema<AdPolicyTopicEvidenceLegalRemoval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       countryRestrictions: Schema.optional(
         Schema.Array(AdPolicyCriterionRestriction),
@@ -8336,7 +8387,7 @@ export interface AdPolicyTopicEvidenceDestinationNotWorking {
 }
 
 export const AdPolicyTopicEvidenceDestinationNotWorking: Schema.Schema<AdPolicyTopicEvidenceDestinationNotWorking> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dnsErrorType: Schema.optional(Schema.String),
       expandedUri: Schema.optional(Schema.String),
@@ -8374,7 +8425,7 @@ export interface AdPolicyTopicEvidence {
 }
 
 export const AdPolicyTopicEvidence: Schema.Schema<AdPolicyTopicEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textList: Schema.optional(AdPolicyTopicEvidenceTextList),
       languageCode: Schema.optional(Schema.String),
@@ -8406,7 +8457,7 @@ export interface GeoRegionSearchTerms {
 }
 
 export const GeoRegionSearchTerms: Schema.Schema<GeoRegionSearchTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       geoRegionQuery: Schema.optional(Schema.String),
     }),
@@ -8427,17 +8478,18 @@ export interface BudgetSummary {
   taxAmountMicros?: string;
 }
 
-export const BudgetSummary: Schema.Schema<BudgetSummary> = Schema.suspend(() =>
-  Schema.Struct({
-    prismaCpeCode: Schema.optional(PrismaCpeCode),
-    externalBudgetId: Schema.optional(Schema.String),
-    totalAmountMicros: Schema.optional(Schema.String),
-    preTaxAmountMicros: Schema.optional(Schema.String),
-    taxAmountMicros: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "BudgetSummary",
-}) as any as Schema.Schema<BudgetSummary>;
+export const BudgetSummary: Schema.Schema<BudgetSummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      prismaCpeCode: Schema.optional(PrismaCpeCode),
+      externalBudgetId: Schema.optional(Schema.String),
+      totalAmountMicros: Schema.optional(Schema.String),
+      preTaxAmountMicros: Schema.optional(Schema.String),
+      taxAmountMicros: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BudgetSummary",
+  }) as any as Schema.Schema<BudgetSummary>;
 
 export interface Channel {
   /** Output only. The unique ID of the channel. Assigned by the system. */
@@ -8456,17 +8508,18 @@ export interface Channel {
   negativelyTargetedLineItemCount?: string;
 }
 
-export const Channel: Schema.Schema<Channel> = Schema.suspend(() =>
-  Schema.Struct({
-    channelId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    positivelyTargetedLineItemCount: Schema.optional(Schema.String),
-    partnerId: Schema.optional(Schema.String),
-    negativelyTargetedLineItemCount: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
+export const Channel: Schema.Schema<Channel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      channelId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      positivelyTargetedLineItemCount: Schema.optional(Schema.String),
+      partnerId: Schema.optional(Schema.String),
+      negativelyTargetedLineItemCount: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Channel" }) as any as Schema.Schema<Channel>;
 
 export interface NegativeKeyword {
   /** Required. Immutable. The negatively targeted keyword, for example `car insurance`. Must be UTF-8 encoded with a maximum size of 255 bytes. Maximum number of characters is 80. Maximum number of words is 10. Valid characters are restricted to ASCII characters only. The only URL-escaping permitted is for representing whitespace between words. Leading or trailing whitespace is ignored. */
@@ -8475,15 +8528,15 @@ export interface NegativeKeyword {
   name?: string;
 }
 
-export const NegativeKeyword: Schema.Schema<NegativeKeyword> = Schema.suspend(
-  () =>
+export const NegativeKeyword: Schema.Schema<NegativeKeyword> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keywordValue: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "NegativeKeyword",
-}) as any as Schema.Schema<NegativeKeyword>;
+  ).annotate({
+    identifier: "NegativeKeyword",
+  }) as any as Schema.Schema<NegativeKeyword>;
 
 export interface BulkEditNegativeKeywordsRequest {
   /** The negative keywords to delete in batch, specified as a list of keyword_values. */
@@ -8493,7 +8546,7 @@ export interface BulkEditNegativeKeywordsRequest {
 }
 
 export const BulkEditNegativeKeywordsRequest: Schema.Schema<BulkEditNegativeKeywordsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletedNegativeKeywords: Schema.optional(Schema.Array(Schema.String)),
       createdNegativeKeywords: Schema.optional(Schema.Array(NegativeKeyword)),
@@ -8510,7 +8563,7 @@ export interface ListAdGroupsResponse {
 }
 
 export const ListAdGroupsResponse: Schema.Schema<ListAdGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroups: Schema.optional(Schema.Array(AdGroup)),
       nextPageToken: Schema.optional(Schema.String),
@@ -8536,15 +8589,16 @@ export interface PrismaConfig {
     | (string & {});
 }
 
-export const PrismaConfig: Schema.Schema<PrismaConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    supplier: Schema.optional(Schema.String),
-    prismaCpeCode: Schema.optional(PrismaCpeCode),
-    prismaType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PrismaConfig",
-}) as any as Schema.Schema<PrismaConfig>;
+export const PrismaConfig: Schema.Schema<PrismaConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      supplier: Schema.optional(Schema.String),
+      prismaCpeCode: Schema.optional(PrismaCpeCode),
+      prismaType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PrismaConfig",
+  }) as any as Schema.Schema<PrismaConfig>;
 
 export interface AssignedInventorySource {
   /** Required. The ID of the inventory source entity being targeted. */
@@ -8556,7 +8610,7 @@ export interface AssignedInventorySource {
 }
 
 export const AssignedInventorySource: Schema.Schema<AssignedInventorySource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySourceId: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -8572,7 +8626,7 @@ export interface CustomBiddingAlgorithmRulesRef {
 }
 
 export const CustomBiddingAlgorithmRulesRef: Schema.Schema<CustomBiddingAlgorithmRulesRef> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
     }),
@@ -8600,7 +8654,7 @@ export interface CustomBiddingAlgorithmRules {
 }
 
 export const CustomBiddingAlgorithmRules: Schema.Schema<CustomBiddingAlgorithmRules> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customBiddingAlgorithmRulesId: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -8628,15 +8682,16 @@ export interface Operation {
   name?: string;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    error: Schema.optional(Status),
-    name: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      error: Schema.optional(Status),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface InventorySourceGroup {
   /** Output only. The unique ID of the inventory source group. Assigned by the system. */
@@ -8648,7 +8703,7 @@ export interface InventorySourceGroup {
 }
 
 export const InventorySourceGroup: Schema.Schema<InventorySourceGroup> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySourceGroupId: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -8686,7 +8741,7 @@ export interface VideoPerformanceAd {
 }
 
 export const VideoPerformanceAd: Schema.Schema<VideoPerformanceAd> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customParameters: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
@@ -8715,7 +8770,7 @@ export interface BusinessChainSearchTerms {
 }
 
 export const BusinessChainSearchTerms: Schema.Schema<BusinessChainSearchTerms> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionQuery: Schema.optional(Schema.String),
       businessChainQuery: Schema.optional(Schema.String),
@@ -8729,14 +8784,14 @@ export interface PoiSearchTerms {
   poiQuery?: string;
 }
 
-export const PoiSearchTerms: Schema.Schema<PoiSearchTerms> = Schema.suspend(
-  () =>
+export const PoiSearchTerms: Schema.Schema<PoiSearchTerms> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       poiQuery: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PoiSearchTerms",
-}) as any as Schema.Schema<PoiSearchTerms>;
+  ).annotate({
+    identifier: "PoiSearchTerms",
+  }) as any as Schema.Schema<PoiSearchTerms>;
 
 export interface SearchTargetingOptionsRequest {
   /** Requested page size. Must be between `1` and `200`. If unspecified will default to `100`. Returns error code `INVALID_ARGUMENT` if an invalid value is specified. */
@@ -8754,7 +8809,7 @@ export interface SearchTargetingOptionsRequest {
 }
 
 export const SearchTargetingOptionsRequest: Schema.Schema<SearchTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageSize: Schema.optional(Schema.Number),
       geoRegionSearchTerms: Schema.optional(GeoRegionSearchTerms),
@@ -8776,16 +8831,16 @@ export interface CombinedAudience {
   displayName?: string;
 }
 
-export const CombinedAudience: Schema.Schema<CombinedAudience> = Schema.suspend(
-  () =>
+export const CombinedAudience: Schema.Schema<CombinedAudience> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       combinedAudienceId: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CombinedAudience",
-}) as any as Schema.Schema<CombinedAudience>;
+  ).annotate({
+    identifier: "CombinedAudience",
+  }) as any as Schema.Schema<CombinedAudience>;
 
 export interface AdvertiserCreativeConfig {
   /** Whether or not the advertiser is enabled for dynamic creatives. */
@@ -8799,7 +8854,7 @@ export interface AdvertiserCreativeConfig {
 }
 
 export const AdvertiserCreativeConfig: Schema.Schema<AdvertiserCreativeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dynamicCreativeEnabled: Schema.optional(Schema.Boolean),
       iasClientId: Schema.optional(Schema.String),
@@ -8819,13 +8874,14 @@ export interface CustomList {
   displayName?: string;
 }
 
-export const CustomList: Schema.Schema<CustomList> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    customListId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "CustomList" }) as any as Schema.Schema<CustomList>;
+export const CustomList: Schema.Schema<CustomList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      customListId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "CustomList" }) as any as Schema.Schema<CustomList>;
 
 export interface BulkEditNegativeKeywordsResponse {
   /** The list of negative keywords that have been successfully created. This list will be absent if empty. */
@@ -8833,7 +8889,7 @@ export interface BulkEditNegativeKeywordsResponse {
 }
 
 export const BulkEditNegativeKeywordsResponse: Schema.Schema<BulkEditNegativeKeywordsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negativeKeywords: Schema.optional(Schema.Array(NegativeKeyword)),
     }),
@@ -8849,7 +8905,7 @@ export interface BulkEditPartnerAssignedTargetingOptionsRequest {
 }
 
 export const BulkEditPartnerAssignedTargetingOptionsRequest: Schema.Schema<BulkEditPartnerAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createRequests: Schema.optional(
         Schema.Array(CreateAssignedTargetingOptionsRequest),
@@ -8868,7 +8924,7 @@ export interface ReplaceNegativeKeywordsResponse {
 }
 
 export const ReplaceNegativeKeywordsResponse: Schema.Schema<ReplaceNegativeKeywordsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negativeKeywords: Schema.optional(Schema.Array(NegativeKeyword)),
     }),
@@ -8884,7 +8940,7 @@ export interface ListCustomBiddingAlgorithmRulesResponse {
 }
 
 export const ListCustomBiddingAlgorithmRulesResponse: Schema.Schema<ListCustomBiddingAlgorithmRulesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       customBiddingRules: Schema.optional(
         Schema.Array(CustomBiddingAlgorithmRules),
@@ -8901,7 +8957,7 @@ export interface CreateAssetRequest {
 }
 
 export const CreateAssetRequest: Schema.Schema<CreateAssetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filename: Schema.optional(Schema.String),
     }),
@@ -8915,7 +8971,7 @@ export interface UploadAdAssetResponse {
 }
 
 export const UploadAdAssetResponse: Schema.Schema<UploadAdAssetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adAsset: Schema.optional(AdAsset),
     }),
@@ -8929,7 +8985,7 @@ export interface BulkEditPartnerAssignedTargetingOptionsResponse {
 }
 
 export const BulkEditPartnerAssignedTargetingOptionsResponse: Schema.Schema<BulkEditPartnerAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAssignedTargetingOptions: Schema.optional(
         Schema.Array(AssignedTargetingOption),
@@ -8986,30 +9042,31 @@ export interface Invoice {
   currencyCode?: string;
 }
 
-export const Invoice: Schema.Schema<Invoice> = Schema.suspend(() =>
-  Schema.Struct({
-    subtotalAmountMicros: Schema.optional(Schema.String),
-    invoiceType: Schema.optional(Schema.String),
-    correctedInvoiceId: Schema.optional(Schema.String),
-    paymentsProfileId: Schema.optional(Schema.String),
-    totalTaxAmountMicros: Schema.optional(Schema.String),
-    budgetSummaries: Schema.optional(Schema.Array(BudgetSummary)),
-    serviceDateRange: Schema.optional(DateRange),
-    paymentsAccountId: Schema.optional(Schema.String),
-    nonBudgetMicros: Schema.optional(Schema.String),
-    dueDate: Schema.optional(Displayvideo_Date),
-    budgetInvoiceGroupingId: Schema.optional(Schema.String),
-    replacedInvoiceIds: Schema.optional(Schema.Array(Schema.String)),
-    invoiceId: Schema.optional(Schema.String),
-    issueDate: Schema.optional(Displayvideo_Date),
-    displayName: Schema.optional(Schema.String),
-    pdfUrl: Schema.optional(Schema.String),
-    purchaseOrderNumber: Schema.optional(Schema.String),
-    totalAmountMicros: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    currencyCode: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Invoice" }) as any as Schema.Schema<Invoice>;
+export const Invoice: Schema.Schema<Invoice> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      subtotalAmountMicros: Schema.optional(Schema.String),
+      invoiceType: Schema.optional(Schema.String),
+      correctedInvoiceId: Schema.optional(Schema.String),
+      paymentsProfileId: Schema.optional(Schema.String),
+      totalTaxAmountMicros: Schema.optional(Schema.String),
+      budgetSummaries: Schema.optional(Schema.Array(BudgetSummary)),
+      serviceDateRange: Schema.optional(DateRange),
+      paymentsAccountId: Schema.optional(Schema.String),
+      nonBudgetMicros: Schema.optional(Schema.String),
+      dueDate: Schema.optional(Displayvideo_Date),
+      budgetInvoiceGroupingId: Schema.optional(Schema.String),
+      replacedInvoiceIds: Schema.optional(Schema.Array(Schema.String)),
+      invoiceId: Schema.optional(Schema.String),
+      issueDate: Schema.optional(Displayvideo_Date),
+      displayName: Schema.optional(Schema.String),
+      pdfUrl: Schema.optional(Schema.String),
+      purchaseOrderNumber: Schema.optional(Schema.String),
+      totalAmountMicros: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      currencyCode: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Invoice" }) as any as Schema.Schema<Invoice>;
 
 export interface CampaignFlight {
   /** The amount the campaign is expected to spend for its given planned_dates. This will not limit serving, but will be used for tracking spend in the DV360 UI. The amount is in micros. Must be greater than or equal to 0. For example, 500000000 represents 500 standard units of the currency. */
@@ -9018,15 +9075,15 @@ export interface CampaignFlight {
   plannedDates?: DateRange;
 }
 
-export const CampaignFlight: Schema.Schema<CampaignFlight> = Schema.suspend(
-  () =>
+export const CampaignFlight: Schema.Schema<CampaignFlight> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       plannedSpendAmountMicros: Schema.optional(Schema.String),
       plannedDates: Schema.optional(DateRange),
     }),
-).annotate({
-  identifier: "CampaignFlight",
-}) as any as Schema.Schema<CampaignFlight>;
+  ).annotate({
+    identifier: "CampaignFlight",
+  }) as any as Schema.Schema<CampaignFlight>;
 
 export interface CampaignBudget {
   /** Required. Immutable. Specifies whether the budget is measured in currency or impressions. */
@@ -9057,8 +9114,8 @@ export interface CampaignBudget {
   externalBudgetId?: string;
 }
 
-export const CampaignBudget: Schema.Schema<CampaignBudget> = Schema.suspend(
-  () =>
+export const CampaignBudget: Schema.Schema<CampaignBudget> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       budgetUnit: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -9070,9 +9127,9 @@ export const CampaignBudget: Schema.Schema<CampaignBudget> = Schema.suspend(
       prismaConfig: Schema.optional(PrismaConfig),
       externalBudgetId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "CampaignBudget",
-}) as any as Schema.Schema<CampaignBudget>;
+  ).annotate({
+    identifier: "CampaignBudget",
+  }) as any as Schema.Schema<CampaignBudget>;
 
 export interface Campaign {
   /** Output only. The resource name of the campaign. */
@@ -9104,20 +9161,21 @@ export interface Campaign {
   campaignBudgets?: Array<CampaignBudget>;
 }
 
-export const Campaign: Schema.Schema<Campaign> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    campaignId: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    frequencyCap: Schema.optional(FrequencyCap),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    campaignFlight: Schema.optional(CampaignFlight),
-    campaignGoal: Schema.optional(CampaignGoal),
-    campaignBudgets: Schema.optional(Schema.Array(CampaignBudget)),
-  }),
-).annotate({ identifier: "Campaign" }) as any as Schema.Schema<Campaign>;
+export const Campaign: Schema.Schema<Campaign> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      campaignId: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      frequencyCap: Schema.optional(FrequencyCap),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      campaignFlight: Schema.optional(CampaignFlight),
+      campaignGoal: Schema.optional(CampaignGoal),
+      campaignBudgets: Schema.optional(Schema.Array(CampaignBudget)),
+    }),
+  ).annotate({ identifier: "Campaign" }) as any as Schema.Schema<Campaign>;
 
 export interface ListAdGroupAssignedTargetingOptionsResponse {
   /** A token identifying the next page of results. This value should be specified as the pageToken in a subsequent ListAdGroupAssignedTargetingOptionsRequest to fetch the next page of results. This token will be absent if there are no more AssignedTargetingOption resources to return. */
@@ -9127,7 +9185,7 @@ export interface ListAdGroupAssignedTargetingOptionsResponse {
 }
 
 export const ListAdGroupAssignedTargetingOptionsResponse: Schema.Schema<ListAdGroupAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assignedTargetingOptions: Schema.optional(
@@ -9146,7 +9204,7 @@ export interface MeasurementConfig {
 }
 
 export const MeasurementConfig: Schema.Schema<MeasurementConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dv360ToCmCostReportingEnabled: Schema.optional(Schema.Boolean),
       dv360ToCmDataSharingEnabled: Schema.optional(Schema.Boolean),
@@ -9161,7 +9219,7 @@ export interface PartnerAdServerConfig {
 }
 
 export const PartnerAdServerConfig: Schema.Schema<PartnerAdServerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       measurementConfig: Schema.optional(MeasurementConfig),
     }),
@@ -9175,7 +9233,7 @@ export interface DuplicateLineItemResponse {
 }
 
 export const DuplicateLineItemResponse: Schema.Schema<DuplicateLineItemResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       duplicateLineItemId: Schema.optional(Schema.String),
     }),
@@ -9191,7 +9249,7 @@ export interface AdvertiserSdfConfig {
 }
 
 export const AdvertiserSdfConfig: Schema.Schema<AdvertiserSdfConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       overridePartnerSdfConfig: Schema.optional(Schema.Boolean),
       sdfConfig: Schema.optional(SdfConfig),
@@ -9206,7 +9264,7 @@ export interface AdvertiserDataAccessConfig {
 }
 
 export const AdvertiserDataAccessConfig: Schema.Schema<AdvertiserDataAccessConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sdfConfig: Schema.optional(AdvertiserSdfConfig),
     }),
@@ -9220,7 +9278,7 @@ export interface CreateAssetResponse {
 }
 
 export const CreateAssetResponse: Schema.Schema<CreateAssetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       asset: Schema.optional(Asset),
     }),
@@ -9230,9 +9288,10 @@ export const CreateAssetResponse: Schema.Schema<CreateAssetResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface ListFloodlightActivitiesResponse {
   /** A token to retrieve the next page of results. Pass this value in the page_token field in the subsequent call to `ListFloodlightActivities` method to retrieve the next page of results. */
@@ -9242,7 +9301,7 @@ export interface ListFloodlightActivitiesResponse {
 }
 
 export const ListFloodlightActivitiesResponse: Schema.Schema<ListFloodlightActivitiesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       floodlightActivities: Schema.optional(Schema.Array(FloodlightActivity)),
@@ -9259,7 +9318,7 @@ export interface ListTargetingOptionsResponse {
 }
 
 export const ListTargetingOptionsResponse: Schema.Schema<ListTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptions: Schema.optional(Schema.Array(TargetingOption)),
       nextPageToken: Schema.optional(Schema.String),
@@ -9276,7 +9335,7 @@ export interface BulkEditAssignedUserRolesRequest {
 }
 
 export const BulkEditAssignedUserRolesRequest: Schema.Schema<BulkEditAssignedUserRolesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAssignedUserRoles: Schema.optional(Schema.Array(AssignedUserRole)),
       deletedAssignedUserRoles: Schema.optional(Schema.Array(Schema.String)),
@@ -9294,16 +9353,16 @@ export interface AlgorithmRules {
   postImpressionSignalRuleset?: AlgorithmRulesRuleset;
 }
 
-export const AlgorithmRules: Schema.Schema<AlgorithmRules> = Schema.suspend(
-  () =>
+export const AlgorithmRules: Schema.Schema<AlgorithmRules> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributionModelId: Schema.optional(Schema.String),
       impressionSignalRuleset: Schema.optional(AlgorithmRulesRuleset),
       postImpressionSignalRuleset: Schema.optional(AlgorithmRulesRuleset),
     }),
-).annotate({
-  identifier: "AlgorithmRules",
-}) as any as Schema.Schema<AlgorithmRules>;
+  ).annotate({
+    identifier: "AlgorithmRules",
+  }) as any as Schema.Schema<AlgorithmRules>;
 
 export interface BulkEditAssignedUserRolesResponse {
   /** The list of assigned user roles that have been successfully created. This list will be absent if empty. */
@@ -9311,7 +9370,7 @@ export interface BulkEditAssignedUserRolesResponse {
 }
 
 export const BulkEditAssignedUserRolesResponse: Schema.Schema<BulkEditAssignedUserRolesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAssignedUserRoles: Schema.optional(Schema.Array(AssignedUserRole)),
     }),
@@ -9337,7 +9396,7 @@ export interface CommonInStreamAttribute {
 }
 
 export const CommonInStreamAttribute: Schema.Schema<CommonInStreamAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       actionButtonLabel: Schema.optional(Schema.String),
       displayUrl: Schema.optional(Schema.String),
@@ -9356,11 +9415,12 @@ export interface BumperAd {
   commonInStreamAttribute?: CommonInStreamAttribute;
 }
 
-export const BumperAd: Schema.Schema<BumperAd> = Schema.suspend(() =>
-  Schema.Struct({
-    commonInStreamAttribute: Schema.optional(CommonInStreamAttribute),
-  }),
-).annotate({ identifier: "BumperAd" }) as any as Schema.Schema<BumperAd>;
+export const BumperAd: Schema.Schema<BumperAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commonInStreamAttribute: Schema.optional(CommonInStreamAttribute),
+    }),
+  ).annotate({ identifier: "BumperAd" }) as any as Schema.Schema<BumperAd>;
 
 export interface ListNegativeKeywordsResponse {
   /** The list of negative keywords. This list will be absent if empty. */
@@ -9370,7 +9430,7 @@ export interface ListNegativeKeywordsResponse {
 }
 
 export const ListNegativeKeywordsResponse: Schema.Schema<ListNegativeKeywordsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       negativeKeywords: Schema.optional(Schema.Array(NegativeKeyword)),
       nextPageToken: Schema.optional(Schema.String),
@@ -9385,7 +9445,7 @@ export interface BulkEditAdvertiserAssignedTargetingOptionsResponse {
 }
 
 export const BulkEditAdvertiserAssignedTargetingOptionsResponse: Schema.Schema<BulkEditAdvertiserAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAssignedTargetingOptions: Schema.optional(
         Schema.Array(AssignedTargetingOption),
@@ -9402,17 +9462,17 @@ export interface NonSkippableAd {
   customParameters?: Record<string, string>;
 }
 
-export const NonSkippableAd: Schema.Schema<NonSkippableAd> = Schema.suspend(
-  () =>
+export const NonSkippableAd: Schema.Schema<NonSkippableAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       commonInStreamAttribute: Schema.optional(CommonInStreamAttribute),
       customParameters: Schema.optional(
         Schema.Record(Schema.String, Schema.String),
       ),
     }),
-).annotate({
-  identifier: "NonSkippableAd",
-}) as any as Schema.Schema<NonSkippableAd>;
+  ).annotate({
+    identifier: "NonSkippableAd",
+  }) as any as Schema.Schema<NonSkippableAd>;
 
 export interface EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate {
   /** The advertisers to remove. */
@@ -9422,7 +9482,7 @@ export interface EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate {
 }
 
 export const EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate: Schema.Schema<EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       removedAdvertisers: Schema.optional(Schema.Array(Schema.String)),
       addedAdvertisers: Schema.optional(Schema.Array(Schema.String)),
@@ -9441,7 +9501,7 @@ export interface EditInventorySourceReadWriteAccessorsRequest {
 }
 
 export const EditInventorySourceReadWriteAccessorsRequest: Schema.Schema<EditInventorySourceReadWriteAccessorsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertisersUpdate: Schema.optional(
         EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate,
@@ -9461,7 +9521,7 @@ export interface ListPartnerAssignedTargetingOptionsResponse {
 }
 
 export const ListPartnerAssignedTargetingOptionsResponse: Schema.Schema<ListPartnerAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedTargetingOptions: Schema.optional(
         Schema.Array(AssignedTargetingOption),
@@ -9479,14 +9539,15 @@ export interface InStreamAd {
   customParameters?: Record<string, string>;
 }
 
-export const InStreamAd: Schema.Schema<InStreamAd> = Schema.suspend(() =>
-  Schema.Struct({
-    commonInStreamAttribute: Schema.optional(CommonInStreamAttribute),
-    customParameters: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({ identifier: "InStreamAd" }) as any as Schema.Schema<InStreamAd>;
+export const InStreamAd: Schema.Schema<InStreamAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commonInStreamAttribute: Schema.optional(CommonInStreamAttribute),
+      customParameters: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({ identifier: "InStreamAd" }) as any as Schema.Schema<InStreamAd>;
 
 export interface LocationList {
   /** Required. The display name of the location list. Must be UTF-8 encoded with a maximum size of 240 bytes. */
@@ -9505,17 +9566,18 @@ export interface LocationList {
     | (string & {});
 }
 
-export const LocationList: Schema.Schema<LocationList> = Schema.suspend(() =>
-  Schema.Struct({
-    displayName: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    locationListId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    locationType: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "LocationList",
-}) as any as Schema.Schema<LocationList>;
+export const LocationList: Schema.Schema<LocationList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayName: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      locationListId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      locationType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "LocationList",
+  }) as any as Schema.Schema<LocationList>;
 
 export interface AdvertiserTargetingConfig {
   /** Whether or not connected TV devices are exempt from viewability targeting for all video line items under the advertiser. */
@@ -9523,7 +9585,7 @@ export interface AdvertiserTargetingConfig {
 }
 
 export const AdvertiserTargetingConfig: Schema.Schema<AdvertiserTargetingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exemptTvFromViewabilityTargeting: Schema.optional(Schema.Boolean),
     }),
@@ -9537,7 +9599,7 @@ export interface ThirdPartyOnlyConfig {
 }
 
 export const ThirdPartyOnlyConfig: Schema.Schema<ThirdPartyOnlyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pixelOrderIdReportingEnabled: Schema.optional(Schema.Boolean),
     }),
@@ -9553,7 +9615,7 @@ export interface AdvertiserAdServerConfig {
 }
 
 export const AdvertiserAdServerConfig: Schema.Schema<AdvertiserAdServerConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       thirdPartyOnlyConfig: Schema.optional(ThirdPartyOnlyConfig),
       cmHybridConfig: Schema.optional(CmHybridConfig),
@@ -9606,25 +9668,26 @@ export interface Advertiser {
   integrationDetails?: IntegrationDetails;
 }
 
-export const Advertiser: Schema.Schema<Advertiser> = Schema.suspend(() =>
-  Schema.Struct({
-    billingConfig: Schema.optional(AdvertiserBillingConfig),
-    dataAccessConfig: Schema.optional(AdvertiserDataAccessConfig),
-    containsEuPoliticalAds: Schema.optional(Schema.String),
-    partnerId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    creativeConfig: Schema.optional(AdvertiserCreativeConfig),
-    updateTime: Schema.optional(Schema.String),
-    servingConfig: Schema.optional(AdvertiserTargetingConfig),
-    adServerConfig: Schema.optional(AdvertiserAdServerConfig),
-    prismaEnabled: Schema.optional(Schema.Boolean),
-    entityStatus: Schema.optional(Schema.String),
-    generalConfig: Schema.optional(AdvertiserGeneralConfig),
-    integrationDetails: Schema.optional(IntegrationDetails),
-  }),
-).annotate({ identifier: "Advertiser" }) as any as Schema.Schema<Advertiser>;
+export const Advertiser: Schema.Schema<Advertiser> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      billingConfig: Schema.optional(AdvertiserBillingConfig),
+      dataAccessConfig: Schema.optional(AdvertiserDataAccessConfig),
+      containsEuPoliticalAds: Schema.optional(Schema.String),
+      partnerId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      creativeConfig: Schema.optional(AdvertiserCreativeConfig),
+      updateTime: Schema.optional(Schema.String),
+      servingConfig: Schema.optional(AdvertiserTargetingConfig),
+      adServerConfig: Schema.optional(AdvertiserAdServerConfig),
+      prismaEnabled: Schema.optional(Schema.Boolean),
+      entityStatus: Schema.optional(Schema.String),
+      generalConfig: Schema.optional(AdvertiserGeneralConfig),
+      integrationDetails: Schema.optional(IntegrationDetails),
+    }),
+  ).annotate({ identifier: "Advertiser" }) as any as Schema.Schema<Advertiser>;
 
 export interface ExchangeConfigEnabledExchange {
   /** Output only. Agency ID of Google Ad Manager. The field is only relevant when Google Ad Manager is the enabled exchange. */
@@ -9728,7 +9791,7 @@ export interface ExchangeConfigEnabledExchange {
 }
 
 export const ExchangeConfigEnabledExchange: Schema.Schema<ExchangeConfigEnabledExchange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleAdManagerAgencyId: Schema.optional(Schema.String),
       exchange: Schema.optional(Schema.String),
@@ -9744,16 +9807,16 @@ export interface ExchangeConfig {
   enabledExchanges?: Array<ExchangeConfigEnabledExchange>;
 }
 
-export const ExchangeConfig: Schema.Schema<ExchangeConfig> = Schema.suspend(
-  () =>
+export const ExchangeConfig: Schema.Schema<ExchangeConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabledExchanges: Schema.optional(
         Schema.Array(ExchangeConfigEnabledExchange),
       ),
     }),
-).annotate({
-  identifier: "ExchangeConfig",
-}) as any as Schema.Schema<ExchangeConfig>;
+  ).annotate({
+    identifier: "ExchangeConfig",
+  }) as any as Schema.Schema<ExchangeConfig>;
 
 export interface YoutubeAssetAssociationSitelinkAsset {
   /** Required. ID of the sitelink asset. */
@@ -9761,7 +9824,7 @@ export interface YoutubeAssetAssociationSitelinkAsset {
 }
 
 export const YoutubeAssetAssociationSitelinkAsset: Schema.Schema<YoutubeAssetAssociationSitelinkAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetId: Schema.optional(Schema.String),
     }),
@@ -9779,7 +9842,7 @@ export interface YoutubeAssetAssociationLinkedYouTubeAsset {
 }
 
 export const YoutubeAssetAssociationLinkedYouTubeAsset: Schema.Schema<YoutubeAssetAssociationLinkedYouTubeAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationAssetFilter: Schema.optional(
         YoutubeAssetAssociationLocationAssetFilter,
@@ -9800,15 +9863,15 @@ export interface LookbackWindow {
   clickDays?: number;
 }
 
-export const LookbackWindow: Schema.Schema<LookbackWindow> = Schema.suspend(
-  () =>
+export const LookbackWindow: Schema.Schema<LookbackWindow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       impressionDays: Schema.optional(Schema.Number),
       clickDays: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "LookbackWindow",
-}) as any as Schema.Schema<LookbackWindow>;
+  ).annotate({
+    identifier: "LookbackWindow",
+  }) as any as Schema.Schema<LookbackWindow>;
 
 export interface ActiveViewVideoViewabilityMetricConfig {
   /** The minimum visible video duration required, based on the video quartiles, in order for an impression to be recorded. You must specify minimum_duration, minimum_quartile or both. If both are specified, an impression meets the metric criteria if either requirement is met (whichever happens first). */
@@ -9864,7 +9927,7 @@ export interface ActiveViewVideoViewabilityMetricConfig {
 }
 
 export const ActiveViewVideoViewabilityMetricConfig: Schema.Schema<ActiveViewVideoViewabilityMetricConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimumQuartile: Schema.optional(Schema.String),
       minimumViewability: Schema.optional(Schema.String),
@@ -9898,8 +9961,8 @@ export interface FloodlightGroup {
   name?: string;
 }
 
-export const FloodlightGroup: Schema.Schema<FloodlightGroup> = Schema.suspend(
-  () =>
+export const FloodlightGroup: Schema.Schema<FloodlightGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       webTagType: Schema.optional(Schema.String),
       customVariables: Schema.optional(
@@ -9911,9 +9974,9 @@ export const FloodlightGroup: Schema.Schema<FloodlightGroup> = Schema.suspend(
       activeViewConfig: Schema.optional(ActiveViewVideoViewabilityMetricConfig),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FloodlightGroup",
-}) as any as Schema.Schema<FloodlightGroup>;
+  ).annotate({
+    identifier: "FloodlightGroup",
+  }) as any as Schema.Schema<FloodlightGroup>;
 
 export interface ListLineItemsResponse {
   /** The list of line items. This list will be absent if empty. */
@@ -9923,7 +9986,7 @@ export interface ListLineItemsResponse {
 }
 
 export const ListLineItemsResponse: Schema.Schema<ListLineItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItems: Schema.optional(Schema.Array(LineItem)),
       nextPageToken: Schema.optional(Schema.String),
@@ -9942,7 +10005,7 @@ export interface BulkEditAdGroupAssignedTargetingOptionsResponse {
 }
 
 export const BulkEditAdGroupAssignedTargetingOptionsResponse: Schema.Schema<BulkEditAdGroupAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       failedAdGroupIds: Schema.optional(Schema.Array(Schema.String)),
       updatedAdGroupIds: Schema.optional(Schema.Array(Schema.String)),
@@ -9958,7 +10021,7 @@ export interface PartnerBillingConfig {
 }
 
 export const PartnerBillingConfig: Schema.Schema<PartnerBillingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       billingProfileId: Schema.optional(Schema.String),
     }),
@@ -9974,7 +10037,7 @@ export interface PartnerGeneralConfig {
 }
 
 export const PartnerGeneralConfig: Schema.Schema<PartnerGeneralConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       timeZone: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
@@ -10013,20 +10076,21 @@ export interface Partner {
   displayName?: string;
 }
 
-export const Partner: Schema.Schema<Partner> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    billingConfig: Schema.optional(PartnerBillingConfig),
-    dataAccessConfig: Schema.optional(PartnerDataAccessConfig),
-    partnerId: Schema.optional(Schema.String),
-    adServerConfig: Schema.optional(PartnerAdServerConfig),
-    name: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    generalConfig: Schema.optional(PartnerGeneralConfig),
-    exchangeConfig: Schema.optional(ExchangeConfig),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Partner" }) as any as Schema.Schema<Partner>;
+export const Partner: Schema.Schema<Partner> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      billingConfig: Schema.optional(PartnerBillingConfig),
+      dataAccessConfig: Schema.optional(PartnerDataAccessConfig),
+      partnerId: Schema.optional(Schema.String),
+      adServerConfig: Schema.optional(PartnerAdServerConfig),
+      name: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      generalConfig: Schema.optional(PartnerGeneralConfig),
+      exchangeConfig: Schema.optional(ExchangeConfig),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Partner" }) as any as Schema.Schema<Partner>;
 
 export interface YoutubeAssetAssociation {
   /** Identifier. The resource name of the association. For line item-level associations: The name pattern is `advertisers/{advertiser_id}/lineItems/{line_item_id}/youtubeAssetTypes/{youtube_asset_type}/youtubeAssetAssociations/{youtube_asset_association_id}`. For ad group-level associations: The name pattern is `advertisers/{advertiser_id}/adGroups/{ad_group_id}/youtubeAssetTypes/{youtube_asset_type}/youtubeAssetAssociations/{youtube_asset_association_id}`. For `YOUTUBE_ASSET_TYPE_LOCATION` and `YOUTUBE_ASSET_TYPE_AFFILIATE_LOCATION` associations: `youtube_asset_association_id` is the ID of the asset set linked, or 0 if the location_matching_type or affiliate_location_matching_type is `DISABLED`. For `YOUTUBE_ASSET_TYPE_SITELINK` associations: `youtube_asset_association_id` is be the ID of the sitelink asset linked. */
@@ -10043,7 +10107,7 @@ export interface YoutubeAssetAssociation {
 }
 
 export const YoutubeAssetAssociation: Schema.Schema<YoutubeAssetAssociation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       youtubeAssetType: Schema.optional(Schema.String),
@@ -10063,7 +10127,7 @@ export interface ListYoutubeAssetAssociationsResponse {
 }
 
 export const ListYoutubeAssetAssociationsResponse: Schema.Schema<ListYoutubeAssetAssociationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       youtubeAssetAssociations: Schema.optional(
         Schema.Array(YoutubeAssetAssociation),
@@ -10082,7 +10146,7 @@ export interface ListCustomListsResponse {
 }
 
 export const ListCustomListsResponse: Schema.Schema<ListCustomListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       customLists: Schema.optional(Schema.Array(CustomList)),
@@ -10099,7 +10163,7 @@ export interface ListSitesResponse {
 }
 
 export const ListSitesResponse: Schema.Schema<ListSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sites: Schema.optional(Schema.Array(Site)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10116,7 +10180,7 @@ export interface ListChannelsResponse {
 }
 
 export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       channels: Schema.optional(Schema.Array(Channel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10128,7 +10192,7 @@ export const ListChannelsResponse: Schema.Schema<ListChannelsResponse> =
 export interface AdPolicyTopicConstraintAdPolicyGlobalCertificateDomainMismatchConstraint {}
 
 export const AdPolicyTopicConstraintAdPolicyGlobalCertificateDomainMismatchConstraint: Schema.Schema<AdPolicyTopicConstraintAdPolicyGlobalCertificateDomainMismatchConstraint> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier:
       "AdPolicyTopicConstraintAdPolicyGlobalCertificateDomainMismatchConstraint",
   }) as any as Schema.Schema<AdPolicyTopicConstraintAdPolicyGlobalCertificateDomainMismatchConstraint>;
@@ -10151,7 +10215,7 @@ export interface AdPolicyTopicConstraint {
 }
 
 export const AdPolicyTopicConstraint: Schema.Schema<AdPolicyTopicConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resellerConstraint: Schema.optional(
         AdPolicyTopicConstraintAdPolicyResellerConstraint,
@@ -10217,7 +10281,7 @@ export interface AdPolicyTopicEntry {
 }
 
 export const AdPolicyTopicEntry: Schema.Schema<AdPolicyTopicEntry> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyTopicDescription: Schema.optional(Schema.String),
       policyTopicConstraints: Schema.optional(
@@ -10250,7 +10314,7 @@ export interface EditGuaranteedOrderReadAccessorsRequest {
 }
 
 export const EditGuaranteedOrderReadAccessorsRequest: Schema.Schema<EditGuaranteedOrderReadAccessorsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerId: Schema.optional(Schema.String),
       addedAdvertisers: Schema.optional(Schema.Array(Schema.String)),
@@ -10267,7 +10331,7 @@ export interface BulkEditAssignedInventorySourcesResponse {
 }
 
 export const BulkEditAssignedInventorySourcesResponse: Schema.Schema<BulkEditAssignedInventorySourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assignedInventorySources: Schema.optional(
         Schema.Array(AssignedInventorySource),
@@ -10308,8 +10372,8 @@ export interface DemandGenImageAd {
   finalMobileUrl?: string;
 }
 
-export const DemandGenImageAd: Schema.Schema<DemandGenImageAd> = Schema.suspend(
-  () =>
+export const DemandGenImageAd: Schema.Schema<DemandGenImageAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trackingUrl: Schema.optional(Schema.String),
       customParameters: Schema.optional(
@@ -10328,9 +10392,9 @@ export const DemandGenImageAd: Schema.Schema<DemandGenImageAd> = Schema.suspend(
       marketingImages: Schema.optional(Schema.Array(ImageAsset)),
       finalMobileUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "DemandGenImageAd",
-}) as any as Schema.Schema<DemandGenImageAd>;
+  ).annotate({
+    identifier: "DemandGenImageAd",
+  }) as any as Schema.Schema<DemandGenImageAd>;
 
 export interface SdfDownloadTaskMetadata {
   /** The time when execution was completed. */
@@ -10362,7 +10426,7 @@ export interface SdfDownloadTaskMetadata {
 }
 
 export const SdfDownloadTaskMetadata: Schema.Schema<SdfDownloadTaskMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTime: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -10378,7 +10442,7 @@ export interface CreateAdAssetRequest {
 }
 
 export const CreateAdAssetRequest: Schema.Schema<CreateAdAssetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adAsset: Schema.optional(AdAsset),
     }),
@@ -10394,7 +10458,7 @@ export interface BulkListAdvertiserAssignedTargetingOptionsResponse {
 }
 
 export const BulkListAdvertiserAssignedTargetingOptionsResponse: Schema.Schema<BulkListAdvertiserAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assignedTargetingOptions: Schema.optional(
@@ -10429,7 +10493,7 @@ export interface DemandGenCarouselAd {
 }
 
 export const DemandGenCarouselAd: Schema.Schema<DemandGenCarouselAd> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headline: Schema.optional(Schema.String),
       cards: Schema.optional(Schema.Array(CarouselCard)),
@@ -10460,7 +10524,7 @@ export interface UploadAdAssetRequest {
 }
 
 export const UploadAdAssetRequest: Schema.Schema<UploadAdAssetRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filename: Schema.optional(Schema.String),
       adAssetType: Schema.optional(Schema.String),
@@ -10477,7 +10541,7 @@ export interface ListInvoicesResponse {
 }
 
 export const ListInvoicesResponse: Schema.Schema<ListInvoicesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       invoices: Schema.optional(Schema.Array(Invoice)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10494,7 +10558,7 @@ export interface ListCreativesResponse {
 }
 
 export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creatives: Schema.optional(Schema.Array(Creative)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10511,7 +10575,7 @@ export interface ListLocationListsResponse {
 }
 
 export const ListLocationListsResponse: Schema.Schema<ListLocationListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationLists: Schema.optional(Schema.Array(LocationList)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10528,7 +10592,7 @@ export interface ListInventorySourcesResponse {
 }
 
 export const ListInventorySourcesResponse: Schema.Schema<ListInventorySourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventorySources: Schema.optional(Schema.Array(InventorySource)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10545,7 +10609,7 @@ export interface ListAdvertisersResponse {
 }
 
 export const ListAdvertisersResponse: Schema.Schema<ListAdvertisersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertisers: Schema.optional(Schema.Array(Advertiser)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10567,12 +10631,13 @@ export interface AdUrl {
   url?: string;
 }
 
-export const AdUrl: Schema.Schema<AdUrl> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdUrl" }) as any as Schema.Schema<AdUrl>;
+export const AdUrl: Schema.Schema<AdUrl> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdUrl" }) as any as Schema.Schema<AdUrl>;
 
 export interface GoogleBytestreamMedia {
   /** Name of the media resource. */
@@ -10580,7 +10645,7 @@ export interface GoogleBytestreamMedia {
 }
 
 export const GoogleBytestreamMedia: Schema.Schema<GoogleBytestreamMedia> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
     }),
@@ -10596,7 +10661,7 @@ export interface ListLineItemAssignedTargetingOptionsResponse {
 }
 
 export const ListLineItemAssignedTargetingOptionsResponse: Schema.Schema<ListLineItemAssignedTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assignedTargetingOptions: Schema.optional(
@@ -10615,7 +10680,7 @@ export interface BulkEditAdvertiserAssignedTargetingOptionsRequest {
 }
 
 export const BulkEditAdvertiserAssignedTargetingOptionsRequest: Schema.Schema<BulkEditAdvertiserAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deleteRequests: Schema.optional(
         Schema.Array(DeleteAssignedTargetingOptionsRequest),
@@ -10649,13 +10714,14 @@ export interface AdPolicy {
     | (string & {});
 }
 
-export const AdPolicy: Schema.Schema<AdPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    adPolicyTopicEntry: Schema.optional(Schema.Array(AdPolicyTopicEntry)),
-    adPolicyApprovalStatus: Schema.optional(Schema.String),
-    adPolicyReviewStatus: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdPolicy" }) as any as Schema.Schema<AdPolicy>;
+export const AdPolicy: Schema.Schema<AdPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adPolicyTopicEntry: Schema.optional(Schema.Array(AdPolicyTopicEntry)),
+      adPolicyApprovalStatus: Schema.optional(Schema.String),
+      adPolicyReviewStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdPolicy" }) as any as Schema.Schema<AdPolicy>;
 
 export interface ListPartnersResponse {
   /** A token to retrieve the next page of results. Pass this value in the page_token field in the subsequent call to `ListPartners` method to retrieve the next page of results. */
@@ -10665,7 +10731,7 @@ export interface ListPartnersResponse {
 }
 
 export const ListPartnersResponse: Schema.Schema<ListPartnersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       partners: Schema.optional(Schema.Array(Partner)),
@@ -10682,7 +10748,7 @@ export interface ListAssignedInventorySourcesResponse {
 }
 
 export const ListAssignedInventorySourcesResponse: Schema.Schema<ListAssignedInventorySourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       assignedInventorySources: Schema.optional(
@@ -10703,7 +10769,7 @@ export interface BulkEditAssignedTargetingOptionsRequest {
 }
 
 export const BulkEditAssignedTargetingOptionsRequest: Schema.Schema<BulkEditAssignedTargetingOptionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineItemIds: Schema.optional(Schema.Array(Schema.String)),
       deleteRequests: Schema.optional(
@@ -10731,7 +10797,7 @@ export interface EditCustomerMatchMembersRequest {
 }
 
 export const EditCustomerMatchMembersRequest: Schema.Schema<EditCustomerMatchMembersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertiserId: Schema.optional(Schema.String),
       addedContactInfoList: Schema.optional(ContactInfoList),
@@ -10751,7 +10817,7 @@ export interface ListCombinedAudiencesResponse {
 }
 
 export const ListCombinedAudiencesResponse: Schema.Schema<ListCombinedAudiencesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       combinedAudiences: Schema.optional(Schema.Array(CombinedAudience)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10766,7 +10832,7 @@ export interface BulkCreateAdAssetsResponse {
 }
 
 export const BulkCreateAdAssetsResponse: Schema.Schema<BulkCreateAdAssetsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adAssets: Schema.optional(Schema.Array(AdAsset)),
     }),
@@ -10780,7 +10846,7 @@ export interface ReplaceNegativeKeywordsRequest {
 }
 
 export const ReplaceNegativeKeywordsRequest: Schema.Schema<ReplaceNegativeKeywordsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newNegativeKeywords: Schema.optional(Schema.Array(NegativeKeyword)),
     }),
@@ -10794,7 +10860,7 @@ export interface BulkEditSitesResponse {
 }
 
 export const BulkEditSitesResponse: Schema.Schema<BulkEditSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sites: Schema.optional(Schema.Array(Site)),
     }),
@@ -10808,7 +10874,7 @@ export interface DisplayVideoSourceAd {
 }
 
 export const DisplayVideoSourceAd: Schema.Schema<DisplayVideoSourceAd> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creativeId: Schema.optional(Schema.String),
     }),
@@ -10845,21 +10911,24 @@ export interface MastheadAd {
   callToActionButtonLabel?: string;
 }
 
-export const MastheadAd: Schema.Schema<MastheadAd> = Schema.suspend(() =>
-  Schema.Struct({
-    videoAspectRatio: Schema.optional(Schema.String),
-    headline: Schema.optional(Schema.String),
-    companionYoutubeVideos: Schema.optional(Schema.Array(YoutubeVideoDetails)),
-    video: Schema.optional(YoutubeVideoDetails),
-    autoplayVideoDuration: Schema.optional(Schema.String),
-    showChannelArt: Schema.optional(Schema.Boolean),
-    autoplayVideoStartMillisecond: Schema.optional(Schema.String),
-    callToActionFinalUrl: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    callToActionTrackingUrl: Schema.optional(Schema.String),
-    callToActionButtonLabel: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MastheadAd" }) as any as Schema.Schema<MastheadAd>;
+export const MastheadAd: Schema.Schema<MastheadAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      videoAspectRatio: Schema.optional(Schema.String),
+      headline: Schema.optional(Schema.String),
+      companionYoutubeVideos: Schema.optional(
+        Schema.Array(YoutubeVideoDetails),
+      ),
+      video: Schema.optional(YoutubeVideoDetails),
+      autoplayVideoDuration: Schema.optional(Schema.String),
+      showChannelArt: Schema.optional(Schema.Boolean),
+      autoplayVideoStartMillisecond: Schema.optional(Schema.String),
+      callToActionFinalUrl: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      callToActionTrackingUrl: Schema.optional(Schema.String),
+      callToActionButtonLabel: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "MastheadAd" }) as any as Schema.Schema<MastheadAd>;
 
 export interface SearchTargetingOptionsResponse {
   /** The list of targeting options that match the search criteria. This list will be absent if empty. */
@@ -10869,7 +10938,7 @@ export interface SearchTargetingOptionsResponse {
 }
 
 export const SearchTargetingOptionsResponse: Schema.Schema<SearchTargetingOptionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingOptions: Schema.optional(Schema.Array(TargetingOption)),
       nextPageToken: Schema.optional(Schema.String),
@@ -10886,7 +10955,7 @@ export interface ListCampaignsResponse {
 }
 
 export const ListCampaignsResponse: Schema.Schema<ListCampaignsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       campaigns: Schema.optional(Schema.Array(Campaign)),
@@ -10903,7 +10972,7 @@ export interface EditGuaranteedOrderReadAccessorsResponse {
 }
 
 export const EditGuaranteedOrderReadAccessorsResponse: Schema.Schema<EditGuaranteedOrderReadAccessorsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       readAccessInherited: Schema.optional(Schema.Boolean),
       readAdvertiserIds: Schema.optional(Schema.Array(Schema.String)),
@@ -10931,17 +11000,17 @@ export interface GoogleAudience {
   displayName?: string;
 }
 
-export const GoogleAudience: Schema.Schema<GoogleAudience> = Schema.suspend(
-  () =>
+export const GoogleAudience: Schema.Schema<GoogleAudience> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       googleAudienceId: Schema.optional(Schema.String),
       googleAudienceType: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GoogleAudience",
-}) as any as Schema.Schema<GoogleAudience>;
+  ).annotate({
+    identifier: "GoogleAudience",
+  }) as any as Schema.Schema<GoogleAudience>;
 
 export interface BulkEditAssignedInventorySourcesRequest {
   /** The ID of the partner that owns the inventory source group. Only this partner has write access to these assigned inventory sources. */
@@ -10955,7 +11024,7 @@ export interface BulkEditAssignedInventorySourcesRequest {
 }
 
 export const BulkEditAssignedInventorySourcesRequest: Schema.Schema<BulkEditAssignedInventorySourcesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerId: Schema.optional(Schema.String),
       deletedAssignedInventorySources: Schema.optional(
@@ -10978,7 +11047,7 @@ export interface ListInventorySourceGroupsResponse {
 }
 
 export const ListInventorySourceGroupsResponse: Schema.Schema<ListInventorySourceGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       inventorySourceGroups: Schema.optional(
@@ -11000,14 +11069,15 @@ export interface AudioAd {
   trackingUrl?: string;
 }
 
-export const AudioAd: Schema.Schema<AudioAd> = Schema.suspend(() =>
-  Schema.Struct({
-    displayUrl: Schema.optional(Schema.String),
-    video: Schema.optional(YoutubeVideoDetails),
-    finalUrl: Schema.optional(Schema.String),
-    trackingUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AudioAd" }) as any as Schema.Schema<AudioAd>;
+export const AudioAd: Schema.Schema<AudioAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      displayUrl: Schema.optional(Schema.String),
+      video: Schema.optional(YoutubeVideoDetails),
+      finalUrl: Schema.optional(Schema.String),
+      trackingUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AudioAd" }) as any as Schema.Schema<AudioAd>;
 
 export interface ListGoogleAudiencesResponse {
   /** The list of Google audiences. This list will be absent if empty. */
@@ -11017,7 +11087,7 @@ export interface ListGoogleAudiencesResponse {
 }
 
 export const ListGoogleAudiencesResponse: Schema.Schema<ListGoogleAudiencesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       googleAudiences: Schema.optional(Schema.Array(GoogleAudience)),
       nextPageToken: Schema.optional(Schema.String),
@@ -11076,30 +11146,31 @@ export interface AdGroupAd {
   audioAd?: AudioAd;
 }
 
-export const AdGroupAd: Schema.Schema<AdGroupAd> = Schema.suspend(() =>
-  Schema.Struct({
-    adPolicy: Schema.optional(AdPolicy),
-    mastheadAd: Schema.optional(MastheadAd),
-    demandGenProductAd: Schema.optional(DemandGenProductAd),
-    demandGenImageAd: Schema.optional(DemandGenImageAd),
-    displayVideoSourceAd: Schema.optional(DisplayVideoSourceAd),
-    name: Schema.optional(Schema.String),
-    adGroupAdId: Schema.optional(Schema.String),
-    videoPerformanceAd: Schema.optional(VideoPerformanceAd),
-    demandGenVideoAd: Schema.optional(DemandGenVideoAd),
-    advertiserId: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    bumperAd: Schema.optional(BumperAd),
-    inStreamAd: Schema.optional(InStreamAd),
-    nonSkippableAd: Schema.optional(NonSkippableAd),
-    videoDiscoverAd: Schema.optional(VideoDiscoveryAd),
-    adUrls: Schema.optional(Schema.Array(AdUrl)),
-    adGroupId: Schema.optional(Schema.String),
-    entityStatus: Schema.optional(Schema.String),
-    demandGenCarouselAd: Schema.optional(DemandGenCarouselAd),
-    audioAd: Schema.optional(AudioAd),
-  }),
-).annotate({ identifier: "AdGroupAd" }) as any as Schema.Schema<AdGroupAd>;
+export const AdGroupAd: Schema.Schema<AdGroupAd> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      adPolicy: Schema.optional(AdPolicy),
+      mastheadAd: Schema.optional(MastheadAd),
+      demandGenProductAd: Schema.optional(DemandGenProductAd),
+      demandGenImageAd: Schema.optional(DemandGenImageAd),
+      displayVideoSourceAd: Schema.optional(DisplayVideoSourceAd),
+      name: Schema.optional(Schema.String),
+      adGroupAdId: Schema.optional(Schema.String),
+      videoPerformanceAd: Schema.optional(VideoPerformanceAd),
+      demandGenVideoAd: Schema.optional(DemandGenVideoAd),
+      advertiserId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      bumperAd: Schema.optional(BumperAd),
+      inStreamAd: Schema.optional(InStreamAd),
+      nonSkippableAd: Schema.optional(NonSkippableAd),
+      videoDiscoverAd: Schema.optional(VideoDiscoveryAd),
+      adUrls: Schema.optional(Schema.Array(AdUrl)),
+      adGroupId: Schema.optional(Schema.String),
+      entityStatus: Schema.optional(Schema.String),
+      demandGenCarouselAd: Schema.optional(DemandGenCarouselAd),
+      audioAd: Schema.optional(AudioAd),
+    }),
+  ).annotate({ identifier: "AdGroupAd" }) as any as Schema.Schema<AdGroupAd>;
 
 export interface ListAdGroupAdsResponse {
   /** The list of ads. This list will be absent if empty. */
@@ -11109,7 +11180,7 @@ export interface ListAdGroupAdsResponse {
 }
 
 export const ListAdGroupAdsResponse: Schema.Schema<ListAdGroupAdsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adGroupAds: Schema.optional(Schema.Array(AdGroupAd)),
       nextPageToken: Schema.optional(Schema.String),
@@ -11124,7 +11195,7 @@ export interface ReplaceSitesResponse {
 }
 
 export const ReplaceSitesResponse: Schema.Schema<ReplaceSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sites: Schema.optional(Schema.Array(Site)),
     }),
@@ -11142,7 +11213,7 @@ export interface ReplaceSitesRequest {
 }
 
 export const ReplaceSitesRequest: Schema.Schema<ReplaceSitesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partnerId: Schema.optional(Schema.String),
       newSites: Schema.optional(Schema.Array(Site)),
@@ -11164,7 +11235,7 @@ export interface DuplicateLineItemRequest {
 }
 
 export const DuplicateLineItemRequest: Schema.Schema<DuplicateLineItemRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containsEuPoliticalAds: Schema.optional(Schema.String),
       targetDisplayName: Schema.optional(Schema.String),
@@ -11188,22 +11259,24 @@ export interface PatchFloodlightGroupsRequest {
   body?: FloodlightGroup;
 }
 
-export const PatchFloodlightGroupsRequest = Schema.Struct({
-  floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(FloodlightGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/floodlightGroups/{floodlightGroupId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFloodlightGroupsRequest>;
+export const PatchFloodlightGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(FloodlightGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/floodlightGroups/{floodlightGroupId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFloodlightGroupsRequest>;
 
 export type PatchFloodlightGroupsResponse = FloodlightGroup;
-export const PatchFloodlightGroupsResponse = FloodlightGroup;
+export const PatchFloodlightGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FloodlightGroup;
 
 export type PatchFloodlightGroupsError = DefaultErrors;
 
@@ -11213,7 +11286,7 @@ export const patchFloodlightGroups: API.OperationMethod<
   PatchFloodlightGroupsResponse,
   PatchFloodlightGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFloodlightGroupsRequest,
   output: PatchFloodlightGroupsResponse,
   errors: [],
@@ -11226,16 +11299,18 @@ export interface GetFloodlightGroupsRequest {
   partnerId?: string;
 }
 
-export const GetFloodlightGroupsRequest = Schema.Struct({
-  floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/floodlightGroups/{floodlightGroupsId}" }),
-  svc,
-) as unknown as Schema.Schema<GetFloodlightGroupsRequest>;
+export const GetFloodlightGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/floodlightGroups/{floodlightGroupsId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetFloodlightGroupsRequest>;
 
 export type GetFloodlightGroupsResponse = FloodlightGroup;
-export const GetFloodlightGroupsResponse = FloodlightGroup;
+export const GetFloodlightGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FloodlightGroup;
 
 export type GetFloodlightGroupsError = DefaultErrors;
 
@@ -11245,7 +11320,7 @@ export const getFloodlightGroups: API.OperationMethod<
   GetFloodlightGroupsResponse,
   GetFloodlightGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFloodlightGroupsRequest,
   output: GetFloodlightGroupsResponse,
   errors: [],
@@ -11260,22 +11335,25 @@ export interface GetFloodlightGroupsFloodlightActivitiesRequest {
   partnerId?: string;
 }
 
-export const GetFloodlightGroupsFloodlightActivitiesRequest = Schema.Struct({
-  floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
-  floodlightActivityId: Schema.String.pipe(T.HttpPath("floodlightActivityId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/floodlightGroups/{floodlightGroupsId}/floodlightActivities/{floodlightActivitiesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFloodlightGroupsFloodlightActivitiesRequest>;
+export const GetFloodlightGroupsFloodlightActivitiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
+    floodlightActivityId: Schema.String.pipe(
+      T.HttpPath("floodlightActivityId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/floodlightGroups/{floodlightGroupsId}/floodlightActivities/{floodlightActivitiesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFloodlightGroupsFloodlightActivitiesRequest>;
 
 export type GetFloodlightGroupsFloodlightActivitiesResponse =
   FloodlightActivity;
 export const GetFloodlightGroupsFloodlightActivitiesResponse =
-  FloodlightActivity;
+  /*@__PURE__*/ /*#__PURE__*/ FloodlightActivity;
 
 export type GetFloodlightGroupsFloodlightActivitiesError = DefaultErrors;
 
@@ -11285,7 +11363,7 @@ export const getFloodlightGroupsFloodlightActivities: API.OperationMethod<
   GetFloodlightGroupsFloodlightActivitiesResponse,
   GetFloodlightGroupsFloodlightActivitiesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFloodlightGroupsFloodlightActivitiesRequest,
   output: GetFloodlightGroupsFloodlightActivitiesResponse,
   errors: [],
@@ -11304,24 +11382,25 @@ export interface ListFloodlightGroupsFloodlightActivitiesRequest {
   floodlightGroupId: string;
 }
 
-export const ListFloodlightGroupsFloodlightActivitiesRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/floodlightGroups/{floodlightGroupsId}/floodlightActivities",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListFloodlightGroupsFloodlightActivitiesRequest>;
+export const ListFloodlightGroupsFloodlightActivitiesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/floodlightGroups/{floodlightGroupsId}/floodlightActivities",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListFloodlightGroupsFloodlightActivitiesRequest>;
 
 export type ListFloodlightGroupsFloodlightActivitiesResponse =
   ListFloodlightActivitiesResponse;
 export const ListFloodlightGroupsFloodlightActivitiesResponse =
-  ListFloodlightActivitiesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFloodlightActivitiesResponse;
 
 export type ListFloodlightGroupsFloodlightActivitiesError = DefaultErrors;
 
@@ -11331,7 +11410,7 @@ export const listFloodlightGroupsFloodlightActivities: API.PaginatedOperationMet
   ListFloodlightGroupsFloodlightActivitiesResponse,
   ListFloodlightGroupsFloodlightActivitiesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFloodlightGroupsFloodlightActivitiesRequest,
   output: ListFloodlightGroupsFloodlightActivitiesResponse,
   errors: [],
@@ -11348,24 +11427,25 @@ export interface EditAssignedTargetingOptionsPartnersRequest {
   body?: BulkEditPartnerAssignedTargetingOptionsRequest;
 }
 
-export const EditAssignedTargetingOptionsPartnersRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(BulkEditPartnerAssignedTargetingOptionsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/partners/{partnersId}:editAssignedTargetingOptions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EditAssignedTargetingOptionsPartnersRequest>;
+export const EditAssignedTargetingOptionsPartnersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(BulkEditPartnerAssignedTargetingOptionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/partners/{partnersId}:editAssignedTargetingOptions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EditAssignedTargetingOptionsPartnersRequest>;
 
 export type EditAssignedTargetingOptionsPartnersResponse =
   BulkEditPartnerAssignedTargetingOptionsResponse;
 export const EditAssignedTargetingOptionsPartnersResponse =
-  BulkEditPartnerAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditPartnerAssignedTargetingOptionsResponse;
 
 export type EditAssignedTargetingOptionsPartnersError = DefaultErrors;
 
@@ -11375,7 +11455,7 @@ export const editAssignedTargetingOptionsPartners: API.OperationMethod<
   EditAssignedTargetingOptionsPartnersResponse,
   EditAssignedTargetingOptionsPartnersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EditAssignedTargetingOptionsPartnersRequest,
   output: EditAssignedTargetingOptionsPartnersResponse,
   errors: [],
@@ -11386,7 +11466,7 @@ export interface GetPartnersRequest {
   partnerId: string;
 }
 
-export const GetPartnersRequest = Schema.Struct({
+export const GetPartnersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
 }).pipe(
   T.Http({ method: "GET", path: "v4/partners/{partnersId}" }),
@@ -11394,7 +11474,7 @@ export const GetPartnersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetPartnersRequest>;
 
 export type GetPartnersResponse = Partner;
-export const GetPartnersResponse = Partner;
+export const GetPartnersResponse = /*@__PURE__*/ /*#__PURE__*/ Partner;
 
 export type GetPartnersError = DefaultErrors;
 
@@ -11404,7 +11484,7 @@ export const getPartners: API.OperationMethod<
   GetPartnersResponse,
   GetPartnersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnersRequest,
   output: GetPartnersResponse,
   errors: [],
@@ -11421,7 +11501,7 @@ export interface ListPartnersRequest {
   pageToken?: string;
 }
 
-export const ListPartnersRequest = Schema.Struct({
+export const ListPartnersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
@@ -11432,7 +11512,8 @@ export const ListPartnersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPartnersRequest>;
 
 export type ListPartnersResponse_Op = ListPartnersResponse;
-export const ListPartnersResponse_Op = ListPartnersResponse;
+export const ListPartnersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListPartnersResponse;
 
 export type ListPartnersError = DefaultErrors;
 
@@ -11442,7 +11523,7 @@ export const listPartners: API.PaginatedOperationMethod<
   ListPartnersResponse_Op,
   ListPartnersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersRequest,
   output: ListPartnersResponse_Op,
   errors: [],
@@ -11461,22 +11542,23 @@ export interface GetPartnersChannelsRequest {
   partnerId: string;
 }
 
-export const GetPartnersChannelsRequest = Schema.Struct({
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/partners/{partnersId}/channels/{channelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetPartnersChannelsRequest>;
+export const GetPartnersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/partners/{partnersId}/channels/{channelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetPartnersChannelsRequest>;
 
 export type GetPartnersChannelsResponse = Channel;
-export const GetPartnersChannelsResponse = Channel;
+export const GetPartnersChannelsResponse = /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type GetPartnersChannelsError = DefaultErrors;
 
@@ -11486,7 +11568,7 @@ export const getPartnersChannels: API.OperationMethod<
   GetPartnersChannelsResponse,
   GetPartnersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnersChannelsRequest,
   output: GetPartnersChannelsResponse,
   errors: [],
@@ -11507,22 +11589,24 @@ export interface ListPartnersChannelsRequest {
   filter?: string;
 }
 
-export const ListPartnersChannelsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/partners/{partnersId}/channels" }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersChannelsRequest>;
+export const ListPartnersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/partners/{partnersId}/channels" }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersChannelsRequest>;
 
 export type ListPartnersChannelsResponse = ListChannelsResponse;
-export const ListPartnersChannelsResponse = ListChannelsResponse;
+export const ListPartnersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListChannelsResponse;
 
 export type ListPartnersChannelsError = DefaultErrors;
 
@@ -11532,7 +11616,7 @@ export const listPartnersChannels: API.PaginatedOperationMethod<
   ListPartnersChannelsResponse,
   ListPartnersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersChannelsRequest,
   output: ListPartnersChannelsResponse,
   errors: [],
@@ -11551,23 +11635,25 @@ export interface CreatePartnersChannelsRequest {
   body?: Channel;
 }
 
-export const CreatePartnersChannelsRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(Channel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/partners/{partnersId}/channels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePartnersChannelsRequest>;
+export const CreatePartnersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(Channel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/partners/{partnersId}/channels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePartnersChannelsRequest>;
 
 export type CreatePartnersChannelsResponse = Channel;
-export const CreatePartnersChannelsResponse = Channel;
+export const CreatePartnersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type CreatePartnersChannelsError = DefaultErrors;
 
@@ -11577,7 +11663,7 @@ export const createPartnersChannels: API.OperationMethod<
   CreatePartnersChannelsResponse,
   CreatePartnersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnersChannelsRequest,
   output: CreatePartnersChannelsResponse,
   errors: [],
@@ -11596,25 +11682,27 @@ export interface PatchPartnersChannelsRequest {
   body?: Channel;
 }
 
-export const PatchPartnersChannelsRequest = Schema.Struct({
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Channel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/partners/{partnersId}/channels/{channelId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchPartnersChannelsRequest>;
+export const PatchPartnersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Channel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/partners/{partnersId}/channels/{channelId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchPartnersChannelsRequest>;
 
 export type PatchPartnersChannelsResponse = Channel;
-export const PatchPartnersChannelsResponse = Channel;
+export const PatchPartnersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type PatchPartnersChannelsError = DefaultErrors;
 
@@ -11624,7 +11712,7 @@ export const patchPartnersChannels: API.OperationMethod<
   PatchPartnersChannelsResponse,
   PatchPartnersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchPartnersChannelsRequest,
   output: PatchPartnersChannelsResponse,
   errors: [],
@@ -11647,26 +11735,28 @@ export interface ListPartnersChannelsSitesRequest {
   filter?: string;
 }
 
-export const ListPartnersChannelsSitesRequest = Schema.Struct({
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/partners/{partnersId}/channels/{channelsId}/sites",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListPartnersChannelsSitesRequest>;
+export const ListPartnersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/partners/{partnersId}/channels/{channelsId}/sites",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListPartnersChannelsSitesRequest>;
 
 export type ListPartnersChannelsSitesResponse = ListSitesResponse;
-export const ListPartnersChannelsSitesResponse = ListSitesResponse;
+export const ListPartnersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSitesResponse;
 
 export type ListPartnersChannelsSitesError = DefaultErrors;
 
@@ -11676,7 +11766,7 @@ export const listPartnersChannelsSites: API.PaginatedOperationMethod<
   ListPartnersChannelsSitesResponse,
   ListPartnersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersChannelsSitesRequest,
   output: ListPartnersChannelsSitesResponse,
   errors: [],
@@ -11695,21 +11785,23 @@ export interface ReplacePartnersChannelsSitesRequest {
   body?: ReplaceSitesRequest;
 }
 
-export const ReplacePartnersChannelsSitesRequest = Schema.Struct({
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  body: Schema.optional(ReplaceSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/partners/{partnerId}/channels/{channelsId}/sites:replace",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReplacePartnersChannelsSitesRequest>;
+export const ReplacePartnersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    body: Schema.optional(ReplaceSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/partners/{partnerId}/channels/{channelsId}/sites:replace",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReplacePartnersChannelsSitesRequest>;
 
 export type ReplacePartnersChannelsSitesResponse = ReplaceSitesResponse;
-export const ReplacePartnersChannelsSitesResponse = ReplaceSitesResponse;
+export const ReplacePartnersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReplaceSitesResponse;
 
 export type ReplacePartnersChannelsSitesError = DefaultErrors;
 
@@ -11719,7 +11811,7 @@ export const replacePartnersChannelsSites: API.OperationMethod<
   ReplacePartnersChannelsSitesResponse,
   ReplacePartnersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplacePartnersChannelsSitesRequest,
   output: ReplacePartnersChannelsSitesResponse,
   errors: [],
@@ -11736,24 +11828,26 @@ export interface CreatePartnersChannelsSitesRequest {
   body?: Site;
 }
 
-export const CreatePartnersChannelsSitesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(Site).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/partners/{partnerId}/channels/{channelsId}/sites",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreatePartnersChannelsSitesRequest>;
+export const CreatePartnersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(Site).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/partners/{partnerId}/channels/{channelsId}/sites",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreatePartnersChannelsSitesRequest>;
 
 export type CreatePartnersChannelsSitesResponse = Site;
-export const CreatePartnersChannelsSitesResponse = Site;
+export const CreatePartnersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Site;
 
 export type CreatePartnersChannelsSitesError = DefaultErrors;
 
@@ -11763,7 +11857,7 @@ export const createPartnersChannelsSites: API.OperationMethod<
   CreatePartnersChannelsSitesResponse,
   CreatePartnersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnersChannelsSitesRequest,
   output: CreatePartnersChannelsSitesResponse,
   errors: [],
@@ -11780,23 +11874,25 @@ export interface DeletePartnersChannelsSitesRequest {
   urlOrAppId: string;
 }
 
-export const DeletePartnersChannelsSitesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  urlOrAppId: Schema.String.pipe(T.HttpPath("urlOrAppId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/partners/{partnerId}/channels/{channelsId}/sites/{sitesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeletePartnersChannelsSitesRequest>;
+export const DeletePartnersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    urlOrAppId: Schema.String.pipe(T.HttpPath("urlOrAppId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/partners/{partnerId}/channels/{channelsId}/sites/{sitesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeletePartnersChannelsSitesRequest>;
 
 export type DeletePartnersChannelsSitesResponse = Empty;
-export const DeletePartnersChannelsSitesResponse = Empty;
+export const DeletePartnersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeletePartnersChannelsSitesError = DefaultErrors;
 
@@ -11806,7 +11902,7 @@ export const deletePartnersChannelsSites: API.OperationMethod<
   DeletePartnersChannelsSitesResponse,
   DeletePartnersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartnersChannelsSitesRequest,
   output: DeletePartnersChannelsSitesResponse,
   errors: [],
@@ -11821,21 +11917,23 @@ export interface BulkEditPartnersChannelsSitesRequest {
   body?: BulkEditSitesRequest;
 }
 
-export const BulkEditPartnersChannelsSitesRequest = Schema.Struct({
-  partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  body: Schema.optional(BulkEditSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/partners/{partnerId}/channels/{channelsId}/sites:bulkEdit",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkEditPartnersChannelsSitesRequest>;
+export const BulkEditPartnersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    body: Schema.optional(BulkEditSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/partners/{partnerId}/channels/{channelsId}/sites:bulkEdit",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkEditPartnersChannelsSitesRequest>;
 
 export type BulkEditPartnersChannelsSitesResponse = BulkEditSitesResponse;
-export const BulkEditPartnersChannelsSitesResponse = BulkEditSitesResponse;
+export const BulkEditPartnersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditSitesResponse;
 
 export type BulkEditPartnersChannelsSitesError = DefaultErrors;
 
@@ -11845,7 +11943,7 @@ export const bulkEditPartnersChannelsSites: API.OperationMethod<
   BulkEditPartnersChannelsSitesResponse,
   BulkEditPartnersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditPartnersChannelsSitesRequest,
   output: BulkEditPartnersChannelsSitesResponse,
   errors: [],
@@ -11918,7 +12016,7 @@ export interface ListPartnersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const ListPartnersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
@@ -11936,7 +12034,7 @@ export const ListPartnersTargetingTypesAssignedTargetingOptionsRequest =
 export type ListPartnersTargetingTypesAssignedTargetingOptionsResponse =
   ListPartnerAssignedTargetingOptionsResponse;
 export const ListPartnersTargetingTypesAssignedTargetingOptionsResponse =
-  ListPartnerAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPartnerAssignedTargetingOptionsResponse;
 
 export type ListPartnersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -11947,7 +12045,7 @@ export const listPartnersTargetingTypesAssignedTargetingOptions: API.PaginatedOp
   ListPartnersTargetingTypesAssignedTargetingOptionsResponse,
   ListPartnersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: ListPartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -12018,7 +12116,7 @@ export interface CreatePartnersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const CreatePartnersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
     body: Schema.optional(AssignedTargetingOption).pipe(T.HttpBody()),
@@ -12034,7 +12132,7 @@ export const CreatePartnersTargetingTypesAssignedTargetingOptionsRequest =
 export type CreatePartnersTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const CreatePartnersTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreatePartnersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -12045,7 +12143,7 @@ export const createPartnersTargetingTypesAssignedTargetingOptions: API.Operation
   CreatePartnersTargetingTypesAssignedTargetingOptionsResponse,
   CreatePartnersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: CreatePartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -12112,7 +12210,7 @@ export interface GetPartnersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const GetPartnersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     assignedTargetingOptionId: Schema.String.pipe(
@@ -12129,7 +12227,7 @@ export const GetPartnersTargetingTypesAssignedTargetingOptionsRequest =
 export type GetPartnersTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const GetPartnersTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type GetPartnersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -12140,7 +12238,7 @@ export const getPartnersTargetingTypesAssignedTargetingOptions: API.OperationMet
   GetPartnersTargetingTypesAssignedTargetingOptionsResponse,
   GetPartnersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: GetPartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -12207,7 +12305,7 @@ export interface DeletePartnersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const DeletePartnersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     assignedTargetingOptionId: Schema.String.pipe(
@@ -12224,7 +12322,7 @@ export const DeletePartnersTargetingTypesAssignedTargetingOptionsRequest =
 export type DeletePartnersTargetingTypesAssignedTargetingOptionsResponse =
   Empty;
 export const DeletePartnersTargetingTypesAssignedTargetingOptionsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeletePartnersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -12235,7 +12333,7 @@ export const deletePartnersTargetingTypesAssignedTargetingOptions: API.Operation
   DeletePartnersTargetingTypesAssignedTargetingOptionsResponse,
   DeletePartnersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeletePartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: DeletePartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -12250,19 +12348,21 @@ export interface CreateGuaranteedOrdersRequest {
   body?: GuaranteedOrder;
 }
 
-export const CreateGuaranteedOrdersRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(GuaranteedOrder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/guaranteedOrders", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateGuaranteedOrdersRequest>;
+export const CreateGuaranteedOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(GuaranteedOrder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/guaranteedOrders", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateGuaranteedOrdersRequest>;
 
 export type CreateGuaranteedOrdersResponse = GuaranteedOrder;
-export const CreateGuaranteedOrdersResponse = GuaranteedOrder;
+export const CreateGuaranteedOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuaranteedOrder;
 
 export type CreateGuaranteedOrdersError = DefaultErrors;
 
@@ -12272,7 +12372,7 @@ export const createGuaranteedOrders: API.OperationMethod<
   CreateGuaranteedOrdersResponse,
   CreateGuaranteedOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateGuaranteedOrdersRequest,
   output: CreateGuaranteedOrdersResponse,
   errors: [],
@@ -12287,19 +12387,21 @@ export interface GetGuaranteedOrdersRequest {
   advertiserId?: string;
 }
 
-export const GetGuaranteedOrdersRequest = Schema.Struct({
-  guaranteedOrderId: Schema.String.pipe(T.HttpPath("guaranteedOrderId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/guaranteedOrders/{guaranteedOrdersId}" }),
-  svc,
-) as unknown as Schema.Schema<GetGuaranteedOrdersRequest>;
+export const GetGuaranteedOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    guaranteedOrderId: Schema.String.pipe(T.HttpPath("guaranteedOrderId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/guaranteedOrders/{guaranteedOrdersId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetGuaranteedOrdersRequest>;
 
 export type GetGuaranteedOrdersResponse = GuaranteedOrder;
-export const GetGuaranteedOrdersResponse = GuaranteedOrder;
+export const GetGuaranteedOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuaranteedOrder;
 
 export type GetGuaranteedOrdersError = DefaultErrors;
 
@@ -12309,7 +12411,7 @@ export const getGuaranteedOrders: API.OperationMethod<
   GetGuaranteedOrdersResponse,
   GetGuaranteedOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGuaranteedOrdersRequest,
   output: GetGuaranteedOrdersResponse,
   errors: [],
@@ -12323,7 +12425,7 @@ export interface EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest {
 }
 
 export const EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     guaranteedOrderId: Schema.String.pipe(T.HttpPath("guaranteedOrderId")),
     body: Schema.optional(EditGuaranteedOrderReadAccessorsRequest).pipe(
       T.HttpBody(),
@@ -12340,7 +12442,7 @@ export const EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest =
 export type EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse =
   EditGuaranteedOrderReadAccessorsResponse;
 export const EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse =
-  EditGuaranteedOrderReadAccessorsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ EditGuaranteedOrderReadAccessorsResponse;
 
 export type EditGuaranteedOrderReadAccessorsGuaranteedOrdersError =
   DefaultErrors;
@@ -12351,7 +12453,7 @@ export const editGuaranteedOrderReadAccessorsGuaranteedOrders: API.OperationMeth
   EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse,
   EditGuaranteedOrderReadAccessorsGuaranteedOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest,
   output: EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse,
   errors: [],
@@ -12372,22 +12474,24 @@ export interface ListGuaranteedOrdersRequest {
   advertiserId?: string;
 }
 
-export const ListGuaranteedOrdersRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/guaranteedOrders" }),
-  svc,
-) as unknown as Schema.Schema<ListGuaranteedOrdersRequest>;
+export const ListGuaranteedOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/guaranteedOrders" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGuaranteedOrdersRequest>;
 
 export type ListGuaranteedOrdersResponse_Op = ListGuaranteedOrdersResponse;
-export const ListGuaranteedOrdersResponse_Op = ListGuaranteedOrdersResponse;
+export const ListGuaranteedOrdersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListGuaranteedOrdersResponse;
 
 export type ListGuaranteedOrdersError = DefaultErrors;
 
@@ -12397,7 +12501,7 @@ export const listGuaranteedOrders: API.PaginatedOperationMethod<
   ListGuaranteedOrdersResponse_Op,
   ListGuaranteedOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGuaranteedOrdersRequest,
   output: ListGuaranteedOrdersResponse_Op,
   errors: [],
@@ -12420,25 +12524,27 @@ export interface PatchGuaranteedOrdersRequest {
   body?: GuaranteedOrder;
 }
 
-export const PatchGuaranteedOrdersRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  guaranteedOrderId: Schema.String.pipe(T.HttpPath("guaranteedOrderId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(GuaranteedOrder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/guaranteedOrders/{guaranteedOrdersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchGuaranteedOrdersRequest>;
+export const PatchGuaranteedOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    guaranteedOrderId: Schema.String.pipe(T.HttpPath("guaranteedOrderId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(GuaranteedOrder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/guaranteedOrders/{guaranteedOrdersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchGuaranteedOrdersRequest>;
 
 export type PatchGuaranteedOrdersResponse = GuaranteedOrder;
-export const PatchGuaranteedOrdersResponse = GuaranteedOrder;
+export const PatchGuaranteedOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GuaranteedOrder;
 
 export type PatchGuaranteedOrdersError = DefaultErrors;
 
@@ -12448,7 +12554,7 @@ export const patchGuaranteedOrders: API.OperationMethod<
   PatchGuaranteedOrdersResponse,
   PatchGuaranteedOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchGuaranteedOrdersRequest,
   output: PatchGuaranteedOrdersResponse,
   errors: [],
@@ -12461,22 +12567,23 @@ export interface BulkEditAssignedUserRolesUsersRequest {
   body?: BulkEditAssignedUserRolesRequest;
 }
 
-export const BulkEditAssignedUserRolesUsersRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  body: Schema.optional(BulkEditAssignedUserRolesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/users/{usersId}:bulkEditAssignedUserRoles",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkEditAssignedUserRolesUsersRequest>;
+export const BulkEditAssignedUserRolesUsersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    body: Schema.optional(BulkEditAssignedUserRolesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/users/{usersId}:bulkEditAssignedUserRoles",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkEditAssignedUserRolesUsersRequest>;
 
 export type BulkEditAssignedUserRolesUsersResponse =
   BulkEditAssignedUserRolesResponse;
 export const BulkEditAssignedUserRolesUsersResponse =
-  BulkEditAssignedUserRolesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAssignedUserRolesResponse;
 
 export type BulkEditAssignedUserRolesUsersError = DefaultErrors;
 
@@ -12486,7 +12593,7 @@ export const bulkEditAssignedUserRolesUsers: API.OperationMethod<
   BulkEditAssignedUserRolesUsersResponse,
   BulkEditAssignedUserRolesUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAssignedUserRolesUsersRequest,
   output: BulkEditAssignedUserRolesUsersResponse,
   errors: [],
@@ -12497,7 +12604,7 @@ export interface DeleteUsersRequest {
   userId: string;
 }
 
-export const DeleteUsersRequest = Schema.Struct({
+export const DeleteUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
   T.Http({ method: "DELETE", path: "v4/users/{usersId}" }),
@@ -12505,7 +12612,7 @@ export const DeleteUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteUsersRequest>;
 
 export type DeleteUsersResponse = Empty;
-export const DeleteUsersResponse = Empty;
+export const DeleteUsersResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteUsersError = DefaultErrors;
 
@@ -12515,7 +12622,7 @@ export const deleteUsers: API.OperationMethod<
   DeleteUsersResponse,
   DeleteUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
@@ -12526,7 +12633,7 @@ export interface CreateUsersRequest {
   body?: User;
 }
 
-export const CreateUsersRequest = Schema.Struct({
+export const CreateUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v4/users", hasBody: true }),
@@ -12534,7 +12641,7 @@ export const CreateUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateUsersRequest>;
 
 export type CreateUsersResponse = User;
-export const CreateUsersResponse = User;
+export const CreateUsersResponse = /*@__PURE__*/ /*#__PURE__*/ User;
 
 export type CreateUsersError = DefaultErrors;
 
@@ -12544,7 +12651,7 @@ export const createUsers: API.OperationMethod<
   CreateUsersResponse,
   CreateUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsersRequest,
   output: CreateUsersResponse,
   errors: [],
@@ -12555,7 +12662,7 @@ export interface GetUsersRequest {
   userId: string;
 }
 
-export const GetUsersRequest = Schema.Struct({
+export const GetUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
   T.Http({ method: "GET", path: "v4/users/{usersId}" }),
@@ -12563,7 +12670,7 @@ export const GetUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetUsersRequest>;
 
 export type GetUsersResponse = User;
-export const GetUsersResponse = User;
+export const GetUsersResponse = /*@__PURE__*/ /*#__PURE__*/ User;
 
 export type GetUsersError = DefaultErrors;
 
@@ -12573,7 +12680,7 @@ export const getUsers: API.OperationMethod<
   GetUsersResponse,
   GetUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
@@ -12590,7 +12697,7 @@ export interface ListUsersRequest {
   pageToken?: string;
 }
 
-export const ListUsersRequest = Schema.Struct({
+export const ListUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -12601,7 +12708,8 @@ export const ListUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListUsersRequest>;
 
 export type ListUsersResponse_Op = ListUsersResponse;
-export const ListUsersResponse_Op = ListUsersResponse;
+export const ListUsersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListUsersResponse;
 
 export type ListUsersError = DefaultErrors;
 
@@ -12611,7 +12719,7 @@ export const listUsers: API.PaginatedOperationMethod<
   ListUsersResponse_Op,
   ListUsersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse_Op,
   errors: [],
@@ -12630,7 +12738,7 @@ export interface PatchUsersRequest {
   body?: User;
 }
 
-export const PatchUsersRequest = Schema.Struct({
+export const PatchUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(User).pipe(T.HttpBody()),
@@ -12640,7 +12748,7 @@ export const PatchUsersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchUsersRequest>;
 
 export type PatchUsersResponse = User;
-export const PatchUsersResponse = User;
+export const PatchUsersResponse = /*@__PURE__*/ /*#__PURE__*/ User;
 
 export type PatchUsersError = DefaultErrors;
 
@@ -12650,7 +12758,7 @@ export const patchUsers: API.OperationMethod<
   PatchUsersResponse,
   PatchUsersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUsersRequest,
   output: PatchUsersResponse,
   errors: [],
@@ -12661,15 +12769,17 @@ export interface CreateSdfdownloadtasksRequest {
   body?: CreateSdfDownloadTaskRequest;
 }
 
-export const CreateSdfdownloadtasksRequest = Schema.Struct({
-  body: Schema.optional(CreateSdfDownloadTaskRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/sdfdownloadtasks", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateSdfdownloadtasksRequest>;
+export const CreateSdfdownloadtasksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(CreateSdfDownloadTaskRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/sdfdownloadtasks", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateSdfdownloadtasksRequest>;
 
 export type CreateSdfdownloadtasksResponse = Operation;
-export const CreateSdfdownloadtasksResponse = Operation;
+export const CreateSdfdownloadtasksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateSdfdownloadtasksError = DefaultErrors;
 
@@ -12679,7 +12789,7 @@ export const createSdfdownloadtasks: API.OperationMethod<
   CreateSdfdownloadtasksResponse,
   CreateSdfdownloadtasksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSdfdownloadtasksRequest,
   output: CreateSdfdownloadtasksResponse,
   errors: [],
@@ -12690,18 +12800,20 @@ export interface GetSdfdownloadtasksOperationsRequest {
   name: string;
 }
 
-export const GetSdfdownloadtasksOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/sdfdownloadtasks/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSdfdownloadtasksOperationsRequest>;
+export const GetSdfdownloadtasksOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/sdfdownloadtasks/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSdfdownloadtasksOperationsRequest>;
 
 export type GetSdfdownloadtasksOperationsResponse = Operation;
-export const GetSdfdownloadtasksOperationsResponse = Operation;
+export const GetSdfdownloadtasksOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetSdfdownloadtasksOperationsError = DefaultErrors;
 
@@ -12711,7 +12823,7 @@ export const getSdfdownloadtasksOperations: API.OperationMethod<
   GetSdfdownloadtasksOperationsResponse,
   GetSdfdownloadtasksOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdfdownloadtasksOperationsRequest,
   output: GetSdfdownloadtasksOperationsResponse,
   errors: [],
@@ -12777,22 +12889,24 @@ export interface GetTargetingTypesTargetingOptionsRequest {
   targetingOptionId: string;
 }
 
-export const GetTargetingTypesTargetingOptionsRequest = Schema.Struct({
-  targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  targetingOptionId: Schema.String.pipe(T.HttpPath("targetingOptionId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/targetingTypes/{targetingTypesId}/targetingOptions/{targetingOptionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetTargetingTypesTargetingOptionsRequest>;
+export const GetTargetingTypesTargetingOptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    targetingOptionId: Schema.String.pipe(T.HttpPath("targetingOptionId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/targetingTypes/{targetingTypesId}/targetingOptions/{targetingOptionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetTargetingTypesTargetingOptionsRequest>;
 
 export type GetTargetingTypesTargetingOptionsResponse = TargetingOption;
-export const GetTargetingTypesTargetingOptionsResponse = TargetingOption;
+export const GetTargetingTypesTargetingOptionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TargetingOption;
 
 export type GetTargetingTypesTargetingOptionsError = DefaultErrors;
 
@@ -12802,7 +12916,7 @@ export const getTargetingTypesTargetingOptions: API.OperationMethod<
   GetTargetingTypesTargetingOptionsResponse,
   GetTargetingTypesTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTargetingTypesTargetingOptionsRequest,
   output: GetTargetingTypesTargetingOptionsResponse,
   errors: [],
@@ -12874,27 +12988,28 @@ export interface ListTargetingTypesTargetingOptionsRequest {
   orderBy?: string;
 }
 
-export const ListTargetingTypesTargetingOptionsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/targetingTypes/{targetingTypesId}/targetingOptions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListTargetingTypesTargetingOptionsRequest>;
+export const ListTargetingTypesTargetingOptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/targetingTypes/{targetingTypesId}/targetingOptions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListTargetingTypesTargetingOptionsRequest>;
 
 export type ListTargetingTypesTargetingOptionsResponse =
   ListTargetingOptionsResponse;
 export const ListTargetingTypesTargetingOptionsResponse =
-  ListTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTargetingOptionsResponse;
 
 export type ListTargetingTypesTargetingOptionsError = DefaultErrors;
 
@@ -12904,7 +13019,7 @@ export const listTargetingTypesTargetingOptions: API.PaginatedOperationMethod<
   ListTargetingTypesTargetingOptionsResponse,
   ListTargetingTypesTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTargetingTypesTargetingOptionsRequest,
   output: ListTargetingTypesTargetingOptionsResponse,
   errors: [],
@@ -12972,22 +13087,23 @@ export interface SearchTargetingTypesTargetingOptionsRequest {
   body?: SearchTargetingOptionsRequest;
 }
 
-export const SearchTargetingTypesTargetingOptionsRequest = Schema.Struct({
-  targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
-  body: Schema.optional(SearchTargetingOptionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/targetingTypes/{targetingTypesId}/targetingOptions:search",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchTargetingTypesTargetingOptionsRequest>;
+export const SearchTargetingTypesTargetingOptionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
+    body: Schema.optional(SearchTargetingOptionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/targetingTypes/{targetingTypesId}/targetingOptions:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchTargetingTypesTargetingOptionsRequest>;
 
 export type SearchTargetingTypesTargetingOptionsResponse =
   SearchTargetingOptionsResponse;
 export const SearchTargetingTypesTargetingOptionsResponse =
-  SearchTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SearchTargetingOptionsResponse;
 
 export type SearchTargetingTypesTargetingOptionsError = DefaultErrors;
 
@@ -12997,7 +13113,7 @@ export const searchTargetingTypesTargetingOptions: API.OperationMethod<
   SearchTargetingTypesTargetingOptionsResponse,
   SearchTargetingTypesTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchTargetingTypesTargetingOptionsRequest,
   output: SearchTargetingTypesTargetingOptionsResponse,
   errors: [],
@@ -13016,24 +13132,25 @@ export interface ListAssignedTargetingOptionsAdvertisersRequest {
   pageToken?: string;
 }
 
-export const ListAssignedTargetingOptionsAdvertisersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}:listAssignedTargetingOptions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAssignedTargetingOptionsAdvertisersRequest>;
+export const ListAssignedTargetingOptionsAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}:listAssignedTargetingOptions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAssignedTargetingOptionsAdvertisersRequest>;
 
 export type ListAssignedTargetingOptionsAdvertisersResponse =
   BulkListAdvertiserAssignedTargetingOptionsResponse;
 export const ListAssignedTargetingOptionsAdvertisersResponse =
-  BulkListAdvertiserAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkListAdvertiserAssignedTargetingOptionsResponse;
 
 export type ListAssignedTargetingOptionsAdvertisersError = DefaultErrors;
 
@@ -13043,7 +13160,7 @@ export const listAssignedTargetingOptionsAdvertisers: API.PaginatedOperationMeth
   ListAssignedTargetingOptionsAdvertisersResponse,
   ListAssignedTargetingOptionsAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAssignedTargetingOptionsAdvertisersRequest,
   output: ListAssignedTargetingOptionsAdvertisersResponse,
   errors: [],
@@ -13058,7 +13175,7 @@ export interface GetAdvertisersRequest {
   advertiserId: string;
 }
 
-export const GetAdvertisersRequest = Schema.Struct({
+export const GetAdvertisersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
 }).pipe(
   T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}" }),
@@ -13066,7 +13183,7 @@ export const GetAdvertisersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAdvertisersRequest>;
 
 export type GetAdvertisersResponse = Advertiser;
-export const GetAdvertisersResponse = Advertiser;
+export const GetAdvertisersResponse = /*@__PURE__*/ /*#__PURE__*/ Advertiser;
 
 export type GetAdvertisersError = DefaultErrors;
 
@@ -13076,7 +13193,7 @@ export const getAdvertisers: API.OperationMethod<
   GetAdvertisersResponse,
   GetAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersRequest,
   output: GetAdvertisersResponse,
   errors: [],
@@ -13095,19 +13212,22 @@ export interface ListAdvertisersRequest {
   pageSize?: number;
 }
 
-export const ListAdvertisersRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
+export const ListAdvertisersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v4/advertisers" }),
   svc,
 ) as unknown as Schema.Schema<ListAdvertisersRequest>;
 
 export type ListAdvertisersResponse_Op = ListAdvertisersResponse;
-export const ListAdvertisersResponse_Op = ListAdvertisersResponse;
+export const ListAdvertisersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdvertisersResponse;
 
 export type ListAdvertisersError = DefaultErrors;
 
@@ -13117,7 +13237,7 @@ export const listAdvertisers: API.PaginatedOperationMethod<
   ListAdvertisersResponse_Op,
   ListAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersRequest,
   output: ListAdvertisersResponse_Op,
   errors: [],
@@ -13136,21 +13256,22 @@ export interface PatchAdvertisersRequest {
   body?: Advertiser;
 }
 
-export const PatchAdvertisersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Advertiser).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersRequest>;
+export const PatchAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Advertiser).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersRequest>;
 
 export type PatchAdvertisersResponse = Advertiser;
-export const PatchAdvertisersResponse = Advertiser;
+export const PatchAdvertisersResponse = /*@__PURE__*/ /*#__PURE__*/ Advertiser;
 
 export type PatchAdvertisersError = DefaultErrors;
 
@@ -13160,7 +13281,7 @@ export const patchAdvertisers: API.OperationMethod<
   PatchAdvertisersResponse,
   PatchAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersRequest,
   output: PatchAdvertisersResponse,
   errors: [],
@@ -13173,24 +13294,25 @@ export interface EditAssignedTargetingOptionsAdvertisersRequest {
   body?: BulkEditAdvertiserAssignedTargetingOptionsRequest;
 }
 
-export const EditAssignedTargetingOptionsAdvertisersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(BulkEditAdvertiserAssignedTargetingOptionsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}:editAssignedTargetingOptions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EditAssignedTargetingOptionsAdvertisersRequest>;
+export const EditAssignedTargetingOptionsAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(
+      BulkEditAdvertiserAssignedTargetingOptionsRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}:editAssignedTargetingOptions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EditAssignedTargetingOptionsAdvertisersRequest>;
 
 export type EditAssignedTargetingOptionsAdvertisersResponse =
   BulkEditAdvertiserAssignedTargetingOptionsResponse;
 export const EditAssignedTargetingOptionsAdvertisersResponse =
-  BulkEditAdvertiserAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAdvertiserAssignedTargetingOptionsResponse;
 
 export type EditAssignedTargetingOptionsAdvertisersError = DefaultErrors;
 
@@ -13200,7 +13322,7 @@ export const editAssignedTargetingOptionsAdvertisers: API.OperationMethod<
   EditAssignedTargetingOptionsAdvertisersResponse,
   EditAssignedTargetingOptionsAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EditAssignedTargetingOptionsAdvertisersRequest,
   output: EditAssignedTargetingOptionsAdvertisersResponse,
   errors: [],
@@ -13211,15 +13333,16 @@ export interface DeleteAdvertisersRequest {
   advertiserId: string;
 }
 
-export const DeleteAdvertisersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v4/advertisers/{advertisersId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersRequest>;
+export const DeleteAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v4/advertisers/{advertisersId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersRequest>;
 
 export type DeleteAdvertisersResponse = Empty;
-export const DeleteAdvertisersResponse = Empty;
+export const DeleteAdvertisersResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersError = DefaultErrors;
 
@@ -13229,7 +13352,7 @@ export const deleteAdvertisers: API.OperationMethod<
   DeleteAdvertisersResponse,
   DeleteAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersRequest,
   output: DeleteAdvertisersResponse,
   errors: [],
@@ -13242,16 +13365,18 @@ export interface AuditAdvertisersRequest {
   advertiserId: string;
 }
 
-export const AuditAdvertisersRequest = Schema.Struct({
-  readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}:audit" }),
-  svc,
-) as unknown as Schema.Schema<AuditAdvertisersRequest>;
+export const AuditAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}:audit" }),
+    svc,
+  ) as unknown as Schema.Schema<AuditAdvertisersRequest>;
 
 export type AuditAdvertisersResponse = AuditAdvertiserResponse;
-export const AuditAdvertisersResponse = AuditAdvertiserResponse;
+export const AuditAdvertisersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AuditAdvertiserResponse;
 
 export type AuditAdvertisersError = DefaultErrors;
 
@@ -13261,7 +13386,7 @@ export const auditAdvertisers: API.OperationMethod<
   AuditAdvertisersResponse,
   AuditAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AuditAdvertisersRequest,
   output: AuditAdvertisersResponse,
   errors: [],
@@ -13272,15 +13397,16 @@ export interface CreateAdvertisersRequest {
   body?: Advertiser;
 }
 
-export const CreateAdvertisersRequest = Schema.Struct({
-  body: Schema.optional(Advertiser).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/advertisers", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersRequest>;
+export const CreateAdvertisersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(Advertiser).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/advertisers", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersRequest>;
 
 export type CreateAdvertisersResponse = Advertiser;
-export const CreateAdvertisersResponse = Advertiser;
+export const CreateAdvertisersResponse = /*@__PURE__*/ /*#__PURE__*/ Advertiser;
 
 export type CreateAdvertisersError = DefaultErrors;
 
@@ -13290,7 +13416,7 @@ export const createAdvertisers: API.OperationMethod<
   CreateAdvertisersResponse,
   CreateAdvertisersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersRequest,
   output: CreateAdvertisersResponse,
   errors: [],
@@ -13303,20 +13429,22 @@ export interface CreateAdvertisersAdAssetsRequest {
   body?: CreateAdAssetRequest;
 }
 
-export const CreateAdvertisersAdAssetsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(CreateAdAssetRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/adAssets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersAdAssetsRequest>;
+export const CreateAdvertisersAdAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(CreateAdAssetRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/adAssets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersAdAssetsRequest>;
 
 export type CreateAdvertisersAdAssetsResponse = AdAsset;
-export const CreateAdvertisersAdAssetsResponse = AdAsset;
+export const CreateAdvertisersAdAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdAsset;
 
 export type CreateAdvertisersAdAssetsError = DefaultErrors;
 
@@ -13326,7 +13454,7 @@ export const createAdvertisersAdAssets: API.OperationMethod<
   CreateAdvertisersAdAssetsResponse,
   CreateAdvertisersAdAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersAdAssetsRequest,
   output: CreateAdvertisersAdAssetsResponse,
   errors: [],
@@ -13339,20 +13467,22 @@ export interface UploadAdvertisersAdAssetsRequest {
   body?: UploadAdAssetRequest;
 }
 
-export const UploadAdvertisersAdAssetsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(UploadAdAssetRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/adAssets:uploadAdAsset",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadAdvertisersAdAssetsRequest>;
+export const UploadAdvertisersAdAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(UploadAdAssetRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/adAssets:uploadAdAsset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadAdvertisersAdAssetsRequest>;
 
 export type UploadAdvertisersAdAssetsResponse = UploadAdAssetResponse;
-export const UploadAdvertisersAdAssetsResponse = UploadAdAssetResponse;
+export const UploadAdvertisersAdAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UploadAdAssetResponse;
 
 export type UploadAdvertisersAdAssetsError = DefaultErrors;
 
@@ -13362,7 +13492,7 @@ export const uploadAdvertisersAdAssets: API.OperationMethod<
   UploadAdvertisersAdAssetsResponse,
   UploadAdvertisersAdAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadAdvertisersAdAssetsRequest,
   output: UploadAdvertisersAdAssetsResponse,
   errors: [],
@@ -13381,19 +13511,21 @@ export interface ListAdvertisersAdAssetsRequest {
   pageToken?: string;
 }
 
-export const ListAdvertisersAdAssetsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/adAssets" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersAdAssetsRequest>;
+export const ListAdvertisersAdAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/adAssets" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersAdAssetsRequest>;
 
 export type ListAdvertisersAdAssetsResponse = ListAdAssetsResponse;
-export const ListAdvertisersAdAssetsResponse = ListAdAssetsResponse;
+export const ListAdvertisersAdAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdAssetsResponse;
 
 export type ListAdvertisersAdAssetsError = DefaultErrors;
 
@@ -13403,7 +13535,7 @@ export const listAdvertisersAdAssets: API.PaginatedOperationMethod<
   ListAdvertisersAdAssetsResponse,
   ListAdvertisersAdAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersAdAssetsRequest,
   output: ListAdvertisersAdAssetsResponse,
   errors: [],
@@ -13420,19 +13552,21 @@ export interface GetAdvertisersAdAssetsRequest {
   adAssetId: string;
 }
 
-export const GetAdvertisersAdAssetsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adAssetId: Schema.String.pipe(T.HttpPath("adAssetId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/adAssets/{adAssetsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersAdAssetsRequest>;
+export const GetAdvertisersAdAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adAssetId: Schema.String.pipe(T.HttpPath("adAssetId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/adAssets/{adAssetsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersAdAssetsRequest>;
 
 export type GetAdvertisersAdAssetsResponse = AdAsset;
-export const GetAdvertisersAdAssetsResponse = AdAsset;
+export const GetAdvertisersAdAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdAsset;
 
 export type GetAdvertisersAdAssetsError = DefaultErrors;
 
@@ -13442,7 +13576,7 @@ export const getAdvertisersAdAssets: API.OperationMethod<
   GetAdvertisersAdAssetsResponse,
   GetAdvertisersAdAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersAdAssetsRequest,
   output: GetAdvertisersAdAssetsResponse,
   errors: [],
@@ -13455,20 +13589,22 @@ export interface BulkCreateAdvertisersAdAssetsRequest {
   body?: BulkCreateAdAssetsRequest;
 }
 
-export const BulkCreateAdvertisersAdAssetsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(BulkCreateAdAssetsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/adAssets:bulkCreate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkCreateAdvertisersAdAssetsRequest>;
+export const BulkCreateAdvertisersAdAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(BulkCreateAdAssetsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/adAssets:bulkCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkCreateAdvertisersAdAssetsRequest>;
 
 export type BulkCreateAdvertisersAdAssetsResponse = BulkCreateAdAssetsResponse;
-export const BulkCreateAdvertisersAdAssetsResponse = BulkCreateAdAssetsResponse;
+export const BulkCreateAdvertisersAdAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BulkCreateAdAssetsResponse;
 
 export type BulkCreateAdvertisersAdAssetsError = DefaultErrors;
 
@@ -13478,7 +13614,7 @@ export const bulkCreateAdvertisersAdAssets: API.OperationMethod<
   BulkCreateAdvertisersAdAssetsResponse,
   BulkCreateAdvertisersAdAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkCreateAdvertisersAdAssetsRequest,
   output: BulkCreateAdvertisersAdAssetsResponse,
   errors: [],
@@ -13491,19 +13627,21 @@ export interface DeleteAdvertisersAdGroupsRequest {
   adGroupId: string;
 }
 
-export const DeleteAdvertisersAdGroupsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersAdGroupsRequest>;
+export const DeleteAdvertisersAdGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersAdGroupsRequest>;
 
 export type DeleteAdvertisersAdGroupsResponse = Empty;
-export const DeleteAdvertisersAdGroupsResponse = Empty;
+export const DeleteAdvertisersAdGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersAdGroupsError = DefaultErrors;
 
@@ -13513,7 +13651,7 @@ export const deleteAdvertisersAdGroups: API.OperationMethod<
   DeleteAdvertisersAdGroupsResponse,
   DeleteAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersAdGroupsRequest,
   output: DeleteAdvertisersAdGroupsResponse,
   errors: [],
@@ -13535,7 +13673,7 @@ export interface BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest {
 }
 
 export const BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     adGroupIds: Schema.optional(Schema.Array(Schema.String)).pipe(
@@ -13555,7 +13693,7 @@ export const BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest =
 export type BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse =
   BulkListAdGroupAssignedTargetingOptionsResponse;
 export const BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse =
-  BulkListAdGroupAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkListAdGroupAssignedTargetingOptionsResponse;
 
 export type BulkListAssignedTargetingOptionsAdvertisersAdGroupsError =
   DefaultErrors;
@@ -13566,7 +13704,7 @@ export const bulkListAssignedTargetingOptionsAdvertisersAdGroups: API.PaginatedO
   BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse,
   BulkListAssignedTargetingOptionsAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest,
   output: BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse,
   errors: [],
@@ -13584,7 +13722,7 @@ export interface BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest {
 }
 
 export const BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     body: Schema.optional(BulkEditAdGroupAssignedTargetingOptionsRequest).pipe(
       T.HttpBody(),
@@ -13601,7 +13739,7 @@ export const BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest =
 export type BulkEditAssignedTargetingOptionsAdvertisersAdGroupsResponse =
   BulkEditAdGroupAssignedTargetingOptionsResponse;
 export const BulkEditAssignedTargetingOptionsAdvertisersAdGroupsResponse =
-  BulkEditAdGroupAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAdGroupAssignedTargetingOptionsResponse;
 
 export type BulkEditAssignedTargetingOptionsAdvertisersAdGroupsError =
   DefaultErrors;
@@ -13612,7 +13750,7 @@ export const bulkEditAssignedTargetingOptionsAdvertisersAdGroups: API.OperationM
   BulkEditAssignedTargetingOptionsAdvertisersAdGroupsResponse,
   BulkEditAssignedTargetingOptionsAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAssignedTargetingOptionsAdvertisersAdGroupsRequest,
   output: BulkEditAssignedTargetingOptionsAdvertisersAdGroupsResponse,
   errors: [],
@@ -13625,20 +13763,22 @@ export interface CreateAdvertisersAdGroupsRequest {
   body?: AdGroup;
 }
 
-export const CreateAdvertisersAdGroupsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(AdGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/adGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersAdGroupsRequest>;
+export const CreateAdvertisersAdGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(AdGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/adGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersAdGroupsRequest>;
 
 export type CreateAdvertisersAdGroupsResponse = AdGroup;
-export const CreateAdvertisersAdGroupsResponse = AdGroup;
+export const CreateAdvertisersAdGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroup;
 
 export type CreateAdvertisersAdGroupsError = DefaultErrors;
 
@@ -13648,7 +13788,7 @@ export const createAdvertisersAdGroups: API.OperationMethod<
   CreateAdvertisersAdGroupsResponse,
   CreateAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersAdGroupsRequest,
   output: CreateAdvertisersAdGroupsResponse,
   errors: [],
@@ -13661,19 +13801,21 @@ export interface GetAdvertisersAdGroupsRequest {
   adGroupId: string;
 }
 
-export const GetAdvertisersAdGroupsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersAdGroupsRequest>;
+export const GetAdvertisersAdGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersAdGroupsRequest>;
 
 export type GetAdvertisersAdGroupsResponse = AdGroup;
-export const GetAdvertisersAdGroupsResponse = AdGroup;
+export const GetAdvertisersAdGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroup;
 
 export type GetAdvertisersAdGroupsError = DefaultErrors;
 
@@ -13683,7 +13825,7 @@ export const getAdvertisersAdGroups: API.OperationMethod<
   GetAdvertisersAdGroupsResponse,
   GetAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersAdGroupsRequest,
   output: GetAdvertisersAdGroupsResponse,
   errors: [],
@@ -13702,19 +13844,21 @@ export interface ListAdvertisersAdGroupsRequest {
   advertiserId: string;
 }
 
-export const ListAdvertisersAdGroupsRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/adGroups" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersAdGroupsRequest>;
+export const ListAdvertisersAdGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/adGroups" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersAdGroupsRequest>;
 
 export type ListAdvertisersAdGroupsResponse = ListAdGroupsResponse;
-export const ListAdvertisersAdGroupsResponse = ListAdGroupsResponse;
+export const ListAdvertisersAdGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdGroupsResponse;
 
 export type ListAdvertisersAdGroupsError = DefaultErrors;
 
@@ -13724,7 +13868,7 @@ export const listAdvertisersAdGroups: API.PaginatedOperationMethod<
   ListAdvertisersAdGroupsResponse,
   ListAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersAdGroupsRequest,
   output: ListAdvertisersAdGroupsResponse,
   errors: [],
@@ -13745,22 +13889,24 @@ export interface PatchAdvertisersAdGroupsRequest {
   body?: AdGroup;
 }
 
-export const PatchAdvertisersAdGroupsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(AdGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersAdGroupsRequest>;
+export const PatchAdvertisersAdGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(AdGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/adGroups/{adGroupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersAdGroupsRequest>;
 
 export type PatchAdvertisersAdGroupsResponse = AdGroup;
-export const PatchAdvertisersAdGroupsResponse = AdGroup;
+export const PatchAdvertisersAdGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroup;
 
 export type PatchAdvertisersAdGroupsError = DefaultErrors;
 
@@ -13770,7 +13916,7 @@ export const patchAdvertisersAdGroups: API.OperationMethod<
   PatchAdvertisersAdGroupsResponse,
   PatchAdvertisersAdGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersAdGroupsRequest,
   output: PatchAdvertisersAdGroupsResponse,
   errors: [],
@@ -13845,7 +13991,7 @@ export interface ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRe
 }
 
 export const ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
@@ -13864,7 +14010,7 @@ export const ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsReques
 export type ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
   ListAdGroupAssignedTargetingOptionsResponse;
 export const ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
-  ListAdGroupAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAdGroupAssignedTargetingOptionsResponse;
 
 export type ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -13875,7 +14021,7 @@ export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.
   ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output: ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -13948,7 +14094,7 @@ export interface CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions
 }
 
 export const CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
@@ -13965,7 +14111,7 @@ export const CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequ
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -13976,7 +14122,7 @@ export const createAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: AP
   CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output:
     CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
@@ -14046,7 +14192,7 @@ export interface GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsReq
 }
 
 export const GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
@@ -14064,7 +14210,7 @@ export const GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest
 export type GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -14075,7 +14221,7 @@ export const getAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.O
   GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -14144,7 +14290,7 @@ export interface DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions
 }
 
 export const DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     adGroupId: Schema.String.pipe(T.HttpPath("adGroupId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
@@ -14162,7 +14308,7 @@ export const DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequ
 export type DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
   Empty;
 export const DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -14173,7 +14319,7 @@ export const deleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: AP
   DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output:
     DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
@@ -14203,7 +14349,7 @@ export interface ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociation
 }
 
 export const ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     youtubeAssetType: Schema.String.pipe(T.HttpPath("youtubeAssetType")),
@@ -14224,7 +14370,7 @@ export const ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsReq
 export type ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   ListYoutubeAssetAssociationsResponse;
 export const ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  ListYoutubeAssetAssociationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListYoutubeAssetAssociationsResponse;
 
 export type ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -14235,7 +14381,7 @@ export const listAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations: A
   ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -14266,7 +14412,7 @@ export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociati
 }
 
 export const CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     youtubeAssetType: Schema.String.pipe(T.HttpPath("youtubeAssetType")),
     "linkedEntity.lineItemId": Schema.optional(Schema.String).pipe(
       T.HttpQuery("linkedEntity.lineItemId"),
@@ -14286,7 +14432,7 @@ export const CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsR
 export type CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   YoutubeAssetAssociation;
 export const CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  YoutubeAssetAssociation;
+  /*@__PURE__*/ /*#__PURE__*/ YoutubeAssetAssociation;
 
 export type CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -14297,7 +14443,7 @@ export const createAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations:
   CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -14324,7 +14470,7 @@ export interface DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociati
 }
 
 export const DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     youtubeAssetType: Schema.String.pipe(T.HttpPath("youtubeAssetType")),
     youtubeAssetAssociationId: Schema.String.pipe(
       T.HttpPath("youtubeAssetAssociationId"),
@@ -14345,7 +14491,7 @@ export const DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsR
 export type DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   Empty;
 export const DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -14356,7 +14502,7 @@ export const deleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations:
   DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -14373,20 +14519,22 @@ export interface GetAdvertisersChannelsRequest {
   partnerId?: string;
 }
 
-export const GetAdvertisersChannelsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/channels/{channelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersChannelsRequest>;
+export const GetAdvertisersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/channels/{channelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersChannelsRequest>;
 
 export type GetAdvertisersChannelsResponse = Channel;
-export const GetAdvertisersChannelsResponse = Channel;
+export const GetAdvertisersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type GetAdvertisersChannelsError = DefaultErrors;
 
@@ -14396,7 +14544,7 @@ export const getAdvertisersChannels: API.OperationMethod<
   GetAdvertisersChannelsResponse,
   GetAdvertisersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersChannelsRequest,
   output: GetAdvertisersChannelsResponse,
   errors: [],
@@ -14417,20 +14565,22 @@ export interface ListAdvertisersChannelsRequest {
   pageSize?: number;
 }
 
-export const ListAdvertisersChannelsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/channels" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersChannelsRequest>;
+export const ListAdvertisersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/channels" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersChannelsRequest>;
 
 export type ListAdvertisersChannelsResponse = ListChannelsResponse;
-export const ListAdvertisersChannelsResponse = ListChannelsResponse;
+export const ListAdvertisersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListChannelsResponse;
 
 export type ListAdvertisersChannelsError = DefaultErrors;
 
@@ -14440,7 +14590,7 @@ export const listAdvertisersChannels: API.PaginatedOperationMethod<
   ListAdvertisersChannelsResponse,
   ListAdvertisersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersChannelsRequest,
   output: ListAdvertisersChannelsResponse,
   errors: [],
@@ -14459,21 +14609,23 @@ export interface CreateAdvertisersChannelsRequest {
   body?: Channel;
 }
 
-export const CreateAdvertisersChannelsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(Channel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/channels",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersChannelsRequest>;
+export const CreateAdvertisersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(Channel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/channels",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersChannelsRequest>;
 
 export type CreateAdvertisersChannelsResponse = Channel;
-export const CreateAdvertisersChannelsResponse = Channel;
+export const CreateAdvertisersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type CreateAdvertisersChannelsError = DefaultErrors;
 
@@ -14483,7 +14635,7 @@ export const createAdvertisersChannels: API.OperationMethod<
   CreateAdvertisersChannelsResponse,
   CreateAdvertisersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersChannelsRequest,
   output: CreateAdvertisersChannelsResponse,
   errors: [],
@@ -14502,23 +14654,25 @@ export interface PatchAdvertisersChannelsRequest {
   body?: Channel;
 }
 
-export const PatchAdvertisersChannelsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Channel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/channels/{channelId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersChannelsRequest>;
+export const PatchAdvertisersChannelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Channel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/channels/{channelId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersChannelsRequest>;
 
 export type PatchAdvertisersChannelsResponse = Channel;
-export const PatchAdvertisersChannelsResponse = Channel;
+export const PatchAdvertisersChannelsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Channel;
 
 export type PatchAdvertisersChannelsError = DefaultErrors;
 
@@ -14528,7 +14682,7 @@ export const patchAdvertisersChannels: API.OperationMethod<
   PatchAdvertisersChannelsResponse,
   PatchAdvertisersChannelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersChannelsRequest,
   output: PatchAdvertisersChannelsResponse,
   errors: [],
@@ -14551,24 +14705,26 @@ export interface ListAdvertisersChannelsSitesRequest {
   orderBy?: string;
 }
 
-export const ListAdvertisersChannelsSitesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/channels/{channelsId}/sites",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersChannelsSitesRequest>;
+export const ListAdvertisersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/channels/{channelsId}/sites",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersChannelsSitesRequest>;
 
 export type ListAdvertisersChannelsSitesResponse = ListSitesResponse;
-export const ListAdvertisersChannelsSitesResponse = ListSitesResponse;
+export const ListAdvertisersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSitesResponse;
 
 export type ListAdvertisersChannelsSitesError = DefaultErrors;
 
@@ -14578,7 +14734,7 @@ export const listAdvertisersChannelsSites: API.PaginatedOperationMethod<
   ListAdvertisersChannelsSitesResponse,
   ListAdvertisersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersChannelsSitesRequest,
   output: ListAdvertisersChannelsSitesResponse,
   errors: [],
@@ -14597,21 +14753,23 @@ export interface ReplaceAdvertisersChannelsSitesRequest {
   body?: ReplaceSitesRequest;
 }
 
-export const ReplaceAdvertisersChannelsSitesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  body: Schema.optional(ReplaceSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites:replace",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReplaceAdvertisersChannelsSitesRequest>;
+export const ReplaceAdvertisersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    body: Schema.optional(ReplaceSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites:replace",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReplaceAdvertisersChannelsSitesRequest>;
 
 export type ReplaceAdvertisersChannelsSitesResponse = ReplaceSitesResponse;
-export const ReplaceAdvertisersChannelsSitesResponse = ReplaceSitesResponse;
+export const ReplaceAdvertisersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReplaceSitesResponse;
 
 export type ReplaceAdvertisersChannelsSitesError = DefaultErrors;
 
@@ -14621,7 +14779,7 @@ export const replaceAdvertisersChannelsSites: API.OperationMethod<
   ReplaceAdvertisersChannelsSitesResponse,
   ReplaceAdvertisersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceAdvertisersChannelsSitesRequest,
   output: ReplaceAdvertisersChannelsSitesResponse,
   errors: [],
@@ -14638,22 +14796,24 @@ export interface CreateAdvertisersChannelsSitesRequest {
   body?: Site;
 }
 
-export const CreateAdvertisersChannelsSitesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(Site).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersChannelsSitesRequest>;
+export const CreateAdvertisersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(Site).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersChannelsSitesRequest>;
 
 export type CreateAdvertisersChannelsSitesResponse = Site;
-export const CreateAdvertisersChannelsSitesResponse = Site;
+export const CreateAdvertisersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Site;
 
 export type CreateAdvertisersChannelsSitesError = DefaultErrors;
 
@@ -14663,7 +14823,7 @@ export const createAdvertisersChannelsSites: API.OperationMethod<
   CreateAdvertisersChannelsSitesResponse,
   CreateAdvertisersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersChannelsSitesRequest,
   output: CreateAdvertisersChannelsSitesResponse,
   errors: [],
@@ -14680,21 +14840,23 @@ export interface DeleteAdvertisersChannelsSitesRequest {
   urlOrAppId: string;
 }
 
-export const DeleteAdvertisersChannelsSitesRequest = Schema.Struct({
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  urlOrAppId: Schema.String.pipe(T.HttpPath("urlOrAppId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites/{sitesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersChannelsSitesRequest>;
+export const DeleteAdvertisersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    urlOrAppId: Schema.String.pipe(T.HttpPath("urlOrAppId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites/{sitesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersChannelsSitesRequest>;
 
 export type DeleteAdvertisersChannelsSitesResponse = Empty;
-export const DeleteAdvertisersChannelsSitesResponse = Empty;
+export const DeleteAdvertisersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersChannelsSitesError = DefaultErrors;
 
@@ -14704,7 +14866,7 @@ export const deleteAdvertisersChannelsSites: API.OperationMethod<
   DeleteAdvertisersChannelsSitesResponse,
   DeleteAdvertisersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersChannelsSitesRequest,
   output: DeleteAdvertisersChannelsSitesResponse,
   errors: [],
@@ -14719,21 +14881,23 @@ export interface BulkEditAdvertisersChannelsSitesRequest {
   body?: BulkEditSitesRequest;
 }
 
-export const BulkEditAdvertisersChannelsSitesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  channelId: Schema.String.pipe(T.HttpPath("channelId")),
-  body: Schema.optional(BulkEditSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites:bulkEdit",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkEditAdvertisersChannelsSitesRequest>;
+export const BulkEditAdvertisersChannelsSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    channelId: Schema.String.pipe(T.HttpPath("channelId")),
+    body: Schema.optional(BulkEditSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertiserId}/channels/{channelsId}/sites:bulkEdit",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkEditAdvertisersChannelsSitesRequest>;
 
 export type BulkEditAdvertisersChannelsSitesResponse = BulkEditSitesResponse;
-export const BulkEditAdvertisersChannelsSitesResponse = BulkEditSitesResponse;
+export const BulkEditAdvertisersChannelsSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditSitesResponse;
 
 export type BulkEditAdvertisersChannelsSitesError = DefaultErrors;
 
@@ -14743,7 +14907,7 @@ export const bulkEditAdvertisersChannelsSites: API.OperationMethod<
   BulkEditAdvertisersChannelsSitesResponse,
   BulkEditAdvertisersChannelsSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAdvertisersChannelsSitesRequest,
   output: BulkEditAdvertisersChannelsSitesResponse,
   errors: [],
@@ -14762,19 +14926,21 @@ export interface ListAdvertisersCampaignsRequest {
   pageToken?: string;
 }
 
-export const ListAdvertisersCampaignsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/campaigns" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersCampaignsRequest>;
+export const ListAdvertisersCampaignsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/campaigns" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersCampaignsRequest>;
 
 export type ListAdvertisersCampaignsResponse = ListCampaignsResponse;
-export const ListAdvertisersCampaignsResponse = ListCampaignsResponse;
+export const ListAdvertisersCampaignsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCampaignsResponse;
 
 export type ListAdvertisersCampaignsError = DefaultErrors;
 
@@ -14784,7 +14950,7 @@ export const listAdvertisersCampaigns: API.PaginatedOperationMethod<
   ListAdvertisersCampaignsResponse,
   ListAdvertisersCampaignsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersCampaignsRequest,
   output: ListAdvertisersCampaignsResponse,
   errors: [],
@@ -14805,22 +14971,24 @@ export interface PatchAdvertisersCampaignsRequest {
   body?: Campaign;
 }
 
-export const PatchAdvertisersCampaignsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Campaign).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersCampaignsRequest>;
+export const PatchAdvertisersCampaignsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Campaign).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersCampaignsRequest>;
 
 export type PatchAdvertisersCampaignsResponse = Campaign;
-export const PatchAdvertisersCampaignsResponse = Campaign;
+export const PatchAdvertisersCampaignsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Campaign;
 
 export type PatchAdvertisersCampaignsError = DefaultErrors;
 
@@ -14830,7 +14998,7 @@ export const patchAdvertisersCampaigns: API.OperationMethod<
   PatchAdvertisersCampaignsResponse,
   PatchAdvertisersCampaignsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersCampaignsRequest,
   output: PatchAdvertisersCampaignsResponse,
   errors: [],
@@ -14843,19 +15011,21 @@ export interface GetAdvertisersCampaignsRequest {
   campaignId: string;
 }
 
-export const GetAdvertisersCampaignsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersCampaignsRequest>;
+export const GetAdvertisersCampaignsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersCampaignsRequest>;
 
 export type GetAdvertisersCampaignsResponse = Campaign;
-export const GetAdvertisersCampaignsResponse = Campaign;
+export const GetAdvertisersCampaignsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Campaign;
 
 export type GetAdvertisersCampaignsError = DefaultErrors;
 
@@ -14865,7 +15035,7 @@ export const getAdvertisersCampaigns: API.OperationMethod<
   GetAdvertisersCampaignsResponse,
   GetAdvertisersCampaignsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersCampaignsRequest,
   output: GetAdvertisersCampaignsResponse,
   errors: [],
@@ -14878,20 +15048,22 @@ export interface CreateAdvertisersCampaignsRequest {
   body?: Campaign;
 }
 
-export const CreateAdvertisersCampaignsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(Campaign).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/campaigns",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersCampaignsRequest>;
+export const CreateAdvertisersCampaignsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(Campaign).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/campaigns",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersCampaignsRequest>;
 
 export type CreateAdvertisersCampaignsResponse = Campaign;
-export const CreateAdvertisersCampaignsResponse = Campaign;
+export const CreateAdvertisersCampaignsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Campaign;
 
 export type CreateAdvertisersCampaignsError = DefaultErrors;
 
@@ -14901,7 +15073,7 @@ export const createAdvertisersCampaigns: API.OperationMethod<
   CreateAdvertisersCampaignsResponse,
   CreateAdvertisersCampaignsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersCampaignsRequest,
   output: CreateAdvertisersCampaignsResponse,
   errors: [],
@@ -14914,19 +15086,21 @@ export interface DeleteAdvertisersCampaignsRequest {
   campaignId: string;
 }
 
-export const DeleteAdvertisersCampaignsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersCampaignsRequest>;
+export const DeleteAdvertisersCampaignsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    campaignId: Schema.String.pipe(T.HttpPath("campaignId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/campaigns/{campaignsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersCampaignsRequest>;
 
 export type DeleteAdvertisersCampaignsResponse = Empty;
-export const DeleteAdvertisersCampaignsResponse = Empty;
+export const DeleteAdvertisersCampaignsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersCampaignsError = DefaultErrors;
 
@@ -14936,7 +15110,7 @@ export const deleteAdvertisersCampaigns: API.OperationMethod<
   DeleteAdvertisersCampaignsResponse,
   DeleteAdvertisersCampaignsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersCampaignsRequest,
   output: DeleteAdvertisersCampaignsResponse,
   errors: [],
@@ -14949,20 +15123,22 @@ export interface CreateAdvertisersCreativesRequest {
   body?: Creative;
 }
 
-export const CreateAdvertisersCreativesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/creatives",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersCreativesRequest>;
+export const CreateAdvertisersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/creatives",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersCreativesRequest>;
 
 export type CreateAdvertisersCreativesResponse = Creative;
-export const CreateAdvertisersCreativesResponse = Creative;
+export const CreateAdvertisersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type CreateAdvertisersCreativesError = DefaultErrors;
 
@@ -14972,7 +15148,7 @@ export const createAdvertisersCreatives: API.OperationMethod<
   CreateAdvertisersCreativesResponse,
   CreateAdvertisersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersCreativesRequest,
   output: CreateAdvertisersCreativesResponse,
   errors: [],
@@ -14985,19 +15161,21 @@ export interface DeleteAdvertisersCreativesRequest {
   advertiserId: string;
 }
 
-export const DeleteAdvertisersCreativesRequest = Schema.Struct({
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersCreativesRequest>;
+export const DeleteAdvertisersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersCreativesRequest>;
 
 export type DeleteAdvertisersCreativesResponse = Empty;
-export const DeleteAdvertisersCreativesResponse = Empty;
+export const DeleteAdvertisersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersCreativesError = DefaultErrors;
 
@@ -15007,7 +15185,7 @@ export const deleteAdvertisersCreatives: API.OperationMethod<
   DeleteAdvertisersCreativesResponse,
   DeleteAdvertisersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersCreativesRequest,
   output: DeleteAdvertisersCreativesResponse,
   errors: [],
@@ -15026,19 +15204,21 @@ export interface ListAdvertisersCreativesRequest {
   orderBy?: string;
 }
 
-export const ListAdvertisersCreativesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/creatives" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersCreativesRequest>;
+export const ListAdvertisersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/creatives" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersCreativesRequest>;
 
 export type ListAdvertisersCreativesResponse = ListCreativesResponse;
-export const ListAdvertisersCreativesResponse = ListCreativesResponse;
+export const ListAdvertisersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativesResponse;
 
 export type ListAdvertisersCreativesError = DefaultErrors;
 
@@ -15048,7 +15228,7 @@ export const listAdvertisersCreatives: API.PaginatedOperationMethod<
   ListAdvertisersCreativesResponse,
   ListAdvertisersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersCreativesRequest,
   output: ListAdvertisersCreativesResponse,
   errors: [],
@@ -15069,22 +15249,24 @@ export interface PatchAdvertisersCreativesRequest {
   body?: Creative;
 }
 
-export const PatchAdvertisersCreativesRequest = Schema.Struct({
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersCreativesRequest>;
+export const PatchAdvertisersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersCreativesRequest>;
 
 export type PatchAdvertisersCreativesResponse = Creative;
-export const PatchAdvertisersCreativesResponse = Creative;
+export const PatchAdvertisersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type PatchAdvertisersCreativesError = DefaultErrors;
 
@@ -15094,7 +15276,7 @@ export const patchAdvertisersCreatives: API.OperationMethod<
   PatchAdvertisersCreativesResponse,
   PatchAdvertisersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersCreativesRequest,
   output: PatchAdvertisersCreativesResponse,
   errors: [],
@@ -15107,19 +15289,21 @@ export interface GetAdvertisersCreativesRequest {
   advertiserId: string;
 }
 
-export const GetAdvertisersCreativesRequest = Schema.Struct({
-  creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersCreativesRequest>;
+export const GetAdvertisersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    creativeId: Schema.String.pipe(T.HttpPath("creativeId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/creatives/{creativesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersCreativesRequest>;
 
 export type GetAdvertisersCreativesResponse = Creative;
-export const GetAdvertisersCreativesResponse = Creative;
+export const GetAdvertisersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type GetAdvertisersCreativesError = DefaultErrors;
 
@@ -15129,7 +15313,7 @@ export const getAdvertisersCreatives: API.OperationMethod<
   GetAdvertisersCreativesResponse,
   GetAdvertisersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersCreativesRequest,
   output: GetAdvertisersCreativesResponse,
   errors: [],
@@ -15142,21 +15326,22 @@ export interface CreateAdvertisersNegativeKeywordListsRequest {
   body?: NegativeKeywordList;
 }
 
-export const CreateAdvertisersNegativeKeywordListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(NegativeKeywordList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/negativeKeywordLists",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersNegativeKeywordListsRequest>;
+export const CreateAdvertisersNegativeKeywordListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(NegativeKeywordList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/negativeKeywordLists",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersNegativeKeywordListsRequest>;
 
 export type CreateAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
 export const CreateAdvertisersNegativeKeywordListsResponse =
-  NegativeKeywordList;
+  /*@__PURE__*/ /*#__PURE__*/ NegativeKeywordList;
 
 export type CreateAdvertisersNegativeKeywordListsError = DefaultErrors;
 
@@ -15166,7 +15351,7 @@ export const createAdvertisersNegativeKeywordLists: API.OperationMethod<
   CreateAdvertisersNegativeKeywordListsResponse,
   CreateAdvertisersNegativeKeywordListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersNegativeKeywordListsRequest,
   output: CreateAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -15179,21 +15364,23 @@ export interface DeleteAdvertisersNegativeKeywordListsRequest {
   negativeKeywordListId: string;
 }
 
-export const DeleteAdvertisersNegativeKeywordListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  negativeKeywordListId: Schema.String.pipe(
-    T.HttpPath("negativeKeywordListId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersNegativeKeywordListsRequest>;
+export const DeleteAdvertisersNegativeKeywordListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    negativeKeywordListId: Schema.String.pipe(
+      T.HttpPath("negativeKeywordListId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersNegativeKeywordListsRequest>;
 
 export type DeleteAdvertisersNegativeKeywordListsResponse = Empty;
-export const DeleteAdvertisersNegativeKeywordListsResponse = Empty;
+export const DeleteAdvertisersNegativeKeywordListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersNegativeKeywordListsError = DefaultErrors;
 
@@ -15203,7 +15390,7 @@ export const deleteAdvertisersNegativeKeywordLists: API.OperationMethod<
   DeleteAdvertisersNegativeKeywordListsResponse,
   DeleteAdvertisersNegativeKeywordListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersNegativeKeywordListsRequest,
   output: DeleteAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -15218,22 +15405,23 @@ export interface ListAdvertisersNegativeKeywordListsRequest {
   pageSize?: number;
 }
 
-export const ListAdvertisersNegativeKeywordListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/negativeKeywordLists",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersNegativeKeywordListsRequest>;
+export const ListAdvertisersNegativeKeywordListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/negativeKeywordLists",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersNegativeKeywordListsRequest>;
 
 export type ListAdvertisersNegativeKeywordListsResponse =
   ListNegativeKeywordListsResponse;
 export const ListAdvertisersNegativeKeywordListsResponse =
-  ListNegativeKeywordListsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNegativeKeywordListsResponse;
 
 export type ListAdvertisersNegativeKeywordListsError = DefaultErrors;
 
@@ -15243,7 +15431,7 @@ export const listAdvertisersNegativeKeywordLists: API.PaginatedOperationMethod<
   ListAdvertisersNegativeKeywordListsResponse,
   ListAdvertisersNegativeKeywordListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersNegativeKeywordListsRequest,
   output: ListAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -15264,24 +15452,26 @@ export interface PatchAdvertisersNegativeKeywordListsRequest {
   body?: NegativeKeywordList;
 }
 
-export const PatchAdvertisersNegativeKeywordListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  negativeKeywordListId: Schema.String.pipe(
-    T.HttpPath("negativeKeywordListId"),
-  ),
-  body: Schema.optional(NegativeKeywordList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersNegativeKeywordListsRequest>;
+export const PatchAdvertisersNegativeKeywordListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    negativeKeywordListId: Schema.String.pipe(
+      T.HttpPath("negativeKeywordListId"),
+    ),
+    body: Schema.optional(NegativeKeywordList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersNegativeKeywordListsRequest>;
 
 export type PatchAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
-export const PatchAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
+export const PatchAdvertisersNegativeKeywordListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ NegativeKeywordList;
 
 export type PatchAdvertisersNegativeKeywordListsError = DefaultErrors;
 
@@ -15291,7 +15481,7 @@ export const patchAdvertisersNegativeKeywordLists: API.OperationMethod<
   PatchAdvertisersNegativeKeywordListsResponse,
   PatchAdvertisersNegativeKeywordListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersNegativeKeywordListsRequest,
   output: PatchAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -15304,21 +15494,23 @@ export interface GetAdvertisersNegativeKeywordListsRequest {
   negativeKeywordListId: string;
 }
 
-export const GetAdvertisersNegativeKeywordListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  negativeKeywordListId: Schema.String.pipe(
-    T.HttpPath("negativeKeywordListId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersNegativeKeywordListsRequest>;
+export const GetAdvertisersNegativeKeywordListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    negativeKeywordListId: Schema.String.pipe(
+      T.HttpPath("negativeKeywordListId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/negativeKeywordLists/{negativeKeywordListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersNegativeKeywordListsRequest>;
 
 export type GetAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
-export const GetAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
+export const GetAdvertisersNegativeKeywordListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ NegativeKeywordList;
 
 export type GetAdvertisersNegativeKeywordListsError = DefaultErrors;
 
@@ -15328,7 +15520,7 @@ export const getAdvertisersNegativeKeywordLists: API.OperationMethod<
   GetAdvertisersNegativeKeywordListsResponse,
   GetAdvertisersNegativeKeywordListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersNegativeKeywordListsRequest,
   output: GetAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -15350,7 +15542,7 @@ export interface ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
 }
 
 export const ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     negativeKeywordListId: Schema.String.pipe(
       T.HttpPath("negativeKeywordListId"),
@@ -15370,7 +15562,7 @@ export const ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
 export type ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
   ListNegativeKeywordsResponse;
 export const ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
-  ListNegativeKeywordsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListNegativeKeywordsResponse;
 
 export type ListAdvertisersNegativeKeywordListsNegativeKeywordsError =
   DefaultErrors;
@@ -15381,7 +15573,7 @@ export const listAdvertisersNegativeKeywordListsNegativeKeywords: API.PaginatedO
   ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   ListAdvertisersNegativeKeywordListsNegativeKeywordsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -15401,7 +15593,7 @@ export interface ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
 }
 
 export const ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     negativeKeywordListId: Schema.String.pipe(
       T.HttpPath("negativeKeywordListId"),
     ),
@@ -15419,7 +15611,7 @@ export const ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
 export type ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
   ReplaceNegativeKeywordsResponse;
 export const ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
-  ReplaceNegativeKeywordsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ReplaceNegativeKeywordsResponse;
 
 export type ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsError =
   DefaultErrors;
@@ -15430,7 +15622,7 @@ export const replaceAdvertisersNegativeKeywordListsNegativeKeywords: API.Operati
   ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -15446,7 +15638,7 @@ export interface CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
 }
 
 export const CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     negativeKeywordListId: Schema.String.pipe(
       T.HttpPath("negativeKeywordListId"),
@@ -15464,7 +15656,7 @@ export const CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
 export type CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
   NegativeKeyword;
 export const CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
-  NegativeKeyword;
+  /*@__PURE__*/ /*#__PURE__*/ NegativeKeyword;
 
 export type CreateAdvertisersNegativeKeywordListsNegativeKeywordsError =
   DefaultErrors;
@@ -15475,7 +15667,7 @@ export const createAdvertisersNegativeKeywordListsNegativeKeywords: API.Operatio
   CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   CreateAdvertisersNegativeKeywordListsNegativeKeywordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -15491,7 +15683,7 @@ export interface DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
 }
 
 export const DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     keywordValue: Schema.String.pipe(T.HttpPath("keywordValue")),
     negativeKeywordListId: Schema.String.pipe(
@@ -15508,7 +15700,7 @@ export const DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
 export type DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
   Empty;
 export const DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersNegativeKeywordListsNegativeKeywordsError =
   DefaultErrors;
@@ -15519,7 +15711,7 @@ export const deleteAdvertisersNegativeKeywordListsNegativeKeywords: API.Operatio
   DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   DeleteAdvertisersNegativeKeywordListsNegativeKeywordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -15535,7 +15727,7 @@ export interface BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest 
 }
 
 export const BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     negativeKeywordListId: Schema.String.pipe(
       T.HttpPath("negativeKeywordListId"),
     ),
@@ -15553,7 +15745,7 @@ export const BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
 export type BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
   BulkEditNegativeKeywordsResponse;
 export const BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse =
-  BulkEditNegativeKeywordsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditNegativeKeywordsResponse;
 
 export type BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsError =
   DefaultErrors;
@@ -15564,7 +15756,7 @@ export const bulkEditAdvertisersNegativeKeywordListsNegativeKeywords: API.Operat
   BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -15577,20 +15769,22 @@ export interface UploadAdvertisersAssetsRequest {
   body?: CreateAssetRequest;
 }
 
-export const UploadAdvertisersAssetsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(CreateAssetRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/assets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadAdvertisersAssetsRequest>;
+export const UploadAdvertisersAssetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(CreateAssetRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/assets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadAdvertisersAssetsRequest>;
 
 export type UploadAdvertisersAssetsResponse = CreateAssetResponse;
-export const UploadAdvertisersAssetsResponse = CreateAssetResponse;
+export const UploadAdvertisersAssetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CreateAssetResponse;
 
 export type UploadAdvertisersAssetsError = DefaultErrors;
 
@@ -15600,7 +15794,7 @@ export const uploadAdvertisersAssets: API.OperationMethod<
   UploadAdvertisersAssetsResponse,
   UploadAdvertisersAssetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadAdvertisersAssetsRequest,
   output: UploadAdvertisersAssetsResponse,
   errors: [],
@@ -15613,19 +15807,21 @@ export interface GetAdvertisersLineItemsRequest {
   lineItemId: string;
 }
 
-export const GetAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersLineItemsRequest>;
+export const GetAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersLineItemsRequest>;
 
 export type GetAdvertisersLineItemsResponse = LineItem;
-export const GetAdvertisersLineItemsResponse = LineItem;
+export const GetAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LineItem;
 
 export type GetAdvertisersLineItemsError = DefaultErrors;
 
@@ -15635,7 +15831,7 @@ export const getAdvertisersLineItems: API.OperationMethod<
   GetAdvertisersLineItemsResponse,
   GetAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersLineItemsRequest,
   output: GetAdvertisersLineItemsResponse,
   errors: [],
@@ -15657,7 +15853,7 @@ export interface BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest {
 }
 
 export const BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     lineItemIds: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("lineItemIds"),
     ),
@@ -15677,7 +15873,7 @@ export const BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest =
 export type BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse =
   BulkListAssignedTargetingOptionsResponse;
 export const BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse =
-  BulkListAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkListAssignedTargetingOptionsResponse;
 
 export type BulkListAssignedTargetingOptionsAdvertisersLineItemsError =
   DefaultErrors;
@@ -15688,7 +15884,7 @@ export const bulkListAssignedTargetingOptionsAdvertisersLineItems: API.Paginated
   BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse,
   BulkListAssignedTargetingOptionsAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest,
   output: BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse,
   errors: [],
@@ -15706,7 +15902,7 @@ export interface BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest {
 }
 
 export const BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     body: Schema.optional(BulkEditAssignedTargetingOptionsRequest).pipe(
       T.HttpBody(),
@@ -15723,7 +15919,7 @@ export const BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest =
 export type BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse =
   BulkEditAssignedTargetingOptionsResponse;
 export const BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse =
-  BulkEditAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAssignedTargetingOptionsResponse;
 
 export type BulkEditAssignedTargetingOptionsAdvertisersLineItemsError =
   DefaultErrors;
@@ -15734,7 +15930,7 @@ export const bulkEditAssignedTargetingOptionsAdvertisersLineItems: API.Operation
   BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse,
   BulkEditAssignedTargetingOptionsAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest,
   output: BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse,
   errors: [],
@@ -15747,20 +15943,22 @@ export interface CreateAdvertisersLineItemsRequest {
   body?: LineItem;
 }
 
-export const CreateAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(LineItem).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/lineItems",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersLineItemsRequest>;
+export const CreateAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(LineItem).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/lineItems",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersLineItemsRequest>;
 
 export type CreateAdvertisersLineItemsResponse = LineItem;
-export const CreateAdvertisersLineItemsResponse = LineItem;
+export const CreateAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LineItem;
 
 export type CreateAdvertisersLineItemsError = DefaultErrors;
 
@@ -15770,7 +15968,7 @@ export const createAdvertisersLineItems: API.OperationMethod<
   CreateAdvertisersLineItemsResponse,
   CreateAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersLineItemsRequest,
   output: CreateAdvertisersLineItemsResponse,
   errors: [],
@@ -15783,22 +15981,23 @@ export interface BulkUpdateAdvertisersLineItemsRequest {
   body?: BulkUpdateLineItemsRequest;
 }
 
-export const BulkUpdateAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(BulkUpdateLineItemsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/lineItems:bulkUpdate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BulkUpdateAdvertisersLineItemsRequest>;
+export const BulkUpdateAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(BulkUpdateLineItemsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/lineItems:bulkUpdate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BulkUpdateAdvertisersLineItemsRequest>;
 
 export type BulkUpdateAdvertisersLineItemsResponse =
   BulkUpdateLineItemsResponse;
 export const BulkUpdateAdvertisersLineItemsResponse =
-  BulkUpdateLineItemsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkUpdateLineItemsResponse;
 
 export type BulkUpdateAdvertisersLineItemsError = DefaultErrors;
 
@@ -15808,7 +16007,7 @@ export const bulkUpdateAdvertisersLineItems: API.OperationMethod<
   BulkUpdateAdvertisersLineItemsResponse,
   BulkUpdateAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkUpdateAdvertisersLineItemsRequest,
   output: BulkUpdateAdvertisersLineItemsResponse,
   errors: [],
@@ -15827,19 +16026,21 @@ export interface ListAdvertisersLineItemsRequest {
   advertiserId: string;
 }
 
-export const ListAdvertisersLineItemsRequest = Schema.Struct({
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/lineItems" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersLineItemsRequest>;
+export const ListAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/lineItems" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersLineItemsRequest>;
 
 export type ListAdvertisersLineItemsResponse = ListLineItemsResponse;
-export const ListAdvertisersLineItemsResponse = ListLineItemsResponse;
+export const ListAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLineItemsResponse;
 
 export type ListAdvertisersLineItemsError = DefaultErrors;
 
@@ -15849,7 +16050,7 @@ export const listAdvertisersLineItems: API.PaginatedOperationMethod<
   ListAdvertisersLineItemsResponse,
   ListAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersLineItemsRequest,
   output: ListAdvertisersLineItemsResponse,
   errors: [],
@@ -15870,22 +16071,24 @@ export interface PatchAdvertisersLineItemsRequest {
   body?: LineItem;
 }
 
-export const PatchAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(LineItem).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersLineItemsRequest>;
+export const PatchAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(LineItem).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersLineItemsRequest>;
 
 export type PatchAdvertisersLineItemsResponse = LineItem;
-export const PatchAdvertisersLineItemsResponse = LineItem;
+export const PatchAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LineItem;
 
 export type PatchAdvertisersLineItemsError = DefaultErrors;
 
@@ -15895,7 +16098,7 @@ export const patchAdvertisersLineItems: API.OperationMethod<
   PatchAdvertisersLineItemsResponse,
   PatchAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersLineItemsRequest,
   output: PatchAdvertisersLineItemsResponse,
   errors: [],
@@ -15910,21 +16113,23 @@ export interface DuplicateAdvertisersLineItemsRequest {
   body?: DuplicateLineItemRequest;
 }
 
-export const DuplicateAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
-  body: Schema.optional(DuplicateLineItemRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}:duplicate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DuplicateAdvertisersLineItemsRequest>;
+export const DuplicateAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
+    body: Schema.optional(DuplicateLineItemRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}:duplicate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DuplicateAdvertisersLineItemsRequest>;
 
 export type DuplicateAdvertisersLineItemsResponse = DuplicateLineItemResponse;
-export const DuplicateAdvertisersLineItemsResponse = DuplicateLineItemResponse;
+export const DuplicateAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DuplicateLineItemResponse;
 
 export type DuplicateAdvertisersLineItemsError = DefaultErrors;
 
@@ -15934,7 +16139,7 @@ export const duplicateAdvertisersLineItems: API.OperationMethod<
   DuplicateAdvertisersLineItemsResponse,
   DuplicateAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DuplicateAdvertisersLineItemsRequest,
   output: DuplicateAdvertisersLineItemsResponse,
   errors: [],
@@ -15947,19 +16152,21 @@ export interface DeleteAdvertisersLineItemsRequest {
   lineItemId: string;
 }
 
-export const DeleteAdvertisersLineItemsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersLineItemsRequest>;
+export const DeleteAdvertisersLineItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/lineItems/{lineItemsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersLineItemsRequest>;
 
 export type DeleteAdvertisersLineItemsResponse = Empty;
-export const DeleteAdvertisersLineItemsResponse = Empty;
+export const DeleteAdvertisersLineItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersLineItemsError = DefaultErrors;
 
@@ -15969,7 +16176,7 @@ export const deleteAdvertisersLineItems: API.OperationMethod<
   DeleteAdvertisersLineItemsResponse,
   DeleteAdvertisersLineItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersLineItemsRequest,
   output: DeleteAdvertisersLineItemsResponse,
   errors: [],
@@ -16038,7 +16245,7 @@ export interface GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRe
 }
 
 export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     assignedTargetingOptionId: Schema.String.pipe(
@@ -16056,7 +16263,7 @@ export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReques
 export type GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -16067,7 +16274,7 @@ export const getAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.
   GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -16136,7 +16343,7 @@ export interface DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOption
 }
 
 export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
@@ -16154,7 +16361,7 @@ export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReq
 export type DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
   Empty;
 export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -16165,7 +16372,7 @@ export const deleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: A
   DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output:
@@ -16242,7 +16449,7 @@ export interface ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsR
 }
 
 export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -16261,7 +16468,7 @@ export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReque
 export type ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
   ListLineItemAssignedTargetingOptionsResponse;
 export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
-  ListLineItemAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListLineItemAssignedTargetingOptionsResponse;
 
 export type ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -16272,7 +16479,7 @@ export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API
   ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output:
     ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
@@ -16346,7 +16553,7 @@ export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOption
 }
 
 export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
@@ -16363,7 +16570,7 @@ export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReq
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -16374,7 +16581,7 @@ export const createAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: A
   CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output:
@@ -16401,7 +16608,7 @@ export interface DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociat
 }
 
 export const DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
     youtubeAssetType: Schema.String.pipe(T.HttpPath("youtubeAssetType")),
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
@@ -16422,7 +16629,7 @@ export const DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
 export type DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   Empty;
 export const DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -16433,7 +16640,7 @@ export const deleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
   DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -16464,7 +16671,7 @@ export interface ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociatio
 }
 
 export const ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     lineItemId: Schema.String.pipe(T.HttpPath("lineItemId")),
     youtubeAssetType: Schema.String.pipe(T.HttpPath("youtubeAssetType")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -16485,7 +16692,7 @@ export const ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRe
 export type ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   ListYoutubeAssetAssociationsResponse;
 export const ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  ListYoutubeAssetAssociationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListYoutubeAssetAssociationsResponse;
 
 export type ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -16496,7 +16703,7 @@ export const listAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations: 
   ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input:
     ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -16527,7 +16734,7 @@ export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociat
 }
 
 export const CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     "linkedEntity.adGroupId": Schema.optional(Schema.String).pipe(
       T.HttpQuery("linkedEntity.adGroupId"),
     ),
@@ -16547,7 +16754,7 @@ export const CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
 export type CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
   YoutubeAssetAssociation;
 export const CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse =
-  YoutubeAssetAssociation;
+  /*@__PURE__*/ /*#__PURE__*/ YoutubeAssetAssociation;
 
 export type CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError =
   DefaultErrors;
@@ -16558,7 +16765,7 @@ export const createAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
   CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output:
@@ -16573,19 +16780,21 @@ export interface GetAdvertisersInsertionOrdersRequest {
   insertionOrderId: string;
 }
 
-export const GetAdvertisersInsertionOrdersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersInsertionOrdersRequest>;
+export const GetAdvertisersInsertionOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersInsertionOrdersRequest>;
 
 export type GetAdvertisersInsertionOrdersResponse = InsertionOrder;
-export const GetAdvertisersInsertionOrdersResponse = InsertionOrder;
+export const GetAdvertisersInsertionOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InsertionOrder;
 
 export type GetAdvertisersInsertionOrdersError = DefaultErrors;
 
@@ -16595,7 +16804,7 @@ export const getAdvertisersInsertionOrders: API.OperationMethod<
   GetAdvertisersInsertionOrdersResponse,
   GetAdvertisersInsertionOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersInsertionOrdersRequest,
   output: GetAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -16614,24 +16823,25 @@ export interface ListAdvertisersInsertionOrdersRequest {
   pageToken?: string;
 }
 
-export const ListAdvertisersInsertionOrdersRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/insertionOrders",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersInsertionOrdersRequest>;
+export const ListAdvertisersInsertionOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/insertionOrders",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersInsertionOrdersRequest>;
 
 export type ListAdvertisersInsertionOrdersResponse =
   ListInsertionOrdersResponse;
 export const ListAdvertisersInsertionOrdersResponse =
-  ListInsertionOrdersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListInsertionOrdersResponse;
 
 export type ListAdvertisersInsertionOrdersError = DefaultErrors;
 
@@ -16641,7 +16851,7 @@ export const listAdvertisersInsertionOrders: API.PaginatedOperationMethod<
   ListAdvertisersInsertionOrdersResponse,
   ListAdvertisersInsertionOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersInsertionOrdersRequest,
   output: ListAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -16662,22 +16872,24 @@ export interface PatchAdvertisersInsertionOrdersRequest {
   body?: InsertionOrder;
 }
 
-export const PatchAdvertisersInsertionOrdersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(InsertionOrder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersInsertionOrdersRequest>;
+export const PatchAdvertisersInsertionOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(InsertionOrder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersInsertionOrdersRequest>;
 
 export type PatchAdvertisersInsertionOrdersResponse = InsertionOrder;
-export const PatchAdvertisersInsertionOrdersResponse = InsertionOrder;
+export const PatchAdvertisersInsertionOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InsertionOrder;
 
 export type PatchAdvertisersInsertionOrdersError = DefaultErrors;
 
@@ -16687,7 +16899,7 @@ export const patchAdvertisersInsertionOrders: API.OperationMethod<
   PatchAdvertisersInsertionOrdersResponse,
   PatchAdvertisersInsertionOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersInsertionOrdersRequest,
   output: PatchAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -16700,19 +16912,21 @@ export interface DeleteAdvertisersInsertionOrdersRequest {
   advertiserId: string;
 }
 
-export const DeleteAdvertisersInsertionOrdersRequest = Schema.Struct({
-  insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersInsertionOrdersRequest>;
+export const DeleteAdvertisersInsertionOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    insertionOrderId: Schema.String.pipe(T.HttpPath("insertionOrderId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/insertionOrders/{insertionOrdersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersInsertionOrdersRequest>;
 
 export type DeleteAdvertisersInsertionOrdersResponse = Empty;
-export const DeleteAdvertisersInsertionOrdersResponse = Empty;
+export const DeleteAdvertisersInsertionOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersInsertionOrdersError = DefaultErrors;
 
@@ -16722,7 +16936,7 @@ export const deleteAdvertisersInsertionOrders: API.OperationMethod<
   DeleteAdvertisersInsertionOrdersResponse,
   DeleteAdvertisersInsertionOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersInsertionOrdersRequest,
   output: DeleteAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -16735,20 +16949,22 @@ export interface CreateAdvertisersInsertionOrdersRequest {
   body?: InsertionOrder;
 }
 
-export const CreateAdvertisersInsertionOrdersRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(InsertionOrder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/insertionOrders",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersInsertionOrdersRequest>;
+export const CreateAdvertisersInsertionOrdersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(InsertionOrder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/insertionOrders",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersInsertionOrdersRequest>;
 
 export type CreateAdvertisersInsertionOrdersResponse = InsertionOrder;
-export const CreateAdvertisersInsertionOrdersResponse = InsertionOrder;
+export const CreateAdvertisersInsertionOrdersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InsertionOrder;
 
 export type CreateAdvertisersInsertionOrdersError = DefaultErrors;
 
@@ -16758,7 +16974,7 @@ export const createAdvertisersInsertionOrders: API.OperationMethod<
   CreateAdvertisersInsertionOrdersResponse,
   CreateAdvertisersInsertionOrdersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersInsertionOrdersRequest,
   output: CreateAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -16781,21 +16997,23 @@ export interface ListAdvertisersInvoicesRequest {
   advertiserId: string;
 }
 
-export const ListAdvertisersInvoicesRequest = Schema.Struct({
-  loiSapinInvoiceType: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("loiSapinInvoiceType"),
-  ),
-  issueMonth: Schema.optional(Schema.String).pipe(T.HttpQuery("issueMonth")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/invoices" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersInvoicesRequest>;
+export const ListAdvertisersInvoicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    loiSapinInvoiceType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("loiSapinInvoiceType"),
+    ),
+    issueMonth: Schema.optional(Schema.String).pipe(T.HttpQuery("issueMonth")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/invoices" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersInvoicesRequest>;
 
 export type ListAdvertisersInvoicesResponse = ListInvoicesResponse;
-export const ListAdvertisersInvoicesResponse = ListInvoicesResponse;
+export const ListAdvertisersInvoicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListInvoicesResponse;
 
 export type ListAdvertisersInvoicesError = DefaultErrors;
 
@@ -16805,7 +17023,7 @@ export const listAdvertisersInvoices: API.PaginatedOperationMethod<
   ListAdvertisersInvoicesResponse,
   ListAdvertisersInvoicesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersInvoicesRequest,
   output: ListAdvertisersInvoicesResponse,
   errors: [],
@@ -16822,23 +17040,24 @@ export interface LookupInvoiceCurrencyAdvertisersInvoicesRequest {
   invoiceMonth?: string;
 }
 
-export const LookupInvoiceCurrencyAdvertisersInvoicesRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  invoiceMonth: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("invoiceMonth"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/invoices:lookupInvoiceCurrency",
-  }),
-  svc,
-) as unknown as Schema.Schema<LookupInvoiceCurrencyAdvertisersInvoicesRequest>;
+export const LookupInvoiceCurrencyAdvertisersInvoicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    invoiceMonth: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("invoiceMonth"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/invoices:lookupInvoiceCurrency",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LookupInvoiceCurrencyAdvertisersInvoicesRequest>;
 
 export type LookupInvoiceCurrencyAdvertisersInvoicesResponse =
   LookupInvoiceCurrencyResponse;
 export const LookupInvoiceCurrencyAdvertisersInvoicesResponse =
-  LookupInvoiceCurrencyResponse;
+  /*@__PURE__*/ /*#__PURE__*/ LookupInvoiceCurrencyResponse;
 
 export type LookupInvoiceCurrencyAdvertisersInvoicesError = DefaultErrors;
 
@@ -16848,7 +17067,7 @@ export const lookupInvoiceCurrencyAdvertisersInvoices: API.OperationMethod<
   LookupInvoiceCurrencyAdvertisersInvoicesResponse,
   LookupInvoiceCurrencyAdvertisersInvoicesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupInvoiceCurrencyAdvertisersInvoicesRequest,
   output: LookupInvoiceCurrencyAdvertisersInvoicesResponse,
   errors: [],
@@ -16915,7 +17134,7 @@ export interface GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     assignedTargetingOptionId: Schema.String.pipe(
@@ -16932,7 +17151,7 @@ export const GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
 export type GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type GetAdvertisersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -16943,7 +17162,7 @@ export const getAdvertisersTargetingTypesAssignedTargetingOptions: API.Operation
   GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   GetAdvertisersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -17010,7 +17229,7 @@ export interface DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest 
 }
 
 export const DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     assignedTargetingOptionId: Schema.String.pipe(
@@ -17027,7 +17246,7 @@ export const DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
 export type DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
   Empty;
 export const DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -17038,7 +17257,7 @@ export const deleteAdvertisersTargetingTypesAssignedTargetingOptions: API.Operat
   DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   DeleteAdvertisersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -17111,7 +17330,7 @@ export interface ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
 }
 
 export const ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
@@ -17129,7 +17348,7 @@ export const ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
 export type ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
   ListAdvertiserAssignedTargetingOptionsResponse;
 export const ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
-  ListAdvertiserAssignedTargetingOptionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAdvertiserAssignedTargetingOptionsResponse;
 
 export type ListAdvertisersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -17140,7 +17359,7 @@ export const listAdvertisersTargetingTypesAssignedTargetingOptions: API.Paginate
   ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   ListAdvertisersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -17211,7 +17430,7 @@ export interface CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest 
 }
 
 export const CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     targetingType: Schema.String.pipe(T.HttpPath("targetingType")),
     body: Schema.optional(AssignedTargetingOption).pipe(T.HttpBody()),
@@ -17227,7 +17446,7 @@ export const CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
 export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
   AssignedTargetingOption;
 export const CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse =
-  AssignedTargetingOption;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsError =
   DefaultErrors;
@@ -17238,7 +17457,7 @@ export const createAdvertisersTargetingTypesAssignedTargetingOptions: API.Operat
   CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   CreateAdvertisersTargetingTypesAssignedTargetingOptionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -17257,22 +17476,24 @@ export interface ListAdvertisersLocationListsRequest {
   orderBy?: string;
 }
 
-export const ListAdvertisersLocationListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/locationLists",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersLocationListsRequest>;
+export const ListAdvertisersLocationListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/locationLists",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersLocationListsRequest>;
 
 export type ListAdvertisersLocationListsResponse = ListLocationListsResponse;
-export const ListAdvertisersLocationListsResponse = ListLocationListsResponse;
+export const ListAdvertisersLocationListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationListsResponse;
 
 export type ListAdvertisersLocationListsError = DefaultErrors;
 
@@ -17282,7 +17503,7 @@ export const listAdvertisersLocationLists: API.PaginatedOperationMethod<
   ListAdvertisersLocationListsResponse,
   ListAdvertisersLocationListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersLocationListsRequest,
   output: ListAdvertisersLocationListsResponse,
   errors: [],
@@ -17299,20 +17520,22 @@ export interface CreateAdvertisersLocationListsRequest {
   body?: LocationList;
 }
 
-export const CreateAdvertisersLocationListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(LocationList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/locationLists",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersLocationListsRequest>;
+export const CreateAdvertisersLocationListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(LocationList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/locationLists",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersLocationListsRequest>;
 
 export type CreateAdvertisersLocationListsResponse = LocationList;
-export const CreateAdvertisersLocationListsResponse = LocationList;
+export const CreateAdvertisersLocationListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LocationList;
 
 export type CreateAdvertisersLocationListsError = DefaultErrors;
 
@@ -17322,7 +17545,7 @@ export const createAdvertisersLocationLists: API.OperationMethod<
   CreateAdvertisersLocationListsResponse,
   CreateAdvertisersLocationListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersLocationListsRequest,
   output: CreateAdvertisersLocationListsResponse,
   errors: [],
@@ -17339,22 +17562,24 @@ export interface PatchAdvertisersLocationListsRequest {
   body?: LocationList;
 }
 
-export const PatchAdvertisersLocationListsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(LocationList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/locationLists/{locationListId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersLocationListsRequest>;
+export const PatchAdvertisersLocationListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(LocationList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/locationLists/{locationListId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersLocationListsRequest>;
 
 export type PatchAdvertisersLocationListsResponse = LocationList;
-export const PatchAdvertisersLocationListsResponse = LocationList;
+export const PatchAdvertisersLocationListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LocationList;
 
 export type PatchAdvertisersLocationListsError = DefaultErrors;
 
@@ -17364,7 +17589,7 @@ export const patchAdvertisersLocationLists: API.OperationMethod<
   PatchAdvertisersLocationListsResponse,
   PatchAdvertisersLocationListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersLocationListsRequest,
   output: PatchAdvertisersLocationListsResponse,
   errors: [],
@@ -17377,19 +17602,21 @@ export interface GetAdvertisersLocationListsRequest {
   locationListId: string;
 }
 
-export const GetAdvertisersLocationListsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/locationLists/{locationListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersLocationListsRequest>;
+export const GetAdvertisersLocationListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/locationLists/{locationListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersLocationListsRequest>;
 
 export type GetAdvertisersLocationListsResponse = LocationList;
-export const GetAdvertisersLocationListsResponse = LocationList;
+export const GetAdvertisersLocationListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ LocationList;
 
 export type GetAdvertisersLocationListsError = DefaultErrors;
 
@@ -17399,7 +17626,7 @@ export const getAdvertisersLocationLists: API.OperationMethod<
   GetAdvertisersLocationListsResponse,
   GetAdvertisersLocationListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersLocationListsRequest,
   output: GetAdvertisersLocationListsResponse,
   errors: [],
@@ -17421,7 +17648,7 @@ export interface ListAdvertisersLocationListsAssignedLocationsRequest {
 }
 
 export const ListAdvertisersLocationListsAssignedLocationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
@@ -17439,7 +17666,7 @@ export const ListAdvertisersLocationListsAssignedLocationsRequest =
 export type ListAdvertisersLocationListsAssignedLocationsResponse =
   ListAssignedLocationsResponse;
 export const ListAdvertisersLocationListsAssignedLocationsResponse =
-  ListAssignedLocationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAssignedLocationsResponse;
 
 export type ListAdvertisersLocationListsAssignedLocationsError = DefaultErrors;
 
@@ -17449,7 +17676,7 @@ export const listAdvertisersLocationListsAssignedLocations: API.PaginatedOperati
   ListAdvertisersLocationListsAssignedLocationsResponse,
   ListAdvertisersLocationListsAssignedLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersLocationListsAssignedLocationsRequest,
   output: ListAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
@@ -17469,7 +17696,7 @@ export interface CreateAdvertisersLocationListsAssignedLocationsRequest {
 }
 
 export const CreateAdvertisersLocationListsAssignedLocationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
     body: Schema.optional(AssignedLocation).pipe(T.HttpBody()),
@@ -17485,7 +17712,7 @@ export const CreateAdvertisersLocationListsAssignedLocationsRequest =
 export type CreateAdvertisersLocationListsAssignedLocationsResponse =
   AssignedLocation;
 export const CreateAdvertisersLocationListsAssignedLocationsResponse =
-  AssignedLocation;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedLocation;
 
 export type CreateAdvertisersLocationListsAssignedLocationsError =
   DefaultErrors;
@@ -17496,7 +17723,7 @@ export const createAdvertisersLocationListsAssignedLocations: API.OperationMetho
   CreateAdvertisersLocationListsAssignedLocationsResponse,
   CreateAdvertisersLocationListsAssignedLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersLocationListsAssignedLocationsRequest,
   output: CreateAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
@@ -17512,7 +17739,7 @@ export interface DeleteAdvertisersLocationListsAssignedLocationsRequest {
 }
 
 export const DeleteAdvertisersLocationListsAssignedLocationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
     assignedLocationId: Schema.String.pipe(T.HttpPath("assignedLocationId")),
@@ -17525,7 +17752,8 @@ export const DeleteAdvertisersLocationListsAssignedLocationsRequest =
   ) as unknown as Schema.Schema<DeleteAdvertisersLocationListsAssignedLocationsRequest>;
 
 export type DeleteAdvertisersLocationListsAssignedLocationsResponse = Empty;
-export const DeleteAdvertisersLocationListsAssignedLocationsResponse = Empty;
+export const DeleteAdvertisersLocationListsAssignedLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersLocationListsAssignedLocationsError =
   DefaultErrors;
@@ -17536,7 +17764,7 @@ export const deleteAdvertisersLocationListsAssignedLocations: API.OperationMetho
   DeleteAdvertisersLocationListsAssignedLocationsResponse,
   DeleteAdvertisersLocationListsAssignedLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersLocationListsAssignedLocationsRequest,
   output: DeleteAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
@@ -17552,7 +17780,7 @@ export interface BulkEditAdvertisersLocationListsAssignedLocationsRequest {
 }
 
 export const BulkEditAdvertisersLocationListsAssignedLocationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     locationListId: Schema.String.pipe(T.HttpPath("locationListId")),
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     body: Schema.optional(BulkEditAssignedLocationsRequest).pipe(T.HttpBody()),
@@ -17568,7 +17796,7 @@ export const BulkEditAdvertisersLocationListsAssignedLocationsRequest =
 export type BulkEditAdvertisersLocationListsAssignedLocationsResponse =
   BulkEditAssignedLocationsResponse;
 export const BulkEditAdvertisersLocationListsAssignedLocationsResponse =
-  BulkEditAssignedLocationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAssignedLocationsResponse;
 
 export type BulkEditAdvertisersLocationListsAssignedLocationsError =
   DefaultErrors;
@@ -17579,7 +17807,7 @@ export const bulkEditAdvertisersLocationListsAssignedLocations: API.OperationMet
   BulkEditAdvertisersLocationListsAssignedLocationsResponse,
   BulkEditAdvertisersLocationListsAssignedLocationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditAdvertisersLocationListsAssignedLocationsRequest,
   output: BulkEditAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
@@ -17598,19 +17826,24 @@ export interface ListAdvertisersAdGroupAdsRequest {
   pageSize?: number;
 }
 
-export const ListAdvertisersAdGroupAdsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/advertisers/{advertisersId}/adGroupAds" }),
-  svc,
-) as unknown as Schema.Schema<ListAdvertisersAdGroupAdsRequest>;
+export const ListAdvertisersAdGroupAdsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/adGroupAds",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAdvertisersAdGroupAdsRequest>;
 
 export type ListAdvertisersAdGroupAdsResponse = ListAdGroupAdsResponse;
-export const ListAdvertisersAdGroupAdsResponse = ListAdGroupAdsResponse;
+export const ListAdvertisersAdGroupAdsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdGroupAdsResponse;
 
 export type ListAdvertisersAdGroupAdsError = DefaultErrors;
 
@@ -17620,7 +17853,7 @@ export const listAdvertisersAdGroupAds: API.PaginatedOperationMethod<
   ListAdvertisersAdGroupAdsResponse,
   ListAdvertisersAdGroupAdsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAdvertisersAdGroupAdsRequest,
   output: ListAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -17641,22 +17874,24 @@ export interface PatchAdvertisersAdGroupAdsRequest {
   body?: AdGroupAd;
 }
 
-export const PatchAdvertisersAdGroupAdsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(AdGroupAd).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAdvertisersAdGroupAdsRequest>;
+export const PatchAdvertisersAdGroupAdsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(AdGroupAd).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAdvertisersAdGroupAdsRequest>;
 
 export type PatchAdvertisersAdGroupAdsResponse = AdGroupAd;
-export const PatchAdvertisersAdGroupAdsResponse = AdGroupAd;
+export const PatchAdvertisersAdGroupAdsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroupAd;
 
 export type PatchAdvertisersAdGroupAdsError = DefaultErrors;
 
@@ -17666,7 +17901,7 @@ export const patchAdvertisersAdGroupAds: API.OperationMethod<
   PatchAdvertisersAdGroupAdsResponse,
   PatchAdvertisersAdGroupAdsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAdvertisersAdGroupAdsRequest,
   output: PatchAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -17679,19 +17914,21 @@ export interface GetAdvertisersAdGroupAdsRequest {
   adGroupAdId: string;
 }
 
-export const GetAdvertisersAdGroupAdsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAdvertisersAdGroupAdsRequest>;
+export const GetAdvertisersAdGroupAdsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAdvertisersAdGroupAdsRequest>;
 
 export type GetAdvertisersAdGroupAdsResponse = AdGroupAd;
-export const GetAdvertisersAdGroupAdsResponse = AdGroupAd;
+export const GetAdvertisersAdGroupAdsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroupAd;
 
 export type GetAdvertisersAdGroupAdsError = DefaultErrors;
 
@@ -17701,7 +17938,7 @@ export const getAdvertisersAdGroupAds: API.OperationMethod<
   GetAdvertisersAdGroupAdsResponse,
   GetAdvertisersAdGroupAdsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAdvertisersAdGroupAdsRequest,
   output: GetAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -17714,20 +17951,22 @@ export interface CreateAdvertisersAdGroupAdsRequest {
   body?: AdGroupAd;
 }
 
-export const CreateAdvertisersAdGroupAdsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  body: Schema.optional(AdGroupAd).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/advertisers/{advertisersId}/adGroupAds",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAdvertisersAdGroupAdsRequest>;
+export const CreateAdvertisersAdGroupAdsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    body: Schema.optional(AdGroupAd).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/advertisers/{advertisersId}/adGroupAds",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAdvertisersAdGroupAdsRequest>;
 
 export type CreateAdvertisersAdGroupAdsResponse = AdGroupAd;
-export const CreateAdvertisersAdGroupAdsResponse = AdGroupAd;
+export const CreateAdvertisersAdGroupAdsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdGroupAd;
 
 export type CreateAdvertisersAdGroupAdsError = DefaultErrors;
 
@@ -17737,7 +17976,7 @@ export const createAdvertisersAdGroupAds: API.OperationMethod<
   CreateAdvertisersAdGroupAdsResponse,
   CreateAdvertisersAdGroupAdsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAdvertisersAdGroupAdsRequest,
   output: CreateAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -17750,19 +17989,21 @@ export interface DeleteAdvertisersAdGroupAdsRequest {
   adGroupAdId: string;
 }
 
-export const DeleteAdvertisersAdGroupAdsRequest = Schema.Struct({
-  advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
-  adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAdvertisersAdGroupAdsRequest>;
+export const DeleteAdvertisersAdGroupAdsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
+    adGroupAdId: Schema.String.pipe(T.HttpPath("adGroupAdId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/advertisers/{advertisersId}/adGroupAds/{adGroupAdsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAdvertisersAdGroupAdsRequest>;
 
 export type DeleteAdvertisersAdGroupAdsResponse = Empty;
-export const DeleteAdvertisersAdGroupAdsResponse = Empty;
+export const DeleteAdvertisersAdGroupAdsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersAdGroupAdsError = DefaultErrors;
 
@@ -17772,7 +18013,7 @@ export const deleteAdvertisersAdGroupAds: API.OperationMethod<
   DeleteAdvertisersAdGroupAdsResponse,
   DeleteAdvertisersAdGroupAdsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAdvertisersAdGroupAdsRequest,
   output: DeleteAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -17791,21 +18032,24 @@ export interface ListCustomListsRequest {
   orderBy?: string;
 }
 
-export const ListCustomListsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
+export const ListCustomListsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "v4/customLists" }),
   svc,
 ) as unknown as Schema.Schema<ListCustomListsRequest>;
 
 export type ListCustomListsResponse_Op = ListCustomListsResponse;
-export const ListCustomListsResponse_Op = ListCustomListsResponse;
+export const ListCustomListsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomListsResponse;
 
 export type ListCustomListsError = DefaultErrors;
 
@@ -17815,7 +18059,7 @@ export const listCustomLists: API.PaginatedOperationMethod<
   ListCustomListsResponse_Op,
   ListCustomListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomListsRequest,
   output: ListCustomListsResponse_Op,
   errors: [],
@@ -17832,7 +18076,7 @@ export interface GetCustomListsRequest {
   advertiserId?: string;
 }
 
-export const GetCustomListsRequest = Schema.Struct({
+export const GetCustomListsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   customListId: Schema.String.pipe(T.HttpPath("customListId")),
   advertiserId: Schema.optional(Schema.String).pipe(
     T.HttpQuery("advertiserId"),
@@ -17843,7 +18087,7 @@ export const GetCustomListsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCustomListsRequest>;
 
 export type GetCustomListsResponse = CustomList;
-export const GetCustomListsResponse = CustomList;
+export const GetCustomListsResponse = /*@__PURE__*/ /*#__PURE__*/ CustomList;
 
 export type GetCustomListsError = DefaultErrors;
 
@@ -17853,7 +18097,7 @@ export const getCustomLists: API.OperationMethod<
   GetCustomListsResponse,
   GetCustomListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomListsRequest,
   output: GetCustomListsResponse,
   errors: [],
@@ -17864,18 +18108,20 @@ export interface GetSdfuploadtasksOperationsRequest {
   name: string;
 }
 
-export const GetSdfuploadtasksOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/sdfuploadtasks/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetSdfuploadtasksOperationsRequest>;
+export const GetSdfuploadtasksOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/sdfuploadtasks/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSdfuploadtasksOperationsRequest>;
 
 export type GetSdfuploadtasksOperationsResponse = Operation;
-export const GetSdfuploadtasksOperationsResponse = Operation;
+export const GetSdfuploadtasksOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetSdfuploadtasksOperationsError = DefaultErrors;
 
@@ -17885,7 +18131,7 @@ export const getSdfuploadtasksOperations: API.OperationMethod<
   GetSdfuploadtasksOperationsResponse,
   GetSdfuploadtasksOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSdfuploadtasksOperationsRequest,
   output: GetSdfuploadtasksOperationsResponse,
   errors: [],
@@ -17896,15 +18142,21 @@ export interface CreateCustomBiddingAlgorithmsRequest {
   body?: CustomBiddingAlgorithm;
 }
 
-export const CreateCustomBiddingAlgorithmsRequest = Schema.Struct({
-  body: Schema.optional(CustomBiddingAlgorithm).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/customBiddingAlgorithms", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsRequest>;
+export const CreateCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    body: Schema.optional(CustomBiddingAlgorithm).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/customBiddingAlgorithms",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsRequest>;
 
 export type CreateCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
-export const CreateCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
+export const CreateCustomBiddingAlgorithmsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithm;
 
 export type CreateCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -17914,7 +18166,7 @@ export const createCustomBiddingAlgorithms: API.OperationMethod<
   CreateCustomBiddingAlgorithmsResponse,
   CreateCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomBiddingAlgorithmsRequest,
   output: CreateCustomBiddingAlgorithmsResponse,
   errors: [],
@@ -17929,26 +18181,27 @@ export interface UploadScriptCustomBiddingAlgorithmsRequest {
   customBiddingAlgorithmId: string;
 }
 
-export const UploadScriptCustomBiddingAlgorithmsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}:uploadScript",
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadScriptCustomBiddingAlgorithmsRequest>;
+export const UploadScriptCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}:uploadScript",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadScriptCustomBiddingAlgorithmsRequest>;
 
 export type UploadScriptCustomBiddingAlgorithmsResponse =
   CustomBiddingScriptRef;
 export const UploadScriptCustomBiddingAlgorithmsResponse =
-  CustomBiddingScriptRef;
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingScriptRef;
 
 export type UploadScriptCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -17958,7 +18211,7 @@ export const uploadScriptCustomBiddingAlgorithms: API.OperationMethod<
   UploadScriptCustomBiddingAlgorithmsResponse,
   UploadScriptCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadScriptCustomBiddingAlgorithmsRequest,
   output: UploadScriptCustomBiddingAlgorithmsResponse,
   errors: [],
@@ -17973,26 +18226,27 @@ export interface UploadRulesCustomBiddingAlgorithmsRequest {
   partnerId?: string;
 }
 
-export const UploadRulesCustomBiddingAlgorithmsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}:uploadRules",
-  }),
-  svc,
-) as unknown as Schema.Schema<UploadRulesCustomBiddingAlgorithmsRequest>;
+export const UploadRulesCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}:uploadRules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UploadRulesCustomBiddingAlgorithmsRequest>;
 
 export type UploadRulesCustomBiddingAlgorithmsResponse =
   CustomBiddingAlgorithmRulesRef;
 export const UploadRulesCustomBiddingAlgorithmsResponse =
-  CustomBiddingAlgorithmRulesRef;
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithmRulesRef;
 
 export type UploadRulesCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -18002,7 +18256,7 @@ export const uploadRulesCustomBiddingAlgorithms: API.OperationMethod<
   UploadRulesCustomBiddingAlgorithmsResponse,
   UploadRulesCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadRulesCustomBiddingAlgorithmsRequest,
   output: UploadRulesCustomBiddingAlgorithmsResponse,
   errors: [],
@@ -18017,24 +18271,26 @@ export interface GetCustomBiddingAlgorithmsRequest {
   partnerId?: string;
 }
 
-export const GetCustomBiddingAlgorithmsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsRequest>;
+export const GetCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsRequest>;
 
 export type GetCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
-export const GetCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
+export const GetCustomBiddingAlgorithmsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithm;
 
 export type GetCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -18044,7 +18300,7 @@ export const getCustomBiddingAlgorithms: API.OperationMethod<
   GetCustomBiddingAlgorithmsResponse,
   GetCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomBiddingAlgorithmsRequest,
   output: GetCustomBiddingAlgorithmsResponse,
   errors: [],
@@ -18065,24 +18321,25 @@ export interface ListCustomBiddingAlgorithmsRequest {
   advertiserId?: string;
 }
 
-export const ListCustomBiddingAlgorithmsRequest = Schema.Struct({
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/customBiddingAlgorithms" }),
-  svc,
-) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsRequest>;
+export const ListCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/customBiddingAlgorithms" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsRequest>;
 
 export type ListCustomBiddingAlgorithmsResponse_Op =
   ListCustomBiddingAlgorithmsResponse;
 export const ListCustomBiddingAlgorithmsResponse_Op =
-  ListCustomBiddingAlgorithmsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomBiddingAlgorithmsResponse;
 
 export type ListCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -18092,7 +18349,7 @@ export const listCustomBiddingAlgorithms: API.PaginatedOperationMethod<
   ListCustomBiddingAlgorithmsResponse_Op,
   ListCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsRequest,
   output: ListCustomBiddingAlgorithmsResponse_Op,
   errors: [],
@@ -18111,23 +18368,25 @@ export interface PatchCustomBiddingAlgorithmsRequest {
   body?: CustomBiddingAlgorithm;
 }
 
-export const PatchCustomBiddingAlgorithmsRequest = Schema.Struct({
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(CustomBiddingAlgorithm).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchCustomBiddingAlgorithmsRequest>;
+export const PatchCustomBiddingAlgorithmsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(CustomBiddingAlgorithm).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchCustomBiddingAlgorithmsRequest>;
 
 export type PatchCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
-export const PatchCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
+export const PatchCustomBiddingAlgorithmsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithm;
 
 export type PatchCustomBiddingAlgorithmsError = DefaultErrors;
 
@@ -18137,7 +18396,7 @@ export const patchCustomBiddingAlgorithms: API.OperationMethod<
   PatchCustomBiddingAlgorithmsResponse,
   PatchCustomBiddingAlgorithmsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchCustomBiddingAlgorithmsRequest,
   output: PatchCustomBiddingAlgorithmsResponse,
   errors: [],
@@ -18154,28 +18413,29 @@ export interface CreateCustomBiddingAlgorithmsRulesRequest {
   body?: CustomBiddingAlgorithmRules;
 }
 
-export const CreateCustomBiddingAlgorithmsRulesRequest = Schema.Struct({
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(CustomBiddingAlgorithmRules).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsRulesRequest>;
+export const CreateCustomBiddingAlgorithmsRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(CustomBiddingAlgorithmRules).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsRulesRequest>;
 
 export type CreateCustomBiddingAlgorithmsRulesResponse =
   CustomBiddingAlgorithmRules;
 export const CreateCustomBiddingAlgorithmsRulesResponse =
-  CustomBiddingAlgorithmRules;
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithmRules;
 
 export type CreateCustomBiddingAlgorithmsRulesError = DefaultErrors;
 
@@ -18185,7 +18445,7 @@ export const createCustomBiddingAlgorithmsRules: API.OperationMethod<
   CreateCustomBiddingAlgorithmsRulesResponse,
   CreateCustomBiddingAlgorithmsRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomBiddingAlgorithmsRulesRequest,
   output: CreateCustomBiddingAlgorithmsRulesResponse,
   errors: [],
@@ -18206,29 +18466,30 @@ export interface ListCustomBiddingAlgorithmsRulesRequest {
   partnerId?: string;
 }
 
-export const ListCustomBiddingAlgorithmsRulesRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsRulesRequest>;
+export const ListCustomBiddingAlgorithmsRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsRulesRequest>;
 
 export type ListCustomBiddingAlgorithmsRulesResponse =
   ListCustomBiddingAlgorithmRulesResponse;
 export const ListCustomBiddingAlgorithmsRulesResponse =
-  ListCustomBiddingAlgorithmRulesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomBiddingAlgorithmRulesResponse;
 
 export type ListCustomBiddingAlgorithmsRulesError = DefaultErrors;
 
@@ -18238,7 +18499,7 @@ export const listCustomBiddingAlgorithmsRules: API.PaginatedOperationMethod<
   ListCustomBiddingAlgorithmsRulesResponse,
   ListCustomBiddingAlgorithmsRulesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsRulesRequest,
   output: ListCustomBiddingAlgorithmsRulesResponse,
   errors: [],
@@ -18259,29 +18520,30 @@ export interface GetCustomBiddingAlgorithmsRulesRequest {
   advertiserId?: string;
 }
 
-export const GetCustomBiddingAlgorithmsRulesRequest = Schema.Struct({
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  customBiddingAlgorithmRulesId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmRulesId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules/{rulesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsRulesRequest>;
+export const GetCustomBiddingAlgorithmsRulesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    customBiddingAlgorithmRulesId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmRulesId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/rules/{rulesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsRulesRequest>;
 
 export type GetCustomBiddingAlgorithmsRulesResponse =
   CustomBiddingAlgorithmRules;
 export const GetCustomBiddingAlgorithmsRulesResponse =
-  CustomBiddingAlgorithmRules;
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingAlgorithmRules;
 
 export type GetCustomBiddingAlgorithmsRulesError = DefaultErrors;
 
@@ -18291,7 +18553,7 @@ export const getCustomBiddingAlgorithmsRules: API.OperationMethod<
   GetCustomBiddingAlgorithmsRulesResponse,
   GetCustomBiddingAlgorithmsRulesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomBiddingAlgorithmsRulesRequest,
   output: GetCustomBiddingAlgorithmsRulesResponse,
   errors: [],
@@ -18308,27 +18570,29 @@ export interface GetCustomBiddingAlgorithmsScriptsRequest {
   partnerId?: string;
 }
 
-export const GetCustomBiddingAlgorithmsScriptsRequest = Schema.Struct({
-  customBiddingScriptId: Schema.String.pipe(
-    T.HttpPath("customBiddingScriptId"),
-  ),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts/{scriptsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsScriptsRequest>;
+export const GetCustomBiddingAlgorithmsScriptsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    customBiddingScriptId: Schema.String.pipe(
+      T.HttpPath("customBiddingScriptId"),
+    ),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts/{scriptsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsScriptsRequest>;
 
 export type GetCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
-export const GetCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
+export const GetCustomBiddingAlgorithmsScriptsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingScript;
 
 export type GetCustomBiddingAlgorithmsScriptsError = DefaultErrors;
 
@@ -18338,7 +18602,7 @@ export const getCustomBiddingAlgorithmsScripts: API.OperationMethod<
   GetCustomBiddingAlgorithmsScriptsResponse,
   GetCustomBiddingAlgorithmsScriptsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomBiddingAlgorithmsScriptsRequest,
   output: GetCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
@@ -18355,26 +18619,28 @@ export interface CreateCustomBiddingAlgorithmsScriptsRequest {
   body?: CustomBiddingScript;
 }
 
-export const CreateCustomBiddingAlgorithmsScriptsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(CustomBiddingScript).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsScriptsRequest>;
+export const CreateCustomBiddingAlgorithmsScriptsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(CustomBiddingScript).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateCustomBiddingAlgorithmsScriptsRequest>;
 
 export type CreateCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
-export const CreateCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
+export const CreateCustomBiddingAlgorithmsScriptsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomBiddingScript;
 
 export type CreateCustomBiddingAlgorithmsScriptsError = DefaultErrors;
 
@@ -18384,7 +18650,7 @@ export const createCustomBiddingAlgorithmsScripts: API.OperationMethod<
   CreateCustomBiddingAlgorithmsScriptsResponse,
   CreateCustomBiddingAlgorithmsScriptsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateCustomBiddingAlgorithmsScriptsRequest,
   output: CreateCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
@@ -18405,29 +18671,30 @@ export interface ListCustomBiddingAlgorithmsScriptsRequest {
   orderBy?: string;
 }
 
-export const ListCustomBiddingAlgorithmsScriptsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  customBiddingAlgorithmId: Schema.String.pipe(
-    T.HttpPath("customBiddingAlgorithmId"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsScriptsRequest>;
+export const ListCustomBiddingAlgorithmsScriptsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    customBiddingAlgorithmId: Schema.String.pipe(
+      T.HttpPath("customBiddingAlgorithmId"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/customBiddingAlgorithms/{customBiddingAlgorithmsId}/scripts",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsScriptsRequest>;
 
 export type ListCustomBiddingAlgorithmsScriptsResponse =
   ListCustomBiddingScriptsResponse;
 export const ListCustomBiddingAlgorithmsScriptsResponse =
-  ListCustomBiddingScriptsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListCustomBiddingScriptsResponse;
 
 export type ListCustomBiddingAlgorithmsScriptsError = DefaultErrors;
 
@@ -18437,7 +18704,7 @@ export const listCustomBiddingAlgorithmsScripts: API.PaginatedOperationMethod<
   ListCustomBiddingAlgorithmsScriptsResponse,
   ListCustomBiddingAlgorithmsScriptsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsScriptsRequest,
   output: ListCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
@@ -18456,19 +18723,21 @@ export interface CreateInventorySourceGroupsRequest {
   body?: InventorySourceGroup;
 }
 
-export const CreateInventorySourceGroupsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(InventorySourceGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/inventorySourceGroups", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInventorySourceGroupsRequest>;
+export const CreateInventorySourceGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(InventorySourceGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/inventorySourceGroups", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInventorySourceGroupsRequest>;
 
 export type CreateInventorySourceGroupsResponse = InventorySourceGroup;
-export const CreateInventorySourceGroupsResponse = InventorySourceGroup;
+export const CreateInventorySourceGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySourceGroup;
 
 export type CreateInventorySourceGroupsError = DefaultErrors;
 
@@ -18478,7 +18747,7 @@ export const createInventorySourceGroups: API.OperationMethod<
   CreateInventorySourceGroupsResponse,
   CreateInventorySourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInventorySourceGroupsRequest,
   output: CreateInventorySourceGroupsResponse,
   errors: [],
@@ -18493,24 +18762,26 @@ export interface DeleteInventorySourceGroupsRequest {
   partnerId?: string;
 }
 
-export const DeleteInventorySourceGroupsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  inventorySourceGroupId: Schema.String.pipe(
-    T.HttpPath("inventorySourceGroupId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v4/inventorySourceGroups/{inventorySourceGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteInventorySourceGroupsRequest>;
+export const DeleteInventorySourceGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    inventorySourceGroupId: Schema.String.pipe(
+      T.HttpPath("inventorySourceGroupId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v4/inventorySourceGroups/{inventorySourceGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteInventorySourceGroupsRequest>;
 
 export type DeleteInventorySourceGroupsResponse = Empty;
-export const DeleteInventorySourceGroupsResponse = Empty;
+export const DeleteInventorySourceGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteInventorySourceGroupsError = DefaultErrors;
 
@@ -18520,7 +18791,7 @@ export const deleteInventorySourceGroups: API.OperationMethod<
   DeleteInventorySourceGroupsResponse,
   DeleteInventorySourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInventorySourceGroupsRequest,
   output: DeleteInventorySourceGroupsResponse,
   errors: [],
@@ -18541,24 +18812,25 @@ export interface ListInventorySourceGroupsRequest {
   orderBy?: string;
 }
 
-export const ListInventorySourceGroupsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/inventorySourceGroups" }),
-  svc,
-) as unknown as Schema.Schema<ListInventorySourceGroupsRequest>;
+export const ListInventorySourceGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/inventorySourceGroups" }),
+    svc,
+  ) as unknown as Schema.Schema<ListInventorySourceGroupsRequest>;
 
 export type ListInventorySourceGroupsResponse_Op =
   ListInventorySourceGroupsResponse;
 export const ListInventorySourceGroupsResponse_Op =
-  ListInventorySourceGroupsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListInventorySourceGroupsResponse;
 
 export type ListInventorySourceGroupsError = DefaultErrors;
 
@@ -18568,7 +18840,7 @@ export const listInventorySourceGroups: API.PaginatedOperationMethod<
   ListInventorySourceGroupsResponse_Op,
   ListInventorySourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInventorySourceGroupsRequest,
   output: ListInventorySourceGroupsResponse_Op,
   errors: [],
@@ -18591,27 +18863,29 @@ export interface PatchInventorySourceGroupsRequest {
   body?: InventorySourceGroup;
 }
 
-export const PatchInventorySourceGroupsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  inventorySourceGroupId: Schema.String.pipe(
-    T.HttpPath("inventorySourceGroupId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  body: Schema.optional(InventorySourceGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/inventorySourceGroups/{inventorySourceGroupId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchInventorySourceGroupsRequest>;
+export const PatchInventorySourceGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    inventorySourceGroupId: Schema.String.pipe(
+      T.HttpPath("inventorySourceGroupId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    body: Schema.optional(InventorySourceGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/inventorySourceGroups/{inventorySourceGroupId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchInventorySourceGroupsRequest>;
 
 export type PatchInventorySourceGroupsResponse = InventorySourceGroup;
-export const PatchInventorySourceGroupsResponse = InventorySourceGroup;
+export const PatchInventorySourceGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySourceGroup;
 
 export type PatchInventorySourceGroupsError = DefaultErrors;
 
@@ -18621,7 +18895,7 @@ export const patchInventorySourceGroups: API.OperationMethod<
   PatchInventorySourceGroupsResponse,
   PatchInventorySourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInventorySourceGroupsRequest,
   output: PatchInventorySourceGroupsResponse,
   errors: [],
@@ -18636,24 +18910,26 @@ export interface GetInventorySourceGroupsRequest {
   partnerId?: string;
 }
 
-export const GetInventorySourceGroupsRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  inventorySourceGroupId: Schema.String.pipe(
-    T.HttpPath("inventorySourceGroupId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/inventorySourceGroups/{inventorySourceGroupsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetInventorySourceGroupsRequest>;
+export const GetInventorySourceGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    inventorySourceGroupId: Schema.String.pipe(
+      T.HttpPath("inventorySourceGroupId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/inventorySourceGroups/{inventorySourceGroupsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetInventorySourceGroupsRequest>;
 
 export type GetInventorySourceGroupsResponse = InventorySourceGroup;
-export const GetInventorySourceGroupsResponse = InventorySourceGroup;
+export const GetInventorySourceGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySourceGroup;
 
 export type GetInventorySourceGroupsError = DefaultErrors;
 
@@ -18663,7 +18939,7 @@ export const getInventorySourceGroups: API.OperationMethod<
   GetInventorySourceGroupsResponse,
   GetInventorySourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInventorySourceGroupsRequest,
   output: GetInventorySourceGroupsResponse,
   errors: [],
@@ -18687,7 +18963,7 @@ export interface ListInventorySourceGroupsAssignedInventorySourcesRequest {
 }
 
 export const ListInventorySourceGroupsAssignedInventorySourcesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     inventorySourceGroupId: Schema.String.pipe(
       T.HttpPath("inventorySourceGroupId"),
     ),
@@ -18710,7 +18986,7 @@ export const ListInventorySourceGroupsAssignedInventorySourcesRequest =
 export type ListInventorySourceGroupsAssignedInventorySourcesResponse =
   ListAssignedInventorySourcesResponse;
 export const ListInventorySourceGroupsAssignedInventorySourcesResponse =
-  ListAssignedInventorySourcesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAssignedInventorySourcesResponse;
 
 export type ListInventorySourceGroupsAssignedInventorySourcesError =
   DefaultErrors;
@@ -18721,7 +18997,7 @@ export const listInventorySourceGroupsAssignedInventorySources: API.PaginatedOpe
   ListInventorySourceGroupsAssignedInventorySourcesResponse,
   ListInventorySourceGroupsAssignedInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInventorySourceGroupsAssignedInventorySourcesRequest,
   output: ListInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
@@ -18743,7 +19019,7 @@ export interface CreateInventorySourceGroupsAssignedInventorySourcesRequest {
 }
 
 export const CreateInventorySourceGroupsAssignedInventorySourcesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("advertiserId"),
     ),
@@ -18764,7 +19040,7 @@ export const CreateInventorySourceGroupsAssignedInventorySourcesRequest =
 export type CreateInventorySourceGroupsAssignedInventorySourcesResponse =
   AssignedInventorySource;
 export const CreateInventorySourceGroupsAssignedInventorySourcesResponse =
-  AssignedInventorySource;
+  /*@__PURE__*/ /*#__PURE__*/ AssignedInventorySource;
 
 export type CreateInventorySourceGroupsAssignedInventorySourcesError =
   DefaultErrors;
@@ -18775,7 +19051,7 @@ export const createInventorySourceGroupsAssignedInventorySources: API.OperationM
   CreateInventorySourceGroupsAssignedInventorySourcesResponse,
   CreateInventorySourceGroupsAssignedInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInventorySourceGroupsAssignedInventorySourcesRequest,
   output: CreateInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
@@ -18793,7 +19069,7 @@ export interface DeleteInventorySourceGroupsAssignedInventorySourcesRequest {
 }
 
 export const DeleteInventorySourceGroupsAssignedInventorySourcesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     inventorySourceGroupId: Schema.String.pipe(
       T.HttpPath("inventorySourceGroupId"),
     ),
@@ -18814,7 +19090,7 @@ export const DeleteInventorySourceGroupsAssignedInventorySourcesRequest =
 
 export type DeleteInventorySourceGroupsAssignedInventorySourcesResponse = Empty;
 export const DeleteInventorySourceGroupsAssignedInventorySourcesResponse =
-  Empty;
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteInventorySourceGroupsAssignedInventorySourcesError =
   DefaultErrors;
@@ -18825,7 +19101,7 @@ export const deleteInventorySourceGroupsAssignedInventorySources: API.OperationM
   DeleteInventorySourceGroupsAssignedInventorySourcesResponse,
   DeleteInventorySourceGroupsAssignedInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteInventorySourceGroupsAssignedInventorySourcesRequest,
   output: DeleteInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
@@ -18839,7 +19115,7 @@ export interface BulkEditInventorySourceGroupsAssignedInventorySourcesRequest {
 }
 
 export const BulkEditInventorySourceGroupsAssignedInventorySourcesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     inventorySourceGroupId: Schema.String.pipe(
       T.HttpPath("inventorySourceGroupId"),
     ),
@@ -18858,7 +19134,7 @@ export const BulkEditInventorySourceGroupsAssignedInventorySourcesRequest =
 export type BulkEditInventorySourceGroupsAssignedInventorySourcesResponse =
   BulkEditAssignedInventorySourcesResponse;
 export const BulkEditInventorySourceGroupsAssignedInventorySourcesResponse =
-  BulkEditAssignedInventorySourcesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkEditAssignedInventorySourcesResponse;
 
 export type BulkEditInventorySourceGroupsAssignedInventorySourcesError =
   DefaultErrors;
@@ -18869,7 +19145,7 @@ export const bulkEditInventorySourceGroupsAssignedInventorySources: API.Operatio
   BulkEditInventorySourceGroupsAssignedInventorySourcesResponse,
   BulkEditInventorySourceGroupsAssignedInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BulkEditInventorySourceGroupsAssignedInventorySourcesRequest,
   output: BulkEditInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
@@ -18882,7 +19158,7 @@ export interface UploadMediaRequest {
   body?: GoogleBytestreamMedia;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
   body: Schema.optional(GoogleBytestreamMedia).pipe(T.HttpBody()),
 }).pipe(
@@ -18891,7 +19167,8 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = GoogleBytestreamMedia;
-export const UploadMediaResponse = GoogleBytestreamMedia;
+export const UploadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleBytestreamMedia;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -18901,7 +19178,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
@@ -18912,7 +19189,7 @@ export interface DownloadMediaRequest {
   resourceName: string;
 }
 
-export const DownloadMediaRequest = Schema.Struct({
+export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
 }).pipe(
   T.Http({ method: "GET", path: "download/{downloadId}" }),
@@ -18920,7 +19197,8 @@ export const DownloadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
 export type DownloadMediaResponse = GoogleBytestreamMedia;
-export const DownloadMediaResponse = GoogleBytestreamMedia;
+export const DownloadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleBytestreamMedia;
 
 export type DownloadMediaError = DefaultErrors;
 
@@ -18930,7 +19208,7 @@ export const downloadMedia: API.OperationMethod<
   DownloadMediaResponse,
   DownloadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
@@ -18951,22 +19229,24 @@ export interface ListGoogleAudiencesRequest {
   pageToken?: string;
 }
 
-export const ListGoogleAudiencesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/googleAudiences" }),
-  svc,
-) as unknown as Schema.Schema<ListGoogleAudiencesRequest>;
+export const ListGoogleAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/googleAudiences" }),
+    svc,
+  ) as unknown as Schema.Schema<ListGoogleAudiencesRequest>;
 
 export type ListGoogleAudiencesResponse_Op = ListGoogleAudiencesResponse;
-export const ListGoogleAudiencesResponse_Op = ListGoogleAudiencesResponse;
+export const ListGoogleAudiencesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListGoogleAudiencesResponse;
 
 export type ListGoogleAudiencesError = DefaultErrors;
 
@@ -18976,7 +19256,7 @@ export const listGoogleAudiences: API.PaginatedOperationMethod<
   ListGoogleAudiencesResponse_Op,
   ListGoogleAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGoogleAudiencesRequest,
   output: ListGoogleAudiencesResponse_Op,
   errors: [],
@@ -18995,19 +19275,21 @@ export interface GetGoogleAudiencesRequest {
   advertiserId?: string;
 }
 
-export const GetGoogleAudiencesRequest = Schema.Struct({
-  googleAudienceId: Schema.String.pipe(T.HttpPath("googleAudienceId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/googleAudiences/{googleAudiencesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetGoogleAudiencesRequest>;
+export const GetGoogleAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    googleAudienceId: Schema.String.pipe(T.HttpPath("googleAudienceId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/googleAudiences/{googleAudiencesId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetGoogleAudiencesRequest>;
 
 export type GetGoogleAudiencesResponse = GoogleAudience;
-export const GetGoogleAudiencesResponse = GoogleAudience;
+export const GetGoogleAudiencesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleAudience;
 
 export type GetGoogleAudiencesError = DefaultErrors;
 
@@ -19017,7 +19299,7 @@ export const getGoogleAudiences: API.OperationMethod<
   GetGoogleAudiencesResponse,
   GetGoogleAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGoogleAudiencesRequest,
   output: GetGoogleAudiencesResponse,
   errors: [],
@@ -19032,19 +19314,21 @@ export interface GetInventorySourcesRequest {
   partnerId?: string;
 }
 
-export const GetInventorySourcesRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/inventorySources/{inventorySourcesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetInventorySourcesRequest>;
+export const GetInventorySourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/inventorySources/{inventorySourcesId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetInventorySourcesRequest>;
 
 export type GetInventorySourcesResponse = InventorySource;
-export const GetInventorySourcesResponse = InventorySource;
+export const GetInventorySourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySource;
 
 export type GetInventorySourcesError = DefaultErrors;
 
@@ -19054,7 +19338,7 @@ export const getInventorySources: API.OperationMethod<
   GetInventorySourcesResponse,
   GetInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInventorySourcesRequest,
   output: GetInventorySourcesResponse,
   errors: [],
@@ -19068,7 +19352,7 @@ export interface EditInventorySourceReadWriteAccessorsInventorySourcesRequest {
 }
 
 export const EditInventorySourceReadWriteAccessorsInventorySourcesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
     body: Schema.optional(EditInventorySourceReadWriteAccessorsRequest).pipe(
       T.HttpBody(),
@@ -19085,7 +19369,7 @@ export const EditInventorySourceReadWriteAccessorsInventorySourcesRequest =
 export type EditInventorySourceReadWriteAccessorsInventorySourcesResponse =
   InventorySourceAccessors;
 export const EditInventorySourceReadWriteAccessorsInventorySourcesResponse =
-  InventorySourceAccessors;
+  /*@__PURE__*/ /*#__PURE__*/ InventorySourceAccessors;
 
 export type EditInventorySourceReadWriteAccessorsInventorySourcesError =
   DefaultErrors;
@@ -19096,7 +19380,7 @@ export const editInventorySourceReadWriteAccessorsInventorySources: API.Operatio
   EditInventorySourceReadWriteAccessorsInventorySourcesResponse,
   EditInventorySourceReadWriteAccessorsInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EditInventorySourceReadWriteAccessorsInventorySourcesRequest,
   output: EditInventorySourceReadWriteAccessorsInventorySourcesResponse,
   errors: [],
@@ -19117,22 +19401,24 @@ export interface ListInventorySourcesRequest {
   pageToken?: string;
 }
 
-export const ListInventorySourcesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/inventorySources" }),
-  svc,
-) as unknown as Schema.Schema<ListInventorySourcesRequest>;
+export const ListInventorySourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/inventorySources" }),
+    svc,
+  ) as unknown as Schema.Schema<ListInventorySourcesRequest>;
 
 export type ListInventorySourcesResponse_Op = ListInventorySourcesResponse;
-export const ListInventorySourcesResponse_Op = ListInventorySourcesResponse;
+export const ListInventorySourcesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListInventorySourcesResponse;
 
 export type ListInventorySourcesError = DefaultErrors;
 
@@ -19142,7 +19428,7 @@ export const listInventorySources: API.PaginatedOperationMethod<
   ListInventorySourcesResponse_Op,
   ListInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInventorySourcesRequest,
   output: ListInventorySourcesResponse_Op,
   errors: [],
@@ -19165,25 +19451,27 @@ export interface PatchInventorySourcesRequest {
   body?: InventorySource;
 }
 
-export const PatchInventorySourcesRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(InventorySource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/inventorySources/{inventorySourcesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchInventorySourcesRequest>;
+export const PatchInventorySourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(InventorySource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/inventorySources/{inventorySourcesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchInventorySourcesRequest>;
 
 export type PatchInventorySourcesResponse = InventorySource;
-export const PatchInventorySourcesResponse = InventorySource;
+export const PatchInventorySourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySource;
 
 export type PatchInventorySourcesError = DefaultErrors;
 
@@ -19193,7 +19481,7 @@ export const patchInventorySources: API.OperationMethod<
   PatchInventorySourcesResponse,
   PatchInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInventorySourcesRequest,
   output: PatchInventorySourcesResponse,
   errors: [],
@@ -19208,19 +19496,21 @@ export interface CreateInventorySourcesRequest {
   body?: InventorySource;
 }
 
-export const CreateInventorySourcesRequest = Schema.Struct({
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(InventorySource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v4/inventorySources", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateInventorySourcesRequest>;
+export const CreateInventorySourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(InventorySource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v4/inventorySources", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateInventorySourcesRequest>;
 
 export type CreateInventorySourcesResponse = InventorySource;
-export const CreateInventorySourcesResponse = InventorySource;
+export const CreateInventorySourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InventorySource;
 
 export type CreateInventorySourcesError = DefaultErrors;
 
@@ -19230,7 +19520,7 @@ export const createInventorySources: API.OperationMethod<
   CreateInventorySourcesResponse,
   CreateInventorySourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateInventorySourcesRequest,
   output: CreateInventorySourcesResponse,
   errors: [],
@@ -19245,26 +19535,27 @@ export interface GetFirstPartyAndPartnerAudiencesRequest {
   advertiserId?: string;
 }
 
-export const GetFirstPartyAndPartnerAudiencesRequest = Schema.Struct({
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  firstPartyAndPartnerAudienceId: Schema.String.pipe(
-    T.HttpPath("firstPartyAndPartnerAudienceId"),
-  ),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v4/firstPartyAndPartnerAudiences/{firstPartyAndPartnerAudiencesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFirstPartyAndPartnerAudiencesRequest>;
+export const GetFirstPartyAndPartnerAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    firstPartyAndPartnerAudienceId: Schema.String.pipe(
+      T.HttpPath("firstPartyAndPartnerAudienceId"),
+    ),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/firstPartyAndPartnerAudiences/{firstPartyAndPartnerAudiencesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFirstPartyAndPartnerAudiencesRequest>;
 
 export type GetFirstPartyAndPartnerAudiencesResponse =
   FirstPartyAndPartnerAudience;
 export const GetFirstPartyAndPartnerAudiencesResponse =
-  FirstPartyAndPartnerAudience;
+  /*@__PURE__*/ /*#__PURE__*/ FirstPartyAndPartnerAudience;
 
 export type GetFirstPartyAndPartnerAudiencesError = DefaultErrors;
 
@@ -19274,7 +19565,7 @@ export const getFirstPartyAndPartnerAudiences: API.OperationMethod<
   GetFirstPartyAndPartnerAudiencesResponse,
   GetFirstPartyAndPartnerAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFirstPartyAndPartnerAudiencesRequest,
   output: GetFirstPartyAndPartnerAudiencesResponse,
   errors: [],
@@ -19295,24 +19586,25 @@ export interface ListFirstPartyAndPartnerAudiencesRequest {
   pageToken?: string;
 }
 
-export const ListFirstPartyAndPartnerAudiencesRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/firstPartyAndPartnerAudiences" }),
-  svc,
-) as unknown as Schema.Schema<ListFirstPartyAndPartnerAudiencesRequest>;
+export const ListFirstPartyAndPartnerAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/firstPartyAndPartnerAudiences" }),
+    svc,
+  ) as unknown as Schema.Schema<ListFirstPartyAndPartnerAudiencesRequest>;
 
 export type ListFirstPartyAndPartnerAudiencesResponse_Op =
   ListFirstPartyAndPartnerAudiencesResponse;
 export const ListFirstPartyAndPartnerAudiencesResponse_Op =
-  ListFirstPartyAndPartnerAudiencesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFirstPartyAndPartnerAudiencesResponse;
 
 export type ListFirstPartyAndPartnerAudiencesError = DefaultErrors;
 
@@ -19322,7 +19614,7 @@ export const listFirstPartyAndPartnerAudiences: API.PaginatedOperationMethod<
   ListFirstPartyAndPartnerAudiencesResponse_Op,
   ListFirstPartyAndPartnerAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListFirstPartyAndPartnerAudiencesRequest,
   output: ListFirstPartyAndPartnerAudiencesResponse_Op,
   errors: [],
@@ -19343,28 +19635,29 @@ export interface PatchFirstPartyAndPartnerAudiencesRequest {
   body?: FirstPartyAndPartnerAudience;
 }
 
-export const PatchFirstPartyAndPartnerAudiencesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  firstPartyAndPartnerAudienceId: Schema.String.pipe(
-    T.HttpPath("firstPartyAndPartnerAudienceId"),
-  ),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(FirstPartyAndPartnerAudience).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v4/firstPartyAndPartnerAudiences/{firstPartyAndPartnerAudiencesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchFirstPartyAndPartnerAudiencesRequest>;
+export const PatchFirstPartyAndPartnerAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    firstPartyAndPartnerAudienceId: Schema.String.pipe(
+      T.HttpPath("firstPartyAndPartnerAudienceId"),
+    ),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(FirstPartyAndPartnerAudience).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v4/firstPartyAndPartnerAudiences/{firstPartyAndPartnerAudiencesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchFirstPartyAndPartnerAudiencesRequest>;
 
 export type PatchFirstPartyAndPartnerAudiencesResponse =
   FirstPartyAndPartnerAudience;
 export const PatchFirstPartyAndPartnerAudiencesResponse =
-  FirstPartyAndPartnerAudience;
+  /*@__PURE__*/ /*#__PURE__*/ FirstPartyAndPartnerAudience;
 
 export type PatchFirstPartyAndPartnerAudiencesError = DefaultErrors;
 
@@ -19374,7 +19667,7 @@ export const patchFirstPartyAndPartnerAudiences: API.OperationMethod<
   PatchFirstPartyAndPartnerAudiencesResponse,
   PatchFirstPartyAndPartnerAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchFirstPartyAndPartnerAudiencesRequest,
   output: PatchFirstPartyAndPartnerAudiencesResponse,
   errors: [],
@@ -19387,24 +19680,25 @@ export interface CreateFirstPartyAndPartnerAudiencesRequest {
   body?: FirstPartyAndPartnerAudience;
 }
 
-export const CreateFirstPartyAndPartnerAudiencesRequest = Schema.Struct({
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-  body: Schema.optional(FirstPartyAndPartnerAudience).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v4/firstPartyAndPartnerAudiences",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateFirstPartyAndPartnerAudiencesRequest>;
+export const CreateFirstPartyAndPartnerAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+    body: Schema.optional(FirstPartyAndPartnerAudience).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v4/firstPartyAndPartnerAudiences",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateFirstPartyAndPartnerAudiencesRequest>;
 
 export type CreateFirstPartyAndPartnerAudiencesResponse =
   FirstPartyAndPartnerAudience;
 export const CreateFirstPartyAndPartnerAudiencesResponse =
-  FirstPartyAndPartnerAudience;
+  /*@__PURE__*/ /*#__PURE__*/ FirstPartyAndPartnerAudience;
 
 export type CreateFirstPartyAndPartnerAudiencesError = DefaultErrors;
 
@@ -19414,7 +19708,7 @@ export const createFirstPartyAndPartnerAudiences: API.OperationMethod<
   CreateFirstPartyAndPartnerAudiencesResponse,
   CreateFirstPartyAndPartnerAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateFirstPartyAndPartnerAudiencesRequest,
   output: CreateFirstPartyAndPartnerAudiencesResponse,
   errors: [],
@@ -19428,7 +19722,7 @@ export interface EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest {
 }
 
 export const EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     firstPartyAndPartnerAudienceId: Schema.String.pipe(
       T.HttpPath("firstPartyAndPartnerAudienceId"),
     ),
@@ -19445,7 +19739,7 @@ export const EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest =
 export type EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse =
   EditCustomerMatchMembersResponse;
 export const EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse =
-  EditCustomerMatchMembersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ EditCustomerMatchMembersResponse;
 
 export type EditCustomerMatchMembersFirstPartyAndPartnerAudiencesError =
   DefaultErrors;
@@ -19456,7 +19750,7 @@ export const editCustomerMatchMembersFirstPartyAndPartnerAudiences: API.Operatio
   EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse,
   EditCustomerMatchMembersFirstPartyAndPartnerAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest,
   output: EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse,
   errors: [],
@@ -19477,22 +19771,24 @@ export interface ListCombinedAudiencesRequest {
   advertiserId?: string;
 }
 
-export const ListCombinedAudiencesRequest = Schema.Struct({
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/combinedAudiences" }),
-  svc,
-) as unknown as Schema.Schema<ListCombinedAudiencesRequest>;
+export const ListCombinedAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v4/combinedAudiences" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCombinedAudiencesRequest>;
 
 export type ListCombinedAudiencesResponse_Op = ListCombinedAudiencesResponse;
-export const ListCombinedAudiencesResponse_Op = ListCombinedAudiencesResponse;
+export const ListCombinedAudiencesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListCombinedAudiencesResponse;
 
 export type ListCombinedAudiencesError = DefaultErrors;
 
@@ -19502,7 +19798,7 @@ export const listCombinedAudiences: API.PaginatedOperationMethod<
   ListCombinedAudiencesResponse_Op,
   ListCombinedAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCombinedAudiencesRequest,
   output: ListCombinedAudiencesResponse_Op,
   errors: [],
@@ -19521,19 +19817,24 @@ export interface GetCombinedAudiencesRequest {
   advertiserId?: string;
 }
 
-export const GetCombinedAudiencesRequest = Schema.Struct({
-  combinedAudienceId: Schema.String.pipe(T.HttpPath("combinedAudienceId")),
-  partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
-  advertiserId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("advertiserId"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v4/combinedAudiences/{combinedAudiencesId}" }),
-  svc,
-) as unknown as Schema.Schema<GetCombinedAudiencesRequest>;
+export const GetCombinedAudiencesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    combinedAudienceId: Schema.String.pipe(T.HttpPath("combinedAudienceId")),
+    partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
+    advertiserId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("advertiserId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v4/combinedAudiences/{combinedAudiencesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetCombinedAudiencesRequest>;
 
 export type GetCombinedAudiencesResponse = CombinedAudience;
-export const GetCombinedAudiencesResponse = CombinedAudience;
+export const GetCombinedAudiencesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CombinedAudience;
 
 export type GetCombinedAudiencesError = DefaultErrors;
 
@@ -19543,7 +19844,7 @@ export const getCombinedAudiences: API.OperationMethod<
   GetCombinedAudiencesResponse,
   GetCombinedAudiencesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCombinedAudiencesRequest,
   output: GetCombinedAudiencesResponse,
   errors: [],

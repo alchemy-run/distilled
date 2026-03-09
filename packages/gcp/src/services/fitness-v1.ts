@@ -44,29 +44,30 @@ export interface Device {
   version?: string;
 }
 
-export const Device: Schema.Schema<Device> = Schema.suspend(() =>
-  Schema.Struct({
-    uid: Schema.optional(Schema.String),
-    manufacturer: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    model: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+export const Device: Schema.Schema<Device> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uid: Schema.optional(Schema.String),
+      manufacturer: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      model: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
 
 export interface BucketBySession {
   /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
   minDurationMillis?: string;
 }
 
-export const BucketBySession: Schema.Schema<BucketBySession> = Schema.suspend(
-  () =>
+export const BucketBySession: Schema.Schema<BucketBySession> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minDurationMillis: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BucketBySession",
-}) as any as Schema.Schema<BucketBySession>;
+  ).annotate({
+    identifier: "BucketBySession",
+  }) as any as Schema.Schema<BucketBySession>;
 
 export interface AggregateBy {
   /** The data type to aggregate. All data sources providing this data type will contribute data to the aggregation. The response will contain a single dataset for this data type name. The dataset will have a data source ID of derived::com.google.android.gms:aggregated. If the user has no data for this data type, an empty data set will be returned. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
@@ -75,12 +76,15 @@ export interface AggregateBy {
   dataSourceId?: string;
 }
 
-export const AggregateBy: Schema.Schema<AggregateBy> = Schema.suspend(() =>
-  Schema.Struct({
-    dataTypeName: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AggregateBy" }) as any as Schema.Schema<AggregateBy>;
+export const AggregateBy: Schema.Schema<AggregateBy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataTypeName: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AggregateBy",
+  }) as any as Schema.Schema<AggregateBy>;
 
 export interface BucketByTimePeriod {
   type?: "day" | "week" | "month" | (string & {});
@@ -90,7 +94,7 @@ export interface BucketByTimePeriod {
 }
 
 export const BucketByTimePeriod: Schema.Schema<BucketByTimePeriod> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       value: Schema.optional(Schema.Number),
@@ -106,14 +110,15 @@ export interface BucketByTime {
   period?: BucketByTimePeriod;
 }
 
-export const BucketByTime: Schema.Schema<BucketByTime> = Schema.suspend(() =>
-  Schema.Struct({
-    durationMillis: Schema.optional(Schema.String),
-    period: Schema.optional(BucketByTimePeriod),
-  }),
-).annotate({
-  identifier: "BucketByTime",
-}) as any as Schema.Schema<BucketByTime>;
+export const BucketByTime: Schema.Schema<BucketByTime> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      durationMillis: Schema.optional(Schema.String),
+      period: Schema.optional(BucketByTimePeriod),
+    }),
+  ).annotate({
+    identifier: "BucketByTime",
+  }) as any as Schema.Schema<BucketByTime>;
 
 export interface BucketByActivity {
   /** Specifies that only activity segments of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
@@ -122,15 +127,15 @@ export interface BucketByActivity {
   activityDataSourceId?: string;
 }
 
-export const BucketByActivity: Schema.Schema<BucketByActivity> = Schema.suspend(
-  () =>
+export const BucketByActivity: Schema.Schema<BucketByActivity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minDurationMillis: Schema.optional(Schema.String),
       activityDataSourceId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BucketByActivity",
-}) as any as Schema.Schema<BucketByActivity>;
+  ).annotate({
+    identifier: "BucketByActivity",
+  }) as any as Schema.Schema<BucketByActivity>;
 
 export interface AggregateRequest {
   /** Specifies that data be aggregated by user sessions. Data that does not fall within the time range of a session will not be included in the response. Mutually exclusive of other bucketing specifications. */
@@ -163,8 +168,8 @@ export interface AggregateRequest {
   bucketByActivitySegment?: BucketByActivity;
 }
 
-export const AggregateRequest: Schema.Schema<AggregateRequest> = Schema.suspend(
-  () =>
+export const AggregateRequest: Schema.Schema<AggregateRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketBySession: Schema.optional(BucketBySession),
       endTimeMillis: Schema.optional(Schema.String),
@@ -175,9 +180,9 @@ export const AggregateRequest: Schema.Schema<AggregateRequest> = Schema.suspend(
       filteredDataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
       bucketByActivitySegment: Schema.optional(BucketByActivity),
     }),
-).annotate({
-  identifier: "AggregateRequest",
-}) as any as Schema.Schema<AggregateRequest>;
+  ).annotate({
+    identifier: "AggregateRequest",
+  }) as any as Schema.Schema<AggregateRequest>;
 
 export interface DataTypeField {
   /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
@@ -195,15 +200,16 @@ export interface DataTypeField {
   optional?: boolean;
 }
 
-export const DataTypeField: Schema.Schema<DataTypeField> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    format: Schema.optional(Schema.String),
-    optional: Schema.optional(Schema.Boolean),
-  }),
-).annotate({
-  identifier: "DataTypeField",
-}) as any as Schema.Schema<DataTypeField>;
+export const DataTypeField: Schema.Schema<DataTypeField> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+      optional: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DataTypeField",
+  }) as any as Schema.Schema<DataTypeField>;
 
 export interface DataType {
   /** Each data type has a unique, namespaced, name. All data types in the com.google namespace are shared as part of the platform. */
@@ -212,12 +218,13 @@ export interface DataType {
   field?: Array<DataTypeField>;
 }
 
-export const DataType: Schema.Schema<DataType> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    field: Schema.optional(Schema.Array(DataTypeField)),
-  }),
-).annotate({ identifier: "DataType" }) as any as Schema.Schema<DataType>;
+export const DataType: Schema.Schema<DataType> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      field: Schema.optional(Schema.Array(DataTypeField)),
+    }),
+  ).annotate({ identifier: "DataType" }) as any as Schema.Schema<DataType>;
 
 export interface Application {
   /** Version of the application. You should update this field whenever the application changes in a way that affects the computation of the data. */
@@ -230,14 +237,17 @@ export interface Application {
   packageName?: string;
 }
 
-export const Application: Schema.Schema<Application> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    detailsUrl: Schema.optional(Schema.String),
-    packageName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Application" }) as any as Schema.Schema<Application>;
+export const Application: Schema.Schema<Application> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      detailsUrl: Schema.optional(Schema.String),
+      packageName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Application",
+  }) as any as Schema.Schema<Application>;
 
 export interface DataSource {
   /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
@@ -270,18 +280,19 @@ export interface DataSource {
   device?: Device;
 }
 
-export const DataSource: Schema.Schema<DataSource> = Schema.suspend(() =>
-  Schema.Struct({
-    dataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
-    dataType: Schema.optional(DataType),
-    dataStreamName: Schema.optional(Schema.String),
-    application: Schema.optional(Application),
-    type: Schema.optional(Schema.String),
-    dataStreamId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    device: Schema.optional(Device),
-  }),
-).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
+export const DataSource: Schema.Schema<DataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataQualityStandard: Schema.optional(Schema.Array(Schema.String)),
+      dataType: Schema.optional(DataType),
+      dataStreamName: Schema.optional(Schema.String),
+      application: Schema.optional(Application),
+      type: Schema.optional(Schema.String),
+      dataStreamId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      device: Schema.optional(Device),
+    }),
+  ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
 
 export interface ListDataSourcesResponse {
   /** A previously created data source. */
@@ -289,7 +300,7 @@ export interface ListDataSourcesResponse {
 }
 
 export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(Schema.Array(DataSource)),
     }),
@@ -302,26 +313,27 @@ export interface MapValue {
   fpVal?: number;
 }
 
-export const MapValue: Schema.Schema<MapValue> = Schema.suspend(() =>
-  Schema.Struct({
-    fpVal: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
+export const MapValue: Schema.Schema<MapValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fpVal: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "MapValue" }) as any as Schema.Schema<MapValue>;
 
 export interface ValueMapValEntry {
   key?: string;
   value?: MapValue;
 }
 
-export const ValueMapValEntry: Schema.Schema<ValueMapValEntry> = Schema.suspend(
-  () =>
+export const ValueMapValEntry: Schema.Schema<ValueMapValEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       value: Schema.optional(MapValue),
     }),
-).annotate({
-  identifier: "ValueMapValEntry",
-}) as any as Schema.Schema<ValueMapValEntry>;
+  ).annotate({
+    identifier: "ValueMapValEntry",
+  }) as any as Schema.Schema<ValueMapValEntry>;
 
 export interface Value {
   /** Floating point value. When this is set, other values must not be set. */
@@ -334,14 +346,15 @@ export interface Value {
   intVal?: number;
 }
 
-export const Value: Schema.Schema<Value> = Schema.suspend(() =>
-  Schema.Struct({
-    fpVal: Schema.optional(Schema.Number),
-    stringVal: Schema.optional(Schema.String),
-    mapVal: Schema.optional(Schema.Array(ValueMapValEntry)),
-    intVal: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
+export const Value: Schema.Schema<Value> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fpVal: Schema.optional(Schema.Number),
+      stringVal: Schema.optional(Schema.String),
+      mapVal: Schema.optional(Schema.Array(ValueMapValEntry)),
+      intVal: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Value" }) as any as Schema.Schema<Value>;
 
 export interface DataPoint {
   /** The raw timestamp from the original SensorEvent. */
@@ -362,18 +375,19 @@ export interface DataPoint {
   originDataSourceId?: string;
 }
 
-export const DataPoint: Schema.Schema<DataPoint> = Schema.suspend(() =>
-  Schema.Struct({
-    rawTimestampNanos: Schema.optional(Schema.String),
-    endTimeNanos: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.Array(Value)),
-    modifiedTimeMillis: Schema.optional(Schema.String),
-    startTimeNanos: Schema.optional(Schema.String),
-    dataTypeName: Schema.optional(Schema.String),
-    computationTimeMillis: Schema.optional(Schema.String),
-    originDataSourceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DataPoint" }) as any as Schema.Schema<DataPoint>;
+export const DataPoint: Schema.Schema<DataPoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      rawTimestampNanos: Schema.optional(Schema.String),
+      endTimeNanos: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.Array(Value)),
+      modifiedTimeMillis: Schema.optional(Schema.String),
+      startTimeNanos: Schema.optional(Schema.String),
+      dataTypeName: Schema.optional(Schema.String),
+      computationTimeMillis: Schema.optional(Schema.String),
+      originDataSourceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DataPoint" }) as any as Schema.Schema<DataPoint>;
 
 export interface Dataset {
   /** A partial list of data points contained in the dataset, ordered by endTimeNanos. This list is considered complete when retrieving a small dataset and partial when patching a dataset or retrieving a dataset that is too large to include in a single response. */
@@ -388,15 +402,16 @@ export interface Dataset {
   dataSourceId?: string;
 }
 
-export const Dataset: Schema.Schema<Dataset> = Schema.suspend(() =>
-  Schema.Struct({
-    point: Schema.optional(Schema.Array(DataPoint)),
-    minStartTimeNs: Schema.optional(Schema.String),
-    nextPageToken: Schema.optional(Schema.String),
-    maxEndTimeNs: Schema.optional(Schema.String),
-    dataSourceId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
+export const Dataset: Schema.Schema<Dataset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      point: Schema.optional(Schema.Array(DataPoint)),
+      minStartTimeNs: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      maxEndTimeNs: Schema.optional(Schema.String),
+      dataSourceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Dataset" }) as any as Schema.Schema<Dataset>;
 
 export interface Session {
   /** An end time, in milliseconds since epoch, inclusive. */
@@ -419,19 +434,20 @@ export interface Session {
   startTimeMillis?: string;
 }
 
-export const Session: Schema.Schema<Session> = Schema.suspend(() =>
-  Schema.Struct({
-    endTimeMillis: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    application: Schema.optional(Application),
-    activeTimeMillis: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedTimeMillis: Schema.optional(Schema.String),
-    activityType: Schema.optional(Schema.Number),
-    name: Schema.optional(Schema.String),
-    startTimeMillis: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
+export const Session: Schema.Schema<Session> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTimeMillis: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      application: Schema.optional(Application),
+      activeTimeMillis: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      modifiedTimeMillis: Schema.optional(Schema.String),
+      activityType: Schema.optional(Schema.Number),
+      name: Schema.optional(Schema.String),
+      startTimeMillis: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Session" }) as any as Schema.Schema<Session>;
 
 export interface AggregateBucket {
   /** The end time for the aggregated data, in milliseconds since epoch, inclusive. */
@@ -454,8 +470,8 @@ export interface AggregateBucket {
   startTimeMillis?: string;
 }
 
-export const AggregateBucket: Schema.Schema<AggregateBucket> = Schema.suspend(
-  () =>
+export const AggregateBucket: Schema.Schema<AggregateBucket> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       endTimeMillis: Schema.optional(Schema.String),
       dataset: Schema.optional(Schema.Array(Dataset)),
@@ -464,9 +480,9 @@ export const AggregateBucket: Schema.Schema<AggregateBucket> = Schema.suspend(
       type: Schema.optional(Schema.String),
       startTimeMillis: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AggregateBucket",
-}) as any as Schema.Schema<AggregateBucket>;
+  ).annotate({
+    identifier: "AggregateBucket",
+  }) as any as Schema.Schema<AggregateBucket>;
 
 export interface AggregateResponse {
   /** A list of buckets containing the aggregated data. */
@@ -474,7 +490,7 @@ export interface AggregateResponse {
 }
 
 export const AggregateResponse: Schema.Schema<AggregateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucket: Schema.optional(Schema.Array(AggregateBucket)),
     }),
@@ -494,7 +510,7 @@ export interface ListSessionsResponse {
 }
 
 export const ListSessionsResponse: Schema.Schema<ListSessionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletedSession: Schema.optional(Schema.Array(Session)),
       nextPageToken: Schema.optional(Schema.String),
@@ -517,7 +533,7 @@ export interface ListDataPointChangesResponse {
 }
 
 export const ListDataPointChangesResponse: Schema.Schema<ListDataPointChangesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       insertedDataPoint: Schema.optional(Schema.Array(DataPoint)),
       deletedDataPoint: Schema.optional(Schema.Array(DataPoint)),
@@ -539,16 +555,22 @@ export interface AggregateUsersDatasetRequest {
   body?: AggregateRequest;
 }
 
-export const AggregateUsersDatasetRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  body: Schema.optional(AggregateRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "{userId}/dataset:aggregate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<AggregateUsersDatasetRequest>;
+export const AggregateUsersDatasetRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    body: Schema.optional(AggregateRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "{userId}/dataset:aggregate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AggregateUsersDatasetRequest>;
 
 export type AggregateUsersDatasetResponse = AggregateResponse;
-export const AggregateUsersDatasetResponse = AggregateResponse;
+export const AggregateUsersDatasetResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AggregateResponse;
 
 export type AggregateUsersDatasetError = DefaultErrors;
 
@@ -558,7 +580,7 @@ export const aggregateUsersDataset: API.OperationMethod<
   AggregateUsersDatasetResponse,
   AggregateUsersDatasetError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AggregateUsersDatasetRequest,
   output: AggregateUsersDatasetResponse,
   errors: [],
@@ -573,21 +595,22 @@ export interface UpdateUsersSessionsRequest {
   body?: Session;
 }
 
-export const UpdateUsersSessionsRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
-  body: Schema.optional(Session).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{userId}/sessions/{sessionId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateUsersSessionsRequest>;
+export const UpdateUsersSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
+    body: Schema.optional(Session).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{userId}/sessions/{sessionId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateUsersSessionsRequest>;
 
 export type UpdateUsersSessionsResponse = Session;
-export const UpdateUsersSessionsResponse = Session;
+export const UpdateUsersSessionsResponse = /*@__PURE__*/ /*#__PURE__*/ Session;
 
 export type UpdateUsersSessionsError = DefaultErrors;
 
@@ -597,7 +620,7 @@ export const updateUsersSessions: API.OperationMethod<
   UpdateUsersSessionsResponse,
   UpdateUsersSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsersSessionsRequest,
   output: UpdateUsersSessionsResponse,
   errors: [],
@@ -618,24 +641,26 @@ export interface ListUsersSessionsRequest {
   startTime?: string;
 }
 
-export const ListUsersSessionsRequest = Schema.Struct({
-  endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-  activityType: Schema.optional(Schema.Array(Schema.Number)).pipe(
-    T.HttpQuery("activityType"),
-  ),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  includeDeleted: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeDeleted"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
-}).pipe(
-  T.Http({ method: "GET", path: "{userId}/sessions" }),
-  svc,
-) as unknown as Schema.Schema<ListUsersSessionsRequest>;
+export const ListUsersSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
+    activityType: Schema.optional(Schema.Array(Schema.Number)).pipe(
+      T.HttpQuery("activityType"),
+    ),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    includeDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeDeleted"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{userId}/sessions" }),
+    svc,
+  ) as unknown as Schema.Schema<ListUsersSessionsRequest>;
 
 export type ListUsersSessionsResponse = ListSessionsResponse;
-export const ListUsersSessionsResponse = ListSessionsResponse;
+export const ListUsersSessionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSessionsResponse;
 
 export type ListUsersSessionsError = DefaultErrors;
 
@@ -645,7 +670,7 @@ export const listUsersSessions: API.PaginatedOperationMethod<
   ListUsersSessionsResponse,
   ListUsersSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersSessionsRequest,
   output: ListUsersSessionsResponse,
   errors: [],
@@ -662,17 +687,20 @@ export interface DeleteUsersSessionsRequest {
   sessionId: string;
 }
 
-export const DeleteUsersSessionsRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "{userId}/sessions/{sessionId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteUsersSessionsRequest>;
+export const DeleteUsersSessionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    sessionId: Schema.String.pipe(T.HttpPath("sessionId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "{userId}/sessions/{sessionId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUsersSessionsRequest>;
 
 export interface DeleteUsersSessionsResponse {}
 export const DeleteUsersSessionsResponse: Schema.Schema<DeleteUsersSessionsResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteUsersSessionsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteUsersSessionsResponse>;
 
 export type DeleteUsersSessionsError = DefaultErrors;
 
@@ -682,7 +710,7 @@ export const deleteUsersSessions: API.OperationMethod<
   DeleteUsersSessionsResponse,
   DeleteUsersSessionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersSessionsRequest,
   output: DeleteUsersSessionsResponse,
   errors: [],
@@ -695,16 +723,18 @@ export interface CreateUsersDataSourcesRequest {
   body?: DataSource;
 }
 
-export const CreateUsersDataSourcesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  body: Schema.optional(DataSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "{userId}/dataSources", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<CreateUsersDataSourcesRequest>;
+export const CreateUsersDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    body: Schema.optional(DataSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "{userId}/dataSources", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<CreateUsersDataSourcesRequest>;
 
 export type CreateUsersDataSourcesResponse = DataSource;
-export const CreateUsersDataSourcesResponse = DataSource;
+export const CreateUsersDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type CreateUsersDataSourcesError = DefaultErrors;
 
@@ -714,7 +744,7 @@ export const createUsersDataSources: API.OperationMethod<
   CreateUsersDataSourcesResponse,
   CreateUsersDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateUsersDataSourcesRequest,
   output: CreateUsersDataSourcesResponse,
   errors: [],
@@ -727,16 +757,18 @@ export interface DeleteUsersDataSourcesRequest {
   dataSourceId: string;
 }
 
-export const DeleteUsersDataSourcesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "{userId}/dataSources/{dataSourceId}" }),
-  svc,
-) as unknown as Schema.Schema<DeleteUsersDataSourcesRequest>;
+export const DeleteUsersDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "{userId}/dataSources/{dataSourceId}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUsersDataSourcesRequest>;
 
 export type DeleteUsersDataSourcesResponse = DataSource;
-export const DeleteUsersDataSourcesResponse = DataSource;
+export const DeleteUsersDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type DeleteUsersDataSourcesError = DefaultErrors;
 
@@ -746,7 +778,7 @@ export const deleteUsersDataSources: API.OperationMethod<
   DeleteUsersDataSourcesResponse,
   DeleteUsersDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersDataSourcesRequest,
   output: DeleteUsersDataSourcesResponse,
   errors: [],
@@ -761,21 +793,23 @@ export interface UpdateUsersDataSourcesRequest {
   body?: DataSource;
 }
 
-export const UpdateUsersDataSourcesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-  body: Schema.optional(DataSource).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "{userId}/dataSources/{dataSourceId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateUsersDataSourcesRequest>;
+export const UpdateUsersDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+    body: Schema.optional(DataSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "{userId}/dataSources/{dataSourceId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateUsersDataSourcesRequest>;
 
 export type UpdateUsersDataSourcesResponse = DataSource;
-export const UpdateUsersDataSourcesResponse = DataSource;
+export const UpdateUsersDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type UpdateUsersDataSourcesError = DefaultErrors;
 
@@ -785,7 +819,7 @@ export const updateUsersDataSources: API.OperationMethod<
   UpdateUsersDataSourcesResponse,
   UpdateUsersDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateUsersDataSourcesRequest,
   output: UpdateUsersDataSourcesResponse,
   errors: [],
@@ -798,18 +832,20 @@ export interface ListUsersDataSourcesRequest {
   dataTypeName?: string[];
 }
 
-export const ListUsersDataSourcesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  dataTypeName: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("dataTypeName"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "{userId}/dataSources" }),
-  svc,
-) as unknown as Schema.Schema<ListUsersDataSourcesRequest>;
+export const ListUsersDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    dataTypeName: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("dataTypeName"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "{userId}/dataSources" }),
+    svc,
+  ) as unknown as Schema.Schema<ListUsersDataSourcesRequest>;
 
 export type ListUsersDataSourcesResponse = ListDataSourcesResponse;
-export const ListUsersDataSourcesResponse = ListDataSourcesResponse;
+export const ListUsersDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
 
 export type ListUsersDataSourcesError = DefaultErrors;
 
@@ -819,7 +855,7 @@ export const listUsersDataSources: API.OperationMethod<
   ListUsersDataSourcesResponse,
   ListUsersDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListUsersDataSourcesRequest,
   output: ListUsersDataSourcesResponse,
   errors: [],
@@ -832,16 +868,18 @@ export interface GetUsersDataSourcesRequest {
   dataSourceId: string;
 }
 
-export const GetUsersDataSourcesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-}).pipe(
-  T.Http({ method: "GET", path: "{userId}/dataSources/{dataSourceId}" }),
-  svc,
-) as unknown as Schema.Schema<GetUsersDataSourcesRequest>;
+export const GetUsersDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "{userId}/dataSources/{dataSourceId}" }),
+    svc,
+  ) as unknown as Schema.Schema<GetUsersDataSourcesRequest>;
 
 export type GetUsersDataSourcesResponse = DataSource;
-export const GetUsersDataSourcesResponse = DataSource;
+export const GetUsersDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
 export type GetUsersDataSourcesError = DefaultErrors;
 
@@ -851,7 +889,7 @@ export const getUsersDataSources: API.OperationMethod<
   GetUsersDataSourcesResponse,
   GetUsersDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUsersDataSourcesRequest,
   output: GetUsersDataSourcesResponse,
   errors: [],
@@ -866,21 +904,22 @@ export interface DeleteUsersDataSourcesDatasetsRequest {
   userId: string;
 }
 
-export const DeleteUsersDataSourcesDatasetsRequest = Schema.Struct({
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-  datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteUsersDataSourcesDatasetsRequest>;
+export const DeleteUsersDataSourcesDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+    datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteUsersDataSourcesDatasetsRequest>;
 
 export interface DeleteUsersDataSourcesDatasetsResponse {}
 export const DeleteUsersDataSourcesDatasetsResponse: Schema.Schema<DeleteUsersDataSourcesDatasetsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteUsersDataSourcesDatasetsResponse>;
 
@@ -892,7 +931,7 @@ export const deleteUsersDataSourcesDatasets: API.OperationMethod<
   DeleteUsersDataSourcesDatasetsResponse,
   DeleteUsersDataSourcesDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteUsersDataSourcesDatasetsRequest,
   output: DeleteUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -911,22 +950,24 @@ export interface GetUsersDataSourcesDatasetsRequest {
   limit?: number;
 }
 
-export const GetUsersDataSourcesDatasetsRequest = Schema.Struct({
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUsersDataSourcesDatasetsRequest>;
+export const GetUsersDataSourcesDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetUsersDataSourcesDatasetsRequest>;
 
 export type GetUsersDataSourcesDatasetsResponse = Dataset;
-export const GetUsersDataSourcesDatasetsResponse = Dataset;
+export const GetUsersDataSourcesDatasetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Dataset;
 
 export type GetUsersDataSourcesDatasetsError = DefaultErrors;
 
@@ -936,7 +977,7 @@ export const getUsersDataSourcesDatasets: API.PaginatedOperationMethod<
   GetUsersDataSourcesDatasetsResponse,
   GetUsersDataSourcesDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetUsersDataSourcesDatasetsRequest,
   output: GetUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -957,22 +998,24 @@ export interface PatchUsersDataSourcesDatasetsRequest {
   body?: Dataset;
 }
 
-export const PatchUsersDataSourcesDatasetsRequest = Schema.Struct({
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-  datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  body: Schema.optional(Dataset).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchUsersDataSourcesDatasetsRequest>;
+export const PatchUsersDataSourcesDatasetsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+    datasetId: Schema.String.pipe(T.HttpPath("datasetId")),
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    body: Schema.optional(Dataset).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "{userId}/dataSources/{dataSourceId}/datasets/{datasetId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchUsersDataSourcesDatasetsRequest>;
 
 export type PatchUsersDataSourcesDatasetsResponse = Dataset;
-export const PatchUsersDataSourcesDatasetsResponse = Dataset;
+export const PatchUsersDataSourcesDatasetsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Dataset;
 
 export type PatchUsersDataSourcesDatasetsError = DefaultErrors;
 
@@ -982,7 +1025,7 @@ export const patchUsersDataSourcesDatasets: API.OperationMethod<
   PatchUsersDataSourcesDatasetsResponse,
   PatchUsersDataSourcesDatasetsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUsersDataSourcesDatasetsRequest,
   output: PatchUsersDataSourcesDatasetsResponse,
   errors: [],
@@ -999,23 +1042,24 @@ export interface ListUsersDataSourcesDataPointChangesRequest {
   limit?: number;
 }
 
-export const ListUsersDataSourcesDataPointChangesRequest = Schema.Struct({
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
-  limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "{userId}/dataSources/{dataSourceId}/dataPointChanges",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListUsersDataSourcesDataPointChangesRequest>;
+export const ListUsersDataSourcesDataPointChangesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    userId: Schema.String.pipe(T.HttpPath("userId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    dataSourceId: Schema.String.pipe(T.HttpPath("dataSourceId")),
+    limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "{userId}/dataSources/{dataSourceId}/dataPointChanges",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListUsersDataSourcesDataPointChangesRequest>;
 
 export type ListUsersDataSourcesDataPointChangesResponse =
   ListDataPointChangesResponse;
 export const ListUsersDataSourcesDataPointChangesResponse =
-  ListDataPointChangesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDataPointChangesResponse;
 
 export type ListUsersDataSourcesDataPointChangesError = DefaultErrors;
 
@@ -1025,7 +1069,7 @@ export const listUsersDataSourcesDataPointChanges: API.PaginatedOperationMethod<
   ListUsersDataSourcesDataPointChangesResponse,
   ListUsersDataSourcesDataPointChangesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUsersDataSourcesDataPointChangesRequest,
   output: ListUsersDataSourcesDataPointChangesResponse,
   errors: [],

@@ -5,7 +5,7 @@ import { Forbidden, NotFound } from "../errors";
 import { SensitiveString } from "../sensitive";
 
 // Input Schema
-export const GetServiceTokenInput = Schema.Struct({
+export const GetServiceTokenInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   id: Schema.String.pipe(T.PathParam()),
 }).pipe(
@@ -17,7 +17,7 @@ export const GetServiceTokenInput = Schema.Struct({
 export type GetServiceTokenInput = typeof GetServiceTokenInput.Type;
 
 // Output Schema
-export const GetServiceTokenOutput = Schema.Struct({
+export const GetServiceTokenOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   display_name: Schema.String,

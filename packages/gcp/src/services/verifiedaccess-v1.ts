@@ -24,9 +24,10 @@ const svc = T.Service({
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface SignedData {
   /** The data to be signed. */
@@ -35,12 +36,13 @@ export interface SignedData {
   signature?: string;
 }
 
-export const SignedData: Schema.Schema<SignedData> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.String),
-    signature: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "SignedData" }) as any as Schema.Schema<SignedData>;
+export const SignedData: Schema.Schema<SignedData> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.String),
+      signature: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "SignedData" }) as any as Schema.Schema<SignedData>;
 
 export interface Challenge {
   /** Generated challenge */
@@ -49,12 +51,13 @@ export interface Challenge {
   alternativeChallenge?: SignedData;
 }
 
-export const Challenge: Schema.Schema<Challenge> = Schema.suspend(() =>
-  Schema.Struct({
-    challenge: Schema.optional(SignedData),
-    alternativeChallenge: Schema.optional(SignedData),
-  }),
-).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
+export const Challenge: Schema.Schema<Challenge> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      challenge: Schema.optional(SignedData),
+      alternativeChallenge: Schema.optional(SignedData),
+    }),
+  ).annotate({ identifier: "Challenge" }) as any as Schema.Schema<Challenge>;
 
 export interface VerifyChallengeResponseRequest {
   /** The generated response to the challenge */
@@ -64,7 +67,7 @@ export interface VerifyChallengeResponseRequest {
 }
 
 export const VerifyChallengeResponseRequest: Schema.Schema<VerifyChallengeResponseRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       challengeResponse: Schema.optional(SignedData),
       expectedIdentity: Schema.optional(Schema.String),
@@ -87,7 +90,7 @@ export interface VerifyChallengeResponseResult {
 }
 
 export const VerifyChallengeResponseResult: Schema.Schema<VerifyChallengeResponseResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       verificationOutput: Schema.optional(Schema.String),
       devicePermanentId: Schema.optional(Schema.String),
@@ -108,15 +111,17 @@ export interface CreateChallengeRequest {
   body?: Empty;
 }
 
-export const CreateChallengeRequest = Schema.Struct({
-  body: Schema.optional(Empty).pipe(T.HttpBody()),
-}).pipe(
+export const CreateChallengeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(Empty).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v1/challenge", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<CreateChallengeRequest>;
 
 export type CreateChallengeResponse = Challenge;
-export const CreateChallengeResponse = Challenge;
+export const CreateChallengeResponse = /*@__PURE__*/ /*#__PURE__*/ Challenge;
 
 export type CreateChallengeError = DefaultErrors;
 
@@ -126,7 +131,7 @@ export const createChallenge: API.OperationMethod<
   CreateChallengeResponse,
   CreateChallengeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateChallengeRequest,
   output: CreateChallengeResponse,
   errors: [],
@@ -137,15 +142,18 @@ export interface VerifyChallengeRequest {
   body?: VerifyChallengeResponseRequest;
 }
 
-export const VerifyChallengeRequest = Schema.Struct({
-  body: Schema.optional(VerifyChallengeResponseRequest).pipe(T.HttpBody()),
-}).pipe(
+export const VerifyChallengeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    body: Schema.optional(VerifyChallengeResponseRequest).pipe(T.HttpBody()),
+  },
+).pipe(
   T.Http({ method: "POST", path: "v1/challenge:verify", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<VerifyChallengeRequest>;
 
 export type VerifyChallengeResponse = VerifyChallengeResponseResult;
-export const VerifyChallengeResponse = VerifyChallengeResponseResult;
+export const VerifyChallengeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ VerifyChallengeResponseResult;
 
 export type VerifyChallengeError = DefaultErrors;
 
@@ -155,7 +163,7 @@ export const verifyChallenge: API.OperationMethod<
   VerifyChallengeResponse,
   VerifyChallengeError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyChallengeRequest,
   output: VerifyChallengeResponse,
   errors: [],

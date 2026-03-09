@@ -3,21 +3,23 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const DeleteBranchNeonAuthUserInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  branch_id: Schema.String.pipe(T.PathParam()),
-  auth_user_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/branches/{branch_id}/auth/users/{auth_user_id}",
-  }),
-);
+export const DeleteBranchNeonAuthUserInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    branch_id: Schema.String.pipe(T.PathParam()),
+    auth_user_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/branches/{branch_id}/auth/users/{auth_user_id}",
+    }),
+  );
 export type DeleteBranchNeonAuthUserInput =
   typeof DeleteBranchNeonAuthUserInput.Type;
 
 // Output Schema
-export const DeleteBranchNeonAuthUserOutput = Schema.Void;
+export const DeleteBranchNeonAuthUserOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteBranchNeonAuthUserOutput =
   typeof DeleteBranchNeonAuthUserOutput.Type;
 

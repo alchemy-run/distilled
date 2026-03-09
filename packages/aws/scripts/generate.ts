@@ -125,6 +125,12 @@ class UnableToTransformShapeToSchema extends Data.TaggedError(
   message: string;
 }> {}
 
+const annotatePureExportConst = (definition: string) =>
+  definition.replace(
+    /^export const ([^=]+?)\s*=\s*/m,
+    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
+  );
+
 // =============================================================================
 // Unified Trait Collection
 // =============================================================================
@@ -1546,7 +1552,7 @@ const convertShapeToSchema: (
                 .map((v) => `"${v}"`)
                 .join("\n  | ");
               const typeAlias = `export type ${schemaName} =\n  | ${literalUnion}\n  | (string & {});`;
-              const schemaDef = `export const ${schemaName} = S.String;`;
+              const schemaDef = annotatePureExportConst(`export const ${schemaName} = S.String;`);
               return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
             },
           ),
@@ -1577,7 +1583,7 @@ const convertShapeToSchema: (
               const literals = enumValues.join(", ");
               const literalUnion = enumValues.join(" | ");
               const typeAlias = `export type ${schemaName} = ${literalUnion};`;
-              const schemaDef = `export const ${schemaName} = S.Literals([${literals}]);`;
+              const schemaDef = annotatePureExportConst(`export const ${schemaName} = S.Literals([${literals}]);`);
               return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
             },
           ),
@@ -1632,8 +1638,8 @@ const convertShapeToSchema: (
                       );
                       const typeAlias = `export type ${schemaName} = ${memberTsType}[];`;
                       const schemaDef = isCyclic
-                        ? `export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`
-                        : `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`;
+                        ? annotatePureExportConst(`export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`)
+                        : annotatePureExportConst(`export const ${schemaName} = S.Array(${innerType})${sparsePipe};`);
                       return `${typeAlias}\n${schemaDef}`;
                     }),
                   ),
@@ -2004,7 +2010,7 @@ const convertShapeToSchema: (
                     // Generate interface + suspend(struct) pattern
                     // Trait annotations inside suspend, identifier outside
                     const interfaceDef = `export interface ${exportedName} { ${interfaceFields} }`;
-                    const schemaDef = `export const ${exportedName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${exportedName}>;`;
+                    const schemaDef = annotatePureExportConst(`export const ${exportedName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${exportedName}>;`);
 
                     return `${interfaceDef}\n${schemaDef}`;
                   }),
@@ -2110,9 +2116,9 @@ const convertShapeToSchema: (
                         const isInputEventStream =
                           sdkFile.inputEventStreamShapeIds.has(target);
                         if (isInputEventStream) {
-                          return `${typeAlias}\nexport const ${schemaName} = T.InputEventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
+                          return `${typeAlias}\n${annotatePureExportConst(`export const ${schemaName} = T.InputEventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`)}`;
                         }
-                        return `${typeAlias}\nexport const ${schemaName} = T.EventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`;
+                        return `${typeAlias}\n${annotatePureExportConst(`export const ${schemaName} = T.EventStream(S.Union([${wrappedMembers.join(", ")}])) as any as S.Schema<stream.Stream<${schemaName}, Error, never>>;`)}`;
                       }
 
                       // Generate explicit type alias for unions (needed for pagination item types)
@@ -2134,10 +2140,10 @@ const convertShapeToSchema: (
                       const typeAlias = `export type ${schemaName} = ${memberTsTypes.join(" | ")};`;
 
                       if (isCurrentCyclic) {
-                        return `${typeAlias}\nexport const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]) as any as S.Schema<${schemaName}>;`;
+                        return `${typeAlias}\n${annotatePureExportConst(`export const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]) as any as S.Schema<${schemaName}>;`)}`;
                       }
 
-                      return `${typeAlias}\nexport const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]);`;
+                      return `${typeAlias}\n${annotatePureExportConst(`export const ${schemaName} = S.Union([${wrappedMembers.join(", ")}]);`)}`;
                     }),
                   ),
                 ),
@@ -2253,8 +2259,8 @@ const convertShapeToSchema: (
                       }
 
                       const schemaDef = isCyclic
-                        ? `export const ${schemaName} = ${recordExpr} as any as S.Schema<${schemaName}>;`
-                        : `export const ${schemaName} = ${recordExpr};`;
+                        ? annotatePureExportConst(`export const ${schemaName} = ${recordExpr} as any as S.Schema<${schemaName}>;`)
+                        : annotatePureExportConst(`export const ${schemaName} = ${recordExpr};`);
                       return `${typeAlias}\n${schemaDef}`;
                     }),
                   ),
@@ -2621,7 +2627,7 @@ const generateClient = Effect.fn(function* (
             const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
-            const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
+            const schemaDef = annotatePureExportConst(`export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`);
             const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,
@@ -2655,7 +2661,7 @@ const generateClient = Effect.fn(function* (
             const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
-            const schemaDef = `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`;
+            const schemaDef = annotatePureExportConst(`export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`);
             const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,

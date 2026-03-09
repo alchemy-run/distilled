@@ -31,8 +31,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -40,9 +40,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
@@ -58,7 +58,7 @@ export interface GoogleLongrunningOperation {
 }
 
 export const GoogleLongrunningOperation: Schema.Schema<GoogleLongrunningOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -80,7 +80,7 @@ export interface GoogleLongrunningListOperationsResponse {
 }
 
 export const GoogleLongrunningListOperationsResponse: Schema.Schema<GoogleLongrunningListOperationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operations: Schema.optional(Schema.Array(GoogleLongrunningOperation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -96,7 +96,7 @@ export interface GoogleCloudRetailV2alphaOutputConfigGcsDestination {
 }
 
 export const GoogleCloudRetailV2alphaOutputConfigGcsDestination: Schema.Schema<GoogleCloudRetailV2alphaOutputConfigGcsDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUriPrefix: Schema.optional(Schema.String),
     }),
@@ -114,7 +114,7 @@ export interface GoogleCloudRetailV2alphaOutputConfigBigQueryDestination {
 }
 
 export const GoogleCloudRetailV2alphaOutputConfigBigQueryDestination: Schema.Schema<GoogleCloudRetailV2alphaOutputConfigBigQueryDestination> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetId: Schema.optional(Schema.String),
       tableIdPrefix: Schema.optional(Schema.String),
@@ -132,7 +132,7 @@ export interface GoogleCloudRetailV2alphaOutputConfig {
 }
 
 export const GoogleCloudRetailV2alphaOutputConfig: Schema.Schema<GoogleCloudRetailV2alphaOutputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsDestination: Schema.optional(
         GoogleCloudRetailV2alphaOutputConfigGcsDestination,
@@ -153,7 +153,7 @@ export interface GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest {
 }
 
 export const GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest: Schema.Schema<GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(GoogleCloudRetailV2alphaOutputConfig),
       filter: Schema.optional(Schema.String),
@@ -174,7 +174,7 @@ export interface GoogleCloudRetailV2alphaBranchProductCountStatistic {
 }
 
 export const GoogleCloudRetailV2alphaBranchProductCountStatistic: Schema.Schema<GoogleCloudRetailV2alphaBranchProductCountStatistic> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scope: Schema.optional(Schema.String),
       counts: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -195,7 +195,7 @@ export interface GoogleCloudRetailV2alphaCustomAttribute {
 }
 
 export const GoogleCloudRetailV2alphaCustomAttribute: Schema.Schema<GoogleCloudRetailV2alphaCustomAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       text: Schema.optional(Schema.Array(Schema.String)),
       numbers: Schema.optional(Schema.Array(Schema.Number)),
@@ -218,7 +218,7 @@ export interface GoogleCloudRetailV2alphaInterval {
 }
 
 export const GoogleCloudRetailV2alphaInterval: Schema.Schema<GoogleCloudRetailV2alphaInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimum: Schema.optional(Schema.Number),
       exclusiveMinimum: Schema.optional(Schema.Number),
@@ -237,7 +237,7 @@ export interface GoogleCloudRetailV2alphaPriceInfoPriceRange {
 }
 
 export const GoogleCloudRetailV2alphaPriceInfoPriceRange: Schema.Schema<GoogleCloudRetailV2alphaPriceInfoPriceRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       price: Schema.optional(GoogleCloudRetailV2alphaInterval),
       originalPrice: Schema.optional(GoogleCloudRetailV2alphaInterval),
@@ -264,7 +264,7 @@ export interface GoogleCloudRetailV2alphaPriceInfo {
 }
 
 export const GoogleCloudRetailV2alphaPriceInfo: Schema.Schema<GoogleCloudRetailV2alphaPriceInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       currencyCode: Schema.optional(Schema.String),
       price: Schema.optional(Schema.Number),
@@ -288,7 +288,7 @@ export interface GoogleCloudRetailV2alphaRating {
 }
 
 export const GoogleCloudRetailV2alphaRating: Schema.Schema<GoogleCloudRetailV2alphaRating> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ratingCount: Schema.optional(Schema.Number),
       averageRating: Schema.optional(Schema.Number),
@@ -306,7 +306,7 @@ export interface GoogleCloudRetailV2alphaFulfillmentInfo {
 }
 
 export const GoogleCloudRetailV2alphaFulfillmentInfo: Schema.Schema<GoogleCloudRetailV2alphaFulfillmentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       placeIds: Schema.optional(Schema.Array(Schema.String)),
@@ -325,7 +325,7 @@ export interface GoogleCloudRetailV2alphaImage {
 }
 
 export const GoogleCloudRetailV2alphaImage: Schema.Schema<GoogleCloudRetailV2alphaImage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       height: Schema.optional(Schema.Number),
@@ -343,7 +343,7 @@ export interface GoogleCloudRetailV2alphaAudience {
 }
 
 export const GoogleCloudRetailV2alphaAudience: Schema.Schema<GoogleCloudRetailV2alphaAudience> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       genders: Schema.optional(Schema.Array(Schema.String)),
       ageGroups: Schema.optional(Schema.Array(Schema.String)),
@@ -360,7 +360,7 @@ export interface GoogleCloudRetailV2alphaColorInfo {
 }
 
 export const GoogleCloudRetailV2alphaColorInfo: Schema.Schema<GoogleCloudRetailV2alphaColorInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       colorFamilies: Schema.optional(Schema.Array(Schema.String)),
       colors: Schema.optional(Schema.Array(Schema.String)),
@@ -375,7 +375,7 @@ export interface GoogleCloudRetailV2alphaPromotion {
 }
 
 export const GoogleCloudRetailV2alphaPromotion: Schema.Schema<GoogleCloudRetailV2alphaPromotion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       promotionId: Schema.optional(Schema.String),
     }),
@@ -403,7 +403,7 @@ export interface GoogleCloudRetailV2alphaLocalInventory {
 }
 
 export const GoogleCloudRetailV2alphaLocalInventory: Schema.Schema<GoogleCloudRetailV2alphaLocalInventory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeId: Schema.optional(Schema.String),
       priceInfo: Schema.optional(GoogleCloudRetailV2alphaPriceInfo),
@@ -500,7 +500,7 @@ export interface GoogleCloudRetailV2alphaProduct {
 }
 
 export const GoogleCloudRetailV2alphaProduct: Schema.Schema<GoogleCloudRetailV2alphaProduct> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expireTime: Schema.optional(Schema.String),
       ttl: Schema.optional(Schema.String),
@@ -563,7 +563,7 @@ export interface GoogleCloudRetailV2alphaBranchQualityMetric {
 }
 
 export const GoogleCloudRetailV2alphaBranchQualityMetric: Schema.Schema<GoogleCloudRetailV2alphaBranchQualityMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requirementKey: Schema.optional(Schema.String),
       qualifiedProductCount: Schema.optional(Schema.Number),
@@ -593,7 +593,7 @@ export interface GoogleCloudRetailV2alphaBranch {
 }
 
 export const GoogleCloudRetailV2alphaBranch: Schema.Schema<GoogleCloudRetailV2alphaBranch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -616,7 +616,7 @@ export interface GoogleCloudRetailV2alphaListBranchesResponse {
 }
 
 export const GoogleCloudRetailV2alphaListBranchesResponse: Schema.Schema<GoogleCloudRetailV2alphaListBranchesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       branches: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaBranch)),
     }),
@@ -632,7 +632,7 @@ export interface GoogleCloudRetailV2alphaProductLevelConfig {
 }
 
 export const GoogleCloudRetailV2alphaProductLevelConfig: Schema.Schema<GoogleCloudRetailV2alphaProductLevelConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ingestionProductType: Schema.optional(Schema.String),
       merchantCenterProductIdField: Schema.optional(Schema.String),
@@ -651,7 +651,7 @@ export interface GoogleCloudRetailV2alphaMerchantCenterFeedFilter {
 }
 
 export const GoogleCloudRetailV2alphaMerchantCenterFeedFilter: Schema.Schema<GoogleCloudRetailV2alphaMerchantCenterFeedFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryFeedId: Schema.optional(Schema.String),
       dataSourceId: Schema.optional(Schema.String),
@@ -677,7 +677,7 @@ export interface GoogleCloudRetailV2alphaMerchantCenterLink {
 }
 
 export const GoogleCloudRetailV2alphaMerchantCenterLink: Schema.Schema<GoogleCloudRetailV2alphaMerchantCenterLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantCenterAccountId: Schema.optional(Schema.String),
       branchId: Schema.optional(Schema.String),
@@ -698,7 +698,7 @@ export interface GoogleCloudRetailV2alphaMerchantCenterLinkingConfig {
 }
 
 export const GoogleCloudRetailV2alphaMerchantCenterLinkingConfig: Schema.Schema<GoogleCloudRetailV2alphaMerchantCenterLinkingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       links: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaMerchantCenterLink),
@@ -720,7 +720,7 @@ export interface GoogleCloudRetailV2alphaCatalog {
 }
 
 export const GoogleCloudRetailV2alphaCatalog: Schema.Schema<GoogleCloudRetailV2alphaCatalog> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -743,7 +743,7 @@ export interface GoogleCloudRetailV2alphaListCatalogsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListCatalogsResponse: Schema.Schema<GoogleCloudRetailV2alphaListCatalogsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogs: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaCatalog)),
       nextPageToken: Schema.optional(Schema.String),
@@ -762,7 +762,7 @@ export interface GoogleCloudRetailV2alphaSetDefaultBranchRequest {
 }
 
 export const GoogleCloudRetailV2alphaSetDefaultBranchRequest: Schema.Schema<GoogleCloudRetailV2alphaSetDefaultBranchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       branchId: Schema.optional(Schema.String),
       note: Schema.optional(Schema.String),
@@ -775,7 +775,7 @@ export const GoogleCloudRetailV2alphaSetDefaultBranchRequest: Schema.Schema<Goog
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -789,7 +789,7 @@ export interface GoogleCloudRetailV2alphaGetDefaultBranchResponse {
 }
 
 export const GoogleCloudRetailV2alphaGetDefaultBranchResponse: Schema.Schema<GoogleCloudRetailV2alphaGetDefaultBranchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       branch: Schema.optional(Schema.String),
       setTime: Schema.optional(Schema.String),
@@ -808,16 +808,16 @@ export interface GoogleTypeDate {
   day?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GoogleCloudRetailV2alphaBigQuerySource {
   /** BigQuery time partitioned table's _PARTITIONDATE in YYYY-MM-DD format. */
@@ -835,7 +835,7 @@ export interface GoogleCloudRetailV2alphaBigQuerySource {
 }
 
 export const GoogleCloudRetailV2alphaBigQuerySource: Schema.Schema<GoogleCloudRetailV2alphaBigQuerySource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionDate: Schema.optional(GoogleTypeDate),
       projectId: Schema.optional(Schema.String),
@@ -854,7 +854,7 @@ export interface GoogleCloudRetailV2alphaCompletionDataInputConfig {
 }
 
 export const GoogleCloudRetailV2alphaCompletionDataInputConfig: Schema.Schema<GoogleCloudRetailV2alphaCompletionDataInputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQuerySource: Schema.optional(GoogleCloudRetailV2alphaBigQuerySource),
     }),
@@ -888,7 +888,7 @@ export interface GoogleCloudRetailV2alphaCompletionConfig {
 }
 
 export const GoogleCloudRetailV2alphaCompletionConfig: Schema.Schema<GoogleCloudRetailV2alphaCompletionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       matchingOrder: Schema.optional(Schema.String),
@@ -922,7 +922,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacet
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValues: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
       startTime: Schema.optional(Schema.String),
@@ -941,7 +941,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetV
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValue: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
       mergedValue: Schema.optional(Schema.String),
@@ -957,7 +957,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet 
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mergedFacetKey: Schema.optional(Schema.String),
     }),
@@ -974,7 +974,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rerankFacet: Schema.optional(Schema.Boolean),
       facetValues: Schema.optional(Schema.Array(Schema.String)),
@@ -998,7 +998,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfig {
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttributeFacetConfig: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttributeFacetConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       facetIntervals: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaInterval),
@@ -1072,7 +1072,7 @@ export interface GoogleCloudRetailV2alphaCatalogAttribute {
 }
 
 export const GoogleCloudRetailV2alphaCatalogAttribute: Schema.Schema<GoogleCloudRetailV2alphaCatalogAttribute> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       inUse: Schema.optional(Schema.Boolean),
@@ -1105,7 +1105,7 @@ export interface GoogleCloudRetailV2alphaAttributesConfig {
 }
 
 export const GoogleCloudRetailV2alphaAttributesConfig: Schema.Schema<GoogleCloudRetailV2alphaAttributesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       catalogAttributes: Schema.optional(
@@ -1123,7 +1123,7 @@ export interface GoogleCloudRetailV2alphaAddCatalogAttributeRequest {
 }
 
 export const GoogleCloudRetailV2alphaAddCatalogAttributeRequest: Schema.Schema<GoogleCloudRetailV2alphaAddCatalogAttributeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogAttribute: Schema.optional(
         GoogleCloudRetailV2alphaCatalogAttribute,
@@ -1139,7 +1139,7 @@ export interface GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest {
 }
 
 export const GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest: Schema.Schema<GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -1153,7 +1153,7 @@ export interface GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest {
 }
 
 export const GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest: Schema.Schema<GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeKeys: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1169,7 +1169,7 @@ export interface GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse {
 }
 
 export const GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse: Schema.Schema<GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deletedCatalogAttributes: Schema.optional(Schema.Array(Schema.String)),
       resetCatalogAttributes: Schema.optional(Schema.Array(Schema.String)),
@@ -1186,7 +1186,7 @@ export interface GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest {
 }
 
 export const GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest: Schema.Schema<GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalogAttribute: Schema.optional(
         GoogleCloudRetailV2alphaCatalogAttribute,
@@ -1209,7 +1209,7 @@ export interface GoogleCloudRetailV2alphaUserInfo {
 }
 
 export const GoogleCloudRetailV2alphaUserInfo: Schema.Schema<GoogleCloudRetailV2alphaUserInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userId: Schema.optional(Schema.String),
       ipAddress: Schema.optional(Schema.String),
@@ -1242,7 +1242,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       intervals: Schema.optional(
@@ -1272,7 +1272,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestFacetSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestFacetSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestFacetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       facetKey: Schema.optional(
         GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey,
@@ -1291,7 +1291,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -1307,7 +1307,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpe
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       boost: Schema.optional(Schema.Number),
@@ -1325,7 +1325,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestBoostSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestBoostSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestBoostSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditionBoostSpecs: Schema.optional(
         Schema.Array(
@@ -1346,7 +1346,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(Schema.String),
       pinUnexpandedResults: Schema.optional(Schema.Boolean),
@@ -1361,7 +1361,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -1375,7 +1375,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mode: Schema.optional(Schema.String),
     }),
@@ -1391,7 +1391,7 @@ export interface GoogleCloudRetailV2alphaProductAttributeValue {
 }
 
 export const GoogleCloudRetailV2alphaProductAttributeValue: Schema.Schema<GoogleCloudRetailV2alphaProductAttributeValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
@@ -1408,7 +1408,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUs
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswerSelectedAnswer: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswerSelectedAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValues: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaProductAttributeValue),
@@ -1430,7 +1430,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUs
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswer: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textAnswer: Schema.optional(Schema.String),
       selectedAnswer: Schema.optional(
@@ -1452,7 +1452,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       followupConversationRequested: Schema.optional(Schema.Boolean),
       conversationId: Schema.optional(Schema.String),
@@ -1472,7 +1472,7 @@ export interface GoogleCloudRetailV2alphaProductAttributeInterval {
 }
 
 export const GoogleCloudRetailV2alphaProductAttributeInterval: Schema.Schema<GoogleCloudRetailV2alphaProductAttributeInterval> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       interval: Schema.optional(GoogleCloudRetailV2alphaInterval),
@@ -1491,7 +1491,7 @@ export interface GoogleCloudRetailV2alphaTile {
 }
 
 export const GoogleCloudRetailV2alphaTile: Schema.Schema<GoogleCloudRetailV2alphaTile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -1513,7 +1513,7 @@ export interface GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec: Schema.Schema<GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tileNavigationRequested: Schema.optional(Schema.Boolean),
       appliedTiles: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaTile)),
@@ -1528,7 +1528,7 @@ export interface GoogleCloudRetailV2alphaStringList {
 }
 
 export const GoogleCloudRetailV2alphaStringList: Schema.Schema<GoogleCloudRetailV2alphaStringList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1608,7 +1608,7 @@ export interface GoogleCloudRetailV2alphaSearchRequest {
 }
 
 export const GoogleCloudRetailV2alphaSearchRequest: Schema.Schema<GoogleCloudRetailV2alphaSearchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       branch: Schema.optional(Schema.String),
       query: Schema.optional(Schema.String),
@@ -1668,7 +1668,7 @@ export interface GoogleCloudRetailV2alphaDoubleList {
 }
 
 export const GoogleCloudRetailV2alphaDoubleList: Schema.Schema<GoogleCloudRetailV2alphaDoubleList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(Schema.Number)),
     }),
@@ -1694,7 +1694,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseSearchResult {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseSearchResult: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       product: Schema.optional(GoogleCloudRetailV2alphaProduct),
@@ -1728,7 +1728,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseFacetFacetValue {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseFacetFacetValue: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseFacetFacetValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       interval: Schema.optional(GoogleCloudRetailV2alphaInterval),
@@ -1750,7 +1750,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseFacet {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseFacet: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseFacet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
       values: Schema.optional(
@@ -1770,7 +1770,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expandedQuery: Schema.optional(Schema.Boolean),
       pinnedResultCount: Schema.optional(Schema.String),
@@ -1785,7 +1785,7 @@ export interface GoogleCloudRetailV2alphaPinControlMetadataProductPins {
 }
 
 export const GoogleCloudRetailV2alphaPinControlMetadataProductPins: Schema.Schema<GoogleCloudRetailV2alphaPinControlMetadataProductPins> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productId: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1807,7 +1807,7 @@ export interface GoogleCloudRetailV2alphaPinControlMetadata {
 }
 
 export const GoogleCloudRetailV2alphaPinControlMetadata: Schema.Schema<GoogleCloudRetailV2alphaPinControlMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allMatchedPins: Schema.optional(
         Schema.Record(
@@ -1834,7 +1834,7 @@ export interface GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment {
 }
 
 export const GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment: Schema.Schema<GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       originalServingConfig: Schema.optional(Schema.String),
       experimentServingConfig: Schema.optional(Schema.String),
@@ -1851,7 +1851,7 @@ export interface GoogleCloudRetailV2alphaExperimentInfo {
 }
 
 export const GoogleCloudRetailV2alphaExperimentInfo: Schema.Schema<GoogleCloudRetailV2alphaExperimentInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigExperiment: Schema.optional(
         GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment,
@@ -1868,7 +1868,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseConversationalSearchResul
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultAdditionalFilter: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultAdditionalFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -1885,7 +1885,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseConversationalSearchResul
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultSuggestedAnswer: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultSuggestedAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -1912,7 +1912,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseConversationalSearchResul
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseConversationalSearchResult: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseConversationalSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conversationId: Schema.optional(Schema.String),
       refinedQuery: Schema.optional(Schema.String),
@@ -1942,7 +1942,7 @@ export interface GoogleCloudRetailV2alphaSearchResponseTileNavigationResult {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponseTileNavigationResult: Schema.Schema<GoogleCloudRetailV2alphaSearchResponseTileNavigationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tiles: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaTile)),
     }),
@@ -1982,7 +1982,7 @@ export interface GoogleCloudRetailV2alphaSearchResponse {
 }
 
 export const GoogleCloudRetailV2alphaSearchResponse: Schema.Schema<GoogleCloudRetailV2alphaSearchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaSearchResponseSearchResult),
@@ -2033,7 +2033,7 @@ export interface GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResult {
 }
 
 export const GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResult: Schema.Schema<GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestion: Schema.optional(Schema.String),
       attributes: Schema.optional(
@@ -2054,7 +2054,7 @@ export interface GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResult
 }
 
 export const GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResult: Schema.Schema<GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recentSearch: Schema.optional(Schema.String),
     }),
@@ -2069,7 +2069,7 @@ export interface GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResult {
 }
 
 export const GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResult: Schema.Schema<GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       suggestions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2092,7 +2092,7 @@ export interface GoogleCloudRetailV2alphaCompleteQueryResponse {
 }
 
 export const GoogleCloudRetailV2alphaCompleteQueryResponse: Schema.Schema<GoogleCloudRetailV2alphaCompleteQueryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       completionResults: Schema.optional(
         Schema.Array(
@@ -2124,7 +2124,7 @@ export interface GoogleCloudRetailV2alphaImportCompletionDataRequest {
 }
 
 export const GoogleCloudRetailV2alphaImportCompletionDataRequest: Schema.Schema<GoogleCloudRetailV2alphaImportCompletionDataRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputConfig: Schema.optional(
         GoogleCloudRetailV2alphaCompletionDataInputConfig,
@@ -2143,7 +2143,7 @@ export interface GoogleCloudRetailV2alphaRuleBoostAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleBoostAction: Schema.Schema<GoogleCloudRetailV2alphaRuleBoostAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boost: Schema.optional(Schema.Number),
       productsFilter: Schema.optional(Schema.String),
@@ -2158,7 +2158,7 @@ export interface GoogleCloudRetailV2alphaRuleRedirectAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleRedirectAction: Schema.Schema<GoogleCloudRetailV2alphaRuleRedirectAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redirectUri: Schema.optional(Schema.String),
     }),
@@ -2176,7 +2176,7 @@ export interface GoogleCloudRetailV2alphaRuleOnewaySynonymsAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleOnewaySynonymsAction: Schema.Schema<GoogleCloudRetailV2alphaRuleOnewaySynonymsAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryTerms: Schema.optional(Schema.Array(Schema.String)),
       synonyms: Schema.optional(Schema.Array(Schema.String)),
@@ -2196,7 +2196,7 @@ export interface GoogleCloudRetailV2alphaRuleDoNotAssociateAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleDoNotAssociateAction: Schema.Schema<GoogleCloudRetailV2alphaRuleDoNotAssociateAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryTerms: Schema.optional(Schema.Array(Schema.String)),
       doNotAssociateTerms: Schema.optional(Schema.Array(Schema.String)),
@@ -2216,7 +2216,7 @@ export interface GoogleCloudRetailV2alphaRuleReplacementAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleReplacementAction: Schema.Schema<GoogleCloudRetailV2alphaRuleReplacementAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryTerms: Schema.optional(Schema.Array(Schema.String)),
       replacementTerm: Schema.optional(Schema.String),
@@ -2232,7 +2232,7 @@ export interface GoogleCloudRetailV2alphaRuleIgnoreAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleIgnoreAction: Schema.Schema<GoogleCloudRetailV2alphaRuleIgnoreAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ignoreTerms: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2246,7 +2246,7 @@ export interface GoogleCloudRetailV2alphaRuleFilterAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleFilterAction: Schema.Schema<GoogleCloudRetailV2alphaRuleFilterAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
     }),
@@ -2260,7 +2260,7 @@ export interface GoogleCloudRetailV2alphaRuleTwowaySynonymsAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleTwowaySynonymsAction: Schema.Schema<GoogleCloudRetailV2alphaRuleTwowaySynonymsAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       synonyms: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2276,7 +2276,7 @@ export interface GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPosition
 }
 
 export const GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustment: Schema.Schema<GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeName: Schema.optional(Schema.String),
       position: Schema.optional(Schema.Number),
@@ -2292,7 +2292,7 @@ export interface GoogleCloudRetailV2alphaRuleForceReturnFacetAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleForceReturnFacetAction: Schema.Schema<GoogleCloudRetailV2alphaRuleForceReturnFacetAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       facetPositionAdjustments: Schema.optional(
         Schema.Array(
@@ -2310,7 +2310,7 @@ export interface GoogleCloudRetailV2alphaRuleRemoveFacetAction {
 }
 
 export const GoogleCloudRetailV2alphaRuleRemoveFacetAction: Schema.Schema<GoogleCloudRetailV2alphaRuleRemoveFacetAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attributeNames: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -2324,7 +2324,7 @@ export interface GoogleCloudRetailV2alphaRulePinAction {
 }
 
 export const GoogleCloudRetailV2alphaRulePinAction: Schema.Schema<GoogleCloudRetailV2alphaRulePinAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pinMap: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
@@ -2340,7 +2340,7 @@ export interface GoogleCloudRetailV2alphaConditionQueryTerm {
 }
 
 export const GoogleCloudRetailV2alphaConditionQueryTerm: Schema.Schema<GoogleCloudRetailV2alphaConditionQueryTerm> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       fullMatch: Schema.optional(Schema.Boolean),
@@ -2357,7 +2357,7 @@ export interface GoogleCloudRetailV2alphaConditionTimeRange {
 }
 
 export const GoogleCloudRetailV2alphaConditionTimeRange: Schema.Schema<GoogleCloudRetailV2alphaConditionTimeRange> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -2376,7 +2376,7 @@ export interface GoogleCloudRetailV2alphaCondition {
 }
 
 export const GoogleCloudRetailV2alphaCondition: Schema.Schema<GoogleCloudRetailV2alphaCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       queryTerms: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaConditionQueryTerm),
@@ -2418,7 +2418,7 @@ export interface GoogleCloudRetailV2alphaRule {
 }
 
 export const GoogleCloudRetailV2alphaRule: Schema.Schema<GoogleCloudRetailV2alphaRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boostAction: Schema.optional(GoogleCloudRetailV2alphaRuleBoostAction),
       redirectAction: Schema.optional(
@@ -2477,7 +2477,7 @@ export interface GoogleCloudRetailV2alphaControl {
 }
 
 export const GoogleCloudRetailV2alphaControl: Schema.Schema<GoogleCloudRetailV2alphaControl> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2498,7 +2498,7 @@ export interface GoogleCloudRetailV2alphaListControlsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListControlsResponse: Schema.Schema<GoogleCloudRetailV2alphaListControlsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       controls: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaControl)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2519,7 +2519,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       canonicalFilter: Schema.optional(Schema.String),
@@ -2539,7 +2539,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSe
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSelectedAnswer: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSelectedAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -2558,7 +2558,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer {
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       textAnswer: Schema.optional(Schema.String),
       selectedAnswer: Schema.optional(
@@ -2584,7 +2584,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchRequestConversation
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpec: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enableConversationalFiltering: Schema.optional(Schema.Boolean),
       userAnswer: Schema.optional(
@@ -2625,7 +2625,7 @@ export interface GoogleCloudRetailV2alphaSafetySetting {
 }
 
 export const GoogleCloudRetailV2alphaSafetySetting: Schema.Schema<GoogleCloudRetailV2alphaSafetySetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
       threshold: Schema.optional(Schema.String),
@@ -2659,7 +2659,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchRequest {
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchRequest: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       branch: Schema.optional(Schema.String),
       query: Schema.optional(Schema.String),
@@ -2688,7 +2688,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQue
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -2707,7 +2707,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQue
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       followupQuestion: Schema.optional(Schema.String),
       suggestedAnswers: Schema.optional(
@@ -2727,7 +2727,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSear
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearch: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearch> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
     }),
@@ -2742,7 +2742,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponseConversatio
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResultAdditionalFilter: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResultAdditionalFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productAttributeValue: Schema.optional(
         GoogleCloudRetailV2alphaProductAttributeValue,
@@ -2761,7 +2761,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponseConversatio
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResult: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       followupQuestion: Schema.optional(
         GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion,
@@ -2793,7 +2793,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchResponse {
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchResponse: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userQueryTypes: Schema.optional(Schema.Array(Schema.String)),
       conversationalTextResponse: Schema.optional(Schema.String),
@@ -2825,7 +2825,7 @@ export interface GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig {
 }
 
 export const GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig: Schema.Schema<GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalog: Schema.optional(Schema.String),
       featureEnabled: Schema.optional(Schema.Boolean),
@@ -2853,7 +2853,7 @@ export interface GoogleCloudRetailV2alphaGenerativeQuestionConfig {
 }
 
 export const GoogleCloudRetailV2alphaGenerativeQuestionConfig: Schema.Schema<GoogleCloudRetailV2alphaGenerativeQuestionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       catalog: Schema.optional(Schema.String),
       facet: Schema.optional(Schema.String),
@@ -2873,7 +2873,7 @@ export interface GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse: Schema.Schema<GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeQuestionConfigs: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaGenerativeQuestionConfig),
@@ -2891,7 +2891,7 @@ export interface GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequest {
 }
 
 export const GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequest: Schema.Schema<GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeQuestionConfig: Schema.optional(
         GoogleCloudRetailV2alphaGenerativeQuestionConfig,
@@ -2908,7 +2908,7 @@ export interface GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsReq
 }
 
 export const GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest: Schema.Schema<GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(
         Schema.Array(
@@ -2927,7 +2927,7 @@ export interface GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRes
 }
 
 export const GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse: Schema.Schema<GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       generativeQuestionConfigs: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaGenerativeQuestionConfig),
@@ -2952,7 +2952,7 @@ export interface GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIn
 }
 
 export const GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntent: Schema.Schema<GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       operation: Schema.optional(Schema.String),
@@ -2969,7 +2969,7 @@ export interface GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource 
 }
 
 export const GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource: Schema.Schema<GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineForceIntents: Schema.optional(
         Schema.Array(
@@ -2994,7 +2994,7 @@ export interface GoogleCloudRetailV2alphaIntentClassificationConfigExample {
 }
 
 export const GoogleCloudRetailV2alphaIntentClassificationConfigExample: Schema.Schema<GoogleCloudRetailV2alphaIntentClassificationConfigExample> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       query: Schema.optional(Schema.String),
       intentType: Schema.optional(Schema.String),
@@ -3019,7 +3019,7 @@ export interface GoogleCloudRetailV2alphaIntentClassificationConfig {
 }
 
 export const GoogleCloudRetailV2alphaIntentClassificationConfig: Schema.Schema<GoogleCloudRetailV2alphaIntentClassificationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inlineSource: Schema.optional(
         GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource,
@@ -3045,7 +3045,7 @@ export interface GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig
 }
 
 export const GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig: Schema.Schema<GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       retailerDisplayName: Schema.optional(Schema.String),
       intentClassificationConfig: Schema.optional(
@@ -3064,7 +3064,7 @@ export interface GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate {
 }
 
 export const GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate: Schema.Schema<GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigId: Schema.optional(Schema.String),
     }),
@@ -3082,7 +3082,7 @@ export interface GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel {
 }
 
 export const GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel: Schema.Schema<GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       candidates: Schema.optional(
@@ -3114,7 +3114,7 @@ export interface GoogleCloudRetailV2alphaModelPageOptimizationConfig {
 }
 
 export const GoogleCloudRetailV2alphaModelPageOptimizationConfig: Schema.Schema<GoogleCloudRetailV2alphaModelPageOptimizationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageOptimizationEventType: Schema.optional(Schema.String),
       panels: Schema.optional(
@@ -3132,7 +3132,7 @@ export interface GoogleCloudRetailV2alphaModelServingConfigList {
 }
 
 export const GoogleCloudRetailV2alphaModelServingConfigList: Schema.Schema<GoogleCloudRetailV2alphaModelServingConfigList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3150,7 +3150,7 @@ export interface GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesCo
 }
 
 export const GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfig: Schema.Schema<GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextProductsType: Schema.optional(Schema.String),
     }),
@@ -3165,7 +3165,7 @@ export interface GoogleCloudRetailV2alphaModelModelFeaturesConfig {
 }
 
 export const GoogleCloudRetailV2alphaModelModelFeaturesConfig: Schema.Schema<GoogleCloudRetailV2alphaModelModelFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frequentlyBoughtTogetherConfig: Schema.optional(
         GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfig,
@@ -3233,7 +3233,7 @@ export interface GoogleCloudRetailV2alphaModel {
 }
 
 export const GoogleCloudRetailV2alphaModel: Schema.Schema<GoogleCloudRetailV2alphaModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pageOptimizationConfig: Schema.optional(
         GoogleCloudRetailV2alphaModelPageOptimizationConfig,
@@ -3265,14 +3265,14 @@ export const GoogleCloudRetailV2alphaModel: Schema.Schema<GoogleCloudRetailV2alp
 export interface GoogleCloudRetailV2alphaPauseModelRequest {}
 
 export const GoogleCloudRetailV2alphaPauseModelRequest: Schema.Schema<GoogleCloudRetailV2alphaPauseModelRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaPauseModelRequest",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaPauseModelRequest>;
 
 export interface GoogleCloudRetailV2alphaResumeModelRequest {}
 
 export const GoogleCloudRetailV2alphaResumeModelRequest: Schema.Schema<GoogleCloudRetailV2alphaResumeModelRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaResumeModelRequest",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaResumeModelRequest>;
 
@@ -3284,7 +3284,7 @@ export interface GoogleCloudRetailV2alphaListModelsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListModelsResponse: Schema.Schema<GoogleCloudRetailV2alphaListModelsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       models: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaModel)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3296,7 +3296,7 @@ export const GoogleCloudRetailV2alphaListModelsResponse: Schema.Schema<GoogleClo
 export interface GoogleCloudRetailV2alphaTuneModelRequest {}
 
 export const GoogleCloudRetailV2alphaTuneModelRequest: Schema.Schema<GoogleCloudRetailV2alphaTuneModelRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaTuneModelRequest",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaTuneModelRequest>;
 
@@ -3313,7 +3313,7 @@ export interface GoogleCloudRetailV2alphaProject {
 }
 
 export const GoogleCloudRetailV2alphaProject: Schema.Schema<GoogleCloudRetailV2alphaProject> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       enrolledSolutions: Schema.optional(Schema.Array(Schema.String)),
@@ -3325,7 +3325,7 @@ export const GoogleCloudRetailV2alphaProject: Schema.Schema<GoogleCloudRetailV2a
 export interface GoogleCloudRetailV2alphaAcceptTermsRequest {}
 
 export const GoogleCloudRetailV2alphaAcceptTermsRequest: Schema.Schema<GoogleCloudRetailV2alphaAcceptTermsRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaAcceptTermsRequest",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaAcceptTermsRequest>;
 
@@ -3339,7 +3339,7 @@ export interface GoogleCloudRetailV2alphaEnrollSolutionRequest {
 }
 
 export const GoogleCloudRetailV2alphaEnrollSolutionRequest: Schema.Schema<GoogleCloudRetailV2alphaEnrollSolutionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       solution: Schema.optional(Schema.String),
     }),
@@ -3358,7 +3358,7 @@ export interface GoogleCloudRetailV2alphaListEnrolledSolutionsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListEnrolledSolutionsResponse: Schema.Schema<GoogleCloudRetailV2alphaListEnrolledSolutionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enrolledSolutions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -3380,7 +3380,7 @@ export interface GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule {
 }
 
 export const GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule: Schema.Schema<GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       loggingLevel: Schema.optional(Schema.String),
       infoLogSampleRate: Schema.optional(Schema.Number),
@@ -3397,7 +3397,7 @@ export interface GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRule {
 }
 
 export const GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRule: Schema.Schema<GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceName: Schema.optional(Schema.String),
       logGenerationRule: Schema.optional(
@@ -3418,7 +3418,7 @@ export interface GoogleCloudRetailV2alphaLoggingConfig {
 }
 
 export const GoogleCloudRetailV2alphaLoggingConfig: Schema.Schema<GoogleCloudRetailV2alphaLoggingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       defaultLogGenerationRule: Schema.optional(
@@ -3440,7 +3440,7 @@ export interface GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipient {
 }
 
 export const GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipient: Schema.Schema<GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipient> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
     }),
@@ -3462,7 +3462,7 @@ export interface GoogleCloudRetailV2alphaAlertConfigAlertPolicy {
 }
 
 export const GoogleCloudRetailV2alphaAlertConfigAlertPolicy: Schema.Schema<GoogleCloudRetailV2alphaAlertConfigAlertPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       alertGroup: Schema.optional(Schema.String),
       enrollStatus: Schema.optional(Schema.String),
@@ -3482,7 +3482,7 @@ export interface GoogleCloudRetailV2alphaAlertConfig {
 }
 
 export const GoogleCloudRetailV2alphaAlertConfig: Schema.Schema<GoogleCloudRetailV2alphaAlertConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       alertPolicies: Schema.optional(
@@ -3501,7 +3501,7 @@ export interface GoogleCloudRetailV2alphaProductDetail {
 }
 
 export const GoogleCloudRetailV2alphaProductDetail: Schema.Schema<GoogleCloudRetailV2alphaProductDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       product: Schema.optional(GoogleCloudRetailV2alphaProduct),
       quantity: Schema.optional(Schema.Number),
@@ -3520,7 +3520,7 @@ export interface GoogleCloudRetailV2alphaCompletionDetail {
 }
 
 export const GoogleCloudRetailV2alphaCompletionDetail: Schema.Schema<GoogleCloudRetailV2alphaCompletionDetail> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       completionAttributionToken: Schema.optional(Schema.String),
       selectedSuggestion: Schema.optional(Schema.String),
@@ -3544,7 +3544,7 @@ export interface GoogleCloudRetailV2alphaPurchaseTransaction {
 }
 
 export const GoogleCloudRetailV2alphaPurchaseTransaction: Schema.Schema<GoogleCloudRetailV2alphaPurchaseTransaction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       revenue: Schema.optional(Schema.Number),
@@ -3572,7 +3572,7 @@ export interface GoogleCloudRetailV2alphaPanelInfo {
 }
 
 export const GoogleCloudRetailV2alphaPanelInfo: Schema.Schema<GoogleCloudRetailV2alphaPanelInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       panelId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -3635,7 +3635,7 @@ export interface GoogleCloudRetailV2alphaUserEvent {
 }
 
 export const GoogleCloudRetailV2alphaUserEvent: Schema.Schema<GoogleCloudRetailV2alphaUserEvent> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       eventType: Schema.optional(Schema.String),
       visitorId: Schema.optional(Schema.String),
@@ -3682,7 +3682,7 @@ export interface GoogleApiHttpBody {
 }
 
 export const GoogleApiHttpBody: Schema.Schema<GoogleApiHttpBody> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contentType: Schema.optional(Schema.String),
       data: Schema.optional(Schema.String),
@@ -3708,7 +3708,7 @@ export interface GoogleCloudRetailV2alphaCollectUserEventRequest {
 }
 
 export const GoogleCloudRetailV2alphaCollectUserEventRequest: Schema.Schema<GoogleCloudRetailV2alphaCollectUserEventRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       prebuiltRule: Schema.optional(Schema.String),
       userEvent: Schema.optional(Schema.String),
@@ -3728,7 +3728,7 @@ export interface GoogleCloudRetailV2alphaPurgeUserEventsRequest {
 }
 
 export const GoogleCloudRetailV2alphaPurgeUserEventsRequest: Schema.Schema<GoogleCloudRetailV2alphaPurgeUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       force: Schema.optional(Schema.Boolean),
@@ -3743,7 +3743,7 @@ export interface GoogleCloudRetailV2alphaUserEventInlineSource {
 }
 
 export const GoogleCloudRetailV2alphaUserEventInlineSource: Schema.Schema<GoogleCloudRetailV2alphaUserEventInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvents: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaUserEvent),
@@ -3761,7 +3761,7 @@ export interface GoogleCloudRetailV2alphaGcsSource {
 }
 
 export const GoogleCloudRetailV2alphaGcsSource: Schema.Schema<GoogleCloudRetailV2alphaGcsSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputUris: Schema.optional(Schema.Array(Schema.String)),
       dataSchema: Schema.optional(Schema.String),
@@ -3780,7 +3780,7 @@ export interface GoogleCloudRetailV2alphaUserEventInputConfig {
 }
 
 export const GoogleCloudRetailV2alphaUserEventInputConfig: Schema.Schema<GoogleCloudRetailV2alphaUserEventInputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEventInlineSource: Schema.optional(
         GoogleCloudRetailV2alphaUserEventInlineSource,
@@ -3798,7 +3798,7 @@ export interface GoogleCloudRetailV2alphaImportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2alphaImportErrorsConfig: Schema.Schema<GoogleCloudRetailV2alphaImportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -3814,7 +3814,7 @@ export interface GoogleCloudRetailV2alphaImportUserEventsRequest {
 }
 
 export const GoogleCloudRetailV2alphaImportUserEventsRequest: Schema.Schema<GoogleCloudRetailV2alphaImportUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inputConfig: Schema.optional(
         GoogleCloudRetailV2alphaUserEventInputConfig,
@@ -3833,7 +3833,7 @@ export interface GoogleCloudRetailV2alphaExportUserEventsRequest {
 }
 
 export const GoogleCloudRetailV2alphaExportUserEventsRequest: Schema.Schema<GoogleCloudRetailV2alphaExportUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(GoogleCloudRetailV2alphaOutputConfig),
       filter: Schema.optional(Schema.String),
@@ -3852,7 +3852,7 @@ export interface GoogleCloudRetailV2alphaRejoinUserEventsRequest {
 }
 
 export const GoogleCloudRetailV2alphaRejoinUserEventsRequest: Schema.Schema<GoogleCloudRetailV2alphaRejoinUserEventsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEventRejoinScope: Schema.optional(Schema.String),
     }),
@@ -3870,7 +3870,7 @@ export interface GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenter
 }
 
 export const GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilter: Schema.Schema<GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       primaryFeedId: Schema.optional(Schema.String),
       dataSourceId: Schema.optional(Schema.String),
@@ -3905,7 +3905,7 @@ export interface GoogleCloudRetailV2alphaMerchantCenterAccountLink {
 }
 
 export const GoogleCloudRetailV2alphaMerchantCenterAccountLink: Schema.Schema<GoogleCloudRetailV2alphaMerchantCenterAccountLink> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -3932,7 +3932,7 @@ export interface GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse 
 }
 
 export const GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse: Schema.Schema<GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       merchantCenterAccountLinks: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaMerchantCenterAccountLink),
@@ -3961,7 +3961,7 @@ export interface GoogleCloudRetailV2alphaPredictRequest {
 }
 
 export const GoogleCloudRetailV2alphaPredictRequest: Schema.Schema<GoogleCloudRetailV2alphaPredictRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userEvent: Schema.optional(GoogleCloudRetailV2alphaUserEvent),
       pageSize: Schema.optional(Schema.Number),
@@ -3983,7 +3983,7 @@ export interface GoogleCloudRetailV2alphaPredictResponsePredictionResult {
 }
 
 export const GoogleCloudRetailV2alphaPredictResponsePredictionResult: Schema.Schema<GoogleCloudRetailV2alphaPredictResponsePredictionResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.optional(Schema.String),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
@@ -4004,7 +4004,7 @@ export interface GoogleCloudRetailV2alphaPredictResponse {
 }
 
 export const GoogleCloudRetailV2alphaPredictResponse: Schema.Schema<GoogleCloudRetailV2alphaPredictResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       results: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaPredictResponsePredictionResult),
@@ -4027,7 +4027,7 @@ export interface GoogleCloudRetailV2alphaListProductsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListProductsResponse: Schema.Schema<GoogleCloudRetailV2alphaListProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       products: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaProduct)),
       nextPageToken: Schema.optional(Schema.String),
@@ -4045,7 +4045,7 @@ export interface GoogleCloudRetailV2alphaPurgeProductsRequest {
 }
 
 export const GoogleCloudRetailV2alphaPurgeProductsRequest: Schema.Schema<GoogleCloudRetailV2alphaPurgeProductsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(Schema.String),
       force: Schema.optional(Schema.Boolean),
@@ -4060,7 +4060,7 @@ export interface GoogleCloudRetailV2alphaProductInlineSource {
 }
 
 export const GoogleCloudRetailV2alphaProductInlineSource: Schema.Schema<GoogleCloudRetailV2alphaProductInlineSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       products: Schema.optional(Schema.Array(GoogleCloudRetailV2alphaProduct)),
     }),
@@ -4078,7 +4078,7 @@ export interface GoogleCloudRetailV2alphaProductInputConfig {
 }
 
 export const GoogleCloudRetailV2alphaProductInputConfig: Schema.Schema<GoogleCloudRetailV2alphaProductInputConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       productInlineSource: Schema.optional(
         GoogleCloudRetailV2alphaProductInlineSource,
@@ -4112,7 +4112,7 @@ export interface GoogleCloudRetailV2alphaImportProductsRequest {
 }
 
 export const GoogleCloudRetailV2alphaImportProductsRequest: Schema.Schema<GoogleCloudRetailV2alphaImportProductsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestId: Schema.optional(Schema.String),
       inputConfig: Schema.optional(GoogleCloudRetailV2alphaProductInputConfig),
@@ -4134,7 +4134,7 @@ export interface GoogleCloudRetailV2alphaExportProductsRequest {
 }
 
 export const GoogleCloudRetailV2alphaExportProductsRequest: Schema.Schema<GoogleCloudRetailV2alphaExportProductsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(GoogleCloudRetailV2alphaOutputConfig),
       filter: Schema.optional(Schema.String),
@@ -4155,7 +4155,7 @@ export interface GoogleCloudRetailV2alphaSetInventoryRequest {
 }
 
 export const GoogleCloudRetailV2alphaSetInventoryRequest: Schema.Schema<GoogleCloudRetailV2alphaSetInventoryRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inventory: Schema.optional(GoogleCloudRetailV2alphaProduct),
       setMask: Schema.optional(Schema.String),
@@ -4178,7 +4178,7 @@ export interface GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest {
 }
 
 export const GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest: Schema.Schema<GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       placeIds: Schema.optional(Schema.Array(Schema.String)),
@@ -4201,7 +4201,7 @@ export interface GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest {
 }
 
 export const GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest: Schema.Schema<GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       placeIds: Schema.optional(Schema.Array(Schema.String)),
@@ -4224,7 +4224,7 @@ export interface GoogleCloudRetailV2alphaAddLocalInventoriesRequest {
 }
 
 export const GoogleCloudRetailV2alphaAddLocalInventoriesRequest: Schema.Schema<GoogleCloudRetailV2alphaAddLocalInventoriesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       localInventories: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaLocalInventory),
@@ -4247,7 +4247,7 @@ export interface GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest {
 }
 
 export const GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest: Schema.Schema<GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       placeIds: Schema.optional(Schema.Array(Schema.String)),
       removeTime: Schema.optional(Schema.String),
@@ -4310,7 +4310,7 @@ export interface GoogleCloudRetailV2alphaServingConfig {
 }
 
 export const GoogleCloudRetailV2alphaServingConfig: Schema.Schema<GoogleCloudRetailV2alphaServingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4349,7 +4349,7 @@ export interface GoogleCloudRetailV2alphaListServingConfigsResponse {
 }
 
 export const GoogleCloudRetailV2alphaListServingConfigsResponse: Schema.Schema<GoogleCloudRetailV2alphaListServingConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigs: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaServingConfig),
@@ -4366,7 +4366,7 @@ export interface GoogleCloudRetailV2alphaAddControlRequest {
 }
 
 export const GoogleCloudRetailV2alphaAddControlRequest: Schema.Schema<GoogleCloudRetailV2alphaAddControlRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       controlId: Schema.optional(Schema.String),
     }),
@@ -4380,7 +4380,7 @@ export interface GoogleCloudRetailV2alphaRemoveControlRequest {
 }
 
 export const GoogleCloudRetailV2alphaRemoveControlRequest: Schema.Schema<GoogleCloudRetailV2alphaRemoveControlRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       controlId: Schema.optional(Schema.String),
     }),
@@ -4394,7 +4394,7 @@ export interface GoogleCloudRetailLoggingServiceContext {
 }
 
 export const GoogleCloudRetailLoggingServiceContext: Schema.Schema<GoogleCloudRetailLoggingServiceContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       service: Schema.optional(Schema.String),
     }),
@@ -4408,7 +4408,7 @@ export interface GoogleCloudRetailLoggingHttpRequestContext {
 }
 
 export const GoogleCloudRetailLoggingHttpRequestContext: Schema.Schema<GoogleCloudRetailLoggingHttpRequestContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       responseStatusCode: Schema.optional(Schema.Number),
     }),
@@ -4422,7 +4422,7 @@ export interface GoogleCloudRetailLoggingSourceLocation {
 }
 
 export const GoogleCloudRetailLoggingSourceLocation: Schema.Schema<GoogleCloudRetailLoggingSourceLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       functionName: Schema.optional(Schema.String),
     }),
@@ -4438,7 +4438,7 @@ export interface GoogleCloudRetailLoggingErrorContext {
 }
 
 export const GoogleCloudRetailLoggingErrorContext: Schema.Schema<GoogleCloudRetailLoggingErrorContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       httpRequest: Schema.optional(GoogleCloudRetailLoggingHttpRequestContext),
       reportLocation: Schema.optional(GoogleCloudRetailLoggingSourceLocation),
@@ -4463,7 +4463,7 @@ export interface GoogleCloudRetailLoggingImportErrorContext {
 }
 
 export const GoogleCloudRetailLoggingImportErrorContext: Schema.Schema<GoogleCloudRetailLoggingImportErrorContext> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       operationName: Schema.optional(Schema.String),
       gcsPath: Schema.optional(Schema.String),
@@ -4494,7 +4494,7 @@ export interface GoogleCloudRetailLoggingErrorLog {
 }
 
 export const GoogleCloudRetailLoggingErrorLog: Schema.Schema<GoogleCloudRetailLoggingErrorLog> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serviceContext: Schema.optional(GoogleCloudRetailLoggingServiceContext),
       context: Schema.optional(GoogleCloudRetailLoggingErrorContext),
@@ -4517,28 +4517,28 @@ export const GoogleCloudRetailLoggingErrorLog: Schema.Schema<GoogleCloudRetailLo
 export interface GoogleCloudRetailV2AddFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2AddFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2AddFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2AddFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2AddFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2AddFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2AddFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2AddFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2AddFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2AddFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2AddLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2AddLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2AddLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2AddLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2AddLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2AddLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2AddLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2AddLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2AddLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2AddLocalInventoriesResponse>;
 
@@ -4548,7 +4548,7 @@ export interface GoogleCloudRetailV2CreateModelMetadata {
 }
 
 export const GoogleCloudRetailV2CreateModelMetadata: Schema.Schema<GoogleCloudRetailV2CreateModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -4562,7 +4562,7 @@ export interface GoogleCloudRetailV2ExportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2ExportErrorsConfig: Schema.Schema<GoogleCloudRetailV2ExportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -4578,7 +4578,7 @@ export interface GoogleCloudRetailV2BigQueryOutputResult {
 }
 
 export const GoogleCloudRetailV2BigQueryOutputResult: Schema.Schema<GoogleCloudRetailV2BigQueryOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetId: Schema.optional(Schema.String),
       tableId: Schema.optional(Schema.String),
@@ -4593,7 +4593,7 @@ export interface GoogleCloudRetailV2GcsOutputResult {
 }
 
 export const GoogleCloudRetailV2GcsOutputResult: Schema.Schema<GoogleCloudRetailV2GcsOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUri: Schema.optional(Schema.String),
     }),
@@ -4609,7 +4609,7 @@ export interface GoogleCloudRetailV2OutputResult {
 }
 
 export const GoogleCloudRetailV2OutputResult: Schema.Schema<GoogleCloudRetailV2OutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryResult: Schema.optional(
         Schema.Array(GoogleCloudRetailV2BigQueryOutputResult),
@@ -4632,7 +4632,7 @@ export interface GoogleCloudRetailV2ExportAnalyticsMetricsResponse {
 }
 
 export const GoogleCloudRetailV2ExportAnalyticsMetricsResponse: Schema.Schema<GoogleCloudRetailV2ExportAnalyticsMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2ExportErrorsConfig),
@@ -4650,7 +4650,7 @@ export interface GoogleCloudRetailV2ExportMetadata {
 }
 
 export const GoogleCloudRetailV2ExportMetadata: Schema.Schema<GoogleCloudRetailV2ExportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -4665,7 +4665,7 @@ export interface GoogleCloudRetailV2ImportCompletionDataResponse {
 }
 
 export const GoogleCloudRetailV2ImportCompletionDataResponse: Schema.Schema<GoogleCloudRetailV2ImportCompletionDataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -4679,7 +4679,7 @@ export interface GoogleCloudRetailV2ImportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2ImportErrorsConfig: Schema.Schema<GoogleCloudRetailV2ImportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -4703,7 +4703,7 @@ export interface GoogleCloudRetailV2ImportMetadata {
 }
 
 export const GoogleCloudRetailV2ImportMetadata: Schema.Schema<GoogleCloudRetailV2ImportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -4724,7 +4724,7 @@ export interface GoogleCloudRetailV2ImportProductsResponse {
 }
 
 export const GoogleCloudRetailV2ImportProductsResponse: Schema.Schema<GoogleCloudRetailV2ImportProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2ImportErrorsConfig),
@@ -4741,7 +4741,7 @@ export interface GoogleCloudRetailV2UserEventImportSummary {
 }
 
 export const GoogleCloudRetailV2UserEventImportSummary: Schema.Schema<GoogleCloudRetailV2UserEventImportSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       unjoinedEventsCount: Schema.optional(Schema.String),
@@ -4760,7 +4760,7 @@ export interface GoogleCloudRetailV2ImportUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2ImportUserEventsResponse: Schema.Schema<GoogleCloudRetailV2ImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2ImportErrorsConfig),
@@ -4776,7 +4776,7 @@ export interface GoogleCloudRetailV2ModelServingConfigList {
 }
 
 export const GoogleCloudRetailV2ModelServingConfigList: Schema.Schema<GoogleCloudRetailV2ModelServingConfigList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4794,7 +4794,7 @@ export interface GoogleCloudRetailV2ModelFrequentlyBoughtTogetherFeaturesConfig 
 }
 
 export const GoogleCloudRetailV2ModelFrequentlyBoughtTogetherFeaturesConfig: Schema.Schema<GoogleCloudRetailV2ModelFrequentlyBoughtTogetherFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextProductsType: Schema.optional(Schema.String),
     }),
@@ -4809,7 +4809,7 @@ export interface GoogleCloudRetailV2ModelModelFeaturesConfig {
 }
 
 export const GoogleCloudRetailV2ModelModelFeaturesConfig: Schema.Schema<GoogleCloudRetailV2ModelModelFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frequentlyBoughtTogetherConfig: Schema.optional(
         GoogleCloudRetailV2ModelFrequentlyBoughtTogetherFeaturesConfig,
@@ -4875,7 +4875,7 @@ export interface GoogleCloudRetailV2Model {
 }
 
 export const GoogleCloudRetailV2Model: Schema.Schema<GoogleCloudRetailV2Model> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -4904,7 +4904,7 @@ export const GoogleCloudRetailV2Model: Schema.Schema<GoogleCloudRetailV2Model> =
 export interface GoogleCloudRetailV2PurgeMetadata {}
 
 export const GoogleCloudRetailV2PurgeMetadata: Schema.Schema<GoogleCloudRetailV2PurgeMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2PurgeMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2PurgeMetadata>;
 
@@ -4920,7 +4920,7 @@ export interface GoogleCloudRetailV2PurgeProductsMetadata {
 }
 
 export const GoogleCloudRetailV2PurgeProductsMetadata: Schema.Schema<GoogleCloudRetailV2PurgeProductsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -4939,7 +4939,7 @@ export interface GoogleCloudRetailV2PurgeProductsResponse {
 }
 
 export const GoogleCloudRetailV2PurgeProductsResponse: Schema.Schema<GoogleCloudRetailV2PurgeProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -4954,7 +4954,7 @@ export interface GoogleCloudRetailV2PurgeUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2PurgeUserEventsResponse: Schema.Schema<GoogleCloudRetailV2PurgeUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgedEventsCount: Schema.optional(Schema.String),
     }),
@@ -4965,7 +4965,7 @@ export const GoogleCloudRetailV2PurgeUserEventsResponse: Schema.Schema<GoogleClo
 export interface GoogleCloudRetailV2RejoinUserEventsMetadata {}
 
 export const GoogleCloudRetailV2RejoinUserEventsMetadata: Schema.Schema<GoogleCloudRetailV2RejoinUserEventsMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2RejoinUserEventsMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2RejoinUserEventsMetadata>;
 
@@ -4975,7 +4975,7 @@ export interface GoogleCloudRetailV2RejoinUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2RejoinUserEventsResponse: Schema.Schema<GoogleCloudRetailV2RejoinUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rejoinedUserEventsCount: Schema.optional(Schema.String),
     }),
@@ -4986,42 +4986,42 @@ export const GoogleCloudRetailV2RejoinUserEventsResponse: Schema.Schema<GoogleCl
 export interface GoogleCloudRetailV2RemoveFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2RemoveFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2RemoveFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2RemoveFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2RemoveFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2RemoveFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2RemoveFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2RemoveFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2RemoveFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2RemoveFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2RemoveLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2RemoveLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2RemoveLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2RemoveLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2RemoveLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2RemoveLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2RemoveLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2RemoveLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2RemoveLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2RemoveLocalInventoriesResponse>;
 
 export interface GoogleCloudRetailV2SetInventoryMetadata {}
 
 export const GoogleCloudRetailV2SetInventoryMetadata: Schema.Schema<GoogleCloudRetailV2SetInventoryMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2SetInventoryMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2SetInventoryMetadata>;
 
 export interface GoogleCloudRetailV2SetInventoryResponse {}
 
 export const GoogleCloudRetailV2SetInventoryResponse: Schema.Schema<GoogleCloudRetailV2SetInventoryResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2SetInventoryResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2SetInventoryResponse>;
 
@@ -5031,7 +5031,7 @@ export interface GoogleCloudRetailV2TuneModelMetadata {
 }
 
 export const GoogleCloudRetailV2TuneModelMetadata: Schema.Schema<GoogleCloudRetailV2TuneModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -5042,35 +5042,35 @@ export const GoogleCloudRetailV2TuneModelMetadata: Schema.Schema<GoogleCloudReta
 export interface GoogleCloudRetailV2TuneModelResponse {}
 
 export const GoogleCloudRetailV2TuneModelResponse: Schema.Schema<GoogleCloudRetailV2TuneModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2TuneModelResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2TuneModelResponse>;
 
 export interface GoogleCloudRetailV2alphaAddFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2alphaAddFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2alphaAddFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaAddFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaAddFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2alphaAddLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2alphaAddLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2alphaAddLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaAddLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaAddLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2alphaAddLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2alphaAddLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2alphaAddLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaAddLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaAddLocalInventoriesResponse>;
 
@@ -5082,7 +5082,7 @@ export interface GoogleCloudRetailV2alphaCreateMerchantCenterAccountLinkMetadata
 }
 
 export const GoogleCloudRetailV2alphaCreateMerchantCenterAccountLinkMetadata: Schema.Schema<GoogleCloudRetailV2alphaCreateMerchantCenterAccountLinkMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5098,7 +5098,7 @@ export interface GoogleCloudRetailV2alphaCreateModelMetadata {
 }
 
 export const GoogleCloudRetailV2alphaCreateModelMetadata: Schema.Schema<GoogleCloudRetailV2alphaCreateModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -5109,7 +5109,7 @@ export const GoogleCloudRetailV2alphaCreateModelMetadata: Schema.Schema<GoogleCl
 export interface GoogleCloudRetailV2alphaEnrollSolutionMetadata {}
 
 export const GoogleCloudRetailV2alphaEnrollSolutionMetadata: Schema.Schema<GoogleCloudRetailV2alphaEnrollSolutionMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaEnrollSolutionMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaEnrollSolutionMetadata>;
 
@@ -5123,7 +5123,7 @@ export interface GoogleCloudRetailV2alphaEnrollSolutionResponse {
 }
 
 export const GoogleCloudRetailV2alphaEnrollSolutionResponse: Schema.Schema<GoogleCloudRetailV2alphaEnrollSolutionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enrolledSolution: Schema.optional(Schema.String),
     }),
@@ -5137,7 +5137,7 @@ export interface GoogleCloudRetailV2alphaExportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2alphaExportErrorsConfig: Schema.Schema<GoogleCloudRetailV2alphaExportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -5153,7 +5153,7 @@ export interface GoogleCloudRetailV2alphaBigQueryOutputResult {
 }
 
 export const GoogleCloudRetailV2alphaBigQueryOutputResult: Schema.Schema<GoogleCloudRetailV2alphaBigQueryOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetId: Schema.optional(Schema.String),
       tableId: Schema.optional(Schema.String),
@@ -5168,7 +5168,7 @@ export interface GoogleCloudRetailV2alphaGcsOutputResult {
 }
 
 export const GoogleCloudRetailV2alphaGcsOutputResult: Schema.Schema<GoogleCloudRetailV2alphaGcsOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUri: Schema.optional(Schema.String),
     }),
@@ -5184,7 +5184,7 @@ export interface GoogleCloudRetailV2alphaOutputResult {
 }
 
 export const GoogleCloudRetailV2alphaOutputResult: Schema.Schema<GoogleCloudRetailV2alphaOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryResult: Schema.optional(
         Schema.Array(GoogleCloudRetailV2alphaBigQueryOutputResult),
@@ -5207,7 +5207,7 @@ export interface GoogleCloudRetailV2alphaExportAnalyticsMetricsResponse {
 }
 
 export const GoogleCloudRetailV2alphaExportAnalyticsMetricsResponse: Schema.Schema<GoogleCloudRetailV2alphaExportAnalyticsMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2alphaExportErrorsConfig),
@@ -5225,7 +5225,7 @@ export interface GoogleCloudRetailV2alphaExportMetadata {
 }
 
 export const GoogleCloudRetailV2alphaExportMetadata: Schema.Schema<GoogleCloudRetailV2alphaExportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5244,7 +5244,7 @@ export interface GoogleCloudRetailV2alphaExportProductsResponse {
 }
 
 export const GoogleCloudRetailV2alphaExportProductsResponse: Schema.Schema<GoogleCloudRetailV2alphaExportProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2alphaExportErrorsConfig),
@@ -5264,7 +5264,7 @@ export interface GoogleCloudRetailV2alphaExportUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2alphaExportUserEventsResponse: Schema.Schema<GoogleCloudRetailV2alphaExportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2alphaExportErrorsConfig),
@@ -5280,7 +5280,7 @@ export interface GoogleCloudRetailV2alphaImportCompletionDataResponse {
 }
 
 export const GoogleCloudRetailV2alphaImportCompletionDataResponse: Schema.Schema<GoogleCloudRetailV2alphaImportCompletionDataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -5296,7 +5296,7 @@ export interface GoogleCloudRetailV2alphaTransformedUserEventsMetadata {
 }
 
 export const GoogleCloudRetailV2alphaTransformedUserEventsMetadata: Schema.Schema<GoogleCloudRetailV2alphaTransformedUserEventsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceEventsCount: Schema.optional(Schema.String),
       transformedEventsCount: Schema.optional(Schema.String),
@@ -5323,7 +5323,7 @@ export interface GoogleCloudRetailV2alphaImportMetadata {
 }
 
 export const GoogleCloudRetailV2alphaImportMetadata: Schema.Schema<GoogleCloudRetailV2alphaImportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5347,7 +5347,7 @@ export interface GoogleCloudRetailV2alphaImportProductsResponse {
 }
 
 export const GoogleCloudRetailV2alphaImportProductsResponse: Schema.Schema<GoogleCloudRetailV2alphaImportProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2alphaImportErrorsConfig),
@@ -5364,7 +5364,7 @@ export interface GoogleCloudRetailV2alphaUserEventImportSummary {
 }
 
 export const GoogleCloudRetailV2alphaUserEventImportSummary: Schema.Schema<GoogleCloudRetailV2alphaUserEventImportSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       unjoinedEventsCount: Schema.optional(Schema.String),
@@ -5383,7 +5383,7 @@ export interface GoogleCloudRetailV2alphaImportUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2alphaImportUserEventsResponse: Schema.Schema<GoogleCloudRetailV2alphaImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2alphaImportErrorsConfig),
@@ -5398,7 +5398,7 @@ export const GoogleCloudRetailV2alphaImportUserEventsResponse: Schema.Schema<Goo
 export interface GoogleCloudRetailV2alphaPurgeMetadata {}
 
 export const GoogleCloudRetailV2alphaPurgeMetadata: Schema.Schema<GoogleCloudRetailV2alphaPurgeMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaPurgeMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaPurgeMetadata>;
 
@@ -5414,7 +5414,7 @@ export interface GoogleCloudRetailV2alphaPurgeProductsMetadata {
 }
 
 export const GoogleCloudRetailV2alphaPurgeProductsMetadata: Schema.Schema<GoogleCloudRetailV2alphaPurgeProductsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5433,7 +5433,7 @@ export interface GoogleCloudRetailV2alphaPurgeProductsResponse {
 }
 
 export const GoogleCloudRetailV2alphaPurgeProductsResponse: Schema.Schema<GoogleCloudRetailV2alphaPurgeProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -5448,7 +5448,7 @@ export interface GoogleCloudRetailV2alphaPurgeUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2alphaPurgeUserEventsResponse: Schema.Schema<GoogleCloudRetailV2alphaPurgeUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgedEventsCount: Schema.optional(Schema.String),
     }),
@@ -5459,7 +5459,7 @@ export const GoogleCloudRetailV2alphaPurgeUserEventsResponse: Schema.Schema<Goog
 export interface GoogleCloudRetailV2alphaRejoinUserEventsMetadata {}
 
 export const GoogleCloudRetailV2alphaRejoinUserEventsMetadata: Schema.Schema<GoogleCloudRetailV2alphaRejoinUserEventsMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaRejoinUserEventsMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaRejoinUserEventsMetadata>;
 
@@ -5469,7 +5469,7 @@ export interface GoogleCloudRetailV2alphaRejoinUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2alphaRejoinUserEventsResponse: Schema.Schema<GoogleCloudRetailV2alphaRejoinUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rejoinedUserEventsCount: Schema.optional(Schema.String),
     }),
@@ -5480,42 +5480,42 @@ export const GoogleCloudRetailV2alphaRejoinUserEventsResponse: Schema.Schema<Goo
 export interface GoogleCloudRetailV2alphaRemoveFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2alphaRemoveFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2alphaRemoveFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaRemoveFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaRemoveFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2alphaRemoveFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2alphaRemoveFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2alphaRemoveFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaRemoveFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaRemoveFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2alphaRemoveLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2alphaRemoveLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2alphaRemoveLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaRemoveLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaRemoveLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2alphaRemoveLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2alphaRemoveLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2alphaRemoveLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaRemoveLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaRemoveLocalInventoriesResponse>;
 
 export interface GoogleCloudRetailV2alphaSetInventoryMetadata {}
 
 export const GoogleCloudRetailV2alphaSetInventoryMetadata: Schema.Schema<GoogleCloudRetailV2alphaSetInventoryMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaSetInventoryMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaSetInventoryMetadata>;
 
 export interface GoogleCloudRetailV2alphaSetInventoryResponse {}
 
 export const GoogleCloudRetailV2alphaSetInventoryResponse: Schema.Schema<GoogleCloudRetailV2alphaSetInventoryResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaSetInventoryResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaSetInventoryResponse>;
 
@@ -5525,7 +5525,7 @@ export interface GoogleCloudRetailV2alphaTuneModelMetadata {
 }
 
 export const GoogleCloudRetailV2alphaTuneModelMetadata: Schema.Schema<GoogleCloudRetailV2alphaTuneModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -5536,35 +5536,35 @@ export const GoogleCloudRetailV2alphaTuneModelMetadata: Schema.Schema<GoogleClou
 export interface GoogleCloudRetailV2alphaTuneModelResponse {}
 
 export const GoogleCloudRetailV2alphaTuneModelResponse: Schema.Schema<GoogleCloudRetailV2alphaTuneModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2alphaTuneModelResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2alphaTuneModelResponse>;
 
 export interface GoogleCloudRetailV2betaAddFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2betaAddFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2betaAddFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaAddFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaAddFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2betaAddFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2betaAddFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2betaAddFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaAddFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaAddFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2betaAddLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2betaAddLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2betaAddLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaAddLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaAddLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2betaAddLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2betaAddLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2betaAddLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaAddLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaAddLocalInventoriesResponse>;
 
@@ -5574,7 +5574,7 @@ export interface GoogleCloudRetailV2betaCreateModelMetadata {
 }
 
 export const GoogleCloudRetailV2betaCreateModelMetadata: Schema.Schema<GoogleCloudRetailV2betaCreateModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -5588,7 +5588,7 @@ export interface GoogleCloudRetailV2betaExportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2betaExportErrorsConfig: Schema.Schema<GoogleCloudRetailV2betaExportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -5604,7 +5604,7 @@ export interface GoogleCloudRetailV2betaBigQueryOutputResult {
 }
 
 export const GoogleCloudRetailV2betaBigQueryOutputResult: Schema.Schema<GoogleCloudRetailV2betaBigQueryOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetId: Schema.optional(Schema.String),
       tableId: Schema.optional(Schema.String),
@@ -5619,7 +5619,7 @@ export interface GoogleCloudRetailV2betaGcsOutputResult {
 }
 
 export const GoogleCloudRetailV2betaGcsOutputResult: Schema.Schema<GoogleCloudRetailV2betaGcsOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputUri: Schema.optional(Schema.String),
     }),
@@ -5635,7 +5635,7 @@ export interface GoogleCloudRetailV2betaOutputResult {
 }
 
 export const GoogleCloudRetailV2betaOutputResult: Schema.Schema<GoogleCloudRetailV2betaOutputResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigqueryResult: Schema.optional(
         Schema.Array(GoogleCloudRetailV2betaBigQueryOutputResult),
@@ -5658,7 +5658,7 @@ export interface GoogleCloudRetailV2betaExportAnalyticsMetricsResponse {
 }
 
 export const GoogleCloudRetailV2betaExportAnalyticsMetricsResponse: Schema.Schema<GoogleCloudRetailV2betaExportAnalyticsMetricsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2betaExportErrorsConfig),
@@ -5676,7 +5676,7 @@ export interface GoogleCloudRetailV2betaExportMetadata {
 }
 
 export const GoogleCloudRetailV2betaExportMetadata: Schema.Schema<GoogleCloudRetailV2betaExportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5695,7 +5695,7 @@ export interface GoogleCloudRetailV2betaExportProductsResponse {
 }
 
 export const GoogleCloudRetailV2betaExportProductsResponse: Schema.Schema<GoogleCloudRetailV2betaExportProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2betaExportErrorsConfig),
@@ -5715,7 +5715,7 @@ export interface GoogleCloudRetailV2betaExportUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2betaExportUserEventsResponse: Schema.Schema<GoogleCloudRetailV2betaExportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2betaExportErrorsConfig),
@@ -5731,7 +5731,7 @@ export interface GoogleCloudRetailV2betaImportCompletionDataResponse {
 }
 
 export const GoogleCloudRetailV2betaImportCompletionDataResponse: Schema.Schema<GoogleCloudRetailV2betaImportCompletionDataResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
     }),
@@ -5745,7 +5745,7 @@ export interface GoogleCloudRetailV2betaImportErrorsConfig {
 }
 
 export const GoogleCloudRetailV2betaImportErrorsConfig: Schema.Schema<GoogleCloudRetailV2betaImportErrorsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gcsPrefix: Schema.optional(Schema.String),
     }),
@@ -5769,7 +5769,7 @@ export interface GoogleCloudRetailV2betaImportMetadata {
 }
 
 export const GoogleCloudRetailV2betaImportMetadata: Schema.Schema<GoogleCloudRetailV2betaImportMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -5790,7 +5790,7 @@ export interface GoogleCloudRetailV2betaImportProductsResponse {
 }
 
 export const GoogleCloudRetailV2betaImportProductsResponse: Schema.Schema<GoogleCloudRetailV2betaImportProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2betaImportErrorsConfig),
@@ -5807,7 +5807,7 @@ export interface GoogleCloudRetailV2betaUserEventImportSummary {
 }
 
 export const GoogleCloudRetailV2betaUserEventImportSummary: Schema.Schema<GoogleCloudRetailV2betaUserEventImportSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       joinedEventsCount: Schema.optional(Schema.String),
       unjoinedEventsCount: Schema.optional(Schema.String),
@@ -5826,7 +5826,7 @@ export interface GoogleCloudRetailV2betaImportUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2betaImportUserEventsResponse: Schema.Schema<GoogleCloudRetailV2betaImportUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       errorSamples: Schema.optional(Schema.Array(GoogleRpcStatus)),
       errorsConfig: Schema.optional(GoogleCloudRetailV2betaImportErrorsConfig),
@@ -5844,7 +5844,7 @@ export interface GoogleCloudRetailV2betaModelServingConfigList {
 }
 
 export const GoogleCloudRetailV2betaModelServingConfigList: Schema.Schema<GoogleCloudRetailV2betaModelServingConfigList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       servingConfigIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -5862,7 +5862,7 @@ export interface GoogleCloudRetailV2betaModelFrequentlyBoughtTogetherFeaturesCon
 }
 
 export const GoogleCloudRetailV2betaModelFrequentlyBoughtTogetherFeaturesConfig: Schema.Schema<GoogleCloudRetailV2betaModelFrequentlyBoughtTogetherFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       contextProductsType: Schema.optional(Schema.String),
     }),
@@ -5877,7 +5877,7 @@ export interface GoogleCloudRetailV2betaModelModelFeaturesConfig {
 }
 
 export const GoogleCloudRetailV2betaModelModelFeaturesConfig: Schema.Schema<GoogleCloudRetailV2betaModelModelFeaturesConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frequentlyBoughtTogetherConfig: Schema.optional(
         GoogleCloudRetailV2betaModelFrequentlyBoughtTogetherFeaturesConfig,
@@ -5943,7 +5943,7 @@ export interface GoogleCloudRetailV2betaModel {
 }
 
 export const GoogleCloudRetailV2betaModel: Schema.Schema<GoogleCloudRetailV2betaModel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -5972,7 +5972,7 @@ export const GoogleCloudRetailV2betaModel: Schema.Schema<GoogleCloudRetailV2beta
 export interface GoogleCloudRetailV2betaPurgeMetadata {}
 
 export const GoogleCloudRetailV2betaPurgeMetadata: Schema.Schema<GoogleCloudRetailV2betaPurgeMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaPurgeMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaPurgeMetadata>;
 
@@ -5988,7 +5988,7 @@ export interface GoogleCloudRetailV2betaPurgeProductsMetadata {
 }
 
 export const GoogleCloudRetailV2betaPurgeProductsMetadata: Schema.Schema<GoogleCloudRetailV2betaPurgeProductsMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
@@ -6007,7 +6007,7 @@ export interface GoogleCloudRetailV2betaPurgeProductsResponse {
 }
 
 export const GoogleCloudRetailV2betaPurgeProductsResponse: Schema.Schema<GoogleCloudRetailV2betaPurgeProductsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgeCount: Schema.optional(Schema.String),
       purgeSample: Schema.optional(Schema.Array(Schema.String)),
@@ -6022,7 +6022,7 @@ export interface GoogleCloudRetailV2betaPurgeUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2betaPurgeUserEventsResponse: Schema.Schema<GoogleCloudRetailV2betaPurgeUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       purgedEventsCount: Schema.optional(Schema.String),
     }),
@@ -6033,7 +6033,7 @@ export const GoogleCloudRetailV2betaPurgeUserEventsResponse: Schema.Schema<Googl
 export interface GoogleCloudRetailV2betaRejoinUserEventsMetadata {}
 
 export const GoogleCloudRetailV2betaRejoinUserEventsMetadata: Schema.Schema<GoogleCloudRetailV2betaRejoinUserEventsMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaRejoinUserEventsMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaRejoinUserEventsMetadata>;
 
@@ -6043,7 +6043,7 @@ export interface GoogleCloudRetailV2betaRejoinUserEventsResponse {
 }
 
 export const GoogleCloudRetailV2betaRejoinUserEventsResponse: Schema.Schema<GoogleCloudRetailV2betaRejoinUserEventsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rejoinedUserEventsCount: Schema.optional(Schema.String),
     }),
@@ -6054,42 +6054,42 @@ export const GoogleCloudRetailV2betaRejoinUserEventsResponse: Schema.Schema<Goog
 export interface GoogleCloudRetailV2betaRemoveFulfillmentPlacesMetadata {}
 
 export const GoogleCloudRetailV2betaRemoveFulfillmentPlacesMetadata: Schema.Schema<GoogleCloudRetailV2betaRemoveFulfillmentPlacesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaRemoveFulfillmentPlacesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaRemoveFulfillmentPlacesMetadata>;
 
 export interface GoogleCloudRetailV2betaRemoveFulfillmentPlacesResponse {}
 
 export const GoogleCloudRetailV2betaRemoveFulfillmentPlacesResponse: Schema.Schema<GoogleCloudRetailV2betaRemoveFulfillmentPlacesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaRemoveFulfillmentPlacesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaRemoveFulfillmentPlacesResponse>;
 
 export interface GoogleCloudRetailV2betaRemoveLocalInventoriesMetadata {}
 
 export const GoogleCloudRetailV2betaRemoveLocalInventoriesMetadata: Schema.Schema<GoogleCloudRetailV2betaRemoveLocalInventoriesMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaRemoveLocalInventoriesMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaRemoveLocalInventoriesMetadata>;
 
 export interface GoogleCloudRetailV2betaRemoveLocalInventoriesResponse {}
 
 export const GoogleCloudRetailV2betaRemoveLocalInventoriesResponse: Schema.Schema<GoogleCloudRetailV2betaRemoveLocalInventoriesResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaRemoveLocalInventoriesResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaRemoveLocalInventoriesResponse>;
 
 export interface GoogleCloudRetailV2betaSetInventoryMetadata {}
 
 export const GoogleCloudRetailV2betaSetInventoryMetadata: Schema.Schema<GoogleCloudRetailV2betaSetInventoryMetadata> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaSetInventoryMetadata",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaSetInventoryMetadata>;
 
 export interface GoogleCloudRetailV2betaSetInventoryResponse {}
 
 export const GoogleCloudRetailV2betaSetInventoryResponse: Schema.Schema<GoogleCloudRetailV2betaSetInventoryResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaSetInventoryResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaSetInventoryResponse>;
 
@@ -6099,7 +6099,7 @@ export interface GoogleCloudRetailV2betaTuneModelMetadata {
 }
 
 export const GoogleCloudRetailV2betaTuneModelMetadata: Schema.Schema<GoogleCloudRetailV2betaTuneModelMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       model: Schema.optional(Schema.String),
     }),
@@ -6110,7 +6110,7 @@ export const GoogleCloudRetailV2betaTuneModelMetadata: Schema.Schema<GoogleCloud
 export interface GoogleCloudRetailV2betaTuneModelResponse {}
 
 export const GoogleCloudRetailV2betaTuneModelResponse: Schema.Schema<GoogleCloudRetailV2betaTuneModelResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudRetailV2betaTuneModelResponse",
   }) as any as Schema.Schema<GoogleCloudRetailV2betaTuneModelResponse>;
 
@@ -6123,18 +6123,20 @@ export interface GetRetailProjectProjectsRequest {
   name: string;
 }
 
-export const GetRetailProjectProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/retailProject",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetRetailProjectProjectsRequest>;
+export const GetRetailProjectProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/retailProject",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetRetailProjectProjectsRequest>;
 
 export type GetRetailProjectProjectsResponse = GoogleCloudRetailV2alphaProject;
-export const GetRetailProjectProjectsResponse = GoogleCloudRetailV2alphaProject;
+export const GetRetailProjectProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaProject;
 
 export type GetRetailProjectProjectsError = DefaultErrors;
 
@@ -6144,7 +6146,7 @@ export const getRetailProjectProjects: API.OperationMethod<
   GetRetailProjectProjectsResponse,
   GetRetailProjectProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRetailProjectProjectsRequest,
   output: GetRetailProjectProjectsResponse,
   errors: [],
@@ -6157,22 +6159,24 @@ export interface EnrollSolutionProjectsRequest {
   body?: GoogleCloudRetailV2alphaEnrollSolutionRequest;
 }
 
-export const EnrollSolutionProjectsRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  body: Schema.optional(GoogleCloudRetailV2alphaEnrollSolutionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}:enrollSolution",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EnrollSolutionProjectsRequest>;
+export const EnrollSolutionProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+    body: Schema.optional(GoogleCloudRetailV2alphaEnrollSolutionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}:enrollSolution",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnrollSolutionProjectsRequest>;
 
 export type EnrollSolutionProjectsResponse = GoogleLongrunningOperation;
-export const EnrollSolutionProjectsResponse = GoogleLongrunningOperation;
+export const EnrollSolutionProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type EnrollSolutionProjectsError = DefaultErrors;
 
@@ -6182,7 +6186,7 @@ export const enrollSolutionProjects: API.OperationMethod<
   EnrollSolutionProjectsResponse,
   EnrollSolutionProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnrollSolutionProjectsRequest,
   output: EnrollSolutionProjectsResponse,
   errors: [],
@@ -6193,20 +6197,21 @@ export interface ListEnrolledSolutionsProjectsRequest {
   parent: string;
 }
 
-export const ListEnrolledSolutionsProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}:enrolledSolutions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListEnrolledSolutionsProjectsRequest>;
+export const ListEnrolledSolutionsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}:enrolledSolutions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListEnrolledSolutionsProjectsRequest>;
 
 export type ListEnrolledSolutionsProjectsResponse =
   GoogleCloudRetailV2alphaListEnrolledSolutionsResponse;
 export const ListEnrolledSolutionsProjectsResponse =
-  GoogleCloudRetailV2alphaListEnrolledSolutionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListEnrolledSolutionsResponse;
 
 export type ListEnrolledSolutionsProjectsError = DefaultErrors;
 
@@ -6216,7 +6221,7 @@ export const listEnrolledSolutionsProjects: API.OperationMethod<
   ListEnrolledSolutionsProjectsResponse,
   ListEnrolledSolutionsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListEnrolledSolutionsProjectsRequest,
   output: ListEnrolledSolutionsProjectsResponse,
   errors: [],
@@ -6227,20 +6232,21 @@ export interface GetLoggingConfigProjectsRequest {
   name: string;
 }
 
-export const GetLoggingConfigProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/loggingConfig",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetLoggingConfigProjectsRequest>;
+export const GetLoggingConfigProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/loggingConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetLoggingConfigProjectsRequest>;
 
 export type GetLoggingConfigProjectsResponse =
   GoogleCloudRetailV2alphaLoggingConfig;
 export const GetLoggingConfigProjectsResponse =
-  GoogleCloudRetailV2alphaLoggingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaLoggingConfig;
 
 export type GetLoggingConfigProjectsError = DefaultErrors;
 
@@ -6250,7 +6256,7 @@ export const getLoggingConfigProjects: API.OperationMethod<
   GetLoggingConfigProjectsResponse,
   GetLoggingConfigProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetLoggingConfigProjectsRequest,
   output: GetLoggingConfigProjectsResponse,
   errors: [],
@@ -6265,25 +6271,26 @@ export interface UpdateLoggingConfigProjectsRequest {
   body?: GoogleCloudRetailV2alphaLoggingConfig;
 }
 
-export const UpdateLoggingConfigProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRetailV2alphaLoggingConfig).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2alpha/projects/{projectsId}/loggingConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateLoggingConfigProjectsRequest>;
+export const UpdateLoggingConfigProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRetailV2alphaLoggingConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2alpha/projects/{projectsId}/loggingConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateLoggingConfigProjectsRequest>;
 
 export type UpdateLoggingConfigProjectsResponse =
   GoogleCloudRetailV2alphaLoggingConfig;
 export const UpdateLoggingConfigProjectsResponse =
-  GoogleCloudRetailV2alphaLoggingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaLoggingConfig;
 
 export type UpdateLoggingConfigProjectsError = DefaultErrors;
 
@@ -6293,7 +6300,7 @@ export const updateLoggingConfigProjects: API.OperationMethod<
   UpdateLoggingConfigProjectsResponse,
   UpdateLoggingConfigProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateLoggingConfigProjectsRequest,
   output: UpdateLoggingConfigProjectsResponse,
   errors: [],
@@ -6304,17 +6311,21 @@ export interface GetAlertConfigProjectsRequest {
   name: string;
 }
 
-export const GetAlertConfigProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2alpha/projects/{projectsId}/alertConfig" }),
-  svc,
-) as unknown as Schema.Schema<GetAlertConfigProjectsRequest>;
+export const GetAlertConfigProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/alertConfig",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAlertConfigProjectsRequest>;
 
 export type GetAlertConfigProjectsResponse =
   GoogleCloudRetailV2alphaAlertConfig;
 export const GetAlertConfigProjectsResponse =
-  GoogleCloudRetailV2alphaAlertConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAlertConfig;
 
 export type GetAlertConfigProjectsError = DefaultErrors;
 
@@ -6324,7 +6335,7 @@ export const getAlertConfigProjects: API.OperationMethod<
   GetAlertConfigProjectsResponse,
   GetAlertConfigProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAlertConfigProjectsRequest,
   output: GetAlertConfigProjectsResponse,
   errors: [],
@@ -6339,23 +6350,26 @@ export interface UpdateAlertConfigProjectsRequest {
   body?: GoogleCloudRetailV2alphaAlertConfig;
 }
 
-export const UpdateAlertConfigProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRetailV2alphaAlertConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2alpha/projects/{projectsId}/alertConfig",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAlertConfigProjectsRequest>;
+export const UpdateAlertConfigProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRetailV2alphaAlertConfig).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2alpha/projects/{projectsId}/alertConfig",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAlertConfigProjectsRequest>;
 
 export type UpdateAlertConfigProjectsResponse =
   GoogleCloudRetailV2alphaAlertConfig;
 export const UpdateAlertConfigProjectsResponse =
-  GoogleCloudRetailV2alphaAlertConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAlertConfig;
 
 export type UpdateAlertConfigProjectsError = DefaultErrors;
 
@@ -6365,7 +6379,7 @@ export const updateAlertConfigProjects: API.OperationMethod<
   UpdateAlertConfigProjectsResponse,
   UpdateAlertConfigProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAlertConfigProjectsRequest,
   output: UpdateAlertConfigProjectsResponse,
   errors: [],
@@ -6384,26 +6398,27 @@ export interface ListProjectsLocationsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
 export type ListProjectsLocationsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = DefaultErrors;
 
@@ -6413,7 +6428,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   ListProjectsLocationsOperationsResponse,
   ListProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -6428,19 +6443,20 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
 export type GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation;
 export const GetProjectsLocationsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsOperationsError = DefaultErrors;
 
@@ -6450,7 +6466,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsResponse,
   GetProjectsLocationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
@@ -6464,7 +6480,7 @@ export interface ExportAnalyticsMetricsProjectsLocationsCatalogsRequest {
 }
 
 export const ExportAnalyticsMetricsProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     catalog: Schema.String.pipe(T.HttpPath("catalog")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest,
@@ -6481,7 +6497,7 @@ export const ExportAnalyticsMetricsProjectsLocationsCatalogsRequest =
 export type ExportAnalyticsMetricsProjectsLocationsCatalogsResponse =
   GoogleLongrunningOperation;
 export const ExportAnalyticsMetricsProjectsLocationsCatalogsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportAnalyticsMetricsProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -6492,7 +6508,7 @@ export const exportAnalyticsMetricsProjectsLocationsCatalogs: API.OperationMetho
   ExportAnalyticsMetricsProjectsLocationsCatalogsResponse,
   ExportAnalyticsMetricsProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAnalyticsMetricsProjectsLocationsCatalogsRequest,
   output: ExportAnalyticsMetricsProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6507,22 +6523,23 @@ export interface ListProjectsLocationsCatalogsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsCatalogsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsRequest>;
+export const ListProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsRequest>;
 
 export type ListProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaListCatalogsResponse;
 export const ListProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaListCatalogsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListCatalogsResponse;
 
 export type ListProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6532,7 +6549,7 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   ListProjectsLocationsCatalogsResponse,
   ListProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6551,23 +6568,24 @@ export interface PatchProjectsLocationsCatalogsRequest {
   body?: GoogleCloudRetailV2alphaCatalog;
 }
 
-export const PatchProjectsLocationsCatalogsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRetailV2alphaCatalog).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsRequest>;
+export const PatchProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRetailV2alphaCatalog).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsRequest>;
 
 export type PatchProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaCatalog;
 export const PatchProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaCatalog;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaCatalog;
 
 export type PatchProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6577,7 +6595,7 @@ export const patchProjectsLocationsCatalogs: API.OperationMethod<
   PatchProjectsLocationsCatalogsResponse,
   PatchProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsRequest,
   output: PatchProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6590,24 +6608,25 @@ export interface SetDefaultBranchProjectsLocationsCatalogsRequest {
   body?: GoogleCloudRetailV2alphaSetDefaultBranchRequest;
 }
 
-export const SetDefaultBranchProjectsLocationsCatalogsRequest = Schema.Struct({
-  catalog: Schema.String.pipe(T.HttpPath("catalog")),
-  body: Schema.optional(GoogleCloudRetailV2alphaSetDefaultBranchRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:setDefaultBranch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetDefaultBranchProjectsLocationsCatalogsRequest>;
+export const SetDefaultBranchProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    catalog: Schema.String.pipe(T.HttpPath("catalog")),
+    body: Schema.optional(GoogleCloudRetailV2alphaSetDefaultBranchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:setDefaultBranch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetDefaultBranchProjectsLocationsCatalogsRequest>;
 
 export type SetDefaultBranchProjectsLocationsCatalogsResponse =
   GoogleProtobufEmpty;
 export const SetDefaultBranchProjectsLocationsCatalogsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type SetDefaultBranchProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6617,7 +6636,7 @@ export const setDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   SetDefaultBranchProjectsLocationsCatalogsResponse,
   SetDefaultBranchProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetDefaultBranchProjectsLocationsCatalogsRequest,
   output: SetDefaultBranchProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6628,20 +6647,21 @@ export interface GetDefaultBranchProjectsLocationsCatalogsRequest {
   catalog: string;
 }
 
-export const GetDefaultBranchProjectsLocationsCatalogsRequest = Schema.Struct({
-  catalog: Schema.String.pipe(T.HttpPath("catalog")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:getDefaultBranch",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetDefaultBranchProjectsLocationsCatalogsRequest>;
+export const GetDefaultBranchProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    catalog: Schema.String.pipe(T.HttpPath("catalog")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:getDefaultBranch",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetDefaultBranchProjectsLocationsCatalogsRequest>;
 
 export type GetDefaultBranchProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaGetDefaultBranchResponse;
 export const GetDefaultBranchProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaGetDefaultBranchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaGetDefaultBranchResponse;
 
 export type GetDefaultBranchProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6651,7 +6671,7 @@ export const getDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   GetDefaultBranchProjectsLocationsCatalogsResponse,
   GetDefaultBranchProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultBranchProjectsLocationsCatalogsRequest,
   output: GetDefaultBranchProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6663,7 +6683,7 @@ export interface GetCompletionConfigProjectsLocationsCatalogsRequest {
 }
 
 export const GetCompletionConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6676,7 +6696,7 @@ export const GetCompletionConfigProjectsLocationsCatalogsRequest =
 export type GetCompletionConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaCompletionConfig;
 export const GetCompletionConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaCompletionConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaCompletionConfig;
 
 export type GetCompletionConfigProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6686,7 +6706,7 @@ export const getCompletionConfigProjectsLocationsCatalogs: API.OperationMethod<
   GetCompletionConfigProjectsLocationsCatalogsResponse,
   GetCompletionConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCompletionConfigProjectsLocationsCatalogsRequest,
   output: GetCompletionConfigProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6702,7 +6722,7 @@ export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest {
 }
 
 export const UpdateCompletionConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudRetailV2alphaCompletionConfig).pipe(
@@ -6720,7 +6740,7 @@ export const UpdateCompletionConfigProjectsLocationsCatalogsRequest =
 export type UpdateCompletionConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaCompletionConfig;
 export const UpdateCompletionConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaCompletionConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaCompletionConfig;
 
 export type UpdateCompletionConfigProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -6731,7 +6751,7 @@ export const updateCompletionConfigProjectsLocationsCatalogs: API.OperationMetho
   UpdateCompletionConfigProjectsLocationsCatalogsResponse,
   UpdateCompletionConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateCompletionConfigProjectsLocationsCatalogsRequest,
   output: UpdateCompletionConfigProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6743,7 +6763,7 @@ export interface GetAttributesConfigProjectsLocationsCatalogsRequest {
 }
 
 export const GetAttributesConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -6756,7 +6776,7 @@ export const GetAttributesConfigProjectsLocationsCatalogsRequest =
 export type GetAttributesConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaAttributesConfig;
 export const GetAttributesConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaAttributesConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAttributesConfig;
 
 export type GetAttributesConfigProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6766,7 +6786,7 @@ export const getAttributesConfigProjectsLocationsCatalogs: API.OperationMethod<
   GetAttributesConfigProjectsLocationsCatalogsResponse,
   GetAttributesConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAttributesConfigProjectsLocationsCatalogsRequest,
   output: GetAttributesConfigProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6782,7 +6802,7 @@ export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest {
 }
 
 export const UpdateAttributesConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudRetailV2alphaAttributesConfig).pipe(
@@ -6800,7 +6820,7 @@ export const UpdateAttributesConfigProjectsLocationsCatalogsRequest =
 export type UpdateAttributesConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaAttributesConfig;
 export const UpdateAttributesConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaAttributesConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAttributesConfig;
 
 export type UpdateAttributesConfigProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -6811,7 +6831,7 @@ export const updateAttributesConfigProjectsLocationsCatalogs: API.OperationMetho
   UpdateAttributesConfigProjectsLocationsCatalogsResponse,
   UpdateAttributesConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAttributesConfigProjectsLocationsCatalogsRequest,
   output: UpdateAttributesConfigProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6838,34 +6858,35 @@ export interface CompleteQueryProjectsLocationsCatalogsRequest {
   entity?: string;
 }
 
-export const CompleteQueryProjectsLocationsCatalogsRequest = Schema.Struct({
-  catalog: Schema.String.pipe(T.HttpPath("catalog")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  visitorId: Schema.optional(Schema.String).pipe(T.HttpQuery("visitorId")),
-  languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("languageCodes"),
-  ),
-  deviceType: Schema.optional(Schema.String).pipe(T.HttpQuery("deviceType")),
-  dataset: Schema.optional(Schema.String).pipe(T.HttpQuery("dataset")),
-  maxSuggestions: Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("maxSuggestions"),
-  ),
-  enableAttributeSuggestions: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enableAttributeSuggestions"),
-  ),
-  entity: Schema.optional(Schema.String).pipe(T.HttpQuery("entity")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:completeQuery",
-  }),
-  svc,
-) as unknown as Schema.Schema<CompleteQueryProjectsLocationsCatalogsRequest>;
+export const CompleteQueryProjectsLocationsCatalogsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    catalog: Schema.String.pipe(T.HttpPath("catalog")),
+    query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+    visitorId: Schema.optional(Schema.String).pipe(T.HttpQuery("visitorId")),
+    languageCodes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("languageCodes"),
+    ),
+    deviceType: Schema.optional(Schema.String).pipe(T.HttpQuery("deviceType")),
+    dataset: Schema.optional(Schema.String).pipe(T.HttpQuery("dataset")),
+    maxSuggestions: Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("maxSuggestions"),
+    ),
+    enableAttributeSuggestions: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enableAttributeSuggestions"),
+    ),
+    entity: Schema.optional(Schema.String).pipe(T.HttpQuery("entity")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}:completeQuery",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CompleteQueryProjectsLocationsCatalogsRequest>;
 
 export type CompleteQueryProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaCompleteQueryResponse;
 export const CompleteQueryProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaCompleteQueryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaCompleteQueryResponse;
 
 export type CompleteQueryProjectsLocationsCatalogsError = DefaultErrors;
 
@@ -6875,7 +6896,7 @@ export const completeQueryProjectsLocationsCatalogs: API.OperationMethod<
   CompleteQueryProjectsLocationsCatalogsResponse,
   CompleteQueryProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CompleteQueryProjectsLocationsCatalogsRequest,
   output: CompleteQueryProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6891,7 +6912,7 @@ export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest
 }
 
 export const UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     catalog: Schema.String.pipe(T.HttpPath("catalog")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -6909,7 +6930,7 @@ export const UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest =
 export type UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
 export const UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
 
 export type UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -6920,7 +6941,7 @@ export const updateGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Opera
   UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest,
   output: UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6932,7 +6953,7 @@ export interface GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
 }
 
 export const GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     catalog: Schema.String.pipe(T.HttpPath("catalog")),
   }).pipe(
     T.Http({
@@ -6945,7 +6966,7 @@ export const GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest =
 export type GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
 export const GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
 
 export type GetGenerativeQuestionFeatureProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -6956,7 +6977,7 @@ export const getGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Operatio
   GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   GetGenerativeQuestionFeatureProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest,
   output: GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   errors: [],
@@ -6972,7 +6993,7 @@ export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest {
 }
 
 export const UpdateGenerativeQuestionProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     catalog: Schema.String.pipe(T.HttpPath("catalog")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -6990,7 +7011,7 @@ export const UpdateGenerativeQuestionProjectsLocationsCatalogsRequest =
 export type UpdateGenerativeQuestionProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaGenerativeQuestionConfig;
 export const UpdateGenerativeQuestionProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaGenerativeQuestionConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaGenerativeQuestionConfig;
 
 export type UpdateGenerativeQuestionProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -7001,7 +7022,7 @@ export const updateGenerativeQuestionProjectsLocationsCatalogs: API.OperationMet
   UpdateGenerativeQuestionProjectsLocationsCatalogsResponse,
   UpdateGenerativeQuestionProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGenerativeQuestionProjectsLocationsCatalogsRequest,
   output: UpdateGenerativeQuestionProjectsLocationsCatalogsResponse,
   errors: [],
@@ -7013,7 +7034,7 @@ export interface GetConversationalSearchCustomizationConfigProjectsLocationsCata
 }
 
 export const GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -7026,7 +7047,7 @@ export const GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs
 export type GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
 export const GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
 
 export type GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -7037,7 +7058,7 @@ export const getConversationalSearchCustomizationConfigProjectsLocationsCatalogs
   GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse,
   GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest,
   output:
@@ -7055,7 +7076,7 @@ export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsC
 }
 
 export const UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     catalog: Schema.String.pipe(T.HttpPath("catalog")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(
@@ -7073,7 +7094,7 @@ export const UpdateConversationalSearchCustomizationConfigProjectsLocationsCatal
 export type UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse =
   GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
 export const UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse =
-  GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
 
 export type UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
   DefaultErrors;
@@ -7084,7 +7105,7 @@ export const updateConversationalSearchCustomizationConfigProjectsLocationsCatal
   UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse,
   UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest,
   output:
@@ -7105,26 +7126,27 @@ export interface ListProjectsLocationsCatalogsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsLocationsCatalogsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsOperationsRequest>;
+export const ListProjectsLocationsCatalogsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsOperationsRequest>;
 
 export type ListProjectsLocationsCatalogsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsLocationsCatalogsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsLocationsCatalogsOperationsError = DefaultErrors;
 
@@ -7134,7 +7156,7 @@ export const listProjectsLocationsCatalogsOperations: API.PaginatedOperationMeth
   ListProjectsLocationsCatalogsOperationsResponse,
   ListProjectsLocationsCatalogsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsOperationsRequest,
   output: ListProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -7149,20 +7171,21 @@ export interface GetProjectsLocationsCatalogsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsOperationsRequest>;
+export const GetProjectsLocationsCatalogsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsOperationsRequest>;
 
 export type GetProjectsLocationsCatalogsOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCatalogsOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCatalogsOperationsError = DefaultErrors;
 
@@ -7172,7 +7195,7 @@ export const getProjectsLocationsCatalogsOperations: API.OperationMethod<
   GetProjectsLocationsCatalogsOperationsResponse,
   GetProjectsLocationsCatalogsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsOperationsRequest,
   output: GetProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -7189,21 +7212,22 @@ export interface ListProjectsLocationsCatalogsBranchesRequest {
     | (string & {});
 }
 
-export const ListProjectsLocationsCatalogsBranchesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/branches",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsBranchesRequest>;
+export const ListProjectsLocationsCatalogsBranchesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/branches",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsBranchesRequest>;
 
 export type ListProjectsLocationsCatalogsBranchesResponse =
   GoogleCloudRetailV2alphaListBranchesResponse;
 export const ListProjectsLocationsCatalogsBranchesResponse =
-  GoogleCloudRetailV2alphaListBranchesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListBranchesResponse;
 
 export type ListProjectsLocationsCatalogsBranchesError = DefaultErrors;
 
@@ -7213,7 +7237,7 @@ export const listProjectsLocationsCatalogsBranches: API.OperationMethod<
   ListProjectsLocationsCatalogsBranchesResponse,
   ListProjectsLocationsCatalogsBranchesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsCatalogsBranchesRequest,
   output: ListProjectsLocationsCatalogsBranchesResponse,
   errors: [],
@@ -7230,21 +7254,22 @@ export interface GetProjectsLocationsCatalogsBranchesRequest {
     | (string & {});
 }
 
-export const GetProjectsLocationsCatalogsBranchesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/branches/{branchesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsBranchesRequest>;
+export const GetProjectsLocationsCatalogsBranchesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/branches/{branchesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsBranchesRequest>;
 
 export type GetProjectsLocationsCatalogsBranchesResponse =
   GoogleCloudRetailV2alphaBranch;
 export const GetProjectsLocationsCatalogsBranchesResponse =
-  GoogleCloudRetailV2alphaBranch;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaBranch;
 
 export type GetProjectsLocationsCatalogsBranchesError = DefaultErrors;
 
@@ -7254,7 +7279,7 @@ export const getProjectsLocationsCatalogsBranches: API.OperationMethod<
   GetProjectsLocationsCatalogsBranchesResponse,
   GetProjectsLocationsCatalogsBranchesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesRequest,
   output: GetProjectsLocationsCatalogsBranchesResponse,
   errors: [],
@@ -7266,7 +7291,7 @@ export interface GetProjectsLocationsCatalogsBranchesOperationsRequest {
 }
 
 export const GetProjectsLocationsCatalogsBranchesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -7279,7 +7304,7 @@ export const GetProjectsLocationsCatalogsBranchesOperationsRequest =
 export type GetProjectsLocationsCatalogsBranchesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCatalogsBranchesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCatalogsBranchesOperationsError = DefaultErrors;
 
@@ -7289,7 +7314,7 @@ export const getProjectsLocationsCatalogsBranchesOperations: API.OperationMethod
   GetProjectsLocationsCatalogsBranchesOperationsResponse,
   GetProjectsLocationsCatalogsBranchesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesOperationsRequest,
   output: GetProjectsLocationsCatalogsBranchesOperationsResponse,
   errors: [],
@@ -7301,7 +7326,7 @@ export interface GetProjectsLocationsCatalogsBranchesPlacesOperationsRequest {
 }
 
 export const GetProjectsLocationsCatalogsBranchesPlacesOperationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -7314,7 +7339,7 @@ export const GetProjectsLocationsCatalogsBranchesPlacesOperationsRequest =
 export type GetProjectsLocationsCatalogsBranchesPlacesOperationsResponse =
   GoogleLongrunningOperation;
 export const GetProjectsLocationsCatalogsBranchesPlacesOperationsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsLocationsCatalogsBranchesPlacesOperationsError =
   DefaultErrors;
@@ -7325,7 +7350,7 @@ export const getProjectsLocationsCatalogsBranchesPlacesOperations: API.Operation
   GetProjectsLocationsCatalogsBranchesPlacesOperationsResponse,
   GetProjectsLocationsCatalogsBranchesPlacesOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesPlacesOperationsRequest,
   output: GetProjectsLocationsCatalogsBranchesPlacesOperationsResponse,
   errors: [],
@@ -7341,7 +7366,7 @@ export interface CreateProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const CreateProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     productId: Schema.optional(Schema.String).pipe(T.HttpQuery("productId")),
     body: Schema.optional(GoogleCloudRetailV2alphaProduct).pipe(T.HttpBody()),
@@ -7357,7 +7382,7 @@ export const CreateProjectsLocationsCatalogsBranchesProductsRequest =
 export type CreateProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleCloudRetailV2alphaProduct;
 export const CreateProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleCloudRetailV2alphaProduct;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaProduct;
 
 export type CreateProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7368,7 +7393,7 @@ export const createProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   CreateProjectsLocationsCatalogsBranchesProductsResponse,
   CreateProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsBranchesProductsRequest,
   output: CreateProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7380,7 +7405,7 @@ export interface GetProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const GetProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -7393,7 +7418,7 @@ export const GetProjectsLocationsCatalogsBranchesProductsRequest =
 export type GetProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleCloudRetailV2alphaProduct;
 export const GetProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleCloudRetailV2alphaProduct;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaProduct;
 
 export type GetProjectsLocationsCatalogsBranchesProductsError = DefaultErrors;
 
@@ -7403,7 +7428,7 @@ export const getProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<
   GetProjectsLocationsCatalogsBranchesProductsResponse,
   GetProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesProductsRequest,
   output: GetProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7425,7 +7450,7 @@ export interface ListProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const ListProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
@@ -7445,7 +7470,7 @@ export const ListProjectsLocationsCatalogsBranchesProductsRequest =
 export type ListProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleCloudRetailV2alphaListProductsResponse;
 export const ListProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleCloudRetailV2alphaListProductsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListProductsResponse;
 
 export type ListProjectsLocationsCatalogsBranchesProductsError = DefaultErrors;
 
@@ -7455,7 +7480,7 @@ export const listProjectsLocationsCatalogsBranchesProducts: API.PaginatedOperati
   ListProjectsLocationsCatalogsBranchesProductsResponse,
   ListProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsBranchesProductsRequest,
   output: ListProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7477,7 +7502,7 @@ export interface PatchProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const PatchProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     allowMissing: Schema.optional(Schema.Boolean).pipe(
@@ -7496,7 +7521,7 @@ export const PatchProjectsLocationsCatalogsBranchesProductsRequest =
 export type PatchProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleCloudRetailV2alphaProduct;
 export const PatchProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleCloudRetailV2alphaProduct;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaProduct;
 
 export type PatchProjectsLocationsCatalogsBranchesProductsError = DefaultErrors;
 
@@ -7506,7 +7531,7 @@ export const patchProjectsLocationsCatalogsBranchesProducts: API.OperationMethod
   PatchProjectsLocationsCatalogsBranchesProductsResponse,
   PatchProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsBranchesProductsRequest,
   output: PatchProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7520,7 +7545,7 @@ export interface DeleteProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const DeleteProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
@@ -7534,7 +7559,7 @@ export const DeleteProjectsLocationsCatalogsBranchesProductsRequest =
 export type DeleteProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7545,7 +7570,7 @@ export const deleteProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   DeleteProjectsLocationsCatalogsBranchesProductsResponse,
   DeleteProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsBranchesProductsRequest,
   output: DeleteProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7559,7 +7584,7 @@ export interface PurgeProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const PurgeProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudRetailV2alphaPurgeProductsRequest).pipe(
       T.HttpBody(),
@@ -7576,7 +7601,7 @@ export const PurgeProjectsLocationsCatalogsBranchesProductsRequest =
 export type PurgeProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCatalogsBranchesProductsError = DefaultErrors;
 
@@ -7586,7 +7611,7 @@ export const purgeProjectsLocationsCatalogsBranchesProducts: API.OperationMethod
   PurgeProjectsLocationsCatalogsBranchesProductsResponse,
   PurgeProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsCatalogsBranchesProductsRequest,
   output: PurgeProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7600,7 +7625,7 @@ export interface ImportProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const ImportProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudRetailV2alphaImportProductsRequest).pipe(
       T.HttpBody(),
@@ -7617,7 +7642,7 @@ export const ImportProjectsLocationsCatalogsBranchesProductsRequest =
 export type ImportProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7628,7 +7653,7 @@ export const importProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   ImportProjectsLocationsCatalogsBranchesProductsResponse,
   ImportProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCatalogsBranchesProductsRequest,
   output: ImportProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7642,7 +7667,7 @@ export interface ExportProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const ExportProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudRetailV2alphaExportProductsRequest).pipe(
       T.HttpBody(),
@@ -7659,7 +7684,7 @@ export const ExportProjectsLocationsCatalogsBranchesProductsRequest =
 export type ExportProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const ExportProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7670,7 +7695,7 @@ export const exportProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   ExportProjectsLocationsCatalogsBranchesProductsResponse,
   ExportProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsCatalogsBranchesProductsRequest,
   output: ExportProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7684,7 +7709,7 @@ export interface SetInventoryProjectsLocationsCatalogsBranchesProductsRequest {
 }
 
 export const SetInventoryProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudRetailV2alphaSetInventoryRequest).pipe(
       T.HttpBody(),
@@ -7701,7 +7726,7 @@ export const SetInventoryProjectsLocationsCatalogsBranchesProductsRequest =
 export type SetInventoryProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const SetInventoryProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SetInventoryProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7712,7 +7737,7 @@ export const setInventoryProjectsLocationsCatalogsBranchesProducts: API.Operatio
   SetInventoryProjectsLocationsCatalogsBranchesProductsResponse,
   SetInventoryProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetInventoryProjectsLocationsCatalogsBranchesProductsRequest,
   output: SetInventoryProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7726,7 +7751,7 @@ export interface AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRe
 }
 
 export const AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     product: Schema.String.pipe(T.HttpPath("product")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest,
@@ -7743,7 +7768,7 @@ export const AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsReques
 export type AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7754,7 +7779,7 @@ export const addFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: API.
   AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse,
   AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest,
   output: AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7768,7 +7793,7 @@ export interface RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProduct
 }
 
 export const RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     product: Schema.String.pipe(T.HttpPath("product")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest,
@@ -7785,7 +7810,7 @@ export const RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsReq
 export type RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7796,7 +7821,7 @@ export const removeFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: A
   RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse,
   RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest,
   output:
@@ -7812,7 +7837,7 @@ export interface AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsReq
 }
 
 export const AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     product: Schema.String.pipe(T.HttpPath("product")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaAddLocalInventoriesRequest,
@@ -7829,7 +7854,7 @@ export const AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest
 export type AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7840,7 +7865,7 @@ export const addLocalInventoriesProjectsLocationsCatalogsBranchesProducts: API.O
   AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
   AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest,
   output: AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -7854,7 +7879,7 @@ export interface RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProducts
 }
 
 export const RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     product: Schema.String.pipe(T.HttpPath("product")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest,
@@ -7871,7 +7896,7 @@ export const RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequ
 export type RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse =
   GoogleLongrunningOperation;
 export const RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
   DefaultErrors;
@@ -7882,7 +7907,7 @@ export const removeLocalInventoriesProjectsLocationsCatalogsBranchesProducts: AP
   RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
   RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest,
   output:
     RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
@@ -7897,7 +7922,7 @@ export interface AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigReq
 }
 
 export const AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attributesConfig: Schema.String.pipe(T.HttpPath("attributesConfig")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaAddCatalogAttributeRequest,
@@ -7914,7 +7939,7 @@ export const AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest
 export type AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
   GoogleCloudRetailV2alphaAttributesConfig;
 export const AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
-  GoogleCloudRetailV2alphaAttributesConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAttributesConfig;
 
 export type AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
   DefaultErrors;
@@ -7925,7 +7950,7 @@ export const addCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.O
   AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output: AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   errors: [],
@@ -7939,7 +7964,7 @@ export interface RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfig
 }
 
 export const RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attributesConfig: Schema.String.pipe(T.HttpPath("attributesConfig")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest,
@@ -7956,7 +7981,7 @@ export const RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequ
 export type RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
   GoogleCloudRetailV2alphaAttributesConfig;
 export const RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
-  GoogleCloudRetailV2alphaAttributesConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAttributesConfig;
 
 export type RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
   DefaultErrors;
@@ -7967,7 +7992,7 @@ export const removeCatalogAttributeProjectsLocationsCatalogsAttributesConfig: AP
   RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output:
     RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
@@ -7982,7 +8007,7 @@ export interface BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributes
 }
 
 export const BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attributesConfig: Schema.String.pipe(T.HttpPath("attributesConfig")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest,
@@ -7999,7 +8024,7 @@ export const BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConf
 export type BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigResponse =
   GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse;
 export const BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigResponse =
-  GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse;
 
 export type BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigError =
   DefaultErrors;
@@ -8010,7 +8035,7 @@ export const batchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConf
   BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigResponse,
   BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigRequest,
   output:
@@ -8026,7 +8051,7 @@ export interface ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfi
 }
 
 export const ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attributesConfig: Schema.String.pipe(T.HttpPath("attributesConfig")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest,
@@ -8043,7 +8068,7 @@ export const ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigReq
 export type ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
   GoogleCloudRetailV2alphaAttributesConfig;
 export const ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse =
-  GoogleCloudRetailV2alphaAttributesConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaAttributesConfig;
 
 export type ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
   DefaultErrors;
@@ -8054,7 +8079,7 @@ export const replaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig: A
   ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input:
     ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output:
@@ -8069,24 +8094,25 @@ export interface SearchProjectsLocationsCatalogsPlacementsRequest {
   body?: GoogleCloudRetailV2alphaSearchRequest;
 }
 
-export const SearchProjectsLocationsCatalogsPlacementsRequest = Schema.Struct({
-  placement: Schema.String.pipe(T.HttpPath("placement")),
-  body: Schema.optional(GoogleCloudRetailV2alphaSearchRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/placements/{placementsId}:search",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsLocationsCatalogsPlacementsRequest>;
+export const SearchProjectsLocationsCatalogsPlacementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    placement: Schema.String.pipe(T.HttpPath("placement")),
+    body: Schema.optional(GoogleCloudRetailV2alphaSearchRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/placements/{placementsId}:search",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsCatalogsPlacementsRequest>;
 
 export type SearchProjectsLocationsCatalogsPlacementsResponse =
   GoogleCloudRetailV2alphaSearchResponse;
 export const SearchProjectsLocationsCatalogsPlacementsResponse =
-  GoogleCloudRetailV2alphaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaSearchResponse;
 
 export type SearchProjectsLocationsCatalogsPlacementsError = DefaultErrors;
 
@@ -8096,7 +8122,7 @@ export const searchProjectsLocationsCatalogsPlacements: API.OperationMethod<
   SearchProjectsLocationsCatalogsPlacementsResponse,
   SearchProjectsLocationsCatalogsPlacementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsCatalogsPlacementsRequest,
   output: SearchProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
@@ -8110,7 +8136,7 @@ export interface ConversationalSearchProjectsLocationsCatalogsPlacementsRequest 
 }
 
 export const ConversationalSearchProjectsLocationsCatalogsPlacementsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     placement: Schema.String.pipe(T.HttpPath("placement")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaConversationalSearchRequest,
@@ -8127,7 +8153,7 @@ export const ConversationalSearchProjectsLocationsCatalogsPlacementsRequest =
 export type ConversationalSearchProjectsLocationsCatalogsPlacementsResponse =
   GoogleCloudRetailV2alphaConversationalSearchResponse;
 export const ConversationalSearchProjectsLocationsCatalogsPlacementsResponse =
-  GoogleCloudRetailV2alphaConversationalSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaConversationalSearchResponse;
 
 export type ConversationalSearchProjectsLocationsCatalogsPlacementsError =
   DefaultErrors;
@@ -8138,7 +8164,7 @@ export const conversationalSearchProjectsLocationsCatalogsPlacements: API.Operat
   ConversationalSearchProjectsLocationsCatalogsPlacementsResponse,
   ConversationalSearchProjectsLocationsCatalogsPlacementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConversationalSearchProjectsLocationsCatalogsPlacementsRequest,
   output: ConversationalSearchProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
@@ -8151,24 +8177,25 @@ export interface PredictProjectsLocationsCatalogsPlacementsRequest {
   body?: GoogleCloudRetailV2alphaPredictRequest;
 }
 
-export const PredictProjectsLocationsCatalogsPlacementsRequest = Schema.Struct({
-  placement: Schema.String.pipe(T.HttpPath("placement")),
-  body: Schema.optional(GoogleCloudRetailV2alphaPredictRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/placements/{placementsId}:predict",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PredictProjectsLocationsCatalogsPlacementsRequest>;
+export const PredictProjectsLocationsCatalogsPlacementsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    placement: Schema.String.pipe(T.HttpPath("placement")),
+    body: Schema.optional(GoogleCloudRetailV2alphaPredictRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/placements/{placementsId}:predict",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PredictProjectsLocationsCatalogsPlacementsRequest>;
 
 export type PredictProjectsLocationsCatalogsPlacementsResponse =
   GoogleCloudRetailV2alphaPredictResponse;
 export const PredictProjectsLocationsCatalogsPlacementsResponse =
-  GoogleCloudRetailV2alphaPredictResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaPredictResponse;
 
 export type PredictProjectsLocationsCatalogsPlacementsError = DefaultErrors;
 
@@ -8178,7 +8205,7 @@ export const predictProjectsLocationsCatalogsPlacements: API.OperationMethod<
   PredictProjectsLocationsCatalogsPlacementsResponse,
   PredictProjectsLocationsCatalogsPlacementsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictProjectsLocationsCatalogsPlacementsRequest,
   output: PredictProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
@@ -8192,7 +8219,7 @@ export interface SearchProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const SearchProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     placement: Schema.String.pipe(T.HttpPath("placement")),
     body: Schema.optional(GoogleCloudRetailV2alphaSearchRequest).pipe(
       T.HttpBody(),
@@ -8209,7 +8236,7 @@ export const SearchProjectsLocationsCatalogsServingConfigsRequest =
 export type SearchProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaSearchResponse;
 export const SearchProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaSearchResponse;
 
 export type SearchProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8219,7 +8246,7 @@ export const searchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   SearchProjectsLocationsCatalogsServingConfigsResponse,
   SearchProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsCatalogsServingConfigsRequest,
   output: SearchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8233,7 +8260,7 @@ export interface ConversationalSearchProjectsLocationsCatalogsServingConfigsRequ
 }
 
 export const ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     placement: Schema.String.pipe(T.HttpPath("placement")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaConversationalSearchRequest,
@@ -8250,7 +8277,7 @@ export const ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest 
 export type ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaConversationalSearchResponse;
 export const ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaConversationalSearchResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaConversationalSearchResponse;
 
 export type ConversationalSearchProjectsLocationsCatalogsServingConfigsError =
   DefaultErrors;
@@ -8261,7 +8288,7 @@ export const conversationalSearchProjectsLocationsCatalogsServingConfigs: API.Op
   ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse,
   ConversationalSearchProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest,
   output: ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8275,7 +8302,7 @@ export interface PredictProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const PredictProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     placement: Schema.String.pipe(T.HttpPath("placement")),
     body: Schema.optional(GoogleCloudRetailV2alphaPredictRequest).pipe(
       T.HttpBody(),
@@ -8292,7 +8319,7 @@ export const PredictProjectsLocationsCatalogsServingConfigsRequest =
 export type PredictProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaPredictResponse;
 export const PredictProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaPredictResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaPredictResponse;
 
 export type PredictProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8302,7 +8329,7 @@ export const predictProjectsLocationsCatalogsServingConfigs: API.OperationMethod
   PredictProjectsLocationsCatalogsServingConfigsResponse,
   PredictProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PredictProjectsLocationsCatalogsServingConfigsRequest,
   output: PredictProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8318,7 +8345,7 @@ export interface CreateProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const CreateProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     servingConfigId: Schema.optional(Schema.String).pipe(
       T.HttpQuery("servingConfigId"),
@@ -8338,7 +8365,7 @@ export const CreateProjectsLocationsCatalogsServingConfigsRequest =
 export type CreateProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaServingConfig;
 export const CreateProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaServingConfig;
 
 export type CreateProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8348,7 +8375,7 @@ export const createProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   CreateProjectsLocationsCatalogsServingConfigsResponse,
   CreateProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsServingConfigsRequest,
   output: CreateProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8360,7 +8387,7 @@ export interface DeleteProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const DeleteProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -8373,7 +8400,7 @@ export const DeleteProjectsLocationsCatalogsServingConfigsRequest =
 export type DeleteProjectsLocationsCatalogsServingConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8383,7 +8410,7 @@ export const deleteProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   DeleteProjectsLocationsCatalogsServingConfigsResponse,
   DeleteProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsServingConfigsRequest,
   output: DeleteProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8399,7 +8426,7 @@ export interface PatchProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const PatchProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudRetailV2alphaServingConfig).pipe(
@@ -8417,7 +8444,7 @@ export const PatchProjectsLocationsCatalogsServingConfigsRequest =
 export type PatchProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaServingConfig;
 export const PatchProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaServingConfig;
 
 export type PatchProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8427,7 +8454,7 @@ export const patchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   PatchProjectsLocationsCatalogsServingConfigsResponse,
   PatchProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsServingConfigsRequest,
   output: PatchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8438,20 +8465,21 @@ export interface GetProjectsLocationsCatalogsServingConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsServingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/servingConfigs/{servingConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsServingConfigsRequest>;
+export const GetProjectsLocationsCatalogsServingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/servingConfigs/{servingConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsServingConfigsRequest>;
 
 export type GetProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaServingConfig;
 export const GetProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaServingConfig;
 
 export type GetProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8461,7 +8489,7 @@ export const getProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   GetProjectsLocationsCatalogsServingConfigsResponse,
   GetProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsServingConfigsRequest,
   output: GetProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8476,24 +8504,23 @@ export interface ListProjectsLocationsCatalogsServingConfigsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsCatalogsServingConfigsRequest = Schema.Struct(
-  {
+export const ListProjectsLocationsCatalogsServingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/servingConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsServingConfigsRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/servingConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsServingConfigsRequest>;
 
 export type ListProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaListServingConfigsResponse;
 export const ListProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaListServingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListServingConfigsResponse;
 
 export type ListProjectsLocationsCatalogsServingConfigsError = DefaultErrors;
 
@@ -8503,7 +8530,7 @@ export const listProjectsLocationsCatalogsServingConfigs: API.PaginatedOperation
   ListProjectsLocationsCatalogsServingConfigsResponse,
   ListProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsServingConfigsRequest,
   output: ListProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8521,7 +8548,7 @@ export interface AddControlProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const AddControlProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudRetailV2alphaAddControlRequest).pipe(
       T.HttpBody(),
@@ -8538,7 +8565,7 @@ export const AddControlProjectsLocationsCatalogsServingConfigsRequest =
 export type AddControlProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaServingConfig;
 export const AddControlProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaServingConfig;
 
 export type AddControlProjectsLocationsCatalogsServingConfigsError =
   DefaultErrors;
@@ -8549,7 +8576,7 @@ export const addControlProjectsLocationsCatalogsServingConfigs: API.OperationMet
   AddControlProjectsLocationsCatalogsServingConfigsResponse,
   AddControlProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddControlProjectsLocationsCatalogsServingConfigsRequest,
   output: AddControlProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8563,7 +8590,7 @@ export interface RemoveControlProjectsLocationsCatalogsServingConfigsRequest {
 }
 
 export const RemoveControlProjectsLocationsCatalogsServingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     servingConfig: Schema.String.pipe(T.HttpPath("servingConfig")),
     body: Schema.optional(GoogleCloudRetailV2alphaRemoveControlRequest).pipe(
       T.HttpBody(),
@@ -8580,7 +8607,7 @@ export const RemoveControlProjectsLocationsCatalogsServingConfigsRequest =
 export type RemoveControlProjectsLocationsCatalogsServingConfigsResponse =
   GoogleCloudRetailV2alphaServingConfig;
 export const RemoveControlProjectsLocationsCatalogsServingConfigsResponse =
-  GoogleCloudRetailV2alphaServingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaServingConfig;
 
 export type RemoveControlProjectsLocationsCatalogsServingConfigsError =
   DefaultErrors;
@@ -8591,7 +8618,7 @@ export const removeControlProjectsLocationsCatalogsServingConfigs: API.Operation
   RemoveControlProjectsLocationsCatalogsServingConfigsResponse,
   RemoveControlProjectsLocationsCatalogsServingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveControlProjectsLocationsCatalogsServingConfigsRequest,
   output: RemoveControlProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -8605,7 +8632,7 @@ export interface ImportProjectsLocationsCatalogsCompletionDataRequest {
 }
 
 export const ImportProjectsLocationsCatalogsCompletionDataRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaImportCompletionDataRequest,
@@ -8622,7 +8649,7 @@ export const ImportProjectsLocationsCatalogsCompletionDataRequest =
 export type ImportProjectsLocationsCatalogsCompletionDataResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCatalogsCompletionDataResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCatalogsCompletionDataError = DefaultErrors;
 
@@ -8632,7 +8659,7 @@ export const importProjectsLocationsCatalogsCompletionData: API.OperationMethod<
   ImportProjectsLocationsCatalogsCompletionDataResponse,
   ImportProjectsLocationsCatalogsCompletionDataError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCatalogsCompletionDataRequest,
   output: ImportProjectsLocationsCatalogsCompletionDataResponse,
   errors: [],
@@ -8647,23 +8674,24 @@ export interface CreateProjectsLocationsCatalogsControlsRequest {
   body?: GoogleCloudRetailV2alphaControl;
 }
 
-export const CreateProjectsLocationsCatalogsControlsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
-  body: Schema.optional(GoogleCloudRetailV2alphaControl).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsControlsRequest>;
+export const CreateProjectsLocationsCatalogsControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    controlId: Schema.optional(Schema.String).pipe(T.HttpQuery("controlId")),
+    body: Schema.optional(GoogleCloudRetailV2alphaControl).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsControlsRequest>;
 
 export type CreateProjectsLocationsCatalogsControlsResponse =
   GoogleCloudRetailV2alphaControl;
 export const CreateProjectsLocationsCatalogsControlsResponse =
-  GoogleCloudRetailV2alphaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaControl;
 
 export type CreateProjectsLocationsCatalogsControlsError = DefaultErrors;
 
@@ -8673,7 +8701,7 @@ export const createProjectsLocationsCatalogsControls: API.OperationMethod<
   CreateProjectsLocationsCatalogsControlsResponse,
   CreateProjectsLocationsCatalogsControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsControlsRequest,
   output: CreateProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -8684,20 +8712,21 @@ export interface DeleteProjectsLocationsCatalogsControlsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCatalogsControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsControlsRequest>;
+export const DeleteProjectsLocationsCatalogsControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsControlsRequest>;
 
 export type DeleteProjectsLocationsCatalogsControlsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsControlsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsControlsError = DefaultErrors;
 
@@ -8707,7 +8736,7 @@ export const deleteProjectsLocationsCatalogsControls: API.OperationMethod<
   DeleteProjectsLocationsCatalogsControlsResponse,
   DeleteProjectsLocationsCatalogsControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsControlsRequest,
   output: DeleteProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -8722,23 +8751,24 @@ export interface PatchProjectsLocationsCatalogsControlsRequest {
   body?: GoogleCloudRetailV2alphaControl;
 }
 
-export const PatchProjectsLocationsCatalogsControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRetailV2alphaControl).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsControlsRequest>;
+export const PatchProjectsLocationsCatalogsControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRetailV2alphaControl).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsControlsRequest>;
 
 export type PatchProjectsLocationsCatalogsControlsResponse =
   GoogleCloudRetailV2alphaControl;
 export const PatchProjectsLocationsCatalogsControlsResponse =
-  GoogleCloudRetailV2alphaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaControl;
 
 export type PatchProjectsLocationsCatalogsControlsError = DefaultErrors;
 
@@ -8748,7 +8778,7 @@ export const patchProjectsLocationsCatalogsControls: API.OperationMethod<
   PatchProjectsLocationsCatalogsControlsResponse,
   PatchProjectsLocationsCatalogsControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsControlsRequest,
   output: PatchProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -8759,20 +8789,21 @@ export interface GetProjectsLocationsCatalogsControlsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsControlsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsControlsRequest>;
+export const GetProjectsLocationsCatalogsControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls/{controlsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsControlsRequest>;
 
 export type GetProjectsLocationsCatalogsControlsResponse =
   GoogleCloudRetailV2alphaControl;
 export const GetProjectsLocationsCatalogsControlsResponse =
-  GoogleCloudRetailV2alphaControl;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaControl;
 
 export type GetProjectsLocationsCatalogsControlsError = DefaultErrors;
 
@@ -8782,7 +8813,7 @@ export const getProjectsLocationsCatalogsControls: API.OperationMethod<
   GetProjectsLocationsCatalogsControlsResponse,
   GetProjectsLocationsCatalogsControlsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsControlsRequest,
   output: GetProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -8799,23 +8830,24 @@ export interface ListProjectsLocationsCatalogsControlsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsCatalogsControlsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsControlsRequest>;
+export const ListProjectsLocationsCatalogsControlsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/controls",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsControlsRequest>;
 
 export type ListProjectsLocationsCatalogsControlsResponse =
   GoogleCloudRetailV2alphaListControlsResponse;
 export const ListProjectsLocationsCatalogsControlsResponse =
-  GoogleCloudRetailV2alphaListControlsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListControlsResponse;
 
 export type ListProjectsLocationsCatalogsControlsError = DefaultErrors;
 
@@ -8825,7 +8857,7 @@ export const listProjectsLocationsCatalogsControls: API.PaginatedOperationMethod
   ListProjectsLocationsCatalogsControlsResponse,
   ListProjectsLocationsCatalogsControlsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsControlsRequest,
   output: ListProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -8841,7 +8873,7 @@ export interface ListProjectsLocationsCatalogsGenerativeQuestionsRequest {
 }
 
 export const ListProjectsLocationsCatalogsGenerativeQuestionsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
@@ -8854,7 +8886,7 @@ export const ListProjectsLocationsCatalogsGenerativeQuestionsRequest =
 export type ListProjectsLocationsCatalogsGenerativeQuestionsResponse =
   GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse;
 export const ListProjectsLocationsCatalogsGenerativeQuestionsResponse =
-  GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse;
 
 export type ListProjectsLocationsCatalogsGenerativeQuestionsError =
   DefaultErrors;
@@ -8865,7 +8897,7 @@ export const listProjectsLocationsCatalogsGenerativeQuestions: API.OperationMeth
   ListProjectsLocationsCatalogsGenerativeQuestionsResponse,
   ListProjectsLocationsCatalogsGenerativeQuestionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsCatalogsGenerativeQuestionsRequest,
   output: ListProjectsLocationsCatalogsGenerativeQuestionsResponse,
   errors: [],
@@ -8879,7 +8911,7 @@ export interface BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest {
 }
 
 export const BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest,
@@ -8896,7 +8928,7 @@ export const BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest =
 export type BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse =
   GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse;
 export const BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse =
-  GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse;
 
 export type BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError =
   DefaultErrors;
@@ -8907,7 +8939,7 @@ export const batchUpdateProjectsLocationsCatalogsGenerativeQuestion: API.Operati
   BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse,
   BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest,
   output: BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse,
   errors: [],
@@ -8922,23 +8954,24 @@ export interface CreateProjectsLocationsCatalogsModelsRequest {
   body?: GoogleCloudRetailV2alphaModel;
 }
 
-export const CreateProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  dryRun: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dryRun")),
-  body: Schema.optional(GoogleCloudRetailV2alphaModel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsModelsRequest>;
+export const CreateProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    dryRun: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("dryRun")),
+    body: Schema.optional(GoogleCloudRetailV2alphaModel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsCatalogsModelsRequest>;
 
 export type CreateProjectsLocationsCatalogsModelsResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCatalogsModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -8948,7 +8981,7 @@ export const createProjectsLocationsCatalogsModels: API.OperationMethod<
   CreateProjectsLocationsCatalogsModelsResponse,
   CreateProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsModelsRequest,
   output: CreateProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -8959,20 +8992,21 @@ export interface GetProjectsLocationsCatalogsModelsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsCatalogsModelsRequest>;
+export const GetProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsCatalogsModelsRequest>;
 
 export type GetProjectsLocationsCatalogsModelsResponse =
   GoogleCloudRetailV2alphaModel;
 export const GetProjectsLocationsCatalogsModelsResponse =
-  GoogleCloudRetailV2alphaModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaModel;
 
 export type GetProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -8982,7 +9016,7 @@ export const getProjectsLocationsCatalogsModels: API.OperationMethod<
   GetProjectsLocationsCatalogsModelsResponse,
   GetProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsCatalogsModelsRequest,
   output: GetProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -8995,24 +9029,25 @@ export interface PauseProjectsLocationsCatalogsModelsRequest {
   body?: GoogleCloudRetailV2alphaPauseModelRequest;
 }
 
-export const PauseProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudRetailV2alphaPauseModelRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:pause",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PauseProjectsLocationsCatalogsModelsRequest>;
+export const PauseProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudRetailV2alphaPauseModelRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:pause",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PauseProjectsLocationsCatalogsModelsRequest>;
 
 export type PauseProjectsLocationsCatalogsModelsResponse =
   GoogleCloudRetailV2alphaModel;
 export const PauseProjectsLocationsCatalogsModelsResponse =
-  GoogleCloudRetailV2alphaModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaModel;
 
 export type PauseProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9022,7 +9057,7 @@ export const pauseProjectsLocationsCatalogsModels: API.OperationMethod<
   PauseProjectsLocationsCatalogsModelsResponse,
   PauseProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PauseProjectsLocationsCatalogsModelsRequest,
   output: PauseProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9035,24 +9070,25 @@ export interface ResumeProjectsLocationsCatalogsModelsRequest {
   body?: GoogleCloudRetailV2alphaResumeModelRequest;
 }
 
-export const ResumeProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudRetailV2alphaResumeModelRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:resume",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ResumeProjectsLocationsCatalogsModelsRequest>;
+export const ResumeProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudRetailV2alphaResumeModelRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:resume",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResumeProjectsLocationsCatalogsModelsRequest>;
 
 export type ResumeProjectsLocationsCatalogsModelsResponse =
   GoogleCloudRetailV2alphaModel;
 export const ResumeProjectsLocationsCatalogsModelsResponse =
-  GoogleCloudRetailV2alphaModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaModel;
 
 export type ResumeProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9062,7 +9098,7 @@ export const resumeProjectsLocationsCatalogsModels: API.OperationMethod<
   ResumeProjectsLocationsCatalogsModelsResponse,
   ResumeProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ResumeProjectsLocationsCatalogsModelsRequest,
   output: ResumeProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9073,19 +9109,20 @@ export interface DeleteProjectsLocationsCatalogsModelsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsModelsRequest>;
+export const DeleteProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsCatalogsModelsRequest>;
 
 export type DeleteProjectsLocationsCatalogsModelsResponse = GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsModelsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9095,7 +9132,7 @@ export const deleteProjectsLocationsCatalogsModels: API.OperationMethod<
   DeleteProjectsLocationsCatalogsModelsResponse,
   DeleteProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsModelsRequest,
   output: DeleteProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9110,22 +9147,23 @@ export interface ListProjectsLocationsCatalogsModelsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsCatalogsModelsRequest>;
+export const ListProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsCatalogsModelsRequest>;
 
 export type ListProjectsLocationsCatalogsModelsResponse =
   GoogleCloudRetailV2alphaListModelsResponse;
 export const ListProjectsLocationsCatalogsModelsResponse =
-  GoogleCloudRetailV2alphaListModelsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListModelsResponse;
 
 export type ListProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9135,7 +9173,7 @@ export const listProjectsLocationsCatalogsModels: API.PaginatedOperationMethod<
   ListProjectsLocationsCatalogsModelsResponse,
   ListProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsModelsRequest,
   output: ListProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9154,23 +9192,24 @@ export interface PatchProjectsLocationsCatalogsModelsRequest {
   body?: GoogleCloudRetailV2alphaModel;
 }
 
-export const PatchProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(GoogleCloudRetailV2alphaModel).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsModelsRequest>;
+export const PatchProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(GoogleCloudRetailV2alphaModel).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsCatalogsModelsRequest>;
 
 export type PatchProjectsLocationsCatalogsModelsResponse =
   GoogleCloudRetailV2alphaModel;
 export const PatchProjectsLocationsCatalogsModelsResponse =
-  GoogleCloudRetailV2alphaModel;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaModel;
 
 export type PatchProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9180,7 +9219,7 @@ export const patchProjectsLocationsCatalogsModels: API.OperationMethod<
   PatchProjectsLocationsCatalogsModelsResponse,
   PatchProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsCatalogsModelsRequest,
   output: PatchProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9193,24 +9232,25 @@ export interface TuneProjectsLocationsCatalogsModelsRequest {
   body?: GoogleCloudRetailV2alphaTuneModelRequest;
 }
 
-export const TuneProjectsLocationsCatalogsModelsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GoogleCloudRetailV2alphaTuneModelRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:tune",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TuneProjectsLocationsCatalogsModelsRequest>;
+export const TuneProjectsLocationsCatalogsModelsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GoogleCloudRetailV2alphaTuneModelRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/models/{modelsId}:tune",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TuneProjectsLocationsCatalogsModelsRequest>;
 
 export type TuneProjectsLocationsCatalogsModelsResponse =
   GoogleLongrunningOperation;
 export const TuneProjectsLocationsCatalogsModelsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type TuneProjectsLocationsCatalogsModelsError = DefaultErrors;
 
@@ -9220,7 +9260,7 @@ export const tuneProjectsLocationsCatalogsModels: API.OperationMethod<
   TuneProjectsLocationsCatalogsModelsResponse,
   TuneProjectsLocationsCatalogsModelsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TuneProjectsLocationsCatalogsModelsRequest,
   output: TuneProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -9235,23 +9275,24 @@ export interface WriteProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaUserEvent;
 }
 
-export const WriteProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
-  body: Schema.optional(GoogleCloudRetailV2alphaUserEvent).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:write",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WriteProjectsLocationsCatalogsUserEventsRequest>;
+export const WriteProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    writeAsync: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("writeAsync")),
+    body: Schema.optional(GoogleCloudRetailV2alphaUserEvent).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:write",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteProjectsLocationsCatalogsUserEventsRequest>;
 
 export type WriteProjectsLocationsCatalogsUserEventsResponse =
   GoogleCloudRetailV2alphaUserEvent;
 export const WriteProjectsLocationsCatalogsUserEventsResponse =
-  GoogleCloudRetailV2alphaUserEvent;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaUserEvent;
 
 export type WriteProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9261,7 +9302,7 @@ export const writeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   WriteProjectsLocationsCatalogsUserEventsResponse,
   WriteProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WriteProjectsLocationsCatalogsUserEventsRequest,
   output: WriteProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9274,24 +9315,25 @@ export interface CollectProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaCollectUserEventRequest;
 }
 
-export const CollectProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRetailV2alphaCollectUserEventRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:collect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CollectProjectsLocationsCatalogsUserEventsRequest>;
+export const CollectProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRetailV2alphaCollectUserEventRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:collect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CollectProjectsLocationsCatalogsUserEventsRequest>;
 
 export type CollectProjectsLocationsCatalogsUserEventsResponse =
   GoogleApiHttpBody;
 export const CollectProjectsLocationsCatalogsUserEventsResponse =
-  GoogleApiHttpBody;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleApiHttpBody;
 
 export type CollectProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9301,7 +9343,7 @@ export const collectProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   CollectProjectsLocationsCatalogsUserEventsResponse,
   CollectProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CollectProjectsLocationsCatalogsUserEventsRequest,
   output: CollectProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9314,24 +9356,25 @@ export interface PurgeProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaPurgeUserEventsRequest;
 }
 
-export const PurgeProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRetailV2alphaPurgeUserEventsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:purge",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PurgeProjectsLocationsCatalogsUserEventsRequest>;
+export const PurgeProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRetailV2alphaPurgeUserEventsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:purge",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PurgeProjectsLocationsCatalogsUserEventsRequest>;
 
 export type PurgeProjectsLocationsCatalogsUserEventsResponse =
   GoogleLongrunningOperation;
 export const PurgeProjectsLocationsCatalogsUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type PurgeProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9341,7 +9384,7 @@ export const purgeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   PurgeProjectsLocationsCatalogsUserEventsResponse,
   PurgeProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PurgeProjectsLocationsCatalogsUserEventsRequest,
   output: PurgeProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9354,24 +9397,25 @@ export interface ImportProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaImportUserEventsRequest;
 }
 
-export const ImportProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRetailV2alphaImportUserEventsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:import",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ImportProjectsLocationsCatalogsUserEventsRequest>;
+export const ImportProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRetailV2alphaImportUserEventsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:import",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ImportProjectsLocationsCatalogsUserEventsRequest>;
 
 export type ImportProjectsLocationsCatalogsUserEventsResponse =
   GoogleLongrunningOperation;
 export const ImportProjectsLocationsCatalogsUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ImportProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9381,7 +9425,7 @@ export const importProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ImportProjectsLocationsCatalogsUserEventsResponse,
   ImportProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportProjectsLocationsCatalogsUserEventsRequest,
   output: ImportProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9394,24 +9438,25 @@ export interface ExportProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaExportUserEventsRequest;
 }
 
-export const ExportProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRetailV2alphaExportUserEventsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:export",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportProjectsLocationsCatalogsUserEventsRequest>;
+export const ExportProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRetailV2alphaExportUserEventsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:export",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportProjectsLocationsCatalogsUserEventsRequest>;
 
 export type ExportProjectsLocationsCatalogsUserEventsResponse =
   GoogleLongrunningOperation;
 export const ExportProjectsLocationsCatalogsUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ExportProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9421,7 +9466,7 @@ export const exportProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ExportProjectsLocationsCatalogsUserEventsResponse,
   ExportProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportProjectsLocationsCatalogsUserEventsRequest,
   output: ExportProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9434,24 +9479,25 @@ export interface RejoinProjectsLocationsCatalogsUserEventsRequest {
   body?: GoogleCloudRetailV2alphaRejoinUserEventsRequest;
 }
 
-export const RejoinProjectsLocationsCatalogsUserEventsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GoogleCloudRetailV2alphaRejoinUserEventsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:rejoin",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RejoinProjectsLocationsCatalogsUserEventsRequest>;
+export const RejoinProjectsLocationsCatalogsUserEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GoogleCloudRetailV2alphaRejoinUserEventsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/locations/{locationsId}/catalogs/{catalogsId}/userEvents:rejoin",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RejoinProjectsLocationsCatalogsUserEventsRequest>;
 
 export type RejoinProjectsLocationsCatalogsUserEventsResponse =
   GoogleLongrunningOperation;
 export const RejoinProjectsLocationsCatalogsUserEventsResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type RejoinProjectsLocationsCatalogsUserEventsError = DefaultErrors;
 
@@ -9461,7 +9507,7 @@ export const rejoinProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   RejoinProjectsLocationsCatalogsUserEventsResponse,
   RejoinProjectsLocationsCatalogsUserEventsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RejoinProjectsLocationsCatalogsUserEventsRequest,
   output: RejoinProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
@@ -9473,7 +9519,7 @@ export interface ListProjectsLocationsCatalogsMerchantCenterAccountLinksRequest 
 }
 
 export const ListProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
@@ -9486,7 +9532,7 @@ export const ListProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
 export type ListProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
   GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse;
 export const ListProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
-  GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse;
 
 export type ListProjectsLocationsCatalogsMerchantCenterAccountLinksError =
   DefaultErrors;
@@ -9497,7 +9543,7 @@ export const listProjectsLocationsCatalogsMerchantCenterAccountLinks: API.Operat
   ListProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   ListProjectsLocationsCatalogsMerchantCenterAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsCatalogsMerchantCenterAccountLinksRequest,
   output: ListProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   errors: [],
@@ -9511,7 +9557,7 @@ export interface CreateProjectsLocationsCatalogsMerchantCenterAccountLinksReques
 }
 
 export const CreateProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GoogleCloudRetailV2alphaMerchantCenterAccountLink,
@@ -9528,7 +9574,7 @@ export const CreateProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
 export type CreateProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
   GoogleLongrunningOperation;
 export const CreateProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
-  GoogleLongrunningOperation;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsCatalogsMerchantCenterAccountLinksError =
   DefaultErrors;
@@ -9539,7 +9585,7 @@ export const createProjectsLocationsCatalogsMerchantCenterAccountLinks: API.Oper
   CreateProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   CreateProjectsLocationsCatalogsMerchantCenterAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsCatalogsMerchantCenterAccountLinksRequest,
   output: CreateProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   errors: [],
@@ -9551,7 +9597,7 @@ export interface DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksReques
 }
 
 export const DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -9564,7 +9610,7 @@ export const DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksRequest =
 export type DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksError =
   DefaultErrors;
@@ -9575,7 +9621,7 @@ export const deleteProjectsLocationsCatalogsMerchantCenterAccountLinks: API.Oper
   DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksRequest,
   output: DeleteProjectsLocationsCatalogsMerchantCenterAccountLinksResponse,
   errors: [],
@@ -9594,23 +9640,24 @@ export interface ListProjectsOperationsRequest {
   returnPartialSuccess?: boolean;
 }
 
-export const ListProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("returnPartialSuccess"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v2alpha/projects/{projectsId}/operations" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
+export const ListProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2alpha/projects/{projectsId}/operations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
 export type ListProjectsOperationsResponse =
   GoogleLongrunningListOperationsResponse;
 export const ListProjectsOperationsResponse =
-  GoogleLongrunningListOperationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningListOperationsResponse;
 
 export type ListProjectsOperationsError = DefaultErrors;
 
@@ -9620,7 +9667,7 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   ListProjectsOperationsResponse,
   ListProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -9635,18 +9682,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2alpha/projects/{projectsId}/operations/{operationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2alpha/projects/{projectsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = GoogleLongrunningOperation;
-export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -9656,7 +9705,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -9669,24 +9718,25 @@ export interface AcceptTermsProjectsRetailProjectRequest {
   body?: GoogleCloudRetailV2alphaAcceptTermsRequest;
 }
 
-export const AcceptTermsProjectsRetailProjectRequest = Schema.Struct({
-  project: Schema.String.pipe(T.HttpPath("project")),
-  body: Schema.optional(GoogleCloudRetailV2alphaAcceptTermsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2alpha/projects/{projectsId}/retailProject:acceptTerms",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AcceptTermsProjectsRetailProjectRequest>;
+export const AcceptTermsProjectsRetailProjectRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project: Schema.String.pipe(T.HttpPath("project")),
+    body: Schema.optional(GoogleCloudRetailV2alphaAcceptTermsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2alpha/projects/{projectsId}/retailProject:acceptTerms",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AcceptTermsProjectsRetailProjectRequest>;
 
 export type AcceptTermsProjectsRetailProjectResponse =
   GoogleCloudRetailV2alphaProject;
 export const AcceptTermsProjectsRetailProjectResponse =
-  GoogleCloudRetailV2alphaProject;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRetailV2alphaProject;
 
 export type AcceptTermsProjectsRetailProjectError = DefaultErrors;
 
@@ -9696,7 +9746,7 @@ export const acceptTermsProjectsRetailProject: API.OperationMethod<
   AcceptTermsProjectsRetailProjectResponse,
   AcceptTermsProjectsRetailProjectError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AcceptTermsProjectsRetailProjectRequest,
   output: AcceptTermsProjectsRetailProjectResponse,
   errors: [],

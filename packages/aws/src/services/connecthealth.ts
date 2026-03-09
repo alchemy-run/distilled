@@ -85,23 +85,24 @@ export interface ActivateSubscriptionInput {
   domainId: string;
   subscriptionId: string;
 }
-export const ActivateSubscriptionInput = S.suspend(() =>
-  S.Struct({
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/subscriptions/{subscriptionId}/activate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ActivateSubscriptionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/domains/{domainId}/subscriptions/{subscriptionId}/activate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ActivateSubscriptionInput",
 }) as any as S.Schema<ActivateSubscriptionInput>;
@@ -110,7 +111,7 @@ export type SubscriptionStatus =
   | "INACTIVE"
   | "DELETED"
   | (string & {});
-export const SubscriptionStatus = S.String;
+export const SubscriptionStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface SubscriptionDescription {
   domainId: string;
   subscriptionId: string;
@@ -121,25 +122,28 @@ export interface SubscriptionDescription {
   activatedAt?: Date;
   deactivatedAt?: Date;
 }
-export const SubscriptionDescription = S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    subscriptionId: S.String,
-    arn: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deactivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
+export const SubscriptionDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainId: S.String,
+      subscriptionId: S.String,
+      arn: S.String,
+      status: SubscriptionStatus,
+      createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      deactivatedAt: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
 ).annotate({
   identifier: "SubscriptionDescription",
 }) as any as S.Schema<SubscriptionDescription>;
 export interface ActivateSubscriptionOutput {
   subscription?: SubscriptionDescription;
 }
-export const ActivateSubscriptionOutput = S.suspend(() =>
-  S.Struct({ subscription: S.optional(SubscriptionDescription) }),
+export const ActivateSubscriptionOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ subscription: S.optional(SubscriptionDescription) }),
 ).annotate({
   identifier: "ActivateSubscriptionOutput",
 }) as any as S.Schema<ActivateSubscriptionOutput>;
@@ -148,20 +152,28 @@ export interface CreateWebAppConfiguration {
   idcInstanceId: string;
   idcRegion: string;
 }
-export const CreateWebAppConfiguration = S.suspend(() =>
-  S.Struct({ ehrRole: S.String, idcInstanceId: S.String, idcRegion: S.String }),
+export const CreateWebAppConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ehrRole: S.String,
+      idcInstanceId: S.String,
+      idcRegion: S.String,
+    }),
 ).annotate({
   identifier: "CreateWebAppConfiguration",
 }) as any as S.Schema<CreateWebAppConfiguration>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateDomainInput {
   name: string;
   kmsKeyArn?: string;
   webAppSetupConfiguration?: CreateWebAppConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateDomainInput = S.suspend(() =>
+export const CreateDomainInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     kmsKeyArn: S.optional(S.String),
@@ -184,24 +196,24 @@ export type EncryptionType =
   | "AWS_OWNED_KEY"
   | "CUSTOMER_MANAGED_KEY"
   | (string & {});
-export const EncryptionType = S.String;
+export const EncryptionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EncryptionContext {
   encryptionType: EncryptionType;
   kmsKeyArn?: string;
 }
-export const EncryptionContext = S.suspend(() =>
+export const EncryptionContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ encryptionType: EncryptionType, kmsKeyArn: S.optional(S.String) }),
 ).annotate({
   identifier: "EncryptionContext",
 }) as any as S.Schema<EncryptionContext>;
 export type DomainStatus = "ACTIVE" | "DELETING" | "DELETED" | (string & {});
-export const DomainStatus = S.String;
+export const DomainStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface WebAppConfiguration {
   ehrRole: string;
   idcApplicationId: string;
   idcRegion: string;
 }
-export const WebAppConfiguration = S.suspend(() =>
+export const WebAppConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ehrRole: S.String,
     idcApplicationId: S.String,
@@ -221,7 +233,7 @@ export interface CreateDomainOutput {
   webAppConfiguration?: WebAppConfiguration;
   createdAt: Date;
 }
-export const CreateDomainOutput = S.suspend(() =>
+export const CreateDomainOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String,
     arn: S.String,
@@ -239,17 +251,18 @@ export const CreateDomainOutput = S.suspend(() =>
 export interface CreateSubscriptionInput {
   domainId: string;
 }
-export const CreateSubscriptionInput = S.suspend(() =>
-  S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domains/{domainId}/subscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateSubscriptionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/domains/{domainId}/subscriptions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSubscriptionInput",
 }) as any as S.Schema<CreateSubscriptionInput>;
@@ -263,17 +276,20 @@ export interface CreateSubscriptionOutput {
   activatedAt?: Date;
   deactivatedAt?: Date;
 }
-export const CreateSubscriptionOutput = S.suspend(() =>
-  S.Struct({
-    domainId: S.String,
-    subscriptionId: S.String,
-    arn: S.String,
-    status: SubscriptionStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deactivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
+export const CreateSubscriptionOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainId: S.String,
+      subscriptionId: S.String,
+      arn: S.String,
+      status: SubscriptionStatus,
+      createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      lastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      deactivatedAt: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
 ).annotate({
   identifier: "CreateSubscriptionOutput",
 }) as any as S.Schema<CreateSubscriptionOutput>;
@@ -281,38 +297,40 @@ export interface DeactivateSubscriptionInput {
   domainId: string;
   subscriptionId: string;
 }
-export const DeactivateSubscriptionInput = S.suspend(() =>
-  S.Struct({
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/subscriptions/{subscriptionId}/deactivate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeactivateSubscriptionInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/domains/{domainId}/subscriptions/{subscriptionId}/deactivate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeactivateSubscriptionInput",
-}) as any as S.Schema<DeactivateSubscriptionInput>;
+  ).annotate({
+    identifier: "DeactivateSubscriptionInput",
+  }) as any as S.Schema<DeactivateSubscriptionInput>;
 export interface DeactivateSubscriptionOutput {
   subscription?: SubscriptionDescription;
 }
-export const DeactivateSubscriptionOutput = S.suspend(() =>
-  S.Struct({ subscription: S.optional(SubscriptionDescription) }),
-).annotate({
-  identifier: "DeactivateSubscriptionOutput",
-}) as any as S.Schema<DeactivateSubscriptionOutput>;
+export const DeactivateSubscriptionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ subscription: S.optional(SubscriptionDescription) }),
+  ).annotate({
+    identifier: "DeactivateSubscriptionOutput",
+  }) as any as S.Schema<DeactivateSubscriptionOutput>;
 export interface DeleteDomainInput {
   domainId: string;
 }
-export const DeleteDomainInput = S.suspend(() =>
+export const DeleteDomainInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/domain/{domainId}" }),
@@ -331,7 +349,7 @@ export interface DeleteDomainOutput {
   arn: string;
   status: DomainStatus;
 }
-export const DeleteDomainOutput = S.suspend(() =>
+export const DeleteDomainOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String, arn: S.String, status: DomainStatus }),
 ).annotate({
   identifier: "DeleteDomainOutput",
@@ -339,7 +357,7 @@ export const DeleteDomainOutput = S.suspend(() =>
 export interface GetDomainInput {
   domainId: string;
 }
-export const GetDomainInput = S.suspend(() =>
+export const GetDomainInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/domain/{domainId}" }),
@@ -363,7 +381,7 @@ export interface GetDomainOutput {
   createdAt: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const GetDomainOutput = S.suspend(() =>
+export const GetDomainOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String,
     arn: S.String,
@@ -384,52 +402,54 @@ export interface GetMedicalScribeListeningSessionInput {
   domainId: string;
   subscriptionId: string;
 }
-export const GetMedicalScribeListeningSessionInput = S.suspend(() =>
-  S.Struct({
-    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/medical-scribe-stream/domain/{domainId}/subscription/{subscriptionId}/session/{sessionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetMedicalScribeListeningSessionInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/medical-scribe-stream/domain/{domainId}/subscription/{subscriptionId}/session/{sessionId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetMedicalScribeListeningSessionInput",
-}) as any as S.Schema<GetMedicalScribeListeningSessionInput>;
+  ).annotate({
+    identifier: "GetMedicalScribeListeningSessionInput",
+  }) as any as S.Schema<GetMedicalScribeListeningSessionInput>;
 export type MedicalScribeLanguageCode = "en-US" | (string & {});
-export const MedicalScribeLanguageCode = S.String;
+export const MedicalScribeLanguageCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MedicalScribeMediaEncoding = "pcm" | "flac" | (string & {});
-export const MedicalScribeMediaEncoding = S.String;
+export const MedicalScribeMediaEncoding = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MedicalScribeParticipantRole =
   | "PATIENT"
   | "CLINICIAN"
   | (string & {});
-export const MedicalScribeParticipantRole = S.String;
+export const MedicalScribeParticipantRole =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MedicalScribeChannelDefinition {
   channelId: number;
   participantRole: MedicalScribeParticipantRole;
 }
-export const MedicalScribeChannelDefinition = S.suspend(() =>
-  S.Struct({
-    channelId: S.Number,
-    participantRole: MedicalScribeParticipantRole,
-  }),
-).annotate({
-  identifier: "MedicalScribeChannelDefinition",
-}) as any as S.Schema<MedicalScribeChannelDefinition>;
+export const MedicalScribeChannelDefinition =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      channelId: S.Number,
+      participantRole: MedicalScribeParticipantRole,
+    }),
+  ).annotate({
+    identifier: "MedicalScribeChannelDefinition",
+  }) as any as S.Schema<MedicalScribeChannelDefinition>;
 export type MedicalScribeChannelDefinitions = MedicalScribeChannelDefinition[];
-export const MedicalScribeChannelDefinitions = S.Array(
-  MedicalScribeChannelDefinition,
-);
+export const MedicalScribeChannelDefinitions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(MedicalScribeChannelDefinition);
 export type ManagedNoteTemplate =
   | "HISTORY_AND_PHYSICAL"
   | "GIRPP"
@@ -439,12 +459,12 @@ export type ManagedNoteTemplate =
   | "BEHAVIORAL_SOAP"
   | "PHYSICAL_SOAP"
   | (string & {});
-export const ManagedNoteTemplate = S.String;
+export const ManagedNoteTemplate = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ManagedTemplateResponse {
   templateType?: ManagedNoteTemplate;
 }
-export const ManagedTemplateResponse = S.suspend(() =>
-  S.Struct({ templateType: S.optional(ManagedNoteTemplate) }),
+export const ManagedTemplateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ templateType: S.optional(ManagedNoteTemplate) }),
 ).annotate({
   identifier: "ManagedTemplateResponse",
 }) as any as S.Schema<ManagedTemplateResponse>;
@@ -456,54 +476,61 @@ export type CustomTemplateBase =
   | "BIRP"
   | "BEHAVIORAL_SOAP"
   | (string & {});
-export const CustomTemplateBase = S.String;
+export const CustomTemplateBase = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CustomTemplateResponse {
   templateType?: CustomTemplateBase;
 }
-export const CustomTemplateResponse = S.suspend(() =>
-  S.Struct({ templateType: S.optional(CustomTemplateBase) }),
+export const CustomTemplateResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ templateType: S.optional(CustomTemplateBase) }),
 ).annotate({
   identifier: "CustomTemplateResponse",
 }) as any as S.Schema<CustomTemplateResponse>;
 export type NoteTemplateSettingsResponse =
   | { managedTemplate: ManagedTemplateResponse; customTemplate?: never }
   | { managedTemplate?: never; customTemplate: CustomTemplateResponse };
-export const NoteTemplateSettingsResponse = S.Union([
-  S.Struct({ managedTemplate: ManagedTemplateResponse }),
-  S.Struct({ customTemplate: CustomTemplateResponse }),
-]);
+export const NoteTemplateSettingsResponse = /*@__PURE__*/ /*#__PURE__*/ S.Union(
+  [
+    S.Struct({ managedTemplate: ManagedTemplateResponse }),
+    S.Struct({ customTemplate: CustomTemplateResponse }),
+  ],
+);
 export interface ClinicalNoteGenerationSettingsResponse {
   noteTemplateSettings?: NoteTemplateSettingsResponse;
 }
-export const ClinicalNoteGenerationSettingsResponse = S.suspend(() =>
-  S.Struct({ noteTemplateSettings: S.optional(NoteTemplateSettingsResponse) }),
-).annotate({
-  identifier: "ClinicalNoteGenerationSettingsResponse",
-}) as any as S.Schema<ClinicalNoteGenerationSettingsResponse>;
+export const ClinicalNoteGenerationSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      noteTemplateSettings: S.optional(NoteTemplateSettingsResponse),
+    }),
+  ).annotate({
+    identifier: "ClinicalNoteGenerationSettingsResponse",
+  }) as any as S.Schema<ClinicalNoteGenerationSettingsResponse>;
 export interface MedicalScribePostStreamActionSettingsResponse {
   outputS3Uri: string;
   clinicalNoteGenerationSettings: ClinicalNoteGenerationSettingsResponse;
 }
-export const MedicalScribePostStreamActionSettingsResponse = S.suspend(() =>
-  S.Struct({
-    outputS3Uri: S.String,
-    clinicalNoteGenerationSettings: ClinicalNoteGenerationSettingsResponse,
-  }),
-).annotate({
-  identifier: "MedicalScribePostStreamActionSettingsResponse",
-}) as any as S.Schema<MedicalScribePostStreamActionSettingsResponse>;
+export const MedicalScribePostStreamActionSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      outputS3Uri: S.String,
+      clinicalNoteGenerationSettings: ClinicalNoteGenerationSettingsResponse,
+    }),
+  ).annotate({
+    identifier: "MedicalScribePostStreamActionSettingsResponse",
+  }) as any as S.Schema<MedicalScribePostStreamActionSettingsResponse>;
 export type PostStreamArtifactGenerationStatus =
   | "IN_PROGRESS"
   | "FAILED"
   | "COMPLETED"
   | (string & {});
-export const PostStreamArtifactGenerationStatus = S.String;
+export const PostStreamArtifactGenerationStatus =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ArtifactDetails {
   outputLocation?: string;
   status?: PostStreamArtifactGenerationStatus;
   failureReason?: string;
 }
-export const ArtifactDetails = S.suspend(() =>
+export const ArtifactDetails = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     outputLocation: S.optional(S.String),
     status: S.optional(PostStreamArtifactGenerationStatus),
@@ -517,32 +544,34 @@ export interface ClinicalNoteGenerationResult {
   transcriptResult?: ArtifactDetails;
   afterVisitSummaryResult?: ArtifactDetails;
 }
-export const ClinicalNoteGenerationResult = S.suspend(() =>
-  S.Struct({
-    noteResult: S.optional(ArtifactDetails),
-    transcriptResult: S.optional(ArtifactDetails),
-    afterVisitSummaryResult: S.optional(ArtifactDetails),
-  }),
-).annotate({
-  identifier: "ClinicalNoteGenerationResult",
-}) as any as S.Schema<ClinicalNoteGenerationResult>;
+export const ClinicalNoteGenerationResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      noteResult: S.optional(ArtifactDetails),
+      transcriptResult: S.optional(ArtifactDetails),
+      afterVisitSummaryResult: S.optional(ArtifactDetails),
+    }),
+  ).annotate({
+    identifier: "ClinicalNoteGenerationResult",
+  }) as any as S.Schema<ClinicalNoteGenerationResult>;
 export interface MedicalScribePostStreamActionsResult {
   clinicalNoteGenerationResult?: ClinicalNoteGenerationResult;
 }
-export const MedicalScribePostStreamActionsResult = S.suspend(() =>
-  S.Struct({
-    clinicalNoteGenerationResult: S.optional(ClinicalNoteGenerationResult),
-  }),
-).annotate({
-  identifier: "MedicalScribePostStreamActionsResult",
-}) as any as S.Schema<MedicalScribePostStreamActionsResult>;
+export const MedicalScribePostStreamActionsResult =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clinicalNoteGenerationResult: S.optional(ClinicalNoteGenerationResult),
+    }),
+  ).annotate({
+    identifier: "MedicalScribePostStreamActionsResult",
+  }) as any as S.Schema<MedicalScribePostStreamActionsResult>;
 export type MedicalScribeStreamStatus =
   | "IN_PROGRESS"
   | "PAUSED"
   | "FAILED"
   | "COMPLETED"
   | (string & {});
-export const MedicalScribeStreamStatus = S.String;
+export const MedicalScribeStreamStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MedicalScribeListeningSessionDetails {
   sessionId?: string;
   domainId?: string;
@@ -558,100 +587,106 @@ export interface MedicalScribeListeningSessionDetails {
   streamCreationTime?: Date;
   streamEndTime?: Date;
 }
-export const MedicalScribeListeningSessionDetails = S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String),
-    domainId: S.optional(S.String),
-    subscriptionId: S.optional(S.String),
-    languageCode: S.optional(MedicalScribeLanguageCode),
-    mediaSampleRateHertz: S.optional(S.Number),
-    mediaEncoding: S.optional(MedicalScribeMediaEncoding),
-    channelDefinitions: S.optional(MedicalScribeChannelDefinitions),
-    postStreamActionSettings: S.optional(
-      MedicalScribePostStreamActionSettingsResponse,
-    ),
-    postStreamActionResult: S.optional(MedicalScribePostStreamActionsResult),
-    encounterContextProvided: S.optional(S.Boolean),
-    streamStatus: S.optional(MedicalScribeStreamStatus),
-    streamCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    streamEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "MedicalScribeListeningSessionDetails",
-}) as any as S.Schema<MedicalScribeListeningSessionDetails>;
+export const MedicalScribeListeningSessionDetails =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sessionId: S.optional(S.String),
+      domainId: S.optional(S.String),
+      subscriptionId: S.optional(S.String),
+      languageCode: S.optional(MedicalScribeLanguageCode),
+      mediaSampleRateHertz: S.optional(S.Number),
+      mediaEncoding: S.optional(MedicalScribeMediaEncoding),
+      channelDefinitions: S.optional(MedicalScribeChannelDefinitions),
+      postStreamActionSettings: S.optional(
+        MedicalScribePostStreamActionSettingsResponse,
+      ),
+      postStreamActionResult: S.optional(MedicalScribePostStreamActionsResult),
+      encounterContextProvided: S.optional(S.Boolean),
+      streamStatus: S.optional(MedicalScribeStreamStatus),
+      streamCreationTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      streamEndTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
+  ).annotate({
+    identifier: "MedicalScribeListeningSessionDetails",
+  }) as any as S.Schema<MedicalScribeListeningSessionDetails>;
 export interface GetMedicalScribeListeningSessionOutput {
   medicalScribeListeningSessionDetails?: MedicalScribeListeningSessionDetails;
 }
-export const GetMedicalScribeListeningSessionOutput = S.suspend(() =>
-  S.Struct({
-    medicalScribeListeningSessionDetails: S.optional(
-      MedicalScribeListeningSessionDetails,
-    ),
-  }),
-).annotate({
-  identifier: "GetMedicalScribeListeningSessionOutput",
-}) as any as S.Schema<GetMedicalScribeListeningSessionOutput>;
+export const GetMedicalScribeListeningSessionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      medicalScribeListeningSessionDetails: S.optional(
+        MedicalScribeListeningSessionDetails,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetMedicalScribeListeningSessionOutput",
+  }) as any as S.Schema<GetMedicalScribeListeningSessionOutput>;
 export interface GetPatientInsightsJobRequest {
   domainId: string;
   jobId: string;
 }
-export const GetPatientInsightsJobRequest = S.suspend(() =>
-  S.Struct({
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domain/{domainId}/patient-insights-job/{jobId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetPatientInsightsJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      jobId: S.String.pipe(T.HttpLabel("jobId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/domain/{domainId}/patient-insights-job/{jobId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetPatientInsightsJobRequest",
-}) as any as S.Schema<GetPatientInsightsJobRequest>;
+  ).annotate({
+    identifier: "GetPatientInsightsJobRequest",
+  }) as any as S.Schema<GetPatientInsightsJobRequest>;
 export type JobStatus =
   | "SUBMITTED"
   | "IN_PROGRESS"
   | "FAILED"
   | "SUCCEEDED"
   | (string & {});
-export const JobStatus = S.String;
+export const JobStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface InsightsOutput {
   uri: string;
 }
-export const InsightsOutput = S.suspend(() =>
+export const InsightsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ uri: S.String }),
 ).annotate({ identifier: "InsightsOutput" }) as any as S.Schema<InsightsOutput>;
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
-export const Pronouns = S.String;
+export const Pronouns = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PatientInsightsPatientContext {
   patientId: string | redacted.Redacted<string>;
   dateOfBirth?: string | redacted.Redacted<string>;
   pronouns?: Pronouns;
 }
-export const PatientInsightsPatientContext = S.suspend(() =>
-  S.Struct({
-    patientId: SensitiveString,
-    dateOfBirth: S.optional(SensitiveString),
-    pronouns: S.optional(Pronouns),
-  }),
-).annotate({
-  identifier: "PatientInsightsPatientContext",
-}) as any as S.Schema<PatientInsightsPatientContext>;
+export const PatientInsightsPatientContext =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      patientId: SensitiveString,
+      dateOfBirth: S.optional(SensitiveString),
+      pronouns: S.optional(Pronouns),
+    }),
+  ).annotate({
+    identifier: "PatientInsightsPatientContext",
+  }) as any as S.Schema<PatientInsightsPatientContext>;
 export type InsightsType = "PRE_VISIT" | (string & {});
-export const InsightsType = S.String;
+export const InsightsType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface InsightsContext {
   insightsType: InsightsType;
 }
-export const InsightsContext = S.suspend(() =>
+export const InsightsContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ insightsType: InsightsType }),
 ).annotate({
   identifier: "InsightsContext",
@@ -659,21 +694,22 @@ export const InsightsContext = S.suspend(() =>
 export interface PatientInsightsEncounterContext {
   encounterReason: string | redacted.Redacted<string>;
 }
-export const PatientInsightsEncounterContext = S.suspend(() =>
-  S.Struct({ encounterReason: SensitiveString }),
-).annotate({
-  identifier: "PatientInsightsEncounterContext",
-}) as any as S.Schema<PatientInsightsEncounterContext>;
+export const PatientInsightsEncounterContext =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ encounterReason: SensitiveString }),
+  ).annotate({
+    identifier: "PatientInsightsEncounterContext",
+  }) as any as S.Schema<PatientInsightsEncounterContext>;
 export type ProviderRole = "CLINICIAN" | (string & {});
-export const ProviderRole = S.String;
+export const ProviderRole = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Specialty = "PRIMARY_CARE" | (string & {});
-export const Specialty = S.String;
+export const Specialty = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface UserContext {
   role: ProviderRole;
   userId: string | redacted.Redacted<string>;
   specialty?: Specialty;
 }
-export const UserContext = S.suspend(() =>
+export const UserContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     role: ProviderRole,
     userId: SensitiveString,
@@ -684,22 +720,22 @@ export interface FHIRServer {
   fhirEndpoint: string;
   oauthToken?: string | redacted.Redacted<string>;
 }
-export const FHIRServer = S.suspend(() =>
+export const FHIRServer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ fhirEndpoint: S.String, oauthToken: S.optional(SensitiveString) }),
 ).annotate({ identifier: "FHIRServer" }) as any as S.Schema<FHIRServer>;
 export interface S3Source {
   uri: string;
 }
-export const S3Source = S.suspend(() => S.Struct({ uri: S.String })).annotate({
-  identifier: "S3Source",
-}) as any as S.Schema<S3Source>;
+export const S3Source = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({ uri: S.String }),
+).annotate({ identifier: "S3Source" }) as any as S.Schema<S3Source>;
 export type S3Sources = S3Source[];
-export const S3Sources = S.Array(S3Source);
+export const S3Sources = /*@__PURE__*/ /*#__PURE__*/ S.Array(S3Source);
 export interface InputDataConfig {
   fhirServer?: FHIRServer;
   s3Sources?: S3Source[];
 }
-export const InputDataConfig = S.suspend(() =>
+export const InputDataConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     fhirServer: S.optional(FHIRServer),
     s3Sources: S.optional(S3Sources),
@@ -710,7 +746,7 @@ export const InputDataConfig = S.suspend(() =>
 export interface OutputDataConfig {
   s3OutputPath: string;
 }
-export const OutputDataConfig = S.suspend(() =>
+export const OutputDataConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ s3OutputPath: S.String }),
 ).annotate({
   identifier: "OutputDataConfig",
@@ -730,34 +766,35 @@ export interface GetPatientInsightsJobResponse {
   inputDataConfig: InputDataConfig;
   outputDataConfig: OutputDataConfig;
 }
-export const GetPatientInsightsJobResponse = S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    jobArn: S.String,
-    jobStatus: JobStatus,
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    insightsOutput: S.optional(InsightsOutput),
-    statusDetails: S.optional(S.String),
-    patientContext: PatientInsightsPatientContext,
-    insightsContext: InsightsContext,
-    encounterContext: PatientInsightsEncounterContext,
-    userContext: UserContext,
-    inputDataConfig: InputDataConfig,
-    outputDataConfig: OutputDataConfig,
-  }),
-).annotate({
-  identifier: "GetPatientInsightsJobResponse",
-}) as any as S.Schema<GetPatientInsightsJobResponse>;
+export const GetPatientInsightsJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      jobId: S.String,
+      jobArn: S.String,
+      jobStatus: JobStatus,
+      creationTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      updatedTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      insightsOutput: S.optional(InsightsOutput),
+      statusDetails: S.optional(S.String),
+      patientContext: PatientInsightsPatientContext,
+      insightsContext: InsightsContext,
+      encounterContext: PatientInsightsEncounterContext,
+      userContext: UserContext,
+      inputDataConfig: InputDataConfig,
+      outputDataConfig: OutputDataConfig,
+    }),
+  ).annotate({
+    identifier: "GetPatientInsightsJobResponse",
+  }) as any as S.Schema<GetPatientInsightsJobResponse>;
 export interface GetSubscriptionInput {
   domainId: string;
   subscriptionId: string;
 }
-export const GetSubscriptionInput = S.suspend(() =>
+export const GetSubscriptionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.HttpLabel("domainId")),
     subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
@@ -780,7 +817,7 @@ export const GetSubscriptionInput = S.suspend(() =>
 export interface GetSubscriptionOutput {
   subscription?: SubscriptionDescription;
 }
-export const GetSubscriptionOutput = S.suspend(() =>
+export const GetSubscriptionOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ subscription: S.optional(SubscriptionDescription) }),
 ).annotate({
   identifier: "GetSubscriptionOutput",
@@ -790,7 +827,7 @@ export interface ListDomainsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDomainsInput = S.suspend(() =>
+export const ListDomainsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(DomainStatus).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -815,7 +852,7 @@ export interface DomainSummary {
   status: DomainStatus;
   createdAt: Date;
 }
-export const DomainSummary = S.suspend(() =>
+export const DomainSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String,
     arn: S.String,
@@ -825,12 +862,13 @@ export const DomainSummary = S.suspend(() =>
   }),
 ).annotate({ identifier: "DomainSummary" }) as any as S.Schema<DomainSummary>;
 export type DomainSummaryList = DomainSummary[];
-export const DomainSummaryList = S.Array(DomainSummary);
+export const DomainSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DomainSummary);
 export interface ListDomainsOutput {
   domains: DomainSummary[];
   nextToken?: string;
 }
-export const ListDomainsOutput = S.suspend(() =>
+export const ListDomainsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ domains: DomainSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDomainsOutput",
@@ -840,87 +878,94 @@ export interface ListSubscriptionsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSubscriptionsInput = S.suspend(() =>
-  S.Struct({
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/domains/{domainId}/subscriptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListSubscriptionsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/domains/{domainId}/subscriptions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListSubscriptionsInput",
 }) as any as S.Schema<ListSubscriptionsInput>;
 export type SubscriptionList = SubscriptionDescription[];
-export const SubscriptionList = S.Array(SubscriptionDescription);
+export const SubscriptionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  SubscriptionDescription,
+);
 export interface ListSubscriptionsOutput {
   subscriptions: SubscriptionDescription[];
   nextToken?: string;
 }
-export const ListSubscriptionsOutput = S.suspend(() =>
-  S.Struct({
-    subscriptions: SubscriptionList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListSubscriptionsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptions: SubscriptionList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListSubscriptionsOutput",
 }) as any as S.Schema<ListSubscriptionsOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
+export const ListTagsForResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ tags: S.optional(TagMap) }),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
 export interface MedicalScribeAudioEvent {
   audioChunk: Uint8Array;
 }
-export const MedicalScribeAudioEvent = S.suspend(() =>
-  S.Struct({ audioChunk: T.Blob }),
+export const MedicalScribeAudioEvent = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ audioChunk: T.Blob }),
 ).annotate({
   identifier: "MedicalScribeAudioEvent",
 }) as any as S.Schema<MedicalScribeAudioEvent>;
 export type MedicalScribeSessionControlEventType =
   | "END_OF_SESSION"
   | (string & {});
-export const MedicalScribeSessionControlEventType = S.String;
+export const MedicalScribeSessionControlEventType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MedicalScribeSessionControlEvent {
   type?: MedicalScribeSessionControlEventType;
 }
-export const MedicalScribeSessionControlEvent = S.suspend(() =>
-  S.Struct({ type: S.optional(MedicalScribeSessionControlEventType) }),
-).annotate({
-  identifier: "MedicalScribeSessionControlEvent",
-}) as any as S.Schema<MedicalScribeSessionControlEvent>;
+export const MedicalScribeSessionControlEvent =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ type: S.optional(MedicalScribeSessionControlEventType) }),
+  ).annotate({
+    identifier: "MedicalScribeSessionControlEvent",
+  }) as any as S.Schema<MedicalScribeSessionControlEvent>;
 export interface ManagedTemplate {
   templateType: ManagedNoteTemplate;
 }
-export const ManagedTemplate = S.suspend(() =>
+export const ManagedTemplate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ templateType: ManagedNoteTemplate }),
 ).annotate({
   identifier: "ManagedTemplate",
@@ -929,21 +974,24 @@ export interface TemplateSectionInstruction {
   sectionHeader: string | redacted.Redacted<string>;
   sectionInstruction: string | redacted.Redacted<string>;
 }
-export const TemplateSectionInstruction = S.suspend(() =>
-  S.Struct({
-    sectionHeader: SensitiveString,
-    sectionInstruction: SensitiveString,
-  }),
+export const TemplateSectionInstruction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sectionHeader: SensitiveString,
+      sectionInstruction: SensitiveString,
+    }),
 ).annotate({
   identifier: "TemplateSectionInstruction",
 }) as any as S.Schema<TemplateSectionInstruction>;
 export type TemplateInstructions = TemplateSectionInstruction[];
-export const TemplateInstructions = S.Array(TemplateSectionInstruction);
+export const TemplateInstructions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  TemplateSectionInstruction,
+);
 export interface CustomTemplate {
   templateType: CustomTemplateBase;
   templateInstructions: TemplateSectionInstruction[];
 }
-export const CustomTemplate = S.suspend(() =>
+export const CustomTemplate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     templateType: CustomTemplateBase,
     templateInstructions: TemplateInstructions,
@@ -952,34 +1000,36 @@ export const CustomTemplate = S.suspend(() =>
 export type NoteTemplateSettings =
   | { managedTemplate: ManagedTemplate; customTemplate?: never }
   | { managedTemplate?: never; customTemplate: CustomTemplate };
-export const NoteTemplateSettings = S.Union([
+export const NoteTemplateSettings = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ managedTemplate: ManagedTemplate }),
   S.Struct({ customTemplate: CustomTemplate }),
 ]);
 export interface ClinicalNoteGenerationSettings {
   noteTemplateSettings: NoteTemplateSettings;
 }
-export const ClinicalNoteGenerationSettings = S.suspend(() =>
-  S.Struct({ noteTemplateSettings: NoteTemplateSettings }),
-).annotate({
-  identifier: "ClinicalNoteGenerationSettings",
-}) as any as S.Schema<ClinicalNoteGenerationSettings>;
+export const ClinicalNoteGenerationSettings =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ noteTemplateSettings: NoteTemplateSettings }),
+  ).annotate({
+    identifier: "ClinicalNoteGenerationSettings",
+  }) as any as S.Schema<ClinicalNoteGenerationSettings>;
 export interface MedicalScribePostStreamActionSettings {
   outputS3Uri: string;
   clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings;
 }
-export const MedicalScribePostStreamActionSettings = S.suspend(() =>
-  S.Struct({
-    outputS3Uri: S.String,
-    clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings,
-  }),
-).annotate({
-  identifier: "MedicalScribePostStreamActionSettings",
-}) as any as S.Schema<MedicalScribePostStreamActionSettings>;
+export const MedicalScribePostStreamActionSettings =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      outputS3Uri: S.String,
+      clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings,
+    }),
+  ).annotate({
+    identifier: "MedicalScribePostStreamActionSettings",
+  }) as any as S.Schema<MedicalScribePostStreamActionSettings>;
 export interface EncounterContext {
   unstructuredContext?: string | redacted.Redacted<string>;
 }
-export const EncounterContext = S.suspend(() =>
+export const EncounterContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ unstructuredContext: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "EncounterContext",
@@ -989,15 +1039,16 @@ export interface MedicalScribeConfigurationEvent {
   channelDefinitions?: MedicalScribeChannelDefinition[];
   encounterContext?: EncounterContext;
 }
-export const MedicalScribeConfigurationEvent = S.suspend(() =>
-  S.Struct({
-    postStreamActionSettings: MedicalScribePostStreamActionSettings,
-    channelDefinitions: S.optional(MedicalScribeChannelDefinitions),
-    encounterContext: S.optional(EncounterContext),
-  }),
-).annotate({
-  identifier: "MedicalScribeConfigurationEvent",
-}) as any as S.Schema<MedicalScribeConfigurationEvent>;
+export const MedicalScribeConfigurationEvent =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      postStreamActionSettings: MedicalScribePostStreamActionSettings,
+      channelDefinitions: S.optional(MedicalScribeChannelDefinitions),
+      encounterContext: S.optional(EncounterContext),
+    }),
+  ).annotate({
+    identifier: "MedicalScribeConfigurationEvent",
+  }) as any as S.Schema<MedicalScribeConfigurationEvent>;
 export type MedicalScribeInputStream =
   | {
       audioEvent: MedicalScribeAudioEvent;
@@ -1014,13 +1065,14 @@ export type MedicalScribeInputStream =
       sessionControlEvent?: never;
       configurationEvent: MedicalScribeConfigurationEvent;
     };
-export const MedicalScribeInputStream = T.InputEventStream(
-  S.Union([
-    S.Struct({ audioEvent: MedicalScribeAudioEvent }),
-    S.Struct({ sessionControlEvent: MedicalScribeSessionControlEvent }),
-    S.Struct({ configurationEvent: MedicalScribeConfigurationEvent }),
-  ]),
-) as any as S.Schema<stream.Stream<MedicalScribeInputStream, Error, never>>;
+export const MedicalScribeInputStream =
+  /*@__PURE__*/ /*#__PURE__*/ T.InputEventStream(
+    S.Union([
+      S.Struct({ audioEvent: MedicalScribeAudioEvent }),
+      S.Struct({ sessionControlEvent: MedicalScribeSessionControlEvent }),
+      S.Struct({ configurationEvent: MedicalScribeConfigurationEvent }),
+    ]),
+  ) as any as S.Schema<stream.Stream<MedicalScribeInputStream, Error, never>>;
 export interface StartMedicalScribeListeningSessionInput {
   sessionId: string;
   domainId: string;
@@ -1030,36 +1082,37 @@ export interface StartMedicalScribeListeningSessionInput {
   mediaEncoding: MedicalScribeMediaEncoding;
   inputStream?: stream.Stream<MedicalScribeInputStream, Error, never>;
 }
-export const StartMedicalScribeListeningSessionInput = S.suspend(() =>
-  S.Struct({
-    sessionId: S.String.pipe(T.HttpHeader("x-amzn-medscribe-session-id")),
-    domainId: S.String.pipe(T.HttpHeader("x-amzn-medscribe-domain-id")),
-    subscriptionId: S.String.pipe(
-      T.HttpHeader("x-amzn-medscribe-subscription-id"),
+export const StartMedicalScribeListeningSessionInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sessionId: S.String.pipe(T.HttpHeader("x-amzn-medscribe-session-id")),
+      domainId: S.String.pipe(T.HttpHeader("x-amzn-medscribe-domain-id")),
+      subscriptionId: S.String.pipe(
+        T.HttpHeader("x-amzn-medscribe-subscription-id"),
+      ),
+      languageCode: MedicalScribeLanguageCode.pipe(
+        T.HttpHeader("x-amzn-medscribe-language-code"),
+      ),
+      mediaSampleRateHertz: S.Number.pipe(
+        T.HttpHeader("x-amzn-medscribe-sample-rate"),
+      ),
+      mediaEncoding: MedicalScribeMediaEncoding.pipe(
+        T.HttpHeader("x-amzn-medscribe-media-encoding"),
+      ),
+      inputStream: S.optional(MedicalScribeInputStream).pipe(T.HttpPayload()),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/medical-scribe-stream/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    languageCode: MedicalScribeLanguageCode.pipe(
-      T.HttpHeader("x-amzn-medscribe-language-code"),
-    ),
-    mediaSampleRateHertz: S.Number.pipe(
-      T.HttpHeader("x-amzn-medscribe-sample-rate"),
-    ),
-    mediaEncoding: MedicalScribeMediaEncoding.pipe(
-      T.HttpHeader("x-amzn-medscribe-media-encoding"),
-    ),
-    inputStream: S.optional(MedicalScribeInputStream).pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/medical-scribe-stream/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMedicalScribeListeningSessionInput",
-}) as any as S.Schema<StartMedicalScribeListeningSessionInput>;
+  ).annotate({
+    identifier: "StartMedicalScribeListeningSessionInput",
+  }) as any as S.Schema<StartMedicalScribeListeningSessionInput>;
 export interface MedicalScribeTranscriptSegment {
   segmentId?: string;
   audioBeginOffset?: number;
@@ -1068,26 +1121,28 @@ export interface MedicalScribeTranscriptSegment {
   channelId?: string;
   content?: string;
 }
-export const MedicalScribeTranscriptSegment = S.suspend(() =>
-  S.Struct({
-    segmentId: S.optional(S.String),
-    audioBeginOffset: S.optional(S.Number),
-    audioEndOffset: S.optional(S.Number),
-    isPartial: S.optional(S.Boolean),
-    channelId: S.optional(S.String),
-    content: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MedicalScribeTranscriptSegment",
-}) as any as S.Schema<MedicalScribeTranscriptSegment>;
+export const MedicalScribeTranscriptSegment =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      segmentId: S.optional(S.String),
+      audioBeginOffset: S.optional(S.Number),
+      audioEndOffset: S.optional(S.Number),
+      isPartial: S.optional(S.Boolean),
+      channelId: S.optional(S.String),
+      content: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "MedicalScribeTranscriptSegment",
+  }) as any as S.Schema<MedicalScribeTranscriptSegment>;
 export interface MedicalScribeTranscriptEvent {
   transcriptSegment?: MedicalScribeTranscriptSegment;
 }
-export const MedicalScribeTranscriptEvent = S.suspend(() =>
-  S.Struct({ transcriptSegment: S.optional(MedicalScribeTranscriptSegment) }),
-).annotate({
-  identifier: "MedicalScribeTranscriptEvent",
-}) as any as S.Schema<MedicalScribeTranscriptEvent>;
+export const MedicalScribeTranscriptEvent =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ transcriptSegment: S.optional(MedicalScribeTranscriptSegment) }),
+  ).annotate({
+    identifier: "MedicalScribeTranscriptEvent",
+  }) as any as S.Schema<MedicalScribeTranscriptEvent>;
 export type MedicalScribeOutputStream =
   | {
       transcriptEvent: MedicalScribeTranscriptEvent;
@@ -1104,21 +1159,22 @@ export type MedicalScribeOutputStream =
       internalFailureException?: never;
       validationException: ValidationException;
     };
-export const MedicalScribeOutputStream = T.EventStream(
-  S.Union([
-    S.Struct({ transcriptEvent: MedicalScribeTranscriptEvent }),
-    S.Struct({
-      internalFailureException: S.suspend(
-        () => InternalServerException,
-      ).annotate({ identifier: "InternalServerException" }),
-    }),
-    S.Struct({
-      validationException: S.suspend(() => ValidationException).annotate({
-        identifier: "ValidationException",
+export const MedicalScribeOutputStream =
+  /*@__PURE__*/ /*#__PURE__*/ T.EventStream(
+    S.Union([
+      S.Struct({ transcriptEvent: MedicalScribeTranscriptEvent }),
+      S.Struct({
+        internalFailureException: S.suspend(
+          () => InternalServerException,
+        ).annotate({ identifier: "InternalServerException" }),
       }),
-    }),
-  ]),
-) as any as S.Schema<stream.Stream<MedicalScribeOutputStream, Error, never>>;
+      S.Struct({
+        validationException: S.suspend(() => ValidationException).annotate({
+          identifier: "ValidationException",
+        }),
+      }),
+    ]),
+  ) as any as S.Schema<stream.Stream<MedicalScribeOutputStream, Error, never>>;
 export interface StartMedicalScribeListeningSessionOutput {
   sessionId?: string;
   domainId?: string;
@@ -1129,32 +1185,35 @@ export interface StartMedicalScribeListeningSessionOutput {
   mediaEncoding?: MedicalScribeMediaEncoding;
   responseStream?: stream.Stream<MedicalScribeOutputStream, Error, never>;
 }
-export const StartMedicalScribeListeningSessionOutput = S.suspend(() =>
-  S.Struct({
-    sessionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-medscribe-session-id"),
-    ),
-    domainId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-medscribe-domain-id"),
-    ),
-    subscriptionId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-medscribe-subscription-id"),
-    ),
-    requestId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-request-id")),
-    languageCode: S.optional(MedicalScribeLanguageCode).pipe(
-      T.HttpHeader("x-amzn-medscribe-language-code"),
-    ),
-    mediaSampleRateHertz: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amzn-medscribe-sample-rate"),
-    ),
-    mediaEncoding: S.optional(MedicalScribeMediaEncoding).pipe(
-      T.HttpHeader("x-amzn-medscribe-media-encoding"),
-    ),
-    responseStream: S.optional(MedicalScribeOutputStream).pipe(T.HttpPayload()),
-  }),
-).annotate({
-  identifier: "StartMedicalScribeListeningSessionOutput",
-}) as any as S.Schema<StartMedicalScribeListeningSessionOutput>;
+export const StartMedicalScribeListeningSessionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sessionId: S.optional(S.String).pipe(
+        T.HttpHeader("x-amzn-medscribe-session-id"),
+      ),
+      domainId: S.optional(S.String).pipe(
+        T.HttpHeader("x-amzn-medscribe-domain-id"),
+      ),
+      subscriptionId: S.optional(S.String).pipe(
+        T.HttpHeader("x-amzn-medscribe-subscription-id"),
+      ),
+      requestId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-request-id")),
+      languageCode: S.optional(MedicalScribeLanguageCode).pipe(
+        T.HttpHeader("x-amzn-medscribe-language-code"),
+      ),
+      mediaSampleRateHertz: S.optional(S.Number).pipe(
+        T.HttpHeader("x-amzn-medscribe-sample-rate"),
+      ),
+      mediaEncoding: S.optional(MedicalScribeMediaEncoding).pipe(
+        T.HttpHeader("x-amzn-medscribe-media-encoding"),
+      ),
+      responseStream: S.optional(MedicalScribeOutputStream).pipe(
+        T.HttpPayload(),
+      ),
+    }),
+  ).annotate({
+    identifier: "StartMedicalScribeListeningSessionOutput",
+  }) as any as S.Schema<StartMedicalScribeListeningSessionOutput>;
 export interface StartPatientInsightsJobRequest {
   domainId: string;
   patientContext: PatientInsightsPatientContext;
@@ -1165,53 +1224,55 @@ export interface StartPatientInsightsJobRequest {
   outputDataConfig: OutputDataConfig;
   clientToken?: string;
 }
-export const StartPatientInsightsJobRequest = S.suspend(() =>
-  S.Struct({
-    domainId: S.String.pipe(T.HttpLabel("domainId")),
-    patientContext: PatientInsightsPatientContext,
-    insightsContext: InsightsContext,
-    encounterContext: PatientInsightsEncounterContext,
-    userContext: UserContext,
-    inputDataConfig: InputDataConfig,
-    outputDataConfig: OutputDataConfig,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domain/{domainId}/patient-insights-job",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartPatientInsightsJobRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainId: S.String.pipe(T.HttpLabel("domainId")),
+      patientContext: PatientInsightsPatientContext,
+      insightsContext: InsightsContext,
+      encounterContext: PatientInsightsEncounterContext,
+      userContext: UserContext,
+      inputDataConfig: InputDataConfig,
+      outputDataConfig: OutputDataConfig,
+      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/domain/{domainId}/patient-insights-job",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StartPatientInsightsJobRequest",
-}) as any as S.Schema<StartPatientInsightsJobRequest>;
+  ).annotate({
+    identifier: "StartPatientInsightsJobRequest",
+  }) as any as S.Schema<StartPatientInsightsJobRequest>;
 export interface StartPatientInsightsJobResponse {
   jobArn: string;
   jobId: string;
   creationTime?: Date;
 }
-export const StartPatientInsightsJobResponse = S.suspend(() =>
-  S.Struct({
-    jobArn: S.String,
-    jobId: S.String,
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
-).annotate({
-  identifier: "StartPatientInsightsJobResponse",
-}) as any as S.Schema<StartPatientInsightsJobResponse>;
+export const StartPatientInsightsJobResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      jobArn: S.String,
+      jobId: S.String,
+      creationTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }),
+  ).annotate({
+    identifier: "StartPatientInsightsJobResponse",
+  }) as any as S.Schema<StartPatientInsightsJobResponse>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = S.suspend(() =>
+export const TagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
@@ -1229,16 +1290,18 @@ export const TagResourceInput = S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceInput = S.suspend(() =>
+export const UntagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -1256,7 +1319,9 @@ export const UntagResourceInput = S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 

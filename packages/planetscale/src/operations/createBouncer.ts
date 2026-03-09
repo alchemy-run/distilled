@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const CreateBouncerInput = Schema.Struct({
+export const CreateBouncerInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
   branch: Schema.String.pipe(T.PathParam()),
@@ -21,7 +21,7 @@ export const CreateBouncerInput = Schema.Struct({
 export type CreateBouncerInput = typeof CreateBouncerInput.Type;
 
 // Output Schema
-export const CreateBouncerOutput = Schema.Struct({
+export const CreateBouncerOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
   sku: Schema.Struct({

@@ -30,7 +30,7 @@ export interface ZoneTypeRestriction {
 }
 
 export const ZoneTypeRestriction: Schema.Schema<ZoneTypeRestriction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enable: Schema.optional(Schema.Boolean),
       whitelistedTypeId: Schema.optional(Schema.Array(Schema.String)),
@@ -60,19 +60,20 @@ export interface Folder {
   fingerprint?: string;
 }
 
-export const Folder: Schema.Schema<Folder> = Schema.suspend(() =>
-  Schema.Struct({
-    folderId: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+export const Folder: Schema.Schema<Folder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folderId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
 
 export interface ListFoldersResponse {
   /** All GTM Folders of a GTM Container. */
@@ -82,7 +83,7 @@ export interface ListFoldersResponse {
 }
 
 export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       folder: Schema.optional(Schema.Array(Folder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -98,12 +99,13 @@ export interface SetupTag {
   stopOnSetupFailure?: boolean;
 }
 
-export const SetupTag: Schema.Schema<SetupTag> = Schema.suspend(() =>
-  Schema.Struct({
-    tagName: Schema.optional(Schema.String),
-    stopOnSetupFailure: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "SetupTag" }) as any as Schema.Schema<SetupTag>;
+export const SetupTag: Schema.Schema<SetupTag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagName: Schema.optional(Schema.String),
+      stopOnSetupFailure: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "SetupTag" }) as any as Schema.Schema<SetupTag>;
 
 export interface Parameter {
   /** The parameter type. Valid values are: - boolean: The value represents a boolean, represented as 'true' or 'false' - integer: The value represents a 64-bit signed integer value, in base 10 - list: A list of parameters should be specified - map: A map of parameters should be specified - template: The value represents any text; this can include variable references (even variable references that might return non-string types) - trigger_reference: The value represents a trigger, represented as the trigger id - tag_reference: The value represents a tag, represented as the tag name */
@@ -129,16 +131,17 @@ export interface Parameter {
   list?: Array<Parameter>;
 }
 
-export const Parameter: Schema.Schema<Parameter> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    key: Schema.optional(Schema.String),
-    value: Schema.optional(Schema.String),
-    map: Schema.optional(Schema.Array(Parameter)),
-    isWeakReference: Schema.optional(Schema.Boolean),
-    list: Schema.optional(Schema.Array(Parameter)),
-  }),
-).annotate({ identifier: "Parameter" }) as any as Schema.Schema<Parameter>;
+export const Parameter: Schema.Schema<Parameter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
+      value: Schema.optional(Schema.String),
+      map: Schema.optional(Schema.Array(Parameter)),
+      isWeakReference: Schema.optional(Schema.Boolean),
+      list: Schema.optional(Schema.Array(Parameter)),
+    }),
+  ).annotate({ identifier: "Parameter" }) as any as Schema.Schema<Parameter>;
 
 export interface TeardownTag {
   /** The name of the teardown tag. */
@@ -147,12 +150,15 @@ export interface TeardownTag {
   stopTeardownOnFailure?: boolean;
 }
 
-export const TeardownTag: Schema.Schema<TeardownTag> = Schema.suspend(() =>
-  Schema.Struct({
-    tagName: Schema.optional(Schema.String),
-    stopTeardownOnFailure: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "TeardownTag" }) as any as Schema.Schema<TeardownTag>;
+export const TeardownTag: Schema.Schema<TeardownTag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagName: Schema.optional(Schema.String),
+      stopTeardownOnFailure: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "TeardownTag",
+  }) as any as Schema.Schema<TeardownTag>;
 
 export interface TagConsentSetting {
   /** The tag's consent status. If set to NEEDED, the runtime will check that the consent types specified by the consent_type field have been granted. */
@@ -162,7 +168,7 @@ export interface TagConsentSetting {
 }
 
 export const TagConsentSetting: Schema.Schema<TagConsentSetting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       consentStatus: Schema.optional(Schema.String),
       consentType: Schema.optional(Parameter),
@@ -229,35 +235,36 @@ export interface Tag {
   parameter?: Array<Parameter>;
 }
 
-export const Tag: Schema.Schema<Tag> = Schema.suspend(() =>
-  Schema.Struct({
-    setupTag: Schema.optional(Schema.Array(SetupTag)),
-    tagFiringOption: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    priority: Schema.optional(Parameter),
-    teardownTag: Schema.optional(Schema.Array(TeardownTag)),
-    parentFolderId: Schema.optional(Schema.String),
-    scheduleEndMs: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    liveOnly: Schema.optional(Schema.Boolean),
-    tagId: Schema.optional(Schema.String),
-    firingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-    blockingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-    paused: Schema.optional(Schema.Boolean),
-    monitoringMetadata: Schema.optional(Parameter),
-    type: Schema.optional(Schema.String),
-    consentSettings: Schema.optional(TagConsentSetting),
-    containerId: Schema.optional(Schema.String),
-    monitoringMetadataTagNameKey: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    scheduleStartMs: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-  }),
-).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+export const Tag: Schema.Schema<Tag> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      setupTag: Schema.optional(Schema.Array(SetupTag)),
+      tagFiringOption: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      priority: Schema.optional(Parameter),
+      teardownTag: Schema.optional(Schema.Array(TeardownTag)),
+      parentFolderId: Schema.optional(Schema.String),
+      scheduleEndMs: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      liveOnly: Schema.optional(Schema.Boolean),
+      tagId: Schema.optional(Schema.String),
+      firingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      blockingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      paused: Schema.optional(Schema.Boolean),
+      monitoringMetadata: Schema.optional(Parameter),
+      type: Schema.optional(Schema.String),
+      consentSettings: Schema.optional(TagConsentSetting),
+      containerId: Schema.optional(Schema.String),
+      monitoringMetadataTagNameKey: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      scheduleStartMs: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+    }),
+  ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
 export interface ListTagsResponse {
   /** All GTM Tags of a GTM Container. */
@@ -266,15 +273,15 @@ export interface ListTagsResponse {
   nextPageToken?: string;
 }
 
-export const ListTagsResponse: Schema.Schema<ListTagsResponse> = Schema.suspend(
-  () =>
+export const ListTagsResponse: Schema.Schema<ListTagsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.Array(Tag)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as Schema.Schema<ListTagsResponse>;
+  ).annotate({
+    identifier: "ListTagsResponse",
+  }) as any as Schema.Schema<ListTagsResponse>;
 
 export interface BuiltInVariable {
   /** GTM Account ID. */
@@ -409,8 +416,8 @@ export interface BuiltInVariable {
   name?: string;
 }
 
-export const BuiltInVariable: Schema.Schema<BuiltInVariable> = Schema.suspend(
-  () =>
+export const BuiltInVariable: Schema.Schema<BuiltInVariable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
@@ -419,9 +426,9 @@ export const BuiltInVariable: Schema.Schema<BuiltInVariable> = Schema.suspend(
       type: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "BuiltInVariable",
-}) as any as Schema.Schema<BuiltInVariable>;
+  ).annotate({
+    identifier: "BuiltInVariable",
+  }) as any as Schema.Schema<BuiltInVariable>;
 
 export interface ListEnabledBuiltInVariablesResponse {
   /** All GTM BuiltInVariables of a GTM container. */
@@ -431,7 +438,7 @@ export interface ListEnabledBuiltInVariablesResponse {
 }
 
 export const ListEnabledBuiltInVariablesResponse: Schema.Schema<ListEnabledBuiltInVariablesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       builtInVariable: Schema.optional(Schema.Array(BuiltInVariable)),
       nextPageToken: Schema.optional(Schema.String),
@@ -459,8 +466,8 @@ export interface GalleryReference {
   host?: string;
 }
 
-export const GalleryReference: Schema.Schema<GalleryReference> = Schema.suspend(
-  () =>
+export const GalleryReference: Schema.Schema<GalleryReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       repository: Schema.optional(Schema.String),
       templateDeveloperId: Schema.optional(Schema.String),
@@ -471,9 +478,9 @@ export const GalleryReference: Schema.Schema<GalleryReference> = Schema.suspend(
       version: Schema.optional(Schema.String),
       host: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GalleryReference",
-}) as any as Schema.Schema<GalleryReference>;
+  ).annotate({
+    identifier: "GalleryReference",
+  }) as any as Schema.Schema<GalleryReference>;
 
 export interface CustomTemplate {
   /** The fingerprint of the GTM Custom Template as computed at storage time. This value is recomputed whenever the template is modified. */
@@ -498,8 +505,8 @@ export interface CustomTemplate {
   galleryReference?: GalleryReference;
 }
 
-export const CustomTemplate: Schema.Schema<CustomTemplate> = Schema.suspend(
-  () =>
+export const CustomTemplate: Schema.Schema<CustomTemplate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fingerprint: Schema.optional(Schema.String),
       templateData: Schema.optional(Schema.String),
@@ -512,9 +519,9 @@ export const CustomTemplate: Schema.Schema<CustomTemplate> = Schema.suspend(
       accountId: Schema.optional(Schema.String),
       galleryReference: Schema.optional(GalleryReference),
     }),
-).annotate({
-  identifier: "CustomTemplate",
-}) as any as Schema.Schema<CustomTemplate>;
+  ).annotate({
+    identifier: "CustomTemplate",
+  }) as any as Schema.Schema<CustomTemplate>;
 
 export interface ContainerFeatures {
   /** Whether this Container supports tags. */
@@ -548,7 +555,7 @@ export interface ContainerFeatures {
 }
 
 export const ContainerFeatures: Schema.Schema<ContainerFeatures> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportTags: Schema.optional(Schema.Boolean),
       supportEnvironments: Schema.optional(Schema.Boolean),
@@ -608,23 +615,24 @@ export interface Container {
   tagManagerUrl?: string;
 }
 
-export const Container: Schema.Schema<Container> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    domainName: Schema.optional(Schema.Array(Schema.String)),
-    notes: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    tagIds: Schema.optional(Schema.Array(Schema.String)),
-    features: Schema.optional(ContainerFeatures),
-    accountId: Schema.optional(Schema.String),
-    taggingServerUrls: Schema.optional(Schema.Array(Schema.String)),
-    publicId: Schema.optional(Schema.String),
-    usageContext: Schema.optional(Schema.Array(Schema.String)),
-    fingerprint: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
+export const Container: Schema.Schema<Container> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      domainName: Schema.optional(Schema.Array(Schema.String)),
+      notes: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagIds: Schema.optional(Schema.Array(Schema.String)),
+      features: Schema.optional(ContainerFeatures),
+      accountId: Schema.optional(Schema.String),
+      taggingServerUrls: Schema.optional(Schema.Array(Schema.String)),
+      publicId: Schema.optional(Schema.String),
+      usageContext: Schema.optional(Schema.Array(Schema.String)),
+      fingerprint: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
 
 export interface Condition {
   /** The type of operator for this condition. */
@@ -646,12 +654,13 @@ export interface Condition {
   parameter?: Array<Parameter>;
 }
 
-export const Condition: Schema.Schema<Condition> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-  }),
-).annotate({ identifier: "Condition" }) as any as Schema.Schema<Condition>;
+export const Condition: Schema.Schema<Condition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+    }),
+  ).annotate({ identifier: "Condition" }) as any as Schema.Schema<Condition>;
 
 export interface ZoneBoundary {
   /** Custom evaluation trigger IDs. A zone will evaluate its boundary conditions when any of the listed triggers are true. */
@@ -660,14 +669,15 @@ export interface ZoneBoundary {
   condition?: Array<Condition>;
 }
 
-export const ZoneBoundary: Schema.Schema<ZoneBoundary> = Schema.suspend(() =>
-  Schema.Struct({
-    customEvaluationTriggerId: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Schema.Array(Condition)),
-  }),
-).annotate({
-  identifier: "ZoneBoundary",
-}) as any as Schema.Schema<ZoneBoundary>;
+export const ZoneBoundary: Schema.Schema<ZoneBoundary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      customEvaluationTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Schema.Array(Condition)),
+    }),
+  ).annotate({
+    identifier: "ZoneBoundary",
+  }) as any as Schema.Schema<ZoneBoundary>;
 
 export interface ZoneChildContainer {
   /** The zone's nickname for the child container. */
@@ -677,7 +687,7 @@ export interface ZoneChildContainer {
 }
 
 export const ZoneChildContainer: Schema.Schema<ZoneChildContainer> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nickname: Schema.optional(Schema.String),
       publicId: Schema.optional(Schema.String),
@@ -713,22 +723,23 @@ export interface Zone {
   tagManagerUrl?: string;
 }
 
-export const Zone: Schema.Schema<Zone> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    boundary: Schema.optional(ZoneBoundary),
-    workspaceId: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    childContainer: Schema.optional(Schema.Array(ZoneChildContainer)),
-    zoneId: Schema.optional(Schema.String),
-    typeRestriction: Schema.optional(ZoneTypeRestriction),
-    fingerprint: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Zone" }) as any as Schema.Schema<Zone>;
+export const Zone: Schema.Schema<Zone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      boundary: Schema.optional(ZoneBoundary),
+      workspaceId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      childContainer: Schema.optional(Schema.Array(ZoneChildContainer)),
+      zoneId: Schema.optional(Schema.String),
+      typeRestriction: Schema.optional(ZoneTypeRestriction),
+      fingerprint: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Zone" }) as any as Schema.Schema<Zone>;
 
 export interface Transformation {
   /** GTM Workspace ID. */
@@ -757,8 +768,8 @@ export interface Transformation {
   tagManagerUrl?: string;
 }
 
-export const Transformation: Schema.Schema<Transformation> = Schema.suspend(
-  () =>
+export const Transformation: Schema.Schema<Transformation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workspaceId: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
@@ -773,9 +784,9 @@ export const Transformation: Schema.Schema<Transformation> = Schema.suspend(
       containerId: Schema.optional(Schema.String),
       tagManagerUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "Transformation",
-}) as any as Schema.Schema<Transformation>;
+  ).annotate({
+    identifier: "Transformation",
+  }) as any as Schema.Schema<Transformation>;
 
 export interface Client {
   /** Auto generated link to the tag manager UI */
@@ -806,23 +817,24 @@ export interface Client {
   path?: string;
 }
 
-export const Client: Schema.Schema<Client> = Schema.suspend(() =>
-  Schema.Struct({
-    tagManagerUrl: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-    clientId: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    priority: Schema.optional(Schema.Number),
-    parentFolderId: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
+export const Client: Schema.Schema<Client> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      clientId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      priority: Schema.optional(Schema.Number),
+      parentFolderId: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
 
 export interface Trigger {
   /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
@@ -927,42 +939,43 @@ export interface Trigger {
   eventName?: Parameter;
 }
 
-export const Trigger: Schema.Schema<Trigger> = Schema.suspend(() =>
-  Schema.Struct({
-    interval: Schema.optional(Parameter),
-    visibilitySelector: Schema.optional(Parameter),
-    tagManagerUrl: Schema.optional(Schema.String),
-    waitForTagsTimeout: Schema.optional(Parameter),
-    horizontalScrollPercentageList: Schema.optional(Parameter),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-    autoEventFilter: Schema.optional(Schema.Array(Condition)),
-    selector: Schema.optional(Parameter),
-    maxTimerLengthSeconds: Schema.optional(Parameter),
-    containerId: Schema.optional(Schema.String),
-    totalTimeMinMilliseconds: Schema.optional(Parameter),
-    verticalScrollPercentageList: Schema.optional(Parameter),
-    waitForTags: Schema.optional(Parameter),
-    name: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    notes: Schema.optional(Schema.String),
-    customEventFilter: Schema.optional(Schema.Array(Condition)),
-    filter: Schema.optional(Schema.Array(Condition)),
-    fingerprint: Schema.optional(Schema.String),
-    uniqueTriggerId: Schema.optional(Parameter),
-    type: Schema.optional(Schema.String),
-    checkValidation: Schema.optional(Parameter),
-    triggerId: Schema.optional(Schema.String),
-    visiblePercentageMin: Schema.optional(Parameter),
-    limit: Schema.optional(Parameter),
-    accountId: Schema.optional(Schema.String),
-    intervalSeconds: Schema.optional(Parameter),
-    continuousTimeMinMilliseconds: Schema.optional(Parameter),
-    parentFolderId: Schema.optional(Schema.String),
-    visiblePercentageMax: Schema.optional(Parameter),
-    path: Schema.optional(Schema.String),
-    eventName: Schema.optional(Parameter),
-  }),
-).annotate({ identifier: "Trigger" }) as any as Schema.Schema<Trigger>;
+export const Trigger: Schema.Schema<Trigger> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      interval: Schema.optional(Parameter),
+      visibilitySelector: Schema.optional(Parameter),
+      tagManagerUrl: Schema.optional(Schema.String),
+      waitForTagsTimeout: Schema.optional(Parameter),
+      horizontalScrollPercentageList: Schema.optional(Parameter),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      autoEventFilter: Schema.optional(Schema.Array(Condition)),
+      selector: Schema.optional(Parameter),
+      maxTimerLengthSeconds: Schema.optional(Parameter),
+      containerId: Schema.optional(Schema.String),
+      totalTimeMinMilliseconds: Schema.optional(Parameter),
+      verticalScrollPercentageList: Schema.optional(Parameter),
+      waitForTags: Schema.optional(Parameter),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      customEventFilter: Schema.optional(Schema.Array(Condition)),
+      filter: Schema.optional(Schema.Array(Condition)),
+      fingerprint: Schema.optional(Schema.String),
+      uniqueTriggerId: Schema.optional(Parameter),
+      type: Schema.optional(Schema.String),
+      checkValidation: Schema.optional(Parameter),
+      triggerId: Schema.optional(Schema.String),
+      visiblePercentageMin: Schema.optional(Parameter),
+      limit: Schema.optional(Parameter),
+      accountId: Schema.optional(Schema.String),
+      intervalSeconds: Schema.optional(Parameter),
+      continuousTimeMinMilliseconds: Schema.optional(Parameter),
+      parentFolderId: Schema.optional(Schema.String),
+      visiblePercentageMax: Schema.optional(Parameter),
+      path: Schema.optional(Schema.String),
+      eventName: Schema.optional(Parameter),
+    }),
+  ).annotate({ identifier: "Trigger" }) as any as Schema.Schema<Trigger>;
 
 export interface GtagConfig {
   /** Google tag account ID. */
@@ -985,19 +998,20 @@ export interface GtagConfig {
   fingerprint?: string;
 }
 
-export const GtagConfig: Schema.Schema<GtagConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    accountId: Schema.optional(Schema.String),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-    workspaceId: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    gtagConfigId: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "GtagConfig" }) as any as Schema.Schema<GtagConfig>;
+export const GtagConfig: Schema.Schema<GtagConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      gtagConfigId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "GtagConfig" }) as any as Schema.Schema<GtagConfig>;
 
 export interface VariableFormatValue {
   /** The value to convert if a variable value is null. */
@@ -1021,7 +1035,7 @@ export interface VariableFormatValue {
 }
 
 export const VariableFormatValue: Schema.Schema<VariableFormatValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       convertNullToValue: Schema.optional(Parameter),
       convertTrueToValue: Schema.optional(Parameter),
@@ -1072,27 +1086,28 @@ export interface Variable {
   containerId?: string;
 }
 
-export const Variable: Schema.Schema<Variable> = Schema.suspend(() =>
-  Schema.Struct({
-    type: Schema.optional(Schema.String),
-    variableId: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    parameter: Schema.optional(Schema.Array(Parameter)),
-    fingerprint: Schema.optional(Schema.String),
-    enablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-    tagManagerUrl: Schema.optional(Schema.String),
-    formatValue: Schema.optional(VariableFormatValue),
-    scheduleStartMs: Schema.optional(Schema.String),
-    scheduleEndMs: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    parentFolderId: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    disablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-    notes: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Variable" }) as any as Schema.Schema<Variable>;
+export const Variable: Schema.Schema<Variable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      variableId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      fingerprint: Schema.optional(Schema.String),
+      enablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      tagManagerUrl: Schema.optional(Schema.String),
+      formatValue: Schema.optional(VariableFormatValue),
+      scheduleStartMs: Schema.optional(Schema.String),
+      scheduleEndMs: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      parentFolderId: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      disablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      notes: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Variable" }) as any as Schema.Schema<Variable>;
 
 export interface ContainerVersion {
   /** The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
@@ -1137,8 +1152,8 @@ export interface ContainerVersion {
   variable?: Array<Variable>;
 }
 
-export const ContainerVersion: Schema.Schema<ContainerVersion> = Schema.suspend(
-  () =>
+export const ContainerVersion: Schema.Schema<ContainerVersion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fingerprint: Schema.optional(Schema.String),
       containerVersionId: Schema.optional(Schema.String),
@@ -1161,9 +1176,9 @@ export const ContainerVersion: Schema.Schema<ContainerVersion> = Schema.suspend(
       gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
       variable: Schema.optional(Schema.Array(Variable)),
     }),
-).annotate({
-  identifier: "ContainerVersion",
-}) as any as Schema.Schema<ContainerVersion>;
+  ).annotate({
+    identifier: "ContainerVersion",
+  }) as any as Schema.Schema<ContainerVersion>;
 
 export interface CreateBuiltInVariableResponse {
   /** List of created built-in variables. */
@@ -1171,7 +1186,7 @@ export interface CreateBuiltInVariableResponse {
 }
 
 export const CreateBuiltInVariableResponse: Schema.Schema<CreateBuiltInVariableResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       builtInVariable: Schema.optional(Schema.Array(BuiltInVariable)),
     }),
@@ -1190,17 +1205,17 @@ export interface FolderEntities {
   nextPageToken?: string;
 }
 
-export const FolderEntities: Schema.Schema<FolderEntities> = Schema.suspend(
-  () =>
+export const FolderEntities: Schema.Schema<FolderEntities> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Schema.Array(Tag)),
       trigger: Schema.optional(Schema.Array(Trigger)),
       variable: Schema.optional(Schema.Array(Variable)),
       nextPageToken: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "FolderEntities",
-}) as any as Schema.Schema<FolderEntities>;
+  ).annotate({
+    identifier: "FolderEntities",
+  }) as any as Schema.Schema<FolderEntities>;
 
 export interface Destination {
   /** GTM Container ID. */
@@ -1221,18 +1236,21 @@ export interface Destination {
   path?: string;
 }
 
-export const Destination: Schema.Schema<Destination> = Schema.suspend(() =>
-  Schema.Struct({
-    containerId: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    destinationLinkId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    destinationId: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Destination" }) as any as Schema.Schema<Destination>;
+export const Destination: Schema.Schema<Destination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      destinationLinkId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      destinationId: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Destination",
+  }) as any as Schema.Schema<Destination>;
 
 export interface SyncStatus {
   /** An error occurred during the synchronization operation. */
@@ -1241,12 +1259,13 @@ export interface SyncStatus {
   mergeConflict?: boolean;
 }
 
-export const SyncStatus: Schema.Schema<SyncStatus> = Schema.suspend(() =>
-  Schema.Struct({
-    syncError: Schema.optional(Schema.Boolean),
-    mergeConflict: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "SyncStatus" }) as any as Schema.Schema<SyncStatus>;
+export const SyncStatus: Schema.Schema<SyncStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      syncError: Schema.optional(Schema.Boolean),
+      mergeConflict: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "SyncStatus" }) as any as Schema.Schema<SyncStatus>;
 
 export interface CreateContainerVersionResponse {
   /** Compiler errors or not. */
@@ -1260,7 +1279,7 @@ export interface CreateContainerVersionResponse {
 }
 
 export const CreateContainerVersionResponse: Schema.Schema<CreateContainerVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       compilerError: Schema.optional(Schema.Boolean),
       newWorkspacePath: Schema.optional(Schema.String),
@@ -1281,13 +1300,14 @@ export interface AccountAccess {
     | (string & {});
 }
 
-export const AccountAccess: Schema.Schema<AccountAccess> = Schema.suspend(() =>
-  Schema.Struct({
-    permission: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AccountAccess",
-}) as any as Schema.Schema<AccountAccess>;
+export const AccountAccess: Schema.Schema<AccountAccess> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permission: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AccountAccess",
+  }) as any as Schema.Schema<AccountAccess>;
 
 export interface ContainerAccess {
   /** List of Container permissions. */
@@ -1303,15 +1323,15 @@ export interface ContainerAccess {
   containerId?: string;
 }
 
-export const ContainerAccess: Schema.Schema<ContainerAccess> = Schema.suspend(
-  () =>
+export const ContainerAccess: Schema.Schema<ContainerAccess> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ContainerAccess",
-}) as any as Schema.Schema<ContainerAccess>;
+  ).annotate({
+    identifier: "ContainerAccess",
+  }) as any as Schema.Schema<ContainerAccess>;
 
 export interface UserPermission {
   /** User's email address. */
@@ -1326,8 +1346,8 @@ export interface UserPermission {
   accountId?: string;
 }
 
-export const UserPermission: Schema.Schema<UserPermission> = Schema.suspend(
-  () =>
+export const UserPermission: Schema.Schema<UserPermission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       emailAddress: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
@@ -1335,9 +1355,9 @@ export const UserPermission: Schema.Schema<UserPermission> = Schema.suspend(
       containerAccess: Schema.optional(Schema.Array(ContainerAccess)),
       accountId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "UserPermission",
-}) as any as Schema.Schema<UserPermission>;
+  ).annotate({
+    identifier: "UserPermission",
+  }) as any as Schema.Schema<UserPermission>;
 
 export interface ListZonesResponse {
   /** All GTM Zones of a GTM Container. */
@@ -1347,7 +1367,7 @@ export interface ListZonesResponse {
 }
 
 export const ListZonesResponse: Schema.Schema<ListZonesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zone: Schema.optional(Schema.Array(Zone)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1362,7 +1382,7 @@ export interface RevertTemplateResponse {
 }
 
 export const RevertTemplateResponse: Schema.Schema<RevertTemplateResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       template: Schema.optional(CustomTemplate),
     }),
@@ -1389,18 +1409,19 @@ export interface Workspace {
   tagManagerUrl?: string;
 }
 
-export const Workspace: Schema.Schema<Workspace> = Schema.suspend(() =>
-  Schema.Struct({
-    workspaceId: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Workspace" }) as any as Schema.Schema<Workspace>;
+export const Workspace: Schema.Schema<Workspace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workspaceId: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Workspace" }) as any as Schema.Schema<Workspace>;
 
 export interface ListWorkspacesResponse {
   /** All Workspaces of a GTM Container. */
@@ -1410,7 +1431,7 @@ export interface ListWorkspacesResponse {
 }
 
 export const ListWorkspacesResponse: Schema.Schema<ListWorkspacesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workspace: Schema.optional(Schema.Array(Workspace)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1427,7 +1448,7 @@ export interface CreateContainerVersionRequestVersionOptions {
 }
 
 export const CreateContainerVersionRequestVersionOptions: Schema.Schema<CreateContainerVersionRequestVersionOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       notes: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -1468,7 +1489,7 @@ export interface ContainerVersionHeader {
 }
 
 export const ContainerVersionHeader: Schema.Schema<ContainerVersionHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numVariables: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
@@ -1497,7 +1518,7 @@ export interface ListContainerVersionsResponse {
 }
 
 export const ListContainerVersionsResponse: Schema.Schema<ListContainerVersionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerVersionHeader: Schema.optional(
         Schema.Array(ContainerVersionHeader),
@@ -1516,7 +1537,7 @@ export interface ListTriggersResponse {
 }
 
 export const ListTriggersResponse: Schema.Schema<ListTriggersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trigger: Schema.optional(Schema.Array(Trigger)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1533,7 +1554,7 @@ export interface ListContainersResponse {
 }
 
 export const ListContainersResponse: Schema.Schema<ListContainersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       container: Schema.optional(Schema.Array(Container)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1549,15 +1570,15 @@ export interface AccountFeatures {
   supportUserPermissions?: boolean;
 }
 
-export const AccountFeatures: Schema.Schema<AccountFeatures> = Schema.suspend(
-  () =>
+export const AccountFeatures: Schema.Schema<AccountFeatures> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       supportMultipleContainers: Schema.optional(Schema.Boolean),
       supportUserPermissions: Schema.optional(Schema.Boolean),
     }),
-).annotate({
-  identifier: "AccountFeatures",
-}) as any as Schema.Schema<AccountFeatures>;
+  ).annotate({
+    identifier: "AccountFeatures",
+  }) as any as Schema.Schema<AccountFeatures>;
 
 export interface Account {
   /** Read-only Account feature set */
@@ -1576,17 +1597,18 @@ export interface Account {
   shareData?: boolean;
 }
 
-export const Account: Schema.Schema<Account> = Schema.suspend(() =>
-  Schema.Struct({
-    features: Schema.optional(AccountFeatures),
-    name: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    shareData: Schema.optional(Schema.Boolean),
-  }),
-).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+export const Account: Schema.Schema<Account> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      features: Schema.optional(AccountFeatures),
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      shareData: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
 
 export interface RevertFolderResponse {
   /** Folder as it appears in the latest container version since the last workspace synchronization operation. If no folder is present, that means the folder was deleted in the latest container version. */
@@ -1594,7 +1616,7 @@ export interface RevertFolderResponse {
 }
 
 export const RevertFolderResponse: Schema.Schema<RevertFolderResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       folder: Schema.optional(Folder),
     }),
@@ -1633,21 +1655,22 @@ export interface Entity {
   client?: Client;
 }
 
-export const Entity: Schema.Schema<Entity> = Schema.suspend(() =>
-  Schema.Struct({
-    changeStatus: Schema.optional(Schema.String),
-    builtInVariable: Schema.optional(BuiltInVariable),
-    transformation: Schema.optional(Transformation),
-    zone: Schema.optional(Zone),
-    variable: Schema.optional(Variable),
-    customTemplate: Schema.optional(CustomTemplate),
-    tag: Schema.optional(Tag),
-    trigger: Schema.optional(Trigger),
-    folder: Schema.optional(Folder),
-    gtagConfig: Schema.optional(GtagConfig),
-    client: Schema.optional(Client),
-  }),
-).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+export const Entity: Schema.Schema<Entity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      changeStatus: Schema.optional(Schema.String),
+      builtInVariable: Schema.optional(BuiltInVariable),
+      transformation: Schema.optional(Transformation),
+      zone: Schema.optional(Zone),
+      variable: Schema.optional(Variable),
+      customTemplate: Schema.optional(CustomTemplate),
+      tag: Schema.optional(Tag),
+      trigger: Schema.optional(Trigger),
+      folder: Schema.optional(Folder),
+      gtagConfig: Schema.optional(GtagConfig),
+      client: Schema.optional(Client),
+    }),
+  ).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
 
 export interface BulkUpdateWorkspaceResponse {
   /** The entities that were added or updated during the bulk-update. Does not include entities that were deleted or updated by the system. */
@@ -1655,7 +1678,7 @@ export interface BulkUpdateWorkspaceResponse {
 }
 
 export const BulkUpdateWorkspaceResponse: Schema.Schema<BulkUpdateWorkspaceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changes: Schema.optional(Schema.Array(Entity)),
     }),
@@ -1671,7 +1694,7 @@ export interface ListAccountsResponse {
 }
 
 export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(Schema.Array(Account)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1687,14 +1710,15 @@ export interface MergeConflict {
   entityInBaseVersion?: Entity;
 }
 
-export const MergeConflict: Schema.Schema<MergeConflict> = Schema.suspend(() =>
-  Schema.Struct({
-    entityInWorkspace: Schema.optional(Entity),
-    entityInBaseVersion: Schema.optional(Entity),
-  }),
-).annotate({
-  identifier: "MergeConflict",
-}) as any as Schema.Schema<MergeConflict>;
+export const MergeConflict: Schema.Schema<MergeConflict> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entityInWorkspace: Schema.optional(Entity),
+      entityInBaseVersion: Schema.optional(Entity),
+    }),
+  ).annotate({
+    identifier: "MergeConflict",
+  }) as any as Schema.Schema<MergeConflict>;
 
 export interface GetWorkspaceStatusResponse {
   /** Entities that have been changed in the workspace. */
@@ -1704,7 +1728,7 @@ export interface GetWorkspaceStatusResponse {
 }
 
 export const GetWorkspaceStatusResponse: Schema.Schema<GetWorkspaceStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       workspaceChange: Schema.optional(Schema.Array(Entity)),
       mergeConflict: Schema.optional(Schema.Array(MergeConflict)),
@@ -1721,7 +1745,7 @@ export interface ListTransformationsResponse {
 }
 
 export const ListTransformationsResponse: Schema.Schema<ListTransformationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformation: Schema.optional(Schema.Array(Transformation)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1738,7 +1762,7 @@ export interface PublishContainerVersionResponse {
 }
 
 export const PublishContainerVersionResponse: Schema.Schema<PublishContainerVersionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerVersion: Schema.optional(ContainerVersion),
       compilerError: Schema.optional(Schema.Boolean),
@@ -1755,7 +1779,7 @@ export interface ListGtagConfigResponse {
 }
 
 export const ListGtagConfigResponse: Schema.Schema<ListGtagConfigResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1772,7 +1796,7 @@ export interface ListClientsResponse {
 }
 
 export const ListClientsResponse: Schema.Schema<ListClientsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       client: Schema.optional(Schema.Array(Client)),
@@ -1787,7 +1811,7 @@ export interface RevertTransformationResponse {
 }
 
 export const RevertTransformationResponse: Schema.Schema<RevertTransformationResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformation: Schema.optional(Transformation),
     }),
@@ -1805,7 +1829,7 @@ export interface QuickPreviewResponse {
 }
 
 export const QuickPreviewResponse: Schema.Schema<QuickPreviewResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerVersion: Schema.optional(ContainerVersion),
       syncStatus: Schema.optional(SyncStatus),
@@ -1848,25 +1872,28 @@ export interface Environment {
   fingerprint?: string;
 }
 
-export const Environment: Schema.Schema<Environment> = Schema.suspend(() =>
-  Schema.Struct({
-    environmentId: Schema.optional(Schema.String),
-    enableDebug: Schema.optional(Schema.Boolean),
-    name: Schema.optional(Schema.String),
-    workspaceId: Schema.optional(Schema.String),
-    path: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    containerId: Schema.optional(Schema.String),
-    accountId: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    authorizationCode: Schema.optional(Schema.String),
-    tagManagerUrl: Schema.optional(Schema.String),
-    authorizationTimestamp: Schema.optional(Schema.String),
-    containerVersionId: Schema.optional(Schema.String),
-    fingerprint: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Environment" }) as any as Schema.Schema<Environment>;
+export const Environment: Schema.Schema<Environment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      environmentId: Schema.optional(Schema.String),
+      enableDebug: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      authorizationCode: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      authorizationTimestamp: Schema.optional(Schema.String),
+      containerVersionId: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Environment",
+  }) as any as Schema.Schema<Environment>;
 
 export interface ListEnvironmentsResponse {
   /** All Environments of a GTM Container. */
@@ -1876,7 +1903,7 @@ export interface ListEnvironmentsResponse {
 }
 
 export const ListEnvironmentsResponse: Schema.Schema<ListEnvironmentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       environment: Schema.optional(Schema.Array(Environment)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1891,7 +1918,7 @@ export interface RevertBuiltInVariableResponse {
 }
 
 export const RevertBuiltInVariableResponse: Schema.Schema<RevertBuiltInVariableResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enabled: Schema.optional(Schema.Boolean),
     }),
@@ -1907,7 +1934,7 @@ export interface ListVariablesResponse {
 }
 
 export const ListVariablesResponse: Schema.Schema<ListVariablesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       variable: Schema.optional(Schema.Array(Variable)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1922,7 +1949,7 @@ export interface RevertTagResponse {
 }
 
 export const RevertTagResponse: Schema.Schema<RevertTagResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(Tag),
     }),
@@ -1936,7 +1963,7 @@ export interface RevertTriggerResponse {
 }
 
 export const RevertTriggerResponse: Schema.Schema<RevertTriggerResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       trigger: Schema.optional(Trigger),
     }),
@@ -1950,7 +1977,7 @@ export interface RevertClientResponse {
 }
 
 export const RevertClientResponse: Schema.Schema<RevertClientResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       client: Schema.optional(Client),
     }),
@@ -1966,7 +1993,7 @@ export interface ListDestinationsResponse {
 }
 
 export const ListDestinationsResponse: Schema.Schema<ListDestinationsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destination: Schema.optional(Schema.Array(Destination)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1983,7 +2010,7 @@ export interface ListUserPermissionsResponse {
 }
 
 export const ListUserPermissionsResponse: Schema.Schema<ListUserPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userPermission: Schema.optional(Schema.Array(UserPermission)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1998,7 +2025,7 @@ export interface RevertVariableResponse {
 }
 
 export const RevertVariableResponse: Schema.Schema<RevertVariableResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       variable: Schema.optional(Variable),
     }),
@@ -2011,14 +2038,14 @@ export interface ProposedChange {
   changes?: Array<Entity>;
 }
 
-export const ProposedChange: Schema.Schema<ProposedChange> = Schema.suspend(
-  () =>
+export const ProposedChange: Schema.Schema<ProposedChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changes: Schema.optional(Schema.Array(Entity)),
     }),
-).annotate({
-  identifier: "ProposedChange",
-}) as any as Schema.Schema<ProposedChange>;
+  ).annotate({
+    identifier: "ProposedChange",
+  }) as any as Schema.Schema<ProposedChange>;
 
 export interface RevertZoneResponse {
   /** Zone as it appears in the latest container version since the last workspace synchronization operation. If no zone is present, that means the zone was deleted in the latest container version. */
@@ -2026,7 +2053,7 @@ export interface RevertZoneResponse {
 }
 
 export const RevertZoneResponse: Schema.Schema<RevertZoneResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       zone: Schema.optional(Zone),
     }),
@@ -2042,7 +2069,7 @@ export interface GetContainerSnippetResponse {
 }
 
 export const GetContainerSnippetResponse: Schema.Schema<GetContainerSnippetResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerConfig: Schema.optional(Schema.String),
       snippet: Schema.optional(Schema.String),
@@ -2059,7 +2086,7 @@ export interface SyncWorkspaceResponse {
 }
 
 export const SyncWorkspaceResponse: Schema.Schema<SyncWorkspaceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       syncStatus: Schema.optional(SyncStatus),
       mergeConflict: Schema.optional(Schema.Array(MergeConflict)),
@@ -2076,7 +2103,7 @@ export interface ListTemplatesResponse {
 }
 
 export const ListTemplatesResponse: Schema.Schema<ListTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       template: Schema.optional(Schema.Array(CustomTemplate)),
       nextPageToken: Schema.optional(Schema.String),
@@ -2096,7 +2123,7 @@ export interface ListAccountsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeGoogleTags: Schema.optional(Schema.Boolean).pipe(
     T.HttpQuery("includeGoogleTags"),
   ),
@@ -2107,7 +2134,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse_Op = ListAccountsResponse;
-export const ListAccountsResponse_Op = ListAccountsResponse;
+export const ListAccountsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -2117,7 +2145,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse_Op,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -2132,7 +2160,7 @@ export interface GetAccountsRequest {
   path: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   path: Schema.String.pipe(T.HttpPath("path")),
 }).pipe(
   T.Http({ method: "GET", path: "tagmanager/v2/accounts/{accountsId}" }),
@@ -2140,7 +2168,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = Account;
-export const GetAccountsResponse = Account;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -2150,7 +2178,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -2165,7 +2193,7 @@ export interface UpdateAccountsRequest {
   body?: Account;
 }
 
-export const UpdateAccountsRequest = Schema.Struct({
+export const UpdateAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
   path: Schema.String.pipe(T.HttpPath("path")),
   body: Schema.optional(Account).pipe(T.HttpBody()),
@@ -2179,7 +2207,7 @@ export const UpdateAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateAccountsRequest>;
 
 export type UpdateAccountsResponse = Account;
-export const UpdateAccountsResponse = Account;
+export const UpdateAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Account;
 
 export type UpdateAccountsError = DefaultErrors;
 
@@ -2189,7 +2217,7 @@ export const updateAccounts: API.OperationMethod<
   UpdateAccountsResponse,
   UpdateAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsRequest,
   output: UpdateAccountsResponse,
   errors: [],
@@ -2202,19 +2230,21 @@ export interface ListAccountsUser_permissionsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsUser_permissionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsUser_permissionsRequest>;
+export const ListAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsUser_permissionsRequest>;
 
 export type ListAccountsUser_permissionsResponse = ListUserPermissionsResponse;
-export const ListAccountsUser_permissionsResponse = ListUserPermissionsResponse;
+export const ListAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserPermissionsResponse;
 
 export type ListAccountsUser_permissionsError = DefaultErrors;
 
@@ -2224,7 +2254,7 @@ export const listAccountsUser_permissions: API.PaginatedOperationMethod<
   ListAccountsUser_permissionsResponse,
   ListAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsUser_permissionsRequest,
   output: ListAccountsUser_permissionsResponse,
   errors: [],
@@ -2241,20 +2271,22 @@ export interface CreateAccountsUser_permissionsRequest {
   body?: UserPermission;
 }
 
-export const CreateAccountsUser_permissionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(UserPermission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsUser_permissionsRequest>;
+export const CreateAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsUser_permissionsRequest>;
 
 export type CreateAccountsUser_permissionsResponse = UserPermission;
-export const CreateAccountsUser_permissionsResponse = UserPermission;
+export const CreateAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
 
 export type CreateAccountsUser_permissionsError = DefaultErrors;
 
@@ -2264,7 +2296,7 @@ export const createAccountsUser_permissions: API.OperationMethod<
   CreateAccountsUser_permissionsResponse,
   CreateAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsUser_permissionsRequest,
   output: CreateAccountsUser_permissionsResponse,
   errors: [],
@@ -2275,18 +2307,20 @@ export interface GetAccountsUser_permissionsRequest {
   path: string;
 }
 
-export const GetAccountsUser_permissionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsUser_permissionsRequest>;
+export const GetAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsUser_permissionsRequest>;
 
 export type GetAccountsUser_permissionsResponse = UserPermission;
-export const GetAccountsUser_permissionsResponse = UserPermission;
+export const GetAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
 
 export type GetAccountsUser_permissionsError = DefaultErrors;
 
@@ -2296,7 +2330,7 @@ export const getAccountsUser_permissions: API.OperationMethod<
   GetAccountsUser_permissionsResponse,
   GetAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsUser_permissionsRequest,
   output: GetAccountsUser_permissionsResponse,
   errors: [],
@@ -2309,20 +2343,22 @@ export interface UpdateAccountsUser_permissionsRequest {
   body?: UserPermission;
 }
 
-export const UpdateAccountsUser_permissionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  body: Schema.optional(UserPermission).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsUser_permissionsRequest>;
+export const UpdateAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsUser_permissionsRequest>;
 
 export type UpdateAccountsUser_permissionsResponse = UserPermission;
-export const UpdateAccountsUser_permissionsResponse = UserPermission;
+export const UpdateAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
 
 export type UpdateAccountsUser_permissionsError = DefaultErrors;
 
@@ -2332,7 +2368,7 @@ export const updateAccountsUser_permissions: API.OperationMethod<
   UpdateAccountsUser_permissionsResponse,
   UpdateAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsUser_permissionsRequest,
   output: UpdateAccountsUser_permissionsResponse,
   errors: [],
@@ -2343,19 +2379,20 @@ export interface DeleteAccountsUser_permissionsRequest {
   path: string;
 }
 
-export const DeleteAccountsUser_permissionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsUser_permissionsRequest>;
+export const DeleteAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsUser_permissionsRequest>;
 
 export interface DeleteAccountsUser_permissionsResponse {}
 export const DeleteAccountsUser_permissionsResponse: Schema.Schema<DeleteAccountsUser_permissionsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsUser_permissionsResponse>;
 
@@ -2367,7 +2404,7 @@ export const deleteAccountsUser_permissions: API.OperationMethod<
   DeleteAccountsUser_permissionsResponse,
   DeleteAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsUser_permissionsRequest,
   output: DeleteAccountsUser_permissionsResponse,
   errors: [],
@@ -2380,20 +2417,22 @@ export interface CreateAccountsContainersRequest {
   body?: Container;
 }
 
-export const CreateAccountsContainersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Container).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersRequest>;
+export const CreateAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Container).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersRequest>;
 
 export type CreateAccountsContainersResponse = Container;
-export const CreateAccountsContainersResponse = Container;
+export const CreateAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type CreateAccountsContainersError = DefaultErrors;
 
@@ -2403,7 +2442,7 @@ export const createAccountsContainers: API.OperationMethod<
   CreateAccountsContainersResponse,
   CreateAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersRequest,
   output: CreateAccountsContainersResponse,
   errors: [],
@@ -2414,18 +2453,20 @@ export interface SnippetAccountsContainersRequest {
   path: string;
 }
 
-export const SnippetAccountsContainersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:snippet",
-  }),
-  svc,
-) as unknown as Schema.Schema<SnippetAccountsContainersRequest>;
+export const SnippetAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:snippet",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SnippetAccountsContainersRequest>;
 
 export type SnippetAccountsContainersResponse = GetContainerSnippetResponse;
-export const SnippetAccountsContainersResponse = GetContainerSnippetResponse;
+export const SnippetAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GetContainerSnippetResponse;
 
 export type SnippetAccountsContainersError = DefaultErrors;
 
@@ -2435,7 +2476,7 @@ export const snippetAccountsContainers: API.OperationMethod<
   SnippetAccountsContainersResponse,
   SnippetAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SnippetAccountsContainersRequest,
   output: SnippetAccountsContainersResponse,
   errors: [],
@@ -2448,19 +2489,21 @@ export interface ListAccountsContainersRequest {
   pageToken?: string;
 }
 
-export const ListAccountsContainersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersRequest>;
+export const ListAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersRequest>;
 
 export type ListAccountsContainersResponse = ListContainersResponse;
-export const ListAccountsContainersResponse = ListContainersResponse;
+export const ListAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListContainersResponse;
 
 export type ListAccountsContainersError = DefaultErrors;
 
@@ -2470,7 +2513,7 @@ export const listAccountsContainers: API.PaginatedOperationMethod<
   ListAccountsContainersResponse,
   ListAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersRequest,
   output: ListAccountsContainersResponse,
   errors: [],
@@ -2485,18 +2528,20 @@ export interface GetAccountsContainersRequest {
   path: string;
 }
 
-export const GetAccountsContainersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersRequest>;
+export const GetAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersRequest>;
 
 export type GetAccountsContainersResponse = Container;
-export const GetAccountsContainersResponse = Container;
+export const GetAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type GetAccountsContainersError = DefaultErrors;
 
@@ -2506,7 +2551,7 @@ export const getAccountsContainers: API.OperationMethod<
   GetAccountsContainersResponse,
   GetAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersRequest,
   output: GetAccountsContainersResponse,
   errors: [],
@@ -2529,31 +2574,33 @@ export interface Move_tag_idAccountsContainersRequest {
   copyTermsOfService?: boolean;
 }
 
-export const Move_tag_idAccountsContainersRequest = Schema.Struct({
-  copyUsers: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("copyUsers")),
-  tagName: Schema.optional(Schema.String).pipe(T.HttpQuery("tagName")),
-  allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowUserPermissionFeatureUpdate"),
-  ),
-  copySettings: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("copySettings"),
-  ),
-  path: Schema.String.pipe(T.HttpPath("path")),
-  tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
-  copyTermsOfService: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("copyTermsOfService"),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:move_tag_id",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Move_tag_idAccountsContainersRequest>;
+export const Move_tag_idAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    copyUsers: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("copyUsers")),
+    tagName: Schema.optional(Schema.String).pipe(T.HttpQuery("tagName")),
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    copySettings: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("copySettings"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+    tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
+    copyTermsOfService: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("copyTermsOfService"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:move_tag_id",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Move_tag_idAccountsContainersRequest>;
 
 export type Move_tag_idAccountsContainersResponse = Container;
-export const Move_tag_idAccountsContainersResponse = Container;
+export const Move_tag_idAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type Move_tag_idAccountsContainersError = DefaultErrors;
 
@@ -2563,7 +2610,7 @@ export const move_tag_idAccountsContainers: API.OperationMethod<
   Move_tag_idAccountsContainersResponse,
   Move_tag_idAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Move_tag_idAccountsContainersRequest,
   output: Move_tag_idAccountsContainersResponse,
   errors: [],
@@ -2576,18 +2623,20 @@ export interface LookupAccountsContainersRequest {
   tagId?: string;
 }
 
-export const LookupAccountsContainersRequest = Schema.Struct({
-  destinationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("destinationId"),
-  ),
-  tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
-}).pipe(
-  T.Http({ method: "GET", path: "tagmanager/v2/accounts/containers:lookup" }),
-  svc,
-) as unknown as Schema.Schema<LookupAccountsContainersRequest>;
+export const LookupAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destinationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("destinationId"),
+    ),
+    tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "tagmanager/v2/accounts/containers:lookup" }),
+    svc,
+  ) as unknown as Schema.Schema<LookupAccountsContainersRequest>;
 
 export type LookupAccountsContainersResponse = Container;
-export const LookupAccountsContainersResponse = Container;
+export const LookupAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type LookupAccountsContainersError = DefaultErrors;
 
@@ -2597,7 +2646,7 @@ export const lookupAccountsContainers: API.OperationMethod<
   LookupAccountsContainersResponse,
   LookupAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LookupAccountsContainersRequest,
   output: LookupAccountsContainersResponse,
   errors: [],
@@ -2608,19 +2657,22 @@ export interface DeleteAccountsContainersRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersRequest>;
+export const DeleteAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersRequest>;
 
 export interface DeleteAccountsContainersResponse {}
 export const DeleteAccountsContainersResponse: Schema.Schema<DeleteAccountsContainersResponse> =
-  Schema.Struct({}) as any as Schema.Schema<DeleteAccountsContainersResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersResponse>;
 
 export type DeleteAccountsContainersError = DefaultErrors;
 
@@ -2630,7 +2682,7 @@ export const deleteAccountsContainers: API.OperationMethod<
   DeleteAccountsContainersResponse,
   DeleteAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersRequest,
   output: DeleteAccountsContainersResponse,
   errors: [],
@@ -2651,26 +2703,30 @@ export interface CombineAccountsContainersRequest {
   path: string;
 }
 
-export const CombineAccountsContainersRequest = Schema.Struct({
-  allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowUserPermissionFeatureUpdate"),
-  ),
-  settingSource: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("settingSource"),
-  ),
-  containerId: Schema.optional(Schema.String).pipe(T.HttpQuery("containerId")),
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:combine",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CombineAccountsContainersRequest>;
+export const CombineAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    settingSource: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("settingSource"),
+    ),
+    containerId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("containerId"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:combine",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CombineAccountsContainersRequest>;
 
 export type CombineAccountsContainersResponse = Container;
-export const CombineAccountsContainersResponse = Container;
+export const CombineAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type CombineAccountsContainersError = DefaultErrors;
 
@@ -2680,7 +2736,7 @@ export const combineAccountsContainers: API.OperationMethod<
   CombineAccountsContainersResponse,
   CombineAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CombineAccountsContainersRequest,
   output: CombineAccountsContainersResponse,
   errors: [],
@@ -2695,21 +2751,25 @@ export interface UpdateAccountsContainersRequest {
   body?: Container;
 }
 
-export const UpdateAccountsContainersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Container).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersRequest>;
+export const UpdateAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Container).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersRequest>;
 
 export type UpdateAccountsContainersResponse = Container;
-export const UpdateAccountsContainersResponse = Container;
+export const UpdateAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
 export type UpdateAccountsContainersError = DefaultErrors;
 
@@ -2719,7 +2779,7 @@ export const updateAccountsContainers: API.OperationMethod<
   UpdateAccountsContainersResponse,
   UpdateAccountsContainersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersRequest,
   output: UpdateAccountsContainersResponse,
   errors: [],
@@ -2730,19 +2790,20 @@ export interface DeleteAccountsContainersWorkspacesRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesRequest>;
+export const DeleteAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesRequest>;
 
 export interface DeleteAccountsContainersWorkspacesResponse {}
 export const DeleteAccountsContainersWorkspacesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesResponse>;
 
@@ -2754,7 +2815,7 @@ export const deleteAccountsContainersWorkspaces: API.OperationMethod<
   DeleteAccountsContainersWorkspacesResponse,
   DeleteAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesRequest,
   output: DeleteAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2769,21 +2830,25 @@ export interface UpdateAccountsContainersWorkspacesRequest {
   body?: Workspace;
 }
 
-export const UpdateAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Workspace).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesRequest>;
+export const UpdateAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Workspace).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesRequest>;
 
 export type UpdateAccountsContainersWorkspacesResponse = Workspace;
-export const UpdateAccountsContainersWorkspacesResponse = Workspace;
+export const UpdateAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
 
 export type UpdateAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -2793,7 +2858,7 @@ export const updateAccountsContainersWorkspaces: API.OperationMethod<
   UpdateAccountsContainersWorkspacesResponse,
   UpdateAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesRequest,
   output: UpdateAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2806,24 +2871,25 @@ export interface Create_versionAccountsContainersWorkspacesRequest {
   body?: CreateContainerVersionRequestVersionOptions;
 }
 
-export const Create_versionAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  body: Schema.optional(CreateContainerVersionRequestVersionOptions).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:create_version",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Create_versionAccountsContainersWorkspacesRequest>;
+export const Create_versionAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(CreateContainerVersionRequestVersionOptions).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:create_version",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Create_versionAccountsContainersWorkspacesRequest>;
 
 export type Create_versionAccountsContainersWorkspacesResponse =
   CreateContainerVersionResponse;
 export const Create_versionAccountsContainersWorkspacesResponse =
-  CreateContainerVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CreateContainerVersionResponse;
 
 export type Create_versionAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -2833,7 +2899,7 @@ export const create_versionAccountsContainersWorkspaces: API.OperationMethod<
   Create_versionAccountsContainersWorkspacesResponse,
   Create_versionAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Create_versionAccountsContainersWorkspacesRequest,
   output: Create_versionAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2844,19 +2910,21 @@ export interface SyncAccountsContainersWorkspacesRequest {
   path: string;
 }
 
-export const SyncAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:sync",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SyncAccountsContainersWorkspacesRequest>;
+export const SyncAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:sync",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SyncAccountsContainersWorkspacesRequest>;
 
 export type SyncAccountsContainersWorkspacesResponse = SyncWorkspaceResponse;
-export const SyncAccountsContainersWorkspacesResponse = SyncWorkspaceResponse;
+export const SyncAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SyncWorkspaceResponse;
 
 export type SyncAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -2866,7 +2934,7 @@ export const syncAccountsContainersWorkspaces: API.OperationMethod<
   SyncAccountsContainersWorkspacesResponse,
   SyncAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SyncAccountsContainersWorkspacesRequest,
   output: SyncAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2882,7 +2950,7 @@ export interface Resolve_conflictAccountsContainersWorkspacesRequest {
 }
 
 export const Resolve_conflictAccountsContainersWorkspacesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
@@ -2899,7 +2967,7 @@ export const Resolve_conflictAccountsContainersWorkspacesRequest =
 
 export interface Resolve_conflictAccountsContainersWorkspacesResponse {}
 export const Resolve_conflictAccountsContainersWorkspacesResponse: Schema.Schema<Resolve_conflictAccountsContainersWorkspacesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<Resolve_conflictAccountsContainersWorkspacesResponse>;
 
@@ -2911,7 +2979,7 @@ export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<
   Resolve_conflictAccountsContainersWorkspacesResponse,
   Resolve_conflictAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Resolve_conflictAccountsContainersWorkspacesRequest,
   output: Resolve_conflictAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2922,18 +2990,20 @@ export interface GetAccountsContainersWorkspacesRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesRequest>;
+export const GetAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesRequest>;
 
 export type GetAccountsContainersWorkspacesResponse = Workspace;
-export const GetAccountsContainersWorkspacesResponse = Workspace;
+export const GetAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
 
 export type GetAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -2943,7 +3013,7 @@ export const getAccountsContainersWorkspaces: API.OperationMethod<
   GetAccountsContainersWorkspacesResponse,
   GetAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesRequest,
   output: GetAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2956,20 +3026,22 @@ export interface CreateAccountsContainersWorkspacesRequest {
   body?: Workspace;
 }
 
-export const CreateAccountsContainersWorkspacesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Workspace).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesRequest>;
+export const CreateAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Workspace).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesRequest>;
 
 export type CreateAccountsContainersWorkspacesResponse = Workspace;
-export const CreateAccountsContainersWorkspacesResponse = Workspace;
+export const CreateAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
 
 export type CreateAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -2979,7 +3051,7 @@ export const createAccountsContainersWorkspaces: API.OperationMethod<
   CreateAccountsContainersWorkspacesResponse,
   CreateAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesRequest,
   output: CreateAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2990,21 +3062,22 @@ export interface Quick_previewAccountsContainersWorkspacesRequest {
   path: string;
 }
 
-export const Quick_previewAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:quick_preview",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Quick_previewAccountsContainersWorkspacesRequest>;
+export const Quick_previewAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:quick_preview",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Quick_previewAccountsContainersWorkspacesRequest>;
 
 export type Quick_previewAccountsContainersWorkspacesResponse =
   QuickPreviewResponse;
 export const Quick_previewAccountsContainersWorkspacesResponse =
-  QuickPreviewResponse;
+  /*@__PURE__*/ /*#__PURE__*/ QuickPreviewResponse;
 
 export type Quick_previewAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -3014,7 +3087,7 @@ export const quick_previewAccountsContainersWorkspaces: API.OperationMethod<
   Quick_previewAccountsContainersWorkspacesResponse,
   Quick_previewAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Quick_previewAccountsContainersWorkspacesRequest,
   output: Quick_previewAccountsContainersWorkspacesResponse,
   errors: [],
@@ -3027,19 +3100,21 @@ export interface ListAccountsContainersWorkspacesRequest {
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesRequest>;
+export const ListAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesRequest>;
 
 export type ListAccountsContainersWorkspacesResponse = ListWorkspacesResponse;
-export const ListAccountsContainersWorkspacesResponse = ListWorkspacesResponse;
+export const ListAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListWorkspacesResponse;
 
 export type ListAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -3049,7 +3124,7 @@ export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
   ListAccountsContainersWorkspacesResponse,
   ListAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesRequest,
   output: ListAccountsContainersWorkspacesResponse,
   errors: [],
@@ -3064,20 +3139,21 @@ export interface GetStatusAccountsContainersWorkspacesRequest {
   path: string;
 }
 
-export const GetStatusAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/status",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetStatusAccountsContainersWorkspacesRequest>;
+export const GetStatusAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/status",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetStatusAccountsContainersWorkspacesRequest>;
 
 export type GetStatusAccountsContainersWorkspacesResponse =
   GetWorkspaceStatusResponse;
 export const GetStatusAccountsContainersWorkspacesResponse =
-  GetWorkspaceStatusResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetWorkspaceStatusResponse;
 
 export type GetStatusAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -3087,7 +3163,7 @@ export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
   GetStatusAccountsContainersWorkspacesResponse,
   GetStatusAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetStatusAccountsContainersWorkspacesRequest,
   output: GetStatusAccountsContainersWorkspacesResponse,
   errors: [],
@@ -3100,22 +3176,23 @@ export interface Bulk_updateAccountsContainersWorkspacesRequest {
   body?: ProposedChange;
 }
 
-export const Bulk_updateAccountsContainersWorkspacesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  body: Schema.optional(ProposedChange).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/bulk_update",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Bulk_updateAccountsContainersWorkspacesRequest>;
+export const Bulk_updateAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(ProposedChange).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/bulk_update",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Bulk_updateAccountsContainersWorkspacesRequest>;
 
 export type Bulk_updateAccountsContainersWorkspacesResponse =
   BulkUpdateWorkspaceResponse;
 export const Bulk_updateAccountsContainersWorkspacesResponse =
-  BulkUpdateWorkspaceResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BulkUpdateWorkspaceResponse;
 
 export type Bulk_updateAccountsContainersWorkspacesError = DefaultErrors;
 
@@ -3125,7 +3202,7 @@ export const bulk_updateAccountsContainersWorkspaces: API.OperationMethod<
   Bulk_updateAccountsContainersWorkspacesResponse,
   Bulk_updateAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Bulk_updateAccountsContainersWorkspacesRequest,
   output: Bulk_updateAccountsContainersWorkspacesResponse,
   errors: [],
@@ -3138,19 +3215,21 @@ export interface ListAccountsContainersWorkspacesTagsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTagsRequest>;
+export const ListAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTagsRequest>;
 
 export type ListAccountsContainersWorkspacesTagsResponse = ListTagsResponse;
-export const ListAccountsContainersWorkspacesTagsResponse = ListTagsResponse;
+export const ListAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagsResponse;
 
 export type ListAccountsContainersWorkspacesTagsError = DefaultErrors;
 
@@ -3160,7 +3239,7 @@ export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
   ListAccountsContainersWorkspacesTagsResponse,
   ListAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTagsRequest,
   output: ListAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3177,20 +3256,24 @@ export interface RevertAccountsContainersWorkspacesTagsRequest {
   path: string;
 }
 
-export const RevertAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTagsRequest>;
+export const RevertAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTagsRequest>;
 
 export type RevertAccountsContainersWorkspacesTagsResponse = RevertTagResponse;
-export const RevertAccountsContainersWorkspacesTagsResponse = RevertTagResponse;
+export const RevertAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertTagResponse;
 
 export type RevertAccountsContainersWorkspacesTagsError = DefaultErrors;
 
@@ -3200,7 +3283,7 @@ export const revertAccountsContainersWorkspacesTags: API.OperationMethod<
   RevertAccountsContainersWorkspacesTagsResponse,
   RevertAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTagsRequest,
   output: RevertAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3213,20 +3296,22 @@ export interface CreateAccountsContainersWorkspacesTagsRequest {
   body?: Tag;
 }
 
-export const CreateAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Tag).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTagsRequest>;
+export const CreateAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Tag).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTagsRequest>;
 
 export type CreateAccountsContainersWorkspacesTagsResponse = Tag;
-export const CreateAccountsContainersWorkspacesTagsResponse = Tag;
+export const CreateAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tag;
 
 export type CreateAccountsContainersWorkspacesTagsError = DefaultErrors;
 
@@ -3236,7 +3321,7 @@ export const createAccountsContainersWorkspacesTags: API.OperationMethod<
   CreateAccountsContainersWorkspacesTagsResponse,
   CreateAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTagsRequest,
   output: CreateAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3247,18 +3332,20 @@ export interface GetAccountsContainersWorkspacesTagsRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTagsRequest>;
+export const GetAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTagsRequest>;
 
 export type GetAccountsContainersWorkspacesTagsResponse = Tag;
-export const GetAccountsContainersWorkspacesTagsResponse = Tag;
+export const GetAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tag;
 
 export type GetAccountsContainersWorkspacesTagsError = DefaultErrors;
 
@@ -3268,7 +3355,7 @@ export const getAccountsContainersWorkspacesTags: API.OperationMethod<
   GetAccountsContainersWorkspacesTagsResponse,
   GetAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTagsRequest,
   output: GetAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3283,21 +3370,25 @@ export interface UpdateAccountsContainersWorkspacesTagsRequest {
   body?: Tag;
 }
 
-export const UpdateAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Tag).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTagsRequest>;
+export const UpdateAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Tag).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTagsRequest>;
 
 export type UpdateAccountsContainersWorkspacesTagsResponse = Tag;
-export const UpdateAccountsContainersWorkspacesTagsResponse = Tag;
+export const UpdateAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tag;
 
 export type UpdateAccountsContainersWorkspacesTagsError = DefaultErrors;
 
@@ -3307,7 +3398,7 @@ export const updateAccountsContainersWorkspacesTags: API.OperationMethod<
   UpdateAccountsContainersWorkspacesTagsResponse,
   UpdateAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTagsRequest,
   output: UpdateAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3318,19 +3409,20 @@ export interface DeleteAccountsContainersWorkspacesTagsRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesTagsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTagsRequest>;
+export const DeleteAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTagsRequest>;
 
 export interface DeleteAccountsContainersWorkspacesTagsResponse {}
 export const DeleteAccountsContainersWorkspacesTagsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTagsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTagsResponse>;
 
@@ -3342,7 +3434,7 @@ export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<
   DeleteAccountsContainersWorkspacesTagsResponse,
   DeleteAccountsContainersWorkspacesTagsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTagsRequest,
   output: DeleteAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -3353,19 +3445,20 @@ export interface DeleteAccountsContainersWorkspacesClientsRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesClientsRequest>;
+export const DeleteAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesClientsRequest>;
 
 export interface DeleteAccountsContainersWorkspacesClientsResponse {}
 export const DeleteAccountsContainersWorkspacesClientsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse>;
 
@@ -3377,7 +3470,7 @@ export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
   DeleteAccountsContainersWorkspacesClientsResponse,
   DeleteAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesClientsRequest,
   output: DeleteAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3388,18 +3481,20 @@ export interface GetAccountsContainersWorkspacesClientsRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesClientsRequest>;
+export const GetAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesClientsRequest>;
 
 export type GetAccountsContainersWorkspacesClientsResponse = Client;
-export const GetAccountsContainersWorkspacesClientsResponse = Client;
+export const GetAccountsContainersWorkspacesClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type GetAccountsContainersWorkspacesClientsError = DefaultErrors;
 
@@ -3409,7 +3504,7 @@ export const getAccountsContainersWorkspacesClients: API.OperationMethod<
   GetAccountsContainersWorkspacesClientsResponse,
   GetAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesClientsRequest,
   output: GetAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3424,21 +3519,25 @@ export interface UpdateAccountsContainersWorkspacesClientsRequest {
   body?: Client;
 }
 
-export const UpdateAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesClientsRequest>;
+export const UpdateAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesClientsRequest>;
 
 export type UpdateAccountsContainersWorkspacesClientsResponse = Client;
-export const UpdateAccountsContainersWorkspacesClientsResponse = Client;
+export const UpdateAccountsContainersWorkspacesClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type UpdateAccountsContainersWorkspacesClientsError = DefaultErrors;
 
@@ -3448,7 +3547,7 @@ export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
   UpdateAccountsContainersWorkspacesClientsResponse,
   UpdateAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesClientsRequest,
   output: UpdateAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3461,20 +3560,22 @@ export interface CreateAccountsContainersWorkspacesClientsRequest {
   body?: Client;
 }
 
-export const CreateAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Client).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesClientsRequest>;
+export const CreateAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesClientsRequest>;
 
 export type CreateAccountsContainersWorkspacesClientsResponse = Client;
-export const CreateAccountsContainersWorkspacesClientsResponse = Client;
+export const CreateAccountsContainersWorkspacesClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
 export type CreateAccountsContainersWorkspacesClientsError = DefaultErrors;
 
@@ -3484,7 +3585,7 @@ export const createAccountsContainersWorkspacesClients: API.OperationMethod<
   CreateAccountsContainersWorkspacesClientsResponse,
   CreateAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesClientsRequest,
   output: CreateAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3497,22 +3598,25 @@ export interface RevertAccountsContainersWorkspacesClientsRequest {
   fingerprint?: string;
 }
 
-export const RevertAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesClientsRequest>;
+export const RevertAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesClientsRequest>;
 
 export type RevertAccountsContainersWorkspacesClientsResponse =
   RevertClientResponse;
 export const RevertAccountsContainersWorkspacesClientsResponse =
-  RevertClientResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertClientResponse;
 
 export type RevertAccountsContainersWorkspacesClientsError = DefaultErrors;
 
@@ -3522,7 +3626,7 @@ export const revertAccountsContainersWorkspacesClients: API.OperationMethod<
   RevertAccountsContainersWorkspacesClientsResponse,
   RevertAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesClientsRequest,
   output: RevertAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3535,21 +3639,22 @@ export interface ListAccountsContainersWorkspacesClientsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsContainersWorkspacesClientsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesClientsRequest>;
+export const ListAccountsContainersWorkspacesClientsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesClientsRequest>;
 
 export type ListAccountsContainersWorkspacesClientsResponse =
   ListClientsResponse;
 export const ListAccountsContainersWorkspacesClientsResponse =
-  ListClientsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListClientsResponse;
 
 export type ListAccountsContainersWorkspacesClientsError = DefaultErrors;
 
@@ -3559,7 +3664,7 @@ export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMeth
   ListAccountsContainersWorkspacesClientsResponse,
   ListAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesClientsRequest,
   output: ListAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3576,21 +3681,22 @@ export interface ListAccountsContainersWorkspacesTriggersRequest {
   pageToken?: string;
 }
 
-export const ListAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTriggersRequest>;
+export const ListAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTriggersRequest>;
 
 export type ListAccountsContainersWorkspacesTriggersResponse =
   ListTriggersResponse;
 export const ListAccountsContainersWorkspacesTriggersResponse =
-  ListTriggersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTriggersResponse;
 
 export type ListAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
@@ -3600,7 +3706,7 @@ export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMet
   ListAccountsContainersWorkspacesTriggersResponse,
   ListAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTriggersRequest,
   output: ListAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3617,20 +3723,22 @@ export interface CreateAccountsContainersWorkspacesTriggersRequest {
   body?: Trigger;
 }
 
-export const CreateAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Trigger).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTriggersRequest>;
+export const CreateAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Trigger).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTriggersRequest>;
 
 export type CreateAccountsContainersWorkspacesTriggersResponse = Trigger;
-export const CreateAccountsContainersWorkspacesTriggersResponse = Trigger;
+export const CreateAccountsContainersWorkspacesTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Trigger;
 
 export type CreateAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
@@ -3640,7 +3748,7 @@ export const createAccountsContainersWorkspacesTriggers: API.OperationMethod<
   CreateAccountsContainersWorkspacesTriggersResponse,
   CreateAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTriggersRequest,
   output: CreateAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3653,22 +3761,25 @@ export interface RevertAccountsContainersWorkspacesTriggersRequest {
   path: string;
 }
 
-export const RevertAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTriggersRequest>;
+export const RevertAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTriggersRequest>;
 
 export type RevertAccountsContainersWorkspacesTriggersResponse =
   RevertTriggerResponse;
 export const RevertAccountsContainersWorkspacesTriggersResponse =
-  RevertTriggerResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertTriggerResponse;
 
 export type RevertAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
@@ -3678,7 +3789,7 @@ export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<
   RevertAccountsContainersWorkspacesTriggersResponse,
   RevertAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTriggersRequest,
   output: RevertAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3689,18 +3800,20 @@ export interface GetAccountsContainersWorkspacesTriggersRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTriggersRequest>;
+export const GetAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTriggersRequest>;
 
 export type GetAccountsContainersWorkspacesTriggersResponse = Trigger;
-export const GetAccountsContainersWorkspacesTriggersResponse = Trigger;
+export const GetAccountsContainersWorkspacesTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Trigger;
 
 export type GetAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
@@ -3710,7 +3823,7 @@ export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
   GetAccountsContainersWorkspacesTriggersResponse,
   GetAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTriggersRequest,
   output: GetAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3725,21 +3838,25 @@ export interface UpdateAccountsContainersWorkspacesTriggersRequest {
   body?: Trigger;
 }
 
-export const UpdateAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Trigger).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTriggersRequest>;
+export const UpdateAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Trigger).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTriggersRequest>;
 
 export type UpdateAccountsContainersWorkspacesTriggersResponse = Trigger;
-export const UpdateAccountsContainersWorkspacesTriggersResponse = Trigger;
+export const UpdateAccountsContainersWorkspacesTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Trigger;
 
 export type UpdateAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
@@ -3749,7 +3866,7 @@ export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<
   UpdateAccountsContainersWorkspacesTriggersResponse,
   UpdateAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTriggersRequest,
   output: UpdateAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3760,19 +3877,20 @@ export interface DeleteAccountsContainersWorkspacesTriggersRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesTriggersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersRequest>;
+export const DeleteAccountsContainersWorkspacesTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersRequest>;
 
 export interface DeleteAccountsContainersWorkspacesTriggersResponse {}
 export const DeleteAccountsContainersWorkspacesTriggersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse>;
 
@@ -3784,7 +3902,7 @@ export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
   DeleteAccountsContainersWorkspacesTriggersResponse,
   DeleteAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTriggersRequest,
   output: DeleteAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -3795,18 +3913,20 @@ export interface GetAccountsContainersWorkspacesVariablesRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesVariablesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesVariablesRequest>;
+export const GetAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesVariablesRequest>;
 
 export type GetAccountsContainersWorkspacesVariablesResponse = Variable;
-export const GetAccountsContainersWorkspacesVariablesResponse = Variable;
+export const GetAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
 
 export type GetAccountsContainersWorkspacesVariablesError = DefaultErrors;
 
@@ -3816,7 +3936,7 @@ export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
   GetAccountsContainersWorkspacesVariablesResponse,
   GetAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesVariablesRequest,
   output: GetAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -3831,25 +3951,25 @@ export interface UpdateAccountsContainersWorkspacesVariablesRequest {
   body?: Variable;
 }
 
-export const UpdateAccountsContainersWorkspacesVariablesRequest = Schema.Struct(
-  {
+export const UpdateAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
     body: Schema.optional(Variable).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesVariablesRequest>;
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesVariablesRequest>;
 
 export type UpdateAccountsContainersWorkspacesVariablesResponse = Variable;
-export const UpdateAccountsContainersWorkspacesVariablesResponse = Variable;
+export const UpdateAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
 
 export type UpdateAccountsContainersWorkspacesVariablesError = DefaultErrors;
 
@@ -3859,7 +3979,7 @@ export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
   UpdateAccountsContainersWorkspacesVariablesResponse,
   UpdateAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesVariablesRequest,
   output: UpdateAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -3870,21 +3990,20 @@ export interface DeleteAccountsContainersWorkspacesVariablesRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesVariablesRequest = Schema.Struct(
-  {
+export const DeleteAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesRequest>;
 
 export interface DeleteAccountsContainersWorkspacesVariablesResponse {}
 export const DeleteAccountsContainersWorkspacesVariablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse>;
 
@@ -3896,7 +4015,7 @@ export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
   DeleteAccountsContainersWorkspacesVariablesResponse,
   DeleteAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesVariablesRequest,
   output: DeleteAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -3909,21 +4028,22 @@ export interface ListAccountsContainersWorkspacesVariablesRequest {
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesVariablesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesVariablesRequest>;
+export const ListAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesVariablesRequest>;
 
 export type ListAccountsContainersWorkspacesVariablesResponse =
   ListVariablesResponse;
 export const ListAccountsContainersWorkspacesVariablesResponse =
-  ListVariablesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListVariablesResponse;
 
 export type ListAccountsContainersWorkspacesVariablesError = DefaultErrors;
 
@@ -3933,7 +4053,7 @@ export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMe
   ListAccountsContainersWorkspacesVariablesResponse,
   ListAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesVariablesRequest,
   output: ListAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -3950,22 +4070,22 @@ export interface CreateAccountsContainersWorkspacesVariablesRequest {
   body?: Variable;
 }
 
-export const CreateAccountsContainersWorkspacesVariablesRequest = Schema.Struct(
-  {
+export const CreateAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Variable).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesVariablesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesVariablesRequest>;
 
 export type CreateAccountsContainersWorkspacesVariablesResponse = Variable;
-export const CreateAccountsContainersWorkspacesVariablesResponse = Variable;
+export const CreateAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
 
 export type CreateAccountsContainersWorkspacesVariablesError = DefaultErrors;
 
@@ -3975,7 +4095,7 @@ export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
   CreateAccountsContainersWorkspacesVariablesResponse,
   CreateAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesVariablesRequest,
   output: CreateAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -3988,26 +4108,25 @@ export interface RevertAccountsContainersWorkspacesVariablesRequest {
   path: string;
 }
 
-export const RevertAccountsContainersWorkspacesVariablesRequest = Schema.Struct(
-  {
+export const RevertAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
     path: Schema.String.pipe(T.HttpPath("path")),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesVariablesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesVariablesRequest>;
 
 export type RevertAccountsContainersWorkspacesVariablesResponse =
   RevertVariableResponse;
 export const RevertAccountsContainersWorkspacesVariablesResponse =
-  RevertVariableResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertVariableResponse;
 
 export type RevertAccountsContainersWorkspacesVariablesError = DefaultErrors;
 
@@ -4017,7 +4136,7 @@ export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
   RevertAccountsContainersWorkspacesVariablesResponse,
   RevertAccountsContainersWorkspacesVariablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesVariablesRequest,
   output: RevertAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -4028,18 +4147,20 @@ export interface GetAccountsContainersWorkspacesZonesRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesZonesRequest>;
+export const GetAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesZonesRequest>;
 
 export type GetAccountsContainersWorkspacesZonesResponse = Zone;
-export const GetAccountsContainersWorkspacesZonesResponse = Zone;
+export const GetAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
 
 export type GetAccountsContainersWorkspacesZonesError = DefaultErrors;
 
@@ -4049,7 +4170,7 @@ export const getAccountsContainersWorkspacesZones: API.OperationMethod<
   GetAccountsContainersWorkspacesZonesResponse,
   GetAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesZonesRequest,
   output: GetAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4064,21 +4185,25 @@ export interface UpdateAccountsContainersWorkspacesZonesRequest {
   body?: Zone;
 }
 
-export const UpdateAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Zone).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesZonesRequest>;
+export const UpdateAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Zone).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesZonesRequest>;
 
 export type UpdateAccountsContainersWorkspacesZonesResponse = Zone;
-export const UpdateAccountsContainersWorkspacesZonesResponse = Zone;
+export const UpdateAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
 
 export type UpdateAccountsContainersWorkspacesZonesError = DefaultErrors;
 
@@ -4088,7 +4213,7 @@ export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
   UpdateAccountsContainersWorkspacesZonesResponse,
   UpdateAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesZonesRequest,
   output: UpdateAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4099,19 +4224,20 @@ export interface DeleteAccountsContainersWorkspacesZonesRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesZonesRequest>;
+export const DeleteAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesZonesRequest>;
 
 export interface DeleteAccountsContainersWorkspacesZonesResponse {}
 export const DeleteAccountsContainersWorkspacesZonesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse>;
 
@@ -4123,7 +4249,7 @@ export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
   DeleteAccountsContainersWorkspacesZonesResponse,
   DeleteAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesZonesRequest,
   output: DeleteAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4136,19 +4262,21 @@ export interface ListAccountsContainersWorkspacesZonesRequest {
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesZonesRequest>;
+export const ListAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesZonesRequest>;
 
 export type ListAccountsContainersWorkspacesZonesResponse = ListZonesResponse;
-export const ListAccountsContainersWorkspacesZonesResponse = ListZonesResponse;
+export const ListAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListZonesResponse;
 
 export type ListAccountsContainersWorkspacesZonesError = DefaultErrors;
 
@@ -4158,7 +4286,7 @@ export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod
   ListAccountsContainersWorkspacesZonesResponse,
   ListAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesZonesRequest,
   output: ListAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4175,22 +4303,25 @@ export interface RevertAccountsContainersWorkspacesZonesRequest {
   fingerprint?: string;
 }
 
-export const RevertAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesZonesRequest>;
+export const RevertAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesZonesRequest>;
 
 export type RevertAccountsContainersWorkspacesZonesResponse =
   RevertZoneResponse;
 export const RevertAccountsContainersWorkspacesZonesResponse =
-  RevertZoneResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertZoneResponse;
 
 export type RevertAccountsContainersWorkspacesZonesError = DefaultErrors;
 
@@ -4200,7 +4331,7 @@ export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
   RevertAccountsContainersWorkspacesZonesResponse,
   RevertAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesZonesRequest,
   output: RevertAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4213,20 +4344,22 @@ export interface CreateAccountsContainersWorkspacesZonesRequest {
   body?: Zone;
 }
 
-export const CreateAccountsContainersWorkspacesZonesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Zone).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesZonesRequest>;
+export const CreateAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Zone).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesZonesRequest>;
 
 export type CreateAccountsContainersWorkspacesZonesResponse = Zone;
-export const CreateAccountsContainersWorkspacesZonesResponse = Zone;
+export const CreateAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
 
 export type CreateAccountsContainersWorkspacesZonesError = DefaultErrors;
 
@@ -4236,7 +4369,7 @@ export const createAccountsContainersWorkspacesZones: API.OperationMethod<
   CreateAccountsContainersWorkspacesZonesResponse,
   CreateAccountsContainersWorkspacesZonesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesZonesRequest,
   output: CreateAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -4248,7 +4381,7 @@ export interface GetAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const GetAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
@@ -4261,7 +4394,7 @@ export const GetAccountsContainersWorkspacesTransformationsRequest =
 export type GetAccountsContainersWorkspacesTransformationsResponse =
   Transformation;
 export const GetAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
 
 export type GetAccountsContainersWorkspacesTransformationsError = DefaultErrors;
 
@@ -4271,7 +4404,7 @@ export const getAccountsContainersWorkspacesTransformations: API.OperationMethod
   GetAccountsContainersWorkspacesTransformationsResponse,
   GetAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTransformationsRequest,
   output: GetAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4287,7 +4420,7 @@ export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const UpdateAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
@@ -4305,7 +4438,7 @@ export const UpdateAccountsContainersWorkspacesTransformationsRequest =
 export type UpdateAccountsContainersWorkspacesTransformationsResponse =
   Transformation;
 export const UpdateAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
 
 export type UpdateAccountsContainersWorkspacesTransformationsError =
   DefaultErrors;
@@ -4316,7 +4449,7 @@ export const updateAccountsContainersWorkspacesTransformations: API.OperationMet
   UpdateAccountsContainersWorkspacesTransformationsResponse,
   UpdateAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTransformationsRequest,
   output: UpdateAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4328,7 +4461,7 @@ export interface DeleteAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const DeleteAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
@@ -4340,7 +4473,7 @@ export const DeleteAccountsContainersWorkspacesTransformationsRequest =
 
 export interface DeleteAccountsContainersWorkspacesTransformationsResponse {}
 export const DeleteAccountsContainersWorkspacesTransformationsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse>;
 
@@ -4353,7 +4486,7 @@ export const deleteAccountsContainersWorkspacesTransformations: API.OperationMet
   DeleteAccountsContainersWorkspacesTransformationsResponse,
   DeleteAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTransformationsRequest,
   output: DeleteAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4367,7 +4500,7 @@ export interface ListAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const ListAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
@@ -4381,7 +4514,7 @@ export const ListAccountsContainersWorkspacesTransformationsRequest =
 export type ListAccountsContainersWorkspacesTransformationsResponse =
   ListTransformationsResponse;
 export const ListAccountsContainersWorkspacesTransformationsResponse =
-  ListTransformationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTransformationsResponse;
 
 export type ListAccountsContainersWorkspacesTransformationsError =
   DefaultErrors;
@@ -4392,7 +4525,7 @@ export const listAccountsContainersWorkspacesTransformations: API.PaginatedOpera
   ListAccountsContainersWorkspacesTransformationsResponse,
   ListAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTransformationsRequest,
   output: ListAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4410,7 +4543,7 @@ export interface CreateAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const CreateAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Transformation).pipe(T.HttpBody()),
   }).pipe(
@@ -4425,7 +4558,7 @@ export const CreateAccountsContainersWorkspacesTransformationsRequest =
 export type CreateAccountsContainersWorkspacesTransformationsResponse =
   Transformation;
 export const CreateAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
 
 export type CreateAccountsContainersWorkspacesTransformationsError =
   DefaultErrors;
@@ -4436,7 +4569,7 @@ export const createAccountsContainersWorkspacesTransformations: API.OperationMet
   CreateAccountsContainersWorkspacesTransformationsResponse,
   CreateAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTransformationsRequest,
   output: CreateAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4450,7 +4583,7 @@ export interface RevertAccountsContainersWorkspacesTransformationsRequest {
 }
 
 export const RevertAccountsContainersWorkspacesTransformationsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
@@ -4467,7 +4600,7 @@ export const RevertAccountsContainersWorkspacesTransformationsRequest =
 export type RevertAccountsContainersWorkspacesTransformationsResponse =
   RevertTransformationResponse;
 export const RevertAccountsContainersWorkspacesTransformationsResponse =
-  RevertTransformationResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertTransformationResponse;
 
 export type RevertAccountsContainersWorkspacesTransformationsError =
   DefaultErrors;
@@ -4478,7 +4611,7 @@ export const revertAccountsContainersWorkspacesTransformations: API.OperationMet
   RevertAccountsContainersWorkspacesTransformationsResponse,
   RevertAccountsContainersWorkspacesTransformationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTransformationsRequest,
   output: RevertAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -4491,23 +4624,22 @@ export interface ListAccountsContainersWorkspacesGtag_configRequest {
   pageToken?: string;
 }
 
-export const ListAccountsContainersWorkspacesGtag_configRequest = Schema.Struct(
-  {
+export const ListAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesGtag_configRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesGtag_configRequest>;
 
 export type ListAccountsContainersWorkspacesGtag_configResponse =
   ListGtagConfigResponse;
 export const ListAccountsContainersWorkspacesGtag_configResponse =
-  ListGtagConfigResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListGtagConfigResponse;
 
 export type ListAccountsContainersWorkspacesGtag_configError = DefaultErrors;
 
@@ -4517,7 +4649,7 @@ export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperation
   ListAccountsContainersWorkspacesGtag_configResponse,
   ListAccountsContainersWorkspacesGtag_configError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesGtag_configRequest,
   output: ListAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -4535,7 +4667,7 @@ export interface CreateAccountsContainersWorkspacesGtag_configRequest {
 }
 
 export const CreateAccountsContainersWorkspacesGtag_configRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GtagConfig).pipe(T.HttpBody()),
   }).pipe(
@@ -4548,7 +4680,8 @@ export const CreateAccountsContainersWorkspacesGtag_configRequest =
   ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesGtag_configRequest>;
 
 export type CreateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const CreateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const CreateAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
 
 export type CreateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
 
@@ -4558,7 +4691,7 @@ export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   CreateAccountsContainersWorkspacesGtag_configResponse,
   CreateAccountsContainersWorkspacesGtag_configError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesGtag_configRequest,
   output: CreateAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -4569,18 +4702,20 @@ export interface GetAccountsContainersWorkspacesGtag_configRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesGtag_configRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesGtag_configRequest>;
+export const GetAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesGtag_configRequest>;
 
 export type GetAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const GetAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const GetAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
 
 export type GetAccountsContainersWorkspacesGtag_configError = DefaultErrors;
 
@@ -4590,7 +4725,7 @@ export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   GetAccountsContainersWorkspacesGtag_configResponse,
   GetAccountsContainersWorkspacesGtag_configError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesGtag_configRequest,
   output: GetAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -4606,7 +4741,7 @@ export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
 }
 
 export const UpdateAccountsContainersWorkspacesGtag_configRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
@@ -4622,7 +4757,8 @@ export const UpdateAccountsContainersWorkspacesGtag_configRequest =
   ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesGtag_configRequest>;
 
 export type UpdateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const UpdateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const UpdateAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
 
 export type UpdateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
 
@@ -4632,7 +4768,7 @@ export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   UpdateAccountsContainersWorkspacesGtag_configResponse,
   UpdateAccountsContainersWorkspacesGtag_configError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesGtag_configRequest,
   output: UpdateAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -4644,7 +4780,7 @@ export interface DeleteAccountsContainersWorkspacesGtag_configRequest {
 }
 
 export const DeleteAccountsContainersWorkspacesGtag_configRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
@@ -4656,7 +4792,7 @@ export const DeleteAccountsContainersWorkspacesGtag_configRequest =
 
 export interface DeleteAccountsContainersWorkspacesGtag_configResponse {}
 export const DeleteAccountsContainersWorkspacesGtag_configResponse: Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse>;
 
@@ -4668,7 +4804,7 @@ export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   DeleteAccountsContainersWorkspacesGtag_configResponse,
   DeleteAccountsContainersWorkspacesGtag_configError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesGtag_configRequest,
   output: DeleteAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -4681,24 +4817,23 @@ export interface CreateAccountsContainersWorkspacesTemplatesRequest {
   body?: CustomTemplate;
 }
 
-export const CreateAccountsContainersWorkspacesTemplatesRequest = Schema.Struct(
-  {
+export const CreateAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTemplatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTemplatesRequest>;
 
 export type CreateAccountsContainersWorkspacesTemplatesResponse =
   CustomTemplate;
 export const CreateAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
 
 export type CreateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
 
@@ -4708,7 +4843,7 @@ export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
   CreateAccountsContainersWorkspacesTemplatesResponse,
   CreateAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesTemplatesRequest,
   output: CreateAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4721,26 +4856,25 @@ export interface RevertAccountsContainersWorkspacesTemplatesRequest {
   fingerprint?: string;
 }
 
-export const RevertAccountsContainersWorkspacesTemplatesRequest = Schema.Struct(
-  {
+export const RevertAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTemplatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTemplatesRequest>;
 
 export type RevertAccountsContainersWorkspacesTemplatesResponse =
   RevertTemplateResponse;
 export const RevertAccountsContainersWorkspacesTemplatesResponse =
-  RevertTemplateResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertTemplateResponse;
 
 export type RevertAccountsContainersWorkspacesTemplatesError = DefaultErrors;
 
@@ -4750,7 +4884,7 @@ export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
   RevertAccountsContainersWorkspacesTemplatesResponse,
   RevertAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesTemplatesRequest,
   output: RevertAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4770,7 +4904,7 @@ export interface Import_from_galleryAccountsContainersWorkspacesTemplatesRequest
 }
 
 export const Import_from_galleryAccountsContainersWorkspacesTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     acknowledgePermissions: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("acknowledgePermissions"),
     ),
@@ -4794,7 +4928,7 @@ export const Import_from_galleryAccountsContainersWorkspacesTemplatesRequest =
 export type Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
   CustomTemplate;
 export const Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
 
 export type Import_from_galleryAccountsContainersWorkspacesTemplatesError =
   DefaultErrors;
@@ -4805,7 +4939,7 @@ export const import_from_galleryAccountsContainersWorkspacesTemplates: API.Opera
   Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
   Import_from_galleryAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
   output: Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4818,21 +4952,22 @@ export interface ListAccountsContainersWorkspacesTemplatesRequest {
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesTemplatesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTemplatesRequest>;
+export const ListAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTemplatesRequest>;
 
 export type ListAccountsContainersWorkspacesTemplatesResponse =
   ListTemplatesResponse;
 export const ListAccountsContainersWorkspacesTemplatesResponse =
-  ListTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListTemplatesResponse;
 
 export type ListAccountsContainersWorkspacesTemplatesError = DefaultErrors;
 
@@ -4842,7 +4977,7 @@ export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMe
   ListAccountsContainersWorkspacesTemplatesResponse,
   ListAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTemplatesRequest,
   output: ListAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4857,21 +4992,20 @@ export interface DeleteAccountsContainersWorkspacesTemplatesRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesTemplatesRequest = Schema.Struct(
-  {
+export const DeleteAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesRequest>;
 
 export interface DeleteAccountsContainersWorkspacesTemplatesResponse {}
 export const DeleteAccountsContainersWorkspacesTemplatesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse>;
 
@@ -4883,7 +5017,7 @@ export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
   DeleteAccountsContainersWorkspacesTemplatesResponse,
   DeleteAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTemplatesRequest,
   output: DeleteAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4894,18 +5028,20 @@ export interface GetAccountsContainersWorkspacesTemplatesRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesTemplatesRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTemplatesRequest>;
+export const GetAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTemplatesRequest>;
 
 export type GetAccountsContainersWorkspacesTemplatesResponse = CustomTemplate;
-export const GetAccountsContainersWorkspacesTemplatesResponse = CustomTemplate;
+export const GetAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
 
 export type GetAccountsContainersWorkspacesTemplatesError = DefaultErrors;
 
@@ -4915,7 +5051,7 @@ export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
   GetAccountsContainersWorkspacesTemplatesResponse,
   GetAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesTemplatesRequest,
   output: GetAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4930,27 +5066,26 @@ export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
   body?: CustomTemplate;
 }
 
-export const UpdateAccountsContainersWorkspacesTemplatesRequest = Schema.Struct(
-  {
+export const UpdateAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
     body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
-  },
-).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTemplatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTemplatesRequest>;
 
 export type UpdateAccountsContainersWorkspacesTemplatesResponse =
   CustomTemplate;
 export const UpdateAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
 
 export type UpdateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
 
@@ -4960,7 +5095,7 @@ export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
   UpdateAccountsContainersWorkspacesTemplatesResponse,
   UpdateAccountsContainersWorkspacesTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTemplatesRequest,
   output: UpdateAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -4971,19 +5106,20 @@ export interface DeleteAccountsContainersWorkspacesFoldersRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersRequest>;
+export const DeleteAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersRequest>;
 
 export interface DeleteAccountsContainersWorkspacesFoldersResponse {}
 export const DeleteAccountsContainersWorkspacesFoldersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse>;
 
@@ -4995,7 +5131,7 @@ export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
   DeleteAccountsContainersWorkspacesFoldersResponse,
   DeleteAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesFoldersRequest,
   output: DeleteAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5006,18 +5142,20 @@ export interface GetAccountsContainersWorkspacesFoldersRequest {
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersWorkspacesFoldersRequest>;
+export const GetAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesFoldersRequest>;
 
 export type GetAccountsContainersWorkspacesFoldersResponse = Folder;
-export const GetAccountsContainersWorkspacesFoldersResponse = Folder;
+export const GetAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
 
 export type GetAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5027,7 +5165,7 @@ export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
   GetAccountsContainersWorkspacesFoldersResponse,
   GetAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersWorkspacesFoldersRequest,
   output: GetAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5042,21 +5180,25 @@ export interface UpdateAccountsContainersWorkspacesFoldersRequest {
   body?: Folder;
 }
 
-export const UpdateAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  path: Schema.String.pipe(T.HttpPath("path")),
-  body: Schema.optional(Folder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesFoldersRequest>;
+export const UpdateAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesFoldersRequest>;
 
 export type UpdateAccountsContainersWorkspacesFoldersResponse = Folder;
-export const UpdateAccountsContainersWorkspacesFoldersResponse = Folder;
+export const UpdateAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
 
 export type UpdateAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5066,7 +5208,7 @@ export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
   UpdateAccountsContainersWorkspacesFoldersResponse,
   UpdateAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesFoldersRequest,
   output: UpdateAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5086,7 +5228,7 @@ export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersReque
 }
 
 export const Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     variableId: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("variableId"),
     ),
@@ -5109,7 +5251,7 @@ export const Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest =
 
 export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse {}
 export const Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse: Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse>;
 
@@ -5122,7 +5264,7 @@ export const move_entities_to_folderAccountsContainersWorkspacesFolders: API.Ope
   Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
   Move_entities_to_folderAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
   output: Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5135,20 +5277,22 @@ export interface CreateAccountsContainersWorkspacesFoldersRequest {
   body?: Folder;
 }
 
-export const CreateAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Folder).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesFoldersRequest>;
+export const CreateAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesFoldersRequest>;
 
 export type CreateAccountsContainersWorkspacesFoldersResponse = Folder;
-export const CreateAccountsContainersWorkspacesFoldersResponse = Folder;
+export const CreateAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
 
 export type CreateAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5158,7 +5302,7 @@ export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
   CreateAccountsContainersWorkspacesFoldersResponse,
   CreateAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesFoldersRequest,
   output: CreateAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5171,24 +5315,23 @@ export interface EntitiesAccountsContainersWorkspacesFoldersRequest {
   pageToken?: string;
 }
 
-export const EntitiesAccountsContainersWorkspacesFoldersRequest = Schema.Struct(
-  {
+export const EntitiesAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:entities",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<EntitiesAccountsContainersWorkspacesFoldersRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:entities",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EntitiesAccountsContainersWorkspacesFoldersRequest>;
 
 export type EntitiesAccountsContainersWorkspacesFoldersResponse =
   FolderEntities;
 export const EntitiesAccountsContainersWorkspacesFoldersResponse =
-  FolderEntities;
+  /*@__PURE__*/ /*#__PURE__*/ FolderEntities;
 
 export type EntitiesAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5198,7 +5341,7 @@ export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperation
   EntitiesAccountsContainersWorkspacesFoldersResponse,
   EntitiesAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: EntitiesAccountsContainersWorkspacesFoldersRequest,
   output: EntitiesAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5215,22 +5358,25 @@ export interface RevertAccountsContainersWorkspacesFoldersRequest {
   fingerprint?: string;
 }
 
-export const RevertAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:revert",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesFoldersRequest>;
+export const RevertAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesFoldersRequest>;
 
 export type RevertAccountsContainersWorkspacesFoldersResponse =
   RevertFolderResponse;
 export const RevertAccountsContainersWorkspacesFoldersResponse =
-  RevertFolderResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertFolderResponse;
 
 export type RevertAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5240,7 +5386,7 @@ export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
   RevertAccountsContainersWorkspacesFoldersResponse,
   RevertAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesFoldersRequest,
   output: RevertAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5253,21 +5399,22 @@ export interface ListAccountsContainersWorkspacesFoldersRequest {
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesFoldersRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersWorkspacesFoldersRequest>;
+export const ListAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesFoldersRequest>;
 
 export type ListAccountsContainersWorkspacesFoldersResponse =
   ListFoldersResponse;
 export const ListAccountsContainersWorkspacesFoldersResponse =
-  ListFoldersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListFoldersResponse;
 
 export type ListAccountsContainersWorkspacesFoldersError = DefaultErrors;
 
@@ -5277,7 +5424,7 @@ export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMeth
   ListAccountsContainersWorkspacesFoldersResponse,
   ListAccountsContainersWorkspacesFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesFoldersRequest,
   output: ListAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -5295,7 +5442,7 @@ export interface ListAccountsContainersWorkspacesBuilt_in_variablesRequest {
 }
 
 export const ListAccountsContainersWorkspacesBuilt_in_variablesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
@@ -5309,7 +5456,7 @@ export const ListAccountsContainersWorkspacesBuilt_in_variablesRequest =
 export type ListAccountsContainersWorkspacesBuilt_in_variablesResponse =
   ListEnabledBuiltInVariablesResponse;
 export const ListAccountsContainersWorkspacesBuilt_in_variablesResponse =
-  ListEnabledBuiltInVariablesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListEnabledBuiltInVariablesResponse;
 
 export type ListAccountsContainersWorkspacesBuilt_in_variablesError =
   DefaultErrors;
@@ -5320,7 +5467,7 @@ export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOp
   ListAccountsContainersWorkspacesBuilt_in_variablesResponse,
   ListAccountsContainersWorkspacesBuilt_in_variablesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: ListAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
@@ -5456,7 +5603,7 @@ export interface CreateAccountsContainersWorkspacesBuilt_in_variablesRequest {
 }
 
 export const CreateAccountsContainersWorkspacesBuilt_in_variablesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     type: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("type"),
@@ -5473,7 +5620,7 @@ export const CreateAccountsContainersWorkspacesBuilt_in_variablesRequest =
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesResponse =
   CreateBuiltInVariableResponse;
 export const CreateAccountsContainersWorkspacesBuilt_in_variablesResponse =
-  CreateBuiltInVariableResponse;
+  /*@__PURE__*/ /*#__PURE__*/ CreateBuiltInVariableResponse;
 
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesError =
   DefaultErrors;
@@ -5484,7 +5631,7 @@ export const createAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   CreateAccountsContainersWorkspacesBuilt_in_variablesResponse,
   CreateAccountsContainersWorkspacesBuilt_in_variablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: CreateAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
@@ -5616,7 +5763,7 @@ export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest {
 }
 
 export const DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     type: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("type"),
@@ -5631,7 +5778,7 @@ export const DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest =
 
 export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse {}
 export const DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse>;
 
@@ -5644,7 +5791,7 @@ export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
   DeleteAccountsContainersWorkspacesBuilt_in_variablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
@@ -5776,7 +5923,7 @@ export interface RevertAccountsContainersWorkspacesBuilt_in_variablesRequest {
 }
 
 export const RevertAccountsContainersWorkspacesBuilt_in_variablesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
     type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
   }).pipe(
@@ -5791,7 +5938,7 @@ export const RevertAccountsContainersWorkspacesBuilt_in_variablesRequest =
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesResponse =
   RevertBuiltInVariableResponse;
 export const RevertAccountsContainersWorkspacesBuilt_in_variablesResponse =
-  RevertBuiltInVariableResponse;
+  /*@__PURE__*/ /*#__PURE__*/ RevertBuiltInVariableResponse;
 
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesError =
   DefaultErrors;
@@ -5802,7 +5949,7 @@ export const revertAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   RevertAccountsContainersWorkspacesBuilt_in_variablesResponse,
   RevertAccountsContainersWorkspacesBuilt_in_variablesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RevertAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: RevertAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
@@ -5817,24 +5964,25 @@ export interface ListAccountsContainersVersion_headersRequest {
   parent: string;
 }
 
-export const ListAccountsContainersVersion_headersRequest = Schema.Struct({
-  includeDeleted: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeDeleted"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersVersion_headersRequest>;
+export const ListAccountsContainersVersion_headersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    includeDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeDeleted"),
+    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersVersion_headersRequest>;
 
 export type ListAccountsContainersVersion_headersResponse =
   ListContainerVersionsResponse;
 export const ListAccountsContainersVersion_headersResponse =
-  ListContainerVersionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListContainerVersionsResponse;
 
 export type ListAccountsContainersVersion_headersError = DefaultErrors;
 
@@ -5844,7 +5992,7 @@ export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod
   ListAccountsContainersVersion_headersResponse,
   ListAccountsContainersVersion_headersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersVersion_headersRequest,
   output: ListAccountsContainersVersion_headersResponse,
   errors: [],
@@ -5859,20 +6007,21 @@ export interface LatestAccountsContainersVersion_headersRequest {
   parent: string;
 }
 
-export const LatestAccountsContainersVersion_headersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers:latest",
-  }),
-  svc,
-) as unknown as Schema.Schema<LatestAccountsContainersVersion_headersRequest>;
+export const LatestAccountsContainersVersion_headersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers:latest",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LatestAccountsContainersVersion_headersRequest>;
 
 export type LatestAccountsContainersVersion_headersResponse =
   ContainerVersionHeader;
 export const LatestAccountsContainersVersion_headersResponse =
-  ContainerVersionHeader;
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersionHeader;
 
 export type LatestAccountsContainersVersion_headersError = DefaultErrors;
 
@@ -5882,7 +6031,7 @@ export const latestAccountsContainersVersion_headers: API.OperationMethod<
   LatestAccountsContainersVersion_headersResponse,
   LatestAccountsContainersVersion_headersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LatestAccountsContainersVersion_headersRequest,
   output: LatestAccountsContainersVersion_headersResponse,
   errors: [],
@@ -5893,18 +6042,20 @@ export interface GetAccountsContainersDestinationsRequest {
   path: string;
 }
 
-export const GetAccountsContainersDestinationsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations/{destinationsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersDestinationsRequest>;
+export const GetAccountsContainersDestinationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations/{destinationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersDestinationsRequest>;
 
 export type GetAccountsContainersDestinationsResponse = Destination;
-export const GetAccountsContainersDestinationsResponse = Destination;
+export const GetAccountsContainersDestinationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Destination;
 
 export type GetAccountsContainersDestinationsError = DefaultErrors;
 
@@ -5914,7 +6065,7 @@ export const getAccountsContainersDestinations: API.OperationMethod<
   GetAccountsContainersDestinationsResponse,
   GetAccountsContainersDestinationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersDestinationsRequest,
   output: GetAccountsContainersDestinationsResponse,
   errors: [],
@@ -5925,20 +6076,21 @@ export interface ListAccountsContainersDestinationsRequest {
   parent: string;
 }
 
-export const ListAccountsContainersDestinationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersDestinationsRequest>;
+export const ListAccountsContainersDestinationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersDestinationsRequest>;
 
 export type ListAccountsContainersDestinationsResponse =
   ListDestinationsResponse;
 export const ListAccountsContainersDestinationsResponse =
-  ListDestinationsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListDestinationsResponse;
 
 export type ListAccountsContainersDestinationsError = DefaultErrors;
 
@@ -5948,7 +6100,7 @@ export const listAccountsContainersDestinations: API.OperationMethod<
   ListAccountsContainersDestinationsResponse,
   ListAccountsContainersDestinationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAccountsContainersDestinationsRequest,
   output: ListAccountsContainersDestinationsResponse,
   errors: [],
@@ -5963,25 +6115,27 @@ export interface LinkAccountsContainersDestinationsRequest {
   parent: string;
 }
 
-export const LinkAccountsContainersDestinationsRequest = Schema.Struct({
-  destinationId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("destinationId"),
-  ),
-  allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("allowUserPermissionFeatureUpdate"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations:link",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<LinkAccountsContainersDestinationsRequest>;
+export const LinkAccountsContainersDestinationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destinationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("destinationId"),
+    ),
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations:link",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LinkAccountsContainersDestinationsRequest>;
 
 export type LinkAccountsContainersDestinationsResponse = Destination;
-export const LinkAccountsContainersDestinationsResponse = Destination;
+export const LinkAccountsContainersDestinationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Destination;
 
 export type LinkAccountsContainersDestinationsError = DefaultErrors;
 
@@ -5991,7 +6145,7 @@ export const linkAccountsContainersDestinations: API.OperationMethod<
   LinkAccountsContainersDestinationsResponse,
   LinkAccountsContainersDestinationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LinkAccountsContainersDestinationsRequest,
   output: LinkAccountsContainersDestinationsResponse,
   errors: [],
@@ -6002,19 +6156,20 @@ export interface DeleteAccountsContainersEnvironmentsRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersEnvironmentsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersEnvironmentsRequest>;
+export const DeleteAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersEnvironmentsRequest>;
 
 export interface DeleteAccountsContainersEnvironmentsResponse {}
 export const DeleteAccountsContainersEnvironmentsResponse: Schema.Schema<DeleteAccountsContainersEnvironmentsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersEnvironmentsResponse>;
 
@@ -6026,7 +6181,7 @@ export const deleteAccountsContainersEnvironments: API.OperationMethod<
   DeleteAccountsContainersEnvironmentsResponse,
   DeleteAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersEnvironmentsRequest,
   output: DeleteAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6039,20 +6194,22 @@ export interface ReauthorizeAccountsContainersEnvironmentsRequest {
   body?: Environment;
 }
 
-export const ReauthorizeAccountsContainersEnvironmentsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  body: Schema.optional(Environment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}:reauthorize",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReauthorizeAccountsContainersEnvironmentsRequest>;
+export const ReauthorizeAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}:reauthorize",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReauthorizeAccountsContainersEnvironmentsRequest>;
 
 export type ReauthorizeAccountsContainersEnvironmentsResponse = Environment;
-export const ReauthorizeAccountsContainersEnvironmentsResponse = Environment;
+export const ReauthorizeAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
 export type ReauthorizeAccountsContainersEnvironmentsError = DefaultErrors;
 
@@ -6062,7 +6219,7 @@ export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
   ReauthorizeAccountsContainersEnvironmentsResponse,
   ReauthorizeAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReauthorizeAccountsContainersEnvironmentsRequest,
   output: ReauthorizeAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6073,18 +6230,20 @@ export interface GetAccountsContainersEnvironmentsRequest {
   path: string;
 }
 
-export const GetAccountsContainersEnvironmentsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersEnvironmentsRequest>;
+export const GetAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersEnvironmentsRequest>;
 
 export type GetAccountsContainersEnvironmentsResponse = Environment;
-export const GetAccountsContainersEnvironmentsResponse = Environment;
+export const GetAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
 export type GetAccountsContainersEnvironmentsError = DefaultErrors;
 
@@ -6094,7 +6253,7 @@ export const getAccountsContainersEnvironments: API.OperationMethod<
   GetAccountsContainersEnvironmentsResponse,
   GetAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersEnvironmentsRequest,
   output: GetAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6109,21 +6268,25 @@ export interface UpdateAccountsContainersEnvironmentsRequest {
   body?: Environment;
 }
 
-export const UpdateAccountsContainersEnvironmentsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(Environment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersEnvironmentsRequest>;
+export const UpdateAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersEnvironmentsRequest>;
 
 export type UpdateAccountsContainersEnvironmentsResponse = Environment;
-export const UpdateAccountsContainersEnvironmentsResponse = Environment;
+export const UpdateAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
 export type UpdateAccountsContainersEnvironmentsError = DefaultErrors;
 
@@ -6133,7 +6296,7 @@ export const updateAccountsContainersEnvironments: API.OperationMethod<
   UpdateAccountsContainersEnvironmentsResponse,
   UpdateAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersEnvironmentsRequest,
   output: UpdateAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6146,20 +6309,22 @@ export interface CreateAccountsContainersEnvironmentsRequest {
   body?: Environment;
 }
 
-export const CreateAccountsContainersEnvironmentsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Environment).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsContainersEnvironmentsRequest>;
+export const CreateAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersEnvironmentsRequest>;
 
 export type CreateAccountsContainersEnvironmentsResponse = Environment;
-export const CreateAccountsContainersEnvironmentsResponse = Environment;
+export const CreateAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
 export type CreateAccountsContainersEnvironmentsError = DefaultErrors;
 
@@ -6169,7 +6334,7 @@ export const createAccountsContainersEnvironments: API.OperationMethod<
   CreateAccountsContainersEnvironmentsResponse,
   CreateAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsContainersEnvironmentsRequest,
   output: CreateAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6182,21 +6347,22 @@ export interface ListAccountsContainersEnvironmentsRequest {
   parent: string;
 }
 
-export const ListAccountsContainersEnvironmentsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsContainersEnvironmentsRequest>;
+export const ListAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersEnvironmentsRequest>;
 
 export type ListAccountsContainersEnvironmentsResponse =
   ListEnvironmentsResponse;
 export const ListAccountsContainersEnvironmentsResponse =
-  ListEnvironmentsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListEnvironmentsResponse;
 
 export type ListAccountsContainersEnvironmentsError = DefaultErrors;
 
@@ -6206,7 +6372,7 @@ export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
   ListAccountsContainersEnvironmentsResponse,
   ListAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsContainersEnvironmentsRequest,
   output: ListAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -6221,19 +6387,20 @@ export interface DeleteAccountsContainersVersionsRequest {
   path: string;
 }
 
-export const DeleteAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteAccountsContainersVersionsRequest>;
+export const DeleteAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersVersionsRequest>;
 
 export interface DeleteAccountsContainersVersionsResponse {}
 export const DeleteAccountsContainersVersionsResponse: Schema.Schema<DeleteAccountsContainersVersionsResponse> =
-  Schema.Struct(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
   ) as any as Schema.Schema<DeleteAccountsContainersVersionsResponse>;
 
@@ -6245,7 +6412,7 @@ export const deleteAccountsContainersVersions: API.OperationMethod<
   DeleteAccountsContainersVersionsResponse,
   DeleteAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteAccountsContainersVersionsRequest,
   output: DeleteAccountsContainersVersionsResponse,
   errors: [],
@@ -6258,22 +6425,25 @@ export interface PublishAccountsContainersVersionsRequest {
   fingerprint?: string;
 }
 
-export const PublishAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:publish",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PublishAccountsContainersVersionsRequest>;
+export const PublishAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:publish",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PublishAccountsContainersVersionsRequest>;
 
 export type PublishAccountsContainersVersionsResponse =
   PublishContainerVersionResponse;
 export const PublishAccountsContainersVersionsResponse =
-  PublishContainerVersionResponse;
+  /*@__PURE__*/ /*#__PURE__*/ PublishContainerVersionResponse;
 
 export type PublishAccountsContainersVersionsError = DefaultErrors;
 
@@ -6283,7 +6453,7 @@ export const publishAccountsContainersVersions: API.OperationMethod<
   PublishAccountsContainersVersionsResponse,
   PublishAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishAccountsContainersVersionsRequest,
   output: PublishAccountsContainersVersionsResponse,
   errors: [],
@@ -6294,18 +6464,20 @@ export interface LiveAccountsContainersVersionsRequest {
   parent: string;
 }
 
-export const LiveAccountsContainersVersionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions:live",
-  }),
-  svc,
-) as unknown as Schema.Schema<LiveAccountsContainersVersionsRequest>;
+export const LiveAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions:live",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LiveAccountsContainersVersionsRequest>;
 
 export type LiveAccountsContainersVersionsResponse = ContainerVersion;
-export const LiveAccountsContainersVersionsResponse = ContainerVersion;
+export const LiveAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
 
 export type LiveAccountsContainersVersionsError = DefaultErrors;
 
@@ -6315,7 +6487,7 @@ export const liveAccountsContainersVersions: API.OperationMethod<
   LiveAccountsContainersVersionsResponse,
   LiveAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: LiveAccountsContainersVersionsRequest,
   output: LiveAccountsContainersVersionsResponse,
   errors: [],
@@ -6328,21 +6500,23 @@ export interface GetAccountsContainersVersionsRequest {
   containerVersionId?: string;
 }
 
-export const GetAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  containerVersionId: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("containerVersionId"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetAccountsContainersVersionsRequest>;
+export const GetAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    containerVersionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("containerVersionId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersVersionsRequest>;
 
 export type GetAccountsContainersVersionsResponse = ContainerVersion;
-export const GetAccountsContainersVersionsResponse = ContainerVersion;
+export const GetAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
 
 export type GetAccountsContainersVersionsError = DefaultErrors;
 
@@ -6352,7 +6526,7 @@ export const getAccountsContainersVersions: API.OperationMethod<
   GetAccountsContainersVersionsResponse,
   GetAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsContainersVersionsRequest,
   output: GetAccountsContainersVersionsResponse,
   errors: [],
@@ -6367,21 +6541,25 @@ export interface UpdateAccountsContainersVersionsRequest {
   body?: ContainerVersion;
 }
 
-export const UpdateAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-  fingerprint: Schema.optional(Schema.String).pipe(T.HttpQuery("fingerprint")),
-  body: Schema.optional(ContainerVersion).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateAccountsContainersVersionsRequest>;
+export const UpdateAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(ContainerVersion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersVersionsRequest>;
 
 export type UpdateAccountsContainersVersionsResponse = ContainerVersion;
-export const UpdateAccountsContainersVersionsResponse = ContainerVersion;
+export const UpdateAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
 
 export type UpdateAccountsContainersVersionsError = DefaultErrors;
 
@@ -6391,7 +6569,7 @@ export const updateAccountsContainersVersions: API.OperationMethod<
   UpdateAccountsContainersVersionsResponse,
   UpdateAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersVersionsRequest,
   output: UpdateAccountsContainersVersionsResponse,
   errors: [],
@@ -6402,19 +6580,21 @@ export interface Set_latestAccountsContainersVersionsRequest {
   path: string;
 }
 
-export const Set_latestAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:set_latest",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<Set_latestAccountsContainersVersionsRequest>;
+export const Set_latestAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:set_latest",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Set_latestAccountsContainersVersionsRequest>;
 
 export type Set_latestAccountsContainersVersionsResponse = ContainerVersion;
-export const Set_latestAccountsContainersVersionsResponse = ContainerVersion;
+export const Set_latestAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
 
 export type Set_latestAccountsContainersVersionsError = DefaultErrors;
 
@@ -6424,7 +6604,7 @@ export const set_latestAccountsContainersVersions: API.OperationMethod<
   Set_latestAccountsContainersVersionsResponse,
   Set_latestAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: Set_latestAccountsContainersVersionsRequest,
   output: Set_latestAccountsContainersVersionsResponse,
   errors: [],
@@ -6435,19 +6615,21 @@ export interface UndeleteAccountsContainersVersionsRequest {
   path: string;
 }
 
-export const UndeleteAccountsContainersVersionsRequest = Schema.Struct({
-  path: Schema.String.pipe(T.HttpPath("path")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:undelete",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UndeleteAccountsContainersVersionsRequest>;
+export const UndeleteAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteAccountsContainersVersionsRequest>;
 
 export type UndeleteAccountsContainersVersionsResponse = ContainerVersion;
-export const UndeleteAccountsContainersVersionsResponse = ContainerVersion;
+export const UndeleteAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
 
 export type UndeleteAccountsContainersVersionsError = DefaultErrors;
 
@@ -6457,7 +6639,7 @@ export const undeleteAccountsContainersVersions: API.OperationMethod<
   UndeleteAccountsContainersVersionsResponse,
   UndeleteAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UndeleteAccountsContainersVersionsRequest,
   output: UndeleteAccountsContainersVersionsResponse,
   errors: [],

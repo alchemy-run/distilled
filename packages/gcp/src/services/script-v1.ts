@@ -34,7 +34,7 @@ export interface GoogleAppsScriptTypeUser {
 }
 
 export const GoogleAppsScriptTypeUser: Schema.Schema<GoogleAppsScriptTypeUser> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       domain: Schema.optional(Schema.String),
       photoUrl: Schema.optional(Schema.String),
@@ -53,7 +53,7 @@ export interface CreateProjectRequest {
 }
 
 export const CreateProjectRequest: Schema.Schema<CreateProjectRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       parentId: Schema.optional(Schema.String),
@@ -71,15 +71,16 @@ export interface Status {
   details?: Array<Record<string, unknown>>;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface GoogleAppsScriptTypeWebAppConfig {
   /** Who has permission to run the web app. */
@@ -99,7 +100,7 @@ export interface GoogleAppsScriptTypeWebAppConfig {
 }
 
 export const GoogleAppsScriptTypeWebAppConfig: Schema.Schema<GoogleAppsScriptTypeWebAppConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       access: Schema.optional(Schema.String),
       executeAs: Schema.optional(Schema.String),
@@ -119,14 +120,15 @@ export interface Version {
   scriptId?: string;
 }
 
-export const Version: Schema.Schema<Version> = Schema.suspend(() =>
-  Schema.Struct({
-    versionNumber: Schema.optional(Schema.Number),
-    createTime: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    scriptId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
+export const Version: Schema.Schema<Version> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      versionNumber: Schema.optional(Schema.Number),
+      createTime: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      scriptId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Version" }) as any as Schema.Schema<Version>;
 
 export interface ListVersionsResponse {
   /** The token use to fetch the next page of records. if not exist in the response, that means no more versions to list. */
@@ -136,7 +138,7 @@ export interface ListVersionsResponse {
 }
 
 export const ListVersionsResponse: Schema.Schema<ListVersionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       versions: Schema.optional(Schema.Array(Version)),
@@ -154,15 +156,16 @@ export interface MetricsValue {
   startTime?: string;
 }
 
-export const MetricsValue: Schema.Schema<MetricsValue> = Schema.suspend(() =>
-  Schema.Struct({
-    value: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "MetricsValue",
-}) as any as Schema.Schema<MetricsValue>;
+export const MetricsValue: Schema.Schema<MetricsValue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      value: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetricsValue",
+  }) as any as Schema.Schema<MetricsValue>;
 
 export interface GoogleAppsScriptTypeFunction {
   /** The ordered list of parameter names of the function in the script project. */
@@ -172,7 +175,7 @@ export interface GoogleAppsScriptTypeFunction {
 }
 
 export const GoogleAppsScriptTypeFunction: Schema.Schema<GoogleAppsScriptTypeFunction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       parameters: Schema.optional(Schema.Array(Schema.String)),
       name: Schema.optional(Schema.String),
@@ -187,7 +190,7 @@ export interface GoogleAppsScriptTypeFunctionSet {
 }
 
 export const GoogleAppsScriptTypeFunctionSet: Schema.Schema<GoogleAppsScriptTypeFunctionSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(GoogleAppsScriptTypeFunction)),
     }),
@@ -217,17 +220,18 @@ export interface File {
   lastModifyUser?: GoogleAppsScriptTypeUser;
 }
 
-export const File: Schema.Schema<File> = Schema.suspend(() =>
-  Schema.Struct({
-    createTime: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-    source: Schema.optional(Schema.String),
-    functionSet: Schema.optional(GoogleAppsScriptTypeFunctionSet),
-    lastModifyUser: Schema.optional(GoogleAppsScriptTypeUser),
-  }),
-).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
+export const File: Schema.Schema<File> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      source: Schema.optional(Schema.String),
+      functionSet: Schema.optional(GoogleAppsScriptTypeFunctionSet),
+      lastModifyUser: Schema.optional(GoogleAppsScriptTypeUser),
+    }),
+  ).annotate({ identifier: "File" }) as any as Schema.Schema<File>;
 
 export interface GoogleAppsScriptTypeAddOnEntryPoint {
   /** The add-on's required title. */
@@ -245,7 +249,7 @@ export interface GoogleAppsScriptTypeAddOnEntryPoint {
 }
 
 export const GoogleAppsScriptTypeAddOnEntryPoint: Schema.Schema<GoogleAppsScriptTypeAddOnEntryPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -269,17 +273,17 @@ export interface DeploymentConfig {
   versionNumber?: number;
 }
 
-export const DeploymentConfig: Schema.Schema<DeploymentConfig> = Schema.suspend(
-  () =>
+export const DeploymentConfig: Schema.Schema<DeploymentConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       manifestFileName: Schema.optional(Schema.String),
       scriptId: Schema.optional(Schema.String),
       versionNumber: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "DeploymentConfig",
-}) as any as Schema.Schema<DeploymentConfig>;
+  ).annotate({
+    identifier: "DeploymentConfig",
+  }) as any as Schema.Schema<DeploymentConfig>;
 
 export interface GoogleAppsScriptTypeProcess {
   /** The executing users access level to the script. */
@@ -333,7 +337,7 @@ export interface GoogleAppsScriptTypeProcess {
 }
 
 export const GoogleAppsScriptTypeProcess: Schema.Schema<GoogleAppsScriptTypeProcess> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userAccessLevel: Schema.optional(Schema.String),
       functionName: Schema.optional(Schema.String),
@@ -356,7 +360,7 @@ export interface GoogleAppsScriptTypeWebAppEntryPoint {
 }
 
 export const GoogleAppsScriptTypeWebAppEntryPoint: Schema.Schema<GoogleAppsScriptTypeWebAppEntryPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       entryPointConfig: Schema.optional(GoogleAppsScriptTypeWebAppConfig),
@@ -377,7 +381,7 @@ export interface GoogleAppsScriptTypeExecutionApiConfig {
 }
 
 export const GoogleAppsScriptTypeExecutionApiConfig: Schema.Schema<GoogleAppsScriptTypeExecutionApiConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       access: Schema.optional(Schema.String),
     }),
@@ -391,7 +395,7 @@ export interface GoogleAppsScriptTypeExecutionApiEntryPoint {
 }
 
 export const GoogleAppsScriptTypeExecutionApiEntryPoint: Schema.Schema<GoogleAppsScriptTypeExecutionApiEntryPoint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entryPointConfig: Schema.optional(GoogleAppsScriptTypeExecutionApiConfig),
     }),
@@ -415,14 +419,15 @@ export interface EntryPoint {
   addOn?: GoogleAppsScriptTypeAddOnEntryPoint;
 }
 
-export const EntryPoint: Schema.Schema<EntryPoint> = Schema.suspend(() =>
-  Schema.Struct({
-    webApp: Schema.optional(GoogleAppsScriptTypeWebAppEntryPoint),
-    entryPointType: Schema.optional(Schema.String),
-    executionApi: Schema.optional(GoogleAppsScriptTypeExecutionApiEntryPoint),
-    addOn: Schema.optional(GoogleAppsScriptTypeAddOnEntryPoint),
-  }),
-).annotate({ identifier: "EntryPoint" }) as any as Schema.Schema<EntryPoint>;
+export const EntryPoint: Schema.Schema<EntryPoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      webApp: Schema.optional(GoogleAppsScriptTypeWebAppEntryPoint),
+      entryPointType: Schema.optional(Schema.String),
+      executionApi: Schema.optional(GoogleAppsScriptTypeExecutionApiEntryPoint),
+      addOn: Schema.optional(GoogleAppsScriptTypeAddOnEntryPoint),
+    }),
+  ).annotate({ identifier: "EntryPoint" }) as any as Schema.Schema<EntryPoint>;
 
 export interface UpdateDeploymentRequest {
   /** The deployment configuration. */
@@ -430,7 +435,7 @@ export interface UpdateDeploymentRequest {
 }
 
 export const UpdateDeploymentRequest: Schema.Schema<UpdateDeploymentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deploymentConfig: Schema.optional(DeploymentConfig),
     }),
@@ -455,17 +460,18 @@ export interface Project {
   lastModifyUser?: GoogleAppsScriptTypeUser;
 }
 
-export const Project: Schema.Schema<Project> = Schema.suspend(() =>
-  Schema.Struct({
-    updateTime: Schema.optional(Schema.String),
-    parentId: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    creator: Schema.optional(GoogleAppsScriptTypeUser),
-    createTime: Schema.optional(Schema.String),
-    scriptId: Schema.optional(Schema.String),
-    lastModifyUser: Schema.optional(GoogleAppsScriptTypeUser),
-  }),
-).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
+export const Project: Schema.Schema<Project> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      updateTime: Schema.optional(Schema.String),
+      parentId: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      creator: Schema.optional(GoogleAppsScriptTypeUser),
+      createTime: Schema.optional(Schema.String),
+      scriptId: Schema.optional(Schema.String),
+      lastModifyUser: Schema.optional(GoogleAppsScriptTypeUser),
+    }),
+  ).annotate({ identifier: "Project" }) as any as Schema.Schema<Project>;
 
 export interface ExecutionResponse {
   /** The return value of the script function. The type matches the object type returned in Apps Script. Functions called using the Apps Script API cannot return Apps Script-specific objects (such as a `Document` or a `Calendar`); they can only return primitive types such as a `string`, `number`, `array`, `object`, or `boolean`. */
@@ -473,7 +479,7 @@ export interface ExecutionResponse {
 }
 
 export const ExecutionResponse: Schema.Schema<ExecutionResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(Schema.Unknown),
     }),
@@ -492,17 +498,17 @@ export interface ExecutionRequest {
   parameters?: Array<unknown>;
 }
 
-export const ExecutionRequest: Schema.Schema<ExecutionRequest> = Schema.suspend(
-  () =>
+export const ExecutionRequest: Schema.Schema<ExecutionRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       function: Schema.optional(Schema.String),
       devMode: Schema.optional(Schema.Boolean),
       sessionState: Schema.optional(Schema.String),
       parameters: Schema.optional(Schema.Array(Schema.Unknown)),
     }),
-).annotate({
-  identifier: "ExecutionRequest",
-}) as any as Schema.Schema<ExecutionRequest>;
+  ).annotate({
+    identifier: "ExecutionRequest",
+  }) as any as Schema.Schema<ExecutionRequest>;
 
 export interface ListUserProcessesResponse {
   /** Token for the next page of results. If empty, there are no more pages remaining. */
@@ -512,7 +518,7 @@ export interface ListUserProcessesResponse {
 }
 
 export const ListUserProcessesResponse: Schema.Schema<ListUserProcessesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       processes: Schema.optional(Schema.Array(GoogleAppsScriptTypeProcess)),
@@ -529,7 +535,7 @@ export interface ListScriptProcessesResponse {
 }
 
 export const ListScriptProcessesResponse: Schema.Schema<ListScriptProcessesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       processes: Schema.optional(Schema.Array(GoogleAppsScriptTypeProcess)),
@@ -549,14 +555,15 @@ export interface Deployment {
   updateTime?: string;
 }
 
-export const Deployment: Schema.Schema<Deployment> = Schema.suspend(() =>
-  Schema.Struct({
-    entryPoints: Schema.optional(Schema.Array(EntryPoint)),
-    deploymentConfig: Schema.optional(DeploymentConfig),
-    deploymentId: Schema.optional(Schema.String),
-    updateTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
+export const Deployment: Schema.Schema<Deployment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entryPoints: Schema.optional(Schema.Array(EntryPoint)),
+      deploymentConfig: Schema.optional(DeploymentConfig),
+      deploymentId: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Deployment" }) as any as Schema.Schema<Deployment>;
 
 export interface ScriptStackTraceElement {
   /** The line number where the script failed. */
@@ -566,7 +573,7 @@ export interface ScriptStackTraceElement {
 }
 
 export const ScriptStackTraceElement: Schema.Schema<ScriptStackTraceElement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lineNumber: Schema.optional(Schema.Number),
       function: Schema.optional(Schema.String),
@@ -584,13 +591,14 @@ export interface Metrics {
   totalExecutions?: Array<MetricsValue>;
 }
 
-export const Metrics: Schema.Schema<Metrics> = Schema.suspend(() =>
-  Schema.Struct({
-    activeUsers: Schema.optional(Schema.Array(MetricsValue)),
-    failedExecutions: Schema.optional(Schema.Array(MetricsValue)),
-    totalExecutions: Schema.optional(Schema.Array(MetricsValue)),
-  }),
-).annotate({ identifier: "Metrics" }) as any as Schema.Schema<Metrics>;
+export const Metrics: Schema.Schema<Metrics> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      activeUsers: Schema.optional(Schema.Array(MetricsValue)),
+      failedExecutions: Schema.optional(Schema.Array(MetricsValue)),
+      totalExecutions: Schema.optional(Schema.Array(MetricsValue)),
+    }),
+  ).annotate({ identifier: "Metrics" }) as any as Schema.Schema<Metrics>;
 
 export interface Content {
   /** The script project's Drive ID. */
@@ -599,12 +607,13 @@ export interface Content {
   files?: Array<File>;
 }
 
-export const Content: Schema.Schema<Content> = Schema.suspend(() =>
-  Schema.Struct({
-    scriptId: Schema.optional(Schema.String),
-    files: Schema.optional(Schema.Array(File)),
-  }),
-).annotate({ identifier: "Content" }) as any as Schema.Schema<Content>;
+export const Content: Schema.Schema<Content> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      scriptId: Schema.optional(Schema.String),
+      files: Schema.optional(Schema.Array(File)),
+    }),
+  ).annotate({ identifier: "Content" }) as any as Schema.Schema<Content>;
 
 export interface ListDeploymentsResponse {
   /** The list of deployments. */
@@ -614,7 +623,7 @@ export interface ListDeploymentsResponse {
 }
 
 export const ListDeploymentsResponse: Schema.Schema<ListDeploymentsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deployments: Schema.optional(Schema.Array(Deployment)),
       nextPageToken: Schema.optional(Schema.String),
@@ -632,8 +641,8 @@ export interface ExecutionError {
   errorType?: string;
 }
 
-export const ExecutionError: Schema.Schema<ExecutionError> = Schema.suspend(
-  () =>
+export const ExecutionError: Schema.Schema<ExecutionError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scriptStackTraceElements: Schema.optional(
         Schema.Array(ScriptStackTraceElement),
@@ -641,15 +650,16 @@ export const ExecutionError: Schema.Schema<ExecutionError> = Schema.suspend(
       errorMessage: Schema.optional(Schema.String),
       errorType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "ExecutionError",
-}) as any as Schema.Schema<ExecutionError>;
+  ).annotate({
+    identifier: "ExecutionError",
+  }) as any as Schema.Schema<ExecutionError>;
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Operation {
   /** If the script function returns successfully, this field contains an ExecutionResponse object with the function's return value. */
@@ -660,13 +670,14 @@ export interface Operation {
   error?: Status;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 // ==========================================================================
 // Operations
@@ -679,7 +690,7 @@ export interface RunScriptsRequest {
   body?: ExecutionRequest;
 }
 
-export const RunScriptsRequest = Schema.Struct({
+export const RunScriptsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
   body: Schema.optional(ExecutionRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -688,7 +699,7 @@ export const RunScriptsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<RunScriptsRequest>;
 
 export type RunScriptsResponse = Operation;
-export const RunScriptsResponse = Operation;
+export const RunScriptsResponse = /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type RunScriptsError = DefaultErrors;
 
@@ -697,7 +708,7 @@ export const runScripts: API.OperationMethod<
   RunScriptsResponse,
   RunScriptsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RunScriptsRequest,
   output: RunScriptsResponse,
   errors: [],
@@ -754,38 +765,40 @@ export interface ListScriptProcessesProcessesRequest {
     | (string & {})[];
 }
 
-export const ListScriptProcessesProcessesRequest = Schema.Struct({
-  "scriptProcessFilter.types": Schema.optional(
-    Schema.Array(Schema.String),
-  ).pipe(T.HttpQuery("scriptProcessFilter.types")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  "scriptProcessFilter.startTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("scriptProcessFilter.startTime"),
-  ),
-  "scriptProcessFilter.functionName": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("scriptProcessFilter.functionName"),
-  ),
-  scriptId: Schema.optional(Schema.String).pipe(T.HttpQuery("scriptId")),
-  "scriptProcessFilter.deploymentId": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("scriptProcessFilter.deploymentId"),
-  ),
-  "scriptProcessFilter.endTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("scriptProcessFilter.endTime"),
-  ),
-  "scriptProcessFilter.userAccessLevels": Schema.optional(
-    Schema.Array(Schema.String),
-  ).pipe(T.HttpQuery("scriptProcessFilter.userAccessLevels")),
-  "scriptProcessFilter.statuses": Schema.optional(
-    Schema.Array(Schema.String),
-  ).pipe(T.HttpQuery("scriptProcessFilter.statuses")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/processes:listScriptProcesses" }),
-  svc,
-) as unknown as Schema.Schema<ListScriptProcessesProcessesRequest>;
+export const ListScriptProcessesProcessesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "scriptProcessFilter.types": Schema.optional(
+      Schema.Array(Schema.String),
+    ).pipe(T.HttpQuery("scriptProcessFilter.types")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    "scriptProcessFilter.startTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("scriptProcessFilter.startTime"),
+    ),
+    "scriptProcessFilter.functionName": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("scriptProcessFilter.functionName"),
+    ),
+    scriptId: Schema.optional(Schema.String).pipe(T.HttpQuery("scriptId")),
+    "scriptProcessFilter.deploymentId": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("scriptProcessFilter.deploymentId"),
+    ),
+    "scriptProcessFilter.endTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("scriptProcessFilter.endTime"),
+    ),
+    "scriptProcessFilter.userAccessLevels": Schema.optional(
+      Schema.Array(Schema.String),
+    ).pipe(T.HttpQuery("scriptProcessFilter.userAccessLevels")),
+    "scriptProcessFilter.statuses": Schema.optional(
+      Schema.Array(Schema.String),
+    ).pipe(T.HttpQuery("scriptProcessFilter.statuses")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/processes:listScriptProcesses" }),
+    svc,
+  ) as unknown as Schema.Schema<ListScriptProcessesProcessesRequest>;
 
 export type ListScriptProcessesProcessesResponse = ListScriptProcessesResponse;
-export const ListScriptProcessesProcessesResponse = ListScriptProcessesResponse;
+export const ListScriptProcessesProcessesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListScriptProcessesResponse;
 
 export type ListScriptProcessesProcessesError = DefaultErrors;
 
@@ -795,7 +808,7 @@ export const listScriptProcessesProcesses: API.PaginatedOperationMethod<
   ListScriptProcessesProcessesResponse,
   ListScriptProcessesProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScriptProcessesProcessesRequest,
   output: ListScriptProcessesProcessesResponse,
   errors: [],
@@ -858,7 +871,7 @@ export interface ListProcessesRequest {
   "userProcessFilter.startTime"?: string;
 }
 
-export const ListProcessesRequest = Schema.Struct({
+export const ListProcessesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   "userProcessFilter.projectName": Schema.optional(Schema.String).pipe(
     T.HttpQuery("userProcessFilter.projectName"),
   ),
@@ -894,7 +907,8 @@ export const ListProcessesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListProcessesRequest>;
 
 export type ListProcessesResponse = ListUserProcessesResponse;
-export const ListProcessesResponse = ListUserProcessesResponse;
+export const ListProcessesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserProcessesResponse;
 
 export type ListProcessesError = DefaultErrors;
 
@@ -904,7 +918,7 @@ export const listProcesses: API.PaginatedOperationMethod<
   ListProcessesResponse,
   ListProcessesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProcessesRequest,
   output: ListProcessesResponse,
   errors: [],
@@ -919,7 +933,7 @@ export interface CreateProjectsRequest {
   body?: CreateProjectRequest;
 }
 
-export const CreateProjectsRequest = Schema.Struct({
+export const CreateProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   body: Schema.optional(CreateProjectRequest).pipe(T.HttpBody()),
 }).pipe(
   T.Http({ method: "POST", path: "v1/projects", hasBody: true }),
@@ -927,7 +941,7 @@ export const CreateProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateProjectsRequest>;
 
 export type CreateProjectsResponse = Project;
-export const CreateProjectsResponse = Project;
+export const CreateProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Project;
 
 export type CreateProjectsError = DefaultErrors;
 
@@ -937,7 +951,7 @@ export const createProjects: API.OperationMethod<
   CreateProjectsResponse,
   CreateProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsRequest,
   output: CreateProjectsResponse,
   errors: [],
@@ -948,7 +962,7 @@ export interface GetProjectsRequest {
   scriptId: string;
 }
 
-export const GetProjectsRequest = Schema.Struct({
+export const GetProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/projects/{scriptId}" }),
@@ -956,7 +970,7 @@ export const GetProjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetProjectsRequest>;
 
 export type GetProjectsResponse = Project;
-export const GetProjectsResponse = Project;
+export const GetProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Project;
 
 export type GetProjectsError = DefaultErrors;
 
@@ -966,7 +980,7 @@ export const getProjects: API.OperationMethod<
   GetProjectsResponse,
   GetProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
@@ -979,20 +993,22 @@ export interface UpdateContentProjectsRequest {
   body?: Content;
 }
 
-export const UpdateContentProjectsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  body: Schema.optional(Content).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/projects/{scriptId}/content",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateContentProjectsRequest>;
+export const UpdateContentProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    body: Schema.optional(Content).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{scriptId}/content",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateContentProjectsRequest>;
 
 export type UpdateContentProjectsResponse = Content;
-export const UpdateContentProjectsResponse = Content;
+export const UpdateContentProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Content;
 
 export type UpdateContentProjectsError = DefaultErrors;
 
@@ -1002,7 +1018,7 @@ export const updateContentProjects: API.OperationMethod<
   UpdateContentProjectsResponse,
   UpdateContentProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateContentProjectsRequest,
   output: UpdateContentProjectsResponse,
   errors: [],
@@ -1021,21 +1037,22 @@ export interface GetMetricsProjectsRequest {
     | (string & {});
 }
 
-export const GetMetricsProjectsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  "metricsFilter.deploymentId": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("metricsFilter.deploymentId"),
-  ),
-  metricsGranularity: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("metricsGranularity"),
-  ),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{scriptId}/metrics" }),
-  svc,
-) as unknown as Schema.Schema<GetMetricsProjectsRequest>;
+export const GetMetricsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    "metricsFilter.deploymentId": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("metricsFilter.deploymentId"),
+    ),
+    metricsGranularity: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("metricsGranularity"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{scriptId}/metrics" }),
+    svc,
+  ) as unknown as Schema.Schema<GetMetricsProjectsRequest>;
 
 export type GetMetricsProjectsResponse = Metrics;
-export const GetMetricsProjectsResponse = Metrics;
+export const GetMetricsProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Metrics;
 
 export type GetMetricsProjectsError = DefaultErrors;
 
@@ -1045,7 +1062,7 @@ export const getMetricsProjects: API.OperationMethod<
   GetMetricsProjectsResponse,
   GetMetricsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetMetricsProjectsRequest,
   output: GetMetricsProjectsResponse,
   errors: [],
@@ -1058,18 +1075,19 @@ export interface GetContentProjectsRequest {
   scriptId: string;
 }
 
-export const GetContentProjectsRequest = Schema.Struct({
-  versionNumber: Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("versionNumber"),
-  ),
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{scriptId}/content" }),
-  svc,
-) as unknown as Schema.Schema<GetContentProjectsRequest>;
+export const GetContentProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    versionNumber: Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("versionNumber"),
+    ),
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{scriptId}/content" }),
+    svc,
+  ) as unknown as Schema.Schema<GetContentProjectsRequest>;
 
 export type GetContentProjectsResponse = Content;
-export const GetContentProjectsResponse = Content;
+export const GetContentProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Content;
 
 export type GetContentProjectsError = DefaultErrors;
 
@@ -1079,7 +1097,7 @@ export const getContentProjects: API.OperationMethod<
   GetContentProjectsResponse,
   GetContentProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetContentProjectsRequest,
   output: GetContentProjectsResponse,
   errors: [],
@@ -1094,17 +1112,19 @@ export interface ListProjectsVersionsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsVersionsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{scriptId}/versions" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsVersionsRequest>;
+export const ListProjectsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{scriptId}/versions" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsVersionsRequest>;
 
 export type ListProjectsVersionsResponse = ListVersionsResponse;
-export const ListProjectsVersionsResponse = ListVersionsResponse;
+export const ListProjectsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListVersionsResponse;
 
 export type ListProjectsVersionsError = DefaultErrors;
 
@@ -1114,7 +1134,7 @@ export const listProjectsVersions: API.PaginatedOperationMethod<
   ListProjectsVersionsResponse,
   ListProjectsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsVersionsRequest,
   output: ListProjectsVersionsResponse,
   errors: [],
@@ -1131,19 +1151,20 @@ export interface GetProjectsVersionsRequest {
   versionNumber: number;
 }
 
-export const GetProjectsVersionsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  versionNumber: Schema.Number.pipe(T.HttpPath("versionNumber")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{scriptId}/versions/{versionNumber}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsVersionsRequest>;
+export const GetProjectsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    versionNumber: Schema.Number.pipe(T.HttpPath("versionNumber")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{scriptId}/versions/{versionNumber}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsVersionsRequest>;
 
 export type GetProjectsVersionsResponse = Version;
-export const GetProjectsVersionsResponse = Version;
+export const GetProjectsVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Version;
 
 export type GetProjectsVersionsError = DefaultErrors;
 
@@ -1153,7 +1174,7 @@ export const getProjectsVersions: API.OperationMethod<
   GetProjectsVersionsResponse,
   GetProjectsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsVersionsRequest,
   output: GetProjectsVersionsResponse,
   errors: [],
@@ -1166,20 +1187,22 @@ export interface CreateProjectsVersionsRequest {
   body?: Version;
 }
 
-export const CreateProjectsVersionsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  body: Schema.optional(Version).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{scriptId}/versions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsVersionsRequest>;
+export const CreateProjectsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    body: Schema.optional(Version).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{scriptId}/versions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsVersionsRequest>;
 
 export type CreateProjectsVersionsResponse = Version;
-export const CreateProjectsVersionsResponse = Version;
+export const CreateProjectsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Version;
 
 export type CreateProjectsVersionsError = DefaultErrors;
 
@@ -1189,7 +1212,7 @@ export const createProjectsVersions: API.OperationMethod<
   CreateProjectsVersionsResponse,
   CreateProjectsVersionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsVersionsRequest,
   output: CreateProjectsVersionsResponse,
   errors: [],
@@ -1202,19 +1225,21 @@ export interface GetProjectsDeploymentsRequest {
   deploymentId: string;
 }
 
-export const GetProjectsDeploymentsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/projects/{scriptId}/deployments/{deploymentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDeploymentsRequest>;
+export const GetProjectsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{scriptId}/deployments/{deploymentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDeploymentsRequest>;
 
 export type GetProjectsDeploymentsResponse = Deployment;
-export const GetProjectsDeploymentsResponse = Deployment;
+export const GetProjectsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type GetProjectsDeploymentsError = DefaultErrors;
 
@@ -1224,7 +1249,7 @@ export const getProjectsDeployments: API.OperationMethod<
   GetProjectsDeploymentsResponse,
   GetProjectsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDeploymentsRequest,
   output: GetProjectsDeploymentsResponse,
   errors: [],
@@ -1239,21 +1264,23 @@ export interface UpdateProjectsDeploymentsRequest {
   body?: UpdateDeploymentRequest;
 }
 
-export const UpdateProjectsDeploymentsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
-  body: Schema.optional(UpdateDeploymentRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/projects/{scriptId}/deployments/{deploymentId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateProjectsDeploymentsRequest>;
+export const UpdateProjectsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
+    body: Schema.optional(UpdateDeploymentRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/projects/{scriptId}/deployments/{deploymentId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateProjectsDeploymentsRequest>;
 
 export type UpdateProjectsDeploymentsResponse = Deployment;
-export const UpdateProjectsDeploymentsResponse = Deployment;
+export const UpdateProjectsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type UpdateProjectsDeploymentsError = DefaultErrors;
 
@@ -1263,7 +1290,7 @@ export const updateProjectsDeployments: API.OperationMethod<
   UpdateProjectsDeploymentsResponse,
   UpdateProjectsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectsDeploymentsRequest,
   output: UpdateProjectsDeploymentsResponse,
   errors: [],
@@ -1276,19 +1303,21 @@ export interface DeleteProjectsDeploymentsRequest {
   deploymentId: string;
 }
 
-export const DeleteProjectsDeploymentsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/projects/{scriptId}/deployments/{deploymentId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDeploymentsRequest>;
+export const DeleteProjectsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    deploymentId: Schema.String.pipe(T.HttpPath("deploymentId")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{scriptId}/deployments/{deploymentId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDeploymentsRequest>;
 
 export type DeleteProjectsDeploymentsResponse = Empty;
-export const DeleteProjectsDeploymentsResponse = Empty;
+export const DeleteProjectsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsDeploymentsError = DefaultErrors;
 
@@ -1298,7 +1327,7 @@ export const deleteProjectsDeployments: API.OperationMethod<
   DeleteProjectsDeploymentsResponse,
   DeleteProjectsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDeploymentsRequest,
   output: DeleteProjectsDeploymentsResponse,
   errors: [],
@@ -1311,20 +1340,22 @@ export interface CreateProjectsDeploymentsRequest {
   body?: DeploymentConfig;
 }
 
-export const CreateProjectsDeploymentsRequest = Schema.Struct({
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  body: Schema.optional(DeploymentConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/projects/{scriptId}/deployments",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDeploymentsRequest>;
+export const CreateProjectsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    body: Schema.optional(DeploymentConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{scriptId}/deployments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDeploymentsRequest>;
 
 export type CreateProjectsDeploymentsResponse = Deployment;
-export const CreateProjectsDeploymentsResponse = Deployment;
+export const CreateProjectsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Deployment;
 
 export type CreateProjectsDeploymentsError = DefaultErrors;
 
@@ -1334,7 +1365,7 @@ export const createProjectsDeployments: API.OperationMethod<
   CreateProjectsDeploymentsResponse,
   CreateProjectsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDeploymentsRequest,
   output: CreateProjectsDeploymentsResponse,
   errors: [],
@@ -1349,17 +1380,19 @@ export interface ListProjectsDeploymentsRequest {
   pageSize?: number;
 }
 
-export const ListProjectsDeploymentsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/projects/{scriptId}/deployments" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDeploymentsRequest>;
+export const ListProjectsDeploymentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    scriptId: Schema.String.pipe(T.HttpPath("scriptId")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/projects/{scriptId}/deployments" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDeploymentsRequest>;
 
 export type ListProjectsDeploymentsResponse = ListDeploymentsResponse;
-export const ListProjectsDeploymentsResponse = ListDeploymentsResponse;
+export const ListProjectsDeploymentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDeploymentsResponse;
 
 export type ListProjectsDeploymentsError = DefaultErrors;
 
@@ -1369,7 +1402,7 @@ export const listProjectsDeployments: API.PaginatedOperationMethod<
   ListProjectsDeploymentsResponse,
   ListProjectsDeploymentsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDeploymentsRequest,
   output: ListProjectsDeploymentsResponse,
   errors: [],

@@ -3,13 +3,13 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const CreateApiKeyInput = Schema.Struct({
+export const CreateApiKeyInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   key_name: Schema.String,
 }).pipe(T.Http({ method: "POST", path: "/api_keys" }));
 export type CreateApiKeyInput = typeof CreateApiKeyInput.Type;
 
 // Output Schema
-export const CreateApiKeyOutput = Schema.Struct({
+export const CreateApiKeyOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Number,
   key: Schema.String,
   name: Schema.String,

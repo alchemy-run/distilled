@@ -33,17 +33,17 @@ export interface PublisherAccount {
   publisherId?: string;
 }
 
-export const PublisherAccount: Schema.Schema<PublisherAccount> = Schema.suspend(
-  () =>
+export const PublisherAccount: Schema.Schema<PublisherAccount> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       reportingTimeZone: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
       publisherId: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PublisherAccount",
-}) as any as Schema.Schema<PublisherAccount>;
+  ).annotate({
+    identifier: "PublisherAccount",
+  }) as any as Schema.Schema<PublisherAccount>;
 
 export interface AdUnitMapping {
   /** Resource name of this ad unit mapping. Format is: accounts/{publisher_id}/adUnits/{ad_unit_id_fragment}/adUnitMappings/{ad_unit_mapping_id} Example: accounts/pub-1234567890123456/adUnits/0123456789/adUnitMappings/987654321 */
@@ -58,19 +58,20 @@ export interface AdUnitMapping {
   adUnitConfigurations?: Record<string, string>;
 }
 
-export const AdUnitMapping: Schema.Schema<AdUnitMapping> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    state: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    adapterId: Schema.optional(Schema.String),
-    adUnitConfigurations: Schema.optional(
-      Schema.Record(Schema.String, Schema.String),
-    ),
-  }),
-).annotate({
-  identifier: "AdUnitMapping",
-}) as any as Schema.Schema<AdUnitMapping>;
+export const AdUnitMapping: Schema.Schema<AdUnitMapping> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      adapterId: Schema.optional(Schema.String),
+      adUnitConfigurations: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "AdUnitMapping",
+  }) as any as Schema.Schema<AdUnitMapping>;
 
 export interface CreateAdUnitMappingRequest {
   /** Required. The ad unit mapping to create. */
@@ -80,7 +81,7 @@ export interface CreateAdUnitMappingRequest {
 }
 
 export const CreateAdUnitMappingRequest: Schema.Schema<CreateAdUnitMappingRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnitMapping: Schema.optional(AdUnitMapping),
       parent: Schema.optional(Schema.String),
@@ -94,11 +95,12 @@ export interface StringList {
   values?: Array<string>;
 }
 
-export const StringList: Schema.Schema<StringList> = Schema.suspend(() =>
-  Schema.Struct({
-    values: Schema.optional(Schema.Array(Schema.String)),
-  }),
-).annotate({ identifier: "StringList" }) as any as Schema.Schema<StringList>;
+export const StringList: Schema.Schema<StringList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      values: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "StringList" }) as any as Schema.Schema<StringList>;
 
 export interface ReportRowDimensionValue {
   /** Dimension value in the format specified in the report's spec Dimension enum. */
@@ -108,7 +110,7 @@ export interface ReportRowDimensionValue {
 }
 
 export const ReportRowDimensionValue: Schema.Schema<ReportRowDimensionValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       displayLabel: Schema.optional(Schema.String),
@@ -127,7 +129,7 @@ export interface ReportRowMetricValue {
 }
 
 export const ReportRowMetricValue: Schema.Schema<ReportRowMetricValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       microsValue: Schema.optional(Schema.String),
       integerValue: Schema.optional(Schema.String),
@@ -144,16 +146,17 @@ export interface ReportRow {
   metricValues?: Record<string, ReportRowMetricValue>;
 }
 
-export const ReportRow: Schema.Schema<ReportRow> = Schema.suspend(() =>
-  Schema.Struct({
-    dimensionValues: Schema.optional(
-      Schema.Record(Schema.String, ReportRowDimensionValue),
-    ),
-    metricValues: Schema.optional(
-      Schema.Record(Schema.String, ReportRowMetricValue),
-    ),
-  }),
-).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
+export const ReportRow: Schema.Schema<ReportRow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dimensionValues: Schema.optional(
+        Schema.Record(Schema.String, ReportRowDimensionValue),
+      ),
+      metricValues: Schema.optional(
+        Schema.Record(Schema.String, ReportRowMetricValue),
+      ),
+    }),
+  ).annotate({ identifier: "ReportRow" }) as any as Schema.Schema<ReportRow>;
 
 export interface MediationGroupMediationGroupLine {
   /** User-provided label for this mediation line. The maximum length allowed is 255 characters. */
@@ -185,7 +188,7 @@ export interface MediationGroupMediationGroupLine {
 }
 
 export const MediationGroupMediationGroupLine: Schema.Schema<MediationGroupMediationGroupLine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       cpmMode: Schema.optional(Schema.String),
@@ -208,7 +211,7 @@ export interface MediationAbExperimentExperimentMediationLine {
 }
 
 export const MediationAbExperimentExperimentMediationLine: Schema.Schema<MediationAbExperimentExperimentMediationLine> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mediationGroupLine: Schema.optional(MediationGroupMediationGroupLine),
     }),
@@ -254,7 +257,7 @@ export interface MediationAbExperiment {
 }
 
 export const MediationAbExperiment: Schema.Schema<MediationAbExperiment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       experimentId: Schema.optional(Schema.String),
       treatmentTrafficPercentage: Schema.optional(Schema.String),
@@ -285,13 +288,14 @@ export interface AdSource {
   title?: string;
 }
 
-export const AdSource: Schema.Schema<AdSource> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    adSourceId: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdSource" }) as any as Schema.Schema<AdSource>;
+export const AdSource: Schema.Schema<AdSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      adSourceId: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdSource" }) as any as Schema.Schema<AdSource>;
 
 export interface ListAdSourcesResponse {
   /** The ad sources. */
@@ -301,7 +305,7 @@ export interface ListAdSourcesResponse {
 }
 
 export const ListAdSourcesResponse: Schema.Schema<ListAdSourcesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adSources: Schema.optional(Schema.Array(AdSource)),
       nextPageToken: Schema.optional(Schema.String),
@@ -347,7 +351,7 @@ export interface MediationReportSpecSortCondition {
 }
 
 export const MediationReportSpecSortCondition: Schema.Schema<MediationReportSpecSortCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       order: Schema.optional(Schema.String),
       metric: Schema.optional(Schema.String),
@@ -366,13 +370,14 @@ export interface Admob_Date {
   day?: number;
 }
 
-export const Admob_Date: Schema.Schema<Admob_Date> = Schema.suspend(() =>
-  Schema.Struct({
-    year: Schema.optional(Schema.Number),
-    month: Schema.optional(Schema.Number),
-    day: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
+export const Admob_Date: Schema.Schema<Admob_Date> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      year: Schema.optional(Schema.Number),
+      month: Schema.optional(Schema.Number),
+      day: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Admob_Date" }) as any as Schema.Schema<Admob_Date>;
 
 export interface DateRange {
   /** Start date of the date range, inclusive. Must be less than or equal to the end date. */
@@ -381,12 +386,13 @@ export interface DateRange {
   endDate?: Admob_Date;
 }
 
-export const DateRange: Schema.Schema<DateRange> = Schema.suspend(() =>
-  Schema.Struct({
-    startDate: Schema.optional(Admob_Date),
-    endDate: Schema.optional(Admob_Date),
-  }),
-).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
+export const DateRange: Schema.Schema<DateRange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startDate: Schema.optional(Admob_Date),
+      endDate: Schema.optional(Admob_Date),
+    }),
+  ).annotate({ identifier: "DateRange" }) as any as Schema.Schema<DateRange>;
 
 export interface CampaignReportSpec {
   /** List of metrics of the report. A report must specify at least one metric. */
@@ -423,7 +429,7 @@ export interface CampaignReportSpec {
 }
 
 export const CampaignReportSpec: Schema.Schema<CampaignReportSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       metrics: Schema.optional(Schema.Array(Schema.String)),
       dimensions: Schema.optional(Schema.Array(Schema.String)),
@@ -440,7 +446,7 @@ export interface GenerateCampaignReportRequest {
 }
 
 export const GenerateCampaignReportRequest: Schema.Schema<GenerateCampaignReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportSpec: Schema.optional(CampaignReportSpec),
     }),
@@ -454,7 +460,7 @@ export interface BatchCreateAdUnitMappingsResponse {
 }
 
 export const BatchCreateAdUnitMappingsResponse: Schema.Schema<BatchCreateAdUnitMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnitMappings: Schema.optional(Schema.Array(AdUnitMapping)),
     }),
@@ -468,7 +474,7 @@ export interface BatchCreateAdUnitMappingsRequest {
 }
 
 export const BatchCreateAdUnitMappingsRequest: Schema.Schema<BatchCreateAdUnitMappingsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requests: Schema.optional(Schema.Array(CreateAdUnitMappingRequest)),
     }),
@@ -489,14 +495,15 @@ export interface ReportWarning {
     | (string & {});
 }
 
-export const ReportWarning: Schema.Schema<ReportWarning> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "ReportWarning",
-}) as any as Schema.Schema<ReportWarning>;
+export const ReportWarning: Schema.Schema<ReportWarning> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportWarning",
+  }) as any as Schema.Schema<ReportWarning>;
 
 export interface LocalizationSettings {
   /** Language used for any localized text, such as some dimension value display labels. The language tag defined in the IETF BCP47. Defaults to 'en-US' if unspecified. */
@@ -506,7 +513,7 @@ export interface LocalizationSettings {
 }
 
 export const LocalizationSettings: Schema.Schema<LocalizationSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       languageCode: Schema.optional(Schema.String),
       currencyCode: Schema.optional(Schema.String),
@@ -551,7 +558,7 @@ export interface NetworkReportSpecSortCondition {
 }
 
 export const NetworkReportSpecSortCondition: Schema.Schema<NetworkReportSpecSortCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       order: Schema.optional(Schema.String),
       dimension: Schema.optional(Schema.String),
@@ -584,7 +591,7 @@ export interface NetworkReportSpecDimensionFilter {
 }
 
 export const NetworkReportSpecDimensionFilter: Schema.Schema<NetworkReportSpecDimensionFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dimension: Schema.optional(Schema.String),
       matchesAny: Schema.optional(StringList),
@@ -641,7 +648,7 @@ export interface NetworkReportSpec {
 }
 
 export const NetworkReportSpec: Schema.Schema<NetworkReportSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(DateRange),
       localizationSettings: Schema.optional(LocalizationSettings),
@@ -666,7 +673,7 @@ export interface GenerateNetworkReportRequest {
 }
 
 export const GenerateNetworkReportRequest: Schema.Schema<GenerateNetworkReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportSpec: Schema.optional(NetworkReportSpec),
     }),
@@ -695,7 +702,7 @@ export interface MediationGroupTargeting {
 }
 
 export const MediationGroupTargeting: Schema.Schema<MediationGroupTargeting> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       format: Schema.optional(Schema.String),
       targetedRegionCodes: Schema.optional(Schema.Array(Schema.String)),
@@ -729,8 +736,8 @@ export interface MediationGroup {
     | (string & {});
 }
 
-export const MediationGroup: Schema.Schema<MediationGroup> = Schema.suspend(
-  () =>
+export const MediationGroup: Schema.Schema<MediationGroup> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -742,9 +749,9 @@ export const MediationGroup: Schema.Schema<MediationGroup> = Schema.suspend(
       ),
       mediationAbExperimentState: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "MediationGroup",
-}) as any as Schema.Schema<MediationGroup>;
+  ).annotate({
+    identifier: "MediationGroup",
+  }) as any as Schema.Schema<MediationGroup>;
 
 export interface ListMediationGroupsResponse {
   /** The resulting mediation groups for the requested account. */
@@ -754,7 +761,7 @@ export interface ListMediationGroupsResponse {
 }
 
 export const ListMediationGroupsResponse: Schema.Schema<ListMediationGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       mediationGroups: Schema.optional(Schema.Array(MediationGroup)),
       nextPageToken: Schema.optional(Schema.String),
@@ -768,14 +775,14 @@ export interface AppManualAppInfo {
   displayName?: string;
 }
 
-export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> = Schema.suspend(
-  () =>
+export const AppManualAppInfo: Schema.Schema<AppManualAppInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AppManualAppInfo",
-}) as any as Schema.Schema<AppManualAppInfo>;
+  ).annotate({
+    identifier: "AppManualAppInfo",
+  }) as any as Schema.Schema<AppManualAppInfo>;
 
 export interface ReportHeader {
   /** The report time zone. The value is a time-zone ID as specified by the CLDR project, for example, "America/Los_Angeles". */
@@ -786,15 +793,16 @@ export interface ReportHeader {
   localizationSettings?: LocalizationSettings;
 }
 
-export const ReportHeader: Schema.Schema<ReportHeader> = Schema.suspend(() =>
-  Schema.Struct({
-    reportingTimeZone: Schema.optional(Schema.String),
-    dateRange: Schema.optional(DateRange),
-    localizationSettings: Schema.optional(LocalizationSettings),
-  }),
-).annotate({
-  identifier: "ReportHeader",
-}) as any as Schema.Schema<ReportHeader>;
+export const ReportHeader: Schema.Schema<ReportHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      reportingTimeZone: Schema.optional(Schema.String),
+      dateRange: Schema.optional(DateRange),
+      localizationSettings: Schema.optional(LocalizationSettings),
+    }),
+  ).annotate({
+    identifier: "ReportHeader",
+  }) as any as Schema.Schema<ReportHeader>;
 
 export interface AdapterAdapterConfigMetadata {
   /** This is used to fill the key of the [ad_unit_configurations](#AdUnitMapping.ad_unit_configurations). */
@@ -806,7 +814,7 @@ export interface AdapterAdapterConfigMetadata {
 }
 
 export const AdapterAdapterConfigMetadata: Schema.Schema<AdapterAdapterConfigMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adapterConfigMetadataId: Schema.optional(Schema.String),
       adapterConfigMetadataLabel: Schema.optional(Schema.String),
@@ -831,18 +839,19 @@ export interface Adapter {
   adapterId?: string;
 }
 
-export const Adapter: Schema.Schema<Adapter> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    adapterConfigMetadata: Schema.optional(
-      Schema.Array(AdapterAdapterConfigMetadata),
-    ),
-    formats: Schema.optional(Schema.Array(Schema.String)),
-    title: Schema.optional(Schema.String),
-    platform: Schema.optional(Schema.String),
-    adapterId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Adapter" }) as any as Schema.Schema<Adapter>;
+export const Adapter: Schema.Schema<Adapter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      adapterConfigMetadata: Schema.optional(
+        Schema.Array(AdapterAdapterConfigMetadata),
+      ),
+      formats: Schema.optional(Schema.Array(Schema.String)),
+      title: Schema.optional(Schema.String),
+      platform: Schema.optional(Schema.String),
+      adapterId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Adapter" }) as any as Schema.Schema<Adapter>;
 
 export interface ListAdaptersResponse {
   /** The adapter. */
@@ -852,7 +861,7 @@ export interface ListAdaptersResponse {
 }
 
 export const ListAdaptersResponse: Schema.Schema<ListAdaptersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adapters: Schema.optional(Schema.Array(Adapter)),
       nextPageToken: Schema.optional(Schema.String),
@@ -869,7 +878,7 @@ export interface ListAdUnitMappingsResponse {
 }
 
 export const ListAdUnitMappingsResponse: Schema.Schema<ListAdUnitMappingsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnitMappings: Schema.optional(Schema.Array(AdUnitMapping)),
       nextPageToken: Schema.optional(Schema.String),
@@ -896,16 +905,16 @@ export interface AppLinkedAppInfo {
   >;
 }
 
-export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> = Schema.suspend(
-  () =>
+export const AppLinkedAppInfo: Schema.Schema<AppLinkedAppInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       appStoreId: Schema.optional(Schema.String),
       androidAppStores: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "AppLinkedAppInfo",
-}) as any as Schema.Schema<AppLinkedAppInfo>;
+  ).annotate({
+    identifier: "AppLinkedAppInfo",
+  }) as any as Schema.Schema<AppLinkedAppInfo>;
 
 export interface MediationReportSpecDimensionFilter {
   /** Matches a row if its value for the specified dimension is in one of the values specified in this condition. */
@@ -932,7 +941,7 @@ export interface MediationReportSpecDimensionFilter {
 }
 
 export const MediationReportSpecDimensionFilter: Schema.Schema<MediationReportSpecDimensionFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       matchesAny: Schema.optional(StringList),
       dimension: Schema.optional(Schema.String),
@@ -961,16 +970,17 @@ export interface App {
   manualAppInfo?: AppManualAppInfo;
 }
 
-export const App: Schema.Schema<App> = Schema.suspend(() =>
-  Schema.Struct({
-    appId: Schema.optional(Schema.String),
-    linkedAppInfo: Schema.optional(AppLinkedAppInfo),
-    appApprovalState: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    platform: Schema.optional(Schema.String),
-    manualAppInfo: Schema.optional(AppManualAppInfo),
-  }),
-).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
+export const App: Schema.Schema<App> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      appId: Schema.optional(Schema.String),
+      linkedAppInfo: Schema.optional(AppLinkedAppInfo),
+      appApprovalState: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      platform: Schema.optional(Schema.String),
+      manualAppInfo: Schema.optional(AppManualAppInfo),
+    }),
+  ).annotate({ identifier: "App" }) as any as Schema.Schema<App>;
 
 export interface AdUnitRewardSettings {
   /** Reward amount for this ad unit. */
@@ -980,7 +990,7 @@ export interface AdUnitRewardSettings {
 }
 
 export const AdUnitRewardSettings: Schema.Schema<AdUnitRewardSettings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unitAmount: Schema.optional(Schema.String),
       unitType: Schema.optional(Schema.String),
@@ -1006,17 +1016,18 @@ export interface AdUnit {
   displayName?: string;
 }
 
-export const AdUnit: Schema.Schema<AdUnit> = Schema.suspend(() =>
-  Schema.Struct({
-    appId: Schema.optional(Schema.String),
-    adFormat: Schema.optional(Schema.String),
-    adUnitId: Schema.optional(Schema.String),
-    adTypes: Schema.optional(Schema.Array(Schema.String)),
-    name: Schema.optional(Schema.String),
-    rewardSettings: Schema.optional(AdUnitRewardSettings),
-    displayName: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
+export const AdUnit: Schema.Schema<AdUnit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      appId: Schema.optional(Schema.String),
+      adFormat: Schema.optional(Schema.String),
+      adUnitId: Schema.optional(Schema.String),
+      adTypes: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      rewardSettings: Schema.optional(AdUnitRewardSettings),
+      displayName: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "AdUnit" }) as any as Schema.Schema<AdUnit>;
 
 export interface ReportFooter {
   /** Total number of rows that matched the request. Warning: This count does NOT always match the number of rows in the response. Do not make that assumption when processing the response. */
@@ -1025,14 +1036,15 @@ export interface ReportFooter {
   warnings?: Array<ReportWarning>;
 }
 
-export const ReportFooter: Schema.Schema<ReportFooter> = Schema.suspend(() =>
-  Schema.Struct({
-    matchingRowCount: Schema.optional(Schema.String),
-    warnings: Schema.optional(Schema.Array(ReportWarning)),
-  }),
-).annotate({
-  identifier: "ReportFooter",
-}) as any as Schema.Schema<ReportFooter>;
+export const ReportFooter: Schema.Schema<ReportFooter> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      matchingRowCount: Schema.optional(Schema.String),
+      warnings: Schema.optional(Schema.Array(ReportWarning)),
+    }),
+  ).annotate({
+    identifier: "ReportFooter",
+  }) as any as Schema.Schema<ReportFooter>;
 
 export interface GenerateMediationReportResponse {
   /** Additional information about the generated report, such as warnings about the data. */
@@ -1044,7 +1056,7 @@ export interface GenerateMediationReportResponse {
 }
 
 export const GenerateMediationReportResponse: Schema.Schema<GenerateMediationReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       footer: Schema.optional(ReportFooter),
       row: Schema.optional(ReportRow),
@@ -1062,7 +1074,7 @@ export interface ListPublisherAccountsResponse {
 }
 
 export const ListPublisherAccountsResponse: Schema.Schema<ListPublisherAccountsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       account: Schema.optional(Schema.Array(PublisherAccount)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1079,7 +1091,7 @@ export interface ListAdUnitsResponse {
 }
 
 export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adUnits: Schema.optional(Schema.Array(AdUnit)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1137,7 +1149,7 @@ export interface MediationReportSpec {
 }
 
 export const MediationReportSpec: Schema.Schema<MediationReportSpec> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateRange: Schema.optional(DateRange),
       localizationSettings: Schema.optional(LocalizationSettings),
@@ -1162,7 +1174,7 @@ export interface GenerateMediationReportRequest {
 }
 
 export const GenerateMediationReportRequest: Schema.Schema<GenerateMediationReportRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reportSpec: Schema.optional(MediationReportSpec),
     }),
@@ -1180,7 +1192,7 @@ export interface StopMediationAbExperimentRequest {
 }
 
 export const StopMediationAbExperimentRequest: Schema.Schema<StopMediationAbExperimentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       variantChoice: Schema.optional(Schema.String),
     }),
@@ -1198,7 +1210,7 @@ export interface GenerateNetworkReportResponse {
 }
 
 export const GenerateNetworkReportResponse: Schema.Schema<GenerateNetworkReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       header: Schema.optional(ReportHeader),
       row: Schema.optional(ReportRow),
@@ -1214,7 +1226,7 @@ export interface GenerateCampaignReportResponse {
 }
 
 export const GenerateCampaignReportResponse: Schema.Schema<GenerateCampaignReportResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rows: Schema.optional(Schema.Array(ReportRow)),
     }),
@@ -1229,15 +1241,15 @@ export interface ListAppsResponse {
   apps?: Array<App>;
 }
 
-export const ListAppsResponse: Schema.Schema<ListAppsResponse> = Schema.suspend(
-  () =>
+export const ListAppsResponse: Schema.Schema<ListAppsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       apps: Schema.optional(Schema.Array(App)),
     }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as Schema.Schema<ListAppsResponse>;
+  ).annotate({
+    identifier: "ListAppsResponse",
+  }) as any as Schema.Schema<ListAppsResponse>;
 
 // ==========================================================================
 // Operations
@@ -1248,7 +1260,7 @@ export interface GetAccountsRequest {
   name: string;
 }
 
-export const GetAccountsRequest = Schema.Struct({
+export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}" }),
@@ -1256,7 +1268,7 @@ export const GetAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
 export type GetAccountsResponse = PublisherAccount;
-export const GetAccountsResponse = PublisherAccount;
+export const GetAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ PublisherAccount;
 
 export type GetAccountsError = DefaultErrors;
 
@@ -1266,7 +1278,7 @@ export const getAccounts: API.OperationMethod<
   GetAccountsResponse,
   GetAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
@@ -1279,7 +1291,7 @@ export interface ListAccountsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsRequest = Schema.Struct({
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -1288,7 +1300,8 @@ export const ListAccountsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
 export type ListAccountsResponse = ListPublisherAccountsResponse;
-export const ListAccountsResponse = ListPublisherAccountsResponse;
+export const ListAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListPublisherAccountsResponse;
 
 export type ListAccountsError = DefaultErrors;
 
@@ -1298,7 +1311,7 @@ export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -1315,20 +1328,21 @@ export interface CreateAccountsAppsRequest {
   body?: App;
 }
 
-export const CreateAccountsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(App).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/apps",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAppsRequest>;
+export const CreateAccountsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(App).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/apps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAppsRequest>;
 
 export type CreateAccountsAppsResponse = App;
-export const CreateAccountsAppsResponse = App;
+export const CreateAccountsAppsResponse = /*@__PURE__*/ /*#__PURE__*/ App;
 
 export type CreateAccountsAppsError = DefaultErrors;
 
@@ -1338,7 +1352,7 @@ export const createAccountsApps: API.OperationMethod<
   CreateAccountsAppsResponse,
   CreateAccountsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAppsRequest,
   output: CreateAccountsAppsResponse,
   errors: [],
@@ -1353,17 +1367,19 @@ export interface ListAccountsAppsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsAppsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/apps" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAppsRequest>;
+export const ListAccountsAppsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/apps" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAppsRequest>;
 
 export type ListAccountsAppsResponse = ListAppsResponse;
-export const ListAccountsAppsResponse = ListAppsResponse;
+export const ListAccountsAppsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAppsResponse;
 
 export type ListAccountsAppsError = DefaultErrors;
 
@@ -1373,7 +1389,7 @@ export const listAccountsApps: API.PaginatedOperationMethod<
   ListAccountsAppsResponse,
   ListAccountsAppsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAppsRequest,
   output: ListAccountsAppsResponse,
   errors: [],
@@ -1392,17 +1408,19 @@ export interface ListAccountsAdUnitsRequest {
   pageSize?: number;
 }
 
-export const ListAccountsAdUnitsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/adUnits" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdUnitsRequest>;
+export const ListAccountsAdUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/adUnits" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdUnitsRequest>;
 
 export type ListAccountsAdUnitsResponse = ListAdUnitsResponse;
-export const ListAccountsAdUnitsResponse = ListAdUnitsResponse;
+export const ListAccountsAdUnitsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdUnitsResponse;
 
 export type ListAccountsAdUnitsError = DefaultErrors;
 
@@ -1412,7 +1430,7 @@ export const listAccountsAdUnits: API.PaginatedOperationMethod<
   ListAccountsAdUnitsResponse,
   ListAccountsAdUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdUnitsRequest,
   output: ListAccountsAdUnitsResponse,
   errors: [],
@@ -1429,20 +1447,21 @@ export interface CreateAccountsAdUnitsRequest {
   body?: AdUnit;
 }
 
-export const CreateAccountsAdUnitsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AdUnit).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/adUnits",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdUnitsRequest>;
+export const CreateAccountsAdUnitsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AdUnit).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/adUnits",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAdUnitsRequest>;
 
 export type CreateAccountsAdUnitsResponse = AdUnit;
-export const CreateAccountsAdUnitsResponse = AdUnit;
+export const CreateAccountsAdUnitsResponse = /*@__PURE__*/ /*#__PURE__*/ AdUnit;
 
 export type CreateAccountsAdUnitsError = DefaultErrors;
 
@@ -1452,7 +1471,7 @@ export const createAccountsAdUnits: API.OperationMethod<
   CreateAccountsAdUnitsResponse,
   CreateAccountsAdUnitsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAdUnitsRequest,
   output: CreateAccountsAdUnitsResponse,
   errors: [],
@@ -1465,20 +1484,22 @@ export interface CreateAccountsAdUnitsAdUnitMappingsRequest {
   body?: AdUnitMapping;
 }
 
-export const CreateAccountsAdUnitsAdUnitMappingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(AdUnitMapping).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/adUnits/{adUnitsId}/adUnitMappings",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsAdUnitsAdUnitMappingsRequest>;
+export const CreateAccountsAdUnitsAdUnitMappingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(AdUnitMapping).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/adUnits/{adUnitsId}/adUnitMappings",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsAdUnitsAdUnitMappingsRequest>;
 
 export type CreateAccountsAdUnitsAdUnitMappingsResponse = AdUnitMapping;
-export const CreateAccountsAdUnitsAdUnitMappingsResponse = AdUnitMapping;
+export const CreateAccountsAdUnitsAdUnitMappingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AdUnitMapping;
 
 export type CreateAccountsAdUnitsAdUnitMappingsError = DefaultErrors;
 
@@ -1488,7 +1509,7 @@ export const createAccountsAdUnitsAdUnitMappings: API.OperationMethod<
   CreateAccountsAdUnitsAdUnitMappingsResponse,
   CreateAccountsAdUnitsAdUnitMappingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsAdUnitsAdUnitMappingsRequest,
   output: CreateAccountsAdUnitsAdUnitMappingsResponse,
   errors: [],
@@ -1505,23 +1526,24 @@ export interface ListAccountsAdUnitsAdUnitMappingsRequest {
   filter?: string;
 }
 
-export const ListAccountsAdUnitsAdUnitMappingsRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/accounts/{accountsId}/adUnits/{adUnitsId}/adUnitMappings",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdUnitsAdUnitMappingsRequest>;
+export const ListAccountsAdUnitsAdUnitMappingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/accounts/{accountsId}/adUnits/{adUnitsId}/adUnitMappings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdUnitsAdUnitMappingsRequest>;
 
 export type ListAccountsAdUnitsAdUnitMappingsResponse =
   ListAdUnitMappingsResponse;
 export const ListAccountsAdUnitsAdUnitMappingsResponse =
-  ListAdUnitMappingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListAdUnitMappingsResponse;
 
 export type ListAccountsAdUnitsAdUnitMappingsError = DefaultErrors;
 
@@ -1531,7 +1553,7 @@ export const listAccountsAdUnitsAdUnitMappings: API.PaginatedOperationMethod<
   ListAccountsAdUnitsAdUnitMappingsResponse,
   ListAccountsAdUnitsAdUnitMappingsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdUnitsAdUnitMappingsRequest,
   output: ListAccountsAdUnitsAdUnitMappingsResponse,
   errors: [],
@@ -1548,22 +1570,23 @@ export interface GenerateAccountsNetworkReportRequest {
   body?: GenerateNetworkReportRequest;
 }
 
-export const GenerateAccountsNetworkReportRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateNetworkReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/networkReport:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsNetworkReportRequest>;
+export const GenerateAccountsNetworkReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateNetworkReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/networkReport:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsNetworkReportRequest>;
 
 export type GenerateAccountsNetworkReportResponse =
   GenerateNetworkReportResponse;
 export const GenerateAccountsNetworkReportResponse =
-  GenerateNetworkReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateNetworkReportResponse;
 
 export type GenerateAccountsNetworkReportError = DefaultErrors;
 
@@ -1573,7 +1596,7 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   GenerateAccountsNetworkReportResponse,
   GenerateAccountsNetworkReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsNetworkReportRequest,
   output: GenerateAccountsNetworkReportResponse,
   errors: [],
@@ -1586,22 +1609,23 @@ export interface GenerateAccountsMediationReportRequest {
   body?: GenerateMediationReportRequest;
 }
 
-export const GenerateAccountsMediationReportRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateMediationReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/mediationReport:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsMediationReportRequest>;
+export const GenerateAccountsMediationReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateMediationReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/mediationReport:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsMediationReportRequest>;
 
 export type GenerateAccountsMediationReportResponse =
   GenerateMediationReportResponse;
 export const GenerateAccountsMediationReportResponse =
-  GenerateMediationReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateMediationReportResponse;
 
 export type GenerateAccountsMediationReportError = DefaultErrors;
 
@@ -1611,7 +1635,7 @@ export const generateAccountsMediationReport: API.OperationMethod<
   GenerateAccountsMediationReportResponse,
   GenerateAccountsMediationReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsMediationReportRequest,
   output: GenerateAccountsMediationReportResponse,
   errors: [],
@@ -1624,22 +1648,23 @@ export interface GenerateAccountsCampaignReportRequest {
   body?: GenerateCampaignReportRequest;
 }
 
-export const GenerateAccountsCampaignReportRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GenerateCampaignReportRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/campaignReport:generate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<GenerateAccountsCampaignReportRequest>;
+export const GenerateAccountsCampaignReportRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GenerateCampaignReportRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/campaignReport:generate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GenerateAccountsCampaignReportRequest>;
 
 export type GenerateAccountsCampaignReportResponse =
   GenerateCampaignReportResponse;
 export const GenerateAccountsCampaignReportResponse =
-  GenerateCampaignReportResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GenerateCampaignReportResponse;
 
 export type GenerateAccountsCampaignReportError = DefaultErrors;
 
@@ -1649,7 +1674,7 @@ export const generateAccountsCampaignReport: API.OperationMethod<
   GenerateAccountsCampaignReportResponse,
   GenerateAccountsCampaignReportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GenerateAccountsCampaignReportRequest,
   output: GenerateAccountsCampaignReportResponse,
   errors: [],
@@ -1662,20 +1687,22 @@ export interface CreateAccountsMediationGroupsRequest {
   body?: MediationGroup;
 }
 
-export const CreateAccountsMediationGroupsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(MediationGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/mediationGroups",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateAccountsMediationGroupsRequest>;
+export const CreateAccountsMediationGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(MediationGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/mediationGroups",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsMediationGroupsRequest>;
 
 export type CreateAccountsMediationGroupsResponse = MediationGroup;
-export const CreateAccountsMediationGroupsResponse = MediationGroup;
+export const CreateAccountsMediationGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ MediationGroup;
 
 export type CreateAccountsMediationGroupsError = DefaultErrors;
 
@@ -1685,7 +1712,7 @@ export const createAccountsMediationGroups: API.OperationMethod<
   CreateAccountsMediationGroupsResponse,
   CreateAccountsMediationGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsMediationGroupsRequest,
   output: CreateAccountsMediationGroupsResponse,
   errors: [],
@@ -1700,21 +1727,23 @@ export interface PatchAccountsMediationGroupsRequest {
   body?: MediationGroup;
 }
 
-export const PatchAccountsMediationGroupsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(MediationGroup).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1beta/accounts/{accountsId}/mediationGroups/{mediationGroupsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchAccountsMediationGroupsRequest>;
+export const PatchAccountsMediationGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(MediationGroup).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta/accounts/{accountsId}/mediationGroups/{mediationGroupsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchAccountsMediationGroupsRequest>;
 
 export type PatchAccountsMediationGroupsResponse = MediationGroup;
-export const PatchAccountsMediationGroupsResponse = MediationGroup;
+export const PatchAccountsMediationGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ MediationGroup;
 
 export type PatchAccountsMediationGroupsError = DefaultErrors;
 
@@ -1724,7 +1753,7 @@ export const patchAccountsMediationGroups: API.OperationMethod<
   PatchAccountsMediationGroupsResponse,
   PatchAccountsMediationGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchAccountsMediationGroupsRequest,
   output: PatchAccountsMediationGroupsResponse,
   errors: [],
@@ -1741,21 +1770,23 @@ export interface ListAccountsMediationGroupsRequest {
   pageToken?: string;
 }
 
-export const ListAccountsMediationGroupsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/accounts/{accountsId}/mediationGroups",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsMediationGroupsRequest>;
+export const ListAccountsMediationGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/accounts/{accountsId}/mediationGroups",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsMediationGroupsRequest>;
 
 export type ListAccountsMediationGroupsResponse = ListMediationGroupsResponse;
-export const ListAccountsMediationGroupsResponse = ListMediationGroupsResponse;
+export const ListAccountsMediationGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListMediationGroupsResponse;
 
 export type ListAccountsMediationGroupsError = DefaultErrors;
 
@@ -1765,7 +1796,7 @@ export const listAccountsMediationGroups: API.PaginatedOperationMethod<
   ListAccountsMediationGroupsResponse,
   ListAccountsMediationGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsMediationGroupsRequest,
   output: ListAccountsMediationGroupsResponse,
   errors: [],
@@ -1783,7 +1814,7 @@ export interface CreateAccountsMediationGroupsMediationAbExperimentsRequest {
 }
 
 export const CreateAccountsMediationGroupsMediationAbExperimentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(MediationAbExperiment).pipe(T.HttpBody()),
   }).pipe(
@@ -1798,7 +1829,7 @@ export const CreateAccountsMediationGroupsMediationAbExperimentsRequest =
 export type CreateAccountsMediationGroupsMediationAbExperimentsResponse =
   MediationAbExperiment;
 export const CreateAccountsMediationGroupsMediationAbExperimentsResponse =
-  MediationAbExperiment;
+  /*@__PURE__*/ /*#__PURE__*/ MediationAbExperiment;
 
 export type CreateAccountsMediationGroupsMediationAbExperimentsError =
   DefaultErrors;
@@ -1809,7 +1840,7 @@ export const createAccountsMediationGroupsMediationAbExperiments: API.OperationM
   CreateAccountsMediationGroupsMediationAbExperimentsResponse,
   CreateAccountsMediationGroupsMediationAbExperimentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateAccountsMediationGroupsMediationAbExperimentsRequest,
   output: CreateAccountsMediationGroupsMediationAbExperimentsResponse,
   errors: [],
@@ -1823,7 +1854,7 @@ export interface StopAccountsMediationGroupsMediationAbExperimentsRequest {
 }
 
 export const StopAccountsMediationGroupsMediationAbExperimentsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(StopMediationAbExperimentRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1838,7 +1869,7 @@ export const StopAccountsMediationGroupsMediationAbExperimentsRequest =
 export type StopAccountsMediationGroupsMediationAbExperimentsResponse =
   MediationAbExperiment;
 export const StopAccountsMediationGroupsMediationAbExperimentsResponse =
-  MediationAbExperiment;
+  /*@__PURE__*/ /*#__PURE__*/ MediationAbExperiment;
 
 export type StopAccountsMediationGroupsMediationAbExperimentsError =
   DefaultErrors;
@@ -1849,7 +1880,7 @@ export const stopAccountsMediationGroupsMediationAbExperiments: API.OperationMet
   StopAccountsMediationGroupsMediationAbExperimentsResponse,
   StopAccountsMediationGroupsMediationAbExperimentsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: StopAccountsMediationGroupsMediationAbExperimentsRequest,
   output: StopAccountsMediationGroupsMediationAbExperimentsResponse,
   errors: [],
@@ -1862,22 +1893,23 @@ export interface BatchCreateAccountsAdUnitMappingsRequest {
   body?: BatchCreateAdUnitMappingsRequest;
 }
 
-export const BatchCreateAccountsAdUnitMappingsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchCreateAdUnitMappingsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta/accounts/{accountsId}/adUnitMappings:batchCreate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchCreateAccountsAdUnitMappingsRequest>;
+export const BatchCreateAccountsAdUnitMappingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchCreateAdUnitMappingsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/accounts/{accountsId}/adUnitMappings:batchCreate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchCreateAccountsAdUnitMappingsRequest>;
 
 export type BatchCreateAccountsAdUnitMappingsResponse =
   BatchCreateAdUnitMappingsResponse;
 export const BatchCreateAccountsAdUnitMappingsResponse =
-  BatchCreateAdUnitMappingsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchCreateAdUnitMappingsResponse;
 
 export type BatchCreateAccountsAdUnitMappingsError = DefaultErrors;
 
@@ -1887,7 +1919,7 @@ export const batchCreateAccountsAdUnitMappings: API.OperationMethod<
   BatchCreateAccountsAdUnitMappingsResponse,
   BatchCreateAccountsAdUnitMappingsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchCreateAccountsAdUnitMappingsRequest,
   output: BatchCreateAccountsAdUnitMappingsResponse,
   errors: [],
@@ -1902,17 +1934,19 @@ export interface ListAccountsAdSourcesRequest {
   pageSize?: number;
 }
 
-export const ListAccountsAdSourcesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/adSources" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdSourcesRequest>;
+export const ListAccountsAdSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta/accounts/{accountsId}/adSources" }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdSourcesRequest>;
 
 export type ListAccountsAdSourcesResponse = ListAdSourcesResponse;
-export const ListAccountsAdSourcesResponse = ListAdSourcesResponse;
+export const ListAccountsAdSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdSourcesResponse;
 
 export type ListAccountsAdSourcesError = DefaultErrors;
 
@@ -1922,7 +1956,7 @@ export const listAccountsAdSources: API.PaginatedOperationMethod<
   ListAccountsAdSourcesResponse,
   ListAccountsAdSourcesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdSourcesRequest,
   output: ListAccountsAdSourcesResponse,
   errors: [],
@@ -1941,20 +1975,22 @@ export interface ListAccountsAdSourcesAdaptersRequest {
   pageToken?: string;
 }
 
-export const ListAccountsAdSourcesAdaptersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta/accounts/{accountsId}/adSources/{adSourcesId}/adapters",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsAdSourcesAdaptersRequest>;
+export const ListAccountsAdSourcesAdaptersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta/accounts/{accountsId}/adSources/{adSourcesId}/adapters",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsAdSourcesAdaptersRequest>;
 
 export type ListAccountsAdSourcesAdaptersResponse = ListAdaptersResponse;
-export const ListAccountsAdSourcesAdaptersResponse = ListAdaptersResponse;
+export const ListAccountsAdSourcesAdaptersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAdaptersResponse;
 
 export type ListAccountsAdSourcesAdaptersError = DefaultErrors;
 
@@ -1964,7 +2000,7 @@ export const listAccountsAdSourcesAdapters: API.PaginatedOperationMethod<
   ListAccountsAdSourcesAdaptersResponse,
   ListAccountsAdSourcesAdaptersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsAdSourcesAdaptersRequest,
   output: ListAccountsAdSourcesAdaptersResponse,
   errors: [],

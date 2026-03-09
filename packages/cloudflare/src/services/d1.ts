@@ -76,25 +76,27 @@ export interface GetBookmarkDatabaseTimeTravelRequest {
   timestamp?: string;
 }
 
-export const GetBookmarkDatabaseTimeTravelRequest = Schema.Struct({
-  databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/bookmark",
-  }),
-) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelRequest>;
+export const GetBookmarkDatabaseTimeTravelRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/bookmark",
+    }),
+  ) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelRequest>;
 
 export interface GetBookmarkDatabaseTimeTravelResponse {
   /** A bookmark representing a specific state of the database at a specific point in time. */
   bookmark?: string | null;
 }
 
-export const GetBookmarkDatabaseTimeTravelResponse = Schema.Struct({
-  bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
+export const GetBookmarkDatabaseTimeTravelResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
 
 export type GetBookmarkDatabaseTimeTravelError =
   | DefaultErrors
@@ -108,7 +110,7 @@ export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
   GetBookmarkDatabaseTimeTravelResponse,
   GetBookmarkDatabaseTimeTravelError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBookmarkDatabaseTimeTravelRequest,
   output: GetBookmarkDatabaseTimeTravelResponse,
   errors: [
@@ -130,7 +132,7 @@ export interface ListDatabasesRequest {
   name?: string;
 }
 
-export const ListDatabasesRequest = Schema.Struct({
+export const ListDatabasesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
 }).pipe(
@@ -144,7 +146,7 @@ export type ListDatabasesResponse = {
   version?: string | null;
 }[];
 
-export const ListDatabasesResponse = Schema.Array(
+export const ListDatabasesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -167,7 +169,7 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListDatabasesRequest,
   output: ListDatabasesResponse,
   errors: [],
@@ -183,7 +185,7 @@ export interface GetDatabaseRequest {
   accountId: string;
 }
 
-export const GetDatabaseRequest = Schema.Struct({
+export const GetDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -196,7 +198,7 @@ export const GetDatabaseRequest = Schema.Struct({
 export type GetDatabaseResponse = unknown;
 
 export const GetDatabaseResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDatabaseResponse>;
 
 export type GetDatabaseError =
   | DefaultErrors
@@ -209,7 +211,7 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseResponse,
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDatabaseRequest,
   output: GetDatabaseResponse,
   errors: [InvalidObjectIdentifier, DatabaseNotFound, UnknownError],
@@ -226,7 +228,7 @@ export interface CreateDatabaseRequest {
   primaryLocationHint?: "wnam" | "enam" | "weur" | "eeur" | "apac" | "oc";
 }
 
-export const CreateDatabaseRequest = Schema.Struct({
+export const CreateDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   name: Schema.String,
   jurisdiction: Schema.optional(Schema.Literals(["eu", "fedramp"])),
@@ -245,7 +247,7 @@ export const CreateDatabaseRequest = Schema.Struct({
 export type CreateDatabaseResponse = unknown;
 
 export const CreateDatabaseResponse =
-  Schema.Unknown as unknown as Schema.Schema<CreateDatabaseResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateDatabaseResponse>;
 
 export type CreateDatabaseError =
   | DefaultErrors
@@ -257,7 +259,7 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseResponse,
   CreateDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateDatabaseRequest,
   output: CreateDatabaseResponse,
   errors: [InvalidObjectIdentifier, InvalidProperty],
@@ -271,7 +273,7 @@ export interface UpdateDatabaseRequest {
   readReplication: { mode: "auto" | "disabled" };
 }
 
-export const UpdateDatabaseRequest = Schema.Struct({
+export const UpdateDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.Struct({
@@ -288,7 +290,7 @@ export const UpdateDatabaseRequest = Schema.Struct({
 export type UpdateDatabaseResponse = unknown;
 
 export const UpdateDatabaseResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateDatabaseResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateDatabaseResponse>;
 
 export type UpdateDatabaseError =
   | DefaultErrors
@@ -301,7 +303,7 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseResponse,
   UpdateDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
   errors: [InvalidObjectIdentifier, InternalError, DatabaseNotFound],
@@ -315,7 +317,7 @@ export interface PatchDatabaseRequest {
   readReplication?: { mode: "auto" | "disabled" };
 }
 
-export const PatchDatabaseRequest = Schema.Struct({
+export const PatchDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   readReplication: Schema.optional(
@@ -334,7 +336,7 @@ export const PatchDatabaseRequest = Schema.Struct({
 export type PatchDatabaseResponse = unknown;
 
 export const PatchDatabaseResponse =
-  Schema.Unknown as unknown as Schema.Schema<PatchDatabaseResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PatchDatabaseResponse>;
 
 export type PatchDatabaseError =
   | DefaultErrors
@@ -347,7 +349,7 @@ export const patchDatabase: API.OperationMethod<
   PatchDatabaseResponse,
   PatchDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchDatabaseRequest,
   output: PatchDatabaseResponse,
   errors: [InvalidObjectIdentifier, InternalError, DatabaseNotFound],
@@ -359,7 +361,7 @@ export interface DeleteDatabaseRequest {
   accountId: string;
 }
 
-export const DeleteDatabaseRequest = Schema.Struct({
+export const DeleteDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
 }).pipe(
@@ -372,7 +374,7 @@ export const DeleteDatabaseRequest = Schema.Struct({
 export type DeleteDatabaseResponse = unknown;
 
 export const DeleteDatabaseResponse =
-  Schema.Unknown as unknown as Schema.Schema<DeleteDatabaseResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteDatabaseResponse>;
 
 export type DeleteDatabaseError =
   | DefaultErrors
@@ -385,7 +387,7 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseResponse,
   DeleteDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
   errors: [InvalidObjectIdentifier, DatabaseNotFound, UnknownError],
@@ -403,7 +405,7 @@ export interface ExportDatabaseRequest {
   dumpOptions?: { noData?: boolean; noSchema?: boolean; tables?: string[] };
 }
 
-export const ExportDatabaseRequest = Schema.Struct({
+export const ExportDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   outputFormat: Schema.Literal("polling"),
@@ -447,32 +449,38 @@ export interface ExportDatabaseResponse {
   type?: "export" | null;
 }
 
-export const ExportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  messages: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  result: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        signedUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({ filename: "filename", signedUrl: "signed_url" }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  status: Schema.optional(
-    Schema.Union([
-      Schema.Literals(["complete", "error", "active"]),
-      Schema.Null,
-    ]),
-  ),
-  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.Literal("export"), Schema.Null])),
-}).pipe(
+export const ExportDatabaseResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    messages: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    result: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          signedUrl: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ filename: "filename", signedUrl: "signed_url" }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    status: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["complete", "error", "active"]),
+        Schema.Null,
+      ]),
+    ),
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("export"), Schema.Null]),
+    ),
+  },
+).pipe(
   Schema.encodeKeys({
     atBookmark: "at_bookmark",
     error: "error",
@@ -495,7 +503,7 @@ export const exportDatabase: API.OperationMethod<
   ExportDatabaseResponse,
   ExportDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportDatabaseRequest,
   output: ExportDatabaseResponse,
   errors: [InvalidObjectIdentifier, InvalidRequest, DatabaseNotFound],
@@ -511,7 +519,7 @@ export interface ImportDatabaseRequest {
   etag: string;
 }
 
-export const ImportDatabaseRequest = Schema.Struct({
+export const ImportDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   action: Schema.Literal("init"),
@@ -557,110 +565,116 @@ export interface ImportDatabaseResponse {
   uploadUrl?: string | null;
 }
 
-export const ImportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  messages: Schema.optional(
-    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-  ),
-  result: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        finalBookmark: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        meta: Schema.optional(
-          Schema.Union([
-            Schema.Struct({
-              changedDb: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-              changes: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              duration: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              lastRowId: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              rowsRead: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              rowsWritten: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              servedByColo: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              servedByPrimary: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-              servedByRegion: Schema.optional(
-                Schema.Union([
-                  Schema.Literals([
-                    "WNAM",
-                    "ENAM",
-                    "WEUR",
-                    "EEUR",
-                    "APAC",
-                    "OC",
+export const ImportDatabaseResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    messages: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    result: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          finalBookmark: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          meta: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                changedDb: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                changes: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                duration: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                lastRowId: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                rowsRead: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                rowsWritten: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                servedByColo: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                servedByPrimary: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                servedByRegion: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals([
+                      "WNAM",
+                      "ENAM",
+                      "WEUR",
+                      "EEUR",
+                      "APAC",
+                      "OC",
+                    ]),
+                    Schema.Null,
                   ]),
-                  Schema.Null,
-                ]),
-              ),
-              sizeAfter: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              timings: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    sqlDurationMs: Schema.optional(
-                      Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                sizeAfter: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                timings: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      sqlDurationMs: Schema.optional(
+                        Schema.Union([Schema.Number, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" }),
                     ),
-                  }).pipe(
-                    Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" }),
-                  ),
-                  Schema.Null,
-                ]),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  changedDb: "changed_db",
+                  changes: "changes",
+                  duration: "duration",
+                  lastRowId: "last_row_id",
+                  rowsRead: "rows_read",
+                  rowsWritten: "rows_written",
+                  servedByColo: "served_by_colo",
+                  servedByPrimary: "served_by_primary",
+                  servedByRegion: "served_by_region",
+                  sizeAfter: "size_after",
+                  timings: "timings",
+                }),
               ),
-            }).pipe(
-              Schema.encodeKeys({
-                changedDb: "changed_db",
-                changes: "changes",
-                duration: "duration",
-                lastRowId: "last_row_id",
-                rowsRead: "rows_read",
-                rowsWritten: "rows_written",
-                servedByColo: "served_by_colo",
-                servedByPrimary: "served_by_primary",
-                servedByRegion: "served_by_region",
-                sizeAfter: "size_after",
-                timings: "timings",
-              }),
-            ),
-            Schema.Null,
-          ]),
+              Schema.Null,
+            ]),
+          ),
+          numQueries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            finalBookmark: "final_bookmark",
+            meta: "meta",
+            numQueries: "num_queries",
+          }),
         ),
-        numQueries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({
-          finalBookmark: "final_bookmark",
-          meta: "meta",
-          numQueries: "num_queries",
-        }),
-      ),
-      Schema.Null,
-    ]),
-  ),
-  status: Schema.optional(
-    Schema.Union([Schema.Literals(["complete", "error"]), Schema.Null]),
-  ),
-  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  type: Schema.optional(Schema.Union([Schema.Literal("import"), Schema.Null])),
-  uploadUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
+        Schema.Null,
+      ]),
+    ),
+    status: Schema.optional(
+      Schema.Union([Schema.Literals(["complete", "error"]), Schema.Null]),
+    ),
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("import"), Schema.Null]),
+    ),
+    uploadUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  },
+).pipe(
   Schema.encodeKeys({
     atBookmark: "at_bookmark",
     error: "error",
@@ -681,7 +695,7 @@ export const importDatabase: API.OperationMethod<
   ImportDatabaseResponse,
   ImportDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ImportDatabaseRequest,
   output: ImportDatabaseResponse,
   errors: [InvalidObjectIdentifier],
@@ -697,7 +711,7 @@ export interface QueryDatabaseRequest {
   params?: string[];
 }
 
-export const QueryDatabaseRequest = Schema.Struct({
+export const QueryDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   sql: Schema.String,
@@ -727,7 +741,7 @@ export type QueryDatabaseResponse = {
   success?: boolean | null;
 }[];
 
-export const QueryDatabaseResponse = Schema.Array(
+export const QueryDatabaseResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     meta: Schema.optional(
       Schema.Union([
@@ -801,7 +815,7 @@ export const queryDatabase: API.OperationMethod<
   QueryDatabaseResponse,
   QueryDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryDatabaseRequest,
   output: QueryDatabaseResponse,
   errors: [],
@@ -817,7 +831,7 @@ export interface RawDatabaseRequest {
   params?: string[];
 }
 
-export const RawDatabaseRequest = Schema.Struct({
+export const RawDatabaseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   sql: Schema.String,
@@ -850,7 +864,7 @@ export type RawDatabaseResponse = {
   success?: boolean | null;
 }[];
 
-export const RawDatabaseResponse = Schema.Array(
+export const RawDatabaseResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     meta: Schema.optional(
       Schema.Union([
@@ -939,7 +953,7 @@ export const rawDatabase: API.OperationMethod<
   RawDatabaseResponse,
   RawDatabaseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RawDatabaseRequest,
   output: RawDatabaseResponse,
   errors: [],
@@ -959,17 +973,18 @@ export interface RestoreDatabaseTimeTravelRequest {
   timestamp?: string;
 }
 
-export const RestoreDatabaseTimeTravelRequest = Schema.Struct({
-  databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  bookmark: Schema.optional(Schema.String).pipe(T.HttpQuery("bookmark")),
-  timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/restore",
-  }),
-) as unknown as Schema.Schema<RestoreDatabaseTimeTravelRequest>;
+export const RestoreDatabaseTimeTravelRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    databaseId: Schema.String.pipe(T.HttpPath("databaseId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    bookmark: Schema.optional(Schema.String).pipe(T.HttpQuery("bookmark")),
+    timestamp: Schema.optional(Schema.String).pipe(T.HttpQuery("timestamp")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/d1/database/{databaseId}/time_travel/restore",
+    }),
+  ) as unknown as Schema.Schema<RestoreDatabaseTimeTravelRequest>;
 
 export interface RestoreDatabaseTimeTravelResponse {
   /** The new bookmark representing the state of the database after the restore operation. */
@@ -980,17 +995,20 @@ export interface RestoreDatabaseTimeTravelResponse {
   previousBookmark?: string | null;
 }
 
-export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
-  bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  previousBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    bookmark: "bookmark",
-    message: "message",
-    previousBookmark: "previous_bookmark",
-  }),
-) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
+export const RestoreDatabaseTimeTravelResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    previousBookmark: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      bookmark: "bookmark",
+      message: "message",
+      previousBookmark: "previous_bookmark",
+    }),
+  ) as unknown as Schema.Schema<RestoreDatabaseTimeTravelResponse>;
 
 export type RestoreDatabaseTimeTravelError =
   | DefaultErrors
@@ -1004,7 +1022,7 @@ export const restoreDatabaseTimeTravel: API.OperationMethod<
   RestoreDatabaseTimeTravelResponse,
   RestoreDatabaseTimeTravelError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RestoreDatabaseTimeTravelRequest,
   output: RestoreDatabaseTimeTravelResponse,
   errors: [

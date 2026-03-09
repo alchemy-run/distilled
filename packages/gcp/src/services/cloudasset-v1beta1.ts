@@ -30,7 +30,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accessLevel: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
@@ -60,7 +60,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressFrom {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressFrom> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identityType: Schema.optional(Schema.String),
       identities: Schema.optional(Schema.Array(Schema.String)),
@@ -81,7 +81,7 @@ export interface GoogleIdentityAccesscontextmanagerV1MethodSelector {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1MethodSelector: Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permission: Schema.optional(Schema.String),
       method: Schema.optional(Schema.String),
@@ -98,7 +98,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ApiOperation {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ApiOperation: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       methodSelectors: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1MethodSelector),
@@ -121,7 +121,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressTo {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressTo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(Schema.String)),
       roles: Schema.optional(Schema.Array(Schema.String)),
@@ -144,7 +144,7 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       egressFrom: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1EgressFrom,
@@ -167,14 +167,15 @@ export interface Expr {
   expression?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    description: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
@@ -188,15 +189,15 @@ export interface AuditLogConfig {
     | (string & {});
 }
 
-export const AuditLogConfig: Schema.Schema<AuditLogConfig> = Schema.suspend(
-  () =>
+export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
       logType: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "AuditLogConfig",
-}) as any as Schema.Schema<AuditLogConfig>;
+  ).annotate({
+    identifier: "AuditLogConfig",
+  }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
@@ -205,12 +206,15 @@ export interface AuditConfig {
   auditLogConfigs?: Array<AuditLogConfig>;
 }
 
-export const AuditConfig: Schema.Schema<AuditConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    service: Schema.optional(Schema.String),
-    auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
-  }),
-).annotate({ identifier: "AuditConfig" }) as any as Schema.Schema<AuditConfig>;
+export const AuditConfig: Schema.Schema<AuditConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      service: Schema.optional(Schema.String),
+      auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+    }),
+  ).annotate({
+    identifier: "AuditConfig",
+  }) as any as Schema.Schema<AuditConfig>;
 
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
@@ -221,13 +225,14 @@ export interface Binding {
   role?: string;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-    role: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+      role: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
@@ -240,14 +245,15 @@ export interface Policy {
   version?: number;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    version: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface GcsDestination {
   /** The URI of the Cloud Storage object. It's the same URI that is used by gsutil. For example: "gs://bucket_name/object_name". See [Viewing and Editing Object Metadata](https://cloud.google.com/storage/docs/viewing-editing-metadata) for more information. */
@@ -256,28 +262,29 @@ export interface GcsDestination {
   uriPrefix?: string;
 }
 
-export const GcsDestination: Schema.Schema<GcsDestination> = Schema.suspend(
-  () =>
+export const GcsDestination: Schema.Schema<GcsDestination> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uri: Schema.optional(Schema.String),
       uriPrefix: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "GcsDestination",
-}) as any as Schema.Schema<GcsDestination>;
+  ).annotate({
+    identifier: "GcsDestination",
+  }) as any as Schema.Schema<GcsDestination>;
 
 export interface OutputConfig {
   /** Destination on Cloud Storage. */
   gcsDestination?: GcsDestination;
 }
 
-export const OutputConfig: Schema.Schema<OutputConfig> = Schema.suspend(() =>
-  Schema.Struct({
-    gcsDestination: Schema.optional(GcsDestination),
-  }),
-).annotate({
-  identifier: "OutputConfig",
-}) as any as Schema.Schema<OutputConfig>;
+export const OutputConfig: Schema.Schema<OutputConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gcsDestination: Schema.optional(GcsDestination),
+    }),
+  ).annotate({
+    identifier: "OutputConfig",
+  }) as any as Schema.Schema<OutputConfig>;
 
 export interface ExportAssetsRequest {
   /** A list of asset types of which to take a snapshot for. For example: "google.compute.Disk". If specified, only matching assets will be returned. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview) for all supported asset types. */
@@ -295,7 +302,7 @@ export interface ExportAssetsRequest {
 }
 
 export const ExportAssetsRequest: Schema.Schema<ExportAssetsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetTypes: Schema.optional(Schema.Array(Schema.String)),
       readTime: Schema.optional(Schema.String),
@@ -321,16 +328,17 @@ export interface Resource {
   resourceUrl?: string;
 }
 
-export const Resource: Schema.Schema<Resource> = Schema.suspend(() =>
-  Schema.Struct({
-    data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    discoveryName: Schema.optional(Schema.String),
-    parent: Schema.optional(Schema.String),
-    discoveryDocumentUri: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
-    resourceUrl: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+export const Resource: Schema.Schema<Resource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      discoveryName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      discoveryDocumentUri: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      resourceUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
 
 export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
   /** Required. A Cloud CEL expression evaluating to a boolean. */
@@ -338,7 +346,7 @@ export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1CustomLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expr: Schema.optional(Expr),
     }),
@@ -364,7 +372,7 @@ export interface GoogleIdentityAccesscontextmanagerV1OsConstraint {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1OsConstraint: Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
       minimumVersion: Schema.optional(Schema.String),
@@ -398,7 +406,7 @@ export interface GoogleIdentityAccesscontextmanagerV1DevicePolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1DevicePolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requireCorpOwned: Schema.optional(Schema.Boolean),
       requireAdminApproval: Schema.optional(Schema.Boolean),
@@ -423,7 +431,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcSubNetwork {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcSubNetwork: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       network: Schema.optional(Schema.String),
       vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
@@ -438,7 +446,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcNetworkSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcNetworkSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcNetworkSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vpcSubnetwork: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1VpcSubNetwork,
@@ -466,7 +474,7 @@ export interface GoogleIdentityAccesscontextmanagerV1Condition {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1Condition: Schema.Schema<GoogleIdentityAccesscontextmanagerV1Condition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       members: Schema.optional(Schema.Array(Schema.String)),
       requiredAccessLevels: Schema.optional(Schema.Array(Schema.String)),
@@ -492,7 +500,7 @@ export interface GoogleIdentityAccesscontextmanagerV1BasicLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1BasicLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditions: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1Condition),
@@ -517,7 +525,7 @@ export interface GoogleIdentityAccesscontextmanagerV1AccessLevel {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1AccessLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -537,7 +545,7 @@ export interface GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       allowedServices: Schema.optional(Schema.Array(Schema.String)),
       enableRestriction: Schema.optional(Schema.Boolean),
@@ -554,7 +562,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressSource {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resource: Schema.optional(Schema.String),
       accessLevel: Schema.optional(Schema.String),
@@ -578,7 +586,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressFrom {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sources: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressSource),
@@ -600,7 +608,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressTo {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       roles: Schema.optional(Schema.Array(Schema.String)),
       operations: Schema.optional(
@@ -622,7 +630,7 @@ export interface GoogleIdentityAccesscontextmanagerV1IngressPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       title: Schema.optional(Schema.String),
       ingressFrom: Schema.optional(
@@ -650,7 +658,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictedServices: Schema.optional(Schema.Array(Schema.String)),
       vpcAccessibleServices: Schema.optional(
@@ -692,7 +700,7 @@ export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeter {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeter: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig,
@@ -725,7 +733,7 @@ export interface GoogleIdentityAccesscontextmanagerV1AccessPolicy {
 }
 
 export const GoogleIdentityAccesscontextmanagerV1AccessPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       scopes: Schema.optional(Schema.Array(Schema.String)),
       name: Schema.optional(Schema.String),
@@ -751,7 +759,7 @@ export interface GoogleCloudOrgpolicyV1ListPolicy {
 }
 
 export const GoogleCloudOrgpolicyV1ListPolicy: Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deniedValues: Schema.optional(Schema.Array(Schema.String)),
       suggestedValue: Schema.optional(Schema.String),
@@ -769,7 +777,7 @@ export interface GoogleCloudOrgpolicyV1BooleanPolicy {
 }
 
 export const GoogleCloudOrgpolicyV1BooleanPolicy: Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enforced: Schema.optional(Schema.Boolean),
     }),
@@ -780,7 +788,7 @@ export const GoogleCloudOrgpolicyV1BooleanPolicy: Schema.Schema<GoogleCloudOrgpo
 export interface GoogleCloudOrgpolicyV1RestoreDefault {}
 
 export const GoogleCloudOrgpolicyV1RestoreDefault: Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleCloudOrgpolicyV1RestoreDefault",
   }) as any as Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault>;
 
@@ -802,7 +810,7 @@ export interface GoogleCloudOrgpolicyV1Policy {
 }
 
 export const GoogleCloudOrgpolicyV1Policy: Schema.Schema<GoogleCloudOrgpolicyV1Policy> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.Number),
       listPolicy: Schema.optional(GoogleCloudOrgpolicyV1ListPolicy),
@@ -835,24 +843,25 @@ export interface Asset {
   orgPolicy?: Array<GoogleCloudOrgpolicyV1Policy>;
 }
 
-export const Asset: Schema.Schema<Asset> = Schema.suspend(() =>
-  Schema.Struct({
-    assetType: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    iamPolicy: Schema.optional(Policy),
-    resource: Schema.optional(Resource),
-    accessLevel: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1AccessLevel,
-    ),
-    servicePerimeter: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
-    ),
-    accessPolicy: Schema.optional(
-      GoogleIdentityAccesscontextmanagerV1AccessPolicy,
-    ),
-    orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
-  }),
-).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
+export const Asset: Schema.Schema<Asset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      assetType: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      iamPolicy: Schema.optional(Policy),
+      resource: Schema.optional(Resource),
+      accessLevel: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessLevel,
+      ),
+      servicePerimeter: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
+      ),
+      accessPolicy: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessPolicy,
+      ),
+      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
+    }),
+  ).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
 export interface TimeWindow {
   /** End time of the time window (inclusive). If not specified, the current timestamp is used instead. */
@@ -861,12 +870,13 @@ export interface TimeWindow {
   startTime?: string;
 }
 
-export const TimeWindow: Schema.Schema<TimeWindow> = Schema.suspend(() =>
-  Schema.Struct({
-    endTime: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
+export const TimeWindow: Schema.Schema<TimeWindow> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      endTime: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TimeWindow" }) as any as Schema.Schema<TimeWindow>;
 
 export interface GoogleCloudAssetV1p7beta1RelatedAsset {
   /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
@@ -878,7 +888,7 @@ export interface GoogleCloudAssetV1p7beta1RelatedAsset {
 }
 
 export const GoogleCloudAssetV1p7beta1RelatedAsset: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assetType: Schema.optional(Schema.String),
       ancestors: Schema.optional(Schema.Array(Schema.String)),
@@ -897,15 +907,16 @@ export interface Status {
   code?: number;
 }
 
-export const Status: Schema.Schema<Status> = Schema.suspend(() =>
-  Schema.Struct({
-    details: Schema.optional(
-      Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-    ),
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+      message: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -920,15 +931,16 @@ export interface Operation {
   response?: Record<string, unknown>;
 }
 
-export const Operation: Schema.Schema<Operation> = Schema.suspend(() =>
-  Schema.Struct({
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    name: Schema.optional(Schema.String),
-    done: Schema.optional(Schema.Boolean),
-    error: Schema.optional(Status),
-    response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-  }),
-).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 export interface AnalyzeIamPolicyLongrunningMetadata {
   /** Output only. The time the operation was created. */
@@ -936,7 +948,7 @@ export interface AnalyzeIamPolicyLongrunningMetadata {
 }
 
 export const AnalyzeIamPolicyLongrunningMetadata: Schema.Schema<AnalyzeIamPolicyLongrunningMetadata> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createTime: Schema.optional(Schema.String),
     }),
@@ -953,15 +965,16 @@ export interface TemporalAsset {
   asset?: Asset;
 }
 
-export const TemporalAsset: Schema.Schema<TemporalAsset> = Schema.suspend(() =>
-  Schema.Struct({
-    window: Schema.optional(TimeWindow),
-    deleted: Schema.optional(Schema.Boolean),
-    asset: Schema.optional(Asset),
-  }),
-).annotate({
-  identifier: "TemporalAsset",
-}) as any as Schema.Schema<TemporalAsset>;
+export const TemporalAsset: Schema.Schema<TemporalAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      window: Schema.optional(TimeWindow),
+      deleted: Schema.optional(Schema.Boolean),
+      asset: Schema.optional(Asset),
+    }),
+  ).annotate({
+    identifier: "TemporalAsset",
+  }) as any as Schema.Schema<TemporalAsset>;
 
 export interface GoogleCloudAssetV1p7beta1RelationshipAttributes {
   /** The source asset type. Example: `compute.googleapis.com/Instance` */
@@ -975,7 +988,7 @@ export interface GoogleCloudAssetV1p7beta1RelationshipAttributes {
 }
 
 export const GoogleCloudAssetV1p7beta1RelationshipAttributes: Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sourceResourceType: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -994,7 +1007,7 @@ export interface GoogleCloudAssetV1p7beta1RelatedAssets {
 }
 
 export const GoogleCloudAssetV1p7beta1RelatedAssets: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       relationshipAttributes: Schema.optional(
         GoogleCloudAssetV1p7beta1RelationshipAttributes,
@@ -1013,7 +1026,7 @@ export interface BatchGetAssetsHistoryResponse {
 }
 
 export const BatchGetAssetsHistoryResponse: Schema.Schema<BatchGetAssetsHistoryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       assets: Schema.optional(Schema.Array(TemporalAsset)),
     }),
@@ -1039,7 +1052,7 @@ export interface GoogleCloudAssetV1p7beta1Resource {
 }
 
 export const GoogleCloudAssetV1p7beta1Resource: Schema.Schema<GoogleCloudAssetV1p7beta1Resource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       resourceUrl: Schema.optional(Schema.String),
@@ -1079,7 +1092,7 @@ export interface GoogleCloudAssetV1p7beta1Asset {
 }
 
 export const GoogleCloudAssetV1p7beta1Asset: Schema.Schema<GoogleCloudAssetV1p7beta1Asset> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
       iamPolicy: Schema.optional(Policy),
@@ -1106,7 +1119,7 @@ export const GoogleCloudAssetV1p7beta1Asset: Schema.Schema<GoogleCloudAssetV1p7b
 export interface AnalyzeIamPolicyLongrunningResponse {}
 
 export const AnalyzeIamPolicyLongrunningResponse: Schema.Schema<AnalyzeIamPolicyLongrunningResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "AnalyzeIamPolicyLongrunningResponse",
   }) as any as Schema.Schema<AnalyzeIamPolicyLongrunningResponse>;
 
@@ -1131,30 +1144,33 @@ export interface BatchGetAssetsHistoryProjectsRequest {
   "readTimeWindow.endTime"?: string;
 }
 
-export const BatchGetAssetsHistoryProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  contentType: Schema.optional(Schema.String).pipe(T.HttpQuery("contentType")),
-  assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("assetNames"),
-  ),
-  "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.startTime"),
-  ),
-  "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.endTime"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}:batchGetAssetsHistory",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetAssetsHistoryProjectsRequest>;
+export const BatchGetAssetsHistoryProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    contentType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentType"),
+    ),
+    assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("assetNames"),
+    ),
+    "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.startTime"),
+    ),
+    "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.endTime"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}:batchGetAssetsHistory",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetAssetsHistoryProjectsRequest>;
 
 export type BatchGetAssetsHistoryProjectsResponse =
   BatchGetAssetsHistoryResponse;
 export const BatchGetAssetsHistoryProjectsResponse =
-  BatchGetAssetsHistoryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetAssetsHistoryResponse;
 
 export type BatchGetAssetsHistoryProjectsError = DefaultErrors;
 
@@ -1164,7 +1180,7 @@ export const batchGetAssetsHistoryProjects: API.OperationMethod<
   BatchGetAssetsHistoryProjectsResponse,
   BatchGetAssetsHistoryProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAssetsHistoryProjectsRequest,
   output: BatchGetAssetsHistoryProjectsResponse,
   errors: [],
@@ -1177,20 +1193,22 @@ export interface ExportAssetsProjectsRequest {
   body?: ExportAssetsRequest;
 }
 
-export const ExportAssetsProjectsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}:exportAssets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportAssetsProjectsRequest>;
+export const ExportAssetsProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}:exportAssets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportAssetsProjectsRequest>;
 
 export type ExportAssetsProjectsResponse = Operation;
-export const ExportAssetsProjectsResponse = Operation;
+export const ExportAssetsProjectsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ExportAssetsProjectsError = DefaultErrors;
 
@@ -1200,7 +1218,7 @@ export const exportAssetsProjects: API.OperationMethod<
   ExportAssetsProjectsResponse,
   ExportAssetsProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAssetsProjectsRequest,
   output: ExportAssetsProjectsResponse,
   errors: [],
@@ -1211,18 +1229,20 @@ export interface GetProjectsOperationsRequest {
   name: string;
 }
 
-export const GetProjectsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/operations/{operationsId}/{operationsId1}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
+export const GetProjectsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/operations/{operationsId}/{operationsId1}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
 export type GetProjectsOperationsResponse = Operation;
-export const GetProjectsOperationsResponse = Operation;
+export const GetProjectsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetProjectsOperationsError = DefaultErrors;
 
@@ -1232,7 +1252,7 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsResponse,
   GetProjectsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
@@ -1255,30 +1275,33 @@ export interface BatchGetAssetsHistoryOrganizationsRequest {
   "readTimeWindow.endTime"?: string;
 }
 
-export const BatchGetAssetsHistoryOrganizationsRequest = Schema.Struct({
-  "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.startTime"),
-  ),
-  assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
-    T.HttpQuery("assetNames"),
-  ),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  contentType: Schema.optional(Schema.String).pipe(T.HttpQuery("contentType")),
-  "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
-    T.HttpQuery("readTimeWindow.endTime"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/organizations/{organizationsId}:batchGetAssetsHistory",
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchGetAssetsHistoryOrganizationsRequest>;
+export const BatchGetAssetsHistoryOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "readTimeWindow.startTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.startTime"),
+    ),
+    assetNames: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("assetNames"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    contentType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("contentType"),
+    ),
+    "readTimeWindow.endTime": Schema.optional(Schema.String).pipe(
+      T.HttpQuery("readTimeWindow.endTime"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/organizations/{organizationsId}:batchGetAssetsHistory",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchGetAssetsHistoryOrganizationsRequest>;
 
 export type BatchGetAssetsHistoryOrganizationsResponse =
   BatchGetAssetsHistoryResponse;
 export const BatchGetAssetsHistoryOrganizationsResponse =
-  BatchGetAssetsHistoryResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchGetAssetsHistoryResponse;
 
 export type BatchGetAssetsHistoryOrganizationsError = DefaultErrors;
 
@@ -1288,7 +1311,7 @@ export const batchGetAssetsHistoryOrganizations: API.OperationMethod<
   BatchGetAssetsHistoryOrganizationsResponse,
   BatchGetAssetsHistoryOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchGetAssetsHistoryOrganizationsRequest,
   output: BatchGetAssetsHistoryOrganizationsResponse,
   errors: [],
@@ -1301,20 +1324,22 @@ export interface ExportAssetsOrganizationsRequest {
   body?: ExportAssetsRequest;
 }
 
-export const ExportAssetsOrganizationsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/organizations/{organizationsId}:exportAssets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportAssetsOrganizationsRequest>;
+export const ExportAssetsOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/organizations/{organizationsId}:exportAssets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportAssetsOrganizationsRequest>;
 
 export type ExportAssetsOrganizationsResponse = Operation;
-export const ExportAssetsOrganizationsResponse = Operation;
+export const ExportAssetsOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ExportAssetsOrganizationsError = DefaultErrors;
 
@@ -1324,7 +1349,7 @@ export const exportAssetsOrganizations: API.OperationMethod<
   ExportAssetsOrganizationsResponse,
   ExportAssetsOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAssetsOrganizationsRequest,
   output: ExportAssetsOrganizationsResponse,
   errors: [],
@@ -1335,18 +1360,20 @@ export interface GetOrganizationsOperationsRequest {
   name: string;
 }
 
-export const GetOrganizationsOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}/{operationsId1}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsOperationsRequest>;
+export const GetOrganizationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/organizations/{organizationsId}/operations/{operationsId}/{operationsId1}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsOperationsRequest>;
 
 export type GetOrganizationsOperationsResponse = Operation;
-export const GetOrganizationsOperationsResponse = Operation;
+export const GetOrganizationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetOrganizationsOperationsError = DefaultErrors;
 
@@ -1356,7 +1383,7 @@ export const getOrganizationsOperations: API.OperationMethod<
   GetOrganizationsOperationsResponse,
   GetOrganizationsOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: GetOrganizationsOperationsResponse,
   errors: [],
@@ -1369,20 +1396,22 @@ export interface ExportAssetsFoldersRequest {
   body?: ExportAssetsRequest;
 }
 
-export const ExportAssetsFoldersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/folders/{foldersId}:exportAssets",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ExportAssetsFoldersRequest>;
+export const ExportAssetsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExportAssetsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/folders/{foldersId}:exportAssets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ExportAssetsFoldersRequest>;
 
 export type ExportAssetsFoldersResponse = Operation;
-export const ExportAssetsFoldersResponse = Operation;
+export const ExportAssetsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type ExportAssetsFoldersError = DefaultErrors;
 
@@ -1392,7 +1421,7 @@ export const exportAssetsFolders: API.OperationMethod<
   ExportAssetsFoldersResponse,
   ExportAssetsFoldersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ExportAssetsFoldersRequest,
   output: ExportAssetsFoldersResponse,
   errors: [],
@@ -1403,18 +1432,20 @@ export interface GetFoldersOperationsRequest {
   name: string;
 }
 
-export const GetFoldersOperationsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/folders/{foldersId}/operations/{operationsId}/{operationsId1}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetFoldersOperationsRequest>;
+export const GetFoldersOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/folders/{foldersId}/operations/{operationsId}/{operationsId1}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetFoldersOperationsRequest>;
 
 export type GetFoldersOperationsResponse = Operation;
-export const GetFoldersOperationsResponse = Operation;
+export const GetFoldersOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type GetFoldersOperationsError = DefaultErrors;
 
@@ -1424,7 +1455,7 @@ export const getFoldersOperations: API.OperationMethod<
   GetFoldersOperationsResponse,
   GetFoldersOperationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetFoldersOperationsRequest,
   output: GetFoldersOperationsResponse,
   errors: [],

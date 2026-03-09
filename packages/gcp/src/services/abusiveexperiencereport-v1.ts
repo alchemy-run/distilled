@@ -46,7 +46,7 @@ export interface SiteSummaryResponse {
 }
 
 export const SiteSummaryResponse: Schema.Schema<SiteSummaryResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       enforcementTime: Schema.optional(Schema.String),
       underReview: Schema.optional(Schema.Boolean),
@@ -66,7 +66,7 @@ export interface ViolatingSitesResponse {
 }
 
 export const ViolatingSitesResponse: Schema.Schema<ViolatingSitesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       violatingSites: Schema.optional(Schema.Array(SiteSummaryResponse)),
     }),
@@ -83,7 +83,7 @@ export interface GetSitesRequest {
   name: string;
 }
 
-export const GetSitesRequest = Schema.Struct({
+export const GetSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/sites/{sitesId}" }),
@@ -91,7 +91,7 @@ export const GetSitesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSitesRequest>;
 
 export type GetSitesResponse = SiteSummaryResponse;
-export const GetSitesResponse = SiteSummaryResponse;
+export const GetSitesResponse = /*@__PURE__*/ /*#__PURE__*/ SiteSummaryResponse;
 
 export type GetSitesError = DefaultErrors;
 
@@ -101,7 +101,7 @@ export const getSites: API.OperationMethod<
   GetSitesResponse,
   GetSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
@@ -109,13 +109,15 @@ export const getSites: API.OperationMethod<
 
 export interface ListViolatingSitesRequest {}
 
-export const ListViolatingSitesRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "v1/violatingSites" }),
-  svc,
-) as unknown as Schema.Schema<ListViolatingSitesRequest>;
+export const ListViolatingSitesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "v1/violatingSites" }),
+    svc,
+  ) as unknown as Schema.Schema<ListViolatingSitesRequest>;
 
 export type ListViolatingSitesResponse = ViolatingSitesResponse;
-export const ListViolatingSitesResponse = ViolatingSitesResponse;
+export const ListViolatingSitesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ViolatingSitesResponse;
 
 export type ListViolatingSitesError = DefaultErrors;
 
@@ -125,7 +127,7 @@ export const listViolatingSites: API.OperationMethod<
   ListViolatingSitesResponse,
   ListViolatingSitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListViolatingSitesRequest,
   output: ListViolatingSitesResponse,
   errors: [],

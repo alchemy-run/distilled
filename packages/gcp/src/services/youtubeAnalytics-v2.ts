@@ -30,7 +30,7 @@ export interface GroupItemResource {
 }
 
 export const GroupItemResource: Schema.Schema<GroupItemResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -55,17 +55,18 @@ export interface ErrorProto {
   location?: string;
 }
 
-export const ErrorProto: Schema.Schema<ErrorProto> = Schema.suspend(() =>
-  Schema.Struct({
-    domain: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    debugInfo: Schema.optional(Schema.String),
-    argument: Schema.optional(Schema.Array(Schema.String)),
-    locationType: Schema.optional(Schema.String),
-    externalErrorMessage: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "ErrorProto" }) as any as Schema.Schema<ErrorProto>;
+export const ErrorProto: Schema.Schema<ErrorProto> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      domain: Schema.optional(Schema.String),
+      code: Schema.optional(Schema.String),
+      debugInfo: Schema.optional(Schema.String),
+      argument: Schema.optional(Schema.Array(Schema.String)),
+      locationType: Schema.optional(Schema.String),
+      externalErrorMessage: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "ErrorProto" }) as any as Schema.Schema<ErrorProto>;
 
 export interface Errors {
   /** Global error code. Deprecated and ignored. Set custom error codes in ErrorProto.domain and ErrorProto.code instead. */
@@ -85,13 +86,14 @@ export interface Errors {
   error?: Array<ErrorProto>;
 }
 
-export const Errors: Schema.Schema<Errors> = Schema.suspend(() =>
-  Schema.Struct({
-    code: Schema.optional(Schema.String),
-    requestId: Schema.optional(Schema.String),
-    error: Schema.optional(Schema.Array(ErrorProto)),
-  }),
-).annotate({ identifier: "Errors" }) as any as Schema.Schema<Errors>;
+export const Errors: Schema.Schema<Errors> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      requestId: Schema.optional(Schema.String),
+      error: Schema.optional(Schema.Array(ErrorProto)),
+    }),
+  ).annotate({ identifier: "Errors" }) as any as Schema.Schema<Errors>;
 
 export interface GroupContentDetails {
   /** The number of items in the group. */
@@ -101,7 +103,7 @@ export interface GroupContentDetails {
 }
 
 export const GroupContentDetails: Schema.Schema<GroupContentDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       itemCount: Schema.optional(Schema.String),
       itemType: Schema.optional(Schema.String),
@@ -120,7 +122,7 @@ export interface ResultTableColumnHeader {
 }
 
 export const ResultTableColumnHeader: Schema.Schema<ResultTableColumnHeader> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnType: Schema.optional(Schema.String),
       dataType: Schema.optional(Schema.String),
@@ -135,13 +137,14 @@ export interface EmptyResponse {
   errors?: Errors;
 }
 
-export const EmptyResponse: Schema.Schema<EmptyResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    errors: Schema.optional(Errors),
-  }),
-).annotate({
-  identifier: "EmptyResponse",
-}) as any as Schema.Schema<EmptyResponse>;
+export const EmptyResponse: Schema.Schema<EmptyResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      errors: Schema.optional(Errors),
+    }),
+  ).annotate({
+    identifier: "EmptyResponse",
+  }) as any as Schema.Schema<EmptyResponse>;
 
 export interface GroupSnippet {
   /** The date and time that the group was created. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format. */
@@ -150,14 +153,15 @@ export interface GroupSnippet {
   title?: string;
 }
 
-export const GroupSnippet: Schema.Schema<GroupSnippet> = Schema.suspend(() =>
-  Schema.Struct({
-    publishedAt: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "GroupSnippet",
-}) as any as Schema.Schema<GroupSnippet>;
+export const GroupSnippet: Schema.Schema<GroupSnippet> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publishedAt: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GroupSnippet",
+  }) as any as Schema.Schema<GroupSnippet>;
 
 export interface Group {
   /** The Etag of this resource. */
@@ -174,16 +178,17 @@ export interface Group {
   contentDetails?: GroupContentDetails;
 }
 
-export const Group: Schema.Schema<Group> = Schema.suspend(() =>
-  Schema.Struct({
-    etag: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    errors: Schema.optional(Errors),
-    kind: Schema.optional(Schema.String),
-    snippet: Schema.optional(GroupSnippet),
-    contentDetails: Schema.optional(GroupContentDetails),
-  }),
-).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
+export const Group: Schema.Schema<Group> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      etag: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      errors: Schema.optional(Errors),
+      kind: Schema.optional(Schema.String),
+      snippet: Schema.optional(GroupSnippet),
+      contentDetails: Schema.optional(GroupContentDetails),
+    }),
+  ).annotate({ identifier: "Group" }) as any as Schema.Schema<Group>;
 
 export interface ListGroupsResponse {
   /** Identifies the API resource's type. The value will be `youtube#groupListResponse`. */
@@ -199,7 +204,7 @@ export interface ListGroupsResponse {
 }
 
 export const ListGroupsResponse: Schema.Schema<ListGroupsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       items: Schema.optional(Schema.Array(Group)),
@@ -222,16 +227,17 @@ export interface QueryResponse {
   rows?: Array<Array<unknown>>;
 }
 
-export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() =>
-  Schema.Struct({
-    columnHeaders: Schema.optional(Schema.Array(ResultTableColumnHeader)),
-    errors: Schema.optional(Errors),
-    kind: Schema.optional(Schema.String),
-    rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
-  }),
-).annotate({
-  identifier: "QueryResponse",
-}) as any as Schema.Schema<QueryResponse>;
+export const QueryResponse: Schema.Schema<QueryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      columnHeaders: Schema.optional(Schema.Array(ResultTableColumnHeader)),
+      errors: Schema.optional(Errors),
+      kind: Schema.optional(Schema.String),
+      rows: Schema.optional(Schema.Array(Schema.Array(Schema.Unknown))),
+    }),
+  ).annotate({
+    identifier: "QueryResponse",
+  }) as any as Schema.Schema<QueryResponse>;
 
 export interface GroupItem {
   /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
@@ -248,16 +254,17 @@ export interface GroupItem {
   errors?: Errors;
 }
 
-export const GroupItem: Schema.Schema<GroupItem> = Schema.suspend(() =>
-  Schema.Struct({
-    kind: Schema.optional(Schema.String),
-    resource: Schema.optional(GroupItemResource),
-    groupId: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-    id: Schema.optional(Schema.String),
-    errors: Schema.optional(Errors),
-  }),
-).annotate({ identifier: "GroupItem" }) as any as Schema.Schema<GroupItem>;
+export const GroupItem: Schema.Schema<GroupItem> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      resource: Schema.optional(GroupItemResource),
+      groupId: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      errors: Schema.optional(Errors),
+    }),
+  ).annotate({ identifier: "GroupItem" }) as any as Schema.Schema<GroupItem>;
 
 export interface ListGroupItemsResponse {
   /** The Etag of this resource. */
@@ -271,7 +278,7 @@ export interface ListGroupItemsResponse {
 }
 
 export const ListGroupItemsResponse: Schema.Schema<ListGroupItemsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       etag: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
@@ -293,7 +300,7 @@ export interface UpdateGroupsRequest {
   body?: Group;
 }
 
-export const UpdateGroupsRequest = Schema.Struct({
+export const UpdateGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
@@ -304,7 +311,7 @@ export const UpdateGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateGroupsRequest>;
 
 export type UpdateGroupsResponse = Group;
-export const UpdateGroupsResponse = Group;
+export const UpdateGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Group;
 
 export type UpdateGroupsError = DefaultErrors;
 
@@ -314,7 +321,7 @@ export const updateGroups: API.OperationMethod<
   UpdateGroupsResponse,
   UpdateGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateGroupsRequest,
   output: UpdateGroupsResponse,
   errors: [],
@@ -327,7 +334,7 @@ export interface InsertGroupsRequest {
   body?: Group;
 }
 
-export const InsertGroupsRequest = Schema.Struct({
+export const InsertGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
@@ -338,7 +345,7 @@ export const InsertGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<InsertGroupsRequest>;
 
 export type InsertGroupsResponse = Group;
-export const InsertGroupsResponse = Group;
+export const InsertGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Group;
 
 export type InsertGroupsError = DefaultErrors;
 
@@ -348,7 +355,7 @@ export const insertGroups: API.OperationMethod<
   InsertGroupsResponse,
   InsertGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGroupsRequest,
   output: InsertGroupsResponse,
   errors: [],
@@ -365,7 +372,7 @@ export interface ListGroupsRequest {
   pageToken?: string;
 }
 
-export const ListGroupsRequest = Schema.Struct({
+export const ListGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mine: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("mine")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
@@ -378,7 +385,8 @@ export const ListGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponse_Op = ListGroupsResponse;
-export const ListGroupsResponse_Op = ListGroupsResponse;
+export const ListGroupsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListGroupsResponse;
 
 export type ListGroupsError = DefaultErrors;
 
@@ -388,7 +396,7 @@ export const listGroups: API.PaginatedOperationMethod<
   ListGroupsResponse_Op,
   ListGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse_Op,
   errors: [],
@@ -406,7 +414,7 @@ export interface DeleteGroupsRequest {
   id?: string;
 }
 
-export const DeleteGroupsRequest = Schema.Struct({
+export const DeleteGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
   ),
@@ -417,7 +425,7 @@ export const DeleteGroupsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteGroupsRequest>;
 
 export type DeleteGroupsResponse = EmptyResponse;
-export const DeleteGroupsResponse = EmptyResponse;
+export const DeleteGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ EmptyResponse;
 
 export type DeleteGroupsError = DefaultErrors;
 
@@ -427,7 +435,7 @@ export const deleteGroups: API.OperationMethod<
   DeleteGroupsResponse,
   DeleteGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupsRequest,
   output: DeleteGroupsResponse,
   errors: [],
@@ -440,7 +448,7 @@ export interface ListGroupItemsRequest {
   onBehalfOfContentOwner?: string;
 }
 
-export const ListGroupItemsRequest = Schema.Struct({
+export const ListGroupItemsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   groupId: Schema.optional(Schema.String).pipe(T.HttpQuery("groupId")),
   onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
     T.HttpQuery("onBehalfOfContentOwner"),
@@ -451,7 +459,8 @@ export const ListGroupItemsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListGroupItemsRequest>;
 
 export type ListGroupItemsResponse_Op = ListGroupItemsResponse;
-export const ListGroupItemsResponse_Op = ListGroupItemsResponse;
+export const ListGroupItemsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListGroupItemsResponse;
 
 export type ListGroupItemsError = DefaultErrors;
 
@@ -461,7 +470,7 @@ export const listGroupItems: API.OperationMethod<
   ListGroupItemsResponse_Op,
   ListGroupItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListGroupItemsRequest,
   output: ListGroupItemsResponse_Op,
   errors: [],
@@ -474,18 +483,20 @@ export interface DeleteGroupItemsRequest {
   id?: string;
 }
 
-export const DeleteGroupItemsRequest = Schema.Struct({
-  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("onBehalfOfContentOwner"),
-  ),
-  id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "v2/groupItems" }),
-  svc,
-) as unknown as Schema.Schema<DeleteGroupItemsRequest>;
+export const DeleteGroupItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("onBehalfOfContentOwner"),
+    ),
+    id: Schema.optional(Schema.String).pipe(T.HttpQuery("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "v2/groupItems" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteGroupItemsRequest>;
 
 export type DeleteGroupItemsResponse = EmptyResponse;
-export const DeleteGroupItemsResponse = EmptyResponse;
+export const DeleteGroupItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ EmptyResponse;
 
 export type DeleteGroupItemsError = DefaultErrors;
 
@@ -495,7 +506,7 @@ export const deleteGroupItems: API.OperationMethod<
   DeleteGroupItemsResponse,
   DeleteGroupItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteGroupItemsRequest,
   output: DeleteGroupItemsResponse,
   errors: [],
@@ -508,18 +519,19 @@ export interface InsertGroupItemsRequest {
   body?: GroupItem;
 }
 
-export const InsertGroupItemsRequest = Schema.Struct({
-  onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("onBehalfOfContentOwner"),
-  ),
-  body: Schema.optional(GroupItem).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/groupItems", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<InsertGroupItemsRequest>;
+export const InsertGroupItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    onBehalfOfContentOwner: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("onBehalfOfContentOwner"),
+    ),
+    body: Schema.optional(GroupItem).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({ method: "POST", path: "v2/groupItems", hasBody: true }),
+    svc,
+  ) as unknown as Schema.Schema<InsertGroupItemsRequest>;
 
 export type InsertGroupItemsResponse = GroupItem;
-export const InsertGroupItemsResponse = GroupItem;
+export const InsertGroupItemsResponse = /*@__PURE__*/ /*#__PURE__*/ GroupItem;
 
 export type InsertGroupItemsError = DefaultErrors;
 
@@ -529,7 +541,7 @@ export const insertGroupItems: API.OperationMethod<
   InsertGroupItemsResponse,
   InsertGroupItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertGroupItemsRequest,
   output: InsertGroupItemsResponse,
   errors: [],
@@ -560,7 +572,7 @@ export interface QueryReportsRequest {
   includeHistoricalChannelData?: boolean;
 }
 
-export const QueryReportsRequest = Schema.Struct({
+export const QueryReportsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   startDate: Schema.optional(Schema.String).pipe(T.HttpQuery("startDate")),
   endDate: Schema.optional(Schema.String).pipe(T.HttpQuery("endDate")),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
@@ -580,7 +592,7 @@ export const QueryReportsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<QueryReportsRequest>;
 
 export type QueryReportsResponse = QueryResponse;
-export const QueryReportsResponse = QueryResponse;
+export const QueryReportsResponse = /*@__PURE__*/ /*#__PURE__*/ QueryResponse;
 
 export type QueryReportsError = DefaultErrors;
 
@@ -590,7 +602,7 @@ export const queryReports: API.OperationMethod<
   QueryReportsResponse,
   QueryReportsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: QueryReportsRequest,
   output: QueryReportsResponse,
   errors: [],

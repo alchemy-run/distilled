@@ -25,7 +25,7 @@ const svc = T.Service({
 export interface CancelSubmissionRequest {}
 
 export const CancelSubmissionRequest: Schema.Schema<CancelSubmissionRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelSubmissionRequest",
   }) as any as Schema.Schema<CancelSubmissionRequest>;
 
@@ -37,7 +37,7 @@ export interface DistributionChannel {
 }
 
 export const DistributionChannel: Schema.Schema<DistributionChannel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crxVersion: Schema.optional(Schema.String),
       deployPercentage: Schema.optional(Schema.Number),
@@ -62,7 +62,7 @@ export interface ItemRevisionStatus {
 }
 
 export const ItemRevisionStatus: Schema.Schema<ItemRevisionStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       distributionChannels: Schema.optional(Schema.Array(DistributionChannel)),
@@ -76,23 +76,24 @@ export interface DeployInfo {
   deployPercentage?: number;
 }
 
-export const DeployInfo: Schema.Schema<DeployInfo> = Schema.suspend(() =>
-  Schema.Struct({
-    deployPercentage: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "DeployInfo" }) as any as Schema.Schema<DeployInfo>;
+export const DeployInfo: Schema.Schema<DeployInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      deployPercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "DeployInfo" }) as any as Schema.Schema<DeployInfo>;
 
 export interface SetPublishedDeployPercentageResponse {}
 
 export const SetPublishedDeployPercentageResponse: Schema.Schema<SetPublishedDeployPercentageResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SetPublishedDeployPercentageResponse",
   }) as any as Schema.Schema<SetPublishedDeployPercentageResponse>;
 
 export interface CancelSubmissionResponse {}
 
 export const CancelSubmissionResponse: Schema.Schema<CancelSubmissionResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CancelSubmissionResponse",
   }) as any as Schema.Schema<CancelSubmissionResponse>;
 
@@ -114,7 +115,7 @@ export interface PublishItemResponse {
 }
 
 export const PublishItemResponse: Schema.Schema<PublishItemResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       state: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
@@ -150,7 +151,7 @@ export interface FetchItemStatusResponse {
 }
 
 export const FetchItemStatusResponse: Schema.Schema<FetchItemStatusResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       itemId: Schema.optional(Schema.String),
@@ -168,7 +169,7 @@ export const FetchItemStatusResponse: Schema.Schema<FetchItemStatusResponse> =
 export interface UploadItemPackageRequest {}
 
 export const UploadItemPackageRequest: Schema.Schema<UploadItemPackageRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "UploadItemPackageRequest",
   }) as any as Schema.Schema<UploadItemPackageRequest>;
 
@@ -190,7 +191,7 @@ export interface UploadItemPackageResponse {
 }
 
 export const UploadItemPackageResponse: Schema.Schema<UploadItemPackageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       uploadState: Schema.optional(Schema.String),
       crxVersion: Schema.optional(Schema.String),
@@ -207,7 +208,7 @@ export interface SetPublishedDeployPercentageRequest {
 }
 
 export const SetPublishedDeployPercentageRequest: Schema.Schema<SetPublishedDeployPercentageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deployPercentage: Schema.optional(Schema.Number),
     }),
@@ -229,7 +230,7 @@ export interface PublishItemRequest {
 }
 
 export const PublishItemRequest: Schema.Schema<PublishItemRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publishType: Schema.optional(Schema.String),
       skipReview: Schema.optional(Schema.Boolean),
@@ -250,26 +251,25 @@ export interface SetPublishedDeployPercentagePublishersItemsRequest {
   body?: SetPublishedDeployPercentageRequest;
 }
 
-export const SetPublishedDeployPercentagePublishersItemsRequest = Schema.Struct(
-  {
+export const SetPublishedDeployPercentagePublishersItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SetPublishedDeployPercentageRequest).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/publishers/{publishersId}/items/{itemsId}:setPublishedDeployPercentage",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetPublishedDeployPercentagePublishersItemsRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/publishers/{publishersId}/items/{itemsId}:setPublishedDeployPercentage",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetPublishedDeployPercentagePublishersItemsRequest>;
 
 export type SetPublishedDeployPercentagePublishersItemsResponse =
   SetPublishedDeployPercentageResponse;
 export const SetPublishedDeployPercentagePublishersItemsResponse =
-  SetPublishedDeployPercentageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ SetPublishedDeployPercentageResponse;
 
 export type SetPublishedDeployPercentagePublishersItemsError = DefaultErrors;
 
@@ -279,7 +279,7 @@ export const setPublishedDeployPercentagePublishersItems: API.OperationMethod<
   SetPublishedDeployPercentagePublishersItemsResponse,
   SetPublishedDeployPercentagePublishersItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetPublishedDeployPercentagePublishersItemsRequest,
   output: SetPublishedDeployPercentagePublishersItemsResponse,
   errors: [],
@@ -292,20 +292,22 @@ export interface PublishPublishersItemsRequest {
   body?: PublishItemRequest;
 }
 
-export const PublishPublishersItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(PublishItemRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/publishers/{publishersId}/items/{itemsId}:publish",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PublishPublishersItemsRequest>;
+export const PublishPublishersItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PublishItemRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/publishers/{publishersId}/items/{itemsId}:publish",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PublishPublishersItemsRequest>;
 
 export type PublishPublishersItemsResponse = PublishItemResponse;
-export const PublishPublishersItemsResponse = PublishItemResponse;
+export const PublishPublishersItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublishItemResponse;
 
 export type PublishPublishersItemsError = DefaultErrors;
 
@@ -315,7 +317,7 @@ export const publishPublishersItems: API.OperationMethod<
   PublishPublishersItemsResponse,
   PublishPublishersItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PublishPublishersItemsRequest,
   output: PublishPublishersItemsResponse,
   errors: [],
@@ -328,20 +330,22 @@ export interface CancelSubmissionPublishersItemsRequest {
   body?: CancelSubmissionRequest;
 }
 
-export const CancelSubmissionPublishersItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CancelSubmissionRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/publishers/{publishersId}/items/{itemsId}:cancelSubmission",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelSubmissionPublishersItemsRequest>;
+export const CancelSubmissionPublishersItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelSubmissionRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/publishers/{publishersId}/items/{itemsId}:cancelSubmission",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelSubmissionPublishersItemsRequest>;
 
 export type CancelSubmissionPublishersItemsResponse = CancelSubmissionResponse;
-export const CancelSubmissionPublishersItemsResponse = CancelSubmissionResponse;
+export const CancelSubmissionPublishersItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CancelSubmissionResponse;
 
 export type CancelSubmissionPublishersItemsError = DefaultErrors;
 
@@ -351,7 +355,7 @@ export const cancelSubmissionPublishersItems: API.OperationMethod<
   CancelSubmissionPublishersItemsResponse,
   CancelSubmissionPublishersItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelSubmissionPublishersItemsRequest,
   output: CancelSubmissionPublishersItemsResponse,
   errors: [],
@@ -362,18 +366,20 @@ export interface FetchStatusPublishersItemsRequest {
   name: string;
 }
 
-export const FetchStatusPublishersItemsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/publishers/{publishersId}/items/{itemsId}:fetchStatus",
-  }),
-  svc,
-) as unknown as Schema.Schema<FetchStatusPublishersItemsRequest>;
+export const FetchStatusPublishersItemsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/publishers/{publishersId}/items/{itemsId}:fetchStatus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchStatusPublishersItemsRequest>;
 
 export type FetchStatusPublishersItemsResponse = FetchItemStatusResponse;
-export const FetchStatusPublishersItemsResponse = FetchItemStatusResponse;
+export const FetchStatusPublishersItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchItemStatusResponse;
 
 export type FetchStatusPublishersItemsError = DefaultErrors;
 
@@ -383,7 +389,7 @@ export const fetchStatusPublishersItems: API.OperationMethod<
   FetchStatusPublishersItemsResponse,
   FetchStatusPublishersItemsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FetchStatusPublishersItemsRequest,
   output: FetchStatusPublishersItemsResponse,
   errors: [],
@@ -396,7 +402,7 @@ export interface UploadMediaRequest {
   body?: UploadItemPackageRequest;
 }
 
-export const UploadMediaRequest = Schema.Struct({
+export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(UploadItemPackageRequest).pipe(T.HttpBody()),
 }).pipe(
@@ -409,7 +415,8 @@ export const UploadMediaRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
 export type UploadMediaResponse = UploadItemPackageResponse;
-export const UploadMediaResponse = UploadItemPackageResponse;
+export const UploadMediaResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UploadItemPackageResponse;
 
 export type UploadMediaError = DefaultErrors;
 
@@ -419,7 +426,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaResponse,
   UploadMediaError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],

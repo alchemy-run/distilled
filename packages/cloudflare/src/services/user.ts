@@ -18,14 +18,16 @@ import { type DefaultErrors } from "../errors";
 
 export interface ListAuditLogsRequest {}
 
-export const ListAuditLogsRequest = Schema.Struct({}).pipe(
+export const ListAuditLogsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user/audit_logs" }),
 ) as unknown as Schema.Schema<ListAuditLogsRequest>;
 
 export type ListAuditLogsResponse = unknown;
 
 export const ListAuditLogsResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListAuditLogsResponse>;
 
 export type ListAuditLogsError = DefaultErrors;
 
@@ -34,7 +36,7 @@ export const listAuditLogs: API.OperationMethod<
   ListAuditLogsResponse,
   ListAuditLogsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListAuditLogsRequest,
   output: ListAuditLogsResponse,
   errors: [],
@@ -46,9 +48,10 @@ export const listAuditLogs: API.OperationMethod<
 
 export interface ListBillingHistoriesRequest {}
 
-export const ListBillingHistoriesRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/user/billing/history" }),
-) as unknown as Schema.Schema<ListBillingHistoriesRequest>;
+export const ListBillingHistoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "/user/billing/history" }),
+  ) as unknown as Schema.Schema<ListBillingHistoriesRequest>;
 
 export type ListBillingHistoriesResponse = {
   id: string;
@@ -61,31 +64,32 @@ export type ListBillingHistoriesResponse = {
   zone: { name?: string | null };
 }[];
 
-export const ListBillingHistoriesResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    action: Schema.String,
-    amount: Schema.Number,
-    currency: Schema.String,
-    description: Schema.String,
-    occurredAt: Schema.String,
-    type: Schema.String,
-    zone: Schema.Struct({
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      action: "action",
-      amount: "amount",
-      currency: "currency",
-      description: "description",
-      occurredAt: "occurred_at",
-      type: "type",
-      zone: "zone",
-    }),
-  ),
-) as unknown as Schema.Schema<ListBillingHistoriesResponse>;
+export const ListBillingHistoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      action: Schema.String,
+      amount: Schema.Number,
+      currency: Schema.String,
+      description: Schema.String,
+      occurredAt: Schema.String,
+      type: Schema.String,
+      zone: Schema.Struct({
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        action: "action",
+        amount: "amount",
+        currency: "currency",
+        description: "description",
+        occurredAt: "occurred_at",
+        type: "type",
+        zone: "zone",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListBillingHistoriesResponse>;
 
 export type ListBillingHistoriesError = DefaultErrors;
 
@@ -94,7 +98,7 @@ export const listBillingHistories: API.OperationMethod<
   ListBillingHistoriesResponse,
   ListBillingHistoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListBillingHistoriesRequest,
   output: ListBillingHistoriesResponse,
   errors: [],
@@ -106,9 +110,10 @@ export const listBillingHistories: API.OperationMethod<
 
 export interface GetBillingProfileRequest {}
 
-export const GetBillingProfileRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/user/billing/profile" }),
-) as unknown as Schema.Schema<GetBillingProfileRequest>;
+export const GetBillingProfileRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "/user/billing/profile" }),
+  ) as unknown as Schema.Schema<GetBillingProfileRequest>;
 
 export interface GetBillingProfileResponse {
   /** Billing item identifier tag. */
@@ -153,93 +158,102 @@ export interface GetBillingProfileResponse {
   zipcode?: string | null;
 }
 
-export const GetBillingProfileResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  accountType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  address2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  balance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  cardExpiryMonth: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  cardExpiryYear: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  cardNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  company: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  deviceData: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  editedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  enterpriseBillingEmail: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  enterprisePrimaryEmail: Schema.optional(
-    Schema.Union([Schema.String, Schema.Null]),
-  ),
-  firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isPartner: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  nextBillDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentAddress: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentAddress2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentCity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentCountry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentFirstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentGateway: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentLastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentNonce: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  paymentZipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  primaryEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  taxIdType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  useLegacy: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  validationCode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  vat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountType: "account_type",
-    address: "address",
-    address2: "address2",
-    balance: "balance",
-    cardExpiryMonth: "card_expiry_month",
-    cardExpiryYear: "card_expiry_year",
-    cardNumber: "card_number",
-    city: "city",
-    company: "company",
-    country: "country",
-    createdOn: "created_on",
-    deviceData: "device_data",
-    editedOn: "edited_on",
-    enterpriseBillingEmail: "enterprise_billing_email",
-    enterprisePrimaryEmail: "enterprise_primary_email",
-    firstName: "first_name",
-    isPartner: "is_partner",
-    lastName: "last_name",
-    nextBillDate: "next_bill_date",
-    paymentAddress: "payment_address",
-    paymentAddress2: "payment_address2",
-    paymentCity: "payment_city",
-    paymentCountry: "payment_country",
-    paymentEmail: "payment_email",
-    paymentFirstName: "payment_first_name",
-    paymentGateway: "payment_gateway",
-    paymentLastName: "payment_last_name",
-    paymentNonce: "payment_nonce",
-    paymentState: "payment_state",
-    paymentZipcode: "payment_zipcode",
-    primaryEmail: "primary_email",
-    state: "state",
-    taxIdType: "tax_id_type",
-    telephone: "telephone",
-    useLegacy: "use_legacy",
-    validationCode: "validation_code",
-    vat: "vat",
-    zipcode: "zipcode",
-  }),
-) as unknown as Schema.Schema<GetBillingProfileResponse>;
+export const GetBillingProfileResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    address2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    balance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    cardExpiryMonth: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    cardExpiryYear: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    cardNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    company: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    deviceData: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    editedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enterpriseBillingEmail: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    enterprisePrimaryEmail: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isPartner: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    nextBillDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentAddress: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentAddress2: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    paymentCity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentCountry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentFirstName: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    paymentGateway: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentLastName: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    paymentNonce: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paymentZipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    primaryEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    taxIdType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    useLegacy: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    validationCode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    vat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountType: "account_type",
+      address: "address",
+      address2: "address2",
+      balance: "balance",
+      cardExpiryMonth: "card_expiry_month",
+      cardExpiryYear: "card_expiry_year",
+      cardNumber: "card_number",
+      city: "city",
+      company: "company",
+      country: "country",
+      createdOn: "created_on",
+      deviceData: "device_data",
+      editedOn: "edited_on",
+      enterpriseBillingEmail: "enterprise_billing_email",
+      enterprisePrimaryEmail: "enterprise_primary_email",
+      firstName: "first_name",
+      isPartner: "is_partner",
+      lastName: "last_name",
+      nextBillDate: "next_bill_date",
+      paymentAddress: "payment_address",
+      paymentAddress2: "payment_address2",
+      paymentCity: "payment_city",
+      paymentCountry: "payment_country",
+      paymentEmail: "payment_email",
+      paymentFirstName: "payment_first_name",
+      paymentGateway: "payment_gateway",
+      paymentLastName: "payment_last_name",
+      paymentNonce: "payment_nonce",
+      paymentState: "payment_state",
+      paymentZipcode: "payment_zipcode",
+      primaryEmail: "primary_email",
+      state: "state",
+      taxIdType: "tax_id_type",
+      telephone: "telephone",
+      useLegacy: "use_legacy",
+      validationCode: "validation_code",
+      vat: "vat",
+      zipcode: "zipcode",
+    }),
+  ) as unknown as Schema.Schema<GetBillingProfileResponse>;
 
 export type GetBillingProfileError = DefaultErrors;
 
@@ -248,7 +262,7 @@ export const getBillingProfile: API.OperationMethod<
   GetBillingProfileResponse,
   GetBillingProfileError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBillingProfileRequest,
   output: GetBillingProfileResponse,
   errors: [],
@@ -262,7 +276,7 @@ export interface GetInviteRequest {
   inviteId: string;
 }
 
-export const GetInviteRequest = Schema.Struct({
+export const GetInviteRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   inviteId: Schema.String.pipe(T.HttpPath("inviteId")),
 }).pipe(
   T.Http({ method: "GET", path: "/user/invites/{inviteId}" }),
@@ -292,7 +306,7 @@ export interface GetInviteResponse {
   status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }
 
-export const GetInviteResponse = Schema.Struct({
+export const GetInviteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
   organizationId: Schema.String,
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -338,7 +352,7 @@ export const getInvite: API.OperationMethod<
   GetInviteResponse,
   GetInviteError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetInviteRequest,
   output: GetInviteResponse,
   errors: [],
@@ -346,7 +360,9 @@ export const getInvite: API.OperationMethod<
 
 export interface ListInvitesRequest {}
 
-export const ListInvitesRequest = Schema.Struct({}).pipe(
+export const ListInvitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user/invites" }),
 ) as unknown as Schema.Schema<ListInvitesRequest>;
 
@@ -364,7 +380,7 @@ export type ListInvitesResponse = {
   status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }[];
 
-export const ListInvitesResponse = Schema.Array(
+export const ListInvitesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
     organizationId: Schema.String,
@@ -414,7 +430,7 @@ export const listInvites: API.OperationMethod<
   ListInvitesResponse,
   ListInvitesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInvitesRequest,
   output: ListInvitesResponse,
   errors: [],
@@ -426,7 +442,7 @@ export interface PatchInviteRequest {
   status: "accepted" | "rejected";
 }
 
-export const PatchInviteRequest = Schema.Struct({
+export const PatchInviteRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   inviteId: Schema.String.pipe(T.HttpPath("inviteId")),
   status: Schema.Literals(["accepted", "rejected"]),
 }).pipe(
@@ -457,7 +473,7 @@ export interface PatchInviteResponse {
   status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }
 
-export const PatchInviteResponse = Schema.Struct({
+export const PatchInviteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
   organizationId: Schema.String,
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -503,7 +519,7 @@ export const patchInvite: API.OperationMethod<
   PatchInviteResponse,
   PatchInviteError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInviteRequest,
   output: PatchInviteResponse,
   errors: [],
@@ -517,16 +533,18 @@ export interface GetOrganizationRequest {
   organizationId: string;
 }
 
-export const GetOrganizationRequest = Schema.Struct({
-  organizationId: Schema.String.pipe(T.HttpPath("organizationId")),
-}).pipe(
+export const GetOrganizationRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    organizationId: Schema.String.pipe(T.HttpPath("organizationId")),
+  },
+).pipe(
   T.Http({ method: "GET", path: "/user/organizations/{organizationId}" }),
 ) as unknown as Schema.Schema<GetOrganizationRequest>;
 
 export type GetOrganizationResponse = unknown;
 
 export const GetOrganizationResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetOrganizationResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetOrganizationResponse>;
 
 export type GetOrganizationError = DefaultErrors;
 
@@ -535,7 +553,7 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationResponse,
   GetOrganizationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationRequest,
   output: GetOrganizationResponse,
   errors: [],
@@ -543,9 +561,10 @@ export const getOrganization: API.OperationMethod<
 
 export interface ListOrganizationsRequest {}
 
-export const ListOrganizationsRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/user/organizations" }),
-) as unknown as Schema.Schema<ListOrganizationsRequest>;
+export const ListOrganizationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "/user/organizations" }),
+  ) as unknown as Schema.Schema<ListOrganizationsRequest>;
 
 export type ListOrganizationsResponse = {
   id?: string | null;
@@ -555,21 +574,22 @@ export type ListOrganizationsResponse = {
   status?: "member" | "invited" | null;
 }[];
 
-export const ListOrganizationsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    permissions: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    roles: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    status: Schema.optional(
-      Schema.Union([Schema.Literals(["member", "invited"]), Schema.Null]),
-    ),
-  }),
-) as unknown as Schema.Schema<ListOrganizationsResponse>;
+export const ListOrganizationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      permissions: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      roles: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      status: Schema.optional(
+        Schema.Union([Schema.Literals(["member", "invited"]), Schema.Null]),
+      ),
+    }),
+  ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
 export type ListOrganizationsError = DefaultErrors;
 
@@ -578,7 +598,7 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsResponse,
   ListOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOrganizationsRequest,
   output: ListOrganizationsResponse,
   errors: [],
@@ -588,20 +608,22 @@ export interface DeleteOrganizationRequest {
   organizationId: string;
 }
 
-export const DeleteOrganizationRequest = Schema.Struct({
-  organizationId: Schema.String.pipe(T.HttpPath("organizationId")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "/user/organizations/{organizationId}" }),
-) as unknown as Schema.Schema<DeleteOrganizationRequest>;
+export const DeleteOrganizationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organizationId: Schema.String.pipe(T.HttpPath("organizationId")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "/user/organizations/{organizationId}" }),
+  ) as unknown as Schema.Schema<DeleteOrganizationRequest>;
 
 export interface DeleteOrganizationResponse {
   /** Identifier */
   id?: string | null;
 }
 
-export const DeleteOrganizationResponse = Schema.Struct({
-  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteOrganizationResponse>;
+export const DeleteOrganizationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
 export type DeleteOrganizationError = DefaultErrors;
 
@@ -610,7 +632,7 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationResponse,
   DeleteOrganizationError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationRequest,
   output: DeleteOrganizationResponse,
   errors: [],
@@ -622,14 +644,16 @@ export const deleteOrganization: API.OperationMethod<
 
 export interface GetSubscriptionRequest {}
 
-export const GetSubscriptionRequest = Schema.Struct({}).pipe(
+export const GetSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user/subscriptions" }),
 ) as unknown as Schema.Schema<GetSubscriptionRequest>;
 
 export type GetSubscriptionResponse = unknown;
 
 export const GetSubscriptionResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetSubscriptionResponse>;
 
 export type GetSubscriptionError = DefaultErrors;
 
@@ -638,7 +662,7 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionResponse,
   GetSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetSubscriptionRequest,
   output: GetSubscriptionResponse,
   errors: [],
@@ -652,23 +676,24 @@ export interface PutSubscriptionRequest {
   ratePlan?: unknown;
 }
 
-export const PutSubscriptionRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-  frequency: Schema.optional(
-    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
-  ),
-  ratePlan: Schema.optional(Schema.Unknown),
-}).pipe(
+export const PutSubscriptionRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+    frequency: Schema.optional(
+      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+    ),
+    ratePlan: Schema.optional(Schema.Unknown),
+  },
+).pipe(
   Schema.encodeKeys({ frequency: "frequency", ratePlan: "rate_plan" }),
   T.Http({ method: "PUT", path: "/user/subscriptions/{identifier}" }),
 ) as unknown as Schema.Schema<PutSubscriptionRequest>;
 
 export type PutSubscriptionResponse = string | null;
 
-export const PutSubscriptionResponse = Schema.Union([
-  Schema.String,
-  Schema.Null,
-]) as unknown as Schema.Schema<PutSubscriptionResponse>;
+export const PutSubscriptionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union(
+  [Schema.String, Schema.Null],
+) as unknown as Schema.Schema<PutSubscriptionResponse>;
 
 export type PutSubscriptionError = DefaultErrors;
 
@@ -677,7 +702,7 @@ export const putSubscription: API.OperationMethod<
   PutSubscriptionResponse,
   PutSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutSubscriptionRequest,
   output: PutSubscriptionResponse,
   errors: [],
@@ -687,22 +712,24 @@ export interface DeleteSubscriptionRequest {
   identifier: string;
 }
 
-export const DeleteSubscriptionRequest = Schema.Struct({
-  identifier: Schema.String.pipe(T.HttpPath("identifier")),
-}).pipe(
-  T.Http({ method: "DELETE", path: "/user/subscriptions/{identifier}" }),
-) as unknown as Schema.Schema<DeleteSubscriptionRequest>;
+export const DeleteSubscriptionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    identifier: Schema.String.pipe(T.HttpPath("identifier")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "/user/subscriptions/{identifier}" }),
+  ) as unknown as Schema.Schema<DeleteSubscriptionRequest>;
 
 export interface DeleteSubscriptionResponse {
   /** Subscription identifier tag. */
   subscriptionId?: string | null;
 }
 
-export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ subscriptionId: "subscription_id" }),
-) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+export const DeleteSubscriptionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({ subscriptionId: "subscription_id" }),
+  ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export type DeleteSubscriptionError = DefaultErrors;
 
@@ -711,7 +738,7 @@ export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionResponse,
   DeleteSubscriptionError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
   errors: [],
@@ -725,7 +752,7 @@ export interface GetTokenRequest {
   tokenId: string;
 }
 
-export const GetTokenRequest = Schema.Struct({
+export const GetTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
 }).pipe(
   T.Http({ method: "GET", path: "/user/tokens/{tokenId}" }),
@@ -734,7 +761,7 @@ export const GetTokenRequest = Schema.Struct({
 export type GetTokenResponse = unknown;
 
 export const GetTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetTokenResponse>;
 
 export type GetTokenError = DefaultErrors;
 
@@ -743,7 +770,7 @@ export const getToken: API.OperationMethod<
   GetTokenResponse,
   GetTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetTokenRequest,
   output: GetTokenResponse,
   errors: [],
@@ -751,14 +778,16 @@ export const getToken: API.OperationMethod<
 
 export interface ListTokensRequest {}
 
-export const ListTokensRequest = Schema.Struct({}).pipe(
+export const ListTokensRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user/tokens" }),
 ) as unknown as Schema.Schema<ListTokensRequest>;
 
 export type ListTokensResponse = unknown;
 
 export const ListTokensResponse =
-  Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<ListTokensResponse>;
 
 export type ListTokensError = DefaultErrors;
 
@@ -767,7 +796,7 @@ export const listTokens: API.OperationMethod<
   ListTokensResponse,
   ListTokensError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokensRequest,
   output: ListTokensResponse,
   errors: [],
@@ -785,7 +814,7 @@ export interface CreateTokenRequest {
   notBefore?: string;
 }
 
-export const CreateTokenRequest = Schema.Struct({
+export const CreateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String,
   policies: Schema.Array(Schema.Unknown),
   condition: Schema.optional(
@@ -837,7 +866,7 @@ export interface CreateTokenResponse {
   value?: string | null;
 }
 
-export const CreateTokenResponse = Schema.Struct({
+export const CreateTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   condition: Schema.optional(
     Schema.Union([
@@ -898,7 +927,7 @@ export const createToken: API.OperationMethod<
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateTokenRequest,
   output: CreateTokenResponse,
   errors: [],
@@ -919,7 +948,7 @@ export interface UpdateTokenRequest {
   status?: "active" | "disabled" | "expired";
 }
 
-export const UpdateTokenRequest = Schema.Struct({
+export const UpdateTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
   name: Schema.String,
   policies: Schema.Array(Schema.Unknown),
@@ -951,7 +980,7 @@ export const UpdateTokenRequest = Schema.Struct({
 export type UpdateTokenResponse = unknown;
 
 export const UpdateTokenResponse =
-  Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<UpdateTokenResponse>;
 
 export type UpdateTokenError = DefaultErrors;
 
@@ -960,7 +989,7 @@ export const updateToken: API.OperationMethod<
   UpdateTokenResponse,
   UpdateTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateTokenRequest,
   output: UpdateTokenResponse,
   errors: [],
@@ -970,7 +999,7 @@ export interface DeleteTokenRequest {
   tokenId: string;
 }
 
-export const DeleteTokenRequest = Schema.Struct({
+export const DeleteTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
 }).pipe(
   T.Http({ method: "DELETE", path: "/user/tokens/{tokenId}" }),
@@ -981,7 +1010,7 @@ export interface DeleteTokenResponse {
   id: string;
 }
 
-export const DeleteTokenResponse = Schema.Struct({
+export const DeleteTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
 }) as unknown as Schema.Schema<DeleteTokenResponse>;
 
@@ -992,7 +1021,7 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteTokenRequest,
   output: DeleteTokenResponse,
   errors: [],
@@ -1000,7 +1029,9 @@ export const deleteToken: API.OperationMethod<
 
 export interface VerifyTokenRequest {}
 
-export const VerifyTokenRequest = Schema.Struct({}).pipe(
+export const VerifyTokenRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user/tokens/verify" }),
 ) as unknown as Schema.Schema<VerifyTokenRequest>;
 
@@ -1015,7 +1046,7 @@ export interface VerifyTokenResponse {
   notBefore?: string | null;
 }
 
-export const VerifyTokenResponse = Schema.Struct({
+export const VerifyTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   status: Schema.Literals(["active", "disabled", "expired"]),
   expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1036,7 +1067,7 @@ export const verifyToken: API.OperationMethod<
   VerifyTokenResponse,
   VerifyTokenError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: VerifyTokenRequest,
   output: VerifyTokenResponse,
   errors: [],
@@ -1048,9 +1079,10 @@ export const verifyToken: API.OperationMethod<
 
 export interface ListTokenPermissionGroupsRequest {}
 
-export const ListTokenPermissionGroupsRequest = Schema.Struct({}).pipe(
-  T.Http({ method: "GET", path: "/user/tokens/permission_groups" }),
-) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
+export const ListTokenPermissionGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "/user/tokens/permission_groups" }),
+  ) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
 
 export type ListTokenPermissionGroupsResponse = {
   id?: string | null;
@@ -1065,25 +1097,26 @@ export type ListTokenPermissionGroupsResponse = {
     | null;
 }[];
 
-export const ListTokenPermissionGroupsResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    scopes: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "com.cloudflare.api.account",
-            "com.cloudflare.api.account.zone",
-            "com.cloudflare.api.user",
-            "com.cloudflare.edge.r2.bucket",
-          ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-  }),
-) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
+export const ListTokenPermissionGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      scopes: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "com.cloudflare.api.account",
+              "com.cloudflare.api.account.zone",
+              "com.cloudflare.api.user",
+              "com.cloudflare.edge.r2.bucket",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+  ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
 export type ListTokenPermissionGroupsError = DefaultErrors;
 
@@ -1092,7 +1125,7 @@ export const listTokenPermissionGroups: API.OperationMethod<
   ListTokenPermissionGroupsResponse,
   ListTokenPermissionGroupsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListTokenPermissionGroupsRequest,
   output: ListTokenPermissionGroupsResponse,
   errors: [],
@@ -1106,7 +1139,7 @@ export interface PutTokenValueRequest {
   tokenId: string;
 }
 
-export const PutTokenValueRequest = Schema.Struct({
+export const PutTokenValueRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tokenId: Schema.String.pipe(T.HttpPath("tokenId")),
 }).pipe(
   T.Http({ method: "PUT", path: "/user/tokens/{tokenId}/value" }),
@@ -1115,7 +1148,7 @@ export const PutTokenValueRequest = Schema.Struct({
 export type PutTokenValueResponse = unknown;
 
 export const PutTokenValueResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutTokenValueResponse>;
 
 export type PutTokenValueError = DefaultErrors;
 
@@ -1124,7 +1157,7 @@ export const putTokenValue: API.OperationMethod<
   PutTokenValueResponse,
   PutTokenValueError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutTokenValueRequest,
   output: PutTokenValueResponse,
   errors: [],
@@ -1136,7 +1169,9 @@ export const putTokenValue: API.OperationMethod<
 
 export interface GetUserRequest {}
 
-export const GetUserRequest = Schema.Struct({}).pipe(
+export const GetUserRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
   T.Http({ method: "GET", path: "/user" }),
 ) as unknown as Schema.Schema<GetUserRequest>;
 
@@ -1170,7 +1205,7 @@ export interface GetUserResponse {
   zipcode?: string | null;
 }
 
-export const GetUserResponse = Schema.Struct({
+export const GetUserResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   betas: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
@@ -1223,7 +1258,7 @@ export const getUser: API.OperationMethod<
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetUserRequest,
   output: GetUserResponse,
   errors: [],
@@ -1242,7 +1277,7 @@ export interface PatchUserRequest {
   zipcode?: string | null;
 }
 
-export const PatchUserRequest = Schema.Struct({
+export const PatchUserRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1289,7 +1324,7 @@ export interface PatchUserResponse {
   zipcode?: string | null;
 }
 
-export const PatchUserResponse = Schema.Struct({
+export const PatchUserResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   betas: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
@@ -1342,7 +1377,7 @@ export const patchUser: API.OperationMethod<
   PatchUserResponse,
   PatchUserError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchUserRequest,
   output: PatchUserResponse,
   errors: [],

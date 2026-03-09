@@ -4,7 +4,7 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const DeleteOauthTokenInput = Schema.Struct({
+export const DeleteOauthTokenInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   application_id: Schema.String.pipe(T.PathParam()),
   token_id: Schema.String.pipe(T.PathParam()),
@@ -17,7 +17,7 @@ export const DeleteOauthTokenInput = Schema.Struct({
 export type DeleteOauthTokenInput = typeof DeleteOauthTokenInput.Type;
 
 // Output Schema
-export const DeleteOauthTokenOutput = Schema.Void;
+export const DeleteOauthTokenOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type DeleteOauthTokenOutput = typeof DeleteOauthTokenOutput.Type;
 
 // The operation

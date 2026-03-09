@@ -21,7 +21,7 @@ export interface GetConfigRequest {
   zoneId: string;
 }
 
-export const GetConfigRequest = Schema.Struct({
+export const GetConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/config" }),
@@ -85,7 +85,7 @@ export interface GetConfigResponse {
   historyChange?: boolean | null;
 }
 
-export const GetConfigResponse = Schema.Struct({
+export const GetConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dataLayer: Schema.Boolean,
   debugKey: Schema.String,
   settings: Schema.Struct({
@@ -188,7 +188,7 @@ export const getConfig: API.OperationMethod<
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
   errors: [],
@@ -254,7 +254,7 @@ export interface PutConfigRequest {
   historyChange?: boolean;
 }
 
-export const PutConfigRequest = Schema.Struct({
+export const PutConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   dataLayer: Schema.Boolean,
   debugKey: Schema.String,
@@ -372,7 +372,7 @@ export interface PutConfigResponse {
   historyChange?: boolean | null;
 }
 
-export const PutConfigResponse = Schema.Struct({
+export const PutConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   dataLayer: Schema.Boolean,
   debugKey: Schema.String,
   settings: Schema.Struct({
@@ -475,7 +475,7 @@ export const putConfig: API.OperationMethod<
   PutConfigResponse,
   PutConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutConfigRequest,
   output: PutConfigResponse,
   errors: [],
@@ -490,7 +490,7 @@ export interface GetDefaultRequest {
   zoneId: string;
 }
 
-export const GetDefaultRequest = Schema.Struct({
+export const GetDefaultRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/default" }),
@@ -499,7 +499,7 @@ export const GetDefaultRequest = Schema.Struct({
 export type GetDefaultResponse = unknown;
 
 export const GetDefaultResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDefaultResponse>;
 
 export type GetDefaultError = DefaultErrors;
 
@@ -508,7 +508,7 @@ export const getDefault: API.OperationMethod<
   GetDefaultResponse,
   GetDefaultError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetDefaultRequest,
   output: GetDefaultResponse,
   errors: [],
@@ -523,7 +523,7 @@ export interface GetExportRequest {
   zoneId: string;
 }
 
-export const GetExportRequest = Schema.Struct({
+export const GetExportRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/export" }),
@@ -532,7 +532,7 @@ export const GetExportRequest = Schema.Struct({
 export type GetExportResponse = unknown;
 
 export const GetExportResponse =
-  Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetExportResponse>;
 
 export type GetExportError = DefaultErrors;
 
@@ -541,7 +541,7 @@ export const getExport: API.OperationMethod<
   GetExportResponse,
   GetExportError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetExportRequest,
   output: GetExportResponse,
   errors: [],
@@ -564,7 +564,7 @@ export interface ListHistoriesRequest {
   sortOrder?: "DESC" | "ASC";
 }
 
-export const ListHistoriesRequest = Schema.Struct({
+export const ListHistoriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   limit: Schema.optional(Schema.Number).pipe(T.HttpQuery("limit")),
   offset: Schema.optional(Schema.Number).pipe(T.HttpQuery("offset")),
@@ -592,7 +592,7 @@ export type ListHistoriesResponse = {
   userId: string;
 }[];
 
-export const ListHistoriesResponse = Schema.Array(
+export const ListHistoriesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.Struct({
     id: Schema.Number,
     createdAt: Schema.String,
@@ -609,7 +609,7 @@ export const listHistories: API.OperationMethod<
   ListHistoriesResponse,
   ListHistoriesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListHistoriesRequest,
   output: ListHistoriesResponse,
   errors: [],
@@ -622,7 +622,7 @@ export interface PutHistoryRequest {
   body: number;
 }
 
-export const PutHistoryRequest = Schema.Struct({
+export const PutHistoryRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   body: Schema.Number.pipe(T.HttpBody()),
 }).pipe(
@@ -632,7 +632,7 @@ export const PutHistoryRequest = Schema.Struct({
 export type PutHistoryResponse = unknown;
 
 export const PutHistoryResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutHistoryResponse>;
 
 export type PutHistoryError = DefaultErrors;
 
@@ -641,7 +641,7 @@ export const putHistory: API.OperationMethod<
   PutHistoryResponse,
   PutHistoryError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutHistoryRequest,
   output: PutHistoryResponse,
   errors: [],
@@ -658,21 +658,23 @@ export interface GetHistoryConfigRequest {
   ids: number[];
 }
 
-export const GetHistoryConfigRequest = Schema.Struct({
-  zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  ids: Schema.Array(Schema.Number).pipe(T.HttpQuery("ids")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/zones/{zone_id}/settings/zaraz/history/configs",
-  }),
-) as unknown as Schema.Schema<GetHistoryConfigRequest>;
+export const GetHistoryConfigRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    ids: Schema.Array(Schema.Number).pipe(T.HttpQuery("ids")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/settings/zaraz/history/configs",
+    }),
+  ) as unknown as Schema.Schema<GetHistoryConfigRequest>;
 
 export type GetHistoryConfigResponse = Record<string, unknown>;
 
-export const GetHistoryConfigResponse = Schema.Struct(
-  {},
-) as unknown as Schema.Schema<GetHistoryConfigResponse>;
+export const GetHistoryConfigResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as unknown as Schema.Schema<GetHistoryConfigResponse>;
 
 export type GetHistoryConfigError = DefaultErrors;
 
@@ -681,7 +683,7 @@ export const getHistoryConfig: API.OperationMethod<
   GetHistoryConfigResponse,
   GetHistoryConfigError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetHistoryConfigRequest,
   output: GetHistoryConfigResponse,
   errors: [],
@@ -698,7 +700,7 @@ export interface CreatePublishRequest {
   body?: string;
 }
 
-export const CreatePublishRequest = Schema.Struct({
+export const CreatePublishRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   body: Schema.optional(Schema.String).pipe(T.HttpBody()),
 }).pipe(
@@ -708,7 +710,7 @@ export const CreatePublishRequest = Schema.Struct({
 export type CreatePublishResponse = string;
 
 export const CreatePublishResponse =
-  Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
 
 export type CreatePublishError = DefaultErrors;
 
@@ -717,7 +719,7 @@ export const createPublish: API.OperationMethod<
   CreatePublishResponse,
   CreatePublishError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreatePublishRequest,
   output: CreatePublishResponse,
   errors: [],
@@ -732,7 +734,7 @@ export interface GetWorkflowRequest {
   zoneId: string;
 }
 
-export const GetWorkflowRequest = Schema.Struct({
+export const GetWorkflowRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
 }).pipe(
   T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/workflow" }),
@@ -740,7 +742,7 @@ export const GetWorkflowRequest = Schema.Struct({
 
 export type GetWorkflowResponse = "realtime" | "preview";
 
-export const GetWorkflowResponse = Schema.Literals([
+export const GetWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Literals([
   "realtime",
   "preview",
 ]) as unknown as Schema.Schema<GetWorkflowResponse>;
@@ -752,7 +754,7 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
   errors: [],
@@ -769,7 +771,7 @@ export interface PutZarazRequest {
   workflow: "realtime" | "preview";
 }
 
-export const PutZarazRequest = Schema.Struct({
+export const PutZarazRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   workflow: Schema.Literals(["realtime", "preview"]),
 }).pipe(
@@ -779,7 +781,7 @@ export const PutZarazRequest = Schema.Struct({
 export type PutZarazResponse = unknown;
 
 export const PutZarazResponse =
-  Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutZarazResponse>;
 
 export type PutZarazError = DefaultErrors;
 
@@ -788,7 +790,7 @@ export const putZaraz: API.OperationMethod<
   PutZarazResponse,
   PutZarazError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutZarazRequest,
   output: PutZarazResponse,
   errors: [],

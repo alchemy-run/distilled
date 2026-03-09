@@ -34,7 +34,7 @@ export interface GooglePrivacyDlpV2SensitivityScore {
 }
 
 export const GooglePrivacyDlpV2SensitivityScore: Schema.Schema<GooglePrivacyDlpV2SensitivityScore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       score: Schema.optional(Schema.String),
     }),
@@ -52,7 +52,7 @@ export interface GooglePrivacyDlpV2InfoType {
 }
 
 export const GooglePrivacyDlpV2InfoType: Schema.Schema<GooglePrivacyDlpV2InfoType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
@@ -77,7 +77,7 @@ export interface GooglePrivacyDlpV2InfoTypeLikelihood {
 }
 
 export const GooglePrivacyDlpV2InfoTypeLikelihood: Schema.Schema<GooglePrivacyDlpV2InfoTypeLikelihood> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       minLikelihood: Schema.optional(Schema.String),
@@ -94,7 +94,7 @@ export interface GooglePrivacyDlpV2InfoTypeLimit {
 }
 
 export const GooglePrivacyDlpV2InfoTypeLimit: Schema.Schema<GooglePrivacyDlpV2InfoTypeLimit> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       maxFindings: Schema.optional(Schema.Number),
@@ -113,7 +113,7 @@ export interface GooglePrivacyDlpV2FindingLimits {
 }
 
 export const GooglePrivacyDlpV2FindingLimits: Schema.Schema<GooglePrivacyDlpV2FindingLimits> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maxFindingsPerItem: Schema.optional(Schema.Number),
       maxFindingsPerRequest: Schema.optional(Schema.Number),
@@ -131,7 +131,7 @@ export interface GooglePrivacyDlpV2WordList {
 }
 
 export const GooglePrivacyDlpV2WordList: Schema.Schema<GooglePrivacyDlpV2WordList> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       words: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -145,7 +145,7 @@ export interface GooglePrivacyDlpV2CloudStoragePath {
 }
 
 export const GooglePrivacyDlpV2CloudStoragePath: Schema.Schema<GooglePrivacyDlpV2CloudStoragePath> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       path: Schema.optional(Schema.String),
     }),
@@ -161,7 +161,7 @@ export interface GooglePrivacyDlpV2Dictionary {
 }
 
 export const GooglePrivacyDlpV2Dictionary: Schema.Schema<GooglePrivacyDlpV2Dictionary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wordList: Schema.optional(GooglePrivacyDlpV2WordList),
       cloudStoragePath: Schema.optional(GooglePrivacyDlpV2CloudStoragePath),
@@ -178,7 +178,7 @@ export interface GooglePrivacyDlpV2Regex {
 }
 
 export const GooglePrivacyDlpV2Regex: Schema.Schema<GooglePrivacyDlpV2Regex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pattern: Schema.optional(Schema.String),
       groupIndexes: Schema.optional(Schema.Array(Schema.Number)),
@@ -190,7 +190,7 @@ export const GooglePrivacyDlpV2Regex: Schema.Schema<GooglePrivacyDlpV2Regex> =
 export interface GooglePrivacyDlpV2SurrogateType {}
 
 export const GooglePrivacyDlpV2SurrogateType: Schema.Schema<GooglePrivacyDlpV2SurrogateType> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2SurrogateType",
   }) as any as Schema.Schema<GooglePrivacyDlpV2SurrogateType>;
 
@@ -202,7 +202,7 @@ export interface GooglePrivacyDlpV2StoredType {
 }
 
 export const GooglePrivacyDlpV2StoredType: Schema.Schema<GooglePrivacyDlpV2StoredType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
@@ -219,7 +219,7 @@ export interface GooglePrivacyDlpV2MetadataKeyValueExpression {
 }
 
 export const GooglePrivacyDlpV2MetadataKeyValueExpression: Schema.Schema<GooglePrivacyDlpV2MetadataKeyValueExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       keyRegex: Schema.optional(Schema.String),
       valueRegex: Schema.optional(Schema.String),
@@ -236,7 +236,7 @@ export interface GooglePrivacyDlpV2Proximity {
 }
 
 export const GooglePrivacyDlpV2Proximity: Schema.Schema<GooglePrivacyDlpV2Proximity> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       windowBefore: Schema.optional(Schema.Number),
       windowAfter: Schema.optional(Schema.Number),
@@ -260,7 +260,7 @@ export interface GooglePrivacyDlpV2LikelihoodAdjustment {
 }
 
 export const GooglePrivacyDlpV2LikelihoodAdjustment: Schema.Schema<GooglePrivacyDlpV2LikelihoodAdjustment> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fixedLikelihood: Schema.optional(Schema.String),
       relativeLikelihood: Schema.optional(Schema.Number),
@@ -279,7 +279,7 @@ export interface GooglePrivacyDlpV2HotwordRule {
 }
 
 export const GooglePrivacyDlpV2HotwordRule: Schema.Schema<GooglePrivacyDlpV2HotwordRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hotwordRegex: Schema.optional(GooglePrivacyDlpV2Regex),
       proximity: Schema.optional(GooglePrivacyDlpV2Proximity),
@@ -297,7 +297,7 @@ export interface GooglePrivacyDlpV2DetectionRule {
 }
 
 export const GooglePrivacyDlpV2DetectionRule: Schema.Schema<GooglePrivacyDlpV2DetectionRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hotwordRule: Schema.optional(GooglePrivacyDlpV2HotwordRule),
     }),
@@ -339,7 +339,7 @@ export interface GooglePrivacyDlpV2CustomInfoType {
 }
 
 export const GooglePrivacyDlpV2CustomInfoType: Schema.Schema<GooglePrivacyDlpV2CustomInfoType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       likelihood: Schema.optional(Schema.String),
@@ -366,7 +366,7 @@ export interface GooglePrivacyDlpV2ExcludeInfoTypes {
 }
 
 export const GooglePrivacyDlpV2ExcludeInfoTypes: Schema.Schema<GooglePrivacyDlpV2ExcludeInfoTypes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
     }),
@@ -382,7 +382,7 @@ export interface GooglePrivacyDlpV2ExcludeByHotword {
 }
 
 export const GooglePrivacyDlpV2ExcludeByHotword: Schema.Schema<GooglePrivacyDlpV2ExcludeByHotword> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hotwordRegex: Schema.optional(GooglePrivacyDlpV2Regex),
       proximity: Schema.optional(GooglePrivacyDlpV2Proximity),
@@ -394,21 +394,21 @@ export const GooglePrivacyDlpV2ExcludeByHotword: Schema.Schema<GooglePrivacyDlpV
 export interface GooglePrivacyDlpV2Encloses {}
 
 export const GooglePrivacyDlpV2Encloses: Schema.Schema<GooglePrivacyDlpV2Encloses> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2Encloses",
   }) as any as Schema.Schema<GooglePrivacyDlpV2Encloses>;
 
 export interface GooglePrivacyDlpV2FullyInside {}
 
 export const GooglePrivacyDlpV2FullyInside: Schema.Schema<GooglePrivacyDlpV2FullyInside> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2FullyInside",
   }) as any as Schema.Schema<GooglePrivacyDlpV2FullyInside>;
 
 export interface GooglePrivacyDlpV2Overlap {}
 
 export const GooglePrivacyDlpV2Overlap: Schema.Schema<GooglePrivacyDlpV2Overlap> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2Overlap",
   }) as any as Schema.Schema<GooglePrivacyDlpV2Overlap>;
 
@@ -422,7 +422,7 @@ export interface GooglePrivacyDlpV2ImageContainmentType {
 }
 
 export const GooglePrivacyDlpV2ImageContainmentType: Schema.Schema<GooglePrivacyDlpV2ImageContainmentType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       encloses: Schema.optional(GooglePrivacyDlpV2Encloses),
       fullyInside: Schema.optional(GooglePrivacyDlpV2FullyInside),
@@ -440,7 +440,7 @@ export interface GooglePrivacyDlpV2ExcludeByImageFindings {
 }
 
 export const GooglePrivacyDlpV2ExcludeByImageFindings: Schema.Schema<GooglePrivacyDlpV2ExcludeByImageFindings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       imageContainmentType: Schema.optional(
@@ -473,7 +473,7 @@ export interface GooglePrivacyDlpV2ExclusionRule {
 }
 
 export const GooglePrivacyDlpV2ExclusionRule: Schema.Schema<GooglePrivacyDlpV2ExclusionRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dictionary: Schema.optional(GooglePrivacyDlpV2Dictionary),
       regex: Schema.optional(GooglePrivacyDlpV2Regex),
@@ -511,7 +511,7 @@ export interface GooglePrivacyDlpV2AdjustByMatchingInfoTypes {
 }
 
 export const GooglePrivacyDlpV2AdjustByMatchingInfoTypes: Schema.Schema<GooglePrivacyDlpV2AdjustByMatchingInfoTypes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       minLikelihood: Schema.optional(Schema.String),
@@ -538,7 +538,7 @@ export interface GooglePrivacyDlpV2AdjustByImageFindings {
 }
 
 export const GooglePrivacyDlpV2AdjustByImageFindings: Schema.Schema<GooglePrivacyDlpV2AdjustByImageFindings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       minLikelihood: Schema.optional(Schema.String),
@@ -560,7 +560,7 @@ export interface GooglePrivacyDlpV2AdjustmentRule {
 }
 
 export const GooglePrivacyDlpV2AdjustmentRule: Schema.Schema<GooglePrivacyDlpV2AdjustmentRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       adjustByMatchingInfoTypes: Schema.optional(
         GooglePrivacyDlpV2AdjustByMatchingInfoTypes,
@@ -586,7 +586,7 @@ export interface GooglePrivacyDlpV2InspectionRule {
 }
 
 export const GooglePrivacyDlpV2InspectionRule: Schema.Schema<GooglePrivacyDlpV2InspectionRule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hotwordRule: Schema.optional(GooglePrivacyDlpV2HotwordRule),
       exclusionRule: Schema.optional(GooglePrivacyDlpV2ExclusionRule),
@@ -604,7 +604,7 @@ export interface GooglePrivacyDlpV2InspectionRuleSet {
 }
 
 export const GooglePrivacyDlpV2InspectionRuleSet: Schema.Schema<GooglePrivacyDlpV2InspectionRuleSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       rules: Schema.optional(Schema.Array(GooglePrivacyDlpV2InspectionRule)),
@@ -644,7 +644,7 @@ export interface GooglePrivacyDlpV2InspectConfig {
 }
 
 export const GooglePrivacyDlpV2InspectConfig: Schema.Schema<GooglePrivacyDlpV2InspectConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       minLikelihood: Schema.optional(Schema.String),
@@ -672,7 +672,7 @@ export interface GooglePrivacyDlpV2FieldId {
 }
 
 export const GooglePrivacyDlpV2FieldId: Schema.Schema<GooglePrivacyDlpV2FieldId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -692,7 +692,7 @@ export interface GoogleTypeTimeOfDay {
 }
 
 export const GoogleTypeTimeOfDay: Schema.Schema<GoogleTypeTimeOfDay> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hours: Schema.optional(Schema.Number),
       minutes: Schema.optional(Schema.Number),
@@ -712,16 +712,16 @@ export interface GoogleTypeDate {
   day?: number;
 }
 
-export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> = Schema.suspend(
-  () =>
+export const GoogleTypeDate: Schema.Schema<GoogleTypeDate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       year: Schema.optional(Schema.Number),
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "GoogleTypeDate",
-}) as any as Schema.Schema<GoogleTypeDate>;
+  ).annotate({
+    identifier: "GoogleTypeDate",
+  }) as any as Schema.Schema<GoogleTypeDate>;
 
 export interface GooglePrivacyDlpV2Value {
   /** integer */
@@ -752,7 +752,7 @@ export interface GooglePrivacyDlpV2Value {
 }
 
 export const GooglePrivacyDlpV2Value: Schema.Schema<GooglePrivacyDlpV2Value> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       integerValue: Schema.optional(Schema.String),
       floatValue: Schema.optional(Schema.Number),
@@ -773,7 +773,7 @@ export interface GooglePrivacyDlpV2Row {
 }
 
 export const GooglePrivacyDlpV2Row: Schema.Schema<GooglePrivacyDlpV2Row> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       values: Schema.optional(Schema.Array(GooglePrivacyDlpV2Value)),
     }),
@@ -789,7 +789,7 @@ export interface GooglePrivacyDlpV2Table {
 }
 
 export const GooglePrivacyDlpV2Table: Schema.Schema<GooglePrivacyDlpV2Table> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       headers: Schema.optional(Schema.Array(GooglePrivacyDlpV2FieldId)),
       rows: Schema.optional(Schema.Array(GooglePrivacyDlpV2Row)),
@@ -825,7 +825,7 @@ export interface GooglePrivacyDlpV2ByteContentItem {
 }
 
 export const GooglePrivacyDlpV2ByteContentItem: Schema.Schema<GooglePrivacyDlpV2ByteContentItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       data: Schema.optional(Schema.String),
@@ -844,7 +844,7 @@ export interface GooglePrivacyDlpV2ContentItem {
 }
 
 export const GooglePrivacyDlpV2ContentItem: Schema.Schema<GooglePrivacyDlpV2ContentItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(Schema.String),
       table: Schema.optional(GooglePrivacyDlpV2Table),
@@ -866,7 +866,7 @@ export interface GooglePrivacyDlpV2InspectContentRequest {
 }
 
 export const GooglePrivacyDlpV2InspectContentRequest: Schema.Schema<GooglePrivacyDlpV2InspectContentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
       item: Schema.optional(GooglePrivacyDlpV2ContentItem),
@@ -885,7 +885,7 @@ export interface GooglePrivacyDlpV2Range {
 }
 
 export const GooglePrivacyDlpV2Range: Schema.Schema<GooglePrivacyDlpV2Range> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       start: Schema.optional(Schema.String),
       end: Schema.optional(Schema.String),
@@ -902,7 +902,7 @@ export interface GooglePrivacyDlpV2PartitionId {
 }
 
 export const GooglePrivacyDlpV2PartitionId: Schema.Schema<GooglePrivacyDlpV2PartitionId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       namespaceId: Schema.optional(Schema.String),
@@ -921,7 +921,7 @@ export interface GooglePrivacyDlpV2PathElement {
 }
 
 export const GooglePrivacyDlpV2PathElement: Schema.Schema<GooglePrivacyDlpV2PathElement> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -939,7 +939,7 @@ export interface GooglePrivacyDlpV2Key {
 }
 
 export const GooglePrivacyDlpV2Key: Schema.Schema<GooglePrivacyDlpV2Key> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionId: Schema.optional(GooglePrivacyDlpV2PartitionId),
       path: Schema.optional(Schema.Array(GooglePrivacyDlpV2PathElement)),
@@ -954,7 +954,7 @@ export interface GooglePrivacyDlpV2DatastoreKey {
 }
 
 export const GooglePrivacyDlpV2DatastoreKey: Schema.Schema<GooglePrivacyDlpV2DatastoreKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       entityKey: Schema.optional(GooglePrivacyDlpV2Key),
     }),
@@ -972,7 +972,7 @@ export interface GooglePrivacyDlpV2BigQueryTable {
 }
 
 export const GooglePrivacyDlpV2BigQueryTable: Schema.Schema<GooglePrivacyDlpV2BigQueryTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       datasetId: Schema.optional(Schema.String),
@@ -990,7 +990,7 @@ export interface GooglePrivacyDlpV2BigQueryKey {
 }
 
 export const GooglePrivacyDlpV2BigQueryKey: Schema.Schema<GooglePrivacyDlpV2BigQueryKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableReference: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       rowNumber: Schema.optional(Schema.String),
@@ -1009,7 +1009,7 @@ export interface GooglePrivacyDlpV2RecordKey {
 }
 
 export const GooglePrivacyDlpV2RecordKey: Schema.Schema<GooglePrivacyDlpV2RecordKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datastoreKey: Schema.optional(GooglePrivacyDlpV2DatastoreKey),
       bigQueryKey: Schema.optional(GooglePrivacyDlpV2BigQueryKey),
@@ -1025,7 +1025,7 @@ export interface GooglePrivacyDlpV2TableLocation {
 }
 
 export const GooglePrivacyDlpV2TableLocation: Schema.Schema<GooglePrivacyDlpV2TableLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       rowIndex: Schema.optional(Schema.String),
     }),
@@ -1043,7 +1043,7 @@ export interface GooglePrivacyDlpV2RecordLocation {
 }
 
 export const GooglePrivacyDlpV2RecordLocation: Schema.Schema<GooglePrivacyDlpV2RecordLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recordKey: Schema.optional(GooglePrivacyDlpV2RecordKey),
       fieldId: Schema.optional(GooglePrivacyDlpV2FieldId),
@@ -1065,7 +1065,7 @@ export interface GooglePrivacyDlpV2BoundingBox {
 }
 
 export const GooglePrivacyDlpV2BoundingBox: Schema.Schema<GooglePrivacyDlpV2BoundingBox> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       top: Schema.optional(Schema.Number),
       left: Schema.optional(Schema.Number),
@@ -1082,7 +1082,7 @@ export interface GooglePrivacyDlpV2ImageLocation {
 }
 
 export const GooglePrivacyDlpV2ImageLocation: Schema.Schema<GooglePrivacyDlpV2ImageLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       boundingBoxes: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2BoundingBox),
@@ -1098,7 +1098,7 @@ export interface GooglePrivacyDlpV2DocumentLocation {
 }
 
 export const GooglePrivacyDlpV2DocumentLocation: Schema.Schema<GooglePrivacyDlpV2DocumentLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileOffset: Schema.optional(Schema.String),
     }),
@@ -1112,7 +1112,7 @@ export interface GooglePrivacyDlpV2StorageMetadataLabel {
 }
 
 export const GooglePrivacyDlpV2StorageMetadataLabel: Schema.Schema<GooglePrivacyDlpV2StorageMetadataLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -1126,7 +1126,7 @@ export interface GooglePrivacyDlpV2KeyValueMetadataLabel {
 }
 
 export const GooglePrivacyDlpV2KeyValueMetadataLabel: Schema.Schema<GooglePrivacyDlpV2KeyValueMetadataLabel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -1148,7 +1148,7 @@ export interface GooglePrivacyDlpV2MetadataLocation {
 }
 
 export const GooglePrivacyDlpV2MetadataLocation: Schema.Schema<GooglePrivacyDlpV2MetadataLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       storageLabel: Schema.optional(GooglePrivacyDlpV2StorageMetadataLabel),
@@ -1178,7 +1178,7 @@ export interface GooglePrivacyDlpV2ContentLocation {
 }
 
 export const GooglePrivacyDlpV2ContentLocation: Schema.Schema<GooglePrivacyDlpV2ContentLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerName: Schema.optional(Schema.String),
       recordLocation: Schema.optional(GooglePrivacyDlpV2RecordLocation),
@@ -1210,7 +1210,7 @@ export interface GooglePrivacyDlpV2Container {
 }
 
 export const GooglePrivacyDlpV2Container: Schema.Schema<GooglePrivacyDlpV2Container> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -1236,7 +1236,7 @@ export interface GooglePrivacyDlpV2Location {
 }
 
 export const GooglePrivacyDlpV2Location: Schema.Schema<GooglePrivacyDlpV2Location> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       byteRange: Schema.optional(GooglePrivacyDlpV2Range),
       codepointRange: Schema.optional(GooglePrivacyDlpV2Range),
@@ -1255,7 +1255,7 @@ export interface GooglePrivacyDlpV2TimeZone {
 }
 
 export const GooglePrivacyDlpV2TimeZone: Schema.Schema<GooglePrivacyDlpV2TimeZone> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       offsetMinutes: Schema.optional(Schema.Number),
     }),
@@ -1284,7 +1284,7 @@ export interface GooglePrivacyDlpV2DateTime {
 }
 
 export const GooglePrivacyDlpV2DateTime: Schema.Schema<GooglePrivacyDlpV2DateTime> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       date: Schema.optional(GoogleTypeDate),
       dayOfWeek: Schema.optional(Schema.String),
@@ -1301,7 +1301,7 @@ export interface GooglePrivacyDlpV2QuoteInfo {
 }
 
 export const GooglePrivacyDlpV2QuoteInfo: Schema.Schema<GooglePrivacyDlpV2QuoteInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dateTime: Schema.optional(GooglePrivacyDlpV2DateTime),
     }),
@@ -1346,7 +1346,7 @@ export interface GooglePrivacyDlpV2Finding {
 }
 
 export const GooglePrivacyDlpV2Finding: Schema.Schema<GooglePrivacyDlpV2Finding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       quote: Schema.optional(Schema.String),
@@ -1374,7 +1374,7 @@ export interface GooglePrivacyDlpV2InspectResult {
 }
 
 export const GooglePrivacyDlpV2InspectResult: Schema.Schema<GooglePrivacyDlpV2InspectResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findings: Schema.optional(Schema.Array(GooglePrivacyDlpV2Finding)),
       findingsTruncated: Schema.optional(Schema.Boolean),
@@ -1389,7 +1389,7 @@ export interface GooglePrivacyDlpV2InspectContentResponse {
 }
 
 export const GooglePrivacyDlpV2InspectContentResponse: Schema.Schema<GooglePrivacyDlpV2InspectContentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(GooglePrivacyDlpV2InspectResult),
     }),
@@ -1407,7 +1407,7 @@ export interface GooglePrivacyDlpV2Color {
 }
 
 export const GooglePrivacyDlpV2Color: Schema.Schema<GooglePrivacyDlpV2Color> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       red: Schema.optional(Schema.Number),
       green: Schema.optional(Schema.Number),
@@ -1427,7 +1427,7 @@ export interface GooglePrivacyDlpV2ImageRedactionConfig {
 }
 
 export const GooglePrivacyDlpV2ImageRedactionConfig: Schema.Schema<GooglePrivacyDlpV2ImageRedactionConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       redactAllText: Schema.optional(Schema.Boolean),
@@ -1455,7 +1455,7 @@ export interface GooglePrivacyDlpV2RedactImageRequest {
 }
 
 export const GooglePrivacyDlpV2RedactImageRequest: Schema.Schema<GooglePrivacyDlpV2RedactImageRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationId: Schema.optional(Schema.String),
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
@@ -1481,7 +1481,7 @@ export interface GooglePrivacyDlpV2RedactImageResponse {
 }
 
 export const GooglePrivacyDlpV2RedactImageResponse: Schema.Schema<GooglePrivacyDlpV2RedactImageResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       redactedImage: Schema.optional(Schema.String),
       extractedText: Schema.optional(Schema.String),
@@ -1497,7 +1497,7 @@ export interface GooglePrivacyDlpV2ReplaceValueConfig {
 }
 
 export const GooglePrivacyDlpV2ReplaceValueConfig: Schema.Schema<GooglePrivacyDlpV2ReplaceValueConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       newValue: Schema.optional(GooglePrivacyDlpV2Value),
     }),
@@ -1508,7 +1508,7 @@ export const GooglePrivacyDlpV2ReplaceValueConfig: Schema.Schema<GooglePrivacyDl
 export interface GooglePrivacyDlpV2RedactConfig {}
 
 export const GooglePrivacyDlpV2RedactConfig: Schema.Schema<GooglePrivacyDlpV2RedactConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2RedactConfig",
   }) as any as Schema.Schema<GooglePrivacyDlpV2RedactConfig>;
 
@@ -1527,7 +1527,7 @@ export interface GooglePrivacyDlpV2CharsToIgnore {
 }
 
 export const GooglePrivacyDlpV2CharsToIgnore: Schema.Schema<GooglePrivacyDlpV2CharsToIgnore> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       charactersToSkip: Schema.optional(Schema.String),
       commonCharactersToIgnore: Schema.optional(Schema.String),
@@ -1548,7 +1548,7 @@ export interface GooglePrivacyDlpV2CharacterMaskConfig {
 }
 
 export const GooglePrivacyDlpV2CharacterMaskConfig: Schema.Schema<GooglePrivacyDlpV2CharacterMaskConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       maskingCharacter: Schema.optional(Schema.String),
       numberToMask: Schema.optional(Schema.Number),
@@ -1567,7 +1567,7 @@ export interface GooglePrivacyDlpV2TransientCryptoKey {
 }
 
 export const GooglePrivacyDlpV2TransientCryptoKey: Schema.Schema<GooglePrivacyDlpV2TransientCryptoKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -1581,7 +1581,7 @@ export interface GooglePrivacyDlpV2UnwrappedCryptoKey {
 }
 
 export const GooglePrivacyDlpV2UnwrappedCryptoKey: Schema.Schema<GooglePrivacyDlpV2UnwrappedCryptoKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       key: Schema.optional(Schema.String),
     }),
@@ -1597,7 +1597,7 @@ export interface GooglePrivacyDlpV2KmsWrappedCryptoKey {
 }
 
 export const GooglePrivacyDlpV2KmsWrappedCryptoKey: Schema.Schema<GooglePrivacyDlpV2KmsWrappedCryptoKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wrappedKey: Schema.optional(Schema.String),
       cryptoKeyName: Schema.optional(Schema.String),
@@ -1616,7 +1616,7 @@ export interface GooglePrivacyDlpV2CryptoKey {
 }
 
 export const GooglePrivacyDlpV2CryptoKey: Schema.Schema<GooglePrivacyDlpV2CryptoKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transient: Schema.optional(GooglePrivacyDlpV2TransientCryptoKey),
       unwrapped: Schema.optional(GooglePrivacyDlpV2UnwrappedCryptoKey),
@@ -1648,7 +1648,7 @@ export interface GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig {
 }
 
 export const GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig: Schema.Schema<GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cryptoKey: Schema.optional(GooglePrivacyDlpV2CryptoKey),
       context: Schema.optional(GooglePrivacyDlpV2FieldId),
@@ -1671,7 +1671,7 @@ export interface GooglePrivacyDlpV2FixedSizeBucketingConfig {
 }
 
 export const GooglePrivacyDlpV2FixedSizeBucketingConfig: Schema.Schema<GooglePrivacyDlpV2FixedSizeBucketingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lowerBound: Schema.optional(GooglePrivacyDlpV2Value),
       upperBound: Schema.optional(GooglePrivacyDlpV2Value),
@@ -1691,7 +1691,7 @@ export interface GooglePrivacyDlpV2Bucket {
 }
 
 export const GooglePrivacyDlpV2Bucket: Schema.Schema<GooglePrivacyDlpV2Bucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       min: Schema.optional(GooglePrivacyDlpV2Value),
       max: Schema.optional(GooglePrivacyDlpV2Value),
@@ -1707,7 +1707,7 @@ export interface GooglePrivacyDlpV2BucketingConfig {
 }
 
 export const GooglePrivacyDlpV2BucketingConfig: Schema.Schema<GooglePrivacyDlpV2BucketingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       buckets: Schema.optional(Schema.Array(GooglePrivacyDlpV2Bucket)),
     }),
@@ -1718,7 +1718,7 @@ export const GooglePrivacyDlpV2BucketingConfig: Schema.Schema<GooglePrivacyDlpV2
 export interface GooglePrivacyDlpV2ReplaceWithInfoTypeConfig {}
 
 export const GooglePrivacyDlpV2ReplaceWithInfoTypeConfig: Schema.Schema<GooglePrivacyDlpV2ReplaceWithInfoTypeConfig> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2ReplaceWithInfoTypeConfig",
   }) as any as Schema.Schema<GooglePrivacyDlpV2ReplaceWithInfoTypeConfig>;
 
@@ -1736,7 +1736,7 @@ export interface GooglePrivacyDlpV2TimePartConfig {
 }
 
 export const GooglePrivacyDlpV2TimePartConfig: Schema.Schema<GooglePrivacyDlpV2TimePartConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partToExtract: Schema.optional(Schema.String),
     }),
@@ -1750,7 +1750,7 @@ export interface GooglePrivacyDlpV2CryptoHashConfig {
 }
 
 export const GooglePrivacyDlpV2CryptoHashConfig: Schema.Schema<GooglePrivacyDlpV2CryptoHashConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cryptoKey: Schema.optional(GooglePrivacyDlpV2CryptoKey),
     }),
@@ -1770,7 +1770,7 @@ export interface GooglePrivacyDlpV2DateShiftConfig {
 }
 
 export const GooglePrivacyDlpV2DateShiftConfig: Schema.Schema<GooglePrivacyDlpV2DateShiftConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       upperBoundDays: Schema.optional(Schema.Number),
       lowerBoundDays: Schema.optional(Schema.Number),
@@ -1791,7 +1791,7 @@ export interface GooglePrivacyDlpV2CryptoDeterministicConfig {
 }
 
 export const GooglePrivacyDlpV2CryptoDeterministicConfig: Schema.Schema<GooglePrivacyDlpV2CryptoDeterministicConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cryptoKey: Schema.optional(GooglePrivacyDlpV2CryptoKey),
       surrogateInfoType: Schema.optional(GooglePrivacyDlpV2InfoType),
@@ -1807,7 +1807,7 @@ export interface GooglePrivacyDlpV2ReplaceDictionaryConfig {
 }
 
 export const GooglePrivacyDlpV2ReplaceDictionaryConfig: Schema.Schema<GooglePrivacyDlpV2ReplaceDictionaryConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       wordList: Schema.optional(GooglePrivacyDlpV2WordList),
     }),
@@ -1843,7 +1843,7 @@ export interface GooglePrivacyDlpV2PrimitiveTransformation {
 }
 
 export const GooglePrivacyDlpV2PrimitiveTransformation: Schema.Schema<GooglePrivacyDlpV2PrimitiveTransformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       replaceConfig: Schema.optional(GooglePrivacyDlpV2ReplaceValueConfig),
       redactConfig: Schema.optional(GooglePrivacyDlpV2RedactConfig),
@@ -1882,7 +1882,7 @@ export interface GooglePrivacyDlpV2InfoTypeTransformation {
 }
 
 export const GooglePrivacyDlpV2InfoTypeTransformation: Schema.Schema<GooglePrivacyDlpV2InfoTypeTransformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
       primitiveTransformation: Schema.optional(
@@ -1899,7 +1899,7 @@ export interface GooglePrivacyDlpV2InfoTypeTransformations {
 }
 
 export const GooglePrivacyDlpV2InfoTypeTransformations: Schema.Schema<GooglePrivacyDlpV2InfoTypeTransformations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformations: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2InfoTypeTransformation),
@@ -1928,7 +1928,7 @@ export interface GooglePrivacyDlpV2Condition {
 }
 
 export const GooglePrivacyDlpV2Condition: Schema.Schema<GooglePrivacyDlpV2Condition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
       operator: Schema.optional(Schema.String),
@@ -1944,7 +1944,7 @@ export interface GooglePrivacyDlpV2Conditions {
 }
 
 export const GooglePrivacyDlpV2Conditions: Schema.Schema<GooglePrivacyDlpV2Conditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       conditions: Schema.optional(Schema.Array(GooglePrivacyDlpV2Condition)),
     }),
@@ -1960,7 +1960,7 @@ export interface GooglePrivacyDlpV2Expressions {
 }
 
 export const GooglePrivacyDlpV2Expressions: Schema.Schema<GooglePrivacyDlpV2Expressions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logicalOperator: Schema.optional(Schema.String),
       conditions: Schema.optional(GooglePrivacyDlpV2Conditions),
@@ -1975,7 +1975,7 @@ export interface GooglePrivacyDlpV2RecordCondition {
 }
 
 export const GooglePrivacyDlpV2RecordCondition: Schema.Schema<GooglePrivacyDlpV2RecordCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(GooglePrivacyDlpV2Expressions),
     }),
@@ -1995,7 +1995,7 @@ export interface GooglePrivacyDlpV2FieldTransformation {
 }
 
 export const GooglePrivacyDlpV2FieldTransformation: Schema.Schema<GooglePrivacyDlpV2FieldTransformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fields: Schema.optional(Schema.Array(GooglePrivacyDlpV2FieldId)),
       condition: Schema.optional(GooglePrivacyDlpV2RecordCondition),
@@ -2016,7 +2016,7 @@ export interface GooglePrivacyDlpV2RecordSuppression {
 }
 
 export const GooglePrivacyDlpV2RecordSuppression: Schema.Schema<GooglePrivacyDlpV2RecordSuppression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       condition: Schema.optional(GooglePrivacyDlpV2RecordCondition),
     }),
@@ -2032,7 +2032,7 @@ export interface GooglePrivacyDlpV2RecordTransformations {
 }
 
 export const GooglePrivacyDlpV2RecordTransformations: Schema.Schema<GooglePrivacyDlpV2RecordTransformations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldTransformations: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2FieldTransformation),
@@ -2051,7 +2051,7 @@ export interface GooglePrivacyDlpV2SelectedInfoTypes {
 }
 
 export const GooglePrivacyDlpV2SelectedInfoTypes: Schema.Schema<GooglePrivacyDlpV2SelectedInfoTypes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(Schema.Array(GooglePrivacyDlpV2InfoType)),
     }),
@@ -2062,14 +2062,14 @@ export const GooglePrivacyDlpV2SelectedInfoTypes: Schema.Schema<GooglePrivacyDlp
 export interface GooglePrivacyDlpV2AllInfoTypes {}
 
 export const GooglePrivacyDlpV2AllInfoTypes: Schema.Schema<GooglePrivacyDlpV2AllInfoTypes> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2AllInfoTypes",
   }) as any as Schema.Schema<GooglePrivacyDlpV2AllInfoTypes>;
 
 export interface GooglePrivacyDlpV2AllText {}
 
 export const GooglePrivacyDlpV2AllText: Schema.Schema<GooglePrivacyDlpV2AllText> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2AllText",
   }) as any as Schema.Schema<GooglePrivacyDlpV2AllText>;
 
@@ -2085,7 +2085,7 @@ export interface GooglePrivacyDlpV2ImageTransformation {
 }
 
 export const GooglePrivacyDlpV2ImageTransformation: Schema.Schema<GooglePrivacyDlpV2ImageTransformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       selectedInfoTypes: Schema.optional(GooglePrivacyDlpV2SelectedInfoTypes),
       allInfoTypes: Schema.optional(GooglePrivacyDlpV2AllInfoTypes),
@@ -2102,7 +2102,7 @@ export interface GooglePrivacyDlpV2ImageTransformations {
 }
 
 export const GooglePrivacyDlpV2ImageTransformations: Schema.Schema<GooglePrivacyDlpV2ImageTransformations> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transforms: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2ImageTransformation),
@@ -2115,14 +2115,14 @@ export const GooglePrivacyDlpV2ImageTransformations: Schema.Schema<GooglePrivacy
 export interface GooglePrivacyDlpV2ThrowError {}
 
 export const GooglePrivacyDlpV2ThrowError: Schema.Schema<GooglePrivacyDlpV2ThrowError> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2ThrowError",
   }) as any as Schema.Schema<GooglePrivacyDlpV2ThrowError>;
 
 export interface GooglePrivacyDlpV2LeaveUntransformed {}
 
 export const GooglePrivacyDlpV2LeaveUntransformed: Schema.Schema<GooglePrivacyDlpV2LeaveUntransformed> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2LeaveUntransformed",
   }) as any as Schema.Schema<GooglePrivacyDlpV2LeaveUntransformed>;
 
@@ -2134,7 +2134,7 @@ export interface GooglePrivacyDlpV2TransformationErrorHandling {
 }
 
 export const GooglePrivacyDlpV2TransformationErrorHandling: Schema.Schema<GooglePrivacyDlpV2TransformationErrorHandling> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       throwError: Schema.optional(GooglePrivacyDlpV2ThrowError),
       leaveUntransformed: Schema.optional(GooglePrivacyDlpV2LeaveUntransformed),
@@ -2155,7 +2155,7 @@ export interface GooglePrivacyDlpV2DeidentifyConfig {
 }
 
 export const GooglePrivacyDlpV2DeidentifyConfig: Schema.Schema<GooglePrivacyDlpV2DeidentifyConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypeTransformations: Schema.optional(
         GooglePrivacyDlpV2InfoTypeTransformations,
@@ -2190,7 +2190,7 @@ export interface GooglePrivacyDlpV2DeidentifyContentRequest {
 }
 
 export const GooglePrivacyDlpV2DeidentifyContentRequest: Schema.Schema<GooglePrivacyDlpV2DeidentifyContentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyConfig: Schema.optional(GooglePrivacyDlpV2DeidentifyConfig),
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
@@ -2217,7 +2217,7 @@ export interface GooglePrivacyDlpV2SummaryResult {
 }
 
 export const GooglePrivacyDlpV2SummaryResult: Schema.Schema<GooglePrivacyDlpV2SummaryResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       count: Schema.optional(Schema.String),
       code: Schema.optional(Schema.String),
@@ -2245,7 +2245,7 @@ export interface GooglePrivacyDlpV2TransformationSummary {
 }
 
 export const GooglePrivacyDlpV2TransformationSummary: Schema.Schema<GooglePrivacyDlpV2TransformationSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
@@ -2271,7 +2271,7 @@ export interface GooglePrivacyDlpV2TransformationOverview {
 }
 
 export const GooglePrivacyDlpV2TransformationOverview: Schema.Schema<GooglePrivacyDlpV2TransformationOverview> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformedBytes: Schema.optional(Schema.String),
       transformationSummaries: Schema.optional(
@@ -2290,7 +2290,7 @@ export interface GooglePrivacyDlpV2DeidentifyContentResponse {
 }
 
 export const GooglePrivacyDlpV2DeidentifyContentResponse: Schema.Schema<GooglePrivacyDlpV2DeidentifyContentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       item: Schema.optional(GooglePrivacyDlpV2ContentItem),
       overview: Schema.optional(GooglePrivacyDlpV2TransformationOverview),
@@ -2315,7 +2315,7 @@ export interface GooglePrivacyDlpV2ReidentifyContentRequest {
 }
 
 export const GooglePrivacyDlpV2ReidentifyContentRequest: Schema.Schema<GooglePrivacyDlpV2ReidentifyContentRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       reidentifyConfig: Schema.optional(GooglePrivacyDlpV2DeidentifyConfig),
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
@@ -2336,7 +2336,7 @@ export interface GooglePrivacyDlpV2ReidentifyContentResponse {
 }
 
 export const GooglePrivacyDlpV2ReidentifyContentResponse: Schema.Schema<GooglePrivacyDlpV2ReidentifyContentResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       item: Schema.optional(GooglePrivacyDlpV2ContentItem),
       overview: Schema.optional(GooglePrivacyDlpV2TransformationOverview),
@@ -2357,7 +2357,7 @@ export interface GooglePrivacyDlpV2LocationSupport {
 }
 
 export const GooglePrivacyDlpV2LocationSupport: Schema.Schema<GooglePrivacyDlpV2LocationSupport> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       regionalizationScope: Schema.optional(Schema.String),
       locations: Schema.optional(Schema.Array(Schema.String)),
@@ -2374,7 +2374,7 @@ export interface GooglePrivacyDlpV2VersionDescription {
 }
 
 export const GooglePrivacyDlpV2VersionDescription: Schema.Schema<GooglePrivacyDlpV2VersionDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -2462,7 +2462,7 @@ export interface GooglePrivacyDlpV2InfoTypeCategory {
 }
 
 export const GooglePrivacyDlpV2InfoTypeCategory: Schema.Schema<GooglePrivacyDlpV2InfoTypeCategory> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       locationCategory: Schema.optional(Schema.String),
       industryCategory: Schema.optional(Schema.String),
@@ -2505,7 +2505,7 @@ export interface GooglePrivacyDlpV2InfoTypeDescription {
 }
 
 export const GooglePrivacyDlpV2InfoTypeDescription: Schema.Schema<GooglePrivacyDlpV2InfoTypeDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2533,7 +2533,7 @@ export interface GooglePrivacyDlpV2ListInfoTypesResponse {
 }
 
 export const GooglePrivacyDlpV2ListInfoTypesResponse: Schema.Schema<GooglePrivacyDlpV2ListInfoTypesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoTypes: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2InfoTypeDescription),
@@ -2559,7 +2559,7 @@ export interface GooglePrivacyDlpV2InspectTemplate {
 }
 
 export const GooglePrivacyDlpV2InspectTemplate: Schema.Schema<GooglePrivacyDlpV2InspectTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2582,7 +2582,7 @@ export interface GooglePrivacyDlpV2CreateInspectTemplateRequest {
 }
 
 export const GooglePrivacyDlpV2CreateInspectTemplateRequest: Schema.Schema<GooglePrivacyDlpV2CreateInspectTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectTemplate: Schema.optional(GooglePrivacyDlpV2InspectTemplate),
       templateId: Schema.optional(Schema.String),
@@ -2600,7 +2600,7 @@ export interface GooglePrivacyDlpV2UpdateInspectTemplateRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateInspectTemplateRequest: Schema.Schema<GooglePrivacyDlpV2UpdateInspectTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectTemplate: Schema.optional(GooglePrivacyDlpV2InspectTemplate),
       updateMask: Schema.optional(Schema.String),
@@ -2617,7 +2617,7 @@ export interface GooglePrivacyDlpV2ListInspectTemplatesResponse {
 }
 
 export const GooglePrivacyDlpV2ListInspectTemplatesResponse: Schema.Schema<GooglePrivacyDlpV2ListInspectTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectTemplates: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2InspectTemplate),
@@ -2631,7 +2631,7 @@ export const GooglePrivacyDlpV2ListInspectTemplatesResponse: Schema.Schema<Googl
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
@@ -2651,7 +2651,7 @@ export interface GooglePrivacyDlpV2DeidentifyTemplate {
 }
 
 export const GooglePrivacyDlpV2DeidentifyTemplate: Schema.Schema<GooglePrivacyDlpV2DeidentifyTemplate> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -2674,7 +2674,7 @@ export interface GooglePrivacyDlpV2CreateDeidentifyTemplateRequest {
 }
 
 export const GooglePrivacyDlpV2CreateDeidentifyTemplateRequest: Schema.Schema<GooglePrivacyDlpV2CreateDeidentifyTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(GooglePrivacyDlpV2DeidentifyTemplate),
       templateId: Schema.optional(Schema.String),
@@ -2692,7 +2692,7 @@ export interface GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest: Schema.Schema<GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(GooglePrivacyDlpV2DeidentifyTemplate),
       updateMask: Schema.optional(Schema.String),
@@ -2709,7 +2709,7 @@ export interface GooglePrivacyDlpV2ListDeidentifyTemplatesResponse {
 }
 
 export const GooglePrivacyDlpV2ListDeidentifyTemplatesResponse: Schema.Schema<GooglePrivacyDlpV2ListDeidentifyTemplatesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplates: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2DeidentifyTemplate),
@@ -2726,7 +2726,7 @@ export interface GooglePrivacyDlpV2KindExpression {
 }
 
 export const GooglePrivacyDlpV2KindExpression: Schema.Schema<GooglePrivacyDlpV2KindExpression> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
     }),
@@ -2742,7 +2742,7 @@ export interface GooglePrivacyDlpV2DatastoreOptions {
 }
 
 export const GooglePrivacyDlpV2DatastoreOptions: Schema.Schema<GooglePrivacyDlpV2DatastoreOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       partitionId: Schema.optional(GooglePrivacyDlpV2PartitionId),
       kind: Schema.optional(GooglePrivacyDlpV2KindExpression),
@@ -2761,7 +2761,7 @@ export interface GooglePrivacyDlpV2CloudStorageRegexFileSet {
 }
 
 export const GooglePrivacyDlpV2CloudStorageRegexFileSet: Schema.Schema<GooglePrivacyDlpV2CloudStorageRegexFileSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketName: Schema.optional(Schema.String),
       includeRegex: Schema.optional(Schema.Array(Schema.String)),
@@ -2779,7 +2779,7 @@ export interface GooglePrivacyDlpV2FileSet {
 }
 
 export const GooglePrivacyDlpV2FileSet: Schema.Schema<GooglePrivacyDlpV2FileSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
       regexFileSet: Schema.optional(GooglePrivacyDlpV2CloudStorageRegexFileSet),
@@ -2821,7 +2821,7 @@ export interface GooglePrivacyDlpV2CloudStorageOptions {
 }
 
 export const GooglePrivacyDlpV2CloudStorageOptions: Schema.Schema<GooglePrivacyDlpV2CloudStorageOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileSet: Schema.optional(GooglePrivacyDlpV2FileSet),
       bytesLimitPerFile: Schema.optional(Schema.String),
@@ -2856,7 +2856,7 @@ export interface GooglePrivacyDlpV2BigQueryOptions {
 }
 
 export const GooglePrivacyDlpV2BigQueryOptions: Schema.Schema<GooglePrivacyDlpV2BigQueryOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableReference: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       identifyingFields: Schema.optional(
@@ -2878,7 +2878,7 @@ export interface GooglePrivacyDlpV2TableOptions {
 }
 
 export const GooglePrivacyDlpV2TableOptions: Schema.Schema<GooglePrivacyDlpV2TableOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       identifyingFields: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2FieldId),
@@ -2900,7 +2900,7 @@ export interface GooglePrivacyDlpV2HybridOptions {
 }
 
 export const GooglePrivacyDlpV2HybridOptions: Schema.Schema<GooglePrivacyDlpV2HybridOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
       requiredFindingLabelKeys: Schema.optional(Schema.Array(Schema.String)),
@@ -2923,7 +2923,7 @@ export interface GooglePrivacyDlpV2TimespanConfig {
 }
 
 export const GooglePrivacyDlpV2TimespanConfig: Schema.Schema<GooglePrivacyDlpV2TimespanConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       startTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
@@ -2948,7 +2948,7 @@ export interface GooglePrivacyDlpV2StorageConfig {
 }
 
 export const GooglePrivacyDlpV2StorageConfig: Schema.Schema<GooglePrivacyDlpV2StorageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datastoreOptions: Schema.optional(GooglePrivacyDlpV2DatastoreOptions),
       cloudStorageOptions: Schema.optional(
@@ -2979,7 +2979,7 @@ export interface GooglePrivacyDlpV2OutputStorageConfig {
 }
 
 export const GooglePrivacyDlpV2OutputStorageConfig: Schema.Schema<GooglePrivacyDlpV2OutputStorageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       storagePath: Schema.optional(GooglePrivacyDlpV2CloudStoragePath),
@@ -2995,7 +2995,7 @@ export interface GooglePrivacyDlpV2SaveFindings {
 }
 
 export const GooglePrivacyDlpV2SaveFindings: Schema.Schema<GooglePrivacyDlpV2SaveFindings> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputConfig: Schema.optional(GooglePrivacyDlpV2OutputStorageConfig),
     }),
@@ -3009,7 +3009,7 @@ export interface GooglePrivacyDlpV2PublishToPubSub {
 }
 
 export const GooglePrivacyDlpV2PublishToPubSub: Schema.Schema<GooglePrivacyDlpV2PublishToPubSub> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
     }),
@@ -3020,21 +3020,21 @@ export const GooglePrivacyDlpV2PublishToPubSub: Schema.Schema<GooglePrivacyDlpV2
 export interface GooglePrivacyDlpV2PublishSummaryToCscc {}
 
 export const GooglePrivacyDlpV2PublishSummaryToCscc: Schema.Schema<GooglePrivacyDlpV2PublishSummaryToCscc> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishSummaryToCscc",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishSummaryToCscc>;
 
 export interface GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog {}
 
 export const GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog: Schema.Schema<GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog>;
 
 export interface GooglePrivacyDlpV2PublishFindingsToDataplexCatalog {}
 
 export const GooglePrivacyDlpV2PublishFindingsToDataplexCatalog: Schema.Schema<GooglePrivacyDlpV2PublishFindingsToDataplexCatalog> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishFindingsToDataplexCatalog",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishFindingsToDataplexCatalog>;
 
@@ -3048,7 +3048,7 @@ export interface GooglePrivacyDlpV2TransformationConfig {
 }
 
 export const GooglePrivacyDlpV2TransformationConfig: Schema.Schema<GooglePrivacyDlpV2TransformationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyTemplate: Schema.optional(Schema.String),
       structuredDeidentifyTemplate: Schema.optional(Schema.String),
@@ -3064,7 +3064,7 @@ export interface GooglePrivacyDlpV2TransformationDetailsStorageConfig {
 }
 
 export const GooglePrivacyDlpV2TransformationDetailsStorageConfig: Schema.Schema<GooglePrivacyDlpV2TransformationDetailsStorageConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
     }),
@@ -3097,7 +3097,7 @@ export interface GooglePrivacyDlpV2Deidentify {
 }
 
 export const GooglePrivacyDlpV2Deidentify: Schema.Schema<GooglePrivacyDlpV2Deidentify> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformationConfig: Schema.optional(
         GooglePrivacyDlpV2TransformationConfig,
@@ -3115,14 +3115,14 @@ export const GooglePrivacyDlpV2Deidentify: Schema.Schema<GooglePrivacyDlpV2Deide
 export interface GooglePrivacyDlpV2JobNotificationEmails {}
 
 export const GooglePrivacyDlpV2JobNotificationEmails: Schema.Schema<GooglePrivacyDlpV2JobNotificationEmails> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2JobNotificationEmails",
   }) as any as Schema.Schema<GooglePrivacyDlpV2JobNotificationEmails>;
 
 export interface GooglePrivacyDlpV2PublishToStackdriver {}
 
 export const GooglePrivacyDlpV2PublishToStackdriver: Schema.Schema<GooglePrivacyDlpV2PublishToStackdriver> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishToStackdriver",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishToStackdriver>;
 
@@ -3146,7 +3146,7 @@ export interface GooglePrivacyDlpV2Action {
 }
 
 export const GooglePrivacyDlpV2Action: Schema.Schema<GooglePrivacyDlpV2Action> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       saveFindings: Schema.optional(GooglePrivacyDlpV2SaveFindings),
       pubSub: Schema.optional(GooglePrivacyDlpV2PublishToPubSub),
@@ -3183,7 +3183,7 @@ export interface GooglePrivacyDlpV2InspectJobConfig {
 }
 
 export const GooglePrivacyDlpV2InspectJobConfig: Schema.Schema<GooglePrivacyDlpV2InspectJobConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storageConfig: Schema.optional(GooglePrivacyDlpV2StorageConfig),
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
@@ -3200,7 +3200,7 @@ export interface GooglePrivacyDlpV2Schedule {
 }
 
 export const GooglePrivacyDlpV2Schedule: Schema.Schema<GooglePrivacyDlpV2Schedule> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       recurrencePeriodDuration: Schema.optional(Schema.String),
     }),
@@ -3211,7 +3211,7 @@ export const GooglePrivacyDlpV2Schedule: Schema.Schema<GooglePrivacyDlpV2Schedul
 export interface GooglePrivacyDlpV2Manual {}
 
 export const GooglePrivacyDlpV2Manual: Schema.Schema<GooglePrivacyDlpV2Manual> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2Manual",
   }) as any as Schema.Schema<GooglePrivacyDlpV2Manual>;
 
@@ -3223,7 +3223,7 @@ export interface GooglePrivacyDlpV2Trigger {
 }
 
 export const GooglePrivacyDlpV2Trigger: Schema.Schema<GooglePrivacyDlpV2Trigger> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schedule: Schema.optional(GooglePrivacyDlpV2Schedule),
       manual: Schema.optional(GooglePrivacyDlpV2Manual),
@@ -3241,8 +3241,8 @@ export interface GoogleRpcStatus {
   details?: Array<Record<string, unknown>>;
 }
 
-export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
-  () =>
+export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       message: Schema.optional(Schema.String),
@@ -3250,9 +3250,9 @@ export const GoogleRpcStatus: Schema.Schema<GoogleRpcStatus> = Schema.suspend(
         Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
       ),
     }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as Schema.Schema<GoogleRpcStatus>;
+  ).annotate({
+    identifier: "GoogleRpcStatus",
+  }) as any as Schema.Schema<GoogleRpcStatus>;
 
 export interface GooglePrivacyDlpV2Error {
   /** Detailed error codes and messages. */
@@ -3268,7 +3268,7 @@ export interface GooglePrivacyDlpV2Error {
 }
 
 export const GooglePrivacyDlpV2Error: Schema.Schema<GooglePrivacyDlpV2Error> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       details: Schema.optional(GoogleRpcStatus),
       timestamps: Schema.optional(Schema.Array(Schema.String)),
@@ -3307,7 +3307,7 @@ export interface GooglePrivacyDlpV2JobTrigger {
 }
 
 export const GooglePrivacyDlpV2JobTrigger: Schema.Schema<GooglePrivacyDlpV2JobTrigger> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -3334,7 +3334,7 @@ export interface GooglePrivacyDlpV2CreateJobTriggerRequest {
 }
 
 export const GooglePrivacyDlpV2CreateJobTriggerRequest: Schema.Schema<GooglePrivacyDlpV2CreateJobTriggerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobTrigger: Schema.optional(GooglePrivacyDlpV2JobTrigger),
       triggerId: Schema.optional(Schema.String),
@@ -3352,7 +3352,7 @@ export interface GooglePrivacyDlpV2UpdateJobTriggerRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateJobTriggerRequest: Schema.Schema<GooglePrivacyDlpV2UpdateJobTriggerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobTrigger: Schema.optional(GooglePrivacyDlpV2JobTrigger),
       updateMask: Schema.optional(Schema.String),
@@ -3375,7 +3375,7 @@ export interface GooglePrivacyDlpV2HybridFindingDetails {
 }
 
 export const GooglePrivacyDlpV2HybridFindingDetails: Schema.Schema<GooglePrivacyDlpV2HybridFindingDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerDetails: Schema.optional(GooglePrivacyDlpV2Container),
       fileOffset: Schema.optional(Schema.String),
@@ -3395,7 +3395,7 @@ export interface GooglePrivacyDlpV2HybridContentItem {
 }
 
 export const GooglePrivacyDlpV2HybridContentItem: Schema.Schema<GooglePrivacyDlpV2HybridContentItem> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       item: Schema.optional(GooglePrivacyDlpV2ContentItem),
       findingDetails: Schema.optional(GooglePrivacyDlpV2HybridFindingDetails),
@@ -3410,7 +3410,7 @@ export interface GooglePrivacyDlpV2HybridInspectJobTriggerRequest {
 }
 
 export const GooglePrivacyDlpV2HybridInspectJobTriggerRequest: Schema.Schema<GooglePrivacyDlpV2HybridInspectJobTriggerRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hybridItem: Schema.optional(GooglePrivacyDlpV2HybridContentItem),
     }),
@@ -3421,7 +3421,7 @@ export const GooglePrivacyDlpV2HybridInspectJobTriggerRequest: Schema.Schema<Goo
 export interface GooglePrivacyDlpV2HybridInspectResponse {}
 
 export const GooglePrivacyDlpV2HybridInspectResponse: Schema.Schema<GooglePrivacyDlpV2HybridInspectResponse> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2HybridInspectResponse",
   }) as any as Schema.Schema<GooglePrivacyDlpV2HybridInspectResponse>;
 
@@ -3433,7 +3433,7 @@ export interface GooglePrivacyDlpV2ListJobTriggersResponse {
 }
 
 export const GooglePrivacyDlpV2ListJobTriggersResponse: Schema.Schema<GooglePrivacyDlpV2ListJobTriggersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobTriggers: Schema.optional(Schema.Array(GooglePrivacyDlpV2JobTrigger)),
       nextPageToken: Schema.optional(Schema.String),
@@ -3445,7 +3445,7 @@ export const GooglePrivacyDlpV2ListJobTriggersResponse: Schema.Schema<GooglePriv
 export interface GooglePrivacyDlpV2ActivateJobTriggerRequest {}
 
 export const GooglePrivacyDlpV2ActivateJobTriggerRequest: Schema.Schema<GooglePrivacyDlpV2ActivateJobTriggerRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2ActivateJobTriggerRequest",
   }) as any as Schema.Schema<GooglePrivacyDlpV2ActivateJobTriggerRequest>;
 
@@ -3455,7 +3455,7 @@ export interface GooglePrivacyDlpV2NumericalStatsConfig {
 }
 
 export const GooglePrivacyDlpV2NumericalStatsConfig: Schema.Schema<GooglePrivacyDlpV2NumericalStatsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
     }),
@@ -3469,7 +3469,7 @@ export interface GooglePrivacyDlpV2CategoricalStatsConfig {
 }
 
 export const GooglePrivacyDlpV2CategoricalStatsConfig: Schema.Schema<GooglePrivacyDlpV2CategoricalStatsConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
     }),
@@ -3483,7 +3483,7 @@ export interface GooglePrivacyDlpV2EntityId {
 }
 
 export const GooglePrivacyDlpV2EntityId: Schema.Schema<GooglePrivacyDlpV2EntityId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
     }),
@@ -3499,7 +3499,7 @@ export interface GooglePrivacyDlpV2KAnonymityConfig {
 }
 
 export const GooglePrivacyDlpV2KAnonymityConfig: Schema.Schema<GooglePrivacyDlpV2KAnonymityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIds: Schema.optional(Schema.Array(GooglePrivacyDlpV2FieldId)),
       entityId: Schema.optional(GooglePrivacyDlpV2EntityId),
@@ -3516,7 +3516,7 @@ export interface GooglePrivacyDlpV2LDiversityConfig {
 }
 
 export const GooglePrivacyDlpV2LDiversityConfig: Schema.Schema<GooglePrivacyDlpV2LDiversityConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIds: Schema.optional(Schema.Array(GooglePrivacyDlpV2FieldId)),
       sensitiveAttribute: Schema.optional(GooglePrivacyDlpV2FieldId),
@@ -3537,7 +3537,7 @@ export interface GooglePrivacyDlpV2TaggedField {
 }
 
 export const GooglePrivacyDlpV2TaggedField: Schema.Schema<GooglePrivacyDlpV2TaggedField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
@@ -3556,7 +3556,7 @@ export interface GooglePrivacyDlpV2QuasiIdField {
 }
 
 export const GooglePrivacyDlpV2QuasiIdField: Schema.Schema<GooglePrivacyDlpV2QuasiIdField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
       customTag: Schema.optional(Schema.String),
@@ -3575,7 +3575,7 @@ export interface GooglePrivacyDlpV2AuxiliaryTable {
 }
 
 export const GooglePrivacyDlpV2AuxiliaryTable: Schema.Schema<GooglePrivacyDlpV2AuxiliaryTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       quasiIds: Schema.optional(Schema.Array(GooglePrivacyDlpV2QuasiIdField)),
@@ -3595,7 +3595,7 @@ export interface GooglePrivacyDlpV2KMapEstimationConfig {
 }
 
 export const GooglePrivacyDlpV2KMapEstimationConfig: Schema.Schema<GooglePrivacyDlpV2KMapEstimationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIds: Schema.optional(Schema.Array(GooglePrivacyDlpV2TaggedField)),
       regionCode: Schema.optional(Schema.String),
@@ -3619,7 +3619,7 @@ export interface GooglePrivacyDlpV2QuasiId {
 }
 
 export const GooglePrivacyDlpV2QuasiId: Schema.Schema<GooglePrivacyDlpV2QuasiId> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
@@ -3638,7 +3638,7 @@ export interface GooglePrivacyDlpV2QuasiIdentifierField {
 }
 
 export const GooglePrivacyDlpV2QuasiIdentifierField: Schema.Schema<GooglePrivacyDlpV2QuasiIdentifierField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
       customTag: Schema.optional(Schema.String),
@@ -3657,7 +3657,7 @@ export interface GooglePrivacyDlpV2StatisticalTable {
 }
 
 export const GooglePrivacyDlpV2StatisticalTable: Schema.Schema<GooglePrivacyDlpV2StatisticalTable> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       quasiIds: Schema.optional(
@@ -3679,7 +3679,7 @@ export interface GooglePrivacyDlpV2DeltaPresenceEstimationConfig {
 }
 
 export const GooglePrivacyDlpV2DeltaPresenceEstimationConfig: Schema.Schema<GooglePrivacyDlpV2DeltaPresenceEstimationConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIds: Schema.optional(Schema.Array(GooglePrivacyDlpV2QuasiId)),
       regionCode: Schema.optional(Schema.String),
@@ -3707,7 +3707,7 @@ export interface GooglePrivacyDlpV2PrivacyMetric {
 }
 
 export const GooglePrivacyDlpV2PrivacyMetric: Schema.Schema<GooglePrivacyDlpV2PrivacyMetric> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       numericalStatsConfig: Schema.optional(
         GooglePrivacyDlpV2NumericalStatsConfig,
@@ -3738,7 +3738,7 @@ export interface GooglePrivacyDlpV2NumericalStatsResult {
 }
 
 export const GooglePrivacyDlpV2NumericalStatsResult: Schema.Schema<GooglePrivacyDlpV2NumericalStatsResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minValue: Schema.optional(GooglePrivacyDlpV2Value),
       maxValue: Schema.optional(GooglePrivacyDlpV2Value),
@@ -3756,7 +3756,7 @@ export interface GooglePrivacyDlpV2ValueFrequency {
 }
 
 export const GooglePrivacyDlpV2ValueFrequency: Schema.Schema<GooglePrivacyDlpV2ValueFrequency> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       value: Schema.optional(GooglePrivacyDlpV2Value),
       count: Schema.optional(Schema.String),
@@ -3779,7 +3779,7 @@ export interface GooglePrivacyDlpV2CategoricalStatsHistogramBucket {
 }
 
 export const GooglePrivacyDlpV2CategoricalStatsHistogramBucket: Schema.Schema<GooglePrivacyDlpV2CategoricalStatsHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valueFrequencyLowerBound: Schema.optional(Schema.String),
       valueFrequencyUpperBound: Schema.optional(Schema.String),
@@ -3799,7 +3799,7 @@ export interface GooglePrivacyDlpV2CategoricalStatsResult {
 }
 
 export const GooglePrivacyDlpV2CategoricalStatsResult: Schema.Schema<GooglePrivacyDlpV2CategoricalStatsResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       valueFrequencyHistogramBuckets: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2CategoricalStatsHistogramBucket),
@@ -3817,7 +3817,7 @@ export interface GooglePrivacyDlpV2KAnonymityEquivalenceClass {
 }
 
 export const GooglePrivacyDlpV2KAnonymityEquivalenceClass: Schema.Schema<GooglePrivacyDlpV2KAnonymityEquivalenceClass> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIdsValues: Schema.optional(Schema.Array(GooglePrivacyDlpV2Value)),
       equivalenceClassSize: Schema.optional(Schema.String),
@@ -3840,7 +3840,7 @@ export interface GooglePrivacyDlpV2KAnonymityHistogramBucket {
 }
 
 export const GooglePrivacyDlpV2KAnonymityHistogramBucket: Schema.Schema<GooglePrivacyDlpV2KAnonymityHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       equivalenceClassSizeLowerBound: Schema.optional(Schema.String),
       equivalenceClassSizeUpperBound: Schema.optional(Schema.String),
@@ -3860,7 +3860,7 @@ export interface GooglePrivacyDlpV2KAnonymityResult {
 }
 
 export const GooglePrivacyDlpV2KAnonymityResult: Schema.Schema<GooglePrivacyDlpV2KAnonymityResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       equivalenceClassHistogramBuckets: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2KAnonymityHistogramBucket),
@@ -3882,7 +3882,7 @@ export interface GooglePrivacyDlpV2LDiversityEquivalenceClass {
 }
 
 export const GooglePrivacyDlpV2LDiversityEquivalenceClass: Schema.Schema<GooglePrivacyDlpV2LDiversityEquivalenceClass> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIdsValues: Schema.optional(Schema.Array(GooglePrivacyDlpV2Value)),
       equivalenceClassSize: Schema.optional(Schema.String),
@@ -3909,7 +3909,7 @@ export interface GooglePrivacyDlpV2LDiversityHistogramBucket {
 }
 
 export const GooglePrivacyDlpV2LDiversityHistogramBucket: Schema.Schema<GooglePrivacyDlpV2LDiversityHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveValueFrequencyLowerBound: Schema.optional(Schema.String),
       sensitiveValueFrequencyUpperBound: Schema.optional(Schema.String),
@@ -3929,7 +3929,7 @@ export interface GooglePrivacyDlpV2LDiversityResult {
 }
 
 export const GooglePrivacyDlpV2LDiversityResult: Schema.Schema<GooglePrivacyDlpV2LDiversityResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sensitiveValueFrequencyHistogramBuckets: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2LDiversityHistogramBucket),
@@ -3947,7 +3947,7 @@ export interface GooglePrivacyDlpV2KMapEstimationQuasiIdValues {
 }
 
 export const GooglePrivacyDlpV2KMapEstimationQuasiIdValues: Schema.Schema<GooglePrivacyDlpV2KMapEstimationQuasiIdValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIdsValues: Schema.optional(Schema.Array(GooglePrivacyDlpV2Value)),
       estimatedAnonymity: Schema.optional(Schema.String),
@@ -3970,7 +3970,7 @@ export interface GooglePrivacyDlpV2KMapEstimationHistogramBucket {
 }
 
 export const GooglePrivacyDlpV2KMapEstimationHistogramBucket: Schema.Schema<GooglePrivacyDlpV2KMapEstimationHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minAnonymity: Schema.optional(Schema.String),
       maxAnonymity: Schema.optional(Schema.String),
@@ -3990,7 +3990,7 @@ export interface GooglePrivacyDlpV2KMapEstimationResult {
 }
 
 export const GooglePrivacyDlpV2KMapEstimationResult: Schema.Schema<GooglePrivacyDlpV2KMapEstimationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kMapEstimationHistogram: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2KMapEstimationHistogramBucket),
@@ -4008,7 +4008,7 @@ export interface GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues {
 }
 
 export const GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues: Schema.Schema<GooglePrivacyDlpV2DeltaPresenceEstimationQuasiIdValues> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quasiIdsValues: Schema.optional(Schema.Array(GooglePrivacyDlpV2Value)),
       estimatedProbability: Schema.optional(Schema.Number),
@@ -4031,7 +4031,7 @@ export interface GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket {
 }
 
 export const GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket: Schema.Schema<GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minProbability: Schema.optional(Schema.Number),
       maxProbability: Schema.optional(Schema.Number),
@@ -4051,7 +4051,7 @@ export interface GooglePrivacyDlpV2DeltaPresenceEstimationResult {
 }
 
 export const GooglePrivacyDlpV2DeltaPresenceEstimationResult: Schema.Schema<GooglePrivacyDlpV2DeltaPresenceEstimationResult> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deltaPresenceEstimationHistogram: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket),
@@ -4071,7 +4071,7 @@ export interface GooglePrivacyDlpV2RiskAnalysisJobConfig {
 }
 
 export const GooglePrivacyDlpV2RiskAnalysisJobConfig: Schema.Schema<GooglePrivacyDlpV2RiskAnalysisJobConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       privacyMetric: Schema.optional(GooglePrivacyDlpV2PrivacyMetric),
       sourceTable: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
@@ -4087,7 +4087,7 @@ export interface GooglePrivacyDlpV2RequestedRiskAnalysisOptions {
 }
 
 export const GooglePrivacyDlpV2RequestedRiskAnalysisOptions: Schema.Schema<GooglePrivacyDlpV2RequestedRiskAnalysisOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobConfig: Schema.optional(GooglePrivacyDlpV2RiskAnalysisJobConfig),
     }),
@@ -4117,7 +4117,7 @@ export interface GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails {
 }
 
 export const GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails: Schema.Schema<GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedPrivacyMetric: Schema.optional(GooglePrivacyDlpV2PrivacyMetric),
       requestedSourceTable: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
@@ -4151,7 +4151,7 @@ export interface GooglePrivacyDlpV2RequestedOptions {
 }
 
 export const GooglePrivacyDlpV2RequestedOptions: Schema.Schema<GooglePrivacyDlpV2RequestedOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snapshotInspectTemplate: Schema.optional(
         GooglePrivacyDlpV2InspectTemplate,
@@ -4170,7 +4170,7 @@ export interface GooglePrivacyDlpV2InfoTypeStats {
 }
 
 export const GooglePrivacyDlpV2InfoTypeStats: Schema.Schema<GooglePrivacyDlpV2InfoTypeStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       count: Schema.optional(Schema.String),
@@ -4189,7 +4189,7 @@ export interface GooglePrivacyDlpV2HybridInspectStatistics {
 }
 
 export const GooglePrivacyDlpV2HybridInspectStatistics: Schema.Schema<GooglePrivacyDlpV2HybridInspectStatistics> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedCount: Schema.optional(Schema.String),
       abortedCount: Schema.optional(Schema.String),
@@ -4213,7 +4213,7 @@ export interface GooglePrivacyDlpV2Result {
 }
 
 export const GooglePrivacyDlpV2Result: Schema.Schema<GooglePrivacyDlpV2Result> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       processedBytes: Schema.optional(Schema.String),
       totalEstimatedBytes: Schema.optional(Schema.String),
@@ -4235,7 +4235,7 @@ export interface GooglePrivacyDlpV2InspectDataSourceDetails {
 }
 
 export const GooglePrivacyDlpV2InspectDataSourceDetails: Schema.Schema<GooglePrivacyDlpV2InspectDataSourceDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedOptions: Schema.optional(GooglePrivacyDlpV2RequestedOptions),
       result: Schema.optional(GooglePrivacyDlpV2Result),
@@ -4254,7 +4254,7 @@ export interface GooglePrivacyDlpV2RequestedDeidentifyOptions {
 }
 
 export const GooglePrivacyDlpV2RequestedDeidentifyOptions: Schema.Schema<GooglePrivacyDlpV2RequestedDeidentifyOptions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snapshotDeidentifyTemplate: Schema.optional(
         GooglePrivacyDlpV2DeidentifyTemplate,
@@ -4280,7 +4280,7 @@ export interface GooglePrivacyDlpV2DeidentifyDataSourceStats {
 }
 
 export const GooglePrivacyDlpV2DeidentifyDataSourceStats: Schema.Schema<GooglePrivacyDlpV2DeidentifyDataSourceStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       transformedBytes: Schema.optional(Schema.String),
       transformationCount: Schema.optional(Schema.String),
@@ -4298,7 +4298,7 @@ export interface GooglePrivacyDlpV2DeidentifyDataSourceDetails {
 }
 
 export const GooglePrivacyDlpV2DeidentifyDataSourceDetails: Schema.Schema<GooglePrivacyDlpV2DeidentifyDataSourceDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       requestedOptions: Schema.optional(
         GooglePrivacyDlpV2RequestedDeidentifyOptions,
@@ -4317,7 +4317,7 @@ export interface GooglePrivacyDlpV2ActionDetails {
 }
 
 export const GooglePrivacyDlpV2ActionDetails: Schema.Schema<GooglePrivacyDlpV2ActionDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       deidentifyDetails: Schema.optional(
         GooglePrivacyDlpV2DeidentifyDataSourceDetails,
@@ -4367,7 +4367,7 @@ export interface GooglePrivacyDlpV2DlpJob {
 }
 
 export const GooglePrivacyDlpV2DlpJob: Schema.Schema<GooglePrivacyDlpV2DlpJob> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
@@ -4400,7 +4400,7 @@ export interface GooglePrivacyDlpV2DiscoveryStartingLocation {
 }
 
 export const GooglePrivacyDlpV2DiscoveryStartingLocation: Schema.Schema<GooglePrivacyDlpV2DiscoveryStartingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       organizationId: Schema.optional(Schema.String),
       folderId: Schema.optional(Schema.String),
@@ -4417,7 +4417,7 @@ export interface GooglePrivacyDlpV2OrgConfig {
 }
 
 export const GooglePrivacyDlpV2OrgConfig: Schema.Schema<GooglePrivacyDlpV2OrgConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(GooglePrivacyDlpV2DiscoveryStartingLocation),
       projectId: Schema.optional(Schema.String),
@@ -4434,7 +4434,7 @@ export interface GooglePrivacyDlpV2AwsDiscoveryStartingLocation {
 }
 
 export const GooglePrivacyDlpV2AwsDiscoveryStartingLocation: Schema.Schema<GooglePrivacyDlpV2AwsDiscoveryStartingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
       allAssetInventoryAssets: Schema.optional(Schema.Boolean),
@@ -4449,7 +4449,7 @@ export interface GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation {
 }
 
 export const GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation: Schema.Schema<GooglePrivacyDlpV2OtherCloudDiscoveryStartingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       awsLocation: Schema.optional(
         GooglePrivacyDlpV2AwsDiscoveryStartingLocation,
@@ -4467,7 +4467,7 @@ export interface GooglePrivacyDlpV2Export {
 }
 
 export const GooglePrivacyDlpV2Export: Schema.Schema<GooglePrivacyDlpV2Export> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       profileTable: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       sampleFindingsTable: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
@@ -4492,7 +4492,7 @@ export interface GooglePrivacyDlpV2PubSubCondition {
 }
 
 export const GooglePrivacyDlpV2PubSubCondition: Schema.Schema<GooglePrivacyDlpV2PubSubCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minimumRiskScore: Schema.optional(Schema.String),
       minimumSensitivityScore: Schema.optional(Schema.String),
@@ -4513,7 +4513,7 @@ export interface GooglePrivacyDlpV2PubSubExpressions {
 }
 
 export const GooglePrivacyDlpV2PubSubExpressions: Schema.Schema<GooglePrivacyDlpV2PubSubExpressions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       logicalOperator: Schema.optional(Schema.String),
       conditions: Schema.optional(
@@ -4530,7 +4530,7 @@ export interface GooglePrivacyDlpV2DataProfilePubSubCondition {
 }
 
 export const GooglePrivacyDlpV2DataProfilePubSubCondition: Schema.Schema<GooglePrivacyDlpV2DataProfilePubSubCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       expressions: Schema.optional(GooglePrivacyDlpV2PubSubExpressions),
     }),
@@ -4561,7 +4561,7 @@ export interface GooglePrivacyDlpV2PubSubNotification {
 }
 
 export const GooglePrivacyDlpV2PubSubNotification: Schema.Schema<GooglePrivacyDlpV2PubSubNotification> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
       event: Schema.optional(Schema.String),
@@ -4577,14 +4577,14 @@ export const GooglePrivacyDlpV2PubSubNotification: Schema.Schema<GooglePrivacyDl
 export interface GooglePrivacyDlpV2PublishToChronicle {}
 
 export const GooglePrivacyDlpV2PublishToChronicle: Schema.Schema<GooglePrivacyDlpV2PublishToChronicle> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishToChronicle",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishToChronicle>;
 
 export interface GooglePrivacyDlpV2PublishToSecurityCommandCenter {}
 
 export const GooglePrivacyDlpV2PublishToSecurityCommandCenter: Schema.Schema<GooglePrivacyDlpV2PublishToSecurityCommandCenter> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2PublishToSecurityCommandCenter",
   }) as any as Schema.Schema<GooglePrivacyDlpV2PublishToSecurityCommandCenter>;
 
@@ -4594,7 +4594,7 @@ export interface GooglePrivacyDlpV2TagValue {
 }
 
 export const GooglePrivacyDlpV2TagValue: Schema.Schema<GooglePrivacyDlpV2TagValue> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namespacedValue: Schema.optional(Schema.String),
     }),
@@ -4610,7 +4610,7 @@ export interface GooglePrivacyDlpV2TagCondition {
 }
 
 export const GooglePrivacyDlpV2TagCondition: Schema.Schema<GooglePrivacyDlpV2TagCondition> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tag: Schema.optional(GooglePrivacyDlpV2TagValue),
       sensitivityScore: Schema.optional(GooglePrivacyDlpV2SensitivityScore),
@@ -4634,7 +4634,7 @@ export interface GooglePrivacyDlpV2TagResources {
 }
 
 export const GooglePrivacyDlpV2TagResources: Schema.Schema<GooglePrivacyDlpV2TagResources> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagConditions: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2TagCondition),
@@ -4652,7 +4652,7 @@ export interface GooglePrivacyDlpV2PublishToDataplexCatalog {
 }
 
 export const GooglePrivacyDlpV2PublishToDataplexCatalog: Schema.Schema<GooglePrivacyDlpV2PublishToDataplexCatalog> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       lowerDataRiskToLow: Schema.optional(Schema.Boolean),
     }),
@@ -4676,7 +4676,7 @@ export interface GooglePrivacyDlpV2DataProfileAction {
 }
 
 export const GooglePrivacyDlpV2DataProfileAction: Schema.Schema<GooglePrivacyDlpV2DataProfileAction> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       exportData: Schema.optional(GooglePrivacyDlpV2Export),
       pubSubNotification: Schema.optional(GooglePrivacyDlpV2PubSubNotification),
@@ -4703,7 +4703,7 @@ export interface GooglePrivacyDlpV2BigQueryRegex {
 }
 
 export const GooglePrivacyDlpV2BigQueryRegex: Schema.Schema<GooglePrivacyDlpV2BigQueryRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectIdRegex: Schema.optional(Schema.String),
       datasetIdRegex: Schema.optional(Schema.String),
@@ -4719,7 +4719,7 @@ export interface GooglePrivacyDlpV2BigQueryRegexes {
 }
 
 export const GooglePrivacyDlpV2BigQueryRegexes: Schema.Schema<GooglePrivacyDlpV2BigQueryRegexes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patterns: Schema.optional(Schema.Array(GooglePrivacyDlpV2BigQueryRegex)),
     }),
@@ -4733,7 +4733,7 @@ export interface GooglePrivacyDlpV2BigQueryTableCollection {
 }
 
 export const GooglePrivacyDlpV2BigQueryTableCollection: Schema.Schema<GooglePrivacyDlpV2BigQueryTableCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeRegexes: Schema.optional(GooglePrivacyDlpV2BigQueryRegexes),
     }),
@@ -4744,7 +4744,7 @@ export const GooglePrivacyDlpV2BigQueryTableCollection: Schema.Schema<GooglePriv
 export interface GooglePrivacyDlpV2AllOtherBigQueryTables {}
 
 export const GooglePrivacyDlpV2AllOtherBigQueryTables: Schema.Schema<GooglePrivacyDlpV2AllOtherBigQueryTables> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2AllOtherBigQueryTables",
   }) as any as Schema.Schema<GooglePrivacyDlpV2AllOtherBigQueryTables>;
 
@@ -4758,7 +4758,7 @@ export interface GooglePrivacyDlpV2TableReference {
 }
 
 export const GooglePrivacyDlpV2TableReference: Schema.Schema<GooglePrivacyDlpV2TableReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetId: Schema.optional(Schema.String),
       tableId: Schema.optional(Schema.String),
@@ -4778,7 +4778,7 @@ export interface GooglePrivacyDlpV2DiscoveryBigQueryFilter {
 }
 
 export const GooglePrivacyDlpV2DiscoveryBigQueryFilter: Schema.Schema<GooglePrivacyDlpV2DiscoveryBigQueryFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tables: Schema.optional(GooglePrivacyDlpV2BigQueryTableCollection),
       otherTables: Schema.optional(GooglePrivacyDlpV2AllOtherBigQueryTables),
@@ -4800,7 +4800,7 @@ export interface GooglePrivacyDlpV2BigQueryTableTypes {
 }
 
 export const GooglePrivacyDlpV2BigQueryTableTypes: Schema.Schema<GooglePrivacyDlpV2BigQueryTableTypes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -4816,7 +4816,7 @@ export interface GooglePrivacyDlpV2OrConditions {
 }
 
 export const GooglePrivacyDlpV2OrConditions: Schema.Schema<GooglePrivacyDlpV2OrConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minRowCount: Schema.optional(Schema.Number),
       minAge: Schema.optional(Schema.String),
@@ -4841,7 +4841,7 @@ export interface GooglePrivacyDlpV2DiscoveryBigQueryConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryBigQueryConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryBigQueryConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAfter: Schema.optional(Schema.String),
       types: Schema.optional(GooglePrivacyDlpV2BigQueryTableTypes),
@@ -4870,7 +4870,7 @@ export interface GooglePrivacyDlpV2DiscoverySchemaModifiedCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoverySchemaModifiedCadence: Schema.Schema<GooglePrivacyDlpV2DiscoverySchemaModifiedCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
       frequency: Schema.optional(Schema.String),
@@ -4896,7 +4896,7 @@ export interface GooglePrivacyDlpV2DiscoveryTableModifiedCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryTableModifiedCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryTableModifiedCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
       frequency: Schema.optional(Schema.String),
@@ -4916,7 +4916,7 @@ export interface GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryInspectTemplateModifiedCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       frequency: Schema.optional(Schema.String),
     }),
@@ -4941,7 +4941,7 @@ export interface GooglePrivacyDlpV2DiscoveryGenerationCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryGenerationCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryGenerationCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schemaModifiedCadence: Schema.optional(
         GooglePrivacyDlpV2DiscoverySchemaModifiedCadence,
@@ -4961,7 +4961,7 @@ export const GooglePrivacyDlpV2DiscoveryGenerationCadence: Schema.Schema<GoogleP
 export interface GooglePrivacyDlpV2Disabled {}
 
 export const GooglePrivacyDlpV2Disabled: Schema.Schema<GooglePrivacyDlpV2Disabled> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2Disabled",
   }) as any as Schema.Schema<GooglePrivacyDlpV2Disabled>;
 
@@ -4977,7 +4977,7 @@ export interface GooglePrivacyDlpV2BigQueryDiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2BigQueryDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2BigQueryDiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(GooglePrivacyDlpV2DiscoveryBigQueryFilter),
       conditions: Schema.optional(
@@ -5002,7 +5002,7 @@ export interface GooglePrivacyDlpV2DatabaseResourceRegex {
 }
 
 export const GooglePrivacyDlpV2DatabaseResourceRegex: Schema.Schema<GooglePrivacyDlpV2DatabaseResourceRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectIdRegex: Schema.optional(Schema.String),
       instanceRegex: Schema.optional(Schema.String),
@@ -5019,7 +5019,7 @@ export interface GooglePrivacyDlpV2DatabaseResourceRegexes {
 }
 
 export const GooglePrivacyDlpV2DatabaseResourceRegexes: Schema.Schema<GooglePrivacyDlpV2DatabaseResourceRegexes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patterns: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2DatabaseResourceRegex),
@@ -5035,7 +5035,7 @@ export interface GooglePrivacyDlpV2DatabaseResourceCollection {
 }
 
 export const GooglePrivacyDlpV2DatabaseResourceCollection: Schema.Schema<GooglePrivacyDlpV2DatabaseResourceCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeRegexes: Schema.optional(
         GooglePrivacyDlpV2DatabaseResourceRegexes,
@@ -5048,7 +5048,7 @@ export const GooglePrivacyDlpV2DatabaseResourceCollection: Schema.Schema<GoogleP
 export interface GooglePrivacyDlpV2AllOtherDatabaseResources {}
 
 export const GooglePrivacyDlpV2AllOtherDatabaseResources: Schema.Schema<GooglePrivacyDlpV2AllOtherDatabaseResources> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2AllOtherDatabaseResources",
   }) as any as Schema.Schema<GooglePrivacyDlpV2AllOtherDatabaseResources>;
 
@@ -5064,7 +5064,7 @@ export interface GooglePrivacyDlpV2DatabaseResourceReference {
 }
 
 export const GooglePrivacyDlpV2DatabaseResourceReference: Schema.Schema<GooglePrivacyDlpV2DatabaseResourceReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectId: Schema.optional(Schema.String),
       instance: Schema.optional(Schema.String),
@@ -5085,7 +5085,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudSqlFilter {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudSqlFilter: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudSqlFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collection: Schema.optional(GooglePrivacyDlpV2DatabaseResourceCollection),
       others: Schema.optional(GooglePrivacyDlpV2AllOtherDatabaseResources),
@@ -5116,7 +5116,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudSqlConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudSqlConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudSqlConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       databaseEngines: Schema.optional(Schema.Array(Schema.String)),
       types: Schema.optional(Schema.Array(Schema.String)),
@@ -5143,7 +5143,7 @@ export interface GooglePrivacyDlpV2SchemaModifiedCadence {
 }
 
 export const GooglePrivacyDlpV2SchemaModifiedCadence: Schema.Schema<GooglePrivacyDlpV2SchemaModifiedCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       types: Schema.optional(Schema.Array(Schema.String)),
       frequency: Schema.optional(Schema.String),
@@ -5167,7 +5167,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudSqlGenerationCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       schemaModifiedCadence: Schema.optional(
         GooglePrivacyDlpV2SchemaModifiedCadence,
@@ -5193,7 +5193,7 @@ export interface GooglePrivacyDlpV2CloudSqlDiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2CloudSqlDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2CloudSqlDiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(GooglePrivacyDlpV2DiscoveryCloudSqlFilter),
       conditions: Schema.optional(
@@ -5211,7 +5211,7 @@ export const GooglePrivacyDlpV2CloudSqlDiscoveryTarget: Schema.Schema<GooglePriv
 export interface GooglePrivacyDlpV2SecretsDiscoveryTarget {}
 
 export const GooglePrivacyDlpV2SecretsDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2SecretsDiscoveryTarget> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2SecretsDiscoveryTarget",
   }) as any as Schema.Schema<GooglePrivacyDlpV2SecretsDiscoveryTarget>;
 
@@ -5223,7 +5223,7 @@ export interface GooglePrivacyDlpV2CloudStorageRegex {
 }
 
 export const GooglePrivacyDlpV2CloudStorageRegex: Schema.Schema<GooglePrivacyDlpV2CloudStorageRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectIdRegex: Schema.optional(Schema.String),
       bucketNameRegex: Schema.optional(Schema.String),
@@ -5238,7 +5238,7 @@ export interface GooglePrivacyDlpV2FileStoreRegex {
 }
 
 export const GooglePrivacyDlpV2FileStoreRegex: Schema.Schema<GooglePrivacyDlpV2FileStoreRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cloudStorageRegex: Schema.optional(GooglePrivacyDlpV2CloudStorageRegex),
     }),
@@ -5252,7 +5252,7 @@ export interface GooglePrivacyDlpV2FileStoreRegexes {
 }
 
 export const GooglePrivacyDlpV2FileStoreRegexes: Schema.Schema<GooglePrivacyDlpV2FileStoreRegexes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patterns: Schema.optional(Schema.Array(GooglePrivacyDlpV2FileStoreRegex)),
     }),
@@ -5268,7 +5268,7 @@ export interface GooglePrivacyDlpV2TagFilter {
 }
 
 export const GooglePrivacyDlpV2TagFilter: Schema.Schema<GooglePrivacyDlpV2TagFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namespacedTagValue: Schema.optional(Schema.String),
       namespacedTagKey: Schema.optional(Schema.String),
@@ -5283,7 +5283,7 @@ export interface GooglePrivacyDlpV2TagFilters {
 }
 
 export const GooglePrivacyDlpV2TagFilters: Schema.Schema<GooglePrivacyDlpV2TagFilters> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tagFilters: Schema.optional(Schema.Array(GooglePrivacyDlpV2TagFilter)),
     }),
@@ -5299,7 +5299,7 @@ export interface GooglePrivacyDlpV2FileStoreCollection {
 }
 
 export const GooglePrivacyDlpV2FileStoreCollection: Schema.Schema<GooglePrivacyDlpV2FileStoreCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeRegexes: Schema.optional(GooglePrivacyDlpV2FileStoreRegexes),
       includeTags: Schema.optional(GooglePrivacyDlpV2TagFilters),
@@ -5316,7 +5316,7 @@ export interface GooglePrivacyDlpV2CloudStorageResourceReference {
 }
 
 export const GooglePrivacyDlpV2CloudStorageResourceReference: Schema.Schema<GooglePrivacyDlpV2CloudStorageResourceReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketName: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -5328,7 +5328,7 @@ export const GooglePrivacyDlpV2CloudStorageResourceReference: Schema.Schema<Goog
 export interface GooglePrivacyDlpV2AllOtherResources {}
 
 export const GooglePrivacyDlpV2AllOtherResources: Schema.Schema<GooglePrivacyDlpV2AllOtherResources> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2AllOtherResources",
   }) as any as Schema.Schema<GooglePrivacyDlpV2AllOtherResources>;
 
@@ -5342,7 +5342,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudStorageFilter {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudStorageFilter: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudStorageFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collection: Schema.optional(GooglePrivacyDlpV2FileStoreCollection),
       cloudStorageResourceReference: Schema.optional(
@@ -5379,7 +5379,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudStorageConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudStorageConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudStorageConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includedObjectAttributes: Schema.optional(Schema.Array(Schema.String)),
       includedBucketAttributes: Schema.optional(Schema.Array(Schema.String)),
@@ -5398,7 +5398,7 @@ export interface GooglePrivacyDlpV2DiscoveryFileStoreConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryFileStoreConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryFileStoreConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAfter: Schema.optional(Schema.String),
       minAge: Schema.optional(Schema.String),
@@ -5423,7 +5423,7 @@ export interface GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryCloudStorageGenerationCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       refreshFrequency: Schema.optional(Schema.String),
       inspectTemplateModifiedCadence: Schema.optional(
@@ -5446,7 +5446,7 @@ export interface GooglePrivacyDlpV2CloudStorageDiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2CloudStorageDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2CloudStorageDiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(GooglePrivacyDlpV2DiscoveryCloudStorageFilter),
       conditions: Schema.optional(
@@ -5467,7 +5467,7 @@ export interface GooglePrivacyDlpV2DataSourceType {
 }
 
 export const GooglePrivacyDlpV2DataSourceType: Schema.Schema<GooglePrivacyDlpV2DataSourceType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSource: Schema.optional(Schema.String),
     }),
@@ -5481,7 +5481,7 @@ export interface GooglePrivacyDlpV2AwsAccountRegex {
 }
 
 export const GooglePrivacyDlpV2AwsAccountRegex: Schema.Schema<GooglePrivacyDlpV2AwsAccountRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountIdRegex: Schema.optional(Schema.String),
     }),
@@ -5497,7 +5497,7 @@ export interface GooglePrivacyDlpV2AmazonS3BucketRegex {
 }
 
 export const GooglePrivacyDlpV2AmazonS3BucketRegex: Schema.Schema<GooglePrivacyDlpV2AmazonS3BucketRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       awsAccountRegex: Schema.optional(GooglePrivacyDlpV2AwsAccountRegex),
       bucketNameRegex: Schema.optional(Schema.String),
@@ -5512,7 +5512,7 @@ export interface GooglePrivacyDlpV2OtherCloudResourceRegex {
 }
 
 export const GooglePrivacyDlpV2OtherCloudResourceRegex: Schema.Schema<GooglePrivacyDlpV2OtherCloudResourceRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       amazonS3BucketRegex: Schema.optional(
         GooglePrivacyDlpV2AmazonS3BucketRegex,
@@ -5528,7 +5528,7 @@ export interface GooglePrivacyDlpV2OtherCloudResourceRegexes {
 }
 
 export const GooglePrivacyDlpV2OtherCloudResourceRegexes: Schema.Schema<GooglePrivacyDlpV2OtherCloudResourceRegexes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patterns: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2OtherCloudResourceRegex),
@@ -5544,7 +5544,7 @@ export interface GooglePrivacyDlpV2OtherCloudResourceCollection {
 }
 
 export const GooglePrivacyDlpV2OtherCloudResourceCollection: Schema.Schema<GooglePrivacyDlpV2OtherCloudResourceCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includeRegexes: Schema.optional(
         GooglePrivacyDlpV2OtherCloudResourceRegexes,
@@ -5560,7 +5560,7 @@ export interface GooglePrivacyDlpV2AwsAccount {
 }
 
 export const GooglePrivacyDlpV2AwsAccount: Schema.Schema<GooglePrivacyDlpV2AwsAccount> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       accountId: Schema.optional(Schema.String),
     }),
@@ -5576,7 +5576,7 @@ export interface GooglePrivacyDlpV2AmazonS3Bucket {
 }
 
 export const GooglePrivacyDlpV2AmazonS3Bucket: Schema.Schema<GooglePrivacyDlpV2AmazonS3Bucket> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       awsAccount: Schema.optional(GooglePrivacyDlpV2AwsAccount),
       bucketName: Schema.optional(Schema.String),
@@ -5591,7 +5591,7 @@ export interface GooglePrivacyDlpV2OtherCloudSingleResourceReference {
 }
 
 export const GooglePrivacyDlpV2OtherCloudSingleResourceReference: Schema.Schema<GooglePrivacyDlpV2OtherCloudSingleResourceReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       amazonS3Bucket: Schema.optional(GooglePrivacyDlpV2AmazonS3Bucket),
     }),
@@ -5609,7 +5609,7 @@ export interface GooglePrivacyDlpV2DiscoveryOtherCloudFilter {
 }
 
 export const GooglePrivacyDlpV2DiscoveryOtherCloudFilter: Schema.Schema<GooglePrivacyDlpV2DiscoveryOtherCloudFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collection: Schema.optional(
         GooglePrivacyDlpV2OtherCloudResourceCollection,
@@ -5644,7 +5644,7 @@ export interface GooglePrivacyDlpV2AmazonS3BucketConditions {
 }
 
 export const GooglePrivacyDlpV2AmazonS3BucketConditions: Schema.Schema<GooglePrivacyDlpV2AmazonS3BucketConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bucketTypes: Schema.optional(Schema.Array(Schema.String)),
       objectStorageClasses: Schema.optional(Schema.Array(Schema.String)),
@@ -5661,7 +5661,7 @@ export interface GooglePrivacyDlpV2DiscoveryOtherCloudConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryOtherCloudConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryOtherCloudConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       minAge: Schema.optional(Schema.String),
       amazonS3BucketConditions: Schema.optional(
@@ -5685,7 +5685,7 @@ export interface GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryOtherCloudGenerationCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       refreshFrequency: Schema.optional(Schema.String),
       inspectTemplateModifiedCadence: Schema.optional(
@@ -5710,7 +5710,7 @@ export interface GooglePrivacyDlpV2OtherCloudDiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2OtherCloudDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2OtherCloudDiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       dataSourceType: Schema.optional(GooglePrivacyDlpV2DataSourceType),
       filter: Schema.optional(GooglePrivacyDlpV2DiscoveryOtherCloudFilter),
@@ -5732,7 +5732,7 @@ export interface GooglePrivacyDlpV2VertexDatasetRegex {
 }
 
 export const GooglePrivacyDlpV2VertexDatasetRegex: Schema.Schema<GooglePrivacyDlpV2VertexDatasetRegex> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectIdRegex: Schema.optional(Schema.String),
     }),
@@ -5746,7 +5746,7 @@ export interface GooglePrivacyDlpV2VertexDatasetRegexes {
 }
 
 export const GooglePrivacyDlpV2VertexDatasetRegexes: Schema.Schema<GooglePrivacyDlpV2VertexDatasetRegexes> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       patterns: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2VertexDatasetRegex),
@@ -5762,7 +5762,7 @@ export interface GooglePrivacyDlpV2VertexDatasetCollection {
 }
 
 export const GooglePrivacyDlpV2VertexDatasetCollection: Schema.Schema<GooglePrivacyDlpV2VertexDatasetCollection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       vertexDatasetRegexes: Schema.optional(
         GooglePrivacyDlpV2VertexDatasetRegexes,
@@ -5778,7 +5778,7 @@ export interface GooglePrivacyDlpV2VertexDatasetResourceReference {
 }
 
 export const GooglePrivacyDlpV2VertexDatasetResourceReference: Schema.Schema<GooglePrivacyDlpV2VertexDatasetResourceReference> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       datasetResourceName: Schema.optional(Schema.String),
     }),
@@ -5796,7 +5796,7 @@ export interface GooglePrivacyDlpV2DiscoveryVertexDatasetFilter {
 }
 
 export const GooglePrivacyDlpV2DiscoveryVertexDatasetFilter: Schema.Schema<GooglePrivacyDlpV2DiscoveryVertexDatasetFilter> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       collection: Schema.optional(GooglePrivacyDlpV2VertexDatasetCollection),
       vertexDatasetResourceReference: Schema.optional(
@@ -5816,7 +5816,7 @@ export interface GooglePrivacyDlpV2DiscoveryVertexDatasetConditions {
 }
 
 export const GooglePrivacyDlpV2DiscoveryVertexDatasetConditions: Schema.Schema<GooglePrivacyDlpV2DiscoveryVertexDatasetConditions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       createdAfter: Schema.optional(Schema.String),
       minAge: Schema.optional(Schema.String),
@@ -5838,7 +5838,7 @@ export interface GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence {
 }
 
 export const GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence: Schema.Schema<GooglePrivacyDlpV2DiscoveryVertexDatasetGenerationCadence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       refreshFrequency: Schema.optional(Schema.String),
       inspectTemplateModifiedCadence: Schema.optional(
@@ -5861,7 +5861,7 @@ export interface GooglePrivacyDlpV2VertexDatasetDiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2VertexDatasetDiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2VertexDatasetDiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       filter: Schema.optional(GooglePrivacyDlpV2DiscoveryVertexDatasetFilter),
       conditions: Schema.optional(
@@ -5892,7 +5892,7 @@ export interface GooglePrivacyDlpV2DiscoveryTarget {
 }
 
 export const GooglePrivacyDlpV2DiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2DiscoveryTarget> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bigQueryTarget: Schema.optional(
         GooglePrivacyDlpV2BigQueryDiscoveryTarget,
@@ -5918,14 +5918,14 @@ export const GooglePrivacyDlpV2DiscoveryTarget: Schema.Schema<GooglePrivacyDlpV2
 export interface GooglePrivacyDlpV2MultiRegionProcessing {}
 
 export const GooglePrivacyDlpV2MultiRegionProcessing: Schema.Schema<GooglePrivacyDlpV2MultiRegionProcessing> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2MultiRegionProcessing",
   }) as any as Schema.Schema<GooglePrivacyDlpV2MultiRegionProcessing>;
 
 export interface GooglePrivacyDlpV2GlobalProcessing {}
 
 export const GooglePrivacyDlpV2GlobalProcessing: Schema.Schema<GooglePrivacyDlpV2GlobalProcessing> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2GlobalProcessing",
   }) as any as Schema.Schema<GooglePrivacyDlpV2GlobalProcessing>;
 
@@ -5937,7 +5937,7 @@ export interface GooglePrivacyDlpV2ImageFallbackLocation {
 }
 
 export const GooglePrivacyDlpV2ImageFallbackLocation: Schema.Schema<GooglePrivacyDlpV2ImageFallbackLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       multiRegionProcessing: Schema.optional(
         GooglePrivacyDlpV2MultiRegionProcessing,
@@ -5956,7 +5956,7 @@ export interface GooglePrivacyDlpV2DocumentFallbackLocation {
 }
 
 export const GooglePrivacyDlpV2DocumentFallbackLocation: Schema.Schema<GooglePrivacyDlpV2DocumentFallbackLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       multiRegionProcessing: Schema.optional(
         GooglePrivacyDlpV2MultiRegionProcessing,
@@ -5975,7 +5975,7 @@ export interface GooglePrivacyDlpV2ProcessingLocation {
 }
 
 export const GooglePrivacyDlpV2ProcessingLocation: Schema.Schema<GooglePrivacyDlpV2ProcessingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       imageFallbackLocation: Schema.optional(
         GooglePrivacyDlpV2ImageFallbackLocation,
@@ -6018,7 +6018,7 @@ export interface GooglePrivacyDlpV2DiscoveryConfig {
 }
 
 export const GooglePrivacyDlpV2DiscoveryConfig: Schema.Schema<GooglePrivacyDlpV2DiscoveryConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
@@ -6050,7 +6050,7 @@ export interface GooglePrivacyDlpV2CreateDiscoveryConfigRequest {
 }
 
 export const GooglePrivacyDlpV2CreateDiscoveryConfigRequest: Schema.Schema<GooglePrivacyDlpV2CreateDiscoveryConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       discoveryConfig: Schema.optional(GooglePrivacyDlpV2DiscoveryConfig),
       configId: Schema.optional(Schema.String),
@@ -6067,7 +6067,7 @@ export interface GooglePrivacyDlpV2UpdateDiscoveryConfigRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateDiscoveryConfigRequest: Schema.Schema<GooglePrivacyDlpV2UpdateDiscoveryConfigRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       discoveryConfig: Schema.optional(GooglePrivacyDlpV2DiscoveryConfig),
       updateMask: Schema.optional(Schema.String),
@@ -6084,7 +6084,7 @@ export interface GooglePrivacyDlpV2ListDiscoveryConfigsResponse {
 }
 
 export const GooglePrivacyDlpV2ListDiscoveryConfigsResponse: Schema.Schema<GooglePrivacyDlpV2ListDiscoveryConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       discoveryConfigs: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2DiscoveryConfig),
@@ -6107,7 +6107,7 @@ export interface GooglePrivacyDlpV2CreateDlpJobRequest {
 }
 
 export const GooglePrivacyDlpV2CreateDlpJobRequest: Schema.Schema<GooglePrivacyDlpV2CreateDlpJobRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectJob: Schema.optional(GooglePrivacyDlpV2InspectJobConfig),
       riskJob: Schema.optional(GooglePrivacyDlpV2RiskAnalysisJobConfig),
@@ -6126,7 +6126,7 @@ export interface GooglePrivacyDlpV2ListDlpJobsResponse {
 }
 
 export const GooglePrivacyDlpV2ListDlpJobsResponse: Schema.Schema<GooglePrivacyDlpV2ListDlpJobsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       jobs: Schema.optional(Schema.Array(GooglePrivacyDlpV2DlpJob)),
       nextPageToken: Schema.optional(Schema.String),
@@ -6138,7 +6138,7 @@ export const GooglePrivacyDlpV2ListDlpJobsResponse: Schema.Schema<GooglePrivacyD
 export interface GooglePrivacyDlpV2CancelDlpJobRequest {}
 
 export const GooglePrivacyDlpV2CancelDlpJobRequest: Schema.Schema<GooglePrivacyDlpV2CancelDlpJobRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2CancelDlpJobRequest",
   }) as any as Schema.Schema<GooglePrivacyDlpV2CancelDlpJobRequest>;
 
@@ -6148,7 +6148,7 @@ export interface GooglePrivacyDlpV2CloudStorageFileSet {
 }
 
 export const GooglePrivacyDlpV2CloudStorageFileSet: Schema.Schema<GooglePrivacyDlpV2CloudStorageFileSet> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       url: Schema.optional(Schema.String),
     }),
@@ -6164,7 +6164,7 @@ export interface GooglePrivacyDlpV2BigQueryField {
 }
 
 export const GooglePrivacyDlpV2BigQueryField: Schema.Schema<GooglePrivacyDlpV2BigQueryField> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       table: Schema.optional(GooglePrivacyDlpV2BigQueryTable),
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
@@ -6183,7 +6183,7 @@ export interface GooglePrivacyDlpV2LargeCustomDictionaryConfig {
 }
 
 export const GooglePrivacyDlpV2LargeCustomDictionaryConfig: Schema.Schema<GooglePrivacyDlpV2LargeCustomDictionaryConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       outputPath: Schema.optional(GooglePrivacyDlpV2CloudStoragePath),
       cloudStorageFileSet: Schema.optional(
@@ -6209,7 +6209,7 @@ export interface GooglePrivacyDlpV2StoredInfoTypeConfig {
 }
 
 export const GooglePrivacyDlpV2StoredInfoTypeConfig: Schema.Schema<GooglePrivacyDlpV2StoredInfoTypeConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -6233,7 +6233,7 @@ export interface GooglePrivacyDlpV2CreateStoredInfoTypeRequest {
 }
 
 export const GooglePrivacyDlpV2CreateStoredInfoTypeRequest: Schema.Schema<GooglePrivacyDlpV2CreateStoredInfoTypeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(GooglePrivacyDlpV2StoredInfoTypeConfig),
       storedInfoTypeId: Schema.optional(Schema.String),
@@ -6249,7 +6249,7 @@ export interface GooglePrivacyDlpV2LargeCustomDictionaryStats {
 }
 
 export const GooglePrivacyDlpV2LargeCustomDictionaryStats: Schema.Schema<GooglePrivacyDlpV2LargeCustomDictionaryStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       approxNumPhrases: Schema.optional(Schema.String),
     }),
@@ -6263,7 +6263,7 @@ export interface GooglePrivacyDlpV2StoredInfoTypeStats {
 }
 
 export const GooglePrivacyDlpV2StoredInfoTypeStats: Schema.Schema<GooglePrivacyDlpV2StoredInfoTypeStats> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       largeCustomDictionary: Schema.optional(
         GooglePrivacyDlpV2LargeCustomDictionaryStats,
@@ -6293,7 +6293,7 @@ export interface GooglePrivacyDlpV2StoredInfoTypeVersion {
 }
 
 export const GooglePrivacyDlpV2StoredInfoTypeVersion: Schema.Schema<GooglePrivacyDlpV2StoredInfoTypeVersion> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(GooglePrivacyDlpV2StoredInfoTypeConfig),
       createTime: Schema.optional(Schema.String),
@@ -6315,7 +6315,7 @@ export interface GooglePrivacyDlpV2StoredInfoType {
 }
 
 export const GooglePrivacyDlpV2StoredInfoType: Schema.Schema<GooglePrivacyDlpV2StoredInfoType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       currentVersion: Schema.optional(GooglePrivacyDlpV2StoredInfoTypeVersion),
@@ -6335,7 +6335,7 @@ export interface GooglePrivacyDlpV2UpdateStoredInfoTypeRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateStoredInfoTypeRequest: Schema.Schema<GooglePrivacyDlpV2UpdateStoredInfoTypeRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       config: Schema.optional(GooglePrivacyDlpV2StoredInfoTypeConfig),
       updateMask: Schema.optional(Schema.String),
@@ -6352,7 +6352,7 @@ export interface GooglePrivacyDlpV2ListStoredInfoTypesResponse {
 }
 
 export const GooglePrivacyDlpV2ListStoredInfoTypesResponse: Schema.Schema<GooglePrivacyDlpV2ListStoredInfoTypesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       storedInfoTypes: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2StoredInfoType),
@@ -6375,7 +6375,7 @@ export interface GooglePrivacyDlpV2DataRiskLevel {
 }
 
 export const GooglePrivacyDlpV2DataRiskLevel: Schema.Schema<GooglePrivacyDlpV2DataRiskLevel> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       score: Schema.optional(Schema.String),
     }),
@@ -6391,7 +6391,7 @@ export interface GooglePrivacyDlpV2ProfileStatus {
 }
 
 export const GooglePrivacyDlpV2ProfileStatus: Schema.Schema<GooglePrivacyDlpV2ProfileStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(GoogleRpcStatus),
       timestamp: Schema.optional(Schema.String),
@@ -6420,7 +6420,7 @@ export interface GooglePrivacyDlpV2ProjectDataProfile {
 }
 
 export const GooglePrivacyDlpV2ProjectDataProfile: Schema.Schema<GooglePrivacyDlpV2ProjectDataProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       projectId: Schema.optional(Schema.String),
@@ -6443,7 +6443,7 @@ export interface GooglePrivacyDlpV2ListProjectDataProfilesResponse {
 }
 
 export const GooglePrivacyDlpV2ListProjectDataProfilesResponse: Schema.Schema<GooglePrivacyDlpV2ListProjectDataProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       projectDataProfiles: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2ProjectDataProfile),
@@ -6462,7 +6462,7 @@ export interface GooglePrivacyDlpV2InfoTypeSummary {
 }
 
 export const GooglePrivacyDlpV2InfoTypeSummary: Schema.Schema<GooglePrivacyDlpV2InfoTypeSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       estimatedPrevalence: Schema.optional(Schema.Number),
@@ -6481,7 +6481,7 @@ export interface GooglePrivacyDlpV2OtherInfoTypeSummary {
 }
 
 export const GooglePrivacyDlpV2OtherInfoTypeSummary: Schema.Schema<GooglePrivacyDlpV2OtherInfoTypeSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
       estimatedPrevalence: Schema.optional(Schema.Number),
@@ -6499,7 +6499,7 @@ export interface GooglePrivacyDlpV2DataProfileLocation {
 }
 
 export const GooglePrivacyDlpV2DataProfileLocation: Schema.Schema<GooglePrivacyDlpV2DataProfileLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       organizationId: Schema.optional(Schema.String),
       folderId: Schema.optional(Schema.String),
@@ -6522,7 +6522,7 @@ export interface GooglePrivacyDlpV2DataProfileJobConfig {
 }
 
 export const GooglePrivacyDlpV2DataProfileJobConfig: Schema.Schema<GooglePrivacyDlpV2DataProfileJobConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       location: Schema.optional(GooglePrivacyDlpV2DataProfileLocation),
       projectId: Schema.optional(Schema.String),
@@ -6552,7 +6552,7 @@ export interface GooglePrivacyDlpV2DataProfileConfigSnapshot {
 }
 
 export const GooglePrivacyDlpV2DataProfileConfigSnapshot: Schema.Schema<GooglePrivacyDlpV2DataProfileConfigSnapshot> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       inspectConfig: Schema.optional(GooglePrivacyDlpV2InspectConfig),
       dataProfileJob: Schema.optional(GooglePrivacyDlpV2DataProfileJobConfig),
@@ -6574,7 +6574,7 @@ export interface GooglePrivacyDlpV2Tag {
 }
 
 export const GooglePrivacyDlpV2Tag: Schema.Schema<GooglePrivacyDlpV2Tag> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namespacedTagValue: Schema.optional(Schema.String),
       key: Schema.optional(Schema.String),
@@ -6590,7 +6590,7 @@ export interface GooglePrivacyDlpV2RelatedResource {
 }
 
 export const GooglePrivacyDlpV2RelatedResource: Schema.Schema<GooglePrivacyDlpV2RelatedResource> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fullResource: Schema.optional(Schema.String),
     }),
@@ -6616,7 +6616,7 @@ export interface GooglePrivacyDlpV2Domain {
 }
 
 export const GooglePrivacyDlpV2Domain: Schema.Schema<GooglePrivacyDlpV2Domain> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       category: Schema.optional(Schema.String),
       signals: Schema.optional(Schema.Array(Schema.String)),
@@ -6698,7 +6698,7 @@ export interface GooglePrivacyDlpV2TableDataProfile {
 }
 
 export const GooglePrivacyDlpV2TableDataProfile: Schema.Schema<GooglePrivacyDlpV2TableDataProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       dataSourceType: Schema.optional(GooglePrivacyDlpV2DataSourceType),
@@ -6753,7 +6753,7 @@ export interface GooglePrivacyDlpV2ListTableDataProfilesResponse {
 }
 
 export const GooglePrivacyDlpV2ListTableDataProfilesResponse: Schema.Schema<GooglePrivacyDlpV2ListTableDataProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableDataProfiles: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2TableDataProfile),
@@ -6842,7 +6842,7 @@ export interface GooglePrivacyDlpV2ColumnDataProfile {
 }
 
 export const GooglePrivacyDlpV2ColumnDataProfile: Schema.Schema<GooglePrivacyDlpV2ColumnDataProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       profileStatus: Schema.optional(GooglePrivacyDlpV2ProfileStatus),
@@ -6879,7 +6879,7 @@ export interface GooglePrivacyDlpV2ListColumnDataProfilesResponse {
 }
 
 export const GooglePrivacyDlpV2ListColumnDataProfilesResponse: Schema.Schema<GooglePrivacyDlpV2ListColumnDataProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       columnDataProfiles: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2ColumnDataProfile),
@@ -6908,7 +6908,7 @@ export interface GooglePrivacyDlpV2FileClusterType {
 }
 
 export const GooglePrivacyDlpV2FileClusterType: Schema.Schema<GooglePrivacyDlpV2FileClusterType> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cluster: Schema.optional(Schema.String),
     }),
@@ -6922,7 +6922,7 @@ export interface GooglePrivacyDlpV2FileStoreInfoTypeSummary {
 }
 
 export const GooglePrivacyDlpV2FileStoreInfoTypeSummary: Schema.Schema<GooglePrivacyDlpV2FileStoreInfoTypeSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       infoType: Schema.optional(GooglePrivacyDlpV2InfoType),
     }),
@@ -6936,7 +6936,7 @@ export interface GooglePrivacyDlpV2FileExtensionInfo {
 }
 
 export const GooglePrivacyDlpV2FileExtensionInfo: Schema.Schema<GooglePrivacyDlpV2FileExtensionInfo> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileExtension: Schema.optional(Schema.String),
     }),
@@ -6964,7 +6964,7 @@ export interface GooglePrivacyDlpV2FileClusterSummary {
 }
 
 export const GooglePrivacyDlpV2FileClusterSummary: Schema.Schema<GooglePrivacyDlpV2FileClusterSummary> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileClusterType: Schema.optional(GooglePrivacyDlpV2FileClusterType),
       fileStoreInfoTypeSummaries: Schema.optional(
@@ -7048,7 +7048,7 @@ export interface GooglePrivacyDlpV2FileStoreDataProfile {
 }
 
 export const GooglePrivacyDlpV2FileStoreDataProfile: Schema.Schema<GooglePrivacyDlpV2FileStoreDataProfile> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       dataSourceType: Schema.optional(GooglePrivacyDlpV2DataSourceType),
@@ -7102,7 +7102,7 @@ export interface GooglePrivacyDlpV2ListFileStoreDataProfilesResponse {
 }
 
 export const GooglePrivacyDlpV2ListFileStoreDataProfilesResponse: Schema.Schema<GooglePrivacyDlpV2ListFileStoreDataProfilesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fileStoreDataProfiles: Schema.optional(
         Schema.Array(GooglePrivacyDlpV2FileStoreDataProfile),
@@ -7119,7 +7119,7 @@ export interface GooglePrivacyDlpV2HybridInspectDlpJobRequest {
 }
 
 export const GooglePrivacyDlpV2HybridInspectDlpJobRequest: Schema.Schema<GooglePrivacyDlpV2HybridInspectDlpJobRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       hybridItem: Schema.optional(GooglePrivacyDlpV2HybridContentItem),
     }),
@@ -7130,7 +7130,7 @@ export const GooglePrivacyDlpV2HybridInspectDlpJobRequest: Schema.Schema<GoogleP
 export interface GooglePrivacyDlpV2FinishDlpJobRequest {}
 
 export const GooglePrivacyDlpV2FinishDlpJobRequest: Schema.Schema<GooglePrivacyDlpV2FinishDlpJobRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2FinishDlpJobRequest",
   }) as any as Schema.Schema<GooglePrivacyDlpV2FinishDlpJobRequest>;
 
@@ -7142,7 +7142,7 @@ export interface GooglePrivacyDlpV2SecretManagerCredential {
 }
 
 export const GooglePrivacyDlpV2SecretManagerCredential: Schema.Schema<GooglePrivacyDlpV2SecretManagerCredential> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
       passwordSecretVersionName: Schema.optional(Schema.String),
@@ -7154,7 +7154,7 @@ export const GooglePrivacyDlpV2SecretManagerCredential: Schema.Schema<GooglePriv
 export interface GooglePrivacyDlpV2CloudSqlIamCredential {}
 
 export const GooglePrivacyDlpV2CloudSqlIamCredential: Schema.Schema<GooglePrivacyDlpV2CloudSqlIamCredential> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "GooglePrivacyDlpV2CloudSqlIamCredential",
   }) as any as Schema.Schema<GooglePrivacyDlpV2CloudSqlIamCredential>;
 
@@ -7176,7 +7176,7 @@ export interface GooglePrivacyDlpV2CloudSqlProperties {
 }
 
 export const GooglePrivacyDlpV2CloudSqlProperties: Schema.Schema<GooglePrivacyDlpV2CloudSqlProperties> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connectionName: Schema.optional(Schema.String),
       usernamePassword: Schema.optional(
@@ -7207,7 +7207,7 @@ export interface GooglePrivacyDlpV2Connection {
 }
 
 export const GooglePrivacyDlpV2Connection: Schema.Schema<GooglePrivacyDlpV2Connection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
@@ -7224,7 +7224,7 @@ export interface GooglePrivacyDlpV2CreateConnectionRequest {
 }
 
 export const GooglePrivacyDlpV2CreateConnectionRequest: Schema.Schema<GooglePrivacyDlpV2CreateConnectionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connection: Schema.optional(GooglePrivacyDlpV2Connection),
     }),
@@ -7240,7 +7240,7 @@ export interface GooglePrivacyDlpV2ListConnectionsResponse {
 }
 
 export const GooglePrivacyDlpV2ListConnectionsResponse: Schema.Schema<GooglePrivacyDlpV2ListConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connections: Schema.optional(Schema.Array(GooglePrivacyDlpV2Connection)),
       nextPageToken: Schema.optional(Schema.String),
@@ -7257,7 +7257,7 @@ export interface GooglePrivacyDlpV2SearchConnectionsResponse {
 }
 
 export const GooglePrivacyDlpV2SearchConnectionsResponse: Schema.Schema<GooglePrivacyDlpV2SearchConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connections: Schema.optional(Schema.Array(GooglePrivacyDlpV2Connection)),
       nextPageToken: Schema.optional(Schema.String),
@@ -7274,7 +7274,7 @@ export interface GooglePrivacyDlpV2UpdateConnectionRequest {
 }
 
 export const GooglePrivacyDlpV2UpdateConnectionRequest: Schema.Schema<GooglePrivacyDlpV2UpdateConnectionRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       connection: Schema.optional(GooglePrivacyDlpV2Connection),
       updateMask: Schema.optional(Schema.String),
@@ -7289,7 +7289,7 @@ export interface GooglePrivacyDlpV2DataProfileFindingRecordLocation {
 }
 
 export const GooglePrivacyDlpV2DataProfileFindingRecordLocation: Schema.Schema<GooglePrivacyDlpV2DataProfileFindingRecordLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       field: Schema.optional(GooglePrivacyDlpV2FieldId),
     }),
@@ -7305,7 +7305,7 @@ export interface GooglePrivacyDlpV2DataProfileFindingLocation {
 }
 
 export const GooglePrivacyDlpV2DataProfileFindingLocation: Schema.Schema<GooglePrivacyDlpV2DataProfileFindingLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       containerName: Schema.optional(Schema.String),
       dataProfileFindingRecordLocation: Schema.optional(
@@ -7345,7 +7345,7 @@ export interface GooglePrivacyDlpV2DataProfileFinding {
 }
 
 export const GooglePrivacyDlpV2DataProfileFinding: Schema.Schema<GooglePrivacyDlpV2DataProfileFinding> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       quote: Schema.optional(Schema.String),
       infotype: Schema.optional(GooglePrivacyDlpV2InfoType),
@@ -7378,7 +7378,7 @@ export interface GooglePrivacyDlpV2DataProfilePubSubMessage {
 }
 
 export const GooglePrivacyDlpV2DataProfilePubSubMessage: Schema.Schema<GooglePrivacyDlpV2DataProfilePubSubMessage> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       profile: Schema.optional(GooglePrivacyDlpV2TableDataProfile),
       fileStoreProfile: Schema.optional(GooglePrivacyDlpV2FileStoreDataProfile),
@@ -7398,7 +7398,7 @@ export interface GooglePrivacyDlpV2DataProfileBigQueryRowSchema {
 }
 
 export const GooglePrivacyDlpV2DataProfileBigQueryRowSchema: Schema.Schema<GooglePrivacyDlpV2DataProfileBigQueryRowSchema> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       tableProfile: Schema.optional(GooglePrivacyDlpV2TableDataProfile),
       columnProfile: Schema.optional(GooglePrivacyDlpV2ColumnDataProfile),
@@ -7436,7 +7436,7 @@ export interface GooglePrivacyDlpV2TransformationDescription {
 }
 
 export const GooglePrivacyDlpV2TransformationDescription: Schema.Schema<GooglePrivacyDlpV2TransformationDescription> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       type: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
@@ -7461,7 +7461,7 @@ export interface GooglePrivacyDlpV2TransformationResultStatus {
 }
 
 export const GooglePrivacyDlpV2TransformationResultStatus: Schema.Schema<GooglePrivacyDlpV2TransformationResultStatus> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resultStatusType: Schema.optional(Schema.String),
       details: Schema.optional(GoogleRpcStatus),
@@ -7480,7 +7480,7 @@ export interface GooglePrivacyDlpV2RecordTransformation {
 }
 
 export const GooglePrivacyDlpV2RecordTransformation: Schema.Schema<GooglePrivacyDlpV2RecordTransformation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       fieldId: Schema.optional(GooglePrivacyDlpV2FieldId),
       containerTimestamp: Schema.optional(Schema.String),
@@ -7505,7 +7505,7 @@ export interface GooglePrivacyDlpV2TransformationLocation {
 }
 
 export const GooglePrivacyDlpV2TransformationLocation: Schema.Schema<GooglePrivacyDlpV2TransformationLocation> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findingId: Schema.optional(Schema.String),
       recordTransformation: Schema.optional(
@@ -7533,7 +7533,7 @@ export interface GooglePrivacyDlpV2TransformationDetails {
 }
 
 export const GooglePrivacyDlpV2TransformationDetails: Schema.Schema<GooglePrivacyDlpV2TransformationDetails> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resourceName: Schema.optional(Schema.String),
       containerName: Schema.optional(Schema.String),
@@ -7558,7 +7558,7 @@ export interface GooglePrivacyDlpV2SaveToGcsFindingsOutput {
 }
 
 export const GooglePrivacyDlpV2SaveToGcsFindingsOutput: Schema.Schema<GooglePrivacyDlpV2SaveToGcsFindingsOutput> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       findings: Schema.optional(Schema.Array(GooglePrivacyDlpV2Finding)),
     }),
@@ -7569,7 +7569,7 @@ export const GooglePrivacyDlpV2SaveToGcsFindingsOutput: Schema.Schema<GooglePriv
 export interface Proto2BridgeMessageSet {}
 
 export const Proto2BridgeMessageSet: Schema.Schema<Proto2BridgeMessageSet> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "Proto2BridgeMessageSet",
   }) as any as Schema.Schema<Proto2BridgeMessageSet>;
 
@@ -7586,8 +7586,8 @@ export interface UtilStatusProto {
   messageSet?: Proto2BridgeMessageSet;
 }
 
-export const UtilStatusProto: Schema.Schema<UtilStatusProto> = Schema.suspend(
-  () =>
+export const UtilStatusProto: Schema.Schema<UtilStatusProto> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       code: Schema.optional(Schema.Number),
       space: Schema.optional(Schema.String),
@@ -7595,9 +7595,9 @@ export const UtilStatusProto: Schema.Schema<UtilStatusProto> = Schema.suspend(
       canonicalCode: Schema.optional(Schema.Number),
       messageSet: Schema.optional(Proto2BridgeMessageSet),
     }),
-).annotate({
-  identifier: "UtilStatusProto",
-}) as any as Schema.Schema<UtilStatusProto>;
+  ).annotate({
+    identifier: "UtilStatusProto",
+  }) as any as Schema.Schema<UtilStatusProto>;
 
 // ==========================================================================
 // Operations
@@ -7610,24 +7610,25 @@ export interface InspectProjectsContentRequest {
   body?: GooglePrivacyDlpV2InspectContentRequest;
 }
 
-export const InspectProjectsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2InspectContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/content:inspect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InspectProjectsContentRequest>;
+export const InspectProjectsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2InspectContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/content:inspect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InspectProjectsContentRequest>;
 
 export type InspectProjectsContentResponse =
   GooglePrivacyDlpV2InspectContentResponse;
 export const InspectProjectsContentResponse =
-  GooglePrivacyDlpV2InspectContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectContentResponse;
 
 export type InspectProjectsContentError = DefaultErrors;
 
@@ -7637,7 +7638,7 @@ export const inspectProjectsContent: API.OperationMethod<
   InspectProjectsContentResponse,
   InspectProjectsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InspectProjectsContentRequest,
   output: InspectProjectsContentResponse,
   errors: [],
@@ -7650,24 +7651,25 @@ export interface DeidentifyProjectsContentRequest {
   body?: GooglePrivacyDlpV2DeidentifyContentRequest;
 }
 
-export const DeidentifyProjectsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2DeidentifyContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/content:deidentify",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeidentifyProjectsContentRequest>;
+export const DeidentifyProjectsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2DeidentifyContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/content:deidentify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeidentifyProjectsContentRequest>;
 
 export type DeidentifyProjectsContentResponse =
   GooglePrivacyDlpV2DeidentifyContentResponse;
 export const DeidentifyProjectsContentResponse =
-  GooglePrivacyDlpV2DeidentifyContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyContentResponse;
 
 export type DeidentifyProjectsContentError = DefaultErrors;
 
@@ -7677,7 +7679,7 @@ export const deidentifyProjectsContent: API.OperationMethod<
   DeidentifyProjectsContentResponse,
   DeidentifyProjectsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeidentifyProjectsContentRequest,
   output: DeidentifyProjectsContentResponse,
   errors: [],
@@ -7690,24 +7692,25 @@ export interface ReidentifyProjectsContentRequest {
   body?: GooglePrivacyDlpV2ReidentifyContentRequest;
 }
 
-export const ReidentifyProjectsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2ReidentifyContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/content:reidentify",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReidentifyProjectsContentRequest>;
+export const ReidentifyProjectsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2ReidentifyContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/content:reidentify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReidentifyProjectsContentRequest>;
 
 export type ReidentifyProjectsContentResponse =
   GooglePrivacyDlpV2ReidentifyContentResponse;
 export const ReidentifyProjectsContentResponse =
-  GooglePrivacyDlpV2ReidentifyContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ReidentifyContentResponse;
 
 export type ReidentifyProjectsContentError = DefaultErrors;
 
@@ -7717,7 +7720,7 @@ export const reidentifyProjectsContent: API.OperationMethod<
   ReidentifyProjectsContentResponse,
   ReidentifyProjectsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReidentifyProjectsContentRequest,
   output: ReidentifyProjectsContentResponse,
   errors: [],
@@ -7730,24 +7733,25 @@ export interface InspectProjectsLocationsContentRequest {
   body?: GooglePrivacyDlpV2InspectContentRequest;
 }
 
-export const InspectProjectsLocationsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2InspectContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/content:inspect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<InspectProjectsLocationsContentRequest>;
+export const InspectProjectsLocationsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2InspectContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/content:inspect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InspectProjectsLocationsContentRequest>;
 
 export type InspectProjectsLocationsContentResponse =
   GooglePrivacyDlpV2InspectContentResponse;
 export const InspectProjectsLocationsContentResponse =
-  GooglePrivacyDlpV2InspectContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectContentResponse;
 
 export type InspectProjectsLocationsContentError = DefaultErrors;
 
@@ -7757,7 +7761,7 @@ export const inspectProjectsLocationsContent: API.OperationMethod<
   InspectProjectsLocationsContentResponse,
   InspectProjectsLocationsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InspectProjectsLocationsContentRequest,
   output: InspectProjectsLocationsContentResponse,
   errors: [],
@@ -7770,24 +7774,25 @@ export interface DeidentifyProjectsLocationsContentRequest {
   body?: GooglePrivacyDlpV2DeidentifyContentRequest;
 }
 
-export const DeidentifyProjectsLocationsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2DeidentifyContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/content:deidentify",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<DeidentifyProjectsLocationsContentRequest>;
+export const DeidentifyProjectsLocationsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2DeidentifyContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/content:deidentify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeidentifyProjectsLocationsContentRequest>;
 
 export type DeidentifyProjectsLocationsContentResponse =
   GooglePrivacyDlpV2DeidentifyContentResponse;
 export const DeidentifyProjectsLocationsContentResponse =
-  GooglePrivacyDlpV2DeidentifyContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyContentResponse;
 
 export type DeidentifyProjectsLocationsContentError = DefaultErrors;
 
@@ -7797,7 +7802,7 @@ export const deidentifyProjectsLocationsContent: API.OperationMethod<
   DeidentifyProjectsLocationsContentResponse,
   DeidentifyProjectsLocationsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeidentifyProjectsLocationsContentRequest,
   output: DeidentifyProjectsLocationsContentResponse,
   errors: [],
@@ -7810,24 +7815,25 @@ export interface ReidentifyProjectsLocationsContentRequest {
   body?: GooglePrivacyDlpV2ReidentifyContentRequest;
 }
 
-export const ReidentifyProjectsLocationsContentRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2ReidentifyContentRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/content:reidentify",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ReidentifyProjectsLocationsContentRequest>;
+export const ReidentifyProjectsLocationsContentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2ReidentifyContentRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/content:reidentify",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReidentifyProjectsLocationsContentRequest>;
 
 export type ReidentifyProjectsLocationsContentResponse =
   GooglePrivacyDlpV2ReidentifyContentResponse;
 export const ReidentifyProjectsLocationsContentResponse =
-  GooglePrivacyDlpV2ReidentifyContentResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ReidentifyContentResponse;
 
 export type ReidentifyProjectsLocationsContentError = DefaultErrors;
 
@@ -7837,7 +7843,7 @@ export const reidentifyProjectsLocationsContent: API.OperationMethod<
   ReidentifyProjectsLocationsContentResponse,
   ReidentifyProjectsLocationsContentError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReidentifyProjectsLocationsContentRequest,
   output: ReidentifyProjectsLocationsContentResponse,
   errors: [],
@@ -7850,24 +7856,25 @@ export interface RedactProjectsLocationsImageRequest {
   body?: GooglePrivacyDlpV2RedactImageRequest;
 }
 
-export const RedactProjectsLocationsImageRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2RedactImageRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/image:redact",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RedactProjectsLocationsImageRequest>;
+export const RedactProjectsLocationsImageRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2RedactImageRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/image:redact",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RedactProjectsLocationsImageRequest>;
 
 export type RedactProjectsLocationsImageResponse =
   GooglePrivacyDlpV2RedactImageResponse;
 export const RedactProjectsLocationsImageResponse =
-  GooglePrivacyDlpV2RedactImageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2RedactImageResponse;
 
 export type RedactProjectsLocationsImageError = DefaultErrors;
 
@@ -7877,7 +7884,7 @@ export const redactProjectsLocationsImage: API.OperationMethod<
   RedactProjectsLocationsImageResponse,
   RedactProjectsLocationsImageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RedactProjectsLocationsImageRequest,
   output: RedactProjectsLocationsImageResponse,
   errors: [],
@@ -7894,25 +7901,26 @@ export interface ListProjectsLocationsInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/infoTypes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsInfoTypesRequest>;
+export const ListProjectsLocationsInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/infoTypes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsInfoTypesRequest>;
 
 export type ListProjectsLocationsInfoTypesResponse =
   GooglePrivacyDlpV2ListInfoTypesResponse;
 export const ListProjectsLocationsInfoTypesResponse =
-  GooglePrivacyDlpV2ListInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInfoTypesResponse;
 
 export type ListProjectsLocationsInfoTypesError = DefaultErrors;
 
@@ -7922,7 +7930,7 @@ export const listProjectsLocationsInfoTypes: API.OperationMethod<
   ListProjectsLocationsInfoTypesResponse,
   ListProjectsLocationsInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListProjectsLocationsInfoTypesRequest,
   output: ListProjectsLocationsInfoTypesResponse,
   errors: [],
@@ -7935,24 +7943,25 @@ export interface CreateProjectsLocationsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
 
-export const CreateProjectsLocationsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsInspectTemplatesRequest>;
+export const CreateProjectsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsInspectTemplatesRequest>;
 
 export type CreateProjectsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const CreateProjectsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type CreateProjectsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -7962,7 +7971,7 @@ export const createProjectsLocationsInspectTemplates: API.OperationMethod<
   CreateProjectsLocationsInspectTemplatesResponse,
   CreateProjectsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsInspectTemplatesRequest,
   output: CreateProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -7975,24 +7984,25 @@ export interface PatchProjectsLocationsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 
-export const PatchProjectsLocationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsInspectTemplatesRequest>;
+export const PatchProjectsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsInspectTemplatesRequest>;
 
 export type PatchProjectsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const PatchProjectsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type PatchProjectsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -8002,7 +8012,7 @@ export const patchProjectsLocationsInspectTemplates: API.OperationMethod<
   PatchProjectsLocationsInspectTemplatesResponse,
   PatchProjectsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsInspectTemplatesRequest,
   output: PatchProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -8013,20 +8023,21 @@ export interface GetProjectsLocationsInspectTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsInspectTemplatesRequest>;
+export const GetProjectsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsInspectTemplatesRequest>;
 
 export type GetProjectsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const GetProjectsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type GetProjectsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -8036,7 +8047,7 @@ export const getProjectsLocationsInspectTemplates: API.OperationMethod<
   GetProjectsLocationsInspectTemplatesResponse,
   GetProjectsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsInspectTemplatesRequest,
   output: GetProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -8055,24 +8066,25 @@ export interface ListProjectsLocationsInspectTemplatesRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsInspectTemplatesRequest>;
+export const ListProjectsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsInspectTemplatesRequest>;
 
 export type ListProjectsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2ListInspectTemplatesResponse;
 export const ListProjectsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2ListInspectTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInspectTemplatesResponse;
 
 export type ListProjectsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -8082,7 +8094,7 @@ export const listProjectsLocationsInspectTemplates: API.PaginatedOperationMethod
   ListProjectsLocationsInspectTemplatesResponse,
   ListProjectsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsInspectTemplatesRequest,
   output: ListProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -8097,20 +8109,21 @@ export interface DeleteProjectsLocationsInspectTemplatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsInspectTemplatesRequest>;
+export const DeleteProjectsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsInspectTemplatesRequest>;
 
 export type DeleteProjectsLocationsInspectTemplatesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsInspectTemplatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -8120,7 +8133,7 @@ export const deleteProjectsLocationsInspectTemplates: API.OperationMethod<
   DeleteProjectsLocationsInspectTemplatesResponse,
   DeleteProjectsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsInspectTemplatesRequest,
   output: DeleteProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -8133,24 +8146,25 @@ export interface CreateProjectsLocationsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
 
-export const CreateProjectsLocationsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDeidentifyTemplatesRequest>;
+export const CreateProjectsLocationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2CreateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDeidentifyTemplatesRequest>;
 
 export type CreateProjectsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const CreateProjectsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type CreateProjectsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -8160,7 +8174,7 @@ export const createProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   CreateProjectsLocationsDeidentifyTemplatesResponse,
   CreateProjectsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDeidentifyTemplatesRequest,
   output: CreateProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -8173,24 +8187,25 @@ export interface PatchProjectsLocationsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
 
-export const PatchProjectsLocationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDeidentifyTemplatesRequest>;
+export const PatchProjectsLocationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDeidentifyTemplatesRequest>;
 
 export type PatchProjectsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const PatchProjectsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type PatchProjectsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -8200,7 +8215,7 @@ export const patchProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   PatchProjectsLocationsDeidentifyTemplatesResponse,
   PatchProjectsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDeidentifyTemplatesRequest,
   output: PatchProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -8211,20 +8226,21 @@ export interface GetProjectsLocationsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDeidentifyTemplatesRequest>;
+export const GetProjectsLocationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDeidentifyTemplatesRequest>;
 
 export type GetProjectsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const GetProjectsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type GetProjectsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -8234,7 +8250,7 @@ export const getProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   GetProjectsLocationsDeidentifyTemplatesResponse,
   GetProjectsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDeidentifyTemplatesRequest,
   output: GetProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -8253,24 +8269,25 @@ export interface ListProjectsLocationsDeidentifyTemplatesRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDeidentifyTemplatesRequest>;
+export const ListProjectsLocationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDeidentifyTemplatesRequest>;
 
 export type ListProjectsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 export const ListProjectsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 
 export type ListProjectsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -8280,7 +8297,7 @@ export const listProjectsLocationsDeidentifyTemplates: API.PaginatedOperationMet
   ListProjectsLocationsDeidentifyTemplatesResponse,
   ListProjectsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDeidentifyTemplatesRequest,
   output: ListProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -8295,20 +8312,21 @@ export interface DeleteProjectsLocationsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDeidentifyTemplatesRequest>;
+export const DeleteProjectsLocationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDeidentifyTemplatesRequest>;
 
 export type DeleteProjectsLocationsDeidentifyTemplatesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDeidentifyTemplatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -8318,7 +8336,7 @@ export const deleteProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   DeleteProjectsLocationsDeidentifyTemplatesResponse,
   DeleteProjectsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDeidentifyTemplatesRequest,
   output: DeleteProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -8331,24 +8349,25 @@ export interface CreateProjectsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
 }
 
-export const CreateProjectsLocationsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsJobTriggersRequest>;
+export const CreateProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsJobTriggersRequest>;
 
 export type CreateProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const CreateProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type CreateProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8358,7 +8377,7 @@ export const createProjectsLocationsJobTriggers: API.OperationMethod<
   CreateProjectsLocationsJobTriggersResponse,
   CreateProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsJobTriggersRequest,
   output: CreateProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8371,24 +8390,25 @@ export interface PatchProjectsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
 
-export const PatchProjectsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsJobTriggersRequest>;
+export const PatchProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsJobTriggersRequest>;
 
 export type PatchProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const PatchProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type PatchProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8398,7 +8418,7 @@ export const patchProjectsLocationsJobTriggers: API.OperationMethod<
   PatchProjectsLocationsJobTriggersResponse,
   PatchProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsJobTriggersRequest,
   output: PatchProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8411,24 +8431,25 @@ export interface HybridInspectProjectsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2HybridInspectJobTriggerRequest;
 }
 
-export const HybridInspectProjectsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2HybridInspectJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}:hybridInspect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<HybridInspectProjectsLocationsJobTriggersRequest>;
+export const HybridInspectProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2HybridInspectJobTriggerRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}:hybridInspect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<HybridInspectProjectsLocationsJobTriggersRequest>;
 
 export type HybridInspectProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2HybridInspectResponse;
 export const HybridInspectProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2HybridInspectResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2HybridInspectResponse;
 
 export type HybridInspectProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8438,7 +8459,7 @@ export const hybridInspectProjectsLocationsJobTriggers: API.OperationMethod<
   HybridInspectProjectsLocationsJobTriggersResponse,
   HybridInspectProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HybridInspectProjectsLocationsJobTriggersRequest,
   output: HybridInspectProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8449,20 +8470,21 @@ export interface GetProjectsLocationsJobTriggersRequest {
   name: string;
 }
 
-export const GetProjectsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsJobTriggersRequest>;
+export const GetProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsJobTriggersRequest>;
 
 export type GetProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const GetProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type GetProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8472,7 +8494,7 @@ export const getProjectsLocationsJobTriggers: API.OperationMethod<
   GetProjectsLocationsJobTriggersResponse,
   GetProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsJobTriggersRequest,
   output: GetProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8499,26 +8521,27 @@ export interface ListProjectsLocationsJobTriggersRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsJobTriggersRequest>;
+export const ListProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsJobTriggersRequest>;
 
 export type ListProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2ListJobTriggersResponse;
 export const ListProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2ListJobTriggersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListJobTriggersResponse;
 
 export type ListProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8528,7 +8551,7 @@ export const listProjectsLocationsJobTriggers: API.PaginatedOperationMethod<
   ListProjectsLocationsJobTriggersResponse,
   ListProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsJobTriggersRequest,
   output: ListProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8543,18 +8566,20 @@ export interface DeleteProjectsLocationsJobTriggersRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsJobTriggersRequest>;
+export const DeleteProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsJobTriggersRequest>;
 
 export type DeleteProjectsLocationsJobTriggersResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsJobTriggersResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8564,7 +8589,7 @@ export const deleteProjectsLocationsJobTriggers: API.OperationMethod<
   DeleteProjectsLocationsJobTriggersResponse,
   DeleteProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsJobTriggersRequest,
   output: DeleteProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8577,24 +8602,25 @@ export interface ActivateProjectsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
 }
 
-export const ActivateProjectsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2ActivateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateProjectsLocationsJobTriggersRequest>;
+export const ActivateProjectsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2ActivateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateProjectsLocationsJobTriggersRequest>;
 
 export type ActivateProjectsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2DlpJob;
 export const ActivateProjectsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2DlpJob;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type ActivateProjectsLocationsJobTriggersError = DefaultErrors;
 
@@ -8604,7 +8630,7 @@ export const activateProjectsLocationsJobTriggers: API.OperationMethod<
   ActivateProjectsLocationsJobTriggersResponse,
   ActivateProjectsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateProjectsLocationsJobTriggersRequest,
   output: ActivateProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -8617,24 +8643,25 @@ export interface CreateProjectsLocationsDiscoveryConfigsRequest {
   body?: GooglePrivacyDlpV2CreateDiscoveryConfigRequest;
 }
 
-export const CreateProjectsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDiscoveryConfigRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDiscoveryConfigsRequest>;
+export const CreateProjectsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateDiscoveryConfigRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDiscoveryConfigsRequest>;
 
 export type CreateProjectsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const CreateProjectsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type CreateProjectsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -8644,7 +8671,7 @@ export const createProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   CreateProjectsLocationsDiscoveryConfigsResponse,
   CreateProjectsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDiscoveryConfigsRequest,
   output: CreateProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8657,24 +8684,25 @@ export interface PatchProjectsLocationsDiscoveryConfigsRequest {
   body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest;
 }
 
-export const PatchProjectsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateDiscoveryConfigRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsDiscoveryConfigsRequest>;
+export const PatchProjectsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateDiscoveryConfigRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsDiscoveryConfigsRequest>;
 
 export type PatchProjectsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const PatchProjectsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type PatchProjectsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -8684,7 +8712,7 @@ export const patchProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   PatchProjectsLocationsDiscoveryConfigsResponse,
   PatchProjectsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDiscoveryConfigsRequest,
   output: PatchProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8695,20 +8723,21 @@ export interface GetProjectsLocationsDiscoveryConfigsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDiscoveryConfigsRequest>;
+export const GetProjectsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDiscoveryConfigsRequest>;
 
 export type GetProjectsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const GetProjectsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type GetProjectsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -8718,7 +8747,7 @@ export const getProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   GetProjectsLocationsDiscoveryConfigsResponse,
   GetProjectsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDiscoveryConfigsRequest,
   output: GetProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8735,23 +8764,24 @@ export interface ListProjectsLocationsDiscoveryConfigsRequest {
   orderBy?: string;
 }
 
-export const ListProjectsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDiscoveryConfigsRequest>;
+export const ListProjectsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDiscoveryConfigsRequest>;
 
 export type ListProjectsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
 export const ListProjectsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
 
 export type ListProjectsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -8761,7 +8791,7 @@ export const listProjectsLocationsDiscoveryConfigs: API.PaginatedOperationMethod
   ListProjectsLocationsDiscoveryConfigsResponse,
   ListProjectsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveryConfigsRequest,
   output: ListProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8776,20 +8806,21 @@ export interface DeleteProjectsLocationsDiscoveryConfigsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDiscoveryConfigsRequest>;
+export const DeleteProjectsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDiscoveryConfigsRequest>;
 
 export type DeleteProjectsLocationsDiscoveryConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsDiscoveryConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -8799,7 +8830,7 @@ export const deleteProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   DeleteProjectsLocationsDiscoveryConfigsResponse,
   DeleteProjectsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDiscoveryConfigsRequest,
   output: DeleteProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8812,22 +8843,24 @@ export interface CreateProjectsLocationsDlpJobsRequest {
   body?: GooglePrivacyDlpV2CreateDlpJobRequest;
 }
 
-export const CreateProjectsLocationsDlpJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsDlpJobsRequest>;
+export const CreateProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsDlpJobsRequest>;
 
 export type CreateProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
-export const CreateProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
+export const CreateProjectsLocationsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type CreateProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -8837,7 +8870,7 @@ export const createProjectsLocationsDlpJobs: API.OperationMethod<
   CreateProjectsLocationsDlpJobsResponse,
   CreateProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDlpJobsRequest,
   output: CreateProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -8864,26 +8897,27 @@ export interface ListProjectsLocationsDlpJobsRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsDlpJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsDlpJobsRequest>;
+export const ListProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsDlpJobsRequest>;
 
 export type ListProjectsLocationsDlpJobsResponse =
   GooglePrivacyDlpV2ListDlpJobsResponse;
 export const ListProjectsLocationsDlpJobsResponse =
-  GooglePrivacyDlpV2ListDlpJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDlpJobsResponse;
 
 export type ListProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -8893,7 +8927,7 @@ export const listProjectsLocationsDlpJobs: API.PaginatedOperationMethod<
   ListProjectsLocationsDlpJobsResponse,
   ListProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsDlpJobsRequest,
   output: ListProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -8908,18 +8942,20 @@ export interface GetProjectsLocationsDlpJobsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsDlpJobsRequest>;
+export const GetProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsDlpJobsRequest>;
 
 export type GetProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
-export const GetProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
+export const GetProjectsLocationsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type GetProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -8929,7 +8965,7 @@ export const getProjectsLocationsDlpJobs: API.OperationMethod<
   GetProjectsLocationsDlpJobsResponse,
   GetProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDlpJobsRequest,
   output: GetProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -8940,18 +8976,20 @@ export interface DeleteProjectsLocationsDlpJobsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsDlpJobsRequest>;
+export const DeleteProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsDlpJobsRequest>;
 
 export type DeleteProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -8961,7 +8999,7 @@ export const deleteProjectsLocationsDlpJobs: API.OperationMethod<
   DeleteProjectsLocationsDlpJobsResponse,
   DeleteProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDlpJobsRequest,
   output: DeleteProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -8974,22 +9012,24 @@ export interface CancelProjectsLocationsDlpJobsRequest {
   body?: GooglePrivacyDlpV2CancelDlpJobRequest;
 }
 
-export const CancelProjectsLocationsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2CancelDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsLocationsDlpJobsRequest>;
+export const CancelProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2CancelDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsDlpJobsRequest>;
 
 export type CancelProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
-export const CancelProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
+export const CancelProjectsLocationsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -8999,7 +9039,7 @@ export const cancelProjectsLocationsDlpJobs: API.OperationMethod<
   CancelProjectsLocationsDlpJobsResponse,
   CancelProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsLocationsDlpJobsRequest,
   output: CancelProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -9012,24 +9052,25 @@ export interface HybridInspectProjectsLocationsDlpJobsRequest {
   body?: GooglePrivacyDlpV2HybridInspectDlpJobRequest;
 }
 
-export const HybridInspectProjectsLocationsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2HybridInspectDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:hybridInspect",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<HybridInspectProjectsLocationsDlpJobsRequest>;
+export const HybridInspectProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2HybridInspectDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:hybridInspect",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<HybridInspectProjectsLocationsDlpJobsRequest>;
 
 export type HybridInspectProjectsLocationsDlpJobsResponse =
   GooglePrivacyDlpV2HybridInspectResponse;
 export const HybridInspectProjectsLocationsDlpJobsResponse =
-  GooglePrivacyDlpV2HybridInspectResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2HybridInspectResponse;
 
 export type HybridInspectProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -9039,7 +9080,7 @@ export const hybridInspectProjectsLocationsDlpJobs: API.OperationMethod<
   HybridInspectProjectsLocationsDlpJobsResponse,
   HybridInspectProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: HybridInspectProjectsLocationsDlpJobsRequest,
   output: HybridInspectProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -9052,22 +9093,24 @@ export interface FinishProjectsLocationsDlpJobsRequest {
   body?: GooglePrivacyDlpV2FinishDlpJobRequest;
 }
 
-export const FinishProjectsLocationsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2FinishDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:finish",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<FinishProjectsLocationsDlpJobsRequest>;
+export const FinishProjectsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2FinishDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/dlpJobs/{dlpJobsId}:finish",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FinishProjectsLocationsDlpJobsRequest>;
 
 export type FinishProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
-export const FinishProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
+export const FinishProjectsLocationsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type FinishProjectsLocationsDlpJobsError = DefaultErrors;
 
@@ -9077,7 +9120,7 @@ export const finishProjectsLocationsDlpJobs: API.OperationMethod<
   FinishProjectsLocationsDlpJobsResponse,
   FinishProjectsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: FinishProjectsLocationsDlpJobsRequest,
   output: FinishProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -9090,24 +9133,25 @@ export interface CreateProjectsLocationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
 
-export const CreateProjectsLocationsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsStoredInfoTypesRequest>;
+export const CreateProjectsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsStoredInfoTypesRequest>;
 
 export type CreateProjectsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const CreateProjectsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type CreateProjectsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -9117,7 +9161,7 @@ export const createProjectsLocationsStoredInfoTypes: API.OperationMethod<
   CreateProjectsLocationsStoredInfoTypesResponse,
   CreateProjectsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsStoredInfoTypesRequest,
   output: CreateProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -9130,24 +9174,25 @@ export interface PatchProjectsLocationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
 
-export const PatchProjectsLocationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsStoredInfoTypesRequest>;
+export const PatchProjectsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsStoredInfoTypesRequest>;
 
 export type PatchProjectsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const PatchProjectsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type PatchProjectsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -9157,7 +9202,7 @@ export const patchProjectsLocationsStoredInfoTypes: API.OperationMethod<
   PatchProjectsLocationsStoredInfoTypesResponse,
   PatchProjectsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsStoredInfoTypesRequest,
   output: PatchProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -9168,20 +9213,21 @@ export interface GetProjectsLocationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsStoredInfoTypesRequest>;
+export const GetProjectsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsStoredInfoTypesRequest>;
 
 export type GetProjectsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const GetProjectsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type GetProjectsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -9191,7 +9237,7 @@ export const getProjectsLocationsStoredInfoTypes: API.OperationMethod<
   GetProjectsLocationsStoredInfoTypesResponse,
   GetProjectsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsStoredInfoTypesRequest,
   output: GetProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -9210,24 +9256,25 @@ export interface ListProjectsLocationsStoredInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListProjectsLocationsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsStoredInfoTypesRequest>;
+export const ListProjectsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsStoredInfoTypesRequest>;
 
 export type ListProjectsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 export const ListProjectsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2ListStoredInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 
 export type ListProjectsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -9237,7 +9284,7 @@ export const listProjectsLocationsStoredInfoTypes: API.PaginatedOperationMethod<
   ListProjectsLocationsStoredInfoTypesResponse,
   ListProjectsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsStoredInfoTypesRequest,
   output: ListProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -9252,20 +9299,21 @@ export interface DeleteProjectsLocationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsStoredInfoTypesRequest>;
+export const DeleteProjectsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsStoredInfoTypesRequest>;
 
 export type DeleteProjectsLocationsStoredInfoTypesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsStoredInfoTypesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -9275,7 +9323,7 @@ export const deleteProjectsLocationsStoredInfoTypes: API.OperationMethod<
   DeleteProjectsLocationsStoredInfoTypesResponse,
   DeleteProjectsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsStoredInfoTypesRequest,
   output: DeleteProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -9294,24 +9342,25 @@ export interface ListProjectsLocationsProjectDataProfilesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsProjectDataProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/projectDataProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsProjectDataProfilesRequest>;
+export const ListProjectsLocationsProjectDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/projectDataProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsProjectDataProfilesRequest>;
 
 export type ListProjectsLocationsProjectDataProfilesResponse =
   GooglePrivacyDlpV2ListProjectDataProfilesResponse;
 export const ListProjectsLocationsProjectDataProfilesResponse =
-  GooglePrivacyDlpV2ListProjectDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListProjectDataProfilesResponse;
 
 export type ListProjectsLocationsProjectDataProfilesError = DefaultErrors;
 
@@ -9321,7 +9370,7 @@ export const listProjectsLocationsProjectDataProfiles: API.PaginatedOperationMet
   ListProjectsLocationsProjectDataProfilesResponse,
   ListProjectsLocationsProjectDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsProjectDataProfilesRequest,
   output: ListProjectsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -9336,20 +9385,21 @@ export interface GetProjectsLocationsProjectDataProfilesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsProjectDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/projectDataProfiles/{projectDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsProjectDataProfilesRequest>;
+export const GetProjectsLocationsProjectDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/projectDataProfiles/{projectDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsProjectDataProfilesRequest>;
 
 export type GetProjectsLocationsProjectDataProfilesResponse =
   GooglePrivacyDlpV2ProjectDataProfile;
 export const GetProjectsLocationsProjectDataProfilesResponse =
-  GooglePrivacyDlpV2ProjectDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ProjectDataProfile;
 
 export type GetProjectsLocationsProjectDataProfilesError = DefaultErrors;
 
@@ -9359,7 +9409,7 @@ export const getProjectsLocationsProjectDataProfiles: API.OperationMethod<
   GetProjectsLocationsProjectDataProfilesResponse,
   GetProjectsLocationsProjectDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsProjectDataProfilesRequest,
   output: GetProjectsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -9378,24 +9428,25 @@ export interface ListProjectsLocationsTableDataProfilesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsTableDataProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsTableDataProfilesRequest>;
+export const ListProjectsLocationsTableDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsTableDataProfilesRequest>;
 
 export type ListProjectsLocationsTableDataProfilesResponse =
   GooglePrivacyDlpV2ListTableDataProfilesResponse;
 export const ListProjectsLocationsTableDataProfilesResponse =
-  GooglePrivacyDlpV2ListTableDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListTableDataProfilesResponse;
 
 export type ListProjectsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -9405,7 +9456,7 @@ export const listProjectsLocationsTableDataProfiles: API.PaginatedOperationMetho
   ListProjectsLocationsTableDataProfilesResponse,
   ListProjectsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsTableDataProfilesRequest,
   output: ListProjectsLocationsTableDataProfilesResponse,
   errors: [],
@@ -9420,20 +9471,21 @@ export interface GetProjectsLocationsTableDataProfilesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsTableDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsTableDataProfilesRequest>;
+export const GetProjectsLocationsTableDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTableDataProfilesRequest>;
 
 export type GetProjectsLocationsTableDataProfilesResponse =
   GooglePrivacyDlpV2TableDataProfile;
 export const GetProjectsLocationsTableDataProfilesResponse =
-  GooglePrivacyDlpV2TableDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2TableDataProfile;
 
 export type GetProjectsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -9443,7 +9495,7 @@ export const getProjectsLocationsTableDataProfiles: API.OperationMethod<
   GetProjectsLocationsTableDataProfilesResponse,
   GetProjectsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsTableDataProfilesRequest,
   output: GetProjectsLocationsTableDataProfilesResponse,
   errors: [],
@@ -9454,20 +9506,21 @@ export interface DeleteProjectsLocationsTableDataProfilesRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsTableDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsTableDataProfilesRequest>;
+export const DeleteProjectsLocationsTableDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTableDataProfilesRequest>;
 
 export type DeleteProjectsLocationsTableDataProfilesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsTableDataProfilesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -9477,7 +9530,7 @@ export const deleteProjectsLocationsTableDataProfiles: API.OperationMethod<
   DeleteProjectsLocationsTableDataProfilesResponse,
   DeleteProjectsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsTableDataProfilesRequest,
   output: DeleteProjectsLocationsTableDataProfilesResponse,
   errors: [],
@@ -9496,24 +9549,25 @@ export interface ListProjectsLocationsColumnDataProfilesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsColumnDataProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/columnDataProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsColumnDataProfilesRequest>;
+export const ListProjectsLocationsColumnDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/columnDataProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsColumnDataProfilesRequest>;
 
 export type ListProjectsLocationsColumnDataProfilesResponse =
   GooglePrivacyDlpV2ListColumnDataProfilesResponse;
 export const ListProjectsLocationsColumnDataProfilesResponse =
-  GooglePrivacyDlpV2ListColumnDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListColumnDataProfilesResponse;
 
 export type ListProjectsLocationsColumnDataProfilesError = DefaultErrors;
 
@@ -9523,7 +9577,7 @@ export const listProjectsLocationsColumnDataProfiles: API.PaginatedOperationMeth
   ListProjectsLocationsColumnDataProfilesResponse,
   ListProjectsLocationsColumnDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsColumnDataProfilesRequest,
   output: ListProjectsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -9538,20 +9592,21 @@ export interface GetProjectsLocationsColumnDataProfilesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsColumnDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/columnDataProfiles/{columnDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsColumnDataProfilesRequest>;
+export const GetProjectsLocationsColumnDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/columnDataProfiles/{columnDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsColumnDataProfilesRequest>;
 
 export type GetProjectsLocationsColumnDataProfilesResponse =
   GooglePrivacyDlpV2ColumnDataProfile;
 export const GetProjectsLocationsColumnDataProfilesResponse =
-  GooglePrivacyDlpV2ColumnDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ColumnDataProfile;
 
 export type GetProjectsLocationsColumnDataProfilesError = DefaultErrors;
 
@@ -9561,7 +9616,7 @@ export const getProjectsLocationsColumnDataProfiles: API.OperationMethod<
   GetProjectsLocationsColumnDataProfilesResponse,
   GetProjectsLocationsColumnDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsColumnDataProfilesRequest,
   output: GetProjectsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -9580,24 +9635,25 @@ export interface ListProjectsLocationsFileStoreDataProfilesRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsFileStoreDataProfilesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/fileStoreDataProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsFileStoreDataProfilesRequest>;
+export const ListProjectsLocationsFileStoreDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/fileStoreDataProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsFileStoreDataProfilesRequest>;
 
 export type ListProjectsLocationsFileStoreDataProfilesResponse =
   GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
 export const ListProjectsLocationsFileStoreDataProfilesResponse =
-  GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
 
 export type ListProjectsLocationsFileStoreDataProfilesError = DefaultErrors;
 
@@ -9607,7 +9663,7 @@ export const listProjectsLocationsFileStoreDataProfiles: API.PaginatedOperationM
   ListProjectsLocationsFileStoreDataProfilesResponse,
   ListProjectsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsFileStoreDataProfilesRequest,
   output: ListProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -9622,20 +9678,21 @@ export interface GetProjectsLocationsFileStoreDataProfilesRequest {
   name: string;
 }
 
-export const GetProjectsLocationsFileStoreDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/fileStoreDataProfiles/{fileStoreDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsFileStoreDataProfilesRequest>;
+export const GetProjectsLocationsFileStoreDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/fileStoreDataProfiles/{fileStoreDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsFileStoreDataProfilesRequest>;
 
 export type GetProjectsLocationsFileStoreDataProfilesResponse =
   GooglePrivacyDlpV2FileStoreDataProfile;
 export const GetProjectsLocationsFileStoreDataProfilesResponse =
-  GooglePrivacyDlpV2FileStoreDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2FileStoreDataProfile;
 
 export type GetProjectsLocationsFileStoreDataProfilesError = DefaultErrors;
 
@@ -9645,7 +9702,7 @@ export const getProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   GetProjectsLocationsFileStoreDataProfilesResponse,
   GetProjectsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsFileStoreDataProfilesRequest,
   output: GetProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -9657,7 +9714,7 @@ export interface DeleteProjectsLocationsFileStoreDataProfilesRequest {
 }
 
 export const DeleteProjectsLocationsFileStoreDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -9670,7 +9727,7 @@ export const DeleteProjectsLocationsFileStoreDataProfilesRequest =
 export type DeleteProjectsLocationsFileStoreDataProfilesResponse =
   GoogleProtobufEmpty;
 export const DeleteProjectsLocationsFileStoreDataProfilesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsFileStoreDataProfilesError = DefaultErrors;
 
@@ -9680,7 +9737,7 @@ export const deleteProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   DeleteProjectsLocationsFileStoreDataProfilesResponse,
   DeleteProjectsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsFileStoreDataProfilesRequest,
   output: DeleteProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -9693,24 +9750,25 @@ export interface CreateProjectsLocationsConnectionsRequest {
   body?: GooglePrivacyDlpV2CreateConnectionRequest;
 }
 
-export const CreateProjectsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateConnectionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
+export const CreateProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateConnectionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
 
 export type CreateProjectsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const CreateProjectsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type CreateProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9720,7 +9778,7 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   CreateProjectsLocationsConnectionsResponse,
   CreateProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsConnectionsRequest,
   output: CreateProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9731,20 +9789,21 @@ export interface GetProjectsLocationsConnectionsRequest {
   name: string;
 }
 
-export const GetProjectsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
+export const GetProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
 
 export type GetProjectsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const GetProjectsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type GetProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9754,7 +9813,7 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   GetProjectsLocationsConnectionsResponse,
   GetProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsConnectionsRequest,
   output: GetProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9771,23 +9830,24 @@ export interface ListProjectsLocationsConnectionsRequest {
   filter?: string;
 }
 
-export const ListProjectsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
+export const ListProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
 
 export type ListProjectsLocationsConnectionsResponse =
   GooglePrivacyDlpV2ListConnectionsResponse;
 export const ListProjectsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2ListConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListConnectionsResponse;
 
 export type ListProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9797,7 +9857,7 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   ListProjectsLocationsConnectionsResponse,
   ListProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9818,23 +9878,24 @@ export interface SearchProjectsLocationsConnectionsRequest {
   filter?: string;
 }
 
-export const SearchProjectsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchProjectsLocationsConnectionsRequest>;
+export const SearchProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsConnectionsRequest>;
 
 export type SearchProjectsLocationsConnectionsResponse =
   GooglePrivacyDlpV2SearchConnectionsResponse;
 export const SearchProjectsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2SearchConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2SearchConnectionsResponse;
 
 export type SearchProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9844,7 +9905,7 @@ export const searchProjectsLocationsConnections: API.PaginatedOperationMethod<
   SearchProjectsLocationsConnectionsResponse,
   SearchProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsLocationsConnectionsRequest,
   output: SearchProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9859,18 +9920,20 @@ export interface DeleteProjectsLocationsConnectionsRequest {
   name: string;
 }
 
-export const DeleteProjectsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsLocationsConnectionsRequest>;
+export const DeleteProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsConnectionsRequest>;
 
 export type DeleteProjectsLocationsConnectionsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsConnectionsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9880,7 +9943,7 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   DeleteProjectsLocationsConnectionsResponse,
   DeleteProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsConnectionsRequest,
   output: DeleteProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9893,24 +9956,25 @@ export interface PatchProjectsLocationsConnectionsRequest {
   body?: GooglePrivacyDlpV2UpdateConnectionRequest;
 }
 
-export const PatchProjectsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateConnectionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsLocationsConnectionsRequest>;
+export const PatchProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateConnectionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsConnectionsRequest>;
 
 export type PatchProjectsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const PatchProjectsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type PatchProjectsLocationsConnectionsError = DefaultErrors;
 
@@ -9920,7 +9984,7 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   PatchProjectsLocationsConnectionsResponse,
   PatchProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsConnectionsRequest,
   output: PatchProjectsLocationsConnectionsResponse,
   errors: [],
@@ -9933,23 +9997,24 @@ export interface RedactProjectsImageRequest {
   body?: GooglePrivacyDlpV2RedactImageRequest;
 }
 
-export const RedactProjectsImageRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2RedactImageRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/image:redact",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<RedactProjectsImageRequest>;
+export const RedactProjectsImageRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2RedactImageRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/image:redact",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RedactProjectsImageRequest>;
 
 export type RedactProjectsImageResponse = GooglePrivacyDlpV2RedactImageResponse;
 export const RedactProjectsImageResponse =
-  GooglePrivacyDlpV2RedactImageResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2RedactImageResponse;
 
 export type RedactProjectsImageError = DefaultErrors;
 
@@ -9959,7 +10024,7 @@ export const redactProjectsImage: API.OperationMethod<
   RedactProjectsImageResponse,
   RedactProjectsImageError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RedactProjectsImageRequest,
   output: RedactProjectsImageResponse,
   errors: [],
@@ -9972,24 +10037,25 @@ export interface CreateProjectsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
 
-export const CreateProjectsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/inspectTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsInspectTemplatesRequest>;
+export const CreateProjectsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/inspectTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsInspectTemplatesRequest>;
 
 export type CreateProjectsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const CreateProjectsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type CreateProjectsInspectTemplatesError = DefaultErrors;
 
@@ -9999,7 +10065,7 @@ export const createProjectsInspectTemplates: API.OperationMethod<
   CreateProjectsInspectTemplatesResponse,
   CreateProjectsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsInspectTemplatesRequest,
   output: CreateProjectsInspectTemplatesResponse,
   errors: [],
@@ -10012,24 +10078,25 @@ export interface PatchProjectsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 
-export const PatchProjectsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsInspectTemplatesRequest>;
+export const PatchProjectsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsInspectTemplatesRequest>;
 
 export type PatchProjectsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const PatchProjectsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type PatchProjectsInspectTemplatesError = DefaultErrors;
 
@@ -10039,7 +10106,7 @@ export const patchProjectsInspectTemplates: API.OperationMethod<
   PatchProjectsInspectTemplatesResponse,
   PatchProjectsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsInspectTemplatesRequest,
   output: PatchProjectsInspectTemplatesResponse,
   errors: [],
@@ -10050,20 +10117,21 @@ export interface GetProjectsInspectTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsInspectTemplatesRequest>;
+export const GetProjectsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsInspectTemplatesRequest>;
 
 export type GetProjectsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const GetProjectsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type GetProjectsInspectTemplatesError = DefaultErrors;
 
@@ -10073,7 +10141,7 @@ export const getProjectsInspectTemplates: API.OperationMethod<
   GetProjectsInspectTemplatesResponse,
   GetProjectsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsInspectTemplatesRequest,
   output: GetProjectsInspectTemplatesResponse,
   errors: [],
@@ -10092,21 +10160,25 @@ export interface ListProjectsInspectTemplatesRequest {
   locationId?: string;
 }
 
-export const ListProjectsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/inspectTemplates" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsInspectTemplatesRequest>;
+export const ListProjectsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/inspectTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsInspectTemplatesRequest>;
 
 export type ListProjectsInspectTemplatesResponse =
   GooglePrivacyDlpV2ListInspectTemplatesResponse;
 export const ListProjectsInspectTemplatesResponse =
-  GooglePrivacyDlpV2ListInspectTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInspectTemplatesResponse;
 
 export type ListProjectsInspectTemplatesError = DefaultErrors;
 
@@ -10116,7 +10188,7 @@ export const listProjectsInspectTemplates: API.PaginatedOperationMethod<
   ListProjectsInspectTemplatesResponse,
   ListProjectsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsInspectTemplatesRequest,
   output: ListProjectsInspectTemplatesResponse,
   errors: [],
@@ -10131,18 +10203,20 @@ export interface DeleteProjectsInspectTemplatesRequest {
   name: string;
 }
 
-export const DeleteProjectsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsInspectTemplatesRequest>;
+export const DeleteProjectsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsInspectTemplatesRequest>;
 
 export type DeleteProjectsInspectTemplatesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsInspectTemplatesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsInspectTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsInspectTemplatesError = DefaultErrors;
 
@@ -10152,7 +10226,7 @@ export const deleteProjectsInspectTemplates: API.OperationMethod<
   DeleteProjectsInspectTemplatesResponse,
   DeleteProjectsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsInspectTemplatesRequest,
   output: DeleteProjectsInspectTemplatesResponse,
   errors: [],
@@ -10165,24 +10239,25 @@ export interface CreateProjectsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
 
-export const CreateProjectsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/deidentifyTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDeidentifyTemplatesRequest>;
+export const CreateProjectsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2CreateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/deidentifyTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDeidentifyTemplatesRequest>;
 
 export type CreateProjectsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const CreateProjectsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type CreateProjectsDeidentifyTemplatesError = DefaultErrors;
 
@@ -10192,7 +10267,7 @@ export const createProjectsDeidentifyTemplates: API.OperationMethod<
   CreateProjectsDeidentifyTemplatesResponse,
   CreateProjectsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDeidentifyTemplatesRequest,
   output: CreateProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -10205,24 +10280,25 @@ export interface PatchProjectsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
 
-export const PatchProjectsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsDeidentifyTemplatesRequest>;
+export const PatchProjectsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsDeidentifyTemplatesRequest>;
 
 export type PatchProjectsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const PatchProjectsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type PatchProjectsDeidentifyTemplatesError = DefaultErrors;
 
@@ -10232,7 +10308,7 @@ export const patchProjectsDeidentifyTemplates: API.OperationMethod<
   PatchProjectsDeidentifyTemplatesResponse,
   PatchProjectsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsDeidentifyTemplatesRequest,
   output: PatchProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -10243,20 +10319,21 @@ export interface GetProjectsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const GetProjectsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDeidentifyTemplatesRequest>;
+export const GetProjectsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDeidentifyTemplatesRequest>;
 
 export type GetProjectsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const GetProjectsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type GetProjectsDeidentifyTemplatesError = DefaultErrors;
 
@@ -10266,7 +10343,7 @@ export const getProjectsDeidentifyTemplates: API.OperationMethod<
   GetProjectsDeidentifyTemplatesResponse,
   GetProjectsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDeidentifyTemplatesRequest,
   output: GetProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -10285,24 +10362,25 @@ export interface ListProjectsDeidentifyTemplatesRequest {
   locationId?: string;
 }
 
-export const ListProjectsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/deidentifyTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDeidentifyTemplatesRequest>;
+export const ListProjectsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/deidentifyTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDeidentifyTemplatesRequest>;
 
 export type ListProjectsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 export const ListProjectsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 
 export type ListProjectsDeidentifyTemplatesError = DefaultErrors;
 
@@ -10312,7 +10390,7 @@ export const listProjectsDeidentifyTemplates: API.PaginatedOperationMethod<
   ListProjectsDeidentifyTemplatesResponse,
   ListProjectsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDeidentifyTemplatesRequest,
   output: ListProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -10327,18 +10405,20 @@ export interface DeleteProjectsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const DeleteProjectsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDeidentifyTemplatesRequest>;
+export const DeleteProjectsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDeidentifyTemplatesRequest>;
 
 export type DeleteProjectsDeidentifyTemplatesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDeidentifyTemplatesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsDeidentifyTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDeidentifyTemplatesError = DefaultErrors;
 
@@ -10348,7 +10428,7 @@ export const deleteProjectsDeidentifyTemplates: API.OperationMethod<
   DeleteProjectsDeidentifyTemplatesResponse,
   DeleteProjectsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDeidentifyTemplatesRequest,
   output: DeleteProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -10361,22 +10441,24 @@ export interface CreateProjectsJobTriggersRequest {
   body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
 }
 
-export const CreateProjectsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/jobTriggers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsJobTriggersRequest>;
+export const CreateProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/jobTriggers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsJobTriggersRequest>;
 
 export type CreateProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
-export const CreateProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
+export const CreateProjectsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type CreateProjectsJobTriggersError = DefaultErrors;
 
@@ -10386,7 +10468,7 @@ export const createProjectsJobTriggers: API.OperationMethod<
   CreateProjectsJobTriggersResponse,
   CreateProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsJobTriggersRequest,
   output: CreateProjectsJobTriggersResponse,
   errors: [],
@@ -10399,22 +10481,24 @@ export interface PatchProjectsJobTriggersRequest {
   body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
 
-export const PatchProjectsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsJobTriggersRequest>;
+export const PatchProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsJobTriggersRequest>;
 
 export type PatchProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
-export const PatchProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
+export const PatchProjectsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type PatchProjectsJobTriggersError = DefaultErrors;
 
@@ -10424,7 +10508,7 @@ export const patchProjectsJobTriggers: API.OperationMethod<
   PatchProjectsJobTriggersResponse,
   PatchProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsJobTriggersRequest,
   output: PatchProjectsJobTriggersResponse,
   errors: [],
@@ -10435,18 +10519,20 @@ export interface GetProjectsJobTriggersRequest {
   name: string;
 }
 
-export const GetProjectsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsJobTriggersRequest>;
+export const GetProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsJobTriggersRequest>;
 
 export type GetProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
-export const GetProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
+export const GetProjectsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type GetProjectsJobTriggersError = DefaultErrors;
 
@@ -10456,7 +10542,7 @@ export const getProjectsJobTriggers: API.OperationMethod<
   GetProjectsJobTriggersResponse,
   GetProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsJobTriggersRequest,
   output: GetProjectsJobTriggersResponse,
   errors: [],
@@ -10483,23 +10569,24 @@ export interface ListProjectsJobTriggersRequest {
   locationId?: string;
 }
 
-export const ListProjectsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/jobTriggers" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsJobTriggersRequest>;
+export const ListProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/jobTriggers" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsJobTriggersRequest>;
 
 export type ListProjectsJobTriggersResponse =
   GooglePrivacyDlpV2ListJobTriggersResponse;
 export const ListProjectsJobTriggersResponse =
-  GooglePrivacyDlpV2ListJobTriggersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListJobTriggersResponse;
 
 export type ListProjectsJobTriggersError = DefaultErrors;
 
@@ -10509,7 +10596,7 @@ export const listProjectsJobTriggers: API.PaginatedOperationMethod<
   ListProjectsJobTriggersResponse,
   ListProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsJobTriggersRequest,
   output: ListProjectsJobTriggersResponse,
   errors: [],
@@ -10524,18 +10611,20 @@ export interface DeleteProjectsJobTriggersRequest {
   name: string;
 }
 
-export const DeleteProjectsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsJobTriggersRequest>;
+export const DeleteProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsJobTriggersRequest>;
 
 export type DeleteProjectsJobTriggersResponse = GoogleProtobufEmpty;
-export const DeleteProjectsJobTriggersResponse = GoogleProtobufEmpty;
+export const DeleteProjectsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsJobTriggersError = DefaultErrors;
 
@@ -10545,7 +10634,7 @@ export const deleteProjectsJobTriggers: API.OperationMethod<
   DeleteProjectsJobTriggersResponse,
   DeleteProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsJobTriggersRequest,
   output: DeleteProjectsJobTriggersResponse,
   errors: [],
@@ -10558,22 +10647,24 @@ export interface ActivateProjectsJobTriggersRequest {
   body?: GooglePrivacyDlpV2ActivateJobTriggerRequest;
 }
 
-export const ActivateProjectsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2ActivateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateProjectsJobTriggersRequest>;
+export const ActivateProjectsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2ActivateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/jobTriggers/{jobTriggersId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateProjectsJobTriggersRequest>;
 
 export type ActivateProjectsJobTriggersResponse = GooglePrivacyDlpV2DlpJob;
-export const ActivateProjectsJobTriggersResponse = GooglePrivacyDlpV2DlpJob;
+export const ActivateProjectsJobTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type ActivateProjectsJobTriggersError = DefaultErrors;
 
@@ -10583,7 +10674,7 @@ export const activateProjectsJobTriggers: API.OperationMethod<
   ActivateProjectsJobTriggersResponse,
   ActivateProjectsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateProjectsJobTriggersRequest,
   output: ActivateProjectsJobTriggersResponse,
   errors: [],
@@ -10596,22 +10687,24 @@ export interface CreateProjectsDlpJobsRequest {
   body?: GooglePrivacyDlpV2CreateDlpJobRequest;
 }
 
-export const CreateProjectsDlpJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/dlpJobs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsDlpJobsRequest>;
+export const CreateProjectsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/dlpJobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsDlpJobsRequest>;
 
 export type CreateProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
-export const CreateProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
+export const CreateProjectsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type CreateProjectsDlpJobsError = DefaultErrors;
 
@@ -10621,7 +10714,7 @@ export const createProjectsDlpJobs: API.OperationMethod<
   CreateProjectsDlpJobsResponse,
   CreateProjectsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsDlpJobsRequest,
   output: CreateProjectsDlpJobsResponse,
   errors: [],
@@ -10648,22 +10741,23 @@ export interface ListProjectsDlpJobsRequest {
   locationId?: string;
 }
 
-export const ListProjectsDlpJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/dlpJobs" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsDlpJobsRequest>;
+export const ListProjectsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/dlpJobs" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsDlpJobsRequest>;
 
 export type ListProjectsDlpJobsResponse = GooglePrivacyDlpV2ListDlpJobsResponse;
 export const ListProjectsDlpJobsResponse =
-  GooglePrivacyDlpV2ListDlpJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDlpJobsResponse;
 
 export type ListProjectsDlpJobsError = DefaultErrors;
 
@@ -10673,7 +10767,7 @@ export const listProjectsDlpJobs: API.PaginatedOperationMethod<
   ListProjectsDlpJobsResponse,
   ListProjectsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsDlpJobsRequest,
   output: ListProjectsDlpJobsResponse,
   errors: [],
@@ -10688,18 +10782,20 @@ export interface GetProjectsDlpJobsRequest {
   name: string;
 }
 
-export const GetProjectsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsDlpJobsRequest>;
+export const GetProjectsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsDlpJobsRequest>;
 
 export type GetProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
-export const GetProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
+export const GetProjectsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DlpJob;
 
 export type GetProjectsDlpJobsError = DefaultErrors;
 
@@ -10709,7 +10805,7 @@ export const getProjectsDlpJobs: API.OperationMethod<
   GetProjectsDlpJobsResponse,
   GetProjectsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsDlpJobsRequest,
   output: GetProjectsDlpJobsResponse,
   errors: [],
@@ -10720,18 +10816,20 @@ export interface DeleteProjectsDlpJobsRequest {
   name: string;
 }
 
-export const DeleteProjectsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsDlpJobsRequest>;
+export const DeleteProjectsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsDlpJobsRequest>;
 
 export type DeleteProjectsDlpJobsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsDlpJobsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsDlpJobsError = DefaultErrors;
 
@@ -10741,7 +10839,7 @@ export const deleteProjectsDlpJobs: API.OperationMethod<
   DeleteProjectsDlpJobsResponse,
   DeleteProjectsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsDlpJobsRequest,
   output: DeleteProjectsDlpJobsResponse,
   errors: [],
@@ -10754,22 +10852,24 @@ export interface CancelProjectsDlpJobsRequest {
   body?: GooglePrivacyDlpV2CancelDlpJobRequest;
 }
 
-export const CancelProjectsDlpJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2CancelDlpJobRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}:cancel",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CancelProjectsDlpJobsRequest>;
+export const CancelProjectsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2CancelDlpJobRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/dlpJobs/{dlpJobsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsDlpJobsRequest>;
 
 export type CancelProjectsDlpJobsResponse = GoogleProtobufEmpty;
-export const CancelProjectsDlpJobsResponse = GoogleProtobufEmpty;
+export const CancelProjectsDlpJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type CancelProjectsDlpJobsError = DefaultErrors;
 
@@ -10779,7 +10879,7 @@ export const cancelProjectsDlpJobs: API.OperationMethod<
   CancelProjectsDlpJobsResponse,
   CancelProjectsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CancelProjectsDlpJobsRequest,
   output: CancelProjectsDlpJobsResponse,
   errors: [],
@@ -10792,24 +10892,25 @@ export interface CreateProjectsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
 
-export const CreateProjectsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/projects/{projectsId}/storedInfoTypes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsStoredInfoTypesRequest>;
+export const CreateProjectsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/projects/{projectsId}/storedInfoTypes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsStoredInfoTypesRequest>;
 
 export type CreateProjectsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const CreateProjectsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type CreateProjectsStoredInfoTypesError = DefaultErrors;
 
@@ -10819,7 +10920,7 @@ export const createProjectsStoredInfoTypes: API.OperationMethod<
   CreateProjectsStoredInfoTypesResponse,
   CreateProjectsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsStoredInfoTypesRequest,
   output: CreateProjectsStoredInfoTypesResponse,
   errors: [],
@@ -10832,24 +10933,25 @@ export interface PatchProjectsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
 
-export const PatchProjectsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchProjectsStoredInfoTypesRequest>;
+export const PatchProjectsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsStoredInfoTypesRequest>;
 
 export type PatchProjectsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const PatchProjectsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type PatchProjectsStoredInfoTypesError = DefaultErrors;
 
@@ -10859,7 +10961,7 @@ export const patchProjectsStoredInfoTypes: API.OperationMethod<
   PatchProjectsStoredInfoTypesResponse,
   PatchProjectsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchProjectsStoredInfoTypesRequest,
   output: PatchProjectsStoredInfoTypesResponse,
   errors: [],
@@ -10870,20 +10972,21 @@ export interface GetProjectsStoredInfoTypesRequest {
   name: string;
 }
 
-export const GetProjectsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsStoredInfoTypesRequest>;
+export const GetProjectsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsStoredInfoTypesRequest>;
 
 export type GetProjectsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const GetProjectsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type GetProjectsStoredInfoTypesError = DefaultErrors;
 
@@ -10893,7 +10996,7 @@ export const getProjectsStoredInfoTypes: API.OperationMethod<
   GetProjectsStoredInfoTypesResponse,
   GetProjectsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsStoredInfoTypesRequest,
   output: GetProjectsStoredInfoTypesResponse,
   errors: [],
@@ -10912,21 +11015,22 @@ export interface ListProjectsStoredInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListProjectsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/projects/{projectsId}/storedInfoTypes" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsStoredInfoTypesRequest>;
+export const ListProjectsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/projects/{projectsId}/storedInfoTypes" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsStoredInfoTypesRequest>;
 
 export type ListProjectsStoredInfoTypesResponse =
   GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 export const ListProjectsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2ListStoredInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 
 export type ListProjectsStoredInfoTypesError = DefaultErrors;
 
@@ -10936,7 +11040,7 @@ export const listProjectsStoredInfoTypes: API.PaginatedOperationMethod<
   ListProjectsStoredInfoTypesResponse,
   ListProjectsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsStoredInfoTypesRequest,
   output: ListProjectsStoredInfoTypesResponse,
   errors: [],
@@ -10951,18 +11055,20 @@ export interface DeleteProjectsStoredInfoTypesRequest {
   name: string;
 }
 
-export const DeleteProjectsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsStoredInfoTypesRequest>;
+export const DeleteProjectsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/projects/{projectsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsStoredInfoTypesRequest>;
 
 export type DeleteProjectsStoredInfoTypesResponse = GoogleProtobufEmpty;
-export const DeleteProjectsStoredInfoTypesResponse = GoogleProtobufEmpty;
+export const DeleteProjectsStoredInfoTypesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsStoredInfoTypesError = DefaultErrors;
 
@@ -10972,7 +11078,7 @@ export const deleteProjectsStoredInfoTypes: API.OperationMethod<
   DeleteProjectsStoredInfoTypesResponse,
   DeleteProjectsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsStoredInfoTypesRequest,
   output: DeleteProjectsStoredInfoTypesResponse,
   errors: [],
@@ -10989,7 +11095,7 @@ export interface ListInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListInfoTypesRequest = Schema.Struct({
+export const ListInfoTypesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
   languageCode: Schema.optional(Schema.String).pipe(
     T.HttpQuery("languageCode"),
@@ -11002,7 +11108,8 @@ export const ListInfoTypesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListInfoTypesRequest>;
 
 export type ListInfoTypesResponse = GooglePrivacyDlpV2ListInfoTypesResponse;
-export const ListInfoTypesResponse = GooglePrivacyDlpV2ListInfoTypesResponse;
+export const ListInfoTypesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInfoTypesResponse;
 
 export type ListInfoTypesError = DefaultErrors;
 
@@ -11012,7 +11119,7 @@ export const listInfoTypes: API.OperationMethod<
   ListInfoTypesResponse,
   ListInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListInfoTypesRequest,
   output: ListInfoTypesResponse,
   errors: [],
@@ -11029,22 +11136,23 @@ export interface ListLocationsInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListLocationsInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/locations/{locationsId}/infoTypes" }),
-  svc,
-) as unknown as Schema.Schema<ListLocationsInfoTypesRequest>;
+export const ListLocationsInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v2/locations/{locationsId}/infoTypes" }),
+    svc,
+  ) as unknown as Schema.Schema<ListLocationsInfoTypesRequest>;
 
 export type ListLocationsInfoTypesResponse =
   GooglePrivacyDlpV2ListInfoTypesResponse;
 export const ListLocationsInfoTypesResponse =
-  GooglePrivacyDlpV2ListInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInfoTypesResponse;
 
 export type ListLocationsInfoTypesError = DefaultErrors;
 
@@ -11054,7 +11162,7 @@ export const listLocationsInfoTypes: API.OperationMethod<
   ListLocationsInfoTypesResponse,
   ListLocationsInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListLocationsInfoTypesRequest,
   output: ListLocationsInfoTypesResponse,
   errors: [],
@@ -11071,25 +11179,26 @@ export interface ListOrganizationsLocationsInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsLocationsInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  languageCode: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("languageCode"),
-  ),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/infoTypes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsInfoTypesRequest>;
+export const ListOrganizationsLocationsInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    languageCode: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("languageCode"),
+    ),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/infoTypes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsInfoTypesRequest>;
 
 export type ListOrganizationsLocationsInfoTypesResponse =
   GooglePrivacyDlpV2ListInfoTypesResponse;
 export const ListOrganizationsLocationsInfoTypesResponse =
-  GooglePrivacyDlpV2ListInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInfoTypesResponse;
 
 export type ListOrganizationsLocationsInfoTypesError = DefaultErrors;
 
@@ -11099,7 +11208,7 @@ export const listOrganizationsLocationsInfoTypes: API.OperationMethod<
   ListOrganizationsLocationsInfoTypesResponse,
   ListOrganizationsLocationsInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListOrganizationsLocationsInfoTypesRequest,
   output: ListOrganizationsLocationsInfoTypesResponse,
   errors: [],
@@ -11113,7 +11222,7 @@ export interface CreateOrganizationsLocationsInspectTemplatesRequest {
 }
 
 export const CreateOrganizationsLocationsInspectTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
       T.HttpBody(),
@@ -11130,7 +11239,7 @@ export const CreateOrganizationsLocationsInspectTemplatesRequest =
 export type CreateOrganizationsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const CreateOrganizationsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type CreateOrganizationsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -11140,7 +11249,7 @@ export const createOrganizationsLocationsInspectTemplates: API.OperationMethod<
   CreateOrganizationsLocationsInspectTemplatesResponse,
   CreateOrganizationsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsInspectTemplatesRequest,
   output: CreateOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -11153,26 +11262,25 @@ export interface PatchOrganizationsLocationsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 
-export const PatchOrganizationsLocationsInspectTemplatesRequest = Schema.Struct(
-  {
+export const PatchOrganizationsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsInspectTemplatesRequest>;
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsInspectTemplatesRequest>;
 
 export type PatchOrganizationsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const PatchOrganizationsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type PatchOrganizationsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -11182,7 +11290,7 @@ export const patchOrganizationsLocationsInspectTemplates: API.OperationMethod<
   PatchOrganizationsLocationsInspectTemplatesResponse,
   PatchOrganizationsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsInspectTemplatesRequest,
   output: PatchOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -11193,20 +11301,21 @@ export interface GetOrganizationsLocationsInspectTemplatesRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsInspectTemplatesRequest>;
+export const GetOrganizationsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsInspectTemplatesRequest>;
 
 export type GetOrganizationsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const GetOrganizationsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type GetOrganizationsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -11216,7 +11325,7 @@ export const getOrganizationsLocationsInspectTemplates: API.OperationMethod<
   GetOrganizationsLocationsInspectTemplatesResponse,
   GetOrganizationsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsInspectTemplatesRequest,
   output: GetOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -11235,24 +11344,25 @@ export interface ListOrganizationsLocationsInspectTemplatesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsLocationsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsInspectTemplatesRequest>;
+export const ListOrganizationsLocationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/inspectTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsInspectTemplatesRequest>;
 
 export type ListOrganizationsLocationsInspectTemplatesResponse =
   GooglePrivacyDlpV2ListInspectTemplatesResponse;
 export const ListOrganizationsLocationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2ListInspectTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInspectTemplatesResponse;
 
 export type ListOrganizationsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -11262,7 +11372,7 @@ export const listOrganizationsLocationsInspectTemplates: API.PaginatedOperationM
   ListOrganizationsLocationsInspectTemplatesResponse,
   ListOrganizationsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsInspectTemplatesRequest,
   output: ListOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -11278,7 +11388,7 @@ export interface DeleteOrganizationsLocationsInspectTemplatesRequest {
 }
 
 export const DeleteOrganizationsLocationsInspectTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -11291,7 +11401,7 @@ export const DeleteOrganizationsLocationsInspectTemplatesRequest =
 export type DeleteOrganizationsLocationsInspectTemplatesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsInspectTemplatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsInspectTemplatesError = DefaultErrors;
 
@@ -11301,7 +11411,7 @@ export const deleteOrganizationsLocationsInspectTemplates: API.OperationMethod<
   DeleteOrganizationsLocationsInspectTemplatesResponse,
   DeleteOrganizationsLocationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsInspectTemplatesRequest,
   output: DeleteOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -11315,7 +11425,7 @@ export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest {
 }
 
 export const CreateOrganizationsLocationsDeidentifyTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(
       GooglePrivacyDlpV2CreateDeidentifyTemplateRequest,
@@ -11332,7 +11442,7 @@ export const CreateOrganizationsLocationsDeidentifyTemplatesRequest =
 export type CreateOrganizationsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const CreateOrganizationsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type CreateOrganizationsLocationsDeidentifyTemplatesError =
   DefaultErrors;
@@ -11343,7 +11453,7 @@ export const createOrganizationsLocationsDeidentifyTemplates: API.OperationMetho
   CreateOrganizationsLocationsDeidentifyTemplatesResponse,
   CreateOrganizationsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsDeidentifyTemplatesRequest,
   output: CreateOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -11357,7 +11467,7 @@ export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest {
 }
 
 export const PatchOrganizationsLocationsDeidentifyTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(
       GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest,
@@ -11374,7 +11484,7 @@ export const PatchOrganizationsLocationsDeidentifyTemplatesRequest =
 export type PatchOrganizationsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const PatchOrganizationsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type PatchOrganizationsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -11384,7 +11494,7 @@ export const patchOrganizationsLocationsDeidentifyTemplates: API.OperationMethod
   PatchOrganizationsLocationsDeidentifyTemplatesResponse,
   PatchOrganizationsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsDeidentifyTemplatesRequest,
   output: PatchOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -11396,7 +11506,7 @@ export interface GetOrganizationsLocationsDeidentifyTemplatesRequest {
 }
 
 export const GetOrganizationsLocationsDeidentifyTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -11409,7 +11519,7 @@ export const GetOrganizationsLocationsDeidentifyTemplatesRequest =
 export type GetOrganizationsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const GetOrganizationsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type GetOrganizationsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -11419,7 +11529,7 @@ export const getOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<
   GetOrganizationsLocationsDeidentifyTemplatesResponse,
   GetOrganizationsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsDeidentifyTemplatesRequest,
   output: GetOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -11439,7 +11549,7 @@ export interface ListOrganizationsLocationsDeidentifyTemplatesRequest {
 }
 
 export const ListOrganizationsLocationsDeidentifyTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -11456,7 +11566,7 @@ export const ListOrganizationsLocationsDeidentifyTemplatesRequest =
 export type ListOrganizationsLocationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 export const ListOrganizationsLocationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 
 export type ListOrganizationsLocationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -11466,7 +11576,7 @@ export const listOrganizationsLocationsDeidentifyTemplates: API.PaginatedOperati
   ListOrganizationsLocationsDeidentifyTemplatesResponse,
   ListOrganizationsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsDeidentifyTemplatesRequest,
   output: ListOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -11482,7 +11592,7 @@ export interface DeleteOrganizationsLocationsDeidentifyTemplatesRequest {
 }
 
 export const DeleteOrganizationsLocationsDeidentifyTemplatesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -11495,7 +11605,7 @@ export const DeleteOrganizationsLocationsDeidentifyTemplatesRequest =
 export type DeleteOrganizationsLocationsDeidentifyTemplatesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsDeidentifyTemplatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsDeidentifyTemplatesError =
   DefaultErrors;
@@ -11506,7 +11616,7 @@ export const deleteOrganizationsLocationsDeidentifyTemplates: API.OperationMetho
   DeleteOrganizationsLocationsDeidentifyTemplatesResponse,
   DeleteOrganizationsLocationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsDeidentifyTemplatesRequest,
   output: DeleteOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -11519,24 +11629,25 @@ export interface CreateOrganizationsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2CreateJobTriggerRequest;
 }
 
-export const CreateOrganizationsLocationsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsLocationsJobTriggersRequest>;
+export const CreateOrganizationsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsLocationsJobTriggersRequest>;
 
 export type CreateOrganizationsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const CreateOrganizationsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type CreateOrganizationsLocationsJobTriggersError = DefaultErrors;
 
@@ -11546,7 +11657,7 @@ export const createOrganizationsLocationsJobTriggers: API.OperationMethod<
   CreateOrganizationsLocationsJobTriggersResponse,
   CreateOrganizationsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsJobTriggersRequest,
   output: CreateOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -11559,24 +11670,25 @@ export interface PatchOrganizationsLocationsJobTriggersRequest {
   body?: GooglePrivacyDlpV2UpdateJobTriggerRequest;
 }
 
-export const PatchOrganizationsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsJobTriggersRequest>;
+export const PatchOrganizationsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateJobTriggerRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsJobTriggersRequest>;
 
 export type PatchOrganizationsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const PatchOrganizationsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type PatchOrganizationsLocationsJobTriggersError = DefaultErrors;
 
@@ -11586,7 +11698,7 @@ export const patchOrganizationsLocationsJobTriggers: API.OperationMethod<
   PatchOrganizationsLocationsJobTriggersResponse,
   PatchOrganizationsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsJobTriggersRequest,
   output: PatchOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -11597,20 +11709,21 @@ export interface GetOrganizationsLocationsJobTriggersRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsJobTriggersRequest>;
+export const GetOrganizationsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsJobTriggersRequest>;
 
 export type GetOrganizationsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2JobTrigger;
 export const GetOrganizationsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2JobTrigger;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2JobTrigger;
 
 export type GetOrganizationsLocationsJobTriggersError = DefaultErrors;
 
@@ -11620,7 +11733,7 @@ export const getOrganizationsLocationsJobTriggers: API.OperationMethod<
   GetOrganizationsLocationsJobTriggersResponse,
   GetOrganizationsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsJobTriggersRequest,
   output: GetOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -11647,26 +11760,27 @@ export interface ListOrganizationsLocationsJobTriggersRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsLocationsJobTriggersRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsJobTriggersRequest>;
+export const ListOrganizationsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsJobTriggersRequest>;
 
 export type ListOrganizationsLocationsJobTriggersResponse =
   GooglePrivacyDlpV2ListJobTriggersResponse;
 export const ListOrganizationsLocationsJobTriggersResponse =
-  GooglePrivacyDlpV2ListJobTriggersResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListJobTriggersResponse;
 
 export type ListOrganizationsLocationsJobTriggersError = DefaultErrors;
 
@@ -11676,7 +11790,7 @@ export const listOrganizationsLocationsJobTriggers: API.PaginatedOperationMethod
   ListOrganizationsLocationsJobTriggersResponse,
   ListOrganizationsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsJobTriggersRequest,
   output: ListOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -11691,20 +11805,21 @@ export interface DeleteOrganizationsLocationsJobTriggersRequest {
   name: string;
 }
 
-export const DeleteOrganizationsLocationsJobTriggersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsLocationsJobTriggersRequest>;
+export const DeleteOrganizationsLocationsJobTriggersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/jobTriggers/{jobTriggersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsLocationsJobTriggersRequest>;
 
 export type DeleteOrganizationsLocationsJobTriggersResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsJobTriggersResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsJobTriggersError = DefaultErrors;
 
@@ -11714,7 +11829,7 @@ export const deleteOrganizationsLocationsJobTriggers: API.OperationMethod<
   DeleteOrganizationsLocationsJobTriggersResponse,
   DeleteOrganizationsLocationsJobTriggersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsJobTriggersRequest,
   output: DeleteOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -11728,7 +11843,7 @@ export interface CreateOrganizationsLocationsDiscoveryConfigsRequest {
 }
 
 export const CreateOrganizationsLocationsDiscoveryConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GooglePrivacyDlpV2CreateDiscoveryConfigRequest).pipe(
       T.HttpBody(),
@@ -11745,7 +11860,7 @@ export const CreateOrganizationsLocationsDiscoveryConfigsRequest =
 export type CreateOrganizationsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const CreateOrganizationsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type CreateOrganizationsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -11755,7 +11870,7 @@ export const createOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   CreateOrganizationsLocationsDiscoveryConfigsResponse,
   CreateOrganizationsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsDiscoveryConfigsRequest,
   output: CreateOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -11768,26 +11883,25 @@ export interface PatchOrganizationsLocationsDiscoveryConfigsRequest {
   body?: GooglePrivacyDlpV2UpdateDiscoveryConfigRequest;
 }
 
-export const PatchOrganizationsLocationsDiscoveryConfigsRequest = Schema.Struct(
-  {
+export const PatchOrganizationsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GooglePrivacyDlpV2UpdateDiscoveryConfigRequest).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsDiscoveryConfigsRequest>;
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsDiscoveryConfigsRequest>;
 
 export type PatchOrganizationsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const PatchOrganizationsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type PatchOrganizationsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -11797,7 +11911,7 @@ export const patchOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   PatchOrganizationsLocationsDiscoveryConfigsResponse,
   PatchOrganizationsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsDiscoveryConfigsRequest,
   output: PatchOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -11808,20 +11922,21 @@ export interface GetOrganizationsLocationsDiscoveryConfigsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsDiscoveryConfigsRequest>;
+export const GetOrganizationsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs/{discoveryConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsDiscoveryConfigsRequest>;
 
 export type GetOrganizationsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2DiscoveryConfig;
 export const GetOrganizationsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2DiscoveryConfig;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DiscoveryConfig;
 
 export type GetOrganizationsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -11831,7 +11946,7 @@ export const getOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   GetOrganizationsLocationsDiscoveryConfigsResponse,
   GetOrganizationsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsDiscoveryConfigsRequest,
   output: GetOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -11848,23 +11963,24 @@ export interface ListOrganizationsLocationsDiscoveryConfigsRequest {
   orderBy?: string;
 }
 
-export const ListOrganizationsLocationsDiscoveryConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsDiscoveryConfigsRequest>;
+export const ListOrganizationsLocationsDiscoveryConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/discoveryConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsDiscoveryConfigsRequest>;
 
 export type ListOrganizationsLocationsDiscoveryConfigsResponse =
   GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
 export const ListOrganizationsLocationsDiscoveryConfigsResponse =
-  GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDiscoveryConfigsResponse;
 
 export type ListOrganizationsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -11874,7 +11990,7 @@ export const listOrganizationsLocationsDiscoveryConfigs: API.PaginatedOperationM
   ListOrganizationsLocationsDiscoveryConfigsResponse,
   ListOrganizationsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsDiscoveryConfigsRequest,
   output: ListOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -11890,7 +12006,7 @@ export interface DeleteOrganizationsLocationsDiscoveryConfigsRequest {
 }
 
 export const DeleteOrganizationsLocationsDiscoveryConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -11903,7 +12019,7 @@ export const DeleteOrganizationsLocationsDiscoveryConfigsRequest =
 export type DeleteOrganizationsLocationsDiscoveryConfigsResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsDiscoveryConfigsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsDiscoveryConfigsError = DefaultErrors;
 
@@ -11913,7 +12029,7 @@ export const deleteOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   DeleteOrganizationsLocationsDiscoveryConfigsResponse,
   DeleteOrganizationsLocationsDiscoveryConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsDiscoveryConfigsRequest,
   output: DeleteOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -11940,26 +12056,27 @@ export interface ListOrganizationsLocationsDlpJobsRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsLocationsDlpJobsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/dlpJobs",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsDlpJobsRequest>;
+export const ListOrganizationsLocationsDlpJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    type: Schema.optional(Schema.String).pipe(T.HttpQuery("type")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/dlpJobs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsDlpJobsRequest>;
 
 export type ListOrganizationsLocationsDlpJobsResponse =
   GooglePrivacyDlpV2ListDlpJobsResponse;
 export const ListOrganizationsLocationsDlpJobsResponse =
-  GooglePrivacyDlpV2ListDlpJobsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDlpJobsResponse;
 
 export type ListOrganizationsLocationsDlpJobsError = DefaultErrors;
 
@@ -11969,7 +12086,7 @@ export const listOrganizationsLocationsDlpJobs: API.PaginatedOperationMethod<
   ListOrganizationsLocationsDlpJobsResponse,
   ListOrganizationsLocationsDlpJobsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsDlpJobsRequest,
   output: ListOrganizationsLocationsDlpJobsResponse,
   errors: [],
@@ -11986,26 +12103,25 @@ export interface CreateOrganizationsLocationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
 
-export const CreateOrganizationsLocationsStoredInfoTypesRequest = Schema.Struct(
-  {
+export const CreateOrganizationsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
       T.HttpBody(),
     ),
-  },
-).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsLocationsStoredInfoTypesRequest>;
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsLocationsStoredInfoTypesRequest>;
 
 export type CreateOrganizationsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const CreateOrganizationsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type CreateOrganizationsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -12015,7 +12131,7 @@ export const createOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   CreateOrganizationsLocationsStoredInfoTypesResponse,
   CreateOrganizationsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsStoredInfoTypesRequest,
   output: CreateOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -12028,24 +12144,25 @@ export interface PatchOrganizationsLocationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
 
-export const PatchOrganizationsLocationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsStoredInfoTypesRequest>;
+export const PatchOrganizationsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsStoredInfoTypesRequest>;
 
 export type PatchOrganizationsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const PatchOrganizationsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type PatchOrganizationsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -12055,7 +12172,7 @@ export const patchOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   PatchOrganizationsLocationsStoredInfoTypesResponse,
   PatchOrganizationsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsStoredInfoTypesRequest,
   output: PatchOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -12066,20 +12183,21 @@ export interface GetOrganizationsLocationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsStoredInfoTypesRequest>;
+export const GetOrganizationsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsStoredInfoTypesRequest>;
 
 export type GetOrganizationsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const GetOrganizationsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type GetOrganizationsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -12089,7 +12207,7 @@ export const getOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   GetOrganizationsLocationsStoredInfoTypesResponse,
   GetOrganizationsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsStoredInfoTypesRequest,
   output: GetOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -12108,24 +12226,25 @@ export interface ListOrganizationsLocationsStoredInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsLocationsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsStoredInfoTypesRequest>;
+export const ListOrganizationsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsStoredInfoTypesRequest>;
 
 export type ListOrganizationsLocationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 export const ListOrganizationsLocationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2ListStoredInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 
 export type ListOrganizationsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -12135,7 +12254,7 @@ export const listOrganizationsLocationsStoredInfoTypes: API.PaginatedOperationMe
   ListOrganizationsLocationsStoredInfoTypesResponse,
   ListOrganizationsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsStoredInfoTypesRequest,
   output: ListOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -12150,22 +12269,21 @@ export interface DeleteOrganizationsLocationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const DeleteOrganizationsLocationsStoredInfoTypesRequest = Schema.Struct(
-  {
+export const DeleteOrganizationsLocationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsLocationsStoredInfoTypesRequest>;
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsLocationsStoredInfoTypesRequest>;
 
 export type DeleteOrganizationsLocationsStoredInfoTypesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsStoredInfoTypesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsStoredInfoTypesError = DefaultErrors;
 
@@ -12175,7 +12293,7 @@ export const deleteOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   DeleteOrganizationsLocationsStoredInfoTypesResponse,
   DeleteOrganizationsLocationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsStoredInfoTypesRequest,
   output: DeleteOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -12195,7 +12313,7 @@ export interface ListOrganizationsLocationsProjectDataProfilesRequest {
 }
 
 export const ListOrganizationsLocationsProjectDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -12212,7 +12330,7 @@ export const ListOrganizationsLocationsProjectDataProfilesRequest =
 export type ListOrganizationsLocationsProjectDataProfilesResponse =
   GooglePrivacyDlpV2ListProjectDataProfilesResponse;
 export const ListOrganizationsLocationsProjectDataProfilesResponse =
-  GooglePrivacyDlpV2ListProjectDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListProjectDataProfilesResponse;
 
 export type ListOrganizationsLocationsProjectDataProfilesError = DefaultErrors;
 
@@ -12222,7 +12340,7 @@ export const listOrganizationsLocationsProjectDataProfiles: API.PaginatedOperati
   ListOrganizationsLocationsProjectDataProfilesResponse,
   ListOrganizationsLocationsProjectDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsProjectDataProfilesRequest,
   output: ListOrganizationsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -12238,7 +12356,7 @@ export interface GetOrganizationsLocationsProjectDataProfilesRequest {
 }
 
 export const GetOrganizationsLocationsProjectDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12251,7 +12369,7 @@ export const GetOrganizationsLocationsProjectDataProfilesRequest =
 export type GetOrganizationsLocationsProjectDataProfilesResponse =
   GooglePrivacyDlpV2ProjectDataProfile;
 export const GetOrganizationsLocationsProjectDataProfilesResponse =
-  GooglePrivacyDlpV2ProjectDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ProjectDataProfile;
 
 export type GetOrganizationsLocationsProjectDataProfilesError = DefaultErrors;
 
@@ -12261,7 +12379,7 @@ export const getOrganizationsLocationsProjectDataProfiles: API.OperationMethod<
   GetOrganizationsLocationsProjectDataProfilesResponse,
   GetOrganizationsLocationsProjectDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsProjectDataProfilesRequest,
   output: GetOrganizationsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -12280,26 +12398,25 @@ export interface ListOrganizationsLocationsTableDataProfilesRequest {
   filter?: string;
 }
 
-export const ListOrganizationsLocationsTableDataProfilesRequest = Schema.Struct(
-  {
+export const ListOrganizationsLocationsTableDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/tableDataProfiles",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsTableDataProfilesRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/tableDataProfiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsTableDataProfilesRequest>;
 
 export type ListOrganizationsLocationsTableDataProfilesResponse =
   GooglePrivacyDlpV2ListTableDataProfilesResponse;
 export const ListOrganizationsLocationsTableDataProfilesResponse =
-  GooglePrivacyDlpV2ListTableDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListTableDataProfilesResponse;
 
 export type ListOrganizationsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -12309,7 +12426,7 @@ export const listOrganizationsLocationsTableDataProfiles: API.PaginatedOperation
   ListOrganizationsLocationsTableDataProfilesResponse,
   ListOrganizationsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsTableDataProfilesRequest,
   output: ListOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
@@ -12324,20 +12441,21 @@ export interface GetOrganizationsLocationsTableDataProfilesRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsTableDataProfilesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsTableDataProfilesRequest>;
+export const GetOrganizationsLocationsTableDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/tableDataProfiles/{tableDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsTableDataProfilesRequest>;
 
 export type GetOrganizationsLocationsTableDataProfilesResponse =
   GooglePrivacyDlpV2TableDataProfile;
 export const GetOrganizationsLocationsTableDataProfilesResponse =
-  GooglePrivacyDlpV2TableDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2TableDataProfile;
 
 export type GetOrganizationsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -12347,7 +12465,7 @@ export const getOrganizationsLocationsTableDataProfiles: API.OperationMethod<
   GetOrganizationsLocationsTableDataProfilesResponse,
   GetOrganizationsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsTableDataProfilesRequest,
   output: GetOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
@@ -12359,7 +12477,7 @@ export interface DeleteOrganizationsLocationsTableDataProfilesRequest {
 }
 
 export const DeleteOrganizationsLocationsTableDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12372,7 +12490,7 @@ export const DeleteOrganizationsLocationsTableDataProfilesRequest =
 export type DeleteOrganizationsLocationsTableDataProfilesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsTableDataProfilesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsTableDataProfilesError = DefaultErrors;
 
@@ -12382,7 +12500,7 @@ export const deleteOrganizationsLocationsTableDataProfiles: API.OperationMethod<
   DeleteOrganizationsLocationsTableDataProfilesResponse,
   DeleteOrganizationsLocationsTableDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsTableDataProfilesRequest,
   output: DeleteOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
@@ -12402,7 +12520,7 @@ export interface ListOrganizationsLocationsColumnDataProfilesRequest {
 }
 
 export const ListOrganizationsLocationsColumnDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -12419,7 +12537,7 @@ export const ListOrganizationsLocationsColumnDataProfilesRequest =
 export type ListOrganizationsLocationsColumnDataProfilesResponse =
   GooglePrivacyDlpV2ListColumnDataProfilesResponse;
 export const ListOrganizationsLocationsColumnDataProfilesResponse =
-  GooglePrivacyDlpV2ListColumnDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListColumnDataProfilesResponse;
 
 export type ListOrganizationsLocationsColumnDataProfilesError = DefaultErrors;
 
@@ -12429,7 +12547,7 @@ export const listOrganizationsLocationsColumnDataProfiles: API.PaginatedOperatio
   ListOrganizationsLocationsColumnDataProfilesResponse,
   ListOrganizationsLocationsColumnDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsColumnDataProfilesRequest,
   output: ListOrganizationsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -12444,22 +12562,21 @@ export interface GetOrganizationsLocationsColumnDataProfilesRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsColumnDataProfilesRequest = Schema.Struct(
-  {
+export const GetOrganizationsLocationsColumnDataProfilesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-  },
-).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/columnDataProfiles/{columnDataProfilesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsColumnDataProfilesRequest>;
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/columnDataProfiles/{columnDataProfilesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsColumnDataProfilesRequest>;
 
 export type GetOrganizationsLocationsColumnDataProfilesResponse =
   GooglePrivacyDlpV2ColumnDataProfile;
 export const GetOrganizationsLocationsColumnDataProfilesResponse =
-  GooglePrivacyDlpV2ColumnDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ColumnDataProfile;
 
 export type GetOrganizationsLocationsColumnDataProfilesError = DefaultErrors;
 
@@ -12469,7 +12586,7 @@ export const getOrganizationsLocationsColumnDataProfiles: API.OperationMethod<
   GetOrganizationsLocationsColumnDataProfilesResponse,
   GetOrganizationsLocationsColumnDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsColumnDataProfilesRequest,
   output: GetOrganizationsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -12489,7 +12606,7 @@ export interface ListOrganizationsLocationsFileStoreDataProfilesRequest {
 }
 
 export const ListOrganizationsLocationsFileStoreDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
@@ -12506,7 +12623,7 @@ export const ListOrganizationsLocationsFileStoreDataProfilesRequest =
 export type ListOrganizationsLocationsFileStoreDataProfilesResponse =
   GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
 export const ListOrganizationsLocationsFileStoreDataProfilesResponse =
-  GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListFileStoreDataProfilesResponse;
 
 export type ListOrganizationsLocationsFileStoreDataProfilesError =
   DefaultErrors;
@@ -12517,7 +12634,7 @@ export const listOrganizationsLocationsFileStoreDataProfiles: API.PaginatedOpera
   ListOrganizationsLocationsFileStoreDataProfilesResponse,
   ListOrganizationsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsFileStoreDataProfilesRequest,
   output: ListOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -12533,7 +12650,7 @@ export interface GetOrganizationsLocationsFileStoreDataProfilesRequest {
 }
 
 export const GetOrganizationsLocationsFileStoreDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12546,7 +12663,7 @@ export const GetOrganizationsLocationsFileStoreDataProfilesRequest =
 export type GetOrganizationsLocationsFileStoreDataProfilesResponse =
   GooglePrivacyDlpV2FileStoreDataProfile;
 export const GetOrganizationsLocationsFileStoreDataProfilesResponse =
-  GooglePrivacyDlpV2FileStoreDataProfile;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2FileStoreDataProfile;
 
 export type GetOrganizationsLocationsFileStoreDataProfilesError = DefaultErrors;
 
@@ -12556,7 +12673,7 @@ export const getOrganizationsLocationsFileStoreDataProfiles: API.OperationMethod
   GetOrganizationsLocationsFileStoreDataProfilesResponse,
   GetOrganizationsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsFileStoreDataProfilesRequest,
   output: GetOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -12568,7 +12685,7 @@ export interface DeleteOrganizationsLocationsFileStoreDataProfilesRequest {
 }
 
 export const DeleteOrganizationsLocationsFileStoreDataProfilesRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
@@ -12581,7 +12698,7 @@ export const DeleteOrganizationsLocationsFileStoreDataProfilesRequest =
 export type DeleteOrganizationsLocationsFileStoreDataProfilesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsFileStoreDataProfilesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsFileStoreDataProfilesError =
   DefaultErrors;
@@ -12592,7 +12709,7 @@ export const deleteOrganizationsLocationsFileStoreDataProfiles: API.OperationMet
   DeleteOrganizationsLocationsFileStoreDataProfilesResponse,
   DeleteOrganizationsLocationsFileStoreDataProfilesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsFileStoreDataProfilesRequest,
   output: DeleteOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -12605,24 +12722,25 @@ export interface CreateOrganizationsLocationsConnectionsRequest {
   body?: GooglePrivacyDlpV2CreateConnectionRequest;
 }
 
-export const CreateOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateConnectionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsLocationsConnectionsRequest>;
+export const CreateOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateConnectionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsLocationsConnectionsRequest>;
 
 export type CreateOrganizationsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const CreateOrganizationsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type CreateOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12632,7 +12750,7 @@ export const createOrganizationsLocationsConnections: API.OperationMethod<
   CreateOrganizationsLocationsConnectionsResponse,
   CreateOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsLocationsConnectionsRequest,
   output: CreateOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12643,20 +12761,21 @@ export interface GetOrganizationsLocationsConnectionsRequest {
   name: string;
 }
 
-export const GetOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsLocationsConnectionsRequest>;
+export const GetOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsLocationsConnectionsRequest>;
 
 export type GetOrganizationsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const GetOrganizationsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type GetOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12666,7 +12785,7 @@ export const getOrganizationsLocationsConnections: API.OperationMethod<
   GetOrganizationsLocationsConnectionsResponse,
   GetOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsConnectionsRequest,
   output: GetOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12683,23 +12802,24 @@ export interface ListOrganizationsLocationsConnectionsRequest {
   filter?: string;
 }
 
-export const ListOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsLocationsConnectionsRequest>;
+export const ListOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsLocationsConnectionsRequest>;
 
 export type ListOrganizationsLocationsConnectionsResponse =
   GooglePrivacyDlpV2ListConnectionsResponse;
 export const ListOrganizationsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2ListConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListConnectionsResponse;
 
 export type ListOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12709,7 +12829,7 @@ export const listOrganizationsLocationsConnections: API.PaginatedOperationMethod
   ListOrganizationsLocationsConnectionsResponse,
   ListOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsLocationsConnectionsRequest,
   output: ListOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12730,23 +12850,24 @@ export interface SearchOrganizationsLocationsConnectionsRequest {
   filter?: string;
 }
 
-export const SearchOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections:search",
-  }),
-  svc,
-) as unknown as Schema.Schema<SearchOrganizationsLocationsConnectionsRequest>;
+export const SearchOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchOrganizationsLocationsConnectionsRequest>;
 
 export type SearchOrganizationsLocationsConnectionsResponse =
   GooglePrivacyDlpV2SearchConnectionsResponse;
 export const SearchOrganizationsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2SearchConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2SearchConnectionsResponse;
 
 export type SearchOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12756,7 +12877,7 @@ export const searchOrganizationsLocationsConnections: API.PaginatedOperationMeth
   SearchOrganizationsLocationsConnectionsResponse,
   SearchOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchOrganizationsLocationsConnectionsRequest,
   output: SearchOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12771,20 +12892,21 @@ export interface DeleteOrganizationsLocationsConnectionsRequest {
   name: string;
 }
 
-export const DeleteOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsLocationsConnectionsRequest>;
+export const DeleteOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsLocationsConnectionsRequest>;
 
 export type DeleteOrganizationsLocationsConnectionsResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsLocationsConnectionsResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12794,7 +12916,7 @@ export const deleteOrganizationsLocationsConnections: API.OperationMethod<
   DeleteOrganizationsLocationsConnectionsResponse,
   DeleteOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsLocationsConnectionsRequest,
   output: DeleteOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12807,24 +12929,25 @@ export interface PatchOrganizationsLocationsConnectionsRequest {
   body?: GooglePrivacyDlpV2UpdateConnectionRequest;
 }
 
-export const PatchOrganizationsLocationsConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateConnectionRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsLocationsConnectionsRequest>;
+export const PatchOrganizationsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateConnectionRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/locations/{locationsId}/connections/{connectionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsLocationsConnectionsRequest>;
 
 export type PatchOrganizationsLocationsConnectionsResponse =
   GooglePrivacyDlpV2Connection;
 export const PatchOrganizationsLocationsConnectionsResponse =
-  GooglePrivacyDlpV2Connection;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2Connection;
 
 export type PatchOrganizationsLocationsConnectionsError = DefaultErrors;
 
@@ -12834,7 +12957,7 @@ export const patchOrganizationsLocationsConnections: API.OperationMethod<
   PatchOrganizationsLocationsConnectionsResponse,
   PatchOrganizationsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsLocationsConnectionsRequest,
   output: PatchOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -12847,24 +12970,25 @@ export interface CreateOrganizationsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateInspectTemplateRequest;
 }
 
-export const CreateOrganizationsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/inspectTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsInspectTemplatesRequest>;
+export const CreateOrganizationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/inspectTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsInspectTemplatesRequest>;
 
 export type CreateOrganizationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const CreateOrganizationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type CreateOrganizationsInspectTemplatesError = DefaultErrors;
 
@@ -12874,7 +12998,7 @@ export const createOrganizationsInspectTemplates: API.OperationMethod<
   CreateOrganizationsInspectTemplatesResponse,
   CreateOrganizationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsInspectTemplatesRequest,
   output: CreateOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -12887,24 +13011,25 @@ export interface PatchOrganizationsInspectTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateInspectTemplateRequest;
 }
 
-export const PatchOrganizationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsInspectTemplatesRequest>;
+export const PatchOrganizationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateInspectTemplateRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsInspectTemplatesRequest>;
 
 export type PatchOrganizationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const PatchOrganizationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type PatchOrganizationsInspectTemplatesError = DefaultErrors;
 
@@ -12914,7 +13039,7 @@ export const patchOrganizationsInspectTemplates: API.OperationMethod<
   PatchOrganizationsInspectTemplatesResponse,
   PatchOrganizationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsInspectTemplatesRequest,
   output: PatchOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -12925,20 +13050,21 @@ export interface GetOrganizationsInspectTemplatesRequest {
   name: string;
 }
 
-export const GetOrganizationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsInspectTemplatesRequest>;
+export const GetOrganizationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsInspectTemplatesRequest>;
 
 export type GetOrganizationsInspectTemplatesResponse =
   GooglePrivacyDlpV2InspectTemplate;
 export const GetOrganizationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2InspectTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2InspectTemplate;
 
 export type GetOrganizationsInspectTemplatesError = DefaultErrors;
 
@@ -12948,7 +13074,7 @@ export const getOrganizationsInspectTemplates: API.OperationMethod<
   GetOrganizationsInspectTemplatesResponse,
   GetOrganizationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsInspectTemplatesRequest,
   output: GetOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -12967,24 +13093,25 @@ export interface ListOrganizationsInspectTemplatesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsInspectTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/inspectTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsInspectTemplatesRequest>;
+export const ListOrganizationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/inspectTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsInspectTemplatesRequest>;
 
 export type ListOrganizationsInspectTemplatesResponse =
   GooglePrivacyDlpV2ListInspectTemplatesResponse;
 export const ListOrganizationsInspectTemplatesResponse =
-  GooglePrivacyDlpV2ListInspectTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListInspectTemplatesResponse;
 
 export type ListOrganizationsInspectTemplatesError = DefaultErrors;
 
@@ -12994,7 +13121,7 @@ export const listOrganizationsInspectTemplates: API.PaginatedOperationMethod<
   ListOrganizationsInspectTemplatesResponse,
   ListOrganizationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsInspectTemplatesRequest,
   output: ListOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -13009,18 +13136,20 @@ export interface DeleteOrganizationsInspectTemplatesRequest {
   name: string;
 }
 
-export const DeleteOrganizationsInspectTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsInspectTemplatesRequest>;
+export const DeleteOrganizationsInspectTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/inspectTemplates/{inspectTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsInspectTemplatesRequest>;
 
 export type DeleteOrganizationsInspectTemplatesResponse = GoogleProtobufEmpty;
-export const DeleteOrganizationsInspectTemplatesResponse = GoogleProtobufEmpty;
+export const DeleteOrganizationsInspectTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsInspectTemplatesError = DefaultErrors;
 
@@ -13030,7 +13159,7 @@ export const deleteOrganizationsInspectTemplates: API.OperationMethod<
   DeleteOrganizationsInspectTemplatesResponse,
   DeleteOrganizationsInspectTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsInspectTemplatesRequest,
   output: DeleteOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -13043,24 +13172,25 @@ export interface CreateOrganizationsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2CreateDeidentifyTemplateRequest;
 }
 
-export const CreateOrganizationsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/deidentifyTemplates",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsDeidentifyTemplatesRequest>;
+export const CreateOrganizationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2CreateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/deidentifyTemplates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsDeidentifyTemplatesRequest>;
 
 export type CreateOrganizationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const CreateOrganizationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type CreateOrganizationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -13070,7 +13200,7 @@ export const createOrganizationsDeidentifyTemplates: API.OperationMethod<
   CreateOrganizationsDeidentifyTemplatesResponse,
   CreateOrganizationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsDeidentifyTemplatesRequest,
   output: CreateOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -13083,24 +13213,25 @@ export interface PatchOrganizationsDeidentifyTemplatesRequest {
   body?: GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest;
 }
 
-export const PatchOrganizationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsDeidentifyTemplatesRequest>;
+export const PatchOrganizationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(
+      GooglePrivacyDlpV2UpdateDeidentifyTemplateRequest,
+    ).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsDeidentifyTemplatesRequest>;
 
 export type PatchOrganizationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const PatchOrganizationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type PatchOrganizationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -13110,7 +13241,7 @@ export const patchOrganizationsDeidentifyTemplates: API.OperationMethod<
   PatchOrganizationsDeidentifyTemplatesResponse,
   PatchOrganizationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsDeidentifyTemplatesRequest,
   output: PatchOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -13121,20 +13252,21 @@ export interface GetOrganizationsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const GetOrganizationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsDeidentifyTemplatesRequest>;
+export const GetOrganizationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsDeidentifyTemplatesRequest>;
 
 export type GetOrganizationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2DeidentifyTemplate;
 export const GetOrganizationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2DeidentifyTemplate;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2DeidentifyTemplate;
 
 export type GetOrganizationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -13144,7 +13276,7 @@ export const getOrganizationsDeidentifyTemplates: API.OperationMethod<
   GetOrganizationsDeidentifyTemplatesResponse,
   GetOrganizationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsDeidentifyTemplatesRequest,
   output: GetOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -13163,24 +13295,25 @@ export interface ListOrganizationsDeidentifyTemplatesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsDeidentifyTemplatesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/deidentifyTemplates",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsDeidentifyTemplatesRequest>;
+export const ListOrganizationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/deidentifyTemplates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsDeidentifyTemplatesRequest>;
 
 export type ListOrganizationsDeidentifyTemplatesResponse =
   GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 export const ListOrganizationsDeidentifyTemplatesResponse =
-  GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListDeidentifyTemplatesResponse;
 
 export type ListOrganizationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -13190,7 +13323,7 @@ export const listOrganizationsDeidentifyTemplates: API.PaginatedOperationMethod<
   ListOrganizationsDeidentifyTemplatesResponse,
   ListOrganizationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsDeidentifyTemplatesRequest,
   output: ListOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -13205,20 +13338,21 @@ export interface DeleteOrganizationsDeidentifyTemplatesRequest {
   name: string;
 }
 
-export const DeleteOrganizationsDeidentifyTemplatesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsDeidentifyTemplatesRequest>;
+export const DeleteOrganizationsDeidentifyTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/deidentifyTemplates/{deidentifyTemplatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsDeidentifyTemplatesRequest>;
 
 export type DeleteOrganizationsDeidentifyTemplatesResponse =
   GoogleProtobufEmpty;
 export const DeleteOrganizationsDeidentifyTemplatesResponse =
-  GoogleProtobufEmpty;
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsDeidentifyTemplatesError = DefaultErrors;
 
@@ -13228,7 +13362,7 @@ export const deleteOrganizationsDeidentifyTemplates: API.OperationMethod<
   DeleteOrganizationsDeidentifyTemplatesResponse,
   DeleteOrganizationsDeidentifyTemplatesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsDeidentifyTemplatesRequest,
   output: DeleteOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -13241,24 +13375,25 @@ export interface CreateOrganizationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2CreateStoredInfoTypeRequest;
 }
 
-export const CreateOrganizationsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v2/organizations/{organizationsId}/storedInfoTypes",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateOrganizationsStoredInfoTypesRequest>;
+export const CreateOrganizationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GooglePrivacyDlpV2CreateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v2/organizations/{organizationsId}/storedInfoTypes",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateOrganizationsStoredInfoTypesRequest>;
 
 export type CreateOrganizationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const CreateOrganizationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type CreateOrganizationsStoredInfoTypesError = DefaultErrors;
 
@@ -13268,7 +13403,7 @@ export const createOrganizationsStoredInfoTypes: API.OperationMethod<
   CreateOrganizationsStoredInfoTypesResponse,
   CreateOrganizationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateOrganizationsStoredInfoTypesRequest,
   output: CreateOrganizationsStoredInfoTypesResponse,
   errors: [],
@@ -13281,24 +13416,25 @@ export interface PatchOrganizationsStoredInfoTypesRequest {
   body?: GooglePrivacyDlpV2UpdateStoredInfoTypeRequest;
 }
 
-export const PatchOrganizationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchOrganizationsStoredInfoTypesRequest>;
+export const PatchOrganizationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(GooglePrivacyDlpV2UpdateStoredInfoTypeRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchOrganizationsStoredInfoTypesRequest>;
 
 export type PatchOrganizationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const PatchOrganizationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type PatchOrganizationsStoredInfoTypesError = DefaultErrors;
 
@@ -13308,7 +13444,7 @@ export const patchOrganizationsStoredInfoTypes: API.OperationMethod<
   PatchOrganizationsStoredInfoTypesResponse,
   PatchOrganizationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchOrganizationsStoredInfoTypesRequest,
   output: PatchOrganizationsStoredInfoTypesResponse,
   errors: [],
@@ -13319,20 +13455,21 @@ export interface GetOrganizationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const GetOrganizationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetOrganizationsStoredInfoTypesRequest>;
+export const GetOrganizationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetOrganizationsStoredInfoTypesRequest>;
 
 export type GetOrganizationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2StoredInfoType;
 export const GetOrganizationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2StoredInfoType;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2StoredInfoType;
 
 export type GetOrganizationsStoredInfoTypesError = DefaultErrors;
 
@@ -13342,7 +13479,7 @@ export const getOrganizationsStoredInfoTypes: API.OperationMethod<
   GetOrganizationsStoredInfoTypesResponse,
   GetOrganizationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsStoredInfoTypesRequest,
   output: GetOrganizationsStoredInfoTypesResponse,
   errors: [],
@@ -13361,24 +13498,25 @@ export interface ListOrganizationsStoredInfoTypesRequest {
   locationId?: string;
 }
 
-export const ListOrganizationsStoredInfoTypesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v2/organizations/{organizationsId}/storedInfoTypes",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListOrganizationsStoredInfoTypesRequest>;
+export const ListOrganizationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    locationId: Schema.optional(Schema.String).pipe(T.HttpQuery("locationId")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v2/organizations/{organizationsId}/storedInfoTypes",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListOrganizationsStoredInfoTypesRequest>;
 
 export type ListOrganizationsStoredInfoTypesResponse =
   GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 export const ListOrganizationsStoredInfoTypesResponse =
-  GooglePrivacyDlpV2ListStoredInfoTypesResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GooglePrivacyDlpV2ListStoredInfoTypesResponse;
 
 export type ListOrganizationsStoredInfoTypesError = DefaultErrors;
 
@@ -13388,7 +13526,7 @@ export const listOrganizationsStoredInfoTypes: API.PaginatedOperationMethod<
   ListOrganizationsStoredInfoTypesResponse,
   ListOrganizationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsStoredInfoTypesRequest,
   output: ListOrganizationsStoredInfoTypesResponse,
   errors: [],
@@ -13403,18 +13541,20 @@ export interface DeleteOrganizationsStoredInfoTypesRequest {
   name: string;
 }
 
-export const DeleteOrganizationsStoredInfoTypesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteOrganizationsStoredInfoTypesRequest>;
+export const DeleteOrganizationsStoredInfoTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v2/organizations/{organizationsId}/storedInfoTypes/{storedInfoTypesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteOrganizationsStoredInfoTypesRequest>;
 
 export type DeleteOrganizationsStoredInfoTypesResponse = GoogleProtobufEmpty;
-export const DeleteOrganizationsStoredInfoTypesResponse = GoogleProtobufEmpty;
+export const DeleteOrganizationsStoredInfoTypesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteOrganizationsStoredInfoTypesError = DefaultErrors;
 
@@ -13424,7 +13564,7 @@ export const deleteOrganizationsStoredInfoTypes: API.OperationMethod<
   DeleteOrganizationsStoredInfoTypesResponse,
   DeleteOrganizationsStoredInfoTypesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteOrganizationsStoredInfoTypesRequest,
   output: DeleteOrganizationsStoredInfoTypesResponse,
   errors: [],

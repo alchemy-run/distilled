@@ -32,7 +32,7 @@ export interface ExternalAccountKey {
 }
 
 export const ExternalAccountKey: Schema.Schema<ExternalAccountKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
       keyId: Schema.optional(Schema.String),
@@ -53,22 +53,23 @@ export interface CreateProjectsLocationsExternalAccountKeysRequest {
   body?: ExternalAccountKey;
 }
 
-export const CreateProjectsLocationsExternalAccountKeysRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(ExternalAccountKey).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/locations/{locationsId}/externalAccountKeys",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsLocationsExternalAccountKeysRequest>;
+export const CreateProjectsLocationsExternalAccountKeysRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(ExternalAccountKey).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/externalAccountKeys",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsExternalAccountKeysRequest>;
 
 export type CreateProjectsLocationsExternalAccountKeysResponse =
   ExternalAccountKey;
 export const CreateProjectsLocationsExternalAccountKeysResponse =
-  ExternalAccountKey;
+  /*@__PURE__*/ /*#__PURE__*/ ExternalAccountKey;
 
 export type CreateProjectsLocationsExternalAccountKeysError = DefaultErrors;
 
@@ -78,7 +79,7 @@ export const createProjectsLocationsExternalAccountKeys: API.OperationMethod<
   CreateProjectsLocationsExternalAccountKeysResponse,
   CreateProjectsLocationsExternalAccountKeysError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsExternalAccountKeysRequest,
   output: CreateProjectsLocationsExternalAccountKeysResponse,
   errors: [],

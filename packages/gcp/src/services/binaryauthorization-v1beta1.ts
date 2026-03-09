@@ -29,23 +29,25 @@ export interface Signature {
   publicKeyId?: string;
 }
 
-export const Signature: Schema.Schema<Signature> = Schema.suspend(() =>
-  Schema.Struct({
-    signature: Schema.optional(Schema.String),
-    publicKeyId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Signature" }) as any as Schema.Schema<Signature>;
+export const Signature: Schema.Schema<Signature> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      signature: Schema.optional(Schema.String),
+      publicKeyId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Signature" }) as any as Schema.Schema<Signature>;
 
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
   compactJwt?: string;
 }
 
-export const Jwt: Schema.Schema<Jwt> = Schema.suspend(() =>
-  Schema.Struct({
-    compactJwt: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Jwt" }) as any as Schema.Schema<Jwt>;
+export const Jwt: Schema.Schema<Jwt> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compactJwt: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Jwt" }) as any as Schema.Schema<Jwt>;
 
 export interface AttestationOccurrence {
   /** Required. The serialized payload that is verified by one or more `signatures`. */
@@ -57,7 +59,7 @@ export interface AttestationOccurrence {
 }
 
 export const AttestationOccurrence: Schema.Schema<AttestationOccurrence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       serializedPayload: Schema.optional(Schema.String),
       signatures: Schema.optional(Schema.Array(Signature)),
@@ -77,7 +79,7 @@ export interface ValidateAttestationOccurrenceRequest {
 }
 
 export const ValidateAttestationOccurrenceRequest: Schema.Schema<ValidateAttestationOccurrenceRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attestation: Schema.optional(AttestationOccurrence),
       occurrenceNote: Schema.optional(Schema.String),
@@ -99,7 +101,7 @@ export interface ValidateAttestationOccurrenceResponse {
 }
 
 export const ValidateAttestationOccurrenceResponse: Schema.Schema<ValidateAttestationOccurrenceResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       result: Schema.optional(Schema.String),
       denialReason: Schema.optional(Schema.String),
@@ -114,7 +116,7 @@ export interface AdmissionWhitelistPattern {
 }
 
 export const AdmissionWhitelistPattern: Schema.Schema<AdmissionWhitelistPattern> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       namePattern: Schema.optional(Schema.String),
     }),
@@ -139,15 +141,16 @@ export interface AdmissionRule {
     | (string & {});
 }
 
-export const AdmissionRule: Schema.Schema<AdmissionRule> = Schema.suspend(() =>
-  Schema.Struct({
-    evaluationMode: Schema.optional(Schema.String),
-    requireAttestationsBy: Schema.optional(Schema.Array(Schema.String)),
-    enforcementMode: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "AdmissionRule",
-}) as any as Schema.Schema<AdmissionRule>;
+export const AdmissionRule: Schema.Schema<AdmissionRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      evaluationMode: Schema.optional(Schema.String),
+      requireAttestationsBy: Schema.optional(Schema.Array(Schema.String)),
+      enforcementMode: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AdmissionRule",
+  }) as any as Schema.Schema<AdmissionRule>;
 
 export interface Policy {
   /** Output only. The resource name, in the format `projects/* /policy`. There is at most one policy per project. */
@@ -178,31 +181,32 @@ export interface Policy {
   etag?: string;
 }
 
-export const Policy: Schema.Schema<Policy> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    globalPolicyEvaluationMode: Schema.optional(Schema.String),
-    admissionWhitelistPatterns: Schema.optional(
-      Schema.Array(AdmissionWhitelistPattern),
-    ),
-    clusterAdmissionRules: Schema.optional(
-      Schema.Record(Schema.String, AdmissionRule),
-    ),
-    kubernetesNamespaceAdmissionRules: Schema.optional(
-      Schema.Record(Schema.String, AdmissionRule),
-    ),
-    kubernetesServiceAccountAdmissionRules: Schema.optional(
-      Schema.Record(Schema.String, AdmissionRule),
-    ),
-    istioServiceIdentityAdmissionRules: Schema.optional(
-      Schema.Record(Schema.String, AdmissionRule),
-    ),
-    defaultAdmissionRule: Schema.optional(AdmissionRule),
-    updateTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      globalPolicyEvaluationMode: Schema.optional(Schema.String),
+      admissionWhitelistPatterns: Schema.optional(
+        Schema.Array(AdmissionWhitelistPattern),
+      ),
+      clusterAdmissionRules: Schema.optional(
+        Schema.Record(Schema.String, AdmissionRule),
+      ),
+      kubernetesNamespaceAdmissionRules: Schema.optional(
+        Schema.Record(Schema.String, AdmissionRule),
+      ),
+      kubernetesServiceAccountAdmissionRules: Schema.optional(
+        Schema.Record(Schema.String, AdmissionRule),
+      ),
+      istioServiceIdentityAdmissionRules: Schema.optional(
+        Schema.Record(Schema.String, AdmissionRule),
+      ),
+      defaultAdmissionRule: Schema.optional(AdmissionRule),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface PkixPublicKey {
   /** A PEM-encoded public key, as described in https://tools.ietf.org/html/rfc7468#section-13 */
@@ -231,14 +235,15 @@ export interface PkixPublicKey {
     | (string & {});
 }
 
-export const PkixPublicKey: Schema.Schema<PkixPublicKey> = Schema.suspend(() =>
-  Schema.Struct({
-    publicKeyPem: Schema.optional(Schema.String),
-    signatureAlgorithm: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "PkixPublicKey",
-}) as any as Schema.Schema<PkixPublicKey>;
+export const PkixPublicKey: Schema.Schema<PkixPublicKey> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      publicKeyPem: Schema.optional(Schema.String),
+      signatureAlgorithm: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PkixPublicKey",
+  }) as any as Schema.Schema<PkixPublicKey>;
 
 export interface AttestorPublicKey {
   /** Optional. A descriptive comment. This field may be updated. */
@@ -252,7 +257,7 @@ export interface AttestorPublicKey {
 }
 
 export const AttestorPublicKey: Schema.Schema<AttestorPublicKey> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       comment: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
@@ -273,7 +278,7 @@ export interface UserOwnedDrydockNote {
 }
 
 export const UserOwnedDrydockNote: Schema.Schema<UserOwnedDrydockNote> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       noteReference: Schema.optional(Schema.String),
       publicKeys: Schema.optional(Schema.Array(AttestorPublicKey)),
@@ -296,15 +301,16 @@ export interface Attestor {
   etag?: string;
 }
 
-export const Attestor: Schema.Schema<Attestor> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    userOwnedDrydockNote: Schema.optional(UserOwnedDrydockNote),
-    updateTime: Schema.optional(Schema.String),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Attestor" }) as any as Schema.Schema<Attestor>;
+export const Attestor: Schema.Schema<Attestor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      userOwnedDrydockNote: Schema.optional(UserOwnedDrydockNote),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Attestor" }) as any as Schema.Schema<Attestor>;
 
 export interface ListAttestorsResponse {
   /** The list of attestors. */
@@ -314,7 +320,7 @@ export interface ListAttestorsResponse {
 }
 
 export const ListAttestorsResponse: Schema.Schema<ListAttestorsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       attestors: Schema.optional(Schema.Array(Attestor)),
       nextPageToken: Schema.optional(Schema.String),
@@ -325,9 +331,10 @@ export const ListAttestorsResponse: Schema.Schema<ListAttestorsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -340,14 +347,15 @@ export interface Expr {
   location?: string;
 }
 
-export const Expr: Schema.Schema<Expr> = Schema.suspend(() =>
-  Schema.Struct({
-    expression: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    location: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
@@ -358,13 +366,14 @@ export interface Binding {
   condition?: Expr;
 }
 
-export const Binding: Schema.Schema<Binding> = Schema.suspend(() =>
-  Schema.Struct({
-    role: Schema.optional(Schema.String),
-    members: Schema.optional(Schema.Array(Schema.String)),
-    condition: Schema.optional(Expr),
-  }),
-).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface IamPolicy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -375,13 +384,14 @@ export interface IamPolicy {
   etag?: string;
 }
 
-export const IamPolicy: Schema.Schema<IamPolicy> = Schema.suspend(() =>
-  Schema.Struct({
-    version: Schema.optional(Schema.Number),
-    bindings: Schema.optional(Schema.Array(Binding)),
-    etag: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "IamPolicy" }) as any as Schema.Schema<IamPolicy>;
+export const IamPolicy: Schema.Schema<IamPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "IamPolicy" }) as any as Schema.Schema<IamPolicy>;
 
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
@@ -389,7 +399,7 @@ export interface SetIamPolicyRequest {
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policy: Schema.optional(IamPolicy),
     }),
@@ -403,7 +413,7 @@ export interface TestIamPermissionsRequest {
 }
 
 export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -417,7 +427,7 @@ export interface TestIamPermissionsResponse {
 }
 
 export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -434,15 +444,16 @@ export interface GetPolicyProjectsRequest {
   name: string;
 }
 
-export const GetPolicyProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/policy" }),
-  svc,
-) as unknown as Schema.Schema<GetPolicyProjectsRequest>;
+export const GetPolicyProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/policy" }),
+    svc,
+  ) as unknown as Schema.Schema<GetPolicyProjectsRequest>;
 
 export type GetPolicyProjectsResponse = Policy;
-export const GetPolicyProjectsResponse = Policy;
+export const GetPolicyProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetPolicyProjectsError = DefaultErrors;
 
@@ -452,7 +463,7 @@ export const getPolicyProjects: API.OperationMethod<
   GetPolicyProjectsResponse,
   GetPolicyProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicyProjectsRequest,
   output: GetPolicyProjectsResponse,
   errors: [],
@@ -465,20 +476,21 @@ export interface UpdatePolicyProjectsRequest {
   body?: Policy;
 }
 
-export const UpdatePolicyProjectsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Policy).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1beta1/projects/{projectsId}/policy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdatePolicyProjectsRequest>;
+export const UpdatePolicyProjectsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Policy).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1beta1/projects/{projectsId}/policy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdatePolicyProjectsRequest>;
 
 export type UpdatePolicyProjectsResponse = Policy;
-export const UpdatePolicyProjectsResponse = Policy;
+export const UpdatePolicyProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type UpdatePolicyProjectsError = DefaultErrors;
 
@@ -488,7 +500,7 @@ export const updatePolicyProjects: API.OperationMethod<
   UpdatePolicyProjectsResponse,
   UpdatePolicyProjectsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdatePolicyProjectsRequest,
   output: UpdatePolicyProjectsResponse,
   errors: [],
@@ -502,7 +514,7 @@ export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
 }
 
 export const ValidateAttestationOccurrenceProjectsAttestorsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     attestor: Schema.String.pipe(T.HttpPath("attestor")),
     body: Schema.optional(ValidateAttestationOccurrenceRequest).pipe(
       T.HttpBody(),
@@ -519,7 +531,7 @@ export const ValidateAttestationOccurrenceProjectsAttestorsRequest =
 export type ValidateAttestationOccurrenceProjectsAttestorsResponse =
   ValidateAttestationOccurrenceResponse;
 export const ValidateAttestationOccurrenceProjectsAttestorsResponse =
-  ValidateAttestationOccurrenceResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ValidateAttestationOccurrenceResponse;
 
 export type ValidateAttestationOccurrenceProjectsAttestorsError = DefaultErrors;
 
@@ -529,7 +541,7 @@ export const validateAttestationOccurrenceProjectsAttestors: API.OperationMethod
   ValidateAttestationOccurrenceProjectsAttestorsResponse,
   ValidateAttestationOccurrenceProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ValidateAttestationOccurrenceProjectsAttestorsRequest,
   output: ValidateAttestationOccurrenceProjectsAttestorsResponse,
   errors: [],
@@ -544,21 +556,23 @@ export interface CreateProjectsAttestorsRequest {
   body?: Attestor;
 }
 
-export const CreateProjectsAttestorsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  attestorId: Schema.optional(Schema.String).pipe(T.HttpQuery("attestorId")),
-  body: Schema.optional(Attestor).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/attestors",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateProjectsAttestorsRequest>;
+export const CreateProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    attestorId: Schema.optional(Schema.String).pipe(T.HttpQuery("attestorId")),
+    body: Schema.optional(Attestor).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/attestors",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsAttestorsRequest>;
 
 export type CreateProjectsAttestorsResponse = Attestor;
-export const CreateProjectsAttestorsResponse = Attestor;
+export const CreateProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attestor;
 
 export type CreateProjectsAttestorsError = DefaultErrors;
 
@@ -568,7 +582,7 @@ export const createProjectsAttestors: API.OperationMethod<
   CreateProjectsAttestorsResponse,
   CreateProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateProjectsAttestorsRequest,
   output: CreateProjectsAttestorsResponse,
   errors: [],
@@ -579,18 +593,20 @@ export interface GetProjectsAttestorsRequest {
   name: string;
 }
 
-export const GetProjectsAttestorsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetProjectsAttestorsRequest>;
+export const GetProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsAttestorsRequest>;
 
 export type GetProjectsAttestorsResponse = Attestor;
-export const GetProjectsAttestorsResponse = Attestor;
+export const GetProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attestor;
 
 export type GetProjectsAttestorsError = DefaultErrors;
 
@@ -600,7 +616,7 @@ export const getProjectsAttestors: API.OperationMethod<
   GetProjectsAttestorsResponse,
   GetProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsAttestorsRequest,
   output: GetProjectsAttestorsResponse,
   errors: [],
@@ -613,20 +629,22 @@ export interface UpdateProjectsAttestorsRequest {
   body?: Attestor;
 }
 
-export const UpdateProjectsAttestorsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Attestor).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateProjectsAttestorsRequest>;
+export const UpdateProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Attestor).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateProjectsAttestorsRequest>;
 
 export type UpdateProjectsAttestorsResponse = Attestor;
-export const UpdateProjectsAttestorsResponse = Attestor;
+export const UpdateProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Attestor;
 
 export type UpdateProjectsAttestorsError = DefaultErrors;
 
@@ -636,7 +654,7 @@ export const updateProjectsAttestors: API.OperationMethod<
   UpdateProjectsAttestorsResponse,
   UpdateProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateProjectsAttestorsRequest,
   output: UpdateProjectsAttestorsResponse,
   errors: [],
@@ -651,17 +669,19 @@ export interface ListProjectsAttestorsRequest {
   pageToken?: string;
 }
 
-export const ListProjectsAttestorsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/attestors" }),
-  svc,
-) as unknown as Schema.Schema<ListProjectsAttestorsRequest>;
+export const ListProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/attestors" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsAttestorsRequest>;
 
 export type ListProjectsAttestorsResponse = ListAttestorsResponse;
-export const ListProjectsAttestorsResponse = ListAttestorsResponse;
+export const ListProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListAttestorsResponse;
 
 export type ListProjectsAttestorsError = DefaultErrors;
 
@@ -671,7 +691,7 @@ export const listProjectsAttestors: API.PaginatedOperationMethod<
   ListProjectsAttestorsResponse,
   ListProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListProjectsAttestorsRequest,
   output: ListProjectsAttestorsResponse,
   errors: [],
@@ -686,18 +706,20 @@ export interface DeleteProjectsAttestorsRequest {
   name: string;
 }
 
-export const DeleteProjectsAttestorsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteProjectsAttestorsRequest>;
+export const DeleteProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsAttestorsRequest>;
 
 export type DeleteProjectsAttestorsResponse = Empty;
-export const DeleteProjectsAttestorsResponse = Empty;
+export const DeleteProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteProjectsAttestorsError = DefaultErrors;
 
@@ -707,7 +729,7 @@ export const deleteProjectsAttestors: API.OperationMethod<
   DeleteProjectsAttestorsResponse,
   DeleteProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteProjectsAttestorsRequest,
   output: DeleteProjectsAttestorsResponse,
   errors: [],
@@ -720,20 +742,22 @@ export interface SetIamPolicyProjectsAttestorsRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsAttestorsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsAttestorsRequest>;
+export const SetIamPolicyProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsAttestorsRequest>;
 
 export type SetIamPolicyProjectsAttestorsResponse = IamPolicy;
-export const SetIamPolicyProjectsAttestorsResponse = IamPolicy;
+export const SetIamPolicyProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IamPolicy;
 
 export type SetIamPolicyProjectsAttestorsError = DefaultErrors;
 
@@ -743,7 +767,7 @@ export const setIamPolicyProjectsAttestors: API.OperationMethod<
   SetIamPolicyProjectsAttestorsResponse,
   SetIamPolicyProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsAttestorsRequest,
   output: SetIamPolicyProjectsAttestorsResponse,
   errors: [],
@@ -756,21 +780,23 @@ export interface GetIamPolicyProjectsAttestorsRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsAttestorsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("options.requestedPolicyVersion"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:getIamPolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsAttestorsRequest>;
+export const GetIamPolicyProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsAttestorsRequest>;
 
 export type GetIamPolicyProjectsAttestorsResponse = IamPolicy;
-export const GetIamPolicyProjectsAttestorsResponse = IamPolicy;
+export const GetIamPolicyProjectsAttestorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IamPolicy;
 
 export type GetIamPolicyProjectsAttestorsError = DefaultErrors;
 
@@ -780,7 +806,7 @@ export const getIamPolicyProjectsAttestors: API.OperationMethod<
   GetIamPolicyProjectsAttestorsResponse,
   GetIamPolicyProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsAttestorsRequest,
   output: GetIamPolicyProjectsAttestorsResponse,
   errors: [],
@@ -793,22 +819,23 @@ export interface TestIamPermissionsProjectsAttestorsRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsAttestorsRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsAttestorsRequest>;
+export const TestIamPermissionsProjectsAttestorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/attestors/{attestorsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsAttestorsRequest>;
 
 export type TestIamPermissionsProjectsAttestorsResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsAttestorsResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsAttestorsError = DefaultErrors;
 
@@ -818,7 +845,7 @@ export const testIamPermissionsProjectsAttestors: API.OperationMethod<
   TestIamPermissionsProjectsAttestorsResponse,
   TestIamPermissionsProjectsAttestorsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsAttestorsRequest,
   output: TestIamPermissionsProjectsAttestorsResponse,
   errors: [],
@@ -831,20 +858,22 @@ export interface SetIamPolicyProjectsPolicyRequest {
   body?: SetIamPolicyRequest;
 }
 
-export const SetIamPolicyProjectsPolicyRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/policy:setIamPolicy",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SetIamPolicyProjectsPolicyRequest>;
+export const SetIamPolicyProjectsPolicyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/policy:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsPolicyRequest>;
 
 export type SetIamPolicyProjectsPolicyResponse = IamPolicy;
-export const SetIamPolicyProjectsPolicyResponse = IamPolicy;
+export const SetIamPolicyProjectsPolicyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IamPolicy;
 
 export type SetIamPolicyProjectsPolicyError = DefaultErrors;
 
@@ -854,7 +883,7 @@ export const setIamPolicyProjectsPolicy: API.OperationMethod<
   SetIamPolicyProjectsPolicyResponse,
   SetIamPolicyProjectsPolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SetIamPolicyProjectsPolicyRequest,
   output: SetIamPolicyProjectsPolicyResponse,
   errors: [],
@@ -867,21 +896,23 @@ export interface GetIamPolicyProjectsPolicyRequest {
   "options.requestedPolicyVersion"?: number;
 }
 
-export const GetIamPolicyProjectsPolicyRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("options.requestedPolicyVersion"),
-  ),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1beta1/projects/{projectsId}/policy:getIamPolicy",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetIamPolicyProjectsPolicyRequest>;
+export const GetIamPolicyProjectsPolicyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/policy:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsPolicyRequest>;
 
 export type GetIamPolicyProjectsPolicyResponse = IamPolicy;
-export const GetIamPolicyProjectsPolicyResponse = IamPolicy;
+export const GetIamPolicyProjectsPolicyResponse =
+  /*@__PURE__*/ /*#__PURE__*/ IamPolicy;
 
 export type GetIamPolicyProjectsPolicyError = DefaultErrors;
 
@@ -891,7 +922,7 @@ export const getIamPolicyProjectsPolicy: API.OperationMethod<
   GetIamPolicyProjectsPolicyResponse,
   GetIamPolicyProjectsPolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsPolicyRequest,
   output: GetIamPolicyProjectsPolicyResponse,
   errors: [],
@@ -904,22 +935,23 @@ export interface TestIamPermissionsProjectsPolicyRequest {
   body?: TestIamPermissionsRequest;
 }
 
-export const TestIamPermissionsProjectsPolicyRequest = Schema.Struct({
-  resource: Schema.String.pipe(T.HttpPath("resource")),
-  body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1beta1/projects/{projectsId}/policy:testIamPermissions",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<TestIamPermissionsProjectsPolicyRequest>;
+export const TestIamPermissionsProjectsPolicyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/policy:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsPolicyRequest>;
 
 export type TestIamPermissionsProjectsPolicyResponse =
   TestIamPermissionsResponse;
 export const TestIamPermissionsProjectsPolicyResponse =
-  TestIamPermissionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsPolicyError = DefaultErrors;
 
@@ -929,7 +961,7 @@ export const testIamPermissionsProjectsPolicy: API.OperationMethod<
   TestIamPermissionsProjectsPolicyResponse,
   TestIamPermissionsProjectsPolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsPolicyRequest,
   output: TestIamPermissionsProjectsPolicyResponse,
   errors: [],
@@ -940,15 +972,16 @@ export interface GetPolicySystempolicyRequest {
   name: string;
 }
 
-export const GetPolicySystempolicyRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1beta1/locations/{locationsId}/policy" }),
-  svc,
-) as unknown as Schema.Schema<GetPolicySystempolicyRequest>;
+export const GetPolicySystempolicyRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/locations/{locationsId}/policy" }),
+    svc,
+  ) as unknown as Schema.Schema<GetPolicySystempolicyRequest>;
 
 export type GetPolicySystempolicyResponse = Policy;
-export const GetPolicySystempolicyResponse = Policy;
+export const GetPolicySystempolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetPolicySystempolicyError = DefaultErrors;
 
@@ -958,7 +991,7 @@ export const getPolicySystempolicy: API.OperationMethod<
   GetPolicySystempolicyResponse,
   GetPolicySystempolicyError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetPolicySystempolicyRequest,
   output: GetPolicySystempolicyResponse,
   errors: [],

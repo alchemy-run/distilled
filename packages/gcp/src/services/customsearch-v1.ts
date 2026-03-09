@@ -42,31 +42,32 @@ export interface Promotion {
   link?: string;
 }
 
-export const Promotion: Schema.Schema<Promotion> = Schema.suspend(() =>
-  Schema.Struct({
-    htmlTitle: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    image: Schema.optional(
-      Schema.Struct({
-        source: Schema.optional(Schema.String),
-        height: Schema.optional(Schema.Number),
-        width: Schema.optional(Schema.Number),
-      }),
-    ),
-    bodyLines: Schema.optional(
-      Schema.Array(
+export const Promotion: Schema.Schema<Promotion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      htmlTitle: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      image: Schema.optional(
         Schema.Struct({
-          htmlTitle: Schema.optional(Schema.String),
-          url: Schema.optional(Schema.String),
-          title: Schema.optional(Schema.String),
-          link: Schema.optional(Schema.String),
+          source: Schema.optional(Schema.String),
+          height: Schema.optional(Schema.Number),
+          width: Schema.optional(Schema.Number),
         }),
       ),
-    ),
-    displayLink: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
+      bodyLines: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            htmlTitle: Schema.optional(Schema.String),
+            url: Schema.optional(Schema.String),
+            title: Schema.optional(Schema.String),
+            link: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      displayLink: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Promotion" }) as any as Schema.Schema<Promotion>;
 
 export interface Result {
   /** The file format of the search result. */
@@ -113,43 +114,44 @@ export interface Result {
   htmlTitle?: string;
 }
 
-export const Result: Schema.Schema<Result> = Schema.suspend(() =>
-  Schema.Struct({
-    fileFormat: Schema.optional(Schema.String),
-    htmlSnippet: Schema.optional(Schema.String),
-    snippet: Schema.optional(Schema.String),
-    link: Schema.optional(Schema.String),
-    title: Schema.optional(Schema.String),
-    kind: Schema.optional(Schema.String),
-    pagemap: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    displayLink: Schema.optional(Schema.String),
-    htmlFormattedUrl: Schema.optional(Schema.String),
-    labels: Schema.optional(
-      Schema.Array(
+export const Result: Schema.Schema<Result> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileFormat: Schema.optional(Schema.String),
+      htmlSnippet: Schema.optional(Schema.String),
+      snippet: Schema.optional(Schema.String),
+      link: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      kind: Schema.optional(Schema.String),
+      pagemap: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      displayLink: Schema.optional(Schema.String),
+      htmlFormattedUrl: Schema.optional(Schema.String),
+      labels: Schema.optional(
+        Schema.Array(
+          Schema.Struct({
+            name: Schema.optional(Schema.String),
+            displayName: Schema.optional(Schema.String),
+            label_with_op: Schema.optional(Schema.String),
+          }),
+        ),
+      ),
+      formattedUrl: Schema.optional(Schema.String),
+      mime: Schema.optional(Schema.String),
+      cacheId: Schema.optional(Schema.String),
+      image: Schema.optional(
         Schema.Struct({
-          name: Schema.optional(Schema.String),
-          displayName: Schema.optional(Schema.String),
-          label_with_op: Schema.optional(Schema.String),
+          width: Schema.optional(Schema.Number),
+          thumbnailWidth: Schema.optional(Schema.Number),
+          contextLink: Schema.optional(Schema.String),
+          height: Schema.optional(Schema.Number),
+          thumbnailHeight: Schema.optional(Schema.Number),
+          byteSize: Schema.optional(Schema.Number),
+          thumbnailLink: Schema.optional(Schema.String),
         }),
       ),
-    ),
-    formattedUrl: Schema.optional(Schema.String),
-    mime: Schema.optional(Schema.String),
-    cacheId: Schema.optional(Schema.String),
-    image: Schema.optional(
-      Schema.Struct({
-        width: Schema.optional(Schema.Number),
-        thumbnailWidth: Schema.optional(Schema.Number),
-        contextLink: Schema.optional(Schema.String),
-        height: Schema.optional(Schema.Number),
-        thumbnailHeight: Schema.optional(Schema.Number),
-        byteSize: Schema.optional(Schema.Number),
-        thumbnailLink: Schema.optional(Schema.String),
-      }),
-    ),
-    htmlTitle: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Result" }) as any as Schema.Schema<Result>;
+      htmlTitle: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Result" }) as any as Schema.Schema<Result>;
 
 export interface Search {
   /** Metadata about a search operation. */
@@ -290,164 +292,165 @@ export interface Search {
   items?: Array<Result>;
 }
 
-export const Search: Schema.Schema<Search> = Schema.suspend(() =>
-  Schema.Struct({
-    searchInformation: Schema.optional(
-      Schema.Struct({
-        totalResults: Schema.optional(Schema.String),
-        searchTime: Schema.optional(Schema.Number),
-        formattedTotalResults: Schema.optional(Schema.String),
-        formattedSearchTime: Schema.optional(Schema.String),
-      }),
-    ),
-    context: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-    queries: Schema.optional(
-      Schema.Struct({
-        previousPage: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              safe: Schema.optional(Schema.String),
-              gl: Schema.optional(Schema.String),
-              fileType: Schema.optional(Schema.String),
-              rights: Schema.optional(Schema.String),
-              hq: Schema.optional(Schema.String),
-              imgType: Schema.optional(Schema.String),
-              title: Schema.optional(Schema.String),
-              relatedSite: Schema.optional(Schema.String),
-              siteSearchFilter: Schema.optional(Schema.String),
-              exactTerms: Schema.optional(Schema.String),
-              sort: Schema.optional(Schema.String),
-              startPage: Schema.optional(Schema.Number),
-              totalResults: Schema.optional(Schema.String),
-              startIndex: Schema.optional(Schema.Number),
-              cx: Schema.optional(Schema.String),
-              disableCnTwTranslation: Schema.optional(Schema.String),
-              imgDominantColor: Schema.optional(Schema.String),
-              imgSize: Schema.optional(Schema.String),
-              count: Schema.optional(Schema.Number),
-              excludeTerms: Schema.optional(Schema.String),
-              filter: Schema.optional(Schema.String),
-              cr: Schema.optional(Schema.String),
-              orTerms: Schema.optional(Schema.String),
-              hl: Schema.optional(Schema.String),
-              searchType: Schema.optional(Schema.String),
-              highRange: Schema.optional(Schema.String),
-              language: Schema.optional(Schema.String),
-              imgColorType: Schema.optional(Schema.String),
-              lowRange: Schema.optional(Schema.String),
-              outputEncoding: Schema.optional(Schema.String),
-              dateRestrict: Schema.optional(Schema.String),
-              searchTerms: Schema.optional(Schema.String),
-              inputEncoding: Schema.optional(Schema.String),
-              linkSite: Schema.optional(Schema.String),
-              googleHost: Schema.optional(Schema.String),
-              siteSearch: Schema.optional(Schema.String),
-            }),
+export const Search: Schema.Schema<Search> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      searchInformation: Schema.optional(
+        Schema.Struct({
+          totalResults: Schema.optional(Schema.String),
+          searchTime: Schema.optional(Schema.Number),
+          formattedTotalResults: Schema.optional(Schema.String),
+          formattedSearchTime: Schema.optional(Schema.String),
+        }),
+      ),
+      context: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      queries: Schema.optional(
+        Schema.Struct({
+          previousPage: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                safe: Schema.optional(Schema.String),
+                gl: Schema.optional(Schema.String),
+                fileType: Schema.optional(Schema.String),
+                rights: Schema.optional(Schema.String),
+                hq: Schema.optional(Schema.String),
+                imgType: Schema.optional(Schema.String),
+                title: Schema.optional(Schema.String),
+                relatedSite: Schema.optional(Schema.String),
+                siteSearchFilter: Schema.optional(Schema.String),
+                exactTerms: Schema.optional(Schema.String),
+                sort: Schema.optional(Schema.String),
+                startPage: Schema.optional(Schema.Number),
+                totalResults: Schema.optional(Schema.String),
+                startIndex: Schema.optional(Schema.Number),
+                cx: Schema.optional(Schema.String),
+                disableCnTwTranslation: Schema.optional(Schema.String),
+                imgDominantColor: Schema.optional(Schema.String),
+                imgSize: Schema.optional(Schema.String),
+                count: Schema.optional(Schema.Number),
+                excludeTerms: Schema.optional(Schema.String),
+                filter: Schema.optional(Schema.String),
+                cr: Schema.optional(Schema.String),
+                orTerms: Schema.optional(Schema.String),
+                hl: Schema.optional(Schema.String),
+                searchType: Schema.optional(Schema.String),
+                highRange: Schema.optional(Schema.String),
+                language: Schema.optional(Schema.String),
+                imgColorType: Schema.optional(Schema.String),
+                lowRange: Schema.optional(Schema.String),
+                outputEncoding: Schema.optional(Schema.String),
+                dateRestrict: Schema.optional(Schema.String),
+                searchTerms: Schema.optional(Schema.String),
+                inputEncoding: Schema.optional(Schema.String),
+                linkSite: Schema.optional(Schema.String),
+                googleHost: Schema.optional(Schema.String),
+                siteSearch: Schema.optional(Schema.String),
+              }),
+            ),
           ),
-        ),
-        nextPage: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              totalResults: Schema.optional(Schema.String),
-              sort: Schema.optional(Schema.String),
-              startPage: Schema.optional(Schema.Number),
-              imgDominantColor: Schema.optional(Schema.String),
-              imgSize: Schema.optional(Schema.String),
-              cx: Schema.optional(Schema.String),
-              disableCnTwTranslation: Schema.optional(Schema.String),
-              startIndex: Schema.optional(Schema.Number),
-              rights: Schema.optional(Schema.String),
-              fileType: Schema.optional(Schema.String),
-              safe: Schema.optional(Schema.String),
-              gl: Schema.optional(Schema.String),
-              siteSearchFilter: Schema.optional(Schema.String),
-              exactTerms: Schema.optional(Schema.String),
-              title: Schema.optional(Schema.String),
-              relatedSite: Schema.optional(Schema.String),
-              hq: Schema.optional(Schema.String),
-              imgType: Schema.optional(Schema.String),
-              lowRange: Schema.optional(Schema.String),
-              outputEncoding: Schema.optional(Schema.String),
-              language: Schema.optional(Schema.String),
-              imgColorType: Schema.optional(Schema.String),
-              searchType: Schema.optional(Schema.String),
-              highRange: Schema.optional(Schema.String),
-              siteSearch: Schema.optional(Schema.String),
-              inputEncoding: Schema.optional(Schema.String),
-              linkSite: Schema.optional(Schema.String),
-              googleHost: Schema.optional(Schema.String),
-              searchTerms: Schema.optional(Schema.String),
-              dateRestrict: Schema.optional(Schema.String),
-              excludeTerms: Schema.optional(Schema.String),
-              count: Schema.optional(Schema.Number),
-              hl: Schema.optional(Schema.String),
-              cr: Schema.optional(Schema.String),
-              orTerms: Schema.optional(Schema.String),
-              filter: Schema.optional(Schema.String),
-            }),
+          nextPage: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                totalResults: Schema.optional(Schema.String),
+                sort: Schema.optional(Schema.String),
+                startPage: Schema.optional(Schema.Number),
+                imgDominantColor: Schema.optional(Schema.String),
+                imgSize: Schema.optional(Schema.String),
+                cx: Schema.optional(Schema.String),
+                disableCnTwTranslation: Schema.optional(Schema.String),
+                startIndex: Schema.optional(Schema.Number),
+                rights: Schema.optional(Schema.String),
+                fileType: Schema.optional(Schema.String),
+                safe: Schema.optional(Schema.String),
+                gl: Schema.optional(Schema.String),
+                siteSearchFilter: Schema.optional(Schema.String),
+                exactTerms: Schema.optional(Schema.String),
+                title: Schema.optional(Schema.String),
+                relatedSite: Schema.optional(Schema.String),
+                hq: Schema.optional(Schema.String),
+                imgType: Schema.optional(Schema.String),
+                lowRange: Schema.optional(Schema.String),
+                outputEncoding: Schema.optional(Schema.String),
+                language: Schema.optional(Schema.String),
+                imgColorType: Schema.optional(Schema.String),
+                searchType: Schema.optional(Schema.String),
+                highRange: Schema.optional(Schema.String),
+                siteSearch: Schema.optional(Schema.String),
+                inputEncoding: Schema.optional(Schema.String),
+                linkSite: Schema.optional(Schema.String),
+                googleHost: Schema.optional(Schema.String),
+                searchTerms: Schema.optional(Schema.String),
+                dateRestrict: Schema.optional(Schema.String),
+                excludeTerms: Schema.optional(Schema.String),
+                count: Schema.optional(Schema.Number),
+                hl: Schema.optional(Schema.String),
+                cr: Schema.optional(Schema.String),
+                orTerms: Schema.optional(Schema.String),
+                filter: Schema.optional(Schema.String),
+              }),
+            ),
           ),
-        ),
-        request: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              startIndex: Schema.optional(Schema.Number),
-              cx: Schema.optional(Schema.String),
-              disableCnTwTranslation: Schema.optional(Schema.String),
-              imgSize: Schema.optional(Schema.String),
-              imgDominantColor: Schema.optional(Schema.String),
-              startPage: Schema.optional(Schema.Number),
-              sort: Schema.optional(Schema.String),
-              totalResults: Schema.optional(Schema.String),
-              hq: Schema.optional(Schema.String),
-              imgType: Schema.optional(Schema.String),
-              title: Schema.optional(Schema.String),
-              relatedSite: Schema.optional(Schema.String),
-              siteSearchFilter: Schema.optional(Schema.String),
-              exactTerms: Schema.optional(Schema.String),
-              safe: Schema.optional(Schema.String),
-              gl: Schema.optional(Schema.String),
-              fileType: Schema.optional(Schema.String),
-              rights: Schema.optional(Schema.String),
-              dateRestrict: Schema.optional(Schema.String),
-              searchTerms: Schema.optional(Schema.String),
-              googleHost: Schema.optional(Schema.String),
-              inputEncoding: Schema.optional(Schema.String),
-              linkSite: Schema.optional(Schema.String),
-              siteSearch: Schema.optional(Schema.String),
-              highRange: Schema.optional(Schema.String),
-              searchType: Schema.optional(Schema.String),
-              language: Schema.optional(Schema.String),
-              imgColorType: Schema.optional(Schema.String),
-              outputEncoding: Schema.optional(Schema.String),
-              lowRange: Schema.optional(Schema.String),
-              filter: Schema.optional(Schema.String),
-              orTerms: Schema.optional(Schema.String),
-              cr: Schema.optional(Schema.String),
-              hl: Schema.optional(Schema.String),
-              count: Schema.optional(Schema.Number),
-              excludeTerms: Schema.optional(Schema.String),
-            }),
+          request: Schema.optional(
+            Schema.Array(
+              Schema.Struct({
+                startIndex: Schema.optional(Schema.Number),
+                cx: Schema.optional(Schema.String),
+                disableCnTwTranslation: Schema.optional(Schema.String),
+                imgSize: Schema.optional(Schema.String),
+                imgDominantColor: Schema.optional(Schema.String),
+                startPage: Schema.optional(Schema.Number),
+                sort: Schema.optional(Schema.String),
+                totalResults: Schema.optional(Schema.String),
+                hq: Schema.optional(Schema.String),
+                imgType: Schema.optional(Schema.String),
+                title: Schema.optional(Schema.String),
+                relatedSite: Schema.optional(Schema.String),
+                siteSearchFilter: Schema.optional(Schema.String),
+                exactTerms: Schema.optional(Schema.String),
+                safe: Schema.optional(Schema.String),
+                gl: Schema.optional(Schema.String),
+                fileType: Schema.optional(Schema.String),
+                rights: Schema.optional(Schema.String),
+                dateRestrict: Schema.optional(Schema.String),
+                searchTerms: Schema.optional(Schema.String),
+                googleHost: Schema.optional(Schema.String),
+                inputEncoding: Schema.optional(Schema.String),
+                linkSite: Schema.optional(Schema.String),
+                siteSearch: Schema.optional(Schema.String),
+                highRange: Schema.optional(Schema.String),
+                searchType: Schema.optional(Schema.String),
+                language: Schema.optional(Schema.String),
+                imgColorType: Schema.optional(Schema.String),
+                outputEncoding: Schema.optional(Schema.String),
+                lowRange: Schema.optional(Schema.String),
+                filter: Schema.optional(Schema.String),
+                orTerms: Schema.optional(Schema.String),
+                cr: Schema.optional(Schema.String),
+                hl: Schema.optional(Schema.String),
+                count: Schema.optional(Schema.Number),
+                excludeTerms: Schema.optional(Schema.String),
+              }),
+            ),
           ),
-        ),
-      }),
-    ),
-    kind: Schema.optional(Schema.String),
-    url: Schema.optional(
-      Schema.Struct({
-        type: Schema.optional(Schema.String),
-        template: Schema.optional(Schema.String),
-      }),
-    ),
-    spelling: Schema.optional(
-      Schema.Struct({
-        correctedQuery: Schema.optional(Schema.String),
-        htmlCorrectedQuery: Schema.optional(Schema.String),
-      }),
-    ),
-    promotions: Schema.optional(Schema.Array(Promotion)),
-    items: Schema.optional(Schema.Array(Result)),
-  }),
-).annotate({ identifier: "Search" }) as any as Schema.Schema<Search>;
+        }),
+      ),
+      kind: Schema.optional(Schema.String),
+      url: Schema.optional(
+        Schema.Struct({
+          type: Schema.optional(Schema.String),
+          template: Schema.optional(Schema.String),
+        }),
+      ),
+      spelling: Schema.optional(
+        Schema.Struct({
+          correctedQuery: Schema.optional(Schema.String),
+          htmlCorrectedQuery: Schema.optional(Schema.String),
+        }),
+      ),
+      promotions: Schema.optional(Schema.Array(Promotion)),
+      items: Schema.optional(Schema.Array(Result)),
+    }),
+  ).annotate({ identifier: "Search" }) as any as Schema.Schema<Search>;
 
 // ==========================================================================
 // Operations
@@ -559,7 +562,7 @@ export interface ListCseRequest {
   sort?: string;
 }
 
-export const ListCseRequest = Schema.Struct({
+export const ListCseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cr: Schema.optional(Schema.String).pipe(T.HttpQuery("cr")),
   orTerms: Schema.optional(Schema.String).pipe(T.HttpQuery("orTerms")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
@@ -613,7 +616,7 @@ export const ListCseRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListCseRequest>;
 
 export type ListCseResponse = Search;
-export const ListCseResponse = Search;
+export const ListCseResponse = /*@__PURE__*/ /*#__PURE__*/ Search;
 
 export type ListCseError = DefaultErrors;
 
@@ -623,7 +626,7 @@ export const listCse: API.OperationMethod<
   ListCseResponse,
   ListCseError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCseRequest,
   output: ListCseResponse,
   errors: [],
@@ -735,61 +738,64 @@ export interface ListCseSiterestrictRequest {
   filter?: string;
 }
 
-export const ListCseSiterestrictRequest = Schema.Struct({
-  sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
-  imgDominantColor: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("imgDominantColor"),
-  ),
-  lr: Schema.optional(Schema.String).pipe(T.HttpQuery("lr")),
-  imgSize: Schema.optional(Schema.String).pipe(T.HttpQuery("imgSize")),
-  cx: Schema.optional(Schema.String).pipe(T.HttpQuery("cx")),
-  googlehost: Schema.optional(Schema.String).pipe(T.HttpQuery("googlehost")),
-  rights: Schema.optional(Schema.String).pipe(T.HttpQuery("rights")),
-  fileType: Schema.optional(Schema.String).pipe(T.HttpQuery("fileType")),
-  start: Schema.optional(Schema.Number).pipe(T.HttpQuery("start")),
-  gl: Schema.optional(Schema.String).pipe(T.HttpQuery("gl")),
-  safe: Schema.optional(Schema.String).pipe(T.HttpQuery("safe")),
-  exactTerms: Schema.optional(Schema.String).pipe(T.HttpQuery("exactTerms")),
-  siteSearchFilter: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("siteSearchFilter"),
-  ),
-  relatedSite: Schema.optional(Schema.String).pipe(T.HttpQuery("relatedSite")),
-  snippetLength: Schema.optional(Schema.Number).pipe(
-    T.HttpQuery("snippetLength"),
-  ),
-  hq: Schema.optional(Schema.String).pipe(T.HttpQuery("hq")),
-  imgType: Schema.optional(Schema.String).pipe(T.HttpQuery("imgType")),
-  lowRange: Schema.optional(Schema.String).pipe(T.HttpQuery("lowRange")),
-  imgColorType: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("imgColorType"),
-  ),
-  c2coff: Schema.optional(Schema.String).pipe(T.HttpQuery("c2coff")),
-  searchType: Schema.optional(Schema.String).pipe(T.HttpQuery("searchType")),
-  highRange: Schema.optional(Schema.String).pipe(T.HttpQuery("highRange")),
-  siteSearch: Schema.optional(Schema.String).pipe(T.HttpQuery("siteSearch")),
-  linkSite: Schema.optional(Schema.String).pipe(T.HttpQuery("linkSite")),
-  num: Schema.optional(Schema.Number).pipe(T.HttpQuery("num")),
-  dateRestrict: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("dateRestrict"),
-  ),
-  q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
-  excludeTerms: Schema.optional(Schema.String).pipe(
-    T.HttpQuery("excludeTerms"),
-  ),
-  enableAlternateSearchHandler: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("enableAlternateSearchHandler"),
-  ),
-  hl: Schema.optional(Schema.String).pipe(T.HttpQuery("hl")),
-  cr: Schema.optional(Schema.String).pipe(T.HttpQuery("cr")),
-  orTerms: Schema.optional(Schema.String).pipe(T.HttpQuery("orTerms")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "customsearch/v1/siterestrict" }),
-  svc,
-) as unknown as Schema.Schema<ListCseSiterestrictRequest>;
+export const ListCseSiterestrictRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    sort: Schema.optional(Schema.String).pipe(T.HttpQuery("sort")),
+    imgDominantColor: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("imgDominantColor"),
+    ),
+    lr: Schema.optional(Schema.String).pipe(T.HttpQuery("lr")),
+    imgSize: Schema.optional(Schema.String).pipe(T.HttpQuery("imgSize")),
+    cx: Schema.optional(Schema.String).pipe(T.HttpQuery("cx")),
+    googlehost: Schema.optional(Schema.String).pipe(T.HttpQuery("googlehost")),
+    rights: Schema.optional(Schema.String).pipe(T.HttpQuery("rights")),
+    fileType: Schema.optional(Schema.String).pipe(T.HttpQuery("fileType")),
+    start: Schema.optional(Schema.Number).pipe(T.HttpQuery("start")),
+    gl: Schema.optional(Schema.String).pipe(T.HttpQuery("gl")),
+    safe: Schema.optional(Schema.String).pipe(T.HttpQuery("safe")),
+    exactTerms: Schema.optional(Schema.String).pipe(T.HttpQuery("exactTerms")),
+    siteSearchFilter: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("siteSearchFilter"),
+    ),
+    relatedSite: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("relatedSite"),
+    ),
+    snippetLength: Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("snippetLength"),
+    ),
+    hq: Schema.optional(Schema.String).pipe(T.HttpQuery("hq")),
+    imgType: Schema.optional(Schema.String).pipe(T.HttpQuery("imgType")),
+    lowRange: Schema.optional(Schema.String).pipe(T.HttpQuery("lowRange")),
+    imgColorType: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("imgColorType"),
+    ),
+    c2coff: Schema.optional(Schema.String).pipe(T.HttpQuery("c2coff")),
+    searchType: Schema.optional(Schema.String).pipe(T.HttpQuery("searchType")),
+    highRange: Schema.optional(Schema.String).pipe(T.HttpQuery("highRange")),
+    siteSearch: Schema.optional(Schema.String).pipe(T.HttpQuery("siteSearch")),
+    linkSite: Schema.optional(Schema.String).pipe(T.HttpQuery("linkSite")),
+    num: Schema.optional(Schema.Number).pipe(T.HttpQuery("num")),
+    dateRestrict: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("dateRestrict"),
+    ),
+    q: Schema.optional(Schema.String).pipe(T.HttpQuery("q")),
+    excludeTerms: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("excludeTerms"),
+    ),
+    enableAlternateSearchHandler: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("enableAlternateSearchHandler"),
+    ),
+    hl: Schema.optional(Schema.String).pipe(T.HttpQuery("hl")),
+    cr: Schema.optional(Schema.String).pipe(T.HttpQuery("cr")),
+    orTerms: Schema.optional(Schema.String).pipe(T.HttpQuery("orTerms")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "customsearch/v1/siterestrict" }),
+    svc,
+  ) as unknown as Schema.Schema<ListCseSiterestrictRequest>;
 
 export type ListCseSiterestrictResponse = Search;
-export const ListCseSiterestrictResponse = Search;
+export const ListCseSiterestrictResponse = /*@__PURE__*/ /*#__PURE__*/ Search;
 
 export type ListCseSiterestrictError = DefaultErrors;
 
@@ -799,7 +805,7 @@ export const listCseSiterestrict: API.OperationMethod<
   ListCseSiterestrictResponse,
   ListCseSiterestrictError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListCseSiterestrictRequest,
   output: ListCseSiterestrictResponse,
   errors: [],

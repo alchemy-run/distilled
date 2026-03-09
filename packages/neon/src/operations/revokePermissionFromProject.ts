@@ -3,25 +3,27 @@ import { API } from "../client";
 import * as T from "../traits";
 
 // Input Schema
-export const RevokePermissionFromProjectInput = Schema.Struct({
-  project_id: Schema.String.pipe(T.PathParam()),
-  permission_id: Schema.String.pipe(T.PathParam()),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "/projects/{project_id}/permissions/{permission_id}",
-  }),
-);
+export const RevokePermissionFromProjectInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    project_id: Schema.String.pipe(T.PathParam()),
+    permission_id: Schema.String.pipe(T.PathParam()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/projects/{project_id}/permissions/{permission_id}",
+    }),
+  );
 export type RevokePermissionFromProjectInput =
   typeof RevokePermissionFromProjectInput.Type;
 
 // Output Schema
-export const RevokePermissionFromProjectOutput = Schema.Struct({
-  id: Schema.String,
-  granted_to_email: Schema.String,
-  granted_at: Schema.String,
-  revoked_at: Schema.optional(Schema.String),
-});
+export const RevokePermissionFromProjectOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    granted_to_email: Schema.String,
+    granted_at: Schema.String,
+    revoked_at: Schema.optional(Schema.String),
+  });
 export type RevokePermissionFromProjectOutput =
   typeof RevokePermissionFromProjectOutput.Type;
 

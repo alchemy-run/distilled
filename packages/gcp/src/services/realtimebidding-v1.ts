@@ -48,12 +48,13 @@ export interface MediaFile {
   bitrate?: string;
 }
 
-export const MediaFile: Schema.Schema<MediaFile> = Schema.suspend(() =>
-  Schema.Struct({
-    mimeType: Schema.optional(Schema.String),
-    bitrate: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "MediaFile" }) as any as Schema.Schema<MediaFile>;
+export const MediaFile: Schema.Schema<MediaFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mimeType: Schema.optional(Schema.String),
+      bitrate: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "MediaFile" }) as any as Schema.Schema<MediaFile>;
 
 export interface VideoMetadata {
   /** The duration of the ad. Can be used to filter the response of the creatives.list method. */
@@ -76,18 +77,19 @@ export interface VideoMetadata {
   skipOffset?: string;
 }
 
-export const VideoMetadata: Schema.Schema<VideoMetadata> = Schema.suspend(() =>
-  Schema.Struct({
-    duration: Schema.optional(Schema.String),
-    vastVersion: Schema.optional(Schema.String),
-    mediaFiles: Schema.optional(Schema.Array(MediaFile)),
-    isValidVast: Schema.optional(Schema.Boolean),
-    isVpaid: Schema.optional(Schema.Boolean),
-    skipOffset: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "VideoMetadata",
-}) as any as Schema.Schema<VideoMetadata>;
+export const VideoMetadata: Schema.Schema<VideoMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      duration: Schema.optional(Schema.String),
+      vastVersion: Schema.optional(Schema.String),
+      mediaFiles: Schema.optional(Schema.Array(MediaFile)),
+      isValidVast: Schema.optional(Schema.Boolean),
+      isVpaid: Schema.optional(Schema.Boolean),
+      skipOffset: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VideoMetadata",
+  }) as any as Schema.Schema<VideoMetadata>;
 
 export interface VideoContent {
   /** Output only. Video metadata. */
@@ -98,15 +100,16 @@ export interface VideoContent {
   videoUrl?: string;
 }
 
-export const VideoContent: Schema.Schema<VideoContent> = Schema.suspend(() =>
-  Schema.Struct({
-    videoMetadata: Schema.optional(VideoMetadata),
-    videoVastXml: Schema.optional(Schema.String),
-    videoUrl: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "VideoContent",
-}) as any as Schema.Schema<VideoContent>;
+export const VideoContent: Schema.Schema<VideoContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      videoMetadata: Schema.optional(VideoMetadata),
+      videoVastXml: Schema.optional(Schema.String),
+      videoUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "VideoContent",
+  }) as any as Schema.Schema<VideoContent>;
 
 export interface HtmlContent {
   /** The width of the HTML snippet in pixels. Can be used to filter the response of the creatives.list method. */
@@ -117,13 +120,16 @@ export interface HtmlContent {
   snippet?: string;
 }
 
-export const HtmlContent: Schema.Schema<HtmlContent> = Schema.suspend(() =>
-  Schema.Struct({
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-    snippet: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "HtmlContent" }) as any as Schema.Schema<HtmlContent>;
+export const HtmlContent: Schema.Schema<HtmlContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+      snippet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HtmlContent",
+  }) as any as Schema.Schema<HtmlContent>;
 
 export interface DestinationNotWorkingEvidence {
   /** Rejected because of malformed URLs or invalid requests. */
@@ -168,7 +174,7 @@ export interface DestinationNotWorkingEvidence {
 }
 
 export const DestinationNotWorkingEvidence: Schema.Schema<DestinationNotWorkingEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urlRejected: Schema.optional(Schema.String),
       httpError: Schema.optional(Schema.Number),
@@ -189,7 +195,7 @@ export interface DestinationUrlEvidence {
 }
 
 export const DestinationUrlEvidence: Schema.Schema<DestinationUrlEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationUrl: Schema.optional(Schema.String),
     }),
@@ -202,14 +208,14 @@ export interface HttpCallEvidence {
   urls?: Array<string>;
 }
 
-export const HttpCallEvidence: Schema.Schema<HttpCallEvidence> = Schema.suspend(
-  () =>
+export const HttpCallEvidence: Schema.Schema<HttpCallEvidence> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       urls: Schema.optional(Schema.Array(Schema.String)),
     }),
-).annotate({
-  identifier: "HttpCallEvidence",
-}) as any as Schema.Schema<HttpCallEvidence>;
+  ).annotate({
+    identifier: "HttpCallEvidence",
+  }) as any as Schema.Schema<HttpCallEvidence>;
 
 export interface DomainCalls {
   /** Number of HTTP calls made to the domain. */
@@ -218,12 +224,15 @@ export interface DomainCalls {
   domain?: string;
 }
 
-export const DomainCalls: Schema.Schema<DomainCalls> = Schema.suspend(() =>
-  Schema.Struct({
-    httpCallCount: Schema.optional(Schema.Number),
-    domain: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "DomainCalls" }) as any as Schema.Schema<DomainCalls>;
+export const DomainCalls: Schema.Schema<DomainCalls> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      httpCallCount: Schema.optional(Schema.Number),
+      domain: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DomainCalls",
+  }) as any as Schema.Schema<DomainCalls>;
 
 export interface DomainCallEvidence {
   /** The total number of HTTP calls made by the creative, including but not limited to the number of calls in the top_http_call_domains. */
@@ -233,7 +242,7 @@ export interface DomainCallEvidence {
 }
 
 export const DomainCallEvidence: Schema.Schema<DomainCallEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalHttpCallCount: Schema.optional(Schema.Number),
       topHttpCallDomains: Schema.optional(Schema.Array(DomainCalls)),
@@ -249,15 +258,15 @@ export interface UrlDownloadSize {
   downloadSizeKb?: number;
 }
 
-export const UrlDownloadSize: Schema.Schema<UrlDownloadSize> = Schema.suspend(
-  () =>
+export const UrlDownloadSize: Schema.Schema<UrlDownloadSize> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       normalizedUrl: Schema.optional(Schema.String),
       downloadSizeKb: Schema.optional(Schema.Number),
     }),
-).annotate({
-  identifier: "UrlDownloadSize",
-}) as any as Schema.Schema<UrlDownloadSize>;
+  ).annotate({
+    identifier: "UrlDownloadSize",
+  }) as any as Schema.Schema<UrlDownloadSize>;
 
 export interface DownloadSizeEvidence {
   /** Total download size (in kilobytes) for all the resources in the creative. */
@@ -267,7 +276,7 @@ export interface DownloadSizeEvidence {
 }
 
 export const DownloadSizeEvidence: Schema.Schema<DownloadSizeEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       totalDownloadSizeKb: Schema.optional(Schema.Number),
       topUrlDownloadSizeBreakdowns: Schema.optional(
@@ -294,7 +303,7 @@ export interface DestinationNotCrawlableEvidence {
 }
 
 export const DestinationNotCrawlableEvidence: Schema.Schema<DestinationNotCrawlableEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       crawledUrl: Schema.optional(Schema.String),
       reason: Schema.optional(Schema.String),
@@ -312,7 +321,7 @@ export interface HttpCookieEvidence {
 }
 
 export const HttpCookieEvidence: Schema.Schema<HttpCookieEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       cookieNames: Schema.optional(Schema.Array(Schema.String)),
       maxCookieCount: Schema.optional(Schema.Number),
@@ -339,7 +348,7 @@ export interface PolicyTopicEvidence {
 }
 
 export const PolicyTopicEvidence: Schema.Schema<PolicyTopicEvidence> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       destinationNotWorking: Schema.optional(DestinationNotWorkingEvidence),
       destinationUrl: Schema.optional(DestinationUrlEvidence),
@@ -364,17 +373,17 @@ export interface PolicyTopicEntry {
   helpCenterUrl?: string;
 }
 
-export const PolicyTopicEntry: Schema.Schema<PolicyTopicEntry> = Schema.suspend(
-  () =>
+export const PolicyTopicEntry: Schema.Schema<PolicyTopicEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       policyTopic: Schema.optional(Schema.String),
       evidences: Schema.optional(Schema.Array(PolicyTopicEvidence)),
       missingCertificate: Schema.optional(Schema.Boolean),
       helpCenterUrl: Schema.optional(Schema.String),
     }),
-).annotate({
-  identifier: "PolicyTopicEntry",
-}) as any as Schema.Schema<PolicyTopicEntry>;
+  ).annotate({
+    identifier: "PolicyTopicEntry",
+  }) as any as Schema.Schema<PolicyTopicEntry>;
 
 export interface PolicyCompliance {
   /** Serving status for the given transaction type (for example, open auction, deals) or region (for example, China, Russia). Can be used to filter the response of the creatives.list method. */
@@ -389,15 +398,15 @@ export interface PolicyCompliance {
   topics?: Array<PolicyTopicEntry>;
 }
 
-export const PolicyCompliance: Schema.Schema<PolicyCompliance> = Schema.suspend(
-  () =>
+export const PolicyCompliance: Schema.Schema<PolicyCompliance> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       status: Schema.optional(Schema.String),
       topics: Schema.optional(Schema.Array(PolicyTopicEntry)),
     }),
-).annotate({
-  identifier: "PolicyCompliance",
-}) as any as Schema.Schema<PolicyCompliance>;
+  ).annotate({
+    identifier: "PolicyCompliance",
+  }) as any as Schema.Schema<PolicyCompliance>;
 
 export interface AdTechnologyProviders {
   /** Domains of detected unidentified ad technology providers (if any). You must ensure that the creatives used in bids placed for inventory that will serve to EEA or UK users does not contain unidentified ad technology providers. Google reserves the right to filter non-compliant bids. */
@@ -409,7 +418,7 @@ export interface AdTechnologyProviders {
 }
 
 export const AdTechnologyProviders: Schema.Schema<AdTechnologyProviders> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       unidentifiedProviderDomains: Schema.optional(Schema.Array(Schema.String)),
       detectedGvlIds: Schema.optional(Schema.Array(Schema.String)),
@@ -431,7 +440,7 @@ export interface AdvertiserAndBrand {
 }
 
 export const AdvertiserAndBrand: Schema.Schema<AdvertiserAndBrand> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       advertiserId: Schema.optional(Schema.String),
       brandId: Schema.optional(Schema.String),
@@ -525,7 +534,7 @@ export interface CreativeServingDecision {
 }
 
 export const CreativeServingDecision: Schema.Schema<CreativeServingDecision> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       detectedLanguages: Schema.optional(Schema.Array(Schema.String)),
       chinaPolicyCompliance: Schema.optional(PolicyCompliance),
@@ -558,13 +567,14 @@ export interface Image {
   height?: number;
 }
 
-export const Image: Schema.Schema<Image> = Schema.suspend(() =>
-  Schema.Struct({
-    url: Schema.optional(Schema.String),
-    width: Schema.optional(Schema.Number),
-    height: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
+export const Image: Schema.Schema<Image> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      width: Schema.optional(Schema.Number),
+      height: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Image" }) as any as Schema.Schema<Image>;
 
 export interface NativeContent {
   /** A large image. */
@@ -595,25 +605,26 @@ export interface NativeContent {
   videoUrl?: string;
 }
 
-export const NativeContent: Schema.Schema<NativeContent> = Schema.suspend(() =>
-  Schema.Struct({
-    image: Schema.optional(Image),
-    advertiserName: Schema.optional(Schema.String),
-    priceDisplayText: Schema.optional(Schema.String),
-    body: Schema.optional(Schema.String),
-    starRating: Schema.optional(Schema.Number),
-    clickTrackingUrl: Schema.optional(Schema.String),
-    callToAction: Schema.optional(Schema.String),
-    videoVastXml: Schema.optional(Schema.String),
-    appIcon: Schema.optional(Image),
-    clickLinkUrl: Schema.optional(Schema.String),
-    headline: Schema.optional(Schema.String),
-    logo: Schema.optional(Image),
-    videoUrl: Schema.optional(Schema.String),
-  }),
-).annotate({
-  identifier: "NativeContent",
-}) as any as Schema.Schema<NativeContent>;
+export const NativeContent: Schema.Schema<NativeContent> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      image: Schema.optional(Image),
+      advertiserName: Schema.optional(Schema.String),
+      priceDisplayText: Schema.optional(Schema.String),
+      body: Schema.optional(Schema.String),
+      starRating: Schema.optional(Schema.Number),
+      clickTrackingUrl: Schema.optional(Schema.String),
+      callToAction: Schema.optional(Schema.String),
+      videoVastXml: Schema.optional(Schema.String),
+      appIcon: Schema.optional(Image),
+      clickLinkUrl: Schema.optional(Schema.String),
+      headline: Schema.optional(Schema.String),
+      logo: Schema.optional(Image),
+      videoUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NativeContent",
+  }) as any as Schema.Schema<NativeContent>;
 
 export interface Creative {
   /** IDs for the declared ad technology vendors that may be used by this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. Can be used to filter the response of the creatives.list method. */
@@ -710,31 +721,34 @@ export interface Creative {
   version?: number;
 }
 
-export const Creative: Schema.Schema<Creative> = Schema.suspend(() =>
-  Schema.Struct({
-    declaredVendorIds: Schema.optional(Schema.Array(Schema.Number)),
-    declaredAttributes: Schema.optional(Schema.Array(Schema.String)),
-    video: Schema.optional(VideoContent),
-    agencyId: Schema.optional(Schema.String),
-    creativeFormat: Schema.optional(Schema.String),
-    dealIds: Schema.optional(Schema.Array(Schema.String)),
-    html: Schema.optional(HtmlContent),
-    apiUpdateTime: Schema.optional(Schema.String),
-    impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
-    restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
-    declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
-    accountId: Schema.optional(Schema.String),
-    renderUrl: Schema.optional(Schema.String),
-    advertiserName: Schema.optional(Schema.String),
-    adChoicesDestinationUrl: Schema.optional(Schema.String),
-    creativeServingDecision: Schema.optional(CreativeServingDecision),
-    creativeId: Schema.optional(Schema.String),
-    declaredRestrictedCategories: Schema.optional(Schema.Array(Schema.String)),
-    native: Schema.optional(NativeContent),
-    name: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.Number),
-  }),
-).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
+export const Creative: Schema.Schema<Creative> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      declaredVendorIds: Schema.optional(Schema.Array(Schema.Number)),
+      declaredAttributes: Schema.optional(Schema.Array(Schema.String)),
+      video: Schema.optional(VideoContent),
+      agencyId: Schema.optional(Schema.String),
+      creativeFormat: Schema.optional(Schema.String),
+      dealIds: Schema.optional(Schema.Array(Schema.String)),
+      html: Schema.optional(HtmlContent),
+      apiUpdateTime: Schema.optional(Schema.String),
+      impressionTrackingUrls: Schema.optional(Schema.Array(Schema.String)),
+      restrictedCategories: Schema.optional(Schema.Array(Schema.String)),
+      declaredClickThroughUrls: Schema.optional(Schema.Array(Schema.String)),
+      accountId: Schema.optional(Schema.String),
+      renderUrl: Schema.optional(Schema.String),
+      advertiserName: Schema.optional(Schema.String),
+      adChoicesDestinationUrl: Schema.optional(Schema.String),
+      creativeServingDecision: Schema.optional(CreativeServingDecision),
+      creativeId: Schema.optional(Schema.String),
+      declaredRestrictedCategories: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      native: Schema.optional(NativeContent),
+      name: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "Creative" }) as any as Schema.Schema<Creative>;
 
 export interface ListCreativesResponse {
   /** The list of creatives. */
@@ -744,7 +758,7 @@ export interface ListCreativesResponse {
 }
 
 export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       creatives: Schema.optional(Schema.Array(Creative)),
       nextPageToken: Schema.optional(Schema.String),
@@ -756,7 +770,7 @@ export const ListCreativesResponse: Schema.Schema<ListCreativesResponse> =
 export interface CloseUserListRequest {}
 
 export const CloseUserListRequest: Schema.Schema<CloseUserListRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "CloseUserListRequest",
   }) as any as Schema.Schema<CloseUserListRequest>;
 
@@ -766,7 +780,7 @@ export interface GetRemarketingTagResponse {
 }
 
 export const GetRemarketingTagResponse: Schema.Schema<GetRemarketingTagResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       snippet: Schema.optional(Schema.String),
     }),
@@ -798,15 +812,16 @@ export interface Endpoint {
     | (string & {});
 }
 
-export const Endpoint: Schema.Schema<Endpoint> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    url: Schema.optional(Schema.String),
-    maximumQps: Schema.optional(Schema.String),
-    tradingLocation: Schema.optional(Schema.String),
-    bidProtocol: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
+export const Endpoint: Schema.Schema<Endpoint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      maximumQps: Schema.optional(Schema.String),
+      tradingLocation: Schema.optional(Schema.String),
+      bidProtocol: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Endpoint" }) as any as Schema.Schema<Endpoint>;
 
 export interface ListEndpointsResponse {
   /** A token which can be passed to a subsequent call to the `ListEndpoints` method to retrieve the next page of results in ListEndpointsRequest.pageToken. */
@@ -816,7 +831,7 @@ export interface ListEndpointsResponse {
 }
 
 export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       endpoints: Schema.optional(Schema.Array(Endpoint)),
@@ -827,9 +842,10 @@ export const ListEndpointsResponse: Schema.Schema<ListEndpointsResponse> =
 
 export interface Empty {}
 
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() =>
-  Schema.Struct({}),
-).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 export interface PublisherConnection {
   /** Output only. Publisher display name. */
@@ -854,7 +870,7 @@ export interface PublisherConnection {
 }
 
 export const PublisherConnection: Schema.Schema<PublisherConnection> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       publisherPlatform: Schema.optional(Schema.String),
@@ -872,7 +888,7 @@ export interface BatchRejectPublisherConnectionsResponse {
 }
 
 export const BatchRejectPublisherConnectionsResponse: Schema.Schema<BatchRejectPublisherConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
     }),
@@ -892,7 +908,7 @@ export interface StringTargetingDimension {
 }
 
 export const StringTargetingDimension: Schema.Schema<StringTargetingDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingMode: Schema.optional(Schema.String),
       values: Schema.optional(Schema.Array(Schema.String)),
@@ -909,7 +925,7 @@ export interface WatchCreativesResponse {
 }
 
 export const WatchCreativesResponse: Schema.Schema<WatchCreativesResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       topic: Schema.optional(Schema.String),
       subscription: Schema.optional(Schema.String),
@@ -926,7 +942,7 @@ export interface NumericTargetingDimension {
 }
 
 export const NumericTargetingDimension: Schema.Schema<NumericTargetingDimension> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       includedIds: Schema.optional(Schema.Array(Schema.String)),
       excludedIds: Schema.optional(Schema.Array(Schema.String)),
@@ -942,14 +958,15 @@ export interface AppTargeting {
   mobileAppCategoryTargeting?: NumericTargetingDimension;
 }
 
-export const AppTargeting: Schema.Schema<AppTargeting> = Schema.suspend(() =>
-  Schema.Struct({
-    mobileAppTargeting: Schema.optional(StringTargetingDimension),
-    mobileAppCategoryTargeting: Schema.optional(NumericTargetingDimension),
-  }),
-).annotate({
-  identifier: "AppTargeting",
-}) as any as Schema.Schema<AppTargeting>;
+export const AppTargeting: Schema.Schema<AppTargeting> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      mobileAppTargeting: Schema.optional(StringTargetingDimension),
+      mobileAppCategoryTargeting: Schema.optional(NumericTargetingDimension),
+    }),
+  ).annotate({
+    identifier: "AppTargeting",
+  }) as any as Schema.Schema<AppTargeting>;
 
 export interface ListPublisherConnectionsResponse {
   /** The list of publisher connections. */
@@ -959,7 +976,7 @@ export interface ListPublisherConnectionsResponse {
 }
 
 export const ListPublisherConnectionsResponse: Schema.Schema<ListPublisherConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
       nextPageToken: Schema.optional(Schema.String),
@@ -983,16 +1000,17 @@ export interface Buyer {
   bidder?: string;
 }
 
-export const Buyer: Schema.Schema<Buyer> = Schema.suspend(() =>
-  Schema.Struct({
-    name: Schema.optional(Schema.String),
-    billingIds: Schema.optional(Schema.Array(Schema.String)),
-    activeCreativeCount: Schema.optional(Schema.String),
-    maximumActiveCreativeCount: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    bidder: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
+export const Buyer: Schema.Schema<Buyer> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      billingIds: Schema.optional(Schema.Array(Schema.String)),
+      activeCreativeCount: Schema.optional(Schema.String),
+      maximumActiveCreativeCount: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      bidder: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Buyer" }) as any as Schema.Schema<Buyer>;
 
 export interface ListBuyersResponse {
   /** A token which can be passed to a subsequent call to the `ListBuyers` method to retrieve the next page of results in ListBuyersRequest.pageToken. */
@@ -1002,7 +1020,7 @@ export interface ListBuyersResponse {
 }
 
 export const ListBuyersResponse: Schema.Schema<ListBuyersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
       buyers: Schema.optional(Schema.Array(Buyer)),
@@ -1017,7 +1035,7 @@ export interface BatchApprovePublisherConnectionsResponse {
 }
 
 export const BatchApprovePublisherConnectionsResponse: Schema.Schema<BatchApprovePublisherConnectionsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherConnections: Schema.optional(Schema.Array(PublisherConnection)),
     }),
@@ -1033,7 +1051,7 @@ export interface CreativeDimensions {
 }
 
 export const CreativeDimensions: Schema.Schema<CreativeDimensions> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       width: Schema.optional(Schema.String),
       height: Schema.optional(Schema.String),
@@ -1120,7 +1138,7 @@ export interface PretargetingConfig {
 }
 
 export const PretargetingConfig: Schema.Schema<PretargetingConfig> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       displayName: Schema.optional(Schema.String),
       includedEnvironments: Schema.optional(Schema.Array(Schema.String)),
@@ -1162,7 +1180,7 @@ export interface ListPretargetingConfigsResponse {
 }
 
 export const ListPretargetingConfigsResponse: Schema.Schema<ListPretargetingConfigsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       pretargetingConfigs: Schema.optional(Schema.Array(PretargetingConfig)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1177,7 +1195,7 @@ export interface RemoveTargetedPublishersRequest {
 }
 
 export const RemoveTargetedPublishersRequest: Schema.Schema<RemoveTargetedPublishersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1198,15 +1216,16 @@ export interface Bidder {
   dealsBillingId?: string;
 }
 
-export const Bidder: Schema.Schema<Bidder> = Schema.suspend(() =>
-  Schema.Struct({
-    cookieMatchingUrl: Schema.optional(Schema.String),
-    cookieMatchingNetworkId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    bypassNonguaranteedDealsPretargeting: Schema.optional(Schema.Boolean),
-    dealsBillingId: Schema.optional(Schema.String),
-  }),
-).annotate({ identifier: "Bidder" }) as any as Schema.Schema<Bidder>;
+export const Bidder: Schema.Schema<Bidder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      cookieMatchingUrl: Schema.optional(Schema.String),
+      cookieMatchingNetworkId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      bypassNonguaranteedDealsPretargeting: Schema.optional(Schema.Boolean),
+      dealsBillingId: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Bidder" }) as any as Schema.Schema<Bidder>;
 
 export interface ListBiddersResponse {
   /** List of bidders. */
@@ -1216,7 +1235,7 @@ export interface ListBiddersResponse {
 }
 
 export const ListBiddersResponse: Schema.Schema<ListBiddersResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       bidders: Schema.optional(Schema.Array(Bidder)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1235,7 +1254,7 @@ export interface Realtimebidding_Date {
 }
 
 export const Realtimebidding_Date: Schema.Schema<Realtimebidding_Date> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       month: Schema.optional(Schema.Number),
       day: Schema.optional(Schema.Number),
@@ -1266,17 +1285,17 @@ export interface UrlRestriction {
   endDate?: Realtimebidding_Date;
 }
 
-export const UrlRestriction: Schema.Schema<UrlRestriction> = Schema.suspend(
-  () =>
+export const UrlRestriction: Schema.Schema<UrlRestriction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       restrictionType: Schema.optional(Schema.String),
       startDate: Schema.optional(Realtimebidding_Date),
       url: Schema.optional(Schema.String),
       endDate: Schema.optional(Realtimebidding_Date),
     }),
-).annotate({
-  identifier: "UrlRestriction",
-}) as any as Schema.Schema<UrlRestriction>;
+  ).annotate({
+    identifier: "UrlRestriction",
+  }) as any as Schema.Schema<UrlRestriction>;
 
 export interface UserList {
   /** Output only. The status of the user list. A new user list starts out as open. */
@@ -1293,16 +1312,17 @@ export interface UserList {
   urlRestriction?: UrlRestriction;
 }
 
-export const UserList: Schema.Schema<UserList> = Schema.suspend(() =>
-  Schema.Struct({
-    status: Schema.optional(Schema.String),
-    displayName: Schema.optional(Schema.String),
-    membershipDurationDays: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    urlRestriction: Schema.optional(UrlRestriction),
-  }),
-).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
+export const UserList: Schema.Schema<UserList> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      status: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      membershipDurationDays: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      urlRestriction: Schema.optional(UrlRestriction),
+    }),
+  ).annotate({ identifier: "UserList" }) as any as Schema.Schema<UserList>;
 
 export interface RemoveTargetedSitesRequest {
   /** A list of site URLs to stop targeting in the pretargeting configuration. These values will be removed from the list of targeted URLs in PretargetingConfig.webTargeting.values. */
@@ -1310,7 +1330,7 @@ export interface RemoveTargetedSitesRequest {
 }
 
 export const RemoveTargetedSitesRequest: Schema.Schema<RemoveTargetedSitesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       sites: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1321,7 +1341,7 @@ export const RemoveTargetedSitesRequest: Schema.Schema<RemoveTargetedSitesReques
 export interface WatchCreativesRequest {}
 
 export const WatchCreativesRequest: Schema.Schema<WatchCreativesRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "WatchCreativesRequest",
   }) as any as Schema.Schema<WatchCreativesRequest>;
 
@@ -1331,7 +1351,7 @@ export interface RemoveTargetedAppsRequest {
 }
 
 export const RemoveTargetedAppsRequest: Schema.Schema<RemoveTargetedAppsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       appIds: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1342,7 +1362,7 @@ export const RemoveTargetedAppsRequest: Schema.Schema<RemoveTargetedAppsRequest>
 export interface SuspendPretargetingConfigRequest {}
 
 export const SuspendPretargetingConfigRequest: Schema.Schema<SuspendPretargetingConfigRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "SuspendPretargetingConfigRequest",
   }) as any as Schema.Schema<SuspendPretargetingConfigRequest>;
 
@@ -1354,7 +1374,7 @@ export interface ListUserListsResponse {
 }
 
 export const ListUserListsResponse: Schema.Schema<ListUserListsResponse> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       userLists: Schema.optional(Schema.Array(UserList)),
       nextPageToken: Schema.optional(Schema.String),
@@ -1375,7 +1395,7 @@ export interface AddTargetedAppsRequest {
 }
 
 export const AddTargetedAppsRequest: Schema.Schema<AddTargetedAppsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingMode: Schema.optional(Schema.String),
       appIds: Schema.optional(Schema.Array(Schema.String)),
@@ -1390,7 +1410,7 @@ export interface BatchRejectPublisherConnectionsRequest {
 }
 
 export const BatchRejectPublisherConnectionsRequest: Schema.Schema<BatchRejectPublisherConnectionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1404,7 +1424,7 @@ export interface BatchApprovePublisherConnectionsRequest {
 }
 
 export const BatchApprovePublisherConnectionsRequest: Schema.Schema<BatchApprovePublisherConnectionsRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       names: Schema.optional(Schema.Array(Schema.String)),
     }),
@@ -1415,14 +1435,14 @@ export const BatchApprovePublisherConnectionsRequest: Schema.Schema<BatchApprove
 export interface ActivatePretargetingConfigRequest {}
 
 export const ActivatePretargetingConfigRequest: Schema.Schema<ActivatePretargetingConfigRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "ActivatePretargetingConfigRequest",
   }) as any as Schema.Schema<ActivatePretargetingConfigRequest>;
 
 export interface OpenUserListRequest {}
 
 export const OpenUserListRequest: Schema.Schema<OpenUserListRequest> =
-  Schema.suspend(() => Schema.Struct({})).annotate({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "OpenUserListRequest",
   }) as any as Schema.Schema<OpenUserListRequest>;
 
@@ -1438,7 +1458,7 @@ export interface AddTargetedSitesRequest {
 }
 
 export const AddTargetedSitesRequest: Schema.Schema<AddTargetedSitesRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       targetingMode: Schema.optional(Schema.String),
       sites: Schema.optional(Schema.Array(Schema.String)),
@@ -1459,7 +1479,7 @@ export interface AddTargetedPublishersRequest {
 }
 
 export const AddTargetedPublishersRequest: Schema.Schema<AddTargetedPublishersRequest> =
-  Schema.suspend(() =>
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       publisherIds: Schema.optional(Schema.Array(Schema.String)),
       targetingMode: Schema.optional(Schema.String),
@@ -1477,7 +1497,7 @@ export interface GetBiddersRequest {
   name: string;
 }
 
-export const GetBiddersRequest = Schema.Struct({
+export const GetBiddersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/bidders/{biddersId}" }),
@@ -1485,7 +1505,7 @@ export const GetBiddersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBiddersRequest>;
 
 export type GetBiddersResponse = Bidder;
-export const GetBiddersResponse = Bidder;
+export const GetBiddersResponse = /*@__PURE__*/ /*#__PURE__*/ Bidder;
 
 export type GetBiddersError = DefaultErrors;
 
@@ -1495,7 +1515,7 @@ export const getBidders: API.OperationMethod<
   GetBiddersResponse,
   GetBiddersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersRequest,
   output: GetBiddersResponse,
   errors: [],
@@ -1508,7 +1528,7 @@ export interface ListBiddersRequest {
   pageToken?: string;
 }
 
-export const ListBiddersRequest = Schema.Struct({
+export const ListBiddersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -1517,7 +1537,8 @@ export const ListBiddersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListBiddersRequest>;
 
 export type ListBiddersResponse_Op = ListBiddersResponse;
-export const ListBiddersResponse_Op = ListBiddersResponse;
+export const ListBiddersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListBiddersResponse;
 
 export type ListBiddersError = DefaultErrors;
 
@@ -1527,7 +1548,7 @@ export const listBidders: API.PaginatedOperationMethod<
   ListBiddersResponse_Op,
   ListBiddersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersRequest,
   output: ListBiddersResponse_Op,
   errors: [],
@@ -1542,18 +1563,19 @@ export interface GetBiddersEndpointsRequest {
   name: string;
 }
 
-export const GetBiddersEndpointsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBiddersEndpointsRequest>;
+export const GetBiddersEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBiddersEndpointsRequest>;
 
 export type GetBiddersEndpointsResponse = Endpoint;
-export const GetBiddersEndpointsResponse = Endpoint;
+export const GetBiddersEndpointsResponse = /*@__PURE__*/ /*#__PURE__*/ Endpoint;
 
 export type GetBiddersEndpointsError = DefaultErrors;
 
@@ -1563,7 +1585,7 @@ export const getBiddersEndpoints: API.OperationMethod<
   GetBiddersEndpointsResponse,
   GetBiddersEndpointsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersEndpointsRequest,
   output: GetBiddersEndpointsResponse,
   errors: [],
@@ -1578,17 +1600,19 @@ export interface ListBiddersEndpointsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersEndpointsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/endpoints" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersEndpointsRequest>;
+export const ListBiddersEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/bidders/{biddersId}/endpoints" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersEndpointsRequest>;
 
 export type ListBiddersEndpointsResponse = ListEndpointsResponse;
-export const ListBiddersEndpointsResponse = ListEndpointsResponse;
+export const ListBiddersEndpointsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListEndpointsResponse;
 
 export type ListBiddersEndpointsError = DefaultErrors;
 
@@ -1598,7 +1622,7 @@ export const listBiddersEndpoints: API.PaginatedOperationMethod<
   ListBiddersEndpointsResponse,
   ListBiddersEndpointsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersEndpointsRequest,
   output: ListBiddersEndpointsResponse,
   errors: [],
@@ -1617,21 +1641,23 @@ export interface PatchBiddersEndpointsRequest {
   body?: Endpoint;
 }
 
-export const PatchBiddersEndpointsRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Endpoint).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBiddersEndpointsRequest>;
+export const PatchBiddersEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Endpoint).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/bidders/{biddersId}/endpoints/{endpointsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBiddersEndpointsRequest>;
 
 export type PatchBiddersEndpointsResponse = Endpoint;
-export const PatchBiddersEndpointsResponse = Endpoint;
+export const PatchBiddersEndpointsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Endpoint;
 
 export type PatchBiddersEndpointsError = DefaultErrors;
 
@@ -1641,7 +1667,7 @@ export const patchBiddersEndpoints: API.OperationMethod<
   PatchBiddersEndpointsResponse,
   PatchBiddersEndpointsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBiddersEndpointsRequest,
   output: PatchBiddersEndpointsResponse,
   errors: [],
@@ -1654,24 +1680,25 @@ export interface BatchApproveBiddersPublisherConnectionsRequest {
   body?: BatchApprovePublisherConnectionsRequest;
 }
 
-export const BatchApproveBiddersPublisherConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchApprovePublisherConnectionsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/publisherConnections:batchApprove",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchApproveBiddersPublisherConnectionsRequest>;
+export const BatchApproveBiddersPublisherConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchApprovePublisherConnectionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/publisherConnections:batchApprove",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchApproveBiddersPublisherConnectionsRequest>;
 
 export type BatchApproveBiddersPublisherConnectionsResponse =
   BatchApprovePublisherConnectionsResponse;
 export const BatchApproveBiddersPublisherConnectionsResponse =
-  BatchApprovePublisherConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchApprovePublisherConnectionsResponse;
 
 export type BatchApproveBiddersPublisherConnectionsError = DefaultErrors;
 
@@ -1681,7 +1708,7 @@ export const batchApproveBiddersPublisherConnections: API.OperationMethod<
   BatchApproveBiddersPublisherConnectionsResponse,
   BatchApproveBiddersPublisherConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchApproveBiddersPublisherConnectionsRequest,
   output: BatchApproveBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1694,24 +1721,25 @@ export interface BatchRejectBiddersPublisherConnectionsRequest {
   body?: BatchRejectPublisherConnectionsRequest;
 }
 
-export const BatchRejectBiddersPublisherConnectionsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(BatchRejectPublisherConnectionsRequest).pipe(
-    T.HttpBody(),
-  ),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/publisherConnections:batchReject",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<BatchRejectBiddersPublisherConnectionsRequest>;
+export const BatchRejectBiddersPublisherConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(BatchRejectPublisherConnectionsRequest).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/publisherConnections:batchReject",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<BatchRejectBiddersPublisherConnectionsRequest>;
 
 export type BatchRejectBiddersPublisherConnectionsResponse =
   BatchRejectPublisherConnectionsResponse;
 export const BatchRejectBiddersPublisherConnectionsResponse =
-  BatchRejectPublisherConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ BatchRejectPublisherConnectionsResponse;
 
 export type BatchRejectBiddersPublisherConnectionsError = DefaultErrors;
 
@@ -1721,7 +1749,7 @@ export const batchRejectBiddersPublisherConnections: API.OperationMethod<
   BatchRejectBiddersPublisherConnectionsResponse,
   BatchRejectBiddersPublisherConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: BatchRejectBiddersPublisherConnectionsRequest,
   output: BatchRejectBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1740,24 +1768,25 @@ export interface ListBiddersPublisherConnectionsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersPublisherConnectionsRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/bidders/{biddersId}/publisherConnections",
-  }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersPublisherConnectionsRequest>;
+export const ListBiddersPublisherConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/bidders/{biddersId}/publisherConnections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersPublisherConnectionsRequest>;
 
 export type ListBiddersPublisherConnectionsResponse =
   ListPublisherConnectionsResponse;
 export const ListBiddersPublisherConnectionsResponse =
-  ListPublisherConnectionsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPublisherConnectionsResponse;
 
 export type ListBiddersPublisherConnectionsError = DefaultErrors;
 
@@ -1767,7 +1796,7 @@ export const listBiddersPublisherConnections: API.PaginatedOperationMethod<
   ListBiddersPublisherConnectionsResponse,
   ListBiddersPublisherConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersPublisherConnectionsRequest,
   output: ListBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1782,18 +1811,20 @@ export interface GetBiddersPublisherConnectionsRequest {
   name: string;
 }
 
-export const GetBiddersPublisherConnectionsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/bidders/{biddersId}/publisherConnections/{publisherConnectionsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBiddersPublisherConnectionsRequest>;
+export const GetBiddersPublisherConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/bidders/{biddersId}/publisherConnections/{publisherConnectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBiddersPublisherConnectionsRequest>;
 
 export type GetBiddersPublisherConnectionsResponse = PublisherConnection;
-export const GetBiddersPublisherConnectionsResponse = PublisherConnection;
+export const GetBiddersPublisherConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublisherConnection;
 
 export type GetBiddersPublisherConnectionsError = DefaultErrors;
 
@@ -1803,7 +1834,7 @@ export const getBiddersPublisherConnections: API.OperationMethod<
   GetBiddersPublisherConnectionsResponse,
   GetBiddersPublisherConnectionsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersPublisherConnectionsRequest,
   output: GetBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1816,20 +1847,22 @@ export interface SuspendBiddersPretargetingConfigsRequest {
   body?: SuspendPretargetingConfigRequest;
 }
 
-export const SuspendBiddersPretargetingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(SuspendPretargetingConfigRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:suspend",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<SuspendBiddersPretargetingConfigsRequest>;
+export const SuspendBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(SuspendPretargetingConfigRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:suspend",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SuspendBiddersPretargetingConfigsRequest>;
 
 export type SuspendBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const SuspendBiddersPretargetingConfigsResponse = PretargetingConfig;
+export const SuspendBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type SuspendBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -1839,7 +1872,7 @@ export const suspendBiddersPretargetingConfigs: API.OperationMethod<
   SuspendBiddersPretargetingConfigsResponse,
   SuspendBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: SuspendBiddersPretargetingConfigsRequest,
   output: SuspendBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1852,20 +1885,22 @@ export interface CreateBiddersPretargetingConfigsRequest {
   body?: PretargetingConfig;
 }
 
-export const CreateBiddersPretargetingConfigsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBiddersPretargetingConfigsRequest>;
+export const CreateBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBiddersPretargetingConfigsRequest>;
 
 export type CreateBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const CreateBiddersPretargetingConfigsResponse = PretargetingConfig;
+export const CreateBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type CreateBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -1875,7 +1910,7 @@ export const createBiddersPretargetingConfigs: API.OperationMethod<
   CreateBiddersPretargetingConfigsResponse,
   CreateBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBiddersPretargetingConfigsRequest,
   output: CreateBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1889,7 +1924,7 @@ export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest {
 }
 
 export const RemoveTargetedPublishersBiddersPretargetingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
     body: Schema.optional(RemoveTargetedPublishersRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -1904,7 +1939,7 @@ export const RemoveTargetedPublishersBiddersPretargetingConfigsRequest =
 export type RemoveTargetedPublishersBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const RemoveTargetedPublishersBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type RemoveTargetedPublishersBiddersPretargetingConfigsError =
   DefaultErrors;
@@ -1915,7 +1950,7 @@ export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMe
   RemoveTargetedPublishersBiddersPretargetingConfigsResponse,
   RemoveTargetedPublishersBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTargetedPublishersBiddersPretargetingConfigsRequest,
   output: RemoveTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1930,19 +1965,23 @@ export interface ListBiddersPretargetingConfigsRequest {
   pageToken?: string;
 }
 
-export const ListBiddersPretargetingConfigsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/pretargetingConfigs" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersPretargetingConfigsRequest>;
+export const ListBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersPretargetingConfigsRequest>;
 
 export type ListBiddersPretargetingConfigsResponse =
   ListPretargetingConfigsResponse;
 export const ListBiddersPretargetingConfigsResponse =
-  ListPretargetingConfigsResponse;
+  /*@__PURE__*/ /*#__PURE__*/ ListPretargetingConfigsResponse;
 
 export type ListBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -1952,7 +1991,7 @@ export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<
   ListBiddersPretargetingConfigsResponse,
   ListBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersPretargetingConfigsRequest,
   output: ListBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1967,18 +2006,20 @@ export interface GetBiddersPretargetingConfigsRequest {
   name: string;
 }
 
-export const GetBiddersPretargetingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBiddersPretargetingConfigsRequest>;
+export const GetBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBiddersPretargetingConfigsRequest>;
 
 export type GetBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const GetBiddersPretargetingConfigsResponse = PretargetingConfig;
+export const GetBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type GetBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -1988,7 +2029,7 @@ export const getBiddersPretargetingConfigs: API.OperationMethod<
   GetBiddersPretargetingConfigsResponse,
   GetBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBiddersPretargetingConfigsRequest,
   output: GetBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2001,20 +2042,22 @@ export interface ActivateBiddersPretargetingConfigsRequest {
   body?: ActivatePretargetingConfigRequest;
 }
 
-export const ActivateBiddersPretargetingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(ActivatePretargetingConfigRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:activate",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<ActivateBiddersPretargetingConfigsRequest>;
+export const ActivateBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ActivatePretargetingConfigRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:activate",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ActivateBiddersPretargetingConfigsRequest>;
 
 export type ActivateBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const ActivateBiddersPretargetingConfigsResponse = PretargetingConfig;
+export const ActivateBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type ActivateBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2024,7 +2067,7 @@ export const activateBiddersPretargetingConfigs: API.OperationMethod<
   ActivateBiddersPretargetingConfigsResponse,
   ActivateBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ActivateBiddersPretargetingConfigsRequest,
   output: ActivateBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2038,7 +2081,7 @@ export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest {
 }
 
 export const RemoveTargetedSitesBiddersPretargetingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
     body: Schema.optional(RemoveTargetedSitesRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -2053,7 +2096,7 @@ export const RemoveTargetedSitesBiddersPretargetingConfigsRequest =
 export type RemoveTargetedSitesBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const RemoveTargetedSitesBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type RemoveTargetedSitesBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2063,7 +2106,7 @@ export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
   RemoveTargetedSitesBiddersPretargetingConfigsResponse,
   RemoveTargetedSitesBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTargetedSitesBiddersPretargetingConfigsRequest,
   output: RemoveTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2074,18 +2117,20 @@ export interface DeleteBiddersPretargetingConfigsRequest {
   name: string;
 }
 
-export const DeleteBiddersPretargetingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "DELETE",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<DeleteBiddersPretargetingConfigsRequest>;
+export const DeleteBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteBiddersPretargetingConfigsRequest>;
 
 export type DeleteBiddersPretargetingConfigsResponse = Empty;
-export const DeleteBiddersPretargetingConfigsResponse = Empty;
+export const DeleteBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2095,7 +2140,7 @@ export const deleteBiddersPretargetingConfigs: API.OperationMethod<
   DeleteBiddersPretargetingConfigsResponse,
   DeleteBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteBiddersPretargetingConfigsRequest,
   output: DeleteBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2108,22 +2153,23 @@ export interface AddTargetedAppsBiddersPretargetingConfigsRequest {
   body?: AddTargetedAppsRequest;
 }
 
-export const AddTargetedAppsBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(AddTargetedAppsRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedApps",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddTargetedAppsBiddersPretargetingConfigsRequest>;
+export const AddTargetedAppsBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(AddTargetedAppsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedApps",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddTargetedAppsBiddersPretargetingConfigsRequest>;
 
 export type AddTargetedAppsBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const AddTargetedAppsBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type AddTargetedAppsBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2133,7 +2179,7 @@ export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
   AddTargetedAppsBiddersPretargetingConfigsResponse,
   AddTargetedAppsBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTargetedAppsBiddersPretargetingConfigsRequest,
   output: AddTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2147,7 +2193,7 @@ export interface AddTargetedPublishersBiddersPretargetingConfigsRequest {
 }
 
 export const AddTargetedPublishersBiddersPretargetingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
     body: Schema.optional(AddTargetedPublishersRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -2162,7 +2208,7 @@ export const AddTargetedPublishersBiddersPretargetingConfigsRequest =
 export type AddTargetedPublishersBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const AddTargetedPublishersBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type AddTargetedPublishersBiddersPretargetingConfigsError =
   DefaultErrors;
@@ -2173,7 +2219,7 @@ export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMetho
   AddTargetedPublishersBiddersPretargetingConfigsResponse,
   AddTargetedPublishersBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTargetedPublishersBiddersPretargetingConfigsRequest,
   output: AddTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2188,21 +2234,23 @@ export interface PatchBiddersPretargetingConfigsRequest {
   body?: PretargetingConfig;
 }
 
-export const PatchBiddersPretargetingConfigsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBiddersPretargetingConfigsRequest>;
+export const PatchBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(PretargetingConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBiddersPretargetingConfigsRequest>;
 
 export type PatchBiddersPretargetingConfigsResponse = PretargetingConfig;
-export const PatchBiddersPretargetingConfigsResponse = PretargetingConfig;
+export const PatchBiddersPretargetingConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type PatchBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2212,7 +2260,7 @@ export const patchBiddersPretargetingConfigs: API.OperationMethod<
   PatchBiddersPretargetingConfigsResponse,
   PatchBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBiddersPretargetingConfigsRequest,
   output: PatchBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2226,7 +2274,7 @@ export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest {
 }
 
 export const RemoveTargetedAppsBiddersPretargetingConfigsRequest =
-  Schema.Struct({
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
     body: Schema.optional(RemoveTargetedAppsRequest).pipe(T.HttpBody()),
   }).pipe(
@@ -2241,7 +2289,7 @@ export const RemoveTargetedAppsBiddersPretargetingConfigsRequest =
 export type RemoveTargetedAppsBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const RemoveTargetedAppsBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type RemoveTargetedAppsBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2251,7 +2299,7 @@ export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<
   RemoveTargetedAppsBiddersPretargetingConfigsResponse,
   RemoveTargetedAppsBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RemoveTargetedAppsBiddersPretargetingConfigsRequest,
   output: RemoveTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2264,22 +2312,23 @@ export interface AddTargetedSitesBiddersPretargetingConfigsRequest {
   body?: AddTargetedSitesRequest;
 }
 
-export const AddTargetedSitesBiddersPretargetingConfigsRequest = Schema.Struct({
-  pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
-  body: Schema.optional(AddTargetedSitesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedSites",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<AddTargetedSitesBiddersPretargetingConfigsRequest>;
+export const AddTargetedSitesBiddersPretargetingConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pretargetingConfig: Schema.String.pipe(T.HttpPath("pretargetingConfig")),
+    body: Schema.optional(AddTargetedSitesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/pretargetingConfigs/{pretargetingConfigsId}:addTargetedSites",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AddTargetedSitesBiddersPretargetingConfigsRequest>;
 
 export type AddTargetedSitesBiddersPretargetingConfigsResponse =
   PretargetingConfig;
 export const AddTargetedSitesBiddersPretargetingConfigsResponse =
-  PretargetingConfig;
+  /*@__PURE__*/ /*#__PURE__*/ PretargetingConfig;
 
 export type AddTargetedSitesBiddersPretargetingConfigsError = DefaultErrors;
 
@@ -2289,7 +2338,7 @@ export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<
   AddTargetedSitesBiddersPretargetingConfigsResponse,
   AddTargetedSitesBiddersPretargetingConfigsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddTargetedSitesBiddersPretargetingConfigsRequest,
   output: AddTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
@@ -2312,19 +2361,21 @@ export interface ListBiddersCreativesRequest {
   pageToken?: string;
 }
 
-export const ListBiddersCreativesRequest = Schema.Struct({
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/bidders/{biddersId}/creatives" }),
-  svc,
-) as unknown as Schema.Schema<ListBiddersCreativesRequest>;
+export const ListBiddersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/bidders/{biddersId}/creatives" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBiddersCreativesRequest>;
 
 export type ListBiddersCreativesResponse = ListCreativesResponse;
-export const ListBiddersCreativesResponse = ListCreativesResponse;
+export const ListBiddersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativesResponse;
 
 export type ListBiddersCreativesError = DefaultErrors;
 
@@ -2334,7 +2385,7 @@ export const listBiddersCreatives: API.PaginatedOperationMethod<
   ListBiddersCreativesResponse,
   ListBiddersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBiddersCreativesRequest,
   output: ListBiddersCreativesResponse,
   errors: [],
@@ -2351,20 +2402,22 @@ export interface WatchBiddersCreativesRequest {
   body?: WatchCreativesRequest;
 }
 
-export const WatchBiddersCreativesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(WatchCreativesRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/bidders/{biddersId}/creatives:watch",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<WatchBiddersCreativesRequest>;
+export const WatchBiddersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(WatchCreativesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/bidders/{biddersId}/creatives:watch",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WatchBiddersCreativesRequest>;
 
 export type WatchBiddersCreativesResponse = WatchCreativesResponse;
-export const WatchBiddersCreativesResponse = WatchCreativesResponse;
+export const WatchBiddersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WatchCreativesResponse;
 
 export type WatchBiddersCreativesError = DefaultErrors;
 
@@ -2374,7 +2427,7 @@ export const watchBiddersCreatives: API.OperationMethod<
   WatchBiddersCreativesResponse,
   WatchBiddersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: WatchBiddersCreativesRequest,
   output: WatchBiddersCreativesResponse,
   errors: [],
@@ -2385,7 +2438,7 @@ export interface GetBuyersRequest {
   name: string;
 }
 
-export const GetBuyersRequest = Schema.Struct({
+export const GetBuyersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/buyers/{buyersId}" }),
@@ -2393,7 +2446,7 @@ export const GetBuyersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBuyersRequest>;
 
 export type GetBuyersResponse = Buyer;
-export const GetBuyersResponse = Buyer;
+export const GetBuyersResponse = /*@__PURE__*/ /*#__PURE__*/ Buyer;
 
 export type GetBuyersError = DefaultErrors;
 
@@ -2403,7 +2456,7 @@ export const getBuyers: API.OperationMethod<
   GetBuyersResponse,
   GetBuyersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersRequest,
   output: GetBuyersResponse,
   errors: [],
@@ -2416,7 +2469,7 @@ export interface ListBuyersRequest {
   pageToken?: string;
 }
 
-export const ListBuyersRequest = Schema.Struct({
+export const ListBuyersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
@@ -2425,7 +2478,8 @@ export const ListBuyersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListBuyersRequest>;
 
 export type ListBuyersResponse_Op = ListBuyersResponse;
-export const ListBuyersResponse_Op = ListBuyersResponse;
+export const ListBuyersResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListBuyersResponse;
 
 export type ListBuyersError = DefaultErrors;
 
@@ -2435,7 +2489,7 @@ export const listBuyers: API.PaginatedOperationMethod<
   ListBuyersResponse_Op,
   ListBuyersError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersRequest,
   output: ListBuyersResponse_Op,
   errors: [],
@@ -2450,15 +2504,17 @@ export interface GetRemarketingTagBuyersRequest {
   name: string;
 }
 
-export const GetRemarketingTagBuyersRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}:getRemarketingTag" }),
-  svc,
-) as unknown as Schema.Schema<GetRemarketingTagBuyersRequest>;
+export const GetRemarketingTagBuyersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}:getRemarketingTag" }),
+    svc,
+  ) as unknown as Schema.Schema<GetRemarketingTagBuyersRequest>;
 
 export type GetRemarketingTagBuyersResponse = GetRemarketingTagResponse;
-export const GetRemarketingTagBuyersResponse = GetRemarketingTagResponse;
+export const GetRemarketingTagBuyersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GetRemarketingTagResponse;
 
 export type GetRemarketingTagBuyersError = DefaultErrors;
 
@@ -2468,7 +2524,7 @@ export const getRemarketingTagBuyers: API.OperationMethod<
   GetRemarketingTagBuyersResponse,
   GetRemarketingTagBuyersError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRemarketingTagBuyersRequest,
   output: GetRemarketingTagBuyersResponse,
   errors: [],
@@ -2481,20 +2537,22 @@ export interface CreateBuyersCreativesRequest {
   body?: Creative;
 }
 
-export const CreateBuyersCreativesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/creatives",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBuyersCreativesRequest>;
+export const CreateBuyersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/creatives",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBuyersCreativesRequest>;
 
 export type CreateBuyersCreativesResponse = Creative;
-export const CreateBuyersCreativesResponse = Creative;
+export const CreateBuyersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type CreateBuyersCreativesError = DefaultErrors;
 
@@ -2504,7 +2562,7 @@ export const createBuyersCreatives: API.OperationMethod<
   CreateBuyersCreativesResponse,
   CreateBuyersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuyersCreativesRequest,
   output: CreateBuyersCreativesResponse,
   errors: [],
@@ -2527,19 +2585,21 @@ export interface ListBuyersCreativesRequest {
   filter?: string;
 }
 
-export const ListBuyersCreativesRequest = Schema.Struct({
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/creatives" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersCreativesRequest>;
+export const ListBuyersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/creatives" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersCreativesRequest>;
 
 export type ListBuyersCreativesResponse = ListCreativesResponse;
-export const ListBuyersCreativesResponse = ListCreativesResponse;
+export const ListBuyersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCreativesResponse;
 
 export type ListBuyersCreativesError = DefaultErrors;
 
@@ -2549,7 +2609,7 @@ export const listBuyersCreatives: API.PaginatedOperationMethod<
   ListBuyersCreativesResponse,
   ListBuyersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersCreativesRequest,
   output: ListBuyersCreativesResponse,
   errors: [],
@@ -2570,19 +2630,20 @@ export interface GetBuyersCreativesRequest {
     | (string & {});
 }
 
-export const GetBuyersCreativesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/creatives/{creativesId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersCreativesRequest>;
+export const GetBuyersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/creatives/{creativesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersCreativesRequest>;
 
 export type GetBuyersCreativesResponse = Creative;
-export const GetBuyersCreativesResponse = Creative;
+export const GetBuyersCreativesResponse = /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type GetBuyersCreativesError = DefaultErrors;
 
@@ -2592,7 +2653,7 @@ export const getBuyersCreatives: API.OperationMethod<
   GetBuyersCreativesResponse,
   GetBuyersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersCreativesRequest,
   output: GetBuyersCreativesResponse,
   errors: [],
@@ -2607,21 +2668,23 @@ export interface PatchBuyersCreativesRequest {
   body?: Creative;
 }
 
-export const PatchBuyersCreativesRequest = Schema.Struct({
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(Creative).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PATCH",
-    path: "v1/buyers/{buyersId}/creatives/{creativesId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<PatchBuyersCreativesRequest>;
+export const PatchBuyersCreativesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Creative).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1/buyers/{buyersId}/creatives/{creativesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchBuyersCreativesRequest>;
 
 export type PatchBuyersCreativesResponse = Creative;
-export const PatchBuyersCreativesResponse = Creative;
+export const PatchBuyersCreativesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Creative;
 
 export type PatchBuyersCreativesError = DefaultErrors;
 
@@ -2631,7 +2694,7 @@ export const patchBuyersCreatives: API.OperationMethod<
   PatchBuyersCreativesResponse,
   PatchBuyersCreativesError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchBuyersCreativesRequest,
   output: PatchBuyersCreativesResponse,
   errors: [],
@@ -2644,20 +2707,22 @@ export interface CreateBuyersUserListsRequest {
   body?: UserList;
 }
 
-export const CreateBuyersUserListsRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  body: Schema.optional(UserList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/userLists",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CreateBuyersUserListsRequest>;
+export const CreateBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UserList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/userLists",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateBuyersUserListsRequest>;
 
 export type CreateBuyersUserListsResponse = UserList;
-export const CreateBuyersUserListsResponse = UserList;
+export const CreateBuyersUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type CreateBuyersUserListsError = DefaultErrors;
 
@@ -2667,7 +2732,7 @@ export const createBuyersUserLists: API.OperationMethod<
   CreateBuyersUserListsResponse,
   CreateBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBuyersUserListsRequest,
   output: CreateBuyersUserListsResponse,
   errors: [],
@@ -2680,20 +2745,21 @@ export interface OpenBuyersUserListsRequest {
   body?: OpenUserListRequest;
 }
 
-export const OpenBuyersUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(OpenUserListRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/userLists/{userListsId}:open",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<OpenBuyersUserListsRequest>;
+export const OpenBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(OpenUserListRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/userLists/{userListsId}:open",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<OpenBuyersUserListsRequest>;
 
 export type OpenBuyersUserListsResponse = UserList;
-export const OpenBuyersUserListsResponse = UserList;
+export const OpenBuyersUserListsResponse = /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type OpenBuyersUserListsError = DefaultErrors;
 
@@ -2703,7 +2769,7 @@ export const openBuyersUserLists: API.OperationMethod<
   OpenBuyersUserListsResponse,
   OpenBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: OpenBuyersUserListsRequest,
   output: OpenBuyersUserListsResponse,
   errors: [],
@@ -2714,18 +2780,19 @@ export interface GetBuyersUserListsRequest {
   name: string;
 }
 
-export const GetBuyersUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/userLists/{userListsId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetBuyersUserListsRequest>;
+export const GetBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/userLists/{userListsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetBuyersUserListsRequest>;
 
 export type GetBuyersUserListsResponse = UserList;
-export const GetBuyersUserListsResponse = UserList;
+export const GetBuyersUserListsResponse = /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type GetBuyersUserListsError = DefaultErrors;
 
@@ -2735,7 +2802,7 @@ export const getBuyersUserLists: API.OperationMethod<
   GetBuyersUserListsResponse,
   GetBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetBuyersUserListsRequest,
   output: GetBuyersUserListsResponse,
   errors: [],
@@ -2750,17 +2817,19 @@ export interface ListBuyersUserListsRequest {
   pageToken?: string;
 }
 
-export const ListBuyersUserListsRequest = Schema.Struct({
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/buyers/{buyersId}/userLists" }),
-  svc,
-) as unknown as Schema.Schema<ListBuyersUserListsRequest>;
+export const ListBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1/buyers/{buyersId}/userLists" }),
+    svc,
+  ) as unknown as Schema.Schema<ListBuyersUserListsRequest>;
 
 export type ListBuyersUserListsResponse = ListUserListsResponse;
-export const ListBuyersUserListsResponse = ListUserListsResponse;
+export const ListBuyersUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserListsResponse;
 
 export type ListBuyersUserListsError = DefaultErrors;
 
@@ -2770,7 +2839,7 @@ export const listBuyersUserLists: API.PaginatedOperationMethod<
   ListBuyersUserListsResponse,
   ListBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBuyersUserListsRequest,
   output: ListBuyersUserListsResponse,
   errors: [],
@@ -2787,20 +2856,22 @@ export interface UpdateBuyersUserListsRequest {
   body?: UserList;
 }
 
-export const UpdateBuyersUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(UserList).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "PUT",
-    path: "v1/buyers/{buyersId}/userLists/{userListsId}",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<UpdateBuyersUserListsRequest>;
+export const UpdateBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UserList).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "v1/buyers/{buyersId}/userLists/{userListsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateBuyersUserListsRequest>;
 
 export type UpdateBuyersUserListsResponse = UserList;
-export const UpdateBuyersUserListsResponse = UserList;
+export const UpdateBuyersUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type UpdateBuyersUserListsError = DefaultErrors;
 
@@ -2810,7 +2881,7 @@ export const updateBuyersUserLists: API.OperationMethod<
   UpdateBuyersUserListsResponse,
   UpdateBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateBuyersUserListsRequest,
   output: UpdateBuyersUserListsResponse,
   errors: [],
@@ -2823,20 +2894,22 @@ export interface CloseBuyersUserListsRequest {
   body?: CloseUserListRequest;
 }
 
-export const CloseBuyersUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(CloseUserListRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "v1/buyers/{buyersId}/userLists/{userListsId}:close",
-    hasBody: true,
-  }),
-  svc,
-) as unknown as Schema.Schema<CloseBuyersUserListsRequest>;
+export const CloseBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CloseUserListRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/buyers/{buyersId}/userLists/{userListsId}:close",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CloseBuyersUserListsRequest>;
 
 export type CloseBuyersUserListsResponse = UserList;
-export const CloseBuyersUserListsResponse = UserList;
+export const CloseBuyersUserListsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserList;
 
 export type CloseBuyersUserListsError = DefaultErrors;
 
@@ -2846,7 +2919,7 @@ export const closeBuyersUserLists: API.OperationMethod<
   CloseBuyersUserListsResponse,
   CloseBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CloseBuyersUserListsRequest,
   output: CloseBuyersUserListsResponse,
   errors: [],
@@ -2857,20 +2930,21 @@ export interface GetRemarketingTagBuyersUserListsRequest {
   name: string;
 }
 
-export const GetRemarketingTagBuyersUserListsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "v1/buyers/{buyersId}/userLists/{userListsId}:getRemarketingTag",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetRemarketingTagBuyersUserListsRequest>;
+export const GetRemarketingTagBuyersUserListsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/buyers/{buyersId}/userLists/{userListsId}:getRemarketingTag",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetRemarketingTagBuyersUserListsRequest>;
 
 export type GetRemarketingTagBuyersUserListsResponse =
   GetRemarketingTagResponse;
 export const GetRemarketingTagBuyersUserListsResponse =
-  GetRemarketingTagResponse;
+  /*@__PURE__*/ /*#__PURE__*/ GetRemarketingTagResponse;
 
 export type GetRemarketingTagBuyersUserListsError = DefaultErrors;
 
@@ -2880,7 +2954,7 @@ export const getRemarketingTagBuyersUserLists: API.OperationMethod<
   GetRemarketingTagBuyersUserListsResponse,
   GetRemarketingTagBuyersUserListsError,
   Credentials | HttpClient.HttpClient
-> = API.make(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRemarketingTagBuyersUserListsRequest,
   output: GetRemarketingTagBuyersUserListsResponse,
   errors: [],

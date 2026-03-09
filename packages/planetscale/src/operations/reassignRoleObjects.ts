@@ -4,22 +4,24 @@ import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
 
 // Input Schema
-export const ReassignRoleObjectsInput = Schema.Struct({
-  organization: Schema.String.pipe(T.PathParam()),
-  database: Schema.String.pipe(T.PathParam()),
-  branch: Schema.String.pipe(T.PathParam()),
-  id: Schema.String.pipe(T.PathParam()),
-  successor: Schema.String,
-}).pipe(
-  T.Http({
-    method: "POST",
-    path: "/organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}/reassign",
-  }),
-);
+export const ReassignRoleObjectsInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    organization: Schema.String.pipe(T.PathParam()),
+    database: Schema.String.pipe(T.PathParam()),
+    branch: Schema.String.pipe(T.PathParam()),
+    id: Schema.String.pipe(T.PathParam()),
+    successor: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/organizations/{organization}/databases/{database}/branches/{branch}/roles/{id}/reassign",
+    }),
+  );
 export type ReassignRoleObjectsInput = typeof ReassignRoleObjectsInput.Type;
 
 // Output Schema
-export const ReassignRoleObjectsOutput = Schema.Void;
+export const ReassignRoleObjectsOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Void;
 export type ReassignRoleObjectsOutput = typeof ReassignRoleObjectsOutput.Type;
 
 // The operation
